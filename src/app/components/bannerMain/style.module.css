@@ -9,8 +9,8 @@
 }
 
 @media only screen
-and (min-width: 1023px)
-and (max-width: 1650px){
+and (min-width: 524px)
+and (max-width: 1023px){
     .banner{
         width: 100%;
     }
@@ -23,8 +23,7 @@ and (max-width: 1650px){
 }
 @media (max-width: 768px){
     .banner{
-        width: 99%;
-        height: 515px;
+        width: 100%;
     }
     .bannerimg{
         margin-top: 0px;

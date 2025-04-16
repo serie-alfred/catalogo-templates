@@ -5,6 +5,7 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 60px;
+    padding: 0px 20px;
 }
 
 @media (max-width: 768px){
@@ -49,6 +50,12 @@ and (max-width: 1650px){
 .containerSpots{
     display: flex;
     gap: 15px;
+}
+
+@media(max-width: 1020px){
+    .containerSpots{
+        flex-wrap: wrap;
+    }
 }
 
 

@@ -4,11 +4,11 @@
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 80px;
+    padding: 0px 20px;
 }
 @media (max-width: 1023px){
     .newsContainer{
-        padding: 0px 0px 0px 20px;
+        padding: 0px 0px 40px 20px;
     }
 }
 
@@ -34,7 +34,6 @@ and (max-width: 1650px){
 
 .gridSpots{
     display: flex;
-    flex-wrap: wrap;
     gap: 15px;
     width: 100%;
 }
