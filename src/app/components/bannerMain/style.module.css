@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner {
+    width: calc(90% - 5px);
+}
+
+@media only screen
+and (min-width: 1023px)
+and (max-width: 1650px){
+    .banner{
+        width: 100%;
+    }
+}
+
+.bannerimg {
+    width: 100%;
+    height: auto;
+    margin-top: 50px;
+}
+@media (max-width: 768px){
+    .banner{
+        width: 99%;
+        height: 515px;
+    }
+    .bannerimg{
+        margin-top: 0px;
+    }
+}
