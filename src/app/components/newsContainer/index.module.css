@@ -36,6 +36,7 @@ and (max-width: 1650px){
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
+    width: 100%;
 }
 
 .productSpot{
