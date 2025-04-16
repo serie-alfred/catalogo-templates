@@ -30,7 +30,6 @@ and (max-width: 1650px){
 .containerSpots{
     display: flex;
     gap: 15px;
-    flex-wrap: wrap;
 }
 
 .gridSpots{
