@@ -8,9 +8,10 @@
     width: calc(90% - 5px);
 }
 
+
 @media only screen
 and (min-width: 524px)
-and (max-width: 1023px){
+and (max-width: 1650px){
     .banner{
         width: 100%;
     }
