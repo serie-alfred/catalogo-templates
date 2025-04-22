@@ -68,7 +68,7 @@ and (max-width: 1650px){
     margin-bottom: 45px;
 }
 .containerSubTitle h4 span{
-    color: #F2994A;
+    color: #0096fe;
 }
 
 .containerSubTitle a{
@@ -96,8 +96,8 @@ and (max-width: 1650px){
 }
 
 /* PARTE DIREITA */
-.orange{
-    color: #F2994A;
+.blue{
+    color: #0096fe;
 }
 
 .btnAction{
@@ -123,7 +123,11 @@ and (max-width: 1650px){
 }
 .btnAction svg{
     position: absolute;
-    right: 10px;
+    right: 20px;
+    border: 1px solid #000;
+    border-radius: 120px;
+    background-color: #fff;
+    
 }
 
 .footerDir{
@@ -187,7 +191,7 @@ and (max-width: 1650px){
     padding-top: 20px;
 }
 .bigBox::placeholder {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: var(--font-family);
 }
 
 .containerInput textarea{

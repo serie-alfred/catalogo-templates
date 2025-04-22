@@ -2,10 +2,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 .banner {
-    width: calc(90% - 5px);
+    max-width: 1500px;
+    width: 100%;
+    margin-bottom: 80px;
+}
+
+@media only screen and (min-width: 1023px) and (max-width: 1650px) {
+    .banner {
+        max-width: 1180px;
+    }
 }
 
 
@@ -19,9 +28,22 @@ and (max-width: 1650px){
 
 .bannerimg {
     width: 100%;
-    height: auto;
-    margin-top: 50px;
+    height: 400px;
+    margin-top: 120px;
+    object-fit: cover;
+    border-radius: 50px;
 }
+.textBanner{
+    position: absolute;
+    max-width: 600px;
+    left: 0px;
+    bottom: 48%;
+    transform: translate(50%, 50%);
+}
+.textBanner h2{
+    font-size: 55px;
+}
+
 @media (max-width: 768px){
     .banner{
         width: 100%;

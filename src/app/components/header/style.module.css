@@ -28,14 +28,33 @@ and (max-width: 1650px){
     }
 }
 
-.callUs a{
-    background-color: var(--background-black);
+.logo svg path{
+    fill: #fff;
+    filter: invert(1);
+}
+
+.callUs a {
+    background: #0196FF;
+    background: linear-gradient(90deg, rgba(1, 150, 255, 1) 0%, rgba(114, 209, 247, 1) 85%, rgba(215, 215, 215, 1) 100%);
+    background-position: left center;
+    background-size: 100% 50%;
     display: flex;
     align-items: center;
     border-radius: 700px;
     padding: 10px 10px 10px 20px;
     gap: 10px;
+    color: #fff;
+    transition: all 0.4s ease, background-position 0.8s ease;
 }
+
+.callUs a:hover {
+    background-position: right center;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    transform: scale(0.97);
+}
+
+
+
 
 @media (max-width: 768px){
     .callUs p{

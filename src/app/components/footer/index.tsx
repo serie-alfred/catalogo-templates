@@ -51,17 +51,17 @@ export default function Footer() {
                     </div>
                     <div className={styles.footerDir}>
                         <div className={styles.containerInput}>
-                            <h2 className={styles.titleInput}>Seu nome<span className={styles.orange}>*</span></h2>
+                            <h2 className={styles.titleInput}>Seu nome<span className={styles.blue}>*</span></h2>
                             <input className={styles.inputBox} placeholder="Nome..."></input>
                         </div>
                         <div className={styles.containerInput}>
-                            <h2 className={styles.titleInput}>Sua Empresa<span className={styles.orange}>*</span></h2>
+                            <h2 className={styles.titleInput}>Sua Empresa<span className={styles.blue}>*</span></h2>
                             <input className={styles.inputBox} placeholder="Nome da sua empresa..."></input>
                         </div>
                         <div className={styles.duploInputContainer}>
                             <div className={styles.inputItem}>
                                 <h2 className={styles.titleInput}>
-                                    Seu segmento<span className={styles.orange}>*</span>
+                                    Seu segmento<span className={styles.blue}>*</span>
                                 </h2>
                                 <select className={styles.inputBoxDuplo} defaultValue="">
                                     <option value="" disabled>Selecione</option>
@@ -72,7 +72,7 @@ export default function Footer() {
                             </div>
                             <div className={styles.inputItem}>
                                 <h2 className={styles.titleInput}>
-                                    Colaboradores<span className={styles.orange}>*</span>
+                                    Colaboradores<span className={styles.blue}>*</span>
                                 </h2>
                                 <select className={styles.inputBoxDuplo} defaultValue="">
                                     <option value="" disabled>1-20</option>
@@ -85,15 +85,15 @@ export default function Footer() {
                         </div>
 
                         <div className={styles.containerInput}>
-                            <h2 className={styles.titleInput}>Telefone<span className={styles.orange}>*</span></h2>
+                            <h2 className={styles.titleInput}>Telefone<span className={styles.blue}>*</span></h2>
                             <input className={styles.inputBox} placeholder="Número de Telefone..."></input>
                         </div>
                         <div className={styles.containerInput}>
-                            <h2 className={styles.titleInput}>E-mail Corporativo<span className={styles.orange}>*</span></h2>
+                            <h2 className={styles.titleInput}>E-mail Corporativo<span className={styles.blue}>*</span></h2>
                             <input className={styles.inputBox} placeholder="seuemail@serie.com.br"></input>
                         </div>
                         <div className={styles.containerInput}>
-                            <h2 className={styles.titleInput}>Qual seu desafio?<span className={styles.orange}>*</span></h2>
+                            <h2 className={styles.titleInput}>Qual seu desafio?<span className={styles.blue}>*</span></h2>
                             <textarea className={`${styles.inputBox} ${styles.bigBox}`} placeholder="Descreva qual o desafio que sua empresa enfrenta..."></textarea>
                         </div>
                         <button className={styles.btnAction}>
@@ -101,8 +101,8 @@ export default function Footer() {
                             <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <rect width="44" height="44" rx="22" fill="#0E0F12"/>
                             <g clip-path="url(#clip0_5712_3267)">
-                            <path d="M16 28L28 16" stroke="#F2994A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M18.25 16H28V25.75" stroke="#F2994A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M16 28L28 16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M18.25 16H28V25.75" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </g>
                             <defs>
                             <clipPath id="clip0_5712_3267">
@@ -128,15 +128,13 @@ export default function Footer() {
                         <span className={styles.menuTitle}>Atendimento</span>
                         <ul className={styles.menuContainer}>
                             <li><a href="">+55 11 4115-8384</a></li>
-                            <li><a href="">comercial@seriedesign.com.br</a></li>
+                            <li><a href="">comercial@e-temas.com.br</a></li>
                         </ul>
                     </div>
                     <div className={styles.menu}>
                         <span className={styles.menuTitle}>Onde nos encontrar</span>
                         <ul className={styles.menuContainer}>
                             <li><a href="">Quem somos</a></li>
-                            <li><a href="">Seja parceiro</a></li>
-                            <li><a href="">Trabalhe conosco</a></li>
                         </ul>
                     </div>
                     <div className={styles.menu}>
@@ -162,7 +160,7 @@ export default function Footer() {
             <div className={styles.footerBottomContainer}>
                 <div className={styles.footerBottom}>
                     <div className={styles.copyright}>
-                        <p>© 2022 SERI.E DESIGN - 10.766.256/0001-68</p>
+                        <p>© 2025 E-TEMAS - Empresa P4C Group</p>
                         <a href="#">Política de Privacidade</a>
                     </div>
                     <div className={styles.bottomSelos}>
@@ -177,49 +175,6 @@ export default function Footer() {
                                 loading="lazy"
                             />
                         ))}
-                    </div>
-                    <div className={styles.bottomSelosSocial}>
-                        <a href="/">
-                            <Image
-                                src={social1}
-                                alt={`Social`}
-                                aria-hidden
-                                width={social1.width}
-                                height={social1.height}
-                                loading="lazy"
-                            />
-                        </a>
-                        <a href="/">
-                            <Image
-                                src={social2}
-                                alt={`Social`}
-                                aria-hidden
-                                width={social2.width}
-                                height={social2.height}
-                                loading="lazy"
-                            />
-                        </a>
-                        <a href="/">
-                            <Image
-                                src={social3}
-                                alt={`Social`}
-                                aria-hidden
-                                width={social3.width}
-                                height={social3.height}
-                                loading="lazy"
-                            />
-                        </a>
-                        
-                        <a href="/">
-                            <Image
-                                src={social4}
-                                alt={`Social`}
-                                aria-hidden
-                                width={social4.width}
-                                height={social4.height}
-                                loading="lazy"
-                            />
-                        </a>
                     </div>
                 </div>
             </div>

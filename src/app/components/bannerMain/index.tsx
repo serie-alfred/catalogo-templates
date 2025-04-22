@@ -2,7 +2,7 @@
 
 import styles from "./style.module.css";
 import Image from "next/image";
-import Banner from "@/assets/bannerMainTwo.png"
+import Banner from "@/assets/image_fx.png"
 import bannerMainMobile from '@/assets/BannerMainMobile.png'
 import { useState, useEffect } from "react";
 
@@ -37,6 +37,9 @@ export default function BannerMain () {
                 className={styles.bannerimg}
                 alt="banner principal"
             />}
+            </div>
+            <div className={styles.textBanner}>
+                <h2>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</h2>
             </div>
         </div>
     )
