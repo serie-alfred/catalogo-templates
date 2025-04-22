@@ -37,9 +37,9 @@ export default function BannerMain () {
                 className={styles.bannerimg}
                 alt="banner principal"
             />}
-            </div>
-            <div className={styles.textBanner}>
-                <h2>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</h2>
+                <div className={styles.textBanner}>
+                    <h2>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</h2>
+                </div>
             </div>
         </div>
     )

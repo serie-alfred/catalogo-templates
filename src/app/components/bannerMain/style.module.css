@@ -2,13 +2,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
 }
 
 .banner {
     max-width: 1500px;
     width: 100%;
     margin-bottom: 35px;
+    position: relative;
 }
 
 @media only screen and (min-width: 1023px) and (max-width: 1650px) {
@@ -25,7 +25,6 @@ and (max-width: 1650px){
         width: 100%;
     }
 }
-
 .bannerimg {
     width: 100%;
     height: 400px;
@@ -37,11 +36,24 @@ and (max-width: 1650px){
     position: absolute;
     max-width: 600px;
     left: 0px;
-    bottom: 45%;
-    transform: translate(50%, 50%);
+    bottom: 42%;
+    transform: translate(10%, 50%);
 }
 .textBanner h2{
     font-size: 55px;
+}
+
+@media only screen
+and (min-width: 524px)
+and (max-width: 1650px){
+    .textBanner{
+        transform: translate(0px, 50%);
+        max-width: 460px;
+        padding-left: 40px;
+    }
+    .textBanner h2{
+        font-size: 42px;
+    }
 }
 
 @media (max-width: 768px){
