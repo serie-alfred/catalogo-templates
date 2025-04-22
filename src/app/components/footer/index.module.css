@@ -68,7 +68,7 @@ and (max-width: 1650px){
     margin-bottom: 45px;
 }
 .containerSubTitle h4 span{
-    color: #0096fe;
+    color: var(--color-blue);
 }
 
 .containerSubTitle a{
@@ -97,7 +97,7 @@ and (max-width: 1650px){
 
 /* PARTE DIREITA */
 .blue{
-    color: #0096fe;
+    color: var(--color-blue);
 }
 
 .btnAction{
@@ -306,7 +306,7 @@ and (max-width: 1650px){
 }
 
 .copyright a{
-    color: #F2994A;
+    color: var(--color-blue);
     text-decoration: underline;
 }
 
