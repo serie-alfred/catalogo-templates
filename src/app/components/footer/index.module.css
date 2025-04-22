@@ -124,10 +124,7 @@ and (max-width: 1650px){
 .btnAction svg{
     position: absolute;
     right: 20px;
-    border: 1px solid #000;
-    border-radius: 120px;
-    background-color: #fff;
-    
+    border-radius: 120px;    
 }
 
 .footerDir{
