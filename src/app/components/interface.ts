@@ -18,7 +18,7 @@ interface RenderPreviewProps {
 
 interface RenderImageProps {
   activeLayoutKey: string | null;
-  selectedImageId: string | null;
+  selectedImages: { id: string; layoutKey: string }[];
   onSelect: (id: string, layoutKey: string) => void;
 }
 
@@ -27,9 +27,29 @@ interface RenderButtonProps {
   onCategoryChange: (layoutKey: keyof typeof LAYOUTS) => void;
 }
 
+interface LayoutItem {
+  id: string;
+  image: string;
+  mobile: string;
+  title: string;
+  description: string;
+}
+
+interface LayoutCategory {
+  name: string;
+  items: LayoutItem[];
+}
+
+interface Layouts {
+  [platform: string]: {
+    [category: string]: LayoutCategory;
+  };
+}
+
 export type {
   ImageItem,
   RenderPreviewProps,
   RenderImageProps,
   RenderButtonProps,
+  Layouts,
 };

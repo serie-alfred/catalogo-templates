@@ -8,9 +8,9 @@ import { ImageItem, RenderImageProps } from '@/app/components/interface';
 
 type ImageWithLayout = ImageItem & { layoutKey: string };
 
-const RenderImage: React.FC<RenderImageProps> = ({ activeLayoutKey, selectedImageId, onSelect }) => {
-  const imageBasePath = "/layouts/";
 
+const RenderImage: React.FC<RenderImageProps> = ({ activeLayoutKey, selectedImages, onSelect }) => {
+  const imageBasePath = "/layouts/";
 
   const allImages: ImageWithLayout[] = Object.entries(LAYOUTS)
     .flatMap(([layoutKey, layout]) =>
@@ -21,13 +21,16 @@ const RenderImage: React.FC<RenderImageProps> = ({ activeLayoutKey, selectedImag
     ? (LAYOUTS[activeLayoutKey as keyof typeof LAYOUTS]?.items || []).map(item => ({ ...item, layoutKey: activeLayoutKey }))
     : allImages;
 
+  const isSelected = (id: string, layoutKey: string) =>
+    selectedImages.some(img => img.id === id && img.layoutKey === layoutKey);
+
   return (
     <div className={styles.carousel} id="options-list">
       {imagesToShow.map((item) => (
         <div
           key={`${item.layoutKey}-${item.id}`} 
           onClick={() => onSelect(item.id, item.layoutKey)}
-          className={`${styles.imageContainer} ${item.id === selectedImageId ? styles.selected : ''}`}
+          className={`${styles.imageContainer} ${isSelected(item.id, item.layoutKey) ? styles.selected : ''}`}
         >
           <img
             src={`${imageBasePath}${item.image.split('/').pop()}`}
@@ -35,7 +38,7 @@ const RenderImage: React.FC<RenderImageProps> = ({ activeLayoutKey, selectedImag
             className={styles.carouselImage}
           />
           <div
-            className={`${styles.infoContainer} ${item.id === selectedImageId ? styles.selectedInfo : ''}`}
+            className={`${styles.infoContainer} ${isSelected(item.id, item.layoutKey) ? styles.selectedInfo : ''}`}
           >
             <strong>{item.title}</strong>
             <span>{item.description}</span>
@@ -45,5 +48,6 @@ const RenderImage: React.FC<RenderImageProps> = ({ activeLayoutKey, selectedImag
     </div>
   );
 };
+
 
 export default RenderImage;

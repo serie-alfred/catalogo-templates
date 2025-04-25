@@ -66,7 +66,7 @@ export default function GeradorPage() {
           <h3>Selecione um modelo</h3>
           <RenderImage
             activeLayoutKey={activeLayoutKey}
-            selectedImageId={null}
+            selectedImages={selectedImages}
             onSelect={handleImageSelection}
             />
         </div>
