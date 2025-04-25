@@ -1,6 +1,7 @@
 import styles from "./style.module.css";
 import Image from "next/image";
 import logo from "../../../assets/logo-etemas.svg"
+import Link from "next/link";
 
 export default function Header() {
   return (
@@ -13,6 +14,9 @@ export default function Header() {
                 width={180}
             />
         </a>
+        <div className={styles.containerNav}>
+          <Link style={{display: "none"}} href="/gerador">Gerador</Link>
+        </div>
           <div className={styles.callUs}>
               <a href="/">
                 <p>Fale conosco</p>

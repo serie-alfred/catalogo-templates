@@ -42,6 +42,7 @@ and (max-width: 1650px){
     display: flex;
     flex-direction: column;
     gap: 25px;
+    color: #fff;
 }
 
 .containerTitle h2{
@@ -59,6 +60,7 @@ and (max-width: 1650px){
 
 .containerSubTitle{
     margin-top: 60px;
+    color: #fff;
 }
 
 .containerSubTitle h4{
@@ -143,6 +145,7 @@ and (max-width: 1650px){
 .titleInput{
     font-weight: 400;
     font-size: 16px;
+    color: #fff;
 }
 
 .duploInputContainer{
@@ -241,6 +244,7 @@ and (max-width: 1650px){
     font-size: 24px;
     line-height: 38px;
     letter-spacing: 0%;
+    color: #fff;
 }
 
 .menuContainer li{
@@ -248,6 +252,7 @@ and (max-width: 1650px){
     font-weight: 400;
     font-size: 16px;
     line-height: 30px;
+    color: #fff;
 }
 
 /* PARTE CLARA DE BAIXO  */

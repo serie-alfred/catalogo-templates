@@ -38,6 +38,7 @@ and (max-width: 1650px){
     left: 0px;
     bottom: 42%;
     transform: translate(10%, 50%);
+    color: #fff;
 }
 .textBanner h2{
     font-size: 55px;

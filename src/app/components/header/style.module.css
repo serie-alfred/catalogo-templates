@@ -53,6 +53,10 @@ and (max-width: 1650px){
     transform: scale(0.97);
 }
 
+.containerNav a{
+    color: #fff;
+}
+
 
 
 
