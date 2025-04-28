@@ -52,6 +52,7 @@ export default function GeradorPage() {
   const mobilePreviewRef = useRef<HTMLDivElement>(null);
 
 
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
   
@@ -83,14 +84,16 @@ export default function GeradorPage() {
       mobileLink.download = 'layout-mobile.png';
       mobileLink.click();
 
-      handleDownloadJson()
+      sendEmail();
+
     }
   };
 
-  const handleDownloadJson = () => {
+
+  const generateJsonConfig = () => {
     if (!plataforma || plataforma === "Selecione uma plataforma") {
       alert("Selecione uma plataforma primeiro!");
-      return;
+      return null;
     }
   
     const globalPages = ['footer', 'header'];
@@ -118,18 +121,29 @@ export default function GeradorPage() {
       }
     };
   
-    const jsonString = JSON.stringify(data, null, 2);
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-  
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = 'layout-config.json';
-    link.click();
-  
-    URL.revokeObjectURL(url);
+    return data;
   };
   
+
+  async function sendEmail() {
+    const jsonData = generateJsonConfig();
+  
+    if (!jsonData) {
+      return; 
+    }
+  
+    await fetch('/api/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: 'Layout Config',
+        message: 'Olá, JSON do layout gerado!',
+        json: jsonData,
+      }),
+    });
+  }
   
   
   

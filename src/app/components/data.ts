@@ -41,7 +41,7 @@ export const LAYOUTS = {
                 title: "Banner Colorido",
                 description: "Banner com destaque visual e chamada",
                 template: "1",
-                pagina: "banner1"
+                pagina: "banner-main"
                 
             },
             {
@@ -51,7 +51,7 @@ export const LAYOUTS = {
                 title: "Banner com fundo claro",
                 description: "Layout promocional mais clean",
                 template: "2",
-                pagina: "banner2"
+                pagina: "banner-main"
             },
             {
                 id: "03",
@@ -60,7 +60,7 @@ export const LAYOUTS = {
                 title: "Banner preto",
                 description: "Layout promocional mais clean",
                 template: "3",
-                pagina: "banner3"
+                pagina: "banner-main"
                 
             }
         ]
@@ -75,7 +75,7 @@ export const LAYOUTS = {
                 title: "Barra de benefícios",
                 description: "Benefícios",
                 template: "1",
-                pagina: "beneficio1"
+                pagina: "regua"
 
             },
             {
@@ -85,7 +85,7 @@ export const LAYOUTS = {
                 title: "Barra de benefícios",
                 description: "Benefícios",
                 template: "2",
-                pagina: "beneficio2"
+                pagina: "regua"
                 
             },
         ]
@@ -100,7 +100,7 @@ export const LAYOUTS = {
                 title: "Grid de banners",
                 description: "Seção de banners",
                 template: "1",
-                pagina: "grid1"
+                pagina: "banner-grid"
                 
             },
             {
@@ -110,7 +110,7 @@ export const LAYOUTS = {
                 title: "Grid de banners",
                 description: "Seção de banners",
                 template: "2",
-                pagina: "grid2"
+                pagina: "banner-duplo"
                 
             },
             {
@@ -120,7 +120,7 @@ export const LAYOUTS = {
                 title: "Grid de banners",
                 description: "Seção de banners",
                 template: "3",
-                pagina: "grid3"
+                pagina: "banner-grid"
             }
         ]
     },
@@ -134,7 +134,7 @@ export const LAYOUTS = {
                 title: "Vitrine moda",
                 description: "Seção com produtos de moda",
                 template: "2",
-                pagina: "shelf1"
+                pagina: "showcase"
                 
             },
             {
@@ -144,7 +144,7 @@ export const LAYOUTS = {
                 title: "Vitrine ferramentas",
                 description: "Produtos de casa e construção",
                 template: "2",
-                pagina: "shelf2"
+                pagina: "showcase"
             },
             {
                 id: "03",
@@ -152,8 +152,8 @@ export const LAYOUTS = {
                 mobile: "shelf_03_m.png",
                 title: "Vitrine esmalte",
                 description: "Produtos de casa e construção",
-                template: "3",
-                pagina: "shelf3"
+                template: "1",
+                pagina: "showcase"
             },
             {
                 id: "04",
@@ -162,7 +162,7 @@ export const LAYOUTS = {
                 title: "Vitrine 4",
                 description: "Produtos de casa e construção",
                 template: "4",
-                pagina: "shelf4"
+                pagina: "showcase"
             }
         ]
     },
@@ -186,6 +186,20 @@ export const LAYOUTS = {
                 description: "Produtos de casa e construção",
                 template: "1",
                 pagina: "newsletter"
+            }
+        ]
+    },
+    footer: {
+        name: 'Footer',
+        items: [
+            {
+                id: "01",
+                image: "footer_01.png",
+                mobile: "footer_01_m.png",
+                title: "Footer clean",
+                description: "Variedades de links",
+                template: "2",
+                pagina: "footer"
             }
         ]
     }

@@ -64,4 +64,11 @@ and (max-width: 1650px){
     .bannerimg{
         margin-top: 0px;
     }
+    .textBanner h2{
+        font-size: 25px;
+    }
+
+    .textBanner {
+        max-width: 340px;
+    }
 }
