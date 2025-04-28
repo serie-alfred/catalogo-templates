@@ -194,8 +194,8 @@ export const LAYOUTS = {
         items: [
             {
                 id: "01",
-                image: "footer_01.png",
-                mobile: "footer_01_m.png",
+                image: "footer_02.png",
+                mobile: "footer_02_m.png",
                 title: "Footer clean",
                 description: "Variedades de links",
                 template: "2",
