@@ -60,6 +60,12 @@
     background: #fff;
     color: #000;
 }
+
+.errorText{
+    font-size: 12px;
+    color: rgb(255, 57, 57);
+}
+
 /* Progresso */
 .progresso p {
     font-size: 0.85rem;
@@ -135,6 +141,7 @@
 .option.selected {
     border-color: #6366f1;
 }
+
 
 .option::before {
     content: '';

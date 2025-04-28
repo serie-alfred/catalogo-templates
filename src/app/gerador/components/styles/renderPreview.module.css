@@ -7,3 +7,57 @@
     display: block;
   }
   
+  .duplicateBtn{
+    position: absolute;
+    top: 10px;
+    right: 45px;
+    width: 30px;
+    height: 30px;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1rem;
+    line-height: 1;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+
+  .duplicateBtn:hover{
+    background: #0d946e;
+  }
+
+  .containerImg{
+    position: relative;
+  }
+
+  .remoteBtn{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1rem;
+    line-height: 1;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+    transition: background 0.2s;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding-bottom: 4px;
+  }
+
+  .remoteBtn:hover{
+    background: #b02a37;
+  }

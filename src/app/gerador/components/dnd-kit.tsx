@@ -62,25 +62,48 @@ export default function DraggablePreviewList({ items, setItems, isMobile }: Drag
     }
   };
 
+  // 👉 Função para duplicar o item
+  const handleDuplicate = (index: number) => {
+    setItems((prevItems) => {
+      const newItems = [...prevItems];
+      newItems.splice(index + 1, 0, { ...prevItems[index] }); // Duplica logo após o original
+      return newItems;
+    });
+  };
+
+  // 👉 Função para remover o item
+  const handleRemove = (index: number) => {
+    setItems((prevItems) => {
+      const newItems = [...prevItems];
+      newItems.splice(index, 1); // Remove o item
+      return newItems;
+    });
+  };
+
   return (
     <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
       <SortableContext
         items={items.map((i) => `${i.layoutKey}-${i.id}`)}
         strategy={verticalListSortingStrategy}
       >
-        {items.map((selected) => {
+        {items.map((selected, index) => {
           const item = (require('@/app/components/data').LAYOUTS[selected.layoutKey]?.items || []).find(
             (i: ImageItem) => i.id === selected.id
           );
           return (
             item && (
-              <SortableItem
-                key={`${selected.layoutKey}-${selected.id}`}
-                id={`${selected.layoutKey}-${selected.id}`}
-                item={item}
-                selectedImageId={selected.id}
-                isMobile={isMobile}
-              />
+              <div key={`${selected.layoutKey}-${selected.id}-${index}`} className={styles.containerImg}>
+                <SortableItem
+                  id={`${selected.layoutKey}-${selected.id}`}
+                  item={item}
+                  selectedImageId={selected.id}
+                  isMobile={isMobile}
+                />
+                <div className={styles.buttonContainer}>
+                  <button className={styles.duplicateBtn} onClick={() => handleDuplicate(index)}>+</button>
+                  <button className={styles.remoteBtn} onClick={() => handleRemove(index)}>-</button>
+                </div>
+              </div>
             )
           );
         })}
