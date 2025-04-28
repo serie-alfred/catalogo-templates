@@ -49,7 +49,7 @@ and (min-width: 524px)
 and (max-width: 1650px){
     .textBanner{
         transform: translate(0px, 50%);
-        max-width: 460px;
+        max-width: 500px;
         padding-left: 40px;
     }
     .textBanner h2{

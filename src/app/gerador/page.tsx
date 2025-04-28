@@ -147,6 +147,7 @@ export default function GeradorPage() {
             <option>VTEX</option>
             <option>Shopify</option>
             <option>Wake</option>
+            <option>Tray</option>
           </select>
         </div>
 
