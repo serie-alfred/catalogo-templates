@@ -7,44 +7,10 @@ import foto1 from "../../../assets/spotsImage/foto1.png";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
+import { mockCatalog } from "../dataTemplate";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
-const mockData = [
-    {
-    id: 1,
-    title: "Template 2.4",
-    subtitle: "Perfumaria & Cosméticos",
-    image: foto1,
-    desktopLink: "https://example.com/desktop",
-    mobileLink: "https://example.com/mobile",
-  },
-  {
-    id: 2,
-    title: "Template 2.3",
-    subtitle: "Moda Feminina",
-    image: foto1,
-    desktopLink: "https://example.com/desktop2",
-    mobileLink: "https://example.com/mobile2",
-  },
-  {
-    id: 3,
-    title: "Template 2.4",
-    subtitle: "Moda Feminina",
-    image: foto1,
-    desktopLink: "https://example.com/desktop2",
-    mobileLink: "https://example.com/mobile2",
-  },
-  {
-    id: 4,
-    title: "Template 2.5",
-    subtitle: "Moda Feminina",
-    image: foto1,
-    desktopLink: "https://example.com/desktop2",
-    mobileLink: "https://example.com/mobile2",
-  },
-];
 
 export default function NewsContainer() {
   const [isMobile, setIsMobile] = useState(false);
@@ -55,6 +21,12 @@ export default function NewsContainer() {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  const catalog = mockCatalog[0]?.novidade || [];
+  
+  const filteredCatalog = catalog.filter((item) =>
+    item.title.toLowerCase()
+  );
 
   return (
     <div className={styles.newsContainer}>
@@ -72,7 +44,7 @@ export default function NewsContainer() {
               slidesPerView={1.3}
               loop
             >
-              {mockData.map((item) => (
+              {filteredCatalog.map((item) => (
                 <SwiperSlide key={item.id}>
                   <ProductSpot item={item} />
                 </SwiperSlide>
@@ -80,7 +52,7 @@ export default function NewsContainer() {
             </Swiper>
           ) : (
             <div className={styles.gridSpots}>
-              {mockData.map((item) => (
+              {filteredCatalog.map((item) => (
                 <ProductSpot key={item.id} item={item} />
               ))}
             </div>

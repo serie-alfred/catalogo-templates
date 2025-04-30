@@ -51,6 +51,7 @@ and (max-width: 1650px){
 .containerSpots{
     display: flex;
     gap: 15px;
+    flex-wrap: wrap;
 }
 
 @media(max-width: 1020px){
@@ -186,7 +187,7 @@ and (max-width: 1650px){
 and (min-width: 1023px)
 and (max-width: 1650px){
     .containerButtonsHover{
-        top: 5%;
+        top: calc(6% - 2px);
     }
     
 }
@@ -209,6 +210,7 @@ and (max-width: 1650px){
     top: 60px;
     width: 100%;
     padding: 0px 15px;
+    color: #fff;
 }
 
 .spotButtons p{
@@ -229,6 +231,7 @@ and (max-width: 1650px){
 .buttons {
     display: flex;
     gap: 8px;
+    color: #fff;
 }
 
 .buttons a {

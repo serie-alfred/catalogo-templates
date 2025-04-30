@@ -2,50 +2,17 @@
 
 import Image from "next/image";
 import styles from "./index.module.css";
-import foto1 from "../../../assets/spotsImage/foto1.png";
+import { mockCatalog } from "../dataTemplate";
 import { useState } from "react";
-
-const mockCatalog = [
-  {
-    id: 1,
-    title: "Template 3.1",
-    subtitle: "Loja de Calçados",
-    image: foto1,
-    desktopLink: "https://example.com/desktop2",
-    mobileLink: "https://example.com/mobile2",
-  },
-  {
-    id: 2,
-    title: "Template 3.2",
-    subtitle: "Pet Shop",
-    image: foto1,
-    desktopLink: "https://example.com/desktop2",
-    mobileLink: "https://example.com/mobile2",
-  },
-  {
-    id: 3,
-    title: "Template 3.3",
-    subtitle: "Moda Infantil",
-    image: foto1,
-    desktopLink: "https://example.com/desktop2",
-    mobileLink: "https://example.com/mobile2",
-  },
-  {
-    id: 4,
-    title: "Template 3.4",
-    subtitle: "Papelaria",
-    image: foto1,
-    desktopLink: "https://example.com/desktop2",
-    mobileLink: "https://example.com/mobile2",
-  },
-];
 
 export default function CatalogSpots() {
   const [search, setSearch] = useState("");
 
-  const filteredCatalog = mockCatalog.filter((item) =>
-    item.title.toLowerCase().includes(search.toLowerCase())
-  );
+    const catalog = mockCatalog[0]?.catalogo || [];
+  
+    const filteredCatalog = catalog.filter((item) =>
+      item.title.toLowerCase().includes(search.toLowerCase())
+    );
 
   return (
     <div className={styles.catalogoContainer}>
