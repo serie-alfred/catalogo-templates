@@ -7,7 +7,7 @@ import foto1 from "../../../assets/spotsImage/foto1.png";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
-import { mockCatalog } from "../dataTemplate";
+import { mockCatalog } from "../../data/dataTemplate";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";

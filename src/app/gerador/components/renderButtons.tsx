@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { LAYOUTS } from '../../components/data';
+import { LAYOUTS } from '../../data/data';
 import styles from './styles/renderButton.module.css';
 
 interface RenderButtonProps {

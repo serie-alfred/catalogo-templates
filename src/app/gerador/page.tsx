@@ -6,7 +6,7 @@ import RenderButton from "./components/renderButtons";
 import RenderImage from "./components/renderImage";
 import html2canvas from 'html2canvas';
 import DraggablePreviewList from "./components/dnd-kit";
-import { LAYOUTS } from '@/app/components/data'
+import { LAYOUTS } from '@/app/data/data'
 
 
 export default function GeradorPage() {

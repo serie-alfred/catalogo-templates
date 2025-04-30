@@ -1,5 +1,5 @@
 // interface.ts
-import { LAYOUTS } from "./data";
+import { LAYOUTS } from "../data/data";
 
 interface ImageItem {
   id: string;

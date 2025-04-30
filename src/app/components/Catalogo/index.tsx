@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import styles from "./index.module.css";
-import { mockCatalog } from "../dataTemplate";
+import { mockCatalog } from "../../data/dataTemplate";
 import { useState } from "react";
 
 export default function CatalogSpots() {
