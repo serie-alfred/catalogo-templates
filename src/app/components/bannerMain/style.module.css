@@ -23,6 +23,7 @@ and (min-width: 524px)
 and (max-width: 1650px){
     .banner{
         width: 100%;
+
     }
 }
 .bannerimg {
@@ -36,7 +37,7 @@ and (max-width: 1650px){
     position: absolute;
     max-width: 600px;
     left: 0px;
-    bottom: 42%;
+    bottom: 50%;
     transform: translate(10%, 50%);
     color: #fff;
 }
@@ -60,6 +61,8 @@ and (max-width: 1650px){
 @media (max-width: 768px){
     .banner{
         width: 100%;
+        margin-top: 120px;
+        padding: 0px 21px;
     }
     .bannerimg{
         margin-top: 0px;
