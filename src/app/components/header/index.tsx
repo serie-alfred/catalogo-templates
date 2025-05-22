@@ -21,13 +21,13 @@ export default function Header() {
               <a href="/">
                 <p>Fale conosco</p>
                 <svg width="38" height="38" viewBox="0 0 38 38" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="white">
-                  <g clip-path="url(#clip0_5644_2220)">
-                  <g clip-path="url(#clip1_5644_2220)">
-                  <path d="M14.5 23.5L23.5 14.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M16.1875 14.5H23.5V21.8125" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <g clipPath="url(#clip0_5644_2220)">
+                  <g clipPath="url(#clip1_5644_2220)">
+                  <path d="M14.5 23.5L23.5 14.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M16.1875 14.5H23.5V21.8125" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   </g>
                   </g>
-                  <rect x="0.75" y="0.75" width="36.5" height="36.5" rx="18.25" stroke="white" stroke-opacity="0.32" stroke-width="1.5"/>
+                  <rect x="0.75" y="0.75" width="36.5" height="36.5" rx="18.25" stroke="white" strokeOpacity="0.32" strokeWidth="1.5"/>
                   <defs>
                   <clipPath id="clip0_5644_2220">
                   <rect width="38" height="38" rx="19" fill="white"/>

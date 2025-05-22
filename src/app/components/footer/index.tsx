@@ -1,5 +1,5 @@
-import styles from "./index.module.css";
 import Image from "next/image";
+import { icons } from "../../../assets/icons/icons";
 
 import selo1 from "../../../assets/selosFooterBottom/selo1.png";
 import selo2 from "../../../assets/selosFooterBottom/selo2.png";
@@ -15,11 +15,11 @@ import ecommerce1 from "../../../assets/selosEcommerce/ecommerce1.png";
 import ecommerce2 from "../../../assets/selosEcommerce/ecommerce2.png";
 import ecommerce3 from "../../../assets/selosEcommerce/ecommerce3.png";
 
-
-
 const selos = [selo1, selo2, selo3, selo4];
 const selosSocial = [social1, social2, social3, social4]
 const seloEcommerce = [ecommerce1, ecommerce2, ecommerce3]
+
+import styles from "./index.module.css";
 
 export default function Footer() {
     return (
@@ -35,17 +35,7 @@ export default function Footer() {
                             <h4>Cadastre-se para ter a oportunidades de fazer parte da nossa tripulação<span>.</span></h4>
                             <a href="#">
                                 Saiba mais
-                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <g clip-path="url(#clip0_4065_80285)">
-                                    <path d="M3 9L9 3" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M4.125 3H9V7.875" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </g>
-                                    <defs>
-                                    <clipPath id="clip0_4065_80285">
-                                    <rect width="12" height="12" fill="white"/>
-                                    </clipPath>
-                                    </defs>
-                                </svg>
+                                {icons.KnowMorearrowIcon}
                             </a>
                         </div>
                     </div>
@@ -98,19 +88,8 @@ export default function Footer() {
                         </div>
                         <button className={styles.btnAction}>
                             Iniciar lançamento
-                            <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect width="44" height="44" rx="22" fill="#0E0F12"/>
-                            <g clip-path="url(#clip0_5712_3267)">
-                            <path d="M16 28L28 16" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M18.25 16H28V25.75" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </g>
-                            <defs>
-                            <clipPath id="clip0_5712_3267">
-                            <rect width="24" height="24" fill="white" transform="translate(10 10)"/>
-                            </clipPath>
-                            </defs>
-                            </svg>
-                            </button>
+                            {icons.InitLaunchArrowIcon}
+                        </button>
                     </div>
                 </div>
             </div>

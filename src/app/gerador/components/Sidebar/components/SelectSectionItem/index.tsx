@@ -1,0 +1,66 @@
+'use client';
+
+import React from 'react';
+import { LAYOUTS, LayoutKey, LayoutItem } from '@/app/data/data';
+import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
+import styles from './styles.module.css';
+
+interface SelectSectionItemProps {
+  activeLayoutKey: LayoutKey | null;
+  selectedImages: LayoutSelection[];
+  onSelect: (id: string, layoutKey: LayoutKey) => void;
+}
+
+export default function SelectSectionItem({
+  activeLayoutKey,
+  selectedImages,
+  onSelect,
+}: SelectSectionItemProps) {
+  const imageBasePath = '/layouts/';
+
+  // Monta um array de todos os itens, cada um com sua layoutKey
+  const allImages: (LayoutItem & { layoutKey: LayoutKey })[] = (
+    Object.entries(LAYOUTS) as [LayoutKey, typeof LAYOUTS[LayoutKey]][]
+  ).flatMap(([layoutKey, section]) =>
+    section.items.map(item => ({ ...item, layoutKey }))
+  );
+
+  // Se tiver aba ativa, filtra só aquela seção; senão, mostra tudo
+  const imagesToShow = activeLayoutKey
+    ? LAYOUTS[activeLayoutKey].items.map(item => ({
+        ...item,
+        layoutKey: activeLayoutKey,
+      }))
+    : allImages;
+
+  const isSelected = (id: string, layoutKey: LayoutKey) =>
+    selectedImages.some(img => img.id === id && img.layoutKey === layoutKey);
+
+  return (
+    <div className={styles.carousel} id="options-list">
+      {imagesToShow.map(item => (
+        <div
+          key={`${item.layoutKey}-${item.id}`}
+          onClick={() => onSelect(item.id, item.layoutKey)}
+          className={`${styles.imageContainer} ${
+            isSelected(item.id, item.layoutKey) ? styles.selected : ''
+          }`}
+        >
+          <img
+            src={`${imageBasePath}${item.image.split('/').pop()}`}
+            alt={item.title}
+            className={styles.carouselImage}
+          />
+          <div
+            className={`${styles.infoContainer} ${
+              isSelected(item.id, item.layoutKey) ? styles.selectedInfo : ''
+            }`}
+          >
+            <strong>{item.title}</strong>
+            <span>{item.description}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}

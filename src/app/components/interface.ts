@@ -1,5 +1,5 @@
-// interface.ts
-import { LAYOUTS } from "../data/data";
+import { LAYOUTS, LayoutKey } from "../data/data";
+import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
 
 interface ImageItem {
   id: string;
@@ -16,11 +16,12 @@ interface RenderPreviewProps {
   isMobile?: boolean;  
 }
 
-interface RenderImageProps {
-  activeLayoutKey: string | null;
-  selectedImages: { id: string; layoutKey: string }[];
-  onSelect: (id: string, layoutKey: string) => void;
+interface SelectSectionItemProps {
+  activeLayoutKey: LayoutKey | null;
+  selectedImages: LayoutSelection[];
+  onSelect: (id: string, layoutKey: LayoutKey) => void;
 }
+
 
 interface RenderButtonProps {
   activeLayoutKey: keyof typeof LAYOUTS | null;
@@ -49,7 +50,7 @@ interface Layouts {
 export type {
   ImageItem,
   RenderPreviewProps,
-  RenderImageProps,
+  SelectSectionItemProps,
   RenderButtonProps,
   Layouts,
 };

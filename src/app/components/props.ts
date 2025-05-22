@@ -1,5 +1,3 @@
-import { Template, Sections, LayoutItem } from "../components/types";
-
 export type Props = {
     type: string;
     sections: {

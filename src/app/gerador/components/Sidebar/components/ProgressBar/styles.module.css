@@ -1,0 +1,24 @@
+.preenchida {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+/* Progresso */
+.progresso p {
+  font-size: 0.85rem;
+  margin-bottom: 8px;
+}
+
+.barra {
+  background: #eee;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.barra .preenchida {
+  height: 100%;
+  background: #6366f1;
+  width: 0%;
+  transition: width 0.3s ease;
+}

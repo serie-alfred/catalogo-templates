@@ -1,9 +1,9 @@
 
 import styles from "./page.module.css";
-import Header from "./components/header";
-import BannerMain from "./components/bannerMain";
-import Footer from "./components/footer";
-import NewsContainer from "./components/newsContainer"
+import Header from "./components/Header";
+import BannerMain from "./components/BannerMain";
+import Footer from "./components/Footer";
+import NewsContainer from "./components/NewsContainer"
 import CatalogSpots from "./components/Catalogo"
 
 export default function Home() {

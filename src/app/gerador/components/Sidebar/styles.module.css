@@ -1,0 +1,24 @@
+/* Sidebar */
+.sidebar {
+  background: #fff;
+  padding: 24px;
+  border-right: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  overflow-y: auto;
+}
+/* Scrollbars suaves */
+.sidebar {
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
