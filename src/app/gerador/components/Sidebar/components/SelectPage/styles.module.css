@@ -1,0 +1,22 @@
+.tabs{
+  gap: 10px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.tabs button{
+  background: #f3f4f6;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+  color: rgb(63, 63, 63);
+}
+
+.tabs button.active{
+  background: #6366f1;
+  color: white;
+}
