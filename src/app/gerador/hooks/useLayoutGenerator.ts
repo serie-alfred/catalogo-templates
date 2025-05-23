@@ -1,6 +1,6 @@
 // src/app/gerador/hooks/useLayoutGenerator.ts
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { LAYOUTS, LayoutKey, LayoutItem } from '@/app/data/data';
 import { captureAndDownloadScreenshot } from '../utils/screenshotExport';
 import { sendLayoutConfigEmail } from '../services/sendEmail';
@@ -109,6 +109,14 @@ export function useLayoutGenerator() {
       await sendLayoutConfigEmail(configJson);
     }
   };
+
+  // Define a primeira seção como a ativa (Header, Banners, Benefícios, Vitrines, etc... Nesse caso deve ser o Header)
+  useEffect(() => {
+    const firstLayoutKey = Object.keys(LAYOUTS)[0] as LayoutKey | undefined;
+    if (firstLayoutKey) {
+      setFocusedKey(firstLayoutKey);
+    }
+  }, []);
 
   return {
     /** Dados */
