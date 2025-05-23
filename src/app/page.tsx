@@ -1,9 +1,9 @@
 
-import Header        from "./components/Header";
-import BannerMain    from "./components/BannerMain";
-import NewsContainer from "./components/NewsContainer";
-import CatalogSpots  from "./components/Catalogo";
-import Footer        from "./components/Footer";
+import Header        from "./components/layout/Header";
+import BannerMain    from "./components/features/BannerMain";
+import NewsContainer from "./components/features/NewsContainer";
+import CatalogSpots  from "./components/features/Catalogo";
+import Footer        from "./components/layout/Footer";
 
 import styles from "./page.module.css";
 

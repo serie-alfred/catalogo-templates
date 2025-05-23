@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Image from "next/image";
 
-import { mockCatalog } from "../../data/dataTemplate";
-import { icons } from "../../../assets/icons/icons";
+import { mockCatalog } from "../../../data/dataTemplate";
+import { icons } from "../../../../assets/icons/icons";
 
 import styles from "./index.module.css";
 
