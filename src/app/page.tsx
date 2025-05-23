@@ -9,12 +9,14 @@ import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-        <Header/>
-        <BannerMain/>
-        <NewsContainer/>
-        <CatalogSpots/>
-        <Footer/>
-    </div>
+    <>
+      <Header/>
+      <main className={styles.page}>
+          <BannerMain/>
+          <NewsContainer/>
+          <CatalogSpots/>
+      </main>
+      <Footer/>
+    </>
   );
 }

@@ -23,7 +23,7 @@ import styles from "./index.module.css";
 
 export default function Footer() {
     return (
-        <>
+        <footer>
             <div className={styles.footerTopContainer}>
                 <div className={styles.footerTop}>
                     <div className={styles.footerEsq}>
@@ -157,6 +157,6 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-        </>
+        </footer>
     );
 }

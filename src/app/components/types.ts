@@ -1,5 +1,3 @@
-// types.ts
-
 export type Template = {
     id: string;
     image: string;
