@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 
 import { mockCatalog } from "../../../data/dataTemplate";
 import { icons } from "../../../../assets/icons/icons";
@@ -55,7 +55,7 @@ export default function CatalogSpots() {
 function CatalogSpot({
   item,
 }: {
-  item: { title: string; subtitle: string; image: any; desktopLink: any; mobileLink: any; };
+  item: { title: string; subtitle: string; image: StaticImageData; desktopLink: string; mobileLink: string; };
 }) {
   return (
     <div className={styles.productSpot}>

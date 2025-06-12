@@ -1,4 +1,5 @@
 import React from 'react';
+import type { DragEndEvent } from '@dnd-kit/core';
 import {
   DndContext,
   closestCenter,
@@ -19,6 +20,7 @@ import { CSS } from '@dnd-kit/utilities';
 import styles from './styles.module.css';
 import { LAYOUTS, LayoutKey, LayoutItem } from '@/app/data/data';
 import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
+import Image from 'next/image';
 
 interface DraggablePreviewListProps {
   items: LayoutSelection[];
@@ -68,7 +70,7 @@ function SortableItem({
       {...listeners}
       className={styles.imageContainer}
     >
-      <img
+      <Image
         src={`/layouts/${imageSource.split('/').pop()}`}
         alt={itemData.title}
         className={styles.carouselImage}
@@ -94,7 +96,9 @@ export default function DraggablePreviewList({
   * handleDragEnd é chamado quando uma operação de arrastar e soltar termina.
   * Ele atualiza a ordem dos itens na lista se o item for solto sobre outro item válido.
   */
-  function handleDragEnd(event: { active: any; over: any }) {
+
+
+  function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     if (over && active.id !== over.id) {
       const oldIndex = items.findIndex(
@@ -152,7 +156,7 @@ export default function DraggablePreviewList({
             layoutKey: item.layoutKey,
           } as LayoutItem & { layoutKey: LayoutKey };
 
-          const uniqueId = `${item.layoutKey}-${item.id}`;
+          const uniqueId = `${item.layoutKey}-${foundItem.key}-${index}`;
           const isCurrentlySelected = items.some(
             (selectedItem) =>
               selectedItem.id === item.id && selectedItem.layoutKey === item.layoutKey

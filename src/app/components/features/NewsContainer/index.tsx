@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import styles from "./index.module.css";
-import foto1 from "../../../../assets/spotsImage/foto1.png";
+// import foto1 from "../../../../assets/spotsImage/foto1.png";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
@@ -64,7 +64,7 @@ export default function NewsContainer() {
   );
 }
 
-function ProductSpot({ item }: { item: { title: string; subtitle: string; image: any; desktopLink: any; mobileLink: any;} }) {
+function ProductSpot({ item }: { item: { title: string; subtitle: string; image: StaticImageData; desktopLink: string; mobileLink: string;} }) {
   return (
     <div className={styles.productSpot}>
       <div className={styles.containerImg}>

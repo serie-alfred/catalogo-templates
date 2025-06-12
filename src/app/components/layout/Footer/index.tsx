@@ -6,17 +6,17 @@ import selo2 from "../../../../assets/selosFooterBottom/selo2.png";
 import selo3 from "../../../../assets/selosFooterBottom/selo3.png";
 import selo4 from "../../../../assets/selosFooterBottom/selo4.png";
 
-import social1 from "../../../../assets/selosSocial/social1.png";
-import social2 from "../../../../assets/selosSocial/social2.png";
-import social3 from "../../../../assets/selosSocial/social3.png";
-import social4 from "../../../../assets/selosSocial/social4.png";
+// import social1 from "../../../../assets/selosSocial/social1.png";
+// import social2 from "../../../../assets/selosSocial/social2.png";
+// import social3 from "../../../../assets/selosSocial/social3.png";
+// import social4 from "../../../../assets/selosSocial/social4.png";
 
 import ecommerce1 from "../../../../assets/selosEcommerce/ecommerce1.png";
 import ecommerce2 from "../../../../assets/selosEcommerce/ecommerce2.png";
 import ecommerce3 from "../../../../assets/selosEcommerce/ecommerce3.png";
 
 const selos = [selo1, selo2, selo3, selo4];
-const selosSocial = [social1, social2, social3, social4]
+// const selosSocial = [social1, social2, social3, social4]
 const seloEcommerce = [ecommerce1, ecommerce2, ecommerce3]
 
 import styles from "./index.module.css";
