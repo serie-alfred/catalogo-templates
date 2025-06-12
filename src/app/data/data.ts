@@ -1,4 +1,4 @@
-type Pagina = "home" | "pdp" | "plp";
+export type Pagina = "home" | "pdp" | "plp";
 /**
  * Represents an item in the layout catalog.
  *

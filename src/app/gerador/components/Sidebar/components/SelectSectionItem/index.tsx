@@ -1,5 +1,5 @@
 import React from 'react';
-   import { LAYOUTS, LayoutKey, LayoutItem } from '@/app/data/data';
+   import { LAYOUTS, LayoutKey, LayoutItem, Pagina } from '@/app/data/data';
    import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
    import styles from './styles.module.css';
    
@@ -34,7 +34,7 @@ import React from 'react';
        : allImages;
    
      // Filtrar por página selecionada
-     imagesToShow = imagesToShow.filter(item => Array.isArray(item.pagina) && item.pagina.includes(selectedPage));
+     imagesToShow = imagesToShow.filter(item => Array.isArray(item.pagina) && item.pagina.includes(selectedPage as Pagina));
    
      const isSelected = (id: string, layoutKey: LayoutKey) =>
        selectedImages.some(img => img.id === id && img.layoutKey === layoutKey);
