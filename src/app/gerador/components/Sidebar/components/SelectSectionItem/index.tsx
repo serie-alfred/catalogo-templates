@@ -2,6 +2,7 @@ import React from 'react';
    import { LAYOUTS, LayoutKey, LayoutItem, Pagina } from '@/app/data/data';
    import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
    import styles from './styles.module.css';
+import Image from 'next/image';
    
    interface SelectSectionItemProps {
      activeLayoutKey: LayoutKey | null;
@@ -49,7 +50,7 @@ import React from 'react';
                isSelected(item.id, item.layoutKey) ? styles.selected : ''
              }`}
            >
-             <img
+             <Image
                src={`${imageBasePath}${item.image.split('/').pop()}`}
                alt={item.title}
                className={styles.carouselImage}

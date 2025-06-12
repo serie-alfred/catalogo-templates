@@ -1,4 +1,4 @@
-export async function sendLayoutConfigEmail(configJson: any) {
+export async function sendLayoutConfigEmail(configJson: unknown) {
   return fetch('/gerador/api/send-email', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

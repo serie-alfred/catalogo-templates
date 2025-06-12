@@ -45,7 +45,7 @@ import { useState, useRef, useEffect } from 'react';
      };
    
      /** 4) Geração do JSON de configuração */
-     const buildConfigJson = (): Record<string, any> | null => {
+     const buildConfigJson = (): Record<string, unknown> | null => {
        if (!platform || platform === 'Selecione uma plataforma') {
          return null;
        }
