@@ -56,7 +56,12 @@ import { useState, useRef, useEffect } from 'react';
          const section = LAYOUTS[item.layoutKey];
          const found: LayoutItem | undefined = section.items.find((i) => i.id === item.id);
          if (!found) return null;
-         return { template: found.template, pagina: found.pagina };
+         return { 
+          template: found.template, 
+          title: found.title,
+          key: found.key,
+          pagina: found.pagina
+        };
        };
    
        const globalItems = selections

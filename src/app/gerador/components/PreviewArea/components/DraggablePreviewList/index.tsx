@@ -152,7 +152,7 @@ export default function DraggablePreviewList({
             layoutKey: item.layoutKey,
           } as LayoutItem & { layoutKey: LayoutKey };
 
-          const uniqueId = `${item.layoutKey}-${item.id}`;
+          const uniqueId = `${item.layoutKey}-${foundItem.key}-${index}`;
           const isCurrentlySelected = items.some(
             (selectedItem) =>
               selectedItem.id === item.id && selectedItem.layoutKey === item.layoutKey
