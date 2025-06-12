@@ -1,4 +1,5 @@
 import React from 'react';
+import type { DragEndEvent } from '@dnd-kit/core';
 import {
   DndContext,
   closestCenter,
@@ -95,7 +96,9 @@ export default function DraggablePreviewList({
   * handleDragEnd é chamado quando uma operação de arrastar e soltar termina.
   * Ele atualiza a ordem dos itens na lista se o item for solto sobre outro item válido.
   */
-  function handleDragEnd(event: { active: {id: string}; over: {id: string} }) {
+
+
+  function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
     if (over && active.id !== over.id) {
       const oldIndex = items.findIndex(
