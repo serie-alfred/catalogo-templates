@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
    import { LAYOUTS, LayoutKey, LayoutItem } from '@/app/data/data';
    import { captureAndDownloadScreenshot } from '../utils/screenshotExport';
-   import { sendLayoutConfigEmail } from '../services/sendEmail';
+   import { sendLayoutConfigEmail } from '../services/emailService';
    
    export interface LayoutSelection {
      id: string;

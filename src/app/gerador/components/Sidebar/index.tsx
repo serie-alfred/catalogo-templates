@@ -1,15 +1,15 @@
 import React from 'react';
 
-import PlatformSelect from './components/PlatformSelect';
-import ProgressBar from './components/ProgressBar';
-import SelectPage from './components/SelectPage';
-import SelectSection from './components/SelectSection';
-import SelectSectionItem from './components/SelectSectionItem';
+import PlatformSelect from '../PlatformSelect';
+import ProgressBar from '../ProgressBar';
+import SelectPage from '../SelectPage';
+import SelectSection from '../SelectSection';
+import SelectSectionItem from '../SelectSectionItem';
 
 import { LayoutKey } from '@/app/data/data';
 import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
 
-import styles from './styles.module.css';
+import styles from './index.module.css';
 
 export interface SidebarProps {
   /** itens já selecionados */

@@ -11,6 +11,22 @@
     position: relative;
 }
 
+.desktopOnly{
+    display: none;
+}
+@media only screen and (min-width: 1023px){
+    .desktopOnly{
+        display: block;
+    }
+}
+
+@media only screen and (min-width: 1023px){
+    .mobileOnly{
+        display: none;
+    }
+}
+
+
 @media only screen and (min-width: 1023px) and (max-width: 1650px) {
     .banner {
         max-width: 1180px;

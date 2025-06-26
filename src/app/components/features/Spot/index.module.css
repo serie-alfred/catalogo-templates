@@ -1,0 +1,262 @@
+
+.catalogoContainer{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60px;
+  padding: 0px 20px;
+}
+
+@media (max-width: 768px){
+  .catalogoContainer{
+      padding: 0px 20px;
+  }
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+  max-width: 1500px;
+  width: 100%;
+}
+
+@media only screen
+and (min-width: 1023px)
+and (max-width: 1650px){
+  .container{
+      max-width: 1180px;
+  }
+}
+.infoTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #fff;
+}
+.infoTitle span{
+  font-weight: 400;
+  color: #757575;
+}
+
+@media (max-width: 768px){
+  .infoTitle span{
+      font-size: 13px;
+  }
+  .containerSpots{
+      gap: 60px !important;
+  }
+}
+
+.containerSpots{
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+@media(max-width: 1020px){
+  .containerSpots{
+      flex-wrap: wrap;
+  }
+}
+
+
+.productSpot{
+  width: 24%;
+  position: relative;
+}
+
+@media (max-width: 768px){
+  .productSpot{
+      width: -webkit-fill-available;
+  }
+}
+
+.containerTitle{
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  margin-bottom: 30px;
+}
+
+.containerTitle span{
+  color: #757575;
+  font-size: 16px;
+}
+
+.searchInputContainer{
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 40%;
+}
+
+@media (max-width: 768px){
+  .searchInputContainer{
+      width: 100%;
+  }
+}
+
+.searchInputContainer svg{
+  position: absolute;
+  right: 20px;
+
+}
+
+.search{
+  margin: 35px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media (max-width: 768px){
+  .search{
+      flex-direction: column;
+      gap: 20px;
+  }
+  .search input{
+      width: 100%;
+  }
+}
+
+.search input{
+  backdrop-filter: blur(16px);
+  background-color: #141414;
+  border: none;
+  height: 52px;
+  border-radius: 120px;
+  padding-left: 20px;
+  width: 100%;
+}
+
+.search span{
+  font-weight: 400;
+  font-size: 16px;
+  color: #8F8F8F;
+}
+
+
+.containerInfo{
+  margin-top: 10px;
+  width: max-content !important;
+}
+
+@media (max-width: 768px){
+  .containerInfo{
+      width: 100% !important;
+  }
+}
+
+.containerInfo span{
+  font-weight: 400;
+  font-size: 14px;
+  color: #B8B8B8;
+}
+.nameText{
+  color: #fff;
+}
+
+.containerImg img{
+  width: 100%;
+  height: auto;
+}
+
+.productSpot:hover .containerButtonsHover{
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.containerButtonsHover {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  transform: translate(-50%, 50%);
+  width: 100%;
+  height: 134px;
+  border-radius: 8px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 20%, rgba(0, 0, 0, 0.5) 40%,  rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0.2) 80%, rgba(0, 0, 0, 0) 100%);
+}
+
+
+
+@media only screen
+and (min-width: 1023px)
+and (max-width: 1650px){
+  .containerButtonsHover{
+      top: calc(6% - 2px);
+  }
+  
+}
+
+@media (max-width: 768px){
+  .containerButtonsHover{
+      top: unset;
+      left: unset;
+      transform: unset;
+      opacity: 1;
+      position: unset;
+      background: unset;
+      height: 60px;
+      
+  }
+}
+
+.spotButtons{
+  position: relative;
+  top: 60px;
+  width: 100%;
+  padding: 0px 15px;
+  color: #fff;
+}
+
+.spotButtons p{
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 768px){
+  .spotButtons{
+      top: 10px;
+      padding: 0px;
+  }
+  .spotButtons p{
+      display: none;
+  }
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+  color: #fff;
+}
+
+.buttons a {
+  text-decoration: underline;
+  background-color: rgb(203 203 203 / 28%);
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.buttonContainer{
+  gap: 6px;
+  padding: 10px 10px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border-radius: 8px;
+}
+
+@media only screen
+and (min-width: 1023px)
+and (max-width: 1650px){
+  .containerImg img{
+      width: 100%;
+      height: auto;
+  }
+  
+}

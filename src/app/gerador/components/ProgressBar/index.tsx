@@ -1,6 +1,6 @@
 'use client';
 
-import styles from './styles.module.css';
+import styles from './index.module.css';
 
 interface ProgressBarProps {
   /** Quantas seções já foram selecionadas */

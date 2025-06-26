@@ -14,13 +14,12 @@ import {
   useSortable,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-
 import { CSS } from '@dnd-kit/utilities';
-
-import styles from './styles.module.css';
 import { LAYOUTS, LayoutKey, LayoutItem } from '@/app/data/data';
 import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
 import Image from 'next/image';
+
+import styles from './index.module.css';
 
 interface DraggablePreviewListProps {
   items: LayoutSelection[];
@@ -72,6 +71,8 @@ function SortableItem({
     >
       <Image
         src={`/layouts/${imageSource.split('/').pop()}`}
+        width={1919}
+        height={90}
         alt={itemData.title}
         className={styles.carouselImage}
       />

@@ -1,7 +1,7 @@
 'use client';
    
    import React, { useState } from 'react';
-   import styles from './style.module.css';
+   import styles from './index.module.css';
    
    import Sidebar from './components/Sidebar';
    import PreviewArea from './components/PreviewArea';

@@ -2,7 +2,8 @@
 
 import React from 'react';
 import { LAYOUTS, LayoutKey, LayoutSection } from '@/app/data/data';
-import styles from './styles.module.css';
+
+import styles from './index.module.css';
 
 interface SelectSectionProps {
   activeLayoutKey: LayoutKey | null;

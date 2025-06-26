@@ -1,23 +1,17 @@
 import Image from "next/image";
-import { icons } from "../../../../assets/icons/icons";
+import { icons } from "@/assets/icons/icons";
 
-import selo1 from "../../../../assets/selosFooterBottom/selo1.png";
-import selo2 from "../../../../assets/selosFooterBottom/selo2.png";
-import selo3 from "../../../../assets/selosFooterBottom/selo3.png";
-import selo4 from "../../../../assets/selosFooterBottom/selo4.png";
+import flag1 from "@/assets/footerBadges/flag1.png";
+import flag2 from "@/assets/footerBadges/flag2.png";
+import flag3 from "@/assets/footerBadges/flag3.png";
+import flag4 from "@/assets/footerBadges/flag4.png";
 
-// import social1 from "../../../../assets/selosSocial/social1.png";
-// import social2 from "../../../../assets/selosSocial/social2.png";
-// import social3 from "../../../../assets/selosSocial/social3.png";
-// import social4 from "../../../../assets/selosSocial/social4.png";
+import ecommerce1 from "@/assets/ecommerceBadges/ecommerce1.png";
+import ecommerce2 from "@/assets/ecommerceBadges/ecommerce2.png";
+import ecommerce3 from "@/assets/ecommerceBadges/ecommerce3.png";
 
-import ecommerce1 from "../../../../assets/selosEcommerce/ecommerce1.png";
-import ecommerce2 from "../../../../assets/selosEcommerce/ecommerce2.png";
-import ecommerce3 from "../../../../assets/selosEcommerce/ecommerce3.png";
-
-const selos = [selo1, selo2, selo3, selo4];
-// const selosSocial = [social1, social2, social3, social4]
-const seloEcommerce = [ecommerce1, ecommerce2, ecommerce3]
+const flags = [flag1, flag2, flag3, flag4];
+const flagEcommerce = [ecommerce1, ecommerce2, ecommerce3];
 
 import styles from "./index.module.css";
 
@@ -120,14 +114,14 @@ export default function Footer() {
                         <span className={styles.menuTitle}>Selos</span>
                         <ul className={styles.menuContainer}>
                             <li>
-                                {seloEcommerce.map((seloEcommerce, index) => (
+                                {flagEcommerce.map((flagEcommerce, index) => (
                                     <Image
                                         key={index}
-                                        src={seloEcommerce}
-                                        alt={`Selo ${index + 1}`}
+                                        src={flagEcommerce}
+                                        alt={`flag ${index + 1}`}
                                         aria-hidden
-                                        width={seloEcommerce.width}
-                                        height={seloEcommerce.height}
+                                        width={flagEcommerce.width}
+                                        height={flagEcommerce.height}
                                         loading="lazy"
                                     />
                                 ))}
@@ -142,15 +136,15 @@ export default function Footer() {
                         <p>© 2025 E-TEMAS - Empresa P4C Group</p>
                         <a href="#">Política de Privacidade</a>
                     </div>
-                    <div className={styles.bottomSelos}>
-                        {selos.map((selo, index) => (
+                    <div className={styles.bottomflags}>
+                        {flags.map((flag, index) => (
                             <Image
                                 key={index}
-                                src={selo}
-                                alt={`Selo ${index + 1}`}
+                                src={flag}
+                                alt={`flag ${index + 1}`}
                                 aria-hidden
-                                width={selo.width}
-                                height={selo.height}
+                                width={flag.width}
+                                height={flag.height}
                                 loading="lazy"
                             />
                         ))}
