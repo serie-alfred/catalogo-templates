@@ -34,11 +34,6 @@ and (max-width: 1650px){
     flex-wrap: wrap;
 }
 
-.productSpot{
-    width: 24%;
-    position: relative;
-}
-
 @media (max-width: 768px){
     .productSpot{
         width: 100%;

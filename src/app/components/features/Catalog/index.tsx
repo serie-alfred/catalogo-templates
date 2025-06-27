@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 
-import { mockCatalog } from "@/app/data/dataTemplate";
-import { icons } from "@/assets/icons/icons";
+import { catalogMock } from "@/mocks/catalogMock";
+import { icons } from "../../../../assets/icons/icons";
 import Spot from "../Spot";
 
 import type { CatalogItem } from "@/app/types/catalog";
@@ -11,7 +11,7 @@ import styles from "./index.module.css";
 
 export default function CatalogSpots() {
   const [search, setSearch] = useState("");
-  const catalog = mockCatalog[0]?.catalogo || [];
+  const catalog = catalogMock[0]?.catalogo || [];
 
   const filteredCatalog : CatalogItem[] = catalog.filter((item) =>
     item.title.toLowerCase().includes(search.toLowerCase())

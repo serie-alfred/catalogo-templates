@@ -1,23 +1,41 @@
-import styles from "./index.module.css";
 import Image from "next/image";
-import Banner from "@/assets/image_fx.png"
-import bannerMainMobile from '@/assets/BannerMainMobile.png'
+import type { image } from "@/app/types/image";
+
+import styles from "./index.module.css";
 
 export default function BannerMain () {
+    const bannerDesktop: image = {
+        src: "/images/home/fullbanners/image_fx.png",
+        width: 1408,
+        height: 768,
+        alt: "Foguete Decolando"
+    }
+
+    const bannerMobile: image = {
+        src: "/images/home/fullbanners/BannerMainMobile.png",
+        width: 768,
+        height: 1408,
+        alt: "Foguete Decolando"
+    }
+
     return (
         <div className={styles.container}>
             <div className={styles.banner}>
                 <Image
                     aria-hidden
-                    src={Banner}
+                    src={bannerDesktop.src}
                     className={`${styles.bannerimg} ${styles.desktopOnly}`}
-                    alt="banner principal"
+                    alt={bannerDesktop.alt}
+                    width={bannerDesktop.width}
+                    height={bannerDesktop.height}
                 />  
                 <Image
                     aria-hidden
-                    src={bannerMainMobile}
+                    src={bannerMobile.src}
                     className={`${styles.bannerimg} ${styles.mobileOnly}`}
-                    alt="banner principal"
+                    alt={bannerMobile.alt}
+                    width={bannerMobile.width}
+                    height={bannerMobile.height}
                 />
                 <div className={styles.textBanner}>
                     <h2>Lorem ipsum dolor sit, amet consectetur adipisicing elit.</h2>

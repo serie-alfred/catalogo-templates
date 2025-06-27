@@ -1,32 +1,12 @@
-"use client";
-
-import { useState, useEffect } from "react";
-
-import Spot from "../Spot";
-import { mockCatalog } from "@/app/data/dataTemplate";
-
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-
+import { catalogMock } from "@/mocks/catalogMock";
 import type { CatalogItem } from "@/app/types/catalog";
 import styles from "./index.module.css";
+import CatalogSwiper from "../CatalogSwiper";
 
 export default function ThemeReleases() {
-  const [isMobile, setIsMobile] = useState(false);
+  const catalog = catalogMock[0]?.novidade || [];
 
-  useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth <= 1023);
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
-
-  const catalog = mockCatalog[0]?.novidade || [];
-  
-  const filteredCatalog : CatalogItem[] = catalog.filter((item) =>
+  const filteredCatalog: CatalogItem[] = catalog.filter((item) =>
     item.title.toLowerCase()
   );
 
@@ -39,26 +19,7 @@ export default function ThemeReleases() {
         </div>
 
         <div className={styles.containerSpots}>
-          {isMobile ? (
-            <Swiper
-              modules={[Navigation, Pagination]}
-              spaceBetween={20}
-              slidesPerView={1.3}
-              loop
-            >
-              {filteredCatalog.map((item) => (
-                <SwiperSlide key={item.id}>
-                  <Spot item={item} />
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          ) : (
-            <div className={styles.gridSpots}>
-              {filteredCatalog.map((item) => (
-                <Spot key={item.id} item={item} />
-              ))}
-            </div>
-          )}
+          <CatalogSwiper items={filteredCatalog} />
         </div>
       </div>
     </div>

@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import logo from "@/assets/logo-etemas.svg"
-import { icons } from "@/assets/icons/icons";
+import { icons } from "../../../../assets/icons/icons";
 
 import styles from "./index.module.css";
 
@@ -12,9 +11,10 @@ export default function Header() {
         <Link href="/">
           <Image
                 aria-hidden
-                src={logo}
-                alt="logo Icon"
+                src={"/logo-etemas.svg"}
+                alt="Logo E-Temas"
                 width={180}
+                height={40}
             />
         </Link>
         <div className={styles.containerNav}>

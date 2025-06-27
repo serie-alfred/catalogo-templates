@@ -1,21 +1,59 @@
 import Image from "next/image";
 import { icons } from "@/assets/icons/icons";
-
-import flag1 from "@/assets/footerBadges/flag1.png";
-import flag2 from "@/assets/footerBadges/flag2.png";
-import flag3 from "@/assets/footerBadges/flag3.png";
-import flag4 from "@/assets/footerBadges/flag4.png";
-
-import ecommerce1 from "@/assets/ecommerceBadges/ecommerce1.png";
-import ecommerce2 from "@/assets/ecommerceBadges/ecommerce2.png";
-import ecommerce3 from "@/assets/ecommerceBadges/ecommerce3.png";
-
-const flags = [flag1, flag2, flag3, flag4];
-const flagEcommerce = [ecommerce1, ecommerce2, ecommerce3];
+import type { image } from "@/app/types/image";
 
 import styles from "./index.module.css";
 
+
 export default function Footer() {
+    const flags: image[] = [
+        {
+          src: "/images/footer/showcaseBadges/flag1.png",
+          width: 141,
+          height: 38,
+          alt: "Logo - E-Commerce News"
+        },
+        {
+          src: "/images/footer/showcaseBadges/flag2.png",
+          width: 115,
+          height: 30,
+          alt: "Logo - ABCOMM"
+        },
+        {
+          src: "/images/footer/showcaseBadges/flag3.png",
+          width: 142,
+          height: 40,
+          alt: "Logo - Site Sustentável"
+        },
+        {
+          src: "/images/footer/showcaseBadges/flag4.png",
+          width: 120,
+          height: 50,
+          alt: "Logo - A liga Digital"
+        },
+      ];
+      
+      const flagEcommerce: image[] = [
+        {
+          src: "/images/footer/ecommerceBadges/ecommerce1.png",
+          width: 80,
+          height: 68,
+          alt: "Logo - Tray Parceiro"
+        },
+        {
+          src: "/images/footer/ecommerceBadges/ecommerce2.png",
+          width: 145,
+          height: 53,
+          alt: "Logo - linx digital partners"
+        },
+        {
+          src: "/images/footer/ecommerceBadges/ecommerce3.png",
+          width: 120,
+          height: 66,
+          alt: "Logo - VTEX partners"
+        },
+      ];
+      
     return (
         <footer>
             <div className={styles.footerTopContainer}>
@@ -114,14 +152,14 @@ export default function Footer() {
                         <span className={styles.menuTitle}>Selos</span>
                         <ul className={styles.menuContainer}>
                             <li>
-                                {flagEcommerce.map((flagEcommerce, index) => (
+                                {flagEcommerce.map((image, index) => (
                                     <Image
                                         key={index}
-                                        src={flagEcommerce}
-                                        alt={`flag ${index + 1}`}
+                                        src={image.src}
+                                        alt={image.alt}
                                         aria-hidden
-                                        width={flagEcommerce.width}
-                                        height={flagEcommerce.height}
+                                        width={image.width}
+                                        height={image.height}
                                         loading="lazy"
                                     />
                                 ))}
@@ -137,14 +175,14 @@ export default function Footer() {
                         <a href="#">Política de Privacidade</a>
                     </div>
                     <div className={styles.bottomflags}>
-                        {flags.map((flag, index) => (
+                        {flags.map((image, index) => (
                             <Image
                                 key={index}
-                                src={flag}
-                                alt={`flag ${index + 1}`}
+                                src={image.src}
+                                alt={image.alt}
                                 aria-hidden
-                                width={flag.width}
-                                height={flag.height}
+                                width={image.width}
+                                height={image.height}
                                 loading="lazy"
                             />
                         ))}

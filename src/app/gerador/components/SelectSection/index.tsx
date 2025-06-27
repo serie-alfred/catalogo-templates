@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { LAYOUTS, LayoutKey, LayoutSection } from '@/app/data/data';
+import { LAYOUTS, LayoutKey, LayoutSection } from '@/data/layouts/layoutData';
 
 import styles from './index.module.css';
 

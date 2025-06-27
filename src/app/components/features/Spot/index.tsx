@@ -1,18 +1,19 @@
 import Image from "next/image";
-import { icons } from "@/assets/icons/icons";
+import { icons } from "../../../../assets/icons/icons";
 
 import type { CatalogItem } from "@/app/types/catalog";
 import styles from "./index.module.css";
 
 type SpotProps = {
   item: CatalogItem;
+  className?: string;
 };
 
-export default function Spot({item}: SpotProps) {
+export default function Spot({item, className}: SpotProps) {
   return (
-    <div className={styles.productSpot}>
+    <div className={`${styles.productSpot} ${className || ""}`}>
       <div className={styles.containerImg}>
-        <Image aria-hidden src={item.image} alt={item.title} />
+        <Image aria-hidden src={item.image} alt={item.title} width={400} height={304}/>
       </div>
       <div className={styles.containerInfo}>
         <div className={styles.containerButtonsHover}>

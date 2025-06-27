@@ -66,6 +66,10 @@ and (max-width: 1650px){
   position: relative;
 }
 
+.full{
+  width: 100% !important;
+}
+
 @media (max-width: 768px){
   .productSpot{
       width: -webkit-fill-available;

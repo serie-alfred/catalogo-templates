@@ -6,7 +6,7 @@ import SelectPage from '../SelectPage';
 import SelectSection from '../SelectSection';
 import SelectSectionItem from '../SelectSectionItem';
 
-import { LayoutKey } from '@/app/data/data';
+import { LayoutKey } from '@/data/layouts/layoutData';
 import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
 
 import styles from './index.module.css';

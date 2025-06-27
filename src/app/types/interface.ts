@@ -1,4 +1,4 @@
-import { LAYOUTS, LayoutKey } from "../data/data";
+import { LAYOUTS, LayoutKey } from "../../data/layouts/layoutData";
 import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
 
 interface ImageItem {

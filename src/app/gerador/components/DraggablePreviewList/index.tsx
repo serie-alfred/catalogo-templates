@@ -15,7 +15,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { LAYOUTS, LayoutKey, LayoutItem } from '@/app/data/data';
+import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layouts/layoutData';
 import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
 import Image from 'next/image';
 

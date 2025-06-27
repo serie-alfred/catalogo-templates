@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-   import { LAYOUTS, LayoutKey, LayoutItem } from '@/app/data/data';
+   import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layouts/layoutData';
    import { captureAndDownloadScreenshot } from '../utils/screenshotExport';
    import { sendLayoutConfigEmail } from '../services/emailService';
    
