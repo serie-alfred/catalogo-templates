@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { icons } from "../../../../assets/icons/icons";
+import { icons } from "../../../assets/icons/icons";
 
 import styles from "./index.module.css";
 

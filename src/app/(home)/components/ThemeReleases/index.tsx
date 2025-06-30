@@ -1,7 +1,8 @@
 import { catalogMock } from "@/mocks/catalogMock";
 import type { CatalogItem } from "@/app/types/catalog";
-import styles from "./index.module.css";
 import CatalogSwiper from "../CatalogSwiper";
+
+import styles from "./index.module.css";
 
 export default function ThemeReleases() {
   const catalog = catalogMock[0]?.novidade || [];

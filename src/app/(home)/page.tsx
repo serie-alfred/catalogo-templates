@@ -1,8 +1,9 @@
-import Header        from "@/app/components/layout/Header";
-import BannerMain    from "@/app/components/features/BannerMain";
-import ThemeReleases from "@/app/components/features/ThemeReleases";
-import CatalogSpots  from "@/app/components/features/Catalog";
-import Footer        from "@/app/components/layout/Footer";
+import Header        from "@/app/components/Header";
+import Footer        from "@/app/components/Footer";
+
+import BannerMain    from "./components/BannerMain";
+import ThemeReleases from "./components/ThemeReleases";
+import CatalogSpots  from "./components/Catalog";
 
 import styles from "./page.module.css";
 
