@@ -1,5 +1,5 @@
 import { catalogMock } from "@/mocks/catalogMock";
-import type { CatalogItem } from "@/app/types/catalog";
+import type { CatalogItem } from "@/types/catalog";
 import CatalogSwiper from "../CatalogSwiper";
 
 import styles from "./index.module.css";

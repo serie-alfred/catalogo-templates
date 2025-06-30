@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { icons } from "@/assets/icons/icons";
-import type { image } from "@/app/types/image";
+import type { image } from "@/types/image";
 
 import styles from "./index.module.css";
 

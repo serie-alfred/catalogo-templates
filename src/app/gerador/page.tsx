@@ -1,11 +1,12 @@
 'use client';
    
    import React, { useState } from 'react';
-   import styles from './index.module.css';
    
-   import Sidebar from './components/Sidebar';
-   import PreviewArea from './components/PreviewArea';
-   import { useLayoutGenerator } from './hooks/useLayoutGenerator';
+   import Sidebar from '@/components/gerador/Sidebar';
+   import PreviewArea from '@/components/gerador/PreviewArea';
+   import { useLayoutGenerator } from '@/hooks/useLayoutGenerator';
+
+   import styles from './index.module.css';
    
    export default function GeradorPage() {
      const {

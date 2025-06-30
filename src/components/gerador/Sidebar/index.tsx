@@ -7,7 +7,7 @@ import SelectSection from '../SelectSection';
 import SelectSectionItem from '../SelectSectionItem';
 
 import { LayoutKey } from '@/data/layouts/layoutData';
-import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
+import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 
 import styles from './index.module.css';
 

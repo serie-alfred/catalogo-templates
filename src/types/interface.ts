@@ -1,5 +1,5 @@
-import { LAYOUTS, LayoutKey } from "../../data/layouts/layoutData";
-import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
+import { LAYOUTS, LayoutKey } from "../data/layouts/layoutData";
+import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 
 interface ImageItem {
   id: string;

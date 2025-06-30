@@ -3,11 +3,14 @@
 import { useState } from "react";
 
 import { catalogMock } from "@/mocks/catalogMock";
-import { icons } from "../../../../assets/icons/icons";
+import { icons } from "../../../assets/icons/icons";
+
 import Spot from "../Spot";
 
-import type { CatalogItem } from "@/app/types/catalog";
+import type { CatalogItem } from "@/types/catalog";
+
 import styles from "./index.module.css";
+
 
 export default function CatalogSpots() {
   const [search, setSearch] = useState("");

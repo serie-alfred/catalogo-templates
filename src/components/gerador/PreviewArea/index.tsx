@@ -2,9 +2,9 @@
 
 import React, { useRef } from 'react';
 import DraggablePreviewList from '../DraggablePreviewList';
-import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
+import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 
-import styles from '../../index.module.css';
+import styles from './index.module.css';
 
 interface PreviewAreaProps {
   selectedImages: LayoutSelection[];

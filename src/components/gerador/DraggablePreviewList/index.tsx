@@ -16,7 +16,7 @@ import {
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layouts/layoutData';
-import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
+import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import Image from 'next/image';
 
 import styles from './index.module.css';

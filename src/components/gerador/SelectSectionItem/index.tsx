@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { LAYOUTS, LayoutKey, LayoutItem, Pagina } from '@/data/layouts/layoutData';
-import { LayoutSelection } from '@/app/gerador/hooks/useLayoutGenerator';
+import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import Image from 'next/image';
 
 import styles from './index.module.css';

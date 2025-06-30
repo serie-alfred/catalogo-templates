@@ -1,0 +1,274 @@
+
+/* Layout principal */
+.main {
+  display: grid;
+  grid-template-columns: 500px 1fr;
+  height: 100vh;
+}
+
+.desktop{
+  display: flex;
+  flex-direction: column;
+}
+.mobile{
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  overflow: auto;
+  max-height: 80vh;
+  scrollbar-width: none;
+} 
+
+.main h2{
+  color: #000;
+}
+
+.errorText{
+  font-size: 12px;
+  color: rgb(255, 57, 57);
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tab {
+  background: #f3f4f6;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+.tab.active {
+  background: #6366f1;
+  color: black;
+}
+
+/* Carousel */
+#options-container h3 {
+  font-size: 1rem;
+  margin-bottom: 12px;
+}
+
+.carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+  padding-top: 5px;
+}
+
+.option {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+}
+
+.option:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.option.selected {
+  border-color: #6366f1;
+}
+
+
+.option::before {
+  content: '';
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 2px solid #ccc;
+  background: #fff;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1;
+  border-radius: 50%;
+  transition: ease .4s;
+}
+
+.option:hover::before,
+.option.selected::before {
+  border: 2px solid #6366f1;
+}
+
+.option img {
+  width: 100%;
+}
+
+.option-info {
+  padding: 0.75rem;
+  background: #f1f1f1;
+}
+
+.option-info strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #111827;
+  margin-bottom: 4px;
+}
+
+.option-info p {
+  font-size: 0.82rem;
+  color: #6b7280;
+}
+
+
+/* Preview */
+.preview-area {
+  padding: 32px;
+  overflow-y: auto;
+  background: #f3f4f6;
+}
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.preview-header h2 {
+  font-size: 1.2rem;
+}
+
+.preview-actions {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.preview-actions button {
+  background: #6366f1;
+  color: white;
+  padding: 0 16px;
+  min-height: 40px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.preview-actions button:hover {
+  background: #4f46e5;
+}
+
+/* Preview das seções */
+.layout-preview {
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-preview.mobile {
+  max-width: 400px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  overflow: auto;
+  max-height: 80vh;
+  scrollbar-width: none;           /* Firefox */
+-ms-overflow-style: none;        /* IE e Edge */
+}
+
+.layout-preview.mobile::-webkit-scrollbar {
+  display: none;                   /* Chrome, Safari, Opera */
+}
+
+
+.section-preview {
+  position: relative;
+}
+
+.section-preview img {
+  width: 100%;
+  display: block;
+}
+
+/* Botão excluir seção */
+.remove-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 1rem;
+  line-height: 1;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+}
+
+.remove-btn:hover {
+  background: #b02a37;
+}
+
+/* Scrollbars suaves */
+.carousel,
+.preview-area {
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+.carousel::-webkit-scrollbar,
+.preview-area::-webkit-scrollbar {
+  width: 6px;
+}
+
+.carousel::-webkit-scrollbar-thumb,
+.preview-area::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+.duplicate-btn {
+  position: absolute;
+  top: 10px;
+  right: 45px;
+  width: 30px;
+  height: 30px;
+  background: #10b981; /* verde */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 1rem;
+  line-height: 1;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+}
+
+.duplicate-btn:hover {
+  background: #0d946e;
+}
+
+#layout-preview {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-preview.drag-over {
+  border: 2px dashed #6366f1;
+  background-color: #f9fafb;
+}

@@ -1,7 +1,8 @@
 import Image from "next/image";
-import { icons } from "../../../../assets/icons/icons";
 
-import type { CatalogItem } from "@/app/types/catalog";
+import { icons } from "@/assets/icons/icons";
+import type { CatalogItem } from "@/types/catalog";
+
 import styles from "./index.module.css";
 
 type SpotProps = {

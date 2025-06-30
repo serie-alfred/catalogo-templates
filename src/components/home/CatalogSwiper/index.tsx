@@ -7,8 +7,10 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import Spot from "../Spot";
-import type { CatalogItem } from "@/app/types/catalog";
+
+import type { CatalogItem } from "@/types/catalog";
 import styles from "./index.module.css";
+
 
 type Props = {
   items: CatalogItem[];
