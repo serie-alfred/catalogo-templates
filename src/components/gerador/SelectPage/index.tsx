@@ -19,18 +19,17 @@ export default function SelectPage({
   selectedPage,
   setSelectedPage,
 }: SelectPageProps) {
- 
   return (
     <div className={styles.tabs} id="pagina-tabs">
-    {PAGINAS.map((pagina) => (
-      <button
-        key={pagina.key}
-        onClick={() => setSelectedPage(pagina.key)}
-        className={selectedPage === pagina.key ? styles.active : ''}
-      >
-        {pagina.name}
-      </button>
-    ))}
-  </div>
+      {PAGINAS.map(pagina => (
+        <button
+          key={pagina.key}
+          onClick={() => setSelectedPage(pagina.key)}
+          className={selectedPage === pagina.key ? styles.active : ''}
+        >
+          {pagina.name}
+        </button>
+      ))}
+    </div>
   );
 }

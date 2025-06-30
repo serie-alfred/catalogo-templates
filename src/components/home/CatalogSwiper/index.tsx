@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import React from 'react';
 
-import Spot from "../Spot";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
 
-import type { CatalogItem } from "@/types/catalog";
-import styles from "./index.module.css";
+import Spot from '../Spot';
 
+import type { CatalogItem } from '@/types/catalog';
+import styles from './index.module.css';
 
 type Props = {
   items: CatalogItem[];
@@ -31,7 +32,7 @@ export default function CatalogSwiper({ items }: Props) {
         },
       }}
     >
-      {items.map((item) => (
+      {items.map(item => (
         <SwiperSlide key={item.id}>
           <Spot item={item} className={styles.spotFullWidth} />
         </SwiperSlide>

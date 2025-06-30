@@ -28,7 +28,7 @@ export interface SidebarProps {
   onImageSelect: (id: string, layoutKey: LayoutKey, pagina: string) => void;
   /** quantas seções existem no total (padrão 8) */
   totalSections?: number;
-  selectedPage: string;       // Adicionado
+  selectedPage: string; // Adicionado
   setSelectedPage: React.Dispatch<React.SetStateAction<string>>; // Adicionado
 }
 
@@ -44,7 +44,6 @@ export default function Sidebar({
   selectedPage,
   setSelectedPage,
 }: SidebarProps) {
-
   return (
     <aside className={styles.sidebar}>
       <PlatformSelect
@@ -56,7 +55,10 @@ export default function Sidebar({
       <ProgressBar current={selectedImages.length} total={totalSections} />
 
       <h3>Selecione uma página</h3>
-      <SelectPage selectedPage={selectedPage} setSelectedPage={setSelectedPage} />
+      <SelectPage
+        selectedPage={selectedPage}
+        setSelectedPage={setSelectedPage}
+      />
 
       <h3>Selecione um componente</h3>
       <SelectSection
@@ -69,7 +71,9 @@ export default function Sidebar({
         <SelectSectionItem
           activeLayoutKey={activeLayoutKey}
           selectedImages={selectedImages}
-          onSelect={(id, layoutKey) => onImageSelect(id, layoutKey, selectedPage)}
+          onSelect={(id, layoutKey) =>
+            onImageSelect(id, layoutKey, selectedPage)
+          }
           selectedPage={selectedPage}
         />
       </div>

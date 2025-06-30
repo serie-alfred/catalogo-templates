@@ -1,5 +1,7 @@
 'use client';
 
+import React from 'react';
+
 import styles from './index.module.css';
 
 interface ProgressBarProps {
@@ -11,7 +13,6 @@ interface ProgressBarProps {
 
 export default function ProgressBar({ current, total }: ProgressBarProps) {
   const percentage = (current / total) * 100;
-
   return (
     <div className={styles.progresso}>
       <p>

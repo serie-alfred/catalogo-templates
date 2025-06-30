@@ -1,6 +1,11 @@
 import React from 'react';
 
-import { LAYOUTS, LayoutKey, LayoutItem, Pagina } from '@/data/layouts/layoutData';
+import {
+  LAYOUTS,
+  LayoutKey,
+  LayoutItem,
+  Pagina,
+} from '@/data/layouts/layoutData';
 import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import Image from 'next/image';
 
@@ -23,7 +28,7 @@ export default function SelectSectionItem({
 
   // Monta um array de todos os itens, cada um com sua layoutKey
   const allImages: (LayoutItem & { layoutKey: LayoutKey })[] = (
-    Object.entries(LAYOUTS) as [LayoutKey, typeof LAYOUTS[LayoutKey]][]
+    Object.entries(LAYOUTS) as [LayoutKey, (typeof LAYOUTS)[LayoutKey]][]
   ).flatMap(([layoutKey, section]) =>
     section.items.map(item => ({ ...item, layoutKey }))
   );
@@ -37,7 +42,10 @@ export default function SelectSectionItem({
     : allImages;
 
   // Filtrar por página selecionada
-  imagesToShow = imagesToShow.filter(item => Array.isArray(item.pagina) && item.pagina.includes(selectedPage as Pagina));
+  imagesToShow = imagesToShow.filter(
+    item =>
+      Array.isArray(item.pagina) && item.pagina.includes(selectedPage as Pagina)
+  );
 
   const isSelected = (id: string, layoutKey: LayoutKey) =>
     selectedImages.some(img => img.id === id && img.layoutKey === layoutKey);

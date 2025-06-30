@@ -1,22 +1,21 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import React, { useState } from 'react';
 
-import { catalogMock } from "@/mocks/catalogMock";
-import { icons } from "../../../assets/icons/icons";
+import { catalogMock } from '@/mocks/catalogMock';
+import { icons } from '../../../assets/icons/icons';
 
-import Spot from "../Spot";
+import Spot from '../Spot';
 
-import type { CatalogItem } from "@/types/catalog";
+import type { CatalogItem } from '@/types/catalog';
 
-import styles from "./index.module.css";
-
+import styles from './index.module.css';
 
 export default function CatalogSpots() {
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
   const catalog = catalogMock[0]?.catalogo || [];
 
-  const filteredCatalog : CatalogItem[] = catalog.filter((item) =>
+  const filteredCatalog: CatalogItem[] = catalog.filter(item =>
     item.title.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -36,7 +35,7 @@ export default function CatalogSpots() {
               id="search"
               placeholder="Buscar modelo..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={e => setSearch(e.target.value)}
             />
             {icons.MagnifierIcon}
           </div>
@@ -45,7 +44,7 @@ export default function CatalogSpots() {
 
         <div className={styles.containerCatalogo}>
           <div className={styles.containerSpots}>
-            {filteredCatalog.map((item) => (
+            {filteredCatalog.map(item => (
               <Spot key={item.id} item={item} />
             ))}
           </div>
