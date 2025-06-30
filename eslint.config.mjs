@@ -22,7 +22,7 @@ export default defineConfig([
       quotes: ["error", "double"],
       "prefer-arrow-callback": ["error"],
       "prefer-template": ["error"],
-      ...js.configs.recommended.rules,
+      "@typescript-eslint/no-explicit-any": "error"
     },
   },
   {
