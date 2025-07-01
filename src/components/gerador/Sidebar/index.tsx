@@ -7,29 +7,21 @@ import SelectSection from '../SelectSection';
 import SelectSectionItem from '../SelectSectionItem';
 
 import { LayoutKey } from '@/data/layoutData';
-import { LayoutSelection } from '@/hooks/useLayoutGenerator';
+import { LayoutSelection, MAX_PER_PAGE } from '@/hooks/useLayoutGenerator';
 
 import styles from './index.module.css';
 
 export interface SidebarProps {
-  /** itens já selecionados */
   selectedImages: LayoutSelection[];
-  /** aba atualmente ativa */
   activeLayoutKey: LayoutKey | null;
-  /** muda a aba ativa */
   setActiveLayoutKey: (key: LayoutKey) => void;
-  /** erro de plataforma não escolhida */
   showError: boolean;
-  /** plataforma selecionada (VTEX, Shopify, etc) */
   plataforma: string;
-  /** callback ao mudar plataforma */
   onSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  /** callback ao selecionar/deselecionar um template */
   onImageSelect: (id: string, layoutKey: LayoutKey, pagina: string) => void;
-  /** quantas seções existem no total (padrão 8) */
   totalSections?: number;
-  selectedPage: string; // Adicionado
-  setSelectedPage: React.Dispatch<React.SetStateAction<string>>; // Adicionado
+  selectedPage: string;
+  setSelectedPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export default function Sidebar({
@@ -40,10 +32,11 @@ export default function Sidebar({
   plataforma,
   onSelectChange,
   onImageSelect,
-  totalSections = 8,
+  totalSections = MAX_PER_PAGE,
   selectedPage,
   setSelectedPage,
 }: SidebarProps) {
+  const isCommonPage = selectedPage == 'common';
   return (
     <aside className={styles.sidebar}>
       <PlatformSelect
@@ -52,7 +45,13 @@ export default function Sidebar({
         onChange={onSelectChange}
       />
 
-      <ProgressBar current={selectedImages.length} total={totalSections} />
+      <ProgressBar
+        current={
+          selectedImages.filter(item => item.pagina === selectedPage).length
+        }
+        isCommonPage={isCommonPage}
+        total={totalSections}
+      />
 
       <h3>Selecione uma página</h3>
       <SelectPage
@@ -62,6 +61,7 @@ export default function Sidebar({
 
       <h3>Selecione um componente</h3>
       <SelectSection
+        selectedPage={selectedPage}
         activeLayoutKey={activeLayoutKey}
         setActiveLayoutKey={setActiveLayoutKey}
       />

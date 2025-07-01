@@ -5,6 +5,7 @@ import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import Image from 'next/image';
 
 import styles from './index.module.css';
+import { CirclePlus } from 'lucide-react';
 
 interface SelectSectionItemProps {
   activeLayoutKey: LayoutKey | null;
@@ -19,7 +20,7 @@ export default function SelectSectionItem({
   onSelect,
   selectedPage,
 }: SelectSectionItemProps) {
-  const imageBasePath = '/layouts/';
+  const imageBasePath = '/images/gerador/';
 
   // Monta um array de todos os itens, cada um com sua layoutKey
   const allImages: (LayoutItem & { layoutKey: LayoutKey })[] = (
@@ -55,13 +56,18 @@ export default function SelectSectionItem({
             isSelected(item.id, item.layoutKey) ? styles.selected : ''
           }`}
         >
+          <div className={`${styles.icon}`}>
+            <CirclePlus size={24} color="white" />
+          </div>
+
           <Image
-            src={`${imageBasePath}${item.image.split('/').pop()}`}
+            src={`${imageBasePath}${item.image}`}
             alt={item.title}
             width={1919}
             height={90}
             className={styles.carouselImage}
           />
+
           <div
             className={`${styles.infoContainer} ${
               isSelected(item.id, item.layoutKey) ? styles.selectedInfo : ''

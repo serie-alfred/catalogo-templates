@@ -59,7 +59,8 @@ export default function PreviewArea({
       <div style={{ position: 'absolute', top: '-9999px', left: '-9999px' }}>
         <div
           ref={desktopPreviewRef}
-          style={{ background: 'white', padding: '10px', width: '100%' }}
+          style={{ background: 'white', padding: '10px', width: '1920px' }}
+          className="OLA"
         >
           <DraggablePreviewList
             items={selectedImages}

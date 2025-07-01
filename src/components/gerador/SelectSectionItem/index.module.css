@@ -24,6 +24,7 @@
 
 .carouselImage{
     width: 100%;
+    height: auto;
 }
 
 .infoContainer{
@@ -34,21 +35,24 @@
     gap: 3px;
 }
 
-.infoContainer::before{
+.icon{
     content: '';
-    width: 0.75rem;
-    height: 0.75rem;
-    border: 2px solid #ccc;
-    background: #fff;
     position: absolute;
     top: 1rem;
     right: 1rem;
     z-index: 1;
-    border-radius: 50%;
     transition: ease .4s;
+    background-color: #32363f;
+    border-radius: 100%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.infoContainer:hover::before{
-    border: 2px solid #6366f1;
+
+.icon:hover{
+    background-color: #414853;
 }
 
 .infoContainer h2{
@@ -62,12 +66,3 @@
     font-size: 0.82rem;
     color: #6b7280;
 }
-
-.selected{
-    border: 2px solid #6366f1;
-}
-
-
-.selectedInfo::before {
-    border: 2px solid #6366f1 !important;
-  }

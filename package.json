@@ -13,6 +13,8 @@
     "@dnd-kit/modifiers": "^9.0.0",
     "@dnd-kit/sortable": "^10.0.0",
     "html2canvas": "^1.4.1",
+    "lucide": "^0.525.0",
+    "lucide-react": "^0.525.0",
     "next": "15.3.0",
     "nodemailer": "^6.10.1",
     "react": "^19.0.0",

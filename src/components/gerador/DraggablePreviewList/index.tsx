@@ -70,7 +70,7 @@ function SortableItem({
       className={styles.imageContainer}
     >
       <Image
-        src={`/gerador/${imageSource.split('/').pop()}`}
+        src={`/images/gerador/${imageSource}`}
         width={1919}
         height={90}
         alt={itemData.title}
@@ -100,13 +100,11 @@ export default function DraggablePreviewList({
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
+
     if (over && active.id !== over.id) {
-      const oldIndex = items.findIndex(
-        item => `${item.layoutKey}-${item.id}` === active.id
-      );
-      const newIndex = items.findIndex(
-        item => `${item.layoutKey}-${item.id}` === over.id
-      );
+      const oldIndex = items.findIndex(item => item.uid === active.id);
+      const newIndex = items.findIndex(item => item.uid === over.id);
+
       if (oldIndex !== -1 && newIndex !== -1) {
         setItems(prevItems => arrayMove(prevItems, oldIndex, newIndex));
       }
@@ -117,26 +115,43 @@ export default function DraggablePreviewList({
    * handleDuplicate duplica um item na lista.
    * @param index - O índice do item a ser duplicado.
    */
-  const handleDuplicate = (index: number) => {
+  const handleDuplicate = (itemToDuplicate: LayoutSelection) => {
     setItems(prevItems => {
+      const index = prevItems.findIndex(
+        item => item.uid === itemToDuplicate.uid
+      );
+      if (index === -1) return prevItems;
+
       const updatedItems = [...prevItems];
-      updatedItems.splice(index + 1, 0, { ...prevItems[index] });
+      updatedItems.splice(index + 1, 0, {
+        ...prevItems[index],
+        uid: crypto.randomUUID(), // 👈 novo ID exclusivo
+      });
+
       return updatedItems;
     });
   };
 
   /**
    * handleRemove remove um item da lista.
-   * @param index - O índice do item a ser removido.
+   * @param uidToRemove - O UID do item a ser removido.
    */
-  const handleRemove = (index: number) => {
-    setItems(prevItems =>
-      prevItems.filter((_, itemIndex) => itemIndex !== index)
-    );
+  const handleRemove = (uidToRemove: string) => {
+    setItems(prevItems => prevItems.filter(item => item.uid !== uidToRemove));
   };
 
   // Filtra os itens para exibir apenas aqueles que correspondem à página selecionada
-  const itemsToDisplay = items.filter(item => item.pagina === selectedPage);
+  const itemsToDisplay = items
+    .filter(item => item.pagina === selectedPage || item.pagina === 'common')
+    .sort((a, b) => {
+      // Prioridade: header primeiro, footer por último
+      const order = (key: LayoutKey) => {
+        if (key === 'header') return 0;
+        if (key === 'footer') return 2;
+        return 1; // todos os outros
+      };
+      return order(a.layoutKey) - order(b.layoutKey);
+    });
 
   return (
     <DndContext
@@ -145,10 +160,10 @@ export default function DraggablePreviewList({
       onDragEnd={handleDragEnd}
     >
       <SortableContext
-        items={itemsToDisplay.map(item => `${item.layoutKey}-${item.id}`)}
+        items={itemsToDisplay.map(item => item.uid)}
         strategy={verticalListSortingStrategy}
       >
-        {itemsToDisplay.map((item, index) => {
+        {itemsToDisplay.map(item => {
           const section = LAYOUTS[item.layoutKey];
           const foundItem = section.items.find(it => it.id === item.id);
           if (!foundItem) return null;
@@ -158,7 +173,7 @@ export default function DraggablePreviewList({
             layoutKey: item.layoutKey,
           } as LayoutItem & { layoutKey: LayoutKey };
 
-          const uniqueId = `${item.layoutKey}-${foundItem.key}-${index}`;
+          const uniqueId = item.uid;
           const isCurrentlySelected = items.some(
             selectedItem =>
               selectedItem.id === item.id &&
@@ -176,13 +191,13 @@ export default function DraggablePreviewList({
               <div className={styles.buttonContainer}>
                 <button
                   className={styles.duplicateBtn}
-                  onClick={() => handleDuplicate(index)}
+                  onClick={() => handleDuplicate(item)}
                 >
                   +
                 </button>
                 <button
                   className={styles.remoteBtn}
-                  onClick={() => handleRemove(index)}
+                  onClick={() => handleRemove(item.uid)}
                 >
                   –
                 </button>

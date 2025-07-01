@@ -9,9 +9,15 @@ interface ProgressBarProps {
   current: number;
   /** Total de seções possível */
   total: number;
+  isCommonPage: boolean;
 }
 
-export default function ProgressBar({ current, total }: ProgressBarProps) {
+export default function ProgressBar({
+  current,
+  total,
+  isCommonPage,
+}: ProgressBarProps) {
+  if (isCommonPage) total = 2;
   const percentage = (current / total) * 100;
   return (
     <div className={styles.progresso}>

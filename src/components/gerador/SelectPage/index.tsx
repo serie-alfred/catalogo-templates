@@ -10,6 +10,7 @@ interface SelectPageProps {
 }
 
 const pages = [
+  { key: 'common', name: 'Todas as páginas' },
   { key: 'home', name: 'Página Inicial' },
   { key: 'category', name: 'Página de Categoria' },
   { key: 'product', name: 'Página de Produto' },
