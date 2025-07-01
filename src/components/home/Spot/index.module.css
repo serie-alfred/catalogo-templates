@@ -36,7 +36,7 @@ and (max-width: 1650px){
 }
 .infoTitle span{
   font-weight: 400;
-  color: #757575;
+  color: #b9b0b0;
 }
 
 @media (max-width: 768px){
@@ -84,7 +84,7 @@ and (max-width: 1650px){
 }
 
 .containerTitle span{
-  color: #757575;
+  color: #b9b0b0;
   font-size: 16px;
 }
 
@@ -238,11 +238,13 @@ and (max-width: 1650px){
   color: #fff;
 }
 
-.buttons a {
+.buttons button {
   text-decoration: underline;
   background-color: rgb(203 203 203 / 28%);
   border-radius: 8px;
   padding: 8px 12px;
+  border: none;
+  cursor: pointer;
 }
 
 .buttonContainer{

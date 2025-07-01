@@ -1,11 +1,6 @@
 import React from 'react';
 
-import {
-  LAYOUTS,
-  LayoutKey,
-  LayoutItem,
-  Pagina,
-} from '@/data/layouts/layoutData';
+import { LAYOUTS, LayoutKey, LayoutItem, Pagina } from '@/data/layoutData';
 import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import Image from 'next/image';
 

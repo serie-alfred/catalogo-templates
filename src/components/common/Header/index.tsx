@@ -9,7 +9,7 @@ import styles from './index.module.css';
 export default function Header() {
   return (
     <header className={styles.container}>
-      <Link href="/">
+      <Link href="/" aria-label="Ir para página principal">
         <Image
           aria-hidden
           src={'/logo-etemas.svg'}

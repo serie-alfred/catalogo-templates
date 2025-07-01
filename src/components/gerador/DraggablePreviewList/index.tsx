@@ -16,7 +16,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layouts/layoutData';
+import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layoutData';
 import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import Image from 'next/image';
 
@@ -70,7 +70,7 @@ function SortableItem({
       className={styles.imageContainer}
     >
       <Image
-        src={`/layouts/${imageSource.split('/').pop()}`}
+        src={`/gerador/${imageSource.split('/').pop()}`}
         width={1919}
         height={90}
         alt={itemData.title}

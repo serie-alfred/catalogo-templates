@@ -9,10 +9,10 @@ interface SelectPageProps {
   setSelectedPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const PAGINAS = [
-  { key: 'home', name: 'Home' },
-  { key: 'pdp', name: 'PDP' },
-  { key: 'plp', name: 'PLP' },
+const pages = [
+  { key: 'home', name: 'Página Inicial' },
+  { key: 'category', name: 'Página de Categoria' },
+  { key: 'product', name: 'Página de Produto' },
 ];
 
 export default function SelectPage({
@@ -20,14 +20,14 @@ export default function SelectPage({
   setSelectedPage,
 }: SelectPageProps) {
   return (
-    <div className={styles.tabs} id="pagina-tabs">
-      {PAGINAS.map(pagina => (
+    <div className={styles.tabs} id="pages-tabs">
+      {pages.map(pages => (
         <button
-          key={pagina.key}
-          onClick={() => setSelectedPage(pagina.key)}
-          className={selectedPage === pagina.key ? styles.active : ''}
+          key={pages.key}
+          onClick={() => setSelectedPage(pages.key)}
+          className={selectedPage === pages.key ? styles.active : ''}
         >
-          {pagina.name}
+          {pages.name}
         </button>
       ))}
     </div>

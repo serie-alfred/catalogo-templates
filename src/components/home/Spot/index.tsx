@@ -28,11 +28,21 @@ export default function Spot({ item, className }: SpotProps) {
           <div className={styles.spotButtons}>
             <p>Escolha um tipo de visualização</p>
             <div className={styles.buttons}>
-              <a href={item.desktopLink} className={styles.buttonContainer}>
+              <a
+                href={item.desktopLink}
+                className={styles.buttonContainer}
+                target="_blank"
+                rel="noreferrer"
+              >
                 {icons.DesktopIcon}
                 Desktop
               </a>
-              <a href={item.mobileLink} className={styles.buttonContainer}>
+              <a
+                href={item.mobileLink}
+                className={styles.buttonContainer}
+                target="_blank"
+                rel="noreferrer"
+              >
                 {icons.MobileIcon}
                 Mobile
               </a>

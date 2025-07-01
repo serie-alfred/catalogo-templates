@@ -25,7 +25,7 @@ export default function GeradorPage() {
     setSelections,
   } = useLayoutGenerator();
 
-  const [selectedPage, setSelectedPage] = useState<string>('home'); // Adicionado
+  const [selectedPage, setSelectedPage] = useState<string>('home');
 
   return (
     <div className={styles.main}>
@@ -38,8 +38,8 @@ export default function GeradorPage() {
         onSelectChange={handlePlatformChange}
         onImageSelect={toggleSelection}
         totalSections={8}
-        selectedPage={selectedPage} // Adicionado
-        setSelectedPage={setSelectedPage} // Adicionado
+        selectedPage={selectedPage}
+        setSelectedPage={setSelectedPage}
       />
 
       <PreviewArea

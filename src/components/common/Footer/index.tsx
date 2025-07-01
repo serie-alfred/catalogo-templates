@@ -80,26 +80,35 @@ export default function Footer() {
           </div>
           <div className={styles.footerDir}>
             <div className={styles.containerInput}>
-              <h2 className={styles.titleInput}>
+              <label htmlFor="name" className={styles.titleInput}>
                 Seu nome<span className={styles.blue}>*</span>
-              </h2>
-              <input className={styles.inputBox} placeholder="Nome..."></input>
+              </label>
+              <input
+                id="name"
+                className={styles.inputBox}
+                placeholder="Nome..."
+              ></input>
             </div>
             <div className={styles.containerInput}>
-              <h2 className={styles.titleInput}>
+              <label htmlFor="company" className={styles.titleInput}>
                 Sua Empresa<span className={styles.blue}>*</span>
-              </h2>
+              </label>
               <input
+                id="company"
                 className={styles.inputBox}
                 placeholder="Nome da sua empresa..."
               ></input>
             </div>
             <div className={styles.duploInputContainer}>
               <div className={styles.inputItem}>
-                <h2 className={styles.titleInput}>
+                <label htmlFor="segment" className={styles.titleInput}>
                   Seu segmento<span className={styles.blue}>*</span>
-                </h2>
-                <select className={styles.inputBoxDuplo} defaultValue="">
+                </label>
+                <select
+                  id="segment"
+                  className={styles.inputBoxDuplo}
+                  defaultValue=""
+                >
                   <option value="" disabled>
                     Selecione
                   </option>
@@ -109,12 +118,16 @@ export default function Footer() {
                 </select>
               </div>
               <div className={styles.inputItem}>
-                <h2 className={styles.titleInput}>
+                <label htmlFor="employees" className={styles.titleInput}>
                   Colaboradores<span className={styles.blue}>*</span>
-                </h2>
-                <select className={styles.inputBoxDuplo} defaultValue="">
+                </label>
+                <select
+                  id="employees"
+                  className={styles.inputBoxDuplo}
+                  defaultValue=""
+                >
                   <option value="" disabled>
-                    1-20
+                    Selecione
                   </option>
                   <option value="1-20">1-20</option>
                   <option value="21-50">21-50</option>
@@ -125,28 +138,31 @@ export default function Footer() {
             </div>
 
             <div className={styles.containerInput}>
-              <h2 className={styles.titleInput}>
+              <label htmlFor="phone" className={styles.titleInput}>
                 Telefone<span className={styles.blue}>*</span>
-              </h2>
+              </label>
               <input
+                id="phone"
                 className={styles.inputBox}
                 placeholder="Número de Telefone..."
               ></input>
             </div>
             <div className={styles.containerInput}>
-              <h2 className={styles.titleInput}>
+              <label htmlFor="email" className={styles.titleInput}>
                 E-mail Corporativo<span className={styles.blue}>*</span>
-              </h2>
+              </label>
               <input
+                id="email"
                 className={styles.inputBox}
                 placeholder="seuemail@serie.com.br"
               ></input>
             </div>
             <div className={styles.containerInput}>
-              <h2 className={styles.titleInput}>
+              <label htmlFor="challenge" className={styles.titleInput}>
                 Qual seu desafio?<span className={styles.blue}>*</span>
-              </h2>
+              </label>
               <textarea
+                id="challenge"
                 className={`${styles.inputBox} ${styles.bigBox}`}
                 placeholder="Descreva qual o desafio que sua empresa enfrenta..."
               ></textarea>

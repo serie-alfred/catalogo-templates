@@ -6,7 +6,7 @@ export const catalogMock = [
             title: "Template 2.4",
             subtitle: "Perfumaria & Cosméticos",
             image: "/images/home/spot/default-template-image.png",
-            desktopLink: "https://example.com/desktop",
+            desktopLink: "https://agenciaseriedesign2.fbits.store/?preview-theme=wchZ9NN0zhUzYzfCpAy3LA%3d%3d",
             mobileLink: "https://example.com/mobile",
           },
           {

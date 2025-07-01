@@ -41,7 +41,6 @@ export default defineConfig([
     rules: {
       ...tsPlugin.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
-      // você pode sobrescrever regras aqui se quiser
     },
   },
 ]);
