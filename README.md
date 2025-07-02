@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🖼️ Catálogo de Templates - Projeto Série
 
-## Getting Started
+Este é um projeto Next.js com foco em criação visual de _templates_ de layout.
 
-First, run the development server:
+## 📦 Tecnologias Utilizadas
+
+- [Next.js 14+](https://nextjs.org/) com estrutura baseada em `/app`
+- [TypeScript](https://www.typescriptlang.org/)
+- [@dnd-kit](https://dndkit.com/) – para drag-and-drop altamente personalizável
+- [ESLint + Prettier](https://eslint.org/) – para padronização de código
+- [CSS Modules](https://github.com/css-modules/css-modules) – escopo local de estilos
+- [Yarn](https://yarnpkg.com/) como gerenciador de pacotes
+
+## 📜 Scripts disponíveis
+
+### Desenvolvimento
 
 ```bash
-npm run dev
-# or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Build
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Lint
 
-## Learn More
+```bash
+yarn lint
+```
 
-To learn more about Next.js, take a look at the following resources:
+> ⚠️ Certifique-se de não utilizar `npm` junto ao `yarn`. Remova o `package-lock.json` se ele existir para evitar conflitos.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Instalação de dependências
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+yarn install
+```
 
-## Deploy on Vercel
+## 🛠️ Configuração do ESLint
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Este projeto utiliza a nova configuração baseada em `eslint.config.mjs` (via `defineConfig`), com suporte para:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- TypeScript (`@typescript-eslint`)
+- React (`eslint-plugin-react`)
+- Regras adicionais personalizadas
+
+Para instalar as dependências do ESLint corretamente:
+
+```bash
+yarn add -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-react
+```
+
+## 🖼️ Imagens dos Templates
+
+As imagens dos templates ficam em:
+
+```
+/public/images/gerador/
+```
+
+Os nomes das imagens são definidos em `layoutData.ts` e carregados de forma dinâmica conforme o layout e a plataforma.
+
+## 📄 Licença
+
+Desenvolvido com 💙 por SERIE A
