@@ -1,4 +1,4 @@
-# 🖼️ Catálogo de Templates - Projeto Série
+# 🖼️ Catálogo de Templates - Projeto SERIE A
 
 Este é um projeto Next.js com foco em criação visual de _templates_ de layout.
 
