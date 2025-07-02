@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛒 Checkout do código
+        uses: actions/checkout@v4
+
+      - name: 🧱 Instala dependências
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: 🔍 Lint (ESLint)
+        run: npm run lint
+
+      - name: 🏗️ Build da aplicação
+        run: npm run build

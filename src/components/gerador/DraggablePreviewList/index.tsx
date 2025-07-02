@@ -1,26 +1,26 @@
-import React from 'react';
-
-import type { DragEndEvent } from '@dnd-kit/core';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
   DndContext,
   closestCenter,
   PointerSensor,
   useSensor,
   useSensors,
+  DragEndEvent,
+  DragStartEvent,
+  DragOverlay,
 } from '@dnd-kit/core';
 
 import {
-  arrayMove,
   SortableContext,
-  useSortable,
+  arrayMove,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
+
 import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layoutData';
 import { LayoutSelection } from '@/hooks/useLayoutGenerator';
-import Image from 'next/image';
 
 import styles from './index.module.css';
+import SortableItem from '../SortableItem';
 
 interface DraggablePreviewListProps {
   items: LayoutSelection[];
@@ -29,175 +29,155 @@ interface DraggablePreviewListProps {
   selectedPage: string;
 }
 
-interface SortableItemProps {
-  id: string;
-  itemData: LayoutItem & { layoutKey: LayoutKey };
-  isSelected: boolean;
-  isMobile: boolean;
-}
-
-/**
- * SortableItem é um item individual que pode ser arrastado dentro da lista.
- * Ele utiliza o hook useSortable do dnd-kit/sortable para habilitar a funcionalidade de arrastar e soltar.
- */
-function SortableItem({
-  id,
-  itemData,
-  isSelected,
-  isMobile,
-}: SortableItemProps) {
-  const {
-    attributes, // Atributos para aplicar ao elemento do item
-    listeners, // Listeners de eventos (drag) para aplicar ao elemento do item
-    setNodeRef, // Referência ao nó do DOM do item
-    transform, // Transformações CSS para mover o item durante o arrasto
-    transition, // Transições CSS para animações suaves
-  } = useSortable({ id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
-
-  const imageSource = isMobile ? itemData.mobile : itemData.image;
-
-  return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      className={styles.imageContainer}
-    >
-      <Image
-        src={`/images/gerador/${imageSource}`}
-        width={1919}
-        height={90}
-        alt={itemData.title}
-        className={styles.carouselImage}
-      />
-      {isSelected && <div className={styles.selectedOverlay} />}
-    </div>
-  );
-}
-
-/**
- * DraggablePreviewList é um componente que renderiza uma lista de itens arrastáveis.
- * Ele utiliza o DndContext e SortableContext do dnd-kit para gerenciar o estado do drag-and-drop.
- */
 export default function DraggablePreviewList({
   items,
   setItems,
   isMobile,
   selectedPage,
 }: DraggablePreviewListProps) {
+  const [activeId, setActiveId] = useState<string | null>(null);
   const sensors = useSensors(useSensor(PointerSensor));
 
-  /**
-   * handleDragEnd é chamado quando uma operação de arrastar e soltar termina.
-   * Ele atualiza a ordem dos itens na lista se o item for solto sobre outro item válido.
-   */
+  const getPriorityOrder = (key: LayoutKey) => {
+    if (key === 'header') return 0;
+    if (key === 'footer') return 2;
+    return 1;
+  };
 
-  function handleDragEnd(event: DragEndEvent) {
-    const { active, over } = event;
+  const filteredItems = useMemo(
+    () =>
+      items.filter(
+        item => item.pagina === selectedPage || item.pagina === 'common'
+      ),
+    [items, selectedPage]
+  );
 
-    if (over && active.id !== over.id) {
+  const sortedItems = useMemo(
+    () =>
+      [...filteredItems].sort(
+        (a, b) => getPriorityOrder(a.layoutKey) - getPriorityOrder(b.layoutKey)
+      ),
+    [filteredItems]
+  );
+
+  const sortableItemIds = useMemo(
+    () => sortedItems.map(item => item.uid),
+    [sortedItems]
+  );
+
+  const selectedItemIds = useMemo(
+    () => new Set(items.map(item => item.uid)),
+    [items]
+  );
+
+  const handleDragStart = useCallback((event: DragStartEvent) => {
+    setActiveId(event.active.id as string);
+  }, []);
+
+  const handleDragEnd = useCallback(
+    ({ active, over }: DragEndEvent) => {
+      setActiveId(null);
+
+      if (!over || active.id === over.id) return;
+
       const oldIndex = items.findIndex(item => item.uid === active.id);
       const newIndex = items.findIndex(item => item.uid === over.id);
 
-      if (oldIndex !== -1 && newIndex !== -1) {
-        setItems(prevItems => arrayMove(prevItems, oldIndex, newIndex));
-      }
-    }
-  }
+      if (oldIndex === -1 || newIndex === -1) return;
 
-  /**
-   * handleDuplicate duplica um item na lista.
-   * @param index - O índice do item a ser duplicado.
-   */
-  const handleDuplicate = (itemToDuplicate: LayoutSelection) => {
-    setItems(prevItems => {
-      const index = prevItems.findIndex(
-        item => item.uid === itemToDuplicate.uid
-      );
-      if (index === -1) return prevItems;
+      setItems(prevItems => arrayMove(prevItems, oldIndex, newIndex));
+    },
+    [items, setItems]
+  );
 
-      const updatedItems = [...prevItems];
-      updatedItems.splice(index + 1, 0, {
-        ...prevItems[index],
-        uid: crypto.randomUUID(), // 👈 novo ID exclusivo
+  const duplicateItem = useCallback(
+    (itemToDuplicate: LayoutSelection) => {
+      setItems(prevItems => {
+        const index = prevItems.findIndex(i => i.uid === itemToDuplicate.uid);
+        if (index === -1) return prevItems;
+
+        const duplicatedItem = {
+          ...prevItems[index],
+          uid: crypto.randomUUID(),
+        };
+
+        return [
+          ...prevItems.slice(0, index + 1),
+          duplicatedItem,
+          ...prevItems.slice(index + 1),
+        ];
       });
+    },
+    [setItems]
+  );
 
-      return updatedItems;
-    });
-  };
+  const removeItem = useCallback(
+    (uidToRemove: string) => {
+      setItems(prevItems => prevItems.filter(item => item.uid !== uidToRemove));
+    },
+    [setItems]
+  );
 
-  /**
-   * handleRemove remove um item da lista.
-   * @param uidToRemove - O UID do item a ser removido.
-   */
-  const handleRemove = (uidToRemove: string) => {
-    setItems(prevItems => prevItems.filter(item => item.uid !== uidToRemove));
-  };
+  const activeItem = useMemo(() => {
+    if (!activeId) return null;
+    const current = items.find(i => i.uid === activeId);
+    if (!current) return null;
 
-  // Filtra os itens para exibir apenas aqueles que correspondem à página selecionada
-  const itemsToDisplay = items
-    .filter(item => item.pagina === selectedPage || item.pagina === 'common')
-    .sort((a, b) => {
-      // Prioridade: header primeiro, footer por último
-      const order = (key: LayoutKey) => {
-        if (key === 'header') return 0;
-        if (key === 'footer') return 2;
-        return 1; // todos os outros
-      };
-      return order(a.layoutKey) - order(b.layoutKey);
-    });
+    const section = LAYOUTS[current.layoutKey];
+    const layoutItem = section.items.find(it => it.id === current.id);
+    if (!layoutItem) return null;
+
+    return {
+      ...layoutItem,
+      layoutKey: current.layoutKey,
+    } as LayoutItem & { layoutKey: LayoutKey };
+  }, [activeId, items]);
 
   return (
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
       <SortableContext
-        items={itemsToDisplay.map(item => item.uid)}
+        items={sortableItemIds}
         strategy={verticalListSortingStrategy}
       >
-        {itemsToDisplay.map(item => {
+        {sortedItems.map(item => {
           const section = LAYOUTS[item.layoutKey];
-          const foundItem = section.items.find(it => it.id === item.id);
-          if (!foundItem) return null;
+          const layoutItem = section.items.find(it => it.id === item.id);
+          if (!layoutItem) return null;
 
-          const layoutItemWithKey = {
-            ...foundItem,
+          const itemData = {
+            ...layoutItem,
             layoutKey: item.layoutKey,
-          } as LayoutItem & { layoutKey: LayoutKey };
+          } as LayoutItem & {
+            layoutKey: LayoutKey;
+          };
 
-          const uniqueId = item.uid;
-          const isCurrentlySelected = items.some(
-            selectedItem =>
-              selectedItem.id === item.id &&
-              selectedItem.layoutKey === item.layoutKey
-          );
+          const isSelected = selectedItemIds.has(item.uid);
 
           return (
-            <div key={uniqueId} className={styles.containerImg}>
+            <div key={item.uid} className={styles.containerImg}>
               <SortableItem
-                id={uniqueId}
-                itemData={layoutItemWithKey}
-                isSelected={isCurrentlySelected}
+                id={item.uid}
+                data={itemData}
+                selected={isSelected}
                 isMobile={isMobile}
               />
               <div className={styles.buttonContainer}>
                 <button
                   className={styles.duplicateBtn}
-                  onClick={() => handleDuplicate(item)}
+                  onClick={() => duplicateItem(item)}
+                  type="button"
                 >
                   +
                 </button>
                 <button
                   className={styles.remoteBtn}
-                  onClick={() => handleRemove(item.uid)}
+                  onClick={() => removeItem(item.uid)}
+                  type="button"
                 >
                   –
                 </button>
@@ -206,6 +186,19 @@ export default function DraggablePreviewList({
           );
         })}
       </SortableContext>
+
+      <DragOverlay>
+        {activeItem && (
+          <div style={{ transform: 'scale(1)', transformOrigin: 'top' }}>
+            <SortableItem
+              id={activeId}
+              data={activeItem}
+              selected={false}
+              isMobile={isMobile}
+            />
+          </div>
+        )}
+      </DragOverlay>
     </DndContext>
   );
 }

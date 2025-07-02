@@ -1,0 +1,40 @@
+.imageContainer{
+  width: 100%;
+  overflow: hidden;
+  background: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+  height: auto;
+}
+
+.imageContainer:hover {
+  transform: translateY(-4px);
+  z-index: 999;
+}
+
+
+.carouselImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.carouselImage{
+    width: 100%;
+    height: auto;
+}
+
+.itemWrapper {
+  transform-origin: top center !important;
+  will-change: transform;
+}
+
+.imageContainer {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
