@@ -3,13 +3,11 @@
 import React from 'react';
 
 import styles from './index.module.css';
+import { PLATFORMS, type Platform } from '@/types/platform';
 
 interface PlatformSelectProps {
-  /** Valor atual do select */
-  value: string;
-  /** Controla se mostra erro */
+  value: Platform | '' | null;
   showError: boolean;
-  /** Callback de mudança */
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -27,14 +25,15 @@ export default function PlatformSelect({
       <select
         className={styles.select}
         id="plataforma"
-        value={value}
+        value={value ?? ''}
         onChange={onChange}
       >
-        <option>Selecione uma plataforma</option>
-        <option>VTEX</option>
-        <option>Shopify</option>
-        <option>Wake</option>
-        <option>Tray</option>
+        <option value="">Selecione uma plataforma</option>
+        {PLATFORMS.map(p => (
+          <option key={p} value={p}>
+            {p}
+          </option>
+        ))}
       </select>
     </div>
   );

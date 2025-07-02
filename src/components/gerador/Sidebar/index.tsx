@@ -8,6 +8,7 @@ import SelectSectionItem from '../SelectSectionItem';
 
 import { LayoutKey } from '@/data/layoutData';
 import { LayoutSelection, MAX_PER_PAGE } from '@/hooks/useLayoutGenerator';
+import { Platform } from '@/types/platform';
 
 import styles from './index.module.css';
 
@@ -16,7 +17,7 @@ export interface SidebarProps {
   activeLayoutKey: LayoutKey | null;
   setActiveLayoutKey: (key: LayoutKey) => void;
   showError: boolean;
-  plataforma: string;
+  platform: Platform | null;
   onSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   onImageSelect: (id: string, layoutKey: LayoutKey, pagina: string) => void;
   totalSections?: number;
@@ -29,26 +30,28 @@ export default function Sidebar({
   activeLayoutKey,
   setActiveLayoutKey,
   showError,
-  plataforma,
+  platform,
   onSelectChange,
   onImageSelect,
   totalSections = MAX_PER_PAGE,
   selectedPage,
   setSelectedPage,
 }: SidebarProps) {
-  const isCommonPage = selectedPage == 'common';
+  const isCommonPage = selectedPage === 'common';
+  const currentCount = selectedImages.filter(
+    item => item.pagina === selectedPage
+  ).length;
+
   return (
     <aside className={styles.sidebar}>
       <PlatformSelect
-        value={plataforma}
+        value={platform}
         showError={showError}
         onChange={onSelectChange}
       />
 
       <ProgressBar
-        current={
-          selectedImages.filter(item => item.pagina === selectedPage).length
-        }
+        current={currentCount}
         isCommonPage={isCommonPage}
         total={totalSections}
       />
@@ -75,6 +78,7 @@ export default function Sidebar({
             onImageSelect(id, layoutKey, selectedPage)
           }
           selectedPage={selectedPage}
+          platform={platform}
         />
       </div>
     </aside>

@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layoutData';
 import { captureAndDownloadScreenshot } from '@/utils/screenshotExport';
 import { sendLayoutConfigEmail } from '@/services/emailService';
+import type { Platform } from '@/types/platform';
 
 export interface LayoutSelection {
   uid: string;
@@ -14,10 +15,12 @@ export const MAX_PER_PAGE = 8;
 
 
 export function useLayoutGenerator() {
+  const GLOBAL_KEYS: LayoutKey[] = ['header', 'footer'];
+
   /** Estados principais */
   const [selections, setSelections] = useState<LayoutSelection[]>([]);
   const [focusedKey, setFocusedKey] = useState<LayoutKey | null>(null);
-  const [platform, setPlatform] = useState<string>('');
+  const [platform, setPlatform] = useState<Platform | null>(null);
   const [showPlatformError, setShowPlatformError] = useState<boolean>(false);
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
 
@@ -32,12 +35,14 @@ export function useLayoutGenerator() {
 
   /** Manipula seleção da plataforma */
   const handlePlatformChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value;
+    const value = e.target.value as Platform | null;
     setPlatform(value);
-    if (value !== 'Selecione uma plataforma') {
+  
+    if (value) {
       setShowPlatformError(false);
     }
   };
+  
 
   /** Alterna seleção de layout, respeitando propagação para páginas quando for comum */
   const toggleSelection = (id: string, layoutKey: LayoutKey, pagina: string) => {
@@ -75,18 +80,18 @@ export function useLayoutGenerator() {
     });
   };
 
+
   /** Monta JSON de configuração com dados globais e por página */
   const buildConfigJson = (): Record<string, unknown> | null => {
-    if (!platform || platform === 'Selecione uma plataforma') {
-      return null;
-    }
-
-    const GLOBAL_KEYS: LayoutKey[] = ['header', 'footer'];
+    if (!platform) return null;
 
     const mapToConfig = (item: LayoutSelection) => {
       const section = LAYOUTS[item.layoutKey];
-      const found: LayoutItem | undefined = section.items.find((i) => i.id === item.id);
+      const found: LayoutItem | undefined = section.items.find(
+        (i) => i.id === item.id && i.platforms.includes(platform as Platform)
+      );
       if (!found) return null;
+
       return {
         template: found.template,
         title: found.title,
@@ -117,7 +122,7 @@ export function useLayoutGenerator() {
   const exportLayout = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!platform || platform === 'Selecione uma plataforma') {
+    if (!platform) {
       setShowPlatformError(true);
       return;
     }
@@ -129,7 +134,6 @@ export function useLayoutGenerator() {
     await captureAndDownloadScreenshot(mobilePreviewRef.current, 'layout-mobile.png');
 
     const configJson = buildConfigJson();
-
     if (configJson) {
       await sendLayoutConfigEmail(configJson);
     }
@@ -153,7 +157,7 @@ export function useLayoutGenerator() {
         setSelections(JSON.parse(storedSelections));
       }
       if (storedPlatform) {
-        setPlatform(storedPlatform);
+        setPlatform(storedPlatform as Platform | null);
       }
     } catch (error) {
       console.error('Erro ao carregar do localStorage:', error);
@@ -172,7 +176,8 @@ export function useLayoutGenerator() {
   /** Salva plataforma no localStorage */
   useEffect(() => {
     try {
-      localStorage.setItem('layoutPlatform', platform);
+      if(platform)
+        localStorage.setItem('layoutPlatform', platform);
     } catch (error) {
       console.error('Erro ao salvar plataforma no localStorage:', error);
     }

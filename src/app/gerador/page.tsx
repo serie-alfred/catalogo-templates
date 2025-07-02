@@ -34,7 +34,7 @@ export default function GeradorPage() {
         activeLayoutKey={focusedKey}
         setActiveLayoutKey={setFocusedKey}
         showError={showPlatformError}
-        plataforma={platform}
+        platform={platform}
         onSelectChange={handlePlatformChange}
         onImageSelect={toggleSelection}
         totalSections={8}

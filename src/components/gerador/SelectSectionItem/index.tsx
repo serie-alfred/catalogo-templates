@@ -6,12 +6,14 @@ import Image from 'next/image';
 
 import styles from './index.module.css';
 import { CirclePlus } from 'lucide-react';
+import type { Platform } from '@/types/platform';
 
 interface SelectSectionItemProps {
   activeLayoutKey: LayoutKey | null;
   selectedImages: LayoutSelection[];
   onSelect: (id: string, layoutKey: LayoutKey) => void;
   selectedPage: string;
+  platform: Platform | null;
 }
 
 export default function SelectSectionItem({
@@ -19,6 +21,7 @@ export default function SelectSectionItem({
   selectedImages,
   onSelect,
   selectedPage,
+  platform,
 }: SelectSectionItemProps) {
   const imageBasePath = '/images/gerador/';
 
@@ -40,7 +43,9 @@ export default function SelectSectionItem({
   // Filtrar por página selecionada
   imagesToShow = imagesToShow.filter(
     item =>
-      Array.isArray(item.pagina) && item.pagina.includes(selectedPage as Pagina)
+      Array.isArray(item.pagina) &&
+      item.pagina.includes(selectedPage as Pagina) &&
+      item.platforms.includes(platform as Platform)
   );
 
   const isSelected = (id: string, layoutKey: LayoutKey) =>
