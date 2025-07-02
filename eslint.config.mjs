@@ -9,24 +9,25 @@ export default defineConfig([
   {
     files: ["**/*.{js,mjs,cjs}"],
     languageOptions: {
-      globals: globals.browser,
       parserOptions: {
         ecmaVersion: "latest",
         sourceType: "module",
         ecmaFeatures: { jsx: true },
       },
+      globals: globals.browser,
     },
-    plugins: { js },
+    plugins: {
+      js,
+    },
     rules: {
-      semi: ["error"],
+      semi: ["error", "always"],
       quotes: ["error", "double"],
       "prefer-arrow-callback": ["error"],
       "prefer-template": ["error"],
-      "@typescript-eslint/no-explicit-any": "error"
     },
   },
   {
-    files: ["**/*.{ts,mts,cts,tsx}"],
+    files: ["**/*.{ts,tsx}"],
     languageOptions: {
       parser: tsParser,
       parserOptions: {
@@ -37,10 +38,15 @@ export default defineConfig([
       },
       globals: globals.browser,
     },
-    plugins: { "@typescript-eslint": tsPlugin, react: reactPlugin },
+    plugins: {
+      "@typescript-eslint": tsPlugin,
+      react: reactPlugin,
+    },
     rules: {
       ...tsPlugin.configs.recommended.rules,
       ...reactPlugin.configs.recommended.rules,
+      "@typescript-eslint/no-explicit-any": "error",
+      "react/react-in-jsx-scope": "off", // Next.js doesn't need this
     },
   },
 ]);

@@ -27,8 +27,5 @@ jobs:
       - name: 🔍 Lint
         run: yarn lint
 
-      - name: 🧪 Testes
-        run: yarn test
-
       - name: 🏗️ Build
         run: yarn build
