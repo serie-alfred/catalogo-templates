@@ -15,7 +15,6 @@ export const MAX_PER_PAGE = 8;
 
 
 export function useLayoutGenerator() {
-  const GLOBAL_KEYS: LayoutKey[] = ['header', 'footer'];
 
   /** Estados principais */
   const [selections, setSelections] = useState<LayoutSelection[]>([]);
@@ -84,39 +83,60 @@ export function useLayoutGenerator() {
   /** Monta JSON de configuração com dados globais e por página */
   const buildConfigJson = (): Record<string, unknown> | null => {
     if (!platform) return null;
-
+  
     const mapToConfig = (item: LayoutSelection) => {
       const section = LAYOUTS[item.layoutKey];
       const found: LayoutItem | undefined = section.items.find(
         (i) => i.id === item.id && i.platforms.includes(platform as Platform)
       );
       if (!found) return null;
-
+  
       return {
         template: found.template,
+        selection: found.selection,
         title: found.title,
         key: found.key,
         pagina: found.pagina,
       };
     };
-
+  
+    // Items que tem 'common' na pagina ficam em global
     const globalItems = selections
-      .filter((s) => GLOBAL_KEYS.includes(s.layoutKey))
+      .filter((s) => {
+        const section = LAYOUTS[s.layoutKey];
+        const found = section.items.find(i => i.id === s.id);
+        return found?.pagina.includes("common");
+      })
       .map(mapToConfig)
       .filter(Boolean);
-
+  
+    // Itens que não são 'common' ficam agrupados por pagina
     const pageItems = selections
-      .filter((s) => !GLOBAL_KEYS.includes(s.layoutKey))
+      .filter((s) => {
+        const section = LAYOUTS[s.layoutKey];
+        const found = section.items.find(i => i.id === s.id);
+        return found && !found.pagina.includes("common");
+      })
       .map(mapToConfig)
-      .filter(Boolean);
-
+      .filter(Boolean)
+      .reduce<Record<string, ReturnType<typeof mapToConfig>[]>>((acc, item) => {
+        if (!item) return acc;
+        const paginas = Array.isArray(item.pagina) ? item.pagina : [item.pagina];
+        paginas.forEach((pg) => {
+          if (!acc[pg]) acc[pg] = [];
+          acc[pg].push(item);
+        });
+        return acc;
+      }, {});
+  
     return {
       [platform.toLowerCase()]: {
         global: globalItems,
-        paginas: pageItems,
+        ...pageItems,
       },
     };
   };
+  
 
   /** Exporta capturas de tela e envia JSON por e-mail */
   const exportLayout = async (e: React.FormEvent) => {
