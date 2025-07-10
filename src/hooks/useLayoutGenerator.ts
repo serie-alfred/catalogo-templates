@@ -100,7 +100,6 @@ export function useLayoutGenerator() {
       };
     };
   
-    // Items que tem 'common' na pagina ficam em global
     const globalItems = selections
       .filter((s) => {
         const section = LAYOUTS[s.layoutKey];
@@ -110,7 +109,6 @@ export function useLayoutGenerator() {
       .map(mapToConfig)
       .filter(Boolean);
   
-    // Itens que não são 'common' ficam agrupados por pagina
     const pageItems = selections
       .filter((s) => {
         const section = LAYOUTS[s.layoutKey];
@@ -130,6 +128,7 @@ export function useLayoutGenerator() {
       }, {});
   
     return {
+      platform: platform.toLowerCase(),
       [platform.toLowerCase()]: {
         global: globalItems,
         ...pageItems,
@@ -137,7 +136,6 @@ export function useLayoutGenerator() {
     };
   };
   
-
   /** Exporta capturas de tela e envia JSON por e-mail */
   const exportLayout = async (e: React.FormEvent) => {
     e.preventDefault();
