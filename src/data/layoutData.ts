@@ -39,6 +39,7 @@ export type Layouts = {
   beneficios: LayoutSection;
   grid: LayoutSection;
   vitrine: LayoutSection;
+  breadcrumb: LayoutSection;
   newsletter: LayoutSection;
   footer: LayoutSection;
 };
@@ -87,14 +88,20 @@ export const LAYOUTS: Layouts = {
   newsletter: {
     name: "Newsletter",
     items: [
-      { id: "01",selection: "newsletter", key:"nws01i7j8k9l", image: "newsletter/desktop/newsletter_01.png", mobile: "newsletter/mobile/newsletter_01_m.png", title: "Newsletter clean", description: "Seção com produtos de moda", template: "1", pagina: ["home"], platforms: ['Tray', 'Shopify', 'Wake'] },
-      { id: "02",selection: "newsletter", key:"nws02m0n1o2p", image: "newsletter/desktop/newsletter_02.png", mobile: "newsletter/mobile/newsletter_02.png", title: "Newsletter colorida", description: "Produtos de casa e construção", template: "1", pagina: ["product"], platforms: ['Tray', 'Shopify', 'Wake'] },
+      { id: "01",selection: "newsletter", key:"nws01i7j8k9l", image: "newsletter/desktop/newsletter_01.png", mobile: "newsletter/mobile/newsletter_01_m.png", title: "Newsletter clean", description: "Seção com produtos de moda", template: "1", pagina: ["common"], platforms: ['Tray', 'Shopify', 'Wake'] },
+      { id: "02",selection: "newsletter", key:"nws02m0n1o2p", image: "newsletter/desktop/newsletter_02.png", mobile: "newsletter/mobile/newsletter_02.png", title: "Newsletter colorida", description: "Produtos de casa e construção", template: "1", pagina: ["common"], platforms: ['Tray', 'Shopify', 'Wake'] },
+    ],
+  },
+  breadcrumb: {
+    name: "Breadcrumb",
+    items: [
+      { id: "01",selection: "breadcrumb", key:"bred01q3r4s5t", image: "breadcrumb/desktop/breadcrumb_01.png", mobile: "breadcrumb/mobile/breadcrumb_01_m.png", title: "breadcrumb clean", description: "Variedades de links", template: "1", pagina: ["common"], platforms: ['Tray', 'Wake'] },
     ],
   },
   footer: {
     name: "Footer",
     items: [
-      { id: "01",selection: "footer", key:"ftr01q3r4s5t", image: "footer/desktop/footer_02.png", mobile: "footer/mobile/footer_02_m.png", title: "Footer clean", description: "Variedades de links", template: "2", pagina: ["common"], platforms: ['Tray', 'Shopify', 'Wake'] },
+      { id: "01",selection: "footer", key:"ftr01q3r4s5t", image: "footer/desktop/footer_02.png", mobile: "footer/mobile/footer_02_m.png", title: "Footer clean", description: "Variedades de links", template: "1", pagina: ["common"], platforms: ['Tray', 'Wake'] },
     ],
   },
 } as const;
