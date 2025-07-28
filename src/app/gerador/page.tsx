@@ -50,7 +50,7 @@ export default function GeradorPage() {
         onExport={exportLayout}
         desktopPreviewRef={desktopPreviewRef}
         mobilePreviewRef={mobilePreviewRef}
-        selectedPage={selectedPage} // Adicionado
+        selectedPage={selectedPage}
       />
     </div>
   );

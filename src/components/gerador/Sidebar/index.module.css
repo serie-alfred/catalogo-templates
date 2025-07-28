@@ -44,3 +44,8 @@
   background: #6366f1;
   color: black;
 }
+
+.colorContainer{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+}

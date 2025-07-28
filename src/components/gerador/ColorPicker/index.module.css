@@ -1,0 +1,33 @@
+.pickerContainer {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.pickerLabel {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.pickerGrid{
+  display: flex;
+  border-radius: 100%;
+  border: 2px solid black;
+  overflow: hidden;
+}
+
+.input {
+  width: 36px;
+  height: 36px;
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  border-radius: 100%;
+  overflow: hidden;
+}

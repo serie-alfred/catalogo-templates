@@ -11,6 +11,8 @@ import { LayoutSelection, MAX_PER_PAGE } from '@/hooks/useLayoutGenerator';
 import { Platform } from '@/types/platform';
 
 import styles from './index.module.css';
+import FontSelector from '../FontSelector';
+import ColorPicker from '../ColorPicker';
 
 export interface SidebarProps {
   selectedImages: LayoutSelection[];
@@ -49,6 +51,44 @@ export default function Sidebar({
         showError={showError}
         onChange={onSelectChange}
       />
+
+      <FontSelector
+        label="Fonte Primária"
+        cssVariable="font-primary"
+        defaultFont="Roboto"
+      />
+
+      <FontSelector
+        label="Fonte Secundária"
+        cssVariable="font-secondary"
+        defaultFont="Poppins"
+      />
+
+      <FontSelector
+        label="Fonte Terciária"
+        cssVariable="font-tertiary"
+        defaultFont="Open Sans"
+      />
+
+      <div className={styles.colorContainer}>
+        <ColorPicker
+          label="Cor Primária"
+          colorKey="--primary-color"
+          defaultColor="#1a1a1a"
+        />
+
+        <ColorPicker
+          label="Cor Secundária"
+          colorKey="--secondary-color"
+          defaultColor="#ffffff"
+        />
+
+        <ColorPicker
+          label="Cor Terciária"
+          colorKey="--tertiary-color"
+          defaultColor="#f0f0f0"
+        />
+      </div>
 
       <ProgressBar
         current={currentCount}
