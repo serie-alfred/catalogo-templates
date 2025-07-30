@@ -18,7 +18,7 @@
 
 .barra .preenchida {
   height: 100%;
-  background: #6366f1;
+  background: var(--color-blue);
   width: 0%;
   transition: width 0.3s ease;
 }

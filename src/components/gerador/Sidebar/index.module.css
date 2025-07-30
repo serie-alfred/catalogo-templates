@@ -56,3 +56,15 @@
   background: #6366f1;
   color: black;
 }
+
+
+@media (max-width: 768px){
+  .sidebar{
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    padding: 0 16px;
+    gap: 1.5rem;
+    justify-content: space-between;
+  }
+}

@@ -5,6 +5,7 @@ import DraggablePreviewList from '../DraggablePreviewList';
 import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 
 import styles from './index.module.css';
+import { iconsGenerator } from '@/assets/icons/generator';
 
 interface PreviewAreaProps {
   selectedImages: LayoutSelection[];
@@ -36,10 +37,19 @@ export default function PreviewArea({
         <h2>Visualização</h2>
         <div className={styles['preview-actions']}>
           <button id="export-btn" onClick={onExport}>
+            {iconsGenerator.exportTheme}
             Exportar Layout
           </button>
-          <button id="toggle-mobile-btn" onClick={onToggleMobile}>
-            {isMobile ? '🖥️ Visualizar Desktop' : '📱 Visualizar Mobile'}
+          <button
+            id="toggle-mobile-btn"
+            onClick={onToggleMobile}
+            className="outline"
+          >
+            {isMobile ? (
+              '🖥️ Visualizar Desktop'
+            ) : (
+              <>{iconsGenerator.mobileTheme} Visualizar Mobile</>
+            )}
           </button>
         </div>
       </header>

@@ -7,25 +7,29 @@
     display: block;
   }
   
-  .duplicateBtn{
+  .duplicateBtn, .remoteBtn{
     position: absolute;
-    top: 10px;
-    right: 44.9px;
-    width: 30px;
-    height: 30px;
-    background: #10b981;
+    top: 8px;
+    right: calc(22px + 16px);
+    width: 22px;
+    height: 22px;
+    min-height: unset;
+    min-width: auto;
+    padding: 0;
+    background: #2C7C1C;
     color: white;
     border: none;
     border-radius: 50%;
-    font-size: 1rem;
-    line-height: 1;
-    font-weight: bold;
     cursor: pointer;
     z-index: 10;
     transition: background 0.2s;
     justify-content: center;
     align-items: center;
     display: flex;
+  }
+
+  .duplicateBtn svg path, .remoteBtn svg path{
+    stroke: inherit !important;
   }
 
   .duplicateBtn:hover{
@@ -37,25 +41,8 @@
   }
 
   .remoteBtn{
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 30px;
-    height: 30px;
-    background: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    font-size: 1rem;
-    line-height: 1;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 10;
-    transition: background 0.2s;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    padding-bottom: 4px;
+    background: #BB4344;
+    right: 8px;
   }
 
   .remoteBtn:hover{

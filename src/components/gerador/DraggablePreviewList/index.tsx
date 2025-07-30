@@ -21,6 +21,7 @@ import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 
 import styles from './index.module.css';
 import SortableItem from '../SortableItem';
+import { iconsGenerator } from '@/assets/icons/generator';
 
 interface DraggablePreviewListProps {
   items: LayoutSelection[];
@@ -177,14 +178,14 @@ export default function DraggablePreviewList({
                   onClick={() => duplicateItem(item)}
                   type="button"
                 >
-                  +
+                  {iconsGenerator.duplicateTheme}
                 </button>
                 <button
                   className={styles.remoteBtn}
                   onClick={() => removeItem(item.uid)}
                   type="button"
                 >
-                  –
+                  {iconsGenerator.deleteTheme}
                 </button>
               </div>
             </div>

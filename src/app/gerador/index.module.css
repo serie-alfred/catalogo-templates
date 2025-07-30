@@ -10,6 +10,7 @@
     display: flex;
     flex-direction: column;
 }
+
 .mobile{
     display: flex;
     flex-direction: column;
@@ -271,4 +272,10 @@
   .section-preview.drag-over {
     border: 2px dashed #6366f1;
     background-color: #f9fafb;
+  }
+
+  @media (max-width: 768px){
+    .main{
+        flex-direction: column-reverse;
+    }
   }

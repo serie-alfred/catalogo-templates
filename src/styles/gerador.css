@@ -60,6 +60,23 @@ button:hover{
   color: var(--color-blue);
 }
 
+button:hover svg path{
+  stroke: var(--color-blue);
+}
+
+button.outline{
+  background-color: transparent;
+  color: var(--color-blue);
+}
+
+button.outline:hover{
+  background-color: var(--color-blue);
+  color: white;
+}
+
+button.outline:hover svg path, button.outline:hover svg{
+  fill: white;
+}
 
 .icon{
   background-color: transparent;

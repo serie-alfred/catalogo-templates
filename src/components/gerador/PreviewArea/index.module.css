@@ -10,6 +10,7 @@
   display: flex;
   flex-direction: column;
 }
+
 .mobile{
   display: flex;
   flex-direction: column;
@@ -156,19 +157,7 @@
 }
 
 .preview-actions button {
-  background: #6366f1;
-  color: white;
-  padding: 0 16px;
-  min-height: 40px;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.preview-actions button:hover {
-  background: #4f46e5;
+  border-width: 2px;
 }
 
 /* Preview das seções */
