@@ -1,33 +1,21 @@
-.pickerContainer {
-  display: flex;
-  align-items: flex-start;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 1rem;
-}
-
-.pickerLabel {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 500;
-  font-size: 12px;
-}
-
-.pickerGrid{
-  display: flex;
-  border-radius: 100%;
-  border: 2px solid black;
-  overflow: hidden;
-}
-
-.input {
-  width: 36px;
-  height: 36px;
-  border: none;
-  padding: 0;
-  background: none;
+.color{
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid #000;
   cursor: pointer;
-  border-radius: 100%;
-  overflow: hidden;
+}
+
+.colorPicker{
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  width: 232px;
 }

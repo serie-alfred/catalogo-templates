@@ -1,11 +1,9 @@
 
 /* Layout principal */
 .main {
-    display: grid;
-    grid-template-columns: 500px 1fr;
+    display: flex;
     height: 100vh;
     font-family: var(--font-family);
-    
 }
 
 .desktop{

@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../styles/globals.css';
+import '../../styles/gerador.css';
 
 export const metadata = {
   title: 'E-temas',

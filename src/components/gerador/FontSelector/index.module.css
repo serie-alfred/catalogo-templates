@@ -1,27 +1,3 @@
-.fontContainer{
-  position: relative; 
-  max-width: 100%;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #eee;
-}
-.fontLabel{
-  font-size: 0.9rem;
-  font-weight: 600;
-  display: block;
-  margin-bottom: 8px;
-}
-.fontInput{
-  height: 32px;
-  max-height: 32px;
-  font-size: 12px;
-  border: 1px solid rgb(204, 204, 204);
-  border-radius: 8px;
-  width: -moz-available;
-  max-width: 100%;
-  padding: .375rem .75rem;
-  background: transparent;
-  color: black;
-}
 .fontSuggest{
   position: absolute;
   top: 100%;

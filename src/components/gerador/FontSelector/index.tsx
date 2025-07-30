@@ -86,10 +86,8 @@ export default function FontSelector({
   };
 
   return (
-    <div className={styles.fontContainer}>
-      <label htmlFor={`font-${cssVariable}`} className={styles.fontLabel}>
-        {label}
-      </label>
+    <div className="field">
+      <label htmlFor={`font-${cssVariable}`}>{label}</label>
       <input
         id={`input-font-${cssVariable}`}
         type="text"
@@ -101,7 +99,6 @@ export default function FontSelector({
         style={{
           fontFamily: selectedFont,
         }}
-        className={styles.fontInput}
       />
 
       {showSuggestions && suggestions.length > 0 && (

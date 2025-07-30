@@ -1,4 +1,5 @@
-/* Sidebar */
+
+
 .sidebar {
   background: #fff;
   padding: 24px;
@@ -7,23 +8,34 @@
   flex-direction: column;
   gap: 24px;
   overflow-y: auto;
-}
-/* Scrollbars suaves */
-.sidebar {
+
+  display: flex;
+  transition: width 0.3s ease;
+  background: #fff;
+  border-right: 1px solid #ddd;
+  height: 100%;
+
   scrollbar-width: thin;
   scrollbar-color: #ccc transparent;
 }
 
-.sidebar::-webkit-scrollbar {
-  width: 6px;
+.closed {
+  width: 60px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  align-items: center;
+  padding-top: 48px;
 }
 
-.sidebar::-webkit-scrollbar-thumb {
-  background-color: #ccc;
-  border-radius: 4px;
+.open {
+  width: 480px;
+  flex-direction: column;
 }
 
-/* Tabs de Página */
+
+
 #pagina-tabs {
   display: flex;
   flex-wrap: wrap;
@@ -43,9 +55,4 @@
 #pagina-tabs button.active {
   background: #6366f1;
   color: black;
-}
-
-.colorContainer{
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
 }

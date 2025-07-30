@@ -1,18 +1,16 @@
-import React from 'react';
-
-import PlatformSelect from '../PlatformSelect';
-import ProgressBar from '../ProgressBar';
-import SelectPage from '../SelectPage';
-import SelectSection from '../SelectSection';
-import SelectSectionItem from '../SelectSectionItem';
-
+'use client';
+import React, { useState } from 'react';
 import { LayoutKey } from '@/data/layoutData';
 import { LayoutSelection, MAX_PER_PAGE } from '@/hooks/useLayoutGenerator';
 import { Platform } from '@/types/platform';
-
 import styles from './index.module.css';
-import FontSelector from '../FontSelector';
-import ColorPicker from '../ColorPicker';
+
+import SidebarIcons from './SidebarIcons';
+import SidebarHeader from './SidebarHeader';
+import SidebarTabGlobal from './SidebarTabGlobal';
+import SidebarTabRegister from './SidebarTabRegister';
+import SidebarTabShare from './SidebarTabShare';
+import SidebarTabEditTheme from './SidebarTabEditTheme';
 
 export interface SidebarProps {
   selectedImages: LayoutSelection[];
@@ -27,6 +25,8 @@ export interface SidebarProps {
   setSelectedPage: React.Dispatch<React.SetStateAction<string>>;
 }
 
+type Tab = 'global' | 'build' | 'register' | 'share' | null;
+
 export default function Sidebar({
   selectedImages,
   activeLayoutKey,
@@ -39,88 +39,48 @@ export default function Sidebar({
   selectedPage,
   setSelectedPage,
 }: SidebarProps) {
-  const isCommonPage = selectedPage === 'common';
-  const currentCount = selectedImages.filter(
-    item => item.pagina === selectedPage
-  ).length;
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<Tab>(null);
+
+  const toggleTab = (tab: Tab) => {
+    if (activeTab === tab && isOpen) {
+      setIsOpen(false);
+      setActiveTab(null);
+    } else {
+      setIsOpen(true);
+      setActiveTab(tab);
+    }
+  };
 
   return (
-    <aside className={styles.sidebar}>
-      <PlatformSelect
-        value={platform}
-        showError={showError}
-        onChange={onSelectChange}
-      />
+    <aside
+      className={`sidebar ${styles.sidebar} ${isOpen ? styles.open : styles.closed}`}
+    >
+      {!isOpen && <SidebarIcons toggleTab={toggleTab} />}
 
-      <FontSelector
-        label="Fonte Primária"
-        cssVariable="font-primary"
-        defaultFont="Roboto"
-      />
+      {isOpen && (
+        <div className={styles.content}>
+          <SidebarHeader onClose={() => setIsOpen(false)} />
 
-      <FontSelector
-        label="Fonte Secundária"
-        cssVariable="font-secondary"
-        defaultFont="Poppins"
-      />
-
-      <FontSelector
-        label="Fonte Terciária"
-        cssVariable="font-tertiary"
-        defaultFont="Open Sans"
-      />
-
-      <div className={styles.colorContainer}>
-        <ColorPicker
-          label="Cor Primária"
-          colorKey="--primary-color"
-          defaultColor="#1a1a1a"
-        />
-
-        <ColorPicker
-          label="Cor Secundária"
-          colorKey="--secondary-color"
-          defaultColor="#ffffff"
-        />
-
-        <ColorPicker
-          label="Cor Terciária"
-          colorKey="--tertiary-color"
-          defaultColor="#f0f0f0"
-        />
-      </div>
-
-      <ProgressBar
-        current={currentCount}
-        isCommonPage={isCommonPage}
-        total={totalSections}
-      />
-
-      <h3>Selecione uma página</h3>
-      <SelectPage
-        selectedPage={selectedPage}
-        setSelectedPage={setSelectedPage}
-      />
-
-      <h3>Selecione um componente</h3>
-      <SelectSection
-        selectedPage={selectedPage}
-        activeLayoutKey={activeLayoutKey}
-        setActiveLayoutKey={setActiveLayoutKey}
-      />
-
-      <div id="options-container" className={styles['options-container']}>
-        <h3>Selecione um modelo</h3>
-        <SelectSectionItem
-          activeLayoutKey={activeLayoutKey}
-          selectedImages={selectedImages}
-          onSelect={(id, layoutKey) =>
-            onImageSelect(id, layoutKey, selectedPage)
-          }
-          selectedPage={selectedPage}
-          platform={platform}
-        />
-      </div>
+          {activeTab === 'global' && <SidebarTabGlobal />}
+          {activeTab === 'build' && (
+            <SidebarTabEditTheme
+              selectedImages={selectedImages}
+              activeLayoutKey={activeLayoutKey}
+              setActiveLayoutKey={setActiveLayoutKey}
+              showError={showError}
+              platform={platform}
+              onSelectChange={onSelectChange}
+              onImageSelect={onImageSelect}
+              totalSections={totalSections}
+              selectedPage={selectedPage}
+              setSelectedPage={setSelectedPage}
+            />
+          )}
+          {activeTab === 'register' && <SidebarTabRegister />}
+          {activeTab === 'share' && <SidebarTabShare />}
+        </div>
+      )}
     </aside>
   );
 }
