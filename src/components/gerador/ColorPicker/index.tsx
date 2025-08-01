@@ -1,36 +1,28 @@
-'use client';
-
+import { useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
-import { useState, useEffect } from 'react';
 import styles from './index.module.css';
 
 type ColorPickerProps = {
   label: string;
-  colorKey: string; // Ex: '--primary-color'
-  defaultColor?: string;
+  color: string;
+  setColor: (value: string) => void;
 };
 
 export default function ColorPicker({
   label,
-  colorKey,
-  defaultColor = '#000000',
+  color,
+  setColor,
 }: ColorPickerProps) {
-  const [color, setColor] = useState(defaultColor);
   const [showPicker, setShowPicker] = useState(false);
-
-  useEffect(() => {
-    document.documentElement.style.setProperty(colorKey, color);
-  }, [color, colorKey]);
 
   const togglePicker = () => setShowPicker(!showPicker);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newColor = e.target.value;
-    // Verifica se o valor é um hexa válido
     if (/^#[0-9A-Fa-f]{6}$/.test(newColor)) {
       setColor(newColor);
     } else {
-      setColor(newColor); // ainda atualiza para dar feedback mesmo que incompleto
+      setColor(newColor); // Permite digitar parcialmente
     }
   };
 
@@ -48,7 +40,6 @@ export default function ColorPicker({
       {showPicker && (
         <div className={styles.colorPicker}>
           <HexColorPicker color={color} onChange={setColor} />
-
           <input
             type="text"
             value={color}

@@ -1,9 +1,24 @@
-import React from 'react';
+import { useLayoutGenerator } from '@/hooks/useLayoutGenerator';
 import FontSelector from '../../FontSelector';
 import ColorPicker from '../../ColorPicker';
 import { iconsGenerator } from '@/assets/icons/generator';
 
 export default function SidebarTabGlobal() {
+  const {
+    fontPrimary,
+    setFontPrimary,
+    fontSecondary,
+    setFontSecondary,
+    fontTertiary,
+    setFontTertiary,
+    colorPrimary,
+    setColorPrimary,
+    colorSecondary,
+    setColorSecondary,
+    colorTertiary,
+    setColorTertiary,
+  } = useLayoutGenerator();
+
   return (
     <div className="sidebar__main">
       <div className="header">
@@ -13,34 +28,36 @@ export default function SidebarTabGlobal() {
       <FontSelector
         label="Defina a fonte primária"
         cssVariable="font-primary"
-        defaultFont="Roboto"
+        selectedFont={fontPrimary}
+        onFontChange={setFontPrimary}
       />
-
       <FontSelector
         label="Defina a fonte secundária"
         cssVariable="font-secondary"
-        defaultFont="Poppins"
+        selectedFont={fontSecondary}
+        onFontChange={setFontSecondary}
       />
       <FontSelector
         label="Defina a fonte terciária"
         cssVariable="font-tertiary"
-        defaultFont="Open Sans"
+        selectedFont={fontTertiary}
+        onFontChange={setFontTertiary}
       />
 
       <ColorPicker
         label="Defina a cor primária"
-        colorKey="--primary-color"
-        defaultColor="#1a1a1a"
+        color={colorPrimary}
+        setColor={setColorPrimary}
       />
       <ColorPicker
         label="Defina a cor secundária"
-        colorKey="--secondary-color"
-        defaultColor="#ffffff"
+        color={colorSecondary}
+        setColor={setColorSecondary}
       />
       <ColorPicker
         label="Defina a cor terciária"
-        colorKey="--tertiary-color"
-        defaultColor="#f0f0f0"
+        color={colorTertiary}
+        setColor={setColorTertiary}
       />
     </div>
   );

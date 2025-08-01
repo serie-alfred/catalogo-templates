@@ -10,18 +10,19 @@ type FontItem = {
 type FontSelectorProps = {
   label: string;
   cssVariable: string;
-  defaultFont?: string;
+  selectedFont: string;
+  onFontChange: (font: string) => void;
 };
 
 export default function FontSelector({
   label,
   cssVariable,
-  defaultFont = 'Roboto',
+  selectedFont,
+  onFontChange,
 }: FontSelectorProps) {
   const [allFonts, setAllFonts] = useState<FontItem[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(selectedFont || '');
   const [suggestions, setSuggestions] = useState<FontItem[]>([]);
-  const [selectedFont, setSelectedFont] = useState(defaultFont);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -32,13 +33,7 @@ export default function FontSelector({
   }, []);
 
   useEffect(() => {
-    if (!selectedFont) return;
-
-    const fontUrl = `https://fonts.googleapis.com/css2?family=${selectedFont.replace(
-      / /g,
-      '+'
-    )}:wght@400;700&display=swap`;
-
+    const fontUrl = `https://fonts.googleapis.com/css2?family=${selectedFont.replace(/ /g, '+')}:wght@400;700&display=swap`;
     const linkId = `font-${cssVariable}`;
 
     const existingLink = document.getElementById(linkId);
@@ -79,7 +74,7 @@ export default function FontSelector({
   };
 
   const handleSelectFont = (font: string) => {
-    setSelectedFont(font);
+    onFontChange(font);
     setSearchTerm(font);
     setSuggestions([]);
     setShowSuggestions(false);

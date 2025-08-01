@@ -23,6 +23,77 @@ export function useLayoutGenerator() {
   const [showPlatformError, setShowPlatformError] = useState<boolean>(false);
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
 
+  const [fontPrimary, setFontPrimary] = useState('Roboto');
+  const [fontSecondary, setFontSecondary] = useState('Poppins');
+  const [fontTertiary, setFontTertiary] = useState('Open Sans');
+  const [colorPrimary, setColorPrimary] = useState('#1a1a1a');
+  const [colorSecondary, setColorSecondary] = useState('#ffffff');
+  const [colorTertiary, setColorTertiary] = useState('#f0f0f0');
+  
+  // Salvar no localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        'colors',
+        JSON.stringify({
+          colorPrimary,
+          colorSecondary,
+          colorTertiary,
+        })
+      );
+    } catch (e) {
+      console.error('Erro ao salvar cores:', e);
+    }
+  }, [colorPrimary, colorSecondary, colorTertiary]);
+  
+  // Carregar do localStorage
+  useEffect(() => {
+    try {
+      const storedColors = localStorage.getItem('colors');
+      if (storedColors) {
+        const parsed = JSON.parse(storedColors);
+        setColorPrimary(parsed.colorPrimary || '#1a1a1a');
+        setColorSecondary(parsed.colorSecondary || '#ffffff');
+        setColorTertiary(parsed.colorTertiary || '#f0f0f0');
+      }
+    } catch (e) {
+      console.error('Erro ao carregar cores:', e);
+    }
+  }, []);
+  
+  // Aplicar variáveis CSS no documento
+  useEffect(() => {
+    document.documentElement.style.setProperty('--primary-color', colorPrimary);
+    document.documentElement.style.setProperty('--secondary-color', colorSecondary);
+    document.documentElement.style.setProperty('--tertiary-color', colorTertiary);
+  }, [colorPrimary, colorSecondary, colorTertiary]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('fonts', JSON.stringify({
+        fontPrimary,
+        fontSecondary,
+        fontTertiary,
+      }));
+    } catch (e) {
+      console.error('Erro ao salvar fontes:', e);
+    }
+  }, [fontPrimary, fontSecondary, fontTertiary]);
+
+  useEffect(() => {
+    try {
+      const storedFonts = localStorage.getItem('fonts');
+      if (storedFonts) {
+        const parsed = JSON.parse(storedFonts);
+        setFontPrimary(parsed.fontPrimary || 'Roboto');
+        setFontSecondary(parsed.fontSecondary || 'Poppins');
+        setFontTertiary(parsed.fontTertiary || 'Open Sans');
+      }
+    } catch (e) {
+      console.error('Erro ao carregar fontes:', e);
+    }
+  }, []);
+
   /** Refs para captura de tela */
   const desktopPreviewRef = useRef<HTMLDivElement | null>(null);
   const mobilePreviewRef = useRef<HTMLDivElement | null>(null);
@@ -131,6 +202,14 @@ export function useLayoutGenerator() {
       platform: platform.toLowerCase(),
       [platform.toLowerCase()]: {
         global: globalItems,
+        variables:{
+          fontPrimary, 
+          fontSecondary, 
+          fontTertiary, 
+          colorPrimary,
+          colorSecondary,
+          colorTertiary,
+        },
         ...pageItems,
       },
     };
@@ -157,7 +236,6 @@ export function useLayoutGenerator() {
     }
   };
 
-  /** Define primeira aba (header) como foco inicial */
   useEffect(() => {
     const firstLayoutKey = Object.keys(LAYOUTS)[0] as LayoutKey | undefined;
     if (firstLayoutKey) {
@@ -165,7 +243,6 @@ export function useLayoutGenerator() {
     }
   }, []);
 
-  /** Carrega seleções do localStorage */
   useEffect(() => {
     try {
       const storedSelections = localStorage.getItem('layoutSelections');
@@ -182,7 +259,6 @@ export function useLayoutGenerator() {
     }
   }, []);
 
-  /** Salva seleções no localStorage */
   useEffect(() => {
     try {
       localStorage.setItem('layoutSelections', JSON.stringify(selections));
@@ -191,7 +267,6 @@ export function useLayoutGenerator() {
     }
   }, [selections]);
 
-  /** Salva plataforma no localStorage */
   useEffect(() => {
     try {
       if(platform)
@@ -211,6 +286,15 @@ export function useLayoutGenerator() {
     desktopPreviewRef,
     mobilePreviewRef,
     setFocusedKey,
+    fontPrimary, setFontPrimary,
+    fontSecondary, setFontSecondary,
+    fontTertiary, setFontTertiary,
+    colorPrimary,
+    setColorPrimary,
+    colorSecondary,
+    setColorSecondary,
+    colorTertiary,
+    setColorTertiary,
     toggleMobileView,
     handlePlatformChange,
     toggleSelection,
