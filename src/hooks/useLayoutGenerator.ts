@@ -29,15 +29,11 @@ export function useLayoutGenerator() {
   const [colorPrimary, setColorPrimary] = useState('#1a1a1a');
   const [colorSecondary, setColorSecondary] = useState('#ffffff');
   const [colorTertiary, setColorTertiary] = useState('#f0f0f0');
-
-  // novas useStates
- const [colorPrimaryBackground, setColorPrimaryBackground] = useState('#F7EFF5');
+  const [colorPrimaryBackground, setColorPrimaryBackground] = useState('#F7EFF5');
   const [colorSecondaryBackground, setColorSecondaryBackground] = useState('#E60F73');
   const [colorTertiaryBackground, setColorTertiaryBackground] = useState('#682A77');
-
   const [colorFooter, setColorFooter] = useState('#E8E8E8');
   const [colorFooterText, setColorFooterText] = useState('#3D3D3D');
-
   const [colorPrimaryText, setColorPrimaryText] = useState('#000');
   const [colorSecondaryText, setColorSecondaryText] = useState('#FFF');
   
