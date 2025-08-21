@@ -7,7 +7,7 @@
     display: block;
   }
   
-  .duplicateBtn, .remoteBtn{
+  .buttonContainer .duplicateBtn, .buttonContainer .remoteBtn{
     position: absolute;
     top: 8px;
     right: calc(22px + 16px);
@@ -28,11 +28,11 @@
     display: flex;
   }
 
-  .duplicateBtn svg path, .remoteBtn svg path{
+  .buttonContainer .duplicateBtn svg path, .buttonContainer .remoteBtn svg path{
     stroke: inherit !important;
   }
 
-  .duplicateBtn:hover{
+  .buttonContainer .duplicateBtn:hover{
     background: #0d946e;
   }
 
@@ -40,11 +40,11 @@
     position: relative;
   }
 
-  .remoteBtn{
+  .buttonContainer .remoteBtn{
     background: #BB4344;
     right: 8px;
   }
 
-  .remoteBtn:hover{
+  .buttonContainer .remoteBtn:hover{
     background: #b02a37;
   }

@@ -1,0 +1,199 @@
+/* Clearfix */
+.clearfix::before,
+.clearfix::after {
+  content: " ";
+  display: table;
+}
+.clearfix::after {
+  clear: both;
+}
+
+/************************** Container **************************/
+.component__container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0px 15px;
+}
+.component__container::before,
+.component__container::after {
+  content: " ";
+  display: table;
+}
+.component__container::after {
+  clear: both;
+}
+
+@media (min-width: 480px) {
+  .component__container {
+    max-width: 480px;
+  }
+}
+
+@media (min-width: 768px) {
+  .component__container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 992px) {
+  .component__container {
+    max-width: 992px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .component__container {
+    max-width: 1200px;
+  }
+}
+
+.component__row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+.component__row::before,
+.component__row::after {
+  content: " ";
+  display: table;
+}
+.component__row::after {
+  clear: both;
+}
+
+/************************** Columns **************************/
+.col-xs-1 { max-width: 8.3333%; width: 8.3333%; padding: 0 15px; }
+.col-xs-2 { max-width: 16.6666%; width: 16.6666%; padding: 0 15px; }
+.col-xs-3 { max-width: 25%; width: 25%; padding: 0 15px; }
+.col-xs-4 { max-width: 33.3333%; width: 33.3333%; padding: 0 15px; }
+.col-xs-5 { max-width: 41.6666%; width: 41.6666%; padding: 0 15px; }
+.col-xs-6 { max-width: 50%; width: 50%; padding: 0 15px; }
+.col-xs-7 { max-width: 58.3333%; width: 58.3333%; padding: 0 15px; }
+.col-xs-8 { max-width: 66.6666%; width: 66.6666%; padding: 0 15px; }
+.col-xs-9 { max-width: 75%; width: 75%; padding: 0 15px; }
+.col-xs-10 { max-width: 83.3333%; width: 83.3333%; padding: 0 15px; }
+.col-xs-11 { max-width: 91.6666%; width: 91.6666%; padding: 0 15px; }
+.col-xs-12 { max-width: 100%; width: 100%; padding: 0 15px; }
+
+/* Small columns */
+@media (min-width: 768px) {
+  .col-sm-1 { max-width: 8.3333%; width: 8.3333%; }
+  .col-sm-2 { max-width: 16.6666%; width: 16.6666%; }
+  .col-sm-3 { max-width: 25%; width: 25%; }
+  .col-sm-4 { max-width: 33.3333%; width: 33.3333%; }
+  .col-sm-5 { max-width: 41.6666%; width: 41.6666%; }
+  .col-sm-6 { max-width: 50%; width: 50%; }
+  .col-sm-7 { max-width: 58.3333%; width: 58.3333%; }
+  .col-sm-8 { max-width: 66.6666%; width: 66.6666%; }
+  .col-sm-9 { max-width: 75%; width: 75%; }
+  .col-sm-10 { max-width: 83.3333%; width: 83.3333%; }
+  .col-sm-11 { max-width: 91.6666%; width: 91.6666%; }
+  .col-sm-12 { max-width: 100%; width: 100%; }
+}
+
+/* Medium columns */
+@media (min-width: 992px) {
+  .col-md-1 { max-width: 8.3333%; width: 8.3333%; }
+  .col-md-2 { max-width: 16.6666%; width: 16.6666%; }
+  .col-md-3 { max-width: 25%; width: 25%; }
+  .col-md-4 { max-width: 33.3333%; width: 33.3333%; }
+  .col-md-5 { max-width: 41.6666%; width: 41.6666%; }
+  .col-md-6 { max-width: 50%; width: 50%; }
+  .col-md-7 { max-width: 58.3333%; width: 58.3333%; }
+  .col-md-8 { max-width: 66.6666%; width: 66.6666%; }
+  .col-md-9 { max-width: 75%; width: 75%; }
+  .col-md-10 { max-width: 83.3333%; width: 83.3333%; }
+  .col-md-11 { max-width: 91.6666%; width: 91.6666%; }
+  .col-md-12 { max-width: 100%; width: 100%; }
+}
+
+/* Large columns */
+@media (min-width: 1200px) {
+  .col-lg-1 { max-width: 8.3333%; width: 8.3333%; }
+  .col-lg-2 { max-width: 16.6666%; width: 16.6666%; }
+  .col-lg-3 { max-width: 25%; width: 25%; }
+  .col-lg-4 { max-width: 33.3333%; width: 33.3333%; }
+  .col-lg-5 { max-width: 41.6666%; width: 41.6666%; }
+  .col-lg-6 { max-width: 50%; width: 50%; }
+  .col-lg-7 { max-width: 58.3333%; width: 58.3333%; }
+  .col-lg-8 { max-width: 66.6666%; width: 66.6666%; }
+  .col-lg-9 { max-width: 75%; width: 75%; }
+  .col-lg-10 { max-width: 83.3333%; width: 83.3333%; }
+  .col-lg-11 { max-width: 91.6666%; width: 91.6666%; }
+  .col-lg-12 { max-width: 100%; width: 100%; }
+}
+
+/************************** Display helpers **************************/
+@media (min-width: 320px) and (max-width: 767px) {
+  .display-xs-none { display: none; }
+}
+@media (min-width: 768px) and (max-width: 992px) {
+  .display-sm-none { display: none; }
+}
+@media (min-width: 992px) {
+  .display-md-none { display: none; }
+}
+@media (min-width: 1200px) {
+  .display-lg-none { display: none; }
+}
+
+/************************** Responsive table **************************/
+.table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+/************************** Transitions **************************/
+.transition__fast {
+  -webkit-transition: 250ms ease-in all;
+  -moz-transition: 250ms ease-in all;
+  -o-transition: 250ms ease-in all;
+  transition: 250ms ease-in all;
+}
+
+.transition__medium {
+  -webkit-transition: 350ms ease-in all;
+  -moz-transition: 350ms ease-in all;
+  -o-transition: 350ms ease-in all;
+  transition: 350ms ease-in all;
+}
+
+.transition__slow {
+  -webkit-transition: 450ms ease-in all;
+  -moz-transition: 450ms ease-in all;
+  -o-transition: 450ms ease-in all;
+  transition: 450ms ease-in all;
+}
+
+/************************** Custom breakpoints **************************/
+@media only screen and (min-width: 1440px) {
+  .component__container {
+    padding: 0px 30px;
+    max-width: 1437px !important;
+  }
+}
+@media only screen and (min-width: 1921px) {
+  .component__container {
+    max-width: 1920px !important;
+  }
+}
+
+/************************** Animations **************************/
+@keyframes scrollDown {
+  0% { top: -280px; }
+  100% { top: 0px; }
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0.5); }
+  100% { transform: scale(1); }
+}
+
+.preview__area input, .preview__area button {
+  all: unset;
+  box-sizing: border-box;
+}

@@ -1,6 +1,13 @@
 import React from 'react';
-import '../../styles/globals.css';
 import '../../styles/gerador.css';
+import '../../styles/templates.css';
+import '../../styles/globals.css';
+import { Roboto } from 'next/font/google';
+
+const roboto = Roboto({
+  variable: '--font-primary',
+  subsets: ['latin'],
+});
 
 export const metadata = {
   title: 'E-temas',
@@ -15,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className={`${roboto.variable}`}>{children}</body>
     </html>
   );
 }

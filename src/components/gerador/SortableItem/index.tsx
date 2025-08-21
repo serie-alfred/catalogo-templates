@@ -6,6 +6,7 @@ import { CSS } from '@dnd-kit/utilities';
 import Image from 'next/image';
 
 import styles from './index.module.css';
+import { TemplateRegistry } from '@/utils/templateRegistry';
 
 interface SortableItemProps {
   id: string | null;
@@ -34,6 +35,7 @@ export default function SortableItem({
       };
 
   const imageSrc = isMobile ? data.mobile : data.image;
+  const Component = TemplateRegistry[data.component];
 
   return (
     <div className={styles.itemWrapper}>
@@ -44,13 +46,16 @@ export default function SortableItem({
         {...(isOverlay ? {} : listeners)}
         className={styles.imageContainer}
       >
-        <Image
-          src={`/images/gerador/${imageSrc}`}
-          width={1919}
-          height={90}
-          alt={data.title}
-          className={styles.carouselImage}
-        />
+        {Component ? (
+          <Component isMobile={isMobile} />
+        ) : (
+          <Image
+            src={`/images/gerador/${imageSrc}`}
+            width={1919}
+            height={90}
+            alt={data.title}
+          />
+        )}
         {selected && <div className={styles.selectedOverlay} />}
       </div>
     </div>

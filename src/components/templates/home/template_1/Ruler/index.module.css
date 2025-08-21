@@ -1,0 +1,142 @@
+.home__ruler {
+  padding: 25px 0;
+  margin-bottom: 80px;
+  border-bottom: 1px solid #efeff0;
+  width: 100%;
+  container-type: inline-size;
+}
+
+.ruler__container {
+  position: relative;
+}
+
+.ruler__swiper {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.ruler__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  width: max-content;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.item__icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+  transition: all 0.2s ease-in-out;
+}
+
+.item__icon:hover {
+  background-color: #dfdfe0;
+}
+
+.item__text {
+  width: fit-content;
+  padding-left: 10px;
+}
+
+.item__text span {
+  display: block;
+  line-height: 1;
+  font-family: Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #525252;
+  letter-spacing: 0.25px;
+}
+
+.item__text span b {
+  font-weight: 600;
+  font-size: 18px;
+  color: #000;
+  margin-bottom: 8px;
+  width: 100%;
+  display: block;
+}
+
+/* Botões */
+.swiper-ruler-button-prev,
+.swiper-ruler-button-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 20px;
+  width: 25px;
+  height: 25px;
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.swiper-ruler-button-next {
+  left: unset;
+  right: 20px;
+  justify-content: flex-end;
+}
+
+.ruler__item {
+  flex: 0 0 100%;
+}
+
+/* A partir de 768px → 2 itens */
+@container (min-width: 768px) {
+  .ruler__item {
+    flex: 0 0 50%;
+  }
+}
+
+/* A partir de 1024px → 3 itens */
+@container (min-width: 1024px) {
+  .ruler__item {
+    flex: 0 0 33.3333%;
+  }
+}
+
+/* A partir de 1366px → 4 itens */
+@container (min-width: 1360px) {
+  .ruler__item {
+    flex: 0 0 25%;
+  }
+}
+
+/* ===== Mobile ===== */
+@container (max-width: 767px) {
+  .home__ruler {
+    margin-bottom: 40px;
+  }
+
+  .ruler__swiper {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .ruler__item {
+    flex: 0 0 100%;
+    display: none;
+  }
+
+  .ruler__item.active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .swiper-ruler-button-prev,
+  .swiper-ruler-button-next {
+    display: flex;
+  }
+}

@@ -1,4 +1,4 @@
-label{
+.sidebar label{
   font-weight: 700;
   font-size: 14.4px;
   line-height: 100%;
@@ -6,7 +6,7 @@ label{
   color: #000000;
 }
 
-input, select{
+.sidebar input, .sidebar select{
   width: 100%;
   height: 40px;
   border-radius: 8px;
@@ -23,15 +23,15 @@ input, select{
   color: #000;
 }
 
-input::placeholder, select::placeholder{
+.sidebar input::placeholder, .sidebar select::placeholder{
   color: #CCCCCC;
 }
 
-select option{
+.sidebar select option{
   color: black;
 }
 
-button{
+.sidebar button, .sidebar__header button{
   width: fit-content;
   padding: 0 32px;
   height: 44px;
@@ -55,30 +55,30 @@ button{
   min-width: 190px;
 }
 
-button:hover{
+.sidebar button:hover, .sidebar__header button:hover{
   background-color: transparent;
   color: var(--color-blue);
 }
 
-button:hover svg path{
+.sidebar button:hover svg path, .sidebar__header button:hover svg path{ 
   stroke: var(--color-blue);
 }
 
-button.outline{
+.sidebar button.outline, .sidebar__header button.outline{
   background-color: transparent;
   color: var(--color-blue);
 }
 
-button.outline:hover{
+.sidebar button.outline:hover, .sidebar__header button.outline:hover{
   background-color: var(--color-blue);
   color: white;
 }
 
-button.outline:hover svg path, button.outline:hover svg{
+.sidebar button.outline:hover svg path, .sidebar button.outline:hover svg, .sidebar__header button.outline:hover svg path, .sidebar__header button.outline:hover svg{
   fill: white;
 }
 
-.icon{
+.sidebar .icon{
   background-color: transparent;
   border: none;
   box-shadow: none;
@@ -90,18 +90,18 @@ button.outline:hover svg path, button.outline:hover svg{
   transition: .5s;
 }
 
-.header{
+.sidebar .header{
   display: block;
   margin-top: 24px;
 }
 
-.sidebar__main{
+.sidebar .sidebar__main{
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-.field{
+.sidebar .field{
   display: flex;
   flex-direction: column;
   gap: 9px;

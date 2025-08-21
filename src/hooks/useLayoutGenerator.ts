@@ -29,8 +29,18 @@ export function useLayoutGenerator() {
   const [colorPrimary, setColorPrimary] = useState('#1a1a1a');
   const [colorSecondary, setColorSecondary] = useState('#ffffff');
   const [colorTertiary, setColorTertiary] = useState('#f0f0f0');
+
+  // novas useStates
+ const [colorPrimaryBackground, setColorPrimaryBackground] = useState('#F7EFF5');
+  const [colorSecondaryBackground, setColorSecondaryBackground] = useState('#E60F73');
+  const [colorTertiaryBackground, setColorTertiaryBackground] = useState('#682A77');
+
+  const [colorFooter, setColorFooter] = useState('#E8E8E8');
+  const [colorFooterText, setColorFooterText] = useState('#3D3D3D');
+
+  const [colorPrimaryText, setColorPrimaryText] = useState('#000');
+  const [colorSecondaryText, setColorSecondaryText] = useState('#FFF');
   
-  // Salvar no localStorage
   useEffect(() => {
     try {
       localStorage.setItem(
@@ -39,12 +49,30 @@ export function useLayoutGenerator() {
           colorPrimary,
           colorSecondary,
           colorTertiary,
+          colorPrimaryBackground,
+          colorSecondaryBackground,
+          colorTertiaryBackground,
+          colorFooter,
+          colorFooterText,
+          colorPrimaryText,
+          colorSecondaryText,
         })
       );
     } catch (e) {
       console.error('Erro ao salvar cores:', e);
     }
-  }, [colorPrimary, colorSecondary, colorTertiary]);
+  }, [
+    colorPrimary,
+    colorSecondary,
+    colorTertiary,
+    colorPrimaryBackground,
+    colorSecondaryBackground,
+    colorTertiaryBackground,
+    colorFooter,
+    colorFooterText,
+    colorPrimaryText,
+    colorSecondaryText,
+  ]);
   
   // Carregar do localStorage
   useEffect(() => {
@@ -55,6 +83,16 @@ export function useLayoutGenerator() {
         setColorPrimary(parsed.colorPrimary || '#1a1a1a');
         setColorSecondary(parsed.colorSecondary || '#ffffff');
         setColorTertiary(parsed.colorTertiary || '#f0f0f0');
+
+        setColorPrimaryBackground(parsed.colorPrimaryBackground || '#F7EFF5');
+        setColorSecondaryBackground(parsed.colorSecondaryBackground || '#E60F73');
+        setColorTertiaryBackground(parsed.colorTertiaryBackground || '#682A77');
+  
+        setColorFooter(parsed.colorFooter || '#E8E8E8');
+        setColorFooterText(parsed.colorFooterText || '#3D3D3D');
+  
+        setColorPrimaryText(parsed.colorPrimaryText || '#000');
+        setColorSecondaryText(parsed.colorSecondaryText || '#FFF');
       }
     } catch (e) {
       console.error('Erro ao carregar cores:', e);
@@ -66,7 +104,38 @@ export function useLayoutGenerator() {
     document.documentElement.style.setProperty('--primary-color', colorPrimary);
     document.documentElement.style.setProperty('--secondary-color', colorSecondary);
     document.documentElement.style.setProperty('--tertiary-color', colorTertiary);
-  }, [colorPrimary, colorSecondary, colorTertiary]);
+
+    document.documentElement.style.setProperty('--background-primary-color', colorPrimaryBackground);
+    document.documentElement.style.setProperty('--background-secundary-color', colorSecondaryBackground);
+    document.documentElement.style.setProperty('--background-tertiary-color', colorTertiaryBackground);
+  
+    document.documentElement.style.setProperty('--background-footer', colorFooter);
+    document.documentElement.style.setProperty('--text-color-footer', colorFooterText);
+  
+    document.documentElement.style.setProperty('--text-color-base', colorPrimaryText);
+    document.documentElement.style.setProperty('--text-color-secundary', colorSecondaryText);
+  }, [
+      colorPrimary,
+      colorSecondary,
+      colorTertiary,
+      colorPrimaryBackground,
+      colorSecondaryBackground,
+      colorTertiaryBackground,
+      colorFooter,
+      colorFooterText,
+      colorPrimaryText,
+      colorSecondaryText,
+    ]);
+
+    useEffect(() => {
+      document.documentElement.style.setProperty('--font-primary', fontPrimary);
+      document.documentElement.style.setProperty('--font-secundary', fontSecondary);
+    }, [
+      fontPrimary,
+      fontSecondary,
+      fontTertiary,
+    ]);
+  
 
   useEffect(() => {
     try {
@@ -209,6 +278,13 @@ export function useLayoutGenerator() {
           colorPrimary,
           colorSecondary,
           colorTertiary,
+          colorPrimaryBackground,
+          colorSecondaryBackground,
+          colorTertiaryBackground,
+          colorFooter,
+          colorFooterText,
+          colorPrimaryText,
+          colorSecondaryText,
         },
         ...pageItems,
       },
@@ -295,6 +371,20 @@ export function useLayoutGenerator() {
     setColorSecondary,
     colorTertiary,
     setColorTertiary,
+    colorPrimaryBackground,
+    colorSecondaryBackground,
+    colorTertiaryBackground,
+    colorFooter,
+    colorFooterText,
+    colorPrimaryText,
+    colorSecondaryText,
+    setColorPrimaryBackground,
+    setColorSecondaryBackground,
+    setColorTertiaryBackground,
+    setColorFooter,
+    setColorFooterText,
+    setColorPrimaryText,
+    setColorSecondaryText,
     toggleMobileView,
     handlePlatformChange,
     toggleSelection,

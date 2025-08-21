@@ -8,6 +8,11 @@
   --background-white: #fff;
   --font-family: "Noto Sans", sans-serif;
   --color-blue: #0096fe;
+  --text-semi-black: #1A1A1A;
+  --text-color-footer: #3D3D3D;
+  --color-white: #fff;
+  --color-black: #000;
+  --color-semi-black: #1A1A1A;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,6 +20,10 @@
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+}
+
+*{
+  box-sizing: border-box;
 }
 
 html,

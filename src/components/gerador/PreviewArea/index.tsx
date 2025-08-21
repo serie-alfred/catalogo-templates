@@ -33,7 +33,7 @@ export default function PreviewArea({
 
   return (
     <main className={styles['preview-area']}>
-      <header className={styles['preview-header']}>
+      <header className={styles['preview-header'] + ` sidebar__header`}>
         <h2>Visualização</h2>
         <div className={styles['preview-actions']}>
           <button id="export-btn" onClick={onExport}>
@@ -54,7 +54,9 @@ export default function PreviewArea({
         </div>
       </header>
 
-      <div className={isMobile ? styles.mobile : styles.desktop}>
+      <div
+        className={isMobile ? styles.mobile : styles.desktop + ' preview__area'}
+      >
         <div ref={previewRef}>
           <DraggablePreviewList
             items={selectedImages}
@@ -70,7 +72,6 @@ export default function PreviewArea({
         <div
           ref={desktopPreviewRef}
           style={{ background: 'white', padding: '10px', width: '1920px' }}
-          className="OLA"
         >
           <DraggablePreviewList
             items={selectedImages}

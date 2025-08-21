@@ -17,6 +17,20 @@ export default function SidebarTabGlobal() {
     setColorSecondary,
     colorTertiary,
     setColorTertiary,
+    colorPrimaryBackground,
+    setColorPrimaryBackground,
+    colorSecondaryBackground,
+    setColorSecondaryBackground,
+    colorTertiaryBackground,
+    setColorTertiaryBackground,
+    colorPrimaryText,
+    setColorPrimaryText,
+    colorSecondaryText,
+    setColorSecondaryText,
+    colorFooter,
+    setColorFooter,
+    colorFooterText,
+    setColorFooterText,
   } = useLayoutGenerator();
 
   return (
@@ -58,6 +72,42 @@ export default function SidebarTabGlobal() {
         label="Defina a cor terciária"
         color={colorTertiary}
         setColor={setColorTertiary}
+      />
+
+      <ColorPicker
+        label="Defina a cor primária do background"
+        color={colorPrimaryBackground}
+        setColor={setColorPrimaryBackground}
+      />
+      <ColorPicker
+        label="Defina a cor secundária do background"
+        color={colorSecondaryBackground}
+        setColor={setColorSecondaryBackground}
+      />
+      <ColorPicker
+        label="Defina a cor terciária do background"
+        color={colorTertiaryBackground}
+        setColor={setColorTertiaryBackground}
+      />
+      <ColorPicker
+        label="Defina a cor primária do texto"
+        color={colorPrimaryText}
+        setColor={setColorPrimaryText}
+      />
+      <ColorPicker
+        label="Defina a cor secundária do texto"
+        color={colorSecondaryText}
+        setColor={setColorSecondaryText}
+      />
+      <ColorPicker
+        label="Defina a cor do rodapé"
+        color={colorFooter}
+        setColor={setColorFooter}
+      />
+      <ColorPicker
+        label="Defina a cor do texto do rodapé"
+        color={colorFooterText}
+        setColor={setColorFooterText}
       />
     </div>
   );
