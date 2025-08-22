@@ -23,25 +23,25 @@
   clear: both;
 }
 
-@media (min-width: 480px) {
+@container (min-width: 480px) {
   .component__container {
     max-width: 480px;
   }
 }
 
-@media (min-width: 768px) {
+@container (min-width: 768px) {
   .component__container {
     max-width: 768px;
   }
 }
 
-@media (min-width: 992px) {
+@container (min-width: 992px) {
   .component__container {
     max-width: 992px;
   }
 }
 
-@media (min-width: 1200px) {
+@container (min-width: 1200px) {
   .component__container {
     max-width: 1200px;
   }
@@ -170,13 +170,13 @@
 }
 
 /************************** Custom breakpoints **************************/
-@media only screen and (min-width: 1440px) {
+@container (min-width: 1440px) {
   .component__container {
     padding: 0px 30px;
     max-width: 1437px !important;
   }
 }
-@media only screen and (min-width: 1921px) {
+@container (min-width: 1921px) {
   .component__container {
     max-width: 1920px !important;
   }
@@ -193,7 +193,7 @@
   100% { transform: scale(1); }
 }
 
-.preview__area input, .preview__area button {
+.preview__area input, .preview__area button, .preview__area ul, .preview__area li {
   all: unset;
   box-sizing: border-box;
 }

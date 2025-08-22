@@ -54,6 +54,7 @@ export default function SortableItem({
             width={1919}
             height={90}
             alt={data.title}
+            style={{ width: '100%', height: 'auto' }}
           />
         )}
         {selected && <div className={styles.selectedOverlay} />}

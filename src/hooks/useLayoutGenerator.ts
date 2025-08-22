@@ -191,6 +191,24 @@ export function useLayoutGenerator() {
       if (pagina === 'common') {
         const item = LAYOUTS[layoutKey].items.find((i) => i.id === id);
         if (!item) return prev;
+
+        const alreadySelectedIndex = prev.findIndex(
+          (s) =>
+            s.pagina === "common" &&
+            s.layoutKey === layoutKey &&
+            LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id)?.selection === item.selection
+        );
+
+        if (alreadySelectedIndex !== -1) {
+          const newSelections = [...prev];
+          newSelections[alreadySelectedIndex] = {
+            uid: crypto.randomUUID(),
+            id,
+            layoutKey,
+            pagina: "common",
+          };
+          return newSelections;
+        }
   
         const newSelections = item.pagina.map((p) => ({
           uid: crypto.randomUUID(),

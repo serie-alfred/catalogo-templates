@@ -1,0 +1,141 @@
+.banner__home {
+  position: relative;
+  width: 100%;
+  container-type: inline-size;
+}
+
+.home__banner__main{
+  display: block;
+  width: 100%;
+}
+
+.banner__home .desktop .bannerMain,
+.banner__home .desktop .bannerMainMobile,
+.banner__home .mobile .bannerMain,
+.banner__home .mobile .bannerMainMobile {
+  margin: 0px !important;
+}
+
+.banner__home .desktop .bannerMain a,
+.banner__home .mobile .bannerMainMobile a {
+  display: block;
+  text-decoration: none;
+}
+
+.banner__home .desktop .bannerMain a img {
+  width: 100%;
+  max-width: 1920px;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  margin: 0 auto;
+}
+
+.banner__home .mobile .bannerMainMobile a img {
+  width: 100%;
+  max-width: 767px;
+  height: auto;
+}
+
+.banner__home .mobile .bannerMainMobile a img.lazy {
+  width: 1px;
+  height: 1px;
+}
+
+/* Botões do Swiper */
+.banner__home .swiperBannerButtonPrev,
+.banner__home .swiperBannerButtonNext {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 15%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  background-color: #fff;
+  border-radius: 100%;
+}
+
+.banner__home .swiperBannerButtonNext {
+  left: unset;
+  right: 15%;
+}
+
+/* Paginação do Swiper */
+.banner__home .swiperBannerPagination {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 35px;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+  height: auto;
+  border-radius: 120px;
+  padding: 12px 15px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.banner__home .swiperBannerPagination .swiperPaginationBullet {
+  width: 11px;
+  height: 11px;
+  background: var(--background-tertiary-color);
+  opacity: 1;
+  border: none;
+  border-radius: 100%;
+  margin: 0 12px 0 0;
+  transition: all 0.2s ease;
+}
+
+.banner__home .swiperBannerPagination .swiperPaginationBullet:last-of-type {
+  margin: 0;
+}
+
+.banner__home .swiperBannerPagination .swiperPaginationBullet.swiperPaginationBulletActive {
+  background: #fff;
+  border: none;
+  border-radius: 80px;
+  width: 17px;
+}
+
+.desktop {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+.mobile {
+  display: none;
+  position: relative;
+  width: 100%;
+}
+
+/* Responsivo */
+@container  (max-width: 768px){
+
+  .desktop {
+    display: none;
+  }
+  
+  .mobile {
+    display: block;
+  }
+
+  .banner__home .swiperBannerButtonPrev,
+  .banner__home .swiperBannerButtonNext {
+    left: 15px;
+  }
+
+  .banner__home .swiperBannerButtonNext {
+    left: unset;
+    right: 15px;
+  }
+ 
+}

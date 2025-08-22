@@ -55,7 +55,9 @@ export default function PreviewArea({
       </header>
 
       <div
-        className={isMobile ? styles.mobile : styles.desktop + ' preview__area'}
+        className={
+          (isMobile ? styles.mobile : styles.desktop) + ' preview__area'
+        }
       >
         <div ref={previewRef}>
           <DraggablePreviewList
@@ -67,7 +69,6 @@ export default function PreviewArea({
         </div>
       </div>
 
-      {/* pré-renders escondidos para captura */}
       <div style={{ position: 'absolute', top: '-9999px', left: '-9999px' }}>
         <div
           ref={desktopPreviewRef}

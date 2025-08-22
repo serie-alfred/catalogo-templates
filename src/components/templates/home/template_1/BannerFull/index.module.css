@@ -1,0 +1,25 @@
+.home__banner--full {
+  margin-bottom: 80px;
+  container-type: inline-size;
+}
+.home__banner--full .banner__container .banner__wrapper a {
+  display: block;
+  line-height: 1;
+  text-decoration: none;
+}
+.home__banner--full .banner__container .banner__wrapper a img {
+  display: block;
+  line-height: 1;
+  width: 100%;
+  max-width: 1860px;
+  height: auto;
+  display: block;
+  margin: 0px auto;
+  border-radius: 16px;
+}
+
+@container (max-width: 768px) {
+  .home__banner--full .banner__container .banner__wrapper a img.banner__mobile {
+    display: block;
+  }
+}

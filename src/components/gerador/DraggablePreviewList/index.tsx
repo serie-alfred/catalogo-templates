@@ -49,12 +49,24 @@ export default function DraggablePreviewList({
 
   const filteredItems = useMemo(
     () =>
-      items.filter(
-        item =>
-          item.pagina === selectedPage ||
-          (item.pagina === 'common' &&
-            !(item.layoutKey === 'breadcrumb' && selectedPage === 'home'))
-      ),
+      items.filter(item => {
+        // regra: "spot" só aparece em "common"
+        if (item.layoutKey === 'spot' && selectedPage !== 'common') {
+          return false;
+        }
+
+        // regra do breadcrumb na home
+        if (
+          item.layoutKey === 'breadcrumb' &&
+          selectedPage === 'home' &&
+          item.pagina === 'common'
+        ) {
+          return false;
+        }
+
+        // regra padrão: renderiza se a página for a selecionada ou for "common"
+        return item.pagina === selectedPage || item.pagina === 'common';
+      }),
     [items, selectedPage]
   );
 
