@@ -1,0 +1,139 @@
+.homeShowcase {
+  margin: 40px 0;
+  container-type: inline-size;
+  width: 100%;
+}
+.homeShowcase .showcaseContainer .showcaseTitle {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 40px;
+}
+.homeShowcase .showcaseContainer .showcaseTitle h2 {
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 120%;
+  letter-spacing: 0%;
+}
+.homeShowcase .showcaseContainer .showcaseWrapper {
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+}
+.homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper {
+  margin: 0px -8px;
+}
+.homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper .swiper__wrapper .swiper__slide {
+  padding: 0px 8px;
+}
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: left;
+  width: 100%;
+  height: 8px;
+  border-radius: 0px;
+  padding: 0px;
+  background: #ffffff;
+  margin-top: 40px;
+}
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet {
+  width: 11px;
+  height: 11px;
+  background-color: #CCCCCC;
+  opacity: 1;
+  border: none;
+  border-radius: 100%;
+  margin: 0px 8px 0px 0px;
+  transition: 0.5s;
+}
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet:last-of-type {
+  margin: 0px;
+}
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet.swiperPaginationBulletActive {
+  background-color: var(--color-black);
+}
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonPrev,
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
+  position: absolute;
+  transform: translateY(-50%);
+  right: 43px;
+  width: 27px;
+  height: 27px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+}
+
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
+  left: unset;
+  right: 5px;
+  justify-content: center;
+}
+
+
+.homeShowcase .swiper__wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  align-items: center;
+}
+
+.homeShowcase .swiper__wrapper .swiper__slide{
+  width: 100%;
+}
+
+.homeShowcase .swiper__wrapper .swiper__slide:nth-child(n+3) {
+  display: none;
+}
+
+@container (min-width: 768px) and  (max-width: 1024px){
+  .homeShowcase .swiper__wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .homeShowcase .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+  .homeShowcase .swiper__wrapper .swiper__slide:nth-child(n+4) {
+    display: none !important;
+  }
+}
+
+@container (min-width: 1440px) {
+  .homeShowcase .swiper__wrapper {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .homeShowcase .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+}
+
+@container (max-width: 1023px) {
+  .homeShowcase .showcaseContainer .showcaseWrapper {
+    padding: 0px;
+  }
+  .homeShowcase .showcaseContainer {
+    padding: 0px;
+  }
+  .homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper {
+    margin: 0px -4px;
+  }
+  .homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper .swiper__wrapper .swiper__slide {
+    padding: 0px 4px;
+  }
+  .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonPrev,
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
+    top: unset;
+    transform: unset;
+    bottom: -11px;
+  }
+  .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
+    left: unset;
+    right: 5px;
+  }
+}

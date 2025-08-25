@@ -1,0 +1,68 @@
+.homeBannerSide {
+  margin: 40px 0;
+  width: 100%;
+  container-type: inline-size;
+}
+
+.homeBannerSide .bannerContainer .bannerRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.homeBannerSide .bannerContainer .bannerRow .bannerItem {
+  width: 50%;
+  max-width: 50%;
+  padding: 0px 15px;
+}
+
+.homeBannerSide .bannerContainer .bannerRow .bannerItem a {
+  display: block;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.homeBannerSide .bannerContainer .bannerRow .bannerItem a img {
+  width: 100%;
+  max-width: 915px;
+  height: auto;
+  border-radius: 16px;
+  display: block;
+  margin: 0px auto;
+}
+
+@container (max-width: 1023px) {
+  .homeBannerSide {
+    margin-bottom: 40px;
+  }
+
+  .homeBannerSide .bannerContainer .bannerRow .bannerItem {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .homeBannerSide .bannerContainer .bannerRow .bannerItem:last-of-type {
+    margin-top: 25px;
+  }
+}
+
+@container (min-width: 1024px) and (max-width: 1199px) {
+  .homeBannerSide .bannerContainer .bannerRow {
+    margin-left: -5px;
+    margin-right: -5px;
+  }
+
+  .homeBannerSide .bannerContainer .bannerRow .bannerItem {
+    padding: 0px 5px;
+  }
+}
+
+@container (max-width: 768px) {
+  .homeBannerSide {
+    margin: 40px 0;
+  }
+  
+  .homeBannerSide .bannerContainer .bannerRow {
+    flex-direction: column;
+  }
+}

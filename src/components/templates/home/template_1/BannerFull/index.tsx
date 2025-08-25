@@ -13,21 +13,20 @@ export default function BannerFull({
   active = true,
   link = '#',
   title = 'Banner Full',
-  img = 'https://placehold.co/1860x574',
-  imgMobile = 'https://placehold.co/390x560',
+  img = 'https://placehold.co/1296x400',
 }: BannerFullProps) {
   if (!active) return null;
 
   return (
     <div className={styles.homeBannerFull}>
-      <div className={styles.bannerContainer}>
+      <div className={`${styles.bannerContainer} component__container`}>
         <div className={styles.bannerWrapper}>
           <a href={link}>
             <img
               alt={title}
               src={img}
               data-src={img}
-              data-srcset={`${imgMobile} 450w, ${img} 1860w`}
+              data-srcset={`${img} 1296w`}
               sizes="(max-width: 768px) 450px, 100vw"
               width={1860}
               height={574}

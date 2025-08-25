@@ -1,0 +1,75 @@
+.bannerSide {
+  display: flex;
+  margin: 40px 0;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  container-type: inline-size;
+}
+@container (max-width: 1023px) {
+  .bannerSide {
+    padding: 0px 20px;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+}
+.bannerSide h2 {
+  margin-bottom: 40px;
+  font-size: 28px;
+  font-weight: 700;
+}
+.bannerSide .bannerContainer {
+  display: flex;
+  width: 100%;
+}
+.bannerSide .bannerContainer .bannerRow {
+  display: flex;
+  flex: 1 1 50%;
+  gap: 25px;
+}
+@container (max-width: 768px) {
+  .bannerSide .bannerContainer .bannerRow {
+    flex-direction: column;
+  }
+}
+.bannerSide .bannerContainer .bannerRow .bannerItem {
+  flex: 1;
+}
+.bannerSide .bannerContainer .bannerRow .bannerItem a {
+  display: block;
+  line-height: 1;
+  text-decoration: none;
+}
+.bannerSide .bannerContainer .bannerRow .bannerItem a img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.bannerSide .bannerContainer .bannerRow .section__text {
+  flex: 1;
+  background: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+}
+.bannerSide .bannerContainer .bannerRow .section__text .text__content {
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.bannerSide .bannerContainer .bannerRow .section__text .text__content h2 {
+  font-size: 48px;
+  font-weight: 600;
+  max-width: 535px;
+  margin-bottom: unset;
+}
+.bannerSide .bannerContainer .bannerRow .section__text .text__content span {
+  font-size: 17px;
+  font-weight: 300;
+  max-width: 535px;
+  line-height: 1.5;
+  display: flex;
+}

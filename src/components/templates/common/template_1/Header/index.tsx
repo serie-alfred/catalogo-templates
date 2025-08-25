@@ -3,9 +3,9 @@ import React from 'react';
 import styles from './index.module.css';
 
 export default function Header() {
-  const isHome = true; // simula {% if pages.current == 'home' %}
-  const isLogged = false; // simula usuário logado
-  const cartAmount = 2; // simula {{ cart.amount }}
+  const isHome = true;
+  const isLogged = false;
+  const cartAmount = 2;
 
   return (
     <header className={styles.header}>

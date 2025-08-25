@@ -3,23 +3,23 @@ import styles from './index.module.css';
 
 const data = {
   leftLink: '#',
-  leftImg: 'https://placehold.co/653x251',
+  leftImg: 'https://placehold.co/915x360',
   leftTitle: 'placehold',
   rightLink: '#',
-  rightImg: 'https://placehold.co/653x251',
+  rightImg: 'https://placehold.co/915x360',
   rightTitle: 'placehold',
 };
 
-export default function BannerDuplo() {
+export default function BannerSide() {
   return (
     <div className={styles.homeBannerSide}>
-      <div className={`${styles.bannerContainer} ${styles.componentContainer}`}>
-        <div className={`${styles.bannerRow} ${styles.componentRow}`}>
+      <div className={`${styles.bannerContainer} component__container`}>
+        <div className={`${styles.bannerRow} component__row`}>
           <div className={styles.bannerItem}>
             <a href={data.leftLink}>
               <img
                 className={`${styles.lazy} ${styles.bannersDesktop}`}
-                src="/img/placeholder.svg"
+                src={data.leftImg}
                 data-src={data.leftImg}
                 data-srcset={data.leftImg}
                 width="915"
@@ -34,7 +34,7 @@ export default function BannerDuplo() {
             <a href={data.rightLink}>
               <img
                 className={`${styles.lazy} ${styles.bannersDesktop}`}
-                src="/img/placeholder.svg"
+                src={data.leftImg}
                 data-src={data.rightImg}
                 data-srcset={data.rightImg}
                 width="915"

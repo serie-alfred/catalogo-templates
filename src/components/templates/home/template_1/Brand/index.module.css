@@ -1,0 +1,125 @@
+.homeBrands {
+  margin: 40px 0;
+  container-type: inline-size;
+  width: 100%;
+  position: relative;
+}
+.homeBrands .brandsContainer .brandsWrapper {
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  padding: 0 30px;
+}
+.homeBrands .brandsContainer .brandsWrapper .brandsSwiper {
+  margin: 0px -12px;
+}
+.homeBrands .brandsContainer .brandsWrapper .brandsSwiper .swiper__wrapper .swiper__slide {
+  padding: 0px 12px;
+}
+.homeBrands .brandsContainer .brandsWrapper .brandsSwiper .swiper__wrapper .swiper__slide .brandsItem a .brandsImage img {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  display: block;
+  margin: 0px auto;
+}
+.homeBrands .brandsContainer .brandsWrapper .swiperBrandsButtonPrev,
+.homeBrands .brandsContainer .brandsWrapper .swiperBrandsButtonNext {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -5px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 1;
+}
+.homeBrands .brandsContainer .brandsWrapper .swiperBrandsButtonPrev,
+.homeBrands .brandsContainer .brandsWrapper .swiperBrandsButtonNext {
+
+}
+.homeBrands .brandsContainer .brandsWrapper .swiperBrandsButtonNext {
+  left: unset;
+  right: -5px;
+  justify-content: flex-end;
+}
+
+.homeBrands .swiper__wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  align-items: center;
+}
+.homeBrands .swiper__wrapper .swiper__slide{
+  width: fit-content;
+}
+.homeBrands .swiper__wrapper .swiper__slide:nth-child(n+3) {
+  display: none;
+}
+
+@container (min-width: 768px) and  (max-width: 1024px){
+  .homeBrands .swiper__wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .homeBrands .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+  .homeBrands .swiper__wrapper .swiper__slide:nth-child(n+4) {
+    display: none !important;
+  }
+}
+
+@container (min-width: 1024px) and (max-width: 1440px) {
+  .homeBrands .swiper__wrapper {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .homeBrands .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+  .homeBrands .swiper__wrapper .swiper__slide:nth-child(n+6) {
+    display: none !important;
+  }
+}
+
+@container (min-width: 1440px) {
+  .homeBrands .swiper__wrapper {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .homeBrands .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+}
+
+@container (max-width: 1023px) {
+  .homeBrands .brandsContainer .brandsWrapper .brandsSwiper {
+    margin: 0px -4px;
+  }
+  .homeBrands .brandsContainer .brandsWrapper .brandsSwiper .swiper__wrapper .swiper__slide {
+    padding: 0px 4px;
+  }
+  .homeBrands .brandsContainer .brandsWrapper .brandsSwiper .swiper__wrapper .swiper__slide .brandsItem a .brandsImage {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    min-height: 73px;
+    max-height: 100px;
+  }
+  .homeBrands .brandsContainer .brandsWrapper .brandsSwiper .swiper__wrapper .swiper__slide .brandsItem a .brandsImage img {
+    height: 100%;
+    max-height: 100%;
+    width: auto;
+    max-width: 100%;
+  }
+}
+@container (min-width: 1024px) and (max-width: 1199px) {
+  .homeBrands .brandsContainer .brandsWrapper .brandsSwiper {
+    margin: 0px -6px;
+  }
+  .homeBrands .brandsContainer .brandsWrapper .brandsSwiper .swiper__wrapper .swiper__slide {
+    padding: 0px 6px;
+  }
+}

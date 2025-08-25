@@ -1,0 +1,83 @@
+.homeBannerGrid {
+  margin: 40px;
+  container-type: inline-size;
+  width: 100%;
+}
+.homeBannerGrid .bannerContainer .bannerRow .bannerTitle {
+  width: 100%;
+  max-width: 100%;
+  padding: 0px 15px;
+  margin: 0px 0px 40px 0px;
+}
+.homeBannerGrid .bannerContainer .bannerRow .bannerTitle h2 {
+  display: block;
+  line-height: 1;
+  font-family: var(--font-primary);
+  font-weight: 500;
+  font-size: 32px;
+  color: #0F0F0F;
+  text-align: center;
+}
+.homeBannerGrid .bannerContainer .bannerRow .bannerWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 100%;
+  padding: 0px 11px;
+}
+.homeBannerGrid .bannerContainer .bannerRow .bannerWrapper .bannerLeft {
+  width: 51.3%;
+  max-width: 51.3%;
+  padding: 0px 4px;
+}
+.homeBannerGrid .bannerContainer .bannerRow .bannerWrapper .bannerLeft .bannerItem a {
+  display: block;
+  line-height: 1;
+}
+.homeBannerGrid .bannerContainer .bannerRow .bannerWrapper .bannerLeft .bannerItem a img {
+  width: 100%;
+  max-width: 950px;
+  height: auto;
+  display: block;
+  border-radius: 13px;
+}
+.homeBannerGrid .bannerContainer .bannerRow .bannerWrapper .bannerRight {
+  width: 48.7%;
+  max-width: 48.7%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.homeBannerGrid .bannerContainer .bannerRow .bannerWrapper .bannerRight .bannerItem {
+  width: 50%;
+  max-width: 50%;
+  padding: 0px 4px;
+}
+.homeBannerGrid .bannerContainer .bannerRow .bannerWrapper .bannerRight .bannerItem:nth-of-type(n + 3) {
+  margin-top: 8px;
+}
+.homeBannerGrid .bannerContainer .bannerRow .bannerWrapper .bannerRight .bannerItem a {
+  display: block;
+  line-height: 1;
+}
+.homeBannerGrid .bannerContainer .bannerRow .bannerWrapper .bannerRight .bannerItem a img {
+  width: 100%;
+  max-width: 447px;
+  height: auto;
+  display: block;
+  border-radius: 13px;
+}
+
+@container (max-width: 767px) {
+  .homeBannerGrid .bannerContainer .bannerRow .bannerTitle h2 {
+    font-size: 28px;
+  }
+  .homeBannerGrid .bannerContainer .bannerRow .bannerWrapper .bannerLeft {
+    width: 100%;
+    max-width: 100%;
+  }
+  .homeBannerGrid .bannerContainer .bannerRow .bannerWrapper .bannerRight {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 8px;
+  }
+}

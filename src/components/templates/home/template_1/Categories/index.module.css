@@ -1,0 +1,162 @@
+.homeCategories {
+  margin: 40px 0;
+  container-type: inline-size;
+  width: 100%;
+  position: relative;
+}
+.homeCategories .categoriesContainer .categoriesTitle {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 40px;
+}
+.homeCategories .categoriesContainer .categoriesTitle h2 {
+  display: block;
+  line-height: 1;
+  font-family: var(--font-primary);
+  font-weight: 500;
+  font-size: 32px;
+  color: var(--text-color-base);
+  text-align: center;
+}
+.homeCategories .categoriesContainer .categoriesWrapper {
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+}
+.homeCategories .categoriesContainer .categoriesWrapper .categoriesSwiper {
+  margin: 0px -12px;
+}
+.homeCategories .categoriesContainer .categoriesWrapper .categoriesSwiper .swiper__wrapper .swiper__slide {
+  padding: 0px 12px;
+}
+.homeCategories .categoriesContainer .categoriesWrapper .categoriesSwiper .swiper__wrapper .swiper__slide .categoriesItem a {
+  display: block;
+  line-height: 1;
+  text-decoration: none;
+}
+.homeCategories .categoriesContainer .categoriesWrapper .categoriesSwiper .swiper__wrapper .swiper__slide .categoriesItem a .categoriesImage {
+  margin-bottom: 15px;
+}
+.homeCategories .categoriesContainer .categoriesWrapper .categoriesSwiper .swiper__wrapper .swiper__slide .categoriesItem a .categoriesImage img {
+  display: block;
+  line-height: 1;
+  width: 100%;
+  max-width: 290px;
+  height: auto;
+  margin: 0px auto;
+  border-radius: 100%;
+}
+.homeCategories .categoriesContainer .categoriesWrapper .categoriesSwiper .swiper__wrapper .swiper__slide .categoriesItem a h3 {
+  display: block;
+  line-height: 1;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--text-color-base);
+  text-align: center;
+  text-transform: uppercase;
+}
+.homeCategories .categoriesContainer .categoriesWrapper .swiperCategoriesButtonPrev,
+.homeCategories .categoriesContainer .categoriesWrapper .swiperCategoriesButtonNext {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -5px;
+  width: 30px;
+  height: 30px;
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 1;
+}
+.homeCategories .categoriesContainer .categoriesWrapper .swiperCategoriesButtonPrev,
+.homeCategories .categoriesContainer .categoriesWrapper .swiperCategoriesButtonNext {
+  display: none;
+  opacity: 0;
+  visibility: hidden;
+}
+.homeCategories .categoriesContainer .categoriesWrapper .swiperCategoriesButtonPrev,
+.homeCategories .categoriesContainer .categoriesWrapper .swiperCategoriesButtonNext {
+  display: none;
+}
+.homeCategories .categoriesContainer .categoriesWrapper .swiperCategoriesButtonNext {
+  left: unset;
+  right: -5px;
+  justify-content: flex-end;
+}
+
+
+.homeCategories .swiper__wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: center;
+  align-items: center;
+}
+
+.homeCategories .swiper__wrapper .swiper__slide{
+  width: fit-content;
+}
+.homeCategories .swiper__wrapper .swiper__slide:nth-child(n+4) {
+  display: none;
+}
+
+@container (min-width: 768px) and  (max-width: 1024px){
+  .homeCategories .swiper__wrapper {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .homeCategories .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+  .homeCategories .swiper__wrapper .swiper__slide:nth-child(n+5) {
+    display: none !important;
+  }
+}
+
+@container (min-width: 1024px) and (max-width: 1440px) {
+  .homeCategories .swiper__wrapper {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .homeCategories .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+  .homeCategories .swiper__wrapper .swiper__slide:nth-child(n+6) {
+    display: none !important;
+  }
+}
+
+@container (min-width: 1440px) {
+  .homeCategories .swiper__wrapper {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .homeCategories .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+}
+
+@container (max-width: 1023px) {
+  .homeCategories .categoriesContainer .categoriesWrapper {
+    padding: 0px 30px;
+  }
+  .homeCategories .categoriesContainer .categoriesWrapper .categoriesSwiper {
+    margin: 0px -4px;
+  }
+  .homeCategories .categoriesContainer .categoriesWrapper .categoriesSwiper .swiper__wrapper .swiper__slide {
+    padding: 0px 4px;
+  }
+  .homeCategories .categoriesContainer .categoriesWrapper .categoriesSwiper .swiper__wrapper .swiper__slide .categoriesItem a h3 {
+    font-size: 12px;
+  }
+  .homeCategories .categoriesContainer .categoriesWrapper .swiperCategoriesButtonPrev,
+.homeCategories .categoriesContainer .categoriesWrapper .swiperCategoriesButtonNext {
+    display: flex;
+  }
+}
+@container (min-width: 1024px) and (max-width: 1199px) {
+  .homeCategories .categoriesContainer .categoriesWrapper .categoriesSwiper {
+    margin: 0px -6px;
+  }
+  .homeCategories .categoriesContainer .categoriesWrapper .categoriesSwiper .swiper__wrapper .swiper__slide {
+    padding: 0px 6px;
+  }
+}
