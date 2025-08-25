@@ -22,7 +22,7 @@ export default function Showcase() {
         <div className={styles.showcase__wrapper}>
           <div className={styles.showcase__swiper} data-tray-tst="vitrine_home">
             <div className={styles.swiper__wrapper}>
-              {selectedSpots.length > 1
+              {selectedSpots.length > 0
                 ? selectedSpots.map((spot: { id: string; uid: string }) => {
                     const layoutItem = LAYOUTS.spot.items.find(
                       it => it.id === spot.id
@@ -32,29 +32,21 @@ export default function Showcase() {
                     const SpotComponent =
                       TemplateRegistry[layoutItem.component];
 
-                    return SpotComponent
-                      ? [1, 2, 3, 4].map((_, index) => (
-                          <div
-                            key={`${spot?.uid}-${index}`}
-                            className={styles.swiper__slide}
-                            data-tray-tst="vitrine_produto"
-                            itemScope
-                            itemType="https://schema.org/SomeProducts"
-                          >
-                            <SpotComponent />
-                          </div>
-                        ))
-                      : [1, 2, 3, 4].map((_, index) => (
-                          <div
-                            key={`${spot.uid}-${index}`}
-                            className={styles.swiper__slide}
-                            data-tray-tst="vitrine_produto"
-                            itemScope
-                            itemType="https://schema.org/SomeProducts"
-                          >
-                            <Spot />
-                          </div>
-                        ));
+                    return SpotComponent ? (
+                      [1, 2, 3, 4].map((_, index) => (
+                        <div
+                          key={`${spot?.uid}-${index}`}
+                          className={styles.swiper__slide}
+                          data-tray-tst="vitrine_produto"
+                          itemScope
+                          itemType="https://schema.org/SomeProducts"
+                        >
+                          <SpotComponent />
+                        </div>
+                      ))
+                    ) : (
+                      <></>
+                    );
                   })
                 : [1, 2, 3, 4].map((_, index) => (
                     <div

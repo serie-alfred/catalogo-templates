@@ -2,59 +2,16 @@
 import React from 'react';
 import styles from './index.module.css';
 import Spot from '@/components/templates/common/template_1/Spot';
-
-const products = [
-  {
-    id: 1,
-    title: 'Tênis Esportivo Masculino',
-    link: '/produto/tenis-esportivo',
-    img: '/img/produtos/tenis1.jpg',
-    available: true,
-    stock: 10,
-    price: 299.9,
-    priceOffer: 199.9,
-    hasVariation: false,
-    payment: 'ou 10x de R$ 19,99 sem juros',
-  },
-  {
-    id: 2,
-    title: 'Camiseta Básica',
-    link: '/produto/camiseta-basica',
-    img: '/img/produtos/camiseta1.jpg',
-    available: true,
-    stock: 20,
-    price: 79.9,
-    priceOffer: 59.9,
-    hasVariation: false,
-    payment: 'ou 3x de R$ 19,97 sem juros',
-  },
-  {
-    id: 3,
-    title: 'Mochila Casual',
-    link: '/produto/mochila',
-    img: '/img/produtos/mochila1.jpg',
-    available: true,
-    stock: 5,
-    price: 199.9,
-    priceOffer: 0,
-    hasVariation: false,
-    payment: 'ou 5x de R$ 39,98 sem juros',
-  },
-  {
-    id: 4,
-    title: 'Boné Estiloso',
-    link: '/produto/bone',
-    img: '/img/produtos/bone1.jpg',
-    available: false,
-    stock: 0,
-    price: 89.9,
-    priceOffer: 0,
-    hasVariation: false,
-    payment: '',
-  },
-];
+import { useLayoutGenerator } from '@/hooks/useLayoutGenerator';
+import { TemplateRegistry } from '@/utils/templateRegistry';
+import { LAYOUTS } from '@/data/layoutData';
 
 export default function Showcase() {
+  const { selections } = useLayoutGenerator();
+
+  // Filtra os spots selecionados
+  const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
+
   return (
     <div className={styles.homeShowcase}>
       <div className={`${styles.showcaseContainer} component__container`}>
@@ -68,17 +25,43 @@ export default function Showcase() {
             data-tray-tst="vitrine_home"
           >
             <div className={styles.swiper__wrapper}>
-              {products.map(product => (
-                <div
-                  className={styles.swiper__slide}
-                  key={product.id}
-                  data-tray-tst="vitrine_produto"
-                  itemScope
-                  itemType="https://schema.org/SomeProducts"
-                >
-                  <Spot />
-                </div>
-              ))}
+              {selectedSpots.length > 0
+                ? selectedSpots.map((spot: { id: string; uid: string }) => {
+                    const layoutItem = LAYOUTS.spot.items.find(
+                      it => it.id === spot.id
+                    );
+                    if (!layoutItem) return null;
+
+                    const SpotComponent =
+                      TemplateRegistry[layoutItem.component];
+
+                    return SpotComponent ? (
+                      [1, 2, 3, 4].map((_, index) => (
+                        <div
+                          key={`${spot?.uid}-${index}`}
+                          className={styles.swiper__slide}
+                          data-tray-tst="vitrine_produto"
+                          itemScope
+                          itemType="https://schema.org/SomeProducts"
+                        >
+                          <SpotComponent />
+                        </div>
+                      ))
+                    ) : (
+                      <></>
+                    );
+                  })
+                : [1, 2, 3, 4].map((_, index) => (
+                    <div
+                      key={`${index}`}
+                      className={styles.swiper__slide}
+                      data-tray-tst="vitrine_produto"
+                      itemScope
+                      itemType="https://schema.org/SomeProducts"
+                    >
+                      <Spot />
+                    </div>
+                  ))}
             </div>
           </div>
 
