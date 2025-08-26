@@ -17,9 +17,28 @@ export const MAX_PER_PAGE = 8;
 export function useLayoutGenerator() {
 
   /** Estados principais */
-  const [selections, setSelections] = useState<LayoutSelection[]>([]);
+  // dentro de useLayoutGenerator
+  const [selections, setSelections] = useState<LayoutSelection[]>(() => {
+    try {
+      if (typeof window === 'undefined') return [];
+      const stored = localStorage.getItem('layoutSelections');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const [platform, setPlatform] = useState<Platform | null>(() => {
+    try {
+      if (typeof window === 'undefined') return null;
+      const stored = localStorage.getItem('layoutPlatform');
+      return stored ? (stored as Platform) : null;
+    } catch {
+      return null;
+    }
+  });
+
   const [focusedKey, setFocusedKey] = useState<LayoutKey | null>(null);
-  const [platform, setPlatform] = useState<Platform | null>(null);
   const [showPlatformError, setShowPlatformError] = useState<boolean>(false);
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
 
@@ -330,22 +349,6 @@ export function useLayoutGenerator() {
     const firstLayoutKey = Object.keys(LAYOUTS)[0] as LayoutKey | undefined;
     if (firstLayoutKey) {
       setFocusedKey(firstLayoutKey);
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      const storedSelections = localStorage.getItem('layoutSelections');
-      const storedPlatform = localStorage.getItem('layoutPlatform');
-
-      if (storedSelections) {
-        setSelections(JSON.parse(storedSelections));
-      }
-      if (storedPlatform) {
-        setPlatform(storedPlatform as Platform | null);
-      }
-    } catch (error) {
-      console.error('Erro ao carregar do localStorage:', error);
     }
   }, []);
 

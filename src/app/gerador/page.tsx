@@ -4,11 +4,11 @@ import React, { useState } from 'react';
 
 import Sidebar from '@/components/gerador/Sidebar';
 import PreviewArea from '@/components/gerador/PreviewArea';
-import { useLayoutGenerator } from '@/hooks/useLayoutGenerator';
 import DesktopOnlyNotice from '@/components/gerador/DesktopOnlyNotice';
 
 import styles from './index.module.css';
 import { useIsMobile } from '@/hooks/useIsMobile';
+import { useLayout } from '@/context/LayoutContext';
 
 export default function GeradorPage() {
   const isMobile = useIsMobile();
@@ -27,7 +27,7 @@ export default function GeradorPage() {
     toggleSelection,
     exportLayout,
     setSelections,
-  } = useLayoutGenerator();
+  } = useLayout();
 
   const [selectedPage, setSelectedPage] = useState<string>('home');
 

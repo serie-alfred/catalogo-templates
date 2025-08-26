@@ -11,22 +11,20 @@
 .homeShowcase .showcaseContainer .showcaseTitle h2 {
   font-family: var(--font-family);
   font-weight: 500;
-  font-size: 24px;
+  font-size: 26px;
   line-height: 120%;
   letter-spacing: 0%;
 }
-.homeShowcase .showcaseContainer .showcaseWrapper {
-  width: 100%;
-  max-width: 100%;
+.homeShowcase .showcaseContainer  {
   position: relative;
 }
-.homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper {
+.homeShowcase .showcaseContainer  .showcaseSwiper {
   margin: 0px -8px;
 }
-.homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper .swiper__wrapper .swiper__slide {
+.homeShowcase .showcaseContainer  .showcaseSwiper .swiper__wrapper .swiper__slide {
   padding: 0px 8px;
 }
-.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination {
+.homeShowcase .showcaseContainer  .swiperShowcasePagination {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -38,24 +36,26 @@
   background: #ffffff;
   margin-top: 40px;
 }
-.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet {
-  width: 11px;
-  height: 11px;
+.homeShowcase .showcaseContainer  .swiperShowcasePagination .swiperPaginationBullet {
+  width: 8px;
+  height: 8px;
   background-color: #CCCCCC;
   opacity: 1;
   border: none;
-  border-radius: 100%;
+  border-radius: 10px;
   margin: 0px 8px 0px 0px;
   transition: 0.5s;
 }
-.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet:last-of-type {
+.homeShowcase .showcaseContainer  .swiperShowcasePagination .swiperPaginationBullet:last-of-type {
   margin: 0px;
 }
-.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet.swiperPaginationBulletActive {
+.homeShowcase .showcaseContainer  .swiperShowcasePagination .swiperPaginationBullet.swiperPaginationBulletActive {
   background-color: var(--color-black);
+  width: 36px;
+  height: 8px;
 }
-.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonPrev,
-.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
+.homeShowcase .showcaseContainer  .swiperShowcaseButtonPrev,
+.homeShowcase .showcaseContainer  .swiperShowcaseButtonNext {
   position: absolute;
   transform: translateY(-50%);
   right: 43px;
@@ -70,10 +70,32 @@
   border-radius: 16px;
 }
 
-.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
+.homeShowcase .showcaseContainer  .swiperShowcaseButtonNext {
   left: unset;
   right: 5px;
   justify-content: center;
+}
+
+@container (max-width: 1023px) {
+  .homeShowcase .showcaseContainer  {
+    padding: 0px;
+  }
+  .homeShowcase .showcaseContainer  .showcaseSwiper {
+    margin: 0px -4px;
+  }
+  .homeShowcase .showcaseContainer  .showcaseSwiper .swiper__wrapper .swiper__slide {
+    padding: 0px 4px;
+  }
+  .homeShowcase .showcaseContainer  .swiperShowcaseButtonPrev,
+.homeShowcase .showcaseContainer  .swiperShowcaseButtonNext {
+    top: unset;
+    transform: unset;
+    bottom: -11px;
+  }
+  .homeShowcase .showcaseContainer  .swiperShowcaseButtonNext {
+    left: unset;
+    right: 5px;
+  }
 }
 
 
@@ -85,11 +107,25 @@
 }
 
 @container(max-width: 768px){
+  .homeShowcase .showcaseContainer .showcaseWrapper {
+    padding: 0px;
+  }
+  .homeShowcase .showcaseContainer {
+    padding: 0px;
+    padding-left: 15px;
+  }
   .homeShowcase .swiper__wrapper {
     justify-content: flex-start;
   }
   .homeShowcase .showcaseContainer .showcaseTitle{
     padding: 0 5px;
+  }
+  .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
+    left: unset;
+    right: 20px;
+  }
+  .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonPrev {
+    right: 55px;
   }
 }
 
@@ -115,34 +151,5 @@
   }
   .homeShowcase .swiper__wrapper .swiper__slide:nth-child(n+4) {
     display: none !important;
-  }
-}
-
-@container (max-width: 1023px) {
-  .homeShowcase .showcaseContainer .showcaseWrapper {
-    padding: 0px;
-  }
-  .homeShowcase .showcaseContainer {
-    padding: 0px;
-    padding-left: 15px;
-  }
-  .homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper {
-    margin: 0px -4px;
-  }
-  .homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper .swiper__wrapper .swiper__slide {
-    padding: 0px 4px;
-  }
-  .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonPrev,
-.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
-    top: unset;
-    transform: unset;
-    bottom: -11px;
-  }
-  .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
-    left: unset;
-    right: 20px;
-  }
-  .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonPrev {
-    right: 55px;
   }
 }

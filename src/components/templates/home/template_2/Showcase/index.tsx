@@ -1,17 +1,18 @@
 // Showcase.jsx
+'use client';
+
 import React from 'react';
 import styles from './index.module.css';
 import Spot from '@/components/templates/common/template_1/Spot';
-import { useLayoutGenerator } from '@/hooks/useLayoutGenerator';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { LAYOUTS } from '@/data/layoutData';
+import { useLayout } from '@/context/LayoutContext';
 
 export default function Showcase() {
-  const { selections } = useLayoutGenerator();
+  const { selections } = useLayout();
 
   // Filtra os spots selecionados
   const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
-
   return (
     <div className={styles.homeShowcase}>
       <div className={`${styles.showcaseContainer} component__container`}>
@@ -20,10 +21,7 @@ export default function Showcase() {
         </div>
 
         <div className={styles.showcaseWrapper}>
-          <div
-            className={`swiper ${styles.showcaseSwiper}`}
-            data-tray-tst="vitrine_home"
-          >
+          <div className={`swiper ${styles.showcaseSwiper}`}>
             <div className={styles.swiper__wrapper}>
               {selectedSpots.length > 0
                 ? selectedSpots.map((spot: { id: string; uid: string }) => {
@@ -68,20 +66,9 @@ export default function Showcase() {
           <div className={`${styles.swiperShowcasePagination}`}>
             <span
               className={`${styles.swiperPaginationBullet} ${styles.swiperPaginationBulletActive}`}
-              role="button"
-              aria-label="Go to slide 1"
-              aria-current="true"
             ></span>
-            <span
-              className={`${styles.swiperPaginationBullet}`}
-              role="button"
-              aria-label="Go to slide 2"
-            ></span>
-            <span
-              className={`${styles.swiperPaginationBullet}`}
-              role="button"
-              aria-label="Go to slide 3"
-            ></span>
+            <span className={`${styles.swiperPaginationBullet}`}></span>
+            <span className={`${styles.swiperPaginationBullet}`}></span>
             <span
               className={`${styles.swiperPaginationBullet}`}
               role="button"

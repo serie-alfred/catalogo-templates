@@ -1,7 +1,7 @@
-import { useLayoutGenerator } from '@/hooks/useLayoutGenerator';
 import FontSelector from '../../FontSelector';
 import ColorPicker from '../../ColorPicker';
 import { iconsGenerator } from '@/assets/icons/generator';
+import { useLayout } from '@/context/LayoutContext';
 
 export default function SidebarTabGlobal() {
   const {
@@ -31,7 +31,7 @@ export default function SidebarTabGlobal() {
     setColorFooter,
     colorFooterText,
     setColorFooterText,
-  } = useLayoutGenerator();
+  } = useLayout();
 
   return (
     <div className="sidebar__main">

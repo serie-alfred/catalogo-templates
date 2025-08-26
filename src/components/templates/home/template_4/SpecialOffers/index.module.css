@@ -1,0 +1,115 @@
+.specialoffersContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.specialoffersContainer .specialoffersContent {
+  width: 100%;
+  margin: 20px 0px;
+}
+@media (max-width: 768px) {
+  .specialoffersContainer .specialoffersContent {
+    padding: 0px 20px;
+  }
+}
+.specialoffersContainer .specialoffersContent .specialText {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@media (max-width: 768px) {
+  .specialoffersContainer .specialoffersContent .specialText {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+.specialoffersContainer .specialoffersContent .specialText .titleOffers {
+  font-size: 12px;
+}
+.specialoffersContainer .specialoffersContent .specialText .titleOffers h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 7px;
+}
+.specialoffersContainer .specialoffersContent .specialText .titleOffers p {
+  font-size: 16px;
+}
+@media (max-width: 768px) {
+  .specialoffersContainer .specialoffersContent .specialText .titleOffers p {
+    display: none;
+  }
+}
+.specialoffersContainer .specialoffersContent .specialText .actOffers {
+  background-color: #274c4f;
+  padding: 16px 20px;
+  border-radius: 40px;
+}
+.specialoffersContainer .specialoffersContent .specialText .actOffers a {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #fff;
+}
+.specialoffersContainer .specialoffersContent .specialContent {
+  display: flex;
+  margin-top: 40px;
+  gap: 20px;
+}
+@media (max-width: 768px) {
+  .specialoffersContainer .specialoffersContent .specialContent {
+    flex-direction: column;
+  }
+}
+.specialoffersContainer .specialoffersContent .specialContent .specialContainer {
+  display: flex;
+  padding: 15px;
+  border-radius: 25px;
+  color: #fff;
+  gap: 15px;
+  width: 33%;
+}
+.specialoffersContainer .specialoffersContent .specialContent .specialContainer.green {
+  background-color: #617b67;
+}
+.specialoffersContainer .specialoffersContent .specialContent .specialContainer.salmao {
+  background-color: #724728;
+}
+.specialoffersContainer .specialoffersContent .specialContent .specialContainer.grey {
+  background-color: #6e6a65;
+}
+.specialoffersContainer .specialoffersContent .specialContent .specialContainer .containerImage {
+  height: 300px;
+}
+.specialoffersContainer .specialoffersContent .specialContent .specialContainer .containerImage img {
+  border-radius: 15px;
+  height: 300px;
+}
+.specialoffersContainer .specialoffersContent .specialContent .specialContainer .containerText {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.specialoffersContainer .specialoffersContent .specialContent .specialContainer .containerText h3 {
+  font-weight: 800;
+  font-size: 22px;
+}
+.specialoffersContainer .specialoffersContent .specialContent .specialContainer .containerText h4 {
+  font-weight: 500;
+  font-size: 16px;
+}
+.specialoffersContainer .specialoffersContent .specialContent .specialContainer .containerText p {
+  font-size: 16px;
+  margin: 10px 0px;
+}
+.specialoffersContainer .specialoffersContent .specialContent .specialContainer .containerText .buttonWrapper {
+  background-color: #fff;
+  color: #27302d;
+  padding: 15px 10px;
+  border-radius: 120px;
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  font-size: 16px;
+}

@@ -1,0 +1,326 @@
+.spot {
+  border: none;
+  display: block;
+  margin: 0px;
+  padding: 8px;
+  border-radius: 8px;
+}
+.spot .productWrapper {
+  position: relative;
+}
+
+.spot .productWrapper .productImage {
+  position: unset;
+  border: none;
+  font-size: unset;
+  height: auto !important;
+  margin: 0px;
+}
+.spot .productWrapper .productImage::before {
+  display: none;
+}
+.spot .productWrapper .productImage:hover a .imageOverlay {
+  opacity: 1;
+  visibility: visible;
+}
+.spot .productWrapper .productImage:hover .spot__variants {
+  display: block;
+}
+.spot .productWrapper .productImage a {
+  display: block;
+  position: relative;
+}
+.spot .productWrapper .productImage a img {
+  width: 100%;
+  height: auto;
+  border-radius: 0px;
+  max-height: 428px;
+  object-fit: cover;
+  border-radius: 16px;
+}
+.spot .productWrapper .productImage a .imageOverlay {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  top: 0px;
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.5s;
+}
+.spot .productWrapper .productImage .productTag {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.spot .productWrapper .productImage .productTag div {
+  margin-bottom: 5px;
+  margin-left: auto;
+}
+.spot .productWrapper .productImage .productTag div:last-of-type {
+  margin-bottom: 0px;
+}
+.spot .productWrapper .productImage .productTag .tagNew span {
+  background-color: #000;
+  padding: 5px 7px;
+  border-radius: 120px;
+}
+.spot .productWrapper .productImage .productTag .tagFeatured span {
+  background-color: #f6f6fa;
+  border-radius: 120px;
+  color: #000;
+  display: flex;
+  justify-content: center;
+  padding: 2px 3px;
+  font-size: 12px;
+  font-weight: 400;
+}
+.spot .productWrapper .productImage .productTag .tagDiscount span {
+  background-color: #ccc;
+  border: 1px solid #DFDFE0;
+  color: #0F0F0F;
+  font-weight: 400;
+}
+.spot .productWrapper .tagDiscount span {
+  background-color: #000;
+  border-radius: 120px;
+  color: #fff;
+  font-size: 12px;
+  padding: 1px 6px;
+  border: none;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.spot .priceWrapper{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.spot .priceWrapper .oldPrice{
+  color: #616161;
+  font-size: 13px;
+}
+.spot .productWrapper .productImage .productTag div span {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 0px 6px;
+  height: 19px;
+  width: max-content;
+  font-family: var(--font-family);
+  font-weight: 800;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #ffffff;
+  background-color: #0F0F0F;
+  line-height: 1;
+  letter-spacing: 0.24px;
+}
+
+.spot .productWrapper .productContent {
+  margin-top: 20px;
+}
+.spot .productWrapper .productContent .productStars{
+  display: flex;
+  align-items: center;
+
+}
+.spot .productWrapper .productContent .productStars span{
+  opacity: .3;
+  font-size: 14px;
+  margin-left: 4px;
+}
+
+.spot .productWrapper .productContent .p-content-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.spot .productWrapper .productContent .p-content-top .product-brand {
+  font-size: 14px;
+  font-weight: 500;
+  color: #7A7A7A;
+}
+.spot .productWrapper .productContent .productTitle {
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.spot .productWrapper .productContent .productTitle h3 {
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  overflow: hidden;
+  line-height: 21px;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 14px;
+  color: #292929;
+  letter-spacing: 0.15px;
+  padding: 0px;
+  margin: 0px;
+}
+.spot .productWrapper .productContent .productTitle h3 a {
+  display: block;
+  text-decoration: none;
+  line-height: 21px;
+  font-family: var(--font-family);
+  font-weight: 600;
+  font-size: 18px;
+  color: #292929;
+  text-align: left;
+}
+.spot .productWrapper .productContent .productPriceWrapper  {
+  height: 58px;
+
+}
+.spot .productWrapper .productContent .productPriceWrapper .prices .price-promotion,
+.spot .productWrapper .productContent .productPriceWrapper .prices .price-before,
+.spot .productWrapper .productContent .productPriceWrapper .prices .price-normal {
+  font-family: var(--font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1;
+  color: #868E96;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  text-decoration: line-through;
+  text-align: left;
+}
+.spot .productWrapper .productContent .productPriceWrapper .prices .price-before {
+  margin-bottom: 6px;
+  color: #8F8F8F;
+}
+.spot .productWrapper .productContent .productPriceWrapper .prices .price-normal,
+.spot .productWrapper .productContent .productPriceWrapper .prices .price-promotion {
+  font-weight: 600;
+  font-size: 18px;
+  color: #000;
+  text-decoration: none;
+}
+.spot .productWrapper .productContent .productPriceWrapper .prices .price-normal .price-off,
+.spot .productWrapper .productContent .productPriceWrapper .prices .price-promotion .price-off {
+  font-size: 20px;
+}
+.spot .productWrapper .productContent .productPriceWrapper .prices .product-payment {
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: #525252;
+  width: 100%;
+  margin-top: 6px;
+  text-align: left;
+}
+.spot .productWrapper .productContent .productPriceWrapper .prices .product-payment br,
+.spot .productWrapper .productContent .productPriceWrapper .prices .product-payment .txt-forma-pagamento {
+  display: none;
+}
+.spot .productWrapper .productContent .productPriceWrapper .prices .product-payment > .txt-corparcelas {
+  margin-left: 0px;
+}
+.spot .productWrapper .productContent .productPriceWrapper .prices .product-payment span,
+.spot .productWrapper .productContent .productPriceWrapper .prices .product-payment strong,
+.spot .productWrapper .productContent .productPriceWrapper .prices .product-payment b {
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: #525252;
+}
+.spot .productWrapper .productContent .productPriceWrapper .prices .product-payment span.operadora,
+.spot .productWrapper .productContent .productPriceWrapper .prices .product-payment strong.operadora,
+.spot .productWrapper .productContent .productPriceWrapper .prices .product-payment b.operadora {
+  text-transform: lowercase;
+}
+.spot .productWrapper .productContent .productPriceWrapper .out-of-stock {
+  display: block;
+  line-height: 1;
+  font-family: var(--font-family);
+  font-size: 14px;
+  font-weight: 400;
+  color: #525252;
+  text-align: left;
+}
+.spot .productWrapper .productContent .product-buy {
+  margin-top: 15px;
+  display: none;
+}
+.spot .productWrapper .productContent .product-buy a {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family);
+  font-weight: 700;
+  font-size: 14px;
+  color: #F5F5F5;
+  background-color: #fff;
+  width: 100%;
+  height: 45px;
+  border-radius: 8px;
+  transition: 0.5s;
+}
+.spot .productWrapper .productContent .product-buy a:hover {
+  background-color: #68686e;
+}
+
+@container (max-width: 1023px) {
+  .spot .productWrapper .productImage a img {
+    max-height: 236px;
+  }
+  .spot .productWrapper .productImage:hover a .imageOverlay {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .spot .productWrapper .productContent .productPriceWrapper {
+    height: 52px;
+  }
+  .spot .productWrapper .productContent .productPriceWrapper .prices .price-promotion,
+.spot .productWrapper .productContent .productPriceWrapper .prices .oldPrice,
+.spot .productWrapper .productContent .productPriceWrapper .prices .price-normal {
+  color: #616161;
+  font-size: 13px;
+  }
+
+ .oldPrice{
+    color: #616161;
+    font-size: 13px;
+  }
+
+  .spot .productWrapper .productContent .productPriceWrapper .prices .price-normal,
+.spot .productWrapper .productContent .productPriceWrapper .prices .price-promotion {
+    font-size: 16px;
+  }
+  .spot .productWrapper .productContent .productPriceWrapper .prices .product-payment {
+    font-size: 12px;
+    margin-bottom: 0px;
+  }
+  .spot .productWrapper .productContent .productPriceWrapper  .prices .product-payment span,
+.spot .productWrapper .productContent .productPriceWrapper  .prices .product-payment strong,
+.spot .productWrapper .productContent .productPriceWrapper  .prices .product-payment b {
+    font-size: 12px;
+  }
+  .spot .productWrapper .productContent .product-buy {
+    display: none;
+  }
+  .spot .productWrapper .productContent .product-buy a:hover {
+    background-color: #000;
+  }
+  .spot .productWrapper .productContent .productTitle h3 a {
+    font-size: 12px;
+    height: 19px;
+  }
+}

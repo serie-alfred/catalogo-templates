@@ -38,8 +38,23 @@ import BannerSide02 from '@/components/templates/home/template_2/BannerSide';
 import Ruler02 from '@/components/templates/home/template_2/Ruler';
 import Showcase02 from '@/components/templates/home/template_2/Showcase';
 
+// ************
+// Template 03
+// ************
+
+// ******
+// Common
+
+import Spot03 from '@/components/templates/common/template_3/Spot';
 
 
+// ******
+// Home
+import BannerDuplo03 from '@/components/templates/home/template_3/BannerDuplo';
+import BannerFull03 from '@/components/templates/home/template_3/BannerFull';
+import BannerSide03 from '@/components/templates/home/template_3/BannerSide';
+import Ruler03 from '@/components/templates/home/template_3/Ruler';
+import Showcase03 from '@/components/templates/home/template_3/Showcase';
 
 export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown }>> = {
   Newsletter01,
@@ -60,5 +75,12 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   BannerSide02,
   Ruler02,
   Showcase02,
-  Spot02
+  Spot02,
+
+  BannerDuplo03,
+  BannerFull03,
+  BannerSide03,
+  Ruler03,
+  Spot03,
+  Showcase03,
 };

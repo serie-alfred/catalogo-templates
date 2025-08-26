@@ -1,7 +1,8 @@
 'use client';
+
 import React from 'react';
 import styles from './index.module.css';
-import Spot from '../../../common/template_1/Spot';
+import Spot from '@/components/templates/common/template_1/Spot';
 import { LAYOUTS } from '@/data/layoutData';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { useLayout } from '@/context/LayoutContext';
@@ -9,18 +10,21 @@ import { useLayout } from '@/context/LayoutContext';
 export default function Showcase() {
   const { selections } = useLayout();
 
-  // Filtra os spots selecionados
   const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
 
   return (
-    <div className={styles.home__showcase}>
-      <div className={`${styles.showcase__container} component__container`}>
-        <div className={styles.showcase__title}>
-          <h2>Título</h2>
+    <div className={styles.homeShowcase}>
+      <div className={`${styles.showcaseContainer} component__container`}>
+        {/* Título fixo */}
+        <div className={styles.showcaseTitle}>
+          <h2>Produtos em Destaque</h2>
         </div>
 
-        <div className={styles.showcase__wrapper}>
-          <div className={styles.showcase__swiper} data-tray-tst="vitrine_home">
+        <div className={styles.showcaseWrapper}>
+          <div
+            className={`swiper ${styles.showcaseSwiper}`}
+            data-tray-tst="vitrine_home"
+          >
             <div className={styles.swiper__wrapper}>
               {selectedSpots.length > 0
                 ? selectedSpots.map((spot: { id: string; uid: string }) => {
@@ -62,26 +66,41 @@ export default function Showcase() {
             </div>
           </div>
 
-          {/* Paginação */}
-          <div
-            className={`${styles.swiper__showcase__pagination} ${styles.swiper__pagination__clickable} ${styles.swiper__pagination__bullets} ${styles.swiper__pagination__horizontal}`}
-          >
-            {[...Array(8)].map((_, index) => (
-              <span
-                key={index}
-                className={`${styles.swiper__bullet} ${
-                  index === 0 ? styles.swiper__bullet__active : ''
-                }`}
-                role="button"
-                aria-label={`Go to slide ${index + 1}`}
-                aria-current={index === 0 ? 'true' : undefined}
-              ></span>
-            ))}
+          <div className={`${styles.swiperShowcasePagination}`}>
+            <span
+              className={`${styles.swiperPaginationBullet} ${styles.swiperPaginationBulletActive}`}
+              role="button"
+              aria-label="Go to slide 1"
+              aria-current="true"
+            ></span>
+            <span
+              className={`${styles.swiperPaginationBullet}`}
+              role="button"
+              aria-label="Go to slide 2"
+            ></span>
+            <span
+              className={`${styles.swiperPaginationBullet}`}
+              role="button"
+              aria-label="Go to slide 3"
+            ></span>
+            <span
+              className={`${styles.swiperPaginationBullet}`}
+              role="button"
+              aria-label="Go to slide 4"
+            ></span>
+            <span
+              className={`${styles.swiperPaginationBullet}`}
+              role="button"
+              aria-label="Go to slide 5"
+            ></span>
+            <span
+              className={`${styles.swiperPaginationBullet}`}
+              role="button"
+              aria-label="Go to slide 6"
+            ></span>
           </div>
-          <div className={styles.swiper__pagination}></div>
 
-          {/* Botão prev */}
-          <div className={styles.swiper__button__prev}>
+          <div className={styles.swiperShowcaseButtonPrev}>
             <svg
               fill="none"
               height="24"
@@ -99,8 +118,7 @@ export default function Showcase() {
             </svg>
           </div>
 
-          {/* Botão next */}
-          <div className={styles.swiper__button__next}>
+          <div className={styles.swiperShowcaseButtonNext}>
             <svg
               fill="none"
               height="24"

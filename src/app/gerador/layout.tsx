@@ -3,6 +3,7 @@ import '../../styles/gerador.css';
 import '../../styles/templates.css';
 import '../../styles/globals.css';
 import { Roboto } from 'next/font/google';
+import { LayoutProvider } from '@/context/LayoutContext';
 
 const roboto = Roboto({
   variable: '--font-primary',
@@ -22,7 +23,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable}`}>{children}</body>
+      <body className={`${roboto.variable}`}>
+        <LayoutProvider>{children}</LayoutProvider>
+      </body>
     </html>
   );
 }

@@ -1,0 +1,72 @@
+.bannerSideSolo{
+  container-type: inline-size;
+  width: 100%;
+}
+.bannerSideSolo .bannerContainer {
+  display: flex;
+}
+.bannerSideSolo .bannerContainer .bannerRow {
+  display: flex;
+  flex: 1 1 50%;
+  background-color: #000;
+
+}
+@container (max-width: 768px) {
+  .bannerSideSolo .bannerContainer .bannerRow {
+    flex-direction: column;
+  }
+}
+.bannerSideSolo .bannerContainer .bannerRow .textItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  justify-content: center;
+}
+@container (max-width: 768px) {
+  .bannerSideSolo .bannerContainer .bannerRow .textItem {
+    padding: 20px;
+  }
+}
+.bannerSideSolo .bannerContainer .bannerRow .textItem .textContent {
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  left: 100px;
+}
+@container (max-width: 768px) {
+  .bannerSideSolo .bannerContainer .bannerRow .textItem .textContent {
+    left: unset;
+  }
+}
+.bannerSideSolo .bannerContainer .bannerRow .textItem h2 {
+  font-size: 45px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+
+}
+@container (max-width: 768px) {
+  .bannerSideSolo .bannerContainer .bannerRow .textItem h2 {
+    font-size: 29px;
+  }
+}
+.bannerSideSolo .bannerContainer .bannerRow .textItem span {
+  font-size: 20px;
+  line-height: 1.3;
+}
+@container (max-width: 768px) {
+  .bannerSideSolo .bannerContainer .bannerRow .textItem span {
+    font-size: 14px;
+  }
+}
+.bannerSideSolo .bannerContainer .bannerRow .bannerItem {
+  flex: 1;
+}
+.bannerSideSolo .bannerContainer .bannerRow .bannerItem a img {
+  width: 100%;
+  height: auto;
+}

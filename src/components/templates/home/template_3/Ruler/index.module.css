@@ -1,0 +1,138 @@
+.homeRuler {
+  padding: 25px 0px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #efeff0;
+  background-color: #000;
+  width: 100%;
+  container-type: inline-size;
+}
+.homeRuler .rulerContainer {
+  position: relative;
+}
+.homeRuler .rulerContainer .rulerSwiper .swiper__wrapper .swiper__slide {
+  height: 53px;
+}
+@container (max-width: 768px) {
+  .homeRuler .rulerContainer .rulerSwiper .swiper__wrapper .swiper__slide {
+    display: flex;
+    justify-content: center;
+  }
+}
+.homeRuler .rulerContainer .rulerSwiper .swiper__wrapper .swiper__slide .rulerItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+}
+.homeRuler .rulerContainer .rulerSwiper .swiper__wrapper .swiper__slide .rulerItem .itemIcon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100%;
+}
+.homeRuler .rulerContainer .rulerSwiper .swiper__wrapper .swiper__slide .rulerItem .itemIcon:hover {
+  background-color: unset !important;
+}
+.homeRuler .rulerContainer .rulerSwiper .swiper__wrapper .swiper__slide .rulerItem .itemText {
+  width: calc(100% - 50px);
+  padding-left: 10px;
+  max-width: 178px;
+}
+.homeRuler .rulerContainer .rulerSwiper .swiper__wrapper .swiper__slide .rulerItem .itemText p {
+  display: block;
+  line-height: 1;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 14px;
+  color: #fff;
+  letter-spacing: 0.25px;
+}
+.homeRuler .rulerContainer .rulerSwiper .swiper__wrapper .swiper__slide .rulerItem .itemText span {
+  display: block;
+  line-height: 1;
+  font-family: var(--font-family);
+  font-weight: 400;
+  font-size: 12px;
+  color: #fff;
+  letter-spacing: 0.25px;
+  margin-top: 7px;
+}
+.homeRuler .rulerContainer .rulerSwiper .swiper__wrapper .swiper__slide .rulerItem .itemText span b {
+  font-weight: 600;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 8px;
+  width: 100%;
+  display: block;
+}
+.homeRuler .rulerContainer .swiperRulerButtonPrev,
+.homeRuler .rulerContainer .swiperRulerButtonNext{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 20px;
+  width: 25px;
+  height: 25px;
+  display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 1;
+}
+.homeRuler .rulerContainer .swiper-ruler-button-next {
+  left: unset;
+  right: 20px;
+  justify-content: flex-end;
+}
+
+
+.homeRuler .swiper__wrapper {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  justify-content: center;
+  align-items: center;
+}
+
+.homeRuler .swiper__wrapper .swiper__slide{
+  width: fit-content;
+}
+.homeRuler .swiper__wrapper .swiper__slide:nth-child(n+2) {
+  display: none;
+}
+
+@container (min-width: 768px) and  (max-width: 1024px){
+  .homeRuler .swiper__wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .homeRuler .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+  .homeRuler .swiper__wrapper .swiper__slide:nth-child(n+4) {
+    display: none !important;
+  }
+}
+
+@container (min-width: 1024px) and (max-width: 1440px) {
+  .homeRuler .swiper__wrapper {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .homeRuler .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+  .homeRuler .swiper__wrapper .swiper__slide:nth-child(n+5) {
+    display: none !important;
+  }
+}
+
+@container (min-width: 1440px) {
+  .homeRuler .swiper__wrapper {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .homeRuler .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+}
