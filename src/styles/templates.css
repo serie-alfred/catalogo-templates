@@ -197,3 +197,8 @@
   all: unset;
   box-sizing: border-box;
 }
+
+img{
+  width: 100%;
+  max-width: 100%;
+}

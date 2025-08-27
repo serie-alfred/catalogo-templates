@@ -1,0 +1,33 @@
+.rulerFooter {
+  background-color: #eef4f5;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0px;
+  width: 100%;
+  container-type: inline-size;
+}
+
+.rulerFooter .rulerContainer::before,
+.rulerFooter ::after {
+  content: unset !important;
+}
+
+.rulerFooter .rulerContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+@container (max-width: 768px) {
+  .rulerFooter .rulerContainer {
+    gap: 30px;
+  }
+}
+.rulerFooter .rulerContainer .rulerContent {
+  width: 7%;
+}
+@container (max-width: 768px) {
+  .rulerFooter .rulerContainer .rulerContent {
+    width: 29%;
+  }
+}

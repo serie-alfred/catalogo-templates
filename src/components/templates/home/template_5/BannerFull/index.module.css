@@ -1,0 +1,26 @@
+
+.homeBannerFull{
+  container-type: inline-size;
+  width: 100%;
+}
+.homeBannerFull img{
+  width: 100%;
+}
+.bannerDesktop {
+  display: block;
+  height: auto;
+}
+
+.bannerMobile {
+  display: none;
+}
+
+@container (max-width: 767px) {
+  .bannerDesktop {
+    display: none;
+  }
+  .bannerMobile {
+    display: block;
+    height: auto;
+  }
+}

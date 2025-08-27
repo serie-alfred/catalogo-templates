@@ -56,6 +56,34 @@ import BannerSide03 from '@/components/templates/home/template_3/BannerSide';
 import Ruler03 from '@/components/templates/home/template_3/Ruler';
 import Showcase03 from '@/components/templates/home/template_3/Showcase';
 
+// ************
+// Template 04
+// ************
+
+// ******
+// Common
+
+// ******
+// Home
+import SpecialOffers04 from '@/components/templates/home/template_4/SpecialOffers';
+import BannerSolo04 from '@/components/templates/home/template_4/BannerSolo';
+import HomeCombined04 from '@/components/templates/home/template_4/HomeCombined';
+import MultiCategories04 from '@/components/templates/home/template_4/MultiCategories';
+import Ruler04 from '@/components/templates/home/template_4/Ruler';
+
+// ************
+// Template 05
+// ************
+
+// ******
+// Common
+
+// ******
+// Home
+import BannerFull05 from '@/components/templates/home/template_5/BannerFull';
+import BannerSoloLeft05 from '@/components/templates/home/template_5/BannerSoloLeft';
+import BannerTriple05 from '@/components/templates/home/template_5/BannerTriple';
+
 export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown }>> = {
   Newsletter01,
   Ruler01,
@@ -83,4 +111,14 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   Ruler03,
   Spot03,
   Showcase03,
+
+  SpecialOffers04,
+  BannerSolo04,
+  HomeCombined04,
+  MultiCategories04,
+  Ruler04,
+
+  BannerFull05,
+  BannerSoloLeft05,
+  BannerTriple05
 };

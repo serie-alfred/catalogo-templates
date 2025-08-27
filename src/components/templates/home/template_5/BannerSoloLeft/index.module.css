@@ -1,0 +1,81 @@
+.homeCollection {
+  margin: 40px 0;
+  display: flex;
+  justify-content: center;
+  container-type: inline-size;
+  width: 100%;
+}
+.homeCollection .collectionContent {
+  padding: 15px;
+}
+.homeCollection .collectionContent .gridImage .bannerImageText {
+  display: flex;
+  gap: 50px;
+}
+@container (max-width: 768px) {
+  .homeCollection .collectionContent .gridImage .bannerImageText {
+    flex-direction: column;
+  }
+}
+.homeCollection .collectionContent .gridImage .bannerImageText .bannerText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 25px;
+}
+.homeCollection .collectionContent .gridImage .bannerImageText .bannerText h2 {
+  font-family: var(--font-family);
+  font-size: 55px;
+  font-weight: 700;
+  line-height: 48px;
+  text-align: left;
+  text-transform: uppercase;
+  width: 380px;
+  line-height: 1.2;
+  color: #000;
+}
+@container (max-width: 768px) {
+  .homeCollection .collectionContent .gridImage .bannerImageText .bannerText h2 {
+    width: 360px;
+    font-size: 32px;
+  }
+}
+.homeCollection .collectionContent .gridImage .bannerImageText .bannerText span {
+  font-family: var(--font-family);
+  font-size: 17px;
+  font-weight: 400;
+  letter-spacing: 0.25px;
+  line-height: 24px;
+  width: 525px;
+}
+@container (max-width: 768px) {
+  .homeCollection .collectionContent .gridImage .bannerImageText .bannerText span {
+    width: 360px;
+    font-size: 14px;
+  }
+}
+.homeCollection .collectionContent .gridImage .bannerImageText .bannerText a {
+  background-color: #000;
+  border-radius: 120px;
+  color: #fff;
+  justify-content: center;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  padding: 13px 23px;
+  width: auto;
+  font-size: 14px;
+}
+.homeCollection .collectionContent .gridImage .bannerImageText .bannerText a:hover {
+  text-decoration: none;
+}
+.homeCollection .collectionContent .gridImage .bannerImageText .bannerText a svg {
+  display: none;
+}
+.homeCollection .collectionContent .gridImage .bannerImageText .bannerText a span {
+  width: 97px;
+}
+@container (max-width: 768px) {
+  .homeCollection .collectionContent .gridImage .bannerImageText .bannerText a span {
+    width: 84px;
+  }
+}

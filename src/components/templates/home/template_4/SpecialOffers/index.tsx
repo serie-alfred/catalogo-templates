@@ -57,8 +57,9 @@ export default function SpecialOffers() {
             <div className={styles.containerImage}>
               <div className={styles.image}>
                 <img
-                  src="/images/special1.jpg"
+                  src="https://placehold.co/400x600"
                   alt="Special Discount"
+                  width="400"
                   height="600"
                   loading="lazy"
                 />
@@ -79,8 +80,9 @@ export default function SpecialOffers() {
             <div className={styles.containerImage}>
               <div className={styles.image}>
                 <img
-                  src="/images/special2.jpg"
+                  src="https://placehold.co/400x600"
                   alt="Weekly Discount"
+                  width="400"
                   height="600"
                   loading="lazy"
                 />
@@ -101,8 +103,9 @@ export default function SpecialOffers() {
             <div className={styles.containerImage}>
               <div className={styles.image}>
                 <img
-                  src="/images/special3.jpg"
+                  src="https://placehold.co/400x600"
                   alt="Birthday Discount"
+                  width="400"
                   height="600"
                   loading="lazy"
                 />

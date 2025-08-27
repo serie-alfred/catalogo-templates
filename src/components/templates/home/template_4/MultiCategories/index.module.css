@@ -1,0 +1,247 @@
+.homeBIR {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0px 15px;
+  margin: 10px 0px;
+  container-type: inline-size;
+  width: 100%;
+}
+.homeBIR .roomBrowserSection {
+  background-color: var(--wp--preset--color--palette-color-4,var(--theme-palette-color-4,#152420));
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  color: #fff;
+  padding: 50px;
+  width: 100%;
+  margin: 0 auto;
+}
+@container (min-width: 1240px) {
+  .homeBIR .roomBrowserSection {
+  max-width: 1290px !important;
+  }
+}
+@container (max-width: 768px) {
+  .homeBIR .roomBrowserSection {
+    padding: 25px;
+  }
+}
+.homeBIR .roomBrowserSection .roomBrowserContent {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+@container (max-width: 768px) {
+  .homeBIR .roomBrowserSection .roomBrowserContent {
+    gap: 20px;
+  }
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 580px;
+  position: relative;
+  width: 580px;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer h2,
+ .homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer p,
+ .homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer h2,
+ .homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer p{
+  font-weight: 400;
+  font-size: 16px;
+  line-height:24px;
+}
+
+
+.homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer .living-room-info {
+  position: absolute;
+  bottom: 25px;
+  left: 25px;
+  background-color: #Fff;
+  padding: 10px;
+  border-radius: 10px;
+  color: #000;
+  min-width: 150px;
+  max-width: fit-content;
+  z-index: 2;
+}
+@container (max-width: 768px) {
+  .homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer .living-room-info {
+    scale: 0.7;
+    bottom: 5px;
+    left: 0px;
+  }
+}
+@container  (max-width: 1439px) and (min-width: 1024px) {
+  .homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer .living-room-info {
+    max-width: 375px;
+    scale: 0.7;
+    bottom: 5px;
+    left: 0px;
+  }
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer .living-room-info h6 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #5b5b5b;
+}
+@container (max-width: 768px) {
+  .homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer .roomBrowserHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer .roomBrowserHeader .roomBrowserTitle {
+  font-size: 32px;
+  font-weight: 700;
+  padding-bottom: 15px;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer .roomBrowserHeader .roomBrowserDescription {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer .livingRoomImageWrapper .bannerImageText .bannerText .containerBannerText {
+  background-color: #fff;
+  border-radius: 10px;
+  bottom: 25px;
+  color: #000;
+  left: 25px;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  min-width: 150px;
+  padding: 10px;
+  position: absolute;
+  z-index: 2;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer .livingRoomImageWrapper .bannerImageText .bannerText .containerBannerText a {
+  display: none;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer .livingRoomImageWrapper img {
+  width: 100%;
+  border-radius: 20px;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer .livingRoomImageWrapper img:hover {
+  transform: scale(0.98);
+  transition: all 0.25s ease-in-out;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 570px;
+}
+@container (max-width: 768px) {
+  .homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer {
+    gap: 20px;
+  }
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .bedroomImageWrapper {
+  position: relative;
+  transition: all 0.25s ease-in-out;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .bedroomImageWrapper .bannerImageText .bannerText .containerBannerText {
+  background-color: #fff;
+  border-radius: 10px;
+  bottom: 25px;
+  color: #000;
+  left: 25px;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  min-width: 150px;
+  padding: 10px;
+  position: absolute;
+  z-index: 2;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .bedroomImageWrapper .bannerImageText .bannerText .containerBannerText a {
+  display: none;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .bedroomImageWrapper img {
+  width: 100%;
+  border-radius: 20px;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .bedroomImageWrapper img:hover {
+  transform: scale(0.98);
+  transition: all 0.25s ease-in-out;
+}
+@container (max-width: 768px) {
+  .homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .bedroomImageWrapper a {
+    height: 280px;
+    display: flex;
+  }
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent {
+  display: flex;
+  max-width: 100%;
+  gap: 20px;
+}
+@container (max-width: 768px) {
+  .homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent {
+    flex-direction: column;
+  }
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .walkInClosetContainer,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .kitchenContainer,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .walkInClosetContainer,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .kitchenContainer {
+  position: relative;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .walkInClosetContainer .walkInClosetImage .bannerImageText .bannerText .containerBannerText,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .walkInClosetContainer .kitchenImage .bannerImageText .bannerText .containerBannerText,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .kitchenContainer .walkInClosetImage .bannerImageText .bannerText .containerBannerText,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .kitchenContainer .kitchenImage .bannerImageText .bannerText .containerBannerText,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .walkInClosetContainer .walkInClosetImage .bannerImageText .bannerText .containerBannerText,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .walkInClosetContainer .kitchenImage .bannerImageText .bannerText .containerBannerText,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .kitchenContainer .walkInClosetImage .bannerImageText .bannerText .containerBannerText,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .kitchenContainer .kitchenImage .bannerImageText .bannerText .containerBannerText {
+  background-color: #fff;
+  border-radius: 10px;
+  bottom: 25px;
+  color: #000;
+  left: 25px;
+  max-width: -moz-fit-content;
+  max-width: fit-content;
+  min-width: 150px;
+  padding: 10px;
+  position: absolute;
+  z-index: 2;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .walkInClosetContainer .walkInClosetImage .bannerImageText .bannerText .containerBannerText a,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .walkInClosetContainer .kitchenImage .bannerImageText .bannerText .containerBannerText a,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .kitchenContainer .walkInClosetImage .bannerImageText .bannerText .containerBannerText a,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .kitchenContainer .kitchenImage .bannerImageText .bannerText .containerBannerText a,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .walkInClosetContainer .walkInClosetImage .bannerImageText .bannerText .containerBannerText a,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .walkInClosetContainer .kitchenImage .bannerImageText .bannerText .containerBannerText a,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .kitchenContainer .walkInClosetImage .bannerImageText .bannerText .containerBannerText a,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .kitchenContainer .kitchenImage .bannerImageText .bannerText .containerBannerText a {
+  display: none;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .walkInClosetContainer .walkInClosetImage img,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .walkInClosetContainer .kitchenImage img,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .kitchenContainer .walkInClosetImage img,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .kitchenContainer .kitchenImage img,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .walkInClosetContainer .walkInClosetImage img,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .walkInClosetContainer .kitchenImage img,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .kitchenContainer .walkInClosetImage img,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .kitchenContainer .kitchenImage img {
+  width: 100%;
+  border-radius: 20px;
+}
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .walkInClosetContainer .walkInClosetImage img:hover,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .walkInClosetContainer .kitchenImage img:hover,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .kitchenContainer .walkInClosetImage img:hover,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .walkInClosetColumn .kitchenContainer .kitchenImage img:hover,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .walkInClosetContainer .walkInClosetImage img:hover,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .walkInClosetContainer .kitchenImage img:hover,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .kitchenContainer .walkInClosetImage img:hover,
+.homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .kitchenContainer .kitchenImage img:hover {
+  transform: scale(0.98);
+  transition: all 0.25s ease-in-out;
+}
