@@ -7,24 +7,34 @@
   width: 100%;
   max-width: 100%;
   margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
 }
 .homeShowcase .showcaseContainer .showcaseTitle h2 {
   font-family: var(--font-family);
-  font-weight: 500;
-  font-size: 26px;
+  font-weight: 600;
+  font-size: 27px;
   line-height: 120%;
   letter-spacing: 0%;
 }
-.homeShowcase .showcaseContainer  {
+.homeShowcase .showcaseContainer .showcaseTitle span{
+  font-size: 16px;
+  color: #18181a99;
+}
+.homeShowcase .showcaseContainer .showcaseWrapper {
+  width: 100%;
+  max-width: 100%;
   position: relative;
 }
-.homeShowcase .showcaseContainer  .showcaseSwiper {
+.homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper {
   margin: 0px -8px;
 }
 .homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper .swiper__wrapper .swiper__slide {
   padding: 8px ;
 }
-.homeShowcase .showcaseContainer  .swiperShowcasePagination {
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -36,26 +46,24 @@
   background: #ffffff;
   margin-top: 40px;
 }
-.homeShowcase .showcaseContainer  .swiperShowcasePagination .swiperPaginationBullet {
-  width: 8px;
-  height: 8px;
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet {
+  width: 11px;
+  height: 11px;
   background-color: #CCCCCC;
   opacity: 1;
   border: none;
-  border-radius: 10px;
+  border-radius: 100%;
   margin: 0px 8px 0px 0px;
   transition: 0.5s;
 }
-.homeShowcase .showcaseContainer  .swiperShowcasePagination .swiperPaginationBullet:last-of-type {
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet:last-of-type {
   margin: 0px;
 }
-.homeShowcase .showcaseContainer  .swiperShowcasePagination .swiperPaginationBullet.swiperPaginationBulletActive {
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet.swiperPaginationBulletActive {
   background-color: var(--color-black);
-  width: 36px;
-  height: 8px;
 }
-.homeShowcase .showcaseContainer  .swiperShowcaseButtonPrev,
-.homeShowcase .showcaseContainer  .swiperShowcaseButtonNext {
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonPrev,
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
   position: absolute;
   transform: translateY(-50%);
   right: 43px;
@@ -70,32 +78,10 @@
   border-radius: 16px;
 }
 
-.homeShowcase .showcaseContainer  .swiperShowcaseButtonNext {
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
   left: unset;
   right: 5px;
   justify-content: center;
-}
-
-@container (max-width: 1023px) {
-  .homeShowcase .showcaseContainer  {
-    padding: 0px;
-  }
-  .homeShowcase .showcaseContainer  .showcaseSwiper {
-    margin: 0px -4px;
-  }
-  .homeShowcase .showcaseContainer  .showcaseSwiper .swiper__wrapper .swiper__slide {
-    padding: 0px 4px;
-  }
-  .homeShowcase .showcaseContainer  .swiperShowcaseButtonPrev,
-.homeShowcase .showcaseContainer  .swiperShowcaseButtonNext {
-    top: unset;
-    transform: unset;
-    bottom: -11px;
-  }
-  .homeShowcase .showcaseContainer  .swiperShowcaseButtonNext {
-    left: unset;
-    right: 5px;
-  }
 }
 
 
@@ -105,30 +91,13 @@
   justify-content: center;
   align-items: center;
 }
-.home__showcase .swiper__wrapper .swiper__slide {
-  padding: 8px;
-  }
 
 @container(max-width: 768px){
-  .homeShowcase .showcaseContainer .showcaseWrapper {
-    padding: 0px;
-  }
-  .homeShowcase .showcaseContainer {
-    padding: 0px;
-    padding-left: 15px;
-  }
   .homeShowcase .swiper__wrapper {
     justify-content: flex-start;
   }
   .homeShowcase .showcaseContainer .showcaseTitle{
     padding: 0 5px;
-  }
-  .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
-    left: unset;
-    right: 20px;
-  }
-  .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonPrev {
-    right: 55px;
   }
 }
 
@@ -136,6 +105,9 @@
   width: 100%;
 
 }
+.home__showcase .swiper__wrapper .swiper__slide {
+  padding: 8px;
+  }
 .homeShowcase .swiper__wrapper .swiper__slide > *{
   width: 100%;
   min-width: 254px;
@@ -154,5 +126,34 @@
   }
   .homeShowcase .swiper__wrapper .swiper__slide:nth-child(n+4) {
     display: none !important;
+  }
+}
+
+@container (max-width: 1023px) {
+  .homeShowcase .showcaseContainer .showcaseWrapper {
+    padding: 0px;
+  }
+  .homeShowcase .showcaseContainer {
+    padding: 0px;
+    padding-left: 15px;
+  }
+  .homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper {
+    margin: 0px -4px;
+  }
+  .homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper .swiper__wrapper .swiper__slide {
+    padding: 0px 4px;
+  }
+  .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonPrev,
+.homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
+    top: unset;
+    transform: unset;
+    bottom: -11px;
+  }
+  .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {
+    left: unset;
+    right: 20px;
+  }
+  .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonPrev {
+    right: 55px;
   }
 }

@@ -197,27 +197,65 @@ export function useLayoutGenerator() {
     }
   };
   
-
-  /** Alterna seleção de layout, respeitando propagação para páginas quando for comum */
   const toggleSelection = (id: string, layoutKey: LayoutKey, pagina: string) => {
     setSelections((prev) => {
-      // Filtra quantos já existem na página
-      const countInPage = prev.filter((item) => item.pagina === pagina).length;
-
-      // Se já tiver 8, não adiciona mais
-      if (countInPage >= MAX_PER_PAGE) return prev;
-      
-      if (pagina === 'common') {
-        const item = LAYOUTS[layoutKey].items.find((i) => i.id === id);
-        if (!item) return prev;
-
+      const item = LAYOUTS[layoutKey].items.find((i) => i.id === id);
+      if (!item) return prev;
+  
+      // helper para saber se um selection é showcase
+      const isShowcaseEntry = (s: LayoutSelection) => {
+        const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
+        return found?.selection === "showcase";
+      };
+  
+      // 👉 Regras especiais para showcase
+      if (item.selection === "showcase") {
+        const existingShowcases = prev.filter(isShowcaseEntry);
+  
+        // 1) Não existe nenhum showcase ainda → adicionar (respeita MAX_PER_PAGE da página alvo)
+        if (existingShowcases.length === 0) {
+          const countInPage = prev.filter((p) => p.pagina === pagina).length;
+          if (countInPage >= MAX_PER_PAGE) return prev;
+          return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
+        }
+  
+        // 2) Já existe o MESMO showcase → pode duplicar (respeita MAX_PER_PAGE da página alvo)
+        const sameShowcaseExists = existingShowcases.some(
+          (s) => s.id === id && s.layoutKey === layoutKey
+        );
+        if (sameShowcaseExists) {
+          const countInPage = prev.filter((p) => p.pagina === pagina).length;
+          if (countInPage >= MAX_PER_PAGE) return prev;
+          return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
+        }
+  
+        // 3) Existe showcase DIFERENTE → substituir TODOS os showcases mantendo suas páginas
+        // (não checa MAX_PER_PAGE, pois é substituição 1-para-1, a contagem por página não aumenta)
+        const replaced = prev.map((s) => {
+          if (isShowcaseEntry(s)) {
+            return {
+              uid: crypto.randomUUID(),
+              id,
+              layoutKey,
+              pagina: s.pagina, // mantemos a página de cada showcase existente
+            };
+          }
+          return s;
+        });
+        return replaced;
+      }
+  
+      // 👉 Itens não-showcase (mantém sua lógica original)
+  
+      // regra especial para "common"
+      if (pagina === "common") {
         const alreadySelectedIndex = prev.findIndex(
           (s) =>
             s.pagina === "common" &&
             s.layoutKey === layoutKey &&
             LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id)?.selection === item.selection
         );
-
+  
         if (alreadySelectedIndex !== -1) {
           const newSelections = [...prev];
           newSelections[alreadySelectedIndex] = {
@@ -239,19 +277,16 @@ export function useLayoutGenerator() {
         return [...prev, ...newSelections];
       }
   
-      // Para páginas normais, adiciona apenas uma instância
+      // limite por página só para ADIÇÃO (não afeta substituições)
+      const countInPage = prev.filter((p) => p.pagina === pagina).length;
+      if (countInPage >= MAX_PER_PAGE) return prev;
+  
       return [
         ...prev,
-        {
-          uid: crypto.randomUUID(),
-          id,
-          layoutKey,
-          pagina,
-        },
+        { uid: crypto.randomUUID(), id, layoutKey, pagina },
       ];
     });
   };
-
 
   /** Monta JSON de configuração com dados globais e por página */
   const buildConfigJson = (): Record<string, unknown> | null => {

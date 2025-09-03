@@ -83,6 +83,24 @@ import Ruler04 from '@/components/templates/home/template_4/Ruler';
 import BannerFull05 from '@/components/templates/home/template_5/BannerFull';
 import BannerSoloLeft05 from '@/components/templates/home/template_5/BannerSoloLeft';
 import BannerTriple05 from '@/components/templates/home/template_5/BannerTriple';
+import Ruler05 from '@/components/templates/home/template_5/Ruler';
+import BannerTripleSwiper05 from '@/components/templates/home/template_5/BannerTripleSwiper';
+import Showcase05 from '@/components/templates/home/template_5/Showcase';
+
+// ************
+// Template 06
+// ************
+
+// ******
+// Common
+import Spot06 from '@/components/templates/common/template_6/Spot';
+
+// ******
+// Home
+import Showcase06 from '@/components/templates/home/template_6/Showcase';
+import BannerMain06 from '@/components/templates/home/template_6/BannerMain';
+import BannerTriple06 from '@/components/templates/home/template_6/BannerTriple';
+import CategoryTriple06 from '@/components/templates/home/template_6/CategoryTriple';
 
 export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown }>> = {
   Newsletter01,
@@ -120,5 +138,14 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
 
   BannerFull05,
   BannerSoloLeft05,
-  BannerTriple05
+  BannerTriple05,
+  Ruler05,
+  BannerTripleSwiper05,
+  Showcase05,
+
+  Spot06,
+  Showcase06,
+  BannerMain06,
+  BannerTriple06,
+  CategoryTriple06
 };

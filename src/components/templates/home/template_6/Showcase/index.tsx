@@ -17,6 +17,7 @@ export default function Showcase() {
       <div className={`${styles.showcaseContainer} component__container`}>
         <div className={styles.showcaseTitle}>
           <h2>Vitrine de Ofertas</h2>
+          <span>Confira as novidades da semana</span>
         </div>
 
         <div className={styles.showcaseWrapper}>

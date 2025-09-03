@@ -28,7 +28,9 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
-
+.home__showcase .swiper__wrapper .swiper__slide {
+padding: 8px;
+}
 .home__showcase .swiper__wrapper .swiper__slide:nth-child(n+3) {
   display: none;
 }

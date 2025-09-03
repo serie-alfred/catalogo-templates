@@ -1,0 +1,62 @@
+.categoryCarousel {
+  overflow: hidden;
+  margin: 40px 0;
+  container-type: inline-size;
+  width: 100%;
+}
+.categoryCarousel .swiper {
+  overflow: visible;
+}
+.categoryCarousel .swiper .swiperWrapper .swiperSlide .rulerItem {
+  border-radius: 14px;
+  overflow: hidden;
+}
+.categoryCarousel .swiper .swiperWrapper .swiperSlide .rulerItem img {
+  transition: all ease 0.3s;
+}
+.categoryCarousel .swiper .swiperWrapper .swiperSlide .rulerItem img:hover {
+  transform: scale(1.04);
+}
+
+.categoryCarousel .swiperWrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+
+.categoryCarousel .swiperWrapper .swiperSlide{
+  min-width: 290px;
+}
+
+.categoryCarousel .swiperWrapper .swiperSlide:nth-child(n+3) {
+  display: none;
+}
+
+@container (min-width: 768px){
+  .categoryCarousel .swiperWrapper {
+    justify-content: center;
+  }
+}
+
+@container (min-width: 768px) and  (max-width: 1024px){
+  .categoryCarousel .swiperWrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .categoryCarousel .swiperWrapper .swiperSlide {
+    display: block !important;
+  }
+  .categoryCarousel .swiperWrapper .swiperSlide:nth-child(n+4) {
+    display: none !important;
+  }
+}
+
+@container (min-width: 1200px) {
+  .categoryCarousel .swiperWrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .categoryCarousel .swiperWrapper .swiperSlide {
+    display: block !important;
+  }
+}

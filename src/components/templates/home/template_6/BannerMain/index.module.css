@@ -1,0 +1,28 @@
+.homeBannerFull{
+  container-type: inline-size;
+  width: 100%;
+}
+.homeBannerFull .bannerContainer .bannerWrapper a {
+  display: block;
+  line-height: 1;
+  text-decoration: none;
+}
+.homeBannerFull .bannerContainer .bannerWrapper a img {
+  display: block;
+  line-height: 1;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0px auto;
+}
+.homeBannerFull .bannerContainer .bannerWrapper a img.bannerMobile {
+  display: none;
+}
+@container (max-width: 767px) {
+  .homeBannerFull .bannerContainer .bannerWrapper a img {
+    display: none;
+  }
+  .homeBannerFull .bannerContainer .bannerWrapper a img.bannerMobile {
+    display: block;
+  }
+}

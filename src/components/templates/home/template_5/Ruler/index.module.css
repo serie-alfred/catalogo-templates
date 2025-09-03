@@ -6,51 +6,94 @@
   width: 100%;
   container-type: inline-size;
 }
-.homeRuler .component__container {
+.homeRuler .rulerContainer {
   max-width: 80% !important;
+  position: relative;
 }
-@media (max-width: 768px) {
-  .homeRuler .component__container {
+@container (max-width: 768px) {
+  .homeRuler .rulerContainer {
     max-width: 100% !important;
   }
 }
-.homeRuler .component__container .swiper-wrapper {
+.homeRuler .rulerContainer .swiper__wrapper {
   justify-content: space-around;
   width: 100%;
+  display: flex;
 }
-.homeRuler .component__container .swiper-wrapper .ruler_item {
+.homeRuler .rulerContainer .swiper__wrapper .rulerItem {
   text-align: center;
 }
-.homeRuler .component__container .swiper-wrapper .ruler_item p {
-  font-size: 20px;
+.homeRuler .rulerContainer .swiper__wrapper .rulerItem p {
+  font-size: 14px;
   font-weight: 500;
 }
-.homeRuler .component__container .swiper-wrapper .ruler_item p span {
+.homeRuler .rulerContainer .swiper__wrapper .rulerItem p span {
   color: #353434;
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 300;
 }
-@media (max-width: 768px) {
-  .homeRuler .component__container .swiper-button-next-ruler,
-.homeRuler .component__container .swiper-button-prev-ruler {
+@container (max-width: 768px) {
+  .homeRuler .rulerContainer .swiperButtonNextRuler,
+.homeRuler .rulerContainer .swiperButtonPrevRuler{
     position: absolute;
     transform: translateY(-200%);
     display: flex;
     z-index: 99;
   }
 }
-.homeRuler .component__container .swiper-button-next-ruler {
+.homeRuler .rulerContainer .swiperButtonNextRuler {
   content: url("data:image/svg+xml,%3Csvg width='6' height='10' viewBox='0 0 6 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.33337 8.33341L4.66671 5.00008L1.33337 1.66675' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
   justify-content: flex-end;
   left: unset;
   right: 40%;
   z-index: 99;
 }
-@media (max-width: 768px) {
-  .homeRuler .component__container .swiper-button-next-ruler {
+@container (max-width: 768px) {
+  .homeRuler .rulerContainer .swiperButtonNextRuler {
     right: 0%;
   }
 }
-.homeRuler .component__container .swiper-button-prev-ruler {
+.homeRuler .rulerContainer .swiperButtonPrevRuler{
   content: url("data:image/svg+xml,%3Csvg width='6' height='10' viewBox='0 0 6 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.66663 1.66659L1.33329 4.99992L4.66663 8.33325' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+}
+
+.homeRuler .swiper__wrapper {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  justify-content: center;
+  align-items: center;
+}
+
+.homeRuler .swiper__wrapper .swiper__slide{
+  width: fit-content;
+}
+.homeRuler .swiper__wrapper .swiper__slide:nth-child(n+2) {
+  display: none;
+}
+
+@container (min-width: 768px) and  (max-width: 1024px){
+  .homeRuler .swiper__wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .homeRuler .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+  .homeRuler .swiper__wrapper .swiper__slide:nth-child(n+3) {
+    display: none !important;
+  }
+}
+
+@container (min-width: 1200px) and (max-width: 1440px) {
+  .homeRuler .swiper__wrapper {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .homeRuler .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+}
+
+@container (min-width: 768px) {
+  .homeRuler .rulerContainer .swiperButtonNextRuler,  .homeRuler .rulerContainer .swiperButtonPrevRuler {
+    display: none;
+  }
 }

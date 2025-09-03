@@ -1,0 +1,106 @@
+.homeCategoriesLower{
+  container-type: inline-size;
+  width: 100%;
+  margin: 40px 0;
+}
+.homeCategoriesLower .categoriesContentLower .bannerImageText a img {
+  filter: brightness(80%);
+  border-radius: 8px;
+}
+@container (min-width: 1200px) {
+  .homeCategoriesLower {
+    display: flex;
+    justify-content: center;
+  }
+  .homeCategoriesLower .categoriesContentLower {
+    width: 70%;
+    margin: 0 auto;
+  }
+  .homeCategoriesLower .categoriesContentLower .bannerImageText {
+    position: relative;
+    display: inline-block;
+  }
+  .homeCategoriesLower .categoriesContentLower .bannerImageText a img {
+    filter: brightness(80%);
+    border-radius: 8px;
+    width: 92%;
+  }
+  .homeCategoriesLower .categoriesContentLower .bannerImageText .banner__text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 30px;
+  }
+  .homeCategoriesLower .categoriesContentLower .banner__text span {
+    font-family: var(--font-family);
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 48px;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+  }
+  .homeCategoriesLower .categoriesContentLower .banner__text a {
+    display: none;
+  }
+}
+
+.homeCategoriesLower {
+  overflow-x: hidden;
+  padding: 0px 15px;
+}
+
+
+.homeCategoriesLower .swiper__wrapper {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+}
+
+@container (max-width: 768px){
+  .homeCategoriesLower .swiper__wrapper {
+    justify-content: flex-start;
+  }
+  .homeCategoriesLower {
+    padding: 0px;
+    padding-left: 15px;
+  }
+  .homeCategoriesLower .swiper__wrapper .swiper__slide > *{
+    width: 100%;
+    min-width: 254px;
+  }
+  
+}
+
+.homeCategoriesLower .swiper__wrapper .swiper__slide{
+  width: 100%;
+
+}
+
+.homeCategoriesLower .swiper__wrapper .swiper__slide:nth-child(n+3) {
+  display: none;
+}
+
+@container (min-width: 768px){
+  .homeCategoriesLower .swiper__wrapper {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .homeCategoriesLower .swiper__wrapper .swiper__slide {
+    display: block !important;
+  }
+
+}
+
+@container (max-width: 1023px) {
+  .homeCategoriesLower .showcaseContainer .showcaseWrapper {
+    padding: 0px;
+  }
+  .homeCategoriesLower .showcaseContainer {
+    padding: 0px;
+    padding-left: 15px;
+  }
+}

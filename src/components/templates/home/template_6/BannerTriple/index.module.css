@@ -1,0 +1,25 @@
+.bannerColumnContainer {
+  margin: 30px 0px 45px 0px;
+  container-type: inline-size;
+  width: 100%;
+}
+.bannerColumnContainer .bannerColumn {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+@container (max-width: 768px) {
+  .bannerColumnContainer .bannerColumn {
+    flex-direction: column;
+  }
+}
+.bannerColumnContainer .bannerColumn .banner {
+  overflow: hidden;
+  border-radius: 14px;
+}
+.bannerColumnContainer .bannerColumn .banner img {
+  transition: all ease 0.3s;
+}
+.bannerColumnContainer .bannerColumn .banner img:hover {
+  transform: scale(1.12);
+}

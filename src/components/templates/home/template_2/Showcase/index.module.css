@@ -24,7 +24,7 @@
   margin: 0px -8px;
 }
 .homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper .swiper__wrapper .swiper__slide {
-  padding: 0px 8px;
+  padding: 8px ;
 }
 .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination {
   display: flex;
@@ -97,6 +97,9 @@
   width: 100%;
 
 }
+.home__showcase .swiper__wrapper .swiper__slide {
+  padding: 8px;
+  }
 .homeShowcase .swiper__wrapper .swiper__slide > *{
   width: 100%;
   min-width: 254px;

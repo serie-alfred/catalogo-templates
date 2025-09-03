@@ -1,14 +1,14 @@
 'use client';
 import React from 'react';
-import styles from './Ruler.module.css';
+import styles from './index.module.css';
 
 export default function Ruler() {
   return (
     <section className={styles.homeRuler}>
-      <div className="component__container">
-        <div className={`${styles.swiper} swiper`}>
-          <div className="swiper-wrapper">
-            <div className={`${styles.rulerItem} swiper-slide`}>
+      <div className={`${styles.rulerContainer} component__container`}>
+        <div className={`${styles.swiper}`}>
+          <div className={styles.swiper__wrapper}>
+            <div className={`${styles.swiper__slide} ${styles.rulerItem}`}>
               <p>
                 Frete Grátis
                 <br />
@@ -16,7 +16,7 @@ export default function Ruler() {
               </p>
             </div>
 
-            <div className={`${styles.rulerItem} swiper-slide`}>
+            <div className={`${styles.swiper__slide} ${styles.rulerItem}`}>
               <p>
                 Até 10x sem juros
                 <br />
@@ -24,7 +24,7 @@ export default function Ruler() {
               </p>
             </div>
 
-            <div className={`${styles.rulerItem} swiper-slide`}>
+            <div className={`${styles.swiper__slide} ${styles.rulerItem}`}>
               <p>
                 Primeira troca grátis
                 <br />
@@ -32,7 +32,7 @@ export default function Ruler() {
               </p>
             </div>
 
-            <div className={`${styles.rulerItem} swiper-slide`}>
+            <div className={`${styles.swiper__slide} ${styles.rulerItem}`}>
               <p>
                 Suporte 24h
                 <br />
@@ -42,8 +42,9 @@ export default function Ruler() {
           </div>
 
           {/* Botões de navegação */}
-          <div className="swiper-button-prev-ruler"></div>
-          <div className="swiper-button-next-ruler"></div>
+
+          <div className={styles.swiperButtonPrevRuler}></div>
+          <div className={styles.swiperButtonNextRuler}></div>
         </div>
       </div>
     </section>
