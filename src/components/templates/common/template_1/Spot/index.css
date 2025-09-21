@@ -1,9 +1,3 @@
-:root {
-  --font-family: "Arial", sans-serif;
-  --background-purple: #6a0dad;
-  --background-pink: #e60073;
-  --background-light-pink: #ffb6c1;
-}
 
 /* Spot */
 .spot {
@@ -98,17 +92,16 @@
 }
 
 .spot .product-wrapper .product-image .product-tag div.tag-new span {
-  background-color: var(--background-purple);
+  background-color: var(--background-tertiary-color);
 }
 
 .spot .product-wrapper .product-image .product-tag div.tag-featured span {
-  background-color: var(--background-pink);
+  background-color: var(--background-secundary-color);
 }
 
 .spot .product-wrapper .product-image .product-tag div.tag-discount span {
-  background-color: var(--background-light-pink);
-  border: 1px solid #DFDFE0;
-  color: #0F0F0F;
+  background-color: var(--background-secundary-color);
+  filter: brightness(150%);
 }
 
 .spot .product-wrapper .product-image .product-tag div span {
@@ -213,7 +206,7 @@
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .price-promotion {
   font-weight: 600;
   font-size: 18px;
-  color: var(--background-purple);
+  color: var(--background-tertiary-color);
   text-decoration: none;
 }
 
@@ -270,7 +263,7 @@
   font-weight: 700;
   font-size: 14px;
   color: #F5F5F5;
-  background-color: var(--background-pink);
+  background-color: var(--background-secundary-color);
   width: 100%;
   height: 45px;
   border-radius: 8px;
@@ -278,7 +271,8 @@
 }
 
 .spot .product-wrapper .product-content .product-buy a:hover {
-  background-color: #b10052;
+  background-color: var(--background-secundary-color);
+  opacity: .8;
 }
 
 @container (max-width: 1023px) {
@@ -309,6 +303,6 @@
   }
 
   .spot .product-wrapper .product-content .product-buy a:hover {
-    background-color: var(--background-purple);
+    background-color: var(--background-tertiary-color);
   }
 }

@@ -1,0 +1,99 @@
+/* HomeBanner.module.css */
+.homeBannerSide {
+  display: flex;
+  margin-bottom: 80px;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  container-type: inline-size;
+}
+
+.homeBannerSide h2 {
+  margin-bottom: 40px;
+  font-size: 28px;
+  font-weight: 700;
+  color: white !important;
+}
+
+.bannerContainer {
+  display: flex;
+  width: 100%;
+}
+
+.bannerRow {
+  display: flex;
+  flex: 1 1 50%;
+}
+
+.bannerItem {
+  flex: 1;
+}
+
+.bannerItem a {
+  display: block;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.bannerItem img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.sectionText {
+  flex: 1;
+  background: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+}
+
+.textContent {
+  margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.textContent h2 {
+  font-size: 43px;
+  font-weight: 600;
+  max-width: 535px;
+  margin-bottom: unset;
+}
+
+.textContent span {
+  font-size: 16px;
+  font-weight: 300;
+  max-width: 535px;
+  line-height: 1.5;
+  display: flex;
+}
+
+/* Media Queries */
+@container (max-width: 768px) {
+  .bannerRow {
+    flex-direction: column;
+  }
+  
+  .bannerItem img {
+    height: 400px;
+  }
+}
+
+@container (max-width: 1200px) {
+  .textContent {
+    padding: 20px;
+  }
+  
+  .textContent h2 {
+    font-size: 32px;
+  }
+  
+  .textContent span {
+    font-size: 15px;
+  }
+}

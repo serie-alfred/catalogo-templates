@@ -273,7 +273,7 @@
   font-weight: 700;
   font-size: 14px;
   color: #F5F5F5;
-  background-color: var(--background-pink);
+  background-color: var(--background-secundary-color);
   width: 100%;
   height: 45px;
   border-radius: 8px;
@@ -316,6 +316,6 @@
     display: none;
   }
   .spot .productWrapper .productContent .productBuy a:hover {
-    background-color: var(--background-purple);
+    background-color: var(--background-tertiary-color);
   }
 }

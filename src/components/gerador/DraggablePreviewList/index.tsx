@@ -41,10 +41,8 @@ export default function DraggablePreviewList({
 
   const getPriorityOrder = (key: LayoutKey) => {
     if (key === 'header') return 0;
-    if (key === 'breadcrumb') return 1;
-    if (key === 'newsletter') return 3;
-    if (key === 'footer') return 4;
-    return 2;
+    if (key === 'footer') return 2;
+    return 1;
   };
 
   const filteredItems = useMemo(

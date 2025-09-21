@@ -1,0 +1,50 @@
+.categoryDescription {
+  margin: 42px 0;
+  width: 100%;
+  container-type: inline-size;
+}
+
+.descriptionRow {
+  position: relative;
+}
+
+.descriptionWrapper {
+  width: 100%;
+  max-width: 100%;
+}
+
+.descriptionWrapper h1 {
+  display: block;
+  line-height: 1;
+  font-weight: 700;
+  font-size: 24px;
+  color: #141414;
+  margin: 0 0 1rem 0;
+}
+
+.descriptionText {
+  margin-top: 8px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #0F0F0F;
+  line-height: 25px;
+  letter-spacing: 0.25px;
+}
+
+.descriptionText p,
+.descriptionText a {
+  font-weight: 400;
+  font-size: 16px;
+  color: #0F0F0F;
+  letter-spacing: 0.25px;
+  line-height: 25px;
+}
+
+.descriptionText a {
+  line-height: 1;
+  text-decoration: none;
+}
+
+.descriptionText a:hover {
+  text-decoration: underline;
+}

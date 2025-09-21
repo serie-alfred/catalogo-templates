@@ -32,3 +32,8 @@
   height: 21px;
 
 }
+
+.breadcrumb{
+  width: 100%;
+  container-type: inline-size;
+}

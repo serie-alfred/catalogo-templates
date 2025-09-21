@@ -1,0 +1,19 @@
+@container (max-width: 769px) {
+  .categoryBannerDesktop {
+    display: none;
+ }
+}
+@container (min-width: 769px) {
+  .categoryBannerMobile {
+    display: none;
+ }
+}
+.categoryBannerMobile img {
+  width: 100%;
+}
+
+
+.bannerFull{
+  width: 100%;
+  container-type: inline-size;
+}

@@ -3,6 +3,12 @@
   container-type: inline-size;
 }
 
+.footer__main{
+  display: block;
+  width: 100%;
+  container-type: inline-size;
+}
+
 .footer__top {
     background-color: var(--background-footer);
     padding: 65px 0 75px 0;

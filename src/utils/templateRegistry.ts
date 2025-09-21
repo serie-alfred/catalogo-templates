@@ -36,9 +36,17 @@ import Spot02 from '@/components/templates/common/template_2/Spot';
 // ******
 // Home
 import BannerFull02 from '@/components/templates/home/template_2/BannerFull';
+import BannerPart02 from '@/components/templates/home/template_2/BannerPart';
 import BannerSide02 from '@/components/templates/home/template_2/BannerSide';
 import Ruler02 from '@/components/templates/home/template_2/Ruler';
 import Showcase02 from '@/components/templates/home/template_2/Showcase';
+
+// ******
+// categoria
+import BannerFullCategory02 from '@/components/templates/category/template_2/BannerFull';
+import CategoryMain01 from '@/components/templates/category/template_1/CategoryMain';
+import CategoryDescription01 from '@/components/templates/category/template_1/CategoryDescription';
+
 
 // ************
 // Template 03
@@ -117,20 +125,24 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   Header01,
   Footer01,
   BannerMain01,
+  CategoryMain01,
   BannerSide01,
   BannerFull01,
   BannerGrid01,
   Brand01,
   Categories01,
   Breadcrumb01,
+  CategoryDescription01,
 
   Header02,
   Footer02,
   BannerFull02,
+  BannerPart02,
   BannerSide02,
   Ruler02,
   Showcase02,
   Spot02,
+  BannerFullCategory02,
 
   Header03,
   BannerDuplo03,
