@@ -1,0 +1,77 @@
+.carouselContainer {
+  overflow: hidden;
+  margin: 40px 0;
+  container-type: inline-size;
+  width: 100%;
+}
+.carouselContainer .swiper {
+  overflow: visible;
+}
+.carouselContainer .swiper .swiperWrapper {
+  padding: 20px 0px;
+}
+.carouselContainer .swiper .swiperWrapper .rulerItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+.carouselContainer .swiper .swiperWrapper .rulerItem img {
+  border-radius: 120px;
+  transition: all 0.2s ease;
+}
+.carouselContainer .swiper .swiperWrapper .rulerItem img:hover {
+  transform: scale(1.1);
+}
+.carouselContainer .swiper .swiperWrapper .rulerItem span {
+  font-size: 14px;
+}
+.carouselContainer .swiper .swiperWrapper .rulerItem a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.carouselContainer .swiperWrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+}
+
+.carouselContainer .swiperWrapper .swiperSlide:nth-child(n+4) {
+  display: none;
+}
+
+@container (min-width: 768px){
+  .carouselContainer .swiperWrapper .swiperSlide{
+    min-width: unset;
+  }
+  .carouselContainer .swiperWrapper {
+    justify-content: center;
+    gap: 64px;
+  }
+}
+
+@container (min-width: 768px) and  (max-width: 1104px){
+  .carouselContainer .swiperWrapper {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .carouselContainer .swiperWrapper .swiperSlide {
+    display: block !important;
+  }
+  .carouselContainer .swiperWrapper .swiperSlide:nth-child(n+6) {
+    display: none !important;
+  }
+}
+
+@container (min-width: 1104px) {
+  .carouselContainer .swiperWrapper {
+    grid-template-columns: repeat(8, 1fr);
+  }
+  .carouselContainer .swiperWrapper .swiperSlide {
+    display: block !important;
+  }
+}

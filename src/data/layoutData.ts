@@ -54,6 +54,7 @@ export type Layouts = {
   homeCombined:LayoutSection;
   BannerSideLeft:LayoutSection;
   bannerTriple:LayoutSection;
+  review: LayoutSection;
 };
 
 export const LAYOUTS: Layouts = {
@@ -61,6 +62,15 @@ export const LAYOUTS: Layouts = {
     name: "Header",
     items: [
       { id: "01",selection: "header", key:"hdr01a2b3c4d", image: "header/desktop/header_01.png", mobile: "header/mobile/header_01_m.png", title: "Header Moderno", description: "Menu de navegação com busca e carrinho", template: "1", pagina: ["common"], component: "Header01", platforms: ['Tray', 'Shopify', 'Wake'] },
+      { id: "02",selection: "header", key:"hdr01a2b3c4d", image: "header/desktop/header_01.png", mobile: "header/mobile/header_01_m.png", title: "Header Moderno 02", description: "Menu de navegação com busca e carrinho", template: "2", pagina: ["common"], component: "Header02", platforms: ['Tray', 'Shopify', 'Wake'] },
+      { id: "03",selection: "header", key:"hdr01a2b3c4d", image: "header/desktop/header_01.png", mobile: "header/mobile/header_01_m.png", title: "Header Moderno 03", description: "Menu de navegação com busca e carrinho", template: "3", pagina: ["common"], component: "Header03", platforms: ['Tray', 'Shopify', 'Wake'] },
+      { id: "04",selection: "header", key:"hdr01a2b3c4d", image: "header/desktop/header_01.png", mobile: "header/mobile/header_01_m.png", title: "Header Moderno 04", description: "Menu de navegação com busca e carrinho", template: "4", pagina: ["common"], component: "Header04", platforms: ['Tray', 'Shopify', 'Wake'] },
+    ],
+  },
+  review: {
+    name: "Reviews",
+    items: [
+      { id: "01",selection: "client-review", key:"hdr01a2b3c4d", image: "header/desktop/header_01.png", mobile: "header/mobile/header_01_m.png", title: "Reviews do Cliente", description: "", template: "6", pagina: ["home"], component: "ClientReview06", platforms: ['Tray', 'Shopify', 'Wake'] },
     ],
   },
   bannerDuplo: {
@@ -116,6 +126,7 @@ export const LAYOUTS: Layouts = {
     items: [
       { id: "01",selection: "categories", key:"hdr01a2b3c4d", image: "brand/desktop/brand.png", mobile: "brand/mobile/brand_01_m.png", title: "Carrossel de categorias", description: "", template: "1", pagina: ["home"], component: "Categories01", platforms: ['Tray', 'Shopify', 'Wake'] },
       { id: "02",selection: "multi-categories", key:"hdr01a2b3c4d", image: "brand/desktop/brand.png", mobile: "brand/mobile/brand_01_m.png", title: "Carrossel de categorias", description: "", template: "4", pagina: ["home"], component: "MultiCategories04", platforms: ['Tray', 'Shopify', 'Wake'] },
+      { id: "03",selection: "home-carousel", key:"hdr01a2b3c4d", image: "brand/desktop/brand.png", mobile: "brand/mobile/brand_01_m.png", title: "Carrossel de categorias 06", description: "", template: "6", pagina: ["home"], component: "HomeCarousel06", platforms: ['Tray', 'Shopify', 'Wake'] },
     ],
   },
   spot: {
@@ -189,6 +200,8 @@ export const LAYOUTS: Layouts = {
     name: "Footer",
     items: [
       { id: "01",selection: "footer", key:"ftr01q3r4s5t", image: "footer/desktop/footer_02.png", mobile: "footer/mobile/footer_02_m.png", title: "Footer clean", description: "Variedades de links", template: "1", pagina: ["common"], component: "Footer01", platforms: ['Tray', 'Wake'] },
+      { id: "02",selection: "footer", key:"ftr01q3r4s5t", image: "footer/desktop/footer_02.png", mobile: "footer/mobile/footer_02_m.png", title: "Footer clean 02", description: "Variedades de links 02", template: "2", pagina: ["common"], component: "Footer02", platforms: ['Tray', 'Wake'] },
+      { id: "03",selection: "footer", key:"ftr01q3r4s5t", image: "footer/desktop/footer_02.png", mobile: "footer/mobile/footer_02_m.png", title: "Footer clean 04", description: "Variedades de links 04", template: "4", pagina: ["common"], component: "Footer04", platforms: ['Tray', 'Wake'] },
     ],
   },
 } as const;

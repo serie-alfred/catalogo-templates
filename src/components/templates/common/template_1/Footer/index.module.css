@@ -1,5 +1,6 @@
 .footer{
   width: 100%;
+  container-type: inline-size;
 }
 
 .footer__top {
@@ -34,7 +35,7 @@
     gap: 25px;
 }
 
-@media (max-width: 768px) {
+@container (max-width: 768px) {
     .footer__top .top__component .top__row .top__menu .menu__seals {
         max-width: 151px;
     }
@@ -235,7 +236,7 @@
 }
 
 /* Responsive */
-@media screen and (min-width: 1024px) and (max-width: 1199px) {
+@container (min-width: 1024px) and (max-width: 1199px) {
   footer.footer .footer__top .top__component .top__row .top__menu .menu__title {
       font-size: 16px;
   }
@@ -244,3 +245,76 @@
       font-size: 12px;
   }
 }
+
+
+@container (max-width: 1023px) {
+    footer.footer .footer__top {
+      padding: 40px 0px;
+    }
+    footer.footer .footer__top .top__component .top__row .top__menu {
+      width: 100%;
+      max-width: 100%;
+      margin-top: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    footer.footer .footer__top .top__component .top__row .top__menu:first-of-type {
+      margin-top: 0px;
+    }
+    footer.footer .footer__top .top__component .top__row .top__menu .menu__title {
+      text-align: center;
+    }
+    footer.footer .footer__top .top__component .top__row .top__menu ul.menu__payment {
+      margin: 0px auto;
+      justify-content: center;
+    }
+    footer.footer .footer__top .top__component .top__row .top__menu ul.menu__social {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    footer.footer .footer__top .top__component .top__row .top__menu ul.menu__social li {
+      margin-right: 15px;
+    }
+    footer.footer .footer__top .top__component .top__row .top__menu ul.menu__social li:last-of-type {
+      margin-right: 0px;
+    }
+    footer.footer .footer__top .top__component .top__row .top__menu ul.menu__social li a {
+      font-size: 0px;
+    }
+    footer.footer .footer__top .top__component .top__row .top__menu ul.menu__social li a svg {
+      margin-right: 0px;
+    }
+    footer.footer .footer__top .top__component .top__row .top__menu ul.menu__social li a svg path {
+      fill: #0F0F0F;
+    }
+    footer.footer .footer__top .top__component .top__row .top__menu ul li a {
+      text-align: center;
+    }
+    footer.footer .footer__bottom {
+      padding: 40px 0px 27px 0px;
+    }
+    footer.footer .footer__bottom .bottom__container .bottom__row .footer__copyright {
+      width: 100%;
+      max-width: 100%;
+    }
+    footer.footer .footer__bottom .bottom__container .bottom__row .footer__copyright span {
+      text-align: center;
+    }
+    footer.footer .footer__bottom .bottom__container .bottom__row .footer__dev {
+      width: 100%;
+      max-width: 100%;
+      justify-content: center;
+      margin-top: 25px;
+    }
+    .modal__lgpd .lgpd__content p {
+      width: 100%;
+      text-align: center;
+    }
+    .modal__lgpd .lgpd__content .lgpd__accept {
+      margin: 15px auto 0px auto;
+      width: 100%;
+      max-width: 320px;
+    }
+  }

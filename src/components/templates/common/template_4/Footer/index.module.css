@@ -1,0 +1,224 @@
+.footer {
+  background-color: #eef4f5;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  container-type: inline-size;
+}
+.footer .footer__container {
+  max-width: 1216px;
+  width: 100%;
+}
+.footer .footer__container .footer__contact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0px;
+}
+@container (max-width: 768px) {
+  .footer .footer__container .footer__contact {
+    flex-direction: column;
+    align-items: unset;
+  }
+}
+.footer .footer__container .footer__contact .text__action {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.footer .footer__container .footer__contact .text__action h3 {
+  font-size: 16px;
+  font-weight: 700;
+}
+@container (max-width: 768px) {
+  .footer .footer__container .footer__contact .text__action h3 {
+    font-size: 14px;
+  }
+}
+.footer .footer__container .footer__contact .text__action p {
+  font-size: 14px;
+  font-weight: 200;
+}
+@container (max-width: 768px) {
+  .footer .footer__container .footer__contact .text__action p {
+    font-size: 14px;
+  }
+}
+@container (max-width: 768px) {
+  .footer .footer__container .footer__contact .text__action {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+}
+@container (max-width: 768px) {
+  .footer .footer__container .footer__contact .icons__contact {
+    width: 75%;
+    margin: 20px 0px 0px 30px;
+  }
+}
+.footer .footer__container .footer__contact .icons__contact ul {
+  line-height: 1.2;
+}
+.footer .footer__container .footer__contact .icons__contact .SaveCEP_Plenitude {
+  display: flex;
+}
+.footer .footer__container .footer__contact .icons__contact .SaveCEP_Plenitude .cep-container .cep-link {
+  display: flex;
+  align-items: center;
+}
+.footer .footer__container .footer__contact .icons__contact .SaveCEP_Plenitude .cep-container span {
+  font-size: 11px;
+  font-weight: 200;
+}
+.footer .footer__container .footer__contact .icons__contact .SaveCEP_Plenitude #endereco {
+  margin-top: 0px;
+  flex-wrap: wrap;
+  width: 300px;
+  color: #42504b;
+}
+.footer .footer__container .footer__contact .icons__contact .SaveCEP_Plenitude #endereco .svg-icon svg {
+  fill: #152420;
+}
+.footer .footer__container .footer__contact .icons__contact .SaveCEP_Plenitude #endereco .enviando-para {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: var(--font-family);
+}
+.footer .footer__container .footer__contact .icons__contact .footer__street {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.4;
+}
+.footer .footer__container .footer__contact .icons__contact .footer__street .enviando {
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  gap: 3px;
+}
+.footer .footer__container .footer__contact .icons__contact .footer__street .enviando svg {
+  fill: #152420;
+}
+.footer .footer__container .footer__contact .icons__contact .footer__street .ruaSpan {
+  font-size: 12px;
+  font-weight: 200;
+}
+.footer .footer__container .institucional__container {
+  padding: 30px 0px 20px 0px;
+  display: flex;
+  justify-content: space-between;
+  border-block: 1px solid rgba(0, 0, 0, 0.05);
+}
+@container (max-width: 768px) {
+  .footer .footer__container .institucional__container {
+    flex-direction: column;
+    align-items: center;
+    margin: 0px 20px;
+  }
+}
+.footer .footer__container .institucional__container .links__container {
+  min-width: 280px;
+  flex-direction: column;
+  display: flex;
+}
+.footer .links__container a{
+  color: #42504b;
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.8;
+}
+@container (max-width: 768px) {
+  .footer .footer__container .institucional__container .links__container {
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    margin-bottom: 20px;
+  }
+}
+.footer .footer__container .institucional__container .links__container .info__title {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #27302d;
+}
+@container (max-width: 768px) {
+  .footer .footer__container .institucional__container .links__container .info__title {
+    font-size: 14px;
+  }
+}
+.footer .footer__container .institucional__container .links__container li {
+  line-height: 1.6;
+}
+.footer .footer__container .institucional__container .links__container li a {
+  font-size: 14px;
+}
+.footer .footer__container .institucional__container .links__container li a:hover {
+  text-decoration: none;
+}
+.footer .footer__container .footer__copyright {
+  padding: 10px 0px;
+}
+.footer .footer__container .footer__copyright .ct__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+@container (max-width: 768px) {
+  .footer .footer__container .footer__copyright .ct__container {
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 5px;
+  }
+}
+.footer .footer__container .footer__copyright .ct__container .footer__copyright_text p {
+  font-size: 12px;
+  font-weight: 200;
+  color: #42504b;
+}
+@container (max-width: 768px) {
+  .footer .footer__container .footer__copyright .ct__container .footer__copyright_text p {
+    font-size: 12px;
+  }
+}
+.footer .footer__container .footer__copyright .ct__container .ct_footer_socials .ct_social_box {
+  display: flex;
+  gap: 15px;
+}
+@container (max-width: 768px) {
+  .footer .footer__container .footer__copyright .ct__container .ct_footer_socials .ct_social_box {
+    gap: 23px;
+  }
+}
+.footer .footer__container .footer__copyright .ct__container .ct_footer_socials .ct_social_box a svg {
+  fill: rgba(26, 40, 41, 0.6941176471);
+}
+@container (max-width: 768px) {
+  .footer .footer__container .footer__copyright .ct__container .ct_footer_socials .ct_social_box a svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+@container (max-width: 768px) {
+  .footer .footer__container .footer__copyright .ct__container .footer__terms {
+    padding: 10px 0px;
+  }
+}
+.footer .footer__container .footer__copyright .ct__container .footer__terms .menu__terms__container ul {
+  display: flex;
+  color: #42504b;
+  gap: 15px;
+  font-size: 11px;
+}
+@container (max-width: 768px) {
+  .footer .footer__container .footer__copyright .ct__container .footer__terms .menu__terms__container ul {
+    font-size: 13px;
+  }
+}
+.footer .footer__container .footer__copyright .ct__container .footer__terms .menu__terms__container ul li a {
+  font-size: 12px;
+}
+
+.footer .footer__container .footer__copyright .ct__container .footer__dev .icon_wake_serie {
+  display: flex;
+  gap: 10px;
+}

@@ -29,6 +29,8 @@ import Categories01 from '@/components/templates/home/template_1/Categories';
 
 // ******
 // Common
+import Header02 from '@/components/templates/common/template_2/Header';
+import Footer02 from '@/components/templates/common/template_2/Footer';
 import Spot02 from '@/components/templates/common/template_2/Spot';
 
 // ******
@@ -44,7 +46,7 @@ import Showcase02 from '@/components/templates/home/template_2/Showcase';
 
 // ******
 // Common
-
+import Header03 from '@/components/templates/common/template_3/Header';
 import Spot03 from '@/components/templates/common/template_3/Spot';
 
 
@@ -59,6 +61,9 @@ import Showcase03 from '@/components/templates/home/template_3/Showcase';
 // ************
 // Template 04
 // ************
+import Footer04 from '@/components/templates/common/template_4/Footer';
+import Header04 from '@/components/templates/common/template_4/Header';
+
 
 // ******
 // Common
@@ -101,6 +106,8 @@ import Showcase06 from '@/components/templates/home/template_6/Showcase';
 import BannerMain06 from '@/components/templates/home/template_6/BannerMain';
 import BannerTriple06 from '@/components/templates/home/template_6/BannerTriple';
 import CategoryTriple06 from '@/components/templates/home/template_6/CategoryTriple';
+import ClientReview06 from '@/components/templates/home/template_6/ClientReview';
+import HomeCarousel06 from '@/components/templates/home/template_6/HomeCarousel';
 
 export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown }>> = {
   Newsletter01,
@@ -117,12 +124,15 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   Categories01,
   Breadcrumb01,
 
+  Header02,
+  Footer02,
   BannerFull02,
   BannerSide02,
   Ruler02,
   Showcase02,
   Spot02,
 
+  Header03,
   BannerDuplo03,
   BannerFull03,
   BannerSide03,
@@ -135,7 +145,9 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   HomeCombined04,
   MultiCategories04,
   Ruler04,
+  Footer04,
 
+  Header04,
   BannerFull05,
   BannerSoloLeft05,
   BannerTriple05,
@@ -147,5 +159,7 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   Showcase06,
   BannerMain06,
   BannerTriple06,
-  CategoryTriple06
+  CategoryTriple06,
+  ClientReview06,
+  HomeCarousel06
 };

@@ -279,10 +279,40 @@ export default function Footer() {
               <span className={styles.menu__title}>Segurança</span>
               <ul className={styles.menu__seals}>
                 <li>
-                  <img src="/img/Google-Reviews.png" alt="Google Reviews" />
+                  <a href="#" target="_blank" rel="noopener noreferer">
+                    <img
+                      src="https://images.tcdn.com.br/files/426932/themes/253/img/Yourviews.png?12972c5ad93a8bec3b7d26c01525438b1756923221"
+                      alt="Selo de segurança do google safe"
+                      loading="lazy"
+                    />
+                  </a>
                 </li>
                 <li>
-                  <img src="/img/Clear-Sale.png" alt="Clear Sale" />
+                  <a href="#" target="_blank" rel="noopener noreferer">
+                    <img
+                      src="https://images.tcdn.com.br/files/426932/themes/253/img/Let`s Encrypt.png?12972c5ad93a8bec3b7d26c01525438b1756923221"
+                      alt="Selo de segurança do google safe"
+                      loading="lazy"
+                    />
+                  </a>
+                </li>
+                <li>
+                  <a href="#" target="_blank" rel="noopener noreferer">
+                    <img
+                      src="https://images.tcdn.com.br/files/426932/themes/253/img/Clear Sale.png?12972c5ad93a8bec3b7d26c01525438b1756923221"
+                      alt="Selo de segurança do google safe"
+                      loading="lazy"
+                    />
+                  </a>
+                </li>
+                <li>
+                  <a href="#" target="_blank" rel="noopener noreferer">
+                    <img
+                      src="https://images.tcdn.com.br/files/426932/themes/253/img/Google%20Reviews.png?12972c5ad93a8bec3b7d26c01525438b1756923221"
+                      alt="Selo de segurança do google safe"
+                      loading="lazy"
+                    />
+                  </a>
                 </li>
               </ul>
             </div>
