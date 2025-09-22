@@ -183,13 +183,22 @@ export default function DraggablePreviewList({
                 isMobile={isMobile}
               />
               <div className={styles.buttonContainer}>
-                <button
-                  className={styles.duplicateBtn}
-                  onClick={() => duplicateItem(item)}
-                  type="button"
-                >
-                  {iconsGenerator.duplicateTheme}
-                </button>
+                {![
+                  'categoryMain',
+                  'header',
+                  'footer',
+                  'breadcrumb',
+                  'spot',
+                ].includes(item.layoutKey) && (
+                  <button
+                    className={styles.duplicateBtn}
+                    onClick={() => duplicateItem(item)}
+                    type="button"
+                  >
+                    {iconsGenerator.duplicateTheme}
+                  </button>
+                )}
+
                 <button
                   className={styles.remoteBtn}
                   onClick={() => removeItem(item.uid)}

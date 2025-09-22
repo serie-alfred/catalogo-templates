@@ -23,6 +23,19 @@ import BannerGrid01 from '@/components/templates/home/template_1/BannerGrid';
 import Brand01 from '@/components/templates/home/template_1/Brand';
 import Categories01 from '@/components/templates/home/template_1/Categories';
 
+
+// ******
+// Categoria
+import CategoryMain01 from '@/components/templates/category/template_1/CategoryMain';
+import CategoryDescription01 from '@/components/templates/category/template_1/CategoryDescription';
+
+// ******
+// Produto
+import BannerTop01 from '@/components/templates/product/template_1/BannerTop';
+import ProductDescription01 from '@/components/templates/product/template_1/ProductDescription';
+import ProductInfo01 from '@/components/templates/product/template_1/ProductInfo';
+
+
 // ************
 // Template 02
 // ************
@@ -42,10 +55,10 @@ import Ruler02 from '@/components/templates/home/template_2/Ruler';
 import Showcase02 from '@/components/templates/home/template_2/Showcase';
 
 // ******
-// categoria
+// Categoria
+import CategoryMain02 from '@/components/templates/category/template_2/CategoryMain';
 import BannerFullCategory02 from '@/components/templates/category/template_2/BannerFull';
-import CategoryMain01 from '@/components/templates/category/template_1/CategoryMain';
-import CategoryDescription01 from '@/components/templates/category/template_1/CategoryDescription';
+
 
 
 // ************
@@ -133,6 +146,9 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   Categories01,
   Breadcrumb01,
   CategoryDescription01,
+  BannerTop01,
+  ProductDescription01,
+  ProductInfo01,
 
   Header02,
   Footer02,
@@ -143,6 +159,8 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   Showcase02,
   Spot02,
   BannerFullCategory02,
+  CategoryMain02,
+
 
   Header03,
   BannerDuplo03,

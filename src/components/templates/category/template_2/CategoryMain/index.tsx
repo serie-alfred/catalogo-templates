@@ -137,12 +137,6 @@ const CategoryMain = () => {
 
       <span className={styles.filterTitleForm}>Filtrar</span>
 
-      <div className={styles.filterTotal}>
-        <span>
-          Mostrando <b>1</b> de 1
-        </span>
-      </div>
-
       <form className={styles.filterForm} method="get">
         <input type="hidden" name="loja" value="1" />
 
@@ -687,28 +681,10 @@ const CategoryMain = () => {
               <div className={styles.listShowcase}>
                 <div className={styles.listWrapper}>
                   <div className={styles.listOrder}>
-                    <div className={styles.listCompare}>
-                      <a
-                        href="/loja/comparador.php"
-                        className={styles.buttonCompare}
-                      >
-                        Comparar Produto
-                        <svg
-                          fill="none"
-                          height="24"
-                          viewBox="0 0 24 24"
-                          width="24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M10 16L14 12L10 8"
-                            stroke="#682A77"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                          />
-                        </svg>
-                      </a>
+                    <div className={styles.filterTotal}>
+                      <span>
+                        Mostrando <b>12</b> de 14
+                      </span>
                     </div>
 
                     <div className={styles.listTotalMobile}>

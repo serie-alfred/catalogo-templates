@@ -244,6 +244,36 @@ export function useLayoutGenerator() {
         });
         return replaced;
       }
+
+      if (item.selection === "category-main") {
+        const existingIndex = prev.findIndex((s) => {
+          const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
+          return found?.selection === "category-main";
+        });
+  
+        // Já existe algum category-main
+        if (existingIndex !== -1) {
+          const existing = prev[existingIndex];
+          if (existing.id === id && existing.layoutKey === layoutKey) {
+            // É o mesmo → não faz nada
+            return prev;
+          }
+          // É diferente → substituir na mesma posição/página
+          const newSelections = [...prev];
+          newSelections[existingIndex] = {
+            uid: crypto.randomUUID(),
+            id,
+            layoutKey,
+            pagina: existing.pagina, // mantém a mesma página
+          };
+          return newSelections;
+        }
+  
+        // Não existe ainda → adicionar (respeita limite da página)
+        const countInPage = prev.filter((p) => p.pagina === pagina).length;
+        if (countInPage >= MAX_PER_PAGE) return prev;
+        return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
+      }
   
       // 👉 Itens não-showcase (mantém sua lógica original)
   

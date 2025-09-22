@@ -49,6 +49,9 @@ export type Layouts = {
   breadcrumb: LayoutSection;
   categoryMain: LayoutSection;
   categoryDescription: LayoutSection;
+  bannerProduct: LayoutSection;
+  productDescription: LayoutSection;
+  productInfo: LayoutSection;
 
   /*
     bannerDuplo: LayoutSection;
@@ -163,12 +166,31 @@ export const LAYOUTS: Layouts = {
     name: "Grade de produtos",
     items: [
       { id: "01",selection: "category-main", key:"ftr01q3r4s5t", image: "footer/desktop/footer_02.png", mobile: "footer/mobile/footer_02_m.png", title: "Grade de produto", description: "Filtros laterais", template: "1", pagina: ["category"], component: "CategoryMain01", platforms: ['Tray'] },
+      { id: "02",selection: "category-main", key:"ftr01q3r4s5t", image: "footer/desktop/footer_02.png", mobile: "footer/mobile/footer_02_m.png", title: "Grade de produto 2", description: "Filtros laterais", template: "2", pagina: ["category"], component: "CategoryMain02", platforms: ['Tray'] },
     ],
   },
   categoryDescription:{
     name: "Descrição de categoria",
     items: [
       { id: "01",selection: "category-description", key:"ftr01q3r4s5t", image: "footer/desktop/footer_02.png", mobile: "footer/mobile/footer_02_m.png", title: "Descrição de categoria", description: "", template: "1", pagina: ["category"], component: "CategoryDescription01", platforms: ['Tray'] },
+    ],
+  },
+  bannerProduct:{
+    name: "Banner",
+    items: [
+      { id: "01",selection: "banner-top", key:"ftr01q3r4s5t", image: "footer/desktop/footer_02.png", mobile: "footer/mobile/footer_02_m.png", title: "Banner top 1", description: "", template: "1", pagina: ["product"], component: "BannerTop01", platforms: ['Tray'] },
+    ],
+  },
+  productDescription:{
+    name: "descrição",
+    items: [
+      { id: "01",selection: "product-description", key:"ftr01q3r4s5t", image: "footer/desktop/footer_02.png", mobile: "footer/mobile/footer_02_m.png", title: "descrição", description: "", template: "1", pagina: ["product"], component: "ProductDescription01", platforms: ['Tray'] },
+    ],
+  },
+  productInfo:{
+    name: "Informações do produto",
+    items: [
+      { id: "01",selection: "product-info", key:"ftr01q3r4s5t", image: "footer/desktop/footer_02.png", mobile: "footer/mobile/footer_02_m.png", title: "Informações do produto", description: "", template: "1", pagina: ["product"], component: "ProductInfo01", platforms: ['Tray'] },
     ],
   },
  

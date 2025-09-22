@@ -147,7 +147,6 @@
   font-size: 16px;
   font-weight: 600;
 }
-
 .brandFilter {
   position: relative;
 
@@ -271,6 +270,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
 }
 
 .pageLink {
@@ -294,7 +294,11 @@
   transition: all 0.3s ease;
 }
 
-
+.pageNext,
+.pagePrev {
+  border: none;
+  margin: 0;
+}
 
 .pagePrev {
   margin-right: 5px;
@@ -303,25 +307,59 @@
 .pageNext {
   margin-left: 5px;
 }
+.pageNext, .page-prev {
+  border: unset;
+  margin: 0px 0px 0px 0px;
+  border: 1px solid rgba(0, 0, 0, .05);
+  padding: 0px;
+  border-radius: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pageNext:hover, .page-prev:hover {
+  background-color: transparent;
+  border: none;
+}
+.pageNext:hover a, .page-prev:hover a {
+  background-color: transparent;
+  border: none;
+  color: #0f0f0f;
+}
+.pageNext a, .page-prev a {
+  border: unset;
+  color: #0f0f0f;
+}
+.page-prev {
+  margin-right: 5px;
+}
+.pageNext {
+  margin-left: 5px;
+  border: none;
+}
+.pageNext{
+
+  border: 1px solid #dfdfe0;
+  border-radius: 120px;
+}
 
 .pageCurrent,
-.pageLink:not(.pageNext):hover {
+.pageLink:hover {
   color: #ffffff;
   border: 1px solid #DFDFE0;
   background-color: #0F0F0F;
 }
 
 .pageCurrent a,
-.pageLink:hover:not(.pageNext) a {
+.pageLink:hover a {
   color: #ffffff;
   border: 1px solid #DFDFE0;
   background-color: #0F0F0F;
 }
 
-.pageNext,
-.pagePrev {
-  border: none;
-  margin: 0;
+.paginateLinks .pageLink.pageNext {
+  width: 30px;
+  height: 30px;
 }
 
 /* Filtros */
@@ -378,11 +416,10 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  margin-bottom: 30px;
 }
 
 .filterTotal b {
-  font-weight: 400;
+  font-weight: 600;
 }
 
 .filterForm {
@@ -594,7 +631,7 @@
   }
   
   .listOrder {
-   justify-content: space-between;
+   justify-content: flex-end;
    margin: 0;
   }
   
@@ -694,7 +731,7 @@
     width: 35px;
     height: 35px;
   }
-  
+
   .paginateLinks .pageLink:hover {
     background-color: transparent;
     border: none;

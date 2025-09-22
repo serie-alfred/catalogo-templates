@@ -1,0 +1,28 @@
+.productBanner {
+  width: 100%;
+  container-type: inline-size;
+  margin: 25px 0;
+}
+.productBanner .bannerContainer .bannerRow .bannerWrapper {
+  width: 100%;
+  max-width: 100%;
+  padding: 0px 15px;
+
+}
+.productBanner .bannerContainer .bannerRow .bannerWrapper a {
+  display: block;
+  line-height: 1;
+}
+.productBanner .bannerContainer .bannerRow .bannerWrapper img {
+  width: 100%;
+  max-width: 1890px;
+  height: auto;
+  display: block;
+  margin: 0px auto;
+  border-radius: 26px;
+}
+@media screen and (max-width: 1023px) {
+  .page__product .productBanner .bannerContainer .bannerRow .bannerWrapper img {
+    border-radius: 6px;
+ }
+}
