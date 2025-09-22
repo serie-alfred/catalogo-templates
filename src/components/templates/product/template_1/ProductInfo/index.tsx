@@ -13,15 +13,11 @@ const ProductInfo = () => {
     installment: '10x de R$ 66,76',
     description: 'Data de lançamento: 25/03/2022\nDisponibilidade: Imediata',
     images: [
-      'https://images.tcdn.com.br/img/img_prod/426932/produto_2_205_1_cc9d7dd39bca0efccf3a8b7322e2fe9a.jpg',
-      'https://images.tcdn.com.br/img/img_prod/426932/produto_2_205_2_cc9d7dd39bca0efccf3a8b7322e2fe9a.jpg',
-      'https://images.tcdn.com.br/img/img_prod/426932/produto_2_205_3_cc9d7dd39bca0efccf3a8b7322e2fe9a.jpg',
-      'https://images.tcdn.com.br/img/img_prod/426932/produto_2_205_4_cc9d7dd39bca0efccf3a8b7322e2fe9a.jpg',
-      'https://images.tcdn.com.br/img/img_prod/426932/produto_2_205_5_cc9d7dd39bca0efccf3a8b7322e2fe9a.jpg',
-      'https://images.tcdn.com.br/img/img_prod/426932/produto_2_205_6_cc9d7dd39bca0efccf3a8b7322e2fe9a.jpg',
-      'https://images.tcdn.com.br/img/img_prod/426932/produto_2_205_7_cc9d7dd39bca0efccf3a8b7322e2fe9a.jpg',
+      'https://placehold.co/482x482',
+      'https://placehold.co/482x482',
+      'https://placehold.co/482x482',
     ],
-    sizes: ['G', 'GG', 'M'],
+    sizes: ['M', 'G', 'GG'],
   };
 
   const handleQuantityChange = (value: number) => {
@@ -51,7 +47,7 @@ const ProductInfo = () => {
 
   return (
     <div className={styles.product__info}>
-      <div className={styles.info__container}>
+      <div className={`${styles.info__container} component__container`}>
         <div className={styles.info__row}>
           {/* Seção Esquerda - Galeria de Imagens */}
           <div className={styles.info__left}>
@@ -59,25 +55,6 @@ const ProductInfo = () => {
               <div className={styles.info__image}>
                 <div className={styles.productGallery}>
                   <div className={styles.conteudo}>
-                    <div className={styles.produtoImagem}>
-                      <div className={styles.wrap}>
-                        <a
-                          href={product.images[0]}
-                          className={styles.containerThumb}
-                          title="Produto 2"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <img
-                            src={product.images[0]}
-                            title="Produto 2"
-                            alt="Produto 2"
-                            className={styles.photo}
-                          />
-                        </a>
-                      </div>
-                    </div>
-
                     <div className={styles.produtoImagemMiniaturas}>
                       <div className={styles.miniaturasWrapper}>
                         <ul className={styles.miniaturasList}>
@@ -99,6 +76,50 @@ const ProductInfo = () => {
                           ))}
                         </ul>
                       </div>
+                    </div>
+                    <div className={styles.produtoImagem}>
+                      <div className={styles.wrap}>
+                        <a
+                          href={product.images[0]}
+                          className={styles.containerThumb}
+                          title="Produto 2"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <img
+                            src={product.images[0]}
+                            title="Produto 2"
+                            alt="Produto 2"
+                            className={styles.photo}
+                          />
+                        </a>
+                      </div>
+                    </div>
+                    <div className={`${styles.swiperPagination}`}>
+                      <span
+                        className={`${styles.swiperPaginationBullet} ${styles.swiperPaginationBulletActive}`}
+                      ></span>
+                      <span
+                        className={`${styles.swiperPaginationBullet}`}
+                      ></span>
+                      <span
+                        className={`${styles.swiperPaginationBullet}`}
+                      ></span>
+                      <span
+                        className={`${styles.swiperPaginationBullet}`}
+                        role="button"
+                        aria-label="Go to slide 4"
+                      ></span>
+                      <span
+                        className={`${styles.swiperPaginationBullet}`}
+                        role="button"
+                        aria-label="Go to slide 5"
+                      ></span>
+                      <span
+                        className={`${styles.swiperPaginationBullet}`}
+                        role="button"
+                        aria-label="Go to slide 6"
+                      ></span>
                     </div>
                   </div>
                 </div>
@@ -129,8 +150,14 @@ const ProductInfo = () => {
                   </div>
 
                   <div className={styles.content__productTag}>
+                    <div className={styles.tagFeatured}>
+                      <span>OFERTA</span>
+                    </div>
                     <div className={styles.tagNew}>
                       <span>Novo</span>
+                    </div>
+                    <div className={styles.tagDiscount}>
+                      <span>- 13%</span>
                     </div>
                   </div>
 
@@ -144,6 +171,15 @@ const ProductInfo = () => {
                   <div className={styles.content__price}>
                     <div className={styles.produtoPreco}>
                       <div className={styles.preco}>
+                        <div className={styles.precoBefore}>
+                          <span className={styles.precoDe}>
+                            De R$<span>{product.price}</span>
+                          </span>
+                          <span className={styles.precoDiscountFlag}>
+                            <span>-13% Off</span>
+                          </span>
+                        </div>
+
                         <span className={styles.precoPrincipal}>
                           R$ <span>{product.price}</span>
                         </span>
@@ -247,7 +283,7 @@ const ProductInfo = () => {
                           name="quant"
                           className={styles.quantityInput}
                           type="text"
-                          value={quantity}
+                          value={1}
                           readOnly
                         />
                       </label>
@@ -256,35 +292,47 @@ const ProductInfo = () => {
                     <div className={styles.buyButton}>
                       <button className={styles.botaoComprar} type="button">
                         <span className={styles.botaoCommerceImg}>
-                          <svg width="24" height="24" viewBox="0 0 24 24">
+                          <svg
+                            fill="none"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
                             <path
                               d="M9 15L15.7078 14.4186C17.8066 14.2368 18.2778 13.76 18.5104 11.5831L19 7"
                               stroke="white"
+                              strokeWidth="1.5"
                               strokeLinecap="round"
-                            />
+                            ></path>
                             <path
                               d="M7 7H20"
                               stroke="white"
+                              strokeWidth="1.5"
                               strokeLinecap="round"
-                            />
+                            ></path>
                             <path
                               d="M7.5 20C8.32843 20 9 19.3284 9 18.5C9 17.6716 8.32843 17 7.5 17C6.67157 17 6 17.6716 6 18.5C6 19.3284 6.67157 20 7.5 20Z"
                               stroke="white"
-                            />
+                              strokeWidth="1.5"
+                            ></path>
                             <path
                               d="M15.5 20C16.3284 20 17 19.3284 17 18.5C17 17.6716 16.3284 17 15.5 17C14.6716 17 14 17.6716 14 18.5C14 19.3284 14.6716 20 15.5 20Z"
                               stroke="white"
-                            />
+                              strokeWidth="1.5"
+                            ></path>
                             <path
                               d="M9 18H14"
                               stroke="white"
+                              strokeWidth="1.5"
                               strokeLinecap="round"
-                            />
+                            ></path>
                             <path
                               d="M4 4H4.805C5.59223 4 6.27845 4.50748 6.46938 5.23088L8.94877 14.6247C9.07406 15.0994 8.96683 15.6023 8.65687 15.9938L7.86011 17"
                               stroke="white"
+                              strokeWidth="1.5"
                               strokeLinecap="round"
-                            />
+                            ></path>
                           </svg>
                           Adicionar ao carrinho
                         </span>
@@ -293,46 +341,52 @@ const ProductInfo = () => {
                   </div>
 
                   <div className={styles.content__message}>
-                    <svg width="56" height="56" viewBox="0 0 56 56">
+                    <svg
+                      fill="none"
+                      height="56"
+                      viewBox="0 0 56 56"
+                      width="56"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
                       <path
                         d="M0.5 28C0.5 12.8122 12.8122 0.5 28 0.5C43.1878 0.5 55.5 12.8122 55.5 28C55.5 43.1878 43.1878 55.5 28 55.5C12.8122 55.5 0.5 43.1878 0.5 28Z"
                         stroke="#E60F73"
-                      />
+                      ></path>
                       <path
                         d="M37 23V28M19 23C19 26.0645 19 32.7742 19 33.1613C19 34.5438 20.9456 35.3657 24.8369 37.0095C26.4002 37.6698 27.1818 38 28 38V27.3548"
                         stroke="#E60F73"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="1.5"
-                      />
+                      ></path>
                       <path
                         d="M31 35C31 35 31.875 35 32.75 37C32.75 37 35.5294 32 38 31"
                         stroke="#E60F73"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="1.5"
-                      />
+                      ></path>
                       <path
                         d="M24.3259 25.6914L21.4047 24.2779C19.8016 23.5021 19 23.1142 19 22.5C19 21.8858 19.8016 21.4979 21.4047 20.7221L24.3259 19.3086C26.1288 18.4362 27.0303 18 28 18C28.9697 18 29.8712 18.4362 31.6741 19.3086L34.5953 20.7221C36.1984 21.4979 37 21.8858 37 22.5C37 23.1142 36.1984 23.5021 34.5953 24.2779L31.6741 25.6914C29.8712 26.5638 28.9697 27 28 27C27.0303 27 26.1288 26.5638 24.3259 25.6914Z"
                         stroke="#E60F73"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="1.5"
-                      />
+                      ></path>
                       <path
                         d="M22 28L24 29"
                         stroke="#E60F73"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="1.5"
-                      />
+                      ></path>
                       <path
                         d="M33 20L23 25"
                         stroke="#E60F73"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="1.5"
-                      />
+                      ></path>
                     </svg>
                     <span>
                       * Aqui sua compra é 100% segura, compre com tranquilidade.
@@ -340,30 +394,11 @@ const ProductInfo = () => {
                   </div>
 
                   <div className={styles.content__shipping}>
-                    <div className={styles.produtoCalcularFrete}>
-                      <div className={styles.cepbox}>
-                        <h6>Simulador de Frete</h6>
-                        <label htmlFor="cepInput">CEP:</label>
-                        <input
-                          type="text"
-                          className={styles.cepInput}
-                          id="cepInput"
-                          value={formatCep(cep)}
-                          onChange={handleCepChange}
-                          placeholder="00000-000"
-                          maxLength={9}
-                        />
-                        <button className={styles.botaoSimularFrete}>
-                          Calcular frete
-                        </button>
-                      </div>
-                    </div>
-
-                    <span className={styles.shippingTitle}>
+                    <span className={styles.shipping__title}>
                       Frete e Entrega
                     </span>
 
-                    <form className={styles.shippingForm}>
+                    <form className={styles.shipping__form}>
                       <label>
                         <input
                           type="text"
@@ -373,7 +408,7 @@ const ProductInfo = () => {
                           placeholder="00000-000"
                         />
                       </label>
-                      <button className={styles.shippingSend} type="button">
+                      <button className={styles.shipping__send} type="button">
                         Enviar
                         <svg width="24" height="24" viewBox="0 0 24 24">
                           <path

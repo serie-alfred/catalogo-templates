@@ -42,7 +42,14 @@
   top: 0px;
   transition: all 0.3s ease-in-out;
 }
+.info__image .productGallery .conteudo{
+  display: flex;
+  gap: 10px;
+}
 
+.produtoImagemMiniaturas{
+  width: 74px;
+}
 .product__info .info__container .info__row .info__left .info__position.info__fixed {
   top: 215px;
 }
@@ -253,35 +260,35 @@
   margin-top: 1px;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__product--tag {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__product--tag div {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div {
   margin-right: 4px;
   margin-bottom: 30px;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__product--tag div:last-of-type {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div:last-of-type {
   margin-right: 0px;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__product--tag div.tag-new span {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagNew span {
   background-color: var(--background-tertiary-color);
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__product--tag div.tag-featured span {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagFeatured span {
   background-color: var(--background-secundary-color);
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__product--tag div.tag-discount span {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagDiscount span {
   background-color: var(--background-primary-color);
   color: var(--background-tertiary-color);
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__product--tag div span {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div span {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -354,12 +361,14 @@
   justify-content: start;
 }
 
+.precoBefore{
+  display: flex;
+  align-items: center;
+}
 
-
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco #precoDe {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoDe {
   font-family: var(--font-primary);
   text-decoration: line-through;
-  margin: 0px 15px 0px 0px;
   color: #8F8F8F;
   font-size: 14px;
   font-style: normal;
@@ -373,7 +382,7 @@
   align-items: center;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .preco-discount-flag {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoDiscountFlag {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -388,6 +397,7 @@
   font-size: 12px;
   color: #0D0D0E;
   margin-bottom: 8px;
+  margin-left: 15px;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .PrecoPrincipal {
@@ -779,7 +789,7 @@
   color: var(--text-color-secundary);
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -788,26 +798,26 @@
   margin-top: 20px;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #quantidade {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .quantidade {
   float: unset;
   margin-right: 25px;
 }
 
 @container (max-width: 768px) {
-  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #quantidade {
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .quantidade {
     padding: 0px 10px;
   }
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #quantidade label {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .quantidade label {
   position: relative;
   width: 156px;
   height: 40px;
   display: block;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #quantidade label .qty-minus,
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #quantidade label .qty-plus {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .quantidade label .qtyMinus,
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .quantidade label .qtyPlus {
   width: 40px;
   height: 40px;
   display: flex;
@@ -821,18 +831,18 @@
   cursor: pointer;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #quantidade label .qty-minus:hover svg path,
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #quantidade label .qty-plus:hover svg path {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .quantidade label .qtyMinus:hover svg path,
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .quantidade label .qtyPlus:hover svg path {
   fill: #dfdfe0;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #quantidade label .qty-plus {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .quantidade label .qtyPlus {
   justify-content: flex-end;
   right: 0px;
   left: unset;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #quantidade label input {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .quantidade .quantityInput {
   width: 100%;
   height: 40px;
   display: flex;
@@ -843,27 +853,32 @@
   font-weight: 500;
   font-size: 16px;
   color: var(--background-secundary-color);
+  text-align: center;
   border: none;
   box-shadow: none;
   margin: 0px;
   padding: 0px;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #bt_comprar {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .buyButton {
   width: 100%;
   max-width: 250px;
 }
 
 @container (max-width: 768px) {
-  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #bt_comprar {
-    position: fixed;
-    bottom: 10px;
-    z-index: 5;
-    width: 95%;
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .buyButton {
+    width: 100%;
+    margin: 30px 0 0;
+    max-width: 100%;
+  }
+  .product__info .quantidade label, .product__info .quantidade {
+    width: 100% !important;
+    max-width: 100%;
+    margin: 0 !important;
   }
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #bt_comprar button {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .buyButton button {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -875,11 +890,11 @@
   transition: all 0.3s ease-in-out;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #bt_comprar button::before {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .buyButton button::before {
   display: none;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #bt_comprar button span {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .buyButton button span {
   margin: 0px;
   display: flex;
   flex-wrap: wrap;
@@ -892,7 +907,7 @@
   text-transform: initial;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #bt_comprar button span svg {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner  .productFormBox .buyButton button span svg {
   margin-right: 8px;
 }
 
@@ -941,18 +956,18 @@
   margin-bottom: 25px;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .content__shipping--box {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .content__shipping--box label {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label {
   width: calc(100% - 136px);
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .content__shipping--box label input {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label input {
   width: 100%;
   height: 56px;
   background-color: #ffffff;
@@ -966,31 +981,31 @@
   color: #68686E;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .content__shipping--box label input:-ms-input-placeholder {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label input:-ms-input-placeholder {
   color: #68686E;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .content__shipping--box label input::-ms-input-placeholder {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label input::-ms-input-placeholder {
   color: #68686E;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .content__shipping--box label input::-webkit-input-placeholder {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label input::-webkit-input-placeholder {
   color: #68686E;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .content__shipping--box label input:-moz-placeholder {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label input:-moz-placeholder {
   color: #68686E;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .content__shipping--box label input::-moz-placeholder {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label input::-moz-placeholder {
   color: #68686E;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .content__shipping--box label input::placeholder {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label input::placeholder {
   color: #68686E;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .content__shipping--box .shipping__send {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form .shipping__send {
   width: 125px;
   height: 56px;
   display: flex;
@@ -1008,7 +1023,7 @@
   transition: all 0.3s ease-in-out;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .content__shipping--box .shipping__send svg {
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form .shipping__send svg {
   margin-left: 8px;
 }
 
@@ -1278,6 +1293,13 @@
   .product__info {
     margin-bottom: 20px;
   }
+  .info__image .productGallery .conteudo{
+    flex-direction: column;
+    gap: 0;
+  }
+  .produtoImagemMiniaturas{
+    display: none;
+  }
 
   .product__info .info__container .info__row .info__left {
     width: 100%;
@@ -1288,11 +1310,11 @@
     display: none;
   }
 
-  .product__info .info__container .info__row .info__left .info__position .info__image #visualBlock #colFotos #foto_a {
+  .product__info .info__container .info__row .info__left .info__position .info__image  {
     width: 100%;
   }
 
-  .product__info .info__container .info__row .info__left .info__position .info__image #visualBlock #colFotos #foto_a .swiper-pagination {
+  .product__info .info__container .info__row .info__left .info__position .info__image  .swiperPagination {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -1306,7 +1328,7 @@
     position: relative;
   }
 
-  .product__info .info__container .info__row .info__left .info__position .info__image #visualBlock #colFotos #foto_a .swiper-pagination .swiper-pagination-bullet {
+  .product__info .info__container .info__row .info__left .info__position .info__image .swiperPagination .swiperPaginationBullet {
     width: 8px;
     height: 8px;
     background-color: #CCCCCC;
@@ -1317,11 +1339,11 @@
     transition: all 0.3s ease-in-out;
   }
 
-  .product__info .info__container .info__row .info__left .info__position .info__image #visualBlock #colFotos #foto_a .swiper-pagination .swiper-pagination-bullet:last-of-type {
+  .product__info .info__container .info__row .info__left .info__position .info__image #visualBlock #colFotos #foto_a .swiperPagination .swiper-pagination-bullet:last-of-type {
     margin: 0px;
   }
 
-  .product__info .info__container .info__row .info__left .info__position .info__image #visualBlock #colFotos #foto_a .swiper-pagination .swiper-pagination-bullet.swiper-pagination-bullet-active {
+  .product__info .info__container .info__row .info__left .info__position .info__image .swiperPagination .swiperPaginationBulletActive {
     background-color: var(--background-tertiary-color);
   }
 
@@ -1359,29 +1381,29 @@
     font-size: 14px;
   }
 
-  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #quantidade {
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .productFormBox .quantidade {
     width: 100%;
     margin: 0px 0px 25px 0px;
   }
 
-  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #quantidade label {
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .productFormBox .quantidade label {
     width: 100%;
   }
 
-  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #quantidade label .qty-minus:hover svg path,
-  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #quantidade label .qty-plus:hover svg path {
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .productFormBox .quantidade label .qtyMinus:hover svg path,
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .productFormBox .quantidade label .qtyPlus:hover svg path {
     fill: #EFEFF0;
   }
 
-  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #bt_comprar {
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .productFormBox .buyButton {
     max-width: 100%;
   }
 
-  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar #product-form-box #bt_comprar button:hover {
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .productFormBox .buyButton button:hover {
     background-color: var(--background-secundary-color);
   }
 
-  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .content__shipping--box .shipping__send:hover {
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form .shipping__send:hover {
     background-color: #141414;
   }
 
