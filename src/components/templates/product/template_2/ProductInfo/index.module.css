@@ -11,6 +11,13 @@
   padding: 0px 15px;
 }
 
+.info__container_inf {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 15px 0;
+}
+
 .favoriteButton {
   align-items: center;
   background: #eee;
@@ -268,13 +275,16 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__sku {
+  color: #646464;
   display: block;
-  line-height: 1;
-  font-family: var(--font-primary);
-  font-weight: 400;
   font-size: 14px;
-  color: #525252;
-  margin-bottom: 30px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__sku b {
+  font-weight: 800;
+  text-decoration: underline;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner h1 {
@@ -284,14 +294,12 @@
   font-weight: 700;
   font-size: 24px;
   color: #141414;
-  margin-bottom: 30px;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 35px;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars svg {
@@ -324,11 +332,12 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagNew span {
-  background-color: var(--background-tertiary-color);
+  background-color: #000;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagFeatured span {
-  background-color: var(--background-secundary-color);
+  background-color: #f6f6fa;
+  color: #000;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagDiscount span {
@@ -337,22 +346,26 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div span {
+  align-items: center;
+  background-color: #0f0f0f;
+  border-radius: 4px;
+  color: #fff;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  border-radius: 4px;
-  padding: 0px 6px;
-  height: 19px;
-  width: max-content;
-  font-family: var(--font-primary);
-  font-weight: 800;
   font-size: 10px;
-  text-transform: uppercase;
-  color: var(--text-color-secundary);
-  background-color: var(--color-black);
+  font-weight: 800;
+  height: 19px;
+  justify-content: center;
+  letter-spacing: .24px;
   line-height: 1;
-  letter-spacing: 0.24px;
+  padding: 0 6px;
+  text-transform: uppercase;
+  width: max-content;
+
+  border-radius: 120px;
+
+  height: 25px;
+  padding: 8px 12px;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__excerpt {
@@ -417,36 +430,35 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoDe {
   font-family: var(--font-primary);
-  text-decoration: line-through;
-  color: #8F8F8F;
+  align-items: center;
+  color: #8f8f8f;
+  display: flex;
+  flex-wrap: wrap;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 1;
-  letter-spacing: 0.25px;
-  width: max-content;
   height: 32px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
+  letter-spacing: .25px;
+  line-height: 1;
+  margin: 0 15px 0 0;
+  text-decoration: line-through;
+  width: max-content;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoDiscountFlag {
+  align-items: center;
+  background-color: #000;
+  border-radius: 70px;
+  color: #fff;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  height: 32px;
-  width: max-content;
-  padding: 0px 18px;
-  border-radius: 70px;
-  background-color: var(--background-primary-color);
-  font-family: var(--font-primary);
-  font-weight: 500;
   font-size: 12px;
-  color: #0D0D0E;
+  font-weight: 500;
+  height: 25px;
+  justify-content: center;
   margin-bottom: 8px;
-  margin-left: 15px;
+  padding: 0 10px;
+  width: max-content;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .PrecoPrincipal {
@@ -652,7 +664,7 @@
   font-family: var(--font-primary);
   font-weight: 500;
   font-size: 14px;
-  color: var(--background-secundary-color);
+  color: black;
   text-decoration: underline;
   margin-top: 30px;
 }
@@ -752,8 +764,8 @@
 .listaCorVariacao li {
   background-color: var(--color-white);
   border: 1px solid #DFDFE0;
-  width: 93px;
-  height: 56px;
+  width: 62px;
+  height: 57px;
   border-radius: 16px;
   font-family: var(--font-primary);
   font-size: 16px;
@@ -777,12 +789,15 @@
   transition: all 0.3s ease-in-out;
 }
 
-.listaCorVariacao li:hover,
+
 .listaCorVariacao .selected {
-  border: 1px solid transparent !important;
+  border: 1px solid black !important;
   box-shadow: unset !important;
-  background-color: var(--color-black);
-  color: var(--text-color-secundary);
+}
+
+.listaCorVariacao li:hover {
+  background-color: #efeff0;
+  border: 1px solid transparent !important;
 }
 
 .corVariacao {
@@ -849,7 +864,6 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   padding-top: 25px;
   border-top: 1px solid #DFDFE0;
@@ -868,59 +882,57 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .quantidade label {
-  position: relative;
-  width: 156px;
-  height: 40px;
   display: block;
+  height: auto;
+  position: relative;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .quantidade label .qtyMinus,
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .quantidade label .qtyPlus {
-  width: 40px;
-  height: 40px;
+  cursor: pointer;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
+  height: 57px;
+  left: 65%;
   position: absolute;
-  left: 0px;
-  top: 50%;
+  text-align: left;
+  top: 122%;
+
   transform: translateY(-50%);
-  cursor: pointer;
+  width: 80px;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .quantidade label .qtyMinus:hover svg path,
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .quantidade label .qtyPlus:hover svg path {
-  fill: #dfdfe0;
-}
+
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .quantidade label .qtyPlus {
   justify-content: flex-end;
-  right: 0px;
   left: unset;
+  right: 23%;
+  top: 77%;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .quantidade .quantityInput {
-  width: 100%;
-  height: 40px;
+  align-items: center;
+  background-color: #f6f6fa;
+  border: none;
+  border-radius: 16px;
+  box-shadow: none;
+  color: #000;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-primary);
-  font-weight: 500;
   font-size: 16px;
-  color: var(--background-secundary-color);
-  text-align: center;
-  border: none;
-  box-shadow: none;
-  margin: 0px;
-  padding: 0px;
+  font-weight: 500;
+  height: 57px;
+  justify-content: center;
+  margin: 0;
+  padding: 0 0 0 25px;
+  text-align: left;
+  width: 80px;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton {
   width: 100%;
-  max-width: 250px;
+  max-width: 350px;
 }
 
 @container (max-width: 768px) {
@@ -939,15 +951,18 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button {
+  align-items: center;
+  background-color: #000;
+  border-radius: 16px;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
   height: 56px;
-  background-color: var(--background-secundary-color);
-  border-radius: 80px;
-  transition: all 0.3s ease-in-out;
+  justify-content: center;
+  -webkit-transition: all .25s ease-in;
+  -moz-transition: all .25s ease-in;
+  -o-transition: all .25s ease-in;
+  transition: all .25s ease-in;
+  width: 100%;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button::before {
@@ -955,16 +970,15 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button span {
-  margin: 0px;
+  align-items: center;
+  color: #fff;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-primary);
-  font-weight: 600;
   font-size: 16px;
-  color: var(--text-color-secundary);
-  text-transform: initial;
+  font-weight: 600;
+  justify-content: center;
+  margin: 0;
+  text-transform: none;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button span svg {
@@ -1028,17 +1042,16 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label input {
-  width: 100%;
-  height: 56px;
-  background-color: #ffffff;
+  background-color: #fff;
+  border: 1px solid #dfdfe0;
   border-radius: 16px;
-  border: 1px solid #DFDFE0;
   box-shadow: unset;
-  padding: 0px 15px;
-  font-family: var(--font-primary);
-  font-weight: 400;
+  color: #68686e;
   font-size: 16px;
-  color: #68686E;
+  font-weight: 400;
+  height: 56px;
+  padding: 0 15px;
+  width: 100%;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label input:-ms-input-placeholder {
@@ -1066,21 +1079,23 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form .shipping__send {
-  width: 125px;
-  height: 56px;
-  display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  background-color: var(--background-tertiary-color);
+  background-color: #000;
   border: none;
   border-radius: 16px;
-  padding: 0px 22px;
-  font-family: var(--font-primary);
-  font-weight: 600;
-  font-size: 16px;
   color: #f5f5f5;
-  transition: all 0.3s ease-in-out;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 16px;
+  font-weight: 600;
+  height: 56px;
+  justify-content: center;
+  padding: 0 22px;
+  -webkit-transition: all .25s ease-in;
+  -moz-transition: all .25s ease-in;
+  -o-transition: all .25s ease-in;
+  transition: all .25s ease-in;
+  width: 125px;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form .shipping__send svg {
@@ -1088,14 +1103,13 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping a {
+  color: #141414;
   display: inline-block;
+  font-size: 12px;
+  font-weight: 600;
   line-height: 1;
   margin-top: 10px;
-  font-family: var(--font-primary);
-  font-weight: 400;
-  font-size: 12px;
-  color: var(--text-color-base);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__forms .page-simula-frete {

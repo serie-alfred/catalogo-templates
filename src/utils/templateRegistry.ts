@@ -59,7 +59,9 @@ import Showcase02 from '@/components/templates/home/template_2/Showcase';
 import CategoryMain02 from '@/components/templates/category/template_2/CategoryMain';
 import BannerFullCategory02 from '@/components/templates/category/template_2/BannerFull';
 
-
+// ******
+// Produto
+import ProductInfo02 from '@/components/templates/product/template_2/ProductInfo';
 
 // ************
 // Template 03
@@ -160,6 +162,7 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   Spot02,
   BannerFullCategory02,
   CategoryMain02,
+  ProductInfo02,
 
 
   Header03,

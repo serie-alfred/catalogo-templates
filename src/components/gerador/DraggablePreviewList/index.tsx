@@ -41,8 +41,9 @@ export default function DraggablePreviewList({
 
   const getPriorityOrder = (key: LayoutKey) => {
     if (key === 'header') return 0;
-    if (key === 'footer') return 2;
-    return 1;
+    if (key === 'breadcrumb') return 1;
+    if (key === 'footer') return 3;
+    return 2;
   };
 
   const filteredItems = useMemo(
@@ -185,6 +186,7 @@ export default function DraggablePreviewList({
               <div className={styles.buttonContainer}>
                 {![
                   'categoryMain',
+                  'productInfo',
                   'header',
                   'footer',
                   'breadcrumb',
