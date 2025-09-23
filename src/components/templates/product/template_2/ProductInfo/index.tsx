@@ -282,7 +282,14 @@ const ProductInfo = () => {
                     <div className={styles.buyButton}>
                       <button className={styles.botaoComprar} type="button">
                         <span className={styles.botaoCommerceImg}>
-                        <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M9 15L15.7078 14.4186C17.8066 14.2368 18.2778 13.76 18.5104 11.5831L19 7" stroke="white" stroke-width="1.5" stroke-linecap="round"></path><path d="M7 7H20" stroke="white" stroke-width="1.5" stroke-linecap="round"></path><path d="M7.5 20C8.32843 20 9 19.3284 9 18.5C9 17.6716 8.32843 17 7.5 17C6.67157 17 6 17.6716 6 18.5C6 19.3284 6.67157 20 7.5 20Z" stroke="white" stroke-width="1.5"></path><path d="M15.5 20C16.3284 20 17 19.3284 17 18.5C17 17.6716 16.3284 17 15.5 17C14.6716 17 14 17.6716 14 18.5C14 19.3284 14.6716 20 15.5 20Z" stroke="white" stroke-width="1.5"></path><path d="M9 18H14" stroke="white" stroke-width="1.5" stroke-linecap="round"></path><path d="M4 4H4.805C5.59223 4 6.27845 4.50748 6.46938 5.23088L8.94877 14.6247C9.07406 15.0994 8.96683 15.6023 8.65687 15.9938L7.86011 17" stroke="white" stroke-width="1.5" stroke-linecap="round"></path></svg>
+                        <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M9 15L15.7078 14.4186C17.8066 14.2368 18.2778 13.76 18.5104 11.5831L19 7" stroke="white" strokeWidth="1.5" strokeLinecap="round"></path>
+                          <path d="M7 7H20" stroke="white" strokeWidth="1.5" strokeLinecap="round"></path>
+                          <path d="M7.5 20C8.32843 20 9 19.3284 9 18.5C9 17.6716 8.32843 17 7.5 17C6.67157 17 6 17.6716 6 18.5C6 19.3284 6.67157 20 7.5 20Z" stroke="white" strokeWidth="1.5"></path>
+                          <path d="M15.5 20C16.3284 20 17 19.3284 17 18.5C17 17.6716 16.3284 17 15.5 17C14.6716 17 14 17.6716 14 18.5C14 19.3284 14.6716 20 15.5 20Z" stroke="white" strokeWidth="1.5"></path>
+                          <path d="M9 18H14" stroke="white" strokeWidth="1.5" strokeLinecap="round"></path>
+                          <path d="M4 4H4.805C5.59223 4 6.27845 4.50748 6.46938 5.23088L8.94877 14.6247C9.07406 15.0994 8.96683 15.6023 8.65687 15.9938L7.86011 17" stroke="white" strokeWidth="1.5" strokeLinecap="round"></path>
+                        </svg>
                           Adicionar ao carrinho
                         </span>
                       </button>
