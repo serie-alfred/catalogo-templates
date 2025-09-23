@@ -274,7 +274,7 @@
   font-weight: 400;
   font-size: 14px;
   color: #525252;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner h1 {
@@ -284,14 +284,14 @@
   font-weight: 700;
   font-size: 24px;
   color: #141414;
-  margin-bottom: 30px;
+  margin-bottom: 25px;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  margin-bottom: 35px;
+  margin-bottom: 25px;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars svg {
