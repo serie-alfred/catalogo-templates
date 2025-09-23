@@ -239,13 +239,34 @@ const ProductInfo = () => {
                           className={styles.qtyMinus}
                           onClick={() => handleQuantityChange(-1)}
                         >
-                        <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.66659 1.33325L4.99992 4.66659L8.33325 1.33325" stroke="#B8B8B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                          <svg
+                            width="10"
+                            height="6"
+                            viewBox="0 0 10 6"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M1.66659 1.33325L4.99992 4.66659L8.33325 1.33325"
+                              stroke="#B8B8B8"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
                         </span>
                         <span
                           className={styles.qtyPlus}
                           onClick={() => handleQuantityChange(1)}
                         >
-                          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8.33341 4.66675L5.00008 1.33341L1.66675 4.66675" stroke="#141414" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                              d="M8.33341 4.66675L5.00008 1.33341L1.66675 4.66675"
+                              stroke="#141414"
+                              strokeWidth="1.5"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
                         </span>
                         <input
                           id="quant"
