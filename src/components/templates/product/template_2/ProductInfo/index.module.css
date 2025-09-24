@@ -332,7 +332,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagNew span {
-  background-color: #000;
+  background-color: var(--background-tertiary-color);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagFeatured span {
@@ -1080,7 +1080,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form .shipping__send {
   align-items: center;
-  background-color: #000;
+  background-color: var(--background-tertiary-color);
   border: none;
   border-radius: 16px;
   color: #f5f5f5;
