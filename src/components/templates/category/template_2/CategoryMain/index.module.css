@@ -140,13 +140,15 @@
   display: flex;
   justify-content: flex-end;
 }
-.listFields strong{
+
+.listFields strong {
   color: #000;
   content: "Ordenar por:";
   display: block;
   font-size: 16px;
   font-weight: 600;
 }
+
 .brandFilter {
   position: relative;
 
@@ -192,6 +194,10 @@
   max-width: 33.3%;
   padding: 0 12px;
   margin-bottom: 25px;
+}
+
+.listSpot>* {
+  min-width: 100%
 }
 
 .listSpot:nth-of-type(n + 4) {
@@ -307,7 +313,9 @@
 .pageNext {
   margin-left: 5px;
 }
-.pageNext, .page-prev {
+
+.pageNext,
+.page-prev {
   border: unset;
   margin: 0px 0px 0px 0px;
   border: 1px solid rgba(0, 0, 0, .05);
@@ -317,27 +325,36 @@
   justify-content: center;
   align-items: center;
 }
-.pageNext:hover, .page-prev:hover {
+
+.pageNext:hover,
+.page-prev:hover {
   background-color: transparent;
   border: none;
 }
-.pageNext:hover a, .page-prev:hover a {
+
+.pageNext:hover a,
+.page-prev:hover a {
   background-color: transparent;
   border: none;
   color: #0f0f0f;
 }
-.pageNext a, .page-prev a {
+
+.pageNext a,
+.page-prev a {
   border: unset;
   color: #0f0f0f;
 }
+
 .page-prev {
   margin-right: 5px;
 }
+
 .pageNext {
   margin-left: 5px;
   border: none;
 }
-.pageNext{
+
+.pageNext {
 
   border: 1px solid #dfdfe0;
   border-radius: 120px;
@@ -434,7 +451,7 @@
   color: #141414;
   display: flex;
   flex-wrap: wrap;
-  font-family: Roboto,Arial,Helvetica,sans-serif;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: 500;
   justify-content: space-between;
@@ -580,23 +597,23 @@
     display: block;
     margin-bottom: 0;
   }
-  
+
   .listFilter {
     display: none;
   }
-  
+
   .filter {
-   display: none;
+    display: none;
   }
-  
+
   .filterOpen {
     left: 0;
   }
-  
+
   .filterMask {
-  display: none;
+    display: none;
   }
-  
+
   .filterClose {
     display: flex;
     flex-wrap: wrap;
@@ -605,11 +622,11 @@
     width: 100%;
     margin-bottom: 15px;
   }
-  
+
   .filterTotal {
     display: none;
   }
-  
+
   .filterForm {
     min-height: calc(100vh - 165px);
     max-height: calc(100vh - 165px);
@@ -618,35 +635,35 @@
     scrollbar-width: thin;
     scrollbar-color: var(--background-tertiary-color) #cccccc;
   }
-  
+
   .filterForm::-webkit-scrollbar {
     width: 3px;
   }
-  
+
   .listShowcase {
     flex: 0 0 100%;
     width: 100%;
     max-width: 100%;
     padding: 0;
   }
-  
+
   .listOrder {
-   justify-content: flex-end;
-   margin: 0;
+    justify-content: flex-end;
+    margin: 0;
   }
-  
+
   .listCompare {
     width: 54%;
     max-width: 54%;
   }
-  
+
   .listTotalMobile {
     display: block;
     width: 46%;
     max-width: 46%;
     text-align: right;
   }
-  
+
   .listTotalMobile span {
     display: block;
     line-height: 1;
@@ -654,15 +671,15 @@
     font-size: 14px;
     color: #000000;
   }
-  
+
   .listTotalMobile b {
     font-weight: 400;
   }
-  
+
   .listFields {
     display: none;
   }
-  
+
   .listOrderMobile {
     display: block;
     position: fixed;
@@ -676,15 +693,15 @@
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     transition: bottom 0.3s;
   }
-  
+
   .orderMobileOpen {
     bottom: 0;
   }
-  
+
   .orderWrapper {
     padding: 1.5rem;
   }
-  
+
   .orderTitle {
     display: flex;
     justify-content: space-between;
@@ -694,11 +711,11 @@
     color: #141414;
     margin-bottom: 30px;
   }
-  
+
   .orderClose {
     cursor: pointer;
   }
-  
+
   .orderInner span {
     display: flex;
     flex-wrap: wrap;
@@ -712,21 +729,21 @@
     height: 56px;
     margin-bottom: 15px;
   }
-  
+
   .orderInner span.active {
     border: 1px solid #000000;
   }
-  
+
   .orderInner span:last-of-type {
     margin-bottom: 0;
   }
-  
+
   .paginateLinks .pageLink {
     margin: 0 2px;
     width: 35px;
     height: 35px;
   }
-  
+
   .paginateLinks .pageLink a {
     width: 35px;
     height: 35px;
@@ -737,7 +754,7 @@
     border: none;
     color: #0F0F0F;
   }
-  
+
   .paginateLinks .pageLink:hover a,
   .paginateLinks .pageLink:hover span {
     background-color: transparent;
@@ -750,13 +767,13 @@
   .showcaseList {
     margin: 0 -4px;
   }
-  
+
   .listSpot {
     width: 50%;
     max-width: 50%;
     padding: 0 4px;
   }
-  
+
   .listSpot:nth-of-type(n + 3) {
     margin-top: 25px;
   }
@@ -766,11 +783,11 @@
   .showcaseList {
     margin: 0 -6px;
   }
-  
+
   .listSpot {
     padding: 0 6px;
   }
-  
+
   .filterList .filterItem .filterLabel span {
     font-size: 12px;
   }
