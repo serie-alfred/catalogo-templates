@@ -191,6 +191,11 @@ export default function DraggablePreviewList({
                   'footer',
                   'breadcrumb',
                   'spot',
+                  'productDescription',
+                  'categoryDescription',
+                  'bannerTop',
+                   'bannerMain',
+                   'categoryBanner'
                 ].includes(item.layoutKey) && (
                   <button
                     className={styles.duplicateBtn}

@@ -275,6 +275,156 @@ export function useLayoutGenerator() {
         return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
       }
 
+      if (item.selection === "category-banner") {
+        const existingIndex = prev.findIndex((s) => {
+          const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
+          return found?.selection === "category-banner";
+        });
+
+        // Já existe algum category-banner
+        if (existingIndex !== -1) {
+          const existing = prev[existingIndex];
+          if (existing.id === id && existing.layoutKey === layoutKey) {
+            // É o mesmo → não faz nada
+            return prev;
+          }
+          // É diferente → substituir na mesma posição/página
+          const newSelections = [...prev];
+          newSelections[existingIndex] = {
+            uid: crypto.randomUUID(),
+            id,
+            layoutKey,
+            pagina: existing.pagina, // mantém a mesma página
+          };
+          return newSelections;
+        }
+
+        // Não existe ainda → adicionar (respeita limite da página)
+        const countInPage = prev.filter((p) => p.pagina === pagina).length;
+        if (countInPage >= MAX_PER_PAGE) return prev;
+        return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
+      }
+
+      if (item.selection === "product-description") {
+        const existingIndex = prev.findIndex((s) => {
+          const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
+          return found?.selection === "product-description";
+        });
+
+        // Já existe algum product-description
+        if (existingIndex !== -1) {
+          const existing = prev[existingIndex];
+          if (existing.id === id && existing.layoutKey === layoutKey) {
+            // É o mesmo → não faz nada
+            return prev;
+          }
+          // É diferente → substituir na mesma posição/página
+          const newSelections = [...prev];
+          newSelections[existingIndex] = {
+            uid: crypto.randomUUID(),
+            id,
+            layoutKey,
+            pagina: existing.pagina, // mantém a mesma página
+          };
+          return newSelections;
+        }
+
+        // Não existe ainda → adicionar (respeita limite da página)
+        const countInPage = prev.filter((p) => p.pagina === pagina).length;
+        if (countInPage >= MAX_PER_PAGE) return prev;
+        return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
+      }
+
+      if (item.selection === "banner-top") {
+        const existingIndex = prev.findIndex((s) => {
+          const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
+          return found?.selection === "banner-top";
+        });
+
+        // Já existe algum banner-top
+        if (existingIndex !== -1) {
+          const existing = prev[existingIndex];
+          if (existing.id === id && existing.layoutKey === layoutKey) {
+            // É o mesmo → não faz nada
+            return prev;
+          }
+          // É diferente → substituir na mesma posição/página
+          const newSelections = [...prev];
+          newSelections[existingIndex] = {
+            uid: crypto.randomUUID(),
+            id,
+            layoutKey,
+            pagina: existing.pagina, // mantém a mesma página
+          };
+          return newSelections;
+        }
+
+        // Não existe ainda → adicionar (respeita limite da página)
+        const countInPage = prev.filter((p) => p.pagina === pagina).length;
+        if (countInPage >= MAX_PER_PAGE) return prev;
+        return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
+      }
+
+      if (item.selection === "category-description") {
+        const existingIndex = prev.findIndex((s) => {
+          const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
+          return found?.selection === "category-description";
+        });
+
+        // Já existe algum category-description
+        if (existingIndex !== -1) {
+          const existing = prev[existingIndex];
+          if (existing.id === id && existing.layoutKey === layoutKey) {
+            // É o mesmo → não faz nada
+            return prev;
+          }
+          // É diferente → substituir na mesma posição/página
+          const newSelections = [...prev];
+          newSelections[existingIndex] = {
+            uid: crypto.randomUUID(),
+            id,
+            layoutKey,
+            pagina: existing.pagina, // mantém a mesma página
+          };
+          return newSelections;
+        }
+
+        // Não existe ainda → adicionar (respeita limite da página)
+        const countInPage = prev.filter((p) => p.pagina === pagina).length;
+        if (countInPage >= MAX_PER_PAGE) return prev;
+        return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
+      }
+
+      if (item.selection === "banner-main") {
+        const existingIndex = prev.findIndex((s) => {
+          const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
+          return found?.selection === "banner-main";
+        });
+
+        // Já existe algum banner-main
+        if (existingIndex !== -1) {
+          const existing = prev[existingIndex];
+          if (existing.id === id && existing.layoutKey === layoutKey) {
+            // É o mesmo → não faz nada
+            return prev;
+          }
+          // É diferente → substituir na mesma posição/página
+          const newSelections = [...prev];
+          newSelections[existingIndex] = {
+            uid: crypto.randomUUID(),
+            id,
+            layoutKey,
+            pagina: existing.pagina, // mantém a mesma página
+          };
+          return newSelections;
+        }
+
+        // Não existe ainda → adicionar (respeita limite da página)
+        const countInPage = prev.filter((p) => p.pagina === pagina).length;
+        if (countInPage >= MAX_PER_PAGE) return prev;
+        return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
+      }
+
       if (item.selection === "product-info") {
         const existingIndex = prev.findIndex((s) => {
           const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
