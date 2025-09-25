@@ -34,7 +34,7 @@ import CategoryDescription01 from '@/components/templates/category/template_1/Ca
 import BannerTop01 from '@/components/templates/product/template_1/BannerTop';
 import ProductDescription01 from '@/components/templates/product/template_1/ProductDescription';
 import ProductInfo01 from '@/components/templates/product/template_1/ProductInfo';
-
+import ProductRelated01 from '@/components/templates/product/template_1/ProductRelated';
 
 // ************
 // Template 02
@@ -151,6 +151,7 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   BannerTop01,
   ProductDescription01,
   ProductInfo01,
+  ProductRelated01,
 
   Header02,
   Footer02,

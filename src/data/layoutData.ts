@@ -52,6 +52,7 @@ export type Layouts = {
   bannerProduct: LayoutSection;
   productDescription: LayoutSection;
   productInfo: LayoutSection;
+  productRelated: LayoutSection;
 
   /*
     bannerDuplo: LayoutSection;
@@ -192,6 +193,12 @@ export const LAYOUTS: Layouts = {
     items: [
       { id: "01", selection: "product-info", key: "ftr01q3r4s5t", image: "#", mobile: "#", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductInfo01", platforms: ['Tray'] },
       { id: "02", selection: "product-info", key: "ftr01q3r4s5t", image: "#", mobile: "#", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["product"], component: "ProductInfo02", platforms: ['Tray'] },
+    ],
+  },
+  productRelated: {
+    name: "Produtos Relacionados",
+    items: [
+      { id: "01", selection: "product-related", key: "ftr01q3r4s5t", image: "#", mobile: "#", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductRelated01", platforms: ['Tray'] },
     ],
   },
 
