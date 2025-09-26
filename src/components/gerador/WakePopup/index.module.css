@@ -1,0 +1,107 @@
+/* WakePopup.module.css */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px 32px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  text-align: center;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.popup h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.popup p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.popup button {
+  background: #2563eb; /* azul primário */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.popup button:hover {
+  background: #1e40af; /* azul mais escuro no hover */
+}
+.inputGroup {
+  margin: 16px 0;
+  text-align: left;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  color: #333;
+}
+
+.inputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.input:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+}
+
+.helpIcon {
+  font-size: 18px;
+  text-decoration: none;
+  color: #2563eb;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.helpIcon:hover {
+  color: #1e40af;
+}
+
+/* Animação de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

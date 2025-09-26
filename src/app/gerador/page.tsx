@@ -9,6 +9,7 @@ import DesktopOnlyNotice from '@/components/gerador/DesktopOnlyNotice';
 import styles from './index.module.css';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useLayout } from '@/context/LayoutContext';
+import { WakePopup } from '@/components/gerador/WakePopup';
 
 export default function GeradorPage() {
   const isMobile = useIsMobile();
@@ -27,6 +28,10 @@ export default function GeradorPage() {
     toggleSelection,
     exportLayout,
     setSelections,
+    wakeCustomValue,
+    setWakeCustomValue,
+    showWakePopup,
+    setShowWakePopup,
   } = useLayout();
 
   const [selectedPage, setSelectedPage] = useState<string>('home');
@@ -60,6 +65,14 @@ export default function GeradorPage() {
         mobilePreviewRef={mobilePreviewRef}
         selectedPage={selectedPage}
       />
+
+      {showWakePopup && (
+        <WakePopup
+          wakeCustomValue={wakeCustomValue}
+          setWakeCustomValue={setWakeCustomValue}
+          onClose={() => setShowWakePopup(false)}
+        />
+      )}
     </div>
   );
 }

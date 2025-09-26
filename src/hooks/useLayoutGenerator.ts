@@ -38,6 +38,9 @@ export function useLayoutGenerator() {
     }
   });
 
+  const [wakeCustomValue, setWakeCustomValue] = useState<string>("");
+  const [showWakePopup, setShowWakePopup] = useState(false);
+
   const [focusedKey, setFocusedKey] = useState<LayoutKey | null>(null);
   const [showPlatformError, setShowPlatformError] = useState<boolean>(false);
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
@@ -194,6 +197,10 @@ export function useLayoutGenerator() {
 
     if (value) {
       setShowPlatformError(false);
+  
+      if (value.toLowerCase() === "wake") {
+        setShowWakePopup(true);
+      }
     }
   };
 
@@ -542,7 +549,7 @@ export function useLayoutGenerator() {
         return acc;
       }, {});
 
-    return {
+    const config: Record<string, unknown> = {
       platform: platform.toLowerCase(),
       [platform.toLowerCase()]: {
         global: globalItems,
@@ -564,6 +571,13 @@ export function useLayoutGenerator() {
         ...pageItems,
       },
     };
+
+    if (platform.toLowerCase() === "wake") {
+      (config[platform.toLowerCase()] as Record<string, unknown>).wakeToken = wakeCustomValue;
+    }
+
+    console.log(config)
+    return config;
   };
 
   /** Exporta capturas de tela e envia JSON por e-mail */
@@ -648,5 +662,9 @@ export function useLayoutGenerator() {
     handlePlatformChange,
     toggleSelection,
     exportLayout,
+    wakeCustomValue,
+    setWakeCustomValue,
+    showWakePopup,
+    setShowWakePopup,
   };
 }
