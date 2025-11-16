@@ -197,6 +197,9 @@ export function useLayoutGenerator() {
 
     if (value) {
       setShowPlatformError(false);
+
+      // Reseta as seleções ao mudar a plataforma
+      setSelections([]);
   
       if (value.toLowerCase() === "wake") {
         setShowWakePopup(true);
