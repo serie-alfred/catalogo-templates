@@ -18,6 +18,7 @@ export default function ProgressBar({
   isCommonPage,
 }: ProgressBarProps) {
   if (isCommonPage) total = 4;
+  if (!isCommonPage) return;
   const percentage = (current / total) * 100;
   return (
     <div className={styles.progresso}>

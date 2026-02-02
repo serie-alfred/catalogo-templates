@@ -50,6 +50,8 @@ padding: 8px;
 @container (min-width: 1024px) {
   .home__showcase .swiper__wrapper {
     grid-template-columns: repeat(4, 1fr);
+    justify-content: center;
+    align-items: center;
   }
   .home__showcase .swiper__wrapper .swiper__slide {
     display: block !important;

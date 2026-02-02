@@ -40,6 +40,9 @@
     width: 100%;
     max-width: 100%;
   }
+}
+
+@container (max-width: 768px) {
 
   .homeBannerSide .bannerContainer .bannerRow .bannerItem:last-of-type {
     margin-top: 25px;

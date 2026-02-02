@@ -4,9 +4,8 @@
   margin: 0px;
   padding: 8px;
   border-radius: 8px;
-  width: min-content;
-  min-width: 300px;
   position: relative;
+  max-width: 350px;
 }
 
 .spot .productWrapper .productImage {

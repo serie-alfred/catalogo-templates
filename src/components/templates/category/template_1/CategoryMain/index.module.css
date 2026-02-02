@@ -139,6 +139,7 @@
   align-items: center;
   display: flex;
   justify-content: flex-end;
+  margin-left: auto;
 }
 .listFields strong{
   color: #000;

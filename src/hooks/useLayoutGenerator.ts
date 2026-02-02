@@ -11,7 +11,7 @@ export interface LayoutSelection {
   pagina: string;
 }
 
-export const MAX_PER_PAGE = 8;
+export const MAX_PER_PAGE = 100;
 
 
 export function useLayoutGenerator() {
