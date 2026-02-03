@@ -5,6 +5,10 @@
   gap: 24px;
 }
 
+.sidebarGlobal{
+  min-height: 450px;
+}
+
 .sidebar {
   background: #fff;
   width: 95%;

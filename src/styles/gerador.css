@@ -1,3 +1,7 @@
+body{
+  height: 100dvh;
+  background: #f3f4f6;
+}
 .sidebar label{
   font-weight: 600;
   font-size: 16px;

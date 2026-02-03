@@ -20,6 +20,7 @@
   border-radius: 16px;
   overflow: auto;
   scrollbar-width: none;
+  height: 85dvh;
 } 
 
 .main h2{

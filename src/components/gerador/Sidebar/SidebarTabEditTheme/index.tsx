@@ -36,7 +36,7 @@ export default function SidebarTabEditTheme({
   setSelectedPage,
 }: Props) {
   return (
-    <div className="sidebar__main">
+    <div className={`${styles.sidebarGlobal} sidebar__main`}>
       <div className={styles.wrapper}>
         <PlatformSelect
           value={platform}
