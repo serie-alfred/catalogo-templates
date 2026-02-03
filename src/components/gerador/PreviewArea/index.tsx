@@ -5,14 +5,12 @@ import DraggablePreviewList from '../DraggablePreviewList';
 import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 
 import styles from './index.module.css';
-import { iconsGenerator } from '@/assets/icons/generator';
 
 interface PreviewAreaProps {
   selectedImages: LayoutSelection[];
   setSelectedImages: React.Dispatch<React.SetStateAction<LayoutSelection[]>>;
   isMobile: boolean;
-  onToggleMobile: () => void;
-  onExport: (e: React.FormEvent) => Promise<void>;
+
   desktopPreviewRef: React.RefObject<HTMLDivElement | null>;
   mobilePreviewRef: React.RefObject<HTMLDivElement | null>;
   selectedPage: string;
@@ -22,8 +20,6 @@ export default function PreviewArea({
   selectedImages,
   setSelectedImages,
   isMobile,
-  onToggleMobile,
-  onExport,
   desktopPreviewRef,
   mobilePreviewRef,
   selectedPage,
@@ -35,23 +31,6 @@ export default function PreviewArea({
     <main className={styles['preview-area']}>
       <header className={styles['preview-header'] + ` sidebar__header`}>
         <h2>Visualização</h2>
-        <div className={styles['preview-actions']}>
-          <button id="export-btn" onClick={onExport}>
-            {iconsGenerator.exportTheme}
-            Exportar Layout
-          </button>
-          <button
-            id="toggle-mobile-btn"
-            onClick={onToggleMobile}
-            className="outline"
-          >
-            {isMobile ? (
-              '🖥️ Visualizar Desktop'
-            ) : (
-              <>{iconsGenerator.mobileTheme} Visualizar Mobile</>
-            )}
-          </button>
-        </div>
       </header>
 
       <div

@@ -1,14 +1,23 @@
 import React from 'react';
 import Link from 'next/link';
 import { iconsGenerator } from '@/assets/icons/generator';
+import ResponsiveToggle from '../../ResponsiveToggle';
 
-type Tab = 'global' | 'build' | 'register' | 'share';
+type Tab = 'global' | 'build';
 
 interface Props {
   toggleTab: (tab: Tab) => void;
+  onExport: (e: React.FormEvent) => Promise<void>;
+  onToggleMobile: () => void;
+  isMobile: boolean;
 }
 
-export default function SidebarIcons({ toggleTab }: Props) {
+export default function SidebarIcons({
+  toggleTab,
+  onExport,
+  isMobile,
+  onToggleMobile,
+}: Props) {
   return (
     <>
       <Link href="#">{iconsGenerator.etemas}</Link>
@@ -26,20 +35,11 @@ export default function SidebarIcons({ toggleTab }: Props) {
       >
         {iconsGenerator.configTheme}
       </button>
-      <button
-        title="Cadastro"
-        onClick={() => toggleTab('register')}
-        className="icon"
-      >
-        {iconsGenerator.registerTheme}
+      <button title="Exporta Meu Tema" className="icon" onClick={onExport}>
+        {iconsGenerator.exportTheme}
       </button>
-      <button
-        title="Compartilhar meu tema"
-        onClick={() => toggleTab('share')}
-        className="icon"
-      >
-        {iconsGenerator.shareTheme}
-      </button>
+
+      <ResponsiveToggle isMobile={isMobile} onToggleMobile={onToggleMobile} />
     </>
   );
 }

@@ -53,14 +53,15 @@ export default function GeradorPage() {
         totalSections={8}
         selectedPage={selectedPage}
         setSelectedPage={setSelectedPage}
+        onExport={exportLayout}
+        isMobile={isMobileView}
+        onToggleMobile={toggleMobileView}
       />
 
       <PreviewArea
         selectedImages={selections}
         setSelectedImages={setSelections}
         isMobile={isMobileView}
-        onToggleMobile={toggleMobileView}
-        onExport={exportLayout}
         desktopPreviewRef={desktopPreviewRef}
         mobilePreviewRef={mobilePreviewRef}
         selectedPage={selectedPage}

@@ -150,15 +150,6 @@
   font-size: 1.2rem;
 }
 
-.preview-actions {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.preview-actions button {
-  border-width: 2px;
-}
 
 /* Preview das seções */
 .layout-preview {

@@ -8,8 +8,6 @@ import styles from './index.module.css';
 import SidebarIcons from './SidebarIcons';
 import SidebarHeader from './SidebarHeader';
 import SidebarTabGlobal from './SidebarTabGlobal';
-import SidebarTabRegister from './SidebarTabRegister';
-import SidebarTabShare from './SidebarTabShare';
 import SidebarTabEditTheme from './SidebarTabEditTheme';
 
 export interface SidebarProps {
@@ -20,12 +18,15 @@ export interface SidebarProps {
   platform: Platform | null;
   onSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   onImageSelect: (id: string, layoutKey: LayoutKey, pagina: string) => void;
+  onExport: (e: React.FormEvent) => Promise<void>;
   totalSections?: number;
   selectedPage: string;
   setSelectedPage: React.Dispatch<React.SetStateAction<string>>;
+  onToggleMobile: () => void;
+  isMobile: boolean;
 }
 
-type Tab = 'global' | 'build' | 'register' | 'share' | null;
+type Tab = 'global' | 'build' | null;
 
 export default function Sidebar({
   selectedImages,
@@ -38,6 +39,9 @@ export default function Sidebar({
   totalSections = MAX_PER_PAGE,
   selectedPage,
   setSelectedPage,
+  onExport,
+  isMobile,
+  onToggleMobile,
 }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<Tab>(null);
@@ -56,7 +60,14 @@ export default function Sidebar({
     <aside
       className={`sidebar ${styles.sidebar} ${isOpen ? styles.open : styles.closed}`}
     >
-      {!isOpen && <SidebarIcons toggleTab={toggleTab} />}
+      {!isOpen && (
+        <SidebarIcons
+          onExport={onExport}
+          toggleTab={toggleTab}
+          isMobile={isMobile}
+          onToggleMobile={onToggleMobile}
+        />
+      )}
 
       {isOpen && (
         <div className={styles.content}>
@@ -77,8 +88,6 @@ export default function Sidebar({
               setSelectedPage={setSelectedPage}
             />
           )}
-          {activeTab === 'register' && <SidebarTabRegister />}
-          {activeTab === 'share' && <SidebarTabShare />}
         </div>
       )}
     </aside>

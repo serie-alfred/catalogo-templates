@@ -1,0 +1,46 @@
+
+.preview-actions {
+  display: flex;
+  align-items: center;
+  border-radius: 160px;
+  gap: 16px;
+  padding: 4px;
+  background-color: #F5F5F5;
+  margin-left: auto;
+}
+
+.preview-actions button {
+  all: unset;
+  border-radius: 160px;
+  transition: .5s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px;
+  cursor: pointer;
+}
+
+.preview-actions button span{
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+
+  display: none;
+}
+
+.preview-actions button.active {
+  background: linear-gradient(92.91deg, #0096FE 2.41%, #0078CC 100%);
+  
+}
+
+.preview-actions button.active span{
+  display: flex;
+}
+
+.preview-actions button.active svg path{
+  stroke: white;
+}
