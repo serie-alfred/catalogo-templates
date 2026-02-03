@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { iconsGenerator } from '@/assets/icons/generator';
 import styles from './index.module.css';
 
@@ -10,10 +9,8 @@ interface Props {
 export default function SidebarHeader({ onClose }: Props) {
   return (
     <header className={styles.header}>
-      <Link className={styles.link} href="#">
-        {iconsGenerator.etemasMain}
-      </Link>
-      <button className="icon" onClick={onClose}>
+      <h2 className={styles.headerTitle}>Edição de layout</h2>
+      <button className={`${styles.icon} icon`} onClick={onClose}>
         {iconsGenerator.closeSide}
       </button>
     </header>

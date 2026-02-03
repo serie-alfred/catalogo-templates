@@ -5,13 +5,11 @@ import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import { Platform } from '@/types/platform';
 
 import PlatformSelect from '../../PlatformSelect';
-import ProgressBar from '../../ProgressBar';
 import SelectPage from '../../SelectPage';
 import SelectSection from '../../SelectSection';
 import SelectSectionItem from '../../SelectSectionItem';
 
 import styles from '../index.module.css';
-import { iconsGenerator } from '@/assets/icons/generator';
 
 interface Props {
   selectedImages: LayoutSelection[];
@@ -34,44 +32,30 @@ export default function SidebarTabEditTheme({
   platform,
   onSelectChange,
   onImageSelect,
-  totalSections,
   selectedPage,
   setSelectedPage,
 }: Props) {
-  const isCommonPage = selectedPage === 'common';
-  const currentCount = selectedImages.filter(
-    item => item.pagina === selectedPage
-  ).length;
-
   return (
     <div className="sidebar__main">
-      <div className="header">
-        <div className="icon">{iconsGenerator.editTheme}</div>
+      <div className={styles.wrapper}>
+        <PlatformSelect
+          value={platform}
+          showError={showError}
+          onChange={onSelectChange}
+        />
+        <SelectPage
+          selectedPage={selectedPage}
+          setSelectedPage={setSelectedPage}
+        />
       </div>
-      <PlatformSelect
-        value={platform}
-        showError={showError}
-        onChange={onSelectChange}
-      />
-      <ProgressBar
-        current={currentCount}
-        isCommonPage={isCommonPage}
-        total={totalSections}
-      />
-
-      <h3>Selecione uma página</h3>
-      <SelectPage
-        selectedPage={selectedPage}
-        setSelectedPage={setSelectedPage}
-      />
-
-      <h3>Selecione um componente</h3>
-      <SelectSection
-        selectedPage={selectedPage}
-        activeLayoutKey={activeLayoutKey}
-        setActiveLayoutKey={setActiveLayoutKey}
-      />
-
+      <div className={styles.wrapper}>
+        <h3>Selecione um componente</h3>
+        <SelectSection
+          selectedPage={selectedPage}
+          activeLayoutKey={activeLayoutKey}
+          setActiveLayoutKey={setActiveLayoutKey}
+        />
+      </div>
       <div id="options-container" className={styles['options-container']}>
         <h3>Selecione um modelo</h3>
         <SelectSectionItem

@@ -1,7 +1,7 @@
 import FontSelector from '../../FontSelector';
 import ColorPicker from '../../ColorPicker';
-import { iconsGenerator } from '@/assets/icons/generator';
 import { useLayout } from '@/context/LayoutContext';
+import styles from './index.module.css';
 
 export default function SidebarTabGlobal() {
   const {
@@ -34,11 +34,7 @@ export default function SidebarTabGlobal() {
   } = useLayout();
 
   return (
-    <div className="sidebar__main">
-      <div className="header">
-        <div className="icon">{iconsGenerator.configTheme}</div>
-      </div>
-
+    <div className={`${styles.sidebarMain} sidebar__main`}>
       <FontSelector
         label="Defina a fonte primária"
         cssVariable="font-primary"

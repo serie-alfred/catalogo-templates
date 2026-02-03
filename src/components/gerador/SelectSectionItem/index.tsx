@@ -5,7 +5,6 @@ import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import Image from 'next/image';
 
 import styles from './index.module.css';
-import { CirclePlus } from 'lucide-react';
 import type { Platform } from '@/types/platform';
 
 interface SelectSectionItemProps {
@@ -25,14 +24,12 @@ export default function SelectSectionItem({
 }: SelectSectionItemProps) {
   const imageBasePath = '/images/gerador/';
 
-  // Monta um array de todos os itens, cada um com sua layoutKey
   const allImages: (LayoutItem & { layoutKey: LayoutKey })[] = (
     Object.entries(LAYOUTS) as [LayoutKey, (typeof LAYOUTS)[LayoutKey]][]
   ).flatMap(([layoutKey, section]) =>
     section.items.map(item => ({ ...item, layoutKey }))
   );
 
-  // Se tiver aba ativa, filtra só aquela seção; senão, mostra tudo
   let imagesToShow = activeLayoutKey
     ? LAYOUTS[activeLayoutKey].items.map(item => ({
         ...item,
@@ -40,7 +37,6 @@ export default function SelectSectionItem({
       }))
     : allImages;
 
-  // Filtrar por página selecionada
   imagesToShow = imagesToShow.filter(
     item =>
       Array.isArray(item.pagina) &&
@@ -61,25 +57,48 @@ export default function SelectSectionItem({
             isSelected(item.id, item.layoutKey) ? styles.selected : ''
           }`}
         >
-          <div className={`${styles.icon}`}>
-            <CirclePlus size={24} color="white" />
+          <div className={styles.carouselImage}>
+            <Image
+              src={
+                item.image
+                  ? `${imageBasePath}${item.image}`
+                  : 'https://placehold.co/371x96/png'
+              }
+              alt={item.title}
+              width={371}
+              height={96}
+            />
           </div>
-
-          <Image
-            src={`${imageBasePath}${item.image}`}
-            alt={item.title}
-            width={1919}
-            height={90}
-            className={styles.carouselImage}
-          />
 
           <div
             className={`${styles.infoContainer} ${
               isSelected(item.id, item.layoutKey) ? styles.selectedInfo : ''
             }`}
           >
-            <strong>{item.title}</strong>
-            <span>{item.description}</span>
+            <h2>{item.title}</h2>
+            <div>
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 28 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  width="27.3333"
+                  height="27.3333"
+                  rx="13.6667"
+                  fill="#E6F9FF"
+                />
+                <path
+                  d="M9 13.6667H18.3333M13.6667 9V18.3333"
+                  stroke="#003073"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
           </div>
         </div>
       ))}

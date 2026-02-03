@@ -1,7 +1,24 @@
 .header{
   display: flex;
   justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #EFEFF0;
 }
+
 .link{
   padding-top: 10px;
+}
+
+.icon{
+  height: 16px !important;
+  min-height: 16px !important;
+}
+
+.headerTitle{
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #141414;
+  height: min-content;
 }

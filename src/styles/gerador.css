@@ -1,26 +1,39 @@
 .sidebar label{
-  font-weight: 700;
-  font-size: 14.4px;
+  font-weight: 600;
+  font-size: 16px;
   line-height: 100%;
   letter-spacing: 0%;
-  color: #000000;
+  color: #525252;
 }
 
 .sidebar input, .sidebar select, .wake-popup input{
   width: 100%;
-  height: 40px;
-  border-radius: 8px;
+  height: 47px;
+  border-radius: 20px;
   border: 1px solid #CCCCCC;
   background-color: transparent;
   display: flex;
   align-items: center;
-  padding: 0 15px;
+  padding: 0 24px;
 
   font-weight: 400;
   font-size: 14.4px;
   line-height: 16px;
   letter-spacing: 0%;
   color: #000;
+}
+
+.sidebar select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9 18L15 12L9 6' stroke='%237A7A7A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat;
+    background-position: right 24px center; 
+    background-size: 24px; 
+    
+    padding-right: 30px;
 }
 
 .sidebar input::placeholder, .sidebar select::placeholder{
@@ -96,9 +109,11 @@
 }
 
 .sidebar .sidebar__main{
-  display: flex;
-  flex-direction: column;
+  display: grid;
   gap: 24px;
+  padding-top: 24px;
+  grid-template-columns: repeat(3,1fr);
+  padding-bottom: 32px;
 }
 
 .sidebar .field{
@@ -108,16 +123,17 @@
   position: relative;
 }
 
-.sidebar .icon:hover path{
+.sidebar .icon:hover path, .sidebar .icon.active path{
   stroke: var(--color-blue)
 }
 
 h3{
-  font-weight: 700;
+  font-weight: 600;
   font-size: 16px;
   line-height: 100%;
   letter-spacing: 0%;
-  margin: 20px 0;
+  color: #525252;
+  margin: 0 0 13px;
 }
 
 .sidebar::-webkit-scrollbar-corner {

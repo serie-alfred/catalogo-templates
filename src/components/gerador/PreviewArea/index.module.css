@@ -19,7 +19,6 @@
   border: 1px solid #ccc;
   border-radius: 16px;
   overflow: auto;
-  max-height: 80vh;
   scrollbar-width: none;
 } 
 
@@ -132,7 +131,7 @@
 
 /* Preview */
 .preview-area {
-  padding: 32px;
+  padding: 18px;
   overflow-y: auto;
   background: #f3f4f6;
   width: 100%;

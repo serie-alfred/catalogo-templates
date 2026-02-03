@@ -27,33 +27,36 @@ export default function ColorPicker({
   };
 
   return (
-    <div className="field">
+    <div className={`${styles.field} field`}>
       <label>{label}</label>
-      <div
-        onClick={togglePicker}
-        className={styles.color}
-        style={{
-          backgroundColor: color,
-        }}
-      ></div>
+      <div className={styles.colorWrapper}>
+        <div
+          onClick={togglePicker}
+          className={styles.color}
+          style={{
+            backgroundColor: color,
+          }}
+        ></div>
+        <input
+          type="text"
+          value={color}
+          className={styles.colorInput}
+          onChange={handleInputChange}
+          style={{
+            marginTop: '0.5rem',
+            width: '100%',
+            padding: '0.3rem',
+            fontFamily: 'monospace',
+            textAlign: 'center',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+          }}
+        />
+      </div>
 
       {showPicker && (
         <div className={styles.colorPicker}>
           <HexColorPicker color={color} onChange={setColor} />
-          <input
-            type="text"
-            value={color}
-            onChange={handleInputChange}
-            style={{
-              marginTop: '0.5rem',
-              width: '100%',
-              padding: '0.3rem',
-              fontFamily: 'monospace',
-              textAlign: 'center',
-              border: '1px solid #ccc',
-              borderRadius: '4px',
-            }}
-          />
         </div>
       )}
     </div>

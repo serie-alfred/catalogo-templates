@@ -1,0 +1,7 @@
+.mainMenu{
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  height: 58px;
+  width: 100%;
+}

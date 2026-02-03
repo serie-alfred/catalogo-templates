@@ -1,8 +1,13 @@
 
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
 
 .sidebar {
   background: #fff;
-  width: 90%;
+  width: 95%;
   padding: 0 24px;
   position: fixed;
   bottom: 1rem;
@@ -15,6 +20,7 @@
 
   scrollbar-width: thin;
   scrollbar-color: #ccc transparent;
+  z-index: 100;
 }
 
 .closed {
@@ -25,11 +31,11 @@
 }
 
 .open {
-  width: 480px;
-  flex-direction: column;
+  height: auto;
+  padding: 24px;
+  border-radius: 24px;
+  padding-bottom: 0;
 }
-
-
 
 #pagina-tabs {
   display: flex;

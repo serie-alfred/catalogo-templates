@@ -21,16 +21,19 @@ export default function SelectPage({
   setSelectedPage,
 }: SelectPageProps) {
   return (
-    <div className={styles.tabs} id="pages-tabs">
-      {pages.map(pages => (
-        <button
-          key={pages.key}
-          onClick={() => setSelectedPage(pages.key)}
-          className={selectedPage === pages.key ? styles.active : ''}
-        >
-          {pages.name}
-        </button>
-      ))}
+    <div>
+      <h3>Selecione uma página</h3>
+      <div className={styles.tabs} id="pages-tabs">
+        {pages.map(pages => (
+          <button
+            key={pages.key}
+            onClick={() => setSelectedPage(pages.key)}
+            className={selectedPage === pages.key ? styles.active : ''}
+          >
+            {pages.name}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

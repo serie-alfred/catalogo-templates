@@ -5,17 +5,48 @@
     margin-top: 20px;
 }
 
+.carousel{
+    max-height: 352px;
+    overflow: auto;
+    padding-right: 24px;
+}
+
+.carousel::-webkit-scrollbar {
+    width: 12px;
+  }
+  
+
+.carousel::-webkit-scrollbar-track {
+    background: #f3f3f3;
+    border-radius: 999px;
+  }
+  
+.carousel::-webkit-scrollbar-thumb {
+    background: #1f4fbf; /* azul */
+    border-radius: 999px;
+    border: 3px solid #f3f3f3; /* cria o espaçamento lateral */
+  }
+  
+.carousel::-webkit-scrollbar-thumb:hover {
+    background: #173e96;
+  }
+  
+.carousel::-webkit-scrollbar-button {
+    height: 16px;
+    background-color: transparent;
+  }
+
 .imageContainer{
     width: 100%;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    border-radius: 16px;
     cursor: pointer;
     transition: 0.3s;
     position: relative;
     height: auto;
+
+    box-shadow: 0px 2px 4px 0px #00000014;
+    border: 1px solid #EFEFF0;
+    background: #fff;
 }
 
 .imageContainer:hover {
@@ -25,45 +56,36 @@
 
 .carouselImage{
     width: 100%;
-    height: auto;
+    height: 96px;
+    border-radius: 16px;
+}
+
+.carouselImage img{
+    border-radius: 16px;
+    border-end-end-radius: 0;
+    border-end-start-radius: 0;
 }
 
 .infoContainer{
-    padding: 0.75rem;
-    background: #f1f1f1;
+    padding: 16px;
+    background: white;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
     gap: 3px;
-}
-
-.icon{
-    content: '';
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    z-index: 1;
-    transition: ease .4s;
-    background-color: #32363f;
-    border-radius: 100%;
-    width: 32px;
-    height: 32px;
-    display: flex;
     align-items: center;
-    justify-content: center;
+    border-radius: 16px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }
 
-.icon:hover{
-    background-color: #414853;
-}
+
 
 .infoContainer h2{
     display: block;
-    font-size: 0.95rem;
-    color: #111827;
-    margin-bottom: 4px;
-}
 
-.infoContainer span{
-    font-size: 0.82rem;
-    color: #6b7280;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 100%;
+    letter-spacing: 0%;
+    color: #292929;
 }

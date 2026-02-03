@@ -29,10 +29,6 @@ export default function PreviewArea({
 
   return (
     <main className={styles['preview-area']}>
-      <header className={styles['preview-header'] + ` sidebar__header`}>
-        <h2>Visualização</h2>
-      </header>
-
       <div
         className={
           (isMobile ? styles.mobile : styles.desktop) + ' preview__area'

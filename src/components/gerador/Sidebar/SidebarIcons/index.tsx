@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { iconsGenerator } from '@/assets/icons/generator';
 import ResponsiveToggle from '../../ResponsiveToggle';
+import styles from './index.module.css';
 
 type Tab = 'global' | 'build';
 
@@ -10,6 +11,7 @@ interface Props {
   onExport: (e: React.FormEvent) => Promise<void>;
   onToggleMobile: () => void;
   isMobile: boolean;
+  activeTab: string | null;
 }
 
 export default function SidebarIcons({
@@ -17,21 +19,22 @@ export default function SidebarIcons({
   onExport,
   isMobile,
   onToggleMobile,
+  activeTab,
 }: Props) {
   return (
-    <>
+    <div className={styles.mainMenu}>
       <Link href="#">{iconsGenerator.etemas}</Link>
       <button
         title="Editar o Tema"
         onClick={() => toggleTab('build')}
-        className="icon"
+        className={`icon ${activeTab == 'build' ? 'active' : ''}`}
       >
         {iconsGenerator.editTheme}
       </button>
       <button
         title="Variáveis Globais"
         onClick={() => toggleTab('global')}
-        className="icon"
+        className={`icon ${activeTab == 'global' ? 'active' : ''}`}
       >
         {iconsGenerator.configTheme}
       </button>
@@ -40,6 +43,6 @@ export default function SidebarIcons({
       </button>
 
       <ResponsiveToggle isMobile={isMobile} onToggleMobile={onToggleMobile} />
-    </>
+    </div>
   );
 }

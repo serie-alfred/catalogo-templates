@@ -17,7 +17,7 @@ const slidesMobile = [
   {
     link: '#',
     target: '_blank',
-    image: 'https://placehold.co/600x300',
+    image: 'https://placehold.co/390x460',
     label: 'Banner Mobile',
     width: 600,
     height: 300,

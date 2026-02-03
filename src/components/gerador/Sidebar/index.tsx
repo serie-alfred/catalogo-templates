@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LayoutKey } from '@/data/layoutData';
 import { LayoutSelection, MAX_PER_PAGE } from '@/hooks/useLayoutGenerator';
 import { Platform } from '@/types/platform';
@@ -49,26 +49,22 @@ export default function Sidebar({
   const toggleTab = (tab: Tab) => {
     if (activeTab === tab && isOpen) {
       setIsOpen(false);
-      setActiveTab(null);
     } else {
       setIsOpen(true);
       setActiveTab(tab);
     }
   };
 
+  useEffect(() => {
+    if (!isOpen) {
+      setActiveTab(null);
+    }
+  }, [isOpen]);
+
   return (
     <aside
       className={`sidebar ${styles.sidebar} ${isOpen ? styles.open : styles.closed}`}
     >
-      {!isOpen && (
-        <SidebarIcons
-          onExport={onExport}
-          toggleTab={toggleTab}
-          isMobile={isMobile}
-          onToggleMobile={onToggleMobile}
-        />
-      )}
-
       {isOpen && (
         <div className={styles.content}>
           <SidebarHeader onClose={() => setIsOpen(false)} />
@@ -90,6 +86,13 @@ export default function Sidebar({
           )}
         </div>
       )}
+      <SidebarIcons
+        onExport={onExport}
+        toggleTab={toggleTab}
+        isMobile={isMobile}
+        onToggleMobile={onToggleMobile}
+        activeTab={activeTab}
+      />
     </aside>
   );
 }

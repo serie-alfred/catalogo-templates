@@ -2,7 +2,6 @@
 /* Layout principal */
 .main {
     display: flex;
-    height: 100vh;
     font-family: var(--font-family);
 }
 
@@ -53,6 +52,9 @@
     background: #6366f1;
     color: black;
 }
+
+
+  
 
 /* Carousel */
 #options-container h3 {
