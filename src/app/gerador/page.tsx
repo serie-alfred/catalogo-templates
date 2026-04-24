@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { use, useEffect, useRef, useState } from 'react';
 
 import Sidebar from '@/components/gerador/Sidebar';
 import PreviewArea from '@/components/gerador/PreviewArea';
@@ -32,9 +32,27 @@ export default function GeradorPage() {
     setWakeCustomValue,
     showWakePopup,
     setShowWakePopup,
+    wakePopupRef
   } = useLayout();
 
   const [selectedPage, setSelectedPage] = useState<string>('home');
+  const [isOpen, setIsOpen] = useState(false)
+  const [prevCount, setPrevCount] = useState(selections.length)
+  const bottomRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    //verifica se tamanho atual e maior que o anterior, retorna boole
+    const isAddition = selections.length > prevCount
+
+    if (bottomRef.current && isOpen && isAddition) {
+      bottomRef.current.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center'
+      });
+    }
+
+    setPrevCount(selections.length)
+  }, [selections.length, isOpen]);
 
   if (isMobile) {
     return <DesktopOnlyNotice />;
@@ -56,6 +74,8 @@ export default function GeradorPage() {
         onExport={exportLayout}
         isMobile={isMobileView}
         onToggleMobile={toggleMobileView}
+        setIsOpen={setIsOpen}
+        isOpen={isOpen}
       />
 
       <PreviewArea
@@ -66,12 +86,25 @@ export default function GeradorPage() {
         mobilePreviewRef={mobilePreviewRef}
         selectedPage={selectedPage}
       />
+      {isOpen &&
+        <div
+          ref={bottomRef}
+          style={{
+            height: isOpen ? "55vh" : "30px",
+            width: "100%",
+            pointerEvents: "none"
+          }}
+        >
+        </div>
+      }
 
       {showWakePopup && (
         <WakePopup
           wakeCustomValue={wakeCustomValue}
           setWakeCustomValue={setWakeCustomValue}
           onClose={() => setShowWakePopup(false)}
+          setShowWakePopup={setShowWakePopup}
+          wakePopupRef={wakePopupRef}
         />
       )}
     </div>

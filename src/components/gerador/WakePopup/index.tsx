@@ -1,21 +1,32 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import styles from './index.module.css';
 import { CircleQuestionMark } from 'lucide-react';
+import { iconsGenerator } from '@/assets/icons/generator';
 
 interface WakePopupProps {
   onClose: () => void;
   wakeCustomValue: string;
   setWakeCustomValue: (value: string) => void;
+  setShowWakePopup: (value: boolean) => void;
+  wakePopupRef: React.Ref<HTMLDivElement>;
 }
 
 export function WakePopup({
   onClose,
   wakeCustomValue,
   setWakeCustomValue,
-}: WakePopupProps) {
+  wakePopupRef,
+  setShowWakePopup,
+}: WakePopupProps) {  
   return (
     <div className={styles.overlay}>
-      <div className={`${styles.popup} wake-popup`}>
+      <div ref={wakePopupRef} className={`${styles.popup} wake-popup`}>
+        <button
+          className={`${styles.closeButton} icon`} 
+          onClick={() => setShowWakePopup(false)}
+        >
+          {iconsGenerator.closeSide}
+        </button>
         <h2>Atenção</h2>
         <p>
           Para construir o seu tema na plataforma <strong>Wake</strong> é

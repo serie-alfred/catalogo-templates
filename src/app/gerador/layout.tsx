@@ -5,10 +5,10 @@ import '../../styles/globals.css';
 import { Roboto } from 'next/font/google';
 import { LayoutProvider } from '@/context/LayoutContext';
 
-const roboto = Roboto({
-  variable: '--font-primary',
-  subsets: ['latin'],
-});
+// const roboto = Roboto({
+//   variable: '--font-primary',
+//   subsets: ['latin'],
+// });
 
 export const metadata = {
   title: 'E-temas',
@@ -23,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable}`}>
+      <body className={``}>
         <LayoutProvider>{children}</LayoutProvider>
       </body>
     </html>

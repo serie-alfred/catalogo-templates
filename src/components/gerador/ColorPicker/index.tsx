@@ -15,7 +15,7 @@ export default function ColorPicker({
 }: ColorPickerProps) {
   // const [showPicker, setShowPicker] = useState(false);
   const [open, setOpen] = useState(false)
-  const ref = useRef<HTMLDivElement>(null)
+  const colorPickerref = useRef<HTMLDivElement>(null)
 
   // const togglePicker = () => setShowPicker(!showPicker);
 
@@ -31,11 +31,10 @@ export default function ColorPicker({
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
 
-      if(ref.current && !ref.current.contains(event.target as Node)) {
+      if(colorPickerref.current && !colorPickerref.current.contains(event.target as Node)) {
         setOpen(false)
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside)
     return () => {
       document.removeEventListener("mousedown", handleClickOutside)
@@ -44,7 +43,7 @@ export default function ColorPicker({
 
 
   return (
-    <div ref={ref} className={`${styles.field} field`}>
+    <div ref={colorPickerref} className={`${styles.field} field`}>
       <label>{label}</label>
       <div className={styles.colorWrapper}>
         <div

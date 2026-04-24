@@ -42,13 +42,11 @@
 
 
 .listaCorVariacao .listaItem .color {
-  background: #fff;
+  background: var(--color-semi-black);
   border-radius: 120px;
   height: 38px;
   max-height: unset;
-
   width: 38px;
-  background-color: rosybrown;
 }
 
 .listaCorVariacao .listaItem .color.red {
@@ -275,7 +273,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__sku {
-  color: #646464;
+  color: var(--color-semi-black);
   display: block;
   font-size: 14px;
   font-weight: 400;
@@ -290,10 +288,10 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner h1 {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--font-secundary);
   font-weight: 700;
   font-size: 24px;
-  color: #141414;
+  color: var(--color-black);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars {
@@ -309,10 +307,10 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars span {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--font-secundary);
   font-weight: 400;
   font-size: 12px;
-  color: #525252;
+  color: var(--color-semi-black);
   margin-top: 1px;
 }
 
@@ -413,10 +411,10 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoPrincipal,
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoPrincipal span {
-  font-family: var(--font-primary);
+  font-family: var(--font-secundary);
   font-weight: 700;
   font-size: 22px;
-  color: #1D1D1B;
+  color: var(--color-black);
   line-height: 1;
   display: flex;
   flex-wrap: wrap;
@@ -429,9 +427,9 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoDe {
-  font-family: var(--font-primary);
+  font-family: var(--font-secundary);
   align-items: center;
-  color: #8f8f8f;
+  color: var(--color-semi-black);
   display: flex;
   flex-wrap: wrap;
   font-size: 14px;
@@ -447,9 +445,9 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoDiscountFlag {
   align-items: center;
-  background-color: #000;
+  background-color: var(--background-secundary-color);
   border-radius: 70px;
-  color: #fff;
+  color: var(--text-color-secundary);
   display: flex;
   flex-wrap: wrap;
   font-size: 12px;
@@ -482,7 +480,7 @@
 }
 
 .precoParc {
-  color: #3d3d3d;
+  color: var(--color-semi-black);
   display: inline-block;
   font-size: 14px;
   font-style: normal;
@@ -501,10 +499,10 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .infoPreco span,
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .infoPreco strong {
-  font-family: var(--font-primary);
+  font-family: var(--font-secundary);
   font-weight: 400;
   font-size: 14px;
-  color: #3D3D3D;
+  color: var(--color-semi-black);
   line-height: 22px;
   letter-spacing: 0.25px;
 }
@@ -661,10 +659,10 @@
 .showPaymentMethods {
   display: inline-block;
   content: 'Ver mais formas de pagamento';
-  font-family: var(--font-primary);
+  font-family: var(--font-secundary);
   font-weight: 500;
   font-size: 14px;
-  color: black;
+  color: var(--color-semi-black);
   text-decoration: underline;
   margin-top: 30px;
 }
@@ -672,10 +670,10 @@
 .textoVariacao h2 {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--font-secundary);
   font-weight: 700;
   font-size: 16px;
-  color: #0f0f0f;
+  color: var(--color-black);
   margin-bottom: 15px !important;
 }
 
@@ -763,14 +761,14 @@
 
 .listaCorVariacao li {
   background-color: var(--color-white);
-  border: 1px solid #DFDFE0;
+  border: 1px solid var(--color-black);
   width: 62px;
   height: 57px;
   border-radius: 16px;
-  font-family: var(--font-primary);
+  font-family: var(--font-secundary);
+  color: var(--color-black);
   font-size: 16px;
   font-weight: 600;
-  color: var(--text-color-base);
   line-height: 1;
   display: flex;
   flex-wrap: wrap;
@@ -791,13 +789,16 @@
 
 
 .listaCorVariacao .selected {
-  border: 1px solid black !important;
+  border: 1px solid var(--background-secundary-color) !important;
+  background: var(--background-secundary-color);
+  color: var(--text-color-secundary);
   box-shadow: unset !important;
 }
 
 .listaCorVariacao li:hover {
-  background-color: #efeff0;
-  border: 1px solid transparent !important;
+  border: 1px solid var(--background-secundary-color) !important;
+  background: var(--background-secundary-color);
+  color: var(--text-color-secundary);
 }
 
 .corVariacao {
@@ -952,7 +953,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button {
   align-items: center;
-  background-color: #000;
+  background-color: var(--background-secundary-color);
   border-radius: 16px;
   display: flex;
   flex-wrap: wrap;
@@ -971,7 +972,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button span {
   align-items: center;
-  color: #fff;
+  color: var(--text-color-secundary);
   display: flex;
   flex-wrap: wrap;
   font-size: 16px;
@@ -983,6 +984,10 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button span svg {
   margin-right: 8px;
+}
+
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button span svg path {
+  stroke: var(--text-color-secundary);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__message {
@@ -1004,7 +1009,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__message span {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--font-secundary);
   font-weight: 400;
   font-size: 16px;
   color: var(--background-secundary-color);
@@ -1023,10 +1028,10 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__title {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--font-secundary);
   font-weight: 700;
   font-size: 16px;
-  color: #0F0F0F;
+  color: var(--color-black);
   margin-bottom: 25px;
 }
 
@@ -1080,10 +1085,10 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form .shipping__send {
   align-items: center;
-  background-color: var(--background-tertiary-color);
+  background-color: var(--background-secundary-color);
   border: none;
   border-radius: 16px;
-  color: #f5f5f5;
+  color: var(--text-color-secundary);
   display: flex;
   flex-wrap: wrap;
   font-size: 16px;
@@ -1103,7 +1108,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping a {
-  color: #141414;
+  color: var(--color-semi-black);
   display: inline-block;
   font-size: 12px;
   font-weight: 600;

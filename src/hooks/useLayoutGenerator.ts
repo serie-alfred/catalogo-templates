@@ -40,6 +40,7 @@ export function useLayoutGenerator() {
 
   const [wakeCustomValue, setWakeCustomValue] = useState<string>("");
   const [showWakePopup, setShowWakePopup] = useState(false);
+  const wakePopupRef = useRef<HTMLDivElement | null>(null)
 
   const [focusedKey, setFocusedKey] = useState<LayoutKey | null>(null);
   const [showPlatformError, setShowPlatformError] = useState<boolean>(false);
@@ -51,13 +52,58 @@ export function useLayoutGenerator() {
   const [colorPrimary, setColorPrimary] = useState('#1a1a1a');
   const [colorSecondary, setColorSecondary] = useState('#ffffff');
   const [colorTertiary, setColorTertiary] = useState('#f0f0f0');
-  const [colorPrimaryBackground, setColorPrimaryBackground] = useState('#F7EFF5');
+  const [colorPrimaryBackground, setColorPrimaryBackground] = useState('#682A77');
   const [colorSecondaryBackground, setColorSecondaryBackground] = useState('#E60F73');
-  const [colorTertiaryBackground, setColorTertiaryBackground] = useState('#682A77');
-  const [colorFooter, setColorFooter] = useState('#E8E8E8');
-  const [colorFooterText, setColorFooterText] = useState('#3D3D3D');
-  const [colorPrimaryText, setColorPrimaryText] = useState('#000');
-  const [colorSecondaryText, setColorSecondaryText] = useState('#FFF');
+  const [colorTertiaryBackground, setColorTertiaryBackground] = useState('#F7EFF5');
+  const [colorFooter, setColorFooter] = useState('#1A051C');
+  const [colorFooterText, setColorFooterText] = useState('#94A3B8');
+  const [colorPrimaryText, setColorPrimaryText] = useState('#0080ff');
+  const [colorSecondaryText, setColorSecondaryText] = useState('#51ff00');
+
+  // modo mais complexo de calcular
+  // const hexToRgb = (hexColor: string) => {
+  //   const hex = hexColor.replace('#', '')
+  //   const r = parseInt(hex.substring(0, 2), 16)//divide o hex em 2, pegando o red
+  //   const g = parseInt(hex.substring(2, 4), 16)// green
+  //   const b = parseInt(hex.substring(4, 6), 16)// blue, o ..16) transforma em decimal de 0 a 255
+
+  //   return (r * 299 + g * 587 + b * 114) / 1000
+  // }
+
+  // const getContrastColor = (bgHex: string, textHex: string) => {
+  //   const bgRgb = hexToRgb(bgHex)
+  //   const textRbg = hexToRgb(textHex)
+  //   const diff = Math.abs(bgRgb - textRbg)
+
+  //   if(diff > 60){
+  //     return textHex //mantem cor manual
+  //   }
+  //   return bgRgb >= 128 ? "#000000" : "#ffffff"
+  // }
+
+  const getContrastColor = (hexColor: string) => {
+    const hex = hexColor.replace('#', '')
+    const r = parseInt(hex.substring(0, 2), 16)//divide o hex em 2, pegando o red
+    const g = parseInt(hex.substring(2, 4), 16)// green
+    const b = parseInt(hex.substring(4, 6), 16)// blue, o ..16) transforma em decimal de 0 a 255
+
+    const brilho = (r * 299 + g * 587 + b * 114) / 1000
+
+    return brilho >= 128 ? "#000000" : "#ffffff"
+  }
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (wakePopupRef.current && !wakePopupRef.current.contains(event.target as Node)) {
+        setShowWakePopup(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
 
   useEffect(() => {
     try {
@@ -102,20 +148,28 @@ export function useLayoutGenerator() {
         setColorSecondary(parsed.colorSecondary || '#ffffff');
         setColorTertiary(parsed.colorTertiary || '#f0f0f0');
 
-        setColorPrimaryBackground(parsed.colorPrimaryBackground || '#F7EFF5');
+        setColorPrimaryBackground(parsed.colorPrimaryBackground || '#682A77');
         setColorSecondaryBackground(parsed.colorSecondaryBackground || '#E60F73');
-        setColorTertiaryBackground(parsed.colorTertiaryBackground || '#682A77');
+        setColorTertiaryBackground(parsed.colorTertiaryBackground || '#F7EFF5');
 
-        setColorFooter(parsed.colorFooter || '#E8E8E8');
-        setColorFooterText(parsed.colorFooterText || '#3D3D3D');
+        setColorFooter(parsed.colorFooter || '#1A051C');
+        setColorFooterText(parsed.colorFooterText || '#94A3B8');
 
-        setColorPrimaryText(parsed.colorPrimaryText || '#000');
-        setColorSecondaryText(parsed.colorSecondaryText || '#FFF');
+        setColorPrimaryText(parsed.colorPrimaryText || '#0080ff');
+        setColorSecondaryText(parsed.colorSecondaryText || '#51ff00');
       }
     } catch (e) {
       console.error('Erro ao carregar cores:', e);
     }
   }, []);
+
+  useEffect(() => {
+    setColorPrimaryText(getContrastColor(colorPrimaryBackground))
+    setColorSecondaryText(getContrastColor(colorSecondaryBackground))
+  }, [
+    colorPrimaryBackground,
+    colorSecondaryBackground
+  ])
 
   // Aplicar variáveis CSS no documento
   useEffect(() => {
@@ -123,9 +177,9 @@ export function useLayoutGenerator() {
     document.documentElement.style.setProperty('--secondary-color', colorSecondary);
     document.documentElement.style.setProperty('--tertiary-color', colorTertiary);
 
-    document.documentElement.style.setProperty('--background-primary-color', colorPrimaryBackground);
-    document.documentElement.style.setProperty('--background-secundary-color', colorSecondaryBackground);
-    document.documentElement.style.setProperty('--background-tertiary-color', colorTertiaryBackground);
+    document.documentElement.style.setProperty('--background-primary-color', colorPrimaryBackground); //altera o bg do header__middle
+    document.documentElement.style.setProperty('--background-secundary-color', colorSecondaryBackground); //altera o bg da categoria e button cadastrar
+    document.documentElement.style.setProperty('--background-tertiary-color', colorTertiaryBackground); // altera footer e header
 
     document.documentElement.style.setProperty('--background-footer', colorFooter);
     document.documentElement.style.setProperty('--text-color-footer', colorFooterText);
@@ -200,7 +254,7 @@ export function useLayoutGenerator() {
 
       // Reseta as seleções ao mudar a plataforma
       setSelections([]);
-  
+
       if (value.toLowerCase() === "wake") {
         setShowWakePopup(true);
       }
@@ -669,5 +723,6 @@ export function useLayoutGenerator() {
     setWakeCustomValue,
     showWakePopup,
     setShowWakePopup,
+    wakePopupRef,
   };
 }

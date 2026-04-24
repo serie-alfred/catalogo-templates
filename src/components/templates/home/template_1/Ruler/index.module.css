@@ -4,15 +4,18 @@
   border-bottom: 1px solid #efeff0;
   width: 100%;
   container-type: inline-size;
+  background: var(--background-secundary-color);
 }
 
 .ruler__container {
   position: relative;
+
 }
 
 .ruler__swiper {
   display: flex;
   flex-wrap: nowrap;
+
 }
 
 .ruler__item {
@@ -37,9 +40,13 @@
   transition: all 0.2s ease-in-out;
 }
 
-.item__icon:hover {
-  background-color: #dfdfe0;
+.item__icon svg path {
+  stroke: var(--text-color-secundary);
 }
+
+/* .item__icon:hover {
+  background-color: var(--color-semi-black);
+} */
 
 .item__text {
   width: fit-content;
@@ -52,14 +59,14 @@
   font-family: Arial, sans-serif;
   font-weight: 400;
   font-size: 14px;
-  color: #525252;
+  color: var(--text-color-secundary);
   letter-spacing: 0.25px;
 }
 
 .item__text span b {
   font-weight: 600;
   font-size: 18px;
-  color: #000;
+  color: var(--text-secundary-color);
   margin-bottom: 8px;
   width: 100%;
   display: block;

@@ -1,4 +1,3 @@
-
 /* Spot */
 .spot {
   border: 1px solid #EFEFF0;
@@ -6,6 +5,7 @@
   display: block;
   margin: 0;
   padding: 8px;
+  background: var(--background-tertiary-color);
 }
 
 .spot .product-wrapper .compare-buttons {
@@ -17,7 +17,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-family);
+  font-family: var(--font-secundary);
   font-weight: 500;
   font-size: 14px;
   color: #525252;
@@ -80,6 +80,7 @@
   flex-wrap: wrap;
   flex-direction: column;
   justify-content: flex-end;
+
 }
 
 .spot .product-wrapper .product-image .product-tag div {
@@ -93,14 +94,18 @@
 
 .spot .product-wrapper .product-image .product-tag div.tag-new span {
   background-color: var(--background-tertiary-color);
+  color: var(--text-color-secundary);
 }
 
 .spot .product-wrapper .product-image .product-tag div.tag-featured span {
   background-color: var(--background-secundary-color);
+  color: var(--text-color-secundary);
+
 }
 
 .spot .product-wrapper .product-image .product-tag div.tag-discount span {
   background-color: var(--background-secundary-color);
+  color: var(--text-color-secundary);
   filter: brightness(150%);
 }
 
@@ -113,12 +118,10 @@
   padding: 0 6px;
   height: 19px;
   width: max-content;
-  font-family: var(--font-family);
+  font-family: var(--font-secundary);
   font-weight: 800;
   font-size: 10px;
   text-transform: uppercase;
-  color: #fff;
-  background-color: #0F0F0F;
   line-height: 1;
   letter-spacing: 0.24px;
 }
@@ -131,7 +134,7 @@
 }
 
 .spot .product-wrapper .product-content .product-stars span {
-  font-family: var(--font-family);
+  font-family: var(--font-secundary);
   font-weight: 400;
   font-size: 12px;
   color: #525252;
@@ -151,10 +154,10 @@
   display: -webkit-box;
   overflow: hidden;
   line-height: 21px;
-  font-family: var(--font-family);
+  font-family: var(--font-secundary);
+  color: (--color-text-base);
   font-weight: 400;
   font-size: 14px;
-  color: #292929;
   letter-spacing: 0.15px;
   padding: 0;
   margin: 0;
@@ -165,7 +168,7 @@
   display: block;
   text-decoration: none;
   line-height: 21px;
-  font-family: var(--font-family);
+  font-family: var(--font-secundary);
   font-weight: 400;
   font-size: 14px;
   color: #292929;
@@ -184,7 +187,7 @@
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .price-promotion,
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .price-before,
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .price-normal {
-  font-family: var(--font-family);
+  font-family: var(--font-secundary);
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
@@ -199,19 +202,19 @@
 
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .price-before {
   margin-bottom: 6px;
-  color: #8F8F8F;
+  color: var(--color-semi-black);
 }
 
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .price-normal,
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .price-promotion {
   font-weight: 600;
   font-size: 18px;
-  color: var(--background-tertiary-color);
+  color: var(--text-color-base);
   text-decoration: none;
 }
 
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .product-payment {
-  font-family: var(--font-family);
+  font-family: var(--font-secundary);
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
@@ -226,14 +229,14 @@
   display: none;
 }
 
-.spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .product-payment > .txt-corparcelas {
+.spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .product-payment>.txt-corparcelas {
   margin-left: 0;
 }
 
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .product-payment span,
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .product-payment strong,
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .product-payment b {
-  font-family: var(--font-family);
+  font-family: var(--font-secundary);
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
@@ -243,7 +246,7 @@
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .out-of-stock {
   display: block;
   line-height: 1;
-  font-family: var(--font-family);
+  font-family: var(--font-secundary);
   font-size: 14px;
   font-weight: 400;
   color: #525252;
@@ -262,7 +265,7 @@
   font-family: var(--font-family);
   font-weight: 700;
   font-size: 14px;
-  color: #F5F5F5;
+  color: var(--text-color-secundary);
   background-color: var(--background-secundary-color);
   width: 100%;
   height: 45px;
@@ -271,7 +274,7 @@
 }
 
 .spot .product-wrapper .product-content .product-buy a:hover {
-  background-color: var(--background-secundary-color);
+  background-color: var(--color-black);
   opacity: .8;
 }
 
