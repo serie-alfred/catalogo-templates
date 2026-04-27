@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import DraggablePreviewList from '../DraggablePreviewList';
 import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 

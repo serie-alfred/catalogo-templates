@@ -34,10 +34,10 @@
   max-width: calc(50% - 4px);
   height: 48px;
   border-radius: 80px;
-  background-color: var(--background-tertiary-color);
+  background-color: var(--color-semi-black);
+  color: var(--color-white);
   font-weight: 500;
   font-size: 14px;
-  color: #f5f5f5;
   cursor: pointer;
 }
 
@@ -112,11 +112,11 @@
   padding: 0 15px;
   font-weight: 500;
   font-size: 14px;
-  color: var(--background-tertiary-color);
+  color: var(--color-semi-black);
+  background-color: var(--color-white);
   width: max-content;
   height: 40px;
   border-radius: 80px;
-  background-color: #EFEFF0;
   text-decoration: none;
   transition: all 0.3s ease;
 }
@@ -141,8 +141,9 @@
   justify-content: flex-end;
   margin-left: auto;
 }
-.listFields strong{
-  color: #000;
+
+.listFields strong {
+  color: var(--color-black);
   content: "Ordenar por:";
   display: block;
   font-size: 16px;
@@ -165,7 +166,7 @@
   font-size: 16px;
   color: #68686E;
   border: 1px solid #DFDFE0;
-  background-color: #FFFFFF;
+  background-color: var(--color-white);
   background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 10L12 14L16 10' stroke='%237A7A7A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
   background-repeat: no-repeat;
   background-position-x: 90%;
@@ -291,7 +292,7 @@
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
-  color: #141414;
+  color: var(--color-black);
   transition: all 0.3s ease;
 }
 
@@ -307,16 +308,16 @@
 
 .pageCurrent,
 .pageLink:not(.pageNext):hover {
-  color: #ffffff;
+  color: var(--color-white);
   border: 1px solid #DFDFE0;
-  background-color: #0F0F0F;
+  background-color: var(--color-black);
 }
 
 .pageCurrent a,
 .pageLink:hover:not(.pageNext) a {
-  color: #ffffff;
+  color: var(--color-white);
   border: 1px solid #DFDFE0;
-  background-color: #0F0F0F;
+  background-color: var(--color-black);
 }
 
 .pageNext,
@@ -341,7 +342,7 @@
   justify-content: space-between;
   font-weight: 700;
   font-size: 20px;
-  color: #141414;
+  color: var(--color-black);
   margin-bottom: 30px;
 }
 
@@ -356,7 +357,7 @@
   width: max-content;
   font-weight: 500;
   font-size: 14px;
-  color: #141414;
+  color: var(--color-black);
   padding: 0 15px;
   text-transform: capitalize;
   border: none;
@@ -374,7 +375,7 @@
 
 
 .filterTotal span {
-  color: #000;
+  color: var(--color-black);
   display: block;
   font-size: 14px;
   font-weight: 400;
@@ -395,10 +396,10 @@
 .filterTitleActive {
   align-items: center;
   border-bottom: 1px solid #dfdfe0;
-  color: #141414;
+  color: var(--color-semi-black);
   display: flex;
   flex-wrap: wrap;
-  font-family: Roboto,Arial,Helvetica,sans-serif;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
   font-size: 14px;
   font-weight: 500;
   justify-content: space-between;
@@ -414,7 +415,7 @@
   justify-content: space-between;
   font-weight: 500;
   font-size: 14px;
-  color: #141414;
+  color: var(--color-semi-black);
   line-height: 1;
   padding: 10px 0;
   border-bottom: 1px solid #DFDFE0;
@@ -496,7 +497,7 @@
   line-height: 1;
   font-weight: 500;
   font-size: 14px;
-  color: #525252;
+  color: var(--color-black);
 }
 
 .filterCount {
@@ -505,7 +506,7 @@
   line-height: 1;
   font-weight: 500;
   font-size: 14px;
-  color: #525252;
+  color: var(--color-black);
 }
 
 .categoryMain .filterButton {
@@ -517,7 +518,7 @@
   border-radius: 70px;
   font-weight: 600;
   font-size: 16px;
-  color: #f5f5f5;
+  color: var(--color-white);
   padding: 0 40px;
   width: max-content;
   height: 56px;
@@ -544,23 +545,23 @@
     display: block;
     margin-bottom: 0;
   }
-  
+
   .listFilter {
     display: none;
   }
-  
+
   .filter {
-   display: none;
+    display: none;
   }
-  
+
   .filterOpen {
     left: 0;
   }
-  
+
   .filterMask {
-  display: none;
+    display: none;
   }
-  
+
   .filterClose {
     display: flex;
     flex-wrap: wrap;
@@ -569,11 +570,11 @@
     width: 100%;
     margin-bottom: 15px;
   }
-  
+
   .filterTotal {
     display: none;
   }
-  
+
   .filterForm {
     min-height: calc(100vh - 165px);
     max-height: calc(100vh - 165px);
@@ -582,92 +583,92 @@
     scrollbar-width: thin;
     scrollbar-color: var(--background-tertiary-color) #cccccc;
   }
-  
+
   .filterForm::-webkit-scrollbar {
     width: 3px;
   }
-  
+
   .listShowcase {
     flex: 0 0 100%;
     width: 100%;
     max-width: 100%;
     padding: 0;
   }
-  
+
   .listOrder {
-   justify-content: space-between;
-   margin: 0;
+    justify-content: space-between;
+    margin: 0;
   }
-  
+
   .listCompare {
     width: 54%;
     max-width: 54%;
   }
-  
+
   .listTotalMobile {
     display: block;
     width: 46%;
     max-width: 46%;
     text-align: right;
   }
-  
+
   .listTotalMobile span {
     display: block;
     line-height: 1;
     font-weight: 400;
     font-size: 14px;
-    color: #000000;
+    color: var(--color-black);
   }
-  
+
   .listTotalMobile b {
     font-weight: 400;
   }
-  
+
   .listFields {
     display: none;
   }
-  
+
   .listOrderMobile {
     display: block;
     position: fixed;
     bottom: -100%;
     left: 0;
     width: 100%;
-    background: white;
+    background: var(--color-white);
     z-index: 1000;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     transition: bottom 0.3s;
   }
-  
+
   .orderMobileOpen {
     bottom: 0;
   }
-  
+
   .orderWrapper {
     padding: 1.5rem;
   }
-  
+
   .orderTitle {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 20px;
     font-weight: 700;
-    color: #141414;
+    color: var(--color-black);
     margin-bottom: 30px;
   }
-  
+
   .orderClose {
     cursor: pointer;
   }
-  
+
   .orderInner span {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    color: #000000;
+    color: var(--color-black);
     font-size: 14px;
     font-weight: 400;
     width: 100%;
@@ -676,37 +677,37 @@
     height: 56px;
     margin-bottom: 15px;
   }
-  
+
   .orderInner span.active {
-    border: 1px solid #000000;
+    border: 1px solid var(--color-black);
   }
-  
+
   .orderInner span:last-of-type {
     margin-bottom: 0;
   }
-  
+
   .paginateLinks .pageLink {
     margin: 0 2px;
     width: 35px;
     height: 35px;
   }
-  
+
   .paginateLinks .pageLink a {
     width: 35px;
     height: 35px;
   }
-  
+
   .paginateLinks .pageLink:hover {
     background-color: transparent;
     border: none;
-    color: #0F0F0F;
+    color: var(--color-black);
   }
-  
+
   .paginateLinks .pageLink:hover a,
   .paginateLinks .pageLink:hover span {
     background-color: transparent;
     border: 1px solid #DFDFE0;
-    color: #0F0F0F;
+    color: var(--color-black);
   }
 }
 
@@ -714,13 +715,13 @@
   .showcaseList {
     margin: 0 -4px;
   }
-  
+
   .listSpot {
     width: 50%;
     max-width: 50%;
     padding: 0 4px;
   }
-  
+
   .listSpot:nth-of-type(n + 3) {
     margin-top: 25px;
   }
@@ -730,11 +731,11 @@
   .showcaseList {
     margin: 0 -6px;
   }
-  
+
   .listSpot {
     padding: 0 6px;
   }
-  
+
   .filterList .filterItem .filterLabel span {
     font-size: 12px;
   }

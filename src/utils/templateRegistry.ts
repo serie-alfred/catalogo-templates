@@ -45,6 +45,7 @@ import ProductRelated01 from '@/components/templates/product/template_1/ProductR
 import Header02 from '@/components/templates/common/template_2/Header';
 import Footer02 from '@/components/templates/common/template_2/Footer';
 import Spot02 from '@/components/templates/common/template_2/Spot';
+import Breadcrumb02 from '@/components/templates/common/template_2/Breadcrumb'
 
 // ******
 // Home

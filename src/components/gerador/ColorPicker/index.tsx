@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { HexColorPicker } from 'react-colorful';
 import styles from './index.module.css';
 
@@ -13,9 +13,11 @@ export default function ColorPicker({
   color,
   setColor,
 }: ColorPickerProps) {
-  const [showPicker, setShowPicker] = useState(false);
+  // const [showPicker, setShowPicker] = useState(false);
+  const [open, setOpen] = useState(false)
+  const colorPickerref = useRef<HTMLDivElement>(null)
 
-  const togglePicker = () => setShowPicker(!showPicker);
+  // const togglePicker = () => setShowPicker(!showPicker);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newColor = e.target.value;
@@ -26,12 +28,26 @@ export default function ColorPicker({
     }
   };
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+
+      if(colorPickerref.current && !colorPickerref.current.contains(event.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
+
+
   return (
-    <div className={`${styles.field} field`}>
+    <div ref={colorPickerref} className={`${styles.field} field`}>
       <label>{label}</label>
       <div className={styles.colorWrapper}>
         <div
-          onClick={togglePicker}
+          onClick={() => setOpen(prev => !prev)}
           className={styles.color}
           style={{
             backgroundColor: color,
@@ -54,7 +70,7 @@ export default function ColorPicker({
         />
       </div>
 
-      {showPicker && (
+      {open && (
         <div className={styles.colorPicker}>
           <HexColorPicker color={color} onChange={setColor} />
         </div>

@@ -2,7 +2,9 @@
 /* Layout principal */
 .main {
     display: flex;
+    flex-direction: column;
     font-family: var(--font-family);
+    padding-bottom: 60px;
 }
 
 .desktop{

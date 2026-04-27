@@ -24,6 +24,8 @@ export interface SidebarProps {
   setSelectedPage: React.Dispatch<React.SetStateAction<string>>;
   onToggleMobile: () => void;
   isMobile: boolean;
+  setIsOpen: (value: boolean) => void;
+  isOpen: boolean;
 }
 
 type Tab = 'global' | 'build' | null;
@@ -42,8 +44,10 @@ export default function Sidebar({
   onExport,
   isMobile,
   onToggleMobile,
+  setIsOpen,
+  isOpen
 }: SidebarProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  
   const [activeTab, setActiveTab] = useState<Tab>(null);
 
   const toggleTab = (tab: Tab) => {

@@ -22,6 +22,7 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
   text-align: center;
   animation: fadeIn 0.3s ease-out;
+  position: relative;
 }
 
 .popup h2 {
@@ -50,6 +51,21 @@
 .popup button:hover {
   background: #1e40af; /* azul mais escuro no hover */
 }
+
+.popup .closeButton{
+  position: absolute;
+  height: 16px;
+  padding: 10px;
+  min-height: 16px;
+  background: none;
+  right: 6px;
+  top: 6px;
+}
+
+.popup .closeButton:hover {
+  background: none;
+}
+
 .inputGroup {
   margin: 16px 0;
   text-align: left;

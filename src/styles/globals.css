@@ -12,7 +12,7 @@
   --text-color-footer: #3D3D3D;
   --color-white: #fff;
   --color-black: #000;
-  --color-semi-black: #1A1A1A;
+  --color-semi-black: #6a6a6a;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,7 +22,7 @@
   }
 }
 
-*{
+* {
   box-sizing: border-box;
 }
 
@@ -38,7 +38,7 @@ body {
   font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
- 
+
 }
 
 
@@ -59,7 +59,7 @@ a {
   }
 }
 
-.main{
+.main {
   padding: 0px 15%;
 }
 

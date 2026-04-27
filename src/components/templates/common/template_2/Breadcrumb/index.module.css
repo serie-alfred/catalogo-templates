@@ -27,7 +27,7 @@
  .breadcrumb li span {
    display: inline-block;
    line-height: 1;
-   font-family: var(--font-secundary);
+   font-family: var(--font-primary);
    font-weight: 500;
    font-size: 14px;
    color: var(--color-semi-black);
@@ -36,7 +36,6 @@
 
  .breadcrumb li i {
    height: 21px;
-
  }
 
  .breadcrumb {
