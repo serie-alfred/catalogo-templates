@@ -17,7 +17,7 @@
 }
 
 .header .headerTop {
-  background-color: var(--background-purple);
+  background-color: var(--background-tertiary-color);
   padding: 10px 0px;
 }
 .header .headerTop .topContainer .topRow {
@@ -472,7 +472,7 @@
   height: calc(100vh - 220px);
   overflow: hidden;
   overflow-y: auto;
-  scrollbar-color: var(--background-purple) #ffffff;
+  scrollbar-color: var(--background-tertiary-color) #ffffff;
   scrollbar-width: thin;
   padding: 0px 15px;
   /* width */
@@ -487,10 +487,10 @@
   background: #ffffff;
 }
 .header .header__cart .cart__preview .preview-itens::-webkit-scrollbar-thumb {
-  background: var(--background-purple);
+  background: var(--background-tertiary-color);
 }
 .header .header__cart .cart__preview .preview-itens::-webkit-scrollbar-thumb:hover {
-  background: var(--background-purple);
+  background: var(--background-tertiary-color);
 }
 .header .header__cart .cart__preview .preview-itens .preview-item {
   display: flex;
@@ -627,7 +627,7 @@
   font-size: 16px;
   font-weight: 800;
   color: #ffffff;
-  background-color: var(--background-purple);
+  background-color: var(--background-tertiary-color);
   border-radius: 0px;
   border: 1px solid transparent;
   height: 46px;
@@ -639,7 +639,7 @@
 .header .header__cart .cart__preview .preview__total .finish span:hover,
 .header .header__cart .cart__preview .preview__total .keep__buy a:hover,
 .header .header__cart .cart__preview .preview__total .keep__buy span:hover {
-  border: 1px solid var(--background-purple);
+  border: 1px solid var(--background-tertiary-color);
   background-color: #ffffff;
   color: var(--main-color-font);
 }

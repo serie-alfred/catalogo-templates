@@ -14,7 +14,7 @@ header.header.header__fixed {
   animation: scrollDown ease-in 450ms;
 }
 header.header .header__top {
-  background-color: var(--background-purple);
+  background-color: var(--background-tertiary-color);
   padding: 10px 0;
 }
 header.header .header__top .top__container .top__row {
@@ -471,7 +471,7 @@ header.header .header__cart .cart__preview .preview-itens {
   height: calc(100vh - 220px);
   overflow: hidden;
   overflow-y: auto;
-  scrollbar-color: var(--background-purple) #ffffff;
+  scrollbar-color: var(--background-tertiary-color) #ffffff;
   scrollbar-width: thin;
   padding: 0 15px;
 }
@@ -482,7 +482,7 @@ header.header .header__cart .cart__preview .preview-itens::-webkit-scrollbar-tra
   background: #ffffff;
 }
 header.header .header__cart .cart__preview .preview-itens::-webkit-scrollbar-thumb {
-  background: var(--background-purple);
+  background: var(--background-tertiary-color);
 }
 header.header .header__cart .cart__preview .preview-item {
   display: flex;
@@ -614,7 +614,7 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span {
   font-size: 16px;
   font-weight: 800;
   color: #ffffff;
-  background-color: var(--background-purple);
+  background-color: var(--background-tertiary-color);
   border-radius: 0;
   border: 1px solid transparent;
   height: 46px;
@@ -626,7 +626,7 @@ header.header .header__cart .cart__preview .preview__total .finish a:hover,
 header.header .header__cart .cart__preview .preview__total .finish span:hover,
 header.header .header__cart .cart__preview .preview__total .keep__buy a:hover,
 header.header .header__cart .cart__preview .preview__total .keep__buy span:hover {
-  border: 1px solid var(--background-purple);
+  border: 1px solid var(--background-tertiary-color);
   background-color: #ffffff;
   color: var(--main-color-font);
 }

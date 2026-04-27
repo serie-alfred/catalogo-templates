@@ -325,7 +325,7 @@
 }
 .modal__lgpd .lgpd__content .lgpd__accept {
   width: 25%;
-  background-color: var(--background-purple);
+  background-color: var(--background-tertiary-color);
   color: #ffffff;
   text-decoration: none;
   text-transform: uppercase;

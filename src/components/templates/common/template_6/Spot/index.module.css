@@ -79,7 +79,7 @@
   margin-bottom: 0px;
 }
 .spot .productWrapper .productImage .productTag .tagNew span {
-  background-color: var(--background-purple);
+  background-color: var(--background-tertiary-color);
   padding: 5px 7px;
   border-radius: 120px;
 }
@@ -207,7 +207,7 @@
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .pricePromotion {
   font-weight: 600;
   font-size: 18px;
-  color: var(--background-purple);
+  color: var(--background-tertiary-color);
   text-decoration: none;
 }
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .product-payment {
@@ -306,6 +306,6 @@
     display: none;
   }
   .spot .productWrapper .productContent .productBuy a:hover {
-    background-color: var(--background-purple);
+    background-color: var(--background-tertiary-color);
   }
 }
