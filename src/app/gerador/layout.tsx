@@ -2,13 +2,7 @@ import React from 'react';
 import '../../styles/gerador.css';
 import '../../styles/templates.css';
 import '../../styles/globals.css';
-import { Roboto } from 'next/font/google';
 import { LayoutProvider } from '@/context/LayoutContext';
-
-// const roboto = Roboto({
-//   variable: '--font-primary',
-//   subsets: ['latin'],
-// });
 
 export const metadata = {
   title: 'E-temas',
