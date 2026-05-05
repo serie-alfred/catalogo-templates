@@ -49,8 +49,8 @@ import Spot02 from '@/components/templates/common/template_2/Spot';
 // ******
 // Home
 import BannerFull02 from '@/components/templates/home/template_2/BannerFull';
-import BannerPart02 from '@/components/templates/home/template_2/BannerPart';
 import BannerSide02 from '@/components/templates/home/template_2/BannerSide';
+import BannerDuplo02 from '@/components/templates/home/template_2/BannerDuplo';
 import Ruler02 from '@/components/templates/home/template_2/Ruler';
 import Showcase02 from '@/components/templates/home/template_2/Showcase';
 
@@ -156,7 +156,7 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   Header02,
   Footer02,
   BannerFull02,
-  BannerPart02,
+  BannerDuplo02,
   BannerSide02,
   Ruler02,
   Showcase02,
