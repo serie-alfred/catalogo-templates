@@ -153,9 +153,9 @@ export const LAYOUTS: Layouts = {
   bannerSide: {
     name: "Banner Side",
     items: [
-      { id: "01", selection: "banner-side", key: "bansd014mh45", image: "", mobile: "", title: "Banner Side Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerSide01", platforms: ['Tray'] },
+      { id: "01", selection: "banner-side", key: "bansd014mh45", image: "", mobile: "", title: "Banner Side Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerSide01", platforms: ['Tray', 'Wake'] },
       { id: "02", selection: "banner-side", key: "bansdhg028e3", image: "", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerSide02", platforms: ['Tray', 'Wake'] },
-      { id: "03", selection: "banner-part", key: "bansd0334nb7", image: "", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerPart02", platforms: ['Tray'] },
+      { id: "03", selection: "banner-duplo", key: "bansd0334nb7", image: "", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerPart02", platforms: ['Tray', 'Wake'] },
     ],
   },
   showcase: {
