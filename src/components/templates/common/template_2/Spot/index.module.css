@@ -6,7 +6,6 @@
   border-radius: 8px;
   position: relative;
   max-width: 390px;
-  background: var(--background-tertiary-color);
 }
 
 .spot .productWrapper .productImage {
