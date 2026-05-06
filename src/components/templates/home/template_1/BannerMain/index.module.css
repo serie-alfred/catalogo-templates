@@ -86,7 +86,7 @@
 .banner__home .swiperBannerPagination .swiperPaginationBullet {
   width: 11px;
   height: 11px;
-  background: var(--background-tertiary-color);
+  background: white;
   opacity: 1;
   border: none;
   border-radius: 100%;
@@ -99,7 +99,7 @@
 }
 
 .banner__home .swiperBannerPagination .swiperPaginationBullet.swiperPaginationBulletActive {
-  background: #fff;
+ background: var(--background-primary-color);
   border: none;
   border-radius: 80px;
   width: 17px;
