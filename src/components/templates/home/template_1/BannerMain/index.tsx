@@ -80,7 +80,7 @@ export default function BannerMain() {
                   >
                     <path
                       d="M14 8L10 12L14 16"
-                      stroke="#682A77"
+                      stroke="#000"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="1.5"
@@ -98,7 +98,7 @@ export default function BannerMain() {
                   >
                     <path
                       d="M10 16L14 12L10 8"
-                      stroke="#682A77"
+                      stroke="#000"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="1.5"
