@@ -8,6 +8,7 @@ import styles from './index.module.css';
 import SidebarIcons from './SidebarIcons';
 import SidebarHeader from './SidebarHeader';
 import SidebarTabGlobal from './SidebarTabGlobal';
+import SidebarTabAssets from './SidebarTabAssets';
 import SidebarTabEditTheme from './SidebarTabEditTheme';
 
 export interface SidebarProps {
@@ -28,7 +29,7 @@ export interface SidebarProps {
   isOpen: boolean;
 }
 
-type Tab = 'global' | 'build' | null;
+type Tab = 'global' | 'build' | 'assets' | null;
 
 export default function Sidebar({
   selectedImages,
@@ -74,6 +75,7 @@ export default function Sidebar({
           <SidebarHeader onClose={() => setIsOpen(false)} />
 
           {activeTab === 'global' && <SidebarTabGlobal />}
+          {activeTab === 'assets' && <SidebarTabAssets />}
           {activeTab === 'build' && (
             <SidebarTabEditTheme
               selectedImages={selectedImages}

@@ -1,0 +1,96 @@
+.field {
+  align-items: center;
+  gap: 12px !important;
+}
+
+.field .dropzone {
+  width: 100%;
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+  background-color: #f5f5f5;
+  border: 2px dashed #c4c4c4;
+  border-radius: 12px;
+  padding: 12px;
+  margin: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  overflow: hidden;
+  height: auto;
+  min-height: 0;
+  color: #525252;
+  font-weight: 500;
+  letter-spacing: normal;
+  text-align: center;
+  box-shadow: none;
+}
+
+.field .dropzone:hover {
+  border-color: #7a7a7a;
+  background-color: #efefef;
+  color: #525252;
+}
+
+.field .dropzone:hover svg path {
+  stroke: #7a7a7a;
+}
+
+.field .dropzone.filled {
+  padding: 8px;
+  background-color: #fff;
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #525252;
+  line-height: 1.3;
+}
+
+.preview {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.field .removeBtn {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  height: auto;
+  min-height: 0;
+  min-width: 0;
+  width: fit-content;
+  font-size: 12px;
+  font-weight: 600;
+  color: #b00020;
+  cursor: pointer;
+  text-decoration: underline;
+  border-radius: 0;
+  letter-spacing: normal;
+  box-shadow: none;
+}
+
+.field .removeBtn:hover {
+  background: none;
+  color: #b00020;
+  border-color: transparent;
+}
+
+.hiddenInput {
+  display: none !important;
+}

@@ -137,6 +137,37 @@ export const iconsGenerator = {
       />
     </svg>
   ),
+  assetsTheme: (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M2.91683 2.5H17.0835C18.0039 2.5 18.7502 3.24619 18.7502 4.16667V15.8333C18.7502 16.7538 18.0039 17.5 17.0835 17.5H2.91683C1.99635 17.5 1.25016 16.7538 1.25016 15.8333V4.16667C1.25016 3.24619 1.99635 2.5 2.91683 2.5Z"
+        stroke="#7A7A7A"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M7.0835 8.33329C7.77385 8.33329 8.3335 7.77365 8.3335 7.08329C8.3335 6.39294 7.77385 5.83329 7.0835 5.83329C6.39314 5.83329 5.8335 6.39294 5.8335 7.08329C5.8335 7.77365 6.39314 8.33329 7.0835 8.33329Z"
+        stroke="#7A7A7A"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M18.7502 12.5L14.5835 8.33329L5.41683 17.5"
+        stroke="#7A7A7A"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  ),
   registerTheme: (
     <svg
       width="26"

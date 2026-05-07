@@ -49,6 +49,23 @@ export function useLayoutGenerator() {
   const [fontPrimary, setFontPrimary] = useState('Roboto');
   const [fontSecondary, setFontSecondary] = useState('Poppins');
   const [fontTertiary, setFontTertiary] = useState('Open Sans');
+
+  const [logo, setLogo] = useState<string>(() => {
+    try {
+      if (typeof window === 'undefined') return '';
+      return localStorage.getItem('logo') || '';
+    } catch {
+      return '';
+    }
+  });
+  const [favicon, setFavicon] = useState<string>(() => {
+    try {
+      if (typeof window === 'undefined') return '';
+      return localStorage.getItem('favicon') || '';
+    } catch {
+      return '';
+    }
+  });
   const [colorPrimary, setColorPrimary] = useState('#1a1a1a');
   const [colorSecondary, setColorSecondary] = useState('#ffffff');
   const [colorTertiary, setColorTertiary] = useState('#f0f0f0');
@@ -220,6 +237,30 @@ export function useLayoutGenerator() {
       console.error('Erro ao salvar fontes:', e);
     }
   }, [fontPrimary, fontSecondary, fontTertiary]);
+
+  useEffect(() => {
+    try {
+      if (logo) {
+        localStorage.setItem('logo', logo);
+      } else {
+        localStorage.removeItem('logo');
+      }
+    } catch (e) {
+      console.error('Erro ao salvar logo:', e);
+    }
+  }, [logo]);
+
+  useEffect(() => {
+    try {
+      if (favicon) {
+        localStorage.setItem('favicon', favicon);
+      } else {
+        localStorage.removeItem('favicon');
+      }
+    } catch (e) {
+      console.error('Erro ao salvar favicon:', e);
+    }
+  }, [favicon]);
 
   useEffect(() => {
     try {
@@ -625,6 +666,10 @@ export function useLayoutGenerator() {
           colorPrimaryText,
           colorSecondaryText,
         },
+        assets: {
+          logo,
+          favicon,
+        },
         ...pageItems,
       },
     };
@@ -654,7 +699,22 @@ export function useLayoutGenerator() {
 
     const configJson = buildConfigJson();
     if (configJson) {
-      await sendLayoutConfigEmail(configJson);
+      const isProduction = window.location.hostname === 'www.e-temas.com.br';
+      if (isProduction) {
+        await sendLayoutConfigEmail(configJson);
+      } else {
+        const blob = new Blob([JSON.stringify(configJson, null, 2)], {
+          type: 'application/json',
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'config.json';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      }
     }
   };
 
@@ -695,6 +755,8 @@ export function useLayoutGenerator() {
     fontPrimary, setFontPrimary,
     fontSecondary, setFontSecondary,
     fontTertiary, setFontTertiary,
+    logo, setLogo,
+    favicon, setFavicon,
     colorPrimary,
     setColorPrimary,
     colorSecondary,

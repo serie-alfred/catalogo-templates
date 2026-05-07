@@ -4,7 +4,7 @@ import { iconsGenerator } from '@/assets/icons/generator';
 import ResponsiveToggle from '../../ResponsiveToggle';
 import styles from './index.module.css';
 
-type Tab = 'global' | 'build';
+type Tab = 'global' | 'build' | 'assets';
 
 interface Props {
   toggleTab: (tab: Tab) => void;
@@ -37,6 +37,13 @@ export default function SidebarIcons({
         className={`icon ${activeTab == 'global' ? 'active' : ''}`}
       >
         {iconsGenerator.configTheme}
+      </button>
+      <button
+        title="Logo e Favicon"
+        onClick={() => toggleTab('assets')}
+        className={`icon ${activeTab == 'assets' ? 'active' : ''}`}
+      >
+        {iconsGenerator.assetsTheme}
       </button>
       <button title="Exporta Meu Tema" className="icon" onClick={onExport}>
         {iconsGenerator.exportTheme}

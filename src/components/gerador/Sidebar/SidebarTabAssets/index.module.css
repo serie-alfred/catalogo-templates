@@ -1,0 +1,10 @@
+.sidebarMain {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 24px !important;
+  align-items: flex-start;
+}
+
+.sidebarMain > :global(.field) {
+  width: 180px;
+}
