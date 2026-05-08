@@ -53,6 +53,7 @@ export type Layouts = {
   productDescription: LayoutSection;
   productInfo: LayoutSection;
   productRelated: LayoutSection;
+  textArea: LayoutSection;
 
   /*
     bannerDuplo: LayoutSection;
@@ -119,6 +120,12 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "brands", key: "mar01b3k7h2b", image: "", mobile: "", title: "Marcas Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Brand01", platforms: ['Tray', 'Wake'] },
     ],
   },
+  textArea: {
+    name: "Área de Texto",
+    items: [
+      { id: "01", selection: "text-area", key: "txt01a2b3c4d", image: "", mobile: "", title: "Área de Texto Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "TextArea", platforms: ['VTEX'] },
+    ],
+  },
   categories: {
     name: "Carrossel de Categorias",
     items: [
@@ -137,6 +144,7 @@ export const LAYOUTS: Layouts = {
   ruler: {
     name: "Regua de benefícios",
     items: [
+      
       { id: "01", selection: "ruler", key: "bnf01lm3a894", image: "", mobile: "", title: "Regua de benefícios Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Ruler01", platforms: ['Tray', 'Wake'] },
       { id: "02", selection: "ruler", key: "bnf0213jan45", image: "", mobile: "", title: "Regua de benefícios Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Ruler02", platforms: ['Tray', 'Wake'] },
       //{ id: "03",selection: "ruler", key:"bnf01y0z1a2b", image: "", mobile: "", title: "Barra de benefícios 03", description: "Benefícios 3", template: "3", pagina: ["home"], component: "Ruler03", platforms: ['Tray'] },

@@ -15,6 +15,7 @@ import Breadcrumb01 from '@/components/templates/common/template_1/Breadcrumb';
 // Home
 
 import Showcase01 from '@/components/templates/home/template_1/Showcase';
+import TextArea from '@/components/templates/home/template_1/TextArea';
 import Ruler01 from '@/components/templates/home/template_1/Ruler';
 import BannerMain01 from '@/components/templates/home/template_1/BannerMain';
 import BannerSide01 from '@/components/templates/home/template_1/BannerSide';
@@ -140,6 +141,7 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   Header01,
   Footer01,
   BannerMain01,
+  TextArea,
   CategoryMain01,
   BannerSide01,
   BannerFull01,

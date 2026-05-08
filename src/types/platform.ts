@@ -1,4 +1,4 @@
 // types/platform.ts
-export type Platform = 'Tray' | 'Wake';
+export type Platform = 'Tray' | 'Wake' | 'VTEX';
  
-export const PLATFORMS: Platform[] = ['Tray', 'Wake'];
+export const PLATFORMS: Platform[] = ['Tray', 'Wake', 'VTEX'];
