@@ -3,7 +3,7 @@ import styles from './index.module.css';
 const Header = () => {
   // Dados fixos para substituir as variáveis Twig
   const storeInfo = {
-    name: 'Paulibrás',
+    name: 'logo',
     logo: '/logo.png', // Substitua pelo caminho real do logo
     whatsapp: '5511999999999', // Número formatado sem caracteres especiais
     social: {

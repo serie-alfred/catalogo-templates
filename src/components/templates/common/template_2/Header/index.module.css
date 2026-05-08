@@ -378,9 +378,12 @@
   position: relative;
 }
 
+@media(min-width: 1024px) {
 .header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:hover .submenuWrapper {
   display: block;
 }
+}
+
 
 .header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:nth-of-type(n + 5) .submenuWrapper .submenuContainer .submenuInner>ul {
   background: var(--background-secundary-color);
@@ -958,6 +961,7 @@
 
   header.header .header__bottom {
     position: fixed;
+    display: none;
     left: -100%;
     top: 0px;
     z-index: 11;
