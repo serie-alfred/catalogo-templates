@@ -675,7 +675,7 @@ export function useLayoutGenerator() {
     };
 
     if (platform.toLowerCase() === "wake") {
-      (config[platform.toLowerCase()] as Record<string, unknown>).wakeToken = wakeCustomValue;
+      (config as Record<string, unknown>).wakeToken = wakeCustomValue;
     }
 
     console.log(config)
