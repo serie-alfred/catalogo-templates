@@ -43,12 +43,13 @@
 }
 
 .footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .formItem {
-  border: none;
   border-radius: 50px;
   padding: 15px;
   width: 100%;
   height: 66px;
   background-color: var(--color-white);
+  border: 1px solid #e2e2e2;
+  color: black;
 }
 
 .footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .formItem .mce_inline_error :last-child {
@@ -187,6 +188,10 @@
   margin-right: 8px;
 }
 
+.footer .footerTop .topContainer .topRow .footerRight .topMenu .menuSocial li a svg path{
+  fill: var(--text-color-footer);
+}
+
 .footer .footerTop .topContainer .topRow .footerRight .topMenu .menuPayment {
   display: flex;
   flex-wrap: wrap;
@@ -323,7 +328,7 @@
   font-family: var(--font-family);
   font-weight: 400;
   font-size: 12px;
-  color: var(--color-white);
+  color: var(--text-color-footer);
   line-height: 19px;
   letter-spacing: 0.25px;
   text-align: center;

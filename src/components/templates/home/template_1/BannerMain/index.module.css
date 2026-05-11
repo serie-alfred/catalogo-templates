@@ -60,6 +60,11 @@
   border-radius: 100%;
 }
 
+.banner__home .swiperBannerButtonPrev svg path,
+.banner__home .swiperBannerButtonNext svg path{
+stroke: black;
+}
+
 .banner__home .swiperBannerButtonNext {
   left: unset;
   right: 15%;

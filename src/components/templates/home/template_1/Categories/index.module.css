@@ -17,7 +17,7 @@
   font-family: var(--font-primary);
   font-weight: 500;
   font-size: 32px;
-  color: var(--color-black);
+  color: var(--text-primary-color);
   text-align: center;
 }
 
@@ -58,10 +58,10 @@
 .homeCategories .categoriesContainer .categoriesWrapper .categoriesSwiper .swiper__wrapper .swiper__slide .categoriesItem a h3 {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--font-secundary);
   font-weight: 600;
   font-size: 18px;
-  color: var(--color-semi-black);
+  color: var(--text-primary-color);
   text-align: center;
   text-transform: uppercase;
 }

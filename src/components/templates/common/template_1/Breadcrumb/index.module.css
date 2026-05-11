@@ -20,7 +20,7 @@
 
  .breadcrumb li:last-of-type a,
  .breadcrumb li:last-of-type span {
-   color: var(--color-black);
+   color: var(--text-primary-color);
  }
 
  .breadcrumb li a,

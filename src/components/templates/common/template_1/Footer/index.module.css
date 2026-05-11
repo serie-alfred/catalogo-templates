@@ -57,6 +57,10 @@
   margin-right: 8px;
 }
 
+.footer__top .top__component .top__row .top__menu ul.menu__social li a svg path{
+  fill: var(--text-color-footer);
+}
+
 .footer__top .top__component .top__row .top__menu ul.menu__payment {
   display: flex;
   flex-wrap: wrap;
@@ -135,7 +139,7 @@
   font-family: var(--font-secundary);
   font-weight: 500;
   font-size: 12px;
-  color: lighten(var(--text-color-footer), 20%);
+  color: var(--text-color-footer);
   line-height: 19px;
   letter-spacing: 0.25px;
 }

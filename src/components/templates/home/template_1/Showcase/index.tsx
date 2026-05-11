@@ -70,11 +70,11 @@ export default function Showcase() {
               <span
                 key={index}
                 className={`${styles.swiper__bullet} ${
-                  index === 0 ? styles.swiper__bullet__active : ''
+                  index == 0 ? styles.swiper__bullet__active : ''
                 }`}
                 role="button"
                 aria-label={`Go to slide ${index + 1}`}
-                aria-current={index === 0 ? 'true' : undefined}
+                aria-current={index == 0 ? 'true' : undefined}
               ></span>
             ))}
           </div>

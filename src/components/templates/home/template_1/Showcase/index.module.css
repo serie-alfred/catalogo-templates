@@ -17,7 +17,7 @@
   font-family: var(--font-primary);
   font-weight: 500;
   font-size: 32px;
-  color: var(--color-black);
+  color: var(--text-primary-color);
   text-align: center;
 }
 
@@ -91,7 +91,7 @@
 .home__showcase .showcase__container .showcase__wrapper .swiper__showcase__pagination .swiper__bullet {
   width: 11px;
   height: 11px;
-  background-color: var(--background-tertiary-color);
+  background-color: #e3e3e3;
   opacity: 1;
   border: none;
   border-radius: 100%;
@@ -104,7 +104,7 @@
 }
 
 .home__showcase .showcase__container .showcase__wrapper .swiper__showcase__pagination .swiper__bullet.swiper__bullet__active {
-  background-color: var(--background-primary-color);
+  background-color: var(--background-primary-color-safe);
 }
 
 .home__showcase .showcase__container .showcase__wrapper .swiper__button__prev,

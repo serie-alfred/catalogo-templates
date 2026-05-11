@@ -16,7 +16,7 @@
   font-size: 24px;
   line-height: 120%;
   letter-spacing: 0%;
-  color: var(--color-black);
+  color: var(--text-primary-color);
 }
 
 .homeShowcase .showcaseContainer .showcaseWrapper {
@@ -49,7 +49,7 @@
 .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet {
   width: 11px;
   height: 11px;
-  background-color: var(--color-semi-black);
+  background-color: #e3e3e3;
   opacity: 1;
   border: none;
   border-radius: 100%;
@@ -62,7 +62,7 @@
 }
 
 .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet.swiperPaginationBulletActive {
-  background-color: var(--background-tertiary-color);
+  background-color: var(--background-primary-color-safe);
 }
 
 .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonPrev,

@@ -112,7 +112,7 @@
   padding: 0 15px;
   font-weight: 500;
   font-size: 14px;
-  color: var(--color-semi-black);
+  color: var(--text-primary-color);
   background-color: var(--color-white);
   width: max-content;
   height: 40px;
@@ -375,7 +375,7 @@
 
 
 .filterTotal span {
-  color: var(--color-black);
+  color: var(--text-primary-color);
   display: block;
   font-size: 14px;
   font-weight: 400;
@@ -396,7 +396,7 @@
 .filterTitleActive {
   align-items: center;
   border-bottom: 1px solid #dfdfe0;
-  color: var(--color-semi-black);
+  color: var(--text-primary-color);
   display: flex;
   flex-wrap: wrap;
   font-family: Roboto, Arial, Helvetica, sans-serif;
@@ -415,7 +415,7 @@
   justify-content: space-between;
   font-weight: 500;
   font-size: 14px;
-  color: var(--color-semi-black);
+  color: var(--text-primary-color);
   line-height: 1;
   padding: 10px 0;
   border-bottom: 1px solid #DFDFE0;
@@ -497,7 +497,7 @@
   line-height: 1;
   font-weight: 500;
   font-size: 14px;
-  color: var(--color-black);
+  color: var(--text-primary-color);
 }
 
 .filterCount {
@@ -506,7 +506,7 @@
   line-height: 1;
   font-weight: 500;
   font-size: 14px;
-  color: var(--color-black);
+  color: var(--text-primary-color);
 }
 
 .categoryMain .filterButton {

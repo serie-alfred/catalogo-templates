@@ -109,6 +109,19 @@ export function useLayoutGenerator() {
     return brilho >= 128 ? "#000000" : "#ffffff"
   }
 
+  // Se a cor for muito clara (pouco contraste com fundo branco), troca para preto;
+  // caso contrário, mantém a cor dinâmica.
+  const getColorSafeOnWhite = (hexColor: string) => {
+    const hex = hexColor.replace('#', '')
+    const r = parseInt(hex.substring(0, 2), 16)
+    const g = parseInt(hex.substring(2, 4), 16)
+    const b = parseInt(hex.substring(4, 6), 16)
+
+    const brilho = (r * 299 + g * 587 + b * 114) / 1000
+
+    return brilho >= 220 ? "#000000" : hexColor
+  }
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (wakePopupRef.current && !wakePopupRef.current.contains(event.target as Node)) {
@@ -190,11 +203,12 @@ export function useLayoutGenerator() {
 
   // Aplicar variáveis CSS no documento
   useEffect(() => {
-    document.documentElement.style.setProperty('--primary-color', colorPrimary);
-    document.documentElement.style.setProperty('--secondary-color', colorSecondary);
-    document.documentElement.style.setProperty('--tertiary-color', colorTertiary);
+    document.documentElement.style.setProperty('--text-primary-color', colorPrimary);
+    document.documentElement.style.setProperty('--text-secundary-color', colorSecondary);
+    document.documentElement.style.setProperty('--text-tertiary-color', colorTertiary);
 
     document.documentElement.style.setProperty('--background-primary-color', colorPrimaryBackground); //altera o bg do header__middle
+    document.documentElement.style.setProperty('--background-primary-color-safe', getColorSafeOnWhite(colorPrimaryBackground)); // versão visível em fundo branco
     document.documentElement.style.setProperty('--background-secundary-color', colorSecondaryBackground); //altera o bg da categoria e button cadastrar
     document.documentElement.style.setProperty('--background-tertiary-color', colorTertiaryBackground); // altera footer e header
 

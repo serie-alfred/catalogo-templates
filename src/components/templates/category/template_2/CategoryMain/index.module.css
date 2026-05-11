@@ -142,7 +142,7 @@
 }
 
 .listFields strong {
-  color: #000;
+  color: var(--text-primary-color);
   content: "Ordenar por:";
   display: block;
   font-size: 16px;
@@ -292,7 +292,7 @@
   width: 56px;
   height: 56px;
   border-radius: 6px;
-  border: 1px solid #DFDFE0;
+  border: 1px solid var(--background-primary-color);
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
@@ -395,7 +395,7 @@
   justify-content: space-between;
   font-weight: 700;
   font-size: 20px;
-  color: #141414;
+  color: var(--text-primary-color);
   margin-bottom: 30px;
 }
 
@@ -428,7 +428,7 @@
 
 
 .filterTotal span {
-  color: #000;
+  color: var(--text-primary-color);
   display: block;
   font-size: 14px;
   font-weight: 400;
@@ -448,7 +448,7 @@
 .filterTitleActive {
   align-items: center;
   border-bottom: 1px solid #dfdfe0;
-  color: var(--color-semi-black);
+  color: var(--text-primary-color);
   display: flex;
   flex-wrap: wrap;
   font-family: Roboto, Arial, Helvetica, sans-serif;
@@ -467,7 +467,7 @@
   justify-content: space-between;
   font-weight: 500;
   font-size: 14px;
-  color: #141414;
+  color: var(--text-primary-color);
   line-height: 1;
   padding: 10px 0;
   border-bottom: 1px solid #DFDFE0;
@@ -549,7 +549,7 @@
   line-height: 1;
   font-weight: 500;
   font-size: 14px;
-  color: var(--color-black);
+  color: var(--text-primary-color);
 }
 
 .filterCount {
@@ -558,7 +558,7 @@
   line-height: 1;
   font-weight: 500;
   font-size: 14px;
-  color: var(--color-black);
+ color: var(--text-primary-color);
 }
 
 .categoryMain .filterButton {
@@ -567,7 +567,7 @@
   align-items: center;
   justify-content: center;
   background-color: var(--background-tertiary-color);
-  color: var(--text-color-base);
+  color: var(--text-tertiary-color);
   border-radius: 70px;
   font-weight: 600;
   font-size: 16px;
@@ -584,7 +584,7 @@
 }
 
 .filterButton svg:first-of-type path {
-  stroke: var(--text-color-base);
+  stroke: var(--text-tertiary-color);
 }
 
 .filterButton svg:last-of-type {
@@ -592,7 +592,7 @@
 }
 
 .filterButton svg:last-of-type path {
-  stroke: var(--text-color-base);
+  stroke: var(--text-tertiary-color);
 }
 
 /* Responsividade */
@@ -673,7 +673,7 @@
     line-height: 1;
     font-weight: 400;
     font-size: 14px;
-    color: #000000;
+   color: var(--text-primary-color);
   }
 
   .listTotalMobile b {
@@ -712,7 +712,7 @@
     align-items: center;
     font-size: 20px;
     font-weight: 700;
-    color: #141414;
+    color: var(--text-primary-color);
     margin-bottom: 30px;
   }
 

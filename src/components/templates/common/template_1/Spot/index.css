@@ -201,15 +201,17 @@
 
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .price-before {
   margin-bottom: 6px;
-  color: var(--color-semi-black);
+  color: var(--text-primary-color);
+  font-family: var(--font-secundary);
 }
 
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .price-normal,
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .price-promotion {
   font-weight: 600;
   font-size: 18px;
-  color: var(--text-color-base);
+  color: var(--text-primary-color);
   text-decoration: none;
+  font-family: var(--font-secundary);
 }
 
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .product-payment {
@@ -261,7 +263,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-family);
+  font-family: var(--font-secundary);
   font-weight: 700;
   font-size: 14px;
   color: var(--text-color-secundary);
@@ -273,7 +275,6 @@
 }
 
 .spot .product-wrapper .product-content .product-buy a:hover {
-  background-color: var(--color-black);
   opacity: .8;
 }
 
@@ -304,7 +305,4 @@
     font-size: 11px;
   }
 
-  .spot .product-wrapper .product-content .product-buy a:hover {
-    background-color: var(--background-tertiary-color);
-  }
 }

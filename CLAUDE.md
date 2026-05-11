@@ -32,7 +32,7 @@ Next.js 15 App Router, React 19, TypeScript strict, CSS Modules + a few globals 
 
 ### Two route groups, two purposes
 
-- `(home)` — public marketing/showcase page ([src/app/(home)/page.tsx](src/app/(home)/page.tsx)). Uses Geist font via `next/font`, loads only `globals.css`.
+- `(home)` — public marketing/showcase page ([src/app/(home)/page.tsx](<src/app/(home)/page.tsx>)). Uses Geist font via `next/font`, loads only `globals.css`.
 - `gerador` — the interactive layout-builder tool ([src/app/gerador/page.tsx](src/app/gerador/page.tsx)). Loads `gerador.css` + `templates.css` + `globals.css` and wraps children in `LayoutProvider`. **No `next/font`** here — fonts are user-selectable at runtime.
 
 The two routes intentionally have separate `layout.tsx` files. Don't unify them.
@@ -55,7 +55,7 @@ A template is a React component plus a catalog entry. Two files always need to c
 
 `useLayoutGenerator.toggleSelection` is not a simple add — it enforces per-`selection` semantics that you must preserve when adding new selection types:
 
-- **`showcase`** — first one is added; clicking the same one again duplicates; clicking a *different* showcase replaces all existing showcase entries in place (keeping their `pagina`).
+- **`showcase`** — first one is added; clicking the same one again duplicates; clicking a _different_ showcase replaces all existing showcase entries in place (keeping their `pagina`).
 - **Singletons** (`category-main`, `category-banner`, `product-description`, `product-info`, `banner-top`, `banner-main`, `category-description`) — at most one per page; selecting a different one replaces in place.
 - **`pagina === "common"`** — one selection produces multiple `LayoutSelection` rows, one per page in `item.pagina`. Re-selecting the same common item on the same `layoutKey` replaces the existing row.
 - Other items — appended, with a `MAX_PER_PAGE` (currently 101) cap per page.
@@ -68,7 +68,7 @@ The same `selection` strings drive the duplicate-button blacklist in [src/compon
 
 ### Theming
 
-Colors and fonts in `useLayoutGenerator` are pushed to `:root` as CSS custom properties (`--primary-color`, `--secondary-color`, `--tertiary-color`, `--background-primary-color`, `--background-secundary-color`, `--background-tertiary-color`, `--background-footer`, `--text-color-footer`, `--text-color-base`, `--text-color-secundary`, `--font-primary`, `--font-secundary`). Templates **must** read theme values from these variables — do not hardcode colors/fonts in template CSS Modules. `--text-color-base` and `--text-color-secundary` are auto-derived from background luminance; don't try to set them directly.
+Colors and fonts in `useLayoutGenerator` are pushed to `:root` as CSS custom properties (`--text-primary-color`, `--secondary-color`, `--tertiary-color`, `--background-primary-color`, `--background-secundary-color`, `--background-tertiary-color`, `--background-footer`, `--text-color-footer`, `--text-color-base`, `--text-color-secundary`, `--font-primary`, `--font-secundary`). Templates **must** read theme values from these variables — do not hardcode colors/fonts in template CSS Modules. `--text-color-base` and `--text-color-secundary` are auto-derived from background luminance; don't try to set them directly.
 
 Note the typo `--background-secundary-color` (and `--text-color-secundary`, `--font-secundary`) — these are baked into both the hook and the template CSS, so keep the misspelling when adding new variables that reference them.
 
@@ -82,7 +82,7 @@ Selections, platform, colors, and fonts are mirrored to `localStorage` under key
 
 ### Mobile users
 
-`useIsMobile` short-circuits the gerador to `<DesktopOnlyNotice />` — the builder is desktop-only by design. The mobile *preview* inside the desktop UI is a separate concept (the `isMobileView` toggle).
+`useIsMobile` short-circuits the gerador to `<DesktopOnlyNotice />` — the builder is desktop-only by design. The mobile _preview_ inside the desktop UI is a separate concept (the `isMobileView` toggle).
 
 ## Code style
 

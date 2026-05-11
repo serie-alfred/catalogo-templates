@@ -19,7 +19,7 @@
   margin-bottom: 40px;
   font-size: 28px;
   font-weight: 700;
-  color: var(--color-black);
+  color: var(--text-primary-color);
 }
 
 .bannerSide .bannerContainer {

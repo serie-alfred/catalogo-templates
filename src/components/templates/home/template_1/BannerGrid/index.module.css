@@ -15,7 +15,7 @@
   font-family: var(--font-primary);
   font-weight: 500;
   font-size: 32px;
-  color: #0F0F0F;
+  color: var(--text-primary-color);
   text-align: center;
 }
 .homeBannerGrid .bannerContainer .bannerRow .bannerWrapper {

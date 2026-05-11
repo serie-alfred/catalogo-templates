@@ -91,6 +91,7 @@
 
 .header .headerTop .topContainer .topRow .topSocial ul li {
   margin-right: 10px;
+  color: var(--text-tertiary-color);
 }
 
 .header .headerTop .topContainer .topRow .topSocial ul li:last-of-type {
@@ -166,6 +167,12 @@
   top: 50%;
   right: 15px;
   transform: translateY(-50%);
+}
+
+@container(max-width: 778px){
+  .header .headerMiddle .middleContainer .middleRow .middleSearch .search form .searchButton {
+      top: 36% !important;
+  }
 }
 
 .header .headerMiddle .middleContainer .middleRow .middleSearch .search form .searchKey {
@@ -269,16 +276,6 @@
   transition: 0.5s;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configWhatsapp a:hover,
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configLogin a:hover {
-  background-color: var(--background-secundary-color);
-}
-
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configWhatsapp a:hover svg path,
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configLogin a:hover svg path {
-  stroke: var(--text-color-base);
-}
-
 .header .headerMiddle .middleContainer .middleRow .middleConfig .configWhatsapp a svg path,
 .header .headerMiddle .middleContainer .middleRow .middleConfig .configLogin a svg path {
   transition: 0.5s;
@@ -306,13 +303,6 @@
   transition: 0.5s;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper:hover {
-  background-color: var(--background-secundary-color);
-}
-
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper:hover svg path {
-  stroke: var(--text-color-base);
-}
 
 .header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper svg {
   margin-right: 8px;
@@ -918,13 +908,6 @@
     padding: 0px;
   }
 
-  header.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper:hover {
-    background-color: #ffffff;
-  }
-
-  header.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper:hover svg path {
-    stroke: var(--background-main-color);
-  }
 
   header.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper .cartTitle {
     display: none;

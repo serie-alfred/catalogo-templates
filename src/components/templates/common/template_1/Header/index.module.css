@@ -71,6 +71,7 @@ header.header .header__top .top__container .top__row .top__social ul {
 
 header.header .header__top .top__container .top__row .top__social ul li {
   margin-right: 10px;
+  color: var(--text-color-secundary);
 }
 
 header.header .header__top .top__container .top__row .top__social ul li:last-of-type {
@@ -257,10 +258,6 @@ header.header .header__middle .middle__container .middle__row .middle__config .c
   background-color: darker(var(--background-secundary-color), 10%);
 }
 
-header.header .header__middle .middle__container .middle__row .middle__config .config__whatsapp a:hover svg path,
-header.header .header__middle .middle__container .middle__row .middle__config .config__login a:hover svg path {
-  stroke: lighten(var(--text-color-base), 10%);
-}
 
 header.header .header__middle .middle__container .middle__row .middle__config .config__whatsapp a svg path,
 header.header .header__middle .middle__container .middle__row .middle__config .config__login a svg path {
@@ -289,9 +286,6 @@ header.header .header__middle .middle__container .middle__row .middle__config .c
   transition: 0.5s;
 }
 
-header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper:hover {
-  background-color: var(--color-white);
-}
 
 header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper:hover svg path {
   stroke: var(--text-color-base);

@@ -43,8 +43,8 @@
 
 .sectionText {
   flex: 1;
-  background: #000;
-  color: #fff;
+  background: var(--background-tertiary-color);
+  color: var(--text-tertiary-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -63,6 +63,8 @@
   font-weight: 600;
   max-width: 535px;
   margin-bottom: unset;
+    font-family: var(--font-primary);
+  
 }
 
 .textContent span {
@@ -71,6 +73,7 @@
   max-width: 535px;
   line-height: 1.5;
   display: flex;
+  font-family: var(--font-secundary);
 }
 
 /* Media Queries */
