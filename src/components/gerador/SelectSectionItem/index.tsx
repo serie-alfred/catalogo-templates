@@ -1,6 +1,12 @@
 import React from 'react';
 
-import { LAYOUTS, LayoutKey, LayoutItem, Pagina } from '@/data/layoutData';
+import {
+  LAYOUTS,
+  LayoutKey,
+  LayoutItem,
+  Pagina,
+  BACKGROUND_VAR_LABELS,
+} from '@/data/layoutData';
 import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import Image from 'next/image';
 
@@ -75,7 +81,18 @@ export default function SelectSectionItem({
               isSelected(item.id, item.layoutKey) ? styles.selectedInfo : ''
             }`}
           >
-            <h2>{item.title}</h2>
+            <div className={styles.infoText}>
+              <h2>{item.title}</h2>
+              {item.backgroundVars.length > 0 && (
+                <ul className={styles.backgroundVars}>
+                  {item.backgroundVars.map(v => (
+                    <li key={v} className={styles.backgroundVarChip}>
+                      {BACKGROUND_VAR_LABELS[v]}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
             <div>
               <svg
                 width="28"

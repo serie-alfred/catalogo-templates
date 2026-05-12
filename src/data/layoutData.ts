@@ -3,6 +3,22 @@ import type { Platform } from "@/types/platform";
 export type Pagina = "common" | "home" | "category" | "product";
 
 /**
+ * Variável de cor de fundo da marca utilizada pelo template.
+ * - `primary`   → --background-primary-color   (Cor primária da marca)
+ * - `secondary` → --background-secundary-color (Cor secundária da marca)
+ * - `tertiary`  → --background-tertiary-color  (Cor terciária da marca)
+ * - `footer`    → --background-footer          (Cor do rodapé)
+ */
+export type BackgroundVar = "primary" | "secondary" | "tertiary" | "footer";
+
+export const BACKGROUND_VAR_LABELS: Record<BackgroundVar, string> = {
+  primary: "Cor primária da marca",
+  secondary: "Cor secundária da marca",
+  tertiary: "Cor terciária da marca",
+  footer: "Cor do rodapé",
+};
+
+/**
  * Represents an item in the layout catalog.
  *
  * @property id - Unique identifier for the layout item.
@@ -13,6 +29,7 @@ export type Pagina = "common" | "home" | "category" | "product";
  * @property description - Description of the layout item.
  * @property template - Identifier or name of the template associated with this item.
  * @property pagina - Array of `Pagina` objects related to this layout item.
+ * @property backgroundVars - Cores de fundo da marca que o template utiliza (alimenta o aviso no SelectSectionItem).
  */
 
 export type LayoutItem = {
@@ -27,6 +44,7 @@ export type LayoutItem = {
   template: string;
   pagina: Pagina[];
   platforms: Platform[];
+  backgroundVars: BackgroundVar[];
 };
 
 export type LayoutSection = {
@@ -71,8 +89,8 @@ export const LAYOUTS: Layouts = {
   header: {
     name: "Header",
     items: [
-      { id: "01", selection: "header", key: "hdr01a2b3c4d", image: "", mobile: "", title: "Header Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Header01", platforms: ['Tray','Wake'] },
-      { id: "02", selection: "header", key: "hdr02h8l2gty", image: "", mobile: "", title: "Header Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Header02", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "header", key: "hdr01a2b3c4d", image: "", mobile: "", title: "Header Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Header01", platforms: ['Tray','Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
+      { id: "02", selection: "header", key: "hdr02h8l2gty", image: "", mobile: "", title: "Header Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Header02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
       //{ id: "03",selection: "header", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Header Moderno 03", description: "Menu de navegação com busca e carrinho", template: "3", pagina: ["common"], component: "Header03", platforms: ['Tray'] },
       //{ id: "04",selection: "header", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Header Moderno 04", description: "Menu de navegação com busca e carrinho", template: "4", pagina: ["common"], component: "Header04", platforms: ['Tray'] },
     ],
@@ -80,8 +98,8 @@ export const LAYOUTS: Layouts = {
   spot: {
     name: "Card de Produto",
     items: [
-      { id: "01", selection: "spot", key: "crdprd017839", image: "", mobile: "", title: "Card de Produto Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Spot01", platforms: ['Tray', 'Wake'] },
-      { id: "02", selection: "spot", key: "cardprd02g96", image: "", mobile: "", title: "Card de Produto Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Spot02", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "spot", key: "crdprd017839", image: "", mobile: "", title: "Card de Produto Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Spot01", platforms: ['Tray', 'Wake'], backgroundVars: ["secondary", "tertiary"] },
+      { id: "02", selection: "spot", key: "cardprd02g96", image: "", mobile: "", title: "Card de Produto Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Spot02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary"] },
       //{ id: "03",selection: "spot", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Card Moderno 03", description: "Card do produto 03", template: "3", pagina: ["common"], component: "Spot03", platforms: ['Tray'] },
       //{ id: "06",selection: "spot", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Card Moderno 06", description: "Card do produto 06", template: "6", pagina: ["common"], component: "Spot06", platforms: ['Tray'] },
     ],
@@ -89,15 +107,15 @@ export const LAYOUTS: Layouts = {
   breadcrumb: {
     name: "Breadcrumb",
     items: [
-      { id: "01", selection: "breadcrumb", key: "bred01q3r4s5", image: "", mobile: "", title: "Breadcrumb Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Breadcrumb01", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "breadcrumb", key: "bred01q3r4s5", image: "", mobile: "", title: "Breadcrumb Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Breadcrumb01", platforms: ['Tray', 'Wake'], backgroundVars: [] },
      // { id: "02", selection: "breadcrumb", key: "bred02q7l4k55", image: "", mobile: "", title: "Breadcrumb Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Breadcrumb02", platforms: ['Tray', 'Wake'] },
     ],
   },
   footer: {
     name: "Footer",
     items: [
-      { id: "01", selection: "footer", key: "ftr01r39ws5p", image: "", mobile: "", title: "Footer Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Footer01", platforms: ['Tray', 'Wake'] },
-      { id: "02", selection: "footer", key: "ftr02qmrhs43", image: "", mobile: "", title: "Footer Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Footer02", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "footer", key: "ftr01r39ws5p", image: "", mobile: "", title: "Footer Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Footer01", platforms: ['Tray', 'Wake'], backgroundVars: ["footer"] },
+      { id: "02", selection: "footer", key: "ftr02qmrhs43", image: "", mobile: "", title: "Footer Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Footer02", platforms: ['Tray', 'Wake'], backgroundVars: ["footer", "primary", "tertiary"] },
       //{ id: "03",selection: "footer", key:"ftr01q3r4s5t", image: "", mobile: "", title: "Footer clean 04", description: "Variedades de links 04", template: "4", pagina: ["common"], component: "Footer04", platforms: ['Tray'] },
     ],
   },
@@ -106,9 +124,9 @@ export const LAYOUTS: Layouts = {
   bannerFull: {
     name: "Banner largura máxima",
     items: [
-      { id: "01", selection: "banner-full", key: "banful01hwt4", image: "", mobile: "", title: "Banner largura máxima Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerFull01", platforms: ['Tray', 'Wake'] },
-      { id: "02", selection: "banner-full", key: "hdr01a2b3c4d", image: "", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerFull02", platforms: ['Tray', 'Wake'] },
-      { id: "04", selection: "category-banner", key: "BanFul02op74", image: "", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["category"], component: "BannerFullCategory02", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "banner-full", key: "banful01hwt4", image: "", mobile: "", title: "Banner largura máxima Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerFull01", platforms: ['Tray', 'Wake'], backgroundVars: [] },
+      { id: "02", selection: "banner-full", key: "hdr01a2b3c4d", image: "", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerFull02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
+      { id: "04", selection: "category-banner", key: "BanFul02op74", image: "", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["category"], component: "BannerFullCategory02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
       //{ id: "03",selection: "banner-full", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Banner Moderno 03", description: "Banner com largura máxima", template: "3", pagina: ["home"], component: "BannerFull03", platforms: ['Tray'] },
       //{ id: "05",selection: "banner-full", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Banner Moderno 05", description: "Banner com largura máxima", template: "5", pagina: ["home"], component: "BannerFull05", platforms: ['Tray'] },
     ],
@@ -116,13 +134,13 @@ export const LAYOUTS: Layouts = {
   brand: {
     name: "Marcas",
     items: [
-      { id: "01", selection: "brands", key: "mar01b3k7h2b", image: "", mobile: "", title: "Marcas Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Brand01", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "brands", key: "mar01b3k7h2b", image: "", mobile: "", title: "Marcas Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Brand01", platforms: ['Tray', 'Wake'], backgroundVars: [] },
     ],
   },
   categories: {
     name: "Carrossel de Categorias",
     items: [
-      { id: "01", selection: "categories", key: "cat01lk3ndkl", image: "", mobile: "", title: "Carrossel de Categorias Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Categories01", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "categories", key: "cat01lk3ndkl", image: "", mobile: "", title: "Carrossel de Categorias Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Categories01", platforms: ['Tray', 'Wake'], backgroundVars: [] },
       //{ id: "02",selection: "multi-categories", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Carrossel de categorias", description: "", template: "4", pagina: ["home"], component: "MultiCategories04", platforms: ['Tray'] },
       //{ id: "03",selection: "home-carousel", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Carrossel de categorias 06", description: "", template: "6", pagina: ["home"], component: "HomeCarousel06", platforms: ['Tray'] },
     ],
@@ -130,15 +148,15 @@ export const LAYOUTS: Layouts = {
   banner: {
     name: "Banners",
     items: [
-      { id: "01", selection: "banner-main", key: "ban01m1k3nq2", image: "", mobile: "", title: "Banners Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerMain01", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "banner-main", key: "ban01m1k3nq2", image: "", mobile: "", title: "Banners Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerMain01", platforms: ['Tray', 'Wake'], backgroundVars: ["primary"] },
       //{ id: "02",selection: "banner-main",key:"bnr01m1n2o3p", image: "", mobile: "", title: "Banner Colorido 06", description: "Banner com destaque visual e chamada 06", template: "6", pagina: ["home"], component: "BannerMain06", platforms: ['Tray'] },
     ],
   },
   ruler: {
     name: "Regua de benefícios",
     items: [
-      { id: "01", selection: "ruler", key: "bnf01lm3a894", image: "", mobile: "", title: "Regua de benefícios Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Ruler01", platforms: ['Tray', 'Wake'] },
-      { id: "02", selection: "ruler", key: "bnf0213jan45", image: "", mobile: "", title: "Regua de benefícios Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Ruler02", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "ruler", key: "bnf01lm3a894", image: "", mobile: "", title: "Regua de benefícios Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Ruler01", platforms: ['Tray', 'Wake'], backgroundVars: ["secondary"] },
+      { id: "02", selection: "ruler", key: "bnf0213jan45", image: "", mobile: "", title: "Regua de benefícios Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Ruler02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary"] },
       //{ id: "03",selection: "ruler", key:"bnf01y0z1a2b", image: "", mobile: "", title: "Barra de benefícios 03", description: "Benefícios 3", template: "3", pagina: ["home"], component: "Ruler03", platforms: ['Tray'] },
       //{ id: "04",selection: "ruler", key:"bnf01y0z1a2b", image: "", mobile: "", title: "Barra de benefícios 04", description: "Benefícios 4", template: "4", pagina: ["home"], component: "Ruler04", platforms: ['Tray'] },
       //{ id: "05",selection: "ruler", key:"bnf01y0z1a2b", image: "", mobile: "", title: "Barra de benefícios 05", description: "Benefícios 5", template: "5", pagina: ["home"], component: "Ruler05", platforms: ['Tray'] },
@@ -147,22 +165,22 @@ export const LAYOUTS: Layouts = {
   grid: {
     name: "Grid de banners",
     items: [
-      { id: "01", selection: "banner-grid", key: "grd01qw09er8", image: "", mobile: "", title: "Grid de banners Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerGrid01", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "banner-grid", key: "grd01qw09er8", image: "", mobile: "", title: "Grid de banners Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerGrid01", platforms: ['Tray', 'Wake'], backgroundVars: [] },
     ],
   },
   bannerSide: {
     name: "Banner Side",
     items: [
-      { id: "01", selection: "banner-side", key: "bansd014mh45", image: "", mobile: "", title: "Banner Side Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerSide01", platforms: ['Tray', 'Wake'] },
-      { id: "02", selection: "banner-duplo", key: "bansdhg028e3", image: "", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerDuplo02", platforms: ['Tray', 'Wake'] },
-      { id: "03", selection: "banner-side", key: "bansd0334nb7", image: "", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerSide02", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "banner-side", key: "bansd014mh45", image: "", mobile: "", title: "Banner Side Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerSide01", platforms: ['Tray', 'Wake'], backgroundVars: [] },
+      { id: "02", selection: "banner-duplo", key: "bansdhg028e3", image: "", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerDuplo02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
+      { id: "03", selection: "banner-side", key: "bansd0334nb7", image: "", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerSide02", platforms: ['Tray', 'Wake'], backgroundVars: ["tertiary"] },
     ],
   },
   showcase: {
     name: "Vitrines",
     items: [
-      { id: "01", selection: "showcase", key: "vtr01cm487ha", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Showcase01", platforms: ['Tray', 'Wake'] },
-      { id: "02", selection: "showcase", key: "vtr02mq91m48", image: "", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Showcase02", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "showcase", key: "vtr01cm487ha", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Showcase01", platforms: ['Tray', 'Wake'], backgroundVars: ["primary"] },
+      { id: "02", selection: "showcase", key: "vtr02mq91m48", image: "", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Showcase02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary"] },
       //{ id: "03",selection: "showcase", key:"vtr01s5t6u7v", image: "", mobile: "", title: "Vitrine moda 3", description: "Seção com produtos de moda 3", template: "3", pagina: ["home"], component: "Showcase03", platforms: ['Tray'] },
       //{ id: "05",selection: "showcase", key:"vtr01s5t6u7v", image: "", mobile: "", title: "Vitrine moda 6", description: "Seção com produtos de moda 6", template: "6", pagina: ["home"], component: "Showcase06", platforms: ['Tray'] },
     ],
@@ -172,40 +190,40 @@ export const LAYOUTS: Layouts = {
   categoryMain: {
     name: "Grade de produtos",
     items: [
-      { id: "01", selection: "category-main", key: "catmn01ll098", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryMain01", platforms: ['Tray', 'Wake'] },
-      { id: "02", selection: "category-main", key: "catmn0254hg3", image: "", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["category"], component: "CategoryMain02", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "category-main", key: "catmn01ll098", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryMain01", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
+      { id: "02", selection: "category-main", key: "catmn0254hg3", image: "", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["category"], component: "CategoryMain02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "tertiary"] },
     ],
   },
   categoryDescription: {
     name: "Descrição de categoria",
     items: [
-      { id: "01", selection: "category-description", key: "catdes01hp82", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryDescription01", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "category-description", key: "catdes01hp82", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryDescription01", platforms: ['Tray', 'Wake'], backgroundVars: [] },
     ],
   },
   // PRODUCT
   bannerProduct: {
     name: "Banner",
     items: [
-      { id: "01", selection: "banner-top", key: "ban01p4q5r6s", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "BannerTop01", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "banner-top", key: "ban01p4q5r6s", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "BannerTop01", platforms: ['Tray', 'Wake'], backgroundVars: [] },
     ],
   },
   productDescription: {
     name: "descrição",
     items: [
-      { id: "01", selection: "product-description", key: "desc01t7u8v9w", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductDescription01", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "product-description", key: "desc01t7u8v9w", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductDescription01", platforms: ['Tray', 'Wake'], backgroundVars: ["tertiary"] },
     ],
   },
   productInfo: {
     name: "Informações do produto",
     items: [
-      { id: "01", selection: "product-info", key: "info01x0y1z2a", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductInfo01", platforms: ['Tray', 'Wake'] },
-      { id: "02", selection: "product-info", key: "info02b3c4d5e", image: "", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["product"], component: "ProductInfo02", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "product-info", key: "info01x0y1z2a", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductInfo01", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
+      { id: "02", selection: "product-info", key: "info02b3c4d5e", image: "", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["product"], component: "ProductInfo02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
     ],
   },
   productRelated: {
     name: "Produtos Relacionados",
     items: [
-      { id: "01", selection: "product-related", key: "rel01f6g7h8i", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductRelated01", platforms: ['Tray', 'Wake'] },
+      { id: "01", selection: "product-related", key: "rel01f6g7h8i", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductRelated01", platforms: ['Tray', 'Wake'], backgroundVars: [] },
     ],
   },
 

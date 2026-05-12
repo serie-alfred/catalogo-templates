@@ -36,13 +36,13 @@ export default function SidebarTabGlobal() {
   return (
     <div className={`${styles.sidebarMain} sidebar__main`}>
       <FontSelector
-        label="Defina a fonte primária"
+        label="Defina a fonte dos títulos"
         cssVariable="font-primary"
         selectedFont={fontPrimary}
         onFontChange={setFontPrimary}
       />
       <FontSelector
-        label="Defina a fonte secundária"
+        label="Defina a fonte do texto"
         cssVariable="font-secondary"
         selectedFont={fontSecondary}
         onFontChange={setFontSecondary}
@@ -55,7 +55,7 @@ export default function SidebarTabGlobal() {
       />
 
       <ColorPicker
-        label="Defina a cor primária"
+        label="Defina a cor base do texto"
         color={colorPrimary}
         setColor={setColorPrimary}
       />
@@ -64,36 +64,37 @@ export default function SidebarTabGlobal() {
         color={colorSecondary}
         setColor={setColorSecondary}
       />
-      <ColorPicker
-        label="Defina a cor terciária"
-        color={colorTertiary}
-        setColor={setColorTertiary}
-      />
 
       <ColorPicker
-        label="Defina a cor primária do background"
+        label="Defina a cor primária da marca"
         color={colorPrimaryBackground}
         setColor={setColorPrimaryBackground}
       />
       <ColorPicker
-        label="Defina a cor secundária do background"
+        label="Defina a cor secundária da marca"
         color={colorSecondaryBackground}
         setColor={setColorSecondaryBackground}
       />
       <ColorPicker
-        label="Defina a cor terciária do background"
+        label="Defina a cor terciária da marca"
         color={colorTertiaryBackground}
         setColor={setColorTertiaryBackground}
       />
       <ColorPicker
-        label="Defina a cor primária do texto"
+        label="Defina a cor primária de contraste da marca"
         color={colorPrimaryText}
         setColor={setColorPrimaryText}
       />
       <ColorPicker
-        label="Defina a cor secundária do texto"
+        label="Defina a cor secundária de contraste da marca"
         color={colorSecondaryText}
         setColor={setColorSecondaryText}
+      />
+
+      <ColorPicker
+        label="Defina a cor terciária de contraste da marca"
+        color={colorTertiary}
+        setColor={setColorTertiary}
       />
       <ColorPicker
         label="Defina a cor do rodapé"

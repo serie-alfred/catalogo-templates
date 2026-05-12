@@ -90,3 +90,31 @@
     letter-spacing: 0%;
     color: #292929;
 }
+
+.infoText {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.backgroundVars {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.backgroundVarChip {
+    font-size: 10px;
+    line-height: 1;
+    font-weight: 500;
+    color: #003073;
+    background: #E6F9FF;
+    border-radius: 999px;
+    padding: 4px 8px;
+    white-space: nowrap;
+}
