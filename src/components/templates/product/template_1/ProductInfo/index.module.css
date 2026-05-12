@@ -325,7 +325,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagNew span {
   background-color: var(--background-tertiary-color);
-  color: var(--text-color-base);
+  color: var(--text-tertiary-color);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagFeatured span {
@@ -910,7 +910,7 @@
   font-family: var(--font-primary);
   font-weight: 500;
   font-size: 16px;
-  color: var(--background-secundary-color);
+  color: var(--text-primary-color);
   text-align: center;
   border: none;
   box-shadow: none;
@@ -961,10 +961,10 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-primary);
+  font-family: var(--font-secundary);
   font-weight: 600;
   font-size: 16px;
-  color: var(--text-color-secundary);
+   color: var(--text-color-base);
   text-transform: initial;
 }
 
@@ -995,7 +995,8 @@
   font-family: var(--font-secundary);
   font-weight: 400;
   font-size: 16px;
-  color: var(--background-secundary-color);
+    background-color: var(--background-secundary-color);
+  color: var(--text-color-secundary);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping {

@@ -69,7 +69,7 @@ const ProductInfo = () => {
                                     src={image}
                                     title="Produto 2"
                                     alt="Produto 2"
-                                    className={`${index === 0 ? styles.selected : ""}`}
+                                    className={`${index === 0 ? styles.selected : ''}`}
                                   />
                                 </a>
                               </span>
@@ -208,11 +208,15 @@ const ProductInfo = () => {
                         <h2>Cores disponíveis</h2>
                       </div>
                       <ul className={styles.listaCorVariacao}>
-                        <li className={`${styles.listaItem} ${styles.selected}`}>
+                        <li
+                          className={`${styles.listaItem} ${styles.selected}`}
+                        >
                           <div className={styles.color}></div>
                         </li>
                         <li className={`${styles.listaItem}`}>
-                          <div className={`${styles.color} ${styles.red}`}></div>
+                          <div
+                            className={`${styles.color} ${styles.red}`}
+                          ></div>
                         </li>
                       </ul>
                     </div>
@@ -260,7 +264,7 @@ const ProductInfo = () => {
                             />
                             <path
                               d="M13 20H27"
-                              stroke="#E60F73"
+                              stroke="currentColor"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth="1.5"
@@ -278,14 +282,14 @@ const ProductInfo = () => {
                             />
                             <path
                               d="M20 13V27"
-                              stroke="#E60F73"
+                              stroke="currentColor"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth="1.5"
                             />
                             <path
                               d="M13 20H27"
-                              stroke="#E60F73"
+                              stroke="currentColor"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth="1.5"
@@ -315,35 +319,35 @@ const ProductInfo = () => {
                           >
                             <path
                               d="M9 15L15.7078 14.4186C17.8066 14.2368 18.2778 13.76 18.5104 11.5831L19 7"
-                              stroke="white"
+                              stroke="currentColor"
                               strokeWidth="1.5"
                               strokeLinecap="round"
                             ></path>
                             <path
                               d="M7 7H20"
-                              stroke="white"
+                              stroke="currentColor"
                               strokeWidth="1.5"
                               strokeLinecap="round"
                             ></path>
                             <path
                               d="M7.5 20C8.32843 20 9 19.3284 9 18.5C9 17.6716 8.32843 17 7.5 17C6.67157 17 6 17.6716 6 18.5C6 19.3284 6.67157 20 7.5 20Z"
-                              stroke="white"
+                              stroke="currentColor"
                               strokeWidth="1.5"
                             ></path>
                             <path
                               d="M15.5 20C16.3284 20 17 19.3284 17 18.5C17 17.6716 16.3284 17 15.5 17C14.6716 17 14 17.6716 14 18.5C14 19.3284 14.6716 20 15.5 20Z"
-                              stroke="white"
+                              stroke="currentColor"
                               strokeWidth="1.5"
                             ></path>
                             <path
                               d="M9 18H14"
-                              stroke="white"
+                              stroke="currentColor"
                               strokeWidth="1.5"
                               strokeLinecap="round"
                             ></path>
                             <path
                               d="M4 4H4.805C5.59223 4 6.27845 4.50748 6.46938 5.23088L8.94877 14.6247C9.07406 15.0994 8.96683 15.6023 8.65687 15.9938L7.86011 17"
-                              stroke="white"
+                              stroke="currentColor"
                               strokeWidth="1.5"
                               strokeLinecap="round"
                             ></path>
@@ -364,39 +368,39 @@ const ProductInfo = () => {
                     >
                       <path
                         d="M0.5 28C0.5 12.8122 12.8122 0.5 28 0.5C43.1878 0.5 55.5 12.8122 55.5 28C55.5 43.1878 43.1878 55.5 28 55.5C12.8122 55.5 0.5 43.1878 0.5 28Z"
-                        stroke="#E60F73"
+                        stroke="currentColor"
                       ></path>
                       <path
                         d="M37 23V28M19 23C19 26.0645 19 32.7742 19 33.1613C19 34.5438 20.9456 35.3657 24.8369 37.0095C26.4002 37.6698 27.1818 38 28 38V27.3548"
-                        stroke="#E60F73"
+                        stroke="currentColor"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="1.5"
                       ></path>
                       <path
                         d="M31 35C31 35 31.875 35 32.75 37C32.75 37 35.5294 32 38 31"
-                        stroke="#E60F73"
+                        stroke="currentColor"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="1.5"
                       ></path>
                       <path
                         d="M24.3259 25.6914L21.4047 24.2779C19.8016 23.5021 19 23.1142 19 22.5C19 21.8858 19.8016 21.4979 21.4047 20.7221L24.3259 19.3086C26.1288 18.4362 27.0303 18 28 18C28.9697 18 29.8712 18.4362 31.6741 19.3086L34.5953 20.7221C36.1984 21.4979 37 21.8858 37 22.5C37 23.1142 36.1984 23.5021 34.5953 24.2779L31.6741 25.6914C29.8712 26.5638 28.9697 27 28 27C27.0303 27 26.1288 26.5638 24.3259 25.6914Z"
-                        stroke="#E60F73"
+                        stroke="currentColor"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="1.5"
                       ></path>
                       <path
                         d="M22 28L24 29"
-                        stroke="#E60F73"
+                        stroke="currentColor"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="1.5"
                       ></path>
                       <path
                         d="M33 20L23 25"
-                        stroke="#E60F73"
+                        stroke="currentColor"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="1.5"

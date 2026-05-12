@@ -331,6 +331,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagNew span {
   background-color: var(--background-tertiary-color);
+  color: var(--text-tertiary-color);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagFeatured span {
@@ -340,7 +341,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagDiscount span {
   background-color: var(--background-primary-color);
-  color: var(--background-tertiary-color);
+  color: var(--text-color-base);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div span {
@@ -789,16 +790,16 @@
 
 
 .listaCorVariacao .selected {
-  border: 1px solid var(--background-secundary-color) !important;
-  background: var(--background-secundary-color);
-  color: var(--text-color-secundary);
+  border: 1px solid var(--background-tertiary-color) !important;
+  background: var(--background-tertiary-color);
+  color: var(--text-tertiary-color);
   box-shadow: unset !important;
 }
 
 .listaCorVariacao li:hover {
-  border: 1px solid var(--background-secundary-color) !important;
-  background: var(--background-secundary-color);
-  color: var(--text-color-secundary);
+  border: 1px solid var(--background-tertiary-color) !important;
+  background: var(--background-tertiary-color);
+  color: var(--text-tertiary-color);
 }
 
 .corVariacao {
@@ -953,7 +954,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button {
   align-items: center;
-  background-color: var(--background-secundary-color);
+  background-color: var(--background-tertiary-color);
   border-radius: 16px;
   display: flex;
   flex-wrap: wrap;
@@ -972,7 +973,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button span {
   align-items: center;
-  color: var(--text-color-secundary);
+  color: var(--text-tertiary-color);
   display: flex;
   flex-wrap: wrap;
   font-size: 16px;
@@ -987,7 +988,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button span svg path {
-  stroke: var(--text-color-secundary);
+  stroke: var(--text-tertiary-color);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__message {
@@ -1085,10 +1086,10 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form .shipping__send {
   align-items: center;
-  background-color: var(--background-secundary-color);
+  background-color: var(--background-tertiary-color);
   border: none;
   border-radius: 16px;
-  color: var(--text-color-secundary);
+  color: var(--text-tertiary-color);
   display: flex;
   flex-wrap: wrap;
   font-size: 16px;

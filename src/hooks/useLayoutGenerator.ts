@@ -196,9 +196,11 @@ export function useLayoutGenerator() {
   useEffect(() => {
     setColorPrimaryText(getContrastColor(colorPrimaryBackground))
     setColorSecondaryText(getContrastColor(colorSecondaryBackground))
+    setColorTertiary(getContrastColor(colorTertiaryBackground));
   }, [
     colorPrimaryBackground,
-    colorSecondaryBackground
+    colorSecondaryBackground,
+    colorTertiaryBackground
   ])
 
   // Aplicar variáveis CSS no documento
