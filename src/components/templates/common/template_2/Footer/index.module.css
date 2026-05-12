@@ -289,6 +289,15 @@
   gap: 10px;
 }
 
+@container (max-width: 768px) {
+  .footer .footerMiddle .middleContainer .topMenu .menuPayment {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    justify-items: center;
+  }
+}
+
 .footer .footerMiddle .middleContainer .topMenu .menuSeals {
   display: flex;
   gap: 10px;

@@ -33,47 +33,57 @@ const Footer = () => {
     {
       name: 'Visa',
       image:
-        'https://images.tcdn.com.br/files/426932/themes/273/img/visa.png?12972c5ad93a8bec3b7d26c01525438b1756996464',
+        'https://images.tcdn.com.br/files/426932/themes/253/img/payment-visa.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
     },
     {
       name: 'Mastercard',
       image:
-        'https://images.tcdn.com.br/files/426932/themes/273/img/mastercard.png?12972c5ad93a8bec3b7d26c01525438b1756996464',
+        'https://images.tcdn.com.br/files/426932/themes/253/img/payment-mastercard.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
     },
     {
       name: 'Diners Club',
       image:
-        'https://images.tcdn.com.br/files/426932/themes/273/img/dinersclub.png?12972c5ad93a8bec3b7d26c01525438b1756996464',
+        'https://images.tcdn.com.br/files/426932/themes/253/img/payment-diners.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
     },
     {
       name: 'American Express',
       image:
-        'https://images.tcdn.com.br/files/426932/themes/273/img/americanexpress.png?12972c5ad93a8bec3b7d26c01525438b1756996464',
+        'https://images.tcdn.com.br/files/426932/themes/253/img/payment-american-express.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
     },
     {
       name: 'Elo',
       image:
-        'https://images.tcdn.com.br/files/426932/themes/273/img/hipercard.png?12972c5ad93a8bec3b7d26c01525438b1756996464',
+        'https://images.tcdn.com.br/files/426932/themes/253/img/payment-elo.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
     },
     {
-      name: 'Hipercard',
+      name: 'Hiper',
       image:
-        'https://images.tcdn.com.br/files/426932/themes/273/img/elo.png?12972c5ad93a8bec3b7d26c01525438b1756996464',
-    },
-    {
-      name: 'Aura',
-      image:
-        'https://images.tcdn.com.br/files/426932/themes/273/img/aura.png?12972c5ad93a8bec3b7d26c01525438b1756996464',
+        'https://images.tcdn.com.br/files/426932/themes/253/img/payment-hiper.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
     },
     {
       name: 'Boleto',
       image:
-        'https://images.tcdn.com.br/files/426932/themes/273/img/boleto.png?12972c5ad93a8bec3b7d26c01525438b1756996464',
+        'https://images.tcdn.com.br/files/426932/themes/253/img/payment-boleto.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
     },
     {
-      name: 'Pix',
+      name: 'Itaú',
       image:
-        'https://images.tcdn.com.br/files/426932/themes/273/img/pix.png?12972c5ad93a8bec3b7d26c01525438b1756996464',
+        'https://images.tcdn.com.br/files/426932/themes/253/img/payment-itau.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+    },
+    {
+      name: 'Bradesco',
+      image:
+        'https://images.tcdn.com.br/files/426932/themes/253/img/payment-bradesco.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+    },
+    {
+      name: 'Banco do Brasil',
+      image:
+        'https://images.tcdn.com.br/files/426932/themes/253/img/payment-banco-do-brasil.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+    },
+    {
+      name: 'Caixa',
+      image:
+        'https://images.tcdn.com.br/files/426932/themes/253/img/payment-caixa.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
     },
   ];
 
