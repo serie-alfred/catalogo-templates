@@ -141,21 +141,21 @@ export default function Header() {
                 >
                   <path
                     d="M4 5H16"
-                    stroke="#0F0F0F"
+                    stroke="currentColor"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="1.5"
                   />
                   <path
                     d="M4 12H20"
-                    stroke="#0F0F0F"
+                    stroke="currentColor"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="1.5"
                   />
                   <path
                     d="M4 19H12"
-                    stroke="#0F0F0F"
+                    stroke="currentColor"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="1.5"
@@ -263,7 +263,7 @@ export default function Header() {
                   >
                     <path
                       d="M8 10L12 14L16 10"
-                      stroke="#0F0F0F"
+                      stroke="currentColor"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth="1.5"
@@ -314,7 +314,7 @@ export default function Header() {
                     >
                       <path
                         d="M10 16L14 12L10 8"
-                        stroke="#0F0F0F"
+                        stroke="currentColor"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="1.5"
@@ -362,7 +362,7 @@ export default function Header() {
                     >
                       <path
                         d="M10 16L14 12L10 8"
-                        stroke="#0F0F0F"
+                        stroke="currentColor"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth="1.5"
@@ -471,7 +471,7 @@ export default function Header() {
                                 >
                                   <path
                                     d="M10 16L14 12L10 8"
-                                    stroke="#0F0F0F"
+                                    stroke="currentColor"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth="1.5"

@@ -3,6 +3,7 @@
 .categoryMain {
   container-type: inline-size;
   width: 100%;
+  padding-top: 2rem;
 }
 
 /* Botões de filtro e ordenação */

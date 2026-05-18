@@ -93,6 +93,7 @@ header.header .header__middle .middle__container .middle__row {
 
 header.header .header__middle .middle__container .middle__row .middle__tabs {
   display: none;
+  color: var(--text-color-base);
 }
 
 header.header .header__middle .middle__container .middle__row .middle__logo {

@@ -39,7 +39,7 @@
   flex-wrap: wrap;
   align-items: center;
   width: max-content;
-  color: var(--text-color-secundary);
+  color: var(--text-tertiary-color);
   font-family: var(--font-primary);
   font-weight: 500;
   font-size: 14px;
@@ -51,7 +51,7 @@
 }
 
 .header .headerTop .topContainer .topRow .topLogin a svg path {
-  stroke: var(--text-color-secundary);
+  stroke: var(--text-tertiary-color);
 }
 
 .header .headerTop .topContainer .topRow .topWhatsapp {
@@ -65,7 +65,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  color: var(--text-color-secundary);
+ color: var(--text-tertiary-color);
   font-family: var(--font-primary);
   font-weight: 500;
   font-size: 14px;

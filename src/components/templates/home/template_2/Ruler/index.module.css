@@ -148,6 +148,7 @@
   align-items: center;
   justify-content: flex-start;
   z-index: 1;
+  color: var(--text-color-base);
 }
 
 .homeRuler .rulerContainer .swiperRulerButtonNext {
