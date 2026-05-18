@@ -620,6 +620,10 @@ export function useLayoutGenerator() {
   const buildConfigJson = (): Record<string, unknown> | null => {
     if (!platform) return null;
 
+    if (platform === 'VTEX') {
+      return buildFaststoreConfigJson();
+    }
+
     const mapToConfig = (item: LayoutSelection) => {
       const section = LAYOUTS[item.layoutKey];
       const found: LayoutItem | undefined = section.items.find(
@@ -695,6 +699,77 @@ export function useLayoutGenerator() {
     }
 
     console.log(config)
+    return config;
+  };
+
+  /** Monta JSON de configuração no formato faststore para plataforma VTEX */
+  const buildFaststoreConfigJson = (): Record<string, unknown> => {
+    const mapToFaststoreItem = (item: LayoutSelection) => {
+      const section = LAYOUTS[item.layoutKey];
+      const found: LayoutItem | undefined = section.items.find(
+        (i) => i.id === item.id && i.platforms.includes('VTEX')
+      );
+      if (!found || !found.path) return null;
+      return { found, item };
+    };
+
+    const allMapped = selections.map(mapToFaststoreItem).filter(Boolean) as {
+      found: LayoutItem;
+      item: LayoutSelection;
+    }[];
+
+    const overrideItems = allMapped
+      .filter(({ found }) => found.override === true)
+      .map(({ found }) => ({
+        component: found.path as string,
+        title: found.component,
+        key: found.key,
+      }));
+
+    const pageItems = allMapped
+      .filter(({ found }) => !found.override)
+      .reduce<Record<string, { component: string; title: string; key: string }[]>>(
+        (acc, { found }) => {
+          found.pagina.forEach((pg) => {
+            if (!acc[pg]) acc[pg] = [];
+            acc[pg].push({
+              component: found.path as string,
+              title: found.component,
+              key: found.key,
+            });
+          });
+          return acc;
+        },
+        {}
+      );
+
+    const config: Record<string, unknown> = {
+      platform: 'faststore',
+      faststore: {
+        global: [],
+        variables: {
+          fontPrimary,
+          fontSecondary,
+          fontTertiary,
+          colorPrimary,
+          colorSecondary,
+          colorTertiary,
+          colorPrimaryBackground,
+          colorSecondaryBackground,
+          colorTertiaryBackground,
+          colorFooter,
+          colorFooterText,
+          colorPrimaryText,
+          colorSecondaryText,
+        },
+        home: pageItems['home'] ?? [],
+        category: pageItems['category'] ?? [],
+        product: pageItems['product'] ?? [],
+        overrides: overrideItems,
+      },
+    };
+
+    console.log(config);
     return config;
   };
 

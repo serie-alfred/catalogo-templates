@@ -937,7 +937,9 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
     width: 100%;
     max-width: 100%;
     margin-top: 25px;
-    padding: 0px;
+    padding: 0px 1rem;
+    padding-bottom: 1rem;
+
   }
 
   header.header .header__middle .middle__container .middle__row .middle__search .search {

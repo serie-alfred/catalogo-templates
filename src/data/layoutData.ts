@@ -45,6 +45,8 @@ export type LayoutItem = {
   pagina: Pagina[];
   platforms: Platform[];
   backgroundVars: BackgroundVar[];
+  path?: string;
+  override?: boolean;
 };
 
 export type LayoutSection = {
@@ -71,6 +73,7 @@ export type Layouts = {
   productDescription: LayoutSection;
   productInfo: LayoutSection;
   productRelated: LayoutSection;
+  textArea: LayoutSection;
 
   /*
     bannerDuplo: LayoutSection;
@@ -135,6 +138,12 @@ export const LAYOUTS: Layouts = {
     name: "Marcas",
     items: [
       { id: "01", selection: "brands", key: "mar01b3k7h2b", image: "", mobile: "", title: "Marcas Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Brand01", platforms: ['Tray', 'Wake'], backgroundVars: [] },
+    ],
+  },
+  textArea: {
+    name: "Área de Texto",
+    items: [
+      { id: "01", selection: "text-area", key: "txt01a2b3c4d", image: "", mobile: "", title: "Área de Texto Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], override: true, path: "molecules/TextArea", component: "TextArea", platforms: ['VTEX'], backgroundVars: [] },
     ],
   },
   categories: {
@@ -283,4 +292,4 @@ export const LAYOUTS: Layouts = {
   */
 } as const;
 
-export type LayoutKey = keyof typeof LAYOUTS;  
+export type LayoutKey = keyof typeof LAYOUTS;

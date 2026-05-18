@@ -447,7 +447,7 @@ const Header = () => {
                       >
                         <path
                           d="M10 16L14 12L10 8"
-                          stroke="#000"
+                          stroke="currentColor"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth="1.5"
@@ -476,11 +476,11 @@ const Header = () => {
                                 >
                                   <path
                                     d="M10 16L14 12L10 8"
-                                    stroke="#0F0F0F"
+                                    stroke="currentColor"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth="1.5"
-                                  />
+                                  ></path>
                                 </svg>
                               </a>
 

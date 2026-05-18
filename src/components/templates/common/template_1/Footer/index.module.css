@@ -311,9 +311,7 @@
     margin-right: 0px;
   }
 
-  footer.footer .footer__top .top__component .top__row .top__menu ul.menu__social li a svg path {
-    fill: var(--color-black);
-  }
+
 
   footer.footer .footer__top .top__component .top__row .top__menu ul li a {
     text-align: center;
