@@ -281,5 +281,13 @@
   .headerMobile {
     display: flex;
   }
+  
+.iconBtn {
+  transition: color .2s var(--ease), background-color .2s var(--ease);
+}
+.iconBtn svg:hover {
+  stroke: #E73888;
+}
+
 }
 
