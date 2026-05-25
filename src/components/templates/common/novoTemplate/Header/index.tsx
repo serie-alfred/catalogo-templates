@@ -1,18 +1,18 @@
 import styles from './index.module.css';
 
-const NovoHeader = () => {
-  const storeInfo = {
-    name: 'Paulibrás',
-    logo: '/logo.png',
-    whatsapp: '5511999999999',
-    social: {
-      youtube: 'https://youtube.com/paulibras',
-      instagram: 'https://instagram.com/paulibras',
-      twitter: 'https://twitter.com/paulibras',
-      linkedin: 'https://linkedin.com/company/paulibras',
-      facebook: 'https://facebook.com/paulibras',
-    },
-  };
+const HeaderNovo = () => {
+  // const storeInfo = {
+  //   name: 'Paulibrás',
+  //   logo: '/logo.png',
+  //   whatsapp: '5511999999999',
+  //   social: {
+  //     youtube: 'https://youtube.com/paulibras',
+  //     instagram: 'https://instagram.com/paulibras',
+  //     twitter: 'https://twitter.com/paulibras',
+  //     linkedin: 'https://linkedin.com/company/paulibras',
+  //     facebook: 'https://facebook.com/paulibras',
+  //   },
+  // };
 
   return (
     <header className={styles.siteHeader} role="banner">
@@ -275,4 +275,4 @@ const NovoHeader = () => {
   );
 };
 
-export default NovoHeader;
+export default HeaderNovo;
