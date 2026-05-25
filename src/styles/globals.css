@@ -16,6 +16,24 @@
   --color-white: #fff;
   --color-black: #000;
   --color-semi-black: #6a6a6a;
+
+  --ink:    #000000;
+  --paper:  #ffffff;
+  --accent: #e73888;
+
+  --grey-04: #fafafa;
+  --grey-08: #f4f4f4;
+  --grey-12: #ededed;
+  --grey-20: #e6e6e6;
+  --grey-40: #b8b8b8;
+  --grey-55: #8a8a8a;
+  --grey-70: #5a5a5a;
+
+  --font-display: 'Funnel Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body:    'Onest', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --hairline: 1px solid var(--grey-12);
+  --ease: cubic-bezier(.2, .7, .2, 1);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -133,6 +133,13 @@ import CategoryTriple06 from '@/components/templates/home/template_6/CategoryTri
 import ClientReview06 from '@/components/templates/home/template_6/ClientReview';
 import HomeCarousel06 from '@/components/templates/home/template_6/HomeCarousel';
 
+// ************
+//Novo Header
+// ************
+// Common
+
+import NovoHeader from '@/components/templates/common/NovoHeader';
+
 export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown }>> = {
   Newsletter01,
   Ruler01,
@@ -197,5 +204,7 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   BannerTriple06,
   CategoryTriple06,
   ClientReview06,
-  HomeCarousel06
+  HomeCarousel06,
+
+  NovoHeader
 };

@@ -94,6 +94,7 @@ export const LAYOUTS: Layouts = {
     items: [
       { id: "01", selection: "header", key: "hdr01a2b3c4d", image: "", mobile: "", title: "Header Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Header01", platforms: ['Tray','Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
       { id: "02", selection: "header", key: "hdr02h8l2gty", image: "", mobile: "", title: "Header Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Header02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
+      { id: "03", selection: "header", key: "hdr03h8fda34", image: "", mobile: "", title: "novo header norte", description: "Descrição Template header norte", template: "3", pagina: ["common"], component: "NovoHeader", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
       //{ id: "03",selection: "header", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Header Moderno 03", description: "Menu de navegação com busca e carrinho", template: "3", pagina: ["common"], component: "Header03", platforms: ['Tray'] },
       //{ id: "04",selection: "header", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Header Moderno 04", description: "Menu de navegação com busca e carrinho", template: "4", pagina: ["common"], component: "Header04", platforms: ['Tray'] },
     ],
