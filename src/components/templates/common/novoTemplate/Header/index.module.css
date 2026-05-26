@@ -270,6 +270,10 @@
     display: none;
   }
 
+  .logo {
+    font-size: 18px;
+  }
+
   .nav {
     display: none;
   }

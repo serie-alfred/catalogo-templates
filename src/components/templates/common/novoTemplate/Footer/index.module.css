@@ -328,7 +328,7 @@ details.col.colList {
   border-radius: 999px !important;
   background: var(--ink) !important;
   color: var(--paper) !important;
-  font-family: var(--font-body);
+  font-family: var(--font-body) !important;
   font-size: 11.5px;
   font-weight: 500;
   letter-spacing: .14em;
@@ -616,6 +616,7 @@ details.col.colList {
 
 /* CONTAINER QUERIES (Mobile Breakpoint) */
 @container nfooter (max-width: 760px) {
+
   .benefitsInner {
     padding: 22px 0 22px 20px;
     grid-template-columns: none;
@@ -671,7 +672,7 @@ details.col.colList {
   }
   
   .brandLogo {
-    font-size: 22px;
+    font-size: 18px;
   }
   
   .footerBrand p {
@@ -704,6 +705,7 @@ details.col.colList {
     padding: 0 14px;
     font-size: 11px;
     letter-spacing: .12em;
+    font-family: var(--font-body) !important;
   }
 
   .nlBtn:hover {

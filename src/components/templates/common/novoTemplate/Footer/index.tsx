@@ -172,7 +172,7 @@ const FooterNovo = () => {
           <details className={styles.col} open>
             <summary className={styles.colHead}>
               <span>Institucional</span>
-              <span className={styles.colChev}>
+              {/* <span className={styles.colChev}>
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -182,7 +182,7 @@ const FooterNovo = () => {
                 >
                   <path d="m6 9 6 6 6-6" />
                 </svg>
-              </span>
+              </span> */}
             </summary>
             <ul className={styles.colList}>
               <li>
@@ -212,7 +212,7 @@ const FooterNovo = () => {
           <details className={styles.col} open>
             <summary className={styles.colHead}>
               <span>Atendimento</span>
-              <div className={styles.colChev}>
+              {/* <div className={styles.colChev}>
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -222,7 +222,7 @@ const FooterNovo = () => {
                 >
                   <path d="m6 9 6 6 6-6" />
                 </svg>
-              </div>
+              </div> */}
             </summary>
             <ul className={`${styles.colList}`}>
               <li>
@@ -252,7 +252,7 @@ const FooterNovo = () => {
           <details className={styles.col} open>
             <summary className={styles.colHead}>
               <span>Categorias</span>
-              <span className={styles.colChev}>
+              {/* <span className={styles.colChev}>
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -262,7 +262,7 @@ const FooterNovo = () => {
                 >
                   <path d="m6 9 6 6 6-6" />
                 </svg>
-              </span>
+              </span> */}
             </summary>
             <ul className={styles.colList}>
               <li>
@@ -294,7 +294,7 @@ const FooterNovo = () => {
           <details className={`${styles.col} ${styles.colPolicies}`}>
             <summary className={styles.colHead}>
               <span>Políticas</span>
-              <span className={styles.colChev}>
+              {/* <span className={styles.colChev}>
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -304,7 +304,7 @@ const FooterNovo = () => {
                 >
                   <path d="m6 9 6 6 6-6" />
                 </svg>
-              </span>
+              </span> */}
             </summary>
             <ul className={styles.colList}>
               <li>
