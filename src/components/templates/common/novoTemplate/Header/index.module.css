@@ -288,6 +288,9 @@
   
 .iconBtn {
   transition: color .2s var(--ease), background-color .2s var(--ease);
+  background: none;
+  box-shadow: none;
+  border: none;
 }
 .iconBtn svg:hover {
   stroke: #E73888;

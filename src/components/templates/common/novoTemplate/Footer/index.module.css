@@ -708,6 +708,7 @@ details.col.colList {
     font-family: var(--font-body) !important;
   }
 
+
   .nlBtn:hover {
     background: var(--accent) !important;
   }
