@@ -1,9 +1,6 @@
-import { useState } from 'react';
 import styles from './index.module.css';
 
 const FooterNovo = () => {
-  const [open, setOpen] = useState(true);
-
   return (
     <footer className={styles.siteFooter} role="contentinfo">
       <section className={styles.benefits} aria-label="Benefícios da loja">
@@ -172,17 +169,6 @@ const FooterNovo = () => {
           <details className={styles.col} open>
             <summary className={styles.colHead}>
               <span>Institucional</span>
-              {/* <span className={styles.colChev}>
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                >
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
-              </span> */}
             </summary>
             <ul className={styles.colList}>
               <li>
@@ -212,17 +198,6 @@ const FooterNovo = () => {
           <details className={styles.col} open>
             <summary className={styles.colHead}>
               <span>Atendimento</span>
-              {/* <div className={styles.colChev}>
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                >
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
-              </div> */}
             </summary>
             <ul className={`${styles.colList}`}>
               <li>
@@ -252,17 +227,6 @@ const FooterNovo = () => {
           <details className={styles.col} open>
             <summary className={styles.colHead}>
               <span>Categorias</span>
-              {/* <span className={styles.colChev}>
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                >
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
-              </span> */}
             </summary>
             <ul className={styles.colList}>
               <li>
@@ -294,17 +258,6 @@ const FooterNovo = () => {
           <details className={`${styles.col} ${styles.colPolicies}`}>
             <summary className={styles.colHead}>
               <span>Políticas</span>
-              {/* <span className={styles.colChev}>
-                <svg
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                >
-                  <path d="m6 9 6 6 6-6" />
-                </svg>
-              </span> */}
             </summary>
             <ul className={styles.colList}>
               <li>
@@ -332,15 +285,7 @@ const FooterNovo = () => {
               Receba lançamentos, ofertas exclusivas e novidades da marca em
               primeira mão — todas as quintas, antes de irem ao ar.
             </p>
-            <form
-              className={styles.nlForm}
-              id="nl-form"
-              onSubmit={e => {
-                e.preventDefault();
-                // @ts-ignore (evita erro do typescript caso o window._nlSubmit não esteja tipado)
-                window._nlSubmit && window._nlSubmit();
-              }}
-            >
+            <form className={styles.nlForm} id="nl-form">
               <input
                 className={styles.nlInput}
                 id="nl-input"
@@ -478,7 +423,7 @@ const FooterNovo = () => {
           </span>
           <a href="#" className={styles.legalPlatform}>
             <span className={styles.legalPlatformBrand}>
-              SÉRIE<span>//</span>A
+              SÉRIE<span>{'//'}</span>A
             </span>
             <span className={styles.legalPlatformSep}></span>
             <span className={styles.legalPlatformRole}>Plataforma</span>
