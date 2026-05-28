@@ -726,8 +726,16 @@ export function useLayoutGenerator() {
         key: found.key,
       }));
 
+    const globalItems = allMapped
+      .filter(({ found }) => !found.override && found.pagina.includes('common'))
+      .map(({ found }) => ({
+        component: found.path as string,
+        title: found.component,
+        key: found.key,
+      }));
+
     const pageItems = allMapped
-      .filter(({ found }) => !found.override)
+      .filter(({ found }) => !found.override && !found.pagina.includes('common'))
       .reduce<Record<string, { component: string; title: string; key: string }[]>>(
         (acc, { found }) => {
           found.pagina.forEach((pg) => {
@@ -746,7 +754,7 @@ export function useLayoutGenerator() {
     const config: Record<string, unknown> = {
       platform: 'faststore',
       faststore: {
-        global: [],
+        global: globalItems,
         variables: {
           fontPrimary,
           fontSecondary,
