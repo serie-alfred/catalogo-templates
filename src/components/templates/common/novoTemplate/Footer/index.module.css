@@ -10,17 +10,17 @@
 }
 
 .siteFooter {
-  background: var(--paper);
+  background: var(--background-footer);
   color: var(--ink);
   border-top: var(--hairline);
   container: nfooter / inline-size;
-  font-family: var(--font-body);
+  font-family: var(--font-secundary);
   width: 100%;
 }
   
 .benefits {
   border-bottom: var(--hairline);
-  background: var(--paper);
+  /* background: var(--paper); */
 }
 
 .benefitsInner {
@@ -30,6 +30,7 @@
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 48px;
+  scroll-padding-left: 20px;
 }
 
 .benefit {
@@ -45,7 +46,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--ink);
+  color: var(--text-color-footer);
 }
 
 .benefitIcon svg {
@@ -63,19 +64,20 @@
   font-size: 13px;
   font-weight: 600;
   letter-spacing: -.003em;
-  color: var(--ink);
+  color: var(--text-color-footer);
   line-height: 1.3;
 }
 
 .benefitSub {
   margin: 0;
   font-size: 11.5px;
-  color: var(--grey-55);
+  color: var(--text-color-secundary);
   line-height: 1.55;
 }
 
 .footerMain {
-  background: var(--paper);
+  /* background: var(--paper); */
+  background: var(--background-footer);
 }
 
 .footerMainInner {
@@ -96,18 +98,18 @@
 }
 
 .brandLogo {
-  font-family: var(--font-display);
+  font-family: var(--font-primary);
   font-weight: 700;
   font-size: 28px;
   letter-spacing: -.022em;
   line-height: 1;
-  color: var(--ink);
+  color: var(--text-color-footer);
   display: inline-flex;
   align-items: baseline;
 }
 
 .brandLogo span {
-  color: var(--accent);
+  color: var(--background-primary-color);
   margin-left: 2px;
 }
 
@@ -115,7 +117,7 @@
   margin: 0;
   font-size: 13px;
   line-height: 1.7;
-  color: var(--grey-70);
+  color: var(--text-primary-color);
   max-width: 280px;
 }
 
@@ -133,18 +135,18 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--ink);
+  color: var(--text-color-footer);
   transition: color .25s var(--ease), background-color .25s var(--ease);
 }
 
 .socials a:hover {
-  color: var(--accent);
-  background: var(--grey-08);
+  color: var(--text-tertiary-color);
+  background: var(--background-tertiary-color);
 }
 
 .socials a:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--accent);
+  box-shadow: 0 0 0 2px var(--text-tertiary-color);
 }
 
 .socials svg {
@@ -152,14 +154,24 @@
   height: 18px;
 }
 
+
+
 details.col {
   display: flex;
   flex-direction: column;
   gap: 0;
 }
 
-details.col > summary > .col__chev {
-  visibility: hidden;
+details.col > summary {
+  margin-bottom: 20px;
+}
+
+details.col > summary > .colChev > .minusIcon {
+  display: none;
+}
+
+details.col > summary > .colChev > .plusIcon {
+  display: none;
 }
 
 details.col[open] > :not(summary) {
@@ -180,13 +192,12 @@ details.col.colPolicies {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 0 0 22px;
   font-size: 10.5px;
   font-weight: 600;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--grey-70);
-  font-family: var(--font-body);
+  color: var(--text-color-footer);
+  font-family: var(--font-secundary);
 }
 
 details.col.colList {
@@ -199,7 +210,7 @@ details.col.colList {
   position: relative;
   display: inline-block;
   font-size: 13.5px;
-  color: var(--ink);
+  color: var(--text-color-footer);
   padding-bottom: 2px;
   transition: color .2s var(--ease);
 }
@@ -211,12 +222,12 @@ details.col.colList {
   bottom: 0;
   height: 1px;
   width: 0;
-  background: var(--accent);
+  background: var(--background-tertiary-color);
   transition: width .3s var(--ease);
 }
 
 .colList a:hover {
-  color: var(--accent);
+  color: var(--background-tertiary-color);
 }
 
 .colList a:hover::after {
@@ -227,7 +238,7 @@ details.col.colList {
   display: inline-flex !important;
   align-items: center;
   gap: 8px;
-  color: var(--accent) !important;
+  color: var(--text-color-footer) !important;
   font-weight: 500;
 }
 
@@ -236,7 +247,7 @@ details.col.colList {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--text-color-footer);
   display: inline-block;
   flex-shrink: 0;
 }
@@ -256,6 +267,7 @@ details.col.colList {
   display: flex;
   flex-direction: column;
   max-width: 340px;
+  margin-bottom: 20px;
 }
 
 .nlEyebrow {
@@ -263,24 +275,24 @@ details.col.colList {
   font-weight: 600;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--grey-70);
+  color: var(--text-color-footer);
   margin: 0 0 14px;
 }
 
 .nlTitle {
   margin: 0 0 10px;
-  font-family: var(--font-display);
+  font-family: var(--font-primary);
   font-weight: 600;
   font-size: 21px;
   letter-spacing: -.018em;
-  color: var(--ink);
+  color: var(--text-color-footer);
   line-height: 1.18;
 }
 
 .nlSub {
   margin: 0 0 22px;
   font-size: 13px;
-  color: var(--grey-70);
+  color: var(--text-primary-color);
   line-height: 1.55;
 }
 
@@ -297,11 +309,11 @@ details.col.colList {
 }
 
 .nlForm:hover {
-  border-color: var(--grey-40);
+  border-color: var(--text-color-footer);
 }
 
 .nlForm:focus-within {
-  border-color: var(--ink);
+  border-color: var(--text-color-footer);
   box-shadow: 0 0 0 3px rgba(0,0,0,.04);
 }
 
@@ -326,9 +338,9 @@ details.col.colList {
   margin-right: 5px !important;
   padding: 0 18px !important;
   border-radius: 999px !important;
-  background: var(--ink) !important;
-  color: var(--paper) !important;
-  font-family: var(--font-body) !important;
+  background: var(--background-secundary-color) !important;
+  color: var(--text-color-secundary) !important;
+  font-family: var(--font-secundary) !important;
   font-size: 11.5px;
   font-weight: 500;
   letter-spacing: .14em;
@@ -337,6 +349,7 @@ details.col.colList {
   align-items: center !important;
   gap: 8px !important;
   transition: background .25s var(--ease) !important;
+  cursor: pointer;
 }
 
 .nlBtn svg {
@@ -350,7 +363,8 @@ details.col.colList {
 }
 
 .nlBtn:hover {
-  background: var(--accent) !important;
+  background: var(--background-tertiary-color) !important;
+  color: var(--text-tertiary-color) !important;
 }
 
 .nlBtn:hover svg {
@@ -360,19 +374,19 @@ details.col.colList {
 .nlLegal {
   margin: 14px 0 0;
   font-size: 11px;
-  color: var(--grey-55);
+  color: var(--text-primary-color);
   line-height: 1.55;
 }
 
 .nlLegal a {
-  color: var(--grey-70);
-  border-bottom: 1px solid var(--grey-20);
+  color: var(--text-color-footer);
+  border-bottom: 1px solid var(--text-color-footer);
   padding-bottom: 1px;
 }
 
 .nlLegal a:hover {
-  color: var(--accent);
-  border-color: var(--accent);
+  color: var(--background-tertiary-color);
+  border-color: var(--text-tertiary-color);
 }
 
 .nlSuccess {
@@ -417,7 +431,7 @@ details.col.colList {
 
 .trust {
   border-top: var(--hairline);
-  background: var(--paper);
+  /* background: var(--paper); */
 }
 
 .trustInner {
@@ -442,7 +456,7 @@ details.col.colList {
   font-size: 10px;
   letter-spacing: .18em;
   text-transform: uppercase;
-  color: var(--grey-55);
+  color: var(--text-color-footer);
   font-weight: 500;
 }
 
@@ -485,7 +499,7 @@ details.col.colList {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--grey-70);
+  color: var(--text-color-footer);
   font-size: 11.5px;
 }
 
@@ -497,12 +511,12 @@ details.col.colList {
   stroke-linejoin: round;
   fill: none;
   stroke: currentColor;
-  color: var(--ink);
+  color: var(--text-color-footer);
 }
 
 .legal {
-  background: var(--ink);
-  color: rgba(255,255,255,.62);
+  background: var(--background-secundary-color);
+  color: var(--text-color-secundary);
 }
 
 .legalInner {
@@ -519,16 +533,16 @@ details.col.colList {
 }
 
 .legalBrand {
-  color: rgba(255,255,255,.92);
+  /* color: rgba(255,255,255,.92); */
   font-weight: 500;
 }
 
 .legalBrand span {
-  color: var(--accent);
+  /* color: var(--accent); */
 }
 
 .legalCnpj {
-  color: rgba(255,255,255,.5);
+  /* color: rgba(255,255,255,.5); */
   font-size: 11px;
 }
 
@@ -545,8 +559,8 @@ details.col.colList {
 }
 
 .legalCreds a:hover {
-  color: var(--accent);
-  border-color: var(--accent);
+  color: var(--background-tertiary-color);
+  border-color: var(--background-tertiary-color);
 }
 
 .legalPlatform {
@@ -554,9 +568,9 @@ details.col.colList {
   align-items: center;
   gap: 10px;
   padding: 7px 13px 7px 11px;
-  border: 1px solid rgba(255,255,255,.14);
+  border: 1px solid var(--text-color-secundary);
   border-radius: 999px;
-  color: rgba(255,255,255,.9);
+  /* color: rgba(255,255,255,.9); */
   font-size: 11px;
   letter-spacing: .04em;
   transition: border-color .25s var(--ease), color .25s var(--ease), background .25s var(--ease);
@@ -567,14 +581,14 @@ details.col.colList {
   font-weight: 700;
   font-size: 12px;
   letter-spacing: -.005em;
-  color: rgba(255,255,255,.96);
+  /* color: rgba(255,255,255,.96); */
   line-height: 1;
   display: inline-flex;
   align-items: baseline;
 }
 
 .legalPlatformBrand span {
-  color: var(--accent);
+  color: var(--background-tertiary-color);
   margin: 0 1px;
   font-weight: 600;
   letter-spacing: -.04em;
@@ -583,7 +597,7 @@ details.col.colList {
 .legalPlatformSep {
   width: 1px;
   height: 11px;
-  background: rgba(255,255,255,.22);
+  background: var(--text-color-secundary);
   display: inline-block;
 }
 
@@ -593,18 +607,18 @@ details.col.colList {
   font-weight: 500;
   letter-spacing: .16em;
   text-transform: uppercase;
-  color: rgba(255,255,255,.55);
+  /* color: rgba(255,255,255,.55); */
   line-height: 1;
   transition: color .25s var(--ease);
 }
 
 .legalPlatform:hover {
-  border-color: var(--accent);
+  border-color: var(--background-tertiary-color);
   background: rgba(231,56,136,.07);
 }
 
 .legalPlatform:hover .legalPlatformRole {
-  color: rgba(255,255,255,.92);
+  color: var(--background-tertiary-color);
 }
 
 .legalPlatform:focus-visible {
@@ -616,6 +630,10 @@ details.col.colList {
 
 /* CONTAINER QUERIES (Mobile Breakpoint) */
 @container nfooter (max-width: 760px) {
+
+  .nlEyebrow {
+    margin-top: 24px;
+  }
 
   .benefitsInner {
     padding: 22px 0 22px 20px;
@@ -635,9 +653,9 @@ details.col.colList {
   .benefit {
     scroll-snap-align: start;
     padding: 14px 16px;
-    border: var(--hairline);
+    border: var(--background-secundary-color);
     border-radius: 14px;
-    background: var(--paper);
+    background: var(--background-secundary-color);
     gap: 10px;
   }
   
@@ -662,7 +680,7 @@ details.col.colList {
   .footerMainInner {
     padding: 36px 20px 8px;
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 0px;
   }
   
   .footerBrand {
@@ -710,13 +728,29 @@ details.col.colList {
 
 
   .nlBtn:hover {
-    background: var(--accent) !important;
+    background: var(--background-tertiary-color) !important;
   }
   
   .col {
     order: 3;
     border-top: 1px solid var(--grey-08);
     padding: 0;
+  }
+
+  details.col[open] > summary > .colChev > .plusIcon {
+    display: none;
+  }
+
+  details.col[open] > summary > .colChev > .minusIcon {
+    display: block; 
+  }
+
+  details.col > summary > .colChev > .plusIcon {
+    display: block;
+  }
+
+  details.col > summary > .colChev > .minusIcon {
+    display: none;
   }
 
   details.col:not([open]) > summary > .colChev {
@@ -730,20 +764,21 @@ details.col.colList {
     height: 20px;
     display: block;
     color-scheme: var(--accent);
-    transform: rotate(180deg);
+    margin-right: 20px;
   }
 
   /*estilos para deixar 'categoria' de forma 'fechada'*/
   details.col[open]:nth-child(4) > .colList {
     content-visibility: hidden;
+    padding: 0px;
   }
 
   details.col[open]:nth-child(4) > summary {
-    color: var(--ink);
+    color: var(--text-color-footer);
   }
 
   details.col[open]:nth-child(4) > summary > .colChev {
-    color: var(--ink);
+    color: var(--text-color-footer);
     transform: rotate(0deg);
   }
   
@@ -763,36 +798,38 @@ details.col.colList {
     font-size: 14px;
     font-weight: 500;
     text-transform: none;
-    color: var(--ink);
+    color: var(--text-color-footer);
     font-family: var(--font-body);
+    margin: 0px !important;
   }
   
   .col[open] > summary {
-    color: var(--accent);
+    color: var(--background-tertiary-color);
   }
   
-  .col.colHead.colChev {
+  .col .colHead .colChev {
     display: inline-flex;
-    color: var(--grey-40);
+    /* color: var(--grey-40); */
     visibility: visible;
+    padding-right: 20px;
   }
   
   .col[open] > summary > .colChev {
-    color: var(--accent);
+    color: var(--background-tertiary-color);
     display: inline-flex;
-    visibility: visible;
+    /* visibility: visible; */
     content-visibility: visible;
   }
-  
-  /* details.col > summary > .col__chev{
-    visibility:hidden;
-  } */
   
   .col[open] > .colList {
     display: flex !important;
     padding: 0 0 18px;
     gap: 14px;
     animation: nfade .35s var(--ease);
+  }
+
+  .colPolicies > .colHead > .colChev {
+    margin-right: 20px;
   }
   
   @keyframes nfade {
@@ -808,11 +845,11 @@ details.col.colList {
   
   .colList a {
     font-size: 14px;
-    color: var(--grey-70);
+    color: var(--text-color-footer);
   }
   
   .colList a:hover {
-    color: var(--accent);
+    color: var(--background-tertiary-color);
   }
   
   .trustInner {

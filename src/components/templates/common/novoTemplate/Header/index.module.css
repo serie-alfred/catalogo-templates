@@ -2,8 +2,8 @@
    Header (live, responsive)
 ------------------------------------------------------------------ */
 .siteHeader {
-  background: #fff;
-  color: #000;
+  background: var(--background-primary-color);
+  color: var(--text-color-base);
   border-bottom: var(--hairline);
   position: relative;
   z-index: 10;
@@ -13,13 +13,14 @@
 
 /* ---------- Topbar ---------- */
 .topbar {
-  background: #000;
-  color: #fff;
+  background: var(--background-secundary-color);
+  color: var(--text-secundary-color);
   font-size: 11.5px;
   font-weight: 400;
   letter-spacing: 0.06em;
   overflow: hidden;
 }
+
 .topbarTrack {
   display: flex;
   gap: 56px;
@@ -29,6 +30,7 @@
   animation: marquee 38s linear infinite;
   width: max-content;
 }
+
 .topbarItem {
   display: inline-flex;
   align-items: center;
@@ -68,17 +70,25 @@
   display: inline-flex;
   align-items: baseline;
   gap: 0;
-  font-family: var(--font-display);
+  font-family: var(--font-primary);
   font-weight: 700;
   font-size: 22px;
   letter-spacing: -0.02em;
   line-height: 1;
-  color: #000;
+  /* color: $; */
   transition: color .25s var(--ease);
 }
-.logoDot { color: #E73888; margin-left: 1px; }
-.logo:hover { color: var(--grey-70); }
-.logo:hover .logoDot { color: #E73888; }
+.logoDot { 
+  color: var(--background-tertiary-color); 
+  margin-left: 1px; 
+}
+.logo:hover {
+  color: var(--text-tertiary-color); 
+}
+
+.logo:hover .logoDot {
+   color: var(--text-tertiary-color); 
+  }
 
 /* Search */
 .search {
@@ -114,7 +124,9 @@
   transition: color .2s var(--ease);
   pointer-events: none;
 }
-.searchInput:focus + .searchIcon { color: #000; }
+.searchInput:focus + .searchIcon {
+   color: #000; 
+  }
 
 /* Actions (right cluster) */
 .headerActions {
@@ -130,19 +142,29 @@
   padding: 10px 12px;
   font-size: 13px;
   letter-spacing: 0.01em;
-  color: #000;
+  /* color: #000; */
   border-radius: 999px;
   transition: color .2s var(--ease), background-color .2s var(--ease);
   position: relative;
 }
-.action:hover { color: #E73888; }
-.action:hover .actionIcon { color: #E73888; }
+.action:hover { 
+  color: var(--text-tertiary-color); 
+}
+.action:hover .actionIcon { 
+  color: var(--text-tertiary-color); 
+}
 .action:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px #E73888;
+  box-shadow: 0 0 0 2px var(--background-primary-color);
 }
-.actionIcon { color: #000; transition: color .2s var(--ease); }
-.actionLabel { display: inline-block; }
+.actionIcon { 
+  /* color: #000;  */
+  transition: color .2s var(--ease); 
+}
+.actionLabel { 
+  display: inline-block; 
+  font-family: var(--font-secundary);
+}
 
 /* Cart counter */
 .cartCount {
@@ -153,8 +175,8 @@
   height: 16px;
   padding: 0 4px;
   border-radius: 999px;
-  background: #E73888;
-  color: #fff;
+  background: var(--background-tertiary-color);
+  color: var(--text-tertiary-color);
   font-size: 9.5px;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -162,7 +184,7 @@
   align-items: center;
   justify-content: center;
   line-height: 1;
-  border: 2px solid #fff;
+  border: 2px solid var(--background-tertiary-color);
 }
 
 /* ---------- Nav ---------- */
@@ -170,7 +192,7 @@
   display: flex;
   justify-content: center;
   border-top: var(--hairline);
-  background: #fff;
+  background: var(--background-primary-color);
   /* margin: auto; */
 }
 .navList {
@@ -192,10 +214,11 @@
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #000;
+  color: var(--text-color-base);
   position: relative;
   padding: 16px 0;
   transition: color .2s var(--ease);
+  font-family: var(--font-secundary);
 }
 .navLink::after {
   content: "";
@@ -204,24 +227,40 @@
   bottom: 12px;
   height: 1px;
   width: 0;
-  background: #E73888;
+  background: var(--text-tertiary-color);
   transition: width .3s var(--ease);
 }
-.navLink:hover { color: #E73888; }
+.navLink:hover { 
+  color: var(--text-tertiary-color); 
+}
 .navLink:hover::after { width: 100%; }
-.navLink[aria-current="page"] { color: #000; }
-.navLink[aria-current="page"]::after { width: 100%; background: #000; }
+.navLink[aria-current="page"] {
+    color: var(--text-tertiary-color); 
+
+  }
+.navLink[aria-current="page"]::after {
+  width: 100%; 
+  background: var(--text-tertiary-color); 
+
+  }
 
 .navSaleDot {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: #E73888;
+  background: var(--text-tertiary-color);
   display: inline-block;
 }
-.navLinkSale { color: #000; }
-.navLinkSale:hover { color: #E73888; }
-.navLinkSale::after { background: #E73888; }
+.navLinkSale {
+  color: var(--text-color-base); 
+
+  }
+.navLinkSale:hover { 
+  /* color: var(--text-color-base);  */
+}
+.navLinkSale::after { 
+  background: var(--text-tertiary-color); 
+}
 
 /* ------------------------------------------------------------------
    Mobile header (≤960px)
@@ -232,7 +271,6 @@
   padding: 0 20px;
   align-items: center;
   justify-content: space-between;
-  background: #fff;
   border-bottom: var(--hairline);
 }
 .headerMobileLeft,
@@ -248,12 +286,15 @@
   align-items: center !important;
   justify-content: center !important;
   border-radius: 999px !important;
-  color: #000 !important;
+  color: var(--text-color-base) !important;
   position: relative !important;
   transition: color .2s var(--ease), background-color .2s var(--ease) !important;
+  cursor: pointer;
 }
-.iconBtn:hover { color: #E73888; }
-.iconBtn:active { background: var(--grey-08); }
+/* .iconBtn:hover { color: #E73888; } */
+.iconBtn:active { 
+  background: var(--text-tertiary-color); 
+}
 .iconBtn:focus-visible { outline: none; box-shadow: 0 0 0 2px #E73888; }
 .iconBtn .cartCount {
   top: 6px;
@@ -293,7 +334,7 @@
   border: none;
 }
 .iconBtn svg:hover {
-  stroke: #E73888;
+  stroke: var(--text-tertiary-color);
 }
 
 }

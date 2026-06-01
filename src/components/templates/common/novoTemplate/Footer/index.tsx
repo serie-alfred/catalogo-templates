@@ -169,7 +169,40 @@ const FooterNovo = () => {
           <details className={styles.col} open>
             <summary className={styles.colHead}>
               <span>Institucional</span>
+              <div className={styles.colChev}>
+                <svg
+                  className={styles.plusIcon}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="M12 5v14" />
+                </svg>
+
+                <svg
+                  className={styles.minusIcon}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                </svg>
+              </div>
             </summary>
+
             <ul className={styles.colList}>
               <li>
                 <a href="#">Sobre a marca</a>
@@ -198,6 +231,38 @@ const FooterNovo = () => {
           <details className={styles.col} open>
             <summary className={styles.colHead}>
               <span>Atendimento</span>
+              <div className={styles.colChev}>
+                <svg
+                  className={styles.plusIcon}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="M12 5v14" />
+                </svg>
+
+                <svg
+                  className={styles.minusIcon}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                </svg>
+              </div>
             </summary>
             <ul className={`${styles.colList}`}>
               <li>
@@ -227,6 +292,38 @@ const FooterNovo = () => {
           <details className={styles.col} open>
             <summary className={styles.colHead}>
               <span>Categorias</span>
+              <div className={styles.colChev}>
+                <svg
+                  className={styles.plusIcon}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="M12 5v14" />
+                </svg>
+
+                <svg
+                  className={styles.minusIcon}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                </svg>
+              </div>
             </summary>
             <ul className={styles.colList}>
               <li>
@@ -258,6 +355,38 @@ const FooterNovo = () => {
           <details className={`${styles.col} ${styles.colPolicies}`}>
             <summary className={styles.colHead}>
               <span>Políticas</span>
+              <div className={styles.colChev}>
+                <svg
+                  className={styles.plusIcon}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                  <path d="M12 5v14" />
+                </svg>
+
+                <svg
+                  className={styles.minusIcon}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M5 12h14" />
+                </svg>
+              </div>
             </summary>
             <ul className={styles.colList}>
               <li>
