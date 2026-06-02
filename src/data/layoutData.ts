@@ -94,7 +94,7 @@ export const LAYOUTS: Layouts = {
     items: [
       { id: "01", selection: "header", key: "hdr01a2b3c4d", image: "", mobile: "", title: "Header Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Header01", path: "organisms/Header01", platforms: ['Tray','Wake', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"] },
       { id: "02", selection: "header", key: "hdr02h8l2gty", image: "", mobile: "", title: "Header Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Header02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
-      { id: "03", selection: "header", key: "hdr03h8fda34", image: "", mobile: "", title: "Header Template 3", description: "Descrição Template 3", template: "3", pagina: ["common"], component: "HeaderNovo", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
+      { id: "07", selection: "header", key: "hdr07h8fda34", image: "", mobile: "", title: "Header07", description: "Descrição Template 7", template: "7", pagina: ["common"], component: "Header07", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
       //{ id: "03",selection: "header", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Header Moderno 03", description: "Menu de navegação com busca e carrinho", template: "3", pagina: ["common"], component: "Header03", platforms: ['Tray'] },
       //{ id: "04",selection: "header", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Header Moderno 04", description: "Menu de navegação com busca e carrinho", template: "4", pagina: ["common"], component: "Header04", platforms: ['Tray'] },
     ],
@@ -120,7 +120,7 @@ export const LAYOUTS: Layouts = {
     items: [
       { id: "01", selection: "footer", key: "ftr01r39ws5p", image: "", mobile: "", title: "Footer Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Footer01",path: "organisms/Footer01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["footer"] },
       { id: "02", selection: "footer", key: "ftr02qmrhs43", image: "", mobile: "", title: "Footer Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Footer02", platforms: ['Tray', 'Wake'], backgroundVars: ["footer", "primary", "tertiary"] },
-      { id: "03", selection: "footer", key: "ftr03qmrhs43", image: "", mobile: "", title: "Footer Template 3", description: "Descrição Template 3", template: "3", pagina: ["common"], component: "FooterNovo", platforms: ['Tray', 'Wake'], backgroundVars: ["footer", "primary", "tertiary"] },
+      { id: "07", selection: "footer", key: "ftr07qmrhs43", image: "", mobile: "", title: "Footer07", description: "Descrição Template 7", template: "7", pagina: ["common"], component: "Footer07", platforms: ['Tray', 'Wake'], backgroundVars: ["footer", "primary", "tertiary"] },
       //{ id: "03",selection: "footer", key:"ftr01q3r4s5t", image: "", mobile: "", title: "Footer clean 04", description: "Variedades de links 04", template: "4", pagina: ["common"], component: "Footer04", platforms: ['Tray'] },
     ],
   },

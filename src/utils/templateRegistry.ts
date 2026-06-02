@@ -138,8 +138,8 @@ import HomeCarousel06 from '@/components/templates/home/template_6/HomeCarousel'
 // ************
 // Common
 
-import HeaderNovo from '@/components/templates/common/novoTemplate/Header';
-import FooterNovo from '@/components/templates/common/novoTemplate/Footer';
+import Header07 from '@/components/templates/common/template_7/Header';
+import Footer07 from '@/components/templates/common/template_7/Footer';
 
 export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown }>> = {
   Newsletter01,
@@ -207,6 +207,6 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   ClientReview06,
   HomeCarousel06,
 
-  HeaderNovo,
-  FooterNovo
+  Header07,
+  Footer07
 };
