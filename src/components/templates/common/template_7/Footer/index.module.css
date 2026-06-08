@@ -12,14 +12,14 @@
 .siteFooter {
   background: var(--background-footer);
   color: var(--ink);
-  border-top: var(--hairline);
+  border-top: var(--background-tertiary-color);
   container: nfooter / inline-size;
   font-family: var(--font-secundary);
   width: 100%;
 }
   
 .benefits {
-  border-bottom: var(--hairline);
+  border-bottom: var(--background-tertiary-color);
   /* background: var(--paper); */
 }
 
@@ -108,9 +108,16 @@
   align-items: baseline;
 }
 
+.brandLogo:hover {
+  color: var(--background-secundary-color);
+}
+
 .brandLogo span {
-  color: var(--background-primary-color);
   margin-left: 2px;
+}
+
+.brandLogo span:hover {
+  color: var(--background-secundary-color);
 }
 
 .footerBrand p {
@@ -140,13 +147,13 @@
 }
 
 .socials a:hover {
-  color: var(--text-tertiary-color);
-  background: var(--background-tertiary-color);
+  color: var(--background-secundary-color);
+  background: var(--background-secundary-color);
 }
 
 .socials a:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--text-tertiary-color);
+  box-shadow: 0 0 0 2px var(--background-secundary-color);
 }
 
 .socials svg {
@@ -222,12 +229,12 @@ details.col.colList {
   bottom: 0;
   height: 1px;
   width: 0;
-  background: var(--background-tertiary-color);
+  background: var(--background-secundary-color);
   transition: width .3s var(--ease);
 }
 
 .colList a:hover {
-  color: var(--background-tertiary-color);
+  color: var(--background-secundary-color);
 }
 
 .colList a:hover::after {
@@ -238,7 +245,7 @@ details.col.colList {
   display: inline-flex !important;
   align-items: center;
   gap: 8px;
-  color: var(--background-tertiary-color) !important;
+  color: var(--background-secundary-color) !important;
   font-weight: 500;
 }
 
@@ -247,7 +254,7 @@ details.col.colList {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--background-tertiary-color);
+  background: var(--background-secundary-color);
   display: inline-block;
   flex-shrink: 0;
 }
@@ -363,8 +370,8 @@ details.col.colList {
 }
 
 .nlBtn:hover {
-  background: var(--background-tertiary-color) !important;
-  color: var(--text-tertiary-color) !important;
+  background: var(--background-secundary-color) !important;
+  color: var(--background-color-secundary) !important;
 }
 
 .nlBtn:hover svg {
@@ -385,8 +392,8 @@ details.col.colList {
 }
 
 .nlLegal a:hover {
-  color: var(--background-tertiary-color);
-  border-color: var(--text-tertiary-color);
+  color: var(--background-secundary-color);
+  border-color: var(--background-secundary-color);
 }
 
 .nlSuccess {
@@ -430,7 +437,7 @@ details.col.colList {
 }
 
 .trust {
-  border-top: var(--hairline);
+  border-top: var(--background-tertiary-color);
   /* background: var(--paper); */
 }
 
@@ -559,8 +566,8 @@ details.col.colList {
 }
 
 .legalCreds a:hover {
-  color: var(--background-tertiary-color);
-  border-color: var(--background-tertiary-color);
+  color: var(--background-secundary-color);
+  border-color: var(--background-secundary-color);
 }
 
 .legalPlatform {
@@ -568,7 +575,7 @@ details.col.colList {
   align-items: center;
   gap: 10px;
   padding: 7px 13px 7px 11px;
-  border: 1px solid var(--text-color-secundary);
+  border: 1px solid var(--text-tertiary-color);
   border-radius: 999px;
   /* color: rgba(255,255,255,.9); */
   font-size: 11px;
@@ -581,7 +588,6 @@ details.col.colList {
   font-weight: 700;
   font-size: 12px;
   letter-spacing: -.005em;
-  /* color: rgba(255,255,255,.96); */
   line-height: 1;
   display: inline-flex;
   align-items: baseline;
@@ -597,7 +603,7 @@ details.col.colList {
 .legalPlatformSep {
   width: 1px;
   height: 11px;
-  background: var(--text-color-secundary);
+  background: var(--text-tertiary-color);
   display: inline-block;
 }
 
@@ -653,9 +659,9 @@ details.col.colList {
   .benefit {
     scroll-snap-align: start;
     padding: 14px 16px;
-    border: var(--background-secundary-color);
+    border: 1px solid var(--background-tertiary-color);
     border-radius: 14px;
-    background: var(--background-secundary-color);
+    background: var(--background-footer);
     gap: 10px;
   }
   
@@ -728,7 +734,7 @@ details.col.colList {
 
 
   .nlBtn:hover {
-    background: var(--background-tertiary-color) !important;
+    background: var(--background-secundary-color) !important;
   }
   
   .col {
@@ -743,6 +749,7 @@ details.col.colList {
 
   details.col[open] > summary > .colChev > .minusIcon {
     display: block; 
+    stroke: var(--background-secundary-color);
   }
 
   details.col > summary > .colChev > .plusIcon {
@@ -804,7 +811,7 @@ details.col.colList {
   }
   
   .col[open] > summary {
-    color: var(--background-tertiary-color);
+    color: var(--background-secundary-color);
   }
   
   .col .colHead .colChev {
@@ -812,10 +819,11 @@ details.col.colList {
     /* color: var(--grey-40); */
     visibility: visible;
     padding-right: 20px;
+
   }
   
   .col[open] > summary > .colChev {
-    color: var(--background-tertiary-color);
+    color: var(--background-secundary-color);
     display: inline-flex;
     /* visibility: visible; */
     content-visibility: visible;
@@ -830,6 +838,11 @@ details.col.colList {
 
   .colPolicies > .colHead > .colChev {
     margin-right: 20px;
+
+  }
+
+  .colPolicies .colHead .colChev .plusIcon {
+    stroke: var(--background-secundary-color);
   }
   
   @keyframes nfade {
@@ -849,7 +862,7 @@ details.col.colList {
   }
   
   .colList a:hover {
-    color: var(--background-tertiary-color);
+    color: var(--background-secundary-color);
   }
   
   .trustInner {
