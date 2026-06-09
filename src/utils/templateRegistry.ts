@@ -134,12 +134,13 @@ import ClientReview06 from '@/components/templates/home/template_6/ClientReview'
 import HomeCarousel06 from '@/components/templates/home/template_6/HomeCarousel';
 
 // ************
-//Novo Header
+//Template 7
 // ************
 // Common
 
 import Header07 from '@/components/templates/common/template_7/Header';
 import Footer07 from '@/components/templates/common/template_7/Footer';
+import Spot07 from '@/components/templates/common/template_7/Spot';
 
 export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown }>> = {
   Newsletter01,
@@ -208,5 +209,6 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   HomeCarousel06,
 
   Header07,
-  Footer07
+  Footer07,
+  Spot07
 };

@@ -1,0 +1,151 @@
+.containerCards {
+  container: carousel / inline-size;
+  width: 100%;
+}
+
+.carousel {
+  display: flex;
+  gap: 3px;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  margin: auto;
+  max-width: 1440px;
+  position: relative
+}
+
+.btnCarousel {
+  /* position: absolute;  */
+  width: 10px;
+  height: 10px;
+  z-index: 10;
+}
+
+.btnNext {
+  display: block;
+}
+
+.btnBack {
+  display: block;
+  margin-right: 10px;
+}
+
+.spot {
+  position: relative;
+  width: 300px;
+}
+
+.tagDiscount {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 6px 8px;
+  background: var(--background-secundary-color);
+  color: var(--text-color-secundary);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  z-index: 10;
+}
+
+.productImage {
+  width: 100%;
+  height: 400px;
+  position: relative;
+}
+
+.productImage img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.infoProduct {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0px;
+}
+
+.infoProduct p {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary-color);
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.priceBefore {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 400;
+  font-size: 14px;
+  text-decoration: line-through;
+  color: #b8b8b8;
+  position: relative;
+}
+
+.priceBefore::after {
+  content: '';
+  width: 2px;
+  height: 10px;
+  background: #000;
+  color: #000;
+  display: block;
+}
+
+.priceAfter {
+  font-weight: 600;
+}
+
+.installments {
+  font-weight: 400;
+}
+
+.installments span{
+  font-weight: 400;
+}
+
+.carouselBullets {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: auto;
+  padding: 24px;
+}
+
+.bullet {
+  width: 10px;
+  height: 10px;
+  background: #d9d9d9;
+  border-radius: 100%;
+}
+
+.bullet:first-child {
+  background: #000;
+}
+
+
+
+@container carousel (max-width: 760px) {
+  .carousel {
+    justify-content: start;
+  }
+  .spot {
+    width: 264px;
+  }
+
+  .btnCarousel {
+    display: none;
+  }
+
+  .productImage {
+    width: 264px;
+    height: 400px;
+  }
+}

@@ -104,6 +104,7 @@ export const LAYOUTS: Layouts = {
     items: [
       { id: "01", selection: "spot", key: "crdprd017839", image: "", mobile: "", title: "Card de Produto Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Spot01", path: "molecules/ProductCard01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["secondary", "tertiary"] },
       { id: "02", selection: "spot", key: "cardprd02g96", image: "", mobile: "", title: "Card de Produto Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Spot02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary"] },
+      { id: "07", selection: "spot", key: "cardprd02g96", image: "", mobile: "", title: "Card de Produto Template 7", description: "Descrição Template 7", template: "7", pagina: ["common"], component: "Spot07", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary"] },
       //{ id: "03",selection: "spot", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Card Moderno 03", description: "Card do produto 03", template: "3", pagina: ["common"], component: "Spot03", platforms: ['Tray'] },
       //{ id: "06",selection: "spot", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Card Moderno 06", description: "Card do produto 06", template: "6", pagina: ["common"], component: "Spot06", platforms: ['Tray'] },
     ],
