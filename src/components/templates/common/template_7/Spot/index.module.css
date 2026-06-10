@@ -1,35 +1,3 @@
-.containerCards {
-  container: carousel / inline-size;
-  width: 100%;
-}
-
-.carousel {
-  display: flex;
-  gap: 3px;
-  align-items: center;
-  justify-content: center;
-  overflow-x: hidden;
-  margin: auto;
-  max-width: 1440px;
-  position: relative
-}
-
-.btnCarousel {
-  /* position: absolute;  */
-  width: 10px;
-  height: 10px;
-  z-index: 10;
-}
-
-.btnNext {
-  display: block;
-}
-
-.btnBack {
-  display: block;
-  margin-right: 10px;
-}
-
 .spot {
   position: relative;
   width: 300px;
@@ -37,8 +5,8 @@
 
 .tagDiscount {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 8px;
+  left: 8px;
   padding: 6px 8px;
   background: var(--background-secundary-color);
   color: var(--text-color-secundary);
@@ -93,7 +61,7 @@
   content: '';
   width: 2px;
   height: 10px;
-  background: #000;
+  background: var(--text-primary-color);
   color: #000;
   display: block;
 }
@@ -110,38 +78,9 @@
   font-weight: 400;
 }
 
-.carouselBullets {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: auto;
-  padding: 24px;
-}
-
-.bullet {
-  width: 10px;
-  height: 10px;
-  background: #d9d9d9;
-  border-radius: 100%;
-}
-
-.bullet:first-child {
-  background: #000;
-}
-
-
-
-@container carousel (max-width: 760px) {
-  .carousel {
-    justify-content: start;
-  }
+@container (max-width: 760px) {
   .spot {
     width: 264px;
-  }
-
-  .btnCarousel {
-    display: none;
   }
 
   .productImage {
