@@ -6,6 +6,26 @@ export default function Spot() {
       <div className={styles.tagDiscount}>5% off</div>
       <div className={styles.productImage}>
         <img src="https://placehold.co/428" alt="teste" />
+        <div className={styles.sizesContainer}>
+          <div className={styles.sizeItem}>
+            <span>39</span>
+          </div>
+          <div className={styles.sizeItem}>
+            <span>40</span>
+          </div>
+          <div className={styles.sizeItem}>
+            <span>41</span>
+          </div>
+          <div className={styles.sizeItem}>
+            <span>42</span>
+          </div>
+          <div className={styles.sizeItem}>
+            <span>43</span>
+          </div>
+          <div className={styles.sizeItem}>
+            <span>44</span>
+          </div>
+        </div>
       </div>
       <div className={styles.infoProduct}>
         <p>Lorem Ipsum Dolor Sit</p>
