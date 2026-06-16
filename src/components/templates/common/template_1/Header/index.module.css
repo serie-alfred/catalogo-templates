@@ -4,7 +4,7 @@ header.header {
 }
 
 header.header .header__top {
-  background-color: var(--background-secundary-color);
+  background-color: var(--header-topbar-bg, var(--background-secundary-color, #122161));
   padding: 10px 0px;
 }
 
@@ -23,8 +23,8 @@ header.header .header__top .top__container .top__row .top__login a {
   flex-wrap: wrap;
   align-items: center;
   width: max-content;
-  color: var(--text-color-secundary);
-  font-family: var(--font-primary);
+  color: var(--header-topbar-text, var(--text-color-secundary, #ffffff));
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 500;
   font-size: 14px;
   text-decoration: none;
@@ -45,8 +45,8 @@ header.header .header__top .top__container .top__row .top__whatsapp a {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  color: var(--text-color-secundary);
-  font-family: var(--font-primary);
+  color: var(--header-topbar-text, var(--text-color-secundary, #ffffff));
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 500;
   font-size: 14px;
   text-decoration: none;
@@ -71,7 +71,7 @@ header.header .header__top .top__container .top__row .top__social ul {
 
 header.header .header__top .top__container .top__row .top__social ul li {
   margin-right: 10px;
-  color: var(--text-color-secundary);
+  color: var(--header-topbar-text, var(--text-color-secundary, #ffffff));
 }
 
 header.header .header__top .top__container .top__row .top__social ul li:last-of-type {
@@ -83,7 +83,7 @@ header.header .header__top .top__container .top__row .top__social ul li a {
 }
 
 header.header .header__middle {
-  background-color: var(--background-primary-color);
+  background-color: var(--header-bg, var(--background-primary-color, #ffffff));
   padding: 24px 0px;
 }
 
@@ -93,7 +93,7 @@ header.header .header__middle .middle__container .middle__row {
 
 header.header .header__middle .middle__container .middle__row .middle__tabs {
   display: none;
-  color: var(--text-color-base);
+  color: var(--header-text, var(--text-color-base, #122161));
 }
 
 header.header .header__middle .middle__container .middle__row .middle__logo {
@@ -155,7 +155,7 @@ header.header .header__middle .middle__container .middle__row .middle__search .s
   border: 1px solid rgba(137, 137, 137, 0.4784313725);
   border-radius: 16px;
   font-size: 16px;
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 400;
   padding: 0px 15px 0px 50px;
   width: 100%;
@@ -210,14 +210,14 @@ header.header .header__middle .middle__container .middle__row .middle__search .s
 }
 
 header.header .header__middle .middle__container .middle__row .middle__search .search form .suggestion .suggestion-products strong {
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 12px;
   font-weight: 500;
   color: var(--color-black);
 }
 
 header.header .header__middle .middle__container .middle__row .middle__search .search form .suggestion .suggestion-products .suggestion-product .suggestion-desc span {
-  font-family: var(--font-secundary);
+  font-family: var(--header-font, var(--font-secundary, 'Manrope', sans-serif));
   font-size: 12px;
   font-weight: 400;
   color: var(--color-black);
@@ -244,10 +244,10 @@ header.header .header__middle .middle__container .middle__row .middle__config .c
   flex-wrap: wrap;
   align-items: center;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 500;
   font-size: 14px;
-  color: var(--text-color-base);
+  color: var(--header-text, var(--text-color-base, #122161));
   text-decoration: none;
   padding: 8px 12px;
   border-radius: 5px;
@@ -262,7 +262,7 @@ header.header .header__middle .middle__container .middle__row .middle__config .c
 
 header.header .header__middle .middle__container .middle__row .middle__config .config__whatsapp a svg path,
 header.header .header__middle .middle__container .middle__row .middle__config .config__login a svg path {
-  stroke: var(--text-color-base);
+  stroke: var(--header-text, var(--text-color-base, #122161));
   transition: 0.5s;
 }
 
@@ -289,7 +289,7 @@ header.header .header__middle .middle__container .middle__row .middle__config .c
 
 
 header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper:hover svg path {
-  stroke: var(--text-color-base);
+  stroke: var(--header-text, var(--text-color-base, #122161));
 }
 
 header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper svg {
@@ -298,16 +298,16 @@ header.header .header__middle .middle__container .middle__row .middle__config .c
 
 header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper svg path {
   transition: 0.5s;
-  stroke: var(--text-color-base)
+  stroke: var(--header-text, var(--text-color-base, #122161))
 }
 
 header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper .cart__title {
   display: inline-block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 500;
   font-size: 14px;
-  color: var(--text-color-base);
+  color: var(--header-text, var(--text-color-base, #122161));
 }
 
 header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper .cart__number {
@@ -317,9 +317,9 @@ header.header .header__middle .middle__container .middle__row .middle__config .c
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  background-color: var(--background-secundary-color);
-  color: var(--text-color-secundary);
-  font-family: var(--font-primary);
+  background-color: var(--header-topbar-bg, var(--background-secundary-color, #122161));
+  color: var(--header-topbar-text, var(--text-color-secundary, #ffffff));
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   border-radius: 100%;
   font-weight: 700;
   font-size: 12px;
@@ -329,7 +329,7 @@ header.header .header__middle .middle__container .middle__row .middle__config .c
 }
 
 header.header .header__bottom {
-  background-color: var(--background-secundary-color);
+  background-color: var(--header-nav-bg, var(--background-secundary-color, #122161));
   position: relative;
 }
 
@@ -368,10 +368,10 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 500;
   font-size: 14px;
-  color: var(--text-color-secundary);
+  color: var(--header-nav-text, var(--text-color-secundary, #ffffff));
   text-decoration: none;
   padding: 12px 23px;
   transition: 0.5s;
@@ -379,7 +379,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
 
 @media (max-width: 768px) {
   header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li>a {
-    color: var(--text-color-secundary);
+    color: var(--header-nav-text, var(--text-color-secundary, #ffffff));
   }
 }
 
@@ -397,7 +397,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   left: 0px;
   top: 100%;
   z-index: 11;
-  background-color: var(--color-white);
+  background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
   min-width: max-content;
   height: auto;
   padding: 0px;
@@ -431,10 +431,10 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   align-items: center;
   line-height: 1;
   padding: 8px 15px;
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 400;
   font-size: 14px;
-  color: var(--text-color-secundary);
+  color: var(--header-submenu-text, var(--text-primary-color, #122161));
   text-decoration: none;
 }
 
@@ -448,7 +448,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   right: -100%;
   top: 0;
   width: 100%;
-  background-color: var(--color-white);
+  background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
   z-index: 1;
   padding: 7px 0px;
   min-width: 200px;
@@ -465,8 +465,8 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
 header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__wrapper .submenu__container .submenu__inner>ul>li ul li a {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
-  color: var(--text-color-secundary);
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+  color: var(--header-submenu-text, var(--text-primary-color, #122161));
   font-weight: 400;
   font-size: 14px;
   text-decoration: none;
@@ -493,7 +493,7 @@ header.header .header__cart .cart__preview {
   max-width: 390px;
   height: 100%;
   z-index: 99999;
-  background-color: var(--color-white);
+  background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
   transition: 0.5s;
 }
 
@@ -512,8 +512,8 @@ header.header .header__cart .cart__preview.empty-cart .preview-itens {
 
 header.header .header__cart .cart__preview .preview__title {
   background-color: transparent;
-  font-family: var(--font-primary);
-  color: var(--text-color-base);
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+  color: var(--header-text, var(--text-color-base, #122161));
   font-size: 22px;
   font-weight: 700;
   text-align: left;
@@ -533,7 +533,7 @@ header.header .header__cart .cart__preview .preview__title .preview__close {
 }
 
 header.header .header__cart .cart__preview .empty {
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 16px;
   font-weight: 700;
   color: var(--text-color-secundary);
@@ -564,11 +564,11 @@ header.header .header__cart .cart__preview .preview-itens::-webkit-scrollbar-tra
 }
 
 header.header .header__cart .cart__preview .preview-itens::-webkit-scrollbar-thumb {
-  background: var(--text-color-base);
+  background: var(--header-text, var(--text-color-base, #122161));
 }
 
 header.header .header__cart .cart__preview .preview-itens::-webkit-scrollbar-thumb:hover {
-  background: var(--text-color-base);
+  background: var(--header-text, var(--text-color-base, #122161));
 }
 
 header.header .header__cart .cart__preview .preview-itens .preview-item {
@@ -605,8 +605,8 @@ header.header .header__cart .cart__preview .preview-itens .preview-item .item-in
 }
 
 header.header .header__cart .cart__preview .preview-itens .preview-item .item-info .item-title a {
-  font-family: var(--font-secundary);
-  color: var(--text-color-base);
+  font-family: var(--header-font, var(--font-secundary, 'Manrope', sans-serif));
+  color: var(--header-text, var(--text-color-base, #122161));
   font-size: 14px;
   font-weight: 500;
   line-height: 19px;
@@ -635,7 +635,7 @@ header.header .header__cart .cart__preview .preview-itens .preview-item .item-in
   height: auto;
   border: none;
   border-radius: 0px;
-  font-family: var(--font-secundary);
+  font-family: var(--header-font, var(--font-secundary, 'Manrope', sans-serif));
   font-weight: 700;
   font-size: 10px;
   color: var(--text-color-secundary);
@@ -644,10 +644,10 @@ header.header .header__cart .cart__preview .preview-itens .preview-item .item-in
 
 header.header .header__cart .cart__preview .preview-itens .preview-item .item-info .item-p-unit {
   width: 100%;
-  font-family: var(--font-secundary);
+  font-family: var(--header-font, var(--font-secundary, 'Manrope', sans-serif));
   font-size: 18px;
   font-weight: 700;
-  color: var(--text-color-base);
+  color: var(--header-text, var(--text-color-base, #122161));
   display: block;
   text-align: left;
   margin-top: 15px;
@@ -662,7 +662,7 @@ header.header .header__cart .cart__preview .preview-itens .preview-item .item-in
 }
 
 header.header .header__cart .cart__preview .preview-itens .preview-item .item-info .rmv-prod svg path {
-  stroke: var(--text-color-base)
+  stroke: var(--header-text, var(--text-color-base, #122161))
 }
 
 header.header .header__cart .cart__preview .preview__total {
@@ -672,7 +672,7 @@ header.header .header__cart .cart__preview .preview__total {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  background-color: var(--color-white);
+  background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
   border-radius: 0px;
 }
 
@@ -685,7 +685,7 @@ header.header .header__cart .cart__preview .preview__total .total {
 }
 
 header.header .header__cart .cart__preview .preview__total .total span {
-  font-family: var(--font-secundary);
+  font-family: var(--header-font, var(--font-secundary, 'Manrope', sans-serif));
   font-size: 24px;
   font-weight: 700;
   color: var(--color-black);
@@ -723,11 +723,11 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span {
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  font-family: var(--font-secundary);
+  font-family: var(--header-font, var(--font-secundary, 'Manrope', sans-serif));
   font-size: 16px;
   font-weight: 800;
-  color: var(--text-color-base);
-  background-color: var(--background-primary-color);
+  color: var(--header-text, var(--text-color-base, #122161));
+  background-color: var(--header-bg, var(--background-primary-color, #ffffff));
   border-radius: 104px;
   border: 1px solid transparent;
   height: 46px;
@@ -745,16 +745,16 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
 }
 
 header.header .header__cart .cart__preview .preview__total .keep__buy span {
-  background-color: var(--color-white);
+  background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
   font-weight: 400;
   font-size: 14px;
-  color: var(--text-color-base);
-  border: 1px solid var(--background-primary-color);
+  color: var(--header-text, var(--text-color-base, #122161));
+  border: 1px solid var(--header-bg, var(--background-primary-color, #ffffff));
   margin-top: 7px;
 }
 
 header.header .header__cart .cart__preview .preview__total .keep__buy span:hover {
-  background-color: var(--color-white) !important;
+  background-color: var(--header-submenu-bg, var(--color-white, #ffffff)) !important;
 }
 
 @container (min-width: 1024px) and (max-width: 1199px) {
@@ -913,7 +913,7 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
   }
 
   header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper:hover {
-    background-color: var(--color-white);
+    background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
   }
 
   header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper:hover svg path {
@@ -986,10 +986,10 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    font-family: var(--font-primary);
+    font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
     font-size: 14px;
     font-weight: 500;
-    color: var(--text-color-base);
+    color: var(--header-text, var(--text-color-base, #122161));
     text-decoration: none;
     line-height: 1;
   }
@@ -1008,10 +1008,10 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
     flex-wrap: wrap;
     align-items: center;
     line-height: 1;
-    font-family: var(--font-primary);
+    font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
     font-weight: 500;
     font-size: 14px;
-    color: var(--text-color-base);
+    color: var(--header-text, var(--text-color-base, #122161));
     text-decoration: none;
   }
 
@@ -1052,7 +1052,7 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
   }
 
   header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:hover>a {
-    background-color: var(--color-white);
+    background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
   }
 
   header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:hover .submenu__wrapper {

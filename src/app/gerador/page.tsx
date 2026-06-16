@@ -10,6 +10,7 @@ import styles from './index.module.css';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useLayout } from '@/context/LayoutContext';
 import { WakePopup } from '@/components/gerador/WakePopup';
+import ComponentVariablesPanel from '@/components/gerador/ComponentVariablesPanel';
 
 export default function GeradorPage() {
   const isMobile = useIsMobile();
@@ -106,6 +107,8 @@ export default function GeradorPage() {
           wakePopupRef={wakePopupRef}
         />
       )}
+
+      <ComponentVariablesPanel />
     </div>
   );
 }

@@ -7,7 +7,7 @@
     display: block;
   }
   
-  .buttonContainer .duplicateBtn, .buttonContainer .remoteBtn{
+  .buttonContainer .duplicateBtn, .buttonContainer .remoteBtn, .buttonContainer .editBtn{
     position: absolute;
     top: 8px;
     right: calc(22px + 16px);
@@ -30,6 +30,29 @@
 
   .buttonContainer .duplicateBtn svg path, .buttonContainer .remoteBtn svg path{
     stroke: inherit !important;
+  }
+
+  /* O botão de editar ocupa o mesmo slot do duplicar: itens que expõem
+     variablesSchema hoje são singletons (ex.: Header) e não podem ser
+     duplicados, então os dois botões nunca coexistem. */
+  .buttonContainer .editBtn{
+    background: #2563EB;
+  }
+
+  .buttonContainer .editBtn svg{
+    width: 14px;
+    height: 14px;
+  }
+
+  /* O ícone de lápis é baseado em stroke (fill: none); força branco para
+     ficar visível sobre o fundo azul (não usa `inherit`, que resolveria
+     para `none` e sumiria). */
+  .buttonContainer .editBtn svg path{
+    stroke: #ffffff !important;
+  }
+
+  .buttonContainer .editBtn:hover{
+    background: #1E40AF;
   }
 
   .buttonContainer .duplicateBtn:hover{

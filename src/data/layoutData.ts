@@ -19,6 +19,33 @@ export const BACKGROUND_VAR_LABELS: Record<BackgroundVar, string> = {
 };
 
 /**
+ * Tipo de variável individual que um componente expõe para personalização
+ * por instância (editada no painel lateral e gravada no `variables` do config).
+ */
+export type ComponentVariableType = "color" | "font";
+
+/**
+ * Descreve UMA variável individual de um componente.
+ *
+ * @property cssVar  - nome literal da CSS custom property, ex: "--header-topbar-bg".
+ *                     É a chave usada verbatim no objeto `variables` do config.json.
+ * @property label   - rótulo exibido no painel de edição.
+ * @property type    - "color" → ColorPicker, "font" → FontSelector.
+ * @property default - valor padrão (igual ao fallback do `var()` no SCSS do componente).
+ * @property group   - agrupamento visual opcional ("Barra superior", "Menu"...).
+ * @property inheritsLabel - nome amigável da variável global herdada enquanto não
+ *                     há override (ex.: "cor primária da marca"), exibido no painel.
+ */
+export type ComponentVariable = {
+  cssVar: string;
+  label: string;
+  type: ComponentVariableType;
+  default: string;
+  group?: string;
+  inheritsLabel?: string;
+};
+
+/**
  * Represents an item in the layout catalog.
  *
  * @property id - Unique identifier for the layout item.
@@ -47,6 +74,12 @@ export type LayoutItem = {
   backgroundVars: BackgroundVar[];
   path?: string;
   override?: boolean;
+  /**
+   * Variáveis individuais (cor/fonte) que este componente expõe para
+   * personalização por instância. O botão de edição ("lápis") só aparece
+   * quando `variablesSchema` existe e tem ao menos um item.
+   */
+  variablesSchema?: ComponentVariable[];
 };
 
 export type LayoutSection = {
@@ -92,7 +125,17 @@ export const LAYOUTS: Layouts = {
   header: {
     name: "Header",
     items: [
-      { id: "01", selection: "header", key: "hdr01a2b3c4d", image: "", mobile: "", title: "Header Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Header01", path: "organisms/Header01", platforms: ['Tray','Wake', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"] },
+      { id: "01", selection: "header", key: "hdr01a2b3c4d", image: "", mobile: "", title: "Header Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Header01", path: "organisms/Header01", platforms: ['Tray','Wake', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
+        { cssVar: "--header-topbar-bg", label: "Fundo da barra superior", type: "color", default: "#122161", group: "Barra superior", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--header-topbar-text", label: "Texto/ícones da barra superior", type: "color", default: "#ffffff", group: "Barra superior", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--header-bg", label: "Fundo do header (meio)", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--header-text", label: "Texto/ícones do header", type: "color", default: "#122161", group: "Header", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--header-nav-bg", label: "Fundo da barra de menu", type: "color", default: "#122161", group: "Menu", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--header-nav-text", label: "Texto do menu principal", type: "color", default: "#ffffff", group: "Menu", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--header-submenu-bg", label: "Fundo dos submenus/drawer", type: "color", default: "#ffffff", group: "Submenu", inheritsLabel: "cor de fundo branca" },
+        { cssVar: "--header-submenu-text", label: "Texto dos submenus", type: "color", default: "#122161", group: "Submenu", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+      ] },
       { id: "02", selection: "header", key: "hdr02h8l2gty", image: "", mobile: "", title: "Header Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Header02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
       { id: "07", selection: "header", key: "hdr07h8fda34", image: "", mobile: "", title: "Header07", description: "Descrição Template 7", template: "7", pagina: ["common"], component: "Header07", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
       //{ id: "03",selection: "header", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Header Moderno 03", description: "Menu de navegação com busca e carrinho", template: "3", pagina: ["common"], component: "Header03", platforms: ['Tray'] },

@@ -7,6 +7,29 @@
   cursor: pointer;
 }
 
+/* Estado "sem override": bolinha vazia com um X, herdando o valor global. */
+.colorUnset{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f5f5;
+  border: 2px dashed #b0b0b0;
+}
+
+.colorX{
+  color: #9ca3af;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.unsetText{
+  font-size: 13px;
+  font-style: italic;
+  color: #6b7280;
+}
+
 .field .colorWrapper .colorInput{
   margin: 0 !important;
 

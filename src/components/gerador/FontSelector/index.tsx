@@ -12,6 +12,10 @@ type FontSelectorProps = {
   cssVariable: string;
   selectedFont: string;
   onFontChange: (font: string) => void;
+  /** Quando true, ainda não há fonte própria (herda do global): não aplica em :root. */
+  unset?: boolean;
+  /** Texto-dica exibido quando `unset` (ex.: "Usando variável global"). */
+  unsetLabel?: string;
 };
 
 export default function FontSelector({
@@ -19,6 +23,8 @@ export default function FontSelector({
   cssVariable,
   selectedFont,
   onFontChange,
+  unset = false,
+  unsetLabel = 'Usando variável global',
 }: FontSelectorProps) {
   const [allFonts, setAllFonts] = useState<FontItem[]>([]);
   const [searchTerm, setSearchTerm] = useState(selectedFont || '');
@@ -33,6 +39,12 @@ export default function FontSelector({
   }, []);
 
   useEffect(() => {
+    // Sem valor próprio: remove o override de :root e deixa herdar o global.
+    if (unset || !selectedFont) {
+      document.documentElement.style.removeProperty(`--${cssVariable}`);
+      return;
+    }
+
     const fontUrl = `https://fonts.googleapis.com/css2?family=${selectedFont.replace(/ /g, '+')}:wght@400;700&display=swap`;
     const linkId = `font-${cssVariable}`;
 
@@ -51,7 +63,7 @@ export default function FontSelector({
       `--${cssVariable}`,
       `'${selectedFont}', sans-serif`
     );
-  }, [selectedFont, cssVariable]);
+  }, [selectedFont, cssVariable, unset]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -90,11 +102,13 @@ export default function FontSelector({
         onChange={handleInputChange}
         onFocus={() => searchTerm.length > 0 && setShowSuggestions(true)}
         onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-        placeholder="Digite o nome da fonte..."
+        placeholder={unset ? unsetLabel : 'Digite o nome da fonte...'}
         style={{
-          fontFamily: selectedFont,
+          fontFamily: unset ? undefined : selectedFont,
         }}
       />
+
+      {unset && <span className={styles.unsetHint}>{unsetLabel}</span>}
 
       {showSuggestions && suggestions.length > 0 && (
         <ul className={styles.fontSuggest}>

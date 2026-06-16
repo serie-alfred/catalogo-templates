@@ -18,6 +18,7 @@ import {
 
 import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layoutData';
 import { LayoutSelection } from '@/hooks/useLayoutGenerator';
+import { useLayout } from '@/context/LayoutContext';
 
 import styles from './index.module.css';
 import SortableItem from '../SortableItem';
@@ -38,6 +39,7 @@ export default function DraggablePreviewList({
 }: DraggablePreviewListProps) {
   const [activeId, setActiveId] = useState<string | null>(null);
   const sensors = useSensors(useSensor(PointerSensor));
+  const { setEditingUid } = useLayout();
 
   const getPriorityOrder = (key: LayoutKey) => {
     if (key === 'header') return 0;
@@ -175,8 +177,18 @@ export default function DraggablePreviewList({
 
           const isSelected = selectedItemIds.has(item.uid);
 
+          // Pré-visualização ao vivo: aplica os overrides como CSS custom
+          // properties no wrapper, escopadas a esta instância (cascateiam
+          // para o componente do template).
+          const styleVars = item.variables as React.CSSProperties | undefined;
+          const hasVariables = !!layoutItem.variablesSchema?.length;
+
           return (
-            <div key={item.uid} className={styles.containerImg}>
+            <div
+              key={item.uid}
+              className={styles.containerImg}
+              style={styleVars}
+            >
               <SortableItem
                 id={item.uid}
                 data={itemData}
@@ -184,6 +196,17 @@ export default function DraggablePreviewList({
                 isMobile={isMobile}
               />
               <div className={styles.buttonContainer}>
+                {hasVariables && (
+                  <button
+                    className={styles.editBtn}
+                    onClick={() => setEditingUid(item.uid)}
+                    type="button"
+                    title="Editar cores e fontes"
+                  >
+                    {iconsGenerator.editTheme}
+                  </button>
+                )}
+
                 {![
                   'categoryMain',
                   'productInfo',

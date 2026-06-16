@@ -6,12 +6,18 @@ type ColorPickerProps = {
   label: string;
   color: string;
   setColor: (value: string) => void;
+  /** Quando true, indica que ainda não há valor próprio (herda do global). */
+  unset?: boolean;
+  /** Texto exibido no lugar do hex quando `unset` (ex.: "Usando variável global"). */
+  unsetLabel?: string;
 };
 
 export default function ColorPicker({
   label,
   color,
   setColor,
+  unset = false,
+  unsetLabel = 'Usando variável global',
 }: ColorPickerProps) {
   // const [showPicker, setShowPicker] = useState(false);
   const [open, setOpen] = useState(false)
@@ -48,26 +54,31 @@ export default function ColorPicker({
       <div className={styles.colorWrapper}>
         <div
           onClick={() => setOpen(prev => !prev)}
-          className={styles.color}
-          style={{
-            backgroundColor: color,
-          }}
-        ></div>
-        <input
-          type="text"
-          value={color}
-          className={styles.colorInput}
-          onChange={handleInputChange}
-          style={{
-            marginTop: '0.5rem',
-            width: '100%',
-            padding: '0.3rem',
-            fontFamily: 'monospace',
-            textAlign: 'center',
-            border: '1px solid #ccc',
-            borderRadius: '4px',
-          }}
-        />
+          className={`${styles.color} ${unset ? styles.colorUnset : ''}`}
+          style={unset ? undefined : { backgroundColor: color }}
+          title={unset ? unsetLabel : color}
+        >
+          {unset && <span className={styles.colorX}>✕</span>}
+        </div>
+        {unset ? (
+          <span className={styles.unsetText}>{unsetLabel}</span>
+        ) : (
+          <input
+            type="text"
+            value={color}
+            className={styles.colorInput}
+            onChange={handleInputChange}
+            style={{
+              marginTop: '0.5rem',
+              width: '100%',
+              padding: '0.3rem',
+              fontFamily: 'monospace',
+              textAlign: 'center',
+              border: '1px solid #ccc',
+              borderRadius: '4px',
+            }}
+          />
+        )}
       </div>
 
       {open && (

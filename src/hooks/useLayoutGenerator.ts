@@ -9,9 +9,35 @@ export interface LayoutSelection {
   id: string;
   layoutKey: LayoutKey;
   pagina: string;
+  /** Overrides de cor/fonte por instância: { [cssVar]: valor escolhido }. */
+  variables?: Record<string, string>;
 }
 
 export const MAX_PER_PAGE = 101;
+
+/**
+ * Retorna apenas as variáveis cujo valor difere do default do `variablesSchema`
+ * (mantém o config enxuto — chave omitida = usa o default do `var()` no SCSS).
+ * Retorna `undefined` quando não há nenhuma alteração relevante.
+ */
+function pickChangedVariables(
+  found: LayoutItem,
+  selection: LayoutSelection
+): Record<string, string> | undefined {
+  const schema = found.variablesSchema;
+  const overrides = selection.variables;
+  if (!schema || !overrides) return undefined;
+
+  const changed: Record<string, string> = {};
+  for (const variable of schema) {
+    const value = overrides[variable.cssVar];
+    if (value != null && value !== variable.default) {
+      changed[variable.cssVar] = value;
+    }
+  }
+
+  return Object.keys(changed).length > 0 ? changed : undefined;
+}
 
 
 export function useLayoutGenerator() {
@@ -45,6 +71,27 @@ export function useLayoutGenerator() {
   const [focusedKey, setFocusedKey] = useState<LayoutKey | null>(null);
   const [showPlatformError, setShowPlatformError] = useState<boolean>(false);
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
+
+  /** uid do item cujo painel de variáveis está aberto (null = fechado). */
+  const [editingUid, setEditingUid] = useState<string | null>(null);
+
+  /** Define (imutavelmente) o valor de uma variável individual de um item. */
+  const setItemVariable = (uid: string, cssVar: string, value: string) => {
+    setSelections(prev =>
+      prev.map(s =>
+        s.uid === uid
+          ? { ...s, variables: { ...(s.variables ?? {}), [cssVar]: value } }
+          : s
+      )
+    );
+  };
+
+  /** Limpa todos os overrides de variáveis de um item. */
+  const resetItemVariables = (uid: string) => {
+    setSelections(prev =>
+      prev.map(s => (s.uid === uid ? { ...s, variables: {} } : s))
+    );
+  };
 
   const [fontPrimary, setFontPrimary] = useState('Roboto');
   const [fontSecondary, setFontSecondary] = useState('Poppins');
@@ -631,12 +678,15 @@ export function useLayoutGenerator() {
       );
       if (!found) return null;
 
+      const variables = pickChangedVariables(found, item);
+
       return {
         template: found.template,
         selection: found.selection,
         title: found.title,
         key: found.key,
         pagina: found.pagina,
+        ...(variables ? { variables } : {}),
       };
     };
 
@@ -718,38 +768,46 @@ export function useLayoutGenerator() {
       item: LayoutSelection;
     }[];
 
-    const overrideItems = allMapped
-      .filter(({ found }) => found.override === true)
-      .map(({ found }) => ({
+    type FaststoreEntry = {
+      component: string;
+      title: string;
+      key: string;
+      variables?: Record<string, string>;
+    };
+
+    const toEntry = ({
+      found,
+      item,
+    }: {
+      found: LayoutItem;
+      item: LayoutSelection;
+    }): FaststoreEntry => {
+      const variables = pickChangedVariables(found, item);
+      return {
         component: found.path as string,
         title: found.component,
         key: found.key,
-      }));
+        ...(variables ? { variables } : {}),
+      };
+    };
+
+    const overrideItems = allMapped
+      .filter(({ found }) => found.override === true)
+      .map(toEntry);
 
     const globalItems = allMapped
       .filter(({ found }) => !found.override && found.pagina.includes('common'))
-      .map(({ found }) => ({
-        component: found.path as string,
-        title: found.component,
-        key: found.key,
-      }));
+      .map(toEntry);
 
     const pageItems = allMapped
       .filter(({ found }) => !found.override && !found.pagina.includes('common'))
-      .reduce<Record<string, { component: string; title: string; key: string }[]>>(
-        (acc, { found }) => {
-          found.pagina.forEach((pg) => {
-            if (!acc[pg]) acc[pg] = [];
-            acc[pg].push({
-              component: found.path as string,
-              title: found.component,
-              key: found.key,
-            });
-          });
-          return acc;
-        },
-        {}
-      );
+      .reduce<Record<string, FaststoreEntry[]>>((acc, mapped) => {
+        mapped.found.pagina.forEach((pg) => {
+          if (!acc[pg]) acc[pg] = [];
+          acc[pg].push(toEntry(mapped));
+        });
+        return acc;
+      }, {});
 
     const config: Record<string, unknown> = {
       platform: 'faststore',
@@ -880,6 +938,10 @@ export function useLayoutGenerator() {
     handlePlatformChange,
     toggleSelection,
     exportLayout,
+    editingUid,
+    setEditingUid,
+    setItemVariable,
+    resetItemVariables,
     wakeCustomValue,
     setWakeCustomValue,
     showWakePopup,

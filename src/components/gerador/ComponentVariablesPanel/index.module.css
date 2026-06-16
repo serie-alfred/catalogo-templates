@@ -1,0 +1,154 @@
+.panel {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  width: 360px;
+  max-width: 90vw;
+  background: #fff;
+  border: 1px solid #f5f5f5;
+  border-radius: 24px;
+  box-shadow: 0px 2px 4px 0px #00000014;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  z-index: 9998;
+  animation: slideIn 0.25s ease-out;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.subtitle {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #2563eb;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 2px 0 0;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  min-height: unset;
+  line-height: 0;
+  color: #6b7280;
+}
+
+.closeButton:hover {
+  color: #111827;
+}
+
+.body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Estilos escopados ao painel para os campos do ColorPicker/FontSelector.
+   (Na sidebar esses controles são estilizados por `.sidebar input`, que tem
+   especificidade maior e não chega aqui.) */
+.body :global(.field) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+}
+
+.body :global(.field) label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #525252;
+}
+
+/* `> input` mira só o input de fonte (filho direto do .field); o input hex do
+   ColorPicker fica aninhado em .colorWrapper e não é atingido. */
+.body :global(.field) > input {
+  width: 100%;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid #cccccc;
+  background-color: #fff;
+  padding: 0 16px;
+  font-size: 14px;
+  color: #000;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.body :global(.field) > input:focus {
+  border-color: #2563eb;
+}
+
+.body :global(.field) > input::placeholder {
+  color: #b0b0b0;
+}
+
+.groupTitle {
+  font-size: 13px;
+  font-weight: 700;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin: 0;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #e5e7eb;
+}
+
+.footer {
+  padding: 16px 24px;
+  border-top: 1px solid #eee;
+}
+
+.resetButton {
+  width: 100%;
+  background: #f3f4f6;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.resetButton:hover {
+  background: #e5e7eb;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
