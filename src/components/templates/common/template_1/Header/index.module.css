@@ -397,7 +397,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   left: 0px;
   top: 100%;
   z-index: 11;
-  background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
+  background-color: var(--color-white, #ffffff);
   min-width: max-content;
   height: auto;
   padding: 0px;
@@ -434,7 +434,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 400;
   font-size: 14px;
-  color: var(--header-submenu-text, var(--text-primary-color, #122161));
+  color: var(--text-primary-color, #122161);
   text-decoration: none;
 }
 
@@ -448,7 +448,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   right: -100%;
   top: 0;
   width: 100%;
-  background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
+  background-color: var(--color-white, #ffffff);
   z-index: 1;
   padding: 7px 0px;
   min-width: 200px;
@@ -466,7 +466,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   display: block;
   line-height: 1;
   font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
-  color: var(--header-submenu-text, var(--text-primary-color, #122161));
+  color: var(--text-primary-color, #122161);
   font-weight: 400;
   font-size: 14px;
   text-decoration: none;
@@ -493,7 +493,7 @@ header.header .header__cart .cart__preview {
   max-width: 390px;
   height: 100%;
   z-index: 99999;
-  background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
+  background-color: var(--color-white, #ffffff);
   transition: 0.5s;
 }
 
@@ -672,7 +672,7 @@ header.header .header__cart .cart__preview .preview__total {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
+  background-color: var(--color-white, #ffffff);
   border-radius: 0px;
 }
 
@@ -745,7 +745,7 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
 }
 
 header.header .header__cart .cart__preview .preview__total .keep__buy span {
-  background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
+  background-color: var(--color-white, #ffffff);
   font-weight: 400;
   font-size: 14px;
   color: var(--header-text, var(--text-color-base, #122161));
@@ -754,7 +754,7 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span {
 }
 
 header.header .header__cart .cart__preview .preview__total .keep__buy span:hover {
-  background-color: var(--header-submenu-bg, var(--color-white, #ffffff)) !important;
+  background-color: var(--color-white, #ffffff) !important;
 }
 
 @container (min-width: 1024px) and (max-width: 1199px) {
@@ -913,7 +913,7 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
   }
 
   header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper:hover {
-    background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
+    background-color: var(--color-white, #ffffff);
   }
 
   header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper:hover svg path {
@@ -1052,7 +1052,7 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
   }
 
   header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:hover>a {
-    background-color: var(--header-submenu-bg, var(--color-white, #ffffff));
+    background-color: var(--color-white, #ffffff);
   }
 
   header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:hover .submenu__wrapper {

@@ -623,7 +623,7 @@ const CategoryMain = () => {
                             <div key={product.id} className={styles.listSpot}>
                               {selectedSpots.length > 0
                                 ? selectedSpots.map(
-                                    (spot: { id: string; uid: string }) => {
+                                    (spot: { id: string; uid: string; variables?: Record<string, string> }) => {
                                       const layoutItem =
                                         LAYOUTS.spot.items.find(
                                           it => it.id === spot.id
@@ -635,9 +635,12 @@ const CategoryMain = () => {
 
                                       return SpotComponent ? (
                                         [1, 2, 3, 4].map((_, index) => (
-                                          <SpotComponent
+                                          <div
                                             key={`${spot?.uid}-${index}`}
-                                          />
+                                            style={spot.variables as React.CSSProperties}
+                                          >
+                                            <SpotComponent />
+                                          </div>
                                         ))
                                       ) : (
                                         <></>

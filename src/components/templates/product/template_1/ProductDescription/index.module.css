@@ -30,7 +30,7 @@
   font-weight: 700;
   font-size: 24px;
   font-family: var(--font-primary);
-  color: var(--text-primary-color);
+  color: var(--prod-desc-text, var(--text-primary-color, #122161));
   text-align: left;
   position: relative;
 }
@@ -61,15 +61,15 @@
 .descriptionWrapper h6 {
   font-size: 20px;
   font-weight: 700;
-   font-family: var(--font-primary);
+   font-family: var(--prod-desc-font, var(--font-primary, 'Manrope', sans-serif));
 }
 
 .descriptionWrapper p,
 .descriptionWrapper a {
   font-weight: 400;
   font-size: 16px;
-   font-family: var(--font-secundary);
-  color: var(--text-primary-color);
+   font-family: var(--prod-desc-font, var(--font-secundary, 'Poppins', sans-serif));
+  color: var(--prod-desc-text, var(--text-primary-color, #122161));
   line-height: 25px;
   text-decoration: none;
   margin-bottom: 25px;
@@ -97,14 +97,14 @@
 }
 
 .descriptionWrapper table tbody tr:nth-child(even) {
-  background-color: var(--background-tertiary-color);
+  background-color: var(--prod-desc-table-bg, var(--background-tertiary-color, #f5f5f5));
 }
 
 .descriptionWrapper table td {
   padding: 32px 15px;
   font-weight: 500;
   font-size: 16px;
-   color: var(--text-primary-color);
+   color: var(--prod-desc-text, var(--text-primary-color, #122161));
 }
 
 .descriptionWrapper table td:first-of-type {

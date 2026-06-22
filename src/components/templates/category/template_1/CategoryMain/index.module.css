@@ -35,8 +35,8 @@
   max-width: calc(50% - 4px);
   height: 48px;
   border-radius: 80px;
- background-color: var(--background-tertiary-color);
-   color: var(--text-tertiary-color);
+  background-color: var(--cat-main-btn-bg, var(--background-tertiary-color, #122161));
+  color: var(--cat-main-btn-text, var(--text-tertiary-color, #ffffff));
   font-weight: 500;
   font-size: 14px;
   cursor: pointer;
@@ -50,6 +50,11 @@
 .buttonsFilter svg:last-of-type,
 .buttonsOrder svg:last-of-type {
   margin-left: 8px;
+}
+
+.buttonsFilter svg path,
+.buttonsOrder svg path {
+  stroke: var(--cat-main-btn-text, var(--text-tertiary-color, #ffffff));
 }
 
 /* Lista de produtos */
@@ -287,9 +292,9 @@
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
-  color: var(--background-primary-color);
-    border: 1px solid var(--background-primary-color);
-  font-family: var(--font-secundary);
+  color: var(--cat-main-accent, var(--background-primary-color, #682A77));
+    border: 1px solid var(--cat-main-accent, var(--background-primary-color, #682A77));
+  font-family: var(--cat-main-font, var(--font-secundary, 'Poppins', sans-serif));
   transition: all 0.3s ease;
 }
 
@@ -305,16 +310,16 @@
 
 .pageCurrent,
 .pageLink:hover {
-  color: var(--text-color-base);
-  border: 1px solid var(--background-primary-color);
-  background-color: var(--background-primary-color);
+  color: var(--cat-main-page-text, var(--text-color-base, #ffffff));
+  border: 1px solid var(--cat-main-accent, var(--background-primary-color, #682A77));
+  background-color: var(--cat-main-accent, var(--background-primary-color, #682A77));
 }
 
 .pageCurrent a,
 .pageLink:hover a {
-    color: var(--text-color-base);
-  border: 1px solid var(--background-primary-color);
-  background-color: var(--background-primary-color);
+  color: var(--cat-main-page-text, var(--text-color-base, #ffffff));
+  border: 1px solid var(--cat-main-accent, var(--background-primary-color, #682A77));
+  background-color: var(--cat-main-accent, var(--background-primary-color, #682A77));
 }
 
 .pageNext,
@@ -396,7 +401,7 @@
   color: var(--text-primary-color);
   display: flex;
   flex-wrap: wrap;
-  font-family: var(--font-primary);
+  font-family: var(--cat-main-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 14px;
   font-weight: 500;
   justify-content: space-between;
@@ -511,11 +516,11 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  background-color: var(--background-secundary-color);
+  background-color: var(--cat-main-btn-bg, var(--background-secundary-color, #122161));
   border-radius: 70px;
   font-weight: 600;
   font-size: 16px;
-  color: var(--text-secundary-color);
+  color: var(--cat-main-btn-text, var(--text-secundary-color, #ffffff));
   padding: 0 40px;
   width: max-content;
   height: 56px;

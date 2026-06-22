@@ -9,21 +9,24 @@ import { useLayout } from '@/context/LayoutContext';
 export default function Showcase() {
   const { selections } = useLayout();
 
-  // Filtra os spots selecionados
   const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
 
+  // Herda as variáveis visuais da vitrine selecionada na home (cores, fonte, bullet)
+  const showcaseSelection = selections.find(item => item.layoutKey === 'showcase');
+  const showcaseVars = showcaseSelection?.variables as React.CSSProperties | undefined;
+
   return (
-    <div className={styles.home__showcase}>
+    <div className={styles.home__showcase} style={showcaseVars}>
       <div className={`${styles.showcase__container} component__container`}>
         <div className={styles.showcase__title}>
-          <h2>Em destaque</h2>
+          <h2>Produtos relacionados</h2>
         </div>
 
         <div className={styles.showcase__wrapper}>
           <div className={styles.showcase__swiper} data-tray-tst="vitrine_home">
             <div className={styles.swiper__wrapper}>
               {selectedSpots.length > 0
-                ? selectedSpots.map((spot: { id: string; uid: string }) => {
+                ? selectedSpots.map((spot: { id: string; uid: string; variables?: Record<string, string> }) => {
                     const layoutItem = LAYOUTS.spot.items.find(
                       it => it.id === spot.id
                     );
@@ -37,6 +40,7 @@ export default function Showcase() {
                         <div
                           key={`${spot?.uid}-${index}`}
                           className={styles.swiper__slide}
+                          style={spot.variables as React.CSSProperties}
                           data-tray-tst="vitrine_produto"
                           itemScope
                           itemType="https://schema.org/SomeProducts"

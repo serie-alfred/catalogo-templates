@@ -270,7 +270,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__sku {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 400;
   font-size: 14px;
   color: var(--color-semi-black);
@@ -280,7 +280,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner h1 {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 700;
   font-size: 24px;
   color: var(--color-black);
@@ -301,7 +301,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars span {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 400;
   font-size: 12px;
   color: var(--color-semi-black);
@@ -324,18 +324,18 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagNew span {
-  background-color: var(--background-tertiary-color);
-  color: var(--text-tertiary-color);
+  background-color: var(--prod-info-tag-bg, var(--background-tertiary-color, #f5a623));
+  color: var(--prod-info-tag-text, var(--text-tertiary-color, #ffffff));
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagFeatured span {
-  background-color: var(--background-secundary-color);
-  color: var(--text-color-secundary);
+  background-color: var(--prod-info-secondary-bg, var(--background-secundary-color, #122161));
+  color: var(--prod-info-secondary-text, var(--text-color-secundary, #ffffff));
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagDiscount span {
-  background-color: var(--background-secundary-color);
-  color: var(--text-color-secundary);
+  background-color: var(--prod-info-secondary-bg, var(--background-secundary-color, #122161));
+  color: var(--prod-info-secondary-text, var(--text-color-secundary, #ffffff));
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div span {
@@ -347,7 +347,7 @@
   padding: 0px 6px;
   height: 19px;
   width: max-content;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 800;
   font-size: 10px;
   text-transform: uppercase;
@@ -366,10 +366,10 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__excerpt ul li {
   list-style: none !important;
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 400;
   font-size: 14px;
-  color: var(--text-color-secundary);
+  color: var(--prod-info-secondary-text, var(--text-color-secundary, #ffffff));
   margin-bottom: 8px;
   display: flex;
   flex-wrap: wrap;
@@ -382,7 +382,7 @@
   width: 3px;
   height: 3px;
   border-radius: 100%;
-  background-color: var(--text-color-secundary);
+  background-color: var(--prod-info-secondary-text, var(--text-color-secundary, #ffffff));
   margin-right: 4px;
 }
 
@@ -400,7 +400,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoPrincipal,
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoPrincipal span {
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 700;
   font-size: 22px;
   color: var(--color-black);
@@ -416,7 +416,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoDe {
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   text-decoration: line-through;
   color: var(--color-semi-black);
   font-size: 14px;
@@ -440,17 +440,17 @@
   width: max-content;
   padding: 0px 18px;
   border-radius: 70px;
-  background-color: var(--background-secundary-color);
-  font-family: var(--font-secundary);
+  background-color: var(--prod-info-secondary-bg, var(--background-secundary-color, #122161));
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 500;
   font-size: 12px;
-  color: var(--text-color-secundary);
+  color: var(--prod-info-secondary-text, var(--text-color-secundary, #ffffff));
   margin-bottom: 8px;
   margin-left: 15px;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .PrecoPrincipal {
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   color: var(--color-black);
   height: unset;
   margin: 0px;
@@ -489,7 +489,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .infoPreco span,
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .infoPreco strong {
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 400;
   font-size: 14px;
   color: #3D3D3D;
@@ -508,7 +508,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .infoPreco>.txt-corparcelas::before {
   display: inline-block;
   content: 'Em';
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   color: var(--color-semi-black);
   margin-right: 3px;
   margin-left: 3px;
@@ -553,7 +553,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco #preco #produto_nao_disp .botao-commerce.botao-nao_indisponivel {
   background-color: #4f4f4f;
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 14px;
   font-weight: 400;
   color: #ffffff;
@@ -573,7 +573,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco #preco #produto_nao_disp #nao_disp label {
   display: block;
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 12px;
   font-weight: 400;
   color: #4f4f4f;
@@ -582,7 +582,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco #preco #produto_nao_disp #nao_disp label input {
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 12px;
   font-weight: 400;
   color: #4f4f4f;
@@ -610,7 +610,7 @@
   height: 40px;
   background-color: #4f4f4f;
   border-radius: 0px;
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 12px;
   font-weight: 400;
   color: #ffffff;
@@ -628,7 +628,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco #preco #produto_nao_disp #nao_disp .color {
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 12px;
   font-weight: 400;
   color: #4f4f4f;
@@ -649,7 +649,7 @@
 .showPaymentMethods {
   display: inline-block;
   content: 'Ver mais formas de pagamento';
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 500;
   font-size: 14px;
   color: var(--color-semi-black);
@@ -660,7 +660,7 @@
 .textoVariacao h2 {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 700;
   font-size: 16px;
   color: var(--color-black);
@@ -668,7 +668,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar .blocoAlerta {
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 400;
   font-size: 12px;
   padding: 0px;
@@ -688,10 +688,10 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar .cor_variacao .varTit {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 700;
   font-size: 16px;
-  color: var(--text-color-base);
+  color: var(--prod-info-btn-text, var(--text-color-base, #ffffff));
   margin-bottom: 15px !important;
 }
 
@@ -704,7 +704,7 @@
   background-color: #ffffff;
   border: 1px solid #e5e5e5;
   padding: 10px;
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 400;
   font-size: 14px;
   color: #0f0f0f;
@@ -731,7 +731,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar .cor_variacao h2 {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 700;
   font-size: 16px;
   color: #0f0f0f;
@@ -755,7 +755,7 @@
   width: 93px;
   height: 56px;
   border-radius: 16px;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 16px;
   font-weight: 600;
   color: var(--color-black);
@@ -781,8 +781,8 @@
 .listaCorVariacao .selected {
   border: 1px solid transparent !important;
   box-shadow: unset !important;
-  background-color: var(--background-primary-color);
-  color: var(--text-color-base);
+  background-color: var(--prod-info-btn-bg, var(--background-primary-color, #682A77));
+  color: var(--prod-info-btn-text, var(--text-color-base, #ffffff));
 }
 
 .corVariacao {
@@ -828,10 +828,10 @@
   width: 93px;
   height: 56px;
   border-radius: 16px;
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 16px;
   font-weight: 600;
-  color: var(--text-color-base);
+  color: var(--prod-info-btn-text, var(--text-color-base, #ffffff));
   line-height: 1;
   display: flex;
   flex-wrap: wrap;
@@ -844,7 +844,7 @@
   border: 1px solid transparent !important;
   box-shadow: unset !important;
   background-color: var(--color-black);
-  color: var(--text-color-secundary);
+  color: var(--prod-info-secondary-text, var(--text-color-secundary, #ffffff));
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox {
@@ -907,7 +907,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 500;
   font-size: 16px;
   color: var(--text-primary-color);
@@ -945,8 +945,8 @@
   justify-content: center;
   width: 100%;
   height: 56px;
-  background-color: var(--background-primary-color);
-  color: var(--text-color-base);
+  background-color: var(--prod-info-btn-bg, var(--background-primary-color, #682A77));
+  color: var(--prod-info-btn-text, var(--text-color-base, #ffffff));
   border-radius: 80px;
   transition: all 0.3s ease-in-out;
 }
@@ -961,10 +961,10 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 600;
   font-size: 16px;
-   color: var(--text-color-base);
+   color: var(--prod-info-btn-text, var(--text-color-base, #ffffff));
   text-transform: initial;
 }
 
@@ -979,8 +979,8 @@
   justify-content: center;
   width: max-content;
   padding: 8px 15px;
-  background-color: var(--background-secundary-color);
-  color: var(--text-color-secundary);
+  background-color: var(--prod-info-secondary-bg, var(--background-secundary-color, #122161));
+  color: var(--prod-info-secondary-text, var(--text-color-secundary, #ffffff));
   border-radius: 16px;
   margin-top: 30px;
 }
@@ -992,11 +992,11 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__message span {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 400;
   font-size: 16px;
-    background-color: var(--background-secundary-color);
-  color: var(--text-color-secundary);
+    background-color: var(--prod-info-secondary-bg, var(--background-secundary-color, #122161));
+  color: var(--prod-info-secondary-text, var(--text-color-secundary, #ffffff));
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping {
@@ -1012,7 +1012,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__title {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 700;
   font-size: 16px;
   color: var(--color-black);
@@ -1038,7 +1038,7 @@
   border: 1px solid #DFDFE0;
   box-shadow: unset;
   padding: 0px 15px;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 400;
   font-size: 16px;
   color: #68686E;
@@ -1075,29 +1075,30 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  background-color: var(--background-primary-color);
+  background-color: var(--prod-info-btn-bg, var(--background-primary-color, #682A77));
   border: none;
   border-radius: 16px;
   padding: 0px 22px;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 600;
   font-size: 16px;
-  color: var(--text-color-base);
+  color: var(--prod-info-btn-text, var(--text-color-base, #ffffff));
   transition: all 0.3s ease-in-out;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form .shipping__send svg {
   margin-left: 8px;
+  color: var(--prod-info-btn-text, var(--text-color-base, #ffffff));
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping a {
   display: inline-block;
   line-height: 1;
   margin-top: 10px;
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 400;
   font-size: 12px;
-  color: var(--text-color-base);
+  color: var(--prod-info-btn-text, var(--text-color-base, #ffffff));
   text-decoration: none;
 }
 
@@ -1119,7 +1120,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__forms .page-simula-frete table tbody tr th,
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__forms .page-simula-frete table tbody tr td {
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 400;
   font-size: 14px;
   color: #141414;
@@ -1191,7 +1192,7 @@
 
 .modal__theme .modal__body .modal__title span {
   display: block;
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 16px;
   font-weight: 600;
   color: #141414;
@@ -1262,7 +1263,7 @@
 }
 
 .modal__theme .modal__body .board #atualizaFormas ul.Forma1>li a.color {
-  font-family: var(--font-primary);
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 14px;
   font-weight: 600;
   color: #141414;
@@ -1465,7 +1466,7 @@
   }
 
   .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .productFormBox .buyButton button:hover {
-    background-color: var(--background-secundary-color);
+    background-color: var(--prod-info-secondary-bg, var(--background-secundary-color, #122161));
   }
 
   .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form .shipping__send:hover {

@@ -18,7 +18,7 @@
   line-height: 1;
   font-weight: 700;
   font-size: 24px;
-  font-family: var(--font-primary);
+  font-family: var(--cat-desc-font, var(--font-primary, 'Manrope', sans-serif));
   color: var(--text-primary-color);
   margin: 0 0 1rem 0;
 }
@@ -27,7 +27,7 @@
   margin-top: 8px;
   font-weight: 400;
   font-size: 16px;
-   color: var(--text-primary-color);
+   color: var(--cat-desc-text, var(--text-primary-color, #122161));
   line-height: 25px;
   letter-spacing: 0.25px;
 }
@@ -36,7 +36,7 @@
 .descriptionText a {
   font-weight: 400;
   font-size: 16px;
-  font-family: var(--font-secundary);
+  font-family: var(--cat-desc-font, var(--font-secundary, 'Poppins', sans-serif));
   color: var(--text-primary-color);
   letter-spacing: 0.25px;
   line-height: 25px;

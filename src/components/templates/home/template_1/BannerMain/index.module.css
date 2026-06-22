@@ -104,7 +104,7 @@ stroke: black;
 }
 
 .banner__home .swiperBannerPagination .swiperPaginationBullet.swiperPaginationBulletActive {
- background: var(--background-primary-color);
+ background: var(--banner-main-accent, var(--background-primary-color, #682A77));
   border: none;
   border-radius: 80px;
   width: 17px;

@@ -12,10 +12,10 @@
 .homeBannerGrid .bannerContainer .bannerRow .bannerTitle h2 {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--banner-grid-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 500;
   font-size: 32px;
-  color: var(--text-primary-color);
+  color: var(--banner-grid-title-color, var(--text-primary-color, #122161));
   text-align: center;
 }
 .homeBannerGrid .bannerContainer .bannerRow .bannerWrapper {

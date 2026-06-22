@@ -366,16 +366,16 @@
 
 .pageCurrent,
 .pageLink:hover {
-  color: var(--text-color-base);
-  border: 1px solid var(--background-primary-color);
-  background-color: var(--background-primary-color);
+  color: var(--cat-main-page-text, var(--text-color-base, #ffffff));
+  border: 1px solid var(--cat-main-accent, var(--background-primary-color, #682A77));
+  background-color: var(--cat-main-accent, var(--background-primary-color, #682A77));
 }
 
 .pageCurrent a,
 .pageLink:hover a {
-    color: var(--text-color-base);
-  border: 1px solid var(--background-primary-color);
-  background-color: var(--background-primary-color);
+  color: var(--cat-main-page-text, var(--text-color-base, #ffffff));
+  border: 1px solid var(--cat-main-accent, var(--background-primary-color, #682A77));
+  background-color: var(--cat-main-accent, var(--background-primary-color, #682A77));
 }
 
 .paginateLinks .pageLink.pageNext {

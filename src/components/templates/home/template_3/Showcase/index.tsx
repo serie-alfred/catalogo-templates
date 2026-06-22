@@ -1,8 +1,7 @@
 'use client';
-
 import React from 'react';
 import styles from './index.module.css';
-import Spot from '@/components/templates/common/template_1/Spot';
+import Spot from '../../../common/template_3/Spot';
 import { LAYOUTS } from '@/data/layoutData';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { useLayout } from '@/context/LayoutContext';
@@ -10,24 +9,38 @@ import { useLayout } from '@/context/LayoutContext';
 export default function Showcase() {
   const { selections } = useLayout();
 
+  // Filtra os spots selecionados
   const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
 
   return (
-    <div className={styles.homeShowcase}>
-      <div className={`${styles.showcaseContainer} component__container`}>
-        {/* Título fixo */}
-        <div className={styles.showcaseTitle}>
-          <h2>Produtos em Destaque</h2>
+    <div className={styles.home__showcase}>
+      <div className={`${styles.showcase__container}`}>
+        <div className={styles.showcase__title}>
+          <h2>Lorem Ipsum Dolor Sit</h2>
+          <a href="/">Ver Todos</a>
         </div>
 
-        <div className={styles.showcaseWrapper}>
-          <div
-            className={`swiper ${styles.showcaseSwiper}`}
-            data-tray-tst="vitrine_home"
-          >
+        <div className={styles.showcase__wrapper}>
+          <div className={styles.showcase__swiper} data-tray-tst="vitrine_home">
+            {/* Botão prev */}
+            <div className={styles.swiper__button__prev}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="m15 18-6-6 6-6" />
+              </svg>
+            </div>
             <div className={styles.swiper__wrapper}>
               {selectedSpots.length > 0
-                ? selectedSpots.map((spot: { id: string; uid: string }) => {
+                ? selectedSpots.map((spot: { id: string; uid: string; variables?: Record<string, string> }) => {
                     const layoutItem = LAYOUTS.spot.items.find(
                       it => it.id === spot.id
                     );
@@ -41,6 +54,7 @@ export default function Showcase() {
                         <div
                           key={`${spot?.uid}-${index}`}
                           className={styles.swiper__slide}
+                          style={spot.variables as React.CSSProperties}
                           data-tray-tst="vitrine_produto"
                           itemScope
                           itemType="https://schema.org/SomeProducts"
@@ -64,77 +78,41 @@ export default function Showcase() {
                     </div>
                   ))}
             </div>
-          </div>
-
-          <div className={`${styles.swiperShowcasePagination}`}>
-            <span
-              className={`${styles.swiperPaginationBullet} ${styles.swiperPaginationBulletActive}`}
-              role="button"
-              aria-label="Go to slide 1"
-              aria-current="true"
-            ></span>
-            <span
-              className={`${styles.swiperPaginationBullet}`}
-              role="button"
-              aria-label="Go to slide 2"
-            ></span>
-            <span
-              className={`${styles.swiperPaginationBullet}`}
-              role="button"
-              aria-label="Go to slide 3"
-            ></span>
-            <span
-              className={`${styles.swiperPaginationBullet}`}
-              role="button"
-              aria-label="Go to slide 4"
-            ></span>
-            <span
-              className={`${styles.swiperPaginationBullet}`}
-              role="button"
-              aria-label="Go to slide 5"
-            ></span>
-            <span
-              className={`${styles.swiperPaginationBullet}`}
-              role="button"
-              aria-label="Go to slide 6"
-            ></span>
-          </div>
-
-          <div className={styles.swiperShowcaseButtonPrev}>
-            <svg
-              fill="none"
-              height="24"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M14 8L10 12L14 16"
-                stroke="#141414"
+            {/* Botão next */}
+            <div className={styles.swiper__button__next}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                strokeWidth="1.5"
-              />
-            </svg>
+              >
+                <path d="m9 18 6-6-6-6" />
+              </svg>
+            </div>
           </div>
 
-          <div className={styles.swiperShowcaseButtonNext}>
-            <svg
-              fill="none"
-              height="24"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M10 16L14 12L10 8"
-                stroke="#141414"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-              />
-            </svg>
+          {/* Paginação */}
+          <div
+            className={`${styles.swiper__showcase__pagination} ${styles.swiper__pagination__clickable} ${styles.swiper__pagination__bullets} ${styles.swiper__pagination__horizontal}`}
+          >
+            {[...Array(8)].map((_, index) => (
+              <span
+                key={index}
+                className={`${styles.swiper__bullet} ${
+                  index == 0 ? styles.swiper__bullet__active : ''
+                }`}
+                role="button"
+                aria-label={`Go to slide ${index + 1}`}
+                aria-current={index == 0 ? 'true' : undefined}
+              ></span>
+            ))}
           </div>
+          <div className={styles.swiper__pagination}></div>
         </div>
       </div>
     </div>

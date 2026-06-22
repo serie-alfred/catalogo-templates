@@ -14,10 +14,10 @@
 .homeCategories .categoriesContainer .categoriesTitle h2 {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--categories-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 500;
   font-size: 32px;
-  color: var(--text-primary-color);
+  color: var(--categories-title-color, var(--text-primary-color, #122161));
   text-align: center;
 }
 
@@ -58,10 +58,10 @@
 .homeCategories .categoriesContainer .categoriesWrapper .categoriesSwiper .swiper__wrapper .swiper__slide .categoriesItem a h3 {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--categories-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 600;
   font-size: 18px;
-  color: var(--text-primary-color);
+  color: var(--categories-title-color, var(--text-primary-color, #122161));
   text-align: center;
   text-transform: uppercase;
 }

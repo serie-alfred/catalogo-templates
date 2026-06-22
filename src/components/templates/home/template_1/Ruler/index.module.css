@@ -4,7 +4,7 @@
   border-bottom: 1px solid #efeff0;
   width: 100%;
   container-type: inline-size;
-  background: var(--background-secundary-color);
+  background: var(--ruler-bg, var(--background-secundary-color, #122161));
 }
 
 .ruler__container {
@@ -38,7 +38,7 @@
   justify-content: center;
   border-radius: 100%;
   transition: all 0.2s ease-in-out;
-  color: var(--text-color-secundary);
+  color: var(--ruler-text, var(--text-color-secundary, #ffffff));
 }
 
 /* .item__icon:hover {
@@ -56,14 +56,14 @@
   font-family: Arial, sans-serif;
   font-weight: 400;
   font-size: 14px;
-  color: var(--text-color-secundary);
+  color: var(--ruler-text, var(--text-color-secundary, #ffffff));
   letter-spacing: 0.25px;
 }
 
 .item__text span b {
   font-weight: 600;
   font-size: 18px;
-  color: var(--text-color-secundary);
+  color: var(--ruler-text, var(--text-color-secundary, #ffffff));
   margin-bottom: 8px;
   width: 100%;
   display: block;
@@ -84,7 +84,7 @@
   justify-content: flex-start;
   z-index: 1;
   cursor: pointer;
-  color: var(--text-color-secundary);
+  color: var(--ruler-text, var(--text-color-secundary, #ffffff));
 }
 
 .swiper-ruler-button-next {

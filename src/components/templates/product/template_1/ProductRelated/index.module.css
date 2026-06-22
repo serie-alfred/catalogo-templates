@@ -12,10 +12,10 @@
 .home__showcase .showcase__container .showcase__title h2 {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--showcase-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 500;
   font-size: 32px;
-  color: var(--text-color-base);
+  color: var(--showcase-title-color, var(--text-primary-color, #122161));
   text-align: center;
 }
 .home__showcase .showcase__container .showcase__wrapper {
@@ -88,7 +88,7 @@ padding: 8px;
   margin: 0px;
 }
 .home__showcase .showcase__container .showcase__wrapper .swiper__showcase__pagination .swiper__bullet.swiper__bullet__active {
-  background-color: #000000;
+  background-color: var(--showcase-accent, var(--background-primary-color, #682A77));
 }
 .home__showcase .showcase__container .showcase__wrapper .swiper__button__prev,
 .home__showcase .showcase__container .showcase__wrapper .swiper__button__next {

@@ -72,14 +72,11 @@ import ProductInfo02 from '@/components/templates/product/template_2/ProductInfo
 // Common
 import Header03 from '@/components/templates/common/template_3/Header';
 import Spot03 from '@/components/templates/common/template_3/Spot';
+import Footer03 from '@/components/templates/common/template_3/Footer';
 
 
 // ******
 // Home
-import BannerDuplo03 from '@/components/templates/home/template_3/BannerDuplo';
-import BannerFull03 from '@/components/templates/home/template_3/BannerFull';
-import BannerSide03 from '@/components/templates/home/template_3/BannerSide';
-import Ruler03 from '@/components/templates/home/template_3/Ruler';
 import Showcase03 from '@/components/templates/home/template_3/Showcase';
 
 // ************
@@ -179,10 +176,7 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
 
 
   Header03,
-  BannerDuplo03,
-  BannerFull03,
-  BannerSide03,
-  Ruler03,
+  Footer03,
   Spot03,
   Showcase03,
 

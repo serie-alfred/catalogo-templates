@@ -20,17 +20,17 @@
 
  .breadcrumb li:last-of-type a,
  .breadcrumb li:last-of-type span {
-   color: var(--text-primary-color);
+   color: var(--breadcrumb-text, var(--text-primary-color, #292929));
  }
 
  .breadcrumb li a,
  .breadcrumb li span {
    display: inline-block;
    line-height: 1;
-   font-family: var(--font-secundary);
+   font-family: var(--breadcrumb-font, var(--font-secundary, 'Poppins', sans-serif));
    font-weight: 500;
    font-size: 14px;
-   color: var(--color-semi-black);
+   color: var(--breadcrumb-text, var(--color-semi-black, #292929));
    text-decoration: none;
  }
 

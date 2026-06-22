@@ -795,6 +795,18 @@ export function useLayoutGenerator() {
       .filter(({ found }) => found.override === true)
       .map(toEntry);
 
+    // Auto-inject CrossSellingShelf01 override whenever ProductShowcase01 is selected
+    const hasProductShowcase = allMapped.some(
+      ({ found }) => found.path === 'organisms/ProductShowcase01'
+    );
+    if (hasProductShowcase) {
+      overrideItems.push({
+        component: 'overrides/CrossSellingShelf01',
+        title: 'CrossSellingShelf01',
+        key: 'crosssel01auto',
+      });
+    }
+
     const globalItems = allMapped
       .filter(({ found }) => !found.override && found.pagina.includes('common'))
       .map(toEntry);

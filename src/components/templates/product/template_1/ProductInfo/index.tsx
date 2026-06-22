@@ -431,21 +431,21 @@ const ProductInfo = () => {
                         <svg width="24" height="24" viewBox="0 0 24 24">
                           <path
                             d="M19 12H5"
-                            stroke="white"
+                            stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth="1.5"
                           />
                           <path
                             d="M14 17L19 12"
-                            stroke="white"
+                            stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth="1.5"
                           />
                           <path
                             d="M14 7L19 12"
-                            stroke="white"
+                            stroke="currentColor"
                             strokeLinecap="round"
                             strokeLinejoin="round"
                             strokeWidth="1.5"

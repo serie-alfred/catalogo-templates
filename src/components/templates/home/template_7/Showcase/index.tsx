@@ -40,7 +40,7 @@ export default function Showcase() {
             </div>
             <div className={styles.swiper__wrapper}>
               {selectedSpots.length > 0
-                ? selectedSpots.map((spot: { id: string; uid: string }) => {
+                ? selectedSpots.map((spot: { id: string; uid: string; variables?: Record<string, string> }) => {
                     const layoutItem = LAYOUTS.spot.items.find(
                       it => it.id === spot.id
                     );
@@ -54,6 +54,7 @@ export default function Showcase() {
                         <div
                           key={`${spot?.uid}-${index}`}
                           className={styles.swiper__slide}
+                          style={spot.variables as React.CSSProperties}
                           data-tray-tst="vitrine_produto"
                           itemScope
                           itemType="https://schema.org/SomeProducts"

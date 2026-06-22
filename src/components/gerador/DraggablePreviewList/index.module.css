@@ -37,6 +37,7 @@
      duplicados, então os dois botões nunca coexistem. */
   .buttonContainer .editBtn{
     background: #2563EB;
+    right: calc(52px + 16px);
   }
 
   .buttonContainer .editBtn svg{

@@ -10,7 +10,7 @@
 }
 
 .footer__top {
-  background-color: var(--background-footer);
+  background-color: var(--footer-bg, var(--background-footer, #1A051C));
   padding: 65px 0 75px 0;
 }
 
@@ -27,10 +27,10 @@
 .footer__top .top__component .top__row .top__menu .menu__title {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--footer-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 500;
   font-size: 18px;
-  color: var(--text-color-footer);
+  color: var(--footer-text, var(--text-color-footer, #3D3D3D));
   margin-bottom: 25px;
 }
 
@@ -58,7 +58,7 @@
 }
 
 .footer__top .top__component .top__row .top__menu ul.menu__social li a svg path{
-  fill: var(--text-color-footer);
+  fill: var(--footer-text, var(--text-color-footer, #3D3D3D));
 }
 
 .footer__top .top__component .top__row .top__menu ul.menu__payment {
@@ -100,16 +100,16 @@
 .footer__top .top__component .top__row .top__menu ul li a {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--footer-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 500;
   font-size: 14px;
-  color: var(--text-color-footer);
+  color: var(--footer-text, var(--text-color-footer, #3D3D3D));
   text-decoration: none;
 }
 
 /* Footer Bottom */
 .footer__bottom {
-  background-color: var(--background-footer);
+  background-color: var(--footer-bg, var(--background-footer, #1A051C));
   padding: 45px 0 52px 0;
 }
 
@@ -136,10 +136,10 @@
 
 .footer__bottom .bottom__container .bottom__row .footer__copyright span {
   display: block;
-  font-family: var(--font-secundary);
+  font-family: var(--footer-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 500;
   font-size: 12px;
-  color: var(--text-color-footer);
+  color: var(--footer-text, var(--text-color-footer, #3D3D3D));
   line-height: 19px;
   letter-spacing: 0.25px;
 }
@@ -224,7 +224,7 @@
 
 /* Nav Logo Tray */
 #NavLogoTray {
-  background-color: var(--background-footer);
+  background-color: var(--footer-bg, var(--background-footer, #1A051C));
   padding: 13px 0;
 }
 
@@ -240,7 +240,7 @@
   display: block;
   text-align: center;
   color: var(--color-black) !important;
-  font-family: var(--font-secundary);
+  font-family: var(--footer-font, var(--font-secundary, 'Poppins', sans-serif));
 }
 
 #NavLogoTray .logotray-message a {
