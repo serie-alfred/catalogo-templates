@@ -24,7 +24,6 @@ import BannerGrid01 from '@/components/templates/home/template_1/BannerGrid';
 import Brand01 from '@/components/templates/home/template_1/Brand';
 import Categories01 from '@/components/templates/home/template_1/Categories';
 
-
 // ******
 // Categoria
 import CategoryMain01 from '@/components/templates/category/template_1/CategoryMain';
@@ -74,7 +73,6 @@ import Header03 from '@/components/templates/common/template_3/Header';
 import Spot03 from '@/components/templates/common/template_3/Spot';
 import Footer03 from '@/components/templates/common/template_3/Footer';
 
-
 // ******
 // Home
 import Showcase03 from '@/components/templates/home/template_3/Showcase';
@@ -85,7 +83,6 @@ import Showcase03 from '@/components/templates/home/template_3/Showcase';
 import Footer04 from '@/components/templates/common/template_4/Footer';
 import Header04 from '@/components/templates/common/template_4/Header';
 import Spot04 from '@/components/templates/common/template_4/Spot';
-
 
 // ******
 // Common
@@ -105,6 +102,8 @@ import Ruler04 from '@/components/templates/home/template_4/Ruler';
 
 // ******
 // Common
+import Footer05 from '@/components/templates/common/template_5/Footer';
+import Header05 from '@/components/templates/common/template_5/Header';
 
 // ******
 // Common
@@ -144,9 +143,12 @@ import HomeCarousel06 from '@/components/templates/home/template_6/HomeCarousel'
 import Header07 from '@/components/templates/common/template_7/Header';
 import Footer07 from '@/components/templates/common/template_7/Footer';
 import Spot07 from '@/components/templates/common/template_7/Spot';
-import Showcase07 from '@/components/templates/home/template_7/Showcase'
+import Showcase07 from '@/components/templates/home/template_7/Showcase';
 
-export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown }>> = {
+export const TemplateRegistry: Record<
+  string,
+  React.FC<{ [key: string]: unknown }>
+> = {
   Newsletter01,
   Ruler01,
   Spot01,
@@ -180,7 +182,6 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   CategoryMain02,
   ProductInfo02,
 
-
   Header03,
   Footer03,
   Spot03,
@@ -197,6 +198,8 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
 
   Header04,
   Spot05,
+  Footer05,
+  Header05,
   BannerFull05,
   BannerSoloLeft05,
   BannerTriple05,
@@ -215,5 +218,5 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   Header07,
   Footer07,
   Spot07,
-  Showcase07
+  Showcase07,
 };
