@@ -35,7 +35,8 @@ export default function FontSelector({
   useEffect(() => {
     fetch('/gerador/api/fonts')
       .then(res => res.json())
-      .then(data => setAllFonts(data));
+      .then(data => setAllFonts(Array.isArray(data) ? data : []))
+      .catch(() => setAllFonts([]));
   }, []);
 
   useEffect(() => {

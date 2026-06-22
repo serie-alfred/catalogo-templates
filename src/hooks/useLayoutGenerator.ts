@@ -44,25 +44,12 @@ export function useLayoutGenerator() {
 
   /** Estados principais */
   // dentro de useLayoutGenerator
-  const [selections, setSelections] = useState<LayoutSelection[]>(() => {
-    try {
-      if (typeof window === 'undefined') return [];
-      const stored = localStorage.getItem('layoutSelections');
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  });
+  // Estado persistido inicia com o default de SSR; a leitura do localStorage
+  // acontece num useEffect pós-mount (ver "Hidratação do estado persistido"),
+  // para o 1º render do cliente bater com o servidor e evitar hydration mismatch.
+  const [selections, setSelections] = useState<LayoutSelection[]>([]);
 
-  const [platform, setPlatform] = useState<Platform | null>(() => {
-    try {
-      if (typeof window === 'undefined') return null;
-      const stored = localStorage.getItem('layoutPlatform');
-      return stored ? (stored as Platform) : null;
-    } catch {
-      return null;
-    }
-  });
+  const [platform, setPlatform] = useState<Platform | null>(null);
 
   const [wakeCustomValue, setWakeCustomValue] = useState<string>("");
   const [showWakePopup, setShowWakePopup] = useState(false);
@@ -97,22 +84,14 @@ export function useLayoutGenerator() {
   const [fontSecondary, setFontSecondary] = useState('Poppins');
   const [fontTertiary, setFontTertiary] = useState('Open Sans');
 
-  const [logo, setLogo] = useState<string>(() => {
-    try {
-      if (typeof window === 'undefined') return '';
-      return localStorage.getItem('logo') || '';
-    } catch {
-      return '';
-    }
-  });
-  const [favicon, setFavicon] = useState<string>(() => {
-    try {
-      if (typeof window === 'undefined') return '';
-      return localStorage.getItem('favicon') || '';
-    } catch {
-      return '';
-    }
-  });
+  const [logo, setLogo] = useState<string>('');
+  const [favicon, setFavicon] = useState<string>('');
+
+  /** false no SSR e no 1º render do cliente; vira true após hidratar do
+   *  localStorage. Garante que o 1º render do cliente == servidor (sem
+   *  hydration mismatch) e impede que os efeitos de save sobrescrevam o
+   *  localStorage com os defaults antes do load rodar. */
+  const [hydrated, setHydrated] = useState(false);
   const [colorPrimary, setColorPrimary] = useState('#1a1a1a');
   const [colorSecondary, setColorSecondary] = useState('#ffffff');
   const [colorTertiary, setColorTertiary] = useState('#f0f0f0');
@@ -240,6 +219,24 @@ export function useLayoutGenerator() {
     }
   }, []);
 
+  // Hidratação do estado persistido (selections/platform/logo/favicon) — só
+  // após o mount, para o 1º render do cliente bater com o SSR. `hydrated`
+  // libera os efeitos de save abaixo (que senão gravariam os defaults vazios).
+  useEffect(() => {
+    try {
+      const storedSelections = localStorage.getItem('layoutSelections');
+      if (storedSelections) setSelections(JSON.parse(storedSelections));
+      const storedPlatform = localStorage.getItem('layoutPlatform');
+      if (storedPlatform) setPlatform(storedPlatform as Platform);
+      setLogo(localStorage.getItem('logo') || '');
+      setFavicon(localStorage.getItem('favicon') || '');
+    } catch (e) {
+      console.error('Erro ao carregar estado do layout:', e);
+    } finally {
+      setHydrated(true);
+    }
+  }, []);
+
   useEffect(() => {
     setColorPrimaryText(getContrastColor(colorPrimaryBackground))
     setColorSecondaryText(getContrastColor(colorSecondaryBackground))
@@ -302,6 +299,7 @@ export function useLayoutGenerator() {
   }, [fontPrimary, fontSecondary, fontTertiary]);
 
   useEffect(() => {
+    if (!hydrated) return;
     try {
       if (logo) {
         localStorage.setItem('logo', logo);
@@ -311,9 +309,10 @@ export function useLayoutGenerator() {
     } catch (e) {
       console.error('Erro ao salvar logo:', e);
     }
-  }, [logo]);
+  }, [logo, hydrated]);
 
   useEffect(() => {
+    if (!hydrated) return;
     try {
       if (favicon) {
         localStorage.setItem('favicon', favicon);
@@ -323,7 +322,7 @@ export function useLayoutGenerator() {
     } catch (e) {
       console.error('Erro ao salvar favicon:', e);
     }
-  }, [favicon]);
+  }, [favicon, hydrated]);
 
   useEffect(() => {
     try {
@@ -895,21 +894,23 @@ export function useLayoutGenerator() {
   }, []);
 
   useEffect(() => {
+    if (!hydrated) return;
     try {
       localStorage.setItem('layoutSelections', JSON.stringify(selections));
     } catch (error) {
       console.error('Erro ao salvar seleções no localStorage:', error);
     }
-  }, [selections]);
+  }, [selections, hydrated]);
 
   useEffect(() => {
+    if (!hydrated) return;
     try {
       if (platform)
         localStorage.setItem('layoutPlatform', platform);
     } catch (error) {
       console.error('Erro ao salvar plataforma no localStorage:', error);
     }
-  }, [platform]);
+  }, [platform, hydrated]);
 
   return {
     selections,
