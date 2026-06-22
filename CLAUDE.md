@@ -45,6 +45,8 @@ There is also a near-empty [src/context/LayoutProviders.client.tsx](src/context/
 
 ### Adding or editing a template
 
+> **Coming from the `faststore.starter` repo?** Run `/from-faststore <Name>` ([.claude/commands/from-faststore.md](.claude/commands/from-faststore.md)) instead of doing the steps below by hand — it generates the preview, converts the SCSS, derives the `variablesSchema`, and registers the component. See [memory/from-faststore.md](memory/from-faststore.md). The manual steps below are the underlying contract.
+
 A template is a React component plus a catalog entry. Two files always need to change together:
 
 1. **Component** — add it under `src/components/templates/{common,home,category,product}/template_N/<Name>/`. The folder convention is `index.tsx` + `index.module.css`. Components receive `{ isMobile }` from the renderer (see [src/components/gerador/SortableItem/index.tsx:50](src/components/gerador/SortableItem/index.tsx#L50)).
