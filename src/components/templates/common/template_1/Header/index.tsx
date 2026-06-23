@@ -5,7 +5,6 @@ import { useLayout } from '@/context/LayoutContext';
 
 export default function Header() {
   const { logo } = useLayout();
-  const logoSrc = logo || 'https://via.placeholder.com/184x56';
   const isHome = true;
   const isLogged = false;
   const cartAmount = 2;
@@ -168,12 +167,20 @@ export default function Header() {
               {isHome ? (
                 <h1>
                   <a href="#">
-                    <img src={logoSrc} alt="Logo" width="184" height="56" />
+                    {logo ? (
+                      <img src={logo} alt="Logo" width="184" height="56" />
+                    ) : (
+                      <span className={styles.logo__fallback}>SERIE//A</span>
+                    )}
                   </a>
                 </h1>
               ) : (
                 <a href="#">
-                  <img src={logoSrc} alt="Logo" width="184" height="56" />
+                  {logo ? (
+                    <img src={logo} alt="Logo" width="184" height="56" />
+                  ) : (
+                    <span className={styles.logo__fallback}>SERIE//A</span>
+                  )}
                 </a>
               )}
             </div>

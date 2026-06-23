@@ -2,9 +2,9 @@
    Header (live, responsive)
 ------------------------------------------------------------------ */
 .siteHeader {
-  background: var(--background-primary-color);
-  color: var(--text-color-base);
-  border-bottom: var(--background-secundary-color);
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
+  color: var(--header-text, var(--text-color-base, #000000));
+  border-bottom: var(--header-accent, var(--background-secundary-color, #000000));
   position: relative;
   z-index: 10;
   container-type: inline-size;
@@ -13,8 +13,8 @@
 
 /* ---------- Topbar ---------- */
 .topbar {
-  background: var(--background-secundary-color);
-  color: var(--text-color-secundary);
+  background: var(--header-topbar-bg, var(--background-secundary-color, #000000));
+  color: var(--header-topbar-text, var(--text-color-secundary, #ffffff));
   font-size: 11.5px;
   font-weight: 400;
   letter-spacing: 0.06em;
@@ -35,7 +35,7 @@
   display: inline-flex;
   align-items: center;
   gap: 56px;
-  color: rgba(255,255,255,0.92);
+  color: var(--header-topbar-text, var(--text-color-secundary, rgba(255,255,255,0.92)));
 }
 .topbarItem::after {
   content: "";
@@ -70,7 +70,7 @@
   display: inline-flex;
   align-items: baseline;
   gap: 0;
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 700;
   font-size: 22px;
   letter-spacing: -0.02em;
@@ -79,15 +79,15 @@
   transition: color .25s var(--ease);
 }
 .logoDot {
-  color: var(--background-secundary-color);
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
   margin-left: 1px;
 }
 .logo:hover {
-  color: var(--background-secundary-color);
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
 }
 
 .logo:hover .logoDot {
-   color: var(--background-secundary-color);
+   color: var(--header-accent, var(--background-secundary-color, #e73888));
   }
 
 /* Search */
@@ -148,14 +148,14 @@
   position: relative;
 }
 .action:hover {
-  color: var(--background-secundary-color);
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
 }
 .action:hover .actionIcon {
-  color: var(--background-secundary-color);
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
 }
 .action:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--background-primary-color);
+  box-shadow: 0 0 0 2px var(--header-bg, var(--background-primary-color, #ffffff));
 }
 .actionIcon {
   /* color: #000;  */
@@ -163,7 +163,7 @@
 }
 .actionLabel {
   display: inline-block;
-  font-family: var(--font-secundary);
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
 }
 
 /* Cart counter */
@@ -175,8 +175,8 @@
   height: 16px;
   padding: 0 4px;
   border-radius: 999px;
-  background: var(--background-secundary-color);
-  color: var(--text-color-secundary);
+  background: var(--header-accent, var(--background-secundary-color, #e73888));
+  color: var(--header-topbar-text, var(--text-color-secundary, #ffffff));
   font-size: 9.5px;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -184,15 +184,15 @@
   align-items: center;
   justify-content: center;
   line-height: 1;
-  border: 2px solid var(--background-secundary-color);
+  border: 2px solid var(--header-accent, var(--background-secundary-color, #e73888));
 }
 
 /* ---------- Nav ---------- */
 .nav {
   display: flex;
   justify-content: center;
-  border-top: var(--background-secundary-color);
-  background: var(--background-primary-color);
+  border-top: var(--header-accent, var(--background-secundary-color, #000000));
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
   /* margin: auto; */
 }
 .navList {
@@ -214,11 +214,11 @@
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--text-color-base);
+  color: var(--header-text, var(--text-color-base, #000000));
   position: relative;
   padding: 16px 0;
   transition: color .2s var(--ease);
-  font-family: var(--font-secundary);
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
 }
 .navLink::after {
   content: "";
@@ -227,20 +227,20 @@
   bottom: 12px;
   height: 1px;
   width: 0;
-  background: var(--background-secundary-color);
+  background: var(--header-accent, var(--background-secundary-color, #e73888));
   transition: width .3s var(--ease);
 }
 .navLink:hover {
-  color: var(--background-secundary-color);
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
 }
 .navLink:hover::after { width: 100%; }
 .navLink[aria-current="page"] {
-    color: var(--background-secundary-color);
+    color: var(--header-accent, var(--background-secundary-color, #e73888));
 
   }
 .navLink[aria-current="page"]::after {
   width: 100%;
-  background: var(--background-secundary-color);
+  background: var(--header-accent, var(--background-secundary-color, #e73888));
 
   }
 
@@ -248,18 +248,18 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--background-secundary-color);
+  background: var(--header-accent, var(--background-secundary-color, #e73888));
   display: inline-block;
 }
 .navLinkSale {
-  color: var(--text-color-base);
+  color: var(--header-text, var(--text-color-base, #000000));
 
   }
 .navLinkSale:hover {
   /* color: var(--text-color-base);  */
 }
 .navLinkSale::after {
-  background: var(--background-secundary-color);
+  background: var(--header-accent, var(--background-secundary-color, #e73888));
 }
 
 /* ------------------------------------------------------------------
@@ -271,7 +271,7 @@
   padding: 0 20px;
   align-items: center;
   justify-content: space-between;
-  border-bottom: var(--background-secundary-color);
+  border-bottom: var(--header-accent, var(--background-secundary-color, #000000));
 }
 .headerMobileLeft,
 .headerMobileRight {
@@ -286,16 +286,16 @@
   align-items: center !important;
   justify-content: center !important;
   border-radius: 999px !important;
-  color: var(--text-color-base) !important;
+  color: var(--header-text, var(--text-color-base, #000000)) !important;
   position: relative !important;
   transition: color .2s var(--ease), background-color .2s var(--ease) !important;
   cursor: pointer;
 }
 /* .iconBtn:hover { color: #E73888; } */
 .iconBtn:active {
-  background: var(--background-secundary-color);
+  background: var(--header-accent, var(--background-secundary-color, #e73888));
 }
-.iconBtn:focus-visible { outline: none; box-shadow: 0 0 0 2px #E73888; }
+.iconBtn:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--header-accent, var(--background-secundary-color, #e73888)); }
 .iconBtn .cartCount {
   top: 6px;
   right: 6px;
@@ -334,8 +334,7 @@
   border: none;
 }
 .iconBtn svg:hover {
-  stroke: var(--background-secundary-color);
+  stroke: var(--header-accent, var(--background-secundary-color, #e73888));
 }
 
 }
-

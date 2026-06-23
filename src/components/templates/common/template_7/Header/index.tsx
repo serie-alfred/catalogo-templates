@@ -40,8 +40,8 @@ const HeaderNovo = () => {
 
       {/* */}
       <div className={styles.headerMain}>
-        <a href="#" className={styles.logo} aria-label="NORTE — página inicial">
-          NORTE<span className={styles.logoDot}>.</span>
+        <a href="#" className={styles.logo} aria-label="BRAND — página inicial">
+          BRAND<span className={styles.logoDot}>.</span>
         </a>
 
         <form className={styles.search} role="search">
@@ -198,8 +198,8 @@ const HeaderNovo = () => {
           </button>
         </div>
 
-        <a href="#" className={styles.logo} aria-label="NORTE — página inicial">
-          NORTE<span className={styles.logoDot}>.</span>
+        <a href="#" className={styles.logo} aria-label="BRAND — página inicial">
+          BRAND<span className={styles.logoDot}>.</span>
         </a>
 
         <div className={styles.headerMobileRight}>

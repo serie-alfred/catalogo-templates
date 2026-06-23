@@ -96,7 +96,7 @@ export function useLayoutGenerator() {
   const [colorSecondary, setColorSecondary] = useState('#ffffff');
   const [colorTertiary, setColorTertiary] = useState('#fff');
   const [colorPrimaryBackground, setColorPrimaryBackground] = useState('#000');
-  const [colorSecondaryBackground, setColorSecondaryBackground] = useState('#000');
+  const [colorSecondaryBackground, setColorSecondaryBackground] = useState('#dd1838');
   const [colorTertiaryBackground, setColorTertiaryBackground] = useState('#000');
   const [colorFooter, setColorFooter] = useState('#1A051C');
   const [colorFooterText, setColorFooterText] = useState('#94A3B8');
@@ -205,7 +205,7 @@ export function useLayoutGenerator() {
         setColorTertiary(parsed.colorTertiary || '#fff');
 
         setColorPrimaryBackground(parsed.colorPrimaryBackground || '#000');
-        setColorSecondaryBackground(parsed.colorSecondaryBackground || '#000');
+        setColorSecondaryBackground(parsed.colorSecondaryBackground || '#dd1838');
         setColorTertiaryBackground(parsed.colorTertiaryBackground || '#000');
 
         setColorFooter(parsed.colorFooter || '#1A051C');

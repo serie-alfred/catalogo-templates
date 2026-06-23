@@ -95,7 +95,7 @@ const FooterNovo = () => {
         <div className={styles.footerMainInner}>
           <div className={styles.footerBrand}>
             <a href="#" className={styles.brandLogo}>
-              NORTE<span>.</span>
+              BRAND<span>.</span>
             </a>
             <p>
               Moda masculina streetwear com estética urbana, acabamento premium
@@ -217,7 +217,7 @@ const FooterNovo = () => {
                 <a href="#">Trabalhe conosco</a>
               </li>
               <li>
-                <a href="#">Blog · Diário NORTE</a>
+                <a href="#">Blog · Diário BRAND</a>
               </li>
               <li>
                 <a href="#">Imprensa</a>
@@ -447,7 +447,7 @@ const FooterNovo = () => {
             <p className={styles.nlLegal}>
               Ao se cadastrar, você concorda com nossa{' '}
               <a href="#">Política de Privacidade</a> e com receber comunicações
-              da NORTE.
+              da BRAND.
             </p>
           </div>
         </div>
@@ -544,10 +544,10 @@ const FooterNovo = () => {
       <section className={styles.legal}>
         <div className={styles.legalInner}>
           <span className={styles.legalBrand}>
-            © 2026 NORTE<span>.</span> Todos os direitos reservados.
+            © 2026 BRAND<span>.</span> Todos os direitos reservados.
           </span>
           <span className={styles.legalCnpj}>
-            NORTE Streetwear Ltda. · CNPJ 38.482.117/0001-04 · Rua&nbsp;Augusta,
+            BRAND Streetwear Ltda. · CNPJ 38.482.117/0001-04 · Rua&nbsp;Augusta,
             2.840 — São&nbsp;Paulo, SP
           </span>
           <a href="#" className={styles.legalPlatform}>

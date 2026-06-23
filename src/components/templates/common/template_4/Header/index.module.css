@@ -13,6 +13,7 @@
   font-size: 15px;
   line-height: 1.7;
   color: var(--header-text, var(--text-color-base, #0a0a0a));
+  width: 100%;
 }
 .header04Root *,
 .header04Root *::before,

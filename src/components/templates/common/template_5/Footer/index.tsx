@@ -64,7 +64,7 @@ const data = {
     { label: 'IN', url: '#' },
   ],
   copyright: '© 2026 SÉRIE//A. TODOS OS DIREITOS RESERVADOS.',
-  developedBy: 'DESENVOLVIMENTO POR NORTE STUDIO · PLATAFORMA VTEX',
+  developedBy: 'DESENVOLVIMENTO POR BRAND STUDIO · PLATAFORMA VTEX',
   paymentMethods: ['VISA', 'MASTER', 'PIX'],
 };
 
@@ -89,7 +89,9 @@ function Wordmark({ name }: { name: string }) {
       {parts.map((part, i) => (
         <React.Fragment key={i}>
           {part}
-          {i < parts.length - 1 && <span className={styles.wordmarkAccent}>{'//'}</span>}
+          {i < parts.length - 1 && (
+            <span className={styles.wordmarkAccent}>{'//'}</span>
+          )}
         </React.Fragment>
       ))}
     </>
@@ -144,8 +146,15 @@ export default function Footer05() {
           </div>
 
           {data.columns.map((col, i) => (
-            <div key={i} className={`${styles.footerCol} ${styles.footerColOpen}`}>
-              <button type="button" className={styles.colHead} aria-expanded="true">
+            <div
+              key={i}
+              className={`${styles.footerCol} ${styles.footerColOpen}`}
+            >
+              <button
+                type="button"
+                className={styles.colHead}
+                aria-expanded="true"
+              >
                 <span className={styles.colTitle}>{col.title}</span>
                 <span className={styles.colChev}>
                   <Chevron />
@@ -162,7 +171,11 @@ export default function Footer05() {
           ))}
 
           <div className={`${styles.footerContact} ${styles.footerColOpen}`}>
-            <button type="button" className={styles.colHead} aria-expanded="true">
+            <button
+              type="button"
+              className={styles.colHead}
+              aria-expanded="true"
+            >
               <span className={styles.colTitle}>{data.contactTitle}</span>
               <span className={styles.colChev}>
                 <Chevron />

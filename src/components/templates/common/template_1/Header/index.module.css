@@ -119,6 +119,17 @@ header.header .header__middle .middle__container .middle__row .middle__logo a im
   display: block;
 }
 
+header.header .header__middle .middle__container .middle__row .middle__logo a .logo__fallback {
+  display: inline-block;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 24px;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--text-color-base);
+  font-family: var(--font-primary);
+}
+
 header.header .header__middle .middle__container .middle__row .middle__search {
   padding: 0px 15px;
   width: 39%;
