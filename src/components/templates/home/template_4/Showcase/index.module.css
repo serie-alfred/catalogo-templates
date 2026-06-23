@@ -1,6 +1,5 @@
 .shelf {
   width: 100%;
-  background-color: #f5f5f5;
   padding: 32px 0 40px;
   container-type: inline-size;
 }
@@ -15,7 +14,7 @@
 .shelf__title {
   font-family: var(--showcase-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 700;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1.2;
   color: var(--showcase-title-color, var(--text-primary-color, #292929));
   text-transform: uppercase;
@@ -41,7 +40,7 @@
 }
 
 .showcase__swiper {
-  margin: 0 -4px;
+  margin: 0 -8px;
 }
 
 .swiper__wrapper {
@@ -50,7 +49,7 @@
 }
 
 .swiper__slide {
-  padding: 0 4px;
+  padding: 0 8px;
 }
 
 .swiper__slide:nth-child(n + 3) {
@@ -71,9 +70,23 @@
   }
 }
 
-@container (min-width: 1024px) {
+@container (min-width: 1024px) and (max-width: 1280px) {
   .swiper__wrapper {
     grid-template-columns: repeat(4, 1fr);
+  }
+
+  .swiper__slide {
+    display: block !important;
+  }
+
+  .swiper__slide:nth-child(n + 5) {
+    display: none !important;
+  }
+}
+
+@container (min-width: 1280px) {
+  .swiper__wrapper {
+    grid-template-columns: repeat(5, 1fr);
   }
 
   .swiper__slide {
@@ -146,13 +159,21 @@
 }
 
 .dot__active {
-  background-color: var(--showcase-accent, var(--background-primary-color, #0096fe));
+  background-color: var(--showcase-accent, var(--background-primary-color, #e40101));
   width: 24px;
 }
 
 @container (max-width: 960px) {
   .shelf__header {
     align-items: center;
+  }
+
+  .showcase__swiper {
+    margin: 0 -4px;
+  }
+
+  .swiper__slide {
+    padding: 0 4px;
   }
 
   .arrow {

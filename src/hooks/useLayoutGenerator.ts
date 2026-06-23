@@ -94,13 +94,13 @@ export function useLayoutGenerator() {
   const [hydrated, setHydrated] = useState(false);
   const [colorPrimary, setColorPrimary] = useState('#1a1a1a');
   const [colorSecondary, setColorSecondary] = useState('#ffffff');
-  const [colorTertiary, setColorTertiary] = useState('#f0f0f0');
-  const [colorPrimaryBackground, setColorPrimaryBackground] = useState('#682A77');
-  const [colorSecondaryBackground, setColorSecondaryBackground] = useState('#E60F73');
-  const [colorTertiaryBackground, setColorTertiaryBackground] = useState('#F7EFF5');
+  const [colorTertiary, setColorTertiary] = useState('#fff');
+  const [colorPrimaryBackground, setColorPrimaryBackground] = useState('#000');
+  const [colorSecondaryBackground, setColorSecondaryBackground] = useState('#000');
+  const [colorTertiaryBackground, setColorTertiaryBackground] = useState('#000');
   const [colorFooter, setColorFooter] = useState('#1A051C');
   const [colorFooterText, setColorFooterText] = useState('#94A3B8');
-  const [colorPrimaryText, setColorPrimaryText] = useState('#0080ff');
+  const [colorPrimaryText, setColorPrimaryText] = useState('#fff');
   const [colorSecondaryText, setColorSecondaryText] = useState('#51ff00');
 
   // modo mais complexo de calcular
@@ -202,16 +202,16 @@ export function useLayoutGenerator() {
         const parsed = JSON.parse(storedColors);
         setColorPrimary(parsed.colorPrimary || '#1a1a1a');
         setColorSecondary(parsed.colorSecondary || '#ffffff');
-        setColorTertiary(parsed.colorTertiary || '#f0f0f0');
+        setColorTertiary(parsed.colorTertiary || '#fff');
 
-        setColorPrimaryBackground(parsed.colorPrimaryBackground || '#682A77');
-        setColorSecondaryBackground(parsed.colorSecondaryBackground || '#E60F73');
-        setColorTertiaryBackground(parsed.colorTertiaryBackground || '#F7EFF5');
+        setColorPrimaryBackground(parsed.colorPrimaryBackground || '#000');
+        setColorSecondaryBackground(parsed.colorSecondaryBackground || '#000');
+        setColorTertiaryBackground(parsed.colorTertiaryBackground || '#000');
 
         setColorFooter(parsed.colorFooter || '#1A051C');
         setColorFooterText(parsed.colorFooterText || '#94A3B8');
 
-        setColorPrimaryText(parsed.colorPrimaryText || '#0080ff');
+        setColorPrimaryText(parsed.colorPrimaryText || '#fff');
         setColorSecondaryText(parsed.colorSecondaryText || '#51ff00');
       }
     } catch (e) {

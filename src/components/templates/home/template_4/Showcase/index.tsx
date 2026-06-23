@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import styles from './index.module.css';
-import Spot from '@/components/templates/common/template_5/Spot';
+import Spot from '../../../common/template_4/Spot';
 import { LAYOUTS } from '@/data/layoutData';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { useLayout } from '@/context/LayoutContext';
@@ -18,7 +18,7 @@ const ChevronRight = () => (
   </svg>
 );
 
-// Preview da vitrine ProductShelfCustom05. Carrossel apenas simulado (setas
+// Preview da vitrine ProductShelfCustom04. Carrossel apenas simulado (setas
 // laterais + dots na barra inferior, sem clique). Colunas por view via
 // @container. Spots dinâmicos conforme a seleção do usuário.
 export default function Showcase() {
@@ -29,7 +29,7 @@ export default function Showcase() {
     <div className={styles.shelf}>
       <div className={`${styles.shelf__container} component__container`}>
         <div className={styles.shelf__header}>
-          <h2 className={styles.shelf__title}>Vitrine de Ofertas</h2>
+          <h2 className={styles.shelf__title}>Lorem Ipsum Dolor</h2>
           <a className={styles.shelf__link} href="#" onClick={e => e.preventDefault()}>
             Ver Todos
           </a>
@@ -54,7 +54,7 @@ export default function Showcase() {
                         TemplateRegistry[layoutItem.component];
 
                       return SpotComponent
-                        ? [1, 2, 3, 4].map((_, index) => (
+                        ? [1, 2, 3, 4, 5].map((_, index) => (
                             <div
                               key={`${spot?.uid}-${index}`}
                               className={styles.swiper__slide}
@@ -69,7 +69,7 @@ export default function Showcase() {
                         : null;
                     }
                   )
-                : [1, 2, 3, 4].map((_, index) => (
+                : [1, 2, 3, 4, 5].map((_, index) => (
                     <div
                       key={`${index}`}
                       className={styles.swiper__slide}

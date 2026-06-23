@@ -1,176 +1,145 @@
-.home__showcase {
-  margin-bottom: 70px;
-  margin-top: 20px;
+.shelf {
+  width: 100%;
+  padding: 32px 0 70px;
   container-type: inline-size;
-  width: 100%;
 }
 
-.home__showcase .showcase__container .showcase__title {
-  width: 100%;
-  max-width: 100%;
-  margin-bottom: 40px;
-  text-align: center;
-}
-
-.home__showcase .showcase__container .showcase__title h2 {
-  display: block;
-  line-height: 1;
-  font-family: var(--font-primary);
-  font-weight: 600;
-  font-size: 20px;
-  color: var(--text-primary-color);
-  text-align: center;
+.shelf__header {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
-.showcase__title a {
-  text-decoration: underline;
+.shelf__title {
+  font-family: var(--showcase-font, var(--font-secundary, 'Poppins', sans-serif));
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--showcase-title-color, var(--text-primary-color, #292929)) !important;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.shelf__link {
+  font-family: var(--showcase-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 500;
-  color: var(--text-primary-color);
   font-size: 14px;
+  color: #7a7a7a;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-.home__showcase .showcase__container .showcase__wrapper {
+.showcase__wrapper {
   width: 100%;
   max-width: 100%;
-  padding: 0px 30px;
   position: relative;
 }
 
-.home__showcase .swiper__wrapper {
+.showcase__swiper {
+  margin: 0 -8px;
+}
+
+.swiper__wrapper {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
 
-.home__showcase .swiper__wrapper .swiper__slide {
-  padding: 8px;
+.swiper__slide {
+  padding: 0 8px;
 }
 
-.home__showcase .swiper__wrapper .swiper__slide:nth-child(n+3) {
+.swiper__slide:nth-child(n + 3) {
   display: none;
 }
 
 @container (min-width: 768px) and (max-width: 1024px) {
-  .home__showcase .swiper__wrapper {
+  .swiper__wrapper {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .home__showcase .swiper__wrapper .swiper__slide {
+  .swiper__slide {
     display: block !important;
   }
 
-  .home__showcase .swiper__wrapper .swiper__slide:nth-child(n+4) {
+  .swiper__slide:nth-child(n + 4) {
     display: none !important;
   }
 }
 
 @container (min-width: 1024px) {
-  .home__showcase .swiper__wrapper {
-    display: flex;
-    align-items: center;
-    /* grid-template-columns: repeat(4, 1fr); */
-    justify-content: center;
-    gap: 3px;
+  .swiper__wrapper {
+    grid-template-columns: repeat(4, 1fr);
   }
 
-  .home__showcase .swiper__wrapper .swiper__slide {
+  .swiper__slide {
     display: block !important;
-    width: 300px;
   }
 }
 
-.home__showcase .showcase__container .showcase__wrapper .showcase__swiper {
-  max-width: 1280px;
-  width: 100%;
+/* Setas (apenas visuais) */
+.swiper__button__prev,
+.swiper__button__next {
+  position: absolute;
+  top: calc(50% - 25px);
+  transform: translateY(-50%);
+  left: -30px;
+  width: 30px;
+  height: 30px;
   display: flex;
   align-items: center;
-  margin: auto;
+  justify-content: flex-start;
+  z-index: 1;
 }
 
-.home__showcase .showcase__container .showcase__wrapper .showcase__swiper .swiper__wrapper .swiper__slide {
-  padding: 0px;
+.swiper__button__next {
+  left: unset;
+  right: -30px;
+  justify-content: flex-end;
 }
 
-.home__showcase .showcase__container .showcase__wrapper .swiper__showcase__pagination {
+/* Paginação (apenas visual) */
+.swiper__pagination {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 8px;
-  border-radius: 0px;
-  padding: 0px;
-  background: #ffffff;
-  margin-top: 40px;
+  margin-top: 32px;
 }
 
-.home__showcase .showcase__container .showcase__wrapper .swiper__showcase__pagination .swiper__bullet {
+.swiper__bullet {
   width: 11px;
   height: 11px;
   background-color: #e3e3e3;
   opacity: 1;
   border: none;
   border-radius: 100%;
-  margin: 0px 8px 0px 0px;
+  margin: 0 8px 0 0;
   transition: all 0.2s ease-in-out;
 }
 
-.home__showcase .showcase__container .showcase__wrapper .swiper__showcase__pagination .swiper__bullet:last-of-type {
-  margin: 0px;
+.swiper__bullet:last-of-type {
+  margin: 0;
 }
 
-.home__showcase .showcase__container .showcase__wrapper .swiper__showcase__pagination .swiper__bullet.swiper__bullet__active {
-  background-color: var(--background-primary-color-safe);
-}
-
-.home__showcase .showcase__container .showcase__wrapper .swiper__button__prev,
-.home__showcase .showcase__container .showcase__wrapper .swiper__button__next {
-  position: block;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  z-index: 1;
-}
-
-.home__showcase .showcase__container .showcase__wrapper .swiper__button__prev .button__mobile,
-.home__showcase .showcase__container .showcase__wrapper .swiper__button__next .button__mobile {
-  display: none;
-}
-
-.home__showcase .showcase__container .showcase__wrapper .swiper__button__next {
-  justify-content: flex-end;
+.swiper__bullet__active {
+  background-color: var(--showcase-accent, var(--background-primary-color, #000000));
 }
 
 @container (max-width: 1023px) {
-  .home__showcase .showcase__container .showcase__wrapper {
-    padding: 0px;
+  .showcase__swiper {
+    margin: 0 -4px;
   }
 
-  .home__showcase .showcase__container .showcase__wrapper .showcase__swiper {
-    margin: 0px -4px;
+  .swiper__slide {
+    padding: 0 4px;
   }
 
-  .home__showcase .showcase__container .showcase__wrapper .showcase__swiper .swiper__wrapper .swiper__slide {
-    padding: 0px 4px;
-  }
-
-  .home__showcase .showcase__container .showcase__wrapper .swiper__button__prev,
-  .home__showcase .showcase__container .showcase__wrapper .swiper__button__next {
-    top: unset;
-    transform: unset;
-    left: -5px;
-    bottom: -12px;
+  .swiper__button__prev,
+  .swiper__button__next {
     display: none;
-  }
-
-  .home__showcase .showcase__container .showcase__wrapper .swiper__button__next {
-    left: unset;
-    right: -5px;
   }
 }

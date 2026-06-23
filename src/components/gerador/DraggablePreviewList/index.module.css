@@ -7,10 +7,22 @@
     display: block;
   }
   
-  .buttonContainer .duplicateBtn, .buttonContainer .remoteBtn, .buttonContainer .editBtn{
+  /* Container ancorado no canto superior direito. Os botões são empacotados
+     lado a lado com gap fixo (ordem DOM: editar, duplicar, excluir), então
+     não sobra "slot vazio" quando algum deles não é renderizado (ex.: itens
+     com lápis que não podem ser duplicados). */
+  .buttonContainer{
     position: absolute;
     top: 8px;
-    right: calc(22px + 16px);
+    right: 8px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .buttonContainer .duplicateBtn, .buttonContainer .remoteBtn, .buttonContainer .editBtn{
+    position: relative;
     width: 22px;
     height: 22px;
     min-height: unset;
@@ -21,7 +33,6 @@
     border: none;
     border-radius: 50%;
     cursor: pointer;
-    z-index: 10;
     transition: background 0.2s;
     justify-content: center;
     align-items: center;
@@ -32,12 +43,8 @@
     stroke: inherit !important;
   }
 
-  /* O botão de editar ocupa o mesmo slot do duplicar: itens que expõem
-     variablesSchema hoje são singletons (ex.: Header) e não podem ser
-     duplicados, então os dois botões nunca coexistem. */
   .buttonContainer .editBtn{
     background: #2563EB;
-    right: calc(52px + 16px);
   }
 
   .buttonContainer .editBtn svg{
@@ -66,7 +73,6 @@
 
   .buttonContainer .remoteBtn{
     background: #BB4344;
-    right: 8px;
   }
 
   .buttonContainer .remoteBtn:hover{

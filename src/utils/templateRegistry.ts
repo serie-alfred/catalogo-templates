@@ -84,6 +84,7 @@ import Showcase03 from '@/components/templates/home/template_3/Showcase';
 // ************
 import Footer04 from '@/components/templates/common/template_4/Footer';
 import Header04 from '@/components/templates/common/template_4/Header';
+import Spot04 from '@/components/templates/common/template_4/Spot';
 
 
 // ******
@@ -91,6 +92,7 @@ import Header04 from '@/components/templates/common/template_4/Header';
 
 // ******
 // Home
+import Showcase04 from '@/components/templates/home/template_4/Showcase';
 import SpecialOffers04 from '@/components/templates/home/template_4/SpecialOffers';
 import BannerSolo04 from '@/components/templates/home/template_4/BannerSolo';
 import HomeCombined04 from '@/components/templates/home/template_4/HomeCombined';
@@ -103,6 +105,10 @@ import Ruler04 from '@/components/templates/home/template_4/Ruler';
 
 // ******
 // Common
+
+// ******
+// Common
+import Spot05 from '@/components/templates/common/template_5/Spot';
 
 // ******
 // Home
@@ -186,8 +192,11 @@ export const TemplateRegistry: Record<string, React.FC<{ [key: string]: unknown 
   MultiCategories04,
   Ruler04,
   Footer04,
+  Spot04,
+  Showcase04,
 
   Header04,
+  Spot05,
   BannerFull05,
   BannerSoloLeft05,
   BannerTriple05,
