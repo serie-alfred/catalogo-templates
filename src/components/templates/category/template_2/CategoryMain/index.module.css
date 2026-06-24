@@ -195,6 +195,9 @@
   max-width: 33.3%;
   padding: 0 12px;
   margin-bottom: 25px;
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
 }
 
 .listSpot>* {
@@ -780,6 +783,9 @@
     width: 50%;
     max-width: 50%;
     padding: 0 4px;
+      gap: 8px;
+  display: flex;
+  flex-direction: column;
   }
 
   .listSpot:nth-of-type(n + 3) {

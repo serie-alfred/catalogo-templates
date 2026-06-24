@@ -72,7 +72,7 @@
 }
 
 .fieldLine::placeholder {
-  color: var(--f4-muted-mid);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 48%, transparent);
 }
 
 .fieldLine:focus {
@@ -101,7 +101,7 @@
 }
 
 .nlSuccess {
-  color: var(--f4-muted);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 55%, transparent);
   font-size: 13px;
   letter-spacing: 0.06em;
 }
@@ -148,7 +148,7 @@
 .brandDescription,
 .brandAddress {
   margin-top: 18px;
-  color: var(--f4-muted);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 55%, transparent);
   font-size: 13px;
   font-style: normal;
   font-weight: 300;
@@ -159,7 +159,7 @@
   display: flex;
   gap: 20px;
   margin-top: 22px;
-  color: var(--f4-muted);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 55%, transparent);
 }
 
 .socialLinks a {
@@ -187,7 +187,7 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--f4-bg-inverse-soft);
-  color: var(--f4-muted);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 55%, transparent);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -207,7 +207,7 @@
 
 .groupLinks a {
   display: block;
-  color: var(--f4-muted);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 55%, transparent);
   font-size: 14px;
   line-height: 2.2;
   transition: color var(--f4-ease);
@@ -232,7 +232,7 @@
   display: grid;
   gap: 14px;
   text-align: center;
-  color: var(--f4-muted-mid);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 48%, transparent);
   font-size: 11px;
 }
 
@@ -253,11 +253,11 @@
 }
 
 .legalLinks a:hover {
-  color: var(--f4-muted);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 55%, transparent);
 }
 
 .legalSep {
-  color: var(--f4-muted-deep);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 40%, transparent);
 }
 
 .payment {
@@ -265,11 +265,11 @@
 }
 
 .paymentMethods {
-  color: var(--f4-muted-mid);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 48%, transparent);
 }
 
 .paymentSeals {
-  color: var(--f4-muted-deep);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 40%, transparent);
   font-size: 10px;
   margin-top: 6px;
 }

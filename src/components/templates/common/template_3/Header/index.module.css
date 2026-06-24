@@ -43,7 +43,7 @@
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.32);
+  background: color-mix(in srgb, var(--header-topbar-text, var(--text-color-secundary, #ffffff)) 32%, transparent);
 }
 @keyframes marquee {
   from { transform: translateX(0); }

@@ -97,7 +97,7 @@
 }
 
 .descriptionWrapper table tbody tr:nth-child(even) {
-  background-color: var(--prod-desc-table-bg, var(--background-tertiary-color, #f5f5f5));
+  background-color: var(--background-tertiary-color, #f5f5f5);
 }
 
 .descriptionWrapper table td {

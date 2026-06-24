@@ -75,7 +75,7 @@
 .serviceLinks {
   display: flex;
   gap: 24px;
-  color: rgba(255, 255, 255, 0.72);
+  color: color-mix(in srgb, var(--header-bg, var(--background-primary-color, #ffffff)) 72%, transparent);
 }
 
 .siteHeader {
@@ -136,12 +136,12 @@
   background: var(--h5-bg);
   border: 1px solid var(--h5-border);
   border-radius: 6px;
-  color: var(--h5-muted);
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1f2b)) 55%, transparent);
   cursor: pointer;
   text-align: start;
 }
 .searchTrigger:hover {
-  border-color: var(--h5-muted);
+  border-color: color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1f2b)) 55%, transparent);
   color: var(--header-text, var(--text-color-base, #1a1f2b));
 }
 
@@ -160,7 +160,7 @@
 .actionBtn .label {
   font-size: 10px;
   line-height: 1;
-  color: var(--h5-muted);
+  color: var(--header-text, var(--text-color-base, #1a1f2b));
 }
 
 .badge {
@@ -258,7 +258,7 @@
   font: 600 11px/1.2 var(--h5-font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--h5-muted);
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1f2b)) 55%, transparent);
 }
 
 .menuLinks {
@@ -313,7 +313,7 @@
   z-index: 1;
   width: 100%;
   padding: 12px;
-  background: rgba(255, 255, 255, 0.93);
+  background: color-mix(in srgb, var(--header-bg, var(--background-primary-color, #ffffff)) 93%, transparent);
 }
 .promoCopy strong {
   display: block;
@@ -323,7 +323,7 @@
 .promoCopy span {
   display: block;
   margin-top: 3px;
-  color: var(--h5-muted);
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1f2b)) 55%, transparent);
   font-size: 12px;
 }
 
@@ -409,7 +409,7 @@
   padding: 8px 12px;
   border: 1px solid var(--h5-border);
   border-radius: 4px;
-  color: var(--h5-muted);
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1f2b)) 55%, transparent);
   font-size: 13px;
 }
 
@@ -465,7 +465,7 @@
 
 .cartEmpty {
   margin: 0;
-  color: var(--h5-muted);
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1f2b)) 55%, transparent);
   font-size: 14px;
 }
 
@@ -482,7 +482,7 @@
 }
 .cartLine p {
   margin: 0;
-  color: var(--h5-muted);
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1f2b)) 55%, transparent);
   font-size: 12px;
 }
 .cartLine strong {
@@ -630,7 +630,7 @@
   min-height: 44px;
   display: flex;
   align-items: center;
-  color: var(--h5-muted);
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1f2b)) 55%, transparent);
   border-bottom: 1px solid var(--h5-border);
 }
 

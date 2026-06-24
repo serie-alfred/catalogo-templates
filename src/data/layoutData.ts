@@ -387,7 +387,6 @@ export const LAYOUTS: Layouts = {
     items: [
       { id: "01", selection: "product-description", key: "desc01t7u8v9w", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductDescription01", path: "molecules/ProductDescription01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["tertiary"], variablesSchema: [
         { cssVar: "--prod-desc-text", label: "Cor do texto", type: "color", default: "#122161", group: "Texto", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--prod-desc-table-bg", label: "Fundo das linhas pares da tabela", type: "color", default: "#f5f5f5", group: "Tabela", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--prod-desc-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
     ],
