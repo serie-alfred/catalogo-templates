@@ -137,6 +137,13 @@
   font-weight: 500;
   opacity: 0.55;
 }
+.logoImg {
+  display: block;
+  height: 34px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+}
 
 .brandDescription,
 .brandAddress {

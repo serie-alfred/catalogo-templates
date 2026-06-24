@@ -1,6 +1,9 @@
 import styles from './index.module.css';
+import { useLayout } from '@/context/LayoutContext';
 
 const FooterNovo = () => {
+  const { logo } = useLayout();
+
   return (
     <footer className={styles.siteFooter} role="contentinfo">
       <section className={styles.benefits} aria-label="Benefícios da loja">
@@ -95,7 +98,13 @@ const FooterNovo = () => {
         <div className={styles.footerMainInner}>
           <div className={styles.footerBrand}>
             <a href="#" className={styles.brandLogo}>
-              BRAND<span>.</span>
+              {logo ? (
+                <img src={logo} alt="Logo" className={styles.brandLogoImg} />
+              ) : (
+                <>
+                  SERIE<span>{'//'}</span>A
+                </>
+              )}
             </a>
             <p>
               Moda masculina streetwear com estética urbana, acabamento premium

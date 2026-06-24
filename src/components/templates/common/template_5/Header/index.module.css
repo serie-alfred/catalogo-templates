@@ -118,6 +118,14 @@
   color: var(--header-accent, var(--background-secundary-color, #2f9e57));
 }
 
+.wordmarkImg {
+  display: block;
+  height: 38px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
+}
+
 .searchTrigger {
   min-width: 220px;
   height: 42px;

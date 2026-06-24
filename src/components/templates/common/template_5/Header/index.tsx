@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styles from './index.module.css';
+import { useLayout } from '@/context/LayoutContext';
 
 // Preview estático do Header05 (SÉRIE//A) — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Header05 (gerado via /from-faststore).
@@ -100,6 +101,14 @@ const BrandMark = ({ name }: { name: string }) => {
 };
 
 export default function Header05() {
+  const { logo } = useLayout();
+
+  const brand = logo ? (
+    <img src={logo} alt="Logo" className={styles.wordmarkImg} />
+  ) : (
+    <BrandMark name={data.brandName} />
+  );
+
   return (
     <div className={styles.header05}>
       {/* Service bar */}
@@ -132,7 +141,7 @@ export default function Header05() {
             </div>
 
             <a className={styles.wordmark} href="/" aria-label={`${data.brandName}, página inicial`}>
-              <BrandMark name={data.brandName} />
+              {brand}
             </a>
 
             <div className={styles.headerActions}>
@@ -184,7 +193,7 @@ export default function Header05() {
               </button>
             </div>
             <a className={styles.wordmark} href="/" aria-label={`${data.brandName}, página inicial`}>
-              <BrandMark name={data.brandName} />
+              {brand}
             </a>
             <div className={styles.mobileRight}>
               <a className={styles.actionBtn} href="#" aria-label={data.accountLabel}>

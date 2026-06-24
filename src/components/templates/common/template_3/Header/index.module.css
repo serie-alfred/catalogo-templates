@@ -82,6 +82,13 @@
   color: var(--header-accent, var(--background-secundary-color, #e73888));
   margin-left: 1px;
 }
+.logoImg {
+  display: block;
+  height: 36px;
+  width: auto;
+  max-width: 184px;
+  object-fit: contain;
+}
 .logo:hover {
   color: var(--header-accent, var(--background-secundary-color, #e73888));
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styles from './index.module.css';
+import { useLayout } from '@/context/LayoutContext';
 
 // Preview estático do Header04 (MANU) — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Header04 (gerado via /from-faststore).
@@ -59,6 +60,8 @@ const BenefitIcon = () => (
 );
 
 export default function Header04() {
+  const { logo } = useLayout();
+
   return (
     <div className={styles.header04Root}>
       {/* Pre-header (estático: 1ª mensagem) */}
@@ -88,9 +91,12 @@ export default function Header04() {
             <span />
           </button>
 
-          <a className={styles.logo} href="#" title={`${data.brandName} - Página inicial`}>
-            <strong>{data.brandName}</strong>
-            <span>{data.brandTagline}</span>
+          <a className={styles.logo} href="#" title="SERIE//A - Página inicial">
+            {logo ? (
+              <img src={logo} alt="Logo" className={styles.logoImg} />
+            ) : (
+              <strong>SERIE//A</strong>
+            )}
           </a>
 
           <nav className={styles.desktopNav} aria-label="Menu principal">

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styles from './index.module.css';
+import { useLayout } from '@/context/LayoutContext';
 
 // Preview estático do Footer04 (MANU) — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Footer04 (gerado via /from-faststore).
@@ -98,6 +99,7 @@ const socialIconFor = (label: string) =>
   label.trim().toLowerCase() === 'pinterest' ? <PinterestIcon /> : <InstagramIcon />;
 
 export default function Footer04({ isMobile }: { isMobile?: boolean }) {
+  const { logo } = useLayout();
   const addressLines = data.address.split('\n');
 
   return (
@@ -121,8 +123,11 @@ export default function Footer04({ isMobile }: { isMobile?: boolean }) {
         <div className={styles.columns}>
           <div className={styles.brand}>
             <a href="/" className={styles.logo}>
-              <strong className={styles.logoName}>{data.brandName}</strong>
-              <span className={styles.logoTagline}>{data.brandTagline}</span>
+              {logo ? (
+                <img src={logo} alt="Logo" className={styles.logoImg} />
+              ) : (
+                <strong className={styles.logoName}>SERIE//A</strong>
+              )}
             </a>
             <p className={styles.brandDescription}>{data.brandDescription}</p>
             <address className={styles.brandAddress}>

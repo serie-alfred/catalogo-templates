@@ -35,7 +35,7 @@
 }
 
 .newsletter {
-  background: var(--f5-grey-08);
+  background: var(--footer-newsletter-bg, var(--background-primary-color, #f4f4f4));
   border-top: var(--f5-hairline);
 }
 
@@ -51,6 +51,7 @@
 
 .nlTitle {
   margin: 0 0 8px;
+  color: var(--footer-newsletter-text, var(--text-color-base, #000000)) !important;
   font-family: var(--footer-title-font, var(--font-primary, "Roboto", sans-serif));
   font-size: 30px;
   line-height: 1.1;
@@ -60,7 +61,7 @@
 .nlDesc {
   margin: 0;
   max-width: 45ch;
-  color: var(--f5-grey-55);
+  color: color-mix(in srgb, var(--footer-newsletter-text, var(--text-color-base, #000000)) 65%, transparent);
 }
 
 .nlForm {
@@ -74,16 +75,16 @@
   min-width: 0;
   height: 48px;
   padding: 0 13px;
-  border: 1px solid var(--f5-grey-20);
+  border: 1px solid color-mix(in srgb, var(--footer-newsletter-text, var(--text-color-base, #000000)) 25%, transparent) !important;
   border-radius: 6px;
-  background: var(--footer-bg, var(--background-footer, #fff));
-  color: var(--footer-text, var(--text-color-footer, #000));
+  background: transparent !important;
+  color: var(--footer-newsletter-text, var(--text-color-base, #000000)) !important;
   outline: none;
   font: inherit;
 }
 .nlField:focus {
-  border-color: var(--footer-accent, var(--background-secundary-color, #e60f73));
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--footer-accent, var(--background-secundary-color, #e60f73)) 18%, transparent);
+  border-color: var(--footer-newsletter-text, var(--text-color-base, #000000)) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--footer-newsletter-text, var(--text-color-base, #000000)) 18%, transparent) !important;
 }
 
 .nlButton {
@@ -92,9 +93,9 @@
   align-items: center;
   justify-content: center;
   padding: 0 20px;
-  border: 1px solid var(--footer-accent, var(--background-secundary-color, #e60f73));
+  border: 1px solid var(--footer-button-bg, var(--background-secundary-color, #e60f73));
   border-radius: 6px;
-  background: var(--footer-accent, var(--background-secundary-color, #e60f73));
+  background: var(--footer-button-bg, var(--background-secundary-color, #e60f73)) !important;
   color: var(--footer-button-text, var(--text-color-secundary, #fff));
   font-weight: 650;
   letter-spacing: 0.01em;
@@ -110,14 +111,14 @@
   display: flex;
   align-items: flex-start;
   gap: 9px;
-  color: var(--f5-grey-55);
+  color: color-mix(in srgb, var(--footer-newsletter-text, var(--text-color-base, #000000)) 55%, transparent);
   font-size: 12px;
 }
 .nlConsent input {
   width: 16px;
   height: 16px;
   margin: 1px 0 0;
-  accent-color: var(--footer-accent, var(--background-secundary-color, #e60f73));
+  accent-color: var(--footer-button-bg, var(--background-secundary-color, #e60f73));
 }
 
 .nlSuccess {
@@ -157,6 +158,14 @@
   line-height: 1;
   letter-spacing: -0.055em;
   white-space: nowrap;
+}
+
+.brandLogoImg {
+  display: block;
+  height: 40px;
+  width: auto;
+  max-width: 200px;
+  object-fit: contain;
 }
 
 .wordmarkAccent {

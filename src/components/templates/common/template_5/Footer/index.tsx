@@ -1,6 +1,7 @@
 import React from 'react';
 
 import styles from './index.module.css';
+import { useLayout } from '@/context/LayoutContext';
 
 // Preview estático do Footer05 (SÉRIE//A) — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Footer05 (gerado via /from-faststore).
@@ -99,6 +100,8 @@ function Wordmark({ name }: { name: string }) {
 }
 
 export default function Footer05() {
+  const { logo } = useLayout();
+
   return (
     <footer className={styles.footer05}>
       {/* Newsletter */}
@@ -140,7 +143,11 @@ export default function Footer05() {
         <div className={styles.footerMainInner}>
           <div className={styles.footerBrand}>
             <a href="/" className={styles.brandLogo}>
-              <Wordmark name={data.brandName} />
+              {logo ? (
+                <img src={logo} alt="Logo" className={styles.brandLogoImg} />
+              ) : (
+                <Wordmark name={data.brandName} />
+              )}
             </a>
             <p className={styles.brandDesc}>{data.brandDescription}</p>
           </div>

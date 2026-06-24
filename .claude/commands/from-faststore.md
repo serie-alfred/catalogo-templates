@@ -18,11 +18,18 @@ Argumento: `$ARGUMENTS` = nome do componente (`Footer04`, `Header01`) ou caminho
 A derivação do `variablesSchema` só funciona se o SCSS seguir o **fallback encadeado** do `.starter` (ver `faststore.starter/CLAUDE.md` → "CSS Module Conventions"). Verifique no `style.module.scss`:
 
 - ✅ **Conforme:** as cores/fontes de tema aparecem como `var(--<secao>-<papel>, var(--<token-global>, #hex))` (ex.: `var(--footer-bg, var(--background-footer, #1A051C))`).
-- ❌ **Não-conforme:** o componente declara uma paleta local hardcoded no topo do seletor (ex.: `--f4-ink: #fff;`, `--h4-paper: #fff;`) e a consome como `var(--f4-ink)` **sem** a cadeia de 2 níveis para um token global.
 
-Se **não-conforme**, **NÃO derive o `variablesSchema`**. Emita:
+- ❌ **Não-conforme — Caso A (paleta local):** o componente declara uma paleta local no topo do seletor raiz (ex.: `--f3-ink: #000;`, `--f4-paper: #fff;`) e a consome como `var(--f3-ink)` **sem** a cadeia de 2 níveis para um token global. Os vars `--f<N>-*` de **cor** (tinta, papel, acento) precisam ser removidos; substitua cada uso pela cadeia completa `var(--<secao>-<papel>, var(--<token-global>, #hex))`. Vars estruturais (`--f<N>-grey-NN`, `--f<N>-ease`, `--f<N>-hairline`, `--f<N>-mono`) são **isentos** — podem permanecer como locais.
 
-> "`$ARGUMENTS` não segue o padrão de cores do `.starter` (usa tokens locais sem a cadeia `var(--<secao>-<papel>, var(--<token-global>, #hex))`). Padronize o SCSS primeiro (veja `faststore.starter/CLAUDE.md` e o exemplo de `Footer01`/`Header01`), rodando o ajuste no `.starter`. Posso: (a) gerar só o preview + registro **sem** painel de variáveis, ou (b) parar aqui. Como prefere?"
+- ❌ **Não-conforme — Caso B (tokens internos do catálogo):** o SCSS usa `var(--paper)`, `var(--ink)`, `var(--accent)`, `var(--font-body)` ou `var(--font-display)` diretamente. Esses são tokens de `catalogo-templates/src/styles/globals.css` — **não são brand tokens** do `template-generator` e não existem fora do catálogo. Precisam ser substituídos pela cadeia `var(--<secao>-<papel>, var(--<token-global>, #hex))` antes de importar.
+
+- ❌ **Não-conforme — Caso C (hardcoded sem cadeia):** uma zona temável (ex.: `.siteHeader`, `.newsletter`) tem `background: rgba(255,255,255,0.96)` ou hex direto **fora de qualquer `var()`**. Isso significa que o painel não consegue mudar essa propriedade mesmo que `variablesSchema` declare o cssVar. Corrija para `var(--<secao>-bg, var(--<token-global>, <valor-original>))` antes de importar.
+
+- ❌ **Não-conforme — Caso D (neutral estrutural em zona temável):** uma zona semântica relevante (ex.: `.newsletter`, `.legal`, `.siteHeader`) usa `background: var(--f<N>-grey-NN)` em vez de uma cadeia de brand token. `--f<N>-grey-NN` é um neutral estrutural — o painel não o expõe. Se a zona deve ser temável, promova para `var(--<secao>-newsletter-bg, var(--background-primary-color, #f4f4f4))` (e adicione a entrada ao `variablesSchema`) antes de importar.
+
+Se qualquer caso acima for detectado, **NÃO derive o `variablesSchema`**. Emita:
+
+> "`$ARGUMENTS` não segue o padrão de cores do `.starter` (motivo: Caso X). Padronize o SCSS primeiro (veja `faststore.starter/CLAUDE.md` e o exemplo de `Footer01`/`Header01`), rodando o ajuste no `.starter`. Posso: (a) gerar só o preview + registro **sem** painel de variáveis, ou (b) parar aqui. Como prefere?"
 
 Nunca invente cssVars que o SCSS não consome — isso quebra o contrato com o `template-generator`.
 
@@ -103,8 +110,10 @@ Para cada match, monte um `ComponentVariable` (`{ cssVar, label, type, default, 
    | `--font-primary` | "fonte primária" |
    | `--font-secundary` | "fonte secundária" |
 
-5. **`label`/`group`** PT-BR por heurística do nome do cssVar (`topbar`→"Barra superior", `nav`→"Menu", `bg`→"Fundo …", `text`→"Texto …", `button`/`btn`→"Botão"/"Newsletter", `font`/`title-font`→"Tipografia", `accent`→"Destaque"). **Proponha a tabela e confirme com o dev** antes de gravar (espelhe o estilo das schemas-base: `Header01`, `Footer01`, `Spot01`).
+5. **`label`/`group`** PT-BR por heurística do nome do cssVar (`topbar`→"Barra superior", `nav`→"Menu", `bg`→"Fundo …", `text`→"Texto …", `button`/`btn`→"Botão"/"Newsletter", `newsletter`→"Newsletter", `font`/`title-font`→"Tipografia", `accent`→"Destaque", `legal`→"Barra legal"). **Proponha a tabela e confirme com o dev** antes de gravar (espelhe o estilo das schemas-base: `Header01`, `Footer01`, `Spot01`).
 6. **Validação cruzada:** cada G1 deve aparecer só em cadeias de 2 níveis; nunca como `var(--X)` sozinho com default divergente. O resultado precisa ser **não-vazio** (senão o lápis/painel não aparece — `ComponentVariablesPanel` só monta com `variablesSchema` não-vazio).
+7. **Vars no schema mas ausentes no SCSS (Caso C retroativo):** após derivar o array, grep cada G1 no SCSS. Se um cssVar esperado (ex.: `--header-bg`) aparece no schema mas o SCSS tem um valor hardcoded ou token estrutural naquela zona, isso é o Caso C/D do Gate — **inclua na lista de correções necessárias** antes de gravar (não gere o schema sem o SCSS corrigido).
+8. **Fundo de zonas com neutral estrutural (Caso D retroativo):** se `.newsletter`, `.siteHeader`, `.legal` ou zona equivalente usar `background: var(--f<N>-grey-NN)` em vez de um brand var, sinalize. Só é aceitável deixar como structural se a zona for puramente decorativa e nunca precisar de override de marca.
 
 ## 6. Registrar nos 3 lugares (ver `CLAUDE.md` → "Adding or editing a template")
 
@@ -132,7 +141,7 @@ Para cada match, monte um `ComponentVariable` (`{ cssVar, label, type, default, 
 ## Checklist final
 
 - [ ] Origem lida de `../faststore.starter/.../$ARGUMENTS/` (index.tsx + scss + mock.ts + manifest.json)
-- [ ] Gate de cor passou (SCSS conforme) — ou tratado o caso não-conforme com o dev
+- [ ] Gate de cor passou (SCSS conforme) — sem Caso A (paleta local), B (tokens internos), C (hardcoded sem var), D (neutral em zona temável) — ou tratado com o dev
 - [ ] Preview gerado: sem hooks/GraphQL, dados fixos do mock, `{ isMobile }`, `import styles from './index.module.css'`
 - [ ] SCSS convertido para CSS plano (desaninhado, sem `&`/`@container`/`$`/`@mixin`/funções SCSS), `var(--…)` mantidos
 - [ ] `variablesSchema` derivado por regex; `default` byte-idêntico ao SCSS; labels confirmados com o dev

@@ -171,7 +171,7 @@
   position: static;
   z-index: 1050;
   height: 64px;
-  background: rgba(255, 255, 255, 0.96);
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
   color: var(--header-text, var(--text-color-base, #0a0a0a));
   border-bottom: 1px solid var(--h4-border);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.04);
@@ -180,7 +180,7 @@
   transition: background 350ms ease, color 350ms ease, box-shadow 350ms ease, border-color 350ms ease, top var(--h4-t-mid);
 }
 .siteHeader.scrolled, .siteHeader.menuActive {
-  background: rgba(255, 255, 255, 0.98);
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
   border-bottom: 1px solid var(--h4-border);
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
 }
@@ -220,6 +220,13 @@
   font-size: 9px;
   font-weight: 500;
   opacity: 0.55;
+}
+.logoImg {
+  display: block;
+  height: 34px;
+  width: auto;
+  max-width: 184px;
+  object-fit: contain;
 }
 
 .desktopNav {
@@ -368,7 +375,7 @@
   color: var(--header-text, var(--text-color-base, #0a0a0a));
 }
 .megaCol a:hover {
-  color: var(--h4-muted);
+  color: var(--header-accent, var(--background-secundary-color, #0a0a0a));
 }
 
 .megaImage img {
@@ -733,9 +740,9 @@
   .benefitStrip {
     display: block;
     height: 36px;
-    background: var(--h4-bg-surface);
+    background: var(--header-strip-bg, var(--background-primary-color, #f5f5f5));
     border-bottom: 1px solid var(--h4-border);
-    color: var(--h4-muted);
+    color: var(--header-strip-text, var(--text-color-base, #6b6b6b));
     transition: opacity var(--h4-t-mid), transform var(--h4-t-mid);
   }
   .benefitStrip.hidden {
@@ -805,7 +812,8 @@
   }
   .desktopNav button:hover,
   .desktopNav a:hover {
-    opacity: 0.6;
+    color: var(--header-accent, var(--background-secundary-color, #0a0a0a));
+    opacity: 1;
   }
   .desktopNav .active {
     text-decoration: underline;

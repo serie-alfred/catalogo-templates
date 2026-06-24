@@ -112,6 +112,14 @@
   color: var(--footer-accent, var(--background-secundary-color, #e60f73));
 }
 
+.brandLogoImg {
+  display: block;
+  height: 42px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+}
+
 .brandLogo span {
   margin-left: 2px;
 }

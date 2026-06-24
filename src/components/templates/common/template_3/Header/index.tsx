@@ -1,6 +1,17 @@
 import styles from './index.module.css';
+import { useLayout } from '@/context/LayoutContext';
 
 const HeaderNovo = () => {
+  const { logo } = useLayout();
+
+  const brand = logo ? (
+    <img src={logo} alt="Logo" className={styles.logoImg} />
+  ) : (
+    <>
+      SERIE<span className={styles.logoDot}>{'//'}</span>A
+    </>
+  );
+
   // const storeInfo = {
   //   name: 'Paulibrás',
   //   logo: '/logo.png',
@@ -40,8 +51,12 @@ const HeaderNovo = () => {
 
       {/* */}
       <div className={styles.headerMain}>
-        <a href="#" className={styles.logo} aria-label="BRAND — página inicial">
-          BRAND<span className={styles.logoDot}>.</span>
+        <a
+          href="#"
+          className={styles.logo}
+          aria-label="SERIE//A — página inicial"
+        >
+          {brand}
         </a>
 
         <form className={styles.search} role="search">
@@ -198,8 +213,12 @@ const HeaderNovo = () => {
           </button>
         </div>
 
-        <a href="#" className={styles.logo} aria-label="BRAND — página inicial">
-          BRAND<span className={styles.logoDot}>.</span>
+        <a
+          href="#"
+          className={styles.logo}
+          aria-label="SERIE//A — página inicial"
+        >
+          {brand}
         </a>
 
         <div className={styles.headerMobileRight}>
