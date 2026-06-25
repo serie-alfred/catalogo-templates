@@ -1,0 +1,681 @@
+/* ProductInfo03 — preview fiel do FastStore organisms/ProductDetails02
+   (ProductGallery02 + ProductInfo02 e subcomponentes), tudo hardcode num arquivo.
+   Mantém os var(--prod-*) do .starter para refletir os overrides por instância. */
+
+/* ───────────────────────── Layout (ProductDetails02) ───────────────────────── */
+.productDetails {
+  margin: 1rem 0 70px;
+  width: 100%;
+  container-type: inline-size;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0;
+}
+
+@container (max-width: 989px) {
+  .container {
+    display: block;
+  }
+}
+
+/* ───────────────────────── Galeria (ProductGallery02) ───────────────────────── */
+.productGallery {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  align-self: flex-start;
+}
+
+@container (max-width: 989px) {
+  .productGallery {
+    width: auto;
+    margin: 0 -15px 24px;
+  }
+}
+
+@container (min-width: 990px) {
+  .productGallery {
+    position: sticky;
+    width: 49.5%;
+    max-width: 49.5%;
+    height: calc(100vh - var(--prod-gallery-top, 96px) - 24px);
+  }
+}
+
+.badges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--prod-gallery-font, 'Inter', sans-serif);
+  background-color: var(--prod-gallery-badge-bg, #121212);
+  color: var(--prod-gallery-badge-text, #ffffff);
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.3px;
+}
+
+/* Desktop: masonry com scroll interno + scrollbar custom sobreposta */
+.desktopGallery {
+  display: none;
+}
+
+@container (min-width: 990px) {
+  .desktopGallery {
+    display: block;
+    position: relative;
+    height: 100%;
+  }
+}
+
+.scrollArea {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  column-gap: 16px;
+  row-gap: 16px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollArea::-webkit-scrollbar {
+  display: none;
+}
+
+.mediaItem {
+  width: calc(50% - 8px);
+  margin: 0;
+}
+
+.mediaItem:nth-child(3n + 1) {
+  width: 100%;
+}
+
+.mediaItem img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background-color: #efefef;
+}
+
+/* Scrollbar custom — flutua sobre a borda esquerda, centralizada na vertical */
+.scrollbar {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 34px;
+  height: 198px;
+  background: white;
+  border-radius: 4px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 37px;
+  padding: 8px;
+  border: none;
+  background: none;
+  color: #333333;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.arrow.disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+.arrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+.track {
+  position: relative;
+  flex: 1;
+  width: 6px;
+  margin: 6px 0;
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+}
+
+.handle {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  min-height: 24px;
+  background-color: #626262;
+  border-radius: 3px;
+  cursor: grab;
+  transition: background-color 0.2s ease;
+}
+
+.handle:hover {
+  background-color: #4a4a4a;
+}
+
+.handle:active {
+  cursor: grabbing;
+}
+
+/* Mobile: slider horizontal */
+.mobileGallery {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+@container (min-width: 990px) {
+  .mobileGallery {
+    display: none;
+  }
+}
+
+.swiper {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  padding-bottom: 32px;
+  position: relative;
+}
+
+.mobileImg {
+  width: 100%;
+  display: block;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background-color: #efefef;
+}
+
+.dots {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 8px;
+  margin-top: 12px;
+}
+
+.dot {
+  width: 11px;
+  height: 11px;
+  background-color: #e3e3e3;
+  opacity: 1;
+  border: none;
+  border-radius: 100%;
+  margin: 0 8px 0 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.dot:last-child {
+  margin: 0;
+}
+
+.dotActive {
+  background-color: var(--prod-gallery-dot-active, #121212);
+}
+
+/* ───────────────────────── Info (ProductInfo02) ───────────────────────── */
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+@container (min-width: 990px) {
+  .productInfo {
+    width: 50.5%;
+    padding-left: 1.6rem;
+  }
+}
+
+.stock {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--prod-info-text, #121212);
+  margin: 16px 0 0;
+}
+
+/* Faixa de 3 selos de confiança */
+.trustBadges {
+  list-style: none;
+  margin: 40px 0 38px;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+@container (max-width: 989px) {
+  .trustBadges {
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+.trustBadges li {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+@container (max-width: 989px) {
+  .trustBadges li {
+    flex-direction: row;
+    text-align: left;
+    gap: 16px;
+  }
+}
+
+.trustBadges li svg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  color: var(--prod-info-text, #121212);
+}
+
+.trustBadges li span {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--prod-info-text, #121212);
+}
+
+/* ── Título (ProductTitle02) ── */
+.productTitle {
+  display: flex;
+  flex-direction: column;
+}
+
+.sku {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+  color: #8c8c8c;
+  margin-bottom: 8px;
+}
+
+.productTitle h1 {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.35;
+  color: var(--prod-info-title, #000);
+  margin: 8px 0 0;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.stars svg {
+  width: 14px;
+  height: 14px;
+  color: #d6d6d6;
+}
+
+.stars svg.starFilled {
+  color: var(--prod-info-rating, #121212);
+}
+
+.rating > span {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 400;
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+.specs {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.specs li {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--prod-info-text, #121212);
+}
+
+.specs li strong {
+  font-weight: 300;
+}
+
+/* ── Preço (ProductPrice02) ── */
+.productPrice {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 24px 0 0;
+}
+
+.listPrice {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1;
+  color: #8a8a8a;
+  text-decoration: line-through;
+  letter-spacing: -0.5px;
+}
+
+.price {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1;
+  color: var(--prod-info-price, #121212);
+  letter-spacing: -0.5px;
+}
+
+/* ── Variação de cor (ProductVariations02 — swatches em foto) ── */
+.colorVariations {
+  margin-top: 24px;
+}
+
+.colorLabel {
+  display: block;
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--prod-info-text, #121212);
+  margin-bottom: 12px;
+}
+
+.colorLabel strong {
+  font-weight: 600;
+}
+
+.colorGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3.5px;
+}
+
+.colorSwatch {
+  position: relative;
+  display: block;
+  width: clamp(64px, 22%, 128px);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  cursor: pointer;
+  outline: 1.5px solid transparent;
+  outline-offset: -1.5px;
+  transition: outline-color 0.2s ease;
+}
+
+.colorSwatch img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.colorSwatch:hover {
+  outline-color: rgba(18, 18, 18, 0.4);
+}
+
+.colorSwatch.active {
+  outline-color: var(--prod-info-variant-active-bg, rgba(18, 18, 18, 0.75));
+}
+
+.colorSwatch.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--prod-info-variant-active-bg, #121212);
+}
+
+/* ── Variação de tamanho (ProductVariations02 — pills label) ── */
+.productVariations {
+  margin-top: 24px;
+}
+
+.variationTitle {
+  display: block;
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--prod-info-text, #121212);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.variationTitle strong {
+  font-weight: 600;
+}
+
+.sizeList {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 3.5px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Prefixadas com .productDetails p/ vencer o reset global
+   `.preview__area li { border: none; background: none }` (especificidade). */
+.productDetails .sizeOption {
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid var(--prod-info-variant-border, #121212);
+  min-width: 44px;
+  height: 44px;
+  padding: 0 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.productDetails .sizeOption:hover {
+  background-color: #f2f2f2;
+}
+
+.productDetails .sizeOption.active {
+  background-color: var(--prod-info-variant-active-bg, #121212);
+}
+
+.productDetails .sizeOption span {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--prod-info-text, #121212);
+  line-height: 1;
+  pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.productDetails .sizeOption.active span {
+  color: var(--prod-info-variant-active-text, #ffffff);
+}
+
+/* ── Comprar (ProductBuy02 — seletor de quantidade fica oculto, igual ao original) ── */
+.productBuy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+@container (max-width: 480px) {
+  .buttons {
+    flex-direction: column;
+  }
+}
+
+.addToCart,
+.buyNow {
+  flex: 1;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 400;
+  font-size: 16px;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s, opacity 0.3s;
+}
+
+@container (max-width: 768px) {
+  .addToCart,
+  .buyNow {
+    flex: unset;
+  }
+}
+
+/* Prefixados com .productDetails p/ vencer o reset global
+   `.preview__area button { border: none; background: none }` (especificidade). */
+.productDetails .addToCart {
+  background-color: var(--prod-info-btn-bg, #121212);
+  border: 1px solid var(--prod-info-btn-bg, #121212);
+  color: var(--prod-info-btn-text, #ffffff);
+}
+
+.productDetails .addToCart:hover {
+  background-color: transparent;
+  color: var(--prod-info-btn-bg, #121212);
+}
+
+.productDetails .buyNow {
+  background-color: var(--prod-info-btn2-bg, #000);
+  border: 1px solid var(--prod-info-btn2-bg, #000);
+  color: var(--prod-info-btn2-text, #ffffff);
+}
+
+.productDetails .buyNow:hover {
+  background-color: transparent;
+  color: var(--prod-info-btn-bg, #121212);
+}
+
+/* ── Accordion (ProductSpecsAccordion02) ── */
+.accordion {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.accordionItem {
+  border-top: 1px solid var(--prod-info-divider, rgba(18, 18, 18, 0.12));
+}
+
+.accordionItem:last-child {
+  border-bottom: 1px solid var(--prod-info-divider, rgba(18, 18, 18, 0.12));
+}
+
+.accordionHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--prod-info-text, #121212);
+}
+
+.accordionTitle {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.32px;
+  line-height: 1.2;
+}
+
+.accordionIcon {
+  flex-shrink: 0;
+  color: var(--prod-info-text, #121212);
+  transition: transform 0.2s ease;
+}
+
+.accordionIconOpen {
+  transform: rotate(180deg);
+}
+
+.accordionContent {
+  padding: 0 0 18px;
+}
+
+.accordionContent p {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--prod-info-content, rgba(18, 18, 18, 0.75));
+  margin: 0;
+}
