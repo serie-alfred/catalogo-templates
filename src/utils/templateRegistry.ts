@@ -129,6 +129,8 @@ import Showcase05 from '@/components/templates/home/template_5/Showcase';
 // ******
 // Common
 import Spot06 from '@/components/templates/common/template_6/Spot';
+import Header06 from '@/components/templates/common/template_6/Header';
+import Footer06 from '@/components/templates/common/template_6/Footer';
 
 // ******
 // Home
@@ -213,6 +215,8 @@ export const TemplateRegistry: Record<
   Showcase05,
 
   Spot06,
+  Header06,
+  Footer06,
   Showcase06,
   BannerMain06,
   BannerTriple06,
