@@ -14,6 +14,7 @@ Rodar `/from-faststore <Nome>` já implica, por padrão, sem o dev pedir:
 4. **Estrutura espelha o slot.** Use o(s) template(s) já existente(s) do mesmo slot como referência de wrapper/estrutura (ex.: `product/template_1/ProductInfo`).
 5. **Numeração automática do `template_N`** = próximo número livre do slot no catálogo (passo 2).
 6. **Bloco colocável (organism) vs peça (molecule):** se a origem é meio-bloco que depende de um irmão (ex.: `ProductInfo02` é só a coluna de info, ao lado da galeria), migre o **organism** que compõe o bloco inteiro e use o `path` dele (passo 2).
+7. **Logo nunca fixo.** Se o componente migrado (Header/Footer) tem logo da marca de origem (SVG inline, `<img>` com src fixo, wordmark hardcoded), **NÃO** traga esse logo para o preview. Troque por logo dinâmico via `useLayout()`, com fallback de texto fixo `"SERIE//A"` — exatamente o esquema de `Header01`/`Header03`/`Header04` (passo 3).
 
 Decisões que **continuam exigindo o dev** (pergunte, não invente): zona temável com valor cru/token interno (passo 1, "quando PARAR"); `selection`/`pagina` quando o nome não casa a tabela (passo 2); `platforms` além de `'VTEX'`.
 
@@ -80,6 +81,17 @@ Inverter o que o `/to-faststore` faz. Regras:
 - **Grafo completo de sub-componentes, inline, num arquivo só:** siga `manifest.json` → `dependencies.components` **recursivamente** (lidos no passo 0) e inline TODO o markup estático no mesmo `index.tsx`. **Não importe nem crie pastas por sub-componente.** Markup vindo de libs (`@faststore/ui`: `SkuSelector`, `QuantitySelector`, `Rating`, `Button`, `Swiper`…) deve ser **recriado como HTML semântico próprio** (ex.: pills de tamanho → `<ul><li><span>`; estrelas → 5 `<svg>`; galeria → coluna de `<img>` + dots), preservando as mesmas `var(--…)` p/ refletir os overrides. O que o original esconde (`display:none`, ex.: o QuantitySelector do `ProductBuy02`) pode ser omitido no preview.
 - **Estrutura de wrapper:** espelhe o template irmão do slot (ex.: `${styles.container} component__container` + `container-type: inline-size` na raiz p/ as media queries virarem `@container`).
 - **Estilos:** `import styles from './index.module.css'` e troque `className={style.x}` → `className={styles.x}`.
+- **Logo dinâmico, nunca fixo.** Se a origem tem logo da marca (SVG inline desenhado à mão, `<img>` com `src` fixo apontando pra asset da marca, wordmark hardcoded em texto), **remova** esse logo do preview e use o mesmo esquema de `Header01`/`Header03`/`Header04`:
+  ```tsx
+  const { logo } = useLayout();
+  // ...
+  {logo ? (
+    <img src={logo} alt="Logo" />
+  ) : (
+    <span className={styles.logoFallback}>SERIE//A</span>
+  )}
+  ```
+  `useLayout` vem de `@/context/LayoutContext`. O texto fixo é sempre `"SERIE//A"` (preserve o `//`), nunca o nome/marca de origem. Estilize `.logoFallback` no CSS module (peso de fonte, `text-transform: uppercase`, `color: var(--header-text, var(--text-color-base, …))` ou equivalente do componente, `font-family: var(--font-primary)`) — não deixe nenhum SVG/`<img>` com asset fixo da marca de origem no componente final.
 
 ## 4. Converter SCSS → CSS Module plano (`index.module.css`)
 
@@ -163,6 +175,7 @@ Para cada match, monte um `ComponentVariable` (`{ cssVar, label, type, default, 
 - [ ] Destino: organism vs molecule decidido; `template_N`/`id`/sufixo = **próximo livre do slot**; pasta = família do slot
 - [ ] Modo de var detectado: A (herança, 2 níveis) e/ou B (fiel, 1 nível) — sem aborto; só PARA p/ valor cru/token interno em zona temável
 - [ ] Preview: sem hooks/GraphQL; dados fixos coerentes; **todo o grafo inline num só arquivo** (markup de `@faststore/ui` recriado); `{ isMobile }`; `import styles from './index.module.css'`
+- [ ] Logo (se Header/Footer): nenhum SVG/`<img>` fixo da marca de origem — `useLayout().logo` com fallback `"SERIE//A"`, igual `Header01`/`03`/`04`
 - [ ] SCSS → CSS plano (desaninhado, sem `&`/`$`/`@mixin`/funções SCSS; `@media`→`@container`; `var(--…)` mantidos); `button`/`li` com bg/border **prefixados com a classe raiz** (vence o reset da preview, sem `!important`)
 - [ ] `variablesSchema` com **todas** as vars do componente: caminho A (com `inheritsLabel`+`backgroundVars`) ou B (sem `inheritsLabel`, `backgroundVars: []`); `default` byte-idêntico; labels confirmados com o dev
 - [ ] Registrado em `templateRegistry.ts` (chave = `component`) e em `layoutData.ts` (`key` único, `path` p/ VTEX, `platforms` com `'VTEX'`, `backgroundVars`)
