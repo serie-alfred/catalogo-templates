@@ -94,6 +94,16 @@ Selections, platform, colors, and fonts are mirrored to `localStorage` under key
 
 `exportLayout` (called from the Sidebar) does three things in sequence: (1) `html2canvas` the hidden `desktopPreviewRef` (1920px) and `mobilePreviewRef` (375px) divs that `PreviewArea` renders off-screen, downloading PNGs to the user; (2) build a JSON config grouped by `platform → { global, variables, [page]: items[] }`; (3) POST it to `/gerador/api/send-email` which mails it as `config.json`. When `platform === 'wake'`, the JSON also includes `wakeToken` from the `WakePopup` input.
 
+### Shareable preview (`/p/[id]/[page]`)
+
+Alongside export, the Sidebar has a **Preview** button ([PreviewButton](src/components/gerador/PreviewButton/index.tsx), next to Export in [SidebarIcons](src/components/gerador/Sidebar/SidebarIcons/index.tsx)) that persists the current theme server-side and returns a short random URL the client can open and navigate like a real site. Three pages share one id: `/p/{id}/home`, `/p/{id}/categoria`, `/p/{id}/produto`, switched via a floating bubble ([PreviewNav](src/components/preview/PreviewNav/index.tsx)).
+
+- **Snapshot**: `useLayoutGenerator.buildPreviewSnapshot()` serializes `{ platform, selections, colors, fonts, logo, favicon }` (`PreviewSnapshot` in [src/lib/previewStore.ts](src/lib/previewStore.ts)); `createPreview()` POSTs it to `/gerador/api/preview` and returns `${origin}/p/{id}/home`.
+- **Storage is hybrid** ([previewStore.ts](src/lib/previewStore.ts)): a `fileStore` writes `.preview-store/{id}.json` in dev (zero config, gitignored) and a `kvStore` uses `@vercel/kv` in prod. `getStore()` picks KV when `KV_REST_API_URL` is set. The module is `server-only`; the client hook imports only the **type** (`import type`), so it never bundles it.
+- **Rendering reuse**: the page-filter + priority-sort rules live in [src/utils/previewRender.ts](src/utils/previewRender.ts) (`selectionsForPage`, `getPriorityOrder`, `belongsToPage`, `slugToPagina`/`PREVIEW_PAGES`), used by **both** `DraggablePreviewList` (editor) and `ThemeRenderer` (preview) so they can't diverge. [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx) is a read-only DraggablePreviewList (no dnd/edit controls).
+- **Theme outside the gerador**: [SharedPreview](src/components/preview/SharedPreview/index.tsx) re-applies the same `:root` CSS vars and Google-font `<link>` injection the editor does, and provides a **seeded** `LayoutContext.Provider` (exported from [LayoutContext.tsx](src/context/LayoutContext.tsx)) with `{ logo, selections }` from the snapshot — templates read those via `useLayout()`, so the preview must NOT run `useLayoutGenerator` (which would hydrate the author's localStorage). The `p` route group has its own `layout.tsx` importing only `templates.css` + `globals.css` (no `gerador.css`, no `LayoutProvider`).
+- **Prod requires** a Vercel KV database and env vars `KV_REST_API_URL` / `KV_REST_API_TOKEN`.
+
 ### Mobile users
 
 `useIsMobile` short-circuits the gerador to `<DesktopOnlyNotice />` — the builder is desktop-only by design. The mobile _preview_ inside the desktop UI is a separate concept (the `isMobileView` toggle).

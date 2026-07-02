@@ -25,6 +25,7 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@lottiefiles/dotlottie-react": "^0.14.4",
     "@types/react-beautiful-dnd": "^13.1.8",
+    "@vercel/kv": "^3.0.0",
     "html2canvas": "^1.4.1",
     "lucide": "^0.525.0",
     "lucide-react": "^0.525.0",

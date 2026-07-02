@@ -3,6 +3,8 @@ import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layoutData';
 import { captureAndDownloadScreenshot } from '@/utils/screenshotExport';
 import { sendLayoutConfigEmail } from '@/services/emailService';
 import type { Platform } from '@/types/platform';
+// type-only: não puxa o módulo server-only para o bundle do cliente.
+import type { PreviewSnapshot } from '@/lib/previewStore';
 
 export interface LayoutSelection {
   uid: string;
@@ -886,6 +888,47 @@ export function useLayoutGenerator() {
     }
   };
 
+  /** Monta o snapshot serializável do tema atual (payload do preview). */
+  const buildPreviewSnapshot = (): PreviewSnapshot => ({
+    platform,
+    selections,
+    colors: {
+      colorPrimary,
+      colorSecondary,
+      colorTertiary,
+      colorPrimaryBackground,
+      colorSecondaryBackground,
+      colorTertiaryBackground,
+      colorFooter,
+      colorFooterText,
+      colorPrimaryText,
+      colorSecondaryText,
+    },
+    fonts: { fontPrimary, fontSecondary, fontTertiary },
+    logo,
+    favicon,
+  });
+
+  /**
+   * Persiste o tema atual no servidor e retorna a URL compartilhável da home do
+   * preview (`/p/{id}/home`). Retorna null em caso de falha.
+   */
+  const createPreview = async (): Promise<string | null> => {
+    try {
+      const res = await fetch('/gerador/api/preview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(buildPreviewSnapshot()),
+      });
+      if (!res.ok) return null;
+      const { id } = (await res.json()) as { id: string };
+      return `${window.location.origin}/p/${id}/home`;
+    } catch (error) {
+      console.error('Erro ao criar preview:', error);
+      return null;
+    }
+  };
+
   useEffect(() => {
     const firstLayoutKey = Object.keys(LAYOUTS)[0] as LayoutKey | undefined;
     if (firstLayoutKey) {
@@ -951,6 +994,7 @@ export function useLayoutGenerator() {
     handlePlatformChange,
     toggleSelection,
     exportLayout,
+    createPreview,
     editingUid,
     setEditingUid,
     setItemVariable,

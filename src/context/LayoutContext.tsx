@@ -2,9 +2,13 @@
 import React, { createContext, useContext } from 'react';
 import { useLayoutGenerator } from '@/hooks/useLayoutGenerator';
 
-type LayoutContextType = ReturnType<typeof useLayoutGenerator>;
+export type LayoutContextType = ReturnType<typeof useLayoutGenerator>;
 
-const LayoutContext = createContext<LayoutContextType | undefined>(undefined);
+// Exportado para que o preview compartilhável possa prover um valor semeado por
+// um snapshot (sem rodar o useLayoutGenerator, que hidrata do localStorage).
+export const LayoutContext = createContext<LayoutContextType | undefined>(
+  undefined
+);
 
 export function LayoutProvider({ children }: { children: React.ReactNode }) {
   const layout = useLayoutGenerator();

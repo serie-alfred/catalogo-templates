@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { iconsGenerator } from '@/assets/icons/generator';
 import ResponsiveToggle from '../../ResponsiveToggle';
+import PreviewButton from '../../PreviewButton';
 import styles from './index.module.css';
 
 type Tab = 'global' | 'build' | 'assets';
@@ -48,6 +49,8 @@ export default function SidebarIcons({
       <button title="Exporta Meu Tema" className="icon" onClick={onExport}>
         {iconsGenerator.exportTheme}
       </button>
+
+      <PreviewButton />
 
       <ResponsiveToggle isMobile={isMobile} onToggleMobile={onToggleMobile} />
     </div>

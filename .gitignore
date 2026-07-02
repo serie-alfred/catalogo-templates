@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# preview compartilhável (storage local de dev)
+/.preview-store
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

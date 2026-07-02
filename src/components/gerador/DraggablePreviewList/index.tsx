@@ -23,6 +23,7 @@ import { useLayout } from '@/context/LayoutContext';
 import styles from './index.module.css';
 import SortableItem from '../SortableItem';
 import { iconsGenerator } from '@/assets/icons/generator';
+import { selectionsForPage } from '@/utils/previewRender';
 
 interface DraggablePreviewListProps {
   items: LayoutSelection[];
@@ -41,42 +42,9 @@ export default function DraggablePreviewList({
   const sensors = useSensors(useSensor(PointerSensor));
   const { setEditingUid } = useLayout();
 
-  const getPriorityOrder = (key: LayoutKey) => {
-    if (key === 'header') return 0;
-    if (key === 'breadcrumb') return 1;
-    if (key === 'footer') return 3;
-    return 2;
-  };
-
-  const filteredItems = useMemo(
-    () =>
-      items.filter(item => {
-        // regra: "spot" só aparece em "common"
-        if (item.layoutKey === 'spot' && selectedPage !== 'common') {
-          return false;
-        }
-
-        // regra do breadcrumb na home
-        if (
-          item.layoutKey === 'breadcrumb' &&
-          selectedPage === 'home' &&
-          item.pagina === 'common'
-        ) {
-          return false;
-        }
-
-        // regra padrão: renderiza se a página for a selecionada ou for "common"
-        return item.pagina === selectedPage || item.pagina === 'common';
-      }),
-    [items, selectedPage]
-  );
-
   const sortedItems = useMemo(
-    () =>
-      [...filteredItems].sort(
-        (a, b) => getPriorityOrder(a.layoutKey) - getPriorityOrder(b.layoutKey)
-      ),
-    [filteredItems]
+    () => selectionsForPage(items, selectedPage),
+    [items, selectedPage]
   );
 
   const sortableItemIds = useMemo(
