@@ -127,7 +127,7 @@ body{
   position: relative;
 }
 
-.sidebar .icon:hover path, .sidebar .icon.active path{
+.sidebar .icon:hover path, .sidebar .icon.active path,.sidebar .icon:hover circle, .sidebar .icon.active circle {
   stroke: var(--color-blue)
 }
 

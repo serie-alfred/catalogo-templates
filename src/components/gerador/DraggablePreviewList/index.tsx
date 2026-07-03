@@ -120,6 +120,16 @@ export default function DraggablePreviewList({
     } as LayoutItem & { layoutKey: LayoutKey };
   }, [activeId, items]);
 
+  // Overrides por instância do item sendo arrastado — aplicados no overlay para
+  // o clone manter as cores/fontes editadas (senão cai nas variáveis globais).
+  const activeVariables = useMemo(
+    () =>
+      items.find(i => i.uid === activeId)?.variables as
+        | React.CSSProperties
+        | undefined,
+    [activeId, items]
+  );
+
   return (
     <DndContext
       sensors={sensors}
@@ -212,7 +222,13 @@ export default function DraggablePreviewList({
 
       <DragOverlay>
         {activeItem && (
-          <div style={{ transform: 'scale(1)', transformOrigin: 'top' }}>
+          <div
+            style={{
+              transform: 'scale(1)',
+              transformOrigin: 'top',
+              ...activeVariables,
+            }}
+          >
             <SortableItem
               id={activeId}
               data={activeItem}

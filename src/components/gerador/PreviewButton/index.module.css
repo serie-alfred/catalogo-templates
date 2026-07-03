@@ -89,8 +89,9 @@
   white-space: nowrap;
 }
 
-.copyBtn:hover {
+.copyBtn:hover,.copyBtn:focus  {
   background: #222;
+  box-shadow: none !important;
 }
 
 .openLink {

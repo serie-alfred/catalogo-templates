@@ -1,0 +1,21 @@
+/*
+ * O preview compartilhável é um storefront: deve renderizar sempre claro,
+ * independente do tema (dark/light) do navegador de quem abre o link.
+ * Neutraliza o override de dark-mode do globals.css. O !important garante a
+ * vitória mesmo se a ordem de bundling do CSS variar.
+ */
+html {
+  color-scheme: light !important;
+}
+
+body {
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+}

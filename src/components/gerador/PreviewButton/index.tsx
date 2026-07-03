@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { Eye, X, Copy, Check, ExternalLink } from 'lucide-react';
 import { useLayout } from '@/context/LayoutContext';
 import styles from './index.module.css';
@@ -61,9 +62,10 @@ export default function PreviewButton() {
         <Eye size={20} color="#7A7A7A" />
       </button>
 
-      {(url || error) && (
-        <div className={styles.overlay} onClick={closeModal}>
-          <div className={styles.modal} onClick={e => e.stopPropagation()}>
+      {(url || error) &&
+        createPortal(
+          <div className={styles.overlay} onClick={closeModal}>
+            <div className={styles.modal} onClick={e => e.stopPropagation()}>
             <button
               className={styles.close}
               onClick={closeModal}
@@ -116,8 +118,9 @@ export default function PreviewButton() {
               </>
             )}
           </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </>
   );
 }
