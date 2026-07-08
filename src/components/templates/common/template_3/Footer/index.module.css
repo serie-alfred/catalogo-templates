@@ -216,9 +216,12 @@ details.col.colPolicies {
 }
 
 details.col.colList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 11px;
 }
 
 .colList a {
@@ -272,6 +275,12 @@ details.col.colList {
   display: flex;
   flex-direction: column;
   content-visibility: visible;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
 }
 
 .colPolicies {
@@ -365,6 +374,7 @@ details.col.colList {
   gap: 8px !important;
   transition: background .25s var(--ease) !important;
   cursor: pointer;
+  border: none;
 }
 
 .nlBtn svg {
@@ -602,7 +612,7 @@ details.col.colList {
 }
 
 .legalPlatformBrand span {
-  color: var(--background-tertiary-color);
+  color: var(--footer-legal-text);
   margin: 0 1px;
   font-weight: 600;
   letter-spacing: -.04em;
@@ -738,6 +748,7 @@ details.col.colList {
     font-size: 11px;
     letter-spacing: .12em;
     font-family: var(--footer-font, var(--font-secundary, 'Poppins', sans-serif)) !important;
+    border: none;
   }
 
 

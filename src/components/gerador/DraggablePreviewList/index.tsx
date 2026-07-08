@@ -173,7 +173,7 @@ export default function DraggablePreviewList({
                 selected={isSelected}
                 isMobile={isMobile}
               />
-              <div className={styles.buttonContainer}>
+              <div className={`${styles.buttonContainer} preview-ui`}>
                 {hasVariables && (
                   <button
                     className={styles.editBtn}

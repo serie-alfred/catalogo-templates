@@ -1,8 +1,21 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
+import type { Swiper as SwiperType } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+
 import styles from './index.module.css';
 
-const slidesDesktop = [
+interface SlideItem {
+  link: string;
+  target: string;
+  image: string;
+  label: string;
+  width: number;
+  height: number;
+}
+
+const slidesDesktop: SlideItem[] = [
   {
     link: '#',
     target: '_blank',
@@ -13,7 +26,7 @@ const slidesDesktop = [
   },
 ];
 
-const slidesMobile = [
+const slidesMobile: SlideItem[] = [
   {
     link: '#',
     target: '_blank',
@@ -24,151 +37,130 @@ const slidesMobile = [
   },
 ];
 
+// Loop/autoplay do Swiper precisam de mais de um slide; replica o mock
+// existente até ter ao menos 3 quando só há um banner cadastrado.
+function ensureSlides(slides: SlideItem[]): SlideItem[] {
+  if (slides.length === 0) return slides;
+  if (slides.length >= 3) return slides;
+  return Array.from({ length: 3 }).map((_, index) => slides[index % slides.length]);
+}
+
+// Espelha organisms/BannerMain01 do faststore.starter:
+// Swiper com loop + observer e paginação/setas custom.
+function BannerSlider({ slides }: { slides: SlideItem[] }) {
+  const [swiper, setSwiper] = useState<SwiperType | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  return (
+    <>
+      <Swiper
+        breakpointsBase="container"
+        loop
+        observer
+        observeParents
+        onSwiper={setSwiper}
+        onSlideChange={s => setActiveIndex(s.realIndex)}
+      >
+        {slides.map((slide, index) => (
+          <SwiperSlide key={index}>
+            <a href={slide.link} target={slide.target}>
+              <img
+                src={slide.image}
+                alt={slide.label}
+                width={slide.width}
+                height={slide.height}
+                fetchPriority="high"
+              />
+            </a>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      <div className={styles.swiperBannerPagination}>
+        {slides.map((_, index) => (
+          <span
+            key={index}
+            className={`${styles.swiperPaginationBullet} ${
+              index === activeIndex ? styles.swiperPaginationBulletActive : ''
+            }`}
+            role="button"
+            aria-label={`Go to slide ${index + 1}`}
+            aria-current={index === activeIndex ? 'true' : undefined}
+            onClick={() => swiper?.slideToLoop(index)}
+          />
+        ))}
+      </div>
+
+      <div
+        className={styles.swiperBannerButtonPrev}
+        onClick={() => swiper?.slidePrev()}
+      >
+        <svg
+          fill="none"
+          height="24"
+          width="24"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M14 8L10 12L14 16"
+            stroke="#000"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+          />
+        </svg>
+      </div>
+
+      <div
+        className={styles.swiperBannerButtonNext}
+        onClick={() => swiper?.slideNext()}
+      >
+        <svg
+          fill="none"
+          height="24"
+          width="24"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10 16L14 12L10 8"
+            stroke="#000"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+          />
+        </svg>
+      </div>
+    </>
+  );
+}
+
 export default function BannerMain() {
-  const hasDesktopBanner = true;
-  const hasMobileBanner = true;
+  const desktopSlides = ensureSlides(slidesDesktop);
+  const mobileSlides = ensureSlides(slidesMobile);
+
+  if (!desktopSlides.length && !mobileSlides.length) return null;
 
   return (
     <div className={styles.home__banner__main}>
       {/* Banner Desktop */}
-      {hasDesktopBanner && (
-        <div className={`${styles.banner__home}`}>
-          <div className={`${styles.desktop}`}>
+      {desktopSlides.length > 0 && (
+        <div className={styles.banner__home}>
+          <div className={styles.desktop}>
             <div className={styles.bannerMain}>
-              <div
-                className={`${styles.swiper} ${styles.swiperBannerFullHome}`}
-              >
-                <div className={`${styles.swiperWrapper}`}>
-                  {slidesDesktop.map((slide, index) => (
-                    <div key={index} className="swiper-slide">
-                      <a href={slide.link} target={slide.target}>
-                        <img
-                          src={slide.image}
-                          alt={slide.label}
-                          width={slide.width}
-                          height={slide.height}
-                          fetchPriority="high"
-                        />
-                      </a>
-                    </div>
-                  ))}
-                </div>
-
-                <div
-                  className={`${styles.swiperBannerPagination} ${styles.swiperPaginationClickable} ${styles.swiperPaginationBullets} ${styles.swiperPaginationHorizontal}  `}
-                >
-                  <span
-                    className={`${styles.swiperPaginationBullet} ${styles.swiperPaginationBulletActive}  `}
-                    role="button"
-                    aria-label="Go to slide 1"
-                    aria-current="true"
-                  ></span>
-                  <span
-                    className={`${styles.swiperPaginationBullet}  `}
-                    role="button"
-                    aria-label="Go to slide 2"
-                  ></span>
-                </div>
-
-                <div className={styles.swiperBannerButtonPrev}>
-                  <svg
-                    fill="none"
-                    height="24"
-                    width="24"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M14 8L10 12L14 16"
-                      stroke="#000"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
-                </div>
-
-                <div className={styles.swiperBannerButtonNext}>
-                  <svg
-                    fill="none"
-                    height="24"
-                    width="24"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M10 16L14 12L10 8"
-                      stroke="#000"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
-                </div>
-              </div>
+              <BannerSlider slides={desktopSlides} />
             </div>
           </div>
         </div>
       )}
 
       {/* Banner Mobile */}
-      {hasMobileBanner && (
-        <div className={`${styles.banner__home}`}>
-          <div className={`${styles.mobile}`}>
+      {mobileSlides.length > 0 && (
+        <div className={styles.banner__home}>
+          <div className={styles.mobile}>
             <div className={styles.bannerMainMobile}>
-              <div
-                className={`${styles.swiper} ${styles.swiperBannerFullHomeMobile}`}
-              >
-                <div className={`${styles.swiperWrapper}`}>
-                  {slidesMobile.map((slide, index) => (
-                    <div key={index} className="swiper-slide">
-                      <a href={slide.link} target={slide.target}>
-                        <img
-                          src={slide.image}
-                          alt={slide.label}
-                          width={slide.width}
-                          height={slide.height}
-                          fetchPriority="high"
-                        />
-                      </a>
-                    </div>
-                  ))}
-                </div>
-
-                <div
-                  className={`${styles.swiperBannerPagination} ${styles.swiperPaginationClickable} ${styles.swiperPaginationBullets} ${styles.swiperPaginationHorizontal}  `}
-                >
-                  <span
-                    className={`${styles.swiperPaginationBullet} ${styles.swiperPaginationBulletActive}  `}
-                    role="button"
-                    aria-label="Go to slide 1"
-                    aria-current="true"
-                  ></span>
-                  <span
-                    className={`${styles.swiperPaginationBullet}  `}
-                    role="button"
-                    aria-label="Go to slide 2"
-                  ></span>
-                </div>
-
-                <div className={styles.swiperBannerButtonNext}>
-                  <svg
-                    fill="none"
-                    height="24"
-                    width="24"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M10 16L14 12L10 8"
-                      stroke="#141414"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                    />
-                  </svg>
-                </div>
-              </div>
+              <BannerSlider slides={mobileSlides} />
             </div>
           </div>
         </div>

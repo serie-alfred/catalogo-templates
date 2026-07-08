@@ -59,7 +59,9 @@
   display: block;
 }
 
-.fieldLine {
+/* Inputs/botões escopados sob .footer04 (0,2,0) para vencer os resets de
+   button/input (.footer04 button e .preview__area button, ambos 0,1,1). */
+.footer04 .fieldLine {
   width: 100%;
   padding: 12px 0;
   border: 0;
@@ -71,15 +73,15 @@
   transition: border-color var(--f4-ease);
 }
 
-.fieldLine::placeholder {
+.footer04 .fieldLine::placeholder {
   color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 48%, transparent);
 }
 
-.fieldLine:focus {
+.footer04 .fieldLine:focus {
   border-bottom-color: var(--footer-text, var(--text-color-footer, #ffffff));
 }
 
-.mobileNlBtn {
+.footer04 .mobileNlBtn {
   margin-top: 14px;
   width: 100%;
   min-height: 44px;
@@ -95,7 +97,7 @@
   transition: background var(--f4-ease), color var(--f4-ease);
 }
 
-.mobileNlBtn:hover {
+.footer04 .mobileNlBtn:hover {
   background: var(--footer-accent, var(--background-secundary-color, #ffffff));
   border-color: var(--footer-accent, var(--background-secundary-color, #ffffff));
 }
@@ -104,6 +106,82 @@
   color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 55%, transparent);
   font-size: 13px;
   letter-spacing: 0.06em;
+}
+
+/* Newsletter desktop — oculto por padrão; vira flex row no @container >=768px. */
+.desktopNewsletter {
+  display: none;
+}
+
+.dnlText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dnlTitle {
+  font-family: var(--footer-title-font, var(--font-primary, 'Roboto', sans-serif));
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--footer-text, var(--text-color-footer, #ffffff));
+}
+
+.dnlSub {
+  font-size: 13px;
+  font-weight: 300;
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 55%, transparent);
+}
+
+.dnlForm {
+  display: flex;
+  align-items: stretch;
+  min-width: 400px;
+}
+
+.footer04 .dnlInput {
+  flex: 1;
+  min-width: 0;
+  padding: 13px 16px;
+  border: none;
+  border-right: 0;
+  background: transparent;
+  color: var(--footer-text, var(--text-color-footer, #ffffff));
+  font: inherit;
+  outline: none;
+  transition: border-color var(--f4-ease);
+}
+
+.footer04 .dnlInput::placeholder {
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 48%, transparent);
+}
+
+.footer04 .dnlInput:focus {
+  border-color: var(--footer-text, var(--text-color-footer, #ffffff));
+}
+
+.footer04 .dnlBtn {
+  flex: none;
+  padding: 13px 34px;
+  background: var(--footer-button-bg, var(--background-primary-color, #ffffff));
+  border: 1px solid var(--footer-button-bg, var(--background-primary-color, #ffffff));
+  color: var(--footer-button-text, var(--text-color-base, #0a0a0a));
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background var(--f4-ease),
+    border-color var(--f4-ease),
+    color var(--f4-ease);
+}
+
+.footer04 .dnlBtn:hover {
+  background: var(--footer-accent, var(--background-secundary-color, #ffffff));
+  border-color: var(--footer-accent, var(--background-secundary-color, #ffffff));
+  color: var(--footer-button-text, var(--text-color-base, #0a0a0a));
 }
 
 .columns {
@@ -281,6 +359,16 @@
 
   .mobileNewsletter {
     display: none;
+  }
+
+  .desktopNewsletter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding-bottom: 36px;
+    margin-bottom: 44px;
+    border-bottom: 1px solid var(--f4-bg-inverse-soft);
   }
 
   .columns {

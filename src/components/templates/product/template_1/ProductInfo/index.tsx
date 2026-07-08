@@ -1,10 +1,28 @@
+'use client';
 import React, { useState } from 'react';
+import type { Swiper as SwiperType } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Thumbs, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/thumbs';
+import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
 import styles from './index.module.css';
+
+// Espelha molecules/ProductGallery01 do faststore.starter:
+// thumbs (vertical, FreeMode) sincronizados com a imagem principal.
+const SLIDE_HEIGHT = 74;
+const SLIDES_PER_VIEW = 4;
+const SPACE_BETWEEN = 8;
 
 const ProductInfo = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('G');
   const [cep, setCep] = useState('');
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
+
+  const thumbnailHeight =
+    SLIDES_PER_VIEW * SLIDE_HEIGHT + (SLIDES_PER_VIEW - 1) * SPACE_BETWEEN;
 
   const product = {
     sku: '205',
@@ -13,6 +31,7 @@ const ProductInfo = () => {
     installment: 'R$ 66,76',
     description: 'Data de lançamento: 25/03/2022\nDisponibilidade: Imediata',
     images: [
+      'https://placehold.co/482x482',
       'https://placehold.co/482x482',
       'https://placehold.co/482x482',
       'https://placehold.co/482x482',
@@ -55,72 +74,59 @@ const ProductInfo = () => {
               <div className={styles.info__image}>
                 <div className={styles.productGallery}>
                   <div className={styles.conteudo}>
+                    {/* Miniaturas (thumbs) — Swiper vertical sincronizado */}
                     <div className={styles.produtoImagemMiniaturas}>
-                      <div className={styles.miniaturasWrapper}>
-                        <ul className={styles.miniaturasList}>
-                          {product.images.map((image, index) => (
-                            <li key={index} className={styles.miniaturaItem}>
-                              <span className={styles.produtoImagemMiniatura}>
-                                <a
-                                  href={image}
-                                  className={styles.cloudZoomGallery}
-                                >
-                                  <img
-                                    src={image}
-                                    title="Produto 2"
-                                    alt="Produto 2"
-                                    className={`${index === 0 ? styles.selected : ''}`}
-                                  />
-                                </a>
-                              </span>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+                      <Swiper
+                        breakpointsBase="container"
+                        direction="vertical"
+                        className={styles.swiperThumbnail}
+                        style={{ height: thumbnailHeight }}
+                        modules={[FreeMode, Thumbs]}
+                        onSwiper={setThumbsSwiper}
+                        spaceBetween={SPACE_BETWEEN}
+                        slidesPerView={SLIDES_PER_VIEW}
+                        freeMode
+                        watchSlidesProgress
+                      >
+                        {product.images.map((image, index) => (
+                          <SwiperSlide key={index}>
+                            <img
+                              src={image}
+                              title={product.name}
+                              alt={product.name}
+                            />
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
                     </div>
+
+                    {/* Imagem principal — Swiper sincronizado com as thumbs */}
                     <div className={styles.produtoImagem}>
-                      <div className={styles.wrap}>
-                        <a
-                          href={product.images[0]}
-                          className={styles.containerThumb}
-                          title="Produto 2"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          <img
-                            src={product.images[0]}
-                            title="Produto 2"
-                            alt="Produto 2"
-                            className={styles.photo}
-                          />
-                        </a>
-                      </div>
-                    </div>
-                    <div className={`${styles.swiperPagination}`}>
-                      <span
-                        className={`${styles.swiperPaginationBullet} ${styles.swiperPaginationBulletActive}`}
-                      ></span>
-                      <span
-                        className={`${styles.swiperPaginationBullet}`}
-                      ></span>
-                      <span
-                        className={`${styles.swiperPaginationBullet}`}
-                      ></span>
-                      <span
-                        className={`${styles.swiperPaginationBullet}`}
-                        role="button"
-                        aria-label="Go to slide 4"
-                      ></span>
-                      <span
-                        className={`${styles.swiperPaginationBullet}`}
-                        role="button"
-                        aria-label="Go to slide 5"
-                      ></span>
-                      <span
-                        className={`${styles.swiperPaginationBullet}`}
-                        role="button"
-                        aria-label="Go to slide 6"
-                      ></span>
+                      <Swiper
+                        breakpointsBase="container"
+                        className={styles.swiper}
+                        thumbs={{
+                          swiper:
+                            thumbsSwiper && !thumbsSwiper.destroyed
+                              ? thumbsSwiper
+                              : null,
+                        }}
+                        modules={[Thumbs, Pagination]}
+                        pagination={{ clickable: true }}
+                        spaceBetween={0}
+                        slidesPerView={1}
+                      >
+                        {product.images.map((image, index) => (
+                          <SwiperSlide key={index}>
+                            <img
+                              src={image}
+                              title={product.name}
+                              alt={product.name}
+                              className={styles.mainImg}
+                            />
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
                     </div>
                   </div>
                 </div>

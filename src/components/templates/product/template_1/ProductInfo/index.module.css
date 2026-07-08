@@ -98,6 +98,48 @@
   border: 1px solid black;
 }
 
+/* Galeria — Swiper real (espelha molecules/ProductGallery01 do faststore.starter). */
+.produtoImagemMiniaturas .swiperThumbnail :global(.swiper-slide) {
+  cursor: pointer;
+}
+
+.produtoImagemMiniaturas .swiperThumbnail :global(.swiper-slide) img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+}
+
+.produtoImagemMiniaturas .swiperThumbnail :global(.swiper-slide-thumb-active) img {
+  border-color: #292929;
+}
+
+.produtoImagem {
+  flex: 1;
+  min-width: 0;
+}
+
+.produtoImagem .swiper {
+  width: 100%;
+  padding-bottom: 0;
+}
+
+.produtoImagem .swiper .mainImg {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 8px;
+  display: block;
+  max-height: 682px;
+  object-fit: cover;
+}
+
+/* Paginação visível apenas no mobile (igual ao ProductGallery01). */
+.produtoImagem .swiper :global(.swiper-pagination) {
+  display: none;
+}
+
 .product__info .info__container .info__row .info__left .info__position.info__fixed {
   top: 215px;
 }
@@ -1365,6 +1407,41 @@
 
   .produtoImagemMiniaturas {
     display: none;
+  }
+
+  .produtoImagem .swiper {
+    padding-bottom: 32px;
+  }
+
+  .produtoImagem .swiper :global(.swiper-pagination) {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 8px;
+    border-radius: 0;
+    padding: 0;
+    bottom: 8px;
+  }
+
+  .produtoImagem .swiper :global(.swiper-pagination-bullet) {
+    width: 11px;
+    height: 11px;
+    background-color: #e3e3e3;
+    opacity: 1;
+    border: none;
+    border-radius: 100%;
+    margin: 0 8px 0 0 !important;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .produtoImagem .swiper :global(.swiper-pagination-bullet:last-child) {
+    margin: 0 !important;
+  }
+
+  .produtoImagem .swiper :global(.swiper-pagination-bullet-active) {
+    background-color: var(--background-primary-color);
   }
 
   .product__info .info__container .info__row .info__left {

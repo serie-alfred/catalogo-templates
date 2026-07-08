@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 End users open `/gerador` and visually compose an e-commerce theme by drag-and-dropping pre-made components and tweaking visual variables (colors, fonts) that drive the components' appearance. When they finish, they export — the app screenshots desktop+mobile previews and emails the resulting theme configuration as a `config.json` attachment to the team. A developer then feeds that JSON into a separate downstream system that materializes the actual storefront theme. **This repo only produces the catalog UI, the previews, and the JSON; it does not generate the deployed theme itself.**
 
+The catalog components are **mock replicas** of the real platform components. For VTEX, the real components live in the sibling repo `../faststore.starter`, and each VTEX `LayoutItem` in `layoutData.ts` carries a `path` pointing to its counterpart there. See **[docs/CATALOGO-E-FASTSTORE.md](docs/CATALOGO-E-FASTSTORE.md)** for why this catalog exists and how to find a preview component's FastStore reference (used as the source of truth for layout, Swiper config, and styles).
+
 ## Commands
 
 Yarn is the canonical package manager (per [README.md](README.md)). A stale `package-lock.json` exists in the repo alongside `yarn.lock` — do not run `npm install` here; if a fresh install is ever needed, delete `package-lock.json` first.

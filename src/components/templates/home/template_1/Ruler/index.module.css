@@ -1,21 +1,22 @@
+/* Espelha molecules/Ruler01 (faststore.starter): Swiper real com Navigation. */
 .home__ruler {
   padding: 25px 0;
-  margin-bottom: 80px;
+    margin-bottom: 40px;
   border-bottom: 1px solid #efeff0;
   width: 100%;
-  container-type: inline-size;
   background: var(--ruler-bg, var(--background-secundary-color, #122161));
 }
 
 .ruler__container {
   position: relative;
-
 }
 
 .ruler__swiper {
-  display: flex;
-  flex-wrap: nowrap;
+  width: 100%;
+}
 
+.swiper__slide {
+  height: auto;
 }
 
 .ruler__item {
@@ -25,8 +26,6 @@
   justify-content: center;
   margin: 0 auto;
   width: max-content;
-  opacity: 1;
-  transition: opacity 0.3s ease;
 }
 
 .item__icon {
@@ -40,10 +39,6 @@
   transition: all 0.2s ease-in-out;
   color: var(--ruler-text, var(--text-color-secundary, #ffffff));
 }
-
-/* .item__icon:hover {
-  background-color: var(--color-semi-black);
-} */
 
 .item__text {
   width: fit-content;
@@ -69,75 +64,32 @@
   display: block;
 }
 
-/* Botões */
+/* Botões (apenas mobile, como no faststore). */
 .swiper-ruler-button-prev,
 .swiper-ruler-button-next {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 20px;
+  left: 10px;
   width: 25px;
   height: 25px;
   display: none;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
-  z-index: 1;
+  justify-content: center;
+  z-index: 10;
   cursor: pointer;
   color: var(--ruler-text, var(--text-color-secundary, #ffffff));
 }
 
 .swiper-ruler-button-next {
   left: unset;
-  right: 20px;
-  justify-content: flex-end;
+  right: 10px;
 }
 
-.ruler__item {
-  flex: 0 0 100%;
-}
-
-/* A partir de 768px → 2 itens */
-@container (min-width: 768px) {
-  .ruler__item {
-    flex: 0 0 50%;
-  }
-}
-
-/* A partir de 1024px → 3 itens */
-@container (min-width: 1024px) {
-  .ruler__item {
-    flex: 0 0 33.3333%;
-  }
-}
-
-/* A partir de 1366px → 4 itens */
-@container (min-width: 1360px) {
-  .ruler__item {
-    flex: 0 0 25%;
-  }
-}
-
-/* ===== Mobile ===== */
-@container (max-width: 767px) {
+@media (max-width: 767px) {
   .home__ruler {
     margin-bottom: 40px;
-  }
-
-  .ruler__swiper {
-    overflow: hidden;
-    position: relative;
-  }
-
-  .ruler__item {
-    flex: 0 0 100%;
-    display: none;
-  }
-
-  .ruler__item.active {
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 
   .swiper-ruler-button-prev,

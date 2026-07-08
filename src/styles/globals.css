@@ -86,5 +86,9 @@ a {
 
 :focus {
   outline: transparent !important;
-  box-shadow: 0 0 2px var(--color-blue);
+  box-shadow: none !important;
+}
+
+ul, ol{
+  list-style: none;
 }

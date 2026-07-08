@@ -218,32 +218,33 @@
   background-color: #efefef;
 }
 
-.dots {
+/* Paginação do Swiper (espelha molecules/ProductGallery02 do faststore.starter). */
+.swiper :global(.swiper-pagination) {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 8px;
-  margin-top: 12px;
+  bottom: 8px;
 }
 
-.dot {
+.swiper :global(.swiper-pagination-bullet) {
   width: 11px;
   height: 11px;
   background-color: #e3e3e3;
   opacity: 1;
   border: none;
   border-radius: 100%;
-  margin: 0 8px 0 0;
+  margin: 0 8px 0 0 !important;
   transition: all 0.2s ease-in-out;
 }
 
-.dot:last-child {
-  margin: 0;
+.swiper :global(.swiper-pagination-bullet:last-child) {
+  margin: 0 !important;
 }
 
-.dotActive {
+.swiper :global(.swiper-pagination-bullet-active) {
   background-color: var(--prod-gallery-dot-active, #121212);
 }
 

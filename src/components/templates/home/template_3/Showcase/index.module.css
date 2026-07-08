@@ -35,82 +35,35 @@
 .showcase__wrapper {
   width: 100%;
   max-width: 100%;
+  padding: 0;
   position: relative;
 }
 
+/* Swiper real — espelha ProductShelfCustom03 (faststore). */
 .showcase__swiper {
-  margin: 0 -8px;
-}
-
-.swiper__wrapper {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  margin: 0 -1.5px;
+  padding-bottom: 50px;
 }
 
 .swiper__slide {
-  padding: 0 8px;
+  padding: 0 1.5px;
+  height: auto;
 }
 
-.swiper__slide:nth-child(n + 3) {
-  display: none;
-}
-
-@container (min-width: 768px) and (max-width: 1024px) {
-  .swiper__wrapper {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  .swiper__slide {
-    display: block !important;
-  }
-
-  .swiper__slide:nth-child(n + 4) {
-    display: none !important;
-  }
-}
-
-@container (min-width: 1024px) {
-  .swiper__wrapper {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .swiper__slide {
-    display: block !important;
-  }
-}
-
-/* Setas (apenas visuais) */
-.swiper__button__prev,
-.swiper__button__next {
-  position: absolute;
-  top: calc(50% - 25px);
-  transform: translateY(-50%);
-  left: -30px;
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  z-index: 1;
-}
-
-.swiper__button__next {
-  left: unset;
-  right: -30px;
-  justify-content: flex-end;
-}
-
-/* Paginação (apenas visual) */
-.swiper__pagination {
+/* Paginação (classes globais do swiper). */
+.showcase__swiper :global(.swiper-pagination) {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   width: 100%;
-  margin-top: 32px;
+  height: 8px;
+  border-radius: 0;
+  padding: 0;
+  bottom: 8px;
 }
 
-.swiper__bullet {
+.showcase__swiper :global(.swiper-pagination-bullet) {
   width: 11px;
   height: 11px;
   background-color: #e3e3e3;
@@ -121,21 +74,55 @@
   transition: all 0.2s ease-in-out;
 }
 
-.swiper__bullet:last-of-type {
+.showcase__swiper :global(.swiper-pagination-bullet:last-of-type) {
   margin: 0;
 }
 
-.swiper__bullet__active {
+.showcase__swiper :global(.swiper-pagination-bullet-active) {
   background-color: var(--showcase-accent, var(--background-primary-color, #000000));
 }
 
-@container (max-width: 1023px) {
-  .showcase__swiper {
-    margin: 0 -4px;
+/* Setas de navegação. */
+.swiper__button__prev,
+.swiper__button__next {
+  position: absolute;
+  top: calc(50% - 30px);
+  transform: translateY(-50%);
+  left: -30px;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 1;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.swiper__button__next {
+  left: unset;
+  right: -30px;
+  justify-content: flex-end;
+}
+
+@media (max-width: 960px) {
+  .shelf {
+    padding: 24px 0 60px;
   }
 
-  .swiper__slide {
-    padding: 0 4px;
+  .shelf__header {
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+
+  .shelf__title {
+    font-size: 18px;
+  }
+
+  .showcase__wrapper {
+    padding: 0;
   }
 
   .swiper__button__prev,

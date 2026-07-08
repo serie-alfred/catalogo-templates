@@ -19,3 +19,16 @@ body {
     --foreground: #171717;
   }
 }
+
+/*
+ * No preview, o .component__container do templates.css usa container-queries que
+ * escalam até 1437/1920px — como o contexto aqui é o body inteiro, o conteúdo
+ * estoura. Força um container fixo de storefront (1200px centralizado). O
+ * !important vence as regras @container originais (que também usam !important).
+ */
+.component__container {
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 15px !important;
+}

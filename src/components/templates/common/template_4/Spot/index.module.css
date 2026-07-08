@@ -1,5 +1,5 @@
 .card {
-  background: #fff;
+  background: transparent;
   border-radius: 16px;
   display: flex;
   flex-direction: column;

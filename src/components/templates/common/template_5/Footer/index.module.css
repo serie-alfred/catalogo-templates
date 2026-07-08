@@ -121,6 +121,10 @@
   accent-color: var(--footer-button-bg, var(--background-secundary-color, #e60f73));
 }
 
+.nlConsent input {
+  font-size: 16px;
+}
+
 .nlSuccess {
   display: inline-flex;
   align-items: center;

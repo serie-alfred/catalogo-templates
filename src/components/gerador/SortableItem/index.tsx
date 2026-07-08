@@ -44,10 +44,23 @@ export default function SortableItem({
         style={style}
         {...(isOverlay ? {} : attributes)}
         {...(isOverlay ? {} : listeners)}
-        className={styles.imageContainer}
+        // classe global estável: marca a subárvore do template para o reset de
+        // .preview__area (templates.css) não atingir os componentes selecionados.
+        className={`${styles.imageContainer} preview-template`}
       >
         {Component ? (
-          <Component isMobile={isMobile} />
+          data.layoutKey === 'spot' ? (
+            // O "Card de Produto" (spot) não tem swiper e não deve ocupar 100%:
+            // renderiza direto, como era, preservando sua largura natural.
+            <Component isMobile={isMobile} />
+          ) : (
+            // pointer-events: none garante que componentes interativos (ex.: Swiper)
+            // não capturem o gesto de arrastar do dnd-kit. No editor o template é só
+            // uma pré-visualização — a interação real acontece no preview compartilhado.
+            <div style={{ pointerEvents: 'none', width: '100%' }}>
+              <Component isMobile={isMobile} />
+            </div>
+          )
         ) : (
           <Image
             src={`/images/gerador/${imageSrc}`}

@@ -120,6 +120,28 @@ export default function Footer04({ isMobile }: { isMobile?: boolean }) {
           </form>
         </div>
 
+        {/* Newsletter desktop — input + botão na mesma linha (oculto no mobile). */}
+        <div className={styles.desktopNewsletter}>
+          <div className={styles.dnlText}>
+            <span className={styles.dnlTitle}>Assine a newsletter</span>
+            <span className={styles.dnlSub}>
+              Novidades, lançamentos e ofertas exclusivas no seu e-mail.
+            </span>
+          </div>
+          <form className={styles.dnlForm} onSubmit={e => e.preventDefault()}>
+            <input
+              className={styles.dnlInput}
+              type="email"
+              placeholder={data.newsletterPlaceholder}
+              aria-label="Email para lista"
+              readOnly
+            />
+            <button type="submit" className={styles.dnlBtn}>
+              {data.newsletterButtonLabel}
+            </button>
+          </form>
+        </div>
+
         <div className={styles.columns}>
           <div className={styles.brand}>
             <a href="/" className={styles.logo}>

@@ -36,7 +36,9 @@ export default function ThemeRenderer({
         const styleVars = item.variables as React.CSSProperties | undefined;
 
         return (
-          <div key={item.uid} style={styleVars}>
+          // .preview-template: mesmo marcador do editor (SortableItem), usado
+          // pelo reset base fraco de templates.css.
+          <div key={item.uid} className="preview-template" style={styleVars}>
             {Component ? (
               <Component isMobile={false} />
             ) : (

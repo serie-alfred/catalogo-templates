@@ -1,4 +1,9 @@
+'use client';
 import React, { useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import styles from './index.module.css';
 
 /**
@@ -133,23 +138,28 @@ const ProductInfo = () => {
             </div>
           </div>
 
-          {/* Mobile: slider horizontal com paginação */}
+          {/* Mobile: slider horizontal com paginação (Swiper — espelha ProductGallery02) */}
           <div className={styles.mobileGallery}>
-            <div className={styles.swiper}>
-              <img
-                src={product.galleryImages[0]}
-                alt={product.name}
-                className={styles.mobileImg}
-              />
-              <div className={styles.dots}>
-                {product.galleryImages.map((_, index) => (
-                  <span
-                    key={index}
-                    className={`${styles.dot} ${index === 0 ? styles.dotActive : ''}`}
+            <Swiper
+              breakpointsBase="container"
+              className={styles.swiper}
+              modules={[Pagination]}
+              pagination={{ clickable: true }}
+              slidesPerView={1}
+              spaceBetween={0}
+              observer
+              observeParents
+            >
+              {product.galleryImages.map((image, index) => (
+                <SwiperSlide key={index}>
+                  <img
+                    src={image}
+                    alt={`${product.name} ${index + 1}`}
+                    className={styles.mobileImg}
                   />
-                ))}
-              </div>
-            </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
 

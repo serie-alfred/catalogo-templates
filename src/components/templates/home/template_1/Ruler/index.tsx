@@ -1,10 +1,22 @@
 'use client';
 
+import React, { useRef, useState } from 'react';
+import type { Swiper as SwiperType } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
 import 'swiper/css';
-import styles from './index.module.css';
-import { useState } from 'react';
+import 'swiper/css/navigation';
 
-const items = [
+import styles from './index.module.css';
+
+interface RulerItem {
+  icon: React.ReactNode;
+  title: string;
+  text: string;
+  class?: string;
+}
+
+const items: RulerItem[] = [
   {
     icon: (
       <svg
@@ -161,79 +173,103 @@ const items = [
   },
 ];
 
+// Espelha molecules/Ruler01 do faststore.starter:
+// Swiper com Navigation, slidesPerView 1/2/3/4 por breakpoint (setas só no mobile).
+const BREAKPOINTS = {
+  768: { slidesPerView: 2 },
+  1024: { slidesPerView: 3 },
+  1360: { slidesPerView: 4 },
+};
+
 export default function Ruler() {
-  const [current, setCurrent] = useState(0);
+  const swiperRef = useRef<SwiperType | null>(null);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
 
-  const handlePrev = () => {
-    setCurrent((prev: number) => (prev === 0 ? items.length - 1 : prev - 1));
-  };
-
-  const handleNext = () => {
-    setCurrent((prev: number) => (prev === items.length - 1 ? 0 : prev + 1));
+  const syncNavState = (swiper: SwiperType) => {
+    setIsBeginning(swiper.isBeginning);
+    setIsEnd(swiper.isEnd);
   };
 
   return (
     <section className={styles.home__ruler}>
       <div className={styles.ruler__container}>
-        <div className={styles.ruler__swiper}>
+        <Swiper
+          breakpointsBase="container"
+          className={styles.ruler__swiper}
+          modules={[Navigation]}
+          slidesPerView={1}
+          breakpoints={BREAKPOINTS}
+          onSwiper={swiper => {
+            swiperRef.current = swiper;
+            syncNavState(swiper);
+          }}
+          onSlideChange={syncNavState}
+          onBreakpoint={syncNavState}
+        >
           {items.map((item, index) => (
-            <div
+            <SwiperSlide
               key={index}
-              className={`${item.class} ${styles.ruler__item} ${
-                index === current ? styles.active : ''
-              }`}
+              className={`${item.class ?? ''} ${styles.swiper__slide}`}
             >
-              <div className={styles.item__icon}>{item.icon}</div>
-              <div className={styles.item__text}>
-                <span>
-                  <b>{item.title}</b>
-                  {item.text}
-                </span>
+              <div className={styles.ruler__item}>
+                <div className={styles.item__icon}>{item.icon}</div>
+                <div className={styles.item__text}>
+                  <span>
+                    <b>{item.title}</b>
+                    {item.text}
+                  </span>
+                </div>
               </div>
-            </div>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
 
-        <div
-          className={styles['swiper-ruler-button-prev']}
-          onClick={handlePrev}
-        >
-          <svg
-            fill="none"
-            height="24"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
+        {!isBeginning && (
+          <div
+            className={styles['swiper-ruler-button-prev']}
+            onClick={() => swiperRef.current?.slidePrev()}
           >
-            <path
-              d="M14 8L10 12L14 16"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-            />
-          </svg>
-        </div>
-        <div
-          className={styles['swiper-ruler-button-next']}
-          onClick={handleNext}
-        >
-          <svg
-            fill="none"
-            height="24"
-            viewBox="0 0 24 24"
-            width="24"
-            xmlns="http://www.w3.org/2000/svg"
+            <svg
+              fill="none"
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14 8L10 12L14 16"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+              />
+            </svg>
+          </div>
+        )}
+
+        {!isEnd && (
+          <div
+            className={styles['swiper-ruler-button-next']}
+            onClick={() => swiperRef.current?.slideNext()}
           >
-            <path
-              d="M10 16L14 12L10 8"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-            />
-          </svg>
-        </div>
+            <svg
+              fill="none"
+              height="24"
+              viewBox="0 0 24 24"
+              width="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M10 16L14 12L10 8"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.5"
+              />
+            </svg>
+          </div>
+        )}
       </div>
     </section>
   );

@@ -1,16 +1,55 @@
 'use client';
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import type { Swiper as SwiperType } from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+
 import styles from './index.module.css';
 import Spot from '../../../common/template_1/Spot';
 import { LAYOUTS } from '@/data/layoutData';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { useLayout } from '@/context/LayoutContext';
 
+// Espelha organisms/ProductShelfCustom01 do faststore.starter:
+// Swiper com Pagination, slidesPerView 2/3/4 por breakpoint e setas custom.
+const BREAKPOINTS = {
+  0: { slidesPerView: 2 },
+  768: { slidesPerView: 3 },
+  1024: { slidesPerView: 4 },
+};
+
 export default function Showcase() {
   const { selections } = useLayout();
+  const swiperRef = useRef<SwiperType | null>(null);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
 
-  // Filtra os spots selecionados
+  const syncNavState = (swiper: SwiperType) => {
+    setIsBeginning(swiper.isBeginning);
+    setIsEnd(swiper.isEnd);
+  };
+
+  // Spots selecionados no gerador; se nenhum, usa o Spot padrão do template.
   const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
+
+  // Monta ~8 slides (ciclando os spots escolhidos) para o carrossel ter o que rolar.
+  const slides = Array.from({ length: 8 }).map((_, index) => {
+    const spot = selectedSpots[index % selectedSpots.length];
+    if (spot) {
+      const layoutItem = LAYOUTS.spot.items.find(it => it.id === spot.id);
+      const SpotComponent = layoutItem
+        ? TemplateRegistry[layoutItem.component]
+        : null;
+      return {
+        key: `${spot.uid}-${index}`,
+        variables: spot.variables as React.CSSProperties | undefined,
+        Component: SpotComponent,
+      };
+    }
+    return { key: `default-${index}`, variables: undefined, Component: null };
+  });
 
   return (
     <div className={styles.home__showcase}>
@@ -20,104 +59,80 @@ export default function Showcase() {
         </div>
 
         <div className={styles.showcase__wrapper}>
-          <div className={styles.showcase__swiper} data-tray-tst="vitrine_home">
-            <div className={styles.swiper__wrapper}>
-              {selectedSpots.length > 0
-                ? selectedSpots.map((spot: { id: string; uid: string; variables?: Record<string, string> }) => {
-                    const layoutItem = LAYOUTS.spot.items.find(
-                      it => it.id === spot.id
-                    );
-                    if (!layoutItem) return null;
-
-                    const SpotComponent =
-                      TemplateRegistry[layoutItem.component];
-
-                    return SpotComponent ? (
-                      [1, 2, 3, 4].map((_, index) => (
-                        <div
-                          key={`${spot?.uid}-${index}`}
-                          className={styles.swiper__slide}
-                          style={spot.variables as React.CSSProperties}
-                          data-tray-tst="vitrine_produto"
-                          itemScope
-                          itemType="https://schema.org/SomeProducts"
-                        >
-                          <SpotComponent />
-                        </div>
-                      ))
-                    ) : (
-                      <></>
-                    );
-                  })
-                : [1, 2, 3, 4].map((_, index) => (
-                    <div
-                      key={`${index}`}
-                      className={styles.swiper__slide}
-                      data-tray-tst="vitrine_produto"
-                      itemScope
-                      itemType="https://schema.org/SomeProducts"
-                    >
-                      <Spot />
-                    </div>
-                  ))}
-            </div>
-          </div>
-
-          {/* Paginação */}
-          <div
-            className={`${styles.swiper__showcase__pagination} ${styles.swiper__pagination__clickable} ${styles.swiper__pagination__bullets} ${styles.swiper__pagination__horizontal}`}
+          <Swiper
+            breakpointsBase="container"
+            className={styles.showcase__swiper}
+            slidesPerView={2}
+            modules={[Pagination]}
+            pagination={{ clickable: true }}
+            breakpoints={BREAKPOINTS}
+            onSwiper={swiper => {
+              swiperRef.current = swiper;
+              syncNavState(swiper);
+            }}
+            onSlideChange={syncNavState}
+            onBreakpoint={syncNavState}
+            data-tray-tst="vitrine_home"
           >
-            {[...Array(8)].map((_, index) => (
-              <span
-                key={index}
-                className={`${styles.swiper__bullet} ${
-                  index == 0 ? styles.swiper__bullet__active : ''
-                }`}
-                role="button"
-                aria-label={`Go to slide ${index + 1}`}
-                aria-current={index == 0 ? 'true' : undefined}
-              ></span>
+            {slides.map(({ key, variables, Component }) => (
+              <SwiperSlide
+                key={key}
+                className={styles.swiper__slide}
+                style={variables}
+                data-tray-tst="vitrine_produto"
+                itemScope
+                itemType="https://schema.org/SomeProducts"
+              >
+                {Component ? <Component /> : <Spot />}
+              </SwiperSlide>
             ))}
-          </div>
-          <div className={styles.swiper__pagination}></div>
+          </Swiper>
 
-          {/* Botão prev */}
-          <div className={styles.swiper__button__prev}>
-            <svg
-              fill="none"
-              height="24"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
+          {!isBeginning && (
+            <div
+              className={styles.swiper__button__prev}
+              onClick={() => swiperRef.current?.slidePrev()}
             >
-              <path
-                d="M14 8L10 12L14 16"
-                stroke="#141414"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-              />
-            </svg>
-          </div>
+              <svg
+                fill="none"
+                height="24"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M14 8L10 12L14 16"
+                  stroke="#141414"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                />
+              </svg>
+            </div>
+          )}
 
-          {/* Botão next */}
-          <div className={styles.swiper__button__next}>
-            <svg
-              fill="none"
-              height="24"
-              viewBox="0 0 24 24"
-              width="24"
-              xmlns="http://www.w3.org/2000/svg"
+          {!isEnd && (
+            <div
+              className={styles.swiper__button__next}
+              onClick={() => swiperRef.current?.slideNext()}
             >
-              <path
-                d="M10 16L14 12L10 8"
-                stroke="#141414"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.5"
-              />
-            </svg>
-          </div>
+              <svg
+                fill="none"
+                height="24"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M10 16L14 12L10 8"
+                  stroke="#141414"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                />
+              </svg>
+            </div>
+          )}
         </div>
       </div>
     </div>
