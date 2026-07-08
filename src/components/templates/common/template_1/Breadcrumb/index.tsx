@@ -27,7 +27,7 @@ export default function Breadcrumb() {
           </li>
 
           <li className={styles['breadcrumb-item']}>
-            <a href="/categoria">Categoria</a>
+            <a href="#">Lorem Ipsum</a>
           </li>
         </ul>
       </div>

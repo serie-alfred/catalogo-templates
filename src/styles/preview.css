@@ -13,6 +13,14 @@ body {
   color: #1a1a1a !important;
 }
 
+/* O globals.css usa overflow-x: hidden em html/body, o que QUEBRA o
+   position: sticky (o header não fixa). overflow-x: clip corta o overflow
+   horizontal sem criar container de rolagem, mantendo o sticky funcional. */
+html,
+body {
+  overflow-x: clip;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #ffffff;
@@ -23,12 +31,20 @@ body {
 /*
  * No preview, o .component__container do templates.css usa container-queries que
  * escalam até 1437/1920px — como o contexto aqui é o body inteiro, o conteúdo
- * estoura. Força um container fixo de storefront (1200px centralizado). O
- * !important vence as regras @container originais (que também usam !important).
+ * estoura. Força um container fixo de storefront (1200px). Só o max-width leva
+ * !important (para vencer as regras @container, que também usam !important);
+ * padding/margin ficam com o componente — senão overrides legítimos (ex.: o
+ * .submenu__container do Header com padding:0) seriam quebrados, deixando o
+ * megamenu torto.
  */
 .component__container {
-  width: 100% !important;
   max-width: 1200px !important;
-  margin: 0 auto !important;
-  padding: 0 15px !important;
+}
+
+/* Header fixo ao rolar — SOMENTE no preview compartilhável (/p). O editor
+   (/gerador) usa outro renderer (SortableItem) e não carrega este arquivo. */
+.preview-sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }

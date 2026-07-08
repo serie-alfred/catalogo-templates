@@ -57,10 +57,7 @@
   stroke: var(--cat-main-btn-text, var(--text-tertiary-color, #ffffff));
 }
 
-/* Lista de produtos */
-.categoryList {
-  padding: 2rem 0;
-}
+
 
 .listRow {
   display: flex;
@@ -69,7 +66,12 @@
 
 .listFilter {
   flex: 0 0 25%;
-  position: relative;
+  /* Sidebar sticky: acompanha a rolagem do .listShowcase. align-self:flex-start
+     é essencial em flex — senão o item estica na altura toda e não há espaço
+     para "grudar". No mobile (@container <=1023px) este bloco vira display:none. */
+  align-self: flex-start;
+  position: sticky;
+  top: 142px;
   margin-bottom: 30px;
 }
 

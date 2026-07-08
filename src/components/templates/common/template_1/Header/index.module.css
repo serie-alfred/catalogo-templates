@@ -88,6 +88,8 @@ header.header .header__middle {
 }
 
 header.header .header__middle .middle__container .middle__row {
+  display: flex;
+  flex-wrap: nowrap;
   align-items: center;
 }
 
@@ -132,8 +134,8 @@ header.header .header__middle .middle__container .middle__row .middle__logo a .l
 
 header.header .header__middle .middle__container .middle__row .middle__search {
   padding: 0px 15px;
-  width: 39%;
-  max-width: 39%;
+  flex: 1 1 0%;
+  min-width: 0;
 }
 
 header.header .header__middle .middle__container .middle__row .middle__search .search {
@@ -236,12 +238,11 @@ header.header .header__middle .middle__container .middle__row .middle__search .s
 
 header.header .header__middle .middle__container .middle__row .middle__config {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: flex-end;
   padding: 0px 15px;
-  width: 43%;
-  max-width: 43%;
+  flex: 0 0 auto;
 }
 
 header.header .header__middle .middle__container .middle__row .middle__config .config__whatsapp,
@@ -884,6 +885,10 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
 
   header.header .header__middle {
     padding-bottom: 0px;
+  }
+
+  header.header .header__middle .middle__container .middle__row {
+    flex-wrap: wrap;
   }
 
   header.header .header__middle .middle__container .middle__row .middle__tabs {

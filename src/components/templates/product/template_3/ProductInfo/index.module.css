@@ -41,6 +41,7 @@
 @container (min-width: 990px) {
   .productGallery {
     position: sticky;
+    top: var(--prod-gallery-top, 96px);
     width: 49.5%;
     max-width: 49.5%;
     height: calc(100vh - var(--prod-gallery-top, 96px) - 24px);

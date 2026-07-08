@@ -15,9 +15,16 @@ const SLIDE_HEIGHT = 74;
 const SLIDES_PER_VIEW = 4;
 const SPACE_BETWEEN = 8;
 
+const COLORS: { key: string; className?: string }[] = [
+  { key: 'default' },
+  { key: 'red', className: 'red' },
+];
+
 const ProductInfo = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('G');
+  const [selectedColor, setSelectedColor] = useState('default');
+  const [isFavorited, setIsFavorited] = useState(false);
   const [cep, setCep] = useState('');
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperType | null>(null);
 
@@ -168,13 +175,6 @@ const ProductInfo = () => {
                     </div>
                   </div>
 
-                  <div className={styles.content__excerpt}>
-                    <ul>
-                      <li>Data de lançamento: 25/03/2022</li>
-                      <li>Disponibilidade: Imediata</li>
-                    </ul>
-                  </div>
-
                   <div className={styles.content__price}>
                     <div className={styles.produtoPreco}>
                       <div className={styles.preco}>
@@ -214,16 +214,21 @@ const ProductInfo = () => {
                         <h2>Cores disponíveis</h2>
                       </div>
                       <ul className={styles.listaCorVariacao}>
-                        <li
-                          className={`${styles.listaItem} ${styles.selected}`}
-                        >
-                          <div className={styles.color}></div>
-                        </li>
-                        <li className={`${styles.listaItem}`}>
-                          <div
-                            className={`${styles.color} ${styles.red}`}
-                          ></div>
-                        </li>
+                        {COLORS.map(color => (
+                          <li
+                            key={color.key}
+                            className={`${styles.listaItem} ${
+                              selectedColor === color.key ? styles.selected : ''
+                            }`}
+                            onClick={() => setSelectedColor(color.key)}
+                          >
+                            <div
+                              className={`${styles.color} ${
+                                color.className ? styles[color.className] : ''
+                              }`}
+                            ></div>
+                          </li>
+                        ))}
                       </ul>
                     </div>
                     <div className={styles.menuVars}>
@@ -244,17 +249,35 @@ const ProductInfo = () => {
                     </div>
                   </div>
 
-                  <div className={styles.favoriteButton}>
+                  <button
+                    type="button"
+                    className={`${styles.favoriteButton} ${
+                      isFavorited ? styles.favorited : ''
+                    }`}
+                    onClick={() => setIsFavorited(prev => !prev)}
+                    aria-label={
+                      isFavorited
+                        ? 'Remover dos Favoritos'
+                        : 'Adicionar aos Favoritos'
+                    }
+                  >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="24"
                       height="24"
                       viewBox="0 0 24 24"
+                      fill={isFavorited ? 'currentColor' : 'none'}
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
                       <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
                     </svg>
-                    Adicionar aos Favoritos
-                  </div>
+                    {isFavorited
+                      ? 'Adicionado aos Favoritos'
+                      : 'Adicionar aos Favoritos'}
+                  </button>
 
                   <div className={styles.productFormBox}>
                     <div className={styles.quantidade}>
@@ -307,7 +330,7 @@ const ProductInfo = () => {
                           name="quant"
                           className={styles.quantityInput}
                           type="text"
-                          value={1}
+                          value={quantity}
                           readOnly
                         />
                       </label>
@@ -432,32 +455,6 @@ const ProductInfo = () => {
                           placeholder="00000-000"
                         />
                       </label>
-                      <button className={styles.shipping__send} type="button">
-                        Enviar
-                        <svg width="24" height="24" viewBox="0 0 24 24">
-                          <path
-                            d="M19 12H5"
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                          />
-                          <path
-                            d="M14 17L19 12"
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                          />
-                          <path
-                            d="M14 7L19 12"
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="1.5"
-                          />
-                        </svg>
-                      </button>
                     </form>
 
                     <a

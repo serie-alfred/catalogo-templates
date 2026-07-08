@@ -1,8 +1,21 @@
+'use client';
+
+import { useState, type SyntheticEvent } from 'react';
+
 import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
 
 const FooterNovo = () => {
   const { logo } = useLayout();
+  const [open, setOpen] = useState<Record<string, boolean>>({
+    institucional: true,
+    atendimento: true,
+    categorias: true,
+    politicas: true,
+  });
+  const handleToggle =
+    (key: string) => (e: SyntheticEvent<HTMLDetailsElement>) =>
+      setOpen(s => ({ ...s, [key]: e.currentTarget.open }));
 
   return (
     <footer className={styles.siteFooter} role="contentinfo">
@@ -175,7 +188,11 @@ const FooterNovo = () => {
             </div>
           </div>
 
-          <details className={styles.col} open>
+          <details
+            className={styles.col}
+            open={open.institucional}
+            onToggle={handleToggle('institucional')}
+          >
             <summary className={styles.colHead}>
               <span>Institucional</span>
               <div className={styles.colChev}>
@@ -237,7 +254,11 @@ const FooterNovo = () => {
             </ul>
           </details>
 
-          <details className={styles.col} open>
+          <details
+            className={styles.col}
+            open={open.atendimento}
+            onToggle={handleToggle('atendimento')}
+          >
             <summary className={styles.colHead}>
               <span>Atendimento</span>
               <div className={styles.colChev}>
@@ -298,7 +319,11 @@ const FooterNovo = () => {
             </ul>
           </details>
 
-          <details className={styles.col} open>
+          <details
+            className={styles.col}
+            open={open.categorias}
+            onToggle={handleToggle('categorias')}
+          >
             <summary className={styles.colHead}>
               <span>Categorias</span>
               <div className={styles.colChev}>
@@ -361,7 +386,11 @@ const FooterNovo = () => {
             </ul>
           </details>
 
-          <details className={`${styles.col} ${styles.colPolicies}`}>
+          <details
+            className={`${styles.col} ${styles.colPolicies}`}
+            open={open.politicas}
+            onToggle={handleToggle('politicas')}
+          >
             <summary className={styles.colHead}>
               <span>Políticas</span>
               <div className={styles.colChev}>

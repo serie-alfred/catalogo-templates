@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 
 import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
@@ -61,6 +63,17 @@ const BenefitIcon = () => (
 
 export default function Header04() {
   const { logo } = useLayout();
+
+  // Mesmo funcionamento do faststore: a benefit strip some (fade + slide) ao
+  // rolar a página. window.scrollY > 80 alterna o estado.
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 80);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
     <div className={styles.header04Root}>
@@ -133,7 +146,9 @@ export default function Header04() {
       </header>
 
       {/* Benefit strip */}
-      <div className={styles.benefitStrip}>
+      <div
+        className={`${styles.benefitStrip}${scrolled ? ` ${styles.hidden}` : ''}`}
+      >
         <div className={styles.container}>
           {data.benefitStripItems.map((b, i) => (
             <span key={i}>

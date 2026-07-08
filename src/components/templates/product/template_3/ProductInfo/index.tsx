@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
@@ -94,6 +94,71 @@ const ProductInfo = () => {
   const [selectedSize, setSelectedSize] = useState('40');
   const [openIndex, setOpenIndex] = useState(0);
 
+  // Scrollbar custom da galeria desktop — espelha molecules/ProductGallery03.
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const draggingRef = useRef(false);
+
+  const [handle, setHandle] = useState({ topPct: 0, heightPct: 0.4 });
+  const [canScrollUp, setCanScrollUp] = useState(false);
+  const [canScrollDown, setCanScrollDown] = useState(false);
+
+  const updateScrollState = useCallback(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const max = el.scrollHeight - el.clientHeight;
+    const progress = max > 0 ? el.scrollTop / max : 0;
+    const heightPct =
+      el.scrollHeight > 0
+        ? Math.min(1, Math.max(0.15, el.clientHeight / el.scrollHeight))
+        : 1;
+    setHandle({ topPct: progress * (1 - heightPct), heightPct });
+    setCanScrollUp(el.scrollTop > 1);
+    setCanScrollDown(el.scrollTop < max - 1);
+  }, []);
+
+  useEffect(() => {
+    updateScrollState();
+    const el = scrollRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', updateScrollState, { passive: true });
+    window.addEventListener('resize', updateScrollState);
+    return () => {
+      el.removeEventListener('scroll', updateScrollState);
+      window.removeEventListener('resize', updateScrollState);
+    };
+  }, [updateScrollState]);
+
+  useEffect(() => {
+    const onMove = (event: PointerEvent) => {
+      if (!draggingRef.current) return;
+      const el = scrollRef.current;
+      const track = trackRef.current;
+      if (!el || !track) return;
+      const rect = track.getBoundingClientRect();
+      const ratio = Math.min(
+        1,
+        Math.max(0, (event.clientY - rect.top) / rect.height)
+      );
+      el.scrollTop = ratio * (el.scrollHeight - el.clientHeight);
+    };
+    const stop = () => {
+      draggingRef.current = false;
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', stop);
+    return () => {
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', stop);
+    };
+  }, []);
+
+  const scrollByViewport = (direction: number) => {
+    const el = scrollRef.current;
+    if (!el) return;
+    el.scrollBy({ top: direction * el.clientHeight * 0.9, behavior: 'smooth' });
+  };
+
   return (
     <div className={styles.productDetails}>
       <div className={`${styles.container} component__container`}>
@@ -115,21 +180,37 @@ const ProductInfo = () => {
               <button
                 type="button"
                 aria-label="Imagem anterior"
-                className={`${styles.arrow} ${styles.disabled}`}
+                className={`${styles.arrow} ${!canScrollUp ? styles.disabled : ''}`}
+                onClick={() => scrollByViewport(-1)}
               >
                 <Chevron up />
               </button>
 
-              <div className={styles.track}>
-                <div className={styles.handle} style={{ top: '0%', height: '40%' }} />
+              <div className={styles.track} ref={trackRef}>
+                <div
+                  className={styles.handle}
+                  style={{
+                    top: `${handle.topPct * 100}%`,
+                    height: `${handle.heightPct * 100}%`,
+                  }}
+                  onPointerDown={event => {
+                    draggingRef.current = true;
+                    event.preventDefault();
+                  }}
+                />
               </div>
 
-              <button type="button" aria-label="Próxima imagem" className={styles.arrow}>
+              <button
+                type="button"
+                aria-label="Próxima imagem"
+                className={`${styles.arrow} ${!canScrollDown ? styles.disabled : ''}`}
+                onClick={() => scrollByViewport(1)}
+              >
                 <Chevron />
               </button>
             </div>
 
-            <div className={styles.scrollArea}>
+            <div className={styles.scrollArea} ref={scrollRef}>
               {product.galleryImages.map((image, index) => (
                 <div className={styles.mediaItem} key={index}>
                   <img src={image} alt={`${product.name} ${index + 1}`} />

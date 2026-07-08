@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 
 import styles from './index.module.css';
 
@@ -63,6 +65,12 @@ const SocialIcon = ({ name }: { name: string }) => {
 };
 
 export default function Footer06() {
+  const [openCols, setOpenCols] = useState<number[]>([]);
+  const toggleCol = (i: number) =>
+    setOpenCols(prev =>
+      prev.includes(i) ? prev.filter(c => c !== i) : [...prev, i]
+    );
+
   return (
     <footer className={styles.footer06}>
       {/* NEWSLETTER */}
@@ -96,12 +104,22 @@ export default function Footer06() {
         </div>
 
         <div className={styles.columns}>
-          {data.columns.map((column, i) => (
-            <div key={i} className={`${styles.group} ${styles.groupOpen}`}>
-              <button type="button" className={styles.groupTitle} aria-expanded="true">
+          {data.columns.map((column, i) => {
+            const open = openCols.includes(i);
+            return (
+            <div
+              key={i}
+              className={`${styles.group} ${open ? styles.groupOpen : ''}`}
+            >
+              <button
+                type="button"
+                className={styles.groupTitle}
+                aria-expanded={open}
+                onClick={() => toggleCol(i)}
+              >
                 {column.title}
                 <span className={styles.groupToggle} aria-hidden="true">
-                  −
+                  {open ? '−' : '+'}
                 </span>
               </button>
               <div className={styles.groupLinks}>
@@ -113,7 +131,8 @@ export default function Footer06() {
                 ))}
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

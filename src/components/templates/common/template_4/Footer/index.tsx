@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 
 import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
@@ -98,9 +100,14 @@ const PinterestIcon = () => (
 const socialIconFor = (label: string) =>
   label.trim().toLowerCase() === 'pinterest' ? <PinterestIcon /> : <InstagramIcon />;
 
-export default function Footer04({ isMobile }: { isMobile?: boolean }) {
+export default function Footer04() {
   const { logo } = useLayout();
   const addressLines = data.address.split('\n');
+  const [openCols, setOpenCols] = useState<number[]>([]);
+  const toggleCol = (i: number) =>
+    setOpenCols(prev =>
+      prev.includes(i) ? prev.filter(c => c !== i) : [...prev, i]
+    );
 
   return (
     <footer className={styles.footer04}>
@@ -176,14 +183,19 @@ export default function Footer04({ isMobile }: { isMobile?: boolean }) {
           </div>
 
           {data.columns.map((column, index) => {
-            const open = !isMobile || index === 0;
+            const open = openCols.includes(index);
             const groupClasses = [styles.group, open ? styles.groupOpen : '']
               .filter(Boolean)
               .join(' ');
 
             return (
               <div className={groupClasses} key={index}>
-                <button type="button" className={styles.groupTitle} aria-expanded={open}>
+                <button
+                  type="button"
+                  className={styles.groupTitle}
+                  aria-expanded={open}
+                  onClick={() => toggleCol(index)}
+                >
                   {column.title}
                   <span className={styles.groupToggle} aria-hidden="true">
                     {open ? '−' : '+'}

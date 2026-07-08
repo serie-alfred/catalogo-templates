@@ -13,6 +13,7 @@
 
 .favoriteButton {
   align-items: center;
+  appearance: none;
   background: #eee;
   border: 1px solid #cbcbcb;
   border-radius: 4px;
@@ -20,6 +21,7 @@
   cursor: pointer;
   display: flex;
   flex-shrink: 0;
+  font-family: inherit;
   font-size: 14px;
   font-weight: 500;
   gap: 10px;
@@ -31,6 +33,17 @@
   position: relative;
   text-transform: none;
   transition: all .3s;
+  width: 100%;
+}
+
+.favoriteButton:hover {
+  background: #e0e0e0;
+}
+
+.favoriteButton.favorited {
+  background: #ffeaea;
+  border-color: #e53935;
+  color: #e53935;
 }
 
 
@@ -53,8 +66,10 @@
   width: fit-content;
   border-radius: 120px;
   height: fit-content;
-  border: none;
+  border: 1px solid transparent;
   padding: 6px;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
 }
 
 .listaCorVariacao .listaItem:hover {
@@ -75,8 +90,6 @@
 }
 
 .product__info .info__container .info__row .info__left .info__position {
-  position: sticky;
-  top: 0px;
   transition: all 0.3s ease-in-out;
 }
 
@@ -307,6 +320,11 @@
   width: 50%;
   max-width: 50%;
   padding: 0px 15px;
+}
+@media(max-width: 768px){
+  .product__info .info__container .info__row .info__right {
+  padding: 0;
+  }
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__sku {
@@ -697,6 +715,12 @@
   color: var(--color-semi-black);
   text-decoration: underline;
   margin-top: 30px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.showPaymentMethods:hover {
+  opacity: 0.8;
 }
 
 .textoVariacao h2 {
@@ -806,6 +830,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
 
@@ -906,6 +931,10 @@
 @container (max-width: 768px) {
   .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .quantidade {
     padding: 0px 10px;
+    width: 35%;
+  }
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .quantidade label{
+    width: 100% !important;
   }
 }
 
@@ -958,6 +987,7 @@
   box-shadow: none;
   margin: 0px;
   padding: 0px;
+  background: white;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton {
@@ -966,17 +996,21 @@
 }
 
 @container (max-width: 768px) {
-  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton {
-    width: 100%;
-    margin: 30px 0 0;
-    max-width: 100%;
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox {
+    flex-wrap: nowrap;
+    gap: 16px;
   }
 
-  .product__info .quantidade label,
-  .product__info .quantidade {
-    width: 100% !important;
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .quantidade {
+    flex-shrink: 0;
+    margin-right: 0;
+  }
+
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton {
+    flex: 1;
+    width: auto;
+    margin: 0;
     max-width: 100%;
-    margin: 0 !important;
   }
 }
 
@@ -989,8 +1023,19 @@
   height: 56px;
   background-color: var(--prod-info-btn-bg, var(--background-primary-color, #682A77));
   color: var(--prod-info-btn-text, var(--text-color-base, #ffffff));
+  border: 1px solid var(--prod-info-btn-bg, var(--background-primary-color, #682A77));
   border-radius: 80px;
+  cursor: pointer;
   transition: all 0.3s ease-in-out;
+}
+
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button:hover {
+  background-color: transparent;
+  color: var(--prod-info-btn-bg, var(--background-primary-color, #682A77));
+}
+
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button:hover span {
+  color: var(--prod-info-btn-bg, var(--background-primary-color, #682A77));
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button::before {
@@ -1069,7 +1114,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label {
-  width: calc(100% - 136px);
+  width: calc(100%);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label input {
@@ -1142,6 +1187,12 @@
   font-size: 12px;
   color: var(--prod-info-btn-text, var(--text-color-base, #ffffff));
   text-decoration: none;
+  cursor: pointer;
+  transition: text-decoration 0.3s ease;
+}
+
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping a:hover {
+  text-decoration: underline;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__forms .page-simula-frete {

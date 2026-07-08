@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 
 import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
@@ -101,6 +103,11 @@ function Wordmark({ name }: { name: string }) {
 
 export default function Footer05() {
   const { logo } = useLayout();
+  const [open, setOpen] = useState<string[]>([]);
+  const toggle = (key: string) =>
+    setOpen(prev =>
+      prev.includes(key) ? prev.filter(k => k !== key) : [...prev, key]
+    );
 
   return (
     <footer className={styles.footer05}>
@@ -152,36 +159,44 @@ export default function Footer05() {
             <p className={styles.brandDesc}>{data.brandDescription}</p>
           </div>
 
-          {data.columns.map((col, i) => (
-            <div
-              key={i}
-              className={`${styles.footerCol} ${styles.footerColOpen}`}
-            >
-              <button
-                type="button"
-                className={styles.colHead}
-                aria-expanded="true"
+          {data.columns.map((col, i) => {
+            const key = `col-${i}`;
+            const isOpen = open.includes(key);
+            return (
+              <div
+                key={i}
+                className={`${styles.footerCol} ${isOpen ? styles.footerColOpen : ''}`}
               >
-                <span className={styles.colTitle}>{col.title}</span>
-                <span className={styles.colChev}>
-                  <Chevron />
-                </span>
-              </button>
-              <ul className={styles.colList}>
-                {col.links.map((link, j) => (
-                  <li key={j}>
-                    <a href={link.url}>{link.name}</a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+                <button
+                  type="button"
+                  className={styles.colHead}
+                  aria-expanded={isOpen}
+                  onClick={() => toggle(key)}
+                >
+                  <span className={styles.colTitle}>{col.title}</span>
+                  <span className={styles.colChev}>
+                    <Chevron />
+                  </span>
+                </button>
+                <ul className={styles.colList}>
+                  {col.links.map((link, j) => (
+                    <li key={j}>
+                      <a href={link.url}>{link.name}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
 
-          <div className={`${styles.footerContact} ${styles.footerColOpen}`}>
+          <div
+            className={`${styles.footerContact} ${open.includes('contact') ? styles.footerColOpen : ''}`}
+          >
             <button
               type="button"
               className={styles.colHead}
-              aria-expanded="true"
+              aria-expanded={open.includes('contact')}
+              onClick={() => toggle('contact')}
             >
               <span className={styles.colTitle}>{data.contactTitle}</span>
               <span className={styles.colChev}>

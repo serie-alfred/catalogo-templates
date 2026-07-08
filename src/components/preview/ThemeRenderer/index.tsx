@@ -34,11 +34,17 @@ export default function ThemeRenderer({
         const Component = TemplateRegistry[layoutItem.component];
         // Overrides por instância cascateiam como CSS custom properties.
         const styleVars = item.variables as React.CSSProperties | undefined;
+        // Só no preview compartilhado (/p) o header fica fixo ao rolar.
+        const isHeader = item.layoutKey === 'header';
 
         return (
           // .preview-template: mesmo marcador do editor (SortableItem), usado
           // pelo reset base fraco de templates.css.
-          <div key={item.uid} className="preview-template" style={styleVars}>
+          <div
+            key={item.uid}
+            className={`preview-template${isHeader ? ' preview-sticky-header' : ''}`}
+            style={styleVars}
+          >
             {Component ? (
               <Component isMobile={false} />
             ) : (
