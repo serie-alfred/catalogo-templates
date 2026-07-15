@@ -1,11 +1,28 @@
 .header05 {
   container-type: inline-size;
-  --h5-bg: #f7f8f9;
-  --h5-muted: #6b7280;
-  --h5-border: #e4e7ea;
-  --h5-success-soft: #e7f4ec;
-  --h5-danger: #d6432a;
-  --h5-font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --h5-bg: var(--header-surface, var(--background-primary-color, #f7f8f9));
+  /* Muted (texto) e borda derivam do texto do header → contraste garantido em
+     qualquer fundo customizado, em vez de cinza fixo. */
+  --h5-muted: color-mix(
+    in srgb,
+    var(--header-text, var(--text-color-base, #1a1f2b)) 60%,
+    transparent
+  );
+  --h5-border: color-mix(
+    in srgb,
+    var(--header-text, var(--text-color-base, #1a1f2b)) 15%,
+    transparent
+  );
+  --h5-success-soft: var(--header-success-soft, #e7f4ec);
+  --h5-danger: var(--header-danger, #d6432a);
+  --h5-font-mono: var(
+    --header-font-mono,
+    "JetBrains Mono",
+    "IBM Plex Mono",
+    ui-monospace,
+    Menlo,
+    monospace
+  );
   font-family: var(--header-font, var(--font-primary, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif));
   color: var(--header-text, var(--text-color-base, #1a1f2b));
   font-size: 15px;
@@ -49,7 +66,10 @@
 
 .serviceBar {
   min-height: 34px;
-  background: var(--header-text, var(--text-color-base, #1a1f2b));
+  background: var(
+    --header-service-bg,
+    var(--header-text, var(--text-color-base, #1a1f2b))
+  );
   color: var(--header-bg, var(--background-primary-color, #ffffff));
   font: 500 11px/34px var(--h5-font-mono);
   letter-spacing: 0.03em;
@@ -133,10 +153,10 @@
   align-items: center;
   gap: 11px;
   padding: 0 14px;
-  background: var(--h5-bg);
-  border: 1px solid var(--h5-border);
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
+  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, )) 55%, transparent);
   border-radius: 6px;
-  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1f2b)) 55%, transparent);
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, )) 55%, transparent);
   cursor: pointer;
   text-align: start;
 }

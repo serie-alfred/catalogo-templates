@@ -2,11 +2,29 @@
 .header06Root {
   container-type: inline-size;
   width: 100%;
-  --h6-border: #f2f2f2;
-  --h6-border-strong: #e0e0e0;
-  --h6-muted: #6b6b6b;
-  --h6-placeholder: #828282;
-  --h6-mega-panel: #21464f;
+  /* Muted/placeholder (texto) e bordas derivam do texto do header → contraste
+     garantido em qualquer fundo customizado, em vez de cinza fixo. */
+  --h6-border: color-mix(
+    in srgb,
+    var(--header-text, var(--text-color-base, #212721)) 15%,
+    transparent
+  );
+  --h6-border-strong: color-mix(
+    in srgb,
+    var(--header-text, var(--text-color-base, #212721)) 22%,
+    transparent
+  );
+  --h6-muted: color-mix(
+    in srgb,
+    var(--header-text, var(--text-color-base, #212721)) 60%,
+    transparent
+  );
+  --h6-placeholder: color-mix(
+    in srgb,
+    var(--header-text, var(--text-color-base, #212721)) 50%,
+    transparent
+  );
+  --h6-mega-panel: var(--header-mega-panel, #21464f);
   --h6-t-fast: 150ms ease;
   --h6-t-mid: 280ms ease;
   --h6-container: 1280px;

@@ -61,37 +61,37 @@ export default function SharedPreview({
     [snapshot.logo, snapshot.selections]
   );
 
-  useEffect(() => {
-    const root = document.documentElement;
+  // Variáveis de tema como estilo INLINE num wrapper — aplicadas já no 1º paint
+  // (SSR), sem esperar um useEffect. Custom properties são herdadas por todos os
+  // descendentes, então isso substitui o antigo setProperty no :root e elimina o
+  // flash de cores default (azul/branco) ao abrir o preview.
+  const themeStyle = useMemo(() => {
     const c = snapshot.colors;
+    const f = snapshot.fonts;
+    return {
+      '--text-primary-color': c.colorPrimary,
+      '--text-secundary-color': c.colorSecondary,
+      '--text-tertiary-color': c.colorTertiary,
+      '--background-primary-color': c.colorPrimaryBackground,
+      '--background-primary-color-safe': colorSafeOnWhite(
+        c.colorPrimaryBackground
+      ),
+      '--background-secundary-color': c.colorSecondaryBackground,
+      '--background-tertiary-color': c.colorTertiaryBackground,
+      '--background-footer': c.colorFooter,
+      '--text-color-footer': c.colorFooterText,
+      '--text-color-base': c.colorPrimaryText,
+      '--text-color-secundary': c.colorSecondaryText,
+      '--font-primary': `'${f.fontPrimary}', sans-serif`,
+      '--font-secundary': `'${f.fontSecondary}', sans-serif`,
+      '--font-tertiary': `'${f.fontTertiary}', sans-serif`,
+    } as React.CSSProperties;
+  }, [snapshot.colors, snapshot.fonts]);
 
-    // Cores globais (mesma lista aplicada pelo useLayoutGenerator no editor).
-    root.style.setProperty('--text-primary-color', c.colorPrimary);
-    root.style.setProperty('--text-secundary-color', c.colorSecondary);
-    root.style.setProperty('--text-tertiary-color', c.colorTertiary);
-    root.style.setProperty('--background-primary-color', c.colorPrimaryBackground);
-    root.style.setProperty(
-      '--background-primary-color-safe',
-      colorSafeOnWhite(c.colorPrimaryBackground)
-    );
-    root.style.setProperty(
-      '--background-secundary-color',
-      c.colorSecondaryBackground
-    );
-    root.style.setProperty(
-      '--background-tertiary-color',
-      c.colorTertiaryBackground
-    );
-    root.style.setProperty('--background-footer', c.colorFooter);
-    root.style.setProperty('--text-color-footer', c.colorFooterText);
-    root.style.setProperty('--text-color-base', c.colorPrimaryText);
-    root.style.setProperty('--text-color-secundary', c.colorSecondaryText);
-
-    // Fontes globais: forma quotada (como o FontSelector) + carregamento.
+  // Efeitos que NÃO dá pra fazer inline: injetar os <link> das fontes do Google
+  // e o favicon. As variáveis já estão aplicadas no wrapper (acima).
+  useEffect(() => {
     const { fontPrimary, fontSecondary, fontTertiary } = snapshot.fonts;
-    root.style.setProperty('--font-primary', `'${fontPrimary}', sans-serif`);
-    root.style.setProperty('--font-secundary', `'${fontSecondary}', sans-serif`);
-    root.style.setProperty('--font-tertiary', `'${fontTertiary}', sans-serif`);
     [fontPrimary, fontSecondary, fontTertiary].forEach(loadGoogleFont);
 
     // Fontes por componente: valores no formato `'Família', sans-serif`.
@@ -117,7 +117,9 @@ export default function SharedPreview({
 
   return (
     <LayoutContext.Provider value={contextValue}>
-      <ThemeRenderer selections={snapshot.selections} pagina={pagina} />
+      <div style={themeStyle}>
+        <ThemeRenderer selections={snapshot.selections} pagina={pagina} />
+      </div>
       <PreviewNav id={id} activeSlug={activeSlug} />
     </LayoutContext.Provider>
   );

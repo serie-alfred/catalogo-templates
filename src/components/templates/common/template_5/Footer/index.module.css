@@ -1,11 +1,19 @@
 .footer05 {
   container-type: inline-size;
-  --f5-grey-08: #f4f4f4;
-  --f5-grey-20: #e6e6e6;
-  --f5-grey-55: #8a8a8a;
+  --f5-grey-08: var(--footer-grey-08, #f4f4f4);
+  --f5-grey-20: color-mix(
+    in srgb,
+    var(--footer-text, var(--text-color-footer, #000)) 15%,
+    transparent
+  );
+  --f5-grey-55: color-mix(
+    in srgb,
+    var(--footer-text, var(--text-color-footer, #000)) 55%,
+    transparent
+  );
   --f5-hairline: 1px solid var(--f5-grey-20);
   --f5-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
-  --f5-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --f5-mono: var(--footer-font-mono, "JetBrains Mono", "IBM Plex Mono", ui-monospace, Menlo, monospace);
   font-family: var(--footer-font, var(--font-secundary, "Poppins", sans-serif));
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

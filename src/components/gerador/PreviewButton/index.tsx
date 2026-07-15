@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Eye, X, Copy, Check, ExternalLink } from 'lucide-react';
+import { Eye, X, Copy, Check, ExternalLink, Clock } from 'lucide-react';
 import { useLayout } from '@/context/LayoutContext';
 import styles from './index.module.css';
 
@@ -115,6 +115,10 @@ export default function PreviewButton() {
                 >
                   <ExternalLink size={16} /> Abrir preview
                 </a>
+
+                <p className={styles.expiryNote}>
+                  <Clock size={14} /> Este link expira em 3 dias.
+                </p>
               </>
             )}
           </div>

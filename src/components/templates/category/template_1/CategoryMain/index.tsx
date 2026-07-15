@@ -41,14 +41,9 @@ const CategoryMain = () => {
   const brands = [
     { id: 1, name: 'Marca A', count: 12 },
     { id: 2, name: 'Marca B', count: 8 },
-    { id: 3, name: 'Marca C', count: 15 },
   ];
 
-  const categories = [
-    { id: 1, name: 'Categoria 1', count: 10 },
-    { id: 2, name: 'Categoria 2', count: 7 },
-    { id: 3, name: 'Categoria 3', count: 13 },
-  ];
+  const categories = [{ id: 1, name: 'Categoria 1', count: 10 }];
 
   const prices = [
     { from: 0, to: 50, count: 5 },
@@ -57,18 +52,12 @@ const CategoryMain = () => {
     { from: 200, to: 0, count: 3 },
   ];
 
-  const availability = [
-    { name: 'Em estoque', count: 20 },
-    { name: 'Fora de estoque', count: 5 },
-  ];
-
   const properties = [
     {
       key: 'Tamanho',
       values: [
         { key: 'P', count: 10 },
         { key: 'M', count: 15 },
-        { key: 'G', count: 8 },
       ],
     },
     {
@@ -76,7 +65,6 @@ const CategoryMain = () => {
       values: [
         { key: 'Azul', count: 7 },
         { key: 'Vermelho', count: 12 },
-        { key: 'Verde', count: 5 },
       ],
     },
   ];
@@ -227,47 +215,6 @@ const CategoryMain = () => {
                           ? `Acima de R$ ${price.from}`
                           : `De R$ ${price.from} à R$ ${price.to}`}
                     </span>
-                  </label>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
-        {availability.length > 0 && (
-          <div className={styles.filterBlock}>
-            <span className={styles.filterTitleActive}>
-              Disponibilidade
-              <div className={styles.filterArrow}>
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M8 10L12 14L16 10"
-                    stroke="#141414"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </div>
-            </span>
-
-            <ul className={styles.filterList}>
-              {availability.map((item, index) => (
-                <li key={index} className={styles.filterItem}>
-                  <div className={styles.fakeInput}></div>
-
-                  <label
-                    className={styles.filterLabel}
-                    htmlFor={`availability-${index}`}
-                  >
-                    <span className={styles.filterName}>{item.name}</span>
-                    <span className={styles.filterCount}>({item.count})</span>
                   </label>
                 </li>
               ))}
@@ -623,7 +570,11 @@ const CategoryMain = () => {
                             <div key={product.id} className={styles.listSpot}>
                               {selectedSpots.length > 0
                                 ? selectedSpots.map(
-                                    (spot: { id: string; uid: string; variables?: Record<string, string> }) => {
+                                    (spot: {
+                                      id: string;
+                                      uid: string;
+                                      variables?: Record<string, string>;
+                                    }) => {
                                       const layoutItem =
                                         LAYOUTS.spot.items.find(
                                           it => it.id === spot.id
@@ -637,7 +588,9 @@ const CategoryMain = () => {
                                         [1, 2, 3, 4].map((_, index) => (
                                           <div
                                             key={`${spot?.uid}-${index}`}
-                                            style={spot.variables as React.CSSProperties}
+                                            style={
+                                              spot.variables as React.CSSProperties
+                                            }
                                           >
                                             <SpotComponent />
                                           </div>

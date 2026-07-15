@@ -2,9 +2,17 @@
 .footer06 {
   container-type: inline-size;
   width: 100%;
-  --f6-hairline: #e5e5e5;
-  --f6-panel: #ffffff;
-  --f6-muted: #6b6b6b;
+  --f6-hairline: color-mix(
+    in srgb,
+    var(--footer-text, var(--text-color-footer, #212721)) 15%,
+    transparent
+  );
+  --f6-panel: var(--footer-panel, #ffffff);
+  --f6-muted: color-mix(
+    in srgb,
+    var(--footer-text, var(--text-color-footer, #212721)) 55%,
+    transparent
+  );
   --f6-t-fast: 150ms ease;
   --f6-container: 1280px;
   background: var(--footer-bg, var(--background-footer, #f6f6f6));

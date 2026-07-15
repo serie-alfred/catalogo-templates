@@ -1,9 +1,23 @@
 .header04Root {
   container-type: inline-size;
-  --h4-bg-surface: #f5f5f5;
-  --h4-muted: #6b6b6b;
-  --h4-light: #9b9b9b;
-  --h4-border: #e8e8e8;
+  --h4-bg-surface: var(--header-surface, var(--background-primary-color, #f5f5f5));
+  /* Muted/light (texto) e borda derivam do texto do header → contraste garantido
+     em qualquer fundo customizado, em vez de cinza fixo. */
+  --h4-muted: color-mix(
+    in srgb,
+    var(--header-text, var(--text-color-base, #0a0a0a)) 60%,
+    transparent
+  );
+  --h4-light: color-mix(
+    in srgb,
+    var(--header-text, var(--text-color-base, #0a0a0a)) 45%,
+    transparent
+  );
+  --h4-border: color-mix(
+    in srgb,
+    var(--header-text, var(--text-color-base, #0a0a0a)) 15%,
+    transparent
+  );
   --h4-ease: ease;
   --h4-t-fast: 150ms ease;
   --h4-t-mid: 300ms ease;

@@ -36,8 +36,8 @@ interface PreviewStore {
   get(id: string): Promise<PreviewSnapshot | null>;
 }
 
-// TTL do preview em produção (KV): 90 dias.
-const PREVIEW_TTL_SECONDS = 60 * 60 * 24 * 90;
+// TTL do preview em produção (KV): 3 dias.
+const PREVIEW_TTL_SECONDS = 60 * 60 * 24 * 3;
 
 // Prefixo das chaves no KV, para não colidir com outros usos do banco.
 const KV_PREFIX = 'preview:';

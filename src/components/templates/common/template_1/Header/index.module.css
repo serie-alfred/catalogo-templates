@@ -457,7 +457,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
 header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__wrapper .submenu__container .submenu__inner>ul>li ul {
   display: none;
   position: absolute;
-  right: -100%;
+  right: -150%;
   top: 0;
   width: 100%;
   background-color: var(--color-white, #ffffff);
