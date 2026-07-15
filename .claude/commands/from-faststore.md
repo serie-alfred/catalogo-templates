@@ -38,7 +38,9 @@ O `.starter` tem dois padrões de CSS var component-scoped. **Detecte qual o com
 
 Um mesmo componente pode misturar os dois — derive cada var pelo seu próprio padrão. Em ambos os modos: **exponha toda** var component-scoped que o SCSS consome e **nunca invente** vars que o SCSS não usa (quebra o contrato com o `template-generator`).
 
-**Vars que NÃO viram schema (ficam estruturais no CSS, fora do painel):** paleta local sem default temático consumida crua (`var(--f<N>-ink)` sem fallback), neutros estruturais (`--f<N>-grey-NN`, `--f<N>-ease`, `--f<N>-hairline`, `--f<N>-mono`) e offsets de layout (`--prod-gallery-top` etc.). Mantêm o valor no CSS.
+**Vars que NÃO viram schema (ficam no CSS, fora do painel):** valores **não-cor** (`--f<N>-ease` timings, `--f<N>-container`/`--prod-gallery-top` tamanhos/offsets), fontes decorativas de nicho (`--f<N>-mono`) e superfícies auxiliares locais (`--f<N>-panel`). Ficam no CSS mas **seguindo as regras de cor abaixo** (não hex fixo se forem cor sobre fundo customizável).
+
+**Neutros de texto/borda que tocam fundo customizável → derivam do TEXTO (nunca cinza fixo):** cinza "muted"/texto secundário, placeholders e **bordas (inclusive de input)** — mesmo quando NÃO viram campo no painel — não podem ficar em hex fixo (`#6b6b6b`, `#e4e7ea`, `--f<N>-grey-NN`, `--f<N>-hairline`): quebram contraste quando o usuário troca o fundo. Redefina a var local (ou a propriedade) como `color-mix(in srgb, var(--<sec>-text, var(--<token-texto-global>, #hex)) N%, transparent)` — texto 45–60%, placeholder 48–55%, borda 12–22%. Assim seguem o texto do tema automaticamente (não precisam de schema). Só ficam em hex/`rgba` cru: overlays translúcidos, sombras e valores não-cor.
 
 **Quando PARAR e perguntar ao dev (não auto-resolver):** uma zona claramente temável (fundo de seção, botão, texto principal) usa **hex/rgba cru fora de qualquer `var()`** ou um **token interno do catálogo** (`var(--paper)`, `var(--ink)`, `var(--accent)`, `var(--font-body)`, `var(--font-display)` — de `globals.css`, não existem fora do catálogo). Aí o painel não consegue editar a propriedade. Emita:
 

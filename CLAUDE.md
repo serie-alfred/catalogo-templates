@@ -86,6 +86,8 @@ The same `selection` strings drive the duplicate-button blacklist in [src/compon
 
 Colors and fonts in `useLayoutGenerator` are pushed to `:root` as CSS custom properties (`--text-primary-color`, `--secondary-color`, `--tertiary-color`, `--background-primary-color`, `--background-secundary-color`, `--background-tertiary-color`, `--background-footer`, `--text-color-footer`, `--text-color-base`, `--text-color-secundary`, `--font-primary`, `--font-secundary`). Templates **must** read theme values from these variables — do not hardcode colors/fonts in template CSS Modules. `--text-color-base` and `--text-color-secundary` are auto-derived from background luminance; don't try to set them directly.
 
+**Neutrals over a customizable background must derive from the theme text, never a fixed gray.** Muted/secondary text, placeholders, and any border (especially input borders) sit on a background the user can change — a fixed gray (`#6b6b6b`, `#e4e7ea`, a local `--h5-border: #e4e7ea`…) breaks contrast on a dark theme. Write them as `color-mix(in srgb, var(--<section>-text, var(--<global-text>, #hex)) N%, transparent)` (muted text 45–60%, placeholder 48–55%, borders 12–22%) so they follow the theme text automatically. Only translucent overlays, shadows, and non-color values (timings, sizes) stay raw. This is why the local `--h5-*`/`--f4-*`/`--h6-*`/`--f6-*` neutral vars are defined as `color-mix(...)` at the component root (kept byte-identical in the sibling `faststore.starter` SCSS for parity).
+
 Note the typo `--background-secundary-color` (and `--text-color-secundary`, `--font-secundary`) — these are baked into both the hook and the template CSS, so keep the misspelling when adding new variables that reference them.
 
 ### Persistence

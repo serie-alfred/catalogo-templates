@@ -21,4 +21,6 @@ The gerador supports per-instance color/font overrides written into each config.
 
 Panel: `src/components/gerador/ComponentVariablesPanel` (right-side drawer, no dark overlay so live preview stays visible). Live preview = `item.variables` applied as inline CSS vars on the wrapper in `DraggablePreviewList`.
 
+**Neutrals over a customizable background must NOT be fixed gray.** Muted/secondary text, placeholders, and borders (esp. input borders) must derive from the section text token via `color-mix(in srgb, var(--<sec>-text, var(--<global-text>, #hex)) N%, transparent)` (muted 45–60%, placeholder 48–55%, border 12–22%) — so they contrast on any theme. These are NOT schema fields (they auto-follow text); they're set as the value of the local `--h5-*/--f4-*/--h6-*/--f6-*` neutral vars at the component root. Fixed hex only for translucent overlays, shadows, timings, sizes. Same rule enforced in `/from-faststore`, `/to-faststore`(+`-pdp`), both `CLAUDE.md`s, and `faststore.starter/docs/guia-componente-ao-tema.md`. Keep the neutral `color-mix` definitions byte-identical between the catalog CSS and the `faststore.starter` SCSS (parity).
+
 Font values are stored as `'Family', sans-serif`; the panel parses the family out for `FontSelector` and re-wraps on change.
