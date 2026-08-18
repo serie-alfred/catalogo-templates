@@ -13,6 +13,9 @@
     var(--header-text, var(--text-color-base, #1a1f2b)) 15%,
     transparent
   );
+  /* Texto da barra de serviço (topbar): variável própria, independente do
+     fundo do header — o topbar tem seu próprio fundo (--header-service-bg). */
+  --h5-service-text: var(--header-service-text, #ffffff);
   --h5-success-soft: var(--header-success-soft, #e7f4ec);
   --h5-danger: var(--header-danger, #d6432a);
   --h5-font-mono: var(
@@ -70,7 +73,7 @@
     --header-service-bg,
     var(--header-text, var(--text-color-base, #1a1f2b))
   );
-  color: var(--header-bg, var(--background-primary-color, #ffffff));
+  color: var(--h5-service-text);
   font: 500 11px/34px var(--h5-font-mono);
   letter-spacing: 0.03em;
 }
@@ -89,13 +92,13 @@
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--header-bg, var(--background-primary-color, #ffffff));
+  background: var(--h5-service-text);
 }
 
 .serviceLinks {
   display: flex;
   gap: 24px;
-  color: color-mix(in srgb, var(--header-bg, var(--background-primary-color, #ffffff)) 72%, transparent);
+  color: color-mix(in srgb, var(--h5-service-text) 72%, transparent);
 }
 
 .siteHeader {
