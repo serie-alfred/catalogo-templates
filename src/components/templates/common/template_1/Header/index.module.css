@@ -128,8 +128,8 @@ header.header .header__middle .middle__container .middle__row .middle__logo a .l
   font-size: 24px;
   line-height: 1;
   white-space: nowrap;
-  color: var(--text-color-base);
-  font-family: var(--font-primary);
+  color: var(--header-text, var(--text-color-base, #122161));
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
 }
 
 header.header .header__middle .middle__container .middle__row .middle__search {
@@ -145,6 +145,10 @@ header.header .header__middle .middle__container .middle__row .middle__search .s
 header.header .header__middle .middle__container .middle__row .middle__search .search form {
   height: unset;
   background: none;
+}
+
+header.header .header__middle .middle__container .middle__row .middle__search .search form .searchButton svg path {
+  stroke: var(--header-text, var(--text-color-base, #122161));
 }
 
 header.header .header__middle .middle__container .middle__row .middle__search .search form .searchButton {
@@ -177,15 +181,15 @@ header.header .header__middle .middle__container .middle__row .middle__search .s
   transition: 0.5s;
 }
 
-header.header .header__middle .middle__container .middle__row .middle__search .search form .search-key:-ms-input-placeholder,
-header.header .header__middle .middle__container .middle__row .middle__search .search form .search-key::-ms-input-placeholder,
-header.header .header__middle .middle__container .middle__row .middle__search .search form .search-key::-webkit-input-placeholder,
-header.header .header__middle .middle__container .middle__row .middle__search .search form .search-key:-moz-placeholder,
-header.header .header__middle .middle__container .middle__row .middle__search .search form .search-key::-moz-placeholder {
+header.header .header__middle .middle__container .middle__row .middle__search .search form .searchKey:-ms-input-placeholder,
+header.header .header__middle .middle__container .middle__row .middle__search .search form .searchKey::-ms-input-placeholder,
+header.header .header__middle .middle__container .middle__row .middle__search .search form .searchKey::-webkit-input-placeholder,
+header.header .header__middle .middle__container .middle__row .middle__search .search form .searchKey:-moz-placeholder,
+header.header .header__middle .middle__container .middle__row .middle__search .search form .searchKey::-moz-placeholder {
   color: var(--color-black);
 }
 
-header.header .header__middle .middle__container .middle__row .middle__search .search form .search-key::placeholder {
+header.header .header__middle .middle__container .middle__row .middle__search .search form .searchKey::placeholder {
   color: var(--color-black);
 }
 
@@ -290,6 +294,8 @@ header.header .header__middle .middle__container .middle__row .middle__config .c
 
 header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper {
   cursor: pointer;
+  background: transparent;
+  border: none;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -963,11 +969,11 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
     padding: 0px;
   }
 
-  header.header .header__middle .middle__container .middle__row .middle__search .search form .search-button svg path {
-    stroke: #7A7A7A;
+  header.header .header__middle .middle__container .middle__row .middle__search .search form .searchButton svg path {
+    stroke: color-mix(in srgb, var(--header-text, var(--text-color-base, #122161)) 55%, transparent);
   }
 
-  header.header .header__middle .middle__container .middle__row .middle__search .search form .search-key {
+  header.header .header__middle .middle__container .middle__row .middle__search .search form .searchKey {
     border-radius: 0px;
   }
 

@@ -77,6 +77,15 @@ const AccountGlyph = () => (
   </svg>
 );
 
+// Mesmo ícone de suporte que o .starter usa no link de ajuda (desktop e mobile).
+// Antes o menu mobile repetia o ícone de conta aqui.
+const SupportGlyph = () => (
+  <svg fill="none" height="20" width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M5.4221 11.9539C4.66368 10.6314 4.29748 9.55158 4.07667 8.45696C3.7501 6.83806 4.49745 5.25665 5.7355 4.24758C6.25876 3.82111 6.85858 3.96682 7.168 4.52192L7.86654 5.77513C8.42023 6.76845 8.69707 7.26511 8.64216 7.79167C8.58726 8.31823 8.2139 8.74708 7.46718 9.6048L5.4221 11.9539ZM5.4221 11.9539C6.95721 14.6306 9.36627 17.041 12.0461 18.5779M12.0461 18.5779C13.3686 19.3363 14.4484 19.7025 15.543 19.9233C17.1619 20.2499 18.7434 19.5025 19.7524 18.2645C20.1789 17.7413 20.0332 17.1414 19.4781 16.832L18.2249 16.1334C17.2315 15.5797 16.7349 15.3029 16.2083 15.3578C15.6818 15.4127 15.2529 15.7861 14.3952 16.5328L12.0461 18.5779Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
+    <path d="M14 7.62389C15.0674 8.07718 15.9228 8.93258 16.3761 10M14.4905 4C17.1434 4.76557 19.2343 6.85639 20 9.50922" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+  </svg>
+);
+
 const SearchGlyph = () => (
   <svg fill="none" height="16" width="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <path d="M10.5 16C7.4631 16 5 13.5369 5 10.5C5 7.4631 7.4631 5 10.5 5C13.5384 5 16 7.4631 16 10.5C16 13.5369 13.5384 16 10.5 16" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
@@ -636,6 +645,7 @@ export default function Header() {
                     <a href="#" className={styles.l1ItemLink}>
                       Categoria 1
                       <svg
+                        className={styles.submenu__arrow}
                         fill="none"
                         height="24"
                         viewBox="0 0 24 24"
@@ -832,7 +842,7 @@ export default function Header() {
               {isLogged ? 'Minha Conta' : 'Entre ou Cadastre-se'}
             </a>
             <a href="#" className={styles.mobileTopLink} onClick={preventNav}>
-              <AccountGlyph />
+              <SupportGlyph />
               Precisa de ajuda
             </a>
           </div>

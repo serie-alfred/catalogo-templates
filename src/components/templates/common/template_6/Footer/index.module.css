@@ -8,6 +8,11 @@
     transparent
   );
   --f6-panel: var(--footer-panel, #ffffff);
+  /* Faixa da newsletter: fundo e texto têm var própria. O texto NÃO herda
+     --footer-text de propósito — a faixa tem fundo próprio (branco por padrão),
+     então seguir a cor do rodapé fazia o texto sumir em rodapé escuro. */
+  --f6-newsletter-bg: var(--footer-newsletter-bg, var(--footer-panel, #ffffff));
+  --f6-newsletter-text: var(--footer-newsletter-text, #212721);
   --f6-muted: color-mix(
     in srgb,
     var(--footer-text, var(--text-color-footer, #212721)) 55%,
@@ -45,7 +50,7 @@
 }
 
 .newsletter {
-  background: var(--f6-panel);
+  background: var(--f6-newsletter-bg);
   border-bottom: 1px solid var(--f6-hairline);
 }
 
@@ -66,13 +71,13 @@
 }
 .newsletterText span {
   font-size: 13px;
-  color: var(--f6-muted);
+  color: var(--f6-newsletter-text);
 }
 .newsletterText strong {
   font-family: var(--footer-title-font, var(--font-primary, "Fabriga", sans-serif));
   font-size: 18px;
   font-weight: 600;
-  color: var(--f6-muted);
+  color: var(--f6-newsletter-text);
 }
 
 .newsletterForm {
@@ -118,7 +123,7 @@
 
 .nlSuccess {
   font-size: 14px;
-  color: var(--footer-text, var(--text-color-footer, #212721));
+  color: var(--f6-newsletter-text);
 }
 
 .body {

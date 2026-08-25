@@ -268,6 +268,8 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#f6f6f6", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#212721", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
         { cssVar: "--footer-accent", label: "Cor de destaque (hover, links)", type: "color", default: "#c0121c", group: "Destaque", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--footer-newsletter-bg", label: "Fundo da faixa da newsletter", type: "color", default: "#ffffff", group: "Newsletter" },
+        { cssVar: "--footer-newsletter-text", label: "Texto da faixa da newsletter", type: "color", default: "#212721", group: "Newsletter" },
         { cssVar: "--footer-button-bg", label: "Fundo do botão newsletter", type: "color", default: "#212721", group: "Newsletter", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--footer-button-text", label: "Texto do botão newsletter", type: "color", default: "#ffffff", group: "Newsletter", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
