@@ -1,6 +1,12 @@
 /* ------------------------------------------------------------------
    Header (live, responsive)
 ------------------------------------------------------------------ */
+/* Raiz sem container-type: as camadas em position: fixed (drawer, overlay de
+   busca, mini-cart) ficam fora do .siteHeader, que é o container. */
+.header03Root {
+  width: 100%;
+}
+
 .siteHeader {
   background: var(--header-bg, var(--background-primary-color, #ffffff));
   color: var(--header-text, var(--text-color-base, #000000));
@@ -310,10 +316,6 @@
 
 
 @container (max-width: 1023px) {
-  .siteHeader {
-    display: none;
-  }
-
   .headerMain {
     display: none;
   }
@@ -344,4 +346,773 @@
   stroke: var(--header-accent, var(--background-secundary-color, #e73888));
 }
 
+}
+
+/* ==================================================================
+   Trazido de faststore.starter (dropdown do menu, autocomplete, drawer
+   mobile e overlay de busca). Origens:
+     - dropdown L2/L3 ......... organisms/Header03/style.module.scss
+     - autocomplete desktop ... molecules/NavBarSearch03/style.module.scss
+     - drawer mobile (nd*) .... molecules/NavDrawer03/style.module.scss
+     - overlay de busca (so*) . molecules/SearchOverlay03/style.module.scss
+   As molecules usam tokens internos (--paper/--ink/--accent/--grey-*); aqui
+   viram a mesma cadeia temável do Header03 (--header-bg / --header-text /
+   --header-accent), para o drawer e o overlay seguirem o tema escolhido.
+   ================================================================== */
+
+/* ---------- Dropdown do menu desktop (L2/L3, por hover) ---------- */
+
+.l1Item {
+  position: relative;
+}
+.l1Item:hover .dropdown {
+  display: block;
+}
+.l1Item:nth-last-of-type(-n + 4) .l3List {
+  right: 100%;
+  left: auto;
+}
+
+.navChev {
+  flex-shrink: 0;
+  opacity: 0.4;
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.l1Item:hover .navChev {
+  opacity: 1;
+  transform: rotate(180deg);
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 200;
+  min-width: max-content;
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
+  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 12%, transparent);
+  border-top: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.dropdown .dropdownList {
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+}
+
+.l2Item {
+  position: relative;
+}
+.l2Item:hover .l3List {
+  display: block;
+}
+
+.l2Link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 9px 20px;
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--header-text, var(--text-color-base, #000000));
+  white-space: nowrap;
+  transition: color 0.15s var(--ease), background-color 0.15s var(--ease);
+}
+.l2Link svg {
+  flex-shrink: 0;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 40%, transparent);
+  transition: color 0.15s var(--ease);
+}
+.l2Link:hover {
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 5%, transparent);
+}
+.l2Link:hover svg {
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
+}
+
+.dropdown .l3List {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: -6px;
+  z-index: 201;
+  min-width: 180px;
+  list-style: none;
+  margin: 0;
+  padding: 6px 0;
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
+  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 12%, transparent);
+  box-shadow: 4px 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.l3Link {
+  display: block;
+  padding: 8px 20px;
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 12.5px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--header-text, var(--text-color-base, #000000));
+  white-space: nowrap;
+  transition: color 0.15s var(--ease), background-color 0.15s var(--ease);
+}
+.l3Link:hover {
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 5%, transparent);
+}
+
+/* ---------- Autocomplete do campo de busca (desktop) ---------- */
+
+.searchDropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 250;
+  width: 100%;
+  min-width: 300px;
+  max-height: calc(100dvh - 160px);
+  overflow: auto;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 15%, transparent);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
+  cursor: default;
+}
+
+.searchSectionTitle {
+  margin: 0;
+  padding: 12px 16px 8px;
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 55%, transparent);
+}
+
+.searchDropdown .searchTermList {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 8px;
+}
+
+.searchDropdown .searchTermItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  text-align: start;
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 13.5px;
+  color: var(--header-text, var(--text-color-base, #000000));
+  cursor: pointer;
+  transition: background 0.15s var(--ease);
+}
+.searchDropdown .searchTermItem svg {
+  flex-shrink: 0;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 45%, transparent);
+}
+.searchDropdown .searchTermItem:hover {
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 5%, transparent);
+}
+.searchDropdown .searchTermItem strong {
+  font-weight: 600;
+}
+
+.searchTrending {
+  padding: 4px 0;
+  border-top: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 8%, transparent);
+}
+
+.searchTagList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 16px 12px;
+}
+
+.searchTag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 12px;
+  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 18%, transparent);
+  border-radius: 999px;
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 12.5px;
+  color: var(--header-text, var(--text-color-base, #000000));
+  white-space: nowrap;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+.searchTag:hover {
+  background: var(--header-text, var(--text-color-base, #000000));
+  color: var(--header-bg, var(--background-primary-color, #ffffff));
+  border-color: var(--header-text, var(--text-color-base, #000000));
+}
+
+.searchProducts {
+  padding: 0 0 8px;
+  border-top: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 8%, transparent);
+}
+
+.searchDropdown .searchProductList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.searchProductLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  transition: background 0.15s var(--ease);
+}
+.searchProductLink:hover {
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 5%, transparent);
+}
+
+.searchProductImage {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 6%, transparent);
+}
+.searchProductImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.searchProductInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.searchProductName {
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--header-text, var(--text-color-base, #000000));
+}
+
+.searchProductPrice {
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--header-text, var(--text-color-base, #000000));
+}
+
+/* ---------- Drawer mobile (NavDrawer03) ---------- */
+
+.ndOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  pointer-events: none;
+}
+.ndOverlay.ndOpen {
+  pointer-events: auto;
+}
+
+.ndBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background-color 0.3s var(--ease);
+  cursor: pointer;
+}
+.ndOverlay.ndOpen .ndBackdrop {
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.ndDrawer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(86vw, 380px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  pointer-events: auto;
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
+  color: var(--header-text, var(--text-color-base, #000000));
+  transform: translateX(-100%);
+  transition: transform 0.35s var(--ease);
+}
+.ndOverlay.ndOpen .ndDrawer {
+  transform: translateX(0);
+}
+.ndDrawer *,
+.ndDrawer *::before,
+.ndDrawer *::after {
+  box-sizing: border-box;
+}
+.ndDrawer svg {
+  display: block;
+}
+
+.ndTop {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 22px;
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
+  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 10%, transparent);
+}
+
+.ndLogo {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: var(--header-font, var(--font-primary, "Manrope", sans-serif));
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--header-text, var(--text-color-base, #000000));
+}
+.ndLogoImg {
+  display: block;
+  height: 28px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+}
+
+.ndTop .ndClose {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  color: var(--header-text, var(--text-color-base, #000000));
+  cursor: pointer;
+  transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
+}
+.ndTop .ndClose:hover {
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 5%, transparent);
+}
+
+.ndNav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 0 20px 8px;
+}
+
+.ndL1Item {
+  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 7%, transparent);
+}
+
+.ndNav .ndL1Row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 56px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: var(--header-font, var(--font-primary, "Manrope", sans-serif));
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--header-text, var(--text-color-base, #000000));
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s var(--ease);
+}
+.ndNav .ndL1Row:hover,
+.ndNav .ndL1Row.ndL1Open {
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
+}
+
+.ndL1Label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.ndSaleDot {
+  width: 5px;
+  height: 5px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--header-accent, var(--background-secundary-color, #e73888));
+}
+
+.ndSaleTag {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
+}
+
+.ndL1Chev,
+.ndL2Chev {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 30%, transparent);
+  transition: transform 0.25s var(--ease), color 0.2s var(--ease);
+}
+.ndChevOpen {
+  transform: rotate(90deg);
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
+}
+
+.ndL2Panel {
+  border-top: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 8%, transparent);
+}
+
+.ndL2Item {
+  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 8%, transparent);
+}
+.ndL2Item:last-child {
+  border-bottom: none;
+}
+
+.ndNav .ndL2Row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 46px;
+  padding: 0 0 0 12px;
+  border: none;
+  background: none;
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 78%, transparent);
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s var(--ease);
+}
+.ndNav .ndL2Row:hover,
+.ndNav .ndL2Row.ndL2Open {
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
+}
+
+.ndL2Label {
+  flex: 1;
+}
+
+.ndL3Panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.ndL3Link {
+  display: block;
+  padding: 10px 0 10px 28px;
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 13.5px;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 65%, transparent);
+  transition: color 0.15s var(--ease);
+}
+.ndL3Link:hover {
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
+}
+
+.ndFoot {
+  margin-top: auto;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 24px 32px;
+  border-top: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 10%, transparent);
+}
+
+.ndFootLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 13.5px;
+  letter-spacing: 0.01em;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 65%, transparent);
+  transition: color 0.2s var(--ease);
+}
+.ndFootLink svg {
+  flex-shrink: 0;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 35%, transparent);
+  transition: color 0.2s var(--ease);
+}
+.ndFootLink:hover,
+.ndFootLink:hover svg {
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
+}
+
+/* ---------- Overlay de busca mobile (SearchOverlay03) ---------- */
+
+.soOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  pointer-events: none;
+}
+.soOverlay.soOpen {
+  pointer-events: auto;
+}
+
+.soBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: background-color 0.3s var(--ease);
+  cursor: pointer;
+}
+.soOverlay.soOpen .soBackdrop {
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.soPanel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  overflow: hidden;
+  pointer-events: auto;
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
+  color: var(--header-text, var(--text-color-base, #000000));
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  transform: translateY(-100%);
+  transition: transform 0.35s var(--ease);
+}
+.soOverlay.soOpen .soPanel {
+  transform: translateY(0);
+}
+
+.soTop {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 10%, transparent);
+}
+
+.soFieldWrap {
+  flex: 1;
+  position: relative;
+}
+
+.soIcon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  pointer-events: none;
+  color: var(--header-text, var(--text-color-base, #000000));
+}
+
+.soForm {
+  display: block;
+  width: 100%;
+}
+
+.soPanel .soInput {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px 0 44px;
+  border: 1px solid var(--header-text, var(--text-color-base, #000000));
+  border-radius: 999px;
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  color: var(--header-text, var(--text-color-base, #000000));
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
+  appearance: none;
+}
+.soPanel .soInput::placeholder {
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 50%, transparent);
+}
+.soPanel .soInput::-webkit-search-cancel-button {
+  display: none;
+}
+
+.soPanel .soCancel {
+  padding: 0 8px;
+  border: none;
+  background: none;
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 13.5px;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 65%, transparent);
+  cursor: pointer;
+  transition: color 0.2s var(--ease);
+}
+.soPanel .soCancel:hover {
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
+}
+
+.soBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 24px 32px;
+}
+
+.soLabel {
+  margin: 0 0 14px;
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 55%, transparent);
+}
+
+.soBody .soList {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.soItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 14px;
+  letter-spacing: -0.005em;
+  color: var(--header-text, var(--text-color-base, #000000));
+  cursor: pointer;
+  transition: color 0.2s var(--ease);
+}
+.soItem svg {
+  flex-shrink: 0;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 35%, transparent);
+  transition: color 0.2s var(--ease);
+}
+.soItem:hover,
+.soItem:hover svg {
+  color: var(--header-accent, var(--background-secundary-color, #e73888));
+}
+
+.soBody .soProductList {
+  list-style: none;
+  margin: 0 0 28px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.soProductItem {
+  border-radius: 8px;
+  transition: background 0.15s var(--ease);
+}
+.soProductItem:hover {
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 5%, transparent);
+}
+
+.soProductLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  color: inherit;
+}
+
+.soProductImage {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 6%, transparent);
+}
+.soProductImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.soProductInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.soProductName {
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 13.5px;
+  line-height: 1.35;
+  letter-spacing: -0.005em;
+  color: var(--header-text, var(--text-color-base, #000000));
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.soProductPrice {
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 12px;
+  font-weight: 600;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 60%, transparent);
+}
+
+.soTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.soTag {
+  padding: 7px 14px;
+  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 18%, transparent);
+  border-radius: 999px;
+  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  color: var(--header-text, var(--text-color-base, #000000));
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.soTag:hover {
+  border-color: var(--header-text, var(--text-color-base, #000000));
 }

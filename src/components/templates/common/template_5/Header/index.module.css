@@ -1,5 +1,4 @@
 .header05 {
-  container-type: inline-size;
   --h5-bg: var(--header-surface, var(--background-primary-color, #f7f8f9));
   /* Muted (texto) e borda derivam do texto do header → contraste garantido em
      qualquer fundo customizado, em vez de cinza fixo. */
@@ -52,6 +51,13 @@
   display: block;
 }
 
+/* Casca do header: é ela que carrega o container-type. As camadas em
+   position: fixed (busca, drawer, mini-cart) ficam fora dela — a contenção
+   do @container tornaria a casca o bloco container do fixed. */
+.headerShell {
+  container-type: inline-size;
+}
+
 .container {
   width: min(100% - 48px, 1280px);
   margin-inline: auto;
@@ -102,7 +108,7 @@
 }
 
 .siteHeader {
-  position: static;
+  position: relative;
   z-index: 40;
   background: var(--header-bg, var(--background-primary-color, #ffffff));
   border-bottom: 1px solid var(--h5-border);
@@ -375,6 +381,7 @@
 .searchLayer {
   position: fixed;
   inset: 0;
+  container-type: inline-size;
   z-index: 70;
   display: none;
   background: rgba(26, 31, 43, 0.46);
@@ -439,6 +446,7 @@
 .drawerOverlay {
   position: fixed;
   inset: 0;
+  container-type: inline-size;
   z-index: 80;
   display: none;
   background: rgba(26, 31, 43, 0.42);

@@ -1,47 +1,40 @@
-/* Preview Header06 (Ferracini) — gerado de faststore.starter via /from-faststore. CSS plano + @container. */
+/* Preview Header06 — conversão fiel de
+   faststore.starter/src/components/organisms/Header06/style.module.scss
+   (SCSS aninhado → CSS plano, @media → @container).
+
+   Divergências deliberadas, todas comentadas no ponto:
+   1. `container-type` vive no .headerShell (não na raiz): containment torna o
+      elemento bloco container de descendentes `position: fixed` — os drawers
+      ficariam presos à caixa do header. As camadas fixas são irmãs da casca.
+   2. A raiz não leva `position: sticky` nem `z-index` — no catálogo quem fixa o
+      header é o wrapper .preview-sticky-header, só na rota /p (preview.css).
+      Sem sticky não há stacking context na raiz, então as camadas NÃO precisam
+      do portal para o <body> que o .starter usa (e que aqui quebraria o tema:
+      as CSS vars vêm de um wrapper acima do componente).
+   3. Neutros fixos do autocomplete do .starter (rgb(114,114,115) e #f2f4f5) e do
+      botão Entrar (#000/#fff) viram color-mix sobre --header-text / cadeia
+      temável — regra do CLAUDE.md: neutro sobre fundo customizável não pode ser
+      cinza fixo, senão perde contraste quando o usuário troca o tema.
+   4. Os `stroke="#212721"` fixos dos SVGs viram `currentColor` no TSX. */
+
 .header06Root {
-  container-type: inline-size;
   width: 100%;
-  /* Muted/placeholder (texto) e bordas derivam do texto do header → contraste
-     garantido em qualquer fundo customizado, em vez de cinza fixo. */
-  --h6-border: color-mix(
-    in srgb,
-    var(--header-text, var(--text-color-base, #212721)) 15%,
-    transparent
-  );
-  --h6-border-strong: color-mix(
-    in srgb,
-    var(--header-text, var(--text-color-base, #212721)) 22%,
-    transparent
-  );
-  --h6-muted: color-mix(
-    in srgb,
-    var(--header-text, var(--text-color-base, #212721)) 60%,
-    transparent
-  );
-  --h6-placeholder: color-mix(
-    in srgb,
-    var(--header-text, var(--text-color-base, #212721)) 50%,
-    transparent
-  );
-  --h6-mega-panel: var(--header-mega-panel, #21464f);
-  --h6-t-fast: 150ms ease;
-  --h6-t-mid: 280ms ease;
-  --h6-container: 1280px;
-  position: relative;
-  font-family: var(--header-font, var(--font-primary, "Fabriga", sans-serif));
+  font-family: var(--header-font, var(--font-primary, 'Jost', sans-serif));
   color: var(--header-text, var(--text-color-base, #212721));
   background: var(--header-bg, var(--background-primary-color, #ffffff));
 }
+
 .header06Root *,
 .header06Root *::before,
 .header06Root *::after {
   box-sizing: border-box;
 }
+
 .header06Root a {
   color: inherit;
   text-decoration: none;
 }
+
 .header06Root button {
   font: inherit;
   background: none;
@@ -49,10 +42,19 @@
   color: inherit;
   cursor: pointer;
 }
+
 .header06Root img {
   display: block;
   max-width: 100%;
 }
+
+/* Casca do header: é ela que carrega o container-type. As camadas em
+   position: fixed (overlay de busca, drawer, mini-cart) ficam FORA dela. */
+.headerShell {
+  container-type: inline-size;
+}
+
+/* ── Ícones ── */
 
 .icon {
   width: 22px;
@@ -68,49 +70,63 @@
 .arrow {
   display: inline-block;
   margin-left: 6px;
-  transition: transform var(--h6-t-fast);
+  transition: transform 150ms ease;
 }
 
-.iconBtn {
-  width: 42px;
-  height: 42px;
-  display: inline-flex;
+.iconBtn:not(.iconBtnCart) {
+  display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  width: 2.25rem;
+  height: 2.25rem;
   border-radius: 50%;
   color: var(--header-text, var(--text-color-base, #212721));
-  transition: background var(--h6-t-fast), transform var(--h6-t-fast);
+  transition: background 150ms ease, transform 150ms ease;
 }
-.iconBtn:hover {
-  background: rgba(33, 39, 33, 0.05);
+.iconBtn:not(.iconBtnCart):hover {
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 5%, transparent);
 }
-.iconBtn:active {
+.iconBtn:not(.iconBtnCart):active {
   transform: scale(0.96);
 }
 
-.cartBadge {
-  position: absolute;
-  top: 4px;
-  right: 2px;
-  min-width: 17px;
-  height: 17px;
-  padding: 0 5px;
-  border-radius: 99px;
-  background: var(--header-accent, var(--background-secundary-color, #c0121c));
-  color: #ffffff;
-  display: grid;
-  place-items: center;
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 1;
+.iconBtnCart {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  width: 4rem;
+  height: 2.25rem;
+  border-radius: 7.5rem;
+  transition: 0.4s ease;
 }
+.iconBtnCart:hover {
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 5%, transparent);
+}
+
+.cartBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.1875rem;
+  position: static;
+  background: transparent;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--header-text, var(--text-color-base, #212721));
+  width: 1rem;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* ── TOP-BAR (slider) ── */
 
 .topbar {
   position: relative;
   overflow: hidden;
   min-height: 41px;
   background: var(--header-topbar-bg, var(--background-secundary-color, #ffffff));
+  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 15%, transparent);
 }
 
 .topbarTrack {
@@ -131,11 +147,16 @@
   align-items: center;
   justify-content: center;
   gap: 9px;
-  font-family: var(--header-topbar-font, var(--font-secundary, "Jost", sans-serif));
-  font-size: 15px;
+  font-family: var(--header-topbar-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 1rem;
   line-height: 1.3;
   text-align: center;
-  color: var(--header-topbar-text, var(--text-color-secundary, #3f3f40));
+  color: var(--header-topbar-text, var(--text-color-secundary, #4f4f4f));
+  font-weight: 400;
+}
+.topbarSlide strong {
+  font-weight: 600;
+  color: var(--header-text, var(--text-color-base, #212721));
 }
 
 .topbarIcon {
@@ -149,23 +170,35 @@
   flex: 0 0 auto;
 }
 
-.headerStack {
+/* Imagem/ícone escolhido no CMS (por mensagem). No catálogo o ícone é o
+   .topbarIcon inline (segue o tema); a classe fica para paridade de contrato. */
+.topbarImg {
+  height: 20px;
+  width: auto;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+/* ── HEADER PRINCIPAL ── */
+
+.header06Stack {
   position: relative;
   z-index: 50;
 }
 
 .bar {
   background: var(--header-bg, var(--background-primary-color, #ffffff));
-  border-bottom: 1px solid var(--h6-border);
+  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 15%, transparent);
 }
 
 .barInner {
-  max-width: var(--h6-container);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 124rem;
+  padding: 0 2rem;
   margin: 0 auto;
   min-height: 69px;
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
   gap: 16px;
 }
 
@@ -174,30 +207,34 @@
   align-items: center;
 }
 .logo img {
-  height: 26px;
+  height: 30px;
   width: auto;
 }
 
-.logoFallback {
-  display: inline-block;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 22px;
-  line-height: 1;
-  white-space: nowrap;
-  color: var(--header-text, var(--text-color-base, #212721));
-  font-family: var(--font-primary);
-}
-
-.logoMark {
-  height: 26px;
-  width: auto;
+.logoMark,
+.logo img {
+  width: 7.6875rem;
+  height: 1.875rem;
   fill: var(--header-text, var(--text-color-base, #212721));
 }
 
+.logoMark {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--header-font, var(--font-primary, 'Jost', sans-serif));
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 1.375rem;
+  line-height: 1.875rem;
+  white-space: nowrap;
+  color: var(--header-text, var(--text-color-base, #212721));
+}
+
+/* ── Hambúrguer (mobile) ── */
+
 .hamburger {
-  width: 42px;
-  height: 42px;
+  width: 20px;
+  height: 20px;
   display: none;
   flex-direction: column;
   align-items: center;
@@ -224,33 +261,70 @@
   transform: translateY(-6.5px) rotate(-45deg);
 }
 
+/* ── Nav desktop ── */
+
 .desktopNav {
   display: flex;
   align-items: center;
   gap: 28px;
 }
-.desktopNav button,
-.desktopNav a {
+
+/* Gatilhos de topo: rótulo do .navItem + links diretos (não vaza para o mega).
+   O rótulo do item com mega é <span>, e não <button>/<a>: na origem ele não é
+   clicável no desktop, então não deve parecer nem se comportar como link. */
+.desktopNav > .navItem > .navTrigger,
+.desktopNav > a {
+  position: relative;
   display: inline-flex;
   align-items: center;
   height: 69px;
-  font-family: var(--header-font, var(--font-primary, "Fabriga", sans-serif));
+  font-family: var(--header-topbar-font, var(--font-secundary, 'Jost', sans-serif));
   font-size: 14px;
   line-height: 1;
   color: var(--header-text, var(--text-color-base, #212721));
   white-space: nowrap;
-  transition: color var(--h6-t-fast);
 }
-.desktopNav button:hover,
-.desktopNav a:hover {
-  color: var(--header-accent, var(--background-secundary-color, #c0121c));
+/* Underline no hover — rente ao texto (a caixa tem 69px, então ancora no
+   centro + metade da altura do texto, não no fundo da caixa). */
+.desktopNav > .navItem > .navTrigger::before,
+.desktopNav > a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% + 10px);
+  height: 1px;
+  background: var(--header-text, var(--text-color-base, #212721));
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 180ms ease;
 }
-.desktopNav .active {
-  color: var(--header-accent, var(--background-secundary-color, #c0121c));
+.desktopNav > .navItem > .navTrigger:hover::before,
+.desktopNav > a:hover::before {
+  transform: scaleX(1);
 }
+
 .desktopNav .navSale {
-  font-weight: 700;
+  font-weight: 600;
 }
+
+/* ── Item de nav com mega-menu (hover CSS) ── */
+
+.navItem {
+  display: inline-flex;
+  align-items: center;
+}
+/* Mantém o underline aceso enquanto o painel está aberto. */
+.navItem:hover > .navTrigger::before {
+  transform: scaleX(1);
+}
+.navItem:hover .megaMenu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* ── Busca (pílula desktop) ── */
 
 .searchPill {
   position: relative;
@@ -258,10 +332,15 @@
   display: flex;
   align-items: center;
   width: 260px;
-  height: 30px;
+  height: 1.875rem;
   padding: 0 6px 0 16px;
-  border: 1px solid var(--h6-border-strong);
-  border-radius: 120px;
+  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 22%, transparent);
+  border-radius: 7.5rem;
+  transition: 0.4s ease;
+}
+.searchPill:hover,
+.searchPill:focus-within {
+  background-color: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 12%, transparent);
 }
 .searchPill input {
   flex: 1;
@@ -269,71 +348,155 @@
   border: 0;
   outline: 0;
   background: transparent;
-  font-family: var(--header-font, var(--font-primary, "Fabriga", sans-serif));
-  font-size: 12px;
-  color: var(--header-text, var(--text-color-base, #212721));
+  font-family: var(--header-font, var(--font-primary, 'Inter', sans-serif));
+  color: var(--header-text, var(--text-color-base, #828282));
+  font-size: 0.75rem;
+  font-weight: 400;
+  height: 1.875rem;
+  transition: 0.4s ease;
 }
 .searchPill input::placeholder {
-  color: var(--h6-placeholder);
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 50%, transparent);
 }
-.searchPill button {
+
+/* `> button` (filho DIRETO), não descendente: o dropdown do autocomplete é irmão
+   do input dentro deste form, e como descendente esta regra pegava também as
+   linhas de sugestão — `justify-content: center` centralizava o texto e o
+   `inline-flex` fazia o CSS descartar o espaço final do trecho "Buscar por ". */
+.searchPill > button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex: 0 0 auto;
   color: var(--header-text, var(--text-color-base, #212721));
 }
-.searchPill button .icon {
-  width: 18px;
-  height: 18px;
+.searchPill > button .icon {
+  width: 1.25rem;
+  height: 1.25rem;
 }
+
+/* ── AUTOCOMPLETE ──
+   Métricas do CSS publicado da origem: o dropdown é o `resultsList` do
+   vtex.store-components (max-height 60vh, padding vertical .75rem, cantos retos,
+   borda 0/1px/2px, sem sombra), itens de 1rem/18.4px com padding .75rem.
+   Os neutros da origem (texto rgb(114,114,115), hover #f2f4f5, régua #e3e4e6)
+   estão sobre --header-bg, que o usuário troca: viram color-mix sobre
+   --header-text, mantendo as mesmas proporções visuais no tema claro. */
 
 .searchDropdown {
   position: absolute;
-  top: calc(100% + 8px);
+  top: 100%;
   left: 0;
   right: 0;
   z-index: 60;
+  max-height: 60vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 12px 0;
   background: var(--header-bg, var(--background-primary-color, #ffffff));
-  border: 1px solid var(--h6-border-strong);
-  border-radius: 8px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  border-style: solid;
+  border-color: var(--header-rule, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 12%, transparent));
+  border-width: 0 1px 2px;
+  border-radius: 0;
 }
 
 .searchSuggestions {
   display: flex;
   flex-direction: column;
-  padding: 6px;
 }
-.searchSuggestions button {
+
+.searchDropdown .searchSuggestionRow {
+  display: block;
+  width: 100%;
   text-align: left;
-  padding: 9px 12px;
-  border-radius: 6px;
-  font-size: 13px;
-  color: var(--header-text, var(--text-color-base, #212721));
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 18.4px;
+  color: var(--header-muted, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 62%, transparent));
 }
-.searchSuggestions button:hover {
-  background: rgba(33, 39, 33, 0.05);
+.searchDropdown .searchSuggestionRow:hover {
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 5%, transparent);
+}
+
+/* termo entre aspas na linha "Buscar por "sapato"" */
+.searchQuoted {
+  white-space: nowrap;
+}
+
+/* Nome da categoria na sugestão "sapato Calçados". Na origem a linha inteira é
+   uma cor só — a categoria NÃO é esmaecida; o espaço é o único separador. */
+.searchScope {
+  color: inherit;
+}
+
+/* ── Produtos sugeridos ── */
+
+.searchDropdown .searchProduct {
+  display: flex;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 18.4px;
+  color: var(--header-muted, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 62%, transparent));
+  text-decoration: none;
+}
+.searchDropdown .searchProduct:hover {
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 5%, transparent);
+}
+
+.searchProductThumb {
+  flex: 0 0 auto;
+  display: block;
+  width: 50px;
+  height: auto;
+}
+.searchProductThumb img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.searchProductName {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 0;
+  font-size: 1rem;
+  line-height: 18.4px;
+  /* a origem exibe o nome do catálogo em caixa baixa (utilitário `ttl`) */
+  text-transform: lowercase;
 }
 
 .searchSuggestionsLabel {
-  padding: 8px 12px 4px;
+  padding: 12px 16px 4px;
   font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--h6-muted);
+  color: var(--header-muted, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 62%, transparent));
 }
+
+/* ── Ações (direita) ── */
 
 .actions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 1rem;
 }
 
 .mobileSearchBtn {
   display: none;
 }
+
+/* ── BUSCA MOBILE (linha full-width, colada abaixo da barra) ──
+   Escondida no desktop (a busca ali é a .searchPill dentro da barra). */
+.mobileSearch {
+  display: none;
+}
+
+/* ── MEGA-MENU (hover) ── */
 
 .megaMenu {
   position: absolute;
@@ -342,50 +505,64 @@
   right: 0;
   z-index: 40;
   background: var(--header-bg, var(--background-primary-color, #ffffff));
-  border-bottom: 1px solid var(--h6-border);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  padding: 0 0 1.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 15%, transparent);
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
   transition: opacity 220ms ease, transform 220ms ease, visibility 220ms ease;
-}
-.megaMenu.open {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
+  /* Visibilidade controlada por .navItem:hover .megaMenu (CSS puro). */
 }
 
 .megaGrid {
-  max-width: var(--h6-container);
+  width: 100%;
+  max-width: 124rem;
+  padding: 0 calc(123px + 7rem);
   margin: 0 auto;
-  padding: 36px 24px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr) 340px;
-  gap: 32px;
+  display: flex;
+  gap: 5px;
 }
 
+.megaCol {
+  padding-top: 23px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-left: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 15%, transparent);
+  padding-left: 1.5rem;
+  width: max-content;
+  height: fit-content;
+  padding-bottom: 0.75rem;
+  min-width: 150px;
+}
+.megaCol:first-child {
+  border: none;
+  padding-left: 0;
+}
 .megaCol h3 {
-  margin: 0 0 16px;
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 1rem;
+  font-weight: 600;
   color: var(--header-text, var(--text-color-base, #212721));
 }
 .megaCol a {
-  display: block;
-  padding: 7px 0;
-  font-family: var(--header-topbar-font, var(--font-secundary, "Jost", sans-serif));
-  font-size: 14px;
-  color: var(--h6-muted);
-  transition: color var(--h6-t-fast);
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--header-text, var(--text-color-base, #212721));
+  border-bottom: 1px solid transparent;
+  transition: 0.4s ease;
+  text-decoration: none;
+  text-transform: capitalize;
+  width: fit-content;
 }
 .megaCol a:hover {
-  color: var(--header-accent, var(--background-secundary-color, #c0121c));
+  color: var(--header-text, var(--text-color-base, #212721));
+  opacity: 0.4;
+  border-bottom: 1px solid var(--header-text, var(--text-color-base, #212721));
 }
 .megaCol .megaAll {
-  margin-top: 4px;
   color: var(--header-text, var(--text-color-base, #212721));
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  border-bottom: 1px solid var(--header-text, var(--text-color-base, #212721));
+  font-weight: 500;
 }
 
 .megaImage {
@@ -393,13 +570,13 @@
   display: block;
   border-radius: 4px;
   overflow: hidden;
-  background: var(--h6-mega-panel);
-  min-height: 320px;
+  background: var(--header-mega-panel, #21464f);
+  width: fit-content;
+  margin-left: auto;
 }
 .megaImage img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: auto;
+  height: auto;
 }
 .megaImage .megaImageLabel {
   position: absolute;
@@ -415,6 +592,8 @@
   text-underline-offset: 4px;
 }
 
+/* ── OVERLAY DE BUSCA (mobile) ── */
+
 .searchOverlay {
   position: fixed;
   inset: 0;
@@ -422,7 +601,7 @@
   background: rgba(0, 0, 0, 0.4);
   opacity: 0;
   pointer-events: none;
-  transition: opacity var(--h6-t-mid);
+  transition: opacity 280ms ease;
 }
 .searchOverlay.open {
   opacity: 1;
@@ -430,6 +609,7 @@
 }
 
 .searchOverlayInner {
+  position: relative;
   background: var(--header-bg, var(--background-primary-color, #ffffff));
   padding: 16px;
 }
@@ -440,7 +620,7 @@
   gap: 10px;
   height: 46px;
   padding: 0 14px;
-  border: 1px solid var(--h6-border-strong);
+  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 22%, transparent);
   border-radius: 120px;
   color: var(--header-text, var(--text-color-base, #212721));
 }
@@ -450,12 +630,12 @@
   border: 0;
   outline: 0;
   background: transparent;
-  font-family: var(--header-font, var(--font-primary, "Fabriga", sans-serif));
+  font-family: var(--header-font, var(--font-primary, 'Jost', sans-serif));
   font-size: 15px;
   color: var(--header-text, var(--text-color-base, #212721));
 }
 .searchOverlayForm input::placeholder {
-  color: var(--h6-placeholder);
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 50%, transparent);
 }
 
 .searchOverlayClose {
@@ -464,6 +644,8 @@
   color: var(--header-text, var(--text-color-base, #212721));
 }
 
+/* ── DRAWER MOBILE ── */
+
 .drawerOverlay {
   position: fixed;
   inset: 0;
@@ -471,7 +653,7 @@
   background: rgba(0, 0, 0, 0.4);
   opacity: 0;
   pointer-events: none;
-  transition: opacity var(--h6-t-mid);
+  transition: opacity 280ms ease;
 }
 .drawerOverlay.open {
   opacity: 1;
@@ -482,13 +664,13 @@
   position: fixed;
   top: 0;
   left: 0;
-  height: 100vh;
-  width: min(86vw, 360px);
+  height: 101vh;
+  width: 100vw;
   z-index: 2100;
   background: var(--header-bg, var(--background-primary-color, #ffffff));
   color: var(--header-text, var(--text-color-base, #212721));
-  border-right: 1px solid var(--h6-border);
-  box-shadow: 8px 0 48px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   transform: translateX(-100%);
   transition: transform 320ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
   display: flex;
@@ -498,47 +680,94 @@
   transform: translateX(0);
 }
 
+/* Cabeçalho: só o "X", fixo no topo enquanto o conteúdo rola.
+   O .starter tem `height: 3s4px` aqui — valor inválido, que o browser descarta;
+   por isso a altura fica em auto nos dois lados. */
 .drawerHead {
-  height: 64px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  flex: 0 0 auto;
   padding: 0 16px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--h6-border);
-}
-.drawerHead .logoMark {
-  height: 22px;
+  justify-content: flex-end;
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
 }
 
+.drawerHead .drawerClose {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 35px;
+  line-height: 1;
+  color: var(--header-text, var(--text-color-base, #212721));
+  border-radius: 50%;
+  transition: background 150ms ease;
+}
+.drawerHead .drawerClose:hover {
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 5%, transparent);
+}
+
+/* Sem overflow/flex próprios: o drawer inteiro rola e o rodapé desce junto. */
 .mobileNav {
-  flex: 1;
-  overflow-y: auto;
   padding: 8px 0;
 }
-.mobileNav button {
+
+/* Item de topo com mega — a linha é rótulo navegável + chevron. A métrica (52px,
+   padding lateral 2.25rem, 1rem/300) é a mesma do `.mobileNavLink` dos itens sem
+   mega, para as entradas ficarem na mesma régua. */
+.mobileNavRow {
   width: 100%;
   min-height: 52px;
-  padding: 0 20px;
+  padding: 0 2.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: var(--header-font, var(--font-primary, "Fabriga", sans-serif));
-  font-size: 15px;
-  color: var(--header-text, var(--text-color-base, #212721));
-  border-bottom: 1px solid var(--h6-border);
+  gap: 1rem;
 }
 
+/* O rótulo é <a> quando o item tem URL e <button> quando não tem. Qualificado por
+   `.mobileNavRow` de propósito: o reset `.header06Root button` está em (0,1,1) e o
+   `font: inherit` dele venceria uma classe só, apagando a fonte declarada aqui. */
+.mobileNavRow .mobileNavLabel {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 0;
+  text-align: left;
+  font-family: var(--header-font, var(--font-primary, 'Jost', sans-serif));
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+/* Área de toque do chevron isolada do rótulo, para o toque no texto navegar. */
+.mobileNavToggle {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  min-height: 52px;
+  margin-right: -0.75rem;
+}
+
+/* Item de topo sem mega (Explorar, SALE) */
 .mobileNavLink {
   display: flex;
   align-items: center;
   min-height: 52px;
-  padding: 0 20px;
-  font-size: 15px;
-  color: var(--header-text, var(--text-color-base, #212721));
-  border-bottom: 1px solid var(--h6-border);
+  padding: 0 2.25rem;
+  font-size: 1rem;
+  color: var(--header-text, var(--text-color-base, #505050));
+  font-weight: 300;
 }
 .mobileNavLink.navSale {
-  font-weight: 700;
+  font-weight: 600;
+  text-transform: uppercase;
 }
 
 .navChevron {
@@ -546,44 +775,171 @@
   height: 16px;
   flex: 0 0 auto;
   stroke-width: 1.6;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 60%, transparent);
   transition: transform 250ms ease;
 }
 
-.mobileNavItem.open .navChevron {
-  transform: rotate(180deg);
+/* Fechado → aponta pra direita; aberto → gira 90° (aponta pra baixo). */
+.mobileNavItem.open .mobileNavToggle > .navChevron,
+.mobileSubItem.open > button > .navChevron {
+  transform: rotate(90deg);
 }
 
+/* Conteúdo expansível do item de topo (colunas + banner) */
 .mobileSub {
-  height: 0;
-  overflow: hidden;
+  display: none;
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
 }
-.mobileSub a {
+
+.mobileNavItem.open > .mobileSub {
   display: block;
-  padding: 11px 20px 11px 36px;
-  font-family: var(--header-topbar-font, var(--font-secundary, "Jost", sans-serif));
-  font-size: 14px;
-  color: var(--h6-muted);
 }
 
-.mobileNavItem.open .mobileSub {
-  height: auto;
-}
-
-.mobileFooter {
-  padding: 16px 8px 24px;
-  border-top: 1px solid var(--h6-border);
-}
-.mobileFooter a {
+/* Coluna com título (acordeão aninhado — nível 2) */
+.mobileSubItem > button {
+  width: 100%;
+  min-height: 57px;
+  padding: 0 2.75rem;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
-  font-size: 14px;
+  justify-content: space-between;
+  font-family: var(--header-font, var(--font-primary, 'Jost', sans-serif));
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--header-text, var(--text-color-base, #000000));
+}
+
+.mobileSubSub {
+  display: none;
+  padding-bottom: 6px;
+}
+.mobileSubSub a {
+  display: block;
+  padding: 10px 20px 10px 3.25rem;
+  font-family: var(--header-topbar-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 16px;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 60%, transparent);
+}
+.mobileSubSub a:hover {
   color: var(--header-text, var(--text-color-base, #212721));
 }
-.mobileFooter a .icon {
-  width: 20px;
-  height: 20px;
+
+.mobileSubItem.open > .mobileSubSub {
+  display: block;
+}
+
+/* Coluna sem título — links diretos */
+.mobileSubLink {
+  display: block;
+  padding: 12px 2.75rem;
+  font-family: var(--header-topbar-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 1rem;
+  font-weight: 300;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 60%, transparent);
+}
+
+/* Banner do mega — versão mobile (dentro do item expandido) */
+.mobileBanner {
+  display: block;
+  padding: 14px 20px;
+}
+.mobileBanner img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  padding: 12px 1.75rem;
+}
+
+/* ── Rodapé do drawer (flui após o menu; não é fixo) ── */
+
+.mobileFooter {
+  position: relative;
+  margin-top: 8px;
+  padding: 0 2.25rem;
+}
+
+/* Único separador do menu — não encosta nas bordas.
+   O .starter usa #e8e8e8 fixo; aqui deriva do texto do tema. */
+.mobileFooter .lineMobile {
+  border-top: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 9%, transparent);
+  padding-bottom: 1.5rem;
+}
+
+/* Botão "Entrar" (pílula escura).
+   O .starter fixa #000/#fff com !important; aqui a cadeia é temável, senão a
+   pílula some num tema de fundo escuro. */
+.mobileFooter .mobileLoginBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 7.5rem;
+  border: 0;
+  padding: 0.375rem 1rem;
+  min-height: 2.25rem;
+  font-family: var(--header-font, var(--font-primary, 'Inter', sans-serif));
+  font-size: 14px;
+  font-weight: 500;
+  background-color: var(--header-login-bg, var(--background-primary-color, #000000));
+  color: var(--header-login-text, var(--text-color-secundary, #ffffff));
+}
+
+/* Ícone da conta no ::before (14×14) + mask → herda a cor do texto do botão,
+   então sai na cor certa sobre a pílula sem sobrescrever stroke de SVG. */
+.mobileFooter .mobileLoginBtn::before {
+  content: '';
+  display: block;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%2012.5C12.7614%2012.5%2015%2010.2614%2015%207.5%2015%204.73858%2012.7614%202.5%2010%202.5%207.23858%202.5%205%204.73858%205%207.5%205%2010.2614%207.23858%2012.5%2010%2012.5z%22%2F%3E%3Cpath%20d%3D%22M2.5%2016.875C4.01328%2014.2602%206.76172%2012.5%2010%2012.5%2013.2383%2012.5%2015.9867%2014.2602%2017.5%2016.875%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%2012.5C12.7614%2012.5%2015%2010.2614%2015%207.5%2015%204.73858%2012.7614%202.5%2010%202.5%207.23858%202.5%205%204.73858%205%207.5%205%2010.2614%207.23858%2012.5%2010%2012.5z%22%2F%3E%3Cpath%20d%3D%22M2.5%2016.875C4.01328%2014.2602%206.76172%2012.5%2010%2012.5%2013.2383%2012.5%2015.9867%2014.2602%2017.5%2016.875%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+}
+
+/* Atalhos utilitários (Rastrear pedido, Favoritos, etc.) */
+.mobileLinks {
+  margin-top: 14px;
+}
+.mobileLinks a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  font-family: var(--header-topbar-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--header-text, var(--text-color-base, #212721));
+}
+.mobileLinks a .icon {
+  width: 24px;
+  height: 24px;
+  color: var(--header-text, var(--text-color-base, #212721));
+}
+
+/* ── BREAKPOINTS ──
+   No .starter são @media; aqui viram @container (a largura que importa é a do
+   componente no gerador, não a da viewport). Mesmos valores de corte. */
+
+@container (max-width: 768px) {
+  .iconBtn:not(.iconBtnCart) {
+    display: none;
+  }
+  .bar {
+    border-bottom: none;
+  }
+  .barInner {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0.5rem;
+  }
+  .logo {
+    margin: 0;
+    margin-right: auto;
+  }
+  .logo img,
+  .logoMark {
+    height: 20px;
+  }
 }
 
 @container (max-width: 960px) {
@@ -606,27 +962,60 @@
     display: inline-flex;
   }
   .logo {
-    margin: 0 auto;
+    margin: 0;
+    margin-right: auto;
   }
   .actions {
     margin-left: 0;
   }
+  .mobileSearch {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    height: 40px;
+    padding: 0 1.25rem;
+    background: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 4%, transparent);
+  }
+  .mobileSearch input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    text-align: center;
+    font-family: var(--header-font, var(--font-primary, 'Inter', sans-serif));
+    font-size: 0.75rem;
+    color: var(--header-text, var(--text-color-base, #212721));
+  }
+  .mobileSearch input::placeholder {
+    color: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 50%, transparent);
+  }
+  /* `> button` pelo mesmo motivo do `.searchPill`: o dropdown é irmão do input. */
+  .mobileSearch > button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    color: var(--header-text, var(--text-color-base, #212721));
+  }
+  .mobileSearch > button .icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
 }
+
 @container (min-width: 961px) {
   .hamburger,
   .mobileSearchBtn {
     display: none;
   }
-  .searchOverlay,
-  .drawerOverlay,
-  .mobileDrawer {
-    display: none;
-  }
   .barInner {
-    gap: 28px;
-    padding: 0 24px;
+    gap: 5rem;
   }
 }
+
 @container (min-width: 961px) and (max-width: 1199px) {
   .searchPill {
     width: 200px;
@@ -640,4 +1029,32 @@
   }
 }
 
-/*# sourceMappingURL=header06.css.map */
+/* Único bloco de largura que NÃO pode ser @container: .searchOverlay/
+   .drawerOverlay/.mobileDrawer são position: fixed e vivem fora da casca com
+   container-type (senão a contenção os prenderia à caixa do header). Fixed
+   acompanha a viewport, então o breakpoint certo aqui é o da viewport. */
+@media (min-width: 961px) {
+  .searchOverlay,
+  .drawerOverlay,
+  .mobileDrawer {
+    display: none;
+  }
+}
+
+/* Auto-zoom do iOS: o Safari amplia a página quando um campo com font-size menor
+   que 16px recebe foco. `pointer: coarse` é capacidade do dispositivo, não
+   largura — continua @media também no .starter. */
+@media (pointer: coarse) {
+  .searchPill input,
+  .mobileSearch input,
+  .searchOverlayForm input {
+    font-size: 16px;
+  }
+}
+
+/* Máximo do dropdown no mobile — métrica da origem. */
+@container (max-width: 49rem) {
+  .searchDropdown {
+    max-height: calc(100vh - 6.2rem);
+  }
+}

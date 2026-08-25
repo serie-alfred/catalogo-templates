@@ -1,0 +1,472 @@
+/*
+ * CartSidebar01 — CSS achatado do mini-cart real do FastStore.
+ *
+ * Origem: faststore.starter/src/components/organisms/CartSidebar01/style.module.scss
+ * mais as folhas base do @faststore/ui que ele importa (Overlay, SlideOver,
+ * CartSidebar, CartItem, QuantitySelector, OrderSummary, EmptyState, Button).
+ * Os design tokens --fs-* foram resolvidos com os valores do
+ * faststore.starter/src/themes/custom-theme.scss:
+ *   --fs-border-color / --fs-border-color-light .. #e3e6e8 (neutral-2)
+ *   --fs-border-radius ......................... 4px
+ *   --fs-color-text ............................ #171a1c (neutral-7)
+ *   --fs-color-text-light ...................... #5d666f (neutral-6)
+ *   --fs-spacing-1/2/3/4 ....................... 8 / 12 / 16 / 24px
+ *   --fs-text-size-0/1/2/3 ..................... 12 / 14 / 16 / 18px (20px >=1280)
+ *
+ * O painel é branco fixo porque no .starter ele é branco fixo
+ * (`background-color: white !important`) — os cinzas abaixo estão sobre essa
+ * superfície fixa, não sobre um fundo que o usuário troca, então não derivam do
+ * texto do tema. Só os botões do rodapé usam os tokens do tema, exatamente como
+ * no .starter.
+ */
+
+.section {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgb(0 0 0 / 20%);
+}
+
+/* ── SlideOver + CartSidebar ─────────────────────────────────────────────── */
+
+.slideOver {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: calc(100vw - 32px);
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  color: #171a1c;
+  font-family: var(--font-primary, -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif);
+  font-size: 16px;
+  line-height: 1.5;
+  animation: cs01SlideIn 0.2s ease-in;
+}
+.slideOver > * {
+  flex-shrink: 0;
+}
+
+@keyframes cs01SlideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .slideOver {
+    width: calc(100vw - 48px);
+  }
+}
+
+@media (min-width: 1280px) {
+  .slideOver {
+    width: 33.3333%;
+    max-width: 426.66px;
+  }
+}
+
+.slideOverHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e3e6e8;
+}
+
+.cartTitle {
+  display: flex;
+  align-items: center;
+  column-gap: 12px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.12;
+}
+
+.cartBadge {
+  min-width: 20px;
+  height: 20px;
+  display: inline-grid;
+  place-items: center;
+  padding-inline: 6px;
+  border-radius: 100px;
+  background-color: #e3e6e8;
+  color: #171a1c;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.slideOverHeader .headerClose {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--background-primary-color, #171a1c);
+  cursor: pointer;
+}
+.slideOverHeader .headerClose svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ── Lista de itens ──────────────────────────────────────────────────────── */
+
+.slideOver .cartList {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0;
+  margin: 0;
+  padding: 0 16px;
+  list-style: none;
+  max-height: calc(100dvh - 65px - 300px - env(safe-area-inset-bottom));
+  overflow: auto;
+}
+.slideOver .cartList > li {
+  list-style: none;
+}
+
+.cartItemContainer {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid #e3e6e8;
+  border-radius: 0;
+}
+
+.cartItemImage {
+  min-width: 80px;
+  width: 80px;
+  height: 80px;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.cartItemImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cartItem {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+.cartItemContent {
+  display: flex;
+  align-items: flex-start;
+  column-gap: 12px;
+  padding: 0 28px 8px 0;
+  width: 100%;
+}
+
+.cartItemTitle {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #171a1c;
+  text-decoration: none;
+}
+
+.cartItemSkus {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.cartItemSkus p {
+  margin: 0 6px 0 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: #7a7a7a;
+}
+.cartItemSkus span {
+  font-weight: 700;
+}
+
+.cartItem .cartItemRemove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  min-width: unset;
+  padding: 0;
+  border: none;
+  background-color: #7a7a7a;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  -webkit-mask-image: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.7915 8.05554V15.9259C14.7915 16.7952 14.0868 17.5 13.2174 17.5H6.92114C6.0518 17.5 5.34706 16.7952 5.34706 15.9259V8.05554" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.49515 8.84259V14.3518" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.6436 8.84259V14.3518" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.9722 5.69445H4.16661" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.2173 5.69446L12.7891 4.41001C12.5749 3.76694 11.9731 3.33318 11.2953 3.33334H8.84293C8.16455 3.3325 7.56193 3.76639 7.34756 4.41001L6.92099 5.69446" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  mask-image: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.7915 8.05554V15.9259C14.7915 16.7952 14.0868 17.5 13.2174 17.5H6.92114C6.0518 17.5 5.34706 16.7952 5.34706 15.9259V8.05554" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.49515 8.84259V14.3518" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.6436 8.84259V14.3518" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.9722 5.69445H4.16661" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.2173 5.69446L12.7891 4.41001C12.5749 3.76694 11.9731 3.33318 11.2953 3.33334H8.84293C8.16455 3.3325 7.56193 3.76639 7.34756 4.41001L6.92099 5.69446" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.cartItem .cartItemRemove:hover {
+  background-color: #cb4242;
+}
+
+.cartItemActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 4px;
+  padding-right: 0;
+  border-top: none;
+}
+
+/* ── Quantity selector ───────────────────────────────────────────────────── */
+
+.quantitySelector {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  width: 88px;
+  height: 28px;
+}
+
+.quantitySelector .quantityButton {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  min-width: 1.75rem;
+  min-height: 1.75rem;
+  border: 1px solid #1c1c1c;
+  border-radius: 100%;
+  background-color: #1c1c1c;
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.quantitySelector .quantityButton:first-of-type {
+  left: 0;
+}
+.quantitySelector .quantityButton:last-of-type {
+  right: 0;
+}
+.quantitySelector .quantityButton:hover:not(:disabled) {
+  background-color: #ffffff;
+  color: #1c1c1c;
+}
+.quantitySelector .quantityButton:disabled {
+  background-color: #e3e6e8;
+  border-color: #e3e6e8;
+  color: #5d666f;
+  cursor: default;
+}
+
+.quantitySelector .quantityInput {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+  color: #171a1c;
+  font-size: 16px;
+  text-align: center;
+}
+
+/* ── Preços do item ──────────────────────────────────────────────────────── */
+
+.productPrice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.priceListing {
+  font-size: 12px;
+  color: #7a7a7a;
+  text-decoration: line-through;
+}
+
+.priceSpot span {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1c1c1c;
+}
+
+/* ── Rodapé: OrderSummary + botões ───────────────────────────────────────── */
+
+.cartFooter {
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+  padding: 0 16px 1.5rem;
+  background-color: #ffffff;
+  border-top: 1px solid #e2e2e2;
+  box-shadow: none;
+}
+
+.cartFooter .orderSummary {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 16px 0 12px;
+  border: none;
+  list-style: none;
+}
+.cartFooter .orderSummary > li {
+  display: flex;
+  justify-content: space-between;
+  line-height: 1.5;
+  font-size: 12px;
+  color: #8f8f8f;
+  list-style: none;
+}
+.cartFooter .orderSummary > li[data-fs-order-summary-total] {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #e3e6e8;
+  color: inherit;
+}
+.cartFooter .orderSummary > li[data-fs-order-summary-total] [data-fs-order-summary-total-label] {
+  font-size: 14px;
+  font-weight: 600;
+  color: #3c3c3c;
+}
+.cartFooter .orderSummary > li[data-fs-order-summary-total] [data-fs-order-summary-total-value] {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1c1c1c;
+}
+
+.footerButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.slideOver .button {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.slideOver .buttonShare {
+  height: auto;
+  min-height: 32px;
+  border-color: transparent;
+  background-color: transparent;
+  color: #525252;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+.slideOver .buttonShare::after {
+  content: '';
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  background-color: #525252;
+  transition: 0.2s ease;
+  -webkit-mask-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 4.33337C14 5.43794 13.1046 6.33337 12 6.33337C10.8954 6.33337 10 5.43794 10 4.33337C10 3.22881 10.8954 2.33337 12 2.33337C13.1046 2.33337 14 3.22881 14 4.33337Z" stroke="%23525252" stroke-width="1.125"/><path d="M6 8C6 9.1046 5.10457 10 4 10C2.89543 10 2 9.1046 2 8C2 6.8954 2.89543 6 4 6C5.10457 6 6 6.8954 6 8Z" stroke="%23525252" stroke-width="1.125"/><path d="M14 11.6666C14 12.7712 13.1046 13.6666 12 13.6666C10.8954 13.6666 10 12.7712 10 11.6666C10 10.562 10.8954 9.66663 12 9.66663C13.1046 9.66663 14 10.562 14 11.6666Z" stroke="%23525252" stroke-width="1.125"/><path d="M5.81885 7.16651L10.1522 5.16687M5.81885 8.83351L10.1522 10.8332" stroke="%23525252" stroke-width="1.125"/></svg>');
+  mask-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 4.33337C14 5.43794 13.1046 6.33337 12 6.33337C10.8954 6.33337 10 5.43794 10 4.33337C10 3.22881 10.8954 2.33337 12 2.33337C13.1046 2.33337 14 3.22881 14 4.33337Z" stroke="%23525252" stroke-width="1.125"/><path d="M6 8C6 9.1046 5.10457 10 4 10C2.89543 10 2 9.1046 2 8C2 6.8954 2.89543 6 4 6C5.10457 6 6 6.8954 6 8Z" stroke="%23525252" stroke-width="1.125"/><path d="M14 11.6666C14 12.7712 13.1046 13.6666 12 13.6666C10.8954 13.6666 10 12.7712 10 11.6666C10 10.562 10.8954 9.66663 12 9.66663C13.1046 9.66663 14 10.562 14 11.6666Z" stroke="%23525252" stroke-width="1.125"/><path d="M5.81885 7.16651L10.1522 5.16687M5.81885 8.83351L10.1522 10.8332" stroke="%23525252" stroke-width="1.125"/></svg>');
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+.slideOver .buttonShare:hover {
+  color: var(--background-primary-color, #171a1c);
+}
+.slideOver .buttonShare:hover::after {
+  background-color: var(--background-primary-color, #171a1c);
+}
+
+.slideOver .buttonFinish {
+  height: 53px;
+  background-color: var(--background-primary-color, #171a1c);
+  color: var(--text-color-base, #ffffff);
+  border-color: transparent;
+}
+
+.slideOver .buttonContinue {
+  height: 53px;
+  background-color: #ffffff;
+  border: 1px solid var(--background-primary-color, #171a1c);
+  color: var(--text-primary-color, #1a1a1a);
+}
+.slideOver .buttonContinue:hover {
+  background-color: var(--background-primary-color, #171a1c);
+  border-color: var(--background-primary-color, #171a1c);
+  color: var(--text-color-base, #ffffff);
+}
+
+/* ── Carrinho vazio (EmptyState) ─────────────────────────────────────────── */
+
+.emptyState {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  padding: 0 56px;
+  background-color: #f1f2f3;
+}
+
+.emptyTitle {
+  display: flex;
+  flex-direction: column;
+  row-gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  color: #5d666f;
+}
+.emptyTitle p {
+  margin: 0;
+  font-size: 18px;
+  text-align: center;
+}
+
+.emptyState .buttonSecondary {
+  min-width: 11.875rem;
+  height: 48px;
+  padding-inline: 16px;
+  border: 1px solid var(--text-color-base, #171a1c);
+  background-color: var(--text-color-base, #171a1c);
+  color: var(--background-primary-color, #ffffff);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slideOver {
+    animation-duration: 0.01ms !important;
+  }
+}

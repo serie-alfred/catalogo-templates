@@ -15,7 +15,7 @@ export default function PreviewLayout({
 }) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

@@ -13,9 +13,16 @@ const FooterNovo = () => {
     categorias: true,
     politicas: true,
   });
+  // `e.currentTarget` só é válido DURANTE o disparo do evento: o React o zera
+  // assim que o handler retorna. Lendo dentro do updater do setOpen — que roda
+  // depois, na fase de render — dava "e.currentTarget is null". A captura
+  // síncrona abaixo guarda o valor enquanto o evento ainda está vivo.
   const handleToggle =
-    (key: string) => (e: SyntheticEvent<HTMLDetailsElement>) =>
-      setOpen(s => ({ ...s, [key]: e.currentTarget.open }));
+    (key: string) => (e: SyntheticEvent<HTMLDetailsElement>) => {
+      const isOpen = e.currentTarget.open;
+
+      setOpen(s => ({ ...s, [key]: isOpen }));
+    };
 
   return (
     <footer className={styles.siteFooter} role="contentinfo">

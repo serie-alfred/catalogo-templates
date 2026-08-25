@@ -1165,3 +1165,355 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
     height: calc(100vh - 235px);
   }
 }
+/* ==================================================================
+   Trazido de faststore.starter (menu mobile, autocomplete e mini-cart).
+   Origens:
+     - menu mobile ........... organisms/Header01/style.module.scss
+     - autocomplete .......... molecules/NavBarSearch01/style.module.scss
+                               + @faststore/ui SearchDropdown/SearchProducts
+   O .starter usa #fff/#000 fixos no drawer; aqui viram a mesma cadeia
+   temável do resto do Header01 (--header-bg / --header-text), senão o
+   drawer perde contraste quando o usuário troca as cores do tema.
+   ================================================================== */
+
+/* Raiz sem container-type: as camadas em position: fixed (menu mobile e
+   mini-cart) ficam fora do header.header, que é o container. */
+.header01Root {
+  width: 100%;
+}
+
+/* ---------- Botão hambúrguer (mobile) ---------- */
+
+header.header .header__middle .middle__container .middle__row .middle__tabs .tabs__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* ---------- Autocomplete da busca ---------- */
+
+header.header .header__middle .middle__container .middle__row .middle__search .searchDropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 250;
+  max-height: calc(100dvh - 150px);
+  overflow: auto;
+  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #122161)) 15%, transparent);
+  border-radius: 12px;
+  background: var(--header-bg, var(--background-primary-color, #ffffff));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  cursor: default;
+}
+
+.searchSectionTitle {
+  margin: 0;
+  padding: 14px 24px 8px;
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--header-text, var(--text-color-base, #122161));
+}
+
+header.header .searchTermList {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 8px;
+}
+
+header.header .searchTermItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 24px;
+  border: none;
+  background: none;
+  text-align: start;
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+  font-size: 14px;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #122161)) 70%, transparent);
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+}
+header.header .searchTermItem:hover {
+  color: var(--header-text, var(--text-color-base, #122161));
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #122161)) 5%, transparent);
+}
+header.header .searchTermItem strong {
+  font-weight: 600;
+}
+
+.searchProducts {
+  border-top: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #122161)) 10%, transparent);
+}
+
+header.header .searchProductList {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 12px;
+}
+
+.searchProductLink {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 8px 24px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+.searchProductLink:hover {
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #122161)) 5%, transparent);
+}
+
+.searchProductImage {
+  width: 3.5rem;
+  height: 3.5rem;
+  min-width: 3.5rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #122161)) 6%, transparent);
+}
+.searchProductImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.searchProductInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.searchProductName {
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+  font-size: 14px;
+  line-height: 1.2;
+  color: var(--header-text, var(--text-color-base, #122161));
+}
+
+.searchProductPrice {
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--header-text, var(--text-color-base, #122161));
+}
+
+/* ---------- Menu mobile (drawer) ---------- */
+
+.mobileMenuOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.mobileMenuDrawer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 300px;
+  max-width: 85vw;
+  height: 100%;
+  overflow-y: auto;
+  background-color: var(--header-bg, var(--background-primary-color, #ffffff));
+  color: var(--header-text, var(--text-color-base, #122161));
+  animation: h1DrawerSlideIn 0.25s ease-out;
+}
+
+@keyframes h1DrawerSlideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.mobileMenuHeader {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 10px 16px;
+  background-color: var(--header-bg, var(--background-primary-color, #ffffff));
+  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #122161)) 10%, transparent);
+}
+
+.mobileMenuHeader .mobileMenuClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border: none;
+  background: none;
+  line-height: 1;
+  color: var(--header-text, var(--text-color-base, #122161));
+  cursor: pointer;
+}
+
+.mobileMenuTopLinks {
+  margin-bottom: 4px;
+  padding: 4px 0 8px;
+  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #122161)) 10%, transparent);
+}
+
+.mobileTopLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--header-text, var(--text-color-base, #122161));
+  text-decoration: none;
+}
+.mobileTopLink svg {
+  flex-shrink: 0;
+}
+
+.mobileMenuNav {
+  padding: 4px 0;
+}
+.mobileMenuNav > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobileL1Item {
+  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #122161)) 9%, transparent);
+}
+
+.mobileL1Row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.mobileMenuNav .mobileL1Toggle {
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+.mobileMenuNav .mobileL1Toggle svg {
+  flex-shrink: 0;
+  margin-right: 16px;
+  color: var(--header-text, var(--text-color-base, #122161));
+  transition: transform 0.2s ease;
+}
+.mobileMenuNav .mobileL1Toggle.mobileL1Open svg {
+  transform: rotate(90deg);
+}
+
+.mobileL1Label {
+  display: block;
+  flex: 1;
+  padding: 14px 8px 14px 16px;
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--header-text, var(--text-color-base, #122161));
+}
+
+.mobileL1Link {
+  display: block;
+  flex: 1;
+  padding: 14px 16px;
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--header-text, var(--text-color-base, #122161));
+  text-decoration: none;
+}
+
+.mobileMenuNav .mobileL2List {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 8px;
+}
+
+.mobileL2Row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.mobileMenuNav .mobileL2Toggle {
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+}
+.mobileMenuNav .mobileL2Toggle svg {
+  flex-shrink: 0;
+  margin-right: 16px;
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #122161)) 65%, transparent);
+  transition: transform 0.2s ease;
+}
+.mobileMenuNav .mobileL2Toggle.mobileL2Open svg {
+  transform: rotate(90deg);
+}
+
+.mobileL2Label {
+  display: block;
+  flex: 1;
+  padding: 9px 8px 9px 28px;
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--header-text, var(--text-color-base, #122161));
+}
+
+.mobileL2Link {
+  display: block;
+  flex: 1;
+  padding: 9px 16px 9px 28px;
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--header-text, var(--text-color-base, #122161));
+  text-decoration: none;
+}
+
+.mobileMenuNav .mobileL3List {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 6px;
+}
+
+.mobileL3Link {
+  display: block;
+  padding: 8px 16px 8px 42px;
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--header-text, var(--text-color-base, #122161));
+  text-decoration: none;
+}
+
+@media (min-width: 1024px) {
+  .mobileMenuOverlay {
+    display: none;
+  }
+}

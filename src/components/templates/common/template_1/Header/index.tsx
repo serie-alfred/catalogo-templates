@@ -1,15 +1,143 @@
 // Header.jsx
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
+import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
+import {
+  buildSearchSuggestions,
+  buildSuggestionProducts,
+} from '@/components/templates/_shared/searchSuggestions';
+
+// Preview do Header01 â origem: faststore.starter/src/components/organisms/Header01
+// (+ molecules NavBarSearch01 e MiniCartController01 e o mini-cart CartSidebar01).
+// Submenu desktop por hover (CSS puro, como no .starter), autocomplete ao focar a
+// busca, menu mobile com accordions de tres niveis e mini-cart. No card do gerador
+// o template fica inerte (pointer-events: none em SortableItem) â a interacao
+// acontece no link de preview /p/{id}.
+
+// Menu do drawer mobile: mesma arvore de 3 niveis do menu desktop.
+const MOBILE_MENU = [
+  {
+    label: 'Categoria 1',
+    link: '#',
+    itensLevel1: [
+      {
+        label: 'Submenu 1',
+        link: '#',
+        itensLevel2: [
+          { label: 'Submenu 1.1', link: '#' },
+          { label: 'Submenu 1.2', link: '#' },
+          { label: 'Submenu 1.3', link: '#' },
+        ],
+      },
+      { label: 'Submenu 2', link: '#' },
+      { label: 'Submenu 3', link: '#' },
+    ],
+  },
+  { label: 'Categoria 2', link: '#' },
+  { label: 'Categoria 3', link: '#' },
+];
+
+const TOP_SEARCHES = [
+  'purificador de agua',
+  'filtro de barro',
+  'refil compativel',
+  'osmose reversa',
+  'bebedouro industrial',
+];
+
+// O preview nao navega: os links existem (markup igual ao do tema) mas nao saem
+// da pagina do preview.
+const preventNav = (e: React.MouseEvent) => e.preventDefault();
+
+const ChevronRight = () => (
+  <svg
+    fill="none"
+    height="20"
+    width="20"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    <path
+      d="M10 16L14 12L10 8"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.5"
+    />
+  </svg>
+);
+
+const AccountGlyph = () => (
+  <svg fill="none" height="20" width="20" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M5.90002 20C7.50002 18.5 9.60002 17.5 12 17.5C14.3 17.5 16.5 18.4 18.1 20" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+    <path d="M14.1 9.39806C15.3 10.5981 15.3 12.4981 14.1 13.5981C12.9 14.6981 11 14.7981 9.90002 13.5981C8.80002 12.3981 8.70002 10.4981 9.90002 9.39806C11.1 8.29806 12.9 8.19806 14.1 9.39806" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+    <path d="M4 17C3.4 15.8 3 14.4 3 13C3 8 7 4 12 4C17 4 21 8 21 13C21 14.4 20.6 15.8 20 17" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+  </svg>
+);
+
+const SearchGlyph = () => (
+  <svg fill="none" height="16" width="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M10.5 16C7.4631 16 5 13.5369 5 10.5C5 7.4631 7.4631 5 10.5 5C13.5384 5 16 7.4631 16 10.5C16 13.5369 13.5384 16 10.5 16" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+    <path d="M19 19L15 15" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" />
+  </svg>
+);
 
 export default function Header() {
   const { logo } = useLayout();
   const isHome = true;
   const isLogged = false;
-  const cartAmount = 2;
+  const cartAmount = 1;
+
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [openL1, setOpenL1] = useState<number | null>(null);
+  const [openL2, setOpenL2] = useState<number | null>(null);
+  const [term, setTerm] = useState('');
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  const suggestions = buildSearchSuggestions(term, TOP_SEARCHES);
+  const suggestionProducts = term.trim() ? buildSuggestionProducts(term) : [];
+
+  useEffect(() => {
+    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileMenuOpen]);
+
+  useEffect(() => {
+    const onPointerDown = (e: MouseEvent | TouchEvent) => {
+      if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
+        setDropdownVisible(false);
+      }
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      setDropdownVisible(false);
+      setMobileMenuOpen(false);
+    };
+    document.addEventListener('mousedown', onPointerDown);
+    document.addEventListener('touchstart', onPointerDown);
+    document.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', onPointerDown);
+      document.removeEventListener('touchstart', onPointerDown);
+      document.removeEventListener('keydown', onKeyDown);
+    };
+  }, []);
+
+  const closeMobileMenu = () => setMobileMenuOpen(false);
+  const toggleL1 = (i: number) => {
+    setOpenL1((prev) => (prev === i ? null : i));
+    setOpenL2(null);
+  };
+  const toggleL2 = (j: number) => setOpenL2((prev) => (prev === j ? null : j));
 
   return (
+    <div className={styles.header01Root}>
     <header className={styles.header}>
       {/* Header Top */}
       <div className={styles.header__top}>
@@ -130,7 +258,13 @@ export default function Header() {
         <div className={`${styles.middle__container} component__container`}>
           <div className={`${styles.middle__row} component__row`}>
             <div className={styles.middle__tabs}>
-              <div className={styles.tabs__inner}>
+              <button
+                type="button"
+                className={styles.tabs__inner}
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="Abrir menu"
+                aria-expanded={mobileMenuOpen}
+              >
                 <svg
                   fill="none"
                   height="24"
@@ -160,7 +294,7 @@ export default function Header() {
                     strokeWidth="1.5"
                   />
                 </svg>
-              </div>
+              </button>
             </div>
 
             <div className={styles.middle__logo}>
@@ -186,8 +320,11 @@ export default function Header() {
             </div>
 
             <div className={styles.middle__search}>
-              <div className={styles.search}>
-                <form action="#" method="get" data-search="suggestion">
+              <div className={styles.search} ref={searchRef}>
+                <form
+                  data-search="suggestion"
+                  onSubmit={e => e.preventDefault()}
+                >
                   <button
                     className={styles.searchButton}
                     type="submit"
@@ -226,10 +363,63 @@ export default function Header() {
                       placeholder="Digite aqui..."
                       name="palavra_busca"
                       data-tray-tst="busca_palavra"
-                      required
+                      value={term}
+                      onChange={e => setTerm(e.target.value)}
+                      onFocus={() => setDropdownVisible(true)}
                     />
                   </div>
                 </form>
+
+                {dropdownVisible && (
+                  <div className={styles.searchDropdown}>
+                    <p className={styles.searchSectionTitle}>
+                      {term.trim() ? 'Sugestões' : 'Mais procurados'}
+                    </p>
+                    <ul className={styles.searchTermList}>
+                      {suggestions.map((s, i) => (
+                        <li key={i}>
+                          <button
+                            type="button"
+                            className={styles.searchTermItem}
+                            onClick={() => setTerm(s)}
+                          >
+                            <SearchGlyph />
+                            <span>{s}</span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {suggestionProducts.length > 0 && (
+                      <div className={styles.searchProducts}>
+                        <p className={styles.searchSectionTitle}>Produtos sugeridos</p>
+                        <ul className={styles.searchProductList}>
+                          {suggestionProducts.map((product, i) => (
+                            <li key={i}>
+                              <a
+                                href="#"
+                                className={styles.searchProductLink}
+                                onClick={preventNav}
+                              >
+                                <span className={styles.searchProductImage}>
+                                  <img src={product.image} alt={product.name} />
+                                </span>
+                                <span className={styles.searchProductInfo}>
+                                  <span className={styles.searchProductName}>
+                                    {product.name}
+                                  </span>
+                                  <span className={styles.searchProductPrice}>
+                                    {product.price}
+                                  </span>
+                                </span>
+                              </a>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
             <div className={styles.middle__config}>
@@ -380,7 +570,12 @@ export default function Header() {
               </div>
 
               <div className={styles.config__cart}>
-                <div className={styles.cart__wrapper}>
+                <button
+                  type="button"
+                  className={styles.cart__wrapper}
+                  onClick={() => setCartOpen(true)}
+                  aria-label={`Abrir carrinho, ${cartAmount} item`}
+                >
                   <svg
                     fill="none"
                     height="24"
@@ -407,7 +602,7 @@ export default function Header() {
                   </svg>
                   <span className={styles.cart__title}>Carrinho</span>
                   <span className={styles.cart__number}>{cartAmount}</span>
-                </div>
+                </button>
               </div>
             </div>
           </div>
@@ -591,5 +786,144 @@ export default function Header() {
         </div>
       </div>
     </header>
+
+    {/* ── MENU MOBILE ── */}
+    {mobileMenuOpen && (
+      <div
+        className={styles.mobileMenuOverlay}
+        onClick={closeMobileMenu}
+        aria-hidden="true"
+      >
+        <div
+          className={styles.mobileMenuDrawer}
+          onClick={e => e.stopPropagation()}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu de navegação"
+        >
+          <div className={styles.mobileMenuHeader}>
+            <button
+              className={styles.mobileMenuClose}
+              onClick={closeMobileMenu}
+              aria-label="Fechar menu"
+            >
+              <svg
+                fill="none"
+                height="24"
+                viewBox="0 0 24 24"
+                width="24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+              >
+                <path
+                  d="M18 6L6 18M6 6L18 18"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="1.5"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <div className={styles.mobileMenuTopLinks}>
+            <a href="#" className={styles.mobileTopLink} onClick={preventNav}>
+              <AccountGlyph />
+              {isLogged ? 'Minha Conta' : 'Entre ou Cadastre-se'}
+            </a>
+            <a href="#" className={styles.mobileTopLink} onClick={preventNav}>
+              <AccountGlyph />
+              Precisa de ajuda
+            </a>
+          </div>
+
+          <nav className={styles.mobileMenuNav}>
+            <ul>
+              {MOBILE_MENU.map((item, i) => {
+                const level1 = item.itensLevel1 ?? [];
+                const isOpenL1 = openL1 === i;
+                return (
+                  <li key={i} className={styles.mobileL1Item}>
+                    {level1.length > 0 ? (
+                      <button
+                        className={`${styles.mobileL1Row} ${styles.mobileL1Toggle}${isOpenL1 ? ` ${styles.mobileL1Open}` : ''}`}
+                        onClick={() => toggleL1(i)}
+                        aria-expanded={isOpenL1}
+                      >
+                        <span className={styles.mobileL1Label}>{item.label}</span>
+                        <ChevronRight />
+                      </button>
+                    ) : (
+                      <div className={styles.mobileL1Row}>
+                        <a
+                          href={item.link}
+                          className={styles.mobileL1Link}
+                          onClick={preventNav}
+                        >
+                          {item.label}
+                        </a>
+                      </div>
+                    )}
+
+                    {isOpenL1 && level1.length > 0 && (
+                      <ul className={styles.mobileL2List}>
+                        {level1.map((l2, j) => {
+                          const level2 = l2.itensLevel2 ?? [];
+                          const isOpenL2 = openL2 === j;
+                          return (
+                            <li key={j} className={styles.mobileL2Item}>
+                              {level2.length > 0 ? (
+                                <button
+                                  className={`${styles.mobileL2Row} ${styles.mobileL2Toggle}${isOpenL2 ? ` ${styles.mobileL2Open}` : ''}`}
+                                  onClick={() => toggleL2(j)}
+                                  aria-expanded={isOpenL2}
+                                >
+                                  <span className={styles.mobileL2Label}>{l2.label}</span>
+                                  <ChevronRight />
+                                </button>
+                              ) : (
+                                <div className={styles.mobileL2Row}>
+                                  <a
+                                    href={l2.link}
+                                    className={styles.mobileL2Link}
+                                    onClick={preventNav}
+                                  >
+                                    {l2.label}
+                                  </a>
+                                </div>
+                              )}
+
+                              {isOpenL2 && level2.length > 0 && (
+                                <ul className={styles.mobileL3List}>
+                                  {level2.map((l3, k) => (
+                                    <li key={k}>
+                                      <a
+                                        href={l3.link}
+                                        className={styles.mobileL3Link}
+                                        onClick={preventNav}
+                                      >
+                                        {l3.label}
+                                      </a>
+                                    </li>
+                                  ))}
+                                </ul>
+                              )}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </div>
+      </div>
+    )}
+
+    {/* ── MINI-CART (CartSidebar01, igual ao .starter) ── */}
+    <CartSidebar01 open={cartOpen} onClose={() => setCartOpen(false)} />
+    </div>
   );
 }
