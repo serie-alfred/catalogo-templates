@@ -385,6 +385,9 @@
   border-color: var(--header-accent, var(--background-secundary-color, #2f9e57));
 }
 
+/* Clique fora do painel fecha a busca — indicar que é clicável. .searchPanel
+   reseta o cursor para não herdar o pointer (o painel em si não fecha ao
+   clicar, só a área vazia ao redor). */
 .searchLayer {
   position: fixed;
   inset: 0;
@@ -392,6 +395,7 @@
   z-index: 70;
   display: none;
   background: rgba(26, 31, 43, 0.46);
+  cursor: pointer;
 }
 .searchLayer.layerOpen {
   display: block;
@@ -401,6 +405,9 @@
   background: var(--header-bg, var(--background-primary-color, #ffffff));
   padding: 30px 0 36px;
   animation: h5Reveal 0.18s ease-out;
+  /* cursor é herdado — sem isso, o ponteiro do .searchLayer vazaria para o
+     painel, que não fecha a busca ao ser clicado. */
+  cursor: auto;
 }
 
 .searchTop {
@@ -450,6 +457,8 @@
   font-size: 13px;
 }
 
+/* Clique fora do drawer fecha o menu — indicar que é clicável. .mobileDrawer
+   reseta o cursor para não herdar o pointer. */
 .drawerOverlay {
   position: fixed;
   inset: 0;
@@ -457,6 +466,7 @@
   z-index: 80;
   display: none;
   background: rgba(26, 31, 43, 0.42);
+  cursor: pointer;
 }
 .drawerOverlay.layerOpen {
   display: block;
@@ -473,6 +483,9 @@
   flex-direction: column;
   background: var(--header-bg, var(--background-primary-color, #ffffff));
   animation: h5SlideIn 0.22s ease-out;
+  /* cursor é herdado — sem isso, o ponteiro do .drawerOverlay vazaria para o
+     drawer, que não fecha o menu ao ser clicado. */
+  cursor: auto;
 }
 
 @keyframes h5SlideIn {

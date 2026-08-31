@@ -179,6 +179,9 @@
   border-radius: 999px;
   transition: color .2s var(--ease), background-color .2s var(--ease);
   position: relative;
+  /* .action é <a> (conta/wishlist, pointer por padrão) e também <button>
+     (carrinho) — <button> não ganha pointer sozinho, precisa da regra. */
+  cursor: pointer;
 }
 .action:hover {
   color: var(--header-accent, var(--background-secundary-color, #e73888));

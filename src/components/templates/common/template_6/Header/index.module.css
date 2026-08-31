@@ -594,6 +594,9 @@
 
 /* ── OVERLAY DE BUSCA (mobile) ── */
 
+/* Clique fora do card de busca fecha o overlay — indicar que é clicável.
+   .searchOverlayInner reseta o cursor para não herdar o pointer (o card em
+   si não fecha ao clicar, só a área vazia ao redor). */
 .searchOverlay {
   position: fixed;
   inset: 0;
@@ -601,6 +604,7 @@
   background: rgba(0, 0, 0, 0.4);
   opacity: 0;
   pointer-events: none;
+  cursor: pointer;
   transition: opacity 280ms ease;
 }
 .searchOverlay.open {
@@ -612,6 +616,7 @@
   position: relative;
   background: var(--header-bg, var(--background-primary-color, #ffffff));
   padding: 16px;
+  cursor: auto;
 }
 
 .searchOverlayForm {
@@ -646,6 +651,9 @@
 
 /* ── DRAWER MOBILE ── */
 
+/* Clique fora fecha o drawer — indicar que é clicável. Sem risco de vazar o
+   cursor: é backdrop puro (self-closing no TSX), o <aside> do menu é irmão,
+   não filho. */
 .drawerOverlay {
   position: fixed;
   inset: 0;
@@ -653,6 +661,7 @@
   background: rgba(0, 0, 0, 0.4);
   opacity: 0;
   pointer-events: none;
+  cursor: pointer;
   transition: opacity 280ms ease;
 }
 .drawerOverlay.open {

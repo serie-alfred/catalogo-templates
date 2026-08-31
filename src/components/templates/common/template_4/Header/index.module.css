@@ -329,6 +329,7 @@
   display: none;
 }
 
+/* Clicar fora fecha o mega menu / drawer — precisa indicar que é clicável. */
 .megaOverlay,
 .drawerOverlay {
   position: fixed;
@@ -336,6 +337,7 @@
   background: rgba(0, 0, 0, 0.4);
   opacity: 0;
   pointer-events: none;
+  cursor: pointer;
   transition: opacity var(--h4-t-mid);
   z-index: 1500;
 }
@@ -457,6 +459,13 @@
   pointer-events: none;
   transition: opacity var(--h4-t-mid);
 }
+/* Clique fora do card de busca fecha o overlay — indicar que é clicável.
+   Fica em bloco próprio: o clique-para-fechar só vale para a área vazia do
+   grid, não para o conteúdo do card (input/sugestões), que tem seus próprios
+   cursores. */
+.searchOverlay {
+  cursor: pointer;
+}
 .searchOverlay.open {
   opacity: 1;
   pointer-events: auto;
@@ -465,6 +474,9 @@
 .searchBox {
   width: min(760px, 100vw - 48px);
   margin: 0 auto;
+  /* cursor é herdado — sem isso, o ponteiro do .searchOverlay vazaria para
+     o card de busca, que não fecha o overlay ao ser clicado. */
+  cursor: auto;
 }
 .searchBox input {
   width: 100%;

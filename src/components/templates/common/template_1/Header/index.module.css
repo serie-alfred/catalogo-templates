@@ -1317,11 +1317,13 @@ header.header .searchProductList {
 
 /* ---------- Menu mobile (drawer) ---------- */
 
+/* Clicar fora do drawer fecha o menu — precisa indicar que é clicável. */
 .mobileMenuOverlay {
   position: fixed;
   inset: 0;
   z-index: 300;
   background-color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 }
 
 .mobileMenuDrawer {
@@ -1444,7 +1446,7 @@ header.header .searchProductList {
   flex: 1;
   padding: 14px 16px;
   font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
-  font-weight: 600;
+  font-weight: 400;
   font-size: 15px;
   color: var(--header-text, var(--text-color-base, #122161));
   text-decoration: none;
