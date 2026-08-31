@@ -158,7 +158,7 @@ export const LAYOUTS: Layouts = {
       { id: "05", selection: "header", key: "hdr05mnu6xj1", image: "", mobile: "", title: "Header Template 5", description: "Header claro (SÉRIE//A) com barra de serviço, busca, wordmark e navegação por categorias", template: "5", pagina: ["common"], component: "Header05", path: "organisms/Header05", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-service-bg", label: "Fundo da barra de serviço", type: "color", default: "#1a1f2b", group: "Header", inheritsLabel: "cor de texto do header" },
-        { cssVar: "--header-service-text", label: "Texto da barra de serviço", type: "color", default: "#ffffff", group: "Header" },
+        { cssVar: "--header-service-text", label: "Texto da barra de serviço", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "fundo do header" },
         { cssVar: "--header-text", label: "Texto/ícones", type: "color", default: "#1a1f2b", group: "Header", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-accent", label: "Cor de destaque (ofertas, hover, foco)", type: "color", default: "#2f9e57", group: "Destaque", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--header-danger", label: "Cor de alerta/oferta", type: "color", default: "#d6432a", group: "Destaque" },

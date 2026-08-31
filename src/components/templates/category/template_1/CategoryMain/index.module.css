@@ -1,9 +1,56 @@
-/* CategoryMain.module.css */
+/* CategoryMain01 — conversão de
+   faststore.starter/src/components/organisms/MainCategory01 (style.module.scss
+   + filter.scss) e das molecules FilterSidebar01 / MobileSortPanel01 /
+   FilterSliderUsage01.
+
+   Divergências deliberadas, comentadas no ponto:
+   1. `container-type` vive na .categoryShell (não na raiz): containment torna o
+      elemento bloco container de descendentes `position: fixed`, e o modal de
+      filtro / o painel de ordenação ficariam presos à caixa da vitrine. As
+      camadas fixas são irmãs da casca.
+   2. Os neutros fixos da origem (#EFEFF0, #CCCCCC, #B5B5BA, #525253, #7A7A7A,
+      #E6E6E6, #141414 e os fundos brancos) viram color-mix sobre o texto do
+      tema / cadeia temável — regra do CLAUDE.md: neutro sobre fundo
+      customizável não pode ser cinza fixo, senão perde contraste quando o
+      usuário troca o tema.
+   3. Os checkboxes da origem são data-URI SVG (cor cravada dentro do próprio
+      SVG, impossível de temar). Aqui viram caixa em CSS: borda + preenchimento
+      derivados do tema, com o mesmo desenho — quadrado interno no modal,
+      "check" na sidebar. */
 
 .categoryMain {
-  container-type: inline-size;
   width: 100%;
   padding-top: 2rem;
+
+  /* Superfície dos painéis (modal de filtro, painel de ordenação, select).
+
+     NÃO pode cair em --background-primary-color: essa var é a cor de fundo de
+     marca (default #000 no useLayoutGenerator), não uma superfície — e o texto
+     dos painéis cai em --text-primary-color (default #1a1a1a). O par ficava
+     preto sobre preto. A origem crava `white` nesses painéis; aqui é o token
+     --color-white, o mesmo que o resto deste componente já usava.
+
+     --cat-main-panel-bg e --cat-main-panel-text andam em par: quem escurecer o
+     painel precisa clarear o texto, senão o contraste se perde de novo. */
+  --cm1-panel-bg: var(--cat-main-panel-bg, var(--color-white, #ffffff));
+  --cm1-text: var(--cat-main-panel-text, var(--text-primary-color, #141414));
+  --cm1-muted: color-mix(in srgb, var(--cm1-text) 55%, transparent);
+  --cm1-border: color-mix(in srgb, var(--cm1-text) 15%, transparent);
+  --cm1-border-strong: color-mix(in srgb, var(--cm1-text) 35%, transparent);
+  --cm1-check-bg: var(--cm1-text);
+  --cm1-check-mark: var(--cm1-panel-bg);
+
+  /* Botoes do rodape do modal. Nome proprio para NAO sombrear um
+     --cat-main-btn-* que o usuario tenha definido no :root. */
+  --cm1-btn-bg: var(--cat-main-btn-bg, var(--background-tertiary-color, #122161));
+  --cm1-btn-text: var(--cat-main-btn-text, var(--text-tertiary-color, #ffffff));
+}
+
+/* Casca do componente: é ela que carrega o container-type. As camadas em
+   position: fixed (modal de filtro, painel de ordenação) ficam FORA dela. */
+.categoryShell {
+  container-type: inline-size;
+  width: 100%;
 }
 
 /* Botões de filtro e ordenação */
@@ -40,6 +87,7 @@
   font-weight: 500;
   font-size: 14px;
   cursor: pointer;
+  user-select: none;
 }
 
 .buttonsFilter svg:first-of-type,
@@ -57,11 +105,25 @@
   stroke: var(--cat-main-btn-text, var(--text-tertiary-color, #ffffff));
 }
 
+/* Wrappers que o TSX referencia; sem regra aqui o CSS Module devolve
+   `undefined` no atributo class e o markup fica sujo. */
+.buttonsContainer,
+.listContainer {
+  width: 100%;
+}
 
+.categoryList {
+  padding: 2rem 0;
+}
+
+.filterBlock {
+  display: block;
+}
 
 .listRow {
   display: flex;
   gap: 2rem;
+  align-items: flex-start;
 }
 
 .listFilter {
@@ -75,24 +137,10 @@
   margin-bottom: 30px;
 }
 
-.filterMask {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  display: none;
-  z-index: 20;
-}
-
-.listOrderMobile {
-  display: none;
-}
-
 .listShowcase {
   flex: 0 0 75%;
   padding: 0 15px;
+  min-width: 0;
 }
 
 .listWrapper {
@@ -101,40 +149,17 @@
   gap: 1.5rem;
 }
 
+/* .listOrder é a régua do "Ordenar por". No mobile ele passa a abrigar só o
+   .listTotalMobile (o select vira o botão "Ordenar Por"), por isso mantém o
+   gap e a margem inferior — a origem faz igual em .listOrder do MainCategory01.
+   Antes o mobile zerava a margem e o "Mostrando 6 de 28" colava na vitrine. */
 .listOrder {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
   margin-bottom: 25px;
-  justify-content: space-between;
-}
-
-.listCompare {
-  width: 40%;
-}
-
-.buttonCompare {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 15px;
-  font-weight: 500;
-  font-size: 14px;
-  color: var(--text-primary-color);
-  background-color: var(--color-white);
-  width: max-content;
-  height: 40px;
-  border-radius: 80px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.buttonCompare:hover {
-  background-color: #c9c6c6;
-}
-
-.buttonCompare svg {
-  margin-left: 8px;
 }
 
 .listTotalMobile {
@@ -142,46 +167,43 @@
 }
 
 .listFields {
-  width: 60%;
   display: flex;
   align-items: center;
-  display: flex;
+  gap: 8px;
   justify-content: flex-end;
   margin-left: auto;
 }
 
 .listFields strong {
   color: var(--text-primary-color);
-  content: "Ordenar por:";
   display: block;
   font-size: 16px;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .brandFilter {
   position: relative;
-
 }
 
 .brandSelect {
-  margin-left: 8px;
   width: 211px;
   height: 52px;
   display: flex;
   align-items: center;
-  padding: 0 15px;
+  padding: 0 36px 0 15px;
   font-weight: 400;
   font-size: 16px;
-  color: #68686E;
-  border: 1px solid #DFDFE0;
-  background-color: var(--color-white);
+  color: var(--cm1-muted);
+  border: 1px solid var(--cm1-border);
+  background-color: var(--cm1-panel-bg);
   background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 10L12 14L16 10' stroke='%237A7A7A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
   background-repeat: no-repeat;
-  background-position-x: 90%;
-  background-position-y: 50%;
+  background-position: right 10px center;
   border-radius: 16px;
   appearance: none;
   text-align: left;
+  cursor: pointer;
 }
 
 .listSpots {
@@ -203,7 +225,7 @@
   max-width: 33.3%;
   padding: 0 12px;
   margin-bottom: 25px;
-    gap: 16px;
+  gap: 16px;
   display: flex;
   flex-direction: column;
 }
@@ -212,50 +234,11 @@
   margin-top: 25px;
 }
 
-.spot {
-  border: 1px solid #eee;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.spot:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-}
-
-.spotImage {
-  width: 100%;
-  height: 200px;
-  overflow: hidden;
-}
-
-.spotImage img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s;
-}
-
-.spot:hover .spotImage img {
-  transform: scale(1.05);
-}
-
-.spotInfo {
-  padding: 1rem;
-}
-
-.spotName {
-  font-size: 1rem;
-  margin: 0 0 0.5rem 0;
-  color: #333;
-}
-
 .productNotFound {
   text-align: center;
   padding: 2rem;
   font-size: 1.2rem;
-  color: #666;
+  color: var(--cm1-muted);
 }
 
 .listPagination {
@@ -281,7 +264,6 @@
 }
 
 .pageLink {
-  border: none;
   line-height: 1;
   padding: 0;
   margin: 0 4px;
@@ -293,17 +275,14 @@
   width: 56px;
   height: 56px;
   border-radius: 6px;
-  border: 1px solid #DFDFE0;
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
-  color: var(--cat-main-accent, var(--background-primary-color, #682A77));
-    border: 1px solid var(--cat-main-accent, var(--background-primary-color, #682A77));
+  color: var(--cat-main-accent, var(--background-primary-color, #682a77));
+  border: 1px solid var(--cat-main-accent, var(--background-primary-color, #682a77));
   font-family: var(--cat-main-font, var(--font-secundary, 'Poppins', sans-serif));
   transition: all 0.3s ease;
 }
-
-
 
 .pagePrev {
   margin-right: 5px;
@@ -316,15 +295,15 @@
 .pageCurrent,
 .pageLink:hover {
   color: var(--cat-main-page-text, var(--text-color-base, #ffffff));
-  border: 1px solid var(--cat-main-accent, var(--background-primary-color, #682A77));
-  background-color: var(--cat-main-accent, var(--background-primary-color, #682A77));
+  border: 1px solid var(--cat-main-accent, var(--background-primary-color, #682a77));
+  background-color: var(--cat-main-accent, var(--background-primary-color, #682a77));
 }
 
 .pageCurrent a,
 .pageLink:hover a {
   color: var(--cat-main-page-text, var(--text-color-base, #ffffff));
-  border: 1px solid var(--cat-main-accent, var(--background-primary-color, #682A77));
-  background-color: var(--cat-main-accent, var(--background-primary-color, #682A77));
+  border: 1px solid var(--cat-main-accent, var(--background-primary-color, #682a77));
+  background-color: var(--cat-main-accent, var(--background-primary-color, #682a77));
 }
 
 .pageNext,
@@ -333,53 +312,19 @@
   margin: 0;
 }
 
-/* Filtros */
+/* ── Sidebar de filtro (desktop) — FilterSidebar01 ──────────────────────── */
+
 .filter {
   padding-top: 15px;
 }
 
-.filterClose {
-  display: none;
-}
-
 .filterTitleForm {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
+  display: block;
   font-weight: 700;
   font-size: 20px;
   color: var(--text-primary-color);
   margin-bottom: 30px;
 }
-
-.filterButtonClear {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  background-color: #EFEFF0;
-  border-radius: 70px;
-  height: 40px;
-  width: max-content;
-  font-weight: 500;
-  font-size: 14px;
-  color: var(--color-black);
-  padding: 0 15px;
-  text-transform: capitalize;
-  border: none;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.filterButtonClear:hover {
-  background-color: #dfdfe0;
-}
-
-.filterButtonClear svg {
-  margin-left: 8px;
-}
-
 
 .filterTotal span {
   color: var(--text-primary-color);
@@ -400,12 +345,13 @@
   gap: 1.5rem;
 }
 
+/* Cabeçalho do bloco: clicar recolhe/expande a lista, como o
+   `onClick={() => toggleExpanded(index)}` do FilterSidebar01. */
 .filterTitleActive {
   align-items: center;
-  border-bottom: 1px solid #dfdfe0;
+  border-bottom: 1px solid var(--cm1-border);
   color: var(--text-primary-color);
   display: flex;
-  flex-wrap: wrap;
   font-family: var(--cat-main-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 14px;
   font-weight: 500;
@@ -413,90 +359,123 @@
   line-height: 1;
   padding: 10px 0;
   margin-bottom: 15px;
-}
-
-.filterTitle {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: 500;
-  font-size: 14px;
-  color: var(--text-primary-color);
-  line-height: 1;
-  padding: 10px 0;
-  border-bottom: 1px solid #DFDFE0;
   cursor: pointer;
-}
-
-.filterTitle.active .filterArrow svg {
-  transform: rotate(-90deg);
+  user-select: none;
+  transition: color 0.2s;
 }
 
 .filterArrow {
   width: 24px;
   height: 24px;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  color: var(--text-primary-color);
+  transition: transform 0.3s ease;
 }
 
-.filterArrow svg {
-  transition: all 0.3s ease;
+.filterArrowExpanded {
+  transform: rotate(180deg);
 }
 
 .categoryMain .filterList {
   list-style: none;
   padding: 0;
-  margin: 15px 0 0 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 10px;
 }
 
 .categoryMain .filterItem {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
+  gap: 4px;
 }
 
 .filterItem:last-of-type {
   margin-bottom: 0;
 }
 
+/* O input real fica escondido, mas continua sendo o dono do estado: é ele que
+   recebe o clique via <label for>, e o :checked pinta a caixa desenhada. */
 .filterInput {
-  display: none;
-}
-
-.fakeInput {
-  width: 16px;
-  height: 16px;
-  border: 1px solid #CCCCCC;
-  border-radius: 4px;
-  display: block;
-  cursor: pointer;
-  position: relative;
-  margin-right: 4px;
-}
-
-.fakeInput i::before {
-  display: block;
-  content: '';
-  background-image: url("data:image/svg+xml,%3Csvg width='20' height='21' viewBox='0 0 20 21' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.08337 10.4999C2.08337 6.76797 2.08337 4.90199 3.24274 3.74262C4.40212 2.58325 6.26809 2.58325 10 2.58325C13.732 2.58325 15.598 2.58325 16.7574 3.74262C17.9167 4.90199 17.9167 6.76797 17.9167 10.4999C17.9167 14.2318 17.9167 16.0978 16.7574 17.2573C15.598 18.4166 13.732 18.4166 10 18.4166C6.26809 18.4166 4.40212 18.4166 3.24274 17.2573C2.08337 16.0978 2.08337 14.2318 2.08337 10.4999Z' fill='%23122161' stroke='%23CCCCCC' stroke-width='1.5'/%3E%3Cpath d='M6.66663 10.9167L8.74996 13L13.3333 8' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  width: 19px;
-  height: 19px;
   position: absolute;
-  left: -2px;
-  top: -2px;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
 .filterLabel {
-  width: calc(100% - 20px);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.filterBox {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border-radius: 4px;
+  border: 1px solid var(--cm1-border-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.filterLabel:hover .filterBox {
+  border-color: var(--cm1-check-bg);
+}
+
+/* Preenchimento total só se aplica a .filterBoxCheck (sidebar). O
+   .filterBoxInner (modal) fica com a borda escura e ganha o preenchimento só
+   no miolo, via ::after — ver abaixo. Aplicar aqui em .filterBox genérico
+   preenchia a caixa toda de escuro por baixo do quadrado claro do ::after,
+   virando uma moldura escura com buraco claro no meio. */
+.filterInput:checked + .filterLabel .filterBoxCheck {
+  background-color: var(--cm1-check-bg);
+  border-color: var(--cm1-check-bg);
+}
+
+.filterInput:checked + .filterLabel .filterBoxInner {
+  border-color: var(--cm1-check-bg);
+}
+
+/* Sidebar: caixa preenchida + "check". O check é máscara (não data-URI
+   colorido) para pegar a cor do fundo do painel e contrastar em qualquer tema. */
+.filterBoxCheck::after {
+  content: '';
+  width: 11px;
+  height: 11px;
+  background-color: var(--cm1-check-mark);
+  transform: scale(0);
+  transition: transform 0.15s ease;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 8.5L6.2 11.5L13 4.8' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3 8.5L6.2 11.5L13 4.8' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+}
+
+.filterInput:checked + .filterLabel .filterBoxCheck::after {
+  transform: scale(1);
+}
+
+/* Modal: caixa vazada + quadrado interno, o desenho do filter.scss. */
+.filterBoxInner::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background-color: var(--cm1-check-bg);
+  transform: scale(0);
+  transition: transform 0.15s ease;
+}
+
+.filterInput:checked + .filterLabel .filterBoxInner::after {
+  transform: scale(1);
 }
 
 .filterName {
@@ -509,41 +488,324 @@
 
 .filterCount {
   display: inline-block;
-  margin-left: 4px;
   line-height: 1;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 14px;
-  color: var(--text-primary-color);
+  color: var(--cm1-muted);
 }
 
-.categoryMain .filterButton {
+/* ── Modal de filtro (mobile) — <FilterSlider> + filter.scss ────────────── */
+
+.filterOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 3000;
+  animation: cm1FadeIn 220ms ease;
+}
+
+.filterSlider {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100dvh;
+  width: 420px;
+  max-width: 100vw;
+  z-index: 3100;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  background-color: var(--cm1-panel-bg);
+  color: var(--cm1-text);
+  font-family: var(--cat-main-font, var(--font-primary, 'Manrope', sans-serif));
+  animation: cm1SlideInRight 320ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.filterSliderHeader {
+  flex: 0 0 auto;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--cm1-border);
+}
+
+.filterSliderTitle {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 100%;
+  letter-spacing: 0.15px;
+  color: var(--cm1-text);
+}
+
+.filterSliderClose {
+  display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--cat-main-btn-bg, var(--background-secundary-color, #122161));
-  border-radius: 70px;
+  padding: 4px;
+  border: 0;
+  background: none;
+  color: var(--cm1-text);
+  cursor: pointer;
+}
+
+.filterSliderContent {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px 24px;
+}
+
+.accordion {
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
+}
+
+.accordionItem {
+  border-bottom: 1px solid var(--cm1-border-strong);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.accordionButton {
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.accordionLabel {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 24px;
+  color: var(--cm1-text);
+}
+
+.accordionIcon {
+  width: 14px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cm1-text);
+  transition: transform 0.3s ease;
+}
+
+/* Igual ao [data-fs-accordion-button="expanded"] da origem: a seta é a de
+   "direita" e gira -90° (aponta para cima) quando o bloco está aberto. */
+.accordionButtonExpanded .accordionIcon {
+  transform: rotate(-90deg);
+}
+
+.accordionPanel {
+  width: 100%;
+  padding: 16px;
+}
+
+.categoryMain .accordionList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.filterLabelSlider .filterName {
+  font-weight: 400;
+  line-height: 140%;
+  color: var(--cm1-muted);
+  transition: color 0.3s;
+}
+
+.filterLabelSlider:hover .filterName,
+.filterInput:checked + .filterLabelSlider .filterName {
+  color: var(--cm1-text);
+}
+
+.filterSliderFooter {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  background-color: var(--cm1-panel-bg);
+  border-top: 1px solid var(--cm1-border);
+}
+
+.filterSliderClear,
+.filterSliderApply {
+  width: 178px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  cursor: pointer;
   font-weight: 600;
   font-size: 16px;
-  color: var(--cat-main-btn-text, var(--text-secundary-color, #ffffff));
-  padding: 0 40px;
-  width: max-content;
-  height: 56px;
-  border: none;
-  cursor: pointer;
+  line-height: 150%;
+  text-align: center;
   transition: all 0.3s ease;
 }
 
-.filterButton:hover {
-  background-color: #68686e;
+.filterSliderClear {
+  background: transparent;
+  color: var(--cm1-muted);
+  border: 1px solid var(--cm1-border-strong);
 }
 
-.filterButton svg:first-of-type {
-  margin-right: 8px;
+.filterSliderClear:hover {
+  background: var(--cm1-btn-bg);
+  color: var(--cm1-btn-text);
+  border-color: var(--cm1-btn-bg);
 }
 
-.filterButton svg:last-of-type {
-  margin-left: 8px;
+.filterSliderApply {
+  background: var(--cm1-btn-bg);
+  color: var(--cm1-btn-text);
+  border: 1px solid var(--cm1-btn-bg);
+}
+
+.filterSliderApply:hover {
+  background: transparent;
+  color: var(--cm1-btn-bg);
+}
+
+@media (max-width: 768px) {
+  .filterSlider {
+    width: 100%;
+  }
+
+  .filterSliderClear,
+  .filterSliderApply {
+    width: 100%;
+    font-size: 14px;
+  }
+}
+
+/* ── Painel "Ordenar por" (mobile) — MobileSortPanel01 ──────────────────── */
+
+.sortOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 3000;
+  animation: cm1FadeIn 220ms ease;
+}
+
+.sortPanel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 100dvh;
+  overflow-y: auto;
+  background: var(--cm1-panel-bg);
+  color: var(--cm1-text);
+  font-family: var(--cat-main-font, var(--font-primary, 'Manrope', sans-serif));
+  z-index: 3100;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  animation: cm1SlideInUp 300ms ease;
+}
+
+.sortWrapper {
+  padding: 1.5rem;
+}
+
+.sortHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.sortTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--cm1-text);
+}
+
+.sortClose {
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cm1-text);
+}
+
+.sortOptions {
+  display: flex;
+  flex-direction: column;
+}
+
+.sortOption {
+  display: flex;
+  align-items: center;
+  color: var(--cm1-text);
+  font-size: 14px;
+  font-weight: 400;
+  width: 100%;
+  border: 1px solid var(--cm1-border);
+  padding: 0 15px;
+  height: 56px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, font-weight 0.2s;
+}
+
+.sortOption:last-of-type {
+  margin-bottom: 0;
+}
+
+.sortOptionActive {
+  border-color: var(--cm1-check-bg);
+  font-weight: 600;
+}
+
+@keyframes cm1FadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cm1SlideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes cm1SlideInUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filterOverlay,
+  .filterSlider,
+  .sortOverlay,
+  .sortPanel {
+    animation: none;
+  }
 }
 
 /* Responsividade */
@@ -557,44 +819,6 @@
     display: none;
   }
 
-  .filter {
-    display: none;
-  }
-
-  .filterOpen {
-    left: 0;
-  }
-
-  .filterMask {
-    display: none;
-  }
-
-  .filterClose {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: flex-end;
-    width: 100%;
-    margin-bottom: 15px;
-  }
-
-  .filterTotal {
-    display: none;
-  }
-
-  .filterForm {
-    min-height: calc(100vh - 165px);
-    max-height: calc(100vh - 165px);
-    overflow: hidden;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--background-tertiary-color) #cccccc;
-  }
-
-  .filterForm::-webkit-scrollbar {
-    width: 3px;
-  }
-
   .listShowcase {
     flex: 0 0 100%;
     width: 100%;
@@ -602,21 +826,12 @@
     padding: 0;
   }
 
-  .listOrder {
-    justify-content: space-between;
-    margin: 0;
-  }
-
-  .listCompare {
-    width: 54%;
-    max-width: 54%;
-  }
-
+  /* Igual ao .filterTotalMobile da origem: ocupa a linha inteira e centraliza,
+     em vez de dividir espaço com o select (que no mobile some). */
   .listTotalMobile {
-    display: block;
-    width: 46%;
-    max-width: 46%;
-    text-align: right;
+    display: flex;
+    justify-content: center;
+    width: 100%;
   }
 
   .listTotalMobile span {
@@ -635,64 +850,6 @@
     display: none;
   }
 
-  .listOrderMobile {
-    display: block;
-    position: fixed;
-    bottom: -100%;
-    left: 0;
-    width: 100%;
-    background: var(--color-white);
-    z-index: 1000;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    transition: bottom 0.3s;
-  }
-
-  .orderMobileOpen {
-    bottom: 0;
-  }
-
-  .orderWrapper {
-    padding: 1.5rem;
-  }
-
-  .orderTitle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--text-primary-color);
-    margin-bottom: 30px;
-  }
-
-  .orderClose {
-    cursor: pointer;
-  }
-
-  .orderInner span {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    color: var(--text-primary-color);
-    font-size: 14px;
-    font-weight: 400;
-    width: 100%;
-    border: 1px solid #E6E6E6;
-    padding: 0 15px;
-    height: 56px;
-    margin-bottom: 15px;
-  }
-
-  .orderInner span.active {
-    border: 1px solid var(--color-black);
-  }
-
-  .orderInner span:last-of-type {
-    margin-bottom: 0;
-  }
-
   .paginateLinks .pageLink {
     margin: 0 2px;
     width: 35px;
@@ -707,14 +864,14 @@
   .paginateLinks .pageLink:hover {
     background-color: transparent;
     border: none;
-    color: var(--color-black);
+    color: var(--text-primary-color);
   }
 
   .paginateLinks .pageLink:hover a,
   .paginateLinks .pageLink:hover span {
     background-color: transparent;
-    border: 1px solid #DFDFE0;
-    color: var(--color-black);
+    border: 1px solid var(--cm1-border);
+    color: var(--text-primary-color);
   }
 }
 
@@ -727,9 +884,9 @@
     width: 50%;
     max-width: 50%;
     padding: 0 4px;
-      gap: 8px;
-  display: flex;
-  flex-direction: column;
+    gap: 8px;
+    display: flex;
+    flex-direction: column;
   }
 
   .listSpot:nth-of-type(n + 3) {

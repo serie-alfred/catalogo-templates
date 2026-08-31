@@ -865,9 +865,15 @@
   padding-bottom: 1.5rem;
 }
 
-/* Botão "Entrar" (pílula escura).
-   O .starter fixa #000/#fff com !important; aqui a cadeia é temável, senão a
-   pílula some num tema de fundo escuro. */
+/* Botão "Entrar" (pílula).
+
+   Alinhado à régua de .mobileLinks a — mesmo gap, mesmo tamanho de ícone e
+   mesma fonte — para não destoar da lista logo abaixo.
+
+   As cores caem no OPOSTO do drawer: o fundo do drawer usa --header-bg, então
+   a pílula usa --header-text e o texto dela volta para --header-bg. Antes o
+   fundo caía em --background-primary-color, exatamente a mesma var em que o
+   drawer cai — pílula preta sobre drawer preto, invisível. */
 .mobileFooter .mobileLoginBtn {
   display: inline-flex;
   align-items: center;
@@ -876,21 +882,21 @@
   border: 0;
   padding: 0.375rem 1rem;
   min-height: 2.25rem;
-  font-family: var(--header-font, var(--font-primary, 'Inter', sans-serif));
+  font-family: var(--header-topbar-font, var(--font-secundary, 'Jost', sans-serif));
   font-size: 14px;
   font-weight: 500;
-  background-color: var(--header-login-bg, var(--background-primary-color, #000000));
-  color: var(--header-login-text, var(--text-color-secundary, #ffffff));
+  background-color: var(--header-login-bg, var(--header-text, var(--text-color-base, #212721)));
+  color: var(--header-login-text, var(--header-bg, var(--background-primary-color, #ffffff)));
 }
 
-/* Ícone da conta no ::before (14×14) + mask → herda a cor do texto do botão,
-   então sai na cor certa sobre a pílula sem sobrescrever stroke de SVG. */
+/* Ícone da conta no ::before (24×24) + mask → herda a cor do texto do botão,
+   então acompanha a cor da pílula sem sobrescrever stroke de SVG. */
 .mobileFooter .mobileLoginBtn::before {
   content: '';
   display: block;
   flex: none;
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   background-color: currentColor;
   -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%2012.5C12.7614%2012.5%2015%2010.2614%2015%207.5%2015%204.73858%2012.7614%202.5%2010%202.5%207.23858%202.5%205%204.73858%205%207.5%205%2010.2614%207.23858%2012.5%2010%2012.5z%22%2F%3E%3Cpath%20d%3D%22M2.5%2016.875C4.01328%2014.2602%206.76172%2012.5%2010%2012.5%2013.2383%2012.5%2015.9867%2014.2602%2017.5%2016.875%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
   mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M10%2012.5C12.7614%2012.5%2015%2010.2614%2015%207.5%2015%204.73858%2012.7614%202.5%2010%202.5%207.23858%202.5%205%204.73858%205%207.5%205%2010.2614%207.23858%2012.5%2010%2012.5z%22%2F%3E%3Cpath%20d%3D%22M2.5%2016.875C4.01328%2014.2602%206.76172%2012.5%2010%2012.5%2013.2383%2012.5%2015.9867%2014.2602%2017.5%2016.875%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;

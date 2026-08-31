@@ -12,9 +12,16 @@
     var(--header-text, var(--text-color-base, #1a1f2b)) 15%,
     transparent
   );
-  /* Texto da barra de serviço (topbar): variável própria, independente do
-     fundo do header — o topbar tem seu próprio fundo (--header-service-bg). */
-  --h5-service-text: var(--header-service-text, #ffffff);
+  /* Texto da barra de serviço (topbar).
+
+     Tem var própria (--header-service-text) para o usuário definir a cor só
+     dela. Sem ela, cai no OPOSTO do fundo da barra: o fundo usa
+     --header-service-bg, que por sua vez cai em --header-text, então o par de
+     contraste natural é --header-bg.
+
+     Não pode ser branco fixo: com --header-text claro (header escuro), a barra
+     fica clara e o texto branco sumia. */
+  --h5-service-text: var(--header-service-text, var(--header-bg, var(--background-primary-color, #ffffff)));
   --h5-success-soft: var(--header-success-soft, #e7f4ec);
   --h5-danger: var(--header-danger, #d6432a);
   --h5-font-mono: var(
