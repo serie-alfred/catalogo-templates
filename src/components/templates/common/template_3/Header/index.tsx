@@ -307,8 +307,12 @@ const HeaderNovo = () => {
     </>
   );
 
-  // O marquee da topbar duplica os itens para o loop não ter emenda.
-  const marqueeItems = [...data.topbarItems, ...data.topbarItems];
+  // Marquee infinito: o track tem MARQUEE_GROUPS grupos idÃªnticos e a animaÃ§Ã£o
+  // avanÃ§a exatamente um grupo (translateX(-50%) com 2 grupos), entÃ£o a emenda Ã©
+  // invisÃ­vel. MARQUEE_REPEATS existe para um grupo sozinho ser mais largo que a
+  // tela â com pouco conteÃºdo, sobra Ã¡rea vazia no fim do ciclo e a faixa pisca.
+  const MARQUEE_GROUPS = 2;
+  const MARQUEE_REPEATS = 4;
 
   return (
     <div className={styles.header03Root}>
@@ -316,10 +320,21 @@ const HeaderNovo = () => {
         {/* ── TOPBAR ── */}
         <div className={styles.topbar} aria-label="Avisos da loja">
           <div className={styles.topbarTrack}>
-            {marqueeItems.map((item, i) => (
-              <span key={i} className={styles.topbarItem}>
-                {item}
-              </span>
+            {Array.from({ length: MARQUEE_GROUPS }).map((_, group) => (
+              <div key={group} className={styles.topbarGroup}>
+                {Array.from({ length: MARQUEE_REPEATS }).map((_, repeat) =>
+                  data.topbarItems.map((item, i) => (
+                    <span
+                      key={`${group}-${repeat}-${i}`}
+                      className={styles.topbarItem}
+                      // sÃ³ a 1Âª passada Ã© anunciada; o resto Ã© duplicata visual
+                      aria-hidden={group > 0 || repeat > 0 || undefined}
+                    >
+                      {item}
+                    </span>
+                  ))
+                )}
+              </div>
             ))}
           </div>
         </div>

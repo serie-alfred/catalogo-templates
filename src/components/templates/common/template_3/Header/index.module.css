@@ -27,14 +27,32 @@
   overflow: hidden;
 }
 
+/* Marquee infinito.
+   O track é composto por DOIS grupos idênticos e não tem `gap` próprio: assim
+   translateX(-50%) avança exatamente a largura de um grupo e a emenda cai no
+   mesmo ponto do início. O respiro entre o último item de um grupo e o primeiro
+   do seguinte vem do padding-right do próprio grupo, então fica igual aos
+   espaços internos.
+
+   Cada grupo repete a lista MARQUEE_REPEATS vezes (ver index.tsx) para um grupo
+   sozinho ser mais largo que a tela — sem isso sobra área vazia no fim do ciclo
+   e a faixa "pisca" ao reiniciar. */
 .topbarTrack {
   display: flex;
-  gap: 56px;
   padding: 10px 0;
   white-space: nowrap;
   will-change: transform;
-  animation: marquee 38s linear infinite;
+  /* 38s por repetição da lista × 4 repetições: mesma velocidade de antes. */
+  animation: marquee 152s linear infinite;
   width: max-content;
+}
+
+/* Período do marquee: a lista repetida + o respiro final que fecha a emenda. */
+.topbarGroup {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 56px;
+  padding-right: 56px;
 }
 
 .topbarItem {
@@ -157,7 +175,7 @@
   padding: 10px 12px;
   font-size: 13px;
   letter-spacing: 0.01em;
-  /* color: #000; */
+  color: var(--header-text, var(--text-color-base, #000000));
   border-radius: 999px;
   transition: color .2s var(--ease), background-color .2s var(--ease);
   position: relative;
@@ -173,9 +191,17 @@
   box-shadow: 0 0 0 2px var(--header-bg, var(--background-primary-color, #ffffff));
 }
 .actionIcon {
-  /* color: #000;  */
+  color: var(--header-text, var(--text-color-base, #000000));
   transition: color .2s var(--ease);
 }
+
+/* O stroke vem do currentColor: segue o --header-text e também o accent do
+   hover, em vez de ficar preso numa cor fixa. */
+.action svg,
+.action svg path {
+  stroke: currentColor;
+}
+
 .actionLabel {
   display: inline-block;
   font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
