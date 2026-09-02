@@ -164,6 +164,7 @@ export function useLayoutGenerator() {
   }, [])
 
   useEffect(() => {
+    if (!hydrated) return;
     try {
       localStorage.setItem(
         'colors',
@@ -184,6 +185,7 @@ export function useLayoutGenerator() {
       console.error('Erro ao salvar cores:', e);
     }
   }, [
+    hydrated,
     colorPrimary,
     colorSecondary,
     colorTertiary,
@@ -289,6 +291,7 @@ export function useLayoutGenerator() {
 
 
   useEffect(() => {
+    if (!hydrated) return;
     try {
       localStorage.setItem('fonts', JSON.stringify({
         fontPrimary,
@@ -298,7 +301,7 @@ export function useLayoutGenerator() {
     } catch (e) {
       console.error('Erro ao salvar fontes:', e);
     }
-  }, [fontPrimary, fontSecondary, fontTertiary]);
+  }, [hydrated, fontPrimary, fontSecondary, fontTertiary]);
 
   useEffect(() => {
     if (!hydrated) return;

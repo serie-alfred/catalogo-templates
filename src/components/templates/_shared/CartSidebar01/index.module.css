@@ -14,10 +14,19 @@
  *   --fs-text-size-0/1/2/3 ..................... 12 / 14 / 16 / 18px (20px >=1280)
  *
  * O painel é branco fixo porque no .starter ele é branco fixo
- * (`background-color: white !important`) — os cinzas abaixo estão sobre essa
- * superfície fixa, não sobre um fundo que o usuário troca, então não derivam do
- * texto do tema. Só os botões do rodapé usam os tokens do tema, exatamente como
- * no .starter.
+ * (`background-color: white !important`) — por isso o texto abaixo NÃO usa
+ * --text-primary-color diretamente: essa var segue a cor de marca do tema, e
+ * um azul saturado como texto de corpo sobre o painel branco fica estranho
+ * (era o que os botões .headerClose/.buttonShare:hover/.buttonContinue
+ * faziam antes desta variável existir).
+ *
+ * Todo o texto do minicart deriva de --cart-text (mesmo nome do CartSidebar06,
+ * exposta em variablesSchema nos headers 01/03/04/05), com o cinza-escuro
+ * original (#171a1c) como default — visualmente idêntico até o usuário decidir
+ * mudar. Os CTAs do rodapé (Finalizar/Continuar/carrinho vazio) continuam
+ * presos aos tokens de marca (--background-primary-color/--text-color-base):
+ * são botões, não corpo de texto — mesmo critério do --cat-main-text no
+ * CategoryMain01, que também deixou de fora o texto dos próprios botões.
  */
 
 .section {
@@ -43,7 +52,7 @@
   display: flex;
   flex-direction: column;
   background-color: #ffffff;
-  color: #171a1c;
+  color: var(--cart-text, var(--text-primary-color, #171a1c));
   font-family: var(--font-primary, -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif);
   font-size: 16px;
   line-height: 1.5;
@@ -102,7 +111,7 @@
   padding-inline: 6px;
   border-radius: 100px;
   background-color: #e3e6e8;
-  color: #171a1c;
+  color: var(--cart-text, var(--text-primary-color, #171a1c));
   font-size: 12px;
   font-weight: 700;
 }
@@ -113,7 +122,10 @@
   padding: 0;
   border: none;
   background: transparent;
-  color: var(--background-primary-color, #171a1c);
+  /* Ícone neutro do painel, não um acento de marca — era aqui que o "X"
+     virava azul quando o cliente escolhia um --background-primary-color
+     saturado. */
+  color: var(--cart-text, var(--text-primary-color, #171a1c));
   cursor: pointer;
 }
 .slideOverHeader .headerClose svg {
@@ -186,7 +198,7 @@
   font-size: 14px;
   font-weight: 600;
   line-height: 1.2;
-  color: #171a1c;
+  color: var(--cart-text, var(--text-primary-color, #171a1c));
   text-decoration: none;
 }
 
@@ -199,7 +211,7 @@
   margin: 0 6px 0 0;
   font-size: 12px;
   line-height: 16px;
-  color: #7a7a7a;
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #171a1c)) 55%, transparent);
 }
 .cartItemSkus span {
   font-weight: 700;
@@ -214,7 +226,9 @@
   min-width: unset;
   padding: 0;
   border: none;
-  background-color: #7a7a7a;
+  /* Cor pintada pelo mask-image (o SVG do data-URI só fornece a forma); segue
+     o mesmo cinza do resto do texto do minicart. */
+  background-color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #171a1c)) 55%, transparent);
   cursor: pointer;
   transition: background-color 0.2s ease;
   -webkit-mask-image: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.7915 8.05554V15.9259C14.7915 16.7952 14.0868 17.5 13.2174 17.5H6.92114C6.0518 17.5 5.34706 16.7952 5.34706 15.9259V8.05554" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.49515 8.84259V14.3518" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.6436 8.84259V14.3518" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M15.9722 5.69445H4.16661" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M13.2173 5.69446L12.7891 4.41001C12.5749 3.76694 11.9731 3.33318 11.2953 3.33334H8.84293C8.16455 3.3325 7.56193 3.76639 7.34756 4.41001L6.92099 5.69446" stroke="%237A7A7A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>');
@@ -257,9 +271,9 @@
   height: 1.75rem;
   min-width: 1.75rem;
   min-height: 1.75rem;
-  border: 1px solid #1c1c1c;
+  border: 1px solid var(--cart-text, var(--text-primary-color, #1c1c1c));
   border-radius: 100%;
-  background-color: #1c1c1c;
+  background-color: var(--cart-text, var(--text-primary-color, #1c1c1c));
   color: #ffffff;
   cursor: pointer;
   transition: 0.2s ease;
@@ -272,12 +286,12 @@
 }
 .quantitySelector .quantityButton:hover:not(:disabled) {
   background-color: #ffffff;
-  color: #1c1c1c;
+  color: var(--cart-text, var(--text-primary-color, #1c1c1c));
 }
 .quantitySelector .quantityButton:disabled {
   background-color: #e3e6e8;
   border-color: #e3e6e8;
-  color: #5d666f;
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1c1c1c)) 65%, transparent);
   cursor: default;
 }
 
@@ -288,7 +302,7 @@
   border: none;
   box-shadow: none;
   background-color: transparent;
-  color: #171a1c;
+  color: var(--cart-text, var(--text-primary-color, #171a1c));
   font-size: 16px;
   text-align: center;
 }
@@ -303,14 +317,14 @@
 
 .priceListing {
   font-size: 12px;
-  color: #7a7a7a;
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #171a1c)) 55%, transparent);
   text-decoration: line-through;
 }
 
 .priceSpot span {
   font-size: 1rem;
   font-weight: 600;
-  color: #1c1c1c;
+  color: var(--cart-text, var(--text-primary-color, #1c1c1c));
 }
 
 /* ── Rodapé: OrderSummary + botões ───────────────────────────────────────── */
@@ -339,7 +353,7 @@
   justify-content: space-between;
   line-height: 1.5;
   font-size: 12px;
-  color: #8f8f8f;
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #171a1c)) 48%, transparent);
   list-style: none;
 }
 .cartFooter .orderSummary > li[data-fs-order-summary-total] {
@@ -351,12 +365,12 @@
 .cartFooter .orderSummary > li[data-fs-order-summary-total] [data-fs-order-summary-total-label] {
   font-size: 14px;
   font-weight: 600;
-  color: #3c3c3c;
+  color: var(--cart-text, var(--text-primary-color, #3c3c3c));
 }
 .cartFooter .orderSummary > li[data-fs-order-summary-total] [data-fs-order-summary-total-value] {
   font-size: 18px;
   font-weight: 700;
-  color: #1c1c1c;
+  color: var(--cart-text, var(--text-primary-color, #1c1c1c));
 }
 
 .footerButtons {
@@ -385,7 +399,7 @@
   min-height: 32px;
   border-color: transparent;
   background-color: transparent;
-  color: #525252;
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #171a1c)) 75%, transparent);
   font-size: 0.875rem;
   font-weight: 500;
 }
@@ -394,18 +408,21 @@
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  background-color: #525252;
+  background-color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #171a1c)) 75%, transparent);
   transition: 0.2s ease;
   -webkit-mask-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 4.33337C14 5.43794 13.1046 6.33337 12 6.33337C10.8954 6.33337 10 5.43794 10 4.33337C10 3.22881 10.8954 2.33337 12 2.33337C13.1046 2.33337 14 3.22881 14 4.33337Z" stroke="%23525252" stroke-width="1.125"/><path d="M6 8C6 9.1046 5.10457 10 4 10C2.89543 10 2 9.1046 2 8C2 6.8954 2.89543 6 4 6C5.10457 6 6 6.8954 6 8Z" stroke="%23525252" stroke-width="1.125"/><path d="M14 11.6666C14 12.7712 13.1046 13.6666 12 13.6666C10.8954 13.6666 10 12.7712 10 11.6666C10 10.562 10.8954 9.66663 12 9.66663C13.1046 9.66663 14 10.562 14 11.6666Z" stroke="%23525252" stroke-width="1.125"/><path d="M5.81885 7.16651L10.1522 5.16687M5.81885 8.83351L10.1522 10.8332" stroke="%23525252" stroke-width="1.125"/></svg>');
   mask-image: url('data:image/svg+xml,<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 4.33337C14 5.43794 13.1046 6.33337 12 6.33337C10.8954 6.33337 10 5.43794 10 4.33337C10 3.22881 10.8954 2.33337 12 2.33337C13.1046 2.33337 14 3.22881 14 4.33337Z" stroke="%23525252" stroke-width="1.125"/><path d="M6 8C6 9.1046 5.10457 10 4 10C2.89543 10 2 9.1046 2 8C2 6.8954 2.89543 6 4 6C5.10457 6 6 6.8954 6 8Z" stroke="%23525252" stroke-width="1.125"/><path d="M14 11.6666C14 12.7712 13.1046 13.6666 12 13.6666C10.8954 13.6666 10 12.7712 10 11.6666C10 10.562 10.8954 9.66663 12 9.66663C13.1046 9.66663 14 10.562 14 11.6666Z" stroke="%23525252" stroke-width="1.125"/><path d="M5.81885 7.16651L10.1522 5.16687M5.81885 8.83351L10.1522 10.8332" stroke="%23525252" stroke-width="1.125"/></svg>');
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
 }
+/* Antes usava --background-primary-color (cor de marca) — no hover, um
+   "Compartilhar" cinza virava azul do nada. Agora só intensifica para o
+   próprio --cart-text. */
 .slideOver .buttonShare:hover {
-  color: var(--background-primary-color, #171a1c);
+  color: var(--cart-text, var(--text-primary-color, #171a1c));
 }
 .slideOver .buttonShare:hover::after {
-  background-color: var(--background-primary-color, #171a1c);
+  background-color: var(--cart-text, var(--text-primary-color, #171a1c));
 }
 
 .slideOver .buttonFinish {
@@ -418,8 +435,11 @@
 .slideOver .buttonContinue {
   height: 53px;
   background-color: #ffffff;
+  /* A borda continua no acento de marca (botão outline, par intencional).
+     O texto era --text-primary-color direto — mesmo bug do headerClose/
+     buttonShare: virava azul do cliente em vez de seguir o texto do minicart. */
   border: 1px solid var(--background-primary-color, #171a1c);
-  color: var(--text-primary-color, #1a1a1a);
+  color: var(--cart-text, var(--text-primary-color, #1a1a1a));
 }
 .slideOver .buttonContinue:hover {
   background-color: var(--background-primary-color, #171a1c);
@@ -448,7 +468,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 12px;
-  color: #5d666f;
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #171a1c)) 65%, transparent);
 }
 .emptyTitle p {
   margin: 0;

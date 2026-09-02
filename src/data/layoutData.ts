@@ -132,6 +132,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-text", label: "Texto/ícones do header", type: "color", default: "#122161", group: "Header", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-nav-bg", label: "Fundo da barra de menu", type: "color", default: "#122161", group: "Menu", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--header-nav-text", label: "Texto do menu principal", type: "color", default: "#ffffff", group: "Menu", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "02", selection: "header", key: "hdr02h8l2gty", image: "", mobile: "", title: "Header Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Header02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
@@ -141,6 +142,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-text", label: "Texto/ícones do header", type: "color", default: "#000000", group: "Header", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-accent", label: "Cor de destaque (hover, underline)", type: "color", default: "#e73888", group: "Header", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "04", selection: "header", key: "hdr04mnu7zk2", image: "", mobile: "", title: "Header Template 4", description: "Header escuro premium (MANU) com barra de avisos, navegação e tira de benefícios", template: "4", pagina: ["common"], component: "Header04", path: "organisms/Header04", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
@@ -152,6 +154,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-accent-text", label: "Texto sobre o destaque", type: "color", default: "#ffffff", group: "Destaque", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--header-strip-bg", label: "Fundo da faixa de benefícios", type: "color", default: "#f5f5f5", group: "Faixa de benefícios", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-strip-text", label: "Texto da faixa de benefícios", type: "color", default: "#6b6b6b", group: "Faixa de benefícios", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Inter', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--header-title-font", label: "Fonte do logo", type: "font", default: "Georgia, serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
@@ -162,6 +165,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-text", label: "Texto/ícones", type: "color", default: "#1a1f2b", group: "Header", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-accent", label: "Cor de destaque (ofertas, hover, foco)", type: "color", default: "#2f9e57", group: "Destaque", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--header-danger", label: "Cor de alerta/oferta", type: "color", default: "#d6432a", group: "Destaque" },
+        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Inter', 'Segoe UI', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--header-title-font", label: "Fonte do logo", type: "font", default: "'Inter', 'Segoe UI', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
@@ -176,6 +180,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-muted", label: "Texto das sugestões de busca", type: "color", default: "#727273", group: "Busca" },
         { cssVar: "--header-login-bg", label: "Fundo do botão Entrar (menu mobile)", type: "color", default: "#000000", group: "Menu mobile", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-login-text", label: "Texto do botão Entrar (menu mobile)", type: "color", default: "#ffffff", group: "Menu mobile", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#212721", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
     ],
@@ -384,6 +389,7 @@ export const LAYOUTS: Layouts = {
     name: "Grade de produtos",
     items: [
       { id: "01", selection: "category-main", key: "catmn01ll098", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryMain01", path: "organisms/MainCategory01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
+        { cssVar: "--cat-main-text", label: "Cor do texto", type: "color", default: "#141414", group: "Texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--cat-main-btn-bg", label: "Cor do botão de filtro", type: "color", default: "#122161", group: "Botões", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--cat-main-btn-text", label: "Texto do botão de filtro", type: "color", default: "#ffffff", group: "Botões", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--cat-main-accent", label: "Cor de destaque (paginação)", type: "color", default: "#682A77", group: "Destaque", inheritsLabel: "cor primária da marca" },

@@ -22,18 +22,25 @@
   width: 100%;
   padding-top: 2rem;
 
+  /* --cat-main-text: cor de texto do componente inteiro (sidebar, "Mostrando
+     X de Y", "Ordenar por:", modal de filtro, painel de ordenação, itens de
+     paginação…). Cai em --text-primary-color quando não definida. */
+
   /* Superfície dos painéis (modal de filtro, painel de ordenação, select).
 
      NÃO pode cair em --background-primary-color: essa var é a cor de fundo de
      marca (default #000 no useLayoutGenerator), não uma superfície — e o texto
-     dos painéis cai em --text-primary-color (default #1a1a1a). O par ficava
-     preto sobre preto. A origem crava `white` nesses painéis; aqui é o token
-     --color-white, o mesmo que o resto deste componente já usava.
+     dos painéis cai em --cat-main-text (default --text-primary-color, default
+     #1a1a1a). O par ficava preto sobre preto. A origem crava `white` nesses
+     painéis; aqui é o token --color-white, o mesmo que o resto deste
+     componente já usava.
 
      --cat-main-panel-bg e --cat-main-panel-text andam em par: quem escurecer o
-     painel precisa clarear o texto, senão o contraste se perde de novo. */
+     painel precisa clarear o texto, senão o contraste se perde de novo. Sem
+     --cat-main-panel-text definida, o texto do painel segue --cat-main-text
+     como o resto do componente. */
   --cm1-panel-bg: var(--cat-main-panel-bg, var(--color-white, #ffffff));
-  --cm1-text: var(--cat-main-panel-text, var(--text-primary-color, #141414));
+  --cm1-text: var(--cat-main-panel-text, var(--cat-main-text, var(--text-primary-color, #141414)));
   --cm1-muted: color-mix(in srgb, var(--cm1-text) 55%, transparent);
   --cm1-border: color-mix(in srgb, var(--cm1-text) 15%, transparent);
   --cm1-border-strong: color-mix(in srgb, var(--cm1-text) 35%, transparent);
@@ -175,7 +182,7 @@
 }
 
 .listFields strong {
-  color: var(--text-primary-color);
+  color: var(--cat-main-text, var(--text-primary-color, #141414));
   display: block;
   font-size: 16px;
   font-weight: 600;
@@ -322,12 +329,12 @@
   display: block;
   font-weight: 700;
   font-size: 20px;
-  color: var(--text-primary-color);
+  color: var(--cat-main-text, var(--text-primary-color, #141414));
   margin-bottom: 30px;
 }
 
 .filterTotal span {
-  color: var(--text-primary-color);
+  color: var(--cat-main-text, var(--text-primary-color, #141414));
   display: block;
   font-size: 14px;
   font-weight: 400;
@@ -350,7 +357,7 @@
 .filterTitleActive {
   align-items: center;
   border-bottom: 1px solid var(--cm1-border);
-  color: var(--text-primary-color);
+  color: var(--cat-main-text, var(--text-primary-color, #141414));
   display: flex;
   font-family: var(--cat-main-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 14px;
@@ -370,7 +377,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-primary-color);
+  color: var(--cat-main-text, var(--text-primary-color, #141414));
   transition: transform 0.3s ease;
 }
 
@@ -483,7 +490,7 @@
   line-height: 1;
   font-weight: 500;
   font-size: 14px;
-  color: var(--text-primary-color);
+  color: var(--cat-main-text, var(--text-primary-color, #141414));
 }
 
 .filterCount {
@@ -839,7 +846,7 @@
     line-height: 1;
     font-weight: 400;
     font-size: 14px;
-    color: var(--text-primary-color);
+    color: var(--cat-main-text, var(--text-primary-color, #141414));
   }
 
   .listTotalMobile b {
@@ -864,14 +871,14 @@
   .paginateLinks .pageLink:hover {
     background-color: transparent;
     border: none;
-    color: var(--text-primary-color);
+    color: var(--cat-main-text, var(--text-primary-color, #141414));
   }
 
   .paginateLinks .pageLink:hover a,
   .paginateLinks .pageLink:hover span {
     background-color: transparent;
     border: 1px solid var(--cm1-border);
-    color: var(--text-primary-color);
+    color: var(--cat-main-text, var(--text-primary-color, #141414));
   }
 }
 
