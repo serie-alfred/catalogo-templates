@@ -1,0 +1,34 @@
+/*
+ * Regras do DOCUMENTO do iframe mobile. Nada aqui pode vazar para o editor —
+ * é justamente por isso que este arquivo existe em vez de importarmos
+ * preview.css: o `color-scheme: light !important` e o `background: #fff
+ * !important` repintariam a chrome do gerador, que tem tema próprio.
+ */
+
+/* O globals.css usa overflow-x: hidden em html/body, o que QUEBRA position:
+   sticky (o header não fixa). overflow-x: clip corta o overflow horizontal sem
+   criar container de rolagem. Essencial aqui: dentro do iframe o body É o
+   scrollport do tema. */
+html,
+body {
+  overflow-x: clip;
+}
+
+/* O frame é um storefront: renderiza sempre claro, independente do tema
+   (dark/light) do sistema de quem está editando. */
+html {
+  color-scheme: light !important;
+}
+
+body {
+  margin: 0;
+  background: #ffffff !important;
+  color: #1a1a1a !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+}

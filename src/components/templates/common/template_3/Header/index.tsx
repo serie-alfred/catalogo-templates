@@ -16,8 +16,8 @@ import {
 // Comportamento espelhado do componente real: dropdown L2/L3 do menu desktop por
 // HOVER (é CSS puro no .starter), autocomplete ao focar o campo de busca, drawer
 // mobile com accordions de dois níveis e overlay de busca que desce do topo. No
-// card do gerador o template fica inerte (pointer-events: none em SortableItem)
-// — a interação acontece no link de preview /p/{id}.
+// canvas do gerador e no preview /p a interação é a mesma: o canvas ficou 100%
+// interativo quando o drag-and-drop saiu dele para o painel de seções.
 
 const data = {
   topbarItems: [

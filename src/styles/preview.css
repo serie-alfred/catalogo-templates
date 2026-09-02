@@ -28,23 +28,7 @@ body {
   }
 }
 
-/*
- * No preview, o .component__container do templates.css usa container-queries que
- * escalam até 1437/1920px — como o contexto aqui é o body inteiro, o conteúdo
- * estoura. Força um container fixo de storefront (1200px). Só o max-width leva
- * !important (para vencer as regras @container, que também usam !important);
- * padding/margin ficam com o componente — senão overrides legítimos (ex.: o
- * .submenu__container do Header com padding:0) seriam quebrados, deixando o
- * megamenu torto.
- */
-.component__container {
-  max-width: 1200px !important;
-}
-
-/* Header fixo ao rolar — SOMENTE no preview compartilhável (/p). O editor
-   (/gerador) usa outro renderer (SortableItem) e não carrega este arquivo. */
-.preview-sticky-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
+/* O `.preview-sticky-header` e a trava de `.component__container` moraram aqui
+   até o editor passar a renderizar o tema interativo: agora são compartilhados
+   por /p, /gerador e o iframe mobile, e vivem em styles/storefront.css. Este
+   arquivo guarda só o que é específico do DOCUMENTO do /p. */

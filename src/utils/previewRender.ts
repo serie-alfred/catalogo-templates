@@ -2,9 +2,10 @@ import type { LayoutKey } from '@/data/layoutData';
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 
 /**
- * Regras de renderização por página, compartilhadas entre o editor
- * (DraggablePreviewList) e o preview compartilhável (ThemeRenderer), para que
- * as duas visões nunca divirjam.
+ * Regras de renderização por página. Fonte de verdade única do que aparece em
+ * cada página e em que ordem — consumida pelo ThemeRenderer (que serve /p, o
+ * canvas do editor, o iframe mobile e o palco de export) e pelo SectionsPanel,
+ * para que as visões nunca divirjam.
  */
 
 /** Ordem de renderização: header no topo, breadcrumb, conteúdo, footer no fim. */

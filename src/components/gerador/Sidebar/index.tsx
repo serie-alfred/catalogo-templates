@@ -10,6 +10,7 @@ import SidebarHeader from './SidebarHeader';
 import SidebarTabGlobal from './SidebarTabGlobal';
 import SidebarTabAssets from './SidebarTabAssets';
 import SidebarTabEditTheme from './SidebarTabEditTheme';
+import SectionsPanel from '../SectionsPanel';
 
 export interface SidebarProps {
   selectedImages: LayoutSelection[];
@@ -29,7 +30,7 @@ export interface SidebarProps {
   isOpen: boolean;
 }
 
-type Tab = 'global' | 'build' | 'assets' | null;
+type Tab = 'global' | 'build' | 'assets' | 'sections' | null;
 
 export default function Sidebar({
   selectedImages,
@@ -76,6 +77,7 @@ export default function Sidebar({
 
           {activeTab === 'global' && <SidebarTabGlobal />}
           {activeTab === 'assets' && <SidebarTabAssets />}
+          {activeTab === 'sections' && <SectionsPanel />}
           {activeTab === 'build' && (
             <SidebarTabEditTheme
               selectedImages={selectedImages}

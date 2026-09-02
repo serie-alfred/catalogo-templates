@@ -1,0 +1,29 @@
+.host {
+  display: flex;
+  justify-content: center;
+}
+
+/*
+ * O atributo `hidden` sozinho NÃO basta: a regra do UA stylesheet
+ * (`[hidden] { display: none }`) perde para o `display: flex` de `.host`, que é
+ * estilo de autor. Sem esta regra o iframe mobile aparecia junto com o canvas
+ * desktop.
+ */
+.host[hidden] {
+  display: none;
+}
+
+/*
+ * Altura FIXA de propósito. A razão de existir do iframe é dar um viewport
+ * real de 375px onde `position: fixed` e `100dvh` resolvem contra o frame; um
+ * iframe de altura automática faria essas unidades resolverem contra a altura
+ * total do conteúdo — o bug original de volta, e mais difícil de diagnosticar.
+ */
+.frame {
+  display: block;
+  width: 375px;
+  height: 85dvh;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  background: #fff;
+}

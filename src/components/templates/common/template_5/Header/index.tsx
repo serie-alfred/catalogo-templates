@@ -11,8 +11,8 @@ import { buildSearchSuggestions } from '@/components/templates/_shared/searchSug
 // Reproduz o comportamento do componente real: mega-menu e menu simples abertos
 // por CLIQUE na categoria (é assim no .starter), search layer em camada com
 // autocomplete, drawer mobile com accordions e o mini-cart CartSidebar01.
-// No card do gerador o template fica inerte (pointer-events: none em
-// SortableItem) — a interação acontece no link de preview /p/{id}.
+// No canvas do gerador e no preview /p a interação é a mesma: o canvas ficou
+// 100% interativo quando o drag-and-drop saiu dele para o painel de seções.
 
 const data = {
   servicePromo: 'FRETE GRÁTIS ACIMA DE R$ 299',

@@ -13,8 +13,9 @@ import { buildSearchSuggestions } from '@/components/templates/_shared/searchSug
 // Reproduz o comportamento do componente real: pre-header rotativo, mega-menu
 // aberto por CLIQUE no item de nav (é assim no .starter), overlay de busca em
 // tela cheia com autocomplete, drawer mobile com accordions e o mini-cart
-// CartSidebar01. No card do gerador o template fica inerte (pointer-events:
-// none em SortableItem) — a interação acontece no link de preview /p/{id}.
+// CartSidebar01. No canvas do gerador e no preview /p a
+// interação é a mesma: o canvas ficou 100% interativo quando o drag-and-drop
+// saiu dele para o painel de seções.
 
 const data = {
   announcementMessages: [

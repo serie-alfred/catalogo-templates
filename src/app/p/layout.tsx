@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../styles/templates.css';
 import '../../styles/globals.css';
+import '../../styles/storefront.css';
 import '../../styles/preview.css';
 
 export const metadata = {

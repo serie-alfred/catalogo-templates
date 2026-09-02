@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import Sidebar from '@/components/gerador/Sidebar';
 import PreviewArea from '@/components/gerador/PreviewArea';
+import ExportStage from '@/components/gerador/ExportStage';
 import DesktopOnlyNotice from '@/components/gerador/DesktopOnlyNotice';
 
 import styles from './index.module.css';
@@ -21,14 +22,13 @@ export default function GeradorPage() {
     platform,
     showPlatformError,
     isMobileView,
-    desktopPreviewRef,
-    mobilePreviewRef,
     setFocusedKey,
     toggleMobileView,
     handlePlatformChange,
     toggleSelection,
     exportLayout,
-    setSelections,
+    selectedPage,
+    setSelectedPage,
     wakeCustomValue,
     setWakeCustomValue,
     showWakePopup,
@@ -36,7 +36,6 @@ export default function GeradorPage() {
     wakePopupRef,
   } = useLayout();
 
-  const [selectedPage, setSelectedPage] = useState<string>('home');
   const [isOpen, setIsOpen] = useState(false);
   const [prevCount, setPrevCount] = useState(selections.length);
   const bottomRef = useRef<HTMLDivElement | null>(null);
@@ -79,14 +78,8 @@ export default function GeradorPage() {
         isOpen={isOpen}
       />
 
-      <PreviewArea
-        selectedImages={selections}
-        setSelectedImages={setSelections}
-        isMobile={isMobileView}
-        desktopPreviewRef={desktopPreviewRef}
-        mobilePreviewRef={mobilePreviewRef}
-        selectedPage={selectedPage}
-      />
+      <PreviewArea />
+
       {isOpen && (
         <div
           ref={bottomRef}
@@ -109,6 +102,9 @@ export default function GeradorPage() {
       )}
 
       <ComponentVariablesPanel />
+
+      {/* Fora da <main>: o scrollport dela recortaria o palco off-screen. */}
+      <ExportStage />
     </div>
   );
 }

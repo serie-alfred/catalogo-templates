@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
+import { arrayMove } from '@dnd-kit/sortable';
 import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layoutData';
+import { belongsToPage } from '@/utils/previewRender';
 import { captureAndDownloadScreenshot } from '@/utils/screenshotExport';
 import { sendLayoutConfigEmail } from '@/services/emailService';
 import type { Platform } from '@/types/platform';
@@ -16,6 +18,20 @@ export interface LayoutSelection {
 }
 
 export const MAX_PER_PAGE = 101;
+
+/** Resolve quando toda <img> da subárvore terminou de carregar (ou falhou). */
+async function waitForImages(root: HTMLElement) {
+  await Promise.all(
+    Array.from(root.querySelectorAll('img')).map(img =>
+      img.complete
+        ? null
+        : new Promise<void>(resolve => {
+            img.addEventListener('load', () => resolve(), { once: true });
+            img.addEventListener('error', () => resolve(), { once: true });
+          })
+    )
+  );
+}
 
 /**
  * Retorna apenas as variáveis cujo valor difere do default do `variablesSchema`
@@ -61,8 +77,23 @@ export function useLayoutGenerator() {
   const [showPlatformError, setShowPlatformError] = useState<boolean>(false);
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
 
+  /** Página aberta no canvas: "home" | "category" | "product". Vive aqui (e
+   *  não na page) porque o canvas, o painel de seções, o iframe mobile e o
+   *  palco de export todos precisam dela. */
+  const [selectedPage, setSelectedPage] = useState<string>('home');
+
   /** uid do item cujo painel de variáveis está aberto (null = fechado). */
   const [editingUid, setEditingUid] = useState<string | null>(null);
+
+  /** Seção selecionada no canvas/painel. Transiente: não é persistida. */
+  const [selectedUid, setSelectedUid] = useState<string | null>(null);
+  /** Seção sob o cursor no canvas — usada só para destacar a linha do painel.
+   *  O contorno NO CANVAS é imperativo (atributo `data-hovered`, ver
+   *  useCanvasInteractions); este estado existe para o caminho inverso. */
+  const [hoveredUid, setHoveredUid] = useState<string | null>(null);
+
+  /** Root do canvas, para rolar/destacar seções imperativamente. */
+  const canvasRef = useRef<HTMLDivElement | null>(null);
 
   /** Define (imutavelmente) o valor de uma variável individual de um item. */
   const setItemVariable = (uid: string, cssVar: string, value: string) => {
@@ -80,6 +111,44 @@ export function useLayoutGenerator() {
     setSelections(prev =>
       prev.map(s => (s.uid === uid ? { ...s, variables: {} } : s))
     );
+  };
+
+  /**
+   * Reordena duas seções. O arrayMove roda sobre os índices do array COMPLETO
+   * `selections` (não do filtrado/ordenado por página) — é dele que a ordem de
+   * render deriva, via o `sort` estável de `selectionsForPage`.
+   */
+  const moveSection = (activeUid: string, overUid: string) => {
+    if (activeUid === overUid) return;
+    setSelections(prev => {
+      const oldIndex = prev.findIndex(item => item.uid === activeUid);
+      const newIndex = prev.findIndex(item => item.uid === overUid);
+      if (oldIndex === -1 || newIndex === -1) return prev;
+      return arrayMove(prev, oldIndex, newIndex);
+    });
+  };
+
+  /** Duplica uma seção, inserindo a cópia imediatamente abaixo do original. */
+  const duplicateSection = (uid: string) => {
+    setSelections(prev => {
+      const index = prev.findIndex(i => i.uid === uid);
+      if (index === -1) return prev;
+
+      const duplicated = { ...prev[index], uid: crypto.randomUUID() };
+
+      return [
+        ...prev.slice(0, index + 1),
+        duplicated,
+        ...prev.slice(index + 1),
+      ];
+    });
+  };
+
+  /** Remove uma seção. */
+  const removeSection = (uid: string) => {
+    setSelections(prev => prev.filter(item => item.uid !== uid));
+    setSelectedUid(prev => (prev === uid ? null : prev));
+    setEditingUid(prev => (prev === uid ? null : prev));
   };
 
   const [fontPrimary, setFontPrimary] = useState('Roboto');
@@ -343,6 +412,42 @@ export function useLayoutGenerator() {
   /** Refs para captura de tela */
   const desktopPreviewRef = useRef<HTMLDivElement | null>(null);
   const mobilePreviewRef = useRef<HTMLDivElement | null>(null);
+
+  /**
+   * O palco off-screen do export (ExportStage) só é montado durante a captura.
+   * Antes ele ficava montado o tempo todo, o que montava CADA template 3×
+   * (3× Swiper com observer/loop, 3× effects) competindo com o canvas.
+   */
+  const [isCapturing, setIsCapturing] = useState(false);
+  const captureResolveRef = useRef<(() => void) | null>(null);
+
+  /** Monta o palco off-screen e resolve quando o DOM já pintou. */
+  const mountExportStage = () =>
+    new Promise<void>(resolve => {
+      captureResolveRef.current = resolve;
+      setIsCapturing(true);
+    });
+
+  useEffect(() => {
+    if (!isCapturing) return;
+    const resolve = captureResolveRef.current;
+    captureResolveRef.current = null;
+    if (!resolve) return;
+    // Dois frames: o 1º garante que o layout foi calculado, o 2º que o paint
+    // aconteceu — é o que o html2canvas precisa. flushSync não serviria: ele
+    // garantiria só o commit do React, e é ilegal dentro de um handler async.
+    const id = requestAnimationFrame(() => requestAnimationFrame(resolve));
+    return () => cancelAnimationFrame(id);
+  }, [isCapturing]);
+
+  /** Limpa a seleção quando a seção não pertence mais à página aberta. */
+  useEffect(() => {
+    if (!selectedUid) return;
+    const current = selections.find(s => s.uid === selectedUid);
+    if (!current || !belongsToPage(current, selectedPage)) {
+      setSelectedUid(null);
+    }
+  }, [selectedUid, selectedPage, selections]);
 
   /** Alterna visualização entre desktop/mobile */
   const toggleMobileView = () => {
@@ -862,10 +967,26 @@ export function useLayoutGenerator() {
     }
     setShowPlatformError(false);
 
-    if (!desktopPreviewRef.current || !mobilePreviewRef.current) return;
+    // O palco só existe durante a captura; espera o paint antes de fotografar.
+    await mountExportStage();
+    try {
+      if (!desktopPreviewRef.current || !mobilePreviewRef.current) return;
 
-    await captureAndDownloadScreenshot(desktopPreviewRef.current, 'layout-desktop.png');
-    await captureAndDownloadScreenshot(mobilePreviewRef.current, 'layout-mobile.png');
+      // Sem estes awaits os PNGs sairiam com imagens em branco e texto na
+      // fonte fallback: montado sob demanda, o palco não teve o tempo que
+      // antes tinha (ficava montado desde o load da página). É uma regressão
+      // silenciosa — ninguém confere o PNG — então não remova.
+      await Promise.all([
+        waitForImages(desktopPreviewRef.current),
+        waitForImages(mobilePreviewRef.current),
+        document.fonts.ready,
+      ]);
+
+      await captureAndDownloadScreenshot(desktopPreviewRef.current, 'layout-desktop.png');
+      await captureAndDownloadScreenshot(mobilePreviewRef.current, 'layout-mobile.png');
+    } finally {
+      setIsCapturing(false);
+    }
 
     const configJson = buildConfigJson();
     if (configJson) {
@@ -999,6 +1120,17 @@ export function useLayoutGenerator() {
     setEditingUid,
     setItemVariable,
     resetItemVariables,
+    selectedPage,
+    setSelectedPage,
+    selectedUid,
+    setSelectedUid,
+    hoveredUid,
+    setHoveredUid,
+    canvasRef,
+    moveSection,
+    duplicateSection,
+    removeSection,
+    isCapturing,
     wakeCustomValue,
     setWakeCustomValue,
     showWakePopup,
