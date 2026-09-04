@@ -1,3 +1,9 @@
+// Ferramenta de DEV: lê ~/Downloads/log.txt e reidrata o tema no localStorage.
+// Vive dentro do route group (editor) porque toda página precisa de um root layout —
+// solta em gerador/ ela quebrava `next build` inteiro.
+// force-dynamic: lê o filesystem a cada request, então nunca pode ser pré-renderizada.
+export const dynamic = 'force-dynamic';
+
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
