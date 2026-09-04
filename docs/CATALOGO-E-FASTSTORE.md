@@ -81,7 +81,7 @@ Exemplo: o item `component: "Showcase01"` tem `path: "organisms/ProductShelfCust
 | `CategoryDescription01` | `category/.../CategoryDescription` | `organisms/DescriptionCategory01` | — |
 | `ProductDescription01` | `product/.../ProductDescription` | `molecules/ProductDescription01` | — |
 | `ProductInfo01` | `product/template_1/ProductInfo` | `molecules/ProductInfo01` (galeria: `molecules/ProductGallery01`) | **sim** (galeria) |
-| `ProductInfo03` | `product/template_3/ProductInfo` | `organisms/ProductDetails02` (galeria: `molecules/ProductGallery02`) | **sim** (galeria) |
+| `ProductInfo03` | `product/template_3/ProductInfo` | `organisms/ProductDetails02` (galeria embutida, não é componente à parte) | **sim** (galeria) |
 | `ProductRelated01` | `product/template_1/ProductRelated` | `organisms/ProductShowcase01` | **sim** |
 
 > Componentes de templates **sem** `'VTEX'` em `platforms` (ex.: `Ruler02`, `HomeCarousel06`,
