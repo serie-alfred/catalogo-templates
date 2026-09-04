@@ -17,9 +17,8 @@ const SECTION_SELECTOR = '[data-section-uid]';
  * Liga um container de tema renderizado ao editor: neutraliza a navegação e
  * delega hover/seleção de seção.
  *
- * Usado tanto pelo canvas desktop (ThemeCanvas, no documento do editor) como
- * pelo documento do iframe mobile (FrameClient) — daí receber o root por ref em
- * vez de assumir `document`.
+ * Roda dentro do documento do iframe do canvas (FrameClient) — daí receber o
+ * root por ref em vez de assumir `document`.
  *
  * Duas decisões que sustentam a interatividade dos templates:
  *
@@ -46,15 +45,53 @@ export function useCanvasInteractions(
     const root = rootRef.current;
     if (!root) return;
 
+    const doc = root.ownerDocument;
+
     /** Seção sob o cursor. Atributo DOM, não estado React: hover é alta
      *  frequência e um setState aqui re-renderizaria o editor a cada travessia. */
     let hovered: HTMLElement | null = null;
+
+    /**
+     * Rótulo com o nome da seção. Um único elemento `position: fixed`, filho do
+     * <body> — deliberadamente FORA da árvore do tema.
+     *
+     * Já foi um `::before` na própria seção, o que exigia `position: relative`
+     * no wrapper. Parecia inofensivo, mas dava containing block a
+     * pseudo-elementos absolutos órfãos dos templates (que no /p resolvem
+     * contra o containing block inicial e ficam fora de vista), fazendo
+     * aparecerem linhas e caixas que a loja publicada não tem. `fixed` não
+     * precisa de ancestral posicionado, então os wrappers seguem sendo divs nus.
+     */
+    const label = doc.createElement('div');
+    label.className = 'editor-section-label';
+    label.hidden = true;
+    doc.body.appendChild(label);
+
+    const positionLabel = () => {
+      if (!hovered) return;
+      const rect = hovered.getBoundingClientRect();
+      // Acima da borda superior da seção; por dentro quando não há espaço
+      // (primeira seção, ou seção que começa acima da área visível).
+      const above = rect.top >= 20;
+      label.style.left = `${rect.left}px`;
+      label.style.top = `${above ? rect.top - 19 : Math.max(rect.top, 0)}px`;
+      label.style.borderRadius = above ? '4px 4px 0 0' : '0 0 4px 0';
+    };
 
     const setHovered = (el: HTMLElement | null) => {
       if (el === hovered) return;
       hovered?.removeAttribute('data-hovered');
       el?.setAttribute('data-hovered', 'true');
       hovered = el;
+
+      if (el) {
+        label.textContent = el.getAttribute('data-section-label') ?? '';
+        label.hidden = false;
+        positionLabel();
+      } else {
+        label.hidden = true;
+      }
+
       handlersRef.current.onHover?.(
         el?.getAttribute('data-section-uid') ?? null
       );
@@ -109,6 +146,12 @@ export function useCanvasInteractions(
     root.addEventListener('submit', onSubmit, capture);
     root.addEventListener('dragstart', onDragStart, capture);
     root.ownerDocument.addEventListener('keydown', onKeyDown);
+    // O rótulo é `fixed`, então precisa acompanhar o scroll do documento do
+    // canvas. `passive` porque nunca chamamos preventDefault aqui.
+    doc.addEventListener('scroll', positionLabel, {
+      capture: true,
+      passive: true,
+    });
 
     return () => {
       root.removeEventListener('pointerover', onPointerOver, capture);
@@ -118,7 +161,9 @@ export function useCanvasInteractions(
       root.removeEventListener('submit', onSubmit, capture);
       root.removeEventListener('dragstart', onDragStart, capture);
       root.ownerDocument.removeEventListener('keydown', onKeyDown);
+      doc.removeEventListener('scroll', positionLabel, { capture: true });
       hovered?.removeAttribute('data-hovered');
+      label.remove();
     };
   }, [rootRef]);
 }

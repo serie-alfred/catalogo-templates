@@ -1,39 +1,15 @@
-/* Área de preview do editor. Só `.desktop`, `.mobile` e `.preview-area` são
- * consumidas por index.tsx — o resto do módulo (herdado de uma versão anterior
- * do gerador: .tabs, .option*, .layout-preview*, .section-preview*,
- * .remove-btn, .duplicate-btn) estava morto e foi removido. */
-
-.desktop {
-  display: flex;
-  flex-direction: column;
-}
-
-/* A moldura, o scroll e a altura do mobile vivem no <iframe> (MobileFrame):
-   aqui sobrou só o empilhamento. O antigo div de 400px com overflow: auto foi
-   removido porque os drawers `position: fixed` dos Headers escapavam dele. */
-.mobile {
-  display: flex;
-  flex-direction: column;
-}
-
+/* Contêiner do canvas. O scroll do tema acontece DENTRO do iframe
+ * (PreviewFrame), então aqui não há mais `overflow-y: auto` nem o `.desktop`/
+ * `.mobile` antigos — a largura da visão é decidida pelo próprio iframe.
+ *
+ * Este módulo tinha ~258 linhas herdadas de uma versão anterior do gerador
+ * (.tabs, .option*, .layout-preview*, .section-preview*, .remove-btn,
+ * .duplicate-btn); nada era usado e foi removido. */
 .preview-area {
   padding: 18px;
-  /* Scrollport a que o header `position: sticky` do tema adere. Não trocar por
-     `visible`: o sticky passaria a aderir ao body e o header sairia da tela. */
-  overflow-y: auto;
   background: #f3f4f6;
   width: 100%;
   flex: 1;
-  position: relative;
   /* Abre espaço para a dock inferior. */
   padding-bottom: 96px;
-}
-
-.preview-area::-webkit-scrollbar {
-  width: 8px;
-}
-
-.preview-area::-webkit-scrollbar-thumb {
-  background: #c7c7c7;
-  border-radius: 8px;
 }

@@ -99,8 +99,22 @@
   box-shadow: inset 0 0 0 1px #2563eb;
 }
 
-.row[data-dragging='true'] {
+/* Durante o arraste a linha ORIGINAL (dentro da lista) desbota, marcando o
+   buraco de onde o item saiu. Escopado em `.list` de propósito: o clone do
+   DragOverlay também recebe `data-dragging`, e ele precisa ficar opaco. */
+.list .row[data-dragging='true'] {
   opacity: 0.4;
+}
+
+/* O clone arrastado. Vive portalizado no body, como filho direto de um wrapper
+   `.panel` — daí o `>`. Fundo opaco e sombra para destacá-lo do que passa por
+   baixo. */
+.panel > .row[data-dragging='true'] {
+  background: #fff;
+  box-shadow:
+    0 8px 24px #00000026,
+    inset 0 0 0 1px #2563eb;
+  cursor: grabbing;
 }
 
 .panel .handle,
@@ -246,20 +260,33 @@
   background: #1e40af;
 }
 
-.panel .duplicateBtn svg,
-.panel .remoteBtn svg,
+/* Só o lápis precisa de redimensionamento: ele é 20×20 natural, contra 11×11
+   do duplicar e 11×12 do excluir (esticar esses dois deformaria o traço). */
 .panel .editBtn svg {
   width: 14px;
   height: 14px;
 }
 
-/* Os ícones do gerador são baseados em stroke (fill: none); força branco para
-   ficarem visíveis sobre os fundos coloridos. `inherit` resolveria para `none`
-   e o ícone sumiria. `gerador.css` também pinta `.sidebar button:hover svg path`
-   de azul, então o !important aqui é o que impede o ícone de desaparecer no
-   hover da linha. */
+/* Duplicar e excluir são ícones de FILL: o próprio path já vem `fill="white"`.
+   Aqui só neutralizamos o stroke — `gerador.css` pinta
+   `.sidebar button:hover svg path` de azul (0,2,3), que vence os seletores
+   deste módulo (0,2,2), e um stroke num ícone de fill contorna cada borda do
+   desenho, deixando-o grosseiramente bold. */
 .panel .duplicateBtn svg path,
-.panel .remoteBtn svg path,
+.panel .remoteBtn svg path {
+  stroke: none !important;
+}
+
+/* O lápis é o oposto: baseado em stroke, com `fill: none`. Sem forçar branco
+   ele fica no cinza #7A7A7A do SVG e desaparece no fundo azul — e `inherit`
+   resolveria para `none`, sumindo de vez. O !important vence a regra de hover
+   do gerador.css citada acima. */
 .panel .editBtn svg path {
   stroke: #ffffff !important;
+}
+
+
+/* Sem botões no clone: durante o arraste eles não são clicáveis e só poluem. */
+.panel > .row[data-dragging='true'] .actions {
+  opacity: 0;
 }

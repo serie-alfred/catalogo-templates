@@ -22,6 +22,7 @@ interface Content {
   pagina: string;
   logo: string;
   selectedUid: string | null;
+  isMobile: boolean;
 }
 
 /**
@@ -68,6 +69,7 @@ export default function FrameClient() {
             pagina: data.pagina,
             logo: data.logo,
             selectedUid: data.selectedUid,
+            isMobile: data.isMobile,
           });
           break;
         case 'highlight':
@@ -122,10 +124,27 @@ export default function FrameClient() {
       {/* O wrapper carrega as CSS vars: mudar uma cor re-renderiza só ele, e o
           ThemeRenderer (memo) faz bail-out da árvore de templates. */}
       <div ref={rootRef} className="editor-canvas" style={themeStyle}>
+        {/*
+          A `key` remonta a árvore ao trocar desktop↔mobile — e isso é
+          necessário, não cosmético.
+
+          O iframe muda de largura por CSS, sem recarregar o documento. Os
+          Swipers já inicializados guardam larguras de slide e um translate
+          calculados na largura ANTERIOR; o ResizeObserver deles corrige a
+          largura, mas não o translate, então um carrossel que não estivesse no
+          primeiro slide reaparecia deslocado, com slides cortados nas duas
+          bordas. Remontar faz cada Swiper inicializar já na largura certa.
+
+          O custo é perder estado transiente na troca (slide atual, drawer
+          aberto) — aceitável, e discutível se é sequer indesejado ao mudar de
+          viewport. O documento em si não recarrega: as fontes não são
+          refetchadas.
+        */}
         <ThemeRenderer
+          key={content.isMobile ? 'mobile' : 'desktop'}
           selections={content.selections}
           pagina={content.pagina}
-          isMobile
+          isMobile={content.isMobile}
           selectedUid={content.selectedUid}
         />
       </div>

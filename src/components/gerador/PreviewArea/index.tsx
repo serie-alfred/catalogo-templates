@@ -2,37 +2,27 @@
 
 import React from 'react';
 
-import { useLayout } from '@/context/LayoutContext';
-import ThemeCanvas from '../ThemeCanvas';
-import MobileFrame from '../MobileFrame';
+import PreviewFrame from '../PreviewFrame';
 
 import styles from './index.module.css';
 
 /**
- * Scrollport do editor. Guarda o canvas desktop (no documento) e o iframe da
- * visão mobile.
+ * Área do canvas. Hoje é só o contêiner do <iframe> que renderiza o tema
+ * (PreviewFrame) — as duas visões, desktop e mobile, são o mesmo iframe com
+ * larguras diferentes.
  *
- * O palco off-screen do export NÃO mora aqui: `.preview-area` é
- * `position: relative` + `overflow-y: auto`, então seria o containing block do
- * palco e o recortaria. Ele é irmão desta <main>, montado em page.tsx.
+ * Não é mais um scrollport: quem rola é o documento DENTRO do iframe, que é o
+ * que faz o header `position: sticky` e os drawers `position: fixed` se
+ * comportarem como na loja publicada.
  *
- * `.preview-area` mantém `overflow-y: auto` de propósito: é ele o scrollport a
- * que o header `position: sticky` do tema adere.
+ * O palco off-screen do export não mora aqui (é irmão desta <main>, em
+ * page.tsx): `position: relative` + `overflow` a tornariam containing block do
+ * palco e o recortariam.
  */
 export default function PreviewArea() {
-  const { isMobileView } = useLayout();
-
   return (
     <main className={styles['preview-area']}>
-      <div
-        className={
-          (isMobileView ? styles.mobile : styles.desktop) + ' preview__area'
-        }
-      >
-        {/* O iframe fica montado mesmo em desktop — ver MobileFrame. */}
-        <MobileFrame hidden={!isMobileView} />
-        {!isMobileView && <ThemeCanvas />}
-      </div>
+      <PreviewFrame />
     </main>
   );
 }

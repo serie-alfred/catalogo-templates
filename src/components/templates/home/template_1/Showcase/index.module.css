@@ -107,12 +107,18 @@
     padding: 0px 4px;
   }
 
+  /* Divergência deliberada do .starter (que usa `bottom: -12px`): lá as setas
+     ficam abaixo dos dots, porque lá a paginação está em `bottom: 8px` e aqui
+     em 20px. Alinhado pela matemática: a paginação ocupa 20..28px a partir da
+     base do wrapper, centro em 24px; a seta tem 30px de altura, então
+     `bottom: 9px` põe o centro dela nos mesmos 24px.
+     Se um dia a paginação voltar aos 8px do .starter, este valor volta a -3px. */
   .swiper__button__prev,
   .swiper__button__next {
     top: unset;
     transform: unset;
     left: -5px;
-    bottom: -12px;
+    bottom: 7px;
   }
 
   .swiper__button__next {

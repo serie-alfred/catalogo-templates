@@ -1,33 +1,31 @@
 /*
- * Contorno de hover/seleção das seções no canvas do /gerador. SÓ o editor
- * carrega este arquivo — em /p e no iframe as seções não têm chrome.
+ * Contorno de hover/seleção das seções no canvas do /gerador. SÓ o documento do
+ * canvas carrega este arquivo.
  *
- * A técnica é deliberada e frágil de trocar:
+ * REGRA DE OURO: nada aqui pode criar contexto de posicionamento, containing
+ * block ou clipping nos wrappers de seção. Eles têm que continuar sendo `div`s
+ * NUS, idênticos aos do /p — senão o editor deixa de mostrar o que a loja
+ * publicada mostra.
  *
- * - `outline` (não `border`) porque outline NÃO participa do layout: com
- *   `outline-offset: -2px` ele é desenhado por dentro da caixa e o template
- *   não desloca um pixel ao receber o hover. Um `border` empurraria o conteúdo.
+ * Já custou dois bugs:
+ *  - `overflow: hidden` (SortableItem antigo) recortava megamenu e drawer.
+ *  - `transform`/`will-change` (SortableItem antigo) viravam containing block
+ *    dos drawers `position: fixed` dos Headers.
+ *  - `position: relative` (primeira versão deste arquivo) parecia inofensivo,
+ *    mas dava containing block a pseudo-elementos ABSOLUTOS ÓRFÃOS dos
+ *    templates — que no /p resolvem contra o containing block inicial e ficam
+ *    fora de vista. O `.descriptionTitle::before` do ProductDescription01
+ *    (absolute, top:-40px, width:100%, num pai sem position) passou a desenhar
+ *    uma linha atravessando a tela inteira.
  *
- * - `position: relative` (não `transform`) porque relative NÃO cria containing
- *   block para descendentes `position: fixed` — só transform, filter,
- *   perspective, will-change, contain, backdrop-filter e container-type criam.
- *   Era exatamente isso que o CSS antigo do SortableItem fazia
- *   (`transform: translateY(-4px)` no :hover + `will-change: transform`), e é o
- *   que prendia os drawers e o mini-cart dos Headers à caixa da seção.
- *
- * - O `transform` do rótulo está no PSEUDO-ELEMENTO, nunca no wrapper.
- *
- * - Nada de `overflow: hidden` aqui: era ele que recortava megamenu, dropdown
- *   de autocomplete e drawer mobile.
+ * Por isso o contorno usa só `outline`, que não precisa de posicionamento nem
+ * participa do layout, e o rótulo é um elemento `position: fixed` único,
+ * mantido fora da árvore do tema (ver useCanvasInteractions).
  */
 
-.editor-canvas [data-section-uid] {
-  position: relative;
-  /* Compensa o header sticky ao rolar até uma seção pelo painel, senão o topo
-     da seção fica escondido atrás dele. */
-  scroll-margin-top: 96px;
-}
-
+/* `outline` não participa do layout: com `outline-offset: -2px` é desenhado por
+   dentro da caixa e o template não desloca um pixel ao receber o hover. Um
+   `border` empurraria o conteúdo. */
 .editor-canvas [data-section-uid][data-hovered='true'],
 .editor-canvas [data-section-uid][data-selected='true'] {
   outline: 2px solid #2563eb;
@@ -38,13 +36,18 @@
   outline-color: #1d4ed8;
 }
 
-/* Rótulo com o nome da seção, colado na borda superior. */
-.editor-canvas [data-section-uid][data-hovered='true']::before {
-  content: attr(data-section-label);
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translateY(-100%);
+/* Compensa o header sticky ao rolar até uma seção pelo painel, senão o topo da
+   seção fica escondido atrás dele. `scroll-margin` não afeta posicionamento. */
+.editor-canvas [data-section-uid] {
+  scroll-margin-top: 96px;
+}
+
+/* Rótulo com o nome da seção sob o cursor. `position: fixed` de propósito: não
+   exige ancestral posicionado, então nada precisa mudar nos wrappers. Vive como
+   filho do <body> do canvas, fora da árvore do tema. */
+.editor-section-label {
+  position: fixed;
+  z-index: 2147483000;
   padding: 0 6px;
   background: #2563eb;
   color: #fff;
@@ -52,18 +55,4 @@
   border-radius: 4px 4px 0 0;
   white-space: nowrap;
   pointer-events: none;
-  z-index: 2147483000;
-}
-
-/* A primeira seção não tem espaço acima: rótulo por dentro. */
-.editor-canvas [data-section-uid]:first-child[data-hovered='true']::before {
-  transform: none;
-  border-radius: 0 0 4px 0;
-}
-
-/* O "Card de Produto" (spot) não ocupa 100% da largura; centraliza como o
-   antigo SortableItem fazia via display:flex no wrapper. */
-.editor-canvas [data-layout-key='spot'] {
-  display: flex;
-  justify-content: center;
 }

@@ -13,25 +13,31 @@ import {
 import styles from './index.module.css';
 
 /**
- * Visão mobile do editor: o tema renderizado dentro de um iframe de 375px.
+ * O canvas do editor: o tema renderizado dentro de um <iframe>, nas duas
+ * visões (desktop em largura total, mobile em 375px).
  *
- * Por que iframe e não um div de 375px: os drawers e o mini-cart mobile dos
- * Headers são `position: fixed`. Num div do documento do editor eles se
- * ancoram na JANELA e cobrem tudo, painel e dock incluídos. A saída óbvia
- * (`contain` no wrapper) é justamente o que os Headers documentam que quebra
- * `fixed`. Dentro do iframe o viewport é real e `fixed`/`100dvh` resolvem
- * contra os 375px.
+ * POR QUE IFRAME, E NÃO UM DIV NO DOCUMENTO DO EDITOR
  *
- * O iframe fica MONTADO mesmo escondido: remontar custaria o reload do
- * documento e o refetch das fontes a cada toggle desktop/mobile, e perderia o
- * estado dos Swipers e drawers.
+ * Os mini-carts, drawers e overlays de busca dos Headers são
+ * `position: fixed` COM alturas em `calc(100vh - N)`. Num div do documento do
+ * editor os dois se resolvem contra a janela do editor, então o mini-cart
+ * cobria a tela inteira — dock e painel de seções incluídos.
+ *
+ * Não dá para consertar isso de fora:
+ *  - `transform`/`contain` no wrapper corrige a ANCORAGEM (o wrapper passa a
+ *    ser containing block do `fixed`), mas `vh` continua resolvendo contra a
+ *    viewport. O resultado é um drawer com altura de janela ancorado no topo do
+ *    canvas — fora de vista quando a página está rolada. Pior que o bug.
+ *  - Mexer no CSS dos templates quebraria a paridade com o `faststore.starter`.
+ *
+ * Dentro do iframe a viewport É o site: `fixed` e `vh` passam a significar
+ * exatamente o que significam na loja publicada. É o que o Shopify faz.
+ *
+ * Bônus: as `@container` dos templates passam a resolver contra a largura real
+ * do frame, e trocar desktop↔mobile é só CSS no host — mesmo documento, sem
+ * reload, sem perder estado de Swiper/drawer.
  */
-interface MobileFrameProps {
-  /** Escondido (não desmontado) quando o editor está em desktop. */
-  hidden: boolean;
-}
-
-export default function MobileFrame({ hidden }: MobileFrameProps) {
+export default function PreviewFrame() {
   const {
     selections,
     selectedPage,
@@ -39,6 +45,8 @@ export default function MobileFrame({ hidden }: MobileFrameProps) {
     setSelectedUid,
     hoveredUid,
     setHoveredUid,
+    isMobileView,
+    scrollToSectionRef,
     logo,
     colorPrimary,
     colorSecondary,
@@ -70,16 +78,19 @@ export default function MobileFrame({ hidden }: MobileFrameProps) {
   }, []);
 
   /** Coalesce por frame: o color picker dispara a cada movimento do mouse. */
-  const postThemeCoalesced = useCallback((message: ToFrame) => {
-    pendingThemeRef.current = message;
-    if (rafRef.current != null) return;
-    rafRef.current = requestAnimationFrame(() => {
-      rafRef.current = null;
-      const pending = pendingThemeRef.current;
-      pendingThemeRef.current = null;
-      if (pending) post(pending);
-    });
-  }, [post]);
+  const postThemeCoalesced = useCallback(
+    (message: ToFrame) => {
+      pendingThemeRef.current = message;
+      if (rafRef.current != null) return;
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = null;
+        const pending = pendingThemeRef.current;
+        pendingThemeRef.current = null;
+        if (pending) post(pending);
+      });
+    },
+    [post]
+  );
 
   const themeMessage = useCallback(
     (): ToFrame => ({
@@ -124,8 +135,9 @@ export default function MobileFrame({ hidden }: MobileFrameProps) {
       pagina: selectedPage,
       logo,
       selectedUid,
+      isMobile: isMobileView,
     }),
-    [selections, selectedPage, logo, selectedUid]
+    [selections, selectedPage, logo, selectedUid, isMobileView]
   );
 
   // Handshake + eventos vindos do frame.
@@ -164,10 +176,20 @@ export default function MobileFrame({ hidden }: MobileFrameProps) {
     post(contentMessage());
   }, [post, contentMessage]);
 
-  // Hover vindo do painel → contorna a seção dentro do frame.
+  // Hover vindo do painel de seções → contorna a seção dentro do frame.
   useEffect(() => {
     post({ source: FRAME_PARENT, type: 'highlight', uid: hoveredUid });
   }, [post, hoveredUid]);
+
+  // Registra o canal de "rolar até a seção" que o SectionsPanel usa. Só o
+  // documento do iframe pode rolar até um elemento seu.
+  useEffect(() => {
+    scrollToSectionRef.current = (uid: string) =>
+      post({ source: FRAME_PARENT, type: 'scroll-to', uid });
+    return () => {
+      scrollToSectionRef.current = null;
+    };
+  }, [post, scrollToSectionRef]);
 
   useEffect(
     () => () => {
@@ -177,12 +199,12 @@ export default function MobileFrame({ hidden }: MobileFrameProps) {
   );
 
   return (
-    <div className={styles.host} hidden={hidden}>
+    <div className={styles.host}>
       <iframe
         ref={iframeRef}
         src="/gerador/frame-mobile"
-        title="Pré-visualização mobile"
-        className={styles.frame}
+        title="Pré-visualização do tema"
+        className={isMobileView ? styles.mobile : styles.desktop}
       />
     </div>
   );

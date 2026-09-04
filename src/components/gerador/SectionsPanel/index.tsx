@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   DndContext,
   DragEndEvent,
@@ -17,6 +18,10 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import {
+  restrictToVerticalAxis,
+  restrictToFirstScrollableAncestor,
+} from '@dnd-kit/modifiers';
 
 import { LAYOUTS } from '@/data/layoutData';
 import { useLayout } from '@/context/LayoutContext';
@@ -25,7 +30,6 @@ import {
   LOCKED_LAYOUT_KEYS,
   NON_DUPLICABLE_LAYOUT_KEYS,
 } from '@/utils/sectionRules';
-import { highlightSection, scrollToSection } from '@/hooks/useCanvasInteractions';
 
 import SectionRow, { SectionRowView, type SectionRowData } from './SectionRow';
 import styles from './index.module.css';
@@ -54,14 +58,31 @@ export default function SectionsPanel() {
     setSelectedUid,
     hoveredUid,
     setHoveredUid,
-    canvasRef,
+    scrollToSectionRef,
     moveSection,
     duplicateSection,
     removeSection,
     setEditingUid,
   } = useLayout();
 
-  const [activeUid, setActiveUid] = React.useState<string | null>(null);
+  const [activeUid, setActiveUid] = useState<string | null>(null);
+
+  /** O DragOverlay é portalizado para o body; só depois do mount há `document`. */
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  /**
+   * Ao sair da aba (ou fechar a dock) este componente desmonta e a seleção
+   * perde sentido — sem isso o contorno azul fica preso no canvas, sem nenhuma
+   * lista visível para explicar de onde veio ou como desfazê-lo.
+   */
+  useEffect(
+    () => () => {
+      setSelectedUid(null);
+      setHoveredUid(null);
+    },
+    [setSelectedUid, setHoveredUid]
+  );
 
   const sensors = useSensors(
     // Sem activationConstraint o dnd-kit ativa o drag no próprio pointerdown e
@@ -125,18 +146,19 @@ export default function SectionsPanel() {
   const handleSelect = useCallback(
     (uid: string) => {
       setSelectedUid(uid);
-      scrollToSection(canvasRef.current, uid);
+      // O canvas é um iframe: só o documento dele pode rolar até a seção.
+      scrollToSectionRef.current?.(uid);
     },
-    [setSelectedUid, canvasRef]
+    [setSelectedUid, scrollToSectionRef]
   );
 
+  // O contorno dentro do frame não é aplicado aqui: o PreviewFrame observa
+  // `hoveredUid` e manda o `highlight` por postMessage.
   const handleHover = useCallback(
     (uid: string, hovering: boolean) => {
-      const next = hovering ? uid : null;
-      setHoveredUid(next);
-      highlightSection(canvasRef.current, next);
+      setHoveredUid(hovering ? uid : null);
     },
-    [setHoveredUid, canvasRef]
+    [setHoveredUid]
   );
 
   const handleRemove = useCallback(
@@ -190,7 +212,14 @@ export default function SectionsPanel() {
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
+              // Lista vertical: travar o eixo X e o arraste ao scroller da
+              // lista deixa o gesto previsível e impede o clone de sair voando.
+              modifiers={[
+                restrictToVerticalAxis,
+                restrictToFirstScrollableAncestor,
+              ]}
               onDragStart={handleDragStart}
+              onDragCancel={() => setActiveUid(null)}
               onDragEnd={handleDragEnd}
             >
               <SortableContext
@@ -202,11 +231,33 @@ export default function SectionsPanel() {
                 ))}
               </SortableContext>
 
-              <DragOverlay>
-                {activeRow && (
-                  <SectionRowView data={activeRow} dragging selected />
+              {/*
+                O DragOverlay VAI PARA O BODY, obrigatoriamente.
+                Ele é `position: fixed` com coordenadas de viewport, e a
+                `.sidebar` que hospeda este painel tem `transform:
+                translateX(-50%)`. Um ancestral com transform vira containing
+                block de descendentes `fixed`, então o clone era reancorado na
+                caixa da sidebar e ainda levava o deslocamento de -50%: a sombra
+                aparecia longe do cursor. Pior, o dnd-kit usa o rect do overlay
+                na detecção de colisão, então o item também caía na posição
+                errada. Portalizar para fora do ancestral transformado corrige
+                os dois de uma vez.
+              */}
+              {mounted &&
+                createPortal(
+                  <DragOverlay>
+                    {activeRow && (
+                      // O escopo `.panel` viaja com o clone: fora dele os
+                      // seletores `.panel button` (o reset contra o
+                      // `.sidebar button` global) não alcançariam a linha e o
+                      // clone sairia com os botões sem estilo.
+                      <div className={styles.panel}>
+                        <SectionRowView data={activeRow} dragging />
+                      </div>
+                    )}
+                  </DragOverlay>,
+                  document.body
                 )}
-              </DragOverlay>
             </DndContext>
 
             {bottom.map(row => (

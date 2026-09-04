@@ -1,0 +1,35 @@
+.host {
+  display: flex;
+  justify-content: center;
+  /* Altura amarrada à janela do EDITOR, não ao conteúdo. É isso que faz o
+     `100vh` dos drawers dentro do frame significar "uma tela" de verdade.
+     Um iframe de altura automática faria `vh`/`fixed` resolverem contra a
+     altura total da página — o bug original de volta, disfarçado.
+     O desconto cobre o padding da .preview-area e a folga da dock. */
+  height: calc(100dvh - 132px);
+  min-height: 420px;
+}
+
+.desktop,
+.mobile {
+  display: block;
+  border: 1px solid #ccc;
+  background: #fff;
+}
+
+/* Largura total: as @container dos templates resolvem contra a largura real,
+   como na loja publicada. */
+.desktop {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+/* Viewport de celular de verdade. */
+.mobile {
+  width: 375px;
+  height: 100%;
+  max-height: 85dvh;
+  margin: 0 auto;
+  border-radius: 16px;
+}

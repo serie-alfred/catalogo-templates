@@ -46,6 +46,8 @@ export type ToFrame =
       pagina: string;
       logo: string;
       selectedUid: string | null;
+      /** Repassado aos templates. O frame serve as duas visões. */
+      isMobile: boolean;
     }
   | { source: typeof FRAME_PARENT; type: 'highlight'; uid: string | null }
   | { source: typeof FRAME_PARENT; type: 'scroll-to'; uid: string };

@@ -92,8 +92,16 @@ export function useLayoutGenerator() {
    *  useCanvasInteractions); este estado existe para o caminho inverso. */
   const [hoveredUid, setHoveredUid] = useState<string | null>(null);
 
-  /** Root do canvas, para rolar/destacar seções imperativamente. */
-  const canvasRef = useRef<HTMLDivElement | null>(null);
+  /**
+   * Canal imperativo para o iframe do canvas. O `PreviewFrame` registra aqui um
+   * dispatcher; o `SectionsPanel` o chama para rolar até uma seção.
+   *
+   * É um ref, e não estado, porque a mesma seção pode ser clicada duas vezes
+   * seguidas — um `setState` com o mesmo uid não dispararia efeito nenhum.
+   * (O hover não precisa disso: `hoveredUid` é estado e o PreviewFrame reage a
+   * ele com um `postMessage` de `highlight`.)
+   */
+  const scrollToSectionRef = useRef<((uid: string) => void) | null>(null);
 
   /** Define (imutavelmente) o valor de uma variável individual de um item. */
   const setItemVariable = (uid: string, cssVar: string, value: string) => {
@@ -1126,7 +1134,7 @@ export function useLayoutGenerator() {
     setSelectedUid,
     hoveredUid,
     setHoveredUid,
-    canvasRef,
+    scrollToSectionRef,
     moveSection,
     duplicateSection,
     removeSection,
