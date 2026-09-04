@@ -288,7 +288,7 @@ export const LAYOUTS: Layouts = {
     name: "Banner largura máxima",
     items: [
       { id: "01", selection: "banner-full", key: "banful01hwt4", image: "", mobile: "", title: "Banner largura máxima Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerFull01", path: "atoms/BannerFull01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
-      { id: "02", selection: "banner-full", key: "hdr01a2b3c4d", image: "", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerFull02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
+      { id: "02", selection: "banner-full", key: "bnfull02x7k9", image: "", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerFull02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
       { id: "04", selection: "category-banner", key: "BanFul02op74", image: "", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["category"], component: "BannerFullCategory02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
       //{ id: "03",selection: "banner-full", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Banner Moderno 03", description: "Banner com largura máxima", template: "3", pagina: ["home"], component: "BannerFull03", platforms: ['Tray'] },
       //{ id: "05",selection: "banner-full", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Banner Moderno 05", description: "Banner com largura máxima", template: "5", pagina: ["home"], component: "BannerFull05", platforms: ['Tray'] },
