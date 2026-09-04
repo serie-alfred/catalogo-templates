@@ -31,7 +31,8 @@ yarn lint
 yarn start    # produção
 ```
 
-Node 18+ (o projeto usa Next 15 / React 19). `yarn` é o gerenciador — existe um
+Node **24.20.0** — a LTS ativa (Krypton) —, fixado em `package.json` → `volta` e `engines`, com
+`.nvmrc` (`24`) para quem usa nvm. `yarn` é o gerenciador — existe um
 `package-lock.json` velho ao lado do `yarn.lock`; não rode `npm install`.
 
 O script `test` aponta para `jest`, mas **jest não está instalado e não há testes**.

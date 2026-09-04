@@ -19,7 +19,8 @@ jobs:
       - name: 🧶 Instala Yarn e dependências
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          # Lê a versão do .nvmrc para não divergir do que roda na máquina do time.
+          node-version-file: '.nvmrc'
           cache: 'yarn'
 
       - run: yarn install --frozen-lockfile
