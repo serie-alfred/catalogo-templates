@@ -1,0 +1,292 @@
+/* Conteúdo da aba "Seções da Página" da dock inferior. NÃO é um painel
+   flutuante: como coluna fixa à esquerda ele cobria a gaveta de escolha de
+   componentes, que é larga e cresce de baixo para cima. */
+.panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 560px;
+  min-height: 0;
+}
+
+/*
+ * RESET OBRIGATÓRIO. `gerador.css` estiliza `.sidebar button` (0,1,1) com
+ * min-width: 190px, height: 44px, padding: 0 32px e fundo azul — pensado para
+ * os botões de ação da sidebar. Como este painel vive DENTRO da `.sidebar`, e
+ * uma classe de CSS Module é só (0,1,0), aquela regra vencia e transformava
+ * cada linha da lista em dois blocos azuis gigantes.
+ *
+ * Todo seletor de botão daqui para baixo é prefixado com `.panel` para chegar
+ * a (0,2,0) — o mesmo truque que o próprio `gerador.css` usa em `.sidebar .icon`.
+ */
+.panel button {
+  width: auto;
+  min-width: 0;
+  height: auto;
+  min-height: 0;
+  padding: 0;
+  gap: 0;
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  letter-spacing: normal;
+  transition: none;
+}
+
+.panel button:hover {
+  background-color: transparent;
+  color: inherit;
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 0 12px;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.heading {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.count {
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+.list {
+  /* A dock cresce para cima e a página compensa com um spacer de 55vh; um teto
+     aqui evita que a lista empurre a gaveta além disso. */
+  max-height: 42vh;
+  overflow-y: auto;
+  padding: 8px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.empty {
+  margin: 12px 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #6b6b6b;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: #fff;
+  transition: background 0.15s;
+}
+
+.row[data-hovered='true'] {
+  background: #f5f7ff;
+}
+
+.row[data-selected='true'] {
+  background: #eef2ff;
+  box-shadow: inset 0 0 0 1px #2563eb;
+}
+
+/* Durante o arraste a linha ORIGINAL (dentro da lista) desbota, marcando o
+   buraco de onde o item saiu. Escopado em `.list` de propósito: o clone do
+   DragOverlay também recebe `data-dragging`, e ele precisa ficar opaco. */
+.list .row[data-dragging='true'] {
+  opacity: 0.4;
+}
+
+/* O clone arrastado. Vive portalizado no body, como filho direto de um wrapper
+   `.panel` — daí o `>`. Fundo opaco e sombra para destacá-lo do que passa por
+   baixo. */
+.panel > .row[data-dragging='true'] {
+  background: #fff;
+  box-shadow:
+    0 8px 24px #00000026,
+    inset 0 0 0 1px #2563eb;
+  cursor: grabbing;
+}
+
+.panel .handle,
+.panel .lock {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 24px;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #b4b4b4;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.panel .handle {
+  cursor: grab;
+  touch-action: none; /* o PointerSensor precisa do gesto, não do scroll */
+}
+
+.panel .handle:active {
+  cursor: grabbing;
+}
+
+.panel .lock {
+  font-size: 10px;
+  cursor: default;
+}
+
+/* Área clicável que seleciona a seção no canvas. */
+.panel .label {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1px;
+  padding: 0;
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.title {
+  display: block;
+  max-width: 100%;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  font-size: 11px;
+  color: #8a8a8a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  flex: 0 0 auto;
+  padding: 0 5px;
+  border-radius: 4px;
+  background: #eef2ff;
+  color: #2563eb;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Ações: só aparecem no hover/seleção da linha, para a lista não virar um
+   mural de ícones. */
+.actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.row[data-hovered='true'] .actions,
+.row[data-selected='true'] .actions,
+.row:hover .actions,
+.row:focus-within .actions {
+  opacity: 1;
+}
+
+/* Botões herdados do antigo overlay do canvas — mesmas cores, agora em linha
+   e sem position: absolute (era ele que cobria busca/conta/carrinho do header). */
+.panel .editBtn,
+.panel .duplicateBtn,
+.panel .remoteBtn {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.panel .duplicateBtn {
+  background: #2c7c1c;
+}
+
+.panel .duplicateBtn:hover {
+  background: #0d946e;
+}
+
+.panel .remoteBtn {
+  background: #bb4344;
+}
+
+.panel .remoteBtn:hover {
+  background: #b02a37;
+}
+
+.panel .editBtn {
+  background: #2563eb;
+}
+
+.panel .editBtn:hover {
+  background: #1e40af;
+}
+
+/* Só o lápis precisa de redimensionamento: ele é 20×20 natural, contra 11×11
+   do duplicar e 11×12 do excluir (esticar esses dois deformaria o traço). */
+.panel .editBtn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Duplicar e excluir são ícones de FILL: o próprio path já vem `fill="white"`.
+   Aqui só neutralizamos o stroke — `gerador.css` pinta
+   `.sidebar button:hover svg path` de azul (0,2,3), que vence os seletores
+   deste módulo (0,2,2), e um stroke num ícone de fill contorna cada borda do
+   desenho, deixando-o grosseiramente bold. */
+.panel .duplicateBtn svg path,
+.panel .remoteBtn svg path {
+  stroke: none !important;
+}
+
+/* O lápis é o oposto: baseado em stroke, com `fill: none`. Sem forçar branco
+   ele fica no cinza #7A7A7A do SVG e desaparece no fundo azul — e `inherit`
+   resolveria para `none`, sumindo de vez. O !important vence a regra de hover
+   do gerador.css citada acima. */
+.panel .editBtn svg path {
+  stroke: #ffffff !important;
+}
+
+
+/* Sem botões no clone: durante o arraste eles não são clicáveis e só poluem. */
+.panel > .row[data-dragging='true'] .actions {
+  opacity: 0;
+}

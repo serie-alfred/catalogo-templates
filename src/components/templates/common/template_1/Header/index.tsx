@@ -11,9 +11,9 @@ import {
 // Preview do Header01 â origem: faststore.starter/src/components/organisms/Header01
 // (+ molecules NavBarSearch01 e MiniCartController01 e o mini-cart CartSidebar01).
 // Submenu desktop por hover (CSS puro, como no .starter), autocomplete ao focar a
-// busca, menu mobile com accordions de tres niveis e mini-cart. No card do gerador
-// o template fica inerte (pointer-events: none em SortableItem) â a interacao
-// acontece no link de preview /p/{id}.
+// busca, menu mobile com accordions de tres niveis e mini-cart. No canvas do
+// gerador e no preview /p a interacao e a mesma: o canvas ficou 100% interativo
+// quando o drag-and-drop saiu dele para o painel de secoes.
 
 // Menu do drawer mobile: mesma arvore de 3 niveis do menu desktop.
 const MOBILE_MENU = [

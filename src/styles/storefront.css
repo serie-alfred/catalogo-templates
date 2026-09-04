@@ -1,0 +1,38 @@
+/*
+ * Regras compartilhadas pelos TRÊS lugares que renderizam o tema como
+ * storefront: /p (preview compartilhável), o canvas do /gerador e o iframe da
+ * visão mobile. Importado por:
+ *   - src/app/p/layout.tsx
+ *   - src/app/gerador/(editor)/layout.tsx
+ *   - src/app/gerador/(frame)/layout.tsx
+ *
+ * Só entra aqui o que precisa valer nos três. O que é específico do documento
+ * (color-scheme, background do body, overflow-x) fica em preview.css e em
+ * (frame)/frame.css — aplicar aquilo no editor repintaria a chrome do gerador.
+ */
+
+/* Header fixo ao rolar. O elemento sticky adere ao scrollport mais próximo: o
+   body em /p e no iframe, o .preview-area no canvas do editor. */
+.preview-sticky-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/*
+ * O .component__container do templates.css usa container-queries que escalam
+ * até 1437/1920px; sem uma trava o conteúdo estoura. Força um container de
+ * storefront (1200px).
+ *
+ * Escopado a .preview-template para nunca alcançar a chrome do editor (painel
+ * de seções, dock, drawer de variáveis) — o seletor só ocorre dentro de
+ * templates, então o comportamento em /p é preservado.
+ *
+ * Só o max-width leva !important (para vencer as regras @container, que também
+ * usam !important); padding/margin ficam com o componente — senão overrides
+ * legítimos (ex.: o .submenu__container do Header com padding:0) seriam
+ * quebrados, deixando o megamenu torto.
+ */
+.preview-template .component__container {
+  max-width: 1200px !important;
+}

@@ -5,7 +5,7 @@ import ResponsiveToggle from '../../ResponsiveToggle';
 import PreviewButton from '../../PreviewButton';
 import styles from './index.module.css';
 
-type Tab = 'global' | 'build' | 'assets';
+type Tab = 'global' | 'build' | 'assets' | 'sections';
 
 interface Props {
   toggleTab: (tab: Tab) => void;
@@ -31,6 +31,13 @@ export default function SidebarIcons({
         className={`icon ${activeTab == 'build' ? 'active' : ''}`}
       >
         {iconsGenerator.editTheme}
+      </button>
+      <button
+        title="Seções da Página"
+        onClick={() => toggleTab('sections')}
+        className={`icon ${activeTab == 'sections' ? 'active' : ''}`}
+      >
+        {iconsGenerator.sectionsTheme}
       </button>
       <button
         title="Variáveis Globais"

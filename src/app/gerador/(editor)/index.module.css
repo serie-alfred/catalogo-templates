@@ -1,0 +1,14 @@
+/* Layout principal do editor.
+ *
+ * Este módulo tinha ~280 linhas herdadas de uma versão anterior do gerador
+ * (.tabs, .option*, .layout-preview*, .section-preview*, .remove-btn,
+ * .duplicate-btn, .carousel, .preview-area, .preview-actions...). Nenhuma era
+ * usada: page.tsx só consome `.main`, e um CSS module só alcança quem o
+ * importa — as duplicatas vivas estão em PreviewArea/index.module.css e
+ * ResponsiveToggle/index.module.css. */
+.main {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-family);
+  padding-bottom: 60px;
+}

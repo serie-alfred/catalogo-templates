@@ -182,9 +182,13 @@
 }
 
 /* Reset da "chrome" do editor. Exclui:
-   - .preview-template * → os componentes de template renderizados;
-   - .preview-ui *       → os próprios botões de ação do editor (editar/duplicar/
-     remover em DraggablePreviewList), que têm estilo próprio. */
+   - .preview-template * -> os componentes de template renderizados. NUNCA
+     remova esta excecao: e ela que impede o reset de zerar borda/fundo dos
+     templates, agora que eles sao renderizados interativos no canvas;
+   - .preview-ui *       -> chrome do editor com estilo proprio. Os botoes de
+     editar/duplicar/remover sairam do canvas para o SectionsPanel (que e
+     position: fixed, fora de .preview__area), entao hoje esta clausula e
+     apenas defensiva. */
 .preview__area input:not(.preview-template *):not(.preview-ui *),
 .preview__area button:not(.preview-template *):not(.preview-ui *),
 .preview__area ul:not(.preview-template *):not(.preview-ui *),

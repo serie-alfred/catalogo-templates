@@ -29,8 +29,8 @@ import {
 //  - Os SVGs do .starter têm stroke="#212721" fixo; aqui é currentColor.
 //  - Logo dinâmico via useLayout() com fallback "SERIE//A".
 //
-// No card do gerador o template fica inerte (pointer-events: none em
-// SortableItem) — a interação acontece no link de preview /p/{id}.
+// No canvas do gerador e no preview /p a interação é a mesma: o canvas ficou
+// 100% interativo quando o drag-and-drop saiu dele para o painel de seções.
 
 interface TopbarMessage {
   text: React.ReactNode;

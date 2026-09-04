@@ -1,0 +1,58 @@
+/*
+ * Contorno de hover/seleção das seções no canvas do /gerador. SÓ o documento do
+ * canvas carrega este arquivo.
+ *
+ * REGRA DE OURO: nada aqui pode criar contexto de posicionamento, containing
+ * block ou clipping nos wrappers de seção. Eles têm que continuar sendo `div`s
+ * NUS, idênticos aos do /p — senão o editor deixa de mostrar o que a loja
+ * publicada mostra.
+ *
+ * Já custou dois bugs:
+ *  - `overflow: hidden` (SortableItem antigo) recortava megamenu e drawer.
+ *  - `transform`/`will-change` (SortableItem antigo) viravam containing block
+ *    dos drawers `position: fixed` dos Headers.
+ *  - `position: relative` (primeira versão deste arquivo) parecia inofensivo,
+ *    mas dava containing block a pseudo-elementos ABSOLUTOS ÓRFÃOS dos
+ *    templates — que no /p resolvem contra o containing block inicial e ficam
+ *    fora de vista. O `.descriptionTitle::before` do ProductDescription01
+ *    (absolute, top:-40px, width:100%, num pai sem position) passou a desenhar
+ *    uma linha atravessando a tela inteira.
+ *
+ * Por isso o contorno usa só `outline`, que não precisa de posicionamento nem
+ * participa do layout, e o rótulo é um elemento `position: fixed` único,
+ * mantido fora da árvore do tema (ver useCanvasInteractions).
+ */
+
+/* `outline` não participa do layout: com `outline-offset: -2px` é desenhado por
+   dentro da caixa e o template não desloca um pixel ao receber o hover. Um
+   `border` empurraria o conteúdo. */
+.editor-canvas [data-section-uid][data-hovered='true'],
+.editor-canvas [data-section-uid][data-selected='true'] {
+  outline: 2px solid #2563eb;
+  outline-offset: -2px;
+}
+
+.editor-canvas [data-section-uid][data-selected='true'] {
+  outline-color: #1d4ed8;
+}
+
+/* Compensa o header sticky ao rolar até uma seção pelo painel, senão o topo da
+   seção fica escondido atrás dele. `scroll-margin` não afeta posicionamento. */
+.editor-canvas [data-section-uid] {
+  scroll-margin-top: 96px;
+}
+
+/* Rótulo com o nome da seção sob o cursor. `position: fixed` de propósito: não
+   exige ancestral posicionado, então nada precisa mudar nos wrappers. Vive como
+   filho do <body> do canvas, fora da árvore do tema. */
+.editor-section-label {
+  position: fixed;
+  z-index: 2147483000;
+  padding: 0 6px;
+  background: #2563eb;
+  color: #fff;
+  font: 600 11px/1.7 system-ui, -apple-system, sans-serif;
+  border-radius: 4px 4px 0 0;
+  white-space: nowrap;
+  pointer-events: none;
+}

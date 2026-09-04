@@ -1,7 +1,9 @@
 import React from 'react';
-import '../../styles/gerador.css';
-import '../../styles/templates.css';
-import '../../styles/globals.css';
+import '../../../styles/gerador.css';
+import '../../../styles/templates.css';
+import '../../../styles/globals.css';
+import '../../../styles/storefront.css';
+import '../../../styles/editor-canvas.css';
 import { LayoutProvider } from '@/context/LayoutContext';
 
 export const metadata = {
