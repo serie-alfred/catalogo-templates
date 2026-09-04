@@ -23,10 +23,12 @@ yarn start     # next start (production)
 
 ### Required env vars
 
-`.env.example` only lists SMTP. The full set used at runtime:
+`.env.example` lists all of them. The full set used at runtime:
 
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `CONTACT_EMAIL` — used by [src/app/gerador/api/send-email/route.ts](src/app/gerador/api/send-email/route.ts) (Nodemailer; sends the exported layout JSON as an attachment).
 - `GOOGLE_FONTS_API_KEY` — used by [src/app/gerador/api/fonts/route.ts](src/app/gerador/api/fonts/route.ts) to proxy the Google Fonts list.
+- `KV_REST_API_URL`, `KV_REST_API_TOKEN` — Vercel KV, used by [src/lib/previewStore.ts](src/lib/previewStore.ts) for the shareable preview. Without `KV_REST_API_URL` the store falls back to `.preview-store/` on disk (dev only).
+- `CRON_SECRET` — optional; when set, [/api/keep-alive](src/app/api/keep-alive/route.ts) requires `Authorization: Bearer <CRON_SECRET>` from the Vercel cron.
 
 ## Architecture
 
@@ -55,12 +57,29 @@ A template is a React component plus a catalog entry. Two files always need to c
 2. **Registry** — import it in [src/utils/templateRegistry.ts](src/utils/templateRegistry.ts) and add it to the `TemplateRegistry` object. The string key must match the `component` field used in `LAYOUTS`. **If the registry entry is missing, `ThemeRenderer` silently falls back to a placeholder PNG from `/public/images/gerador/`.**
 3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`Tray | Wake`), and `component` (the `TemplateRegistry` key).
 
+> **Os dois lados saem de sincronia com facilidade, e em silêncio.** Hoje 23 componentes estão
+> importados no `templateRegistry.ts` sem nenhum `LayoutItem` ativo — invisíveis no gerador. Entre
+> eles o tema **07 inteiro** (`Header07`, `Footer07`, `Spot07`, `Showcase07`), que existe em
+> `src/components/templates/*/template_7/` e não é oferecido a ninguém. Vários outros estão em
+> `LayoutItem`s comentados no fim do `layoutData.ts` (código morto acessível).
+>
+> Para conferir os dois sentidos — lembrando que o arquivo tem um bloco `/* … */` grande no fim,
+> então um `grep` ingênuo conta itens inativos como ativos:
+>
+> ```bash
+> node -e "const s=require('fs').readFileSync('src/data/layoutData.ts','utf8').replace(/\/\*[\s\S]*?\*\//g,'').replace(/^\s*\/\/.*$/gm,'');
+> const act=new Set([...s.matchAll(/component:\s*['\"]([A-Za-z0-9]+)['\"]/g)].map(m=>m[1]));
+> const reg=new Set([...require('fs').readFileSync('src/utils/templateRegistry.ts','utf8').matchAll(/^import\s+([A-Z][A-Za-z0-9]+)/gm)].map(m=>m[1]));
+> console.log('no registry sem item ativo:',[...reg].filter(x=>!act.has(x)).sort().join(', '));
+> console.log('ativo sem registry (cai no placeholder):',[...act].filter(x=>!reg.has(x)).join(', ')||'nenhum')"
+> ```
+
 ### Per-component variables (`variablesSchema`)
 
-A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **Only `Header01` (id `"01"`) has one so far** — 9 vars: topbar/header/nav/submenu × bg+text, plus `--header-font`.
+A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **28 of the 44 active items declare one** — every VTEX-capable Header/Footer/Spot/Showcase plus Breadcrumb01, Categories01, BannerMain01, Ruler01, BannerGrid01, CategoryMain01, CategoryDescription01, ProductDescription01 and ProductInfo01/03. To list them: `grep -c "variablesSchema:" src/data/layoutData.ts`. `Header01` has 9 vars: topbar/header/nav/submenu × bg+text, plus `--header-font`.
 
 - `ComponentVariable = { cssVar, label, type: "color" | "font", default, group?, inheritsLabel? }`. `cssVar` is the literal CSS custom-property name written verbatim into `config.json` (e.g. `--header-topbar-bg`); `default` is the value the downstream SCSS uses as its `var()` fallback; `group` buckets fields in the panel; `inheritsLabel` is the friendly name of the global token shown while the field is still unset.
-- **UI:** the pencil/"Editar" button and the [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) right-side drawer appear only when `variablesSchema` is non-empty (colors → `ColorPicker`, fonts → `FontSelector`). Live preview applies `item.variables` as inline CSS vars on the wrapper in `DraggablePreviewList` (drawer has no dark overlay so the preview stays visible).
+- **UI:** the pencil/"Editar" button and the [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) right-side drawer appear only when `variablesSchema` is non-empty (colors → `ColorPicker`, fonts → `FontSelector`). Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx) (drawer has no dark overlay so the preview stays visible).
 - **State:** `LayoutSelection.variables?: Record<cssVar, value>` in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`, `editingUid`); persisted with `selections` under the `layoutSelections` localStorage key.
 - **Export:** `pickChangedVariables()` writes ONLY keys whose value differs from the schema `default` (omitted key ⇒ downstream SCSS uses its own `var()` fallback), as a `variables` object on the entry — in both `buildConfigJson` (Tray/Wake) and `buildFaststoreConfigJson` (VTEX).
 - Font values are stored as `'Family', sans-serif`; the panel parses the family out for `FontSelector` and re-wraps on change.

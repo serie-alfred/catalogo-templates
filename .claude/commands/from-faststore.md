@@ -79,7 +79,7 @@ Inverter o que o `/to-faststore` faz. Regras:
 
 - **Remover o dinâmico:** `import`s de `@faststore/core` / `@faststore/core/experimental`, hooks VTEX (`useSuggestions`, `useCartToggleButton`, `useLazyQuery`, `ProfileChallenge`, `useWishList`, …), queries GraphQL, `withMock`, e `import type` de typings VTEX. Remover `'use client'` se não sobrar hook React.
 - **Dados fixos e coerentes:** reaproveite o `mock.ts` da origem (inline como `const product = { … }`). Sem `mock.ts`, monte um objeto **realista para o contexto da página** (PDP → produto plausível: nome, SKU, preço/preço-de, avaliação, variações de cor/tamanho, specs, imagens `placehold.co` 4:5) cobrindo cada array/campo que sofre `.map()`/render (senão o preview fica vazio).
-- **Assinatura:** `const <Família> = () => { … }; export default <Família>;` (ou `function`), recebendo `{ isMobile }` quando há layout mobile que valha previsualizar (contrato do renderer — `src/components/gerador/SortableItem/index.tsx`). `useState` leve (cor/tamanho selecionados, accordion aberto) é OK p/ o preview parecer real — **sem** `'use client'` (o registry já roda no bundle client; os templates existentes usam `useState` sem a diretiva).
+- **Assinatura:** `const <Família> = () => { … }; export default <Família>;` (ou `function`), recebendo `{ isMobile }` quando há layout mobile que valha previsualizar (contrato do renderer — `src/components/preview/ThemeRenderer/index.tsx`). `useState` leve (cor/tamanho selecionados, accordion aberto) é OK p/ o preview parecer real — **sem** `'use client'` (o registry já roda no bundle client; os templates existentes usam `useState` sem a diretiva).
 - **Grafo completo de sub-componentes, inline, num arquivo só:** siga `manifest.json` → `dependencies.components` **recursivamente** (lidos no passo 0) e inline TODO o markup estático no mesmo `index.tsx`. **Não importe nem crie pastas por sub-componente.** Markup vindo de libs (`@faststore/ui`: `SkuSelector`, `QuantitySelector`, `Rating`, `Button`, `Swiper`…) deve ser **recriado como HTML semântico próprio** (ex.: pills de tamanho → `<ul><li><span>`; estrelas → 5 `<svg>`; galeria → coluna de `<img>` + dots), preservando as mesmas `var(--…)` p/ refletir os overrides. O que o original esconde (`display:none`, ex.: o QuantitySelector do `ProductBuy02`) pode ser omitido no preview.
 - **Estrutura de wrapper:** espelhe o template irmão do slot (ex.: `${styles.container} component__container` + `container-type: inline-size` na raiz p/ as media queries virarem `@container`).
 - **Estilos:** `import styles from './index.module.css'` e troque `className={style.x}` → `className={styles.x}`.
@@ -104,7 +104,13 @@ O catálogo usa **CSS plano** (CSS Modules `.css`, PostCSS), não SCSS. Inverter
 - **`@media` → `@container`:** extraia os aninhados para o topo (seletor completo desaninhado) e troque `@media (min/max-width: …)` por `@container (min/max-width: …)` — o preview roda num container com `container-type: inline-size` na raiz, então é a largura do componente (desktop/mobile do gerador) que importa, não a da viewport. Mantenha os mesmos breakpoints do original.
 - **Eliminar SCSS-only:** variáveis `$x`, `@mixin`/`@include`/`@extend`, e funções (`darken()`, `lighten()`, `color-mix()` se o alvo não suportar) → resolver para CSS plano ou hex equivalente. Se aparecer algo que não dá para resolver, avise.
 - **MANTER `var(--…)` verbatim** — é o que faz o preview refletir o tema e os overrides por instância.
-- **Vencer o reset global da preview:** `src/styles/templates.css` tem `.preview__area input, .preview__area button, .preview__area ul, .preview__area li { border:none; background:none; list-style:none; … }` (especificidade `(0,1,1)`). Todo `<button>`/`<li>`/`<ul>`/`<input>` do componente que **precise** de `background`/`border`/`list-style` próprios precisa ganhar especificidade — **prefixe a regra com a classe raiz do componente** (ex.: `.productDetails .addToCart`, `.productDetails .sizeOption` → `(0,2,0)`). **Sem `!important`** (convenção — ver `ProductInfo01`). Elementos que QUEREM o reset (setas, header de accordion, swatches que usam `outline`) ficam sem prefixo.
+- **Reset global da preview — hoje o componente vence sozinho.** `src/styles/templates.css` tem
+  dois resets, e nenhum atrapalha mais: o de `.preview__area` **exclui explicitamente**
+  `.preview-template *` (comentário no arquivo: "NUNCA remova esta excecao"), e o que atinge os
+  templates usa `:where(.preview-template) button/input` — especificidade **(0,0,1) de
+  propósito**, para que qualquer classe própria do componente vença sem esforço. **Não prefixe
+  seletores nem use `!important` por causa de reset**: escreva o CSS normalmente. (A orientação
+  anterior, de prefixar com a classe raiz para chegar a (0,2,0), era para a regra antiga.)
 - Referência de saída fiel: `src/components/templates/common/template_1/Header/index.module.css` e `product/template_3/ProductInfo/index.module.css` (componente grande, com o fix do reset).
 
 ## 5. Derivar o `variablesSchema` (núcleo)
@@ -150,7 +156,7 @@ Para cada match, monte um `ComponentVariable` (`{ cssVar, label, type, default, 
 
 ## 6. Registrar nos 3 lugares (ver `CLAUDE.md` → "Adding or editing a template")
 
-1. **`src/utils/templateRegistry.ts`** — `import <Componente> from '@/components/templates/<pagina>/template_N/<Família>';` (no bloco do template N; `<Componente>` = chave com número, ex.: `ProductInfo03`; `<Família>` = pasta do slot, ex.: `ProductInfo` — passo 2) e adicione `<Componente>` ao objeto `TemplateRegistry`. A string-chave **deve** bater com o campo `component` (senão `SortableItem` cai no PNG placeholder).
+1. **`src/utils/templateRegistry.ts`** — `import <Componente> from '@/components/templates/<pagina>/template_N/<Família>';` (no bloco do template N; `<Componente>` = chave com número, ex.: `ProductInfo03`; `<Família>` = pasta do slot, ex.: `ProductInfo` — passo 2) e adicione `<Componente>` ao objeto `TemplateRegistry`. A string-chave **deve** bater com o campo `component` (senão `ThemeRenderer` cai no PNG placeholder).
 2. **`src/data/layoutData.ts`** — `LayoutItem` na `LayoutSection` da seção mapeada:
    - `id`: o número livre do slot (`"03"`); `template`: o número (`"3"`); `selection`/`pagina`: do passo 2 (ambos do **passo 2**, não do sufixo FastStore).
    - `key`: **12 chars único** — gere e cheque colisão (`grep "key:" src/data/layoutData.ts`).

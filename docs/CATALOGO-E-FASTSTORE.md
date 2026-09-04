@@ -25,10 +25,15 @@ a plataforma de destino é o **FastStore**, cujos componentes vivem no projeto i
 `faststore.starter`.
 
 ```
-Documentos/Projetos/Produtos/
-├── catalogo-templates/     ← este projeto (mock/preview + JSON)
-└── faststore.starter/      ← componentes REAIS da VTEX FastStore (referência)
+e-temas/
+├── catalogo-templates/           ← este projeto (mock/preview + JSON)
+├── faststore.starter/            ← componentes REAIS da VTEX FastStore (referência)
+├── produtos-template-generator/  ← monta o tema a partir do config.json
+└── global-templates/             ← catálogo Tray/Wake (trilha legada)
 ```
+
+Os quatro são repositórios git independentes, lado a lado. O mapa completo está em
+[../../CLAUDE.md](../../CLAUDE.md).
 
 ## Como os componentes do catálogo são organizados
 
@@ -79,9 +84,13 @@ Exemplo: o item `component: "Showcase01"` tem `path: "organisms/ProductShelfCust
 | `ProductInfo03` | `product/template_3/ProductInfo` | `organisms/ProductDetails02` (galeria: `molecules/ProductGallery02`) | **sim** (galeria) |
 | `ProductRelated01` | `product/template_1/ProductRelated` | `organisms/ProductShowcase01` | **sim** |
 
-> Componentes de templates **sem** `'VTEX'` em `platforms` (ex.: `Showcase02/06/07`,
-> `Ruler02`, `HomeCarousel06`, `ProductInfo02`, `BannerTripleSwiper05`) **não têm**
-> referência no `faststore.starter` — são variantes exclusivas de Tray/Wake.
+> Componentes de templates **sem** `'VTEX'` em `platforms` (ex.: `Ruler02`, `HomeCarousel06`,
+> `ProductInfo02`, `BannerTripleSwiper05`) não têm `path`. Em geral são variantes exclusivas de
+> Tray/Wake — mas **"sem `path`" não significa "não existe no starter"**: `Showcase06/07`,
+> `Spot06/07`, `Header07`, `Footer07` e `BannerMain06` têm equivalente lá
+> (`ProductShelfCustom06/07`, `ProductCard06/07`, `Header07`, `Footer07`, `BannerMain06`) e só
+> não estão oferecidos no catálogo ainda. Antes de concluir que não há referência, procure pelo
+> nome técnico em `../faststore.starter/src/components/`.
 
 ## Regra de ouro para carrosséis (Swiper)
 
