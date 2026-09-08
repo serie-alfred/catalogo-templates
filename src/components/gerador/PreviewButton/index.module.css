@@ -1,3 +1,26 @@
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 10px 18px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--ed-blue-600);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ed-bg-00);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.trigger:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
 .overlay {
   position: fixed;
   inset: 0;

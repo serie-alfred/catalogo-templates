@@ -54,10 +54,13 @@
 
 .popup .closeButton{
   position: absolute;
+  display: flex;
   height: 16px;
   padding: 10px;
   min-height: 16px;
+  border: none;
   background: none;
+  cursor: pointer;
   right: 6px;
   top: 6px;
 }

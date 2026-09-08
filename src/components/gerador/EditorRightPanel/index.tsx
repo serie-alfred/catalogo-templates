@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useLayout } from '@/context/LayoutContext';
 import PreviewButton from '../PreviewButton';
@@ -18,6 +18,20 @@ import styles from './index.module.css';
  */
 export default function EditorRightPanel() {
   const { exportLayout } = useLayout();
+  const [exporting, setExporting] = useState(false);
+
+  /* O export monta o palco off-screen, espera as fontes e todas as imagens e
+     captura dois PNGs — são vários segundos. Sem sinal de ocupado o usuário
+     clica de novo achando que não funcionou. */
+  const handleExport = async (event: React.FormEvent) => {
+    if (exporting) return;
+    setExporting(true);
+    try {
+      await exportLayout(event);
+    } finally {
+      setExporting(false);
+    }
+  };
 
   return (
     <aside className={styles.panel} aria-label="Propriedades">
@@ -26,9 +40,10 @@ export default function EditorRightPanel() {
         <button
           type="button"
           className={styles.download}
-          onClick={exportLayout}
+          onClick={handleExport}
+          disabled={exporting}
         >
-          Baixar
+          {exporting ? 'Gerando…' : 'Baixar'}
           <ArrowDown width={20} height={20} />
         </button>
       </header>

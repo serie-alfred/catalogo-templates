@@ -22,7 +22,7 @@ export function WakePopup({
     <div className={styles.overlay}>
       <div ref={wakePopupRef} className={`${styles.popup} wake-popup`}>
         <button
-          className={`${styles.closeButton} icon`}
+          className={styles.closeButton}
           onClick={() => setShowWakePopup(false)}
         >
           {iconsGenerator.closeSide}

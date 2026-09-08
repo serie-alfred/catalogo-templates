@@ -2,13 +2,18 @@
 
 import React, { useState } from 'react';
 import { createPortal } from 'react-dom';
-import { Eye, X, Copy, Check, ExternalLink, Clock } from 'lucide-react';
+import { X, Copy, Check, ExternalLink, Clock } from 'lucide-react';
+import { EyeShow } from '@/assets/icons/editor';
 import { useLayout } from '@/context/LayoutContext';
 import styles from './index.module.css';
 
 /**
- * Botão "Preview" do sidebar: gera uma URL compartilhável do tema atual e a
- * exibe num modal com opção de copiar / abrir.
+ * "Pré-visualizar": grava o tema atual no servidor e devolve uma URL curta
+ * (/p/{id}), exibida num modal com copiar e abrir.
+ *
+ * Vive no cabeçalho do painel direito. A gravação passa pela rede, então o
+ * botão mostra que está ocupado — antes ele só ficava `disabled`, sem sinal
+ * nenhum.
  */
 export default function PreviewButton() {
   const { createPreview } = useLayout();
@@ -53,13 +58,13 @@ export default function PreviewButton() {
   return (
     <>
       <button
-        title="Gerar preview compartilhável"
-        className="icon"
+        className={styles.trigger}
         onClick={handleClick}
         type="button"
         disabled={loading}
       >
-        <Eye size={20} color="#7A7A7A" />
+        <EyeShow width={24} height={24} />
+        {loading ? 'Gerando…' : 'Pré-visualizar'}
       </button>
 
       {(url || error) &&
