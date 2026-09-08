@@ -72,5 +72,12 @@ export type FromFrame =
    * chegaria ao editor. O filho repassa só o gesto, sem saber o que ele faz.
    */
   | { source: typeof FRAME_CHILD; type: 'shortcut'; action: 'undo' | 'redo' }
+  /** Badges da seção selecionada no canvas. */
+  | {
+      source: typeof FRAME_CHILD;
+      type: 'section-action';
+      action: 'duplicate' | 'remove';
+      uid: string;
+    }
   | { source: typeof FRAME_CHILD; type: 'select'; uid: string }
   | { source: typeof FRAME_CHILD; type: 'hover'; uid: string | null };

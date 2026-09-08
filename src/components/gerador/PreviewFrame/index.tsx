@@ -63,6 +63,8 @@ export default function PreviewFrame() {
     fontTertiary,
     undo,
     redo,
+    duplicateSection,
+    removeSection,
   } = useLayout();
 
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
@@ -73,6 +75,10 @@ export default function PreviewFrame() {
   undoRef.current = undo;
   const redoRef = useRef(redo);
   redoRef.current = redo;
+  const duplicateRef = useRef(duplicateSection);
+  duplicateRef.current = duplicateSection;
+  const removeRef = useRef(removeSection);
+  removeRef.current = removeSection;
   /** Último payload de tema pendente, drenado 1× por frame. */
   const pendingThemeRef = useRef<ToFrame | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -180,6 +186,10 @@ export default function PreviewFrame() {
         case 'shortcut':
           if (data.action === 'undo') undoRef.current();
           else redoRef.current();
+          break;
+        case 'section-action':
+          if (data.action === 'duplicate') duplicateRef.current(data.uid);
+          else removeRef.current(data.uid);
           break;
       }
     };

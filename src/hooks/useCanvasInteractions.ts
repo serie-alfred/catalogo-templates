@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
+import { NON_DUPLICABLE_LAYOUT_KEYS } from '@/utils/sectionRules';
+
 interface CanvasInteractionOptions {
   /** Chamado ao clicar em qualquer ponto de uma seção. */
   onSelect?: (uid: string) => void;
@@ -9,6 +11,20 @@ interface CanvasInteractionOptions {
   onHover?: (uid: string | null) => void;
   /** Chamado no Escape. */
   onEscape?: () => void;
+  /** Badge verde da seção selecionada. */
+  onDuplicate?: (uid: string) => void;
+  /** Badge vermelho da seção selecionada. */
+  onRemove?: (uid: string) => void;
+  /**
+   * Só liga quando o canvas existe no DOM.
+   *
+   * Sem isto o efeito rodava uma única vez, no primeiro commit — quando o
+   * FrameClient ainda retorna `null` porque não recebeu `content`. `rootRef`
+   * era null, o efeito caía no early return e, como a única dependência é o
+   * objeto de ref (estável), nunca mais rodava: nem o rótulo de hover nem o
+   * clique-para-selecionar chegavam a ser ligados.
+   */
+  enabled?: boolean;
 }
 
 const SECTION_SELECTOR = '[data-section-uid]';
@@ -35,13 +51,27 @@ const SECTION_SELECTOR = '[data-section-uid]';
  */
 export function useCanvasInteractions(
   rootRef: React.RefObject<HTMLElement | null>,
-  { onSelect, onHover, onEscape }: CanvasInteractionOptions = {}
+  {
+    onSelect,
+    onHover,
+    onEscape,
+    onDuplicate,
+    onRemove,
+    enabled = true,
+  }: CanvasInteractionOptions = {}
 ) {
   // Handlers num ref: o efeito não deve re-assinar a cada render do pai.
-  const handlersRef = useRef({ onSelect, onHover, onEscape });
-  handlersRef.current = { onSelect, onHover, onEscape };
+  const handlersRef = useRef({
+    onSelect,
+    onHover,
+    onEscape,
+    onDuplicate,
+    onRemove,
+  });
+  handlersRef.current = { onSelect, onHover, onEscape, onDuplicate, onRemove };
 
   useEffect(() => {
+    if (!enabled) return;
     const root = rootRef.current;
     if (!root) return;
 
@@ -66,6 +96,75 @@ export function useCanvasInteractions(
     label.className = 'editor-section-label';
     label.hidden = true;
     doc.body.appendChild(label);
+
+    /**
+     * Ações da seção SELECIONADA: duplicar (verde) e remover (vermelho).
+     *
+     * Mesmo princípio do rótulo — um único elemento `position: fixed` filho do
+     * <body>, fora da árvore do tema. Nada é adicionado aos wrappers de seção.
+     */
+    const actions = doc.createElement('div');
+    actions.className = 'editor-section-actions';
+    actions.hidden = true;
+
+    const makeBadge = (kind: 'duplicate' | 'remove', title: string) => {
+      const button = doc.createElement('button');
+      button.type = 'button';
+      button.className = `editor-section-badge editor-section-badge--${kind}`;
+      button.title = title;
+      button.setAttribute('aria-label', title);
+      button.innerHTML =
+        kind === 'duplicate'
+          ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="8" width="13" height="13" rx="2"/><path d="M4 16V4a2 2 0 0 1 2-2h10"/></svg>'
+          : '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>';
+      button.addEventListener('click', event => {
+        event.preventDefault();
+        event.stopPropagation();
+        const uid = selected?.getAttribute('data-section-uid');
+        if (!uid) return;
+        if (kind === 'duplicate') handlersRef.current.onDuplicate?.(uid);
+        else handlersRef.current.onRemove?.(uid);
+      });
+      return button;
+    };
+
+    const duplicateBadge = makeBadge('duplicate', 'Duplicar seção');
+    const removeBadge = makeBadge('remove', 'Remover seção');
+    actions.append(duplicateBadge, removeBadge);
+    doc.body.appendChild(actions);
+
+    let selected: HTMLElement | null = null;
+
+    const positionActions = () => {
+      if (!selected) return;
+      const rect = selected.getBoundingClientRect();
+      actions.style.left = `${rect.right - 8}px`;
+      actions.style.top = `${Math.max(rect.top + 8, 8)}px`;
+    };
+
+    const syncActions = () => {
+      selected = root.querySelector<HTMLElement>('[data-selected="true"]');
+      if (!selected) {
+        actions.hidden = true;
+        return;
+      }
+      const layoutKey = selected.getAttribute('data-layout-key') ?? '';
+      // Espelha a regra da lista: singleton não duplica.
+      duplicateBadge.hidden = NON_DUPLICABLE_LAYOUT_KEYS.has(layoutKey);
+      actions.hidden = false;
+      positionActions();
+    };
+
+    // `data-selected` é escrito pelo React ao re-renderizar o ThemeRenderer,
+    // fora do alcance deste efeito — daí observar em vez de reagir a eventos.
+    const selectionObserver = new MutationObserver(syncActions);
+    selectionObserver.observe(root, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ['data-selected'],
+    });
+    syncActions();
 
     const positionLabel = () => {
       if (!hovered) return;
@@ -148,10 +247,15 @@ export function useCanvasInteractions(
     root.ownerDocument.addEventListener('keydown', onKeyDown);
     // O rótulo é `fixed`, então precisa acompanhar o scroll do documento do
     // canvas. `passive` porque nunca chamamos preventDefault aqui.
-    doc.addEventListener('scroll', positionLabel, {
+    const reposition = () => {
+      positionLabel();
+      positionActions();
+    };
+    doc.addEventListener('scroll', reposition, {
       capture: true,
       passive: true,
     });
+    doc.defaultView?.addEventListener('resize', reposition);
 
     return () => {
       root.removeEventListener('pointerover', onPointerOver, capture);
@@ -161,11 +265,14 @@ export function useCanvasInteractions(
       root.removeEventListener('submit', onSubmit, capture);
       root.removeEventListener('dragstart', onDragStart, capture);
       root.ownerDocument.removeEventListener('keydown', onKeyDown);
-      doc.removeEventListener('scroll', positionLabel, { capture: true });
+      doc.removeEventListener('scroll', reposition, { capture: true });
+      doc.defaultView?.removeEventListener('resize', reposition);
+      selectionObserver.disconnect();
       hovered?.removeAttribute('data-hovered');
       label.remove();
+      actions.remove();
     };
-  }, [rootRef]);
+  }, [rootRef, enabled]);
 }
 
 /** Destaca imperativamente uma seção do canvas (hover vindo do painel). */

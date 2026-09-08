@@ -49,8 +49,24 @@ export default function FrameClient() {
   postRef.current = post;
 
   useCanvasInteractions(rootRef, {
+    // O canvas só existe depois do primeiro `content`.
+    enabled: !!content,
     onSelect: uid => postRef.current({ source: FRAME_CHILD, type: 'select', uid }),
     onHover: uid => postRef.current({ source: FRAME_CHILD, type: 'hover', uid }),
+    onDuplicate: uid =>
+      postRef.current({
+        source: FRAME_CHILD,
+        type: 'section-action',
+        action: 'duplicate',
+        uid,
+      }),
+    onRemove: uid =>
+      postRef.current({
+        source: FRAME_CHILD,
+        type: 'section-action',
+        action: 'remove',
+        uid,
+      }),
   });
 
   useEffect(() => {
