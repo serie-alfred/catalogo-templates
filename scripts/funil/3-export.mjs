@@ -50,7 +50,30 @@ const b = await puppeteer.launch({
   defaultViewport: { width: 1920, height: 1080, deviceScaleFactor: 1 },
 });
 
-for (const plat of ['Tray', 'Wake', 'VTEX']) {
+// Duas seleções, com propósitos diferentes:
+//  - "máxima" põe TODO modelo compatível ao mesmo tempo. Não é alcançável pela
+//    UI (os slots singleton só aceitam um), mas cobre de uma vez todos os
+//    caminhos de origem e todo manifest.
+//  - "coerente" é um tema que alguém montaria: um modelo por slot, mesma
+//    família. É esse que vai para o build do tema no estágio 4 — misturar
+//    famílias de card e vitrine quebra a substituição de spot (o ProductCard01
+//    exige `userEmail`, que as vitrines 03/04 não passam).
+const coerenteFor = plataforma => {
+  const out = [];
+  for (const [layoutKey, sec] of Object.entries(L)) {
+    const it =
+      sec.items.find(i => i.id === '01' && i.platforms.includes(plataforma)) ??
+      sec.items.find(i => i.platforms.includes(plataforma));
+    if (!it) continue;
+    for (const pg of it.pagina)
+      out.push({ uid: `u-${layoutKey}`, id: it.id, layoutKey, pagina: pg });
+  }
+  return out;
+};
+
+for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
+  const coerente = plat.endsWith('-coerente');
+  const plataforma = coerente ? plat.replace('-coerente', '') : plat;
   const p = await b.newPage();
   // sem interceptação: as imagens externas dos mocks carregam de verdade
   const cdp = await p.createCDPSession();
@@ -66,7 +89,7 @@ for (const plat of ['Tray', 'Wake', 'VTEX']) {
     log(`   [pageerror ${plat}] ${e.message.slice(0, 90)}`)
   );
 
-  const seed = seedFor(plat);
+  const seed = coerente ? coerenteFor(plataforma) : seedFor(plataforma);
   await p.goto(`${BASE_URL}/gerador`, {
     waitUntil: 'domcontentloaded',
     timeout: 90000,
@@ -78,9 +101,9 @@ for (const plat of ['Tray', 'Wake', 'VTEX']) {
       localStorage.setItem('layoutSelections', sel);
       if (tok) localStorage.setItem('wakeToken', tok);
     },
-    plat,
+    plataforma,
     JSON.stringify(seed),
-    plat === 'Wake' ? 'TOKEN-DE-TESTE' : ''
+    plataforma === 'Wake' ? 'TOKEN-DE-TESTE' : ''
   );
   await p.goto(`${BASE_URL}/gerador`, {
     waitUntil: 'domcontentloaded',
@@ -137,14 +160,15 @@ for (const plat of ['Tray', 'Wake', 'VTEX']) {
       `${SAIDA}/config-${plat}.json`,
       JSON.stringify(config, null, 2)
     );
-    const esperado = plat === 'VTEX' ? 'faststore' : plat.toLowerCase();
+    const esperado =
+      plataforma === 'VTEX' ? 'faststore' : plataforma.toLowerCase();
     r.ok(
       `${plat}: platform === "${esperado}"`,
       config.platform === esperado,
       config.platform
     );
-    if (plat === 'VTEX') conferirFaststore(config, r);
-    else conferirTrayWake(config, plat, r);
+    if (plataforma === 'VTEX') conferirFaststore(config, r);
+    else conferirTrayWake(config, plataforma, r);
   }
   await p.close();
 }

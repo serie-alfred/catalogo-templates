@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { GLOBAL_TEMPLATES, GENERATOR, E_TEMAS } from './util.mjs';
+import { GLOBAL_TEMPLATES, GENERATOR, FASTSTORE_STARTER } from './util.mjs';
 
 const PASTA = {
   global: 'Common',
@@ -127,4 +127,102 @@ export function conferirFaststore(config, r) {
     );
   }
   return entradas;
+}
+
+/**
+ * Campos que os typeDefs DO PROJETO acrescentam ao schema da VTEX, e o fragment
+ * que os traz na query. Não existem no schema nativo: se o fragment não chegar
+ * ao tema, o codegen gera o tipo sem o campo e o `next build` do tema morre em
+ * "Property X does not exist".
+ *
+ * Aqui isso é invisível — o starter tem os quatro fragments em disco, então o
+ * codegen dele sempre vê o campo. O generator copia só o que o grafo de
+ * `dependencies` alcança, e é lá que a falta aparece.
+ */
+const CAMPO_PROVEDOR = {
+  availableInstallments: [
+    'fragments/ServerProduct',
+    'fragments/ClientManyProducts',
+  ],
+  releaseDate: ['fragments/ServerProduct'],
+  descriptionBanner: ['fragments/ServerProduct'],
+  suggestionProducts: ['fragments/ClientSearchSuggestions'],
+};
+
+/** Fecho transitivo de dependências de um asset, pelos manifests. */
+function fechoDeps(id, manifests) {
+  const pref = {
+    hooks: 'hooks/',
+    fragments: 'fragments/',
+    typings: 'typings/',
+    utils: 'utils/',
+  };
+  const vis = new Set();
+  const fila = [id];
+  while (fila.length) {
+    const i = fila.pop();
+    if (vis.has(i) || !manifests.has(i)) continue;
+    vis.add(i);
+    const dp = manifests.get(i).dependencies ?? {};
+    fila.push(...(dp.components ?? []));
+    for (const [k, p] of Object.entries(pref)) {
+      fila.push(...(dp[k] ?? []).map(x => (x.includes('/') ? x : p + x)));
+    }
+  }
+  return vis;
+}
+
+const lerRecursivo = (dir, ext = /\.tsx?$/) => {
+  if (!fs.existsSync(dir)) return '';
+  let txt = '';
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) txt += lerRecursivo(p, ext);
+    else if (ext.test(e.name)) txt += fs.readFileSync(p, 'utf8');
+  }
+  return txt;
+};
+
+/**
+ * Todo `path` VTEX do catálogo consegue se sustentar sozinho no tema gerado?
+ * Roda em milissegundos e pega antes do build o que hoje só aparece depois de
+ * clonar, copiar e compilar.
+ */
+export function conferirFragmentos(paths, r) {
+  const raiz = path.join(FASTSTORE_STARTER, 'src');
+  const manifests = new Map();
+  (function varrer(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (e.name === 'node_modules' || e.name.startsWith('.')) continue;
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) varrer(p);
+      else if (e.name === 'manifest.json') {
+        const m = JSON.parse(fs.readFileSync(p, 'utf8'));
+        manifests.set(m.id, m);
+      }
+    }
+  })(raiz);
+
+  const falhas = [];
+  for (const id of paths) {
+    const fecho = fechoDeps(id, manifests);
+    let txt = lerRecursivo(path.join(raiz, 'components', id));
+    for (const dep of fecho) {
+      if (dep.startsWith('hooks/') || dep.startsWith('utils/'))
+        txt += lerRecursivo(path.join(raiz, dep));
+    }
+    for (const [campo, provedores] of Object.entries(CAMPO_PROVEDOR)) {
+      if (!new RegExp(`\\.${campo}\\b`).test(txt)) continue;
+      if (provedores.some(p => fecho.has(p))) continue;
+      falhas.push(
+        `${id} usa .${campo} sem ${provedores.map(p => p.split('/')[1]).join(' nem ')}`
+      );
+    }
+  }
+  r.ok(
+    `${paths.length} paths VTEX se sustentam sozinhos no tema`,
+    falhas.length === 0,
+    falhas.join(' | ')
+  );
+  return falhas;
 }

@@ -6,6 +6,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { conferirFragmentos } from './lib/contrato.mjs';
 import {
   RAIZ,
   GLOBAL_TEMPLATES,
@@ -159,6 +160,18 @@ r.ok(
   'manifest presente para cada path VTEX',
   semManifest.length === 0,
   semManifest.join(', ')
+);
+
+// 9. cada componente VTEX se sustenta sozinho no tema gerado. O starter tem os
+//    quatro fragments em disco e sempre compila; o tema só recebe o que está
+//    declarado, e um campo de extensão sem fragment derruba o build lá.
+conferirFragmentos(
+  [
+    ...new Set(
+      todos.filter(i => i.platforms.includes('VTEX') && i.path).map(i => i.path)
+    ),
+  ],
+  r
 );
 
 console.log(
