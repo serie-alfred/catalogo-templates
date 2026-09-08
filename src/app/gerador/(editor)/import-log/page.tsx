@@ -8,12 +8,51 @@ import fs from 'fs';
 import os from 'os';
 import path from 'path';
 
+/**
+ * Só existe em desenvolvimento, e por construção: ela lê o `~/Downloads` do
+ * SERVIDOR. Na sua máquina isso é a sua pasta; publicada, é a home de quem roda o
+ * Next — nunca a de quem visita. Antes ela também estourava um 500 não tratado em
+ * toda visita sem o arquivo, o que em produção seria uma rota pública quebrada.
+ */
 export default function ImportLogPage() {
-  const logPath = path.join(os.homedir(), 'Downloads', 'log.txt');
-  const raw = fs.readFileSync(logPath, 'utf-8');
-  const data = JSON.parse(raw);
+  if (process.env.NODE_ENV === 'production') {
+    return (
+      <div style={{ padding: 24, fontFamily: 'sans-serif' }}>
+        <p>Esta rota só existe em desenvolvimento.</p>
+      </div>
+    );
+  }
 
-  const { platform, selections, colors, fonts, logo, favicon } = data;
+  const logPath = path.join(os.homedir(), 'Downloads', 'log.txt');
+
+  let data: Record<string, unknown>;
+  try {
+    data = JSON.parse(fs.readFileSync(logPath, 'utf-8'));
+  } catch (err) {
+    const motivo =
+      (err as NodeJS.ErrnoException)?.code === 'ENOENT'
+        ? 'o arquivo não existe'
+        : `não deu para ler/parsear: ${(err as Error).message}`;
+    return (
+      <div style={{ padding: 24, fontFamily: 'sans-serif' }}>
+        <p>
+          Nada para importar — {motivo}.
+          <br />
+          Exporte o tema pelo botão “Baixar” do gerador e salve o JSON em{' '}
+          <code>{logPath}</code>.
+        </p>
+      </div>
+    );
+  }
+
+  const { platform, selections, colors, fonts, logo, favicon } = data as {
+    platform?: string;
+    selections?: unknown;
+    colors?: unknown;
+    fonts?: unknown;
+    logo?: string;
+    favicon?: string;
+  };
 
   const script = `
     try {

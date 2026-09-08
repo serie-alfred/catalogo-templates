@@ -1,4 +1,5 @@
 import React from 'react';
+import { SerieDesignLogo } from '@/assets/icons/serie-design-logo';
 import styles from './index.module.css';
 import Newsletter from '../Newsletter';
 
@@ -339,19 +340,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {/* Logo SVG da agência */}
-                  <svg
-                    fill="none"
-                    height="25"
-                    viewBox="0 0 67 25"
-                    width="67"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M0 11.8002H4.31922C4.36093 12.6559..."
-                      fill="#231F20"
-                    />
-                  </svg>
+                  <SerieDesignLogo />
                 </a>
               </div>
             </div>
