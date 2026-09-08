@@ -33,6 +33,23 @@ const backup = fs.readFileSync(CONFIG_VIVO, 'utf8');
 const devolver = () => fs.writeFileSync(CONFIG_VIVO, backup);
 process.on('exit', devolver);
 
+// O generator CLONA a origem dos componentes — inclusive de um `file://`. Clone
+// enxerga commit, não working tree: trabalho não commitado no starter fica
+// invisível e o tema sai com a versão antiga, sem nenhum aviso.
+const repoComponentes = process.env.FASTSTORE_COMPONENTS_REPO ?? '';
+if (repoComponentes.startsWith('file://')) {
+  const local = repoComponentes.replace('file://', '');
+  const sujo = spawnSync('git', ['status', '--porcelain'], {
+    cwd: local,
+    encoding: 'utf8',
+  }).stdout.trim();
+  r.ok(
+    'checkout local do starter sem alteração pendente',
+    sujo === '',
+    `${sujo.split('\n').length} arquivo(s) não commitado(s) — o clone não os veria`
+  );
+}
+
 const config = JSON.parse(fs.readFileSync(origem, 'utf8'));
 fs.writeFileSync(CONFIG_VIVO, JSON.stringify(config, null, 2));
 

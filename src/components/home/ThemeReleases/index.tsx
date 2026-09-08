@@ -7,11 +7,7 @@ import CatalogSwiper from '../CatalogSwiper';
 import styles from './index.module.css';
 
 export default function ThemeReleases() {
-  const catalog = catalogMock[0]?.novidade || [];
-
-  const filteredCatalog: CatalogItem[] = catalog.filter(item =>
-    item.title.toLowerCase()
-  );
+  const catalog: CatalogItem[] = catalogMock[0]?.novidade || [];
 
   return (
     <div className={styles.newsContainer}>
@@ -22,7 +18,7 @@ export default function ThemeReleases() {
         </div>
 
         <div className={styles.containerSpots}>
-          <CatalogSwiper items={filteredCatalog} />
+          <CatalogSwiper items={catalog} />
         </div>
       </div>
     </div>

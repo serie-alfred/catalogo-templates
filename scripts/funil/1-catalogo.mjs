@@ -6,7 +6,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { conferirFragmentos } from './lib/contrato.mjs';
+import { conferirFragmentos, conferirImports } from './lib/contrato.mjs';
 import {
   RAIZ,
   GLOBAL_TEMPLATES,
@@ -165,14 +165,16 @@ r.ok(
 // 9. cada componente VTEX se sustenta sozinho no tema gerado. O starter tem os
 //    quatro fragments em disco e sempre compila; o tema só recebe o que está
 //    declarado, e um campo de extensão sem fragment derruba o build lá.
-conferirFragmentos(
-  [
-    ...new Set(
-      todos.filter(i => i.platforms.includes('VTEX') && i.path).map(i => i.path)
-    ),
-  ],
-  r
-);
+const vtexPaths = [
+  ...new Set(
+    todos.filter(i => i.platforms.includes('VTEX') && i.path).map(i => i.path)
+  ),
+];
+conferirFragmentos(vtexPaths, r);
+// 10. e todo import relativo desses assets aponta para algo declarado. É a forma
+//     geral do item 9: no starter tudo resolve porque o repo inteiro está em
+//     disco; no tema só chega o que está no grafo.
+conferirImports(vtexPaths, r);
 
 console.log(
   `  (${todos.length} itens em ${Object.keys(layouts).length} seções)`

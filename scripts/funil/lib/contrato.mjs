@@ -172,13 +172,18 @@ function fechoDeps(id, manifests) {
   return vis;
 }
 
+/** Tira comentários: `.availableInstallments` citado em comentário não é uso. */
+const semComentarios = txt =>
+  txt.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+
 const lerRecursivo = (dir, ext = /\.tsx?$/) => {
   if (!fs.existsSync(dir)) return '';
   let txt = '';
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
     if (e.isDirectory()) txt += lerRecursivo(p, ext);
-    else if (ext.test(e.name)) txt += fs.readFileSync(p, 'utf8');
+    else if (ext.test(e.name))
+      txt += semComentarios(fs.readFileSync(p, 'utf8'));
   }
   return txt;
 };
@@ -225,4 +230,111 @@ export function conferirFragmentos(paths, r) {
     falhas.join(' | ')
   );
   return falhas;
+}
+
+/** Fecho transitivo por manifests, incluindo resolvers e typeDefs. */
+function fechoCompleto(id, manifests) {
+  const pref = {
+    hooks: 'hooks/',
+    fragments: 'fragments/',
+    typings: 'typings/',
+    utils: 'utils/',
+  };
+  const vis = new Set();
+  const fila = [id];
+  while (fila.length) {
+    const i = fila.pop();
+    if (vis.has(i) || !manifests.has(i)) continue;
+    vis.add(i);
+    const dp = manifests.get(i).dependencies ?? {};
+    fila.push(...(dp.components ?? []));
+    for (const [k, p] of Object.entries(pref)) {
+      fila.push(...(dp[k] ?? []).map(x => (x.includes('/') ? x : p + x)));
+    }
+    const g = dp.graphql ?? {};
+    fila.push(
+      ...(g.resolvers ?? []).map(x => (x.includes('/') ? x : `resolvers/${x}`))
+    );
+    fila.push(
+      ...(g.typeDefs ?? []).map(x => (x.includes('/') ? x : `typeDefs/${x}`))
+    );
+  }
+  return vis;
+}
+
+/** Todos os manifests do starter, indexados por id, com a pasta de cada um. */
+function lerManifests() {
+  const m = new Map();
+  (function varrer(dir) {
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      if (e.name === 'node_modules' || e.name.startsWith('.')) continue;
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) varrer(p);
+      else if (e.name === 'manifest.json') {
+        const d = JSON.parse(fs.readFileSync(p, 'utf8'));
+        d._dir = path.dirname(p);
+        m.set(d.id, d);
+      }
+    }
+  })(path.join(FASTSTORE_STARTER, 'src'));
+  return m;
+}
+
+const arquivosTs = dir => {
+  const out = [];
+  if (!fs.existsSync(dir)) return out;
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) out.push(...arquivosTs(p));
+    else if (/\.tsx?$/.test(e.name)) out.push(p);
+  }
+  return out;
+};
+
+/**
+ * Todo import relativo aponta para algo que o grafo de `dependencies` alcança?
+ *
+ * É a forma geral do defeito: no starter todo import resolve, porque o repo
+ * inteiro está em disco. No tema gerado só chega o que está DECLARADO, e um
+ * import para um asset fora do grafo vira "Cannot find module" no build do tema
+ * — depois de clonar, copiar e compilar. Aqui custa milissegundos.
+ */
+export function conferirImports(paths, r) {
+  const manifests = lerManifests();
+  const donoDe = abs => {
+    let melhor = null;
+    for (const [id, d] of manifests) {
+      if (abs === d._dir || abs.startsWith(d._dir + path.sep)) {
+        if (!melhor || d._dir.length > manifests.get(melhor)._dir.length)
+          melhor = id;
+      }
+    }
+    return melhor;
+  };
+
+  // O alcance do catálogo: os paths e tudo que eles arrastam.
+  const alcance = new Set();
+  for (const p of paths)
+    for (const id of fechoCompleto(p, manifests)) alcance.add(id);
+
+  const falhas = new Set();
+  for (const id of alcance) {
+    const d = manifests.get(id);
+    if (!d) continue;
+    const fecho = fechoCompleto(id, manifests);
+    for (const f of arquivosTs(d._dir)) {
+      const src = fs.readFileSync(f, 'utf8');
+      for (const [, imp] of src.matchAll(/from\s+'(\.[^']+)'/g)) {
+        const dono = donoDe(path.normalize(path.resolve(path.dirname(f), imp)));
+        if (!dono || dono === id || fecho.has(dono)) continue;
+        falhas.add(`${id} importa ${dono} sem declarar`);
+      }
+    }
+  }
+  r.ok(
+    `${alcance.size} assets no alcance do catálogo: todo import está declarado`,
+    falhas.size === 0,
+    [...falhas].join(' | ')
+  );
+  return [...falhas];
 }
