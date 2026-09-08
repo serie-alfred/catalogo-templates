@@ -33,17 +33,29 @@ export interface LayoutSelection {
 
 export const MAX_PER_PAGE = 101;
 
+/** Teto por imagem: host lento ou fora do ar não pode prender o botão "Baixar". */
+const IMAGE_WAIT_MS = 8000;
+
 /** Resolve quando toda <img> da subárvore terminou de carregar (ou falhou). */
 async function waitForImages(root: HTMLElement) {
   await Promise.all(
-    Array.from(root.querySelectorAll('img')).map(img =>
-      img.complete
-        ? null
-        : new Promise<void>(resolve => {
-            img.addEventListener('load', () => resolve(), { once: true });
-            img.addEventListener('error', () => resolve(), { once: true });
-          })
-    )
+    Array.from(root.querySelectorAll('img')).map(img => {
+      // O palco de captura fica em top/left -99999px. Uma <img loading="lazy">
+      // ali NUNCA começa a carregar: o browser só busca imagem lazy perto da
+      // viewport. Ela ficava `complete === false` para sempre, este await nunca
+      // resolvia e o "Baixar" travava calado — sem PNG, sem config.json e sem
+      // mensagem. Bastava um Footer01 no tema (os ícones de pagamento são lazy).
+      // Trocar para `eager` dispara o carregamento na hora e é também o que faz
+      // a imagem existir no PNG, então não é só destravar a espera.
+      if (img.loading === 'lazy') img.loading = 'eager';
+      if (img.complete) return null;
+      return new Promise<void>(resolve => {
+        const done = () => resolve();
+        img.addEventListener('load', done, { once: true });
+        img.addEventListener('error', done, { once: true });
+        window.setTimeout(done, IMAGE_WAIT_MS);
+      });
+    })
   );
 }
 
