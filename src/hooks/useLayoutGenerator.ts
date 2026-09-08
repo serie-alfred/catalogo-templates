@@ -6,6 +6,11 @@ import { captureAndDownloadScreenshot } from '@/utils/screenshotExport';
 import { sendLayoutConfigEmail } from '@/services/emailService';
 import type { Platform } from '@/types/platform';
 import { useThemeHistory, type ThemeDoc } from './useThemeHistory';
+import {
+  partitionByPlatform,
+  sanitizePlatform,
+  sanitizeSelections,
+} from '@/utils/platformCompat';
 // type-only: não puxa o módulo server-only para o bundle do cliente.
 import type { PreviewSnapshot } from '@/lib/previewStore';
 
@@ -320,10 +325,13 @@ export function useLayoutGenerator() {
   // libera os efeitos de save abaixo (que senão gravariam os defaults vazios).
   useEffect(() => {
     try {
+      // Validados: o localStorage pode ter sido escrito por uma versão antiga
+      // do catálogo (ou pela rota /gerador/import-log, que grava valor cru).
       const storedSelections = localStorage.getItem('layoutSelections');
-      if (storedSelections) setSelections(JSON.parse(storedSelections));
-      const storedPlatform = localStorage.getItem('layoutPlatform');
-      if (storedPlatform) setPlatform(storedPlatform as Platform);
+      if (storedSelections) {
+        setSelections(sanitizeSelections(JSON.parse(storedSelections)));
+      }
+      setPlatform(sanitizePlatform(localStorage.getItem('layoutPlatform')));
       setLogo(localStorage.getItem('logo') || '');
       setFavicon(localStorage.getItem('favicon') || '');
       setOgImage(localStorage.getItem('ogImage') || '');
@@ -494,20 +502,45 @@ export function useLayoutGenerator() {
     setIsMobileView((prev) => !prev);
   };
 
-  /** Manipula seleção da plataforma */
-  const handlePlatformChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const value = e.target.value as Platform | null;
+  /**
+   * Troca de plataforma preservando o que é compatível.
+   *
+   * Antes isto era `setSelections([])`: trocar de plataforma apagava TODAS as
+   * seções de todas as páginas, com os overrides de variáveis junto, sem aviso
+   * nem desfazer. Agora só sai o que a plataforma de destino não oferece, e o
+   * usuário confirma antes.
+   *
+   * Quem sobrevive vem inteiro — mesmo `uid`, mesma `pagina`, mesmo objeto
+   * `variables`. Cores, fontes e assets nunca foram afetados e continuam assim.
+   */
+  const changePlatform = (value: Platform) => {
+    setShowPlatformError(false);
+
+    const { kept, lostTitles } = partitionByPlatform(selections, value);
+
+    if (
+      lostTitles.length > 0 &&
+      !window.confirm(
+        `Estas seções não existem na plataforma ${value} e serão removidas:\n\n` +
+          lostTitles.map(t => `• ${t}`).join('\n') +
+          `\n\nO restante do tema é preservado. Continuar?`
+      )
+    ) {
+      return;
+    }
+
     setPlatform(value);
+    if (kept.length !== selections.length) {
+      const survivors = new Set(kept.map(s => s.uid));
+      setSelections(kept);
+      // Não deixa o contorno do canvas nem o painel direito presos numa seção
+      // que acabou de deixar de existir.
+      setSelectedUid(prev => (prev && survivors.has(prev) ? prev : null));
+      setEditingUid(prev => (prev && survivors.has(prev) ? prev : null));
+    }
 
-    if (value) {
-      setShowPlatformError(false);
-
-      // Reseta as seleções ao mudar a plataforma
-      setSelections([]);
-
-      if (value.toLowerCase() === "wake") {
-        setShowWakePopup(true);
-      }
+    if (value === 'Wake') {
+      setShowWakePopup(true);
     }
   };
 
@@ -1221,7 +1254,7 @@ export function useLayoutGenerator() {
     setColorFooter,
     setColorFooterText,
     toggleMobileView,
-    handlePlatformChange,
+    changePlatform,
     toggleSelection,
     exportLayout,
     createPreview,

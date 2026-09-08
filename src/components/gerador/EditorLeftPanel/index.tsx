@@ -19,7 +19,7 @@ import styles from './index.module.css';
  * plataforma, então a altura NÃO pode virar uma linha do grid do shell.
  */
 export default function EditorLeftPanel() {
-  const { railTarget, platform, showPlatformError, handlePlatformChange } =
+  const { railTarget, platform, showPlatformError, changePlatform } =
     useLayout();
 
   const isComponentes = railTarget === 'componentes';
@@ -36,7 +36,7 @@ export default function EditorLeftPanel() {
           <PlatformSelect
             value={platform}
             showError={showPlatformError}
-            onChange={handlePlatformChange}
+            onChange={changePlatform}
           />
         )}
       </header>
