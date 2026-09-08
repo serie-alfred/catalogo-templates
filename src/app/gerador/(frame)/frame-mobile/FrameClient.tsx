@@ -60,6 +60,11 @@ export default function FrameClient() {
       if (data?.source !== FRAME_PARENT) return;
 
       switch (data.type) {
+        // O pai chegou depois de nós: reanuncia, que o `ready` do mount se
+        // perdeu no vazio.
+        case 'hello':
+          postRef.current({ source: FRAME_CHILD, type: 'ready' });
+          break;
         case 'theme':
           setTheme({ colors: data.colors, fonts: data.fonts });
           break;
@@ -87,6 +92,9 @@ export default function FrameClient() {
     // do React, então a primeira mensagem do pai se perderia. O pai só envia
     // depois deste "ready" (e o handler dele é idempotente, porque o
     // StrictMode/HMR dispara isto duas vezes).
+    //
+    // Se o pai ainda não estiver escutando, este anúncio cai no vazio — é para
+    // isso que existe o `hello` no sentido contrário.
     postRef.current({ source: FRAME_CHILD, type: 'ready' });
 
     return () => window.removeEventListener('message', onMessage);

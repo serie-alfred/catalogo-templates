@@ -180,14 +180,12 @@ export default function SectionsPanel() {
   const activeRow = activeUid ? rows.find(r => r.uid === activeUid) : null;
 
   return (
-    <section className={`${styles.panel} preview-ui`} aria-label="Seções da página">
-      <header className={styles.header}>
-        <h2 className={styles.heading}>Seções</h2>
-        <span className={styles.count}>
-          {rows.length === 1 ? '1 seção' : `${rows.length} seções`}
-        </span>
-      </header>
-
+    <section
+      className={`${styles.panel} preview-ui`}
+      aria-label="Seções da página"
+    >
+      {/* Sem cabeçalho "Seções · N": o Figma leva o painel direto para o
+          primeiro acordeão. */}
       <div className={styles.list}>
         {rows.length === 0 ? (
           <p className={styles.empty}>

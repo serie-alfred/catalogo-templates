@@ -1,0 +1,31 @@
+.footer {
+  padding: 24px;
+}
+
+.add {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--ed-blue-100);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ed-blue-ink);
+  cursor: pointer;
+}
+
+.add:hover {
+  background: var(--ed-blue-50);
+}
+
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 24px 24px;
+}

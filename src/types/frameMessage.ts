@@ -38,6 +38,18 @@ export const FRAME_CHILD = 'gerador-frame' as const;
  * viajasse junto, cada frame de um arraste de cor o clonaria.
  */
 export type ToFrame =
+  /**
+   * Sondagem de presença. O pai a envia assim que instala o próprio listener; o
+   * filho responde com `ready`.
+   *
+   * Existe porque o `ready` do filho, sozinho, tem uma corrida: o <iframe> está
+   * no HTML servido, então o browser começa a baixar o documento filho antes de
+   * o bundle do editor terminar de hidratar. Em bundles grandes o filho hidrata
+   * PRIMEIRO, anuncia `ready` para um pai que ainda não escuta, e a mensagem se
+   * perde — o canvas fica em branco até algo remontar o iframe. Com o `hello`,
+   * quem chegar por último inicia a troca.
+   */
+  | { source: typeof FRAME_PARENT; type: 'hello' }
   | { source: typeof FRAME_PARENT; type: 'theme'; colors: FrameColors; fonts: FrameFonts }
   | {
       source: typeof FRAME_PARENT;

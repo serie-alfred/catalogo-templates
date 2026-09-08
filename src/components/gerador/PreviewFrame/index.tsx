@@ -69,13 +69,21 @@ export default function PreviewFrame() {
   const pendingThemeRef = useRef<ToFrame | null>(null);
   const rafRef = useRef<number | null>(null);
 
-  const post = useCallback((message: ToFrame) => {
-    if (!readyRef.current) return;
+  /** Envia sem esperar o handshake. Só o `hello` usa isto. */
+  const postRaw = useCallback((message: ToFrame) => {
     iframeRef.current?.contentWindow?.postMessage(
       message,
       window.location.origin
     );
   }, []);
+
+  const post = useCallback(
+    (message: ToFrame) => {
+      if (!readyRef.current) return;
+      postRaw(message);
+    },
+    [postRaw]
+  );
 
   /** Coalesce por frame: o color picker dispara a cada movimento do mouse. */
   const postThemeCoalesced = useCallback(
@@ -165,8 +173,26 @@ export default function PreviewFrame() {
     };
 
     window.addEventListener('message', onMessage);
+
+    // Sonda de presença. O <iframe> está no HTML servido, então o browser
+    // começa a baixar o documento filho antes de o bundle do editor terminar de
+    // hidratar; com bundles grandes o filho hidrata primeiro e o `ready` dele
+    // cai no vazio, deixando o canvas em branco até algo remontar o iframe.
+    // Enviar `hello` daqui faz o filho reanunciar. Se ele ainda não hidratou,
+    // este `hello` é que se perde — e aí vale o `ready` do mount dele.
+    if (!readyRef.current) {
+      postRaw({ source: FRAME_PARENT, type: 'hello' });
+    }
+
     return () => window.removeEventListener('message', onMessage);
-  }, [post, themeMessage, contentMessage, setSelectedUid, setHoveredUid]);
+  }, [
+    post,
+    postRaw,
+    themeMessage,
+    contentMessage,
+    setSelectedUid,
+    setHoveredUid,
+  ]);
 
   useEffect(() => {
     postThemeCoalesced(themeMessage());

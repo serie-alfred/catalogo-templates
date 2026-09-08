@@ -1,10 +1,11 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { Copy, GripVertical, Lock, SquarePen, Trash2 } from 'lucide-react';
 
-import { iconsGenerator } from '@/assets/icons/generator';
+import { CaretDown, Minus, Plus, TextBlock } from '@/assets/icons/editor';
 import styles from './index.module.css';
 
 export interface SectionRowData {
@@ -38,6 +39,12 @@ interface SectionRowViewProps {
 /**
  * Linha apresentacional pura — sem useSortable. Reusada pelo DragOverlay, que
  * assim não registra um segundo sortable com o mesmo id.
+ *
+ * É um acordeão: o cabeçalho traz o nome da SEÇÃO e o expandido traz o modelo
+ * escolhido e as ações da linha. O Figma desenha um caret estático à esquerda e
+ * o +/− à direita como indicador de estado — os dois são preservados; o caret
+ * cede o lugar ao grip de arraste enquanto o cursor está sobre a linha, que é
+ * onde a reordenação precisa estar sem inventar um elemento novo no repouso.
  */
 export function SectionRowView({
   data,
@@ -51,77 +58,127 @@ export function SectionRowView({
   onDuplicate,
   onRemove,
 }: SectionRowViewProps) {
+  const [open, setOpen] = useState(false);
+  const [pointerOver, setPointerOver] = useState(false);
+  const expanded = open || selected;
+
+  const showGrip = !data.locked && (pointerOver || dragging);
+
   return (
     <div
       className={styles.row}
       data-selected={selected ? 'true' : undefined}
       data-hovered={hovered ? 'true' : undefined}
       data-dragging={dragging ? 'true' : undefined}
-      onMouseEnter={() => onHoverChange?.(true)}
-      onMouseLeave={() => onHoverChange?.(false)}
+      onMouseEnter={() => {
+        setPointerOver(true);
+        onHoverChange?.(true);
+      }}
+      onMouseLeave={() => {
+        setPointerOver(false);
+        onHoverChange?.(false);
+      }}
     >
-      {data.locked ? (
-        <span
-          className={styles.lock}
-          title={
-            data.group === 'Footer' ? 'Sempre no fim' : 'Posição fixa no topo'
-          }
-          aria-hidden
-        >
-          🔒
-        </span>
-      ) : (
-        <button
-          type="button"
-          className={styles.handle}
-          title="Arraste para reordenar"
-          aria-label={`Reordenar ${data.title}`}
-          {...handleProps}
-        >
-          ⠿
-        </button>
-      )}
-
-      <button type="button" className={styles.label} onClick={onSelect}>
-        <span className={styles.title}>{data.title}</span>
-        <span className={styles.meta}>
-          {data.group}
-          {data.isCommon && (
-            <span className={styles.badge}>Todas as páginas</span>
+      <div className={styles.head}>
+        <span className={styles.affordance}>
+          {data.locked ? (
+            <Lock
+              size={16}
+              aria-label={
+                data.group === 'Footer' ? 'Sempre no fim' : 'Posição fixa'
+              }
+            />
+          ) : showGrip ? (
+            <button
+              type="button"
+              className={styles.handle}
+              title="Arraste para reordenar"
+              aria-label={`Reordenar ${data.title}`}
+              {...handleProps}
+            >
+              <GripVertical size={18} />
+            </button>
+          ) : (
+            <CaretDown width={24} height={24} />
           )}
         </span>
-      </button>
 
-      <span className={styles.actions}>
-        {data.canEdit && (
-          <button
-            type="button"
-            className={styles.editBtn}
-            onClick={onEdit}
-            title="Editar cores e fontes"
-          >
-            {iconsGenerator.editTheme}
-          </button>
-        )}
-        {data.canDuplicate && (
-          <button
-            type="button"
-            className={styles.duplicateBtn}
-            onClick={onDuplicate}
-            title="Duplicar seção"
-          >
-            {iconsGenerator.duplicateTheme}
-          </button>
-        )}
+        <button type="button" className={styles.name} onClick={onSelect}>
+          {data.group}
+        </button>
+
         <button
           type="button"
-          className={styles.remoteBtn}
-          onClick={onRemove}
-          title="Remover seção"
+          className={styles.toggle}
+          onClick={() => setOpen(prev => !prev)}
+          aria-expanded={expanded}
+          aria-label={expanded ? `Recolher ${data.group}` : `Expandir ${data.group}`}
         >
-          {iconsGenerator.deleteTheme}
+          {expanded ? (
+            <Minus width={24} height={24} />
+          ) : (
+            <Plus width={24} height={24} />
+          )}
         </button>
-      </span>
+      </div>
+
+      {expanded && (
+        <div className={styles.children}>
+          <span className={styles.guide} aria-hidden />
+
+          <div className={styles.childList}>
+            <button
+              type="button"
+              className={`${styles.child} ${selected ? styles.childActive : ''}`}
+              onClick={onSelect}
+            >
+              <span className={styles.childLabel}>
+                <TextBlock width={22} height={22} />
+                Modelo
+              </span>
+              <span className={styles.childValue}>{data.title}</span>
+            </button>
+
+            {data.isCommon && (
+              <span className={styles.badge}>Todas as páginas</span>
+            )}
+
+            <div className={styles.actions}>
+              {data.canEdit && (
+                <button
+                  type="button"
+                  className={styles.action}
+                  onClick={onEdit}
+                  title="Editar cores e fontes"
+                >
+                  <SquarePen size={16} />
+                  Variáveis
+                </button>
+              )}
+              {data.canDuplicate && (
+                <button
+                  type="button"
+                  className={styles.action}
+                  onClick={onDuplicate}
+                  title="Duplicar seção"
+                >
+                  <Copy size={16} />
+                  Duplicar
+                </button>
+              )}
+              <button
+                type="button"
+                className={`${styles.action} ${styles.danger}`}
+                onClick={onRemove}
+                title="Remover seção"
+              >
+                <Trash2 size={16} />
+                Remover
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
