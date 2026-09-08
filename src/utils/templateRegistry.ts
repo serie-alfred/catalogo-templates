@@ -8,7 +8,6 @@
 import Header01 from '@/components/templates/common/template_1/Header';
 import Footer01 from '@/components/templates/common/template_1/Footer';
 import Spot01 from '@/components/templates/common/template_1/Spot';
-import Newsletter01 from '@/components/templates/common/template_1/Newsletter';
 import Breadcrumb01 from '@/components/templates/common/template_1/Breadcrumb';
 
 // ******
@@ -45,6 +44,7 @@ import ProductRelated01 from '@/components/templates/product/template_1/ProductR
 import Header02 from '@/components/templates/common/template_2/Header';
 import Footer02 from '@/components/templates/common/template_2/Footer';
 import Spot02 from '@/components/templates/common/template_2/Spot';
+import Breadcrumb02 from '@/components/templates/common/template_2/Breadcrumb';
 
 // ******
 // Home
@@ -155,7 +155,6 @@ export const TemplateRegistry: Record<
   string,
   React.FC<{ [key: string]: unknown }>
 > = {
-  Newsletter01,
   Ruler01,
   Spot01,
   Showcase01,
@@ -184,6 +183,7 @@ export const TemplateRegistry: Record<
   Ruler02,
   Showcase02,
   Spot02,
+  Breadcrumb02,
   BannerFullCategory02,
   CategoryMain02,
   ProductInfo02,

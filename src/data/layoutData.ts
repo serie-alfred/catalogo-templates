@@ -107,17 +107,12 @@ export type Layouts = {
   productInfo: LayoutSection;
   productRelated: LayoutSection;
   textArea: LayoutSection;
-
-  /*
-    bannerDuplo: LayoutSection;
-    bannerSolo: LayoutSection;
-    SpecialOffers:LayoutSection;
-    homeCombined:LayoutSection;
-    BannerSideLeft:LayoutSection;
-    bannerTriple:LayoutSection;
-    review: LayoutSection;
-    newsletter: LayoutSection;
-  */
+  bannerTriple: LayoutSection;
+  bannerSolo: LayoutSection;
+  bannerSideLeft: LayoutSection;
+  specialOffers: LayoutSection;
+  homeCombined: LayoutSection;
+  review: LayoutSection;
 };
 
 export const LAYOUTS: Layouts = {
@@ -183,6 +178,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#212721", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
+      { id: "07", selection: "header", key: "hdr07bru1k2m", image: "", mobile: "", title: "Header Template 7", description: "Header Brasilusa: barra superior rotativa, busca central, ícones de conta/sacola e menu de categorias", template: "7", pagina: ["common"], component: "Header07", path: "organisms/Header07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"] },
     ],
   },
   spot: {
@@ -215,7 +211,8 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--spot-price-color", label: "Cor do preço principal", type: "color", default: "#0096fe", group: "Preço", inheritsLabel: "cor primária da marca" },
         { cssVar: "--spot-font", label: "Fonte do card de produto", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      //{ id: "06",selection: "spot", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Card Moderno 06", description: "Card do produto 06", template: "6", pagina: ["common"], component: "Spot06", platforms: ['Tray'] },
+      { id: "06", selection: "spot", key: "crdprd06f6g7", image: "", mobile: "", title: "Card de Produto Template 6", description: "Card Ferracini com etiqueta de oferta e botão comprar", template: "6", pagina: ["common"], component: "Spot06", path: "molecules/ProductCard06", platforms: ['VTEX'], backgroundVars: ["tertiary"] },
+      { id: "07", selection: "spot", key: "crdprd07h8j9", image: "", mobile: "", title: "Card de Produto Template 7", description: "Card Brasilusa minimalista, sem botão de compra", template: "7", pagina: ["common"], component: "Spot07", path: "molecules/ProductCard07", platforms: ['VTEX'], backgroundVars: ["secondary"] },
     ],
   },
   breadcrumb: {
@@ -225,7 +222,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--breadcrumb-text", label: "Cor do texto e links", type: "color", default: "#292929", group: "Breadcrumb", inheritsLabel: "cor de texto primária" },
         { cssVar: "--breadcrumb-font", label: "Fonte", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-     // { id: "02", selection: "breadcrumb", key: "bred02q7l4k55", image: "", mobile: "", title: "Breadcrumb Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Breadcrumb02", platforms: ['Tray', 'Wake'] },
+      { id: "02", selection: "breadcrumb", key: "bred02q7l4k5", image: "", mobile: "", title: "Breadcrumb Template 2", description: "Breadcrumb com separador em chevron", template: "2", pagina: ["common"], component: "Breadcrumb02", platforms: ['Wake'], backgroundVars: [] },
     ],
   },
   footer: {
@@ -280,6 +277,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--footer-title-font", label: "Fonte dos títulos", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
+      { id: "07", selection: "footer", key: "ftr07bru3n4p", image: "", mobile: "", title: "Footer Template 7", description: "Rodapé Brasilusa: faixa de benefícios, colunas institucionais e barra inferior", template: "7", pagina: ["common"], component: "Footer07", path: "organisms/Footer07", platforms: ['VTEX'], backgroundVars: ["secondary", "tertiary", "footer"] },
     ],
   },
 
@@ -290,8 +288,7 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "banner-full", key: "banful01hwt4", image: "", mobile: "", title: "Banner largura máxima Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerFull01", path: "atoms/BannerFull01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
       { id: "02", selection: "banner-full", key: "bnfull02x7k9", image: "", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerFull02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
       { id: "04", selection: "category-banner", key: "BanFul02op74", image: "", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["category"], component: "BannerFullCategory02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
-      //{ id: "03",selection: "banner-full", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Banner Moderno 03", description: "Banner com largura máxima", template: "3", pagina: ["home"], component: "BannerFull03", platforms: ['Tray'] },
-      //{ id: "05",selection: "banner-full", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Banner Moderno 05", description: "Banner com largura máxima", template: "5", pagina: ["home"], component: "BannerFull05", platforms: ['Tray'] },
+      { id: "05", selection: "banner-full", key: "bnfull05k3m7", image: "", mobile: "", title: "Banner largura máxima Template 5", description: "Banner único ocupando a largura total da página", template: "5", pagina: ["home"], component: "BannerFull05", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
   brand: {
@@ -303,7 +300,7 @@ export const LAYOUTS: Layouts = {
   textArea: {
     name: "Área de Texto",
     items: [
-      //{ id: "01", selection: "text-area", key: "txt01a2b3c4d", image: "", mobile: "", title: "Área de Texto Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], override: true, path: "molecules/TextArea", component: "TextArea", platforms: ['VTEX'], backgroundVars: [] },
+      { id: "01", selection: "text-area", key: "txt01a2b3c4d", image: "", mobile: "", title: "Área de Texto Template 1", description: "Bloco de conteúdo HTML livre, preenchido no CMS", template: "1", pagina: ["home"], override: true, path: "molecules/TextArea", component: "TextArea", platforms: ['VTEX'], backgroundVars: [] },
     ],
   },
   categories: {
@@ -313,8 +310,8 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--categories-title-color", label: "Cor do título e nomes", type: "color", default: "#122161", group: "Texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      //{ id: "02",selection: "multi-categories", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Carrossel de categorias", description: "", template: "4", pagina: ["home"], component: "MultiCategories04", platforms: ['Tray'] },
-      //{ id: "03",selection: "home-carousel", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Carrossel de categorias 06", description: "", template: "6", pagina: ["home"], component: "HomeCarousel06", platforms: ['Tray'] },
+      { id: "04", selection: "multi-categories", key: "mulcat04n8p2", image: "", mobile: "", title: "Carrossel de Categorias Template 4", description: "Grade de categorias com imagem e rótulo", template: "4", pagina: ["home"], component: "MultiCategories04", platforms: ['Tray'], backgroundVars: [] },
+      { id: "06", selection: "home-carousel", key: "homcar06q4r9", image: "", mobile: "", title: "Carrossel de Categorias Template 6", description: "Carrossel de categorias Ferracini", template: "6", pagina: ["home"], component: "HomeCarousel06", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
   banner: {
@@ -323,7 +320,7 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "banner-main", key: "ban01m1k3nq2", image: "", mobile: "", title: "Banners Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerMain01", path: "organisms/BannerMain01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--banner-main-accent", label: "Cor do bullet ativo", type: "color", default: "#682A77", group: "Carrossel", inheritsLabel: "cor primária da marca" },
       ] },
-      //{ id: "02",selection: "banner-main",key:"bnr01m1n2o3p", image: "", mobile: "", title: "Banner Colorido 06", description: "Banner com destaque visual e chamada 06", template: "6", pagina: ["home"], component: "BannerMain06", platforms: ['Tray'] },
+      { id: "06", selection: "banner-main", key: "ban06a1b2c3d", image: "", mobile: "", title: "Banners Template 6", description: "Banner clicável de largura total, com arte separada para desktop e mobile", template: "6", pagina: ["home"], component: "BannerMain06", path: "organisms/BannerMain06", platforms: ['Tray', 'VTEX'], backgroundVars: [] },
     ],
   },
   ruler: {
@@ -334,9 +331,8 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--ruler-text", label: "Texto e ícones da régua", type: "color", default: "#ffffff", group: "Régua", inheritsLabel: "cor de texto secundária" },
       ] },
       { id: "02", selection: "ruler", key: "bnf0213jan45", image: "", mobile: "", title: "Regua de benefícios Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Ruler02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary"] },
-      //{ id: "03",selection: "ruler", key:"bnf01y0z1a2b", image: "", mobile: "", title: "Barra de benefícios 03", description: "Benefícios 3", template: "3", pagina: ["home"], component: "Ruler03", platforms: ['Tray'] },
-      //{ id: "04",selection: "ruler", key:"bnf01y0z1a2b", image: "", mobile: "", title: "Barra de benefícios 04", description: "Benefícios 4", template: "4", pagina: ["home"], component: "Ruler04", platforms: ['Tray'] },
-      //{ id: "05",selection: "ruler", key:"bnf01y0z1a2b", image: "", mobile: "", title: "Barra de benefícios 05", description: "Benefícios 5", template: "5", pagina: ["home"], component: "Ruler05", platforms: ['Tray'] },
+      { id: "04", selection: "ruler", key: "bnf04t5u6v7w", image: "", mobile: "", title: "Regua de benefícios Template 4", description: "Régua de benefícios em linha de ícones", template: "4", pagina: ["home"], component: "Ruler04", platforms: ['Tray'], backgroundVars: [] },
+      { id: "05", selection: "ruler", key: "bnf05x8y9z0a", image: "", mobile: "", title: "Regua de benefícios Template 5", description: "Régua de benefícios em carrossel", template: "5", pagina: ["home"], component: "Ruler05", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
   grid: {
@@ -380,7 +376,47 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--showcase-font", label: "Fonte do título", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--showcase-accent", label: "Cor do bullet ativo", type: "color", default: "#0096fe", group: "Carrossel", inheritsLabel: "cor primária da marca" },
       ] },
-      //{ id: "05",selection: "showcase", key:"vtr01s5t6u7v", image: "", mobile: "", title: "Vitrine moda 6", description: "Seção com produtos de moda 6", template: "6", pagina: ["home"], component: "Showcase06", platforms: ['Tray'] },
+      { id: "06", selection: "showcase", key: "vtr06frc4d5e", image: "", mobile: "", title: "Vitrine Template 6", description: "Vitrine Ferracini com título, subtítulo e carrossel", template: "6", pagina: ["home"], component: "Showcase06", path: "organisms/ProductShelfCustom06", platforms: ['Tray', 'VTEX'], backgroundVars: [] },
+      { id: "07", selection: "showcase", key: "vtr07bru5q6r", image: "", mobile: "", title: "Vitrine Template 7", description: "Vitrine Brasilusa com título e link para a listagem completa", template: "7", pagina: ["home"], component: "Showcase07", path: "organisms/ProductShelfCustom07", platforms: ['VTEX'], backgroundVars: ["primary"] },
+    ],
+  },
+  bannerTriple: {
+    name: "Banner Triplo",
+    items: [
+      { id: "01", selection: "banner-triple", key: "bntrp05f4g5h", image: "", mobile: "", title: "Banner Triplo Template 5", description: "Três banners lado a lado, estáticos", template: "5", pagina: ["home"], component: "BannerTriple05", platforms: ['Tray'], backgroundVars: [] },
+      { id: "02", selection: "banner-triple-swiper", key: "bntsw05j6k7l", image: "", mobile: "", title: "Banner Triplo Template 5 (carrossel)", description: "Três banners em carrossel", template: "5", pagina: ["home"], component: "BannerTripleSwiper05", platforms: ['Tray'], backgroundVars: [] },
+      { id: "03", selection: "banner-triple", key: "bntrp06m8n9p", image: "", mobile: "", title: "Banner Triplo Template 6", description: "Três banners lado a lado (Ferracini)", template: "6", pagina: ["home"], component: "BannerTriple06", platforms: ['Tray'], backgroundVars: [] },
+      { id: "04", selection: "category-triple", key: "cattrp06q1r2", image: "", mobile: "", title: "Banner Triplo de Categorias Template 6", description: "Três categorias em carrossel (Ferracini)", template: "6", pagina: ["home"], component: "CategoryTriple06", platforms: ['Tray'], backgroundVars: [] },
+    ],
+  },
+  bannerSolo: {
+    name: "Banner Solo",
+    items: [
+      { id: "01", selection: "banner-solo", key: "bnsolo04s3t4", image: "", mobile: "", title: "Banner Solo Template 4", description: "Banner único com título fixo e botão de ação", template: "4", pagina: ["home"], component: "BannerSolo04", platforms: ['Tray'], backgroundVars: [] },
+    ],
+  },
+  bannerSideLeft: {
+    name: "Banner com texto",
+    items: [
+      { id: "01", selection: "banner-solo-left", key: "bnslft05w7x8", image: "", mobile: "", title: "Banner com texto Template 5", description: "Banner com bloco de texto alinhado à esquerda", template: "5", pagina: ["home"], component: "BannerSoloLeft05", platforms: ['Tray'], backgroundVars: [] },
+    ],
+  },
+  specialOffers: {
+    name: "Ofertas Especiais",
+    items: [
+      { id: "01", selection: "special-offers", key: "spcofr04u5v6", image: "", mobile: "", title: "Ofertas Especiais Template 4", description: "Bloco de ofertas com cartões de desconto", template: "4", pagina: ["home"], component: "SpecialOffers04", platforms: ['Tray'], backgroundVars: [] },
+    ],
+  },
+  homeCombined: {
+    name: "Combinações",
+    items: [
+      { id: "01", selection: "combined-categ", key: "homcmb04y9z0", image: "", mobile: "", title: "Combinações Template 4", description: "Bloco combinado de categorias, chamada e desconto", template: "4", pagina: ["home"], component: "HomeCombined04", platforms: ['Tray'], backgroundVars: [] },
+    ],
+  },
+  review: {
+    name: "Depoimentos",
+    items: [
+      { id: "01", selection: "client-review", key: "rev06b1c2d3e", image: "", mobile: "", title: "Depoimentos Template 6", description: "Carrossel de depoimentos de clientes (Ferracini)", template: "6", pagina: ["home"], component: "ClientReview06", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
 
@@ -465,61 +501,6 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "product-related", key: "rel01f6g7h8i", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductRelated01", path: "organisms/ProductShowcase01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
     ],
   },
-
-
-  /*
-  review: {
-    name: "Reviews",
-    items: [
-      { id: "01",selection: "client-review", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Reviews do Cliente", description: "", template: "6", pagina: ["home"], component: "ClientReview06", platforms: ['Tray'] },
-    ],
-  },
-  bannerDuplo: {
-    name: "Banner Duplo",
-    items: [
-     { id: "01",selection: "banner-duplo", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Banner Duplo 03", description: "", template: "3", pagina: ["home"], component: "BannerDuplo03", platforms: ['Tray'] },
-    ],
-  },
-  bannerTriple: {
-    name: "Banner Triplo",
-    items: [
-      { id: "01",selection: "banner-triple", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Banner Triplo 05", description: "", template: "5", pagina: ["home"], component: "BannerTriple05", platforms: ['Tray'] },
-      { id: "02",selection: "banner-triple-swiper", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Banner Triplo Swiper 05", description: "", template: "5", pagina: ["home"], component: "BannerTripleSwiper05", platforms: ['Tray'] },
-      { id: "03",selection: "banner-triple", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Banner Triplo Swiper 03", description: "", template: "3", pagina: ["home"], component: "BannerTriple06", platforms: ['Tray'] },
-      { id: "04",selection: "category-triple", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Categoria Banner Triplo  Swiper 06", description: "", template: "6", pagina: ["home"], component: "CategoryTriple06", platforms: ['Tray'] },
-    ],
-  },
-  bannerSolo: {
-    name: "Banner Solo",
-    items: [
-      { id: "01",selection: "banner-solo", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Banner Solo 04", description: "", template: "4", pagina: ["home"], component: "BannerSolo04", platforms: ['Tray'] },
-    ],
-  },
-  SpecialOffers: {
-    name: "Ofertas Especial",
-    items: [
-      { id: "01",selection: "special-offers", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Ofertas Especial", description: "", template: "4", pagina: ["home"], component: "SpecialOffers04", platforms: ['Tray'] },
-    ],
-  },
-  BannerSideLeft:{
-    name: "Banner com texto",
-    items: [
-      { id: "01",selection: "banner-solo-left", key:"hdr01a2b3c4d", image: "", mobile: "", title: "Banner com texto 05", description: "Banner com texto", template: "5", pagina: ["home"], component: "BannerSoloLeft05", platforms: ['Tray'] },
-    ],
-  },
-  homeCombined: {
-    name: "Combinações",
-    items: [
-      { id: "01",selection: "combined-categ", key:"grd01g6h7i8j", image: "", mobile: "", title: "Combinações 04", description: "", template: "4", pagina: ["home"], component: "HomeCombined04", platforms: ['Tray'] },
-    ],
-  },
-    newsletter: {
-    name: "Newsletter",
-    items: [
-      { id: "01",selection: "newsletter", key:"nws01i7j8k9l", image: "newsletter/desktop/newsletter_01.png", mobile: "newsletter/mobile/newsletter_01_m.png", title: "Newsletter clean", description: "Seção com produtos de moda", template: "1", pagina: ["common"], component: "Newsletter01", platforms: ['Tray'] },
-    ],
-  },
-  */
 } as const;
 
 export type LayoutKey = keyof typeof LAYOUTS;

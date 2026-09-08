@@ -58,31 +58,39 @@ A template is a React component plus a catalog entry. Two files always need to c
 
 1. **Component** — add it under `src/components/templates/{common,home,category,product}/template_N/<Name>/`. The folder convention is `index.tsx` + `index.module.css`. Components receive `{ isMobile }` from [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx) — the single renderer for every surface. Templates may read **only** `logo` and `selections` from `useLayout()`: outside the editor the context is seeded by hand ([SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx)), so any other field is a default, not real state.
 2. **Registry** — import it in [src/utils/templateRegistry.ts](src/utils/templateRegistry.ts) and add it to the `TemplateRegistry` object. The string key must match the `component` field used in `LAYOUTS`. **If the registry entry is missing, `ThemeRenderer` silently falls back to a placeholder PNG from `/public/images/gerador/`.**
-3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`Tray | Wake`), and `component` (the `TemplateRegistry` key).
+3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`Tray | Wake | VTEX`), and `component` (the `TemplateRegistry` key).
 
-> **Os dois lados saem de sincronia com facilidade, e em silêncio.** Hoje 23 componentes estão
-> importados no `templateRegistry.ts` sem nenhum `LayoutItem` ativo — invisíveis no gerador. Entre
-> eles o tema **07 inteiro** (`Header07`, `Footer07`, `Spot07`, `Showcase07`), que existe em
-> `src/components/templates/*/template_7/` e não é oferecido a ninguém. Vários outros estão em
-> `LayoutItem`s comentados no fim do `layoutData.ts` (código morto acessível).
->
-> Para conferir os dois sentidos — lembrando que o arquivo tem um bloco `/* … */` grande no fim,
-> então um `grep` ingênuo conta itens inativos como ativos:
+> **Os dois lados saem de sincronia com facilidade, e em silêncio.** Hoje eles estão casados:
+> **67 componentes no registry, 67 `LayoutItem`s ativos, zero órfãos dos dois lados** — e o
+> `layoutData.ts` não tem mais nenhum item comentado. Foi assim que ficou depois que os 22 órfãos
+> (o tema **07 inteiro** incluído) viraram itens de verdade; antes, metade do catálogo estava
+> importada e invisível. Confira os dois sentidos antes de commitar:
 >
 > ```bash
 > node -e "const s=require('fs').readFileSync('src/data/layoutData.ts','utf8').replace(/\/\*[\s\S]*?\*\//g,'').replace(/^\s*\/\/.*$/gm,'');
 > const act=new Set([...s.matchAll(/component:\s*['\"]([A-Za-z0-9]+)['\"]/g)].map(m=>m[1]));
 > const reg=new Set([...require('fs').readFileSync('src/utils/templateRegistry.ts','utf8').matchAll(/^import\s+([A-Z][A-Za-z0-9]+)/gm)].map(m=>m[1]));
-> console.log('no registry sem item ativo:',[...reg].filter(x=>!act.has(x)).sort().join(', '));
+> console.log('no registry sem item ativo:',[...reg].filter(x=>!act.has(x)).sort().join(', ')||'nenhum');
 > console.log('ativo sem registry (cai no placeholder):',[...act].filter(x=>!reg.has(x)).join(', ')||'nenhum')"
 > ```
+>
+> O `replace` do bloco `/* … */` continua no comando de propósito: é barato e protege contra a
+> volta do padrão de deixar item comentado no arquivo.
+>
+> **Um componente só entra se a origem existir na plataforma que ele declara**, e isso é
+> verificável sem subir nada: Tray/Wake resolvem por
+> `global-templates/<Tray|Wake>/<Common|Home|Category|Product>/template_<template>/<selection>`
+> (o campo `component` **não** participa do caminho), e VTEX resolve o `path` contra
+> `../faststore.starter` pelo grafo de `manifest.json`. `Newsletter01` ficou de fora justamente
+> por isso: não tem `template_1/newsletter` em nenhuma das duas plataformas, não tem manifest
+> próprio, e o mock é sub-componente do `Footer01` (que já o renderiza).
 
 ### Per-component variables (`variablesSchema`)
 
-A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **28 of the 44 active items declare one** — every VTEX-capable Header/Footer/Spot/Showcase plus Breadcrumb01, Categories01, BannerMain01, Ruler01, BannerGrid01, CategoryMain01, CategoryDescription01, ProductDescription01 and ProductInfo01/03. To list them: `grep -c "variablesSchema:" src/data/layoutData.ts`. `Header01` has 9 vars: topbar/header/nav/submenu × bg+text, plus `--header-font`.
+A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **28 of the 67 active items declare one** — every VTEX-capable Header/Footer/Spot/Showcase plus Breadcrumb01, Categories01, BannerMain01, Ruler01, BannerGrid01, CategoryMain01, CategoryDescription01, ProductDescription01 and ProductInfo01/03. To list them: `grep -c "variablesSchema:" src/data/layoutData.ts`. `Header01` has 9 vars: topbar/header/nav/submenu × bg+text, plus `--header-font`.
 
 - `ComponentVariable = { cssVar, label, type: "color" | "font", default, group?, inheritsLabel? }`. `cssVar` is the literal CSS custom-property name written verbatim into `config.json` (e.g. `--header-topbar-bg`); `default` is the value the downstream SCSS uses as its `var()` fallback; `group` buckets fields in the panel; `inheritsLabel` is the friendly name of the global token shown while the field is still unset.
-- **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) _is_ the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because 16 of the 44 active items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
+- **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) _is_ the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because 39 of the 67 active items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
 - **State:** `LayoutSelection.variables?: Record<cssVar, value>` in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`, `editingUid`); persisted with `selections` under the `layoutSelections` localStorage key.
 - **Export:** `pickChangedVariables()` writes ONLY keys whose value differs from the schema `default` (omitted key ⇒ downstream SCSS uses its own `var()` fallback), as a `variables` object on the entry — in both `buildConfigJson` (Tray/Wake) and `buildFaststoreConfigJson` (VTEX).
 - Font values are stored as `'Family', sans-serif`; the panel parses the family out for `FontSelector` and re-wraps on change.

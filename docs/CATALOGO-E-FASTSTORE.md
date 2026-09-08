@@ -65,18 +65,19 @@ Exemplo: o item `component: "Showcase01"` tem `path: "organisms/ProductShelfCust
 
 | Catálogo (`component`) | Pasta no catálogo | `path` → `faststore.starter/src/components/…` | Swiper? |
 |---|---|---|---|
-| `Header01/03/04/05/06` | `common/template_1/3/4/5/6/Header` | `organisms/Header0N` | Header06 sim |
-| `Spot01/03/04/05` | `common/template_N/Spot` | `molecules/ProductCard0N` | — |
+| `Header01/03/04/05/06/07` | `common/template_N/Header` | `organisms/Header0N` | Header06 sim |
+| `Spot01/03/04/05/06/07` | `common/template_N/Spot` | `molecules/ProductCard0N` | — |
 | `Breadcrumb01` | `common/.../Breadcrumb` | `overrides/Breadcrumb01` | — |
-| `Footer01/03/04/05/06` | `common/template_N/Footer` | `organisms/Footer0N` | Footer03 sim |
+| `Footer01/03/04/05/06/07` | `common/template_N/Footer` | `organisms/Footer0N` | Footer03 sim |
 | `BannerFull01` | `home/template_1/BannerFull` | `atoms/BannerFull01` | — |
 | `Brand01` | `home/template_1/Brand` | `molecules/Brands01` | **sim** |
 | `Categories01` | `home/template_1/Categories` | `molecules/Categories01` | **sim** |
-| `BannerMain01` | `home/template_1/BannerMain` | `organisms/BannerMain01` | **sim** |
+| `BannerMain01/06` | `home/template_N/BannerMain` | `organisms/BannerMain0N` | **sim** |
 | `Ruler01` | `home/template_1/Ruler` | `molecules/Ruler01` | **sim** |
 | `BannerGrid01` | `home/.../BannerGrid` | `molecules/BannerGrid01` | — |
 | `BannerSide01` | `home/.../BannerSide` | `molecules/BannerSide01` | — |
-| `Showcase01/03/04/05` | `home/template_N/Showcase` | `organisms/ProductShelfCustom0N` | **sim** |
+| `Showcase01/03/04/05/06/07` | `home/template_N/Showcase` | `organisms/ProductShelfCustom0N` | **sim** |
+| `TextArea` | `home/template_1/TextArea` | `molecules/TextArea` (`override: true`) | — |
 | `CategoryMain01` | `category/template_1/CategoryMain` | `organisms/MainCategory01` | **sim** (filtros) |
 | `CategoryDescription01` | `category/.../CategoryDescription` | `organisms/DescriptionCategory01` | — |
 | `ProductDescription01` | `product/.../ProductDescription` | `molecules/ProductDescription01` | — |
@@ -84,13 +85,17 @@ Exemplo: o item `component: "Showcase01"` tem `path: "organisms/ProductShelfCust
 | `ProductInfo03` | `product/template_3/ProductInfo` | `organisms/ProductDetails02` (galeria embutida, não é componente à parte) | **sim** (galeria) |
 | `ProductRelated01` | `product/template_1/ProductRelated` | `organisms/ProductShowcase01` | **sim** |
 
-> Componentes de templates **sem** `'VTEX'` em `platforms` (ex.: `Ruler02`, `HomeCarousel06`,
-> `ProductInfo02`, `BannerTripleSwiper05`) não têm `path`. Em geral são variantes exclusivas de
-> Tray/Wake — mas **"sem `path`" não significa "não existe no starter"**: `Showcase06/07`,
-> `Spot06/07`, `Header07`, `Footer07` e `BannerMain06` têm equivalente lá
-> (`ProductShelfCustom06/07`, `ProductCard06/07`, `Header07`, `Footer07`, `BannerMain06`) e só
-> não estão oferecidos no catálogo ainda. Antes de concluir que não há referência, procure pelo
-> nome técnico em `../faststore.starter/src/components/`.
+> Componentes de templates **sem** `'VTEX'` em `platforms` (ex.: `Ruler02/04/05`,
+> `HomeCarousel06`, `ProductInfo02`, `BannerTripleSwiper05`) não têm `path` — são variantes
+> exclusivas de Tray/Wake. Mas **"sem `path`" não significa "não existe no starter"**: antes de
+> concluir que não há referência, procure pelo nome técnico em
+> `../faststore.starter/src/components/`. Foi assim que `Showcase06/07`, `Spot06/07`, `Header07`,
+> `Footer07`, `BannerMain06` e `TextArea` ganharam `path` — o equivalente já estava lá.
+>
+> Para checar um `path` novo sem subir nada, use as classes REAIS do generator
+> (`AssetRegistry` + `DependencyResolver`) contra o starter: se o `resolve` não estourar, o
+> `manifest.json` daquele componente e de todo o grafo abaixo dele está completo. Um `path` que
+> não resolve derruba a geração do tema inteiro, não só aquele componente.
 
 ## Regra de ouro para carrosséis (Swiper)
 
