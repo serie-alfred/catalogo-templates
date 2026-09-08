@@ -24,6 +24,7 @@ e o `yarn dev` de pé para os estágios 2 e 3. Saídas em `.funil/` (ignorada).
 | `2-render` | cada componente novo monta sozinho, sem erro de console, com altura e conteúdo | dev server |
 | `2-edicao` | regras de negócio: singleton substitui, não-singleton coexiste, duplicar/remover, painel de variáveis, troca de plataforma | dev server |
 | `2-geometria` | fidelidade ao Figma (±1px) contra as coordenadas em `figma/` | dev server |
+| `2-preview` | visão mobile, link `/p/{id}/{page}` compartilhável e a rota `/gerador/import-log` | dev server |
 | `3-export` | o botão "Baixar" entrega os três configs; cada um resolve o contrato da sua plataforma; os dois PNGs saem | dev server |
 | `4-tema-faststore` | o generator monta o tema de verdade e **ele compila** (`yarn build`) — a única perna do pipeline executável desta máquina | estágio 3 · `gh` autenticado · minutos |
 | `5-contrato-tray-wake` | contrato estático de Tray e Wake: pasta de origem, `instanceCount`, dedupe `key::arquivo`, nenhum caminho com espaço | estágio 3 |
@@ -53,6 +54,20 @@ Não é escolha: `git ls-remote` do GitLab e do `git.fbits.net` **trava** dentro
 `git-credential-osxkeychain` — só `github.com` tem helper aqui, via `gh`. Além
 disso o fluxo da Tray usa `start cmd /k` e `cd /d` (Windows), e o da Wake publica
 em loja real sem opt-in. O estágio 5 confere o contrato sem executar.
+
+## Estágio 2c — as três features que os outros não tocam
+
+A visão mobile troca a **moldura** do iframe: o documento é o mesmo
+(`/gerador/frame-mobile`) dos dois lados. O preview serializa o tema num snapshot
+do servidor (`.preview-store/` em dev, KV em produção) e devolve
+`/p/{id}/{page}` — que renderiza **sem** o editor e sem postMessage, então é o
+único lugar onde o caminho de serialização é exercitado ponta a ponta. E o
+`import-log` é rota pública que lê o filesystem.
+
+Ele achou dois defeitos no primeiro run: o `import-log` dava 500 em toda visita
+sem `~/Downloads/log.txt`, e o logo da agência no `Footer` do template_1 tinha o
+`d` do path truncado com reticências **no código-fonte**, reclamando
+«<path> attribute d: Expected number» a cada render.
 
 ## Por que a origem é conferida por caminho
 
