@@ -144,6 +144,20 @@ for (const a of alvos) {
     await s(2200);
   }
 
+  // Espera a seção pintar em vez de confiar no sleep fixo. Com o dev server frio o
+  // primeiro alvo do lote perdia a corrida e saía como "seção não montou" — falha
+  // de harness, não do componente. Se estourar, o evaluate abaixo reporta o motivo.
+  await p
+    .waitForFunction(
+      sel =>
+        !!document
+          .querySelector('iframe')
+          ?.contentDocument?.querySelector(`[data-selection="${sel}"]`),
+      { timeout: 20000, polling: 250 },
+      a.selection
+    )
+    .catch(() => {});
+
   const m = await p.evaluate(sel => {
     const d = document.querySelector('iframe')?.contentDocument;
     if (!d) return { erro: 'sem contentDocument' };
