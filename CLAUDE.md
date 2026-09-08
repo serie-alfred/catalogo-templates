@@ -113,7 +113,7 @@ The downstream **template-generator** reads each entry's `variables` and injects
 - **`pagina === "common"`** — the code loops `item.pagina.map(...)` to produce one `LayoutSelection` per entry, but in practice **every item in `layoutData.ts` has a single-element `pagina`**, so a `common` item yields exactly ONE row; it's `belongsToPage` that makes it show up on all three pages. Re-selecting the same common item on the same `layoutKey` replaces the existing row.
 - Other items — appended, with a `MAX_PER_PAGE` (currently 101) cap per page.
 
-The same `selection` strings drive the duplicate-button blacklist, now in [src/utils/sectionRules.ts](src/utils/sectionRules.ts) (`NON_DUPLICABLE_LAYOUT_KEYS` — singletons can't be duplicated). Update both lists when introducing a new singleton.
+The same `selection` strings drive the duplicate-button blacklist in [src/utils/sectionRules.ts](src/utils/sectionRules.ts) (`NON_DUPLICABLE_SELECTIONS`). It is keyed by `selection`, not `layoutKey`, and that is load-bearing: the `bannerFull` section mixes `banner-full` (duplicable) with `category-banner` (singleton), so no layoutKey rule can separate them. Update both lists when introducing a new singleton.
 
 ### Render order
 
@@ -155,8 +155,8 @@ before touching it.
 - **Selection chrome adds NOTHING to the wrappers.** The outline is `outline` + `outline-offset: -2px`
   (zero pixel shift), and both the hover label and the green/red action badges are single
   `position: fixed` children of the canvas `<body>`, placed from `getBoundingClientRect()`.
-  Green duplicates, red removes; green hides for `NON_DUPLICABLE_LAYOUT_KEYS`, read off the
-  `data-layout-key` the wrapper already carries.
+  Green duplicates, red removes; green hides for `NON_DUPLICABLE_SELECTIONS`, read off the
+  `data-selection` the wrapper carries.
 - **Event delegation** lives in [useCanvasInteractions](src/hooks/useCanvasInteractions.ts): all
   listeners run in **capture phase** and never `stopPropagation`, so `preventDefault` kills only the
   browser's default action while the template's own handlers still run. It takes `enabled` — the
