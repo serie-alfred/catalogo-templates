@@ -37,15 +37,18 @@ Next.js 15 App Router, React 19, TypeScript strict, CSS Modules + a few globals 
 ### Two route groups, two purposes
 
 - `(home)` — public marketing/showcase page ([src/app/(home)/page.tsx](<src/app/(home)/page.tsx>)). Uses Geist font via `next/font`, loads only `globals.css`.
-- `gerador` — the interactive layout-builder tool. Split into two route groups, each with its **own root layout**: `(editor)` ([src/app/gerador/(editor)/page.tsx](<src/app/gerador/(editor)/page.tsx>), URL `/gerador`) loads `gerador.css` + `templates.css` + `globals.css` + `storefront.css` + `editor-canvas.css` and wraps children in `LayoutProvider`; `(frame)` (URL `/gerador/frame-mobile`) is the isolated document rendered inside the mobile-preview iframe. **No `next/font`** here — fonts are user-selectable at runtime. Route handlers under `src/app/gerador/api/**` sit outside both groups (they need no layout).
+- `gerador` — the interactive layout-builder tool. Split into two route groups, each with its **own root layout**: `(editor)` ([src/app/gerador/(editor)/page.tsx](<src/app/gerador/(editor)/page.tsx>), URL `/gerador`) loads `templates.css` + `globals.css` + `storefront.css` + `editor-canvas.css` + `editor-tokens.css` (in that order — the dark-mode lock in the last one has to win) and wraps children in `LayoutProvider`; `(frame)` (URL `/gerador/frame-mobile`) is the isolated document rendered inside the preview iframe. Route handlers under `src/app/gerador/api/**` sit outside both groups (they need no layout).
+  - **`next/font` is for the CHROME only.** Inter is loaded in the editor layout as `inter.variable` and applied on `.ed-shell`. It must never go on `<body>`: `ExportStage` mounts `ThemeRenderer` in this same document and no template declares its own `font-family`, so the generated class (0,1,0) would beat `body { font-family: var(--font-family) }` (0,0,1) and silently change the typography of the exported PNGs. The **theme** fonts stay runtime-selectable, as before.
 
 The two routes intentionally have separate `layout.tsx` files. Don't unify them.
 
 ### The gerador is one big hook + a context
 
-All state for the builder lives in [src/hooks/useLayoutGenerator.ts](src/hooks/useLayoutGenerator.ts) — selections, current platform, focused section, current page (`selectedPage`), mobile/desktop toggle, theme colors, fonts, canvas/screenshot refs, section selection (`selectedUid`/`hoveredUid`), the section actions (`moveSection`/`duplicateSection`/`removeSection`), the Wake-token popup state, export logic. [src/context/LayoutContext.tsx](src/context/LayoutContext.tsx) just wraps that hook and exposes it via `useLayout()`. Components inside `gerador/` should consume `useLayout()` rather than receiving these as props.
+All state for the builder lives in [src/hooks/useLayoutGenerator.ts](src/hooks/useLayoutGenerator.ts) — selections, current platform, focused section, current page (`selectedPage`), the active rail destination (`railTarget`), mobile/desktop toggle, theme colors, fonts, assets, canvas/screenshot refs, section selection (`selectedUid`/`hoveredUid`), the section actions (`moveSection`/`duplicateSection`/`removeSection`), the Wake-token popup state, undo/redo, export logic. [src/context/LayoutContext.tsx](src/context/LayoutContext.tsx) just wraps that hook and exposes it via `useLayout()`. Components inside `gerador/` should consume `useLayout()` rather than receiving these as props.
 
-There is also a near-empty [src/context/LayoutProviders.client.tsx](src/context/LayoutProviders.client.tsx) that re-wraps the same provider; nothing imports it. Prefer `LayoutContext.tsx` directly.
+**Undo/redo** lives in [src/hooks/useThemeHistory.ts](src/hooks/useThemeHistory.ts) and is an *observer*: it never intercepts an action, it serializes the result. The versioned document is `selections` + the 10 colors + the 3 fonts — not UI state, not `platform` (it has its own confirm dialog), not the three assets (2 MB data URLs × 50 entries). Structural changes commit immediately; everything else is debounced 250 ms so a color-picker drag is one entry.
+
+**The seeded context must stay in sync.** [SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx) forges the context object for `/p` and the iframe with an `as unknown as` cast, so the compiler will NOT catch a field you add to or remove from the hook's return.
 
 ### Adding or editing a template
 
@@ -79,7 +82,7 @@ A template is a React component plus a catalog entry. Two files always need to c
 A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **28 of the 44 active items declare one** — every VTEX-capable Header/Footer/Spot/Showcase plus Breadcrumb01, Categories01, BannerMain01, Ruler01, BannerGrid01, CategoryMain01, CategoryDescription01, ProductDescription01 and ProductInfo01/03. To list them: `grep -c "variablesSchema:" src/data/layoutData.ts`. `Header01` has 9 vars: topbar/header/nav/submenu × bg+text, plus `--header-font`.
 
 - `ComponentVariable = { cssVar, label, type: "color" | "font", default, group?, inheritsLabel? }`. `cssVar` is the literal CSS custom-property name written verbatim into `config.json` (e.g. `--header-topbar-bg`); `default` is the value the downstream SCSS uses as its `var()` fallback; `group` buckets fields in the panel; `inheritsLabel` is the friendly name of the global token shown while the field is still unset.
-- **UI:** the pencil/"Editar" button and the [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) right-side drawer appear only when `variablesSchema` is non-empty (colors → `ColorPicker`, fonts → `FontSelector`). Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx) (drawer has no dark overlay so the preview stays visible).
+- **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) *is* the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because 16 of the 44 active items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
 - **State:** `LayoutSelection.variables?: Record<cssVar, value>` in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`, `editingUid`); persisted with `selections` under the `layoutSelections` localStorage key.
 - **Export:** `pickChangedVariables()` writes ONLY keys whose value differs from the schema `default` (omitted key ⇒ downstream SCSS uses its own `var()` fallback), as a `variables` object on the entry — in both `buildConfigJson` (Tray/Wake) and `buildFaststoreConfigJson` (VTEX).
 - Font values are stored as `'Family', sans-serif`; the panel parses the family out for `FontSelector` and re-wraps on change.
@@ -103,24 +106,91 @@ The same `selection` strings drive the duplicate-button blacklist, now in [src/u
 
 `SectionsPanel` does **not** reimplement that order — it splits the rows into three buckets (`order < 2` locked on top, `order === 2` reorderable, `order > 2` locked at the bottom) and puts only the middle bucket in a `SortableContext`. That's why header/breadcrumb/footer have no drag handle (`LOCKED_LAYOUT_KEYS`): the user can never attempt a drag that `getPriorityOrder` would undo. `moveSection` runs `arrayMove` over the indices of the **full `selections` array**, not the filtered one.
 
-### The editor canvas is fully interactive (Shopify model)
+Each row is an accordion (Figma). The 24px slot on the left shows the caret at rest — 1:1 with the
+design, which draws no drag handle — and swaps it for the grip while the pointer is over the row;
+locked rows show a padlock. The three buckets and the `SortableContext` are unchanged.
 
-The `/gerador` canvas renders the theme **exactly like `/p`** — Swipers drag, hovers open megamenus, clicks work. There is no edit/navigate mode toggle. Editing lives in a left-hand [SectionsPanel](src/components/gerador/SectionsPanel/index.tsx); drag-and-drop happens on rows of text there, never on the canvas. Removing dnd from the canvas is what allowed the old `pointer-events: none` to go away.
+### The editor shell (redesign, Figma "Versão Final V4")
 
-- **One renderer for every surface.** [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx) serves `/p`, the editor canvas, and the export stage. `SortableItem` and `DraggablePreviewList` are gone. Its wrappers are bare `div`s **on purpose**: no `overflow`, no `transform`, no `will-change` — those clipped megamenus and made the section a containing block for the Headers' `position: fixed` drawers.
-- **Hover/selection chrome must add NOTHING to the section wrappers** ([editor-canvas.css](src/styles/editor-canvas.css)) — they stay bare `div`s, identical to `/p`. The outline is `outline` + `outline-offset: -2px` (doesn't participate in layout, zero pixel shift), never `border` or `transform`; the hover label is a single `position: fixed` element parked on the canvas `<body>`, positioned from `getBoundingClientRect()`. It used to be a `::before` needing `position: relative` on the wrapper — which gave a containing block to templates' **orphaned absolute pseudo-elements** (ones whose parent has no `position`, so in `/p` they resolve against the initial containing block and stay out of sight) and made e.g. `ProductDescription01`'s `.descriptionTitle::before` paint a line across the whole screen. Read the comment at the top of that file before changing it.
-- **Event delegation** lives in [useCanvasInteractions](src/hooks/useCanvasInteractions.ts): all listeners run in **capture phase** and never `stopPropagation`, so `preventDefault` kills only the browser's default action while the template's own handlers still run. `<a href>`, `auxclick`, `submit` and `dragstart` are neutralized; `pointerdown`/`mousedown`/`touchstart` are untouched (the Swiper gesture depends on them). `<a>` without `href` (used as a button in several templates) is deliberately left alone. Hover is written straight to the DOM as `data-hovered` — it's too high-frequency for React state.
-- **The canvas is an `<iframe>` — in BOTH views** ([PreviewFrame](src/components/gerador/PreviewFrame/index.tsx) → `/gerador/frame-mobile`; desktop at full width, mobile at 375px). This is the load-bearing decision, not a nicety: the Headers' mini-carts, drawers and search overlays are `position: fixed` **with `calc(100vh - N)` heights**, and in the editor's own document both resolve against the editor window, so a mini-cart covered the whole screen — dock and panel included. It cannot be fixed from outside: `transform`/`contain` on a wrapper fixes the *anchoring* but `vh` still resolves against the viewport, giving a window-tall drawer pinned to the canvas top (worse once scrolled); and patching the templates' CSS would break `faststore.starter` parity. Inside the iframe the viewport **is** the storefront, so `fixed` and `vh` mean what they mean in production. It's what Shopify does. Switching desktop↔mobile is pure CSS on the host — same document, no reload, no lost Swiper/drawer state — and the `@container` queries now resolve against the real width.
-  - The `(frame)` route group has its own root layout (no `gerador.css`, no `LayoutProvider`). The bridge is `postMessage` ([frameMessage.ts](src/types/frameMessage.ts)) with two separate messages: `theme` (coalesced per `requestAnimationFrame`, so a color-picker keystroke re-renders one `<div style>` and the memoized `ThemeRenderer` bails out) and `content` (carries `isMobile` and the large `logo` data-URL, rarely changes). **The child announces `ready`** — the iframe's `load` fires before React hydrates, so a parent-first message would be lost, and the parent's handler is idempotent because StrictMode/HMR announce twice.
-  - The iframe height is tied to the **editor window** (`calc(100dvh - 132px)`), never to its content. An auto-height iframe would make `vh`/`fixed` resolve against the full page height — the original bug back, in disguise.
-  - `PreviewArea` is therefore **not** a scrollport any more; scrolling happens inside the frame. `SectionsPanel` can't reach into it, so "scroll to section" goes through `scrollToSectionRef` (a ref the frame registers — not state, because the same row can be clicked twice) and hover goes through the `hoveredUid` state the frame observes.
-- **Fonts must be injected into the iframe's own document** — `loadGoogleFont(family, doc)` in [googleFont.ts](src/utils/googleFont.ts), including the per-component fonts parsed out of `sel.variables`. Skipping that silently falls back (e.g. `Header01`'s Manrope).
-- **The export stage is mounted on demand** ([ExportStage](src/components/gerador/ExportStage/index.tsx), gated by `isCapturing`) instead of living in the DOM permanently — it used to mount every template a third time. It renders in the **editor's** document (a sibling of `<main>`, so no ancestor `overflow` clips it), because `html2canvas` can't reach across documents into the iframe.
-- **Editing lives in the dock, not a floating panel.** `SectionsPanel` is the `'sections'` tab of [Sidebar](src/components/gerador/Sidebar/index.tsx). As a fixed left column it covered the component-picker drawer, which is wide and grows upward. Because it now renders *inside* `.sidebar`, `gerador.css`'s `.sidebar button` rule (0,1,1) beats CSS-Module classes (0,1,0) and turned every row into big blue blocks — hence the mandatory `.panel button` reset and the `.panel`-prefixed selectors in its CSS module. Don't remove them.
+`/gerador` is a four-column CSS grid in [(editor)/index.module.css](<src/app/gerador/(editor)/index.module.css>):
+`75.404px | 344.596px | minmax(0,1fr) | 420px` — rail, left panel, canvas column, right panel.
+The centre column is a sub-grid of `64px | minmax(0,1fr)` (topbar, canvas). The floating bottom dock
+is gone, and with it `Sidebar/`, `SidebarTabEditTheme`, `PreviewArea` and `styles/gerador.css`.
+
+- **`minmax(0, 1fr)` is load-bearing** in both axes. Plain `1fr` carries `min-width/min-height: auto`,
+  and the `<iframe>` (a replaced element with a 300px intrinsic width) would blow the track out and
+  push the right panel off screen.
+- **The class is `.shell`, not `.main`** — `globals.css` has `.main { padding: 0 15% }`.
+- **The iframe height comes from the grid**, not from a `calc()`. It used to be
+  `calc(100dvh - 132px)`, where 132 hand-encoded the old dock's padding. Now the canvas row is
+  `minmax(0,1fr)` of a `100dvh` shell and `PreviewFrame .host` is `height: 100%`. The invariant is the
+  same and stronger: **no term depends on content**. An auto-height iframe makes `vh`/`fixed` resolve
+  against the whole page — the original bug, in disguise.
+- **`ExportStage` is a sibling of the shell**, which is `overflow: hidden` and would clip the
+  off-screen stage at `top/left: -99999px`.
+- The rail's width is never declared: `padding: 24px` + the 27.404px mark *are* the 75.404px.
+
+**One renderer for every surface.** [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx)
+serves `/p`, the editor canvas and the export stage. Its wrappers are bare `div`s **on purpose**: no
+`overflow`, no `transform`, no `position` — those clipped megamenus and made the section a containing
+block for the Headers' `position: fixed` drawers and for the templates' orphaned absolute
+pseudo-elements. Read the comment at the top of [editor-canvas.css](src/styles/editor-canvas.css)
+before touching it.
+
+- **Selection chrome adds NOTHING to the wrappers.** The outline is `outline` + `outline-offset: -2px`
+  (zero pixel shift), and both the hover label and the green/red action badges are single
+  `position: fixed` children of the canvas `<body>`, placed from `getBoundingClientRect()`.
+  Green duplicates, red removes; green hides for `NON_DUPLICABLE_LAYOUT_KEYS`, read off the
+  `data-layout-key` the wrapper already carries.
+- **Event delegation** lives in [useCanvasInteractions](src/hooks/useCanvasInteractions.ts): all
+  listeners run in **capture phase** and never `stopPropagation`, so `preventDefault` kills only the
+  browser's default action while the template's own handlers still run. It takes `enabled` — the
+  effect must not run before `FrameClient` has content, or `rootRef` is still null and it silently
+  never attaches.
+- **The canvas is an `<iframe>` — in BOTH views** ([PreviewFrame](src/components/gerador/PreviewFrame/index.tsx)
+  → `/gerador/frame-mobile`; desktop full width, mobile 375px). This is the load-bearing decision, not
+  a nicety: the Headers' mini-carts, drawers and search overlays are `position: fixed` **with
+  `calc(100vh - N)` heights**, and in the editor's own document both resolve against the editor
+  window. Inside the iframe the viewport **is** the storefront. Switching desktop↔mobile is pure CSS
+  on the host — same document, no reload — and the `@container` queries resolve against the real width.
+  - The bridge is `postMessage` ([frameMessage.ts](src/types/frameMessage.ts)): `hello`, `theme`
+    (coalesced per `requestAnimationFrame`), `content`, `highlight`, `scroll-to` downward; `ready`,
+    `select`, `hover`, `shortcut`, `section-action` upward.
+  - **The handshake needs BOTH `hello` and `ready`.** The `<iframe>` is in the served HTML, so the
+    browser starts fetching the child before the editor bundle finishes hydrating; with a bundle this
+    size the child often hydrates *first* and its `ready` lands on a parent that is not listening yet.
+    Whichever side arrives last kicks off the exchange. Dropping either direction brings back a blank
+    canvas on first load.
+  - Fonts must be injected into the iframe's own document — `loadGoogleFont(family, doc)` in
+    [googleFont.ts](src/utils/googleFont.ts), including the per-component fonts parsed out of
+    `sel.variables`.
+- **Nothing in the left panel may have `transform`, `filter` or `contain`**: it would become the
+  containing block of the dnd-kit `DragOverlay` (still portalled to `document.body`) and of the
+  ColorPicker popover (portalled for the same reason — the panels are `overflow: auto/clip`).
+
+### Design tokens for the chrome
+
+[src/styles/editor-tokens.css](src/styles/editor-tokens.css) holds the Figma palette under a
+**mandatory `--ed-` prefix**: the same `:root` also receives the *store theme* tokens
+(`--background-primary-color`, `--font-primary`…) that `useLayoutGenerator` writes imperatively. Two
+vocabularies in one scope — an unprefixed token here would collide with the customer's theme.
+
+The dark-mode lock needs all three parts (`color-scheme: light !important`, the `body` background and
+a re-declaration of `--background` inside the media query): `color-scheme` alone does **not** affect
+`prefers-color-scheme`, so `globals.css` would keep setting `--background: #0a0a0a`. Same recipe as
+[preview.css](src/styles/preview.css). `:focus-visible` is restored scoped to `.ed-shell` with
+`!important`, because `globals.css` kills focus with `!important` and is shared with `(home)`, `/p`
+and the frame.
 
 ### Theming
 
-Colors and fonts in `useLayoutGenerator` are pushed to `:root` as CSS custom properties (`--text-primary-color`, `--secondary-color`, `--tertiary-color`, `--background-primary-color`, `--background-secundary-color`, `--background-tertiary-color`, `--background-footer`, `--text-color-footer`, `--text-color-base`, `--text-color-secundary`, `--font-primary`, `--font-secundary`). Templates **must** read theme values from these variables — do not hardcode colors/fonts in template CSS Modules. `--text-color-base` and `--text-color-secundary` are auto-derived from background luminance; don't try to set them directly.
+Colors and fonts in `useLayoutGenerator` are pushed to `:root` as CSS custom properties (`--text-primary-color`, `--secondary-color`, `--tertiary-color`, `--background-primary-color`, `--background-secundary-color`, `--background-tertiary-color`, `--background-footer`, `--text-color-footer`, `--text-color-base`, `--text-color-secundary`, `--font-primary`, `--font-secundary`). Templates **must** read theme values from these variables — do not hardcode colors/fonts in template CSS Modules.
+
+**Three of the ten colors are derived**, not authored: `colorPrimaryText`, `colorSecondaryText` and
+`colorTertiary` are recomputed from the luminance of the matching brand background (YIQ, threshold
+128) whenever that background changes. They are read-only in the UI and their setters are **not**
+exposed on the context — they used to be editable fields whose edits were overwritten on the next
+touch of any background. The values still ship in `config.json` and in the preview snapshot.
 
 **Neutrals over a customizable background must derive from the theme text, never a fixed gray.** Muted/secondary text, placeholders, and any border (especially input borders) sit on a background the user can change — a fixed gray (`#6b6b6b`, `#e4e7ea`, a local `--h5-border: #e4e7ea`…) breaks contrast on a dark theme. Write them as `color-mix(in srgb, var(--<section>-text, var(--<global-text>, #hex)) N%, transparent)` (muted text 45–60%, placeholder 48–55%, borders 12–22%) so they follow the theme text automatically. Only translucent overlays, shadows, and non-color values (timings, sizes) stay raw. This is why the local `--h5-*`/`--f4-*`/`--h6-*`/`--f6-*` neutral vars are defined as `color-mix(...)` at the component root (kept byte-identical in the sibling `faststore.starter` SCSS for parity).
 
@@ -128,20 +198,41 @@ Note the typo `--background-secundary-color` (and `--text-color-secundary`, `--f
 
 ### Persistence
 
-Selections, platform, colors, and fonts are mirrored to `localStorage` under keys `layoutSelections`, `layoutPlatform`, `colors`, `fonts`. The hook hydrates from these on mount via `useState` initializers (guarded for SSR).
+Selections, platform, colors, fonts and the three assets are mirrored to `localStorage` under keys
+`layoutSelections`, `layoutPlatform`, `colors`, `fonts`, `logo`, `favicon`, `ogImage`. The hook
+hydrates in a post-mount effect (not in `useState` initializers), gated by `hydrated` so the save
+effects don't overwrite storage with defaults first.
+
+**Hydration validates.** `layoutSelections` and `layoutPlatform` go through `sanitizeSelections` /
+`sanitizePlatform` ([platformCompat.ts](src/utils/platformCompat.ts)) — the catalog may have changed
+between sessions, and `/gerador/import-log` is a third writer of `layoutPlatform` that stores a raw
+value.
+
+### Switching platform
+
+`changePlatform` **preserves what is compatible**. It used to be `setSelections([])`: every section on
+every page was wiped, variable overrides included, with no warning and no undo. Now
+`partitionByPlatform` splits by the item's `platforms`; survivors keep their `uid`, `pagina` and the
+very same `variables` object (same item ⇒ same schema ⇒ `pickChangedVariables` still compares against
+the same defaults). Losses raise a confirm listing them by name; cancelling changes nothing.
+Tray↔Wake never loses anything — their catalogs are identical.
 
 ### Export flow
 
-`exportLayout` (called from the Sidebar) does three things in sequence: (1) `await mountExportStage()` — which flips `isCapturing`, mounts [ExportStage](src/components/gerador/ExportStage/index.tsx) off-screen and resolves after two `requestAnimationFrame`s (layout, then paint) — then `await`s `waitForImages` on both copies plus `document.fonts.ready` before `html2canvas`ing the `desktopPreviewRef` (1920px) and `mobilePreviewRef` (375px) divs, downloading PNGs to the user. **Those awaits are load-bearing**: the stage used to be mounted since page load, so images and fonts were long since ready; without them the PNGs come out with blank images and fallback type, and nobody checks the PNG; (2) build a JSON config grouped by `platform → { global, variables, [page]: items[] }`; (3) POST it to `/gerador/api/send-email` which mails it as `config.json`. When `platform === 'wake'`, the JSON also includes `wakeToken` from the `WakePopup` input.
+`exportLayout` (the "Baixar" button in the right panel header) does three things in sequence: (1) `await mountExportStage()` — which flips `isCapturing`, mounts [ExportStage](src/components/gerador/ExportStage/index.tsx) off-screen and resolves after two `requestAnimationFrame`s (layout, then paint) — then `await`s `waitForImages` on both copies plus `document.fonts.ready` before `html2canvas`ing the `desktopPreviewRef` (1920px) and `mobilePreviewRef` (375px) divs, downloading PNGs to the user. **Those awaits are load-bearing**: the stage used to be mounted since page load, so images and fonts were long since ready; without them the PNGs come out with blank images and fallback type, and nobody checks the PNG; (2) build a JSON config grouped by `platform → { global, variables, assets, [page]: items[] }`; (3) POST it to `/gerador/api/send-email` which mails it as `config.json` — but only on `www.e-temas.com.br`; anywhere else it downloads the JSON locally. When `platform === 'wake'`, the JSON also includes `wakeToken` from the `WakePopup` input.
+
+⚠️ `buildFaststoreConfigJson` (VTEX) has **no `assets` block at all**, so logo, favicon and the share
+image are silently dropped on every VTEX export. Pre-existing; changing that shape is a decision
+shared with `produtos-template-generator`.
 
 ### Shareable preview (`/p/[id]/[page]`)
 
-Alongside export, the Sidebar has a **Preview** button ([PreviewButton](src/components/gerador/PreviewButton/index.tsx), next to Export in [SidebarIcons](src/components/gerador/Sidebar/SidebarIcons/index.tsx)) that persists the current theme server-side and returns a short random URL the client can open and navigate like a real site. Three pages share one id: `/p/{id}/home`, `/p/{id}/categoria`, `/p/{id}/produto`, switched via a floating bubble ([PreviewNav](src/components/preview/PreviewNav/index.tsx)).
+Alongside export, the right panel header has a **Pré-visualizar** button ([PreviewButton](src/components/gerador/PreviewButton/index.tsx)) that persists the current theme server-side and returns a short random URL the client can open and navigate like a real site. Three pages share one id: `/p/{id}/home`, `/p/{id}/categoria`, `/p/{id}/produto`, switched via a floating bubble ([PreviewNav](src/components/preview/PreviewNav/index.tsx)).
 
-- **Snapshot**: `useLayoutGenerator.buildPreviewSnapshot()` serializes `{ platform, selections, colors, fonts, logo, favicon }` (`PreviewSnapshot` in [src/lib/previewStore.ts](src/lib/previewStore.ts)); `createPreview()` POSTs it to `/gerador/api/preview` and returns `${origin}/p/{id}/home`.
+- **Snapshot**: `useLayoutGenerator.buildPreviewSnapshot()` serializes `{ platform, selections, colors, fonts, logo, favicon, ogImage }` (`PreviewSnapshot` in [src/lib/previewStore.ts](src/lib/previewStore.ts); `ogImage` is optional so older snapshots stay valid); `createPreview()` POSTs it to `/gerador/api/preview` and returns `${origin}/p/{id}/home`.
 - **Storage is hybrid** ([previewStore.ts](src/lib/previewStore.ts)): a `fileStore` writes `.preview-store/{id}.json` in dev (zero config, gitignored) and a `kvStore` uses `@vercel/kv` in prod. `getStore()` picks KV when `KV_REST_API_URL` is set. The module is `server-only`; the client hook imports only the **type** (`import type`), so it never bundles it.
 - **Rendering reuse**: the page-filter + priority-sort rules live in [src/utils/previewRender.ts](src/utils/previewRender.ts) (`selectionsForPage`, `getPriorityOrder`, `belongsToPage`, `slugToPagina`/`PREVIEW_PAGES`), and `ThemeRenderer` is now literally the same component the editor uses — the two views can't diverge because there is only one.
-- **Theme outside the gerador**: [SharedPreview](src/components/preview/SharedPreview/index.tsx) applies the theme vars inline on a wrapper (`buildThemeStyle` in [themeStyle.ts](src/utils/themeStyle.ts), shared with the mobile iframe) plus the Google-font `<link>`s, and wraps children in [SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx) with `{ logo, selections }` from the snapshot. The preview must NOT run `useLayoutGenerator` (it would hydrate the author's localStorage). The `p` route group has its own `layout.tsx` importing `templates.css` + `globals.css` + `storefront.css` + `preview.css` (no `gerador.css`, no `LayoutProvider`).
+- **Theme outside the gerador**: [SharedPreview](src/components/preview/SharedPreview/index.tsx) applies the theme vars inline on a wrapper (`buildThemeStyle` in [themeStyle.ts](src/utils/themeStyle.ts), shared with the mobile iframe) plus the Google-font `<link>`s, and wraps children in [SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx) with `{ logo, selections }` from the snapshot. The preview must NOT run `useLayoutGenerator` (it would hydrate the author's localStorage). The `p` route group has its own `layout.tsx` importing `templates.css` + `globals.css` + `storefront.css` + `preview.css` (no chrome do editor, no `LayoutProvider`).
 - **Shared storefront CSS**: [storefront.css](src/styles/storefront.css) holds the two rules that must hold on all three surfaces (`.preview-sticky-header` and the `.preview-template .component__container` 1200px clamp). Document-level rules stay split on purpose — `preview.css` for `/p`, `(frame)/frame.css` for the iframe — because their `color-scheme: light !important` / `background: #fff !important` would repaint the editor's own chrome.
 - **Prod requires** a Vercel KV database and env vars `KV_REST_API_URL` / `KV_REST_API_TOKEN`.
 
