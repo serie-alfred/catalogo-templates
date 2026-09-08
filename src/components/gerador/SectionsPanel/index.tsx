@@ -41,9 +41,7 @@ import styles from './index.module.css';
  * migraram para cá: é o modelo do Shopify, e é o que permite que os carrosséis
  * e megamenus dos templates funcionem sem competir com o gesto de arrastar.
  *
- * Mora na aba "Seções da Página" da dock inferior (`Sidebar`), e não num painel
- * flutuante à esquerda: como coluna fixa ele cobria a gaveta de escolha de
- * componentes, que é larga e cresce de baixo para cima.
+ * Mora no painel esquerdo do shell, no destino "Componentes" do rail.
  *
  * A ordem continua sendo definida por `getPriorityOrder`. Esta lista não a
  * reproduz com dnd — separa os buckets e só o bucket de conteúdo entra no
@@ -71,18 +69,11 @@ export default function SectionsPanel() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  /**
-   * Ao sair da aba (ou fechar a dock) este componente desmonta e a seleção
-   * perde sentido — sem isso o contorno azul fica preso no canvas, sem nenhuma
-   * lista visível para explicar de onde veio ou como desfazê-lo.
-   */
-  useEffect(
-    () => () => {
-      setSelectedUid(null);
-      setHoveredUid(null);
-    },
-    [setSelectedUid, setHoveredUid]
-  );
+  /* A limpeza de `selectedUid`/`hoveredUid` no unmount saiu junto com a dock:
+     ela existia porque a aba desmontava ao fechar a gaveta, deixando o contorno
+     preso no canvas sem lista para explicá-lo. O painel agora é permanente e o
+     painel direito continua mostrando a seção selecionada mesmo quando o rail
+     está em outro destino. */
 
   const sensors = useSensors(
     // Sem activationConstraint o dnd-kit ativa o drag no próprio pointerdown e
@@ -200,8 +191,8 @@ export default function SectionsPanel() {
       <div className={styles.list}>
         {rows.length === 0 ? (
           <p className={styles.empty}>
-            Nenhuma seção nesta página. Abra <strong>Editar o Tema</strong> na
-            barra inferior para adicionar componentes.
+            Nenhuma seção nesta página. Use{' '}
+            <strong>Adicionar seção</strong> para incluir componentes.
           </p>
         ) : (
           <>

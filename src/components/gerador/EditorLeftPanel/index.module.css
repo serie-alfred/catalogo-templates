@@ -1,0 +1,46 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  border-right: 1px solid var(--ed-gray-000);
+  background: var(--ed-bg-00);
+  /* Nada de transform/filter/contain aqui: viraria containing block do
+     DragOverlay `position: fixed` do dnd-kit e do popover do color picker. */
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--ed-gray-000);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ed-gray-800);
+}
+
+.version {
+  padding: 4px 6px;
+  border-radius: 4px;
+  background: var(--ed-blue-100);
+  color: var(--ed-blue-ink);
+  font-size: 8px;
+  font-weight: 600;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

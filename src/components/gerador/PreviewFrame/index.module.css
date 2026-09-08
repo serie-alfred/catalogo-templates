@@ -1,12 +1,17 @@
 .host {
   display: flex;
   justify-content: center;
-  /* Altura amarrada à janela do EDITOR, não ao conteúdo. É isso que faz o
-     `100vh` dos drawers dentro do frame significar "uma tela" de verdade.
-     Um iframe de altura automática faria `vh`/`fixed` resolverem contra a
-     altura total da página — o bug original de volta, disfarçado.
-     O desconto cobre o padding da .preview-area e a folga da dock. */
-  height: calc(100dvh - 132px);
+  /* Altura amarrada à JANELA do editor, nunca ao conteúdo. É isso que faz o
+     `100vh` dos drawers dentro do frame significar "uma tela" de verdade; um
+     iframe de altura automática faria `vh`/`fixed` resolverem contra a altura
+     total da página — o bug original de volta, disfarçado.
+
+     Antes era `calc(100dvh - 132px)`, com o 132 codificando à mão o padding da
+     PreviewArea mais a folga da dock flutuante. Agora quem garante a
+     invariante é o grid do shell: `.center` é `grid-template-rows:
+     var(--ed-topbar-h) minmax(0, 1fr)` dentro de um `.shell` de `100dvh`, e o
+     canvas passa `height: 100%` para cá. Nenhum termo depende de conteúdo. */
+  height: 100%;
   min-height: 420px;
 }
 
@@ -29,7 +34,6 @@
 .mobile {
   width: 375px;
   height: 100%;
-  max-height: 85dvh;
   margin: 0 auto;
   border-radius: 16px;
 }

@@ -72,12 +72,10 @@
  * `prefers-color-scheme`, então globals.css:39-44 continua setando
  * `--background: #0a0a0a` para quem ler essa variável — daí a re-declaração.
  *
- * O `background` do body fica restrito ao modo escuro DE PROPÓSITO: hoje quem
- * pinta o body do editor é `gerador.css:3` (#f3f4f6), que vence o globals.css
- * na ordem final do bundle — verificado no browser, não deduzido. Forçar
- * branco no modo claro seria mudança visual. Quando o gerador.css morrer, o
- * body cai em `var(--background)`, que é branco nos dois modos por causa da
- * re-declaração acima.
+ * A regra de `background` no body é defensiva: com o `gerador.css` removido,
+ * quem pinta o body é `body { background: var(--background) }` do globals.css,
+ * e a re-declaração acima já deixa essa variável branca nos dois modos. De todo
+ * jeito o shell do editor é opaco e cobre a viewport inteira.
  */
 html {
   color-scheme: light !important;

@@ -1,9 +1,12 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 
-import Sidebar from '@/components/gerador/Sidebar';
-import PreviewArea from '@/components/gerador/PreviewArea';
+import EditorRail from '@/components/gerador/EditorRail';
+import EditorLeftPanel from '@/components/gerador/EditorLeftPanel';
+import EditorTopbar from '@/components/gerador/EditorTopbar';
+import EditorCanvas from '@/components/gerador/EditorCanvas';
+import EditorRightPanel from '@/components/gerador/EditorRightPanel';
 import ExportStage from '@/components/gerador/ExportStage';
 import DesktopOnlyNotice from '@/components/gerador/DesktopOnlyNotice';
 
@@ -11,24 +14,11 @@ import styles from './index.module.css';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useLayout } from '@/context/LayoutContext';
 import { WakePopup } from '@/components/gerador/WakePopup';
-import ComponentVariablesPanel from '@/components/gerador/ComponentVariablesPanel';
 
 export default function GeradorPage() {
   const isMobile = useIsMobile();
 
   const {
-    selections,
-    focusedKey,
-    platform,
-    showPlatformError,
-    isMobileView,
-    setFocusedKey,
-    toggleMobileView,
-    handlePlatformChange,
-    toggleSelection,
-    exportLayout,
-    selectedPage,
-    setSelectedPage,
     wakeCustomValue,
     setWakeCustomValue,
     showWakePopup,
@@ -36,75 +26,37 @@ export default function GeradorPage() {
     wakePopupRef,
   } = useLayout();
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [prevCount, setPrevCount] = useState(selections.length);
-  const bottomRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    //verifica se tamanho atual e maior que o anterior, retorna boole
-    const isAddition = selections.length > prevCount;
-
-    if (bottomRef.current && isOpen && isAddition) {
-      bottomRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'center',
-      });
-    }
-
-    setPrevCount(selections.length);
-  }, [selections.length, isOpen]);
-
   if (isMobile) {
     return <DesktopOnlyNotice />;
   }
 
   return (
-    <div className={styles.main}>
-      <Sidebar
-        selectedImages={selections}
-        activeLayoutKey={focusedKey}
-        setActiveLayoutKey={setFocusedKey}
-        showError={showPlatformError}
-        platform={platform}
-        onSelectChange={handlePlatformChange}
-        onImageSelect={toggleSelection}
-        totalSections={8}
-        selectedPage={selectedPage}
-        setSelectedPage={setSelectedPage}
-        onExport={exportLayout}
-        isMobile={isMobileView}
-        onToggleMobile={toggleMobileView}
-        setIsOpen={setIsOpen}
-        isOpen={isOpen}
-      />
+    <>
+      <div className={`ed-shell ${styles.shell}`}>
+        <EditorRail />
+        <EditorLeftPanel />
 
-      <PreviewArea />
+        <div className={styles.center}>
+          <EditorTopbar />
+          <EditorCanvas />
+        </div>
 
-      {isOpen && (
-        <div
-          ref={bottomRef}
-          style={{
-            height: isOpen ? '55vh' : '30px',
-            width: '100%',
-            pointerEvents: 'none',
-          }}
-        ></div>
-      )}
+        <EditorRightPanel />
 
-      {showWakePopup && (
-        <WakePopup
-          wakeCustomValue={wakeCustomValue}
-          setWakeCustomValue={setWakeCustomValue}
-          onClose={() => setShowWakePopup(false)}
-          setShowWakePopup={setShowWakePopup}
-          wakePopupRef={wakePopupRef}
-        />
-      )}
+        {showWakePopup && (
+          <WakePopup
+            wakeCustomValue={wakeCustomValue}
+            setWakeCustomValue={setWakeCustomValue}
+            onClose={() => setShowWakePopup(false)}
+            setShowWakePopup={setShowWakePopup}
+            wakePopupRef={wakePopupRef}
+          />
+        )}
+      </div>
 
-      <ComponentVariablesPanel />
-
-      {/* Fora da <main>: o scrollport dela recortaria o palco off-screen. */}
+      {/* Fora do shell: ele é `overflow: hidden` e recortaria o palco
+          off-screen do export, que fica em top/left -99999px. */}
       <ExportStage />
-    </div>
+    </>
   );
 }

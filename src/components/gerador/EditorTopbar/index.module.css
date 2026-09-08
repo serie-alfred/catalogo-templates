@@ -1,0 +1,36 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--ed-topbar-h);
+  padding: 16px 24px;
+  border-right: 1px solid var(--ed-gray-000);
+  background: var(--ed-bg-00);
+}
+
+/* 213px é a largura do bloco no Figma — mantém o seletor de página centrado
+   mesmo com o toggle sendo mais largo que os dois botões. */
+.history {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 213px;
+}
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border: 1px solid var(--ed-gray-000);
+  border-radius: 12px;
+  background: var(--ed-bg-00);
+  color: var(--ed-gray-800);
+  cursor: pointer;
+}
+
+.iconButton:disabled {
+  color: var(--ed-gray-200);
+  cursor: default;
+}

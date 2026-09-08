@@ -8,6 +8,13 @@ import type { Platform } from '@/types/platform';
 // type-only: não puxa o módulo server-only para o bundle do cliente.
 import type { PreviewSnapshot } from '@/lib/previewStore';
 
+/** Os quatro destinos do rail de navegação do editor, na ordem do Figma. */
+export type RailTarget =
+  | 'componentes'
+  | 'variaveis'
+  | 'tipografia'
+  | 'identidade';
+
 export interface LayoutSelection {
   uid: string;
   id: string;
@@ -76,6 +83,11 @@ export function useLayoutGenerator() {
   const [focusedKey, setFocusedKey] = useState<LayoutKey | null>(null);
   const [showPlatformError, setShowPlatformError] = useState<boolean>(false);
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
+
+  /** Destino ativo do rail de navegação — decide o que o painel esquerdo
+   *  mostra. Substitui o par `activeTab`/`isOpen` da antiga dock inferior: o
+   *  painel agora está SEMPRE aberto, então não existe estado "fechado". */
+  const [railTarget, setRailTarget] = useState<RailTarget>('componentes');
 
   /** Página aberta no canvas: "home" | "category" | "product". Vive aqui (e
    *  não na page) porque o canvas, o painel de seções, o iframe mobile e o
@@ -1131,6 +1143,8 @@ export function useLayoutGenerator() {
     setEditingUid,
     setItemVariable,
     resetItemVariables,
+    railTarget,
+    setRailTarget,
     selectedPage,
     setSelectedPage,
     selectedUid,

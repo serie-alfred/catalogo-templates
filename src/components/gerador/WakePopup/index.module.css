@@ -121,3 +121,27 @@
     transform: translateY(0);
   }
 }
+
+/* Migrado de styles/gerador.css (`.sidebar input, .sidebar select,
+   .wake-popup input`) quando aquela folha foi removida com a dock inferior.
+   Este era o único seletor de lá que não morria junto com a `.sidebar`. */
+.popup input {
+  width: 100%;
+  height: 47px;
+  border-radius: 20px;
+  border: 1px solid #cccccc;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+
+  font-weight: 400;
+  font-size: 14.4px;
+  line-height: 16px;
+  letter-spacing: 0%;
+  color: #000;
+}
+
+.popup input::placeholder {
+  color: #cccccc;
+}

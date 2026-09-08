@@ -1,6 +1,5 @@
 import React from 'react';
 import { Inter } from 'next/font/google';
-import '../../../styles/gerador.css';
 import '../../../styles/templates.css';
 import '../../../styles/globals.css';
 import '../../../styles/storefront.css';

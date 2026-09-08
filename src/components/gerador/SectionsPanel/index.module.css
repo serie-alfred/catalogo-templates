@@ -1,6 +1,5 @@
-/* Conteúdo da aba "Seções da Página" da dock inferior. NÃO é um painel
-   flutuante: como coluna fixa à esquerda ele cobria a gaveta de escolha de
-   componentes, que é larga e cresce de baixo para cima. */
+/* Lista de seções da página. Vive no painel esquerdo do shell, no destino
+   "Componentes" do rail. */
 .panel {
   display: flex;
   flex-direction: column;
@@ -10,14 +9,15 @@
 }
 
 /*
- * RESET OBRIGATÓRIO. `gerador.css` estiliza `.sidebar button` (0,1,1) com
- * min-width: 190px, height: 44px, padding: 0 32px e fundo azul — pensado para
- * os botões de ação da sidebar. Como este painel vive DENTRO da `.sidebar`, e
- * uma classe de CSS Module é só (0,1,0), aquela regra vencia e transformava
- * cada linha da lista em dois blocos azuis gigantes.
+ * Normalização dos botões do painel.
  *
- * Todo seletor de botão daqui para baixo é prefixado com `.panel` para chegar
- * a (0,2,0) — o mesmo truque que o próprio `gerador.css` usa em `.sidebar .icon`.
+ * Nasceu como reset contra `.sidebar button` de `gerador.css` (0,1,1), que
+ * vencia as classes de CSS Module (0,1,0) e transformava cada linha da lista em
+ * dois blocos azuis. Aquela folha morreu junto com a dock inferior, então o
+ * reset não disputa mais com ninguém — ficou como a normalização local do
+ * painel, e é dela que os `.panel .editBtn`/`.duplicateBtn`/`.remoteBtn`
+ * partem. O prefixo `.panel` também perdeu a função original; mantido para não
+ * mexer em ~20 seletores num commit estrutural.
  */
 .panel button {
   width: auto;
@@ -63,10 +63,8 @@
 }
 
 .list {
-  /* A dock cresce para cima e a página compensa com um spacer de 55vh; um teto
-     aqui evita que a lista empurre a gaveta além disso. */
-  max-height: 42vh;
-  overflow-y: auto;
+  /* Quem rola é o corpo do painel esquerdo — a lista cresce à vontade. O teto
+     de 42vh daqui existia por causa da dock, que crescia de baixo para cima. */
   padding: 8px 0;
   display: flex;
   flex-direction: column;
@@ -268,10 +266,10 @@
 }
 
 /* Duplicar e excluir são ícones de FILL: o próprio path já vem `fill="white"`.
-   Aqui só neutralizamos o stroke — `gerador.css` pinta
-   `.sidebar button:hover svg path` de azul (0,2,3), que vence os seletores
-   deste módulo (0,2,2), e um stroke num ícone de fill contorna cada borda do
-   desenho, deixando-o grosseiramente bold. */
+   Um stroke num ícone de fill contorna cada borda do desenho e o deixa
+   grosseiramente bold. O `!important` era para vencer
+   `.sidebar button:hover svg path` de `gerador.css`, que já não existe;
+   a declaração vira defensiva. */
 .panel .duplicateBtn svg path,
 .panel .remoteBtn svg path {
   stroke: none !important;
@@ -279,8 +277,7 @@
 
 /* O lápis é o oposto: baseado em stroke, com `fill: none`. Sem forçar branco
    ele fica no cinza #7A7A7A do SVG e desaparece no fundo azul — e `inherit`
-   resolveria para `none`, sumindo de vez. O !important vence a regra de hover
-   do gerador.css citada acima. */
+   resolveria para `none`, sumindo de vez. */
 .panel .editBtn svg path {
   stroke: #ffffff !important;
 }
