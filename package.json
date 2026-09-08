@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "funil": "node scripts/funil/funil.mjs"
+    "funil": "node scripts/funil/funil.mjs",
+    "alcance": "node scripts/funil/alcance.mjs"
   },
   "resolutions": {
     "minimatch": "^9.0.7",

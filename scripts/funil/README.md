@@ -11,6 +11,7 @@ yarn funil                # tudo, para no primeiro erro
 yarn funil 1              # só o estágio 1
 yarn funil 2-edicao       # um estágio específico
 yarn funil 4              # só o tema FastStore (minutos)
+yarn alcance              # diagnóstico avulso, não é estágio (ver abaixo)
 ```
 
 **Pré-requisitos:** Node 24 (`nvm use 24`), Chrome instalado (ou `CHROME_PATH`),
@@ -66,3 +67,24 @@ No VTEX é o oposto: o `path` resolve contra `faststore.starter` pelo grafo de
 `manifest.json`, e o estágio 3 usa o `AssetRegistry` + `DependencyResolver`
 **reais do generator** — não uma réplica — porque um path que não resolve derruba
 a geração do tema inteiro, não só aquele componente.
+
+## `yarn alcance` — o que o catálogo NÃO alcança
+
+`scripts/funil/alcance.mjs` não é estágio: não falha, não entra no `yarn funil`
+(o runner só pega `^\d`). É inventário para decidir.
+
+Ele responde "quais assets do `faststore.starter` nenhum tema consegue receber", e
+existe porque o estágio 1 responde só metade. `conferirImports` parte dos 40 `path`
+VTEX do catálogo — 106 assets. Faltam dois grupos de root que o resto do pipeline
+injeta: `overrides/CrossSellingShelf01` (auto-injetado por `useLayoutGenerator`
+quando `ProductShowcase01` é escolhido) e `organisms/ProductShowcase<NN>` (empurrado
+por `BuildPipeline._resolve` para o sufixo da vitrine escolhida). Com os três grupos
+são 46 roots → **109 assets**, e é por isso que uma varredura ingênua acusa o
+`ProductShowcase07` de órfão sem ele ser.
+
+O script também varre **import não declarado nos 186 manifests**, não só nos que
+estão no alcance — um asset com `section` e import não declarado compila aqui e
+quebra em `Cannot find module` no dia em que entrar no catálogo.
+
+A leitura dos números e a decisão de cada caso ficam em
+`faststore.starter/docs/alcance-do-catalogo.md`.
