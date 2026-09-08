@@ -184,6 +184,32 @@ r.ok(
   /--background-primary-color:/.test(tema) && /--font-primary:/.test(tema)
 );
 
+// O bloco gerado tem que ser o ÚLTIMO `:root` do arquivo. As custom properties
+// do editor e as do design original do starter moram nas duas no `:root`, mesma
+// especificidade: quem declara por último vence. Quando o bloco era prependido,
+// o tema saía "montado com sucesso" e com as cores que o usuário NÃO escolheu.
+const iniGerado = tema.lastIndexOf('/* BEGIN:custom-variables */');
+const ultimoRoot = tema.lastIndexOf(':root');
+r.ok(
+  'o :root gerado é o último do arquivo (vence a cascata)',
+  iniGerado !== -1 && ultimoRoot > iniGerado,
+  `BEGIN em ${iniGerado}, último :root em ${ultimoRoot}`
+);
+const nBegin = (tema.match(/BEGIN:custom-variables/g) ?? []).length;
+const nEnd = (tema.match(/END:custom-variables/g) ?? []).length;
+r.ok(
+  'sentinelas de variáveis pareadas e únicas',
+  nBegin === 1 && nEnd === 1,
+  `${nBegin} BEGIN, ${nEnd} END`
+);
+const imports = [...tema.matchAll(/@import\s+'([^']+)'/g)].map(m => m[1]);
+const impDup = imports.filter((x, i) => imports.indexOf(x) !== i);
+r.ok(
+  'nenhum @import repetido no custom-theme.scss',
+  impDup.length === 0,
+  impDup.join(', ')
+);
+
 const fontes = fs.readFileSync(
   path.join(TEMA, 'src/fonts/WebFonts.tsx'),
   'utf8'
