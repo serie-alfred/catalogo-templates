@@ -61,10 +61,18 @@ export default function PreviewFrame() {
     fontPrimary,
     fontSecondary,
     fontTertiary,
+    undo,
+    redo,
   } = useLayout();
 
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const readyRef = useRef(false);
+  /* Em refs para não recriar o listener de mensagens a cada mudança de
+     histórico — ele já é reinstalado com frequência suficiente. */
+  const undoRef = useRef(undo);
+  undoRef.current = undo;
+  const redoRef = useRef(redo);
+  redoRef.current = redo;
   /** Último payload de tema pendente, drenado 1× por frame. */
   const pendingThemeRef = useRef<ToFrame | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -168,6 +176,10 @@ export default function PreviewFrame() {
           break;
         case 'hover':
           setHoveredUid(data.uid);
+          break;
+        case 'shortcut':
+          if (data.action === 'undo') undoRef.current();
+          else redoRef.current();
           break;
       }
     };

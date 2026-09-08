@@ -88,6 +88,30 @@ export default function FrameClient() {
 
     window.addEventListener('message', onMessage);
 
+    // Repassa desfazer/refazer ao editor: o foco dentro do iframe deixaria o
+    // atalho fora do alcance do documento pai.
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!(event.metaKey || event.ctrlKey)) return;
+      const el = event.target as HTMLElement | null;
+      if (
+        el &&
+        (el.tagName === 'INPUT' ||
+          el.tagName === 'TEXTAREA' ||
+          el.isContentEditable)
+      ) {
+        return;
+      }
+      const key = event.key.toLowerCase();
+      if (key !== 'z' && key !== 'y') return;
+      event.preventDefault();
+      postRef.current({
+        source: FRAME_CHILD,
+        type: 'shortcut',
+        action: key === 'y' || event.shiftKey ? 'redo' : 'undo',
+      });
+    };
+    document.addEventListener('keydown', onKeyDown);
+
     // O filho anuncia prontidão: o `load` do iframe dispara antes da hidratação
     // do React, então a primeira mensagem do pai se perderia. O pai só envia
     // depois deste "ready" (e o handler dele é idempotente, porque o
@@ -97,7 +121,10 @@ export default function FrameClient() {
     // isso que existe o `hello` no sentido contrário.
     postRef.current({ source: FRAME_CHILD, type: 'ready' });
 
-    return () => window.removeEventListener('message', onMessage);
+    return () => {
+      window.removeEventListener('message', onMessage);
+      document.removeEventListener('keydown', onKeyDown);
+    };
   }, []);
 
   // As fontes precisam ser injetadas NESTE documento: os <link> do editor não

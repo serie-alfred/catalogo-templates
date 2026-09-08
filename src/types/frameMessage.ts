@@ -67,5 +67,10 @@ export type ToFrame =
 /** iframe → editor. */
 export type FromFrame =
   | { source: typeof FRAME_CHILD; type: 'ready' }
+  /**
+   * O canvas é outro documento: um Cmd/Ctrl+Z com o foco lá dentro nunca
+   * chegaria ao editor. O filho repassa só o gesto, sem saber o que ele faz.
+   */
+  | { source: typeof FRAME_CHILD; type: 'shortcut'; action: 'undo' | 'redo' }
   | { source: typeof FRAME_CHILD; type: 'select'; uid: string }
   | { source: typeof FRAME_CHILD; type: 'hover'; uid: string | null };

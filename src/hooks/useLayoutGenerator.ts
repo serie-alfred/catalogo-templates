@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { arrayMove } from '@dnd-kit/sortable';
 import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layoutData';
 import { belongsToPage } from '@/utils/previewRender';
 import { captureAndDownloadScreenshot } from '@/utils/screenshotExport';
 import { sendLayoutConfigEmail } from '@/services/emailService';
 import type { Platform } from '@/types/platform';
+import { useThemeHistory, type ThemeDoc } from './useThemeHistory';
 // type-only: não puxa o módulo server-only para o bundle do cliente.
 import type { PreviewSnapshot } from '@/lib/previewStore';
 
@@ -1050,6 +1051,69 @@ export function useLayoutGenerator() {
   };
 
   /** Monta o snapshot serializável do tema atual (payload do preview). */
+  /**
+   * Documento versionável: seções + as 10 cores + as 3 fontes. Ver
+   * useThemeHistory para o que fica de fora e por quê.
+   */
+  const themeDoc = useMemo<ThemeDoc>(
+    () => ({
+      selections,
+      colors: {
+        colorPrimary,
+        colorSecondary,
+        colorTertiary,
+        colorPrimaryBackground,
+        colorSecondaryBackground,
+        colorTertiaryBackground,
+        colorFooter,
+        colorFooterText,
+        colorPrimaryText,
+        colorSecondaryText,
+      },
+      fonts: { fontPrimary, fontSecondary, fontTertiary },
+    }),
+    [
+      selections,
+      colorPrimary,
+      colorSecondary,
+      colorTertiary,
+      colorPrimaryBackground,
+      colorSecondaryBackground,
+      colorTertiaryBackground,
+      colorFooter,
+      colorFooterText,
+      colorPrimaryText,
+      colorSecondaryText,
+      fontPrimary,
+      fontSecondary,
+      fontTertiary,
+    ]
+  );
+
+  const applyThemeDoc = useCallback((doc: ThemeDoc) => {
+    // O array vai inteiro e verbatim: a ordem é a que o arrayMove produziu.
+    setSelections(doc.selections);
+    setColorPrimary(doc.colors.colorPrimary);
+    setColorSecondary(doc.colors.colorSecondary);
+    setColorTertiary(doc.colors.colorTertiary);
+    setColorPrimaryBackground(doc.colors.colorPrimaryBackground);
+    setColorSecondaryBackground(doc.colors.colorSecondaryBackground);
+    setColorTertiaryBackground(doc.colors.colorTertiaryBackground);
+    setColorFooter(doc.colors.colorFooter);
+    setColorFooterText(doc.colors.colorFooterText);
+    setColorPrimaryText(doc.colors.colorPrimaryText);
+    setColorSecondaryText(doc.colors.colorSecondaryText);
+    setFontPrimary(doc.fonts.fontPrimary);
+    setFontSecondary(doc.fonts.fontSecondary);
+    setFontTertiary(doc.fonts.fontTertiary);
+  }, []);
+
+  const { undo, redo, canUndo, canRedo } = useThemeHistory(
+    themeDoc,
+    applyThemeDoc,
+    hydrated
+  );
+
   const buildPreviewSnapshot = (): PreviewSnapshot => ({
     platform,
     selections,
@@ -1167,6 +1231,10 @@ export function useLayoutGenerator() {
     resetItemVariables,
     railTarget,
     setRailTarget,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
     selectedPage,
     setSelectedPage,
     selectedUid,
