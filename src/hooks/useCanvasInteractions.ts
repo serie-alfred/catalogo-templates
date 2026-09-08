@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-import { NON_DUPLICABLE_LAYOUT_KEYS } from '@/utils/sectionRules';
+import { NON_DUPLICABLE_SELECTIONS } from '@/utils/sectionRules';
 
 interface CanvasInteractionOptions {
   /** Chamado ao clicar em qualquer ponto de uma seção. */
@@ -144,9 +144,10 @@ export function useCanvasInteractions(
         actions.hidden = true;
         return;
       }
-      const layoutKey = selected.getAttribute('data-layout-key') ?? '';
-      // Espelha a regra da lista: singleton não duplica.
-      duplicateBadge.hidden = NON_DUPLICABLE_LAYOUT_KEYS.has(layoutKey);
+      const selection = selected.getAttribute('data-selection') ?? '';
+      // Espelha a regra da lista: singleton não duplica. A chave é o
+      // `selection`, não a `layoutKey` — ver sectionRules.ts.
+      duplicateBadge.hidden = NON_DUPLICABLE_SELECTIONS.has(selection);
       actions.hidden = false;
       positionActions();
     };

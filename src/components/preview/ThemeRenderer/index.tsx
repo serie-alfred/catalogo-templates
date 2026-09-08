@@ -62,7 +62,7 @@ function ThemeRenderer({
             key={item.uid}
             data-section-uid={item.uid}
             data-section-label={layoutItem.title}
-            data-layout-key={item.layoutKey}
+            data-selection={layoutItem.selection}
             data-selected={item.uid === selectedUid ? 'true' : undefined}
             className={`preview-template${
               isHeader && stickyHeader ? ' preview-sticky-header' : ''

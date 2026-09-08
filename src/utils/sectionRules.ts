@@ -1,32 +1,36 @@
 /**
- * Regras por `layoutKey` que o painel de seções aplica.
+ * Regras por `selection` que o painel de seções e o canvas aplicam.
  *
- * ATENÇÃO: `NON_DUPLICABLE_LAYOUT_KEYS` e os singletons de
- * `useLayoutGenerator.toggleSelection` descrevem o mesmo conjunto de slots
- * "só um por página" por dois caminhos diferentes. Ao introduzir um novo
- * singleton, atualize os dois.
+ * ATENÇÃO: este Set e os singletons de `useLayoutGenerator.toggleSelection`
+ * descrevem o mesmo conjunto de slots "só um por página" por dois caminhos
+ * diferentes. Ao introduzir um novo singleton, atualize os dois.
  */
 
 /**
  * Seções que não podem ser duplicadas — o botão de duplicar não aparece.
- * Lista herdada verbatim do antigo DraggablePreviewList.
  *
- * Tipada como ReadonlySet<string> (e não Set<LayoutKey>) porque `bannerTop`
- * não existe como chave em LAYOUTS: a entrada é inócua hoje e foi mantida de
- * propósito, para o dia em que esse slot existir.
+ * A chave é o `selection` do `LayoutItem`, NÃO a `layoutKey`. A distinção é
+ * load-bearing: a seção `bannerFull` mistura `banner-full` (duplicável) com
+ * `category-banner` (singleton), então nenhuma regra por `layoutKey` consegue
+ * separar os dois.
+ *
+ * O conteúdo é exatamente o conjunto de singletons do `toggleSelection` — os
+ * sete que têm ramo próprio, mais os quatro que a regra de `pagina === 'common'`
+ * trata como um-por-página — menos `showcase`, que pode ser duplicado de
+ * propósito.
  */
-export const NON_DUPLICABLE_LAYOUT_KEYS: ReadonlySet<string> = new Set([
-  'categoryMain',
-  'productInfo',
+export const NON_DUPLICABLE_SELECTIONS: ReadonlySet<string> = new Set([
   'header',
   'footer',
   'breadcrumb',
   'spot',
-  'productDescription',
-  'categoryDescription',
-  'bannerTop',
-  'bannerMain',
-  'categoryBanner',
+  'category-main',
+  'category-description',
+  'category-banner',
+  'product-info',
+  'product-description',
+  'banner-main',
+  'banner-top',
 ]);
 
 /**
@@ -35,6 +39,9 @@ export const NON_DUPLICABLE_LAYOUT_KEYS: ReadonlySet<string> = new Set([
  * handle de arraste. Assim o usuário nunca tenta um arraste que não teria
  * efeito, e `previewRender.getPriorityOrder` segue como única fonte de verdade
  * da ordem.
+ *
+ * Esta continua sendo por `layoutKey`: ela anda junto com `getPriorityOrder`,
+ * que recebe `LayoutKey`.
  */
 export const LOCKED_LAYOUT_KEYS: ReadonlySet<string> = new Set([
   'header',

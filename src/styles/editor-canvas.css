@@ -91,7 +91,7 @@
 /* `display` declarado pelo autor vence a regra `[hidden] { display: none }` do
    user-agent — é origem, não especificidade. Sem isto os badges ficavam
    visíveis sem seleção e o de duplicar aparecia em seções singleton, burlando
-   NON_DUPLICABLE_LAYOUT_KEYS justamente onde ela precisa valer. */
+   NON_DUPLICABLE_SELECTIONS justamente onde ela precisa valer. */
 .editor-section-actions[hidden],
 .editor-section-badge[hidden] {
   display: none;
