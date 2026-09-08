@@ -1,0 +1,134 @@
+/*
+ * Tokens do CHROME do editor (/gerador) — Figma "Versão Final V4".
+ *
+ * PREFIXO `--ed-` É OBRIGATÓRIO. O `:root` deste documento também recebe, em
+ * tempo de execução, os tokens do TEMA DA LOJA que o usuário está montando
+ * (`--background-primary-color`, `--font-primary`, `--text-color-base`…),
+ * escritos imperativamente por useLayoutGenerator. São dois vocabulários
+ * distintos convivendo no mesmo `:root`: um token sem prefixo aqui colidiria
+ * com o tema do cliente e quebraria a herança de 3 níveis dos componentes.
+ *
+ * Importado DEPOIS de globals.css em (editor)/layout.tsx — a ordem importa
+ * para a trava de dark mode lá embaixo.
+ */
+
+:root {
+  /* Escala de cinza — --ed-gray-000 é a cor de TODAS as bordas do design */
+  --ed-gray-000: #dfdfe0;
+  --ed-gray-100: #dfdfe0;
+  --ed-gray-200: #b8b8b8;
+  --ed-gray-300: #8f8f8f;
+  --ed-gray-400: #7a7a7a;
+  --ed-gray-500: #666666;
+  --ed-gray-600: #525252;
+  --ed-gray-700: #3d3d3d;
+  --ed-gray-800: #292929; /* cor de texto padrão */
+  --ed-gray-900: #141414;
+
+  /* Superfícies */
+  --ed-bg-00: #ffffff;
+  --ed-bg-01: #f5f5f5;
+  --ed-bg-02: #efeff0;
+
+  /* Azul da marca */
+  --ed-blue-50: #f2fcff;
+  --ed-blue-100: #e6f9ff;
+  --ed-blue-500: #0096fe;
+  --ed-blue-600: #007ee6;
+  --ed-blue-700: #0063bf;
+  --ed-blue-800: #004799;
+  --ed-blue-900: #003073;
+  --ed-blue-ink: #004f99; /* texto sobre --ed-blue-100 */
+
+  --ed-red: #eb5757;
+
+  /* Badges da seção em foco no canvas (Figma "Group 5") */
+  --ed-badge-green: #2c7c1c;
+  --ed-badge-red: #bb4344;
+
+  --ed-grad-active: linear-gradient(98.735deg, #0096fe 2.4148%, #0078cc 100%);
+  --ed-shadow-card: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+
+  /* Tipografia do chrome. A família vem do next/font em (editor)/layout.tsx.
+     NÃO existe escala de tamanhos: o design usa 14px em quase tudo, 12px no
+     toggle Desktop/Mobile e 8px no badge de versão — literais, no lugar. */
+  --ed-font:
+    var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Métricas do shell (Figma, tela de 1920×1080).
+     75.404 = padding 24 + logo 27.404 + padding 24 — o rail é hug, não fixo.
+     75.404 + 344.596 = 420 = largura do painel direito. */
+  --ed-rail-w: 75.404px;
+  --ed-left-w: 344.596px;
+  --ed-right-w: 420px;
+  --ed-topbar-h: 64px;
+  --ed-canvas-pad: 32px;
+}
+
+/*
+ * Trava de dark mode.
+ *
+ * `color-scheme: light` sozinho NÃO resolve: ele não afeta a media query
+ * `prefers-color-scheme`, então globals.css:39-44 continua setando
+ * `--background: #0a0a0a` para quem ler essa variável — daí a re-declaração.
+ *
+ * O `background` do body fica restrito ao modo escuro DE PROPÓSITO: hoje quem
+ * pinta o body do editor é `gerador.css:3` (#f3f4f6), que vence o globals.css
+ * na ordem final do bundle — verificado no browser, não deduzido. Forçar
+ * branco no modo claro seria mudança visual. Quando o gerador.css morrer, o
+ * body cai em `var(--background)`, que é branco nos dois modos por causa da
+ * re-declaração acima.
+ */
+html {
+  color-scheme: light !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+
+  body {
+    background: var(--ed-bg-00) !important;
+  }
+}
+
+/*
+ * Foco visível.
+ *
+ * globals.css:87-90 tem `:focus { outline: transparent !important }` sem
+ * nenhum `:focus-visible` substituto — o editor inteiro fica sem indicação de
+ * foco de teclado. Consertar lá afetaria (home), /p e o iframe, então o
+ * override é escopado ao shell. Precisa de `!important` porque é a única forma
+ * de vencer outro `!important`.
+ */
+.ed-shell :focus-visible {
+  outline: 2px solid var(--ed-blue-600) !important;
+  outline-offset: 2px;
+}
+
+/*
+ * Scrollbar dos painéis e do modal (Figma "Pagination Indicator": trilho branco
+ * com borda --ed-bg-02, polegar #004799 de 6px e raio 120).
+ */
+.ed-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--ed-blue-800) transparent;
+}
+
+.ed-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.ed-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ed-scroll::-webkit-scrollbar-thumb {
+  background: var(--ed-blue-800);
+  border: 2px solid transparent;
+  border-radius: 120px;
+  background-clip: content-box;
+}
