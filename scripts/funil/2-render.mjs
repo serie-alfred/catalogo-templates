@@ -1,0 +1,192 @@
+import puppeteer from 'puppeteer-core';
+import { findChrome, BASE_URL, lerLayouts, SAIDA } from './lib/util.mjs';
+const CHROME = findChrome();
+const L = lerLayouts();
+
+const NOVAS = new Set([
+  'hdr07bru1k2m',
+  'crdprd06f6g7',
+  'crdprd07h8j9',
+  'bred02q7l4k5',
+  'ftr07bru3n4p',
+  'bnfull05k3m7',
+  'txt01a2b3c4d',
+  'mulcat04n8p2',
+  'homcar06q4r9',
+  'ban06a1b2c3d',
+  'bnf04t5u6v7w',
+  'bnf05x8y9z0a',
+  'vtr06frc4d5e',
+  'vtr07bru5q6r',
+  'bntrp05f4g5h',
+  'bntsw05j6k7l',
+  'bntrp06m8n9p',
+  'cattrp06q1r2',
+  'bnsolo04s3t4',
+  'bnslft05w7x8',
+  'spcofr04u5v6',
+  'homcmb04y9z0',
+  'rev06b1c2d3e',
+]);
+
+const alvos = [];
+for (const [layoutKey, sec] of Object.entries(L))
+  for (const it of sec.items)
+    if (NOVAS.has(it.key)) {
+      const pag = it.pagina[0];
+      const page =
+        layoutKey === 'spot'
+          ? 'common'
+          : layoutKey === 'breadcrumb'
+            ? 'category'
+            : pag === 'common'
+              ? 'home'
+              : pag;
+      alvos.push({
+        layoutKey,
+        selection: it.selection,
+        id: it.id,
+        comp: it.component,
+        key: it.key,
+        plat: it.platforms[0],
+        page,
+        pagina: pag,
+        platforms: it.platforms,
+      });
+    }
+if (alvos.length !== NOVAS.size) {
+  console.error(`esperava ${NOVAS.size}, achei ${alvos.length}`);
+  process.exit(1);
+}
+
+const PAGENAME = {
+  common: 'Todas as páginas',
+  home: 'Homepage',
+  category: 'Página de Categoria',
+  product: 'Página de Produto',
+};
+const s = ms => new Promise(r => setTimeout(r, ms));
+const b = await puppeteer.launch({
+  executablePath: CHROME,
+  headless: 'shell',
+  args: ['--force-device-scale-factor=1', '--hide-scrollbars'],
+  defaultViewport: { width: 1920, height: 1080, deviceScaleFactor: 1 },
+});
+const p = await b.newPage();
+let errs = [];
+p.on('pageerror', e => errs.push(`pageerror: ${e.message}`));
+p.on('console', m => {
+  if (m.type() === 'error') errs.push(`console: ${m.text().slice(0, 140)}`);
+});
+
+await p.goto(`${BASE_URL}/gerador`, {
+  waitUntil: 'networkidle2',
+  timeout: 120000,
+});
+
+const linhas = [];
+for (const a of alvos) {
+  errs = [];
+  await p.evaluate(
+    (plat, sel) => {
+      localStorage.clear();
+      localStorage.setItem('layoutPlatform', plat);
+      localStorage.setItem('layoutSelections', sel);
+      localStorage.setItem('panelLeftCollapsed', '0');
+      localStorage.setItem('panelRightCollapsed', '0');
+    },
+    a.plat,
+    JSON.stringify([
+      { uid: 'u-teste', id: a.id, layoutKey: a.layoutKey, pagina: a.pagina },
+    ])
+  );
+  await p.goto(`${BASE_URL}/gerador`, {
+    waitUntil: 'networkidle2',
+    timeout: 120000,
+  });
+  await p.waitForSelector('.ed-shell');
+  await s(2600);
+
+  if (a.page !== 'home') {
+    // Há DOIS [aria-haspopup="listbox"] no shell: o card de plataforma e o
+    // seletor de página. O de página é o que traz o nome de uma das 4 páginas.
+    const TRIG =
+      'const t=[...document.querySelectorAll(\'[aria-haspopup="listbox"]\')]' +
+      '.find(b=>/Homepage|Todas as p\u00e1ginas|P\u00e1gina de/.test(b.textContent));';
+    await p.waitForFunction(new Function(`${TRIG}return !!t`), {
+      timeout: 15000,
+    });
+    await p.evaluate(new Function(`${TRIG}t.click()`));
+    await p.waitForFunction(
+      () =>
+        document
+          .querySelector('[role="listbox"][aria-label="P\u00e1gina"]')
+          ?.querySelectorAll('[role="option"]').length === 4,
+      { timeout: 15000 }
+    );
+    await p.evaluate(nome => {
+      [
+        ...document.querySelectorAll(
+          '[role="listbox"][aria-label="P\u00e1gina"] [role="option"]'
+        ),
+      ]
+        .find(x => x.textContent.trim() === nome)
+        .click();
+    }, PAGENAME[a.page]);
+    await p.waitForFunction(
+      new Function(
+        'nome',
+        `${TRIG}return t && t.textContent.trim().startsWith(nome)`
+      ),
+      { timeout: 15000 },
+      PAGENAME[a.page]
+    );
+    await s(2200);
+  }
+
+  const m = await p.evaluate(sel => {
+    const d = document.querySelector('iframe')?.contentDocument;
+    if (!d) return { erro: 'sem contentDocument' };
+    const secs = d.querySelectorAll('[data-section-uid]');
+    const el = d.querySelector(`[data-selection="${sel}"]`);
+    if (!el) return { nSec: secs.length, erro: 'seção não montou' };
+    const r = el.getBoundingClientRect();
+    return {
+      nSec: secs.length,
+      h: Math.round(r.height),
+      w: Math.round(r.width),
+      nodes: el.querySelectorAll('*').length,
+      txt: (el.innerText || '').trim().length,
+      imgs: el.querySelectorAll('img').length,
+    };
+  }, a.selection);
+
+  const passou =
+    !m.erro && m.nSec === 1 && m.h > 0 && m.nodes > 0 && errs.length === 0;
+  await p.evaluate(
+    () =>
+      new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
+  );
+  await s(500);
+  await p.screenshot({
+    path: `${SAIDA}/${a.comp}.png`,
+    captureBeyondViewport: false,
+  });
+  linhas.push({ ...a, m, errs: [...errs], passou });
+  console.log(
+    `${passou ? '✅' : '❌'} ${a.comp.padEnd(21)} ${a.plat.padEnd(4)} ${a.page.padEnd(8)} ${
+      m.erro
+        ? `ERRO: ${m.erro}`
+        : `${m.w}x${m.h}px  ${m.nodes} nós  ${m.imgs} img  ${m.txt} chars`
+    }${errs.length ? `  ⚠️ ${errs.slice(0, 2).join(' | ')}` : ''}`
+  );
+}
+const bad = linhas.filter(l => !l.passou);
+console.log(
+  `\n${linhas.length - bad.length}/${linhas.length} renderizam limpos`
+);
+if (bad.length)
+  for (const x of bad)
+    console.log('  ✗', x.comp, JSON.stringify(x.m), x.errs.slice(0, 3));
+await b.close();
+process.exit(bad.length ? 1 : 0);

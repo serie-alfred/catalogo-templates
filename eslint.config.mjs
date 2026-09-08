@@ -21,7 +21,8 @@ export default defineConfig([
     },
     rules: {
       semi: ["error", "always"],
-      quotes: ["error", "double"],
+      // `quotes` saiu: contradizia o `singleQuote` do .prettierrc deste mesmo
+      // repo. Formatação é do prettier; aqui ficam só regras de comportamento.
       "prefer-arrow-callback": ["error"],
       "prefer-template": ["error"],
     },
