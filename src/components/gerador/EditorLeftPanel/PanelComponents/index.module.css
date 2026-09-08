@@ -22,10 +22,3 @@
 .add:hover {
   background: var(--ed-blue-50);
 }
-
-.picker {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 0 24px 24px;
-}

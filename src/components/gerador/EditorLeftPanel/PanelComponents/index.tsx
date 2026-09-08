@@ -2,32 +2,17 @@
 
 import React, { useState } from 'react';
 
-import { useLayout } from '@/context/LayoutContext';
 import SectionsPanel from '../../SectionsPanel';
-import SelectSection from '../../SelectSection';
-import SelectSectionItem from '../../SelectSectionItem';
+import SectionModal from '../../SectionModal';
 import { Plus } from '@/assets/icons/editor';
 
 import styles from './index.module.css';
 
 /**
  * Destino "Componentes" do rail: a lista de seções da página e o acesso ao
- * catálogo.
- *
- * O catálogo ainda abre embutido, abaixo da lista. O Figma o desenha como o
- * modal "Componentes de seções" — trocar a casca é a fase seguinte; o conteúdo
- * (SelectSection + SelectSectionItem) já é o mesmo.
+ * catálogo, que abre no diálogo "Componentes de seções".
  */
 export default function PanelComponents() {
-  const {
-    selections,
-    focusedKey,
-    setFocusedKey,
-    selectedPage,
-    platform,
-    toggleSelection,
-  } = useLayout();
-
   const [pickerOpen, setPickerOpen] = useState(false);
 
   return (
@@ -38,32 +23,14 @@ export default function PanelComponents() {
         <button
           type="button"
           className={styles.add}
-          onClick={() => setPickerOpen(prev => !prev)}
-          aria-expanded={pickerOpen}
+          onClick={() => setPickerOpen(true)}
         >
           <Plus width={24} height={24} />
           Adicionar seção
         </button>
       </div>
 
-      {pickerOpen && (
-        <div className={styles.picker}>
-          <SelectSection
-            selectedPage={selectedPage}
-            activeLayoutKey={focusedKey}
-            setActiveLayoutKey={setFocusedKey}
-          />
-          <SelectSectionItem
-            activeLayoutKey={focusedKey}
-            selectedImages={selections}
-            onSelect={(id, layoutKey) =>
-              toggleSelection(id, layoutKey, selectedPage)
-            }
-            selectedPage={selectedPage}
-            platform={platform}
-          />
-        </div>
-      )}
+      {pickerOpen && <SectionModal onClose={() => setPickerOpen(false)} />}
     </>
   );
 }
