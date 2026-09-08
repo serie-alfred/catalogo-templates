@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
 import { GLOBAL_TEMPLATES, GENERATOR, FASTSTORE_STARTER } from './util.mjs';
 
 const PASTA = {
@@ -337,4 +338,120 @@ export function conferirImports(paths, r) {
     [...falhas].join(' | ')
   );
   return [...falhas];
+}
+
+/**
+ * A substituição de spot é uma troca TEXTUAL do nome do card dentro da vitrine
+ * (`AssetCopier.copyDirWithSubstitution`, guiada por `usesSpot`). O catálogo
+ * oferece card e vitrine como escolhas independentes, então qualquer par é
+ * possível — e o par só compila se o card aceitar tudo o que a vitrine passa e
+ * o tipo de `product` for o mesmo.
+ *
+ * Isto mede os dois, estaticamente. Sem esta checagem o par errado só aparece
+ * no `next build` do tema, depois de clonar e compilar.
+ */
+/**
+ * Limitações medidas e aceitas da substituição de spot. O funil não as trata como
+ * falha — trata como contrato: mudou a lista, alguém mexeu na compatibilidade e
+ * precisa saber.
+ *
+ * A família 07 (Brasilusa) é fechada. O `ProductCard07` recebe
+ * `ProductCard07Product`, um shape próprio montado por `productToCard07(node)`, e
+ * não o `Product` do core que todas as outras vitrines entregam. Abrir isso é
+ * redesenhar a família, não declarar uma flag.
+ */
+const PARES_IMPOSSIVEIS = new Set([
+  '01×07',
+  '03×07',
+  '04×07',
+  '05×07',
+  '06×07',
+]);
+/** Vitrines sem `usesSpot`: a escolha de card do cliente não as alcança. */
+const SEM_SUBSTITUICAO = new Set(['07']);
+
+const igual = (a, b) => a.length === b.size && a.every(x => b.has(x));
+
+/**
+ * O catálogo oferece card e vitrine como escolhas independentes; o generator
+ * troca o card dentro da vitrine com um replaceAll de texto. A regra de quando
+ * isso compila mora no próprio generator (SubstitutionChecker) — aqui só medimos
+ * a matriz que o catálogo torna alcançável, para não duplicar a regra.
+ */
+export async function conferirParesCardVitrine(vtexPaths, r) {
+  const { checarSubstituicao } = await import(
+    pathToFileURL(
+      path.join(
+        GENERATOR,
+        'src/platforms/faststore/services/SubstitutionChecker.js'
+      )
+    ).href
+  );
+  const raiz = path.join(FASTSTORE_STARTER, 'src/components');
+
+  const sufixo = p => /(\d+)$/.exec(p)?.[1] ?? null;
+  const vitrines = vtexPaths
+    .filter(p => /^organisms\/ProductShelfCustom\d+$/.test(p))
+    .map(p => ({ p, n: sufixo(p) }));
+  const cards = vtexPaths
+    .filter(p => /^molecules\/ProductCard\d+$/.test(p))
+    .map(p => ({ p, n: sufixo(p) }));
+
+  if (!vitrines.length || !cards.length) {
+    r.ok('matriz vitrine×card: catálogo não oferece os dois lados', true);
+    return [];
+  }
+
+  // Vitrine sem `usesSpot` não é substituída: o cliente escolhe um card e recebe
+  // outro, sem erro em lugar nenhum. Não é falha de compilação — é escolha ignorada.
+  const ignoram = [];
+  const substituem = [];
+  for (const v of vitrines) {
+    const manifest = path.join(raiz, v.p, 'manifest.json');
+    const usesSpot =
+      fs.existsSync(manifest) &&
+      JSON.parse(fs.readFileSync(manifest, 'utf8')).usesSpot === true;
+    (usesSpot ? substituem : ignoram).push(v);
+  }
+  const ignoramEsperado = igual(
+    ignoram.map(v => v.n),
+    SEM_SUBSTITUICAO
+  );
+  r.ok(
+    `só a família 07 ignora a escolha de card (${ignoram.map(v => v.n).join(', ') || 'nenhuma'})`,
+    ignoramEsperado,
+    `esperado ${[...SEM_SUBSTITUICAO].join(', ')}, medido ${ignoram.map(v => v.n).join(', ')}`
+  );
+
+  const incompativeis = [];
+  let total = 0;
+  for (const v of substituem) {
+    for (const c of cards) {
+      if (c.n === v.n) continue;
+      total++;
+      const subs = Object.fromEntries(
+        cards
+          .filter(x => x.n !== c.n)
+          .map(x => [`ProductCard${x.n}`, `ProductCard${c.n}`])
+      );
+      const problemas = checarSubstituicao(path.join(raiz, v.p), subs);
+      if (problemas.length) incompativeis.push([`${v.n}×${c.n}`, problemas[0]]);
+    }
+  }
+  const novos = incompativeis.filter(([par]) => !PARES_IMPOSSIVEIS.has(par));
+  const sumiram = [...PARES_IMPOSSIVEIS].filter(
+    par => !incompativeis.some(([p]) => p === par)
+  );
+  r.ok(
+    `${total - incompativeis.length}/${total} pares vitrine×card compilam; ` +
+      `os ${PARES_IMPOSSIVEIS.size} restantes são a limitação conhecida do card 07`,
+    novos.length === 0 && sumiram.length === 0,
+    [
+      ...novos.map(([par, motivo]) => `NOVO: ${par} — ${motivo}`),
+      ...sumiram.map(
+        par => `${par} passou a compilar; tire de PARES_IMPOSSIVEIS`
+      ),
+    ].join(' | ')
+  );
+  return incompativeis;
 }

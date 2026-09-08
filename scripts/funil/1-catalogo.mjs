@@ -6,7 +6,11 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { conferirFragmentos, conferirImports } from './lib/contrato.mjs';
+import {
+  conferirFragmentos,
+  conferirImports,
+  conferirParesCardVitrine,
+} from './lib/contrato.mjs';
 import {
   RAIZ,
   GLOBAL_TEMPLATES,
@@ -175,6 +179,11 @@ conferirFragmentos(vtexPaths, r);
 //     geral do item 9: no starter tudo resolve porque o repo inteiro está em
 //     disco; no tema só chega o que está no grafo.
 conferirImports(vtexPaths, r);
+
+// 11. o catálogo oferece card e vitrine como escolhas INDEPENDENTES; a
+//     substituição de spot troca o card dentro da vitrine. Qualquer par é
+//     possível, e o par incompatível só aparece no build do tema.
+await conferirParesCardVitrine(vtexPaths, r);
 
 console.log(
   `  (${todos.length} itens em ${Object.keys(layouts).length} seções)`

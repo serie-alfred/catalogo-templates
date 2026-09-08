@@ -55,9 +55,8 @@ const b = await puppeteer.launch({
 //    UI (os slots singleton só aceitam um), mas cobre de uma vez todos os
 //    caminhos de origem e todo manifest.
 //  - "coerente" é um tema que alguém montaria: um modelo por slot, mesma
-//    família. É esse que vai para o build do tema no estágio 4 — misturar
-//    famílias de card e vitrine quebra a substituição de spot (o ProductCard01
-//    exige `userEmail`, que as vitrines 03/04 não passam).
+//    família. É a base do estágio 4, que dele deriva o config CRUZADO (vitrine
+//    de uma família, card de outra) para exercitar a substituição de spot.
 const coerenteFor = plataforma => {
   const out = [];
   for (const [layoutKey, sec] of Object.entries(L)) {

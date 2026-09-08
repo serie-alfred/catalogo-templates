@@ -16,10 +16,9 @@ import { GENERATOR, FASTSTORE_STARTER, SAIDA, relatorio } from './lib/util.mjs';
 const r = relatorio('Estágio 4 — tema FastStore montado');
 const CONFIG_VIVO = path.join(GENERATOR, 'src/config/config.json');
 const TEMA = path.join(GENERATOR, 'tema-base-faststore');
-// O tema é montado a partir do config COERENTE, não do máximo: o máximo põe seis
-// cards e seis vitrines ao mesmo tempo, o que a UI não permite, e a substituição
-// de spot então cruza famílias — ProductCard01 exige `userEmail`, que as
-// vitrines 03/04 não passam, e o tema não compila.
+// A base é o config COERENTE, não o máximo: o máximo põe seis cards e seis
+// vitrines ao mesmo tempo, o que a UI não permite, e o tema sai com componentes
+// que ninguém escolheria junto.
 const origem = `${SAIDA}/config-VTEX-coerente.json`;
 
 if (!fs.existsSync(origem)) {
@@ -50,7 +49,30 @@ if (repoComponentes.startsWith('file://')) {
   );
 }
 
+// Do config coerente para o CRUZADO: a vitrine vira a da família 06 e o card
+// escolhido continua o 01. É o que o cliente faz quando gosta de uma vitrine e de
+// um card de linhas diferentes — e é o único caminho que exercita a substituição
+// de spot, que é textual e reescreve import, JSX e caminho de módulo de uma vez.
+// O coerente não exercita nada disso: vitrine e card são da mesma família, então
+// o replaceAll não encontra o que trocar.
 const config = JSON.parse(fs.readFileSync(origem, 'utf8'));
+const home = config.faststore?.home ?? [];
+const vitrine = home.find(
+  e => e.component === 'organisms/ProductShelfCustom01'
+);
+if (vitrine) {
+  vitrine.component = 'organisms/ProductShelfCustom06';
+  vitrine.title = 'ProductShelfCustom06';
+}
+r.ok(
+  'config cruzado montado (vitrine 06 × card 01)',
+  Boolean(vitrine),
+  'o config coerente não trazia a ProductShelfCustom01'
+);
+fs.writeFileSync(
+  `${SAIDA}/config-VTEX-cruzado.json`,
+  JSON.stringify(config, null, 2)
+);
 fs.writeFileSync(CONFIG_VIVO, JSON.stringify(config, null, 2));
 
 // yarn resolve `node` do PATH; garantir que é o mesmo Node que roda o funil.
