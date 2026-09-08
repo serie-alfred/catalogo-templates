@@ -82,7 +82,8 @@ export function useThemeHistory(
     if (serialized === committed.current) return;
 
     const commit = () => {
-      if (committed.current === null || committed.current === serialized) return;
+      if (committed.current === null || committed.current === serialized)
+        return;
       past.current = [...past.current, committed.current].slice(-HISTORY_LIMIT);
       future.current = [];
       committed.current = serialized;
@@ -92,7 +93,8 @@ export function useThemeHistory(
     // Mudança estrutural (entrou, saiu ou trocou de posição uma seção) fecha na
     // hora: são gestos discretos, não um arraste contínuo.
     const structural =
-      structureOf(doc) !== structureOf(JSON.parse(committed.current) as ThemeDoc);
+      structureOf(doc) !==
+      structureOf(JSON.parse(committed.current) as ThemeDoc);
 
     if (timer.current) clearTimeout(timer.current);
     if (structural) {

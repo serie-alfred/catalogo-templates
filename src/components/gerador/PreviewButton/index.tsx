@@ -71,62 +71,65 @@ export default function PreviewButton() {
         createPortal(
           <div className={styles.overlay} onClick={closeModal}>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
-            <button
-              className={styles.close}
-              onClick={closeModal}
-              type="button"
-              aria-label="Fechar"
-            >
-              <X size={18} />
-            </button>
+              <button
+                className={styles.close}
+                onClick={closeModal}
+                type="button"
+                aria-label="Fechar"
+              >
+                <X size={18} />
+              </button>
 
-            {error ? (
-              <>
-                <h3 className={styles.title}>Não foi possível gerar o link</h3>
-                <p className={styles.subtitle}>
-                  Tente novamente em instantes.
-                </p>
-              </>
-            ) : (
-              <>
-                <h3 className={styles.title}>Preview pronto! 🎉</h3>
-                <p className={styles.subtitle}>
-                  Compartilhe este link para navegar pelo tema como um site real.
-                </p>
+              {error ? (
+                <>
+                  <h3 className={styles.title}>
+                    Não foi possível gerar o link
+                  </h3>
+                  <p className={styles.subtitle}>
+                    Tente novamente em instantes.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <h3 className={styles.title}>Preview pronto! 🎉</h3>
+                  <p className={styles.subtitle}>
+                    Compartilhe este link para navegar pelo tema como um site
+                    real.
+                  </p>
 
-                <div className={styles.linkRow}>
-                  <input
-                    className={styles.linkInput}
-                    type="text"
-                    value={url ?? ''}
-                    readOnly
-                    onFocus={e => e.target.select()}
-                  />
-                  <button
-                    className={styles.copyBtn}
-                    onClick={handleCopy}
-                    type="button"
+                  <div className={styles.linkRow}>
+                    <input
+                      className={styles.linkInput}
+                      type="text"
+                      value={url ?? ''}
+                      readOnly
+                      onFocus={e => e.target.select()}
+                    />
+                    <button
+                      className={styles.copyBtn}
+                      onClick={handleCopy}
+                      type="button"
+                    >
+                      {copied ? <Check size={16} /> : <Copy size={16} />}
+                      {copied ? 'Copiado' : 'Copiar'}
+                    </button>
+                  </div>
+
+                  <a
+                    className={styles.openLink}
+                    href={url ?? '#'}
+                    target="_blank"
+                    rel="noopener noreferrer"
                   >
-                    {copied ? <Check size={16} /> : <Copy size={16} />}
-                    {copied ? 'Copiado' : 'Copiar'}
-                  </button>
-                </div>
+                    <ExternalLink size={16} /> Abrir preview
+                  </a>
 
-                <a
-                  className={styles.openLink}
-                  href={url ?? '#'}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <ExternalLink size={16} /> Abrir preview
-                </a>
-
-                <p className={styles.expiryNote}>
-                  <Clock size={14} /> Este link expira em 3 dias.
-                </p>
-              </>
-            )}
-          </div>
+                  <p className={styles.expiryNote}>
+                    <Clock size={14} /> Este link expira em 3 dias.
+                  </p>
+                </>
+              )}
+            </div>
           </div>,
           document.body
         )}

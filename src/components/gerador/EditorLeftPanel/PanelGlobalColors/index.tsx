@@ -43,16 +43,59 @@ export default function PanelGlobalColors() {
   const noop = () => {};
 
   const fields = [
-    { label: 'Defina a cor base do texto', color: colorPrimary, setColor: setColorPrimary },
-    { label: 'Defina a cor secundária', color: colorSecondary, setColor: setColorSecondary },
-    { label: 'Defina a cor primária da marca', color: colorPrimaryBackground, setColor: setColorPrimaryBackground },
-    { label: 'Defina a cor secundária da marca', color: colorSecondaryBackground, setColor: setColorSecondaryBackground },
-    { label: 'Defina a cor terciária da marca', color: colorTertiaryBackground, setColor: setColorTertiaryBackground },
-    { label: 'Defina a cor primária de contraste da marca', color: colorPrimaryText, setColor: noop, readOnly: true },
-    { label: 'Defina a cor secundária de contraste da marca', color: colorSecondaryText, setColor: noop, readOnly: true },
-    { label: 'Defina a cor terciária de contraste da marca', color: colorTertiary, setColor: noop, readOnly: true },
-    { label: 'Defina a cor do rodapé', color: colorFooter, setColor: setColorFooter },
-    { label: 'Defina a cor do texto do rodapé', color: colorFooterText, setColor: setColorFooterText },
+    {
+      label: 'Defina a cor base do texto',
+      color: colorPrimary,
+      setColor: setColorPrimary,
+    },
+    {
+      label: 'Defina a cor secundária',
+      color: colorSecondary,
+      setColor: setColorSecondary,
+    },
+    {
+      label: 'Defina a cor primária da marca',
+      color: colorPrimaryBackground,
+      setColor: setColorPrimaryBackground,
+    },
+    {
+      label: 'Defina a cor secundária da marca',
+      color: colorSecondaryBackground,
+      setColor: setColorSecondaryBackground,
+    },
+    {
+      label: 'Defina a cor terciária da marca',
+      color: colorTertiaryBackground,
+      setColor: setColorTertiaryBackground,
+    },
+    {
+      label: 'Defina a cor primária de contraste da marca',
+      color: colorPrimaryText,
+      setColor: noop,
+      readOnly: true,
+    },
+    {
+      label: 'Defina a cor secundária de contraste da marca',
+      color: colorSecondaryText,
+      setColor: noop,
+      readOnly: true,
+    },
+    {
+      label: 'Defina a cor terciária de contraste da marca',
+      color: colorTertiary,
+      setColor: noop,
+      readOnly: true,
+    },
+    {
+      label: 'Defina a cor do rodapé',
+      color: colorFooter,
+      setColor: setColorFooter,
+    },
+    {
+      label: 'Defina a cor do texto do rodapé',
+      color: colorFooterText,
+      setColor: setColorFooterText,
+    },
   ];
 
   return (
@@ -65,11 +108,12 @@ export default function PanelGlobalColors() {
             color={field.color}
             setColor={field.setColor}
             readOnly={field.readOnly}
-            hideLabel
+            variant="block"
           />
           {field.readOnly && (
             <p className={styles.derived}>
-              Calculada a partir do fundo correspondente, para garantir contraste.
+              Calculada a partir do fundo correspondente, para garantir
+              contraste.
             </p>
           )}
         </section>

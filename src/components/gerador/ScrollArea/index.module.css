@@ -1,0 +1,76 @@
+/* O afastamento entre o conteúdo e a barra varia por coluna no Figma (32 na
+   lista de categorias, 24 na grade de cards), então quem hospeda decide. */
+.root {
+  display: flex;
+  gap: var(--scroll-gap, 16px);
+  min-height: 0;
+}
+
+.viewport {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  /* A barra nativa é escondida: quem desenha é a do Figma, ao lado. */
+  scrollbar-width: none;
+}
+
+.viewport::-webkit-scrollbar {
+  display: none;
+}
+
+/* 10px de largura, do topo à base da área — a geometria do Figma. */
+.bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  flex-shrink: 0;
+  width: 10px;
+}
+
+.bar[data-hidden] {
+  visibility: hidden;
+}
+
+.caret {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ed-gray-900);
+  cursor: pointer;
+}
+
+.caret:first-child {
+  transform: rotate(90deg);
+}
+
+.caret:last-child {
+  transform: rotate(-90deg);
+}
+
+.track {
+  flex: 1;
+  width: 10px;
+  min-height: 0;
+  padding: 2px;
+  border: 1px solid var(--ed-bg-02);
+  border-radius: 120px;
+  background: var(--ed-bg-00);
+}
+
+.thumb {
+  width: 6px;
+  border-radius: 120px;
+  background: var(--ed-blue-800);
+  cursor: grab;
+}
+
+.thumb:active {
+  cursor: grabbing;
+}

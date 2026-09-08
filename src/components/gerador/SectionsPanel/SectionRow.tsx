@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Copy, GripVertical, Lock, SquarePen, Trash2 } from 'lucide-react';
+import { Copy, GripVertical, Lock, Trash2 } from 'lucide-react';
 
 import { CaretDown, Minus, Plus, TextBlock } from '@/assets/icons/editor';
 import styles from './index.module.css';
@@ -17,7 +17,6 @@ export interface SectionRowData {
   /** Aparece nas três páginas. */
   isCommon: boolean;
   canDuplicate: boolean;
-  canEdit: boolean;
   /** Posição fixada por getPriorityOrder: sem handle de arraste. */
   locked: boolean;
 }
@@ -31,7 +30,6 @@ interface SectionRowViewProps {
   dragging?: boolean;
   onSelect?: () => void;
   onHoverChange?: (hovering: boolean) => void;
-  onEdit?: () => void;
   onDuplicate?: () => void;
   onRemove?: () => void;
 }
@@ -54,7 +52,6 @@ export function SectionRowView({
   dragging = false,
   onSelect,
   onHoverChange,
-  onEdit,
   onDuplicate,
   onRemove,
 }: SectionRowViewProps) {
@@ -112,7 +109,9 @@ export function SectionRowView({
           className={styles.toggle}
           onClick={() => setOpen(prev => !prev)}
           aria-expanded={expanded}
-          aria-label={expanded ? `Recolher ${data.group}` : `Expandir ${data.group}`}
+          aria-label={
+            expanded ? `Recolher ${data.group}` : `Expandir ${data.group}`
+          }
         >
           {expanded ? (
             <Minus width={24} height={24} />
@@ -144,17 +143,9 @@ export function SectionRowView({
             )}
 
             <div className={styles.actions}>
-              {data.canEdit && (
-                <button
-                  type="button"
-                  className={styles.action}
-                  onClick={onEdit}
-                  title="Editar cores e fontes"
-                >
-                  <SquarePen size={16} />
-                  Variáveis
-                </button>
-              )}
+              {/* Não há botão de "variáveis": selecionar a seção já abre o
+                  painel direito com elas. Um segundo caminho para a mesma coisa
+                  seria só um jeito de os dois discordarem. */}
               {data.canDuplicate && (
                 <button
                   type="button"
@@ -231,7 +222,10 @@ export default function SectionRow({
         handleProps={
           data.locked
             ? undefined
-            : ({ ...attributes, ...listeners } as React.HTMLAttributes<HTMLButtonElement>)
+            : ({
+                ...attributes,
+                ...listeners,
+              } as React.HTMLAttributes<HTMLButtonElement>)
         }
         {...rest}
       />

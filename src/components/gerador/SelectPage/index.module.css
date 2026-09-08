@@ -6,8 +6,10 @@
   display: flex;
   align-items: center;
   gap: 4px;
+  height: 40px;
   padding: 8px 12px 8px 20px;
-  border: 1px solid var(--ed-gray-000);
+  box-shadow: inset 0 0 0 1px var(--ed-gray-000);
+  border: 0;
   border-radius: 12px;
   background: var(--ed-bg-00);
   font-family: inherit;

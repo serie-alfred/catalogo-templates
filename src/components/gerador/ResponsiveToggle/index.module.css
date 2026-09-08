@@ -10,11 +10,20 @@
 
 /* Os dois rótulos aparecem sempre: o Figma mostra o inativo em --ed-gray-400.
    Antes só o ativo era visível (`span { display: none }` no módulo). */
+/*
+ * As caixas são as do Figma: ativo 109×36, inativo 88×30 — não a altura toda
+ * da barra nos dois, e não largura automática.
+ *
+ * As larguras são cravadas porque o avanço do Inter difere ~0,9px entre o
+ * arquivo do Figma e o do Google Fonts, e sem elas o grupo fecha em 211,36 em
+ * vez dos 213 do design. Os rótulos são fixos nesta tela.
+ */
 .option {
+  width: 88px;
+  justify-content: center;
   display: flex;
   align-items: center;
   gap: 10px;
-  height: 100%;
   padding: 6px 16px 6px 4px;
   border: 0;
   border-radius: 10px;
@@ -28,6 +37,8 @@
 }
 
 .option[aria-pressed='true'] {
+  width: 109px;
+  height: 36px;
   padding: 6px 16px;
   background: var(--ed-grad-active);
   color: var(--ed-bg-00);

@@ -4,7 +4,7 @@
   align-items: flex-start;
   gap: 12px;
   padding: 20px 24px;
-  border-bottom: 1px solid var(--ed-gray-000);
+  box-shadow: inset 0 -1px 0 var(--ed-gray-000);
 }
 
 /* Caixa de preview de 90×90 do Figma — é moldura, não o tamanho do arquivo. */

@@ -3,22 +3,22 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --backgroundHeader: #151516CC;
+  --backgroundHeader: #151516cc;
   --background-black: #000;
   --background-white: #fff;
-  --font-family: "Noto Sans", sans-serif;
+  --font-family: 'Noto Sans', sans-serif;
   --color-blue: #0096fe;
-  --text-semi-black: #1A1A1A;
-  --text-primary-color: #1A1A1A;
-  --text-secundary-color: #FFF;
+  --text-semi-black: #1a1a1a;
+  --text-primary-color: #1a1a1a;
+  --text-secundary-color: #fff;
   --text-tertiary-color: #f0f0f0;
-  --text-color-footer: #3D3D3D;
+  --text-color-footer: #3d3d3d;
   --color-white: #fff;
   --color-black: #000;
   --color-semi-black: #6a6a6a;
 
-  --ink:    #000000;
-  --paper:  #ffffff;
+  --ink: #000000;
+  --paper: #ffffff;
   --accent: #e73888;
 
   --grey-04: #fafafa;
@@ -29,11 +29,12 @@
   --grey-55: #8a8a8a;
   --grey-70: #5a5a5a;
 
-  --font-display: 'Funnel Display', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display:
+    'Funnel Display', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Onest', -apple-system, BlinkMacSystemFont, sans-serif;
 
   --hairline: 1px solid var(--grey-12);
-  --ease: cubic-bezier(.2, .7, .2, 1);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -59,9 +60,7 @@ body {
   font-family: var(--font-family);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
 }
-
 
 * {
   box-sizing: border-box;
@@ -80,15 +79,12 @@ a {
   }
 }
 
-.main {
-  padding: 0px 15%;
-}
-
 :focus {
   outline: transparent !important;
   box-shadow: none !important;
 }
 
-ul, ol{
+ul,
+ol {
   list-style: none;
 }

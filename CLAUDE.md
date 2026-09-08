@@ -46,7 +46,7 @@ The two routes intentionally have separate `layout.tsx` files. Don't unify them.
 
 All state for the builder lives in [src/hooks/useLayoutGenerator.ts](src/hooks/useLayoutGenerator.ts) — selections, current platform, focused section, current page (`selectedPage`), the active rail destination (`railTarget`), mobile/desktop toggle, theme colors, fonts, assets, canvas/screenshot refs, section selection (`selectedUid`/`hoveredUid`), the section actions (`moveSection`/`duplicateSection`/`removeSection`), the Wake-token popup state, undo/redo, export logic. [src/context/LayoutContext.tsx](src/context/LayoutContext.tsx) just wraps that hook and exposes it via `useLayout()`. Components inside `gerador/` should consume `useLayout()` rather than receiving these as props.
 
-**Undo/redo** lives in [src/hooks/useThemeHistory.ts](src/hooks/useThemeHistory.ts) and is an *observer*: it never intercepts an action, it serializes the result. The versioned document is `selections` + the 10 colors + the 3 fonts — not UI state, not `platform` (it has its own confirm dialog), not the three assets (2 MB data URLs × 50 entries). Structural changes commit immediately; everything else is debounced 250 ms so a color-picker drag is one entry.
+**Undo/redo** lives in [src/hooks/useThemeHistory.ts](src/hooks/useThemeHistory.ts) and is an _observer_: it never intercepts an action, it serializes the result. The versioned document is `selections` + the 10 colors + the 3 fonts — not UI state, not `platform` (it has its own confirm dialog), not the three assets (2 MB data URLs × 50 entries). Structural changes commit immediately; everything else is debounced 250 ms so a color-picker drag is one entry.
 
 **The seeded context must stay in sync.** [SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx) forges the context object for `/p` and the iframe with an `as unknown as` cast, so the compiler will NOT catch a field you add to or remove from the hook's return.
 
@@ -82,10 +82,17 @@ A template is a React component plus a catalog entry. Two files always need to c
 A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **28 of the 44 active items declare one** — every VTEX-capable Header/Footer/Spot/Showcase plus Breadcrumb01, Categories01, BannerMain01, Ruler01, BannerGrid01, CategoryMain01, CategoryDescription01, ProductDescription01 and ProductInfo01/03. To list them: `grep -c "variablesSchema:" src/data/layoutData.ts`. `Header01` has 9 vars: topbar/header/nav/submenu × bg+text, plus `--header-font`.
 
 - `ComponentVariable = { cssVar, label, type: "color" | "font", default, group?, inheritsLabel? }`. `cssVar` is the literal CSS custom-property name written verbatim into `config.json` (e.g. `--header-topbar-bg`); `default` is the value the downstream SCSS uses as its `var()` fallback; `group` buckets fields in the panel; `inheritsLabel` is the friendly name of the global token shown while the field is still unset.
-- **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) *is* the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because 16 of the 44 active items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
+- **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) _is_ the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because 16 of the 44 active items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
 - **State:** `LayoutSelection.variables?: Record<cssVar, value>` in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`, `editingUid`); persisted with `selections` under the `layoutSelections` localStorage key.
 - **Export:** `pickChangedVariables()` writes ONLY keys whose value differs from the schema `default` (omitted key ⇒ downstream SCSS uses its own `var()` fallback), as a `variables` object on the entry — in both `buildConfigJson` (Tray/Wake) and `buildFaststoreConfigJson` (VTEX).
 - Font values are stored as `'Family', sans-serif`; the panel parses the family out for `FontSelector` and re-wraps on change.
+- **`FontSelector` never writes to `:root`.** It only loads the face into the current document (the
+  one `ExportStage` photographs). Writing there was wrong twice over: the global tokens already come
+  from the hook, and per-component `cssVar`s are _not_ unique per instance — setting one Showcase's
+  font wrote `--showcase-font` on `:root` and silently applied to every other Showcase.
+- `ColorPicker` and `FontSelector` take `variant`: `block` in the left panels (no own label, control
+  44px) and `field` in the right panel (label + gap 12, control 41px). Two different boxes in the
+  Figma, not a preference.
 
 The downstream **template-generator** reads each entry's `variables` and injects them into the component's SCSS, which must consume them via the chained-fallback convention `var(--header-topbar-bg, var(--background-secundary-color, #122161))` (individual var → global token → hardcoded default). Keep `cssVar` names in sync with that SCSS.
 
@@ -128,7 +135,7 @@ is gone, and with it `Sidebar/`, `SidebarTabEditTheme`, `PreviewArea` and `style
   against the whole page — the original bug, in disguise.
 - **`ExportStage` is a sibling of the shell**, which is `overflow: hidden` and would clip the
   off-screen stage at `top/left: -99999px`.
-- The rail's width is never declared: `padding: 24px` + the 27.404px mark *are* the 75.404px.
+- The rail's width is never declared: `padding: 24px` + the 27.404px mark _are_ the 75.404px.
 
 **One renderer for every surface.** [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx)
 serves `/p`, the editor canvas and the export stage. Its wrappers are bare `div`s **on purpose**: no
@@ -158,7 +165,7 @@ before touching it.
     `select`, `hover`, `shortcut`, `section-action` upward.
   - **The handshake needs BOTH `hello` and `ready`.** The `<iframe>` is in the served HTML, so the
     browser starts fetching the child before the editor bundle finishes hydrating; with a bundle this
-    size the child often hydrates *first* and its `ready` lands on a parent that is not listening yet.
+    size the child often hydrates _first_ and its `ready` lands on a parent that is not listening yet.
     Whichever side arrives last kicks off the exchange. Dropping either direction brings back a blank
     canvas on first load.
   - Fonts must be injected into the iframe's own document — `loadGoogleFont(family, doc)` in
@@ -171,7 +178,7 @@ before touching it.
 ### Design tokens for the chrome
 
 [src/styles/editor-tokens.css](src/styles/editor-tokens.css) holds the Figma palette under a
-**mandatory `--ed-` prefix**: the same `:root` also receives the *store theme* tokens
+**mandatory `--ed-` prefix**: the same `:root` also receives the _store theme_ tokens
 (`--background-primary-color`, `--font-primary`…) that `useLayoutGenerator` writes imperatively. Two
 vocabularies in one scope — an unprefixed token here would collide with the customer's theme.
 
@@ -187,8 +194,7 @@ and the frame.
 Colors and fonts in `useLayoutGenerator` are pushed to `:root` as CSS custom properties (`--text-primary-color`, `--secondary-color`, `--tertiary-color`, `--background-primary-color`, `--background-secundary-color`, `--background-tertiary-color`, `--background-footer`, `--text-color-footer`, `--text-color-base`, `--text-color-secundary`, `--font-primary`, `--font-secundary`). Templates **must** read theme values from these variables — do not hardcode colors/fonts in template CSS Modules.
 
 **Three of the ten colors are derived**, not authored: `colorPrimaryText`, `colorSecondaryText` and
-`colorTertiary` are recomputed from the luminance of the matching brand background (YIQ, threshold
-128) whenever that background changes. They are read-only in the UI and their setters are **not**
+`colorTertiary` are recomputed from the luminance of the matching brand background (YIQ, threshold 128) whenever that background changes. They are read-only in the UI and their setters are **not**
 exposed on the context — they used to be editable fields whose edits were overwritten on the next
 touch of any background. The values still ship in `config.json` and in the preview snapshot.
 
@@ -219,11 +225,14 @@ Tray↔Wake never loses anything — their catalogs are identical.
 
 ### Export flow
 
-`exportLayout` (the "Baixar" button in the right panel header) does three things in sequence: (1) `await mountExportStage()` — which flips `isCapturing`, mounts [ExportStage](src/components/gerador/ExportStage/index.tsx) off-screen and resolves after two `requestAnimationFrame`s (layout, then paint) — then `await`s `waitForImages` on both copies plus `document.fonts.ready` before `html2canvas`ing the `desktopPreviewRef` (1920px) and `mobilePreviewRef` (375px) divs, downloading PNGs to the user. **Those awaits are load-bearing**: the stage used to be mounted since page load, so images and fonts were long since ready; without them the PNGs come out with blank images and fallback type, and nobody checks the PNG; (2) build a JSON config grouped by `platform → { global, variables, assets, [page]: items[] }`; (3) POST it to `/gerador/api/send-email` which mails it as `config.json` — but only on `www.e-temas.com.br`; anywhere else it downloads the JSON locally. When `platform === 'wake'`, the JSON also includes `wakeToken` from the `WakePopup` input.
+`exportLayout` (the "Baixar" button in the right panel header) does three things in sequence: (1) `await mountExportStage()` — which flips `isCapturing`, mounts [ExportStage](src/components/gerador/ExportStage/index.tsx) off-screen and resolves after two `requestAnimationFrame`s (layout, then paint) — then `await`s `waitForImages` on both copies plus `document.fonts.ready` before `html2canvas`ing the `desktopPreviewRef` (1920px) and `mobilePreviewRef` (375px) divs, downloading PNGs to the user. **Those awaits are load-bearing**: the stage used to be mounted since page load, so images and fonts were long since ready; without them the PNGs come out with blank images and fallback type, and nobody checks the PNG; (2) build a JSON config grouped by `platform → { global, variables, assets, [page]: items[] }`;
+(3) **always** download it, and _additionally_ mail it via `/gerador/api/send-email` on
+`www.e-temas.com.br` — the button says "Baixar", so it downloads everywhere; the mail is how the
+implementation team receives it. When `platform === 'wake'`, the JSON also includes `wakeToken`.
+The screenshots are best-effort: a html2canvas failure warns and still delivers the JSON.
 
-⚠️ `buildFaststoreConfigJson` (VTEX) has **no `assets` block at all**, so logo, favicon and the share
-image are silently dropped on every VTEX export. Pre-existing; changing that shape is a decision
-shared with `produtos-template-generator`.
+Both config shapes carry `assets` (logo, favicon, ogImage). The faststore one had none until this
+redesign, so VTEX exports were silently dropping the brand assets.
 
 ### Shareable preview (`/p/[id]/[page]`)
 

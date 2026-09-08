@@ -50,7 +50,12 @@ export type ToFrame =
    * quem chegar por último inicia a troca.
    */
   | { source: typeof FRAME_PARENT; type: 'hello' }
-  | { source: typeof FRAME_PARENT; type: 'theme'; colors: FrameColors; fonts: FrameFonts }
+  | {
+      source: typeof FRAME_PARENT;
+      type: 'theme';
+      colors: FrameColors;
+      fonts: FrameFonts;
+    }
   | {
       source: typeof FRAME_PARENT;
       type: 'content';

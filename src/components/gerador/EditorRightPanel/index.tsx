@@ -16,8 +16,12 @@ import styles from './index.module.css';
  * O cabeçalho aparece sempre — inclusive quando nenhuma seção está selecionada
  * e o corpo está vazio.
  */
-export default function EditorRightPanel() {
-  const { exportLayout } = useLayout();
+export default function EditorRightPanel({
+  className,
+}: {
+  className?: string;
+}) {
+  const { exportLayout, platform } = useLayout();
   const [exporting, setExporting] = useState(false);
 
   /* O export monta o palco off-screen, espera as fontes e todas as imagens e
@@ -34,14 +38,22 @@ export default function EditorRightPanel() {
   };
 
   return (
-    <aside className={styles.panel} aria-label="Propriedades">
+    <aside
+      className={`${styles.panel} ${className ?? ''}`}
+      aria-label="Propriedades"
+    >
       <header className={styles.header}>
         <PreviewButton />
         <button
           type="button"
           className={styles.download}
           onClick={handleExport}
-          disabled={exporting}
+          /* Sem plataforma o export só liga `showPlatformError`, que quem
+             mostra é o PlatformSelect — e ele só existe no destino
+             "Componentes" do rail. Nos outros o clique não daria retorno
+             nenhum. */
+          disabled={exporting || !platform}
+          title={platform ? undefined : 'Escolha uma plataforma primeiro'}
         >
           {exporting ? 'Gerando…' : 'Baixar'}
           <ArrowDown width={20} height={20} />

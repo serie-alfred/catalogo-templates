@@ -1,5 +1,6 @@
-import type { LayoutKey } from '@/data/layoutData';
+import type { LayoutKey, Pagina } from '@/data/layoutData';
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
+import type { Platform } from '@/types/platform';
 
 /**
  * Regras de renderização por página. Fonte de verdade única do que aparece em
@@ -45,7 +46,9 @@ export function selectionsForPage(
 ): LayoutSelection[] {
   return items
     .filter(item => belongsToPage(item, selectedPage))
-    .sort((a, b) => getPriorityOrder(a.layoutKey) - getPriorityOrder(b.layoutKey));
+    .sort(
+      (a, b) => getPriorityOrder(a.layoutKey) - getPriorityOrder(b.layoutKey)
+    );
 }
 
 /** Páginas navegáveis do preview compartilhável e seus slugs de URL. */
@@ -55,9 +58,28 @@ export const PREVIEW_PAGES = [
   { slug: 'produto', pagina: 'product', label: 'Produto' },
 ] as const;
 
-export type PreviewPageSlug = (typeof PREVIEW_PAGES)[number]['slug'];
-
 /** Slug de URL (`categoria`) → `pagina` interna (`category`). null se inválido. */
 export function slugToPagina(slug: string): string | null {
   return PREVIEW_PAGES.find(p => p.slug === slug)?.pagina ?? null;
+}
+
+/**
+ * Um item do catálogo está disponível no contexto atual?
+ *
+ * Página E plataforma. Vive aqui porque DOIS componentes irmãos precisam
+ * concordar: o SelectSection conta os modelos de cada categoria e o
+ * SelectSectionItem monta a grade. Enquanto o predicado estava escrito duas
+ * vezes eles discordavam — o SelectSection ignorava a plataforma e listava
+ * categorias que abriam vazias.
+ */
+export function isItemAvailable(
+  item: { pagina: Pagina[]; platforms: Platform[] },
+  selectedPage: string,
+  platform: Platform | null
+): boolean {
+  if (!platform) return false;
+  return (
+    item.pagina.includes(selectedPage as Pagina) &&
+    item.platforms.includes(platform)
+  );
 }

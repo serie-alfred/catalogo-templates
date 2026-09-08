@@ -4,16 +4,13 @@
   min-height: 0;
   min-width: 0;
   padding: var(--ed-canvas-pad) var(--ed-canvas-pad) 0;
-  border-top: 1px solid var(--ed-gray-000);
+  box-shadow: inset 0 1px 0 var(--ed-gray-000);
   overflow: clip;
 
   /* Grade de 16px a 2% — dois gradientes de 1px, sem PNG. */
   background-color: #fafafa;
-  background-image: linear-gradient(
-      to right,
-      rgba(20, 20, 20, 0.02) 1px,
-      transparent 1px
-    ),
+  background-image:
+    linear-gradient(to right, rgba(20, 20, 20, 0.02) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(20, 20, 20, 0.02) 1px, transparent 1px);
   background-size: 16px 16px;
 }

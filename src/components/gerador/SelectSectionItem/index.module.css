@@ -7,87 +7,97 @@
   gap: 12px;
 }
 
-.imageContainer{
-    width: 100%;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: 0.3s;
-    position: relative;
-    height: auto;
+.imageContainer {
+  width: 100%;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+  position: relative;
+  height: auto;
 
-    box-shadow: var(--ed-shadow-card);
-    border: 1px solid var(--ed-bg-02);
-    background: var(--ed-bg-00);
-    overflow: hidden;
+  box-shadow: var(--ed-shadow-card);
+  border: 1px solid var(--ed-bg-02);
+  background: var(--ed-bg-00);
+  overflow: hidden;
+}
+
+/* Modelo que já está no tema. As duas classes eram referenciadas pelo TSX e
+   não existiam aqui: o atributo saía como class="undefined" e o card
+   selecionado ficava idêntico aos outros. */
+.selected {
+  outline: 2px solid var(--ed-blue-600);
+  outline-offset: -2px;
+}
+
+.selectedInfo {
+  background: var(--ed-blue-50);
 }
 
 .imageContainer:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)
+  transform: translateY(-4px);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 /* Proporção do Figma: 334.667 × 180.333. Como `aspect-ratio` e não altura
    fixa, para o card acompanhar a largura da coluna em qualquer viewport. */
-.carouselImage{
-    width: 100%;
-    aspect-ratio: 334.667 / 180.333;
-    overflow: hidden;
+.carouselImage {
+  width: 100%;
+  aspect-ratio: 334.667 / 180.333;
+  overflow: hidden;
 }
 
-.carouselImage img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.carouselImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.infoContainer{
-    padding: 16px;
-    background: white;
-    display: flex;
-    justify-content: space-between;
-    gap: 3px;
-    align-items: center;
-    border-radius: 16px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
+.infoContainer {
+  padding: 16px;
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  gap: 3px;
+  align-items: center;
+  border-radius: 0 0 12px 12px;
 }
 
+.infoContainer h2 {
+  display: block;
 
-
-.infoContainer h2{
-    display: block;
-
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 100%;
-    letter-spacing: 0%;
-    color: #292929;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #292929;
 }
 
 .infoText {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1;
-    min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
 }
 
 .backgroundVars {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
 }
 
 .backgroundVarChip {
-    font-size: 10px;
-    line-height: 1;
-    font-weight: 500;
-    color: #003073;
-    background: #E6F9FF;
-    border-radius: 999px;
-    padding: 4px 8px;
-    white-space: nowrap;
+  font-size: 10px;
+  line-height: 1;
+  font-weight: 500;
+  color: #003073;
+  background: #e6f9ff;
+  border-radius: 999px;
+  padding: 4px 8px;
+  white-space: nowrap;
 }

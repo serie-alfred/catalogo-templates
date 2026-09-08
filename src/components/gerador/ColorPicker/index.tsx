@@ -18,11 +18,14 @@ type ColorPickerProps = {
   /** Derivada por luminância: exibe o valor, não deixa editar. */
   readOnly?: boolean;
   /**
-   * Some com o rótulo visível — o `label` continua sendo o nome acessível do
-   * controle. Usado nas Variáveis Globais, onde o título bold do bloco JÁ é o
-   * rótulo e repeti-lo duplicaria o texto.
+   * Duas caixas diferentes no Figma, não é preferência:
+   *
+   * - `block` (painéis da esquerda): sem rótulo próprio — o título bold do
+   *   bloco JÁ é o rótulo — e o controle tem 44px de altura fixa.
+   * - `field` (painel direito): rótulo de 14/600 acima, gap 12, e o controle
+   *   tem altura automática, que dá 41px (12 + 17 de linha + 12).
    */
-  hideLabel?: boolean;
+  variant?: 'block' | 'field';
 };
 
 const PICKER_W = 232;
@@ -35,7 +38,7 @@ export default function ColorPicker({
   unset = false,
   inheritsLabel,
   readOnly = false,
-  hideLabel = false,
+  variant = 'field',
 }: ColorPickerProps) {
   const [open, setOpen] = useState(false);
   const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
@@ -94,8 +97,8 @@ export default function ColorPicker({
   }, [open, place]);
 
   return (
-    <div className={styles.field}>
-      {!hideLabel && <span className={styles.label}>{label}</span>}
+    <div className={styles.field} data-variant={variant}>
+      {variant === 'field' && <span className={styles.label}>{label}</span>}
 
       <div ref={anchorRef} className={styles.row}>
         <button
@@ -112,7 +115,11 @@ export default function ColorPicker({
         {unset ? (
           <p className={styles.inherits}>
             Usando variável da {inheritsLabel ?? 'configuração global'}{' '}
-            <button type="button" className={styles.inheritsCta} onClick={toggle}>
+            <button
+              type="button"
+              className={styles.inheritsCta}
+              onClick={toggle}
+            >
               (clique aqui para alterar)
             </button>
           </p>

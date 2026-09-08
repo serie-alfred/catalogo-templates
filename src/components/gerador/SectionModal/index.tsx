@@ -6,6 +6,7 @@ import { createPortal } from 'react-dom';
 import { useLayout } from '@/context/LayoutContext';
 import SelectSection from '../SelectSection';
 import SelectSectionItem from '../SelectSectionItem';
+import ScrollArea from '../ScrollArea';
 import { CloseMd } from '@/assets/icons/editor';
 
 import styles from './index.module.css';
@@ -81,28 +82,39 @@ export default function SectionModal({ onClose }: { onClose: () => void }) {
           </button>
         </header>
 
-        <div className={styles.body}>
-          <aside className={`${styles.categories} ed-scroll`}>
-            <SelectSection
-              selectedPage={selectedPage}
-              platform={platform}
-              activeLayoutKey={focusedKey}
-              setActiveLayoutKey={setFocusedKey}
-            />
-          </aside>
+        {!platform ? (
+          <p className={styles.empty}>
+            Escolha uma plataforma no painel da esquerda para ver os componentes
+            disponíveis.
+          </p>
+        ) : (
+          <div className={styles.body}>
+            <aside className={styles.categories}>
+              <ScrollArea>
+                <SelectSection
+                  selectedPage={selectedPage}
+                  platform={platform}
+                  activeLayoutKey={focusedKey}
+                  setActiveLayoutKey={setFocusedKey}
+                />
+              </ScrollArea>
+            </aside>
 
-          <div className={`${styles.grid} ed-scroll`}>
-            <SelectSectionItem
-              activeLayoutKey={focusedKey}
-              selectedImages={selections}
-              onSelect={(id, layoutKey) =>
-                toggleSelection(id, layoutKey, selectedPage)
-              }
-              selectedPage={selectedPage}
-              platform={platform}
-            />
+            <div className={styles.grid}>
+              <ScrollArea>
+                <SelectSectionItem
+                  activeLayoutKey={focusedKey}
+                  selectedImages={selections}
+                  onSelect={(id, layoutKey) =>
+                    toggleSelection(id, layoutKey, selectedPage)
+                  }
+                  selectedPage={selectedPage}
+                  platform={platform}
+                />
+              </ScrollArea>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>,
     document.body

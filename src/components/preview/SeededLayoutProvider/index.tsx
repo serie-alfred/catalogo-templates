@@ -1,10 +1,7 @@
 'use client';
 
 import React, { useMemo } from 'react';
-import {
-  LayoutContext,
-  type LayoutContextType,
-} from '@/context/LayoutContext';
+import { LayoutContext, type LayoutContextType } from '@/context/LayoutContext';
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 
 export interface LayoutSeed {
@@ -45,7 +42,8 @@ export default function SeededLayoutProvider({
         ogImage: '',
         isMobileView: false,
         railTarget: 'componentes',
-        editingUid: null,
+        leftCollapsed: false,
+        rightCollapsed: false,
         selectedUid: null,
         hoveredUid: null,
         focusedKey: null,
@@ -55,9 +53,9 @@ export default function SeededLayoutProvider({
         canRedo: false,
         undo: noop,
         redo: noop,
-        setSelections: noop,
         setRailTarget: noop,
-        setEditingUid: noop,
+        setLeftCollapsed: noop,
+        setRightCollapsed: noop,
         setSelectedUid: noop,
         setHoveredUid: noop,
         setItemVariable: noop,

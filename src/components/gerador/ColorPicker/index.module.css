@@ -6,6 +6,7 @@
 }
 
 .label {
+  width: fit-content;
   font-size: 14px;
   font-weight: 600;
   color: var(--ed-gray-600);
@@ -15,6 +16,14 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  /* 37px é a altura da linha no estado herdado (Figma). No estado com valor a
+     caixa do hex é mais alta e este mínimo não morde. */
+  min-height: 37px;
+}
+
+/* Nos painéis da esquerda o controle tem altura fixa de 44. */
+.field[data-variant='block'] .value {
+  height: 44px;
 }
 
 /* 29.384px é a medida do "Ellipse 1" do Figma. */
@@ -46,9 +55,11 @@
 
 .value {
   width: 128px;
-  height: 44px;
   padding: 12px 20px;
-  border: 1px solid var(--ed-bg-02);
+  /* Sombra interna, não `border`: no painel direito a altura é ditada pelo
+     conteúdo (12 + 17 de linha + 12 = 41) e uma borda somaria 2px. */
+  box-shadow: inset 0 0 0 1px var(--ed-bg-02);
+  border: 0;
   border-radius: 12px;
   background: var(--ed-bg-00);
   font-family: inherit;

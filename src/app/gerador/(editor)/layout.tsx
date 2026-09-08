@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google';
 import '../../../styles/templates.css';
 import '../../../styles/globals.css';
 import '../../../styles/storefront.css';
-import '../../../styles/editor-canvas.css';
 // DEPOIS de globals.css: a trava de dark mode precisa vencer por ordem.
 import '../../../styles/editor-tokens.css';
 import { LayoutProvider } from '@/context/LayoutContext';

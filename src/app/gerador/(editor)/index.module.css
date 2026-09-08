@@ -11,6 +11,7 @@
  * A classe é `.shell`, não `.main`: globals.css:83 tem `.main { padding: 0 15% }`.
  */
 .shell {
+  position: relative;
   display: grid;
   grid-template-columns:
     var(--ed-rail-w)
@@ -27,9 +28,36 @@
 /* A altura do canvas sai daqui: `100dvh` menos a topbar. Nenhum termo depende
    de conteúdo — é o que mantém `100vh` e `position: fixed` dos drawers dentro
    do iframe significando o que significam na loja publicada. */
+/* Colocação EXPLÍCITA. Recolher um painel o desmonta, e sem isto o
+   auto-placement reatribui as colunas: o canvas caía na trilha que acabou de
+   ir a 0px e o painel direito ficava com o `1fr`. */
+.rail {
+  grid-column: 1;
+}
+
+.left {
+  grid-column: 2;
+}
+
 .center {
+  grid-column: 3;
   display: grid;
   grid-template-rows: var(--ed-topbar-h) minmax(0, 1fr);
   min-width: 0;
   min-height: 0;
+}
+
+/* Recolher devolve a largura da coluna ao canvas. A variável é sobrescrita no
+   próprio shell para o PanelToggle, que se posiciona a partir dela, acompanhar
+   sem cálculo duplicado. */
+.shell[data-left-collapsed='true'] {
+  --ed-left-w: 0px;
+}
+
+.shell[data-right-collapsed='true'] {
+  --ed-right-w: 0px;
+}
+
+.right {
+  grid-column: 4;
 }

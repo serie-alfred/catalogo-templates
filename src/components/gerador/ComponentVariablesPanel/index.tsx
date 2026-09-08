@@ -6,7 +6,6 @@ import { useLayout } from '@/context/LayoutContext';
 import { LAYOUTS, ComponentVariable } from '@/data/layoutData';
 import ColorPicker from '../ColorPicker';
 import FontSelector from '../FontSelector';
-import { Component } from 'lucide-react';
 
 import styles from './index.module.css';
 
@@ -22,16 +21,12 @@ function toFontValue(family: string): string {
 }
 
 export default function ComponentVariablesPanel() {
-  const {
-    editingUid,
-    selections,
-    setItemVariable,
-    resetItemVariables,
-  } = useLayout();
+  const { selectedUid, selections, setItemVariable, resetItemVariables } =
+    useLayout();
 
   const selection = useMemo(
-    () => selections.find(s => s.uid === editingUid) ?? null,
-    [selections, editingUid]
+    () => selections.find(s => s.uid === selectedUid) ?? null,
+    [selections, selectedUid]
   );
 
   const layoutItem = useMemo(() => {
@@ -63,7 +58,7 @@ export default function ComponentVariablesPanel() {
   /* Estados vazios: o painel é permanente, então não some — explica por quê.
      16 dos 44 itens do catálogo não declaram `variablesSchema`, então o
      segundo caso é garantido, não hipotético. */
-  if (!editingUid || !selection) {
+  if (!selectedUid || !selection) {
     return (
       <p className={styles.empty}>
         Selecione uma seção no preview ou na lista para editar as variáveis
@@ -83,18 +78,10 @@ export default function ComponentVariablesPanel() {
 
   return (
     <div className={styles.panel} aria-label="Editar variáveis do componente">
-      <header className={styles.header}>
-        <span className={styles.icon}>
-          <Component size={24} />
-        </span>
-        <div className={styles.identity}>
-          <h2 className={styles.title}>{layoutItem.title}</h2>
-          {layoutItem.description && (
-            <p className={styles.description}>{layoutItem.description}</p>
-          )}
-        </div>
-      </header>
-
+      {/* Sem bloco de identidade do componente: a Tela 1 do Figma leva o painel
+          direto para o primeiro grupo de variáveis. O cabeçalho com ícone,
+          título e descrição é da Tela 2, que desenha as propriedades
+          estruturais — fora do escopo acordado. */}
       <div className={styles.body}>
         {groups.map(group => (
           <section key={group.name} className={styles.group}>
@@ -116,7 +103,7 @@ export default function ComponentVariablesPanel() {
                     inheritsLabel={variable.inheritsLabel}
                     onFontChange={family =>
                       setItemVariable(
-                        editingUid,
+                        selectedUid,
                         variable.cssVar,
                         toFontValue(family)
                       )
@@ -133,7 +120,7 @@ export default function ComponentVariablesPanel() {
                   unset={isUnset}
                   inheritsLabel={variable.inheritsLabel}
                   setColor={value =>
-                    setItemVariable(editingUid, variable.cssVar, value)
+                    setItemVariable(selectedUid, variable.cssVar, value)
                   }
                 />
               );
@@ -146,7 +133,7 @@ export default function ComponentVariablesPanel() {
         <button
           type="button"
           className={styles.resetButton}
-          onClick={() => resetItemVariables(editingUid)}
+          onClick={() => resetItemVariables(selectedUid)}
         >
           Restaurar padrão
         </button>

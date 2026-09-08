@@ -112,7 +112,8 @@
   white-space: nowrap;
 }
 
-.copyBtn:hover,.copyBtn:focus  {
+.copyBtn:hover,
+.copyBtn:focus {
   background: #222;
   box-shadow: none !important;
 }

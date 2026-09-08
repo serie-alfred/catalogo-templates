@@ -8,6 +8,7 @@ import EditorTopbar from '@/components/gerador/EditorTopbar';
 import EditorCanvas from '@/components/gerador/EditorCanvas';
 import EditorRightPanel from '@/components/gerador/EditorRightPanel';
 import ExportStage from '@/components/gerador/ExportStage';
+import PanelToggle from '@/components/gerador/PanelToggle';
 import DesktopOnlyNotice from '@/components/gerador/DesktopOnlyNotice';
 
 import styles from './index.module.css';
@@ -24,6 +25,10 @@ export default function GeradorPage() {
     showWakePopup,
     setShowWakePopup,
     wakePopupRef,
+    leftCollapsed,
+    setLeftCollapsed,
+    rightCollapsed,
+    setRightCollapsed,
   } = useLayout();
 
   if (isMobile) {
@@ -32,16 +37,31 @@ export default function GeradorPage() {
 
   return (
     <>
-      <div className={`ed-shell ${styles.shell}`}>
-        <EditorRail />
-        <EditorLeftPanel />
+      <div
+        className={`ed-shell ${styles.shell}`}
+        data-left-collapsed={leftCollapsed ? 'true' : undefined}
+        data-right-collapsed={rightCollapsed ? 'true' : undefined}
+      >
+        <EditorRail className={styles.rail} />
+        {!leftCollapsed && <EditorLeftPanel className={styles.left} />}
 
         <div className={styles.center}>
           <EditorTopbar />
           <EditorCanvas />
         </div>
 
-        <EditorRightPanel />
+        {!rightCollapsed && <EditorRightPanel className={styles.right} />}
+
+        <PanelToggle
+          side="left"
+          collapsed={leftCollapsed}
+          onToggle={() => setLeftCollapsed(prev => !prev)}
+        />
+        <PanelToggle
+          side="right"
+          collapsed={rightCollapsed}
+          onToggle={() => setRightCollapsed(prev => !prev)}
+        />
 
         {showWakePopup && (
           <WakePopup

@@ -81,7 +81,9 @@ const fileStore: PreviewStore = {
   },
   async ping() {
     // Em dev não há nada para manter vivo; garantir a pasta já basta como no-op.
-    await fs.mkdir(path.join(process.cwd(), '.preview-store'), { recursive: true });
+    await fs.mkdir(path.join(process.cwd(), '.preview-store'), {
+      recursive: true,
+    });
   },
 };
 

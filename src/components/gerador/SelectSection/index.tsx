@@ -1,13 +1,9 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import {
-  LAYOUTS,
-  LayoutKey,
-  LayoutSection,
-  type Pagina,
-} from '@/data/layoutData';
+import { LAYOUTS, LayoutKey, LayoutSection } from '@/data/layoutData';
 import type { Platform } from '@/types/platform';
+import { isItemAvailable } from '@/utils/previewRender';
 
 import styles from './index.module.css';
 
@@ -21,9 +17,9 @@ interface SelectSectionProps {
 /**
  * Categorias do catálogo, com a contagem de modelos disponíveis.
  *
- * O filtro combina página E plataforma — o mesmo par que o SelectSectionItem
- * usa para montar a grade. Antes daqui só sair o filtro de página, existiam
- * categorias que abriam uma lista vazia.
+ * O filtro é `isItemAvailable`, o MESMO que o SelectSectionItem usa para montar
+ * a grade. Enquanto o predicado estava escrito duas vezes eles discordavam:
+ * aqui faltava o filtro de plataforma e existiam categorias que abriam vazias.
  */
 export default function SelectSection({
   activeLayoutKey,
@@ -37,10 +33,8 @@ export default function SelectSection({
     .map(([layoutKey, section]) => ({
       layoutKey,
       name: section.name,
-      count: section.items.filter(
-        item =>
-          item.pagina.includes(selectedPage as Pagina) &&
-          (platform ? item.platforms.includes(platform) : false)
+      count: section.items.filter(item =>
+        isItemAvailable(item, selectedPage, platform)
       ).length,
     }))
     .filter(tab => tab.count > 0);

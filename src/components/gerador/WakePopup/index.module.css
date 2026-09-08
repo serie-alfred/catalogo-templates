@@ -52,7 +52,7 @@
   background: #1e40af; /* azul mais escuro no hover */
 }
 
-.popup .closeButton{
+.popup .closeButton {
   position: absolute;
   display: flex;
   height: 16px;

@@ -9,8 +9,6 @@ interface CanvasInteractionOptions {
   onSelect?: (uid: string) => void;
   /** Chamado ao entrar/sair de uma seção (null = saiu do canvas). */
   onHover?: (uid: string | null) => void;
-  /** Chamado no Escape. */
-  onEscape?: () => void;
   /** Badge verde da seção selecionada. */
   onDuplicate?: (uid: string) => void;
   /** Badge vermelho da seção selecionada. */
@@ -54,7 +52,6 @@ export function useCanvasInteractions(
   {
     onSelect,
     onHover,
-    onEscape,
     onDuplicate,
     onRemove,
     enabled = true,
@@ -64,11 +61,10 @@ export function useCanvasInteractions(
   const handlersRef = useRef({
     onSelect,
     onHover,
-    onEscape,
     onDuplicate,
     onRemove,
   });
-  handlersRef.current = { onSelect, onHover, onEscape, onDuplicate, onRemove };
+  handlersRef.current = { onSelect, onHover, onDuplicate, onRemove };
 
   useEffect(() => {
     if (!enabled) return;
@@ -233,10 +229,6 @@ export function useCanvasInteractions(
       if ((e.target as Element)?.closest?.('a[href], img')) e.preventDefault();
     };
 
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') handlersRef.current.onEscape?.();
-    };
-
     const capture = { capture: true } as const;
     root.addEventListener('pointerover', onPointerOver, capture);
     root.addEventListener('pointerout', onPointerOut, capture);
@@ -244,7 +236,6 @@ export function useCanvasInteractions(
     root.addEventListener('auxclick', onAuxClick, capture);
     root.addEventListener('submit', onSubmit, capture);
     root.addEventListener('dragstart', onDragStart, capture);
-    root.ownerDocument.addEventListener('keydown', onKeyDown);
     // O rótulo é `fixed`, então precisa acompanhar o scroll do documento do
     // canvas. `passive` porque nunca chamamos preventDefault aqui.
     const reposition = () => {
@@ -264,7 +255,6 @@ export function useCanvasInteractions(
       root.removeEventListener('auxclick', onAuxClick, capture);
       root.removeEventListener('submit', onSubmit, capture);
       root.removeEventListener('dragstart', onDragStart, capture);
-      root.ownerDocument.removeEventListener('keydown', onKeyDown);
       doc.removeEventListener('scroll', reposition, { capture: true });
       doc.defaultView?.removeEventListener('resize', reposition);
       selectionObserver.disconnect();
@@ -276,10 +266,7 @@ export function useCanvasInteractions(
 }
 
 /** Destaca imperativamente uma seção do canvas (hover vindo do painel). */
-export function highlightSection(
-  root: HTMLElement | null,
-  uid: string | null
-) {
+export function highlightSection(root: HTMLElement | null, uid: string | null) {
   if (!root) return;
   root
     .querySelectorAll<HTMLElement>('[data-hovered="true"]')

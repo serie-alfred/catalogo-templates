@@ -6,6 +6,7 @@ import { captureAndDownloadScreenshot } from '@/utils/screenshotExport';
 import { sendLayoutConfigEmail } from '@/services/emailService';
 import type { Platform } from '@/types/platform';
 import { useThemeHistory, type ThemeDoc } from './useThemeHistory';
+import { buildThemeStyle, contrastOn } from '@/utils/themeStyle';
 import {
   partitionByPlatform,
   sanitizePlatform,
@@ -70,9 +71,7 @@ function pickChangedVariables(
   return Object.keys(changed).length > 0 ? changed : undefined;
 }
 
-
 export function useLayoutGenerator() {
-
   /** Estados principais */
   // dentro de useLayoutGenerator
   // Estado persistido inicia com o default de SSR; a leitura do localStorage
@@ -82,9 +81,9 @@ export function useLayoutGenerator() {
 
   const [platform, setPlatform] = useState<Platform | null>(null);
 
-  const [wakeCustomValue, setWakeCustomValue] = useState<string>("");
+  const [wakeCustomValue, setWakeCustomValue] = useState<string>('');
   const [showWakePopup, setShowWakePopup] = useState(false);
-  const wakePopupRef = useRef<HTMLDivElement | null>(null)
+  const wakePopupRef = useRef<HTMLDivElement | null>(null);
 
   const [focusedKey, setFocusedKey] = useState<LayoutKey | null>(null);
   const [showPlatformError, setShowPlatformError] = useState<boolean>(false);
@@ -95,13 +94,17 @@ export function useLayoutGenerator() {
    *  painel agora está SEMPRE aberto, então não existe estado "fechado". */
   const [railTarget, setRailTarget] = useState<RailTarget>('componentes');
 
+  /** Painéis recolhidos. Existem para devolver largura ao canvas: as colunas
+   *  fixas comem 840px, e num monitor de 1440 sobram 536 — abaixo da trava de
+   *  1200px de `.component__container`, o que faria o preview "Desktop"
+   *  renderizar no tier de tablet. */
+  const [leftCollapsed, setLeftCollapsed] = useState(false);
+  const [rightCollapsed, setRightCollapsed] = useState(false);
+
   /** Página aberta no canvas: "home" | "category" | "product". Vive aqui (e
    *  não na page) porque o canvas, o painel de seções, o iframe mobile e o
    *  palco de export todos precisam dela. */
   const [selectedPage, setSelectedPage] = useState<string>('home');
-
-  /** uid do item cujo painel de variáveis está aberto (null = fechado). */
-  const [editingUid, setEditingUid] = useState<string | null>(null);
 
   /** Seção selecionada no canvas/painel. Transiente: não é persistida. */
   const [selectedUid, setSelectedUid] = useState<string | null>(null);
@@ -174,7 +177,6 @@ export function useLayoutGenerator() {
   const removeSection = (uid: string) => {
     setSelections(prev => prev.filter(item => item.uid !== uid));
     setSelectedUid(prev => (prev === uid ? null : prev));
-    setEditingUid(prev => (prev === uid ? null : prev));
   };
 
   const [fontPrimary, setFontPrimary] = useState('Roboto');
@@ -195,70 +197,30 @@ export function useLayoutGenerator() {
   const [colorSecondary, setColorSecondary] = useState('#ffffff');
   const [colorTertiary, setColorTertiary] = useState('#fff');
   const [colorPrimaryBackground, setColorPrimaryBackground] = useState('#000');
-  const [colorSecondaryBackground, setColorSecondaryBackground] = useState('#dd1838');
-  const [colorTertiaryBackground, setColorTertiaryBackground] = useState('#000');
+  const [colorSecondaryBackground, setColorSecondaryBackground] =
+    useState('#dd1838');
+  const [colorTertiaryBackground, setColorTertiaryBackground] =
+    useState('#000');
   const [colorFooter, setColorFooter] = useState('#1A051C');
   const [colorFooterText, setColorFooterText] = useState('#94A3B8');
   const [colorPrimaryText, setColorPrimaryText] = useState('#fff');
   const [colorSecondaryText, setColorSecondaryText] = useState('#51ff00');
 
-  // modo mais complexo de calcular
-  // const hexToRgb = (hexColor: string) => {
-  //   const hex = hexColor.replace('#', '')
-  //   const r = parseInt(hex.substring(0, 2), 16)//divide o hex em 2, pegando o red
-  //   const g = parseInt(hex.substring(2, 4), 16)// green
-  //   const b = parseInt(hex.substring(4, 6), 16)// blue, o ..16) transforma em decimal de 0 a 255
-
-  //   return (r * 299 + g * 587 + b * 114) / 1000
-  // }
-
-  // const getContrastColor = (bgHex: string, textHex: string) => {
-  //   const bgRgb = hexToRgb(bgHex)
-  //   const textRbg = hexToRgb(textHex)
-  //   const diff = Math.abs(bgRgb - textRbg)
-
-  //   if(diff > 60){
-  //     return textHex //mantem cor manual
-  //   }
-  //   return bgRgb >= 128 ? "#000000" : "#ffffff"
-  // }
-
-  const getContrastColor = (hexColor: string) => {
-    const hex = hexColor.replace('#', '')
-    const r = parseInt(hex.substring(0, 2), 16)//divide o hex em 2, pegando o red
-    const g = parseInt(hex.substring(2, 4), 16)// green
-    const b = parseInt(hex.substring(4, 6), 16)// blue, o ..16) transforma em decimal de 0 a 255
-
-    const brilho = (r * 299 + g * 587 + b * 114) / 1000
-
-    return brilho >= 128 ? "#000000" : "#ffffff"
-  }
-
-  // Se a cor for muito clara (pouco contraste com fundo branco), troca para preto;
-  // caso contrário, mantém a cor dinâmica.
-  const getColorSafeOnWhite = (hexColor: string) => {
-    const hex = hexColor.replace('#', '')
-    const r = parseInt(hex.substring(0, 2), 16)
-    const g = parseInt(hex.substring(2, 4), 16)
-    const b = parseInt(hex.substring(4, 6), 16)
-
-    const brilho = (r * 299 + g * 587 + b * 114) / 1000
-
-    return brilho >= 220 ? "#000000" : hexColor
-  }
-
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (wakePopupRef.current && !wakePopupRef.current.contains(event.target as Node)) {
-        setShowWakePopup(false)
+      if (
+        wakePopupRef.current &&
+        !wakePopupRef.current.contains(event.target as Node)
+      ) {
+        setShowWakePopup(false);
       }
     }
 
-    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [])
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -306,7 +268,9 @@ export function useLayoutGenerator() {
         setColorTertiary(parsed.colorTertiary || '#fff');
 
         setColorPrimaryBackground(parsed.colorPrimaryBackground || '#000');
-        setColorSecondaryBackground(parsed.colorSecondaryBackground || '#dd1838');
+        setColorSecondaryBackground(
+          parsed.colorSecondaryBackground || '#dd1838'
+        );
         setColorTertiaryBackground(parsed.colorTertiaryBackground || '#000');
 
         setColorFooter(parsed.colorFooter || '#1A051C');
@@ -335,6 +299,9 @@ export function useLayoutGenerator() {
       setLogo(localStorage.getItem('logo') || '');
       setFavicon(localStorage.getItem('favicon') || '');
       setOgImage(localStorage.getItem('ogImage') || '');
+      setWakeCustomValue(localStorage.getItem('wakeToken') || '');
+      setLeftCollapsed(localStorage.getItem('panelLeftCollapsed') === '1');
+      setRightCollapsed(localStorage.getItem('panelRightCollapsed') === '1');
     } catch (e) {
       console.error('Erro ao carregar estado do layout:', e);
     } finally {
@@ -343,31 +310,43 @@ export function useLayoutGenerator() {
   }, []);
 
   useEffect(() => {
-    setColorPrimaryText(getContrastColor(colorPrimaryBackground))
-    setColorSecondaryText(getContrastColor(colorSecondaryBackground))
-    setColorTertiary(getContrastColor(colorTertiaryBackground));
+    setColorPrimaryText(contrastOn(colorPrimaryBackground));
+    setColorSecondaryText(contrastOn(colorSecondaryBackground));
+    setColorTertiary(contrastOn(colorTertiaryBackground));
   }, [
     colorPrimaryBackground,
     colorSecondaryBackground,
-    colorTertiaryBackground
-  ])
+    colorTertiaryBackground,
+  ]);
 
-  // Aplicar variáveis CSS no documento
+  /**
+   * Tokens do tema no `:root` do editor.
+   *
+   * A lista vem de `buildThemeStyle`, a MESMA que o iframe e o /p aplicam como
+   * estilo inline. Antes o editor repetia o mapa à mão e as duas cópias já
+   * tinham divergido: aqui faltava `--font-tertiary` e a fonte ia sem as aspas
+   * e sem o fallback.
+   */
   useEffect(() => {
-    document.documentElement.style.setProperty('--text-primary-color', colorPrimary);
-    document.documentElement.style.setProperty('--text-secundary-color', colorSecondary);
-    document.documentElement.style.setProperty('--text-tertiary-color', colorTertiary);
+    const vars = buildThemeStyle(
+      {
+        colorPrimary,
+        colorSecondary,
+        colorTertiary,
+        colorPrimaryBackground,
+        colorSecondaryBackground,
+        colorTertiaryBackground,
+        colorFooter,
+        colorFooterText,
+        colorPrimaryText,
+        colorSecondaryText,
+      },
+      { fontPrimary, fontSecondary, fontTertiary }
+    ) as Record<string, string>;
 
-    document.documentElement.style.setProperty('--background-primary-color', colorPrimaryBackground); //altera o bg do header__middle
-    document.documentElement.style.setProperty('--background-primary-color-safe', getColorSafeOnWhite(colorPrimaryBackground)); // versão visível em fundo branco
-    document.documentElement.style.setProperty('--background-secundary-color', colorSecondaryBackground); //altera o bg da categoria e button cadastrar
-    document.documentElement.style.setProperty('--background-tertiary-color', colorTertiaryBackground); // altera footer e header
-
-    document.documentElement.style.setProperty('--background-footer', colorFooter);
-    document.documentElement.style.setProperty('--text-color-footer', colorFooterText);
-
-    document.documentElement.style.setProperty('--text-color-base', colorPrimaryText);
-    document.documentElement.style.setProperty('--text-color-secundary', colorSecondaryText);
+    for (const [name, value] of Object.entries(vars)) {
+      document.documentElement.style.setProperty(name, value);
+    }
   }, [
     colorPrimary,
     colorSecondary,
@@ -379,26 +358,22 @@ export function useLayoutGenerator() {
     colorFooterText,
     colorPrimaryText,
     colorSecondaryText,
-  ]);
-
-  useEffect(() => {
-    document.documentElement.style.setProperty('--font-primary', fontPrimary);
-    document.documentElement.style.setProperty('--font-secundary', fontSecondary);
-  }, [
     fontPrimary,
     fontSecondary,
     fontTertiary,
   ]);
 
-
   useEffect(() => {
     if (!hydrated) return;
     try {
-      localStorage.setItem('fonts', JSON.stringify({
-        fontPrimary,
-        fontSecondary,
-        fontTertiary,
-      }));
+      localStorage.setItem(
+        'fonts',
+        JSON.stringify({
+          fontPrimary,
+          fontSecondary,
+          fontTertiary,
+        })
+      );
     } catch (e) {
       console.error('Erro ao salvar fontes:', e);
     }
@@ -429,6 +404,17 @@ export function useLayoutGenerator() {
       console.error('Erro ao salvar favicon:', e);
     }
   }, [favicon, hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      localStorage.setItem('panelLeftCollapsed', leftCollapsed ? '1' : '0');
+      localStorage.setItem('panelRightCollapsed', rightCollapsed ? '1' : '0');
+      localStorage.setItem('wakeToken', wakeCustomValue);
+    } catch (e) {
+      console.error('Erro ao salvar estado dos painéis:', e);
+    }
+  }, [leftCollapsed, rightCollapsed, wakeCustomValue, hydrated]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -499,7 +485,7 @@ export function useLayoutGenerator() {
 
   /** Alterna visualização entre desktop/mobile */
   const toggleMobileView = () => {
-    setIsMobileView((prev) => !prev);
+    setIsMobileView(prev => !prev);
   };
 
   /**
@@ -536,7 +522,6 @@ export function useLayoutGenerator() {
       // Não deixa o contorno do canvas nem o painel direito presos numa seção
       // que acabou de deixar de existir.
       setSelectedUid(prev => (prev && survivors.has(prev) ? prev : null));
-      setEditingUid(prev => (prev && survivors.has(prev) ? prev : null));
     }
 
     if (value === 'Wake') {
@@ -544,41 +529,45 @@ export function useLayoutGenerator() {
     }
   };
 
-  const toggleSelection = (id: string, layoutKey: LayoutKey, pagina: string) => {
-    setSelections((prev) => {
-      const item = LAYOUTS[layoutKey].items.find((i) => i.id === id);
+  const toggleSelection = (
+    id: string,
+    layoutKey: LayoutKey,
+    pagina: string
+  ) => {
+    setSelections(prev => {
+      const item = LAYOUTS[layoutKey].items.find(i => i.id === id);
       if (!item) return prev;
 
       // helper para saber se um selection é showcase
       const isShowcaseEntry = (s: LayoutSelection) => {
-        const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
-        return found?.selection === "showcase";
+        const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
+        return found?.selection === 'showcase';
       };
 
       // 👉 Regras especiais para showcase
-      if (item.selection === "showcase") {
+      if (item.selection === 'showcase') {
         const existingShowcases = prev.filter(isShowcaseEntry);
 
         // 1) Não existe nenhum showcase ainda → adicionar (respeita MAX_PER_PAGE da página alvo)
         if (existingShowcases.length === 0) {
-          const countInPage = prev.filter((p) => p.pagina === pagina).length;
+          const countInPage = prev.filter(p => p.pagina === pagina).length;
           if (countInPage >= MAX_PER_PAGE) return prev;
           return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
         }
 
         // 2) Já existe o MESMO showcase → pode duplicar (respeita MAX_PER_PAGE da página alvo)
         const sameShowcaseExists = existingShowcases.some(
-          (s) => s.id === id && s.layoutKey === layoutKey
+          s => s.id === id && s.layoutKey === layoutKey
         );
         if (sameShowcaseExists) {
-          const countInPage = prev.filter((p) => p.pagina === pagina).length;
+          const countInPage = prev.filter(p => p.pagina === pagina).length;
           if (countInPage >= MAX_PER_PAGE) return prev;
           return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
         }
 
         // 3) Existe showcase DIFERENTE → substituir TODOS os showcases mantendo suas páginas
         // (não checa MAX_PER_PAGE, pois é substituição 1-para-1, a contagem por página não aumenta)
-        const replaced = prev.map((s) => {
+        const replaced = prev.map(s => {
           if (isShowcaseEntry(s)) {
             return {
               uid: crypto.randomUUID(),
@@ -592,10 +581,10 @@ export function useLayoutGenerator() {
         return replaced;
       }
 
-      if (item.selection === "category-main") {
-        const existingIndex = prev.findIndex((s) => {
-          const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
-          return found?.selection === "category-main";
+      if (item.selection === 'category-main') {
+        const existingIndex = prev.findIndex(s => {
+          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
+          return found?.selection === 'category-main';
         });
 
         // Já existe algum category-main
@@ -617,15 +606,15 @@ export function useLayoutGenerator() {
         }
 
         // Não existe ainda → adicionar (respeita limite da página)
-        const countInPage = prev.filter((p) => p.pagina === pagina).length;
+        const countInPage = prev.filter(p => p.pagina === pagina).length;
         if (countInPage >= MAX_PER_PAGE) return prev;
         return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
       }
 
-      if (item.selection === "category-banner") {
-        const existingIndex = prev.findIndex((s) => {
-          const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
-          return found?.selection === "category-banner";
+      if (item.selection === 'category-banner') {
+        const existingIndex = prev.findIndex(s => {
+          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
+          return found?.selection === 'category-banner';
         });
 
         // Já existe algum category-banner
@@ -647,15 +636,15 @@ export function useLayoutGenerator() {
         }
 
         // Não existe ainda → adicionar (respeita limite da página)
-        const countInPage = prev.filter((p) => p.pagina === pagina).length;
+        const countInPage = prev.filter(p => p.pagina === pagina).length;
         if (countInPage >= MAX_PER_PAGE) return prev;
         return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
       }
 
-      if (item.selection === "product-description") {
-        const existingIndex = prev.findIndex((s) => {
-          const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
-          return found?.selection === "product-description";
+      if (item.selection === 'product-description') {
+        const existingIndex = prev.findIndex(s => {
+          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
+          return found?.selection === 'product-description';
         });
 
         // Já existe algum product-description
@@ -677,15 +666,15 @@ export function useLayoutGenerator() {
         }
 
         // Não existe ainda → adicionar (respeita limite da página)
-        const countInPage = prev.filter((p) => p.pagina === pagina).length;
+        const countInPage = prev.filter(p => p.pagina === pagina).length;
         if (countInPage >= MAX_PER_PAGE) return prev;
         return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
       }
 
-      if (item.selection === "banner-top") {
-        const existingIndex = prev.findIndex((s) => {
-          const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
-          return found?.selection === "banner-top";
+      if (item.selection === 'banner-top') {
+        const existingIndex = prev.findIndex(s => {
+          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
+          return found?.selection === 'banner-top';
         });
 
         // Já existe algum banner-top
@@ -707,15 +696,15 @@ export function useLayoutGenerator() {
         }
 
         // Não existe ainda → adicionar (respeita limite da página)
-        const countInPage = prev.filter((p) => p.pagina === pagina).length;
+        const countInPage = prev.filter(p => p.pagina === pagina).length;
         if (countInPage >= MAX_PER_PAGE) return prev;
         return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
       }
 
-      if (item.selection === "category-description") {
-        const existingIndex = prev.findIndex((s) => {
-          const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
-          return found?.selection === "category-description";
+      if (item.selection === 'category-description') {
+        const existingIndex = prev.findIndex(s => {
+          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
+          return found?.selection === 'category-description';
         });
 
         // Já existe algum category-description
@@ -737,15 +726,15 @@ export function useLayoutGenerator() {
         }
 
         // Não existe ainda → adicionar (respeita limite da página)
-        const countInPage = prev.filter((p) => p.pagina === pagina).length;
+        const countInPage = prev.filter(p => p.pagina === pagina).length;
         if (countInPage >= MAX_PER_PAGE) return prev;
         return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
       }
 
-      if (item.selection === "banner-main") {
-        const existingIndex = prev.findIndex((s) => {
-          const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
-          return found?.selection === "banner-main";
+      if (item.selection === 'banner-main') {
+        const existingIndex = prev.findIndex(s => {
+          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
+          return found?.selection === 'banner-main';
         });
 
         // Já existe algum banner-main
@@ -767,15 +756,15 @@ export function useLayoutGenerator() {
         }
 
         // Não existe ainda → adicionar (respeita limite da página)
-        const countInPage = prev.filter((p) => p.pagina === pagina).length;
+        const countInPage = prev.filter(p => p.pagina === pagina).length;
         if (countInPage >= MAX_PER_PAGE) return prev;
         return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
       }
 
-      if (item.selection === "product-info") {
-        const existingIndex = prev.findIndex((s) => {
-          const found = LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id);
-          return found?.selection === "product-info";
+      if (item.selection === 'product-info') {
+        const existingIndex = prev.findIndex(s => {
+          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
+          return found?.selection === 'product-info';
         });
 
         if (existingIndex !== -1) {
@@ -794,7 +783,7 @@ export function useLayoutGenerator() {
           return newSelections;
         }
 
-        const countInPage = prev.filter((p) => p.pagina === pagina).length;
+        const countInPage = prev.filter(p => p.pagina === pagina).length;
         if (countInPage >= MAX_PER_PAGE) return prev;
         return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
       }
@@ -802,12 +791,13 @@ export function useLayoutGenerator() {
       // 👉 Itens não-showcase (mantém sua lógica original)
 
       // regra especial para "common"
-      if (pagina === "common") {
+      if (pagina === 'common') {
         const alreadySelectedIndex = prev.findIndex(
-          (s) =>
-            s.pagina === "common" &&
+          s =>
+            s.pagina === 'common' &&
             s.layoutKey === layoutKey &&
-            LAYOUTS[s.layoutKey].items.find((i) => i.id === s.id)?.selection === item.selection
+            LAYOUTS[s.layoutKey].items.find(i => i.id === s.id)?.selection ===
+              item.selection
         );
 
         if (alreadySelectedIndex !== -1) {
@@ -816,12 +806,12 @@ export function useLayoutGenerator() {
             uid: crypto.randomUUID(),
             id,
             layoutKey,
-            pagina: "common",
+            pagina: 'common',
           };
           return newSelections;
         }
 
-        const newSelections = item.pagina.map((p) => ({
+        const newSelections = item.pagina.map(p => ({
           uid: crypto.randomUUID(),
           id,
           layoutKey,
@@ -832,13 +822,10 @@ export function useLayoutGenerator() {
       }
 
       // limite por página só para ADIÇÃO (não afeta substituições)
-      const countInPage = prev.filter((p) => p.pagina === pagina).length;
+      const countInPage = prev.filter(p => p.pagina === pagina).length;
       if (countInPage >= MAX_PER_PAGE) return prev;
 
-      return [
-        ...prev,
-        { uid: crypto.randomUUID(), id, layoutKey, pagina },
-      ];
+      return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
     });
   };
 
@@ -853,7 +840,7 @@ export function useLayoutGenerator() {
     const mapToConfig = (item: LayoutSelection) => {
       const section = LAYOUTS[item.layoutKey];
       const found: LayoutItem | undefined = section.items.find(
-        (i) => i.id === item.id && i.platforms.includes(platform as Platform)
+        i => i.id === item.id && i.platforms.includes(platform as Platform)
       );
       if (!found) return null;
 
@@ -870,26 +857,28 @@ export function useLayoutGenerator() {
     };
 
     const globalItems = selections
-      .filter((s) => {
+      .filter(s => {
         const section = LAYOUTS[s.layoutKey];
         const found = section.items.find(i => i.id === s.id);
-        return found?.pagina.includes("common");
+        return found?.pagina.includes('common');
       })
       .map(mapToConfig)
       .filter(Boolean);
 
     const pageItems = selections
-      .filter((s) => {
+      .filter(s => {
         const section = LAYOUTS[s.layoutKey];
         const found = section.items.find(i => i.id === s.id);
-        return found && !found.pagina.includes("common");
+        return found && !found.pagina.includes('common');
       })
       .map(mapToConfig)
       .filter(Boolean)
       .reduce<Record<string, ReturnType<typeof mapToConfig>[]>>((acc, item) => {
         if (!item) return acc;
-        const paginas = Array.isArray(item.pagina) ? item.pagina : [item.pagina];
-        paginas.forEach((pg) => {
+        const paginas = Array.isArray(item.pagina)
+          ? item.pagina
+          : [item.pagina];
+        paginas.forEach(pg => {
           if (!acc[pg]) acc[pg] = [];
           acc[pg].push(item);
         });
@@ -924,11 +913,11 @@ export function useLayoutGenerator() {
       },
     };
 
-    if (platform.toLowerCase() === "wake") {
+    if (platform.toLowerCase() === 'wake') {
       (config as Record<string, unknown>).wakeToken = wakeCustomValue;
     }
 
-    console.log(config)
+    console.log(config);
     return config;
   };
 
@@ -937,7 +926,7 @@ export function useLayoutGenerator() {
     const mapToFaststoreItem = (item: LayoutSelection) => {
       const section = LAYOUTS[item.layoutKey];
       const found: LayoutItem | undefined = section.items.find(
-        (i) => i.id === item.id && i.platforms.includes('VTEX')
+        i => i.id === item.id && i.platforms.includes('VTEX')
       );
       if (!found || !found.path) return null;
       return { found, item };
@@ -992,9 +981,11 @@ export function useLayoutGenerator() {
       .map(toEntry);
 
     const pageItems = allMapped
-      .filter(({ found }) => !found.override && !found.pagina.includes('common'))
+      .filter(
+        ({ found }) => !found.override && !found.pagina.includes('common')
+      )
       .reduce<Record<string, FaststoreEntry[]>>((acc, mapped) => {
-        mapped.found.pagina.forEach((pg) => {
+        mapped.found.pagina.forEach(pg => {
           if (!acc[pg]) acc[pg] = [];
           acc[pg].push(toEntry(mapped));
         });
@@ -1005,6 +996,15 @@ export function useLayoutGenerator() {
       platform: 'faststore',
       faststore: {
         global: globalItems,
+        // Chave ADITIVA: até aqui o shape faststore não tinha `assets` nenhum e
+        // logo, favicon e imagem de compartilhamento eram descartados em silêncio
+        // em todo export VTEX. O template-generator ignora chaves que não
+        // conhece, então incluir não quebra quem já consome o arquivo.
+        assets: {
+          logo,
+          favicon,
+          ogImage,
+        },
         variables: {
           fontPrimary,
           fontSecondary,
@@ -1042,43 +1042,69 @@ export function useLayoutGenerator() {
     setShowPlatformError(false);
 
     // O palco só existe durante a captura; espera o paint antes de fotografar.
+    //
+    // As capturas são melhor-esforço: se o html2canvas falhar, o usuário ainda
+    // tem que receber o config.json — que é o entregável real. Antes um ref
+    // nulo fazia a função voltar calada (sem PNG, sem JSON, sem aviso) e uma
+    // captura rejeitada deixava `isCapturing` preso em true, com o palco
+    // off-screen montado para sempre.
     await mountExportStage();
     try {
-      if (!desktopPreviewRef.current || !mobilePreviewRef.current) return;
+      const desktop = desktopPreviewRef.current;
+      const mobile = mobilePreviewRef.current;
+      if (!desktop || !mobile) throw new Error('Palco de exportação ausente');
 
       // Sem estes awaits os PNGs sairiam com imagens em branco e texto na
       // fonte fallback: montado sob demanda, o palco não teve o tempo que
       // antes tinha (ficava montado desde o load da página). É uma regressão
       // silenciosa — ninguém confere o PNG — então não remova.
       await Promise.all([
-        waitForImages(desktopPreviewRef.current),
-        waitForImages(mobilePreviewRef.current),
+        waitForImages(desktop),
+        waitForImages(mobile),
         document.fonts.ready,
       ]);
 
-      await captureAndDownloadScreenshot(desktopPreviewRef.current, 'layout-desktop.png');
-      await captureAndDownloadScreenshot(mobilePreviewRef.current, 'layout-mobile.png');
+      await captureAndDownloadScreenshot(desktop, 'layout-desktop.png');
+      await captureAndDownloadScreenshot(mobile, 'layout-mobile.png');
+    } catch (error) {
+      console.error('Falha ao gerar as imagens do tema:', error);
+      window.alert(
+        'Não foi possível gerar as imagens do tema. O config.json será baixado assim mesmo.'
+      );
     } finally {
       setIsCapturing(false);
     }
 
     const configJson = buildConfigJson();
     if (configJson) {
-      const isProduction = window.location.hostname === 'www.e-temas.com.br';
-      if (isProduction) {
-        await sendLayoutConfigEmail(configJson);
-      } else {
-        const blob = new Blob([JSON.stringify(configJson, null, 2)], {
-          type: 'application/json',
-        });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = 'config.json';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+      // O botão se chama "Baixar", então ele baixa — em qualquer ambiente.
+      // Antes o download só acontecia FORA de produção: em www.e-temas.com.br o
+      // clique mandava um e-mail e não entregava arquivo nenhum ao usuário, que
+      // ficava sem sinal de que algo tinha acontecido.
+      const blob = new Blob([JSON.stringify(configJson, null, 2)], {
+        type: 'application/json',
+      });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'config.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      // Em produção o time também recebe o config por e-mail — é assim que a
+      // implantação chega até eles. O download não substitui esse caminho, e
+      // uma falha de envio não pode engolir o arquivo que o usuário já tem.
+      if (window.location.hostname === 'www.e-temas.com.br') {
+        try {
+          await sendLayoutConfigEmail(configJson);
+        } catch (error) {
+          console.error('Falha ao enviar o config por e-mail:', error);
+          window.alert(
+            'O arquivo foi baixado, mas não foi possível enviá-lo para a equipe. Encaminhe o config.json manualmente.'
+          );
+        }
       }
     }
   };
@@ -1207,8 +1233,7 @@ export function useLayoutGenerator() {
   useEffect(() => {
     if (!hydrated) return;
     try {
-      if (platform)
-        localStorage.setItem('layoutPlatform', platform);
+      if (platform) localStorage.setItem('layoutPlatform', platform);
     } catch (error) {
       console.error('Erro ao salvar plataforma no localStorage:', error);
     }
@@ -1216,7 +1241,6 @@ export function useLayoutGenerator() {
 
   return {
     selections,
-    setSelections,
     focusedKey,
     platform,
     showPlatformError,
@@ -1224,12 +1248,18 @@ export function useLayoutGenerator() {
     desktopPreviewRef,
     mobilePreviewRef,
     setFocusedKey,
-    fontPrimary, setFontPrimary,
-    fontSecondary, setFontSecondary,
-    fontTertiary, setFontTertiary,
-    logo, setLogo,
-    favicon, setFavicon,
-    ogImage, setOgImage,
+    fontPrimary,
+    setFontPrimary,
+    fontSecondary,
+    setFontSecondary,
+    fontTertiary,
+    setFontTertiary,
+    logo,
+    setLogo,
+    favicon,
+    setFavicon,
+    ogImage,
+    setOgImage,
     colorPrimary,
     setColorPrimary,
     colorSecondary,
@@ -1247,7 +1277,7 @@ export function useLayoutGenerator() {
     setColorTertiaryBackground,
     /* setColorPrimaryText / setColorSecondaryText / setColorTertiary NÃO são
        expostos: as três cores são derivadas por luminância dos fundos de marca
-       (ver o efeito de `getContrastColor`). Ficavam como campos editáveis cuja
+       (ver o efeito de `contrastOn`). Ficavam como campos editáveis cuja
        edição era sobrescrita no toque seguinte em qualquer fundo. Os `useState`
        e a derivação continuam — o que sai é só a possibilidade de escrever
        nelas de fora. */
@@ -1258,12 +1288,14 @@ export function useLayoutGenerator() {
     toggleSelection,
     exportLayout,
     createPreview,
-    editingUid,
-    setEditingUid,
     setItemVariable,
     resetItemVariables,
     railTarget,
     setRailTarget,
+    leftCollapsed,
+    setLeftCollapsed,
+    rightCollapsed,
+    setRightCollapsed,
     undo,
     redo,
     canUndo,

@@ -3,7 +3,7 @@
   flex-direction: column;
   min-height: 0;
   height: 100%;
-  border-right: 1px solid var(--ed-gray-000);
+  box-shadow: inset -1px 0 0 var(--ed-gray-000);
   background: var(--ed-bg-00);
   /* Nada de transform/filter/contain aqui: viraria containing block do
      DragOverlay `position: fixed` do dnd-kit e do popover do color picker. */
@@ -12,9 +12,14 @@
 .header {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 16px;
+  /* 64px é a altura do cabeçalho nas telas simples, onde o conteúdo é só o
+     título e fica centrado. Em "Componentes" o card de plataforma faz a caixa
+     crescer para os 122px do Figma. */
+  min-height: 64px;
   padding: 20px 24px;
-  border-bottom: 1px solid var(--ed-gray-000);
+  box-shadow: inset 0 -1px 0 var(--ed-gray-000);
 }
 
 .titleRow {

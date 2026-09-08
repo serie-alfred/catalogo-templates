@@ -60,7 +60,6 @@ export default function SectionsPanel() {
     moveSection,
     duplicateSection,
     removeSection,
-    setEditingUid,
   } = useLayout();
 
   const [activeUid, setActiveUid] = useState<string | null>(null);
@@ -94,7 +93,6 @@ export default function SectionsPanel() {
           group: section?.name ?? sel.layoutKey,
           isCommon: sel.pagina === 'common',
           canDuplicate: !NON_DUPLICABLE_LAYOUT_KEYS.has(sel.layoutKey),
-          canEdit: !!layoutItem?.variablesSchema?.length,
           locked: LOCKED_LAYOUT_KEYS.has(sel.layoutKey),
         };
       }),
@@ -172,7 +170,6 @@ export default function SectionsPanel() {
     hovered: row.uid === hoveredUid,
     onSelect: () => handleSelect(row.uid),
     onHoverChange: (hovering: boolean) => handleHover(row.uid, hovering),
-    onEdit: () => setEditingUid(row.uid),
     onDuplicate: () => duplicateSection(row.uid),
     onRemove: () => handleRemove(row),
   });
@@ -180,17 +177,14 @@ export default function SectionsPanel() {
   const activeRow = activeUid ? rows.find(r => r.uid === activeUid) : null;
 
   return (
-    <section
-      className={`${styles.panel} preview-ui`}
-      aria-label="Seções da página"
-    >
+    <section className={styles.panel} aria-label="Seções da página">
       {/* Sem cabeçalho "Seções · N": o Figma leva o painel direto para o
           primeiro acordeão. */}
       <div className={styles.list}>
         {rows.length === 0 ? (
           <p className={styles.empty}>
-            Nenhuma seção nesta página. Use{' '}
-            <strong>Adicionar seção</strong> para incluir componentes.
+            Nenhuma seção nesta página. Use <strong>Adicionar seção</strong>{' '}
+            para incluir componentes.
           </p>
         ) : (
           <>

@@ -24,20 +24,6 @@
   margin-bottom: 1.5rem;
 }
 
-.crane {
-  color: white;
-  animation: craneBounce 2s infinite ease-in-out;
-}
-
-@keyframes craneBounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
 .title {
   font-size: 1.3rem;
   font-weight: 600;

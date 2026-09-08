@@ -4,7 +4,11 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import ThemeRenderer from '@/components/preview/ThemeRenderer';
 import SeededLayoutProvider from '@/components/preview/SeededLayoutProvider';
-import { useCanvasInteractions, highlightSection, scrollToSection } from '@/hooks/useCanvasInteractions';
+import {
+  useCanvasInteractions,
+  highlightSection,
+  scrollToSection,
+} from '@/hooks/useCanvasInteractions';
 import { loadComponentFonts, loadGoogleFont } from '@/utils/googleFont';
 import { buildThemeStyle } from '@/utils/themeStyle';
 import {
@@ -51,8 +55,10 @@ export default function FrameClient() {
   useCanvasInteractions(rootRef, {
     // O canvas só existe depois do primeiro `content`.
     enabled: !!content,
-    onSelect: uid => postRef.current({ source: FRAME_CHILD, type: 'select', uid }),
-    onHover: uid => postRef.current({ source: FRAME_CHILD, type: 'hover', uid }),
+    onSelect: uid =>
+      postRef.current({ source: FRAME_CHILD, type: 'select', uid }),
+    onHover: uid =>
+      postRef.current({ source: FRAME_CHILD, type: 'hover', uid }),
     onDuplicate: uid =>
       postRef.current({
         source: FRAME_CHILD,
@@ -164,7 +170,10 @@ export default function FrameClient() {
   );
 
   const seed = useMemo(
-    () => ({ logo: content?.logo ?? '', selections: content?.selections ?? [] }),
+    () => ({
+      logo: content?.logo ?? '',
+      selections: content?.selections ?? [],
+    }),
     [content?.logo, content?.selections]
   );
 

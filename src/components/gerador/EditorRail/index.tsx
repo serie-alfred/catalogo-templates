@@ -42,11 +42,14 @@ const ITEMS: { target: RailTarget; label: string; icon: React.ReactNode }[] = [
   },
 ];
 
-export default function EditorRail() {
+export default function EditorRail({ className }: { className?: string }) {
   const { railTarget, setRailTarget } = useLayout();
 
   return (
-    <nav className={styles.rail} aria-label="Seções do editor">
+    <nav
+      className={`${styles.rail} ${className ?? ''}`}
+      aria-label="Seções do editor"
+    >
       <EtemasMark className={styles.mark} />
 
       {ITEMS.map(({ target, label, icon }) => (

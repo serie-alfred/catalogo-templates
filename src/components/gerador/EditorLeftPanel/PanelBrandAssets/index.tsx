@@ -104,23 +104,26 @@ export default function PanelBrandAssets() {
 
   return (
     <div>
+      {/* A legenda é a do Figma — "90 × 90 (X Mb)", as medidas da caixa de
+          preview. Só o placeholder `X` é resolvido, com o teto real do upload:
+          um "(X Mb)" literal não pode ir para produção. */}
       <AssetSlot
         title="Logo"
-        hint={`Recomendado 400 × 100 (máx. ${MAX_MB} Mb)`}
+        hint={`90 × 90 (${MAX_MB} Mb)`}
         value={logo}
         accept={IMAGE_ACCEPT}
         onChange={setLogo}
       />
       <AssetSlot
         title="Favicon"
-        hint={`Recomendado 512 × 512 (máx. ${MAX_MB} Mb)`}
+        hint={`90 × 90 (${MAX_MB} Mb)`}
         value={favicon}
         accept="image/png,image/x-icon,image/vnd.microsoft.icon,image/svg+xml"
         onChange={setFavicon}
       />
       <AssetSlot
         title="Share Link"
-        hint={`Recomendado 1200 × 630 (máx. ${MAX_MB} Mb)`}
+        hint={`90 × 90 (${MAX_MB} Mb)`}
         value={ogImage}
         accept={IMAGE_ACCEPT}
         onChange={setOgImage}

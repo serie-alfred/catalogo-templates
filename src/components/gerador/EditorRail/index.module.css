@@ -6,7 +6,10 @@
   gap: 40px;
   padding: 24px;
   height: 100%;
-  border-right: 1px solid var(--ed-gray-000);
+  /* Divisor como sombra interna, não `border`: no Figma a borda é desenhada
+     POR DENTRO da caixa e não desloca o conteúdo. Uma `border` de 1px
+     empurraria tudo 1px e a geometria deixaria de bater. */
+  box-shadow: inset -1px 0 0 var(--ed-gray-000);
   background: var(--ed-bg-00);
 }
 

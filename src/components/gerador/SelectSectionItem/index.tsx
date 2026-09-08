@@ -4,9 +4,9 @@ import {
   LAYOUTS,
   LayoutKey,
   LayoutItem,
-  Pagina,
   BACKGROUND_VAR_LABELS,
 } from '@/data/layoutData';
+import { isItemAvailable } from '@/utils/previewRender';
 import { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import Image from 'next/image';
 
@@ -43,18 +43,15 @@ export default function SelectSectionItem({
       }))
     : allImages;
 
-  imagesToShow = imagesToShow.filter(
-    item =>
-      Array.isArray(item.pagina) &&
-      item.pagina.includes(selectedPage as Pagina) &&
-      item.platforms.includes(platform as Platform)
+  imagesToShow = imagesToShow.filter(item =>
+    isItemAvailable(item, selectedPage, platform)
   );
 
   const isSelected = (id: string, layoutKey: LayoutKey) =>
     selectedImages.some(img => img.id === id && img.layoutKey === layoutKey);
 
   return (
-    <div className={styles.carousel} id="options-list">
+    <div className={styles.carousel}>
       {imagesToShow.map(item => (
         <div
           key={`${item.layoutKey}-${item.id}`}

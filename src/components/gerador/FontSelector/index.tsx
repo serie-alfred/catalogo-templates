@@ -1,6 +1,9 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+
+import { loadGoogleFont } from '@/utils/googleFont';
+
 import styles from './index.module.css';
 
 type FontItem = {
@@ -16,6 +19,8 @@ type FontSelectorProps = {
   unset?: boolean;
   /** Nome amigável do token herdado, ex.: "fonte dos títulos". */
   inheritsLabel?: string;
+  /** Ver ColorPicker: `block` na esquerda (sem rótulo), `field` na direita. */
+  variant?: 'block' | 'field';
 };
 
 export default function FontSelector({
@@ -25,6 +30,7 @@ export default function FontSelector({
   onFontChange,
   unset = false,
   inheritsLabel,
+  variant = 'field',
 }: FontSelectorProps) {
   const [allFonts, setAllFonts] = useState<FontItem[]>([]);
   const [searchTerm, setSearchTerm] = useState(selectedFont || '');
@@ -39,32 +45,25 @@ export default function FontSelector({
       .catch(() => setAllFonts([]));
   }, []);
 
+  /**
+   * Só carrega a face no documento do editor — quem escreve as custom
+   * properties é outra pessoa.
+   *
+   * Este efeito fazia `setProperty` no `:root`, e isso estava errado de dois
+   * jeitos: as variáveis globais já são escritas pelo useLayoutGenerator (com
+   * a grafia certa, `--font-secundary`), e as variáveis POR COMPONENTE não são
+   * únicas por instância — definir a fonte de um Showcase gravava
+   * `--showcase-font` no `:root` e passava a valer para todos os outros, sem
+   * nunca ser removida. O preview por instância vem do estilo inline que o
+   * ThemeRenderer põe no wrapper da seção.
+   *
+   * A face precisa existir NESTE documento mesmo assim: é ele que o
+   * ExportStage fotografa para os PNGs.
+   */
   useEffect(() => {
-    // Sem valor próprio: remove o override de :root e deixa herdar o global.
-    if (unset || !selectedFont) {
-      document.documentElement.style.removeProperty(`--${cssVariable}`);
-      return;
-    }
-
-    const fontUrl = `https://fonts.googleapis.com/css2?family=${selectedFont.replace(/ /g, '+')}:wght@400;700&display=swap`;
-    const linkId = `font-${cssVariable}`;
-
-    const existingLink = document.getElementById(linkId);
-    if (existingLink) {
-      existingLink.setAttribute('href', fontUrl);
-    } else {
-      const link = document.createElement('link');
-      link.id = linkId;
-      link.rel = 'stylesheet';
-      link.href = fontUrl;
-      document.head.appendChild(link);
-    }
-
-    document.documentElement.style.setProperty(
-      `--${cssVariable}`,
-      `'${selectedFont}', sans-serif`
-    );
-  }, [selectedFont, cssVariable, unset]);
+    if (unset || !selectedFont) return;
+    loadGoogleFont(selectedFont);
+  }, [selectedFont, unset]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -94,10 +93,12 @@ export default function FontSelector({
   };
 
   return (
-    <div className={styles.field}>
-      <label className={styles.label} htmlFor={`input-font-${cssVariable}`}>
-        {label}
-      </label>
+    <div className={styles.field} data-variant={variant}>
+      {variant === 'field' && (
+        <label className={styles.label} htmlFor={`input-font-${cssVariable}`}>
+          {label}
+        </label>
+      )}
 
       <div className={styles.control}>
         <input

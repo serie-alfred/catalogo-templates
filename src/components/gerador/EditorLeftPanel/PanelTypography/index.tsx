@@ -46,11 +46,13 @@ export default function PanelTypography() {
     <div>
       {fields.map(field => (
         <section key={field.cssVariable} className={styles.block}>
+          <h3 className={styles.title}>{field.label}</h3>
           <FontSelector
             label={field.label}
             cssVariable={field.cssVariable}
             selectedFont={field.value}
             onFontChange={field.onChange}
+            variant="block"
           />
         </section>
       ))}

@@ -14,9 +14,7 @@ function isTypingTarget(target: EventTarget | null) {
   const el = target as HTMLElement | null;
   if (!el) return false;
   const tag = el.tagName;
-  return (
-    tag === 'INPUT' || tag === 'TEXTAREA' || el.isContentEditable === true
-  );
+  return tag === 'INPUT' || tag === 'TEXTAREA' || el.isContentEditable === true;
 }
 
 /**
@@ -78,9 +76,15 @@ export default function EditorTopbar() {
         </button>
       </div>
 
-      <SelectPage selectedPage={selectedPage} setSelectedPage={setSelectedPage} />
+      <SelectPage
+        selectedPage={selectedPage}
+        setSelectedPage={setSelectedPage}
+      />
 
-      <ResponsiveToggle isMobile={isMobileView} onToggleMobile={toggleMobileView} />
+      <ResponsiveToggle
+        isMobile={isMobileView}
+        onToggleMobile={toggleMobileView}
+      />
     </header>
   );
 }

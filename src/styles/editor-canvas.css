@@ -32,10 +32,6 @@
   outline-offset: -2px;
 }
 
-.editor-canvas [data-section-uid][data-selected='true'] {
-  outline-color: #007ee6;
-}
-
 /* Compensa o header sticky ao rolar até uma seção pelo painel, senão o topo da
    seção fica escondido atrás dele. `scroll-margin` não afeta posicionamento. */
 .editor-canvas [data-section-uid] {
@@ -51,7 +47,10 @@
   padding: 0 6px;
   background: #007ee6;
   color: #fff;
-  font: 600 11px/1.7 system-ui, -apple-system, sans-serif;
+  font:
+    600 11px/1.7 system-ui,
+    -apple-system,
+    sans-serif;
   border-radius: 4px 4px 0 0;
   white-space: nowrap;
   pointer-events: none;
@@ -87,4 +86,13 @@
 
 .editor-section-badge--remove {
   background: #bb4344;
+}
+
+/* `display` declarado pelo autor vence a regra `[hidden] { display: none }` do
+   user-agent — é origem, não especificidade. Sem isto os badges ficavam
+   visíveis sem seleção e o de duplicar aparecia em seções singleton, burlando
+   NON_DUPLICABLE_LAYOUT_KEYS justamente onde ela precisa valer. */
+.editor-section-actions[hidden],
+.editor-section-badge[hidden] {
+  display: none;
 }

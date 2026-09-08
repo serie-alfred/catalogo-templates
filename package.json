@@ -6,8 +6,7 @@
     "dev": "next dev -p 5503",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "test": "jest"
+    "lint": "next lint"
   },
   "resolutions": {
     "minimatch": "^9.0.7",
@@ -24,19 +23,15 @@
     "@dnd-kit/modifiers": "^9.0.0",
     "@dnd-kit/sortable": "^10.0.0",
     "@lottiefiles/dotlottie-react": "^0.14.4",
-    "@types/react-beautiful-dnd": "^13.1.8",
     "@vercel/kv": "^3.0.0",
     "html2canvas-pro": "^2.4.0",
-    "lucide": "^0.525.0",
     "lucide-react": "^0.525.0",
     "next": "15.5.19",
     "nodemailer": "9.0.3",
     "react": "^19.0.0",
-    "react-beautiful-dnd": "13.1.0",
     "react-colorful": "^5.6.1",
     "react-dom": "^19.0.0",
     "sass": "^1.99.0",
-    "swapy": "^1.0.5",
     "swiper": "14.0.1"
   },
   "devDependencies": {

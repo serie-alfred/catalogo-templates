@@ -45,9 +45,7 @@ export function partitionByPlatform(
     else lost.push(selection);
   }
 
-  const lostTitles = [
-    ...new Set(lost.map(s => resolve(s)?.title ?? s.id)),
-  ];
+  const lostTitles = [...new Set(lost.map(s => resolve(s)?.title ?? s.id))];
 
   return { kept, lost, lostTitles };
 }

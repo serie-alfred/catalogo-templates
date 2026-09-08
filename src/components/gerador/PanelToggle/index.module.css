@@ -1,0 +1,57 @@
+.toggle {
+  position: absolute;
+  top: 50%;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid var(--ed-gray-000);
+  background: var(--ed-bg-00);
+  color: var(--ed-gray-600);
+  cursor: pointer;
+  /* Invisível em repouso: o Figma não desenha este controle e o estado padrão
+     da tela tem que continuar idêntico ao design. */
+  opacity: 0;
+  transition: opacity 0.15s ease;
+  transform: translateY(-50%);
+}
+
+.toggle:hover,
+.toggle:focus-visible,
+.toggle[data-collapsed='true'] {
+  opacity: 1;
+}
+
+.toggle[data-side='left'] {
+  left: calc(var(--ed-rail-w) + var(--ed-left-w));
+  border-radius: 0 8px 8px 0;
+  border-left: 0;
+  transform: translateY(-50%) rotate(90deg);
+  transform-origin: center;
+}
+
+.toggle[data-side='right'] {
+  right: var(--ed-right-w);
+  border-radius: 8px 0 0 8px;
+  border-right: 0;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: center;
+}
+
+.toggle[data-side='left'][data-collapsed='true'] {
+  transform: translateY(-50%) rotate(-90deg);
+}
+
+.toggle[data-side='right'][data-collapsed='true'] {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+/* Alvo de clique confortável sem engordar a caixa visual. */
+.toggle::after {
+  content: '';
+  position: absolute;
+  inset: -8px -6px;
+}

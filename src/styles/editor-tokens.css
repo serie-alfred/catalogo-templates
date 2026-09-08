@@ -15,7 +15,6 @@
 :root {
   /* Escala de cinza — --ed-gray-000 é a cor de TODAS as bordas do design */
   --ed-gray-000: #dfdfe0;
-  --ed-gray-100: #dfdfe0;
   --ed-gray-200: #b8b8b8;
   --ed-gray-300: #8f8f8f;
   --ed-gray-400: #7a7a7a;
@@ -33,18 +32,11 @@
   /* Azul da marca */
   --ed-blue-50: #f2fcff;
   --ed-blue-100: #e6f9ff;
-  --ed-blue-500: #0096fe;
   --ed-blue-600: #007ee6;
-  --ed-blue-700: #0063bf;
   --ed-blue-800: #004799;
-  --ed-blue-900: #003073;
   --ed-blue-ink: #004f99; /* texto sobre --ed-blue-100 */
 
   --ed-red: #eb5757;
-
-  /* Badges da seção em foco no canvas (Figma "Group 5") */
-  --ed-badge-green: #2c7c1c;
-  --ed-badge-red: #bb4344;
 
   --ed-grad-active: linear-gradient(98.735deg, #0096fe 2.4148%, #0078cc 100%);
   --ed-shadow-card: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
@@ -104,6 +96,24 @@ html {
 .ed-shell :focus-visible {
   outline: 2px solid var(--ed-blue-600) !important;
   outline-offset: 2px;
+}
+
+/*
+ * SVG como bloco.
+ *
+ * Um <svg> inline participa da linha de texto e ganha o espaço de descendente
+ * abaixo da baseline: um ícone de 20px ocupa ~23 na caixa do pai, e todo botão
+ * que só contém um ícone sai 2 a 3px mais alto do que o Figma. Escopado ao
+ * chrome — os templates dentro do iframe não são afetados.
+ */
+.ed-shell svg {
+  display: block;
+}
+
+/* O Inter variável do next/font traz o eixo óptico (`opsz`), que a 14px alarga
+   levemente o avanço e desalinha as caixas medidas contra o Figma. */
+.ed-shell {
+  font-optical-sizing: none;
 }
 
 /*
