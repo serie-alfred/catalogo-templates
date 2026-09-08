@@ -32,10 +32,11 @@ yarn start    # produção
 ```
 
 Node **24.20.0** — a LTS ativa (Krypton) —, fixado em `package.json` → `volta` e `engines`, com
-`.nvmrc` (`24`) para quem usa nvm. `yarn` é o gerenciador — existe um
-`package-lock.json` velho ao lado do `yarn.lock`; não rode `npm install`.
+`.nvmrc` (`24`) para quem usa nvm. `yarn` é o gerenciador; não rode `npm install`.
 
-O script `test` aponta para `jest`, mas **jest não está instalado e não há testes**.
+Não há test runner. A verificação é o **funil** (`yarn funil`), que cobre o produto de ponta a
+ponta — catálogo, editor, export e o tema montado pelo generator. Ver
+[scripts/funil/README.md](scripts/funil/README.md).
 
 ### Variáveis de ambiente
 
@@ -83,9 +84,9 @@ o preview, converte o SCSS, deriva o `variablesSchema` e registra tudo.
 3. **Catálogo** — um `LayoutItem` em [src/data/layoutData.ts](src/data/layoutData.ts), com `key`
    única e, para VTEX, o `path` do componente no starter.
 
-Faltando o registro no registry, o item cai num PNG placeholder **sem erro nenhum**. O
-`CLAUDE.md` traz o comando que audita os dois lados — hoje há 23 componentes registrados sem item
-ativo, incluindo o tema 07 inteiro.
+Faltando o registro no registry, o item cai num PNG placeholder **sem erro nenhum**. Hoje os dois
+lados estão casados — 67 componentes, 67 itens ativos, zero órfãos — e é o estágio 1 do funil que
+mantém assim, junto com o comando de auditoria no `CLAUDE.md`.
 
 ---
 
@@ -102,14 +103,14 @@ src/
 │   └── api/keep-alive/         ping do KV
 ├── components/
 │   ├── templates/              os componentes do catálogo (por página e template_N)
-│   ├── gerador/                UI do editor (Sidebar, SectionsPanel, PreviewFrame…)
+│   ├── gerador/                UI do editor (EditorRail, EditorLeftPanel, SectionsPanel, PreviewFrame…)
 │   ├── preview/                ThemeRenderer, SharedPreview, SeededLayoutProvider
 │   └── common/                 header/footer do site
 ├── data/layoutData.ts          o que o usuário pode escolher — fonte de verdade
 ├── utils/templateRegistry.ts   nome → componente
 ├── hooks/useLayoutGenerator.ts todo o estado do editor
 ├── lib/previewStore.ts         persistência do preview (KV em prod, arquivo em dev)
-└── styles/                     globals · gerador · templates · storefront · preview · editor-canvas
+└── styles/                     globals · editor-tokens · templates · storefront · preview · editor-canvas
 ```
 
 Os PNGs em `public/images/gerador/` são só fallback: os itens ativos têm `image: ""` e renderizam

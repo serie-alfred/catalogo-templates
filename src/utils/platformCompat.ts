@@ -28,9 +28,10 @@ export interface PlatformPartition {
  * `variablesSchema` é bit a bit o mesmo e `pickChangedVariables` continua
  * comparando contra os mesmos defaults na hora do export.
  *
- * Números do catálogo hoje: 21 dos 44 itens ativos existem nas três
- * plataformas, 12 são Tray+Wake e 11 são só VTEX. Tray e Wake têm catálogo
- * IDÊNTICO, então trocar entre as duas nunca perde nada.
+ * Números do catálogo hoje (67 itens ativos): 21 nas três plataformas, 17 só
+ * VTEX, 14 só Tray, 12 Tray+Wake, 2 Tray+VTEX e 1 só Wake. Tray e Wake NÃO têm
+ * mais catálogo idêntico — os 14 itens só-Tray e o Breadcrumb02 só-Wake se
+ * perdem ao trocar entre as duas.
  */
 export function partitionByPlatform(
   selections: LayoutSelection[],

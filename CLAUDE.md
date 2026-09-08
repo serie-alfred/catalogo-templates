@@ -10,7 +10,7 @@ The catalog components are **mock replicas** of the real platform components. Fo
 
 ## Commands
 
-Yarn is the canonical package manager (per [README.md](README.md)). A stale `package-lock.json` exists in the repo alongside `yarn.lock` — do not run `npm install` here; if a fresh install is ever needed, delete `package-lock.json` first.
+Yarn is the canonical package manager (per [README.md](README.md)) — do not run `npm install` here.
 
 ```bash
 yarn dev       # next dev
@@ -19,7 +19,7 @@ yarn lint      # next lint
 yarn start     # next start (production)
 ```
 
-`package.json` defines `"test": "jest"`, but Jest is not installed and there are no test files in `src/`. Treat the test script as non-functional until a test setup is added.
+There is no test runner. Verification is `yarn funil` — six stages covering catalog integrity, the editor, the export and the theme the generator assembles from it. See [scripts/funil/README.md](scripts/funil/README.md). It needs `yarn dev` up for stages 2 and 3, and a Chrome (or `CHROME_PATH`).
 
 ### Required env vars
 
@@ -87,11 +87,11 @@ A template is a React component plus a catalog entry. Two files always need to c
 
 ### Per-component variables (`variablesSchema`)
 
-A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **28 of the 67 active items declare one** — every VTEX-capable Header/Footer/Spot/Showcase plus Breadcrumb01, Categories01, BannerMain01, Ruler01, BannerGrid01, CategoryMain01, CategoryDescription01, ProductDescription01 and ProductInfo01/03. To list them: `grep -c "variablesSchema:" src/data/layoutData.ts`. `Header01` has 9 vars: topbar/header/nav/submenu × bg+text, plus `--header-font`.
+A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **28 of the 67 active items declare one.** It is not a property of being VTEX-capable: `Header07`, `Footer07`, `Spot06/07` and `Showcase06/07` are VTEX and declare none — they were enabled from the registry orphans and nobody has authored their schemas yet. To count: `grep -c "variablesSchema:" src/data/layoutData.ts`. `Header01` has 8 vars: topbar/header/nav × bg+text, `--cart-text` and `--header-font`.
 
 - `ComponentVariable = { cssVar, label, type: "color" | "font", default, group?, inheritsLabel? }`. `cssVar` is the literal CSS custom-property name written verbatim into `config.json` (e.g. `--header-topbar-bg`); `default` is the value the downstream SCSS uses as its `var()` fallback; `group` buckets fields in the panel; `inheritsLabel` is the friendly name of the global token shown while the field is still unset.
 - **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) _is_ the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because 39 of the 67 active items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
-- **State:** `LayoutSelection.variables?: Record<cssVar, value>` in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`, `editingUid`); persisted with `selections` under the `layoutSelections` localStorage key.
+- **State:** `LayoutSelection.variables?: Record<cssVar, value>` in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`); persisted with `selections` under the `layoutSelections` localStorage key.
 - **Export:** `pickChangedVariables()` writes ONLY keys whose value differs from the schema `default` (omitted key ⇒ downstream SCSS uses its own `var()` fallback), as a `variables` object on the entry — in both `buildConfigJson` (Tray/Wake) and `buildFaststoreConfigJson` (VTEX).
 - Font values are stored as `'Family', sans-serif`; the panel parses the family out for `FontSelector` and re-wraps on change.
 - **`FontSelector` never writes to `:root`.** It only loads the face into the current document (the
@@ -143,7 +143,7 @@ is gone, and with it `Sidebar/`, `SidebarTabEditTheme`, `PreviewArea` and `style
   against the whole page — the original bug, in disguise.
 - **`ExportStage` is a sibling of the shell**, which is `overflow: hidden` and would clip the
   off-screen stage at `top/left: -99999px`.
-- The rail's width is never declared: `padding: 24px` + the 27.404px mark _are_ the 75.404px.
+- The `.rail` element declares no `width`: it is the grid track (`--ed-rail-w: 75.404px`, [editor-tokens.css](src/styles/editor-tokens.css)) that sizes it, and `padding: 24px` + the 27.404px mark fill it exactly.
 
 **One renderer for every surface.** [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx)
 serves `/p`, the editor canvas and the export stage. Its wrappers are bare `div`s **on purpose**: no
