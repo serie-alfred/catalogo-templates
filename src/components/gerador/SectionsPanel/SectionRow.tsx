@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Copy, GripVertical, Lock, Trash2 } from 'lucide-react';
+import { Copy, GripVertical, Trash2 } from 'lucide-react';
 
 import { CaretDown, Minus, Plus, TextBlock } from '@/assets/icons/editor';
 import styles from './index.module.css';
@@ -40,9 +40,12 @@ interface SectionRowViewProps {
  *
  * É um acordeão: o cabeçalho traz o nome da SEÇÃO e o expandido traz o modelo
  * escolhido e as ações da linha. O Figma desenha um caret estático à esquerda e
- * o +/− à direita como indicador de estado — os dois são preservados; o caret
- * cede o lugar ao grip de arraste enquanto o cursor está sobre a linha, que é
- * onde a reordenação precisa estar sem inventar um elemento novo no repouso.
+ * o +/− à direita como indicador de estado — os dois são preservados.
+ *
+ * Em repouso TODA linha mostra o caret, inclusive as travadas: é o que o Figma
+ * desenha. O grip só aparece sob o cursor, e só nas linhas reordenáveis — não
+ * aparecer já diz que aquela não arrasta, sem precisar de um ícone que o design
+ * não tem. O motivo fica no `title`.
  */
 export function SectionRowView({
   data,
@@ -77,15 +80,17 @@ export function SectionRowView({
       }}
     >
       <div className={styles.head}>
-        <span className={styles.affordance}>
-          {data.locked ? (
-            <Lock
-              size={16}
-              aria-label={
-                data.group === 'Footer' ? 'Sempre no fim' : 'Posição fixa'
-              }
-            />
-          ) : showGrip ? (
+        <span
+          className={styles.affordance}
+          title={
+            data.locked
+              ? data.group === 'Footer'
+                ? 'Posição fixa: sempre no fim'
+                : 'Posição fixa no topo'
+              : undefined
+          }
+        >
+          {showGrip ? (
             <button
               type="button"
               className={styles.handle}
