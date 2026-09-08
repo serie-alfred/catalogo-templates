@@ -455,3 +455,64 @@ export async function conferirParesCardVitrine(vtexPaths, r) {
   );
   return incompativeis;
 }
+
+/**
+ * O SCSS que o gerador copia precisa compilar nas DUAS versões do FastStore ao
+ * mesmo tempo: o starter está na v4, e o tema do cliente é montado sobre a branch
+ * `main` do mesmo repo, que está na v3. Não existe forma única que sirva às duas
+ * para os mixins do `@faststore/ui`:
+ *
+ *   v3 — o core injeta `@import ".../custom-mixins.scss"` em todo SCSS pelo
+ *        `additionalData` do sass-loader. Isso vira a linha 1, e qualquer `@use`
+ *        do arquivo cai para a linha 2: «@use rules must be written before any
+ *        other rules». Em compensação, `media()` existe global.
+ *   v4 — o `additionalData` sumiu. `media()` global não existe mais, e o mixin só
+ *        vem por `@use "@faststore/ui/.../utilities" as u`.
+ *
+ * Ou seja: `@use` quebra a v3 e `media()` sem namespace quebra a v4. A saída é não
+ * usar nenhum dos dois — `@media` literal compila igual nas duas.
+ */
+export function conferirScssPortavel(vtexPaths, r) {
+  const raiz = path.join(FASTSTORE_STARTER, 'src');
+  const problemas = [];
+
+  const andar = dir => {
+    if (!fs.existsSync(dir)) return;
+    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+      const p = path.join(dir, e.name);
+      if (e.isDirectory()) andar(p);
+      else if (e.name.endsWith('.scss')) {
+        const src = semComentarios(fs.readFileSync(p, 'utf8'));
+        const rel = path.relative(raiz, p);
+        if (/^@use\s/m.test(src)) problemas.push(`${rel}: @use quebra na v3`);
+        const global =
+          /(?:^|\s)@include\s+(media|layout-content|truncate-title)\b/.exec(
+            src
+          );
+        if (global)
+          problemas.push(
+            `${rel}: @include ${global[1]} sem namespace quebra na v4`
+          );
+      }
+    }
+  };
+  // O alcance inteiro, não só os paths do catálogo: quem quebra costuma ser uma
+  // dependência (NavbarIcons01 é do Header01, não item de catálogo).
+  const manifests = lerManifests();
+  const alcance = new Set();
+  for (const p of vtexPaths)
+    for (const id of fechoCompleto(p, manifests)) alcance.add(id);
+  for (const id of alcance) {
+    const d = manifests.get(id);
+    if (d) andar(d._dir);
+  }
+  andar(path.join(raiz, 'sass'));
+  andar(path.join(raiz, 'themes'));
+
+  r.ok(
+    'o SCSS que chega ao tema compila na v3 e na v4',
+    problemas.length === 0,
+    problemas.join(' | ')
+  );
+  return problemas;
+}

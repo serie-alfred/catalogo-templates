@@ -10,6 +10,7 @@ import {
   conferirFragmentos,
   conferirImports,
   conferirParesCardVitrine,
+  conferirScssPortavel,
 } from './lib/contrato.mjs';
 import {
   RAIZ,
@@ -184,6 +185,10 @@ conferirImports(vtexPaths, r);
 //     substituição de spot troca o card dentro da vitrine. Qualquer par é
 //     possível, e o par incompatível só aparece no build do tema.
 await conferirParesCardVitrine(vtexPaths, r);
+
+// 13. e o SCSS desses assets precisa compilar nas DUAS versões do FastStore: o
+//     starter está na v4, o tema-base do cliente ainda na v3.
+conferirScssPortavel(vtexPaths, r);
 
 console.log(
   `  (${todos.length} itens em ${Object.keys(layouts).length} seções)`
