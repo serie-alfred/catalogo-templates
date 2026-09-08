@@ -1,0 +1,81 @@
+.block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--ed-gray-000);
+}
+
+/* Caixa de preview de 90×90 do Figma — é moldura, não o tamanho do arquivo. */
+.thumb {
+  width: 90px;
+  height: 90px;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--ed-gray-000);
+  border-radius: 12px;
+  background: var(--ed-bg-01);
+  cursor: pointer;
+}
+
+.preview {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.empty {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--ed-bg-01);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ed-gray-800);
+}
+
+.hint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--ed-gray-400);
+}
+
+.action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 12px;
+  border-style: dashed;
+  border-width: 1px;
+  background: none;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.remove {
+  border-color: var(--ed-red);
+  color: var(--ed-red);
+}
+
+.upload {
+  border-color: var(--ed-gray-000);
+  color: var(--ed-gray-600);
+}
+
+.hiddenInput {
+  display: none;
+}

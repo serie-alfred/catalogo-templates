@@ -29,6 +29,11 @@ export interface PreviewSnapshot {
   };
   logo: string;
   favicon: string;
+  /**
+   * Imagem de compartilhamento (og:image) do preview. Opcional: snapshots
+   * gravados antes deste campo existir continuam válidos.
+   */
+  ogImage?: string;
 }
 
 interface PreviewStore {

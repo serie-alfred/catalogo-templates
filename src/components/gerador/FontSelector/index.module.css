@@ -1,22 +1,89 @@
-.fontSuggest{
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  background: white;
-  border: 1px solid #ccc;
-  max-height: 200;
-  overflow-y: auto;
-  list-style: none;
-  margin: 0;
-  padding: 0;
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
 }
 
-.unsetHint{
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ed-gray-600);
+}
+
+/* Âncora do dropdown de sugestões. */
+.control {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  width: 100%;
+  height: 44px;
+  padding: 12px 20px;
+  border: 1px solid var(--ed-bg-02);
+  border-radius: 12px;
+  background: var(--ed-bg-00);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ed-gray-600);
+}
+
+.input::placeholder {
+  color: var(--ed-gray-300);
+  font-weight: 400;
+}
+
+.fontSuggest {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  max-height: 200px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  border: 1px solid var(--ed-gray-000);
+  border-radius: 12px;
+  background: var(--ed-bg-00);
+  box-shadow: var(--ed-shadow-card);
+}
+
+.suggestion {
   display: block;
-  margin-top: 4px;
-  font-size: 13px;
-  font-style: italic;
-  color: #6b7280;
+  width: 100%;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font-size: 14px;
+  color: var(--ed-gray-800);
+  text-align: left;
+  cursor: pointer;
+}
+
+.suggestion:hover {
+  background: var(--ed-blue-50);
+}
+
+.inherits {
+  max-width: 226px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ed-gray-600);
+}
+
+.inheritsCta {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-position: from-font;
+  cursor: pointer;
 }

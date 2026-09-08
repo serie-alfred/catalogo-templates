@@ -4,8 +4,9 @@ import React from 'react';
 
 import { useLayout } from '@/context/LayoutContext';
 import SectionsPanel from '../SectionsPanel';
-import SidebarTabGlobal from '../Sidebar/SidebarTabGlobal';
-import SidebarTabAssets from '../Sidebar/SidebarTabAssets';
+import PanelTypography from './PanelTypography';
+import PanelGlobalColors from './PanelGlobalColors';
+import PanelBrandAssets from './PanelBrandAssets';
 import PlatformSelect from '../PlatformSelect';
 import SelectSection from '../SelectSection';
 import SelectSectionItem from '../SelectSectionItem';
@@ -75,13 +76,11 @@ export default function EditorLeftPanel() {
           </>
         )}
 
-        {/* Provisório: cores e fontes ainda dividem o mesmo componente; a fase
-            seguinte separa em dois painéis, como no Figma. */}
-        {(railTarget === 'variaveis' || railTarget === 'tipografia') && (
-          <SidebarTabGlobal />
-        )}
+        {railTarget === 'variaveis' && <PanelGlobalColors />}
 
-        {railTarget === 'identidade' && <SidebarTabAssets />}
+        {railTarget === 'tipografia' && <PanelTypography />}
+
+        {railTarget === 'identidade' && <PanelBrandAssets />}
       </div>
     </aside>
   );

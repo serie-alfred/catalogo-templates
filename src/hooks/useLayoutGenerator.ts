@@ -177,6 +177,8 @@ export function useLayoutGenerator() {
 
   const [logo, setLogo] = useState<string>('');
   const [favicon, setFavicon] = useState<string>('');
+  /** Imagem de compartilhamento (og:image) do preview. Data URL, como as outras. */
+  const [ogImage, setOgImage] = useState<string>('');
 
   /** false no SSR e no 1º render do cliente; vira true após hidratar do
    *  localStorage. Garante que o 1º render do cliente == servidor (sem
@@ -323,6 +325,7 @@ export function useLayoutGenerator() {
       if (storedPlatform) setPlatform(storedPlatform as Platform);
       setLogo(localStorage.getItem('logo') || '');
       setFavicon(localStorage.getItem('favicon') || '');
+      setOgImage(localStorage.getItem('ogImage') || '');
     } catch (e) {
       console.error('Erro ao carregar estado do layout:', e);
     } finally {
@@ -417,6 +420,19 @@ export function useLayoutGenerator() {
       console.error('Erro ao salvar favicon:', e);
     }
   }, [favicon, hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      if (ogImage) {
+        localStorage.setItem('ogImage', ogImage);
+      } else {
+        localStorage.removeItem('ogImage');
+      }
+    } catch (e) {
+      console.error('Erro ao salvar imagem de compartilhamento:', e);
+    }
+  }, [ogImage, hydrated]);
 
   useEffect(() => {
     try {
@@ -868,6 +884,7 @@ export function useLayoutGenerator() {
         assets: {
           logo,
           favicon,
+          ogImage,
         },
         ...pageItems,
       },
@@ -1051,6 +1068,7 @@ export function useLayoutGenerator() {
     fonts: { fontPrimary, fontSecondary, fontTertiary },
     logo,
     favicon,
+    ogImage,
   });
 
   /**
@@ -1114,12 +1132,12 @@ export function useLayoutGenerator() {
     fontTertiary, setFontTertiary,
     logo, setLogo,
     favicon, setFavicon,
+    ogImage, setOgImage,
     colorPrimary,
     setColorPrimary,
     colorSecondary,
     setColorSecondary,
     colorTertiary,
-    setColorTertiary,
     colorPrimaryBackground,
     colorSecondaryBackground,
     colorTertiaryBackground,
@@ -1130,10 +1148,14 @@ export function useLayoutGenerator() {
     setColorPrimaryBackground,
     setColorSecondaryBackground,
     setColorTertiaryBackground,
+    /* setColorPrimaryText / setColorSecondaryText / setColorTertiary NÃO são
+       expostos: as três cores são derivadas por luminância dos fundos de marca
+       (ver o efeito de `getContrastColor`). Ficavam como campos editáveis cuja
+       edição era sobrescrita no toque seguinte em qualquer fundo. Os `useState`
+       e a derivação continuam — o que sai é só a possibilidade de escrever
+       nelas de fora. */
     setColorFooter,
     setColorFooterText,
-    setColorPrimaryText,
-    setColorSecondaryText,
     toggleMobileView,
     handlePlatformChange,
     toggleSelection,

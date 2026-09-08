@@ -6,7 +6,7 @@ import { useLayout } from '@/context/LayoutContext';
 import { LAYOUTS, ComponentVariable } from '@/data/layoutData';
 import ColorPicker from '../ColorPicker';
 import FontSelector from '../FontSelector';
-import { iconsGenerator } from '@/assets/icons/generator';
+import { Component } from 'lucide-react';
 
 import styles from './index.module.css';
 
@@ -24,7 +24,6 @@ function toFontValue(family: string): string {
 export default function ComponentVariablesPanel() {
   const {
     editingUid,
-    setEditingUid,
     selections,
     setItemVariable,
     resetItemVariables,
@@ -61,26 +60,39 @@ export default function ComponentVariablesPanel() {
     return order.map(name => ({ name, variables: byGroup.get(name)! }));
   }, [layoutItem]);
 
-  if (!editingUid || !selection || !layoutItem?.variablesSchema?.length) {
-    return null;
+  /* Estados vazios: o painel é permanente, então não some — explica por quê.
+     16 dos 44 itens do catálogo não declaram `variablesSchema`, então o
+     segundo caso é garantido, não hipotético. */
+  if (!editingUid || !selection) {
+    return (
+      <p className={styles.empty}>
+        Selecione uma seção no preview ou na lista para editar as variáveis
+        dela.
+      </p>
+    );
   }
 
-  const close = () => setEditingUid(null);
+  if (!layoutItem?.variablesSchema?.length) {
+    return (
+      <p className={styles.empty}>
+        <strong>{layoutItem?.title}</strong> não expõe variáveis próprias. As
+        cores e fontes vêm das variáveis globais.
+      </p>
+    );
+  }
 
   return (
-    <aside className={styles.panel} aria-label="Editar variáveis do componente">
+    <div className={styles.panel} aria-label="Editar variáveis do componente">
       <header className={styles.header}>
-        <div>
+        <span className={styles.icon}>
+          <Component size={24} />
+        </span>
+        <div className={styles.identity}>
           <h2 className={styles.title}>{layoutItem.title}</h2>
+          {layoutItem.description && (
+            <p className={styles.description}>{layoutItem.description}</p>
+          )}
         </div>
-        <button
-          type="button"
-          className={styles.closeButton}
-          onClick={close}
-          aria-label="Fechar"
-        >
-          {iconsGenerator.closeSide}
-        </button>
       </header>
 
       <div className={styles.body}>
@@ -91,9 +103,6 @@ export default function ComponentVariablesPanel() {
             {group.variables.map(variable => {
               const current = selection.variables?.[variable.cssVar];
               const isUnset = current == null;
-              const unsetLabel = `Usando variável da ${
-                variable.inheritsLabel ?? 'configuração global'
-              } (Clique aqui para alterar)`;
 
               if (variable.type === 'font') {
                 return (
@@ -104,7 +113,7 @@ export default function ComponentVariablesPanel() {
                     cssVariable={variable.cssVar.replace(/^--/, '')}
                     selectedFont={current ? parseFontFamily(current) : ''}
                     unset={isUnset}
-                    unsetLabel={unsetLabel}
+                    inheritsLabel={variable.inheritsLabel}
                     onFontChange={family =>
                       setItemVariable(
                         editingUid,
@@ -122,7 +131,7 @@ export default function ComponentVariablesPanel() {
                   label={variable.label}
                   color={current ?? variable.default}
                   unset={isUnset}
-                  unsetLabel={unsetLabel}
+                  inheritsLabel={variable.inheritsLabel}
                   setColor={value =>
                     setItemVariable(editingUid, variable.cssVar, value)
                   }
@@ -142,6 +151,6 @@ export default function ComponentVariablesPanel() {
           Restaurar padrão
         </button>
       </footer>
-    </aside>
+    </div>
   );
 }

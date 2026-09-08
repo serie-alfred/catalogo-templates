@@ -14,8 +14,8 @@ type FontSelectorProps = {
   onFontChange: (font: string) => void;
   /** Quando true, ainda não há fonte própria (herda do global): não aplica em :root. */
   unset?: boolean;
-  /** Texto-dica exibido quando `unset` (ex.: "Usando variável global"). */
-  unsetLabel?: string;
+  /** Nome amigável do token herdado, ex.: "fonte dos títulos". */
+  inheritsLabel?: string;
 };
 
 export default function FontSelector({
@@ -24,7 +24,7 @@ export default function FontSelector({
   selectedFont,
   onFontChange,
   unset = false,
-  unsetLabel = 'Usando variável global',
+  inheritsLabel,
 }: FontSelectorProps) {
   const [allFonts, setAllFonts] = useState<FontItem[]>([]);
   const [searchTerm, setSearchTerm] = useState(selectedFont || '');
@@ -94,39 +94,55 @@ export default function FontSelector({
   };
 
   return (
-    <div className="field">
-      <label htmlFor={`font-${cssVariable}`}>{label}</label>
-      <input
-        id={`input-font-${cssVariable}`}
-        type="text"
-        value={searchTerm}
-        onChange={handleInputChange}
-        onFocus={() => searchTerm.length > 0 && setShowSuggestions(true)}
-        onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-        placeholder={unset ? unsetLabel : 'Digite o nome da fonte...'}
-        style={{
-          fontFamily: unset ? undefined : selectedFont,
-        }}
-      />
+    <div className={styles.field}>
+      <label className={styles.label} htmlFor={`input-font-${cssVariable}`}>
+        {label}
+      </label>
 
-      {unset && <span className={styles.unsetHint}>{unsetLabel}</span>}
+      <div className={styles.control}>
+        <input
+          id={`input-font-${cssVariable}`}
+          type="text"
+          value={searchTerm}
+          onChange={handleInputChange}
+          onFocus={() => searchTerm.length > 0 && setShowSuggestions(true)}
+          onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+          placeholder="Lorem Ipsum"
+          className={styles.input}
+          style={{ fontFamily: unset ? undefined : selectedFont }}
+        />
 
-      {showSuggestions && suggestions.length > 0 && (
-        <ul className={styles.fontSuggest}>
-          {suggestions.map(font => (
-            <li
-              key={font.family}
-              onClick={() => handleSelectFont(font.family)}
-              style={{
-                padding: '8px',
-                cursor: 'pointer',
-                fontFamily: font.family,
-              }}
-            >
-              {font.family}
-            </li>
-          ))}
-        </ul>
+        {showSuggestions && suggestions.length > 0 && (
+          <ul className={`${styles.fontSuggest} ed-scroll`}>
+            {suggestions.map(font => (
+              <li key={font.family}>
+                <button
+                  type="button"
+                  className={styles.suggestion}
+                  style={{ fontFamily: font.family }}
+                  onMouseDown={() => handleSelectFont(font.family)}
+                >
+                  {font.family}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      {unset && (
+        <p className={styles.inherits}>
+          Usando variável da {inheritsLabel ?? 'configuração global'}{' '}
+          <button
+            type="button"
+            className={styles.inheritsCta}
+            onClick={() =>
+              document.getElementById(`input-font-${cssVariable}`)?.focus()
+            }
+          >
+            (clique aqui para alterar)
+          </button>
+        </p>
       )}
     </div>
   );
