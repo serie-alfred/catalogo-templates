@@ -1,7 +1,7 @@
 # Funil de teste do E-temas
 
 Cobre o produto inteiro, na ordem em que ele acontece: **catálogo → editor →
-export do `config.json` → tema montado pelo generator**. Existe porque cada
+export do `config.json` → tema montado pelo generator → tema que compila**. Existe porque cada
 perna tem um jeito próprio de falhar em silêncio — item invisível no catálogo,
 seção que não monta no canvas, config que sai válido mas aponta para uma pasta
 inexistente, tema que só quebra na loja.
@@ -10,6 +10,7 @@ inexistente, tema que só quebra na loja.
 yarn funil                # tudo, para no primeiro erro
 yarn funil 1              # só o estágio 1
 yarn funil 2-edicao       # um estágio específico
+yarn funil 4              # só o tema FastStore (minutos)
 ```
 
 **Pré-requisitos:** Node 24 (`nvm use 24`), Chrome instalado (ou `CHROME_PATH`),
@@ -23,6 +24,34 @@ e o `yarn dev` de pé para os estágios 2 e 3. Saídas em `.funil/` (ignorada).
 | `2-edicao` | regras de negócio: singleton substitui, não-singleton coexiste, duplicar/remover, painel de variáveis, troca de plataforma | dev server |
 | `2-geometria` | fidelidade ao Figma (±1px) contra as coordenadas em `figma/` | dev server |
 | `3-export` | o botão "Baixar" entrega os três configs; cada um resolve o contrato da sua plataforma; os dois PNGs saem | dev server |
+| `4-tema-faststore` | o generator monta o tema de verdade e **ele compila** (`yarn build`) — a única perna do pipeline executável desta máquina | estágio 3 · `gh` autenticado · minutos |
+| `5-contrato-tray-wake` | contrato estático de Tray e Wake: pasta de origem, `instanceCount`, dedupe `key::arquivo`, nenhum caminho com espaço | estágio 3 |
+
+## Estágio 4 — o que ele monta, e por que cruzado
+
+Ele parte do config **coerente** do estágio 3 (um modelo por slot, mesma família)
+e troca a vitrine da home pela da família 06, mantendo o `ProductCard01` como
+spot. Só assim a **substituição de spot** é exercitada: ela é um
+`replaceAll('ProductCard06','ProductCard01')` sobre todo arquivo de texto do
+asset, e num tema de família única não há o que trocar.
+
+O `config.json` do generator é versionado — o estágio guarda e devolve, inclusive
+se algo estourar no meio.
+
+Duas coisas que ele **não** faz, de propósito: não roda `--push` (não cria
+`preview/<hash>`) e não roda `--sync` (não publica no Headless CMS da VTEX).
+
+⚠️ O generator **clona** a origem dos componentes, inclusive de um `file://`.
+Clone enxerga **commit**, não working tree: trabalho não commitado no starter fica
+invisível e o tema sai com a versão antiga, sem aviso. O estágio avisa quando
+`FASTSTORE_COMPONENTS_REPO` aponta para um checkout sujo.
+
+## Por que Tray e Wake param na validação estática
+
+Não é escolha: `git ls-remote` do GitLab e do `git.fbits.net` **trava** dentro do
+`git-credential-osxkeychain` — só `github.com` tem helper aqui, via `gh`. Além
+disso o fluxo da Tray usa `start cmd /k` e `cd /d` (Windows), e o da Wake publica
+em loja real sem opt-in. O estágio 5 confere o contrato sem executar.
 
 ## Por que a origem é conferida por caminho
 
