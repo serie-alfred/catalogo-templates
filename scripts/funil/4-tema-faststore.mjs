@@ -29,8 +29,26 @@ if (!fs.existsSync(origem)) {
 // O config do generator é versionado: guardar e devolver, sempre — inclusive se
 // algo estourar no meio. Sujeira aqui contamina a próxima execução.
 const backup = fs.readFileSync(CONFIG_VIVO, 'utf8');
-const devolver = () => fs.writeFileSync(CONFIG_VIVO, backup);
+let devolvido = false;
+const devolver = () => {
+  if (devolvido) return;
+  devolvido = true;
+  fs.writeFileSync(CONFIG_VIVO, backup);
+};
 process.on('exit', devolver);
+// `exit` NÃO dispara em SIGINT/SIGTERM, e este estágio anuncia "minutos" duas vezes —
+// o Ctrl+C no meio é o caso comum, não a exceção. Sem estes dois, o config.json
+// versionado do generator fica sujo e contamina a próxima execução. Já aconteceu.
+for (const sinal of ['SIGINT', 'SIGTERM', 'SIGHUP']) {
+  process.on(sinal, () => {
+    devolver();
+    process.exit(130);
+  });
+}
+process.on('uncaughtException', err => {
+  devolver();
+  throw err;
+});
 
 // O generator CLONA a origem dos componentes — inclusive de um `file://`. Clone
 // enxerga commit, não working tree: trabalho não commitado no starter fica

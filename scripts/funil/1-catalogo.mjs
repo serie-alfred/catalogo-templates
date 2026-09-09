@@ -6,6 +6,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import {
   conferirFragmentos,
   conferirImports,
@@ -22,6 +23,22 @@ import {
 } from './lib/util.mjs';
 
 const r = relatorio('Estágio 1 — catálogo íntegro');
+
+// As checagens estáticas leem o WORKING TREE do starter; o generator, no estágio 4,
+// clona `base/faststore`. Se o checkout local estiver em outra branch, este estágio
+// mede uma árvore que a produção não vai ver — e passa verde por isso.
+{
+  const atual = spawnSync('git', ['branch', '--show-current'], {
+    cwd: FASTSTORE_STARTER,
+    encoding: 'utf8',
+  }).stdout.trim();
+  const esperada = process.env.FASTSTORE_COMPONENTS_BRANCH ?? 'base/faststore';
+  r.ok(
+    `starter em ${esperada} (checkout: ${atual || '(destacado)'})`,
+    atual === esperada,
+    'as checagens estáticas leriam uma árvore diferente da que o generator clona'
+  );
+}
 const layouts = lerLayouts();
 const todos = itens(layouts);
 
