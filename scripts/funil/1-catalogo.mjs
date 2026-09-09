@@ -173,11 +173,14 @@ r.ok(
 // Medido em 09/09: quatro subdomínios `*.fbitsstatic.net` aparecem chumbados no
 // global-templates — `agenciaseriedesign2` (a loja de demonstração da agência) e,
 // pior, `guardaroba`, `plenitudedistribuidora` e `chasleao`, que são lojas de
-// CLIENTE. Um tema novo sai hot-linkando imagem hospedada por terceiro.
+// CLIENTE. Aberto arquivo por arquivo: 15 `<img src>` renderizam de verdade na
+// página, todos vivos e todos em CDN de terceiro — inclusive `barcode.svg` e
+// `credit-card.svg`, que vêm do CDN de um cliente. Um site novo passa a depender de
+// outra loja não apagar o arquivo.
 //
-// E já não é só risco futuro: conferido por HEAD no mesmo dia, os três
-// `Wake/Common/template_*/spot` servem 30 imagens 404 — o "dia em que aquela loja
-// apagar o arquivo" chegou. O resto está vivo, no CDN alheio.
+// (As outras 60 URLs, essas 404, estão em regras `&[data-value="xadrez gales"]` —
+// nome de cor do catálogo de uma loja só. O seletor nunca casa em outra loja, então
+// é CSS morto viajando junto, não imagem quebrada na tela.)
 //
 // Não é conserto meu — trocar as imagens ou definir onde hospedá-las é decisão de
 // produto, e a trilha Wake não é validável desta máquina.
