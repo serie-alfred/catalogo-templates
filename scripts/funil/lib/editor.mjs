@@ -160,12 +160,26 @@ export async function badgesDe(page, selection) {
 /** Abre o modal, escolhe a categoria e clica no modelo pelo título. */
 export async function adicionarPeloModal(page, categoria, titulo, pagina) {
   if (pagina) await trocarPagina(page, pagina);
-  await page.evaluate(() =>
-    [...document.querySelectorAll('button')]
-      .find(b => /Adicionar se/i.test(b.textContent))
-      .click()
-  );
-  await page.waitForSelector('#dynamic-tabs', { timeout: 15000 });
+  const abrir = () =>
+    page.evaluate(() => {
+      const b = [...document.querySelectorAll('button')].find(x =>
+        /Adicionar se/i.test(x.textContent)
+      );
+      b?.click();
+      return !!b;
+    });
+  await abrir();
+  // Uma segunda tentativa antes de desistir. O clique pode chegar enquanto o React
+  // ainda está montando o shell, e sob carga (build, outro funil, agentes em
+  // paralelo) 15s de espera fixa não bastavam — o estágio caía por timing, não por
+  // defeito do modal.
+  try {
+    await page.waitForSelector('#dynamic-tabs', { timeout: 20000 });
+  } catch {
+    await espera(1500);
+    await abrir();
+    await page.waitForSelector('#dynamic-tabs', { timeout: 20000 });
+  }
   await espera(600);
   await page.evaluate(c => {
     const tabs = [...document.querySelectorAll('#dynamic-tabs button')];
