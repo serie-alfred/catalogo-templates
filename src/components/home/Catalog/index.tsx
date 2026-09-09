@@ -42,12 +42,10 @@ export default function CatalogSpots() {
           <span>{filteredCatalog.length} templates</span>
         </div>
 
-        <div className={styles.containerCatalogo}>
-          <div className={styles.containerSpots}>
-            {filteredCatalog.map(item => (
-              <Spot key={item.id} item={item} />
-            ))}
-          </div>
+        <div className={styles.containerSpots}>
+          {filteredCatalog.map(item => (
+            <Spot key={item.id} item={item} />
+          ))}
         </div>
       </div>
     </div>

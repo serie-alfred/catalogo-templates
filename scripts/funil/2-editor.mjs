@@ -42,7 +42,21 @@ await p.goto(`${BASE_URL}/gerador`, {
   timeout: 120000,
 });
 await p.waitForSelector('.ed-shell');
-await s(6000);
+// Espera o canvas PINTAR, não o relógio. Os 6000 ms fixos que havia aqui caíam
+// exatamente na borda: medido, as 3 seções aparecem por volta de 6 s, então o
+// estágio reprovava com "0 seções" por milissegundos — e acusava o produto.
+await p
+  .waitForFunction(
+    n =>
+      (document
+        .querySelector('iframe')
+        ?.contentDocument?.querySelectorAll('[data-section-uid]').length ??
+        0) >= n,
+    { timeout: 45000, polling: 250 },
+    3
+  )
+  .catch(() => {});
+await s(800);
 
 const q = (fn, ...args) => p.evaluate(fn, ...args);
 const nSec = () =>
