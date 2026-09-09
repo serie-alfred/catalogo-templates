@@ -1,73 +1,22 @@
 
-.catalogoContainer{
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 60px;
-  padding: 0px 20px;
-}
 
 @media (max-width: 768px){
-  .catalogoContainer{
-      padding: 0px 20px;
-  }
-}
-
-.container{
-  display: flex;
-  flex-direction: column;
-  max-width: 1500px;
-  width: 100%;
 }
 
 @media only screen
 and (min-width: 1023px)
 and (max-width: 1650px){
-  .container{
-      max-width: 1180px;
-  }
-}
-.infoTitle {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  color: #fff;
-}
-.infoTitle span{
-  font-weight: 400;
-  color: #b9b0b0;
 }
 
 @media (max-width: 768px){
-  .infoTitle span{
-      font-size: 13px;
-  }
-  .containerSpots{
-      gap: 60px !important;
-  }
-}
-
-.containerSpots{
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
 }
 
 @media(max-width: 1020px){
-  .containerSpots{
-      flex-wrap: wrap;
-  }
 }
-
 
 .productSpot{
   width: 24%;
   position: relative;
-}
-
-.full{
-  width: 100% !important;
 }
 
 @media (max-width: 768px){
@@ -76,70 +25,11 @@ and (max-width: 1650px){
   }
 }
 
-.containerTitle{
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  margin-bottom: 30px;
-}
-
-.containerTitle span{
-  color: #b9b0b0;
-  font-size: 16px;
-}
-
-.searchInputContainer{
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 40%;
+@media (max-width: 768px){
 }
 
 @media (max-width: 768px){
-  .searchInputContainer{
-      width: 100%;
-  }
 }
-
-.searchInputContainer svg{
-  position: absolute;
-  right: 20px;
-
-}
-
-.search{
-  margin: 35px 0px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-@media (max-width: 768px){
-  .search{
-      flex-direction: column;
-      gap: 20px;
-  }
-  .search input{
-      width: 100%;
-  }
-}
-
-.search input{
-  backdrop-filter: blur(16px);
-  background-color: #141414;
-  border: none;
-  height: 52px;
-  border-radius: 120px;
-  padding-left: 20px;
-  width: 100%;
-}
-
-.search span{
-  font-weight: 400;
-  font-size: 16px;
-  color: #8F8F8F;
-}
-
 
 .containerInfo{
   margin-top: 10px;
@@ -184,8 +74,6 @@ and (max-width: 1650px){
   border-radius: 8px;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 20%, rgba(0, 0, 0, 0.5) 40%,  rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0.2) 80%, rgba(0, 0, 0, 0) 100%);
 }
-
-
 
 @media only screen
 and (min-width: 1023px)
