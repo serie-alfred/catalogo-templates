@@ -47,8 +47,21 @@ r.ok(
   classeDesktop
 );
 
+// Clicar UMA vez e esperar 900 ms não bastava: o botão existe no HTML antes de o
+// React hidratar, e `b.click()` num botão ainda não hidratado não faz nada — em
+// silêncio, como o "Baixar" desabilitado do estágio 3. Medido: 1 em 2 execuções
+// isoladas reprovava com `desktop → desktop`. Agora insiste até a moldura trocar.
 r.ok('o botão mobile existe no grupo de visão', await apertar('mobile'));
-await espera(900);
+const trocouPara = async alvo => {
+  const limite = Date.now() + 15000;
+  while (Date.now() < limite) {
+    if (new RegExp(alvo, 'i').test(await classeDoFrame())) return true;
+    await espera(500);
+    await apertar(alvo);
+  }
+  return false;
+};
+await trocouPara('mobile');
 const classeMobile = await classeDoFrame();
 r.ok(
   'alternar para mobile troca a moldura do iframe',
@@ -64,7 +77,19 @@ r.ok(
   srcMobile.includes('/gerador/frame-mobile'),
   srcMobile
 );
-// e as seções continuam montadas depois de trocar a visão
+// e as seções continuam montadas depois de trocar a visão — esperando a pintura,
+// não o relógio: trocar a moldura remonta o documento do iframe.
+await page
+  .waitForFunction(
+    n =>
+      (document
+        .querySelector('iframe')
+        ?.contentDocument?.querySelectorAll('[data-section-uid]').length ??
+        0) >= n,
+    { timeout: 30000, polling: 250 },
+    selecoes.length
+  )
+  .catch(() => {});
 const secoesNoMobile = await page.evaluate(
   () =>
     document
@@ -78,6 +103,7 @@ r.ok(
 );
 
 await apertar('desktop');
+await trocouPara('desktop');
 await espera(600);
 
 // ── 2. link de preview compartilhável ───────────────────────────────────────
@@ -101,7 +127,9 @@ if (clicouPreview) {
           document.body.innerText,
         ];
         for (const t of alvos) {
-          const m = /https?:\/\/[^\s"']*\/p\/[A-Za-z0-9_-]+\/[a-z]+/.exec(t ?? '');
+          const m = /https?:\/\/[^\s"']*\/p\/[A-Za-z0-9_-]+\/[a-z]+/.exec(
+            t ?? ''
+          );
           if (m) return m[0];
         }
         return null;

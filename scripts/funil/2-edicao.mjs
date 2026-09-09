@@ -208,13 +208,17 @@ r.ok(
   'e a UI não oferece duplicar de novo',
   !(await badgesDe(page, 'banner-main')).duplicar
 );
+// Trocar o modelo com duplicado legado no disco: antes o `findIndex` trocava só
+// a primeira ocorrência e sobrava ["banner:06","banner:01"] — dois modelos
+// diferentes no mesmo slot singleton, estado que a UI não sabe desfazer. Agora
+// TODAS as ocorrências trocam, como o ramo do showcase sempre fez: a contagem
+// não muda (nada some em silêncio) e o estado volta a ser coerente.
 await adicionarPeloModal(page, 'Banners', 'Banners Template 6');
 const conv = await selecoesSalvas(page);
-console.log(
-  `  ⚠️  limitação conhecida: com duplicado legado, trocar o modelo no modal substitui só`
-);
-console.log(
-  `      a primeira ocorrência (toggleSelection usa findIndex) → ${JSON.stringify(conv)}`
+r.ok(
+  'duplicado legado: trocar o modelo troca TODAS as ocorrências',
+  conv.length === 2 && conv.every(c => c === conv[0]),
+  JSON.stringify(conv)
 );
 
 // ── painel direito e lista ────────────────────────────────────────────────────

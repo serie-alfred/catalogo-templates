@@ -603,25 +603,33 @@ export function useLayoutGenerator() {
       // assim que o botão de duplicar apareceu em slot que aqui já era singleton.
       // Agora as duas saem de `sectionRules`.
       if (PAGE_SINGLETON_SELECTIONS.has(item.selection)) {
-        const existingIndex = prev.findIndex(s => {
-          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
-          return found?.selection === item.selection;
-        });
+        const ocupaOSlot = (s: LayoutSelection) =>
+          LAYOUTS[s.layoutKey].items.find(i => i.id === s.id)?.selection ===
+          item.selection;
 
-        if (existingIndex !== -1) {
-          const existing = prev[existingIndex];
-          // O mesmo item: nada a fazer.
-          if (existing.id === id && existing.layoutKey === layoutKey)
+        const ocupantes = prev.filter(ocupaOSlot);
+
+        if (ocupantes.length > 0) {
+          // Todos já são este item: nada a fazer (não regerar uid à toa).
+          if (ocupantes.every(o => o.id === id && o.layoutKey === layoutKey))
             return prev;
 
-          const newSelections = [...prev];
-          newSelections[existingIndex] = {
-            uid: crypto.randomUUID(),
-            id,
-            layoutKey,
-            pagina: existing.pagina, // mantém a página de quem estava lá
-          };
-          return newSelections;
+          // Substitui TODAS as ocorrências, como o ramo do showcase já fazia.
+          // Com `findIndex` só a primeira trocava, e um estado legado com dois
+          // `banner-main` virava ["banner:06","banner:01"] — dois modelos
+          // diferentes no mesmo slot, incoerência que a UI não sabe desfazer.
+          // Trocar todas mantém a contagem (nada some em silêncio) e o estado
+          // volta a ser coerente.
+          return prev.map(s =>
+            ocupaOSlot(s)
+              ? {
+                  uid: crypto.randomUUID(),
+                  id,
+                  layoutKey,
+                  pagina: s.pagina, // mantém a página de quem estava lá
+                }
+              : s
+          );
         }
 
         const countInPage = prev.filter(p => p.pagina === pagina).length;

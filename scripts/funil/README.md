@@ -99,6 +99,8 @@ próxima vai ser igual: **o teste chegava antes da UI**.
 | "#dynamic-tabs não achado" | 15s fixos, insuficientes sob carga |
 | "o botão Baixar não entrega o config" | o botão é `disabled` até o `platform` hidratar; clicar nele não faz nada, **em silêncio** |
 | "404 no /p/{id}" | regex do teste parava no id e descartava o `/{page}` |
+| "canvas renderiza no 1º load → 0 seções" | `s(6000)` fixo, e o canvas pinta **por volta** de 6 s — o estágio media na borda |
+| "alternar para mobile não troca a moldura" (`desktop → desktop`) | o botão existe no HTML antes de o React hidratar; `.click()` num botão não hidratado não faz nada, **em silêncio** |
 
 Duas regras que saíram disso, e que valem para qualquer estágio novo:
 
@@ -107,9 +109,18 @@ Duas regras que saíram disso, e que valem para qualquer estágio novo:
 2. **Antes de clicar, confira que dá para clicar.** Botão desabilitado engole o clique sem erro
    — foi a falha mais cara de diagnosticar, porque o estágio esperava 120s por um export que
    nunca começou.
+3. **Um clique não é uma garantia.** Botão presente no HTML mas ainda não hidratado engole o
+   clique do mesmo jeito. Clique e **verifique o efeito**; se não veio, clique de novo até vir
+   ou até estourar o limite. Um clique único mais `espera(n)` reprovava 1 em 2 execuções.
 
 Quando um estágio falhar, a primeira pergunta é "o produto está errado ou o teste chegou cedo?".
 Rode o estágio sozinho, com o dev quente: se passar, é o segundo caso.
+
+**E se falhar sozinho, ainda não terminou.** O último flake desta lista falhou 3 de 3 vezes
+isolado — parecia regressão, e eu cheguei a chamá-la assim. O que desempatou foi uma sonda de
+timeline: medir a mesma condição aos 2, 4, 6 e 10 s e imprimir `pageerrors` junto. Deu
+`0, 0, 3, 3` com zero erro — o produto renderizava, o relógio é que estava na borda.
+Reprovação reprodutível prova que o teste é determinístico, não que o produto está errado.
 
 ## Por que a origem é conferida por caminho
 

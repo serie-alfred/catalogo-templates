@@ -260,6 +260,25 @@ r.ok(
   familias.length >= 3
 );
 
+// Dados de exemplo NÃO podem viajar ligados para a loja do cliente. O starter
+// mantém `MOCK_ENABLED = true` de propósito (a "produção" dele é ambiente de
+// agência) e o próprio arquivo diz qual é a reversão para uma loja real. Até
+// 09/09 a reversão era manual e o tema montado saía com a chave ligada — uma
+// seção sem conteúdo no CMS entregava dado de exemplo na loja. Quem desliga
+// agora é o MockGuard do gerador; esta é a rede que impede a volta.
+const mockData = path.join(TEMA, 'src/utils/mockData/index.ts');
+if (fs.existsSync(mockData)) {
+  const linha = fs
+    .readFileSync(mockData, 'utf8')
+    .split('\n')
+    .find(l => l.startsWith('export const MOCK_ENABLED'));
+  r.ok(
+    'MOCK_ENABLED desligado em produção no tema entregue',
+    linha === "export const MOCK_ENABLED = process.env.NODE_ENV !== 'production'",
+    linha
+  );
+}
+
 // ── portão: o tema compila? ──────────────────────────────────────────────────
 if (process.env.FUNIL_TEMA_BUILD === '0') {
   console.log('  ⏭️  yarn build do tema pulado (FUNIL_TEMA_BUILD=0)');
