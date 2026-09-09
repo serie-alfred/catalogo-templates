@@ -87,6 +87,30 @@ painel de propriedades não expõe um seletor estável para dirigi-la. A perna
 **config → tema** é, no estágio 4 (`InjectComponentVariables` põe
 `--breadcrumb-text` dentro de `.breadcrumb` no SCSS gerado).
 
+## Por que quase toda falha do funil já foi do PRÓPRIO funil
+
+Cinco reprovações em 08–09/09 foram do harness, não do produto. Vale o padrão, porque a
+próxima vai ser igual: **o teste chegava antes da UI**.
+
+| Sintoma | Causa real |
+| --- | --- |
+| "seção não montou" | sleep fixo em vez de esperar a seção pintar |
+| "0 botões de duplicar" | `semear` aguardava só `.ed-shell` — a casca, não a lista |
+| "#dynamic-tabs não achado" | 15s fixos, insuficientes sob carga |
+| "o botão Baixar não entrega o config" | o botão é `disabled` até o `platform` hidratar; clicar nele não faz nada, **em silêncio** |
+| "404 no /p/{id}" | regex do teste parava no id e descartava o `/{page}` |
+
+Duas regras que saíram disso, e que valem para qualquer estágio novo:
+
+1. **Espere a condição, não o relógio.** `waitForFunction` no elemento que você vai usar, nunca
+   `espera(n)` como garantia.
+2. **Antes de clicar, confira que dá para clicar.** Botão desabilitado engole o clique sem erro
+   — foi a falha mais cara de diagnosticar, porque o estágio esperava 120s por um export que
+   nunca começou.
+
+Quando um estágio falhar, a primeira pergunta é "o produto está errado ou o teste chegou cedo?".
+Rode o estágio sozinho, com o dev quente: se passar, é o segundo caso.
+
 ## Por que a origem é conferida por caminho
 
 Tray e Wake não têm manifest: o generator monta
