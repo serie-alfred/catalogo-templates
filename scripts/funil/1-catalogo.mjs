@@ -173,10 +173,14 @@ r.ok(
 // Medido em 09/09: quatro subdomínios `*.fbitsstatic.net` aparecem chumbados no
 // global-templates — `agenciaseriedesign2` (a loja de demonstração da agência) e,
 // pior, `guardaroba`, `plenitudedistribuidora` e `chasleao`, que são lojas de
-// CLIENTE. Um tema novo sai hot-linkando imagem hospedada por terceiro: quebra no
-// dia em que aquela loja apagar o arquivo ou bloquear hotlink, e nem deveria estar
-// ali. Não é conserto meu — trocar as imagens ou definir onde hospedá-las é decisão
-// de produto, e a trilha Wake não é validável desta máquina.
+// CLIENTE. Um tema novo sai hot-linkando imagem hospedada por terceiro.
+//
+// E já não é só risco futuro: conferido por HEAD no mesmo dia, os três
+// `Wake/Common/template_*/spot` servem 30 imagens 404 — o "dia em que aquela loja
+// apagar o arquivo" chegou. O resto está vivo, no CDN alheio.
+//
+// Não é conserto meu — trocar as imagens ou definir onde hospedá-las é decisão de
+// produto, e a trilha Wake não é validável desta máquina.
 //
 // O que dá para garantir é que a lista não CRESÇA. Estes 8 são os alcançáveis pelo
 // catálogo hoje; um nono reprova o estágio.
