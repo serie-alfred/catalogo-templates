@@ -14,7 +14,7 @@
 import { relatorio, espera, BASE_URL } from './lib/util.mjs';
 import { abrirBrowser, novaAba, semear } from './lib/editor.mjs';
 
-const r = relatorio('Estágio 2d — a escolha do cliente chega ao config');
+const r = relatorio('Estágio 2e — a escolha do cliente chega ao config');
 const browser = await abrirBrowser();
 const { page, erros } = await novaAba(browser);
 
@@ -25,10 +25,9 @@ const selecoes = [
   { uid: 'u-footer', id: '01', layoutKey: 'footer', pagina: 'common' },
 ];
 
+// `semear` já navega e espera as seções pintarem — um goto extra aqui jogava fora
+// essa espera e deixava o rail correndo atrás do render.
 await semear(page, { plataforma: 'VTEX', selecoes });
-await page.goto(`${BASE_URL}/gerador`, { waitUntil: 'networkidle2' });
-await page.waitForSelector('.ed-shell');
-await espera(2500);
 
 /** Escreve num <input> controlado por React, disparando o onChange de verdade. */
 const digitar = (seletor, valor) =>
