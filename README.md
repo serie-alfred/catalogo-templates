@@ -113,5 +113,12 @@ src/
 └── styles/                     globals · editor-tokens · templates · storefront · preview · editor-canvas
 ```
 
-Os PNGs em `public/images/gerador/` são só fallback: os itens ativos têm `image: ""` e renderizam
-o componente React de verdade.
+Os 42 PNGs de `public/images/gerador/` (8,3 MB) **saíram**. Eram screenshots da época anterior
+ao preview em React: o commit `5633c33` trocou `image: "header/desktop/header_01.png"` por
+`image: ""` nos 67 itens e os arquivos ficaram para trás. Com todos vazios, o "fallback" que a
+doc prometia era um `<img src="/images/gerador/">` — 404 mudo. Hoje o `ThemeRenderer` mostra um
+marcador vermelho nomeando o componente que falta no registry, que é o erro que interessa ver.
+
+Os campos `image`/`mobile` do `LayoutItem` continuam existindo e **vazios de propósito**: o
+`SelectSectionItem` os consulta para a miniatura do modal e cai num placeholder externo. Trocar
+essa miniatura pelo preview real é decisão de produto, não limpeza.

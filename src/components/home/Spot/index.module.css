@@ -238,7 +238,10 @@ and (max-width: 1650px){
   color: #fff;
 }
 
-.buttons button {
+/* `a`, não `button`: o Spot renderiza um <a> (index.tsx:31) — com o seletor em
+   `button` esta regra nunca aplicava, e o card saía sem fundo nem padding. As duas
+   irmãs (Catalog, ThemeReleases) já usavam `a`. */
+.buttons a {
   text-decoration: underline;
   background-color: rgb(203 203 203 / 28%);
   border-radius: 8px;

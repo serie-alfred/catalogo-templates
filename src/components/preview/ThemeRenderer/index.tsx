@@ -52,8 +52,6 @@ function ThemeRenderer({
         // Overrides por instância cascateiam como CSS custom properties.
         const styleVars = item.variables as React.CSSProperties | undefined;
         const isHeader = item.layoutKey === 'header';
-        const fallbackImage =
-          (isMobile && layoutItem.mobile) || layoutItem.image;
 
         return (
           // .preview-template: marcador estável da subárvore do template, usado
@@ -72,11 +70,28 @@ function ThemeRenderer({
             {Component ? (
               <Component isMobile={isMobile} />
             ) : (
-              <img
-                src={`/images/gerador/${fallbackImage}`}
-                alt={layoutItem.title}
-                style={{ width: '100%', height: 'auto', display: 'block' }}
-              />
+              /* Componente fora do `TemplateRegistry`. Isto costumava renderizar
+                 `<img src={`/images/gerador/${layoutItem.image}`}>`, e como os 67
+                 itens têm `image: ''` desde o commit 5633c33 o que saía era um
+                 `/images/gerador/` — 404 mudo. O erro tem que APARECER: é o único
+                 sinal de que alguém esqueceu de registrar o componente. */
+              <div
+                data-registry-missing={layoutItem.component}
+                style={{
+                  padding: 24,
+                  border: '2px dashed #c0121c',
+                  color: '#c0121c',
+                  font: '600 14px/1.4 system-ui, sans-serif',
+                  textAlign: 'center',
+                }}
+              >
+                <strong>{layoutItem.component}</strong> não está no
+                TemplateRegistry
+                <br />
+                <span style={{ fontWeight: 400 }}>
+                  registre em src/utils/templateRegistry.ts
+                </span>
+              </div>
             )}
           </div>
         );
