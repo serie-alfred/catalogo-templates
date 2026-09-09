@@ -168,6 +168,57 @@ r.ok(
   semOrigem.join(' | ')
 );
 
+// 7b. conteúdo hospedado no CDN de OUTRA loja.
+//
+// Medido em 09/09: quatro subdomínios `*.fbitsstatic.net` aparecem chumbados no
+// global-templates — `agenciaseriedesign2` (a loja de demonstração da agência) e,
+// pior, `guardaroba`, `plenitudedistribuidora` e `chasleao`, que são lojas de
+// CLIENTE. Um tema novo sai hot-linkando imagem hospedada por terceiro: quebra no
+// dia em que aquela loja apagar o arquivo ou bloquear hotlink, e nem deveria estar
+// ali. Não é conserto meu — trocar as imagens ou definir onde hospedá-las é decisão
+// de produto, e a trilha Wake não é validável desta máquina.
+//
+// O que dá para garantir é que a lista não CRESÇA. Estes 8 são os alcançáveis pelo
+// catálogo hoje; um nono reprova o estágio.
+const CDN_DE_TERCEIRO =
+  /(agenciaseriedesign2|guardaroba|plenitudedistribuidora|chasleao)\.fbitsstatic\.net/;
+const CONTAMINADOS_CONHECIDOS = new Set([
+  'Tray/Home/template_6/category-triple',
+  'Tray/Home/template_6/client-review',
+  'Wake/Common/template_1/spot',
+  'Wake/Common/template_2/spot',
+  'Wake/Common/template_3/spot',
+  'Wake/Home/template_1/categories',
+  'Wake/Product/template_1/product-info',
+  'Wake/Product/template_2/product-info',
+]);
+const contaminados = new Set();
+for (const i of todos) {
+  for (const plat of ['Tray', 'Wake']) {
+    if (!i.platforms.includes(plat)) continue;
+    const rel = `${plat}/${PASTA[i.pagina[0]]}/template_${i.template}/${i.selection}`;
+    const dir = path.join(GLOBAL_TEMPLATES, rel);
+    if (!fs.existsSync(dir)) continue;
+    const sujo = fs
+      .readdirSync(dir)
+      .some(
+        f =>
+          fs.statSync(path.join(dir, f)).isFile() &&
+          CDN_DE_TERCEIRO.test(fs.readFileSync(path.join(dir, f), 'utf8'))
+      );
+    if (sujo) contaminados.add(rel);
+  }
+}
+const novos = [...contaminados].filter(c => !CONTAMINADOS_CONHECIDOS.has(c));
+const sumiram = [...CONTAMINADOS_CONHECIDOS].filter(c => !contaminados.has(c));
+r.ok(
+  `nenhum componente NOVO trazendo CDN de outra loja (${contaminados.size} conhecidos)`,
+  novos.length === 0,
+  novos.join(', ')
+);
+if (sumiram.length)
+  console.log(`  ℹ️  limpos desde a medição: ${sumiram.join(', ')}`);
+
 // 8. manifest do faststore presente para cada path
 const semManifest = todos
   .filter(i => i.platforms.includes('VTEX') && i.path)
