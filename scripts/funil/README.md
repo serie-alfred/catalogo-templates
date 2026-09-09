@@ -25,7 +25,7 @@ e o `yarn dev` de pé para os estágios 2 e 3. Saídas em `.funil/` (ignorada).
 | `2-edicao` | regras de negócio: singleton substitui, não-singleton coexiste, duplicar/remover, painel de variáveis, troca de plataforma | dev server |
 | `2-geometria` | fidelidade ao Figma (±1px) contra as coordenadas em `figma/` | dev server |
 | `2-preview` | visão mobile, link `/p/{id}/{page}` compartilhável e a rota `/gerador/import-log` | dev server |
-| `2-edicao-b` | a escolha do cliente **chega ao config**: cor global → `config.json` → as 3 páginas do preview → sobrevive ao reload | dev server |
+| `2-integracao` | a escolha do cliente **chega ao config**: cor global → `config.json` → as 3 páginas do preview → sobrevive ao reload | dev server |
 | `3-export` | o botão "Baixar" entrega os três configs; cada um resolve o contrato da sua plataforma; os dois PNGs saem | dev server |
 | `4-tema-faststore` | o generator monta o tema de verdade e **ele compila** (`yarn build`) — a única perna do pipeline executável desta máquina | estágio 3 · `gh` autenticado · minutos |
 | `5-contrato-tray-wake` | contrato estático de Tray e Wake: pasta de origem, `instanceCount`, dedupe `key::arquivo`, nenhum caminho com espaço | estágio 3 |
@@ -70,7 +70,7 @@ sem `~/Downloads/log.txt`, e o logo da agência no `Footer` do template_1 tinha 
 `d` do path truncado com reticências **no código-fonte**, reclamando
 «<path> attribute d: Expected number» a cada render.
 
-## Estágio 2d — o que os outros estágios não conseguem ver
+## Estágio 2e — o que os outros estágios não conseguem ver
 
 Os demais provam que a UI reage. Este prova que a escolha **atravessa as camadas**.
 A diferença importa: uma cor que se perde entre o ColorPicker, o estado, o

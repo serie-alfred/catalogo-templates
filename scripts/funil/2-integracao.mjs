@@ -49,9 +49,14 @@ const digitar = (seletor, valor) =>
     valor
   );
 
-/** O rail à esquerda troca o painel; nada de input existe antes de abrir o certo. */
-const abrirNoRail = rotulo =>
-  page.evaluate(nome => {
+/**
+ * O rail à esquerda troca o painel; nada de input existe antes de abrir o certo.
+ * Espera o painel PINTAR em vez de dormir: com a rota fria — este estágio roda logo
+ * depois do estático, e o /gerador pode estar compilando — o clique chegava antes
+ * do painel montar e a busca pelo campo vinha vazia.
+ */
+const abrirNoRail = async (rotulo, esperaPor) => {
+  const clicou = await page.evaluate(nome => {
     const alvo = [
       ...document.querySelectorAll('button,[role="tab"],[aria-label]'),
     ].find(
@@ -60,12 +65,26 @@ const abrirNoRail = rotulo =>
     alvo?.click();
     return !!alvo;
   }, rotulo);
+  if (clicou && esperaPor) {
+    await page
+      .waitForFunction(
+        sel => !!document.querySelector(sel),
+        { timeout: 20000, polling: 250 },
+        esperaPor
+      )
+      .catch(() => {});
+  }
+  return clicou;
+};
 
 // ── 1. cor global ───────────────────────────────────────────────────────────
-r.ok('o rail tem "Variáveis globais"', await abrirNoRail('Variáveis globais'));
+const SEL_COR = 'input[aria-label="Defina a cor primária da marca"]';
+r.ok(
+  'o rail tem "Variáveis globais"',
+  await abrirNoRail('Variáveis globais', SEL_COR)
+);
 await espera(1500);
 
-const SEL_COR = 'input[aria-label="Defina a cor primária da marca"]';
 const achou = await page.evaluate(
   sel => !!document.querySelector(sel),
   SEL_COR
@@ -138,7 +157,7 @@ if (varAlvo) {
 // Reaplica a cor logo antes do export: trocar de painel remonta o ColorPicker, e
 // o valor digitado antes pode não ter sobrevivido ao ciclo de render. Confere que
 // pegou, para o export não medir um estado que nunca existiu.
-await abrirNoRail('Variáveis globais');
+await abrirNoRail('Variáveis globais', SEL_COR);
 await espera(1200);
 await digitar(SEL_COR, COR);
 await espera(1000);
@@ -307,7 +326,7 @@ await page
     { timeout: 25000, polling: 250 }
   )
   .catch(() => {});
-await abrirNoRail('Variáveis globais');
+await abrirNoRail('Variáveis globais', SEL_COR);
 await espera(1200);
 const depois = await page.evaluate(() => ({
   selecoes: JSON.parse(localStorage.getItem('layoutSelections') ?? '[]').length,
