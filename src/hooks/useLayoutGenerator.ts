@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { PAGE_SINGLETON_SELECTIONS } from '@/utils/sectionRules';
 import { arrayMove } from '@dnd-kit/sortable';
 import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layoutData';
 import { belongsToPage } from '@/utils/previewRender';
@@ -593,204 +594,32 @@ export function useLayoutGenerator() {
         return replaced;
       }
 
-      if (item.selection === 'category-main') {
+      // Singleton de página: só um por página, e escolher outro SUBSTITUI o que
+      // está lá, na mesma posição e na mesma página.
+      //
+      // Isto eram SETE ramos `if` byte-idênticos, um por `selection`, dentro de uma
+      // função de 299 linhas — e a lista deles era mantida à mão em paralelo com o
+      // `NON_DUPLICABLE_SELECTIONS`. Duas listas do mesmo conjunto divergem: foi
+      // assim que o botão de duplicar apareceu em slot que aqui já era singleton.
+      // Agora as duas saem de `sectionRules`.
+      if (PAGE_SINGLETON_SELECTIONS.has(item.selection)) {
         const existingIndex = prev.findIndex(s => {
           const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
-          return found?.selection === 'category-main';
+          return found?.selection === item.selection;
         });
 
-        // Já existe algum category-main
         if (existingIndex !== -1) {
           const existing = prev[existingIndex];
-          if (existing.id === id && existing.layoutKey === layoutKey) {
-            // É o mesmo → não faz nada
+          // O mesmo item: nada a fazer.
+          if (existing.id === id && existing.layoutKey === layoutKey)
             return prev;
-          }
-          // É diferente → substituir na mesma posição/página
+
           const newSelections = [...prev];
           newSelections[existingIndex] = {
             uid: crypto.randomUUID(),
             id,
             layoutKey,
-            pagina: existing.pagina, // mantém a mesma página
-          };
-          return newSelections;
-        }
-
-        // Não existe ainda → adicionar (respeita limite da página)
-        const countInPage = prev.filter(p => p.pagina === pagina).length;
-        if (countInPage >= MAX_PER_PAGE) return prev;
-        return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
-      }
-
-      if (item.selection === 'category-banner') {
-        const existingIndex = prev.findIndex(s => {
-          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
-          return found?.selection === 'category-banner';
-        });
-
-        // Já existe algum category-banner
-        if (existingIndex !== -1) {
-          const existing = prev[existingIndex];
-          if (existing.id === id && existing.layoutKey === layoutKey) {
-            // É o mesmo → não faz nada
-            return prev;
-          }
-          // É diferente → substituir na mesma posição/página
-          const newSelections = [...prev];
-          newSelections[existingIndex] = {
-            uid: crypto.randomUUID(),
-            id,
-            layoutKey,
-            pagina: existing.pagina, // mantém a mesma página
-          };
-          return newSelections;
-        }
-
-        // Não existe ainda → adicionar (respeita limite da página)
-        const countInPage = prev.filter(p => p.pagina === pagina).length;
-        if (countInPage >= MAX_PER_PAGE) return prev;
-        return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
-      }
-
-      if (item.selection === 'product-description') {
-        const existingIndex = prev.findIndex(s => {
-          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
-          return found?.selection === 'product-description';
-        });
-
-        // Já existe algum product-description
-        if (existingIndex !== -1) {
-          const existing = prev[existingIndex];
-          if (existing.id === id && existing.layoutKey === layoutKey) {
-            // É o mesmo → não faz nada
-            return prev;
-          }
-          // É diferente → substituir na mesma posição/página
-          const newSelections = [...prev];
-          newSelections[existingIndex] = {
-            uid: crypto.randomUUID(),
-            id,
-            layoutKey,
-            pagina: existing.pagina, // mantém a mesma página
-          };
-          return newSelections;
-        }
-
-        // Não existe ainda → adicionar (respeita limite da página)
-        const countInPage = prev.filter(p => p.pagina === pagina).length;
-        if (countInPage >= MAX_PER_PAGE) return prev;
-        return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
-      }
-
-      if (item.selection === 'banner-top') {
-        const existingIndex = prev.findIndex(s => {
-          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
-          return found?.selection === 'banner-top';
-        });
-
-        // Já existe algum banner-top
-        if (existingIndex !== -1) {
-          const existing = prev[existingIndex];
-          if (existing.id === id && existing.layoutKey === layoutKey) {
-            // É o mesmo → não faz nada
-            return prev;
-          }
-          // É diferente → substituir na mesma posição/página
-          const newSelections = [...prev];
-          newSelections[existingIndex] = {
-            uid: crypto.randomUUID(),
-            id,
-            layoutKey,
-            pagina: existing.pagina, // mantém a mesma página
-          };
-          return newSelections;
-        }
-
-        // Não existe ainda → adicionar (respeita limite da página)
-        const countInPage = prev.filter(p => p.pagina === pagina).length;
-        if (countInPage >= MAX_PER_PAGE) return prev;
-        return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
-      }
-
-      if (item.selection === 'category-description') {
-        const existingIndex = prev.findIndex(s => {
-          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
-          return found?.selection === 'category-description';
-        });
-
-        // Já existe algum category-description
-        if (existingIndex !== -1) {
-          const existing = prev[existingIndex];
-          if (existing.id === id && existing.layoutKey === layoutKey) {
-            // É o mesmo → não faz nada
-            return prev;
-          }
-          // É diferente → substituir na mesma posição/página
-          const newSelections = [...prev];
-          newSelections[existingIndex] = {
-            uid: crypto.randomUUID(),
-            id,
-            layoutKey,
-            pagina: existing.pagina, // mantém a mesma página
-          };
-          return newSelections;
-        }
-
-        // Não existe ainda → adicionar (respeita limite da página)
-        const countInPage = prev.filter(p => p.pagina === pagina).length;
-        if (countInPage >= MAX_PER_PAGE) return prev;
-        return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
-      }
-
-      if (item.selection === 'banner-main') {
-        const existingIndex = prev.findIndex(s => {
-          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
-          return found?.selection === 'banner-main';
-        });
-
-        // Já existe algum banner-main
-        if (existingIndex !== -1) {
-          const existing = prev[existingIndex];
-          if (existing.id === id && existing.layoutKey === layoutKey) {
-            // É o mesmo → não faz nada
-            return prev;
-          }
-          // É diferente → substituir na mesma posição/página
-          const newSelections = [...prev];
-          newSelections[existingIndex] = {
-            uid: crypto.randomUUID(),
-            id,
-            layoutKey,
-            pagina: existing.pagina, // mantém a mesma página
-          };
-          return newSelections;
-        }
-
-        // Não existe ainda → adicionar (respeita limite da página)
-        const countInPage = prev.filter(p => p.pagina === pagina).length;
-        if (countInPage >= MAX_PER_PAGE) return prev;
-        return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
-      }
-
-      if (item.selection === 'product-info') {
-        const existingIndex = prev.findIndex(s => {
-          const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
-          return found?.selection === 'product-info';
-        });
-
-        if (existingIndex !== -1) {
-          const existing = prev[existingIndex];
-          if (existing.id === id && existing.layoutKey === layoutKey) {
-            return prev;
-          }
-          // É diferente → substituir na mesma posição/página
-          const newSelections = [...prev];
-          newSelections[existingIndex] = {
-            uid: crypto.randomUUID(),
-            id,
-            layoutKey,
-            pagina: existing.pagina, // mantém a mesma página
+            pagina: existing.pagina, // mantém a página de quem estava lá
           };
           return newSelections;
         }

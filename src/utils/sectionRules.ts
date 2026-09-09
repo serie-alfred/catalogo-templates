@@ -1,10 +1,42 @@
 /**
- * Regras por `selection` que o painel de seções e o canvas aplicam.
+ * Regras por `selection` que o painel de seções, o canvas e o `toggleSelection`
+ * aplicam — as três a partir DESTE arquivo.
  *
- * ATENÇÃO: este Set e os singletons de `useLayoutGenerator.toggleSelection`
- * descrevem o mesmo conjunto de slots "só um por página" por dois caminhos
- * diferentes. Ao introduzir um novo singleton, atualize os dois.
+ * Antes o `toggleSelection` carregava a mesma lista escrita à mão em sete ramos
+ * `if`, e um comentário aqui pedia "ao introduzir um novo singleton, atualize os
+ * dois". Duas listas do mesmo conjunto divergem — foi exatamente assim que o botão
+ * de duplicar apareceu em slots que o `toggleSelection` já tratava como singleton.
+ * Agora só existe uma fonte: as duas metades abaixo, e a união derivada delas.
  */
+
+/**
+ * Singletons de PÁGINA COMUM: existem uma vez por página, nas três páginas ao
+ * mesmo tempo. O `toggleSelection` os trata no ramo `pagina === 'common'`.
+ */
+export const COMMON_SINGLETON_SELECTIONS: ReadonlySet<string> = new Set([
+  'header',
+  'footer',
+  'breadcrumb',
+  'spot',
+]);
+
+/**
+ * Singletons de UMA página: só um por página, e escolher outro SUBSTITUI o que
+ * está lá, na mesma posição. O `toggleSelection` os trata num ramo só.
+ *
+ * `showcase` fica de fora de propósito: ele também é singleton, mas com semântica
+ * própria — substitui TODAS as ocorrências (`map`), não só a primeira, porque uma
+ * vitrine pode aparecer mais de uma vez na mesma página.
+ */
+export const PAGE_SINGLETON_SELECTIONS: ReadonlySet<string> = new Set([
+  'category-main',
+  'category-description',
+  'category-banner',
+  'product-info',
+  'product-description',
+  'banner-main',
+  'banner-top',
+]);
 
 /**
  * Seções que não podem ser duplicadas — o botão de duplicar não aparece.
@@ -14,23 +46,12 @@
  * `category-banner` (singleton), então nenhuma regra por `layoutKey` consegue
  * separar os dois.
  *
- * O conteúdo é exatamente o conjunto de singletons do `toggleSelection` — os
- * sete que têm ramo próprio, mais os quatro que a regra de `pagina === 'common'`
- * trata como um-por-página — menos `showcase`, que pode ser duplicado de
- * propósito.
+ * **Derivado**, não escrito à mão: é a união das duas metades acima. `showcase`
+ * não entra — ele é duplicável de propósito.
  */
 export const NON_DUPLICABLE_SELECTIONS: ReadonlySet<string> = new Set([
-  'header',
-  'footer',
-  'breadcrumb',
-  'spot',
-  'category-main',
-  'category-description',
-  'category-banner',
-  'product-info',
-  'product-description',
-  'banner-main',
-  'banner-top',
+  ...COMMON_SINGLETON_SELECTIONS,
+  ...PAGE_SINGLETON_SELECTIONS,
 ]);
 
 /**
