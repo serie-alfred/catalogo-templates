@@ -118,17 +118,39 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
 
   await p.evaluate(() => {
     window.__cfg = null;
+    // Diagnóstico: sem isto, um export que não entrega o JSON some em 120s de
+    // espera muda e a mensagem final não distingue "o botão não fez nada" de
+    // "o Blob veio e o parse falhou".
+    window.__blobs = [];
+    window.__cfgErro = null;
     const orig = URL.createObjectURL.bind(URL);
     URL.createObjectURL = bl => {
+      if (bl) window.__blobs.push(`${bl.type}:${bl.size}`);
       if (bl && bl.type === 'application/json')
         bl.text().then(t => {
           try {
             window.__cfg = JSON.parse(t);
-          } catch {}
+          } catch (e) {
+            window.__cfgErro = String(e);
+          }
         });
       return orig(bl);
     };
   });
+  // O botão é `disabled={exporting || !platform}`, e clicar em botão desabilitado
+  // não faz NADA — sem erro, sem blob, sem sinal. Se o clique chegar antes de o
+  // `platform` hidratar do localStorage, o estágio ficava 120s esperando um export
+  // que nunca começou. Esperar ele habilitar é a diferença entre medir o produto e
+  // medir a corrida.
+  await p.waitForFunction(
+    () => {
+      const b = [...document.querySelectorAll('button')].find(x =>
+        x.textContent.trim().startsWith('Baixar')
+      );
+      return !!b && !b.disabled;
+    },
+    { timeout: 60000, polling: 250 }
+  );
   await p.evaluate(() => {
     const btn = [...document.querySelectorAll('button')].find(x =>
       x.textContent.trim().startsWith('Baixar')
@@ -150,7 +172,15 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
           return `${im.length} img, ${im.filter(x => !x.complete).length} pendentes, fonts=${document.fonts.status}`;
         })
         .catch(() => 'contexto indisponível');
-      log(`   ...${i * 5}s ${st}`);
+      const bl = await p
+        .evaluate(() => ({ blobs: window.__blobs, erro: window.__cfgErro }))
+        .catch(() => null);
+      log(
+        `   ...${i * 5}s ${st}` +
+          (bl
+            ? ` | blobs: ${bl.blobs?.join(', ') || 'nenhum'}${bl.erro ? ` | parse: ${bl.erro}` : ''}`
+            : '')
+      );
     }
   }
   r.ok(`${plat}: o botão "Baixar" entrega o config.json`, !!config);
