@@ -85,115 +85,147 @@ await p.goto(`${BASE_URL}/gerador`, {
 });
 
 const linhas = [];
+// Uma varredura de 67 itens NÃO pode ser tudo-ou-nada: qualquer exceção no meio
+// (um wait que estoura, um elemento que não apareceu) derrubava o estágio e, com
+// ele, os quatro estágios seguintes que dependem dele. Agora a falha de um alvo é
+// a falha DAQUELE alvo — aparece na tabela e conta no placar, e o lote termina.
 for (const a of alvos) {
   errs = [];
-  await p.evaluate(
-    (plat, sel) => {
-      localStorage.clear();
-      localStorage.setItem('layoutPlatform', plat);
-      localStorage.setItem('layoutSelections', sel);
-      localStorage.setItem('panelLeftCollapsed', '0');
-      localStorage.setItem('panelRightCollapsed', '0');
-    },
-    a.plat,
-    JSON.stringify([
-      { uid: 'u-teste', id: a.id, layoutKey: a.layoutKey, pagina: a.pagina },
-    ])
-  );
-  await p.goto(`${BASE_URL}/gerador`, {
-    waitUntil: 'networkidle2',
-    timeout: 120000,
-  });
-  await p.waitForSelector('.ed-shell');
-  await s(2600);
-
-  if (a.page !== 'home') {
-    // Há DOIS [aria-haspopup="listbox"] no shell: o card de plataforma e o
-    // seletor de página. O de página é o que traz o nome de uma das 4 páginas.
-    const TRIG =
-      'const t=[...document.querySelectorAll(\'[aria-haspopup="listbox"]\')]' +
-      '.find(b=>/Homepage|Todas as p\u00e1ginas|P\u00e1gina de/.test(b.textContent));';
-    await p.waitForFunction(new Function(`${TRIG}return !!t`), {
-      timeout: 15000,
+  try {
+    await p.evaluate(
+      (plat, sel) => {
+        localStorage.clear();
+        localStorage.setItem('layoutPlatform', plat);
+        localStorage.setItem('layoutSelections', sel);
+        localStorage.setItem('panelLeftCollapsed', '0');
+        localStorage.setItem('panelRightCollapsed', '0');
+      },
+      a.plat,
+      JSON.stringify([
+        { uid: 'u-teste', id: a.id, layoutKey: a.layoutKey, pagina: a.pagina },
+      ])
+    );
+    await p.goto(`${BASE_URL}/gerador`, {
+      waitUntil: 'networkidle2',
+      timeout: 120000,
     });
-    await p.evaluate(new Function(`${TRIG}t.click()`));
-    await p.waitForFunction(
-      () =>
-        document
-          .querySelector('[role="listbox"][aria-label="P\u00e1gina"]')
-          ?.querySelectorAll('[role="option"]').length === 4,
-      { timeout: 15000 }
-    );
-    await p.evaluate(nome => {
-      [
-        ...document.querySelectorAll(
-          '[role="listbox"][aria-label="P\u00e1gina"] [role="option"]'
+    await p.waitForSelector('.ed-shell');
+    await s(2600);
+
+    if (a.page !== 'home') {
+      // Há DOIS [aria-haspopup="listbox"] no shell: o card de plataforma e o
+      // seletor de página. O de página é o que traz o nome de uma das 4 páginas.
+      const TRIG =
+        'const t=[...document.querySelectorAll(\'[aria-haspopup="listbox"]\')]' +
+        '.find(b=>/Homepage|Todas as p\u00e1ginas|P\u00e1gina de/.test(b.textContent));';
+      // Clicar e VERIFICAR, insistindo — o gatilho existe no HTML antes de o React
+      // hidratar, e clique em botão não hidratado não faz nada, em silêncio. Era
+      // um `waitForFunction` de 15 s seco: quando estourava, a exceção derrubava o
+      // estágio inteiro no meio da varredura dos 67.
+      await p.waitForFunction(new Function(`${TRIG}return !!t`), {
+        timeout: 30000,
+        polling: 250,
+      });
+      const abriuLista = async () => {
+        const limite = Date.now() + 20000;
+        while (Date.now() < limite) {
+          const n = await p.evaluate(
+            () =>
+              document
+                .querySelector('[role="listbox"][aria-label="P\u00e1gina"]')
+                ?.querySelectorAll('[role="option"]').length ?? 0
+          );
+          if (n === 4) return true;
+          await p.evaluate(new Function(`${TRIG}t?.click()`));
+          await s(400);
+        }
+        return false;
+      };
+      if (!(await abriuLista()))
+        throw new Error('o seletor de página não abriu com 4 opções');
+
+      await p.evaluate(nome => {
+        [
+          ...document.querySelectorAll(
+            '[role="listbox"][aria-label="P\u00e1gina"] [role="option"]'
+          ),
+        ]
+          .find(x => x.textContent.trim() === nome)
+          ?.click();
+      }, PAGENAME[a.page]);
+      await p.waitForFunction(
+        new Function(
+          'nome',
+          `${TRIG}return t && t.textContent.trim().startsWith(nome)`
         ),
-      ]
-        .find(x => x.textContent.trim() === nome)
-        .click();
-    }, PAGENAME[a.page]);
-    await p.waitForFunction(
-      new Function(
-        'nome',
-        `${TRIG}return t && t.textContent.trim().startsWith(nome)`
-      ),
-      { timeout: 15000 },
-      PAGENAME[a.page]
+        { timeout: 30000, polling: 250 },
+        PAGENAME[a.page]
+      );
+      await s(2200);
+    }
+
+    // Espera a seção pintar em vez de confiar no sleep fixo. Com o dev server frio o
+    // primeiro alvo do lote perdia a corrida e saía como "seção não montou" — falha
+    // de harness, não do componente. Se estourar, o evaluate abaixo reporta o motivo.
+    await p
+      .waitForFunction(
+        sel =>
+          !!document
+            .querySelector('iframe')
+            ?.contentDocument?.querySelector(`[data-selection="${sel}"]`),
+        { timeout: 20000, polling: 250 },
+        a.selection
+      )
+      .catch(() => {});
+
+    const m = await p.evaluate(sel => {
+      const d = document.querySelector('iframe')?.contentDocument;
+      if (!d) return { erro: 'sem contentDocument' };
+      const secs = d.querySelectorAll('[data-section-uid]');
+      const el = d.querySelector(`[data-selection="${sel}"]`);
+      if (!el) return { nSec: secs.length, erro: 'seção não montou' };
+      const r = el.getBoundingClientRect();
+      return {
+        nSec: secs.length,
+        h: Math.round(r.height),
+        w: Math.round(r.width),
+        nodes: el.querySelectorAll('*').length,
+        txt: (el.innerText || '').trim().length,
+        imgs: el.querySelectorAll('img').length,
+      };
+    }, a.selection);
+
+    const passou =
+      !m.erro && m.nSec === 1 && m.h > 0 && m.nodes > 0 && errs.length === 0;
+    await p.evaluate(
+      () =>
+        new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
     );
-    await s(2200);
+    await s(500);
+    await p.screenshot({
+      path: `${SAIDA}/${a.comp}.png`,
+      captureBeyondViewport: false,
+    });
+    linhas.push({ ...a, m, errs: [...errs], passou });
+    console.log(
+      `${passou ? '✅' : '❌'} ${a.comp.padEnd(21)} ${a.plat.padEnd(4)} ${a.page.padEnd(8)} ${
+        m.erro
+          ? `ERRO: ${m.erro}`
+          : `${m.w}x${m.h}px  ${m.nodes} nós  ${m.imgs} img  ${m.txt} chars`
+      }${errs.length ? `  ⚠️ ${errs.slice(0, 2).join(' | ')}` : ''}`
+    );
+  } catch (e) {
+    const motivo = String(e?.message ?? e).split('\n')[0];
+    linhas.push({
+      ...a,
+      m: { erro: motivo },
+      errs: [...errs],
+      passou: false,
+    });
+    console.log(
+      `❌ ${a.comp.padEnd(21)} ${a.plat.padEnd(4)} ${a.page.padEnd(8)} EXCEÇÃO: ${motivo}`
+    );
   }
-
-  // Espera a seção pintar em vez de confiar no sleep fixo. Com o dev server frio o
-  // primeiro alvo do lote perdia a corrida e saía como "seção não montou" — falha
-  // de harness, não do componente. Se estourar, o evaluate abaixo reporta o motivo.
-  await p
-    .waitForFunction(
-      sel =>
-        !!document
-          .querySelector('iframe')
-          ?.contentDocument?.querySelector(`[data-selection="${sel}"]`),
-      { timeout: 20000, polling: 250 },
-      a.selection
-    )
-    .catch(() => {});
-
-  const m = await p.evaluate(sel => {
-    const d = document.querySelector('iframe')?.contentDocument;
-    if (!d) return { erro: 'sem contentDocument' };
-    const secs = d.querySelectorAll('[data-section-uid]');
-    const el = d.querySelector(`[data-selection="${sel}"]`);
-    if (!el) return { nSec: secs.length, erro: 'seção não montou' };
-    const r = el.getBoundingClientRect();
-    return {
-      nSec: secs.length,
-      h: Math.round(r.height),
-      w: Math.round(r.width),
-      nodes: el.querySelectorAll('*').length,
-      txt: (el.innerText || '').trim().length,
-      imgs: el.querySelectorAll('img').length,
-    };
-  }, a.selection);
-
-  const passou =
-    !m.erro && m.nSec === 1 && m.h > 0 && m.nodes > 0 && errs.length === 0;
-  await p.evaluate(
-    () =>
-      new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
-  );
-  await s(500);
-  await p.screenshot({
-    path: `${SAIDA}/${a.comp}.png`,
-    captureBeyondViewport: false,
-  });
-  linhas.push({ ...a, m, errs: [...errs], passou });
-  console.log(
-    `${passou ? '✅' : '❌'} ${a.comp.padEnd(21)} ${a.plat.padEnd(4)} ${a.page.padEnd(8)} ${
-      m.erro
-        ? `ERRO: ${m.erro}`
-        : `${m.w}x${m.h}px  ${m.nodes} nós  ${m.imgs} img  ${m.txt} chars`
-    }${errs.length ? `  ⚠️ ${errs.slice(0, 2).join(' | ')}` : ''}`
-  );
 }
 const bad = linhas.filter(l => !l.passou);
 console.log(

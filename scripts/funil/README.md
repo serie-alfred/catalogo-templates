@@ -101,6 +101,7 @@ próxima vai ser igual: **o teste chegava antes da UI**.
 | "404 no /p/{id}" | regex do teste parava no id e descartava o `/{page}` |
 | "canvas renderiza no 1º load → 0 seções" | `s(6000)` fixo, e o canvas pinta **por volta** de 6 s — o estágio media na borda |
 | "alternar para mobile não troca a moldura" (`desktop → desktop`) | o botão existe no HTML antes de o React hidratar; `.click()` num botão não hidratado não faz nada, **em silêncio** |
+| o estágio de render morreu no 3º de 23, e levou 4 estágios junto | o mesmo clique não hidratado, agora num `waitForFunction` seco: a exceção subiu e abortou o lote inteiro |
 
 Duas regras que saíram disso, e que valem para qualquer estágio novo:
 
@@ -112,6 +113,10 @@ Duas regras que saíram disso, e que valem para qualquer estágio novo:
 3. **Um clique não é uma garantia.** Botão presente no HTML mas ainda não hidratado engole o
    clique do mesmo jeito. Clique e **verifique o efeito**; se não veio, clique de novo até vir
    ou até estourar o limite. Um clique único mais `espera(n)` reprovava 1 em 2 execuções.
+4. **Varredura não pode ser tudo-ou-nada.** Estágio que percorre N itens tem que envolver cada
+   item num `try/catch`: a falha de um alvo é a falha DAQUELE alvo, aparece na tabela e conta no
+   placar. Sem isso, uma exceção no 3º de 23 derruba o estágio — e, no `funil.mjs`, os quatro
+   estágios seguintes que dependem dele. Um flake vira "6/10" e some a informação dos outros 20.
 
 Quando um estágio falhar, a primeira pergunta é "o produto está errado ou o teste chegou cedo?".
 Rode o estágio sozinho, com o dev quente: se passar, é o segundo caso.
