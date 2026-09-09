@@ -15,7 +15,7 @@ import styles from './index.module.css';
  * config.json e o que os `inheritsLabel` das variáveis por componente citam.
  *
  * Três delas são derivadas por luminância do fundo correspondente (limiar YIQ
- * 128, useLayoutGenerator: efeito de `getContrastColor`) e por isso entram
+ * 128 — `contrastOn`, em `src/utils/themeStyle.ts`) e por isso entram
  * como somente-leitura: até aqui apareciam como campos editáveis cuja edição
  * era sobrescrita no toque seguinte em qualquer fundo de marca.
  */

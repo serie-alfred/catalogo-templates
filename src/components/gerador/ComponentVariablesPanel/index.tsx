@@ -56,7 +56,7 @@ export default function ComponentVariablesPanel() {
   }, [layoutItem]);
 
   /* Estados vazios: o painel é permanente, então não some — explica por quê.
-     16 dos 44 itens do catálogo não declaram `variablesSchema`, então o
+     39 dos 67 itens do catálogo não declaram `variablesSchema`, então o
      segundo caso é garantido, não hipotético. */
   if (!selectedUid || !selection) {
     return (

@@ -27,14 +27,13 @@ export function contrastOn(hexColor: string): string {
   return luminance(hexColor) >= 128 ? '#000000' : '#ffffff';
 }
 
-/** Versão visível em fundo branco (mesma regra do editor). */
+/**
+ * Versão visível em fundo branco (mesma regra do editor). Limiar 220, mais alto
+ * que o do `contrastOn`: aqui a pergunta não é "preto ou branco?", é "esta cor
+ * some no branco?" — e só as quase-brancas somem.
+ */
 export function colorSafeOnWhite(hexColor: string): string {
-  const hex = normalizeHex(hexColor);
-  const r = parseInt(hex.substring(0, 2), 16);
-  const g = parseInt(hex.substring(2, 4), 16);
-  const b = parseInt(hex.substring(4, 6), 16);
-  const brilho = (r * 299 + g * 587 + b * 114) / 1000;
-  return brilho >= 220 ? '#000000' : hexColor;
+  return luminance(hexColor) >= 220 ? '#000000' : hexColor;
 }
 
 /**
