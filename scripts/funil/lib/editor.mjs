@@ -55,7 +55,26 @@ export async function semear(page, { plataforma, selecoes = [], token = '' }) {
     timeout: 90000,
   });
   await page.waitForSelector('.ed-shell', { timeout: 60000 });
-  await espera(3500);
+
+  // `.ed-shell` só diz que a casca montou. Quem os chamadores realmente usam é a
+  // LISTA de seções e o CANVAS, e os dois chegam depois — o canvas por handshake
+  // com o iframe. Dormir 3,5s cobria isso na máquina descarregada e falhava sob
+  // carga: já derrubou o estágio 2b duas vezes por timing, não por defeito.
+  if (selecoes.length) {
+    await page
+      .waitForFunction(
+        n =>
+          document.querySelectorAll('[aria-label^="Expandir "]').length >= n ||
+          (document
+            .querySelector('iframe')
+            ?.contentDocument?.querySelectorAll('[data-section-uid]').length ??
+            0) >= n,
+        { timeout: 45000, polling: 250 },
+        selecoes.length
+      )
+      .catch(() => {});
+  }
+  await espera(1200);
 }
 
 /** O gatilho de página é o que traz o nome de uma das 4 — o outro listbox é o de plataforma. */
