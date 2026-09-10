@@ -189,12 +189,13 @@ r.ok(
 // catálogo hoje; um nono reprova o estágio.
 const CDN_DE_TERCEIRO =
   /(agenciaseriedesign2|guardaroba|plenitudedistribuidora|chasleao)\.fbitsstatic\.net/;
+// Eram 8. Os três `Wake/Common/template_*/spot` saíram em 10/09 com a remoção
+// das 409 linhas de CSS morto — lá o host alheio só aparecia em regra que nunca
+// casava. Os cinco que restam têm `<img src>` de verdade, e esses dependem de
+// decisão de conteúdo.
 const CONTAMINADOS_CONHECIDOS = new Set([
   'Tray/Home/template_6/category-triple',
   'Tray/Home/template_6/client-review',
-  'Wake/Common/template_1/spot',
-  'Wake/Common/template_2/spot',
-  'Wake/Common/template_3/spot',
   'Wake/Home/template_1/categories',
   'Wake/Product/template_1/product-info',
   'Wake/Product/template_2/product-info',
