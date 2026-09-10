@@ -148,3 +148,25 @@
 .popup input::placeholder {
   color: #cccccc;
 }
+
+/* Explica onde o token vai parar — o diálogo prometia envio e não enviava. */
+.nota {
+  margin-top: -4px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ed-gray-500);
+}
+
+.nota code {
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: var(--ed-bg-01);
+  font-size: 11px;
+}
+
+.aviso {
+  margin: 0 0 4px;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ed-danger);
+}

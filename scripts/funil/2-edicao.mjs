@@ -445,6 +445,79 @@ r.ok(
   JSON.stringify(sobHover)
 );
 
+// ── o popup do token da Wake ───────────────────────────────────────────────
+// Nunca era aberto pelo funil: `semear` grava `layoutPlatform` direto, e só o
+// `changePlatform` abre o diálogo. Semear Tray e escolher Wake na UI é o
+// caminho que o cliente percorre.
+await semear(page, {
+  plataforma: 'Tray',
+  selecoes: [sel('01', 'header', 'common')],
+});
+await clicarDeVerdade(page, 'button[class*="card"][aria-haspopup="listbox"]');
+await espera(500);
+await page.evaluate(() =>
+  [...document.querySelectorAll('[role="option"]')]
+    .find(o => o.textContent.trim() === 'Wake')
+    ?.click()
+);
+const abriuWake = await page
+  .waitForSelector('.wake-popup', { timeout: 12000 })
+  .then(() => true)
+  .catch(() => false);
+r.ok('escolher Wake abre o popup do token', abriuWake);
+
+if (abriuWake) {
+  const anatomia = await page.evaluate(() => {
+    const el = document.querySelector('.wake-popup');
+    const botoes = [...el.querySelectorAll('button')];
+    return {
+      role: el.getAttribute('role'),
+      tipos: botoes.map(b => b.type),
+      rotulos: botoes.map(
+        b => b.textContent.trim() || b.getAttribute('aria-label') || '?'
+      ),
+      prometeEnviar: /(^|\s)enviar(\s|$)/i.test(el.innerText),
+      avisoVazio: !!el.querySelector('[role="status"]'),
+    };
+  });
+  r.ok(
+    'todo botão do popup é type="button"',
+    anatomia.tipos.every(t => t === 'button'),
+    anatomia.tipos.join(',')
+  );
+  r.ok(
+    'o popup NÃO promete "Enviar" — nada é enviado daqui',
+    !anatomia.prometeEnviar,
+    anatomia.rotulos.join(' | ')
+  );
+  r.ok(
+    'o ✕ tem nome acessível',
+    anatomia.rotulos.every(x => x !== '?'),
+    anatomia.rotulos.join(' | ')
+  );
+  r.ok('campo vazio avisa a consequência', anatomia.avisoVazio);
+  r.ok(
+    'o popup é um diálogo de verdade',
+    anatomia.role === 'dialog',
+    anatomia.role
+  );
+
+  await page.type('#wakeToken', 'TOKEN-DIGITADO-NO-POPUP');
+  await espera(700);
+  r.ok(
+    'o token persiste no onChange, antes de qualquer botão',
+    (await page.evaluate(() => localStorage.getItem('wakeToken'))) ===
+      'TOKEN-DIGITADO-NO-POPUP'
+  );
+
+  await page.keyboard.press('Escape');
+  await espera(500);
+  r.ok(
+    'Escape fecha o popup',
+    !(await page.evaluate(() => !!document.querySelector('.wake-popup')))
+  );
+}
+
 r.ok(
   'sem erros de página na bateria',
   erros.length === 0,

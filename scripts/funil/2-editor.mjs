@@ -291,6 +291,84 @@ await q(() =>
 await s(900);
 ok('undo desfaz a duplicação', (await nSec()) === nAntes, await nSec());
 
+// --- redo e atalhos: `redo` nunca teve UMA asserção, e o README anunciava
+// "atalhos" quando o único teclado exercitado era o Escape do modal. Redo
+// quebrado perde trabalho em silêncio.
+const habilitado = rotulo =>
+  q(
+    r2 =>
+      !document.querySelector(
+        `header[class*="topbar"] button[aria-label="${r2}"]`
+      ).disabled,
+    rotulo
+  );
+ok('"Avançar" fica habilitado depois de um undo', await habilitado('Avançar'));
+ok(
+  '"Avançar" refaz a duplicação',
+  (await clicarDeVerdade(
+    p,
+    'header[class*="topbar"] button[aria-label="Avançar"]'
+  )) && (await s(900), (await nSec()) === nAntes + 1),
+  await nSec()
+);
+
+await p.evaluate(() => document.body.focus());
+await p.keyboard.down('Meta');
+await p.keyboard.press('KeyZ');
+await p.keyboard.up('Meta');
+await s(900);
+ok('Cmd+Z desfaz', (await nSec()) === nAntes, await nSec());
+
+await p.keyboard.down('Meta');
+await p.keyboard.down('Shift');
+await p.keyboard.press('KeyZ');
+await p.keyboard.up('Shift');
+await p.keyboard.up('Meta');
+await s(900);
+ok('Cmd+Shift+Z refaz', (await nSec()) === nAntes + 1, await nSec());
+
+await p.keyboard.down('Meta');
+await p.keyboard.press('KeyZ');
+await p.keyboard.up('Meta');
+await s(900);
+await p.keyboard.down('Meta');
+await p.keyboard.press('KeyY');
+await p.keyboard.up('Meta');
+await s(900);
+ok('Cmd+Y refaz', (await nSec()) === nAntes + 1, await nSec());
+
+// e o atalho NÃO pode roubar o Cmd+Z de um campo de texto
+await q(
+  s2 =>
+    [...document.querySelectorAll('nav[aria-label="Seções do editor"] button')]
+      .find(b2 => b2.getAttribute('aria-label') === s2)
+      ?.click(),
+  'Variáveis globais'
+);
+await s(700);
+const campoCor = await p.$('input[class*="value"]');
+const antesDoCampo = await nSec();
+if (campoCor) {
+  await campoCor.click();
+  await p.keyboard.down('Meta');
+  await p.keyboard.press('KeyZ');
+  await p.keyboard.up('Meta');
+  await s(800);
+}
+ok(
+  'Cmd+Z com foco num input NÃO desfaz o tema',
+  (await nSec()) === antesDoCampo,
+  `${antesDoCampo} → ${await nSec()}`
+);
+await q(
+  s2 =>
+    [...document.querySelectorAll('nav[aria-label="Seções do editor"] button')]
+      .find(b2 => b2.getAttribute('aria-label') === s2)
+      ?.click(),
+  'Componentes'
+);
+await s(600);
+
 // --- modal
 await q(() =>
   [...document.querySelectorAll('aside[aria-label="Painel de edição"] button')]

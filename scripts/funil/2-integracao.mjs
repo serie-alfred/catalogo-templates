@@ -11,7 +11,10 @@
  * 3. o preview compartilhável leva cores e fontes, nas três páginas
  * 4. o trabalho sobrevive a um reload (o editor não tem "salvar": é o localStorage)
  */
-import { relatorio, espera, BASE_URL } from './lib/util.mjs';
+import { writeFileSync } from 'node:fs';
+import path from 'node:path';
+
+import { relatorio, espera, BASE_URL, SAIDA } from './lib/util.mjs';
 import { abrirBrowser, novaAba, semear } from './lib/editor.mjs';
 
 const r = relatorio('Estágio 2e — a escolha do cliente chega ao config');
@@ -156,6 +159,58 @@ if (varAlvo) {
 // Reaplica a cor logo antes do export: trocar de painel remonta o ColorPicker, e
 // o valor digitado antes pode não ter sobrevivido ao ciclo de render. Confere que
 // pegou, para o export não medir um estado que nunca existiu.
+// ── identidade visual: os assets chegam ao config COM VALOR ────────────────
+// `conferirTrayWake`/`conferirFaststore` só olham `!!raiz.assets`, e esse objeto
+// existe sempre. Um logo que se perdesse entre o FileReader, o estado e o
+// buildConfigJson passaria verde — e a perna VTEX já descartou os assets em
+// silêncio uma vez, antes do redesign.
+const PNG_1x1 = path.join(SAIDA, 'px.png');
+writeFileSync(
+  PNG_1x1,
+  Buffer.from(
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+    'base64'
+  )
+);
+const GORDO = path.join(SAIDA, 'gordo.png');
+writeFileSync(GORDO, Buffer.alloc(2.2 * 1024 * 1024, 1));
+
+await abrirNoRail('Identidade visual', 'input[type="file"]');
+const entradas = await page.$$('input[type="file"]');
+r.ok('os 3 slots de asset existem', entradas.length === 3, entradas.length);
+
+for (const entrada of entradas) {
+  await entrada.uploadFile(PNG_1x1);
+  await espera(700);
+}
+const gravados = await page.evaluate(() => ({
+  logo: (localStorage.getItem('logo') ?? '').slice(0, 15),
+  favicon: (localStorage.getItem('favicon') ?? '').slice(0, 15),
+  ogImage: (localStorage.getItem('ogImage') ?? '').slice(0, 15),
+}));
+r.ok(
+  'os 3 assets viram data URL no localStorage',
+  Object.values(gravados).every(v => v.startsWith('data:image/')),
+  JSON.stringify(gravados)
+);
+
+// o teto de 2MB é o único caminho do editor que dispara alert()
+await page.evaluate(() => {
+  window.__alertas = [];
+  window.alert = m => window.__alertas.push(String(m));
+});
+await (await page.$$('input[type="file"]'))[0].uploadFile(GORDO);
+await espera(900);
+const recusa = await page.evaluate(() => ({
+  alertas: window.__alertas ?? [],
+  logoIntacto: (localStorage.getItem('logo') ?? '').startsWith('data:image/'),
+}));
+r.ok(
+  'arquivo acima de 2MB é recusado, avisa, e não substitui o que já estava',
+  /2MB/.test(recusa.alertas[0] ?? '') && recusa.logoIntacto,
+  JSON.stringify(recusa)
+);
+
 await abrirNoRail('Variáveis globais', SEL_COR);
 await espera(1200);
 await digitar(SEL_COR, COR);
@@ -199,6 +254,19 @@ for (let i = 0; i < 30 && !cfg; i++) {
 r.ok('o export entrega o config', Boolean(cfg));
 
 if (cfg) {
+  const assets = cfg.faststore?.assets ?? {};
+  r.ok(
+    'os 3 assets chegam ao config.json COM VALOR',
+    ['logo', 'favicon', 'ogImage'].every(k =>
+      String(assets[k] ?? '').startsWith('data:image/')
+    ),
+    JSON.stringify(
+      Object.fromEntries(
+        Object.entries(assets).map(([k, v]) => [k, String(v).slice(0, 15)])
+      )
+    )
+  );
+
   const vars = cfg.faststore?.variables ?? {};
   r.ok(
     'a cor global escolhida chega ao config.json',
