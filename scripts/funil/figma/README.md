@@ -17,6 +17,12 @@ mude se o design mudar — e, nesse caso, reextraia em vez de editar à mão.
 | `t5-esquerda.json` | Tela 5 — Variáveis globais |
 | `modal.json` | modal "Componentes de seções" |
 
+O estágio **reprova** desde 10/09. A tolerância é por classe de nó, não um número só:
+estrutura e controles de tamanho fixo em **0,5px** (tudo ali vem de padding/gap declarados em px
+inteiros, e o ruído do layout engine é ~0,01); nós de texto com posição em 0,5px, largura em
+1,5px (dois motores de fonte medem o avanço diferente) e **altura arredondada e exata** — o
+Figma arredonda a caixa de texto, então isso é verificável ao pixel.
+
 Duas caixas divergem de propósito e o script as trata como esperadas — e a
 divergência é por **eixo**, não pelo nó inteiro (medido em 10/09):
 
@@ -24,6 +30,10 @@ divergência é por **eixo**, não pelo nó inteiro (medido em 10/09):
 | --- | --- | --- |
 | `t5.titulo1` | só `w` (+32,66) | rótulo diferente: o Figma escreve "Defina a Cor Primária", o produto expõe os valores reais. `x`, `y` e `h` batem exatos |
 | `modal.listaCategorias` | só `h` (−219) | o mock desenha 12 categorias, o catálogo tem 8. É um scroller: `x`, `y`, `w` são especificação, `h` depende do conteúdo |
+
+**Exceção morta reprova.** O script confere que cada waiver AINDA diverge: se o eixo voltar a
+bater, ele pede a remoção da entrada. Sem isso a lista incha, e cada entrada obsoleta passa a
+esconder uma regressão futura.
 
 ## Delta ratificado: o `PanelToggle` não existe no Figma
 
