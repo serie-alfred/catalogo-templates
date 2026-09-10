@@ -156,10 +156,6 @@ ok(
 );
 
 // --- colapso dos painéis
-const larguraCanvas = () =>
-  q(() =>
-    Math.round(document.querySelector('iframe').getBoundingClientRect().width)
-  );
 
 // --- os toggles são ALCANÇÁVEIS por um humano?
 // O bloco abaixo clicava por DOM e ficava verde com o controle a `opacity: 0`.
@@ -207,46 +203,69 @@ await s(600);
 await clicarDeVerdade(p, 'button[aria-label="Expandir painel esquerdo"]');
 await s(600);
 
-const antes = await larguraCanvas();
-await q(() =>
-  document
-    .querySelector('button[aria-label="Recolher painel esquerdo"]')
-    .click()
-);
-await s(600);
-const semEsq = await larguraCanvas();
+// O proxy antigo aposentado. Estas três asserções mediam a LARGURA do canvas
+// como prova de que o tema tinha espaço para renderizar como desktop. Esse
+// proxy morreu: a viewport interna é fixa em 1440, e o que recolher painel
+// compra agora é ESCALA (legibilidade), não breakpoint. Então as de painel
+// medem escala, e uma nova trava o que realmente importa.
+const vpInterna = () =>
+  q(() => document.querySelector('iframe').contentWindow.innerWidth);
+const escala = () =>
+  q(() => {
+    const el = document.querySelector('iframe');
+    return Number(
+      (el.getBoundingClientRect().width / el.contentWindow.innerWidth).toFixed(
+        3
+      )
+    );
+  });
+
+const vpAntes = await vpInterna();
+const escAntes = await escala();
+ok('a viewport interna do tema é 1440', vpAntes === 1440, vpAntes);
+
+await clicarDeVerdade(p, 'button[aria-label="Recolher painel esquerdo"]');
+await s(700);
+const escSemEsq = await escala();
+const vpSemEsq = await vpInterna();
 ok(
-  'recolher esquerdo alarga o canvas',
-  semEsq > antes + 300,
-  `${antes} → ${semEsq}`
+  'recolher esquerdo aumenta a escala do canvas',
+  escSemEsq > escAntes + 0.15,
+  `${escAntes} → ${escSemEsq}`
 );
-await q(() =>
-  document.querySelector('button[aria-label="Recolher painel direito"]').click()
-);
-await s(600);
-const semAmbos = await larguraCanvas();
+
+await clicarDeVerdade(p, 'button[aria-label="Recolher painel direito"]');
+await s(700);
+const escSemAmbos = await escala();
+const vpSemAmbos = await vpInterna();
 ok(
-  'recolher direito alarga mais',
-  semAmbos > semEsq + 300,
-  `${semEsq} → ${semAmbos}`
+  'recolher direito leva a escala a 100%',
+  escSemAmbos === 1,
+  `${escSemEsq} → ${escSemAmbos}`
 );
-ok('canvas > 1200 com os dois recolhidos', semAmbos > 1200, semAmbos);
-await q(() => {
-  document
-    .querySelector('button[aria-label="Expandir painel esquerdo"]')
-    .click();
-});
-await s(500);
-await q(() => {
-  document
-    .querySelector('button[aria-label="Expandir painel direito"]')
-    .click();
-});
-await s(600);
+
+// A que carrega o significado do conserto: 60 dos 69 CSS de template têm media
+// query abaixo de 1200px. Com o frame variando com a coluna, "Desktop" mostrava
+// layout de celular numa tela de 1440.
 ok(
-  'expandir restaura',
-  (await larguraCanvas()) === antes,
-  await larguraCanvas()
+  'a viewport interna não depende dos painéis',
+  vpAntes === 1440 && vpSemEsq === 1440 && vpSemAmbos === 1440,
+  `${vpAntes} | ${vpSemEsq} | ${vpSemAmbos}`
+);
+ok(
+  'o tema nunca cai em tier de tablet/celular',
+  [vpAntes, vpSemEsq, vpSemAmbos].every(v => v >= 1200),
+  [vpAntes, vpSemEsq, vpSemAmbos].join(' | ')
+);
+
+await clicarDeVerdade(p, 'button[aria-label="Expandir painel esquerdo"]');
+await s(600);
+await clicarDeVerdade(p, 'button[aria-label="Expandir painel direito"]');
+await s(700);
+ok(
+  'expandir restaura a escala',
+  Math.abs((await escala()) - escAntes) <= 0.005,
+  `${escAntes} → ${await escala()}`
 );
 
 // --- undo/redo

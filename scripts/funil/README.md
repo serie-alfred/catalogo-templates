@@ -23,8 +23,9 @@ e o `yarn dev` de pé para os estágios 2 e 3. Saídas em `.funil/` (ignorada).
 | `2-editor` | shell, canvas, painéis, atalhos, modal, troca de plataforma, fonte que não vaza no `:root`, contraste derivado | dev server |
 | `2-render` | cada componente novo monta sozinho, sem erro de console, com altura e conteúdo | dev server |
 | `2-edicao` | regras de negócio: singleton substitui, não-singleton coexiste, duplicar/remover, painel de variáveis, troca de plataforma | dev server |
-| `2-geometria` | fidelidade ao Figma (±1px) contra as coordenadas em `figma/` | dev server |
+| `2-geometria` | fidelidade ao Figma contra as coordenadas em `figma/` — hoje **mede e imprime, não reprova** | dev server |
 | `2-preview` | visão mobile, link `/p/{id}/{page}` compartilhável e a rota `/gerador/import-log` | dev server |
+| `2-zoom` | o preview "Desktop" é desktop: viewport lógica de 1440 em qualquer tela, escala, controle de zoom e **clique de mouse real** dentro do frame escalado | dev server |
 | `2-integracao` | a escolha do cliente **chega ao config**: cor global → `config.json` → as 3 páginas do preview → sobrevive ao reload | dev server |
 | `3-export` | o botão "Baixar" entrega os três configs; cada um resolve o contrato da sua plataforma; os dois PNGs saem | dev server |
 | `4-tema-faststore` | o generator monta o tema de verdade e **ele compila** (`yarn build`) — a única perna do pipeline executável desta máquina | estágio 3 · `gh` autenticado · minutos |

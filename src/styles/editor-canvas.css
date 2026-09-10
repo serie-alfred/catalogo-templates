@@ -28,8 +28,8 @@
    `border` empurraria o conteúdo. */
 .editor-canvas [data-section-uid][data-hovered='true'],
 .editor-canvas [data-section-uid][data-selected='true'] {
-  outline: 2px solid #007ee6;
-  outline-offset: -2px;
+  outline: calc(2px / var(--frame-escala, 1)) solid #007ee6;
+  outline-offset: calc(-2px / var(--frame-escala, 1));
 }
 
 /* Compensa o header sticky ao rolar até uma seção pelo painel, senão o topo da
@@ -48,7 +48,7 @@
   background: #007ee6;
   color: #fff;
   font:
-    600 11px/1.7 system-ui,
+    600 calc(11px / var(--frame-escala, 1)) / 1.7 system-ui,
     -apple-system,
     sans-serif;
   border-radius: 4px 4px 0 0;
@@ -67,12 +67,16 @@
   transform: translateX(-100%);
 }
 
+/* `--frame-escala` é escrito pelo editor via postMessage (ver FrameClient).
+   O documento do frame é escalado como um todo, então tudo que precisa manter
+   tamanho NA TELA — e não no tema — divide por ele. Fallback 1: o frame também
+   é servido em /p/{id}, onde não há escala nenhuma. */
 .editor-section-badge {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: calc(24px / var(--frame-escala, 1));
+  height: calc(24px / var(--frame-escala, 1));
   padding: 0;
   border: 0;
   border-radius: 50%;

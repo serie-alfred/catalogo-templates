@@ -13,28 +13,49 @@
      canvas passa `height: 100%` para cá. Nenhum termo depende de conteúdo. */
   height: 100%;
   min-height: 420px;
+  /* `safe` para que, quando o frame não couber (zoom acima do fit), o recorte
+     aconteça só à direita. Com `center` puro, um flex item maior que o
+     container é cortado dos DOIS lados e a borda esquerda fica inalcançável
+     mesmo com scroll — é o bug clássico e silencioso de scroll container. */
+  justify-content: safe center;
+  align-items: flex-start;
+}
+
+/* Caixa VISUAL. Recorta o frame escalado e é o que o layout mede. */
+.stage {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
 .desktop,
 .mobile {
+  position: absolute;
+  top: 0;
+  left: 0;
   display: block;
   border: 0;
   background: #fff;
+  /* A origem tem que ser o canto, não o centro: o `.stage` já posiciona, e um
+     `center` deslocaria o desenho para fora da caixa recortada.
+
+     NÃO adicione `will-change: transform`, `backface-visibility: hidden` nem
+     `transition` aqui. Os três forçam uma textura rasterizada no tamanho
+     pré-transform que depois é esticada — o texto fica visivelmente macio, e a
+     transição ainda reaproveita a textura antiga por ~200ms a cada colapso de
+     painel. Aqui a troca tem que ser instantânea e sem camada. */
+  transform-origin: 0 0;
 }
 
-/* Largura total: as @container dos templates resolvem contra a largura real,
-   como na loja publicada. Sem borda nem raio: no Figma o storefront começa
-   rente ao padding do canvas, e uma moldura aqui seria chrome que o design não
-   tem. */
+/* Largura e altura vêm do `useCanvasZoom`, em estilo inline: são números
+   derivados da medida da coluna, não constantes. Sem borda nem raio no
+   desktop: no Figma o storefront começa rente ao padding do canvas, e uma
+   moldura aqui seria chrome que o design não tem. */
 .desktop {
-  width: 100%;
-  height: 100%;
+  border-radius: 0;
 }
 
 /* Viewport de celular de verdade. */
 .mobile {
-  width: 375px;
-  height: 100%;
-  margin: 0 auto;
   border-radius: 16px;
 }

@@ -67,6 +67,9 @@ export type ToFrame =
       isMobile: boolean;
     }
   | { source: typeof FRAME_PARENT; type: 'highlight'; uid: string | null }
+  /** Fator de escala do canvas. O frame contra-escala a camada de controles
+   *  (badges e rótulo de hover) para que ela não encolha junto com o tema. */
+  | { source: typeof FRAME_PARENT; type: 'zoom'; escala: number }
   | { source: typeof FRAME_PARENT; type: 'scroll-to'; uid: string };
 
 /** iframe → editor. */

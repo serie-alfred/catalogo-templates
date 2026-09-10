@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 
 import { useLayout } from '@/context/LayoutContext';
+import type { CaixaDoFrame } from '@/hooks/useCanvasZoom';
 import {
   FRAME_CHILD,
   FRAME_PARENT,
@@ -33,11 +34,16 @@ import styles from './index.module.css';
  * Dentro do iframe a viewport É o site: `fixed` e `vh` passam a significar
  * exatamente o que significam na loja publicada. É o que o Shopify faz.
  *
- * Bônus: as `@container` dos templates passam a resolver contra a largura real
- * do frame, e trocar desktop↔mobile é só CSS no host — mesmo documento, sem
- * reload, sem perder estado de Swiper/drawer.
+ * Bônus: trocar desktop↔mobile é só CSS no host — mesmo documento, sem reload,
+ * sem perder estado de Swiper/drawer.
+ *
+ * A largura do frame é LÓGICA e fixa (1440 desktop, 375 mobile); o que muda com
+ * o tamanho da janela é a escala. Antes ele era `width: 100%`, e o tema
+ * renderizava com a largura que sobrasse da coluna: 576px numa tela de 1440.
+ * Com 60 dos 69 CSS de template tendo media query abaixo de 1200, o preview
+ * "Desktop" mostrava layout de celular.
  */
-export default function PreviewFrame() {
+export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
   const {
     selections,
     selectedPage,
@@ -220,6 +226,14 @@ export default function PreviewFrame() {
     setHoveredUid,
   ]);
 
+  // Os badges de duplicar/remover e o rótulo de hover são criados DENTRO do
+  // documento do iframe, então escalam junto com o tema: a 0,4 um badge de 24px
+  // vira 9px e fica inclicável — justamente nas telas em que a escala existe.
+  // O frame usa este fator para contra-escalar só a camada de controles.
+  useEffect(() => {
+    post({ source: FRAME_PARENT, type: 'zoom', escala: caixa.escala });
+  }, [post, caixa.escala]);
+
   useEffect(() => {
     postThemeCoalesced(themeMessage());
   }, [postThemeCoalesced, themeMessage]);
@@ -252,12 +266,30 @@ export default function PreviewFrame() {
 
   return (
     <div className={styles.host}>
-      <iframe
-        ref={iframeRef}
-        src="/gerador/frame-mobile"
-        title="Pré-visualização do tema"
-        className={isMobileView ? styles.mobile : styles.desktop}
-      />
+      {/* Duas caixas, de propósito. O `.stage` carrega o tamanho VISUAL — é o
+          que o layout enxerga — e o `<iframe>` carrega o tamanho LÓGICO, que é
+          o que o tema enxerga. Sem esse par, um `width: 1440px` cru ocuparia
+          1440px de layout mesmo escalado e estouraria a coluna: `transform`
+          pinta menor, não mede menor. */}
+      <div
+        className={styles.stage}
+        style={{
+          width: `${caixa.larguraVisual}px`,
+          height: `${caixa.alturaVisual}px`,
+        }}
+      >
+        <iframe
+          ref={iframeRef}
+          src="/gerador/frame-mobile"
+          title="Pré-visualização do tema"
+          className={isMobileView ? styles.mobile : styles.desktop}
+          style={{
+            width: `${caixa.larguraLogica}px`,
+            height: `${caixa.alturaLogica}px`,
+            transform: `scale(${caixa.escala})`,
+          }}
+        />
+      </div>
     </div>
   );
 }

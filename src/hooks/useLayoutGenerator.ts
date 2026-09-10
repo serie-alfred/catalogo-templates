@@ -23,6 +23,19 @@ export type RailTarget =
   | 'tipografia'
   | 'identidade';
 
+/**
+ * Zoom do canvas. `fit` é o padrão: encolhe o frame o quanto for preciso para
+ * caber na coluna, sem NUNCA ampliar. Os fixos mostram o tema na fração real e
+ * deixam panoramar quando não cabe.
+ */
+export const ZOOM_MODES = ['fit', '0.5', '0.75', '1'] as const;
+export type ZoomMode = (typeof ZOOM_MODES)[number];
+
+/** Largura lógica do frame em cada visão. O tema SEMPRE renderiza nestas
+ *  larguras, independentemente do tamanho da janela — é o conserto do preview
+ *  "Desktop" que renderizava em tier de tablet. */
+export const LARGURA_LOGICA = { desktop: 1440, mobile: 375 } as const;
+
 export interface LayoutSelection {
   uid: string;
   id: string;
@@ -113,6 +126,18 @@ export function useLayoutGenerator() {
    *  renderizar no tier de tablet. */
   const [leftCollapsed, setLeftCollapsed] = useState(false);
   const [rightCollapsed, setRightCollapsed] = useState(false);
+
+  /**
+   * Zoom do canvas. `fit` encolhe o frame para caber na coluna; os fixos
+   * mostram o tema em fração real e deixam panoramar.
+   *
+   * Existe porque o preview "Desktop" não era desktop: o frame tinha a largura
+   * que sobrasse da coluna — 576px numa tela de 1440, 1016px numa de 1920 — e
+   * 60 dos 69 CSS de template têm media query abaixo de 1200. O cliente
+   * escolhia "Desktop" e via o tema em layout de celular. Agora a largura
+   * lógica é fixa e o que muda é a escala.
+   */
+  const [zoomMode, setZoomMode] = useState<ZoomMode>('fit');
 
   /** Página aberta no canvas: "home" | "category" | "product". Vive aqui (e
    *  não na page) porque o canvas, o painel de seções, o iframe mobile e o
@@ -364,6 +389,9 @@ export function useLayoutGenerator() {
       setWakeCustomValue(localStorage.getItem('wakeToken') || '');
       setLeftCollapsed(localStorage.getItem('panelLeftCollapsed') === '1');
       setRightCollapsed(localStorage.getItem('panelRightCollapsed') === '1');
+      const zoom = localStorage.getItem('canvasZoom');
+      if (zoom && (ZOOM_MODES as readonly string[]).includes(zoom))
+        setZoomMode(zoom as ZoomMode);
     } catch (e) {
       console.error('Erro ao carregar estado do layout:', e);
     } finally {
@@ -473,10 +501,11 @@ export function useLayoutGenerator() {
       localStorage.setItem('panelLeftCollapsed', leftCollapsed ? '1' : '0');
       localStorage.setItem('panelRightCollapsed', rightCollapsed ? '1' : '0');
       localStorage.setItem('wakeToken', wakeCustomValue);
+      localStorage.setItem('canvasZoom', zoomMode);
     } catch (e) {
       console.error('Erro ao salvar estado dos painéis:', e);
     }
-  }, [leftCollapsed, rightCollapsed, wakeCustomValue, hydrated]);
+  }, [leftCollapsed, rightCollapsed, wakeCustomValue, zoomMode, hydrated]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -1206,6 +1235,8 @@ export function useLayoutGenerator() {
     expandedUids,
     toggleExpanded,
     collapseAllSections,
+    zoomMode,
+    setZoomMode,
     hoveredUid,
     setHoveredUid,
     scrollToSectionRef,

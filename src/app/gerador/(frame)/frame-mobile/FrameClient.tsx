@@ -102,6 +102,16 @@ export default function FrameClient() {
         case 'highlight':
           highlightSection(rootRef.current, data.uid);
           break;
+        case 'zoom':
+          // A camada de controles (badges e rótulo de hover) é filha do <body>
+          // DESTE documento, então ela escala junto com o tema. A 0,4 um badge
+          // de 24px vira 9px. O CSS divide as medidas por este fator para que
+          // eles fiquem do mesmo tamanho na tela, em qualquer escala.
+          document.documentElement.style.setProperty(
+            '--frame-escala',
+            String(data.escala || 1)
+          );
+          break;
         case 'scroll-to':
           scrollToSection(rootRef.current, data.uid);
           break;
