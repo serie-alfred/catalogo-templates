@@ -24,31 +24,41 @@ export default function Spot({ item, className }: SpotProps) {
         />
       </div>
       <div className={styles.containerInfo}>
-        <div className={styles.containerButtonsHover}>
-          <div className={styles.spotButtons}>
-            <p>Escolha um tipo de visualização</p>
-            <div className={styles.buttons}>
-              <a
-                href={item.desktopLink}
-                className={styles.buttonContainer}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {icons.DesktopIcon}
-                Desktop
-              </a>
-              <a
-                href={item.mobileLink}
-                className={styles.buttonContainer}
-                target="_blank"
-                rel="noreferrer"
-              >
-                {icons.MobileIcon}
-                Mobile
-              </a>
+        {/* Sem destino, sem âncora. Antes o href vinha de um placeholder e o card
+            abria uma aba num domínio de exemplo — num site que vai para o ar, link
+            morto é pior que link nenhum. Enquanto o preview real não existe, o
+            painel de hover simplesmente não aparece. */}
+        {(item.desktopLink || item.mobileLink) && (
+          <div className={styles.containerButtonsHover}>
+            <div className={styles.spotButtons}>
+              <p>Escolha um tipo de visualização</p>
+              <div className={styles.buttons}>
+                {item.desktopLink && (
+                  <a
+                    href={item.desktopLink}
+                    className={styles.buttonContainer}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {icons.DesktopIcon}
+                    Desktop
+                  </a>
+                )}
+                {item.mobileLink && (
+                  <a
+                    href={item.mobileLink}
+                    className={styles.buttonContainer}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {icons.MobileIcon}
+                    Mobile
+                  </a>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
         <h3 className={styles.nameText}>{item.title}</h3>
         <span>{item.subtitle}</span>
       </div>
