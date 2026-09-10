@@ -8,11 +8,15 @@ export const PAGINAS = {
   product: 'Página de Produto',
 };
 
-export async function abrirBrowser() {
+export async function abrirBrowser({ argsExtra = [] } = {}) {
   return puppeteer.launch({
     executablePath: findChrome(),
     headless: 'shell',
-    args: ['--force-device-scale-factor=1', '--hide-scrollbars'],
+    args: [
+      '--force-device-scale-factor=1',
+      '--hide-scrollbars',
+      ...argsExtra,
+    ],
     defaultViewport: { width: 1920, height: 1080, deviceScaleFactor: 1 },
   });
 }
@@ -75,6 +79,117 @@ export async function semear(page, { plataforma, selecoes = [], token = '' }) {
       .catch(() => {});
   }
   await espera(1200);
+}
+
+/**
+ * Estado REAL de um controle: existe, tem caixa, é opaco, e o clique no centro
+ * dele chega NELE.
+ *
+ * `el.click()` por DOM não olha nada disso — dispara o handler direto. Foi
+ * assim que o funil ficou meses verde num `PanelToggle` com `opacity: 0` que
+ * nenhum humano achava: teste passando, feature inalcançável.
+ */
+export const visibilidadeDe = (page, seletor) =>
+  page.evaluate(sel => {
+    const el = document.querySelector(sel);
+    if (!el) return { existe: false };
+    const cs = getComputedStyle(el);
+    const r = el.getBoundingClientRect();
+    const topo = document.elementFromPoint(
+      Math.round(r.left + r.width / 2),
+      Math.round(r.top + r.height / 2)
+    );
+    return {
+      existe: true,
+      opacity: Number(cs.opacity),
+      visibility: cs.visibility,
+      display: cs.display,
+      w: Math.round(r.width),
+      h: Math.round(r.height),
+      x: Math.round(r.left),
+      direita: Math.round(r.right),
+      alcancavel: !!topo && (topo === el || el.contains(topo)),
+      desabilitado: !!el.disabled,
+    };
+  }, seletor);
+
+/** Um controle "vale" se está no DOM, tem caixa, é opaco e não está coberto. */
+export const controleUsavel = v =>
+  !!v.existe &&
+  v.opacity >= 0.4 &&
+  v.visibility === 'visible' &&
+  v.display !== 'none' &&
+  v.w >= 12 &&
+  v.h >= 12 &&
+  v.alcancavel;
+
+/**
+ * Clica como humano: hit-test real do Chrome, então reprova se estiver coberto.
+ * Insiste (regra 3) e devolve false em vez de estourar (regra 4).
+ *
+ * Não substitui `visibilidadeDe`: o clique do Puppeteer pega oclusão mas NÃO
+ * olha `opacity` — um elemento a 0 recebe clique normalmente. Os dois juntos
+ * cobrem os dois modos de "existe mas ninguém alcança".
+ */
+export async function clicarDeVerdade(page, seletor, tentativas = 5) {
+  for (let i = 0; i < tentativas; i++) {
+    const alvo = await page.$(seletor);
+    if (alvo) {
+      try {
+        await alvo.click();
+        return true;
+      } catch {
+        /* coberto ou fora da viewport — tenta de novo */
+      }
+    }
+    await espera(400);
+  }
+  return false;
+}
+
+const RAIL = 'nav[aria-label="Seções do editor"] button';
+
+/**
+ * Abre uma tela do rail e CONFERE que abriu.
+ *
+ * Os botões do rail existem no HTML servido antes de o React hidratar, e clique
+ * em botão não hidratado é engolido em silêncio — a regra 3 do README. Quem
+ * clicava e dormia 700 ms media o painel ERRADO contra a fixture certa e
+ * imprimia deltas gigantes; sob portão isso vira reprovação falsa.
+ */
+export async function irParaRail(page, rotulo, tentativas = 20) {
+  const atual = () =>
+    page.evaluate(
+      s =>
+        document
+          .querySelector(`${s}[aria-current]`)
+          ?.getAttribute('aria-label') ?? '',
+      RAIL
+    );
+  for (let i = 0; i < tentativas; i++) {
+    if ((await atual()) === rotulo) return true;
+    await page.evaluate(
+      (s, r) => {
+        [...document.querySelectorAll(s)]
+          .find(b => b.getAttribute('aria-label') === r)
+          ?.click();
+      },
+      RAIL,
+      rotulo
+    );
+    await page
+      .waitForFunction(
+        (s, r) =>
+          document
+            .querySelector(`${s}[aria-current]`)
+            ?.getAttribute('aria-label') === r,
+        { timeout: 1200, polling: 100 },
+        RAIL,
+        rotulo
+      )
+      .catch(() => {});
+  }
+  throw new Error(`rail "${rotulo}" não abriu em ${tentativas} tentativas`);
 }
 
 /** O gatilho de página é o que traz o nome de uma das 4 — o outro listbox é o de plataforma. */

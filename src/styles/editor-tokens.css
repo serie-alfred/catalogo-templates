@@ -36,7 +36,14 @@
   --ed-blue-800: #004799;
   --ed-blue-ink: #004f99; /* texto sobre --ed-blue-100 */
 
+  /* Dois vermelhos, e a divisão é de propósito:
+     --ed-red   é o vermelho DO FIGMA, para traço, ícone e rótulo de afordância
+                que o design desenha (PlatformSelect, PanelBrandAssets, SectionsPanel);
+     --ed-danger é o vermelho LEGÍVEL para prosa de erro, que o Figma não desenha.
+     Não dá para unificar: #eb5757 sobre branco rende 3,48:1 e reprova o AA de
+     texto pequeno (o aviso do FontSelector é 11px); #b42318 rende 6,57:1. */
   --ed-red: #eb5757;
+  --ed-danger: #b42318;
 
   --ed-grad-active: linear-gradient(98.735deg, #0096fe 2.4148%, #0078cc 100%);
   --ed-shadow-card: 0 2px 4px 0 rgba(0, 0, 0, 0.08);

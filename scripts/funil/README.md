@@ -113,7 +113,14 @@ Duas regras que saíram disso, e que valem para qualquer estágio novo:
 3. **Um clique não é uma garantia.** Botão presente no HTML mas ainda não hidratado engole o
    clique do mesmo jeito. Clique e **verifique o efeito**; se não veio, clique de novo até vir
    ou até estourar o limite. Um clique único mais `espera(n)` reprovava 1 em 2 execuções.
-4. **Varredura não pode ser tudo-ou-nada.** Estágio que percorre N itens tem que envolver cada
+4. **Clique por DOM prova lógica, não alcance.** `el.click()` dispara o handler sem hit-test,
+   sem olhar `opacity`, `visibility` ou o que está por cima. O `PanelToggle` passou meses verde
+   com `opacity: 0` — teste passando, feature que nenhum humano achava. Todo controle que o
+   usuário precisa **descobrir** exige duas asserções: `visibilidadeDe()` (opacidade e caixa
+   reais) e `clicarDeVerdade()` (hit-test do Chrome). As duas, porque o clique do Puppeteer pega
+   oclusão mas ignora `opacity`. `.click()` por DOM continua legítimo para dirigir estado que já
+   foi provado alcançável em outro lugar.
+5. **Varredura não pode ser tudo-ou-nada.** Estágio que percorre N itens tem que envolver cada
    item num `try/catch`: a falha de um alvo é a falha DAQUELE alvo, aparece na tabela e conta no
    placar. Sem isso, uma exceção no 3º de 23 derruba o estágio — e, no `funil.mjs`, os quatro
    estágios seguintes que dependem dele. Um flake vira "6/10" e some a informação dos outros 20.

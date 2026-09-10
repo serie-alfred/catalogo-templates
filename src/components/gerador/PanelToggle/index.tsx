@@ -13,11 +13,15 @@ import styles from './index.module.css';
  * abaixo da trava de 1200px de `.component__container` — o preview "Desktop"
  * cairia no tier de tablet. Recolhendo os dois, 1440 devolve ~1364.
  *
- * O Figma só desenha o estado expandido, então o handle é INVISÍVEL em repouso:
- * fica sobre a borda entre o painel e o canvas e só aparece no hover ou no
- * foco. Assim o estado padrão da tela continua idêntico ao design. Quando o
- * painel está recolhido ele fica sempre visível — é a única forma de trazê-lo
- * de volta, e é um estado que o Figma não define.
+ * O Figma não desenha este controle. Ele já foi INVISÍVEL em repouso por isso,
+ * e a decisão se provou errada: o usuário nunca o encontrou, e o funil ficava
+ * verde porque clicava por DOM, sem hit-test nem opacidade. Controle invisível
+ * é controle que não existe.
+ *
+ * Agora ele é discreto e visível, contido nos 32px de `--ed-canvas-pad` — o
+ * único lugar da tela onde o Figma só pinta fundo. O delta em relação ao design
+ * está ratificado em `scripts/funil/figma/README.md`, e o estágio 2a reprova se
+ * ele escorregar para cima do painel ou do storefront.
  */
 export default function PanelToggle({
   side,
@@ -39,6 +43,7 @@ export default function PanelToggle({
       data-side={side}
       data-collapsed={collapsed ? 'true' : undefined}
       onClick={onToggle}
+      aria-expanded={!collapsed}
       aria-label={label}
       title={label}
     >

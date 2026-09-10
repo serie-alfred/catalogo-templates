@@ -4,6 +4,11 @@
  */
 import puppeteer from 'puppeteer-core';
 import { findChrome, BASE_URL } from './lib/util.mjs';
+import {
+  visibilidadeDe,
+  controleUsavel,
+  clicarDeVerdade,
+} from './lib/editor.mjs';
 const CHROME = findChrome();
 const SEED = {
   layoutPlatform: 'Wake',
@@ -155,6 +160,53 @@ const larguraCanvas = () =>
   q(() =>
     Math.round(document.querySelector('iframe').getBoundingClientRect().width)
   );
+
+// --- os toggles são ALCANÇÁVEIS por um humano?
+// O bloco abaixo clicava por DOM e ficava verde com o controle a `opacity: 0`.
+// Feature inalcançável, teste passando — é a razão de a regra 5 existir.
+// Estas asserções medem opacidade e hit-test REAIS, sem hover e sem foco.
+for (const [lado, rotulo] of [
+  ['esquerdo', 'Recolher painel esquerdo'],
+  ['direito', 'Recolher painel direito'],
+]) {
+  const v = await visibilidadeDe(p, `button[aria-label="${rotulo}"]`);
+  ok(
+    `toggle ${lado} é VISÍVEL em repouso (sem hover, sem foco)`,
+    controleUsavel(v),
+    JSON.stringify(v)
+  );
+}
+
+// Contenção: o controle vive nos 32px de --ed-canvas-pad, entre a borda do
+// painel e a do iframe. Se escorregar para cima de um dos dois, isto reprova.
+const vEsq = await visibilidadeDe(
+  p,
+  'button[aria-label="Recolher painel esquerdo"]'
+);
+const bordaPainel = await q(() =>
+  Math.round(
+    document
+      .querySelector('aside[aria-label="Painel de edição"]')
+      .getBoundingClientRect().right
+  )
+);
+const bordaIframe = await q(() =>
+  Math.round(document.querySelector('iframe').getBoundingClientRect().left)
+);
+ok(
+  'toggle esquerdo cabe no vão do canvas (não cobre painel nem storefront)',
+  vEsq.x >= bordaPainel && vEsq.direita <= bordaIframe,
+  `painel→${bordaPainel} | toggle ${vEsq.x}..${vEsq.direita} | iframe→${bordaIframe}`
+);
+
+ok(
+  'o toggle esquerdo aceita clique de mouse real',
+  await clicarDeVerdade(p, 'button[aria-label="Recolher painel esquerdo"]')
+);
+await s(600);
+await clicarDeVerdade(p, 'button[aria-label="Expandir painel esquerdo"]');
+await s(600);
+
 const antes = await larguraCanvas();
 await q(() =>
   document

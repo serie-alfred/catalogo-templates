@@ -45,6 +45,16 @@ export default function GeradorPage() {
         <EditorRail className={styles.rail} />
         {!leftCollapsed && <EditorLeftPanel className={styles.left} />}
 
+        {/* Cada toggle vem logo depois do painel que controla. Os dois são
+            `position: absolute` num shell `relative`, então a ordem no DOM é
+            neutra em layout — mas é ela que dá a ordem de Tab. Juntos no fim,
+            eles caíam depois de tudo, inclusive do painel direito. */}
+        <PanelToggle
+          side="left"
+          collapsed={leftCollapsed}
+          onToggle={() => setLeftCollapsed(prev => !prev)}
+        />
+
         <div className={styles.center}>
           <EditorTopbar />
           <EditorCanvas />
@@ -52,11 +62,6 @@ export default function GeradorPage() {
 
         {!rightCollapsed && <EditorRightPanel className={styles.right} />}
 
-        <PanelToggle
-          side="left"
-          collapsed={leftCollapsed}
-          onToggle={() => setLeftCollapsed(prev => !prev)}
-        />
         <PanelToggle
           side="right"
           collapsed={rightCollapsed}

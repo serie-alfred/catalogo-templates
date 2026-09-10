@@ -17,6 +17,24 @@ mude se o design mudar — e, nesse caso, reextraia em vez de editar à mão.
 | `t5-esquerda.json` | Tela 5 — Variáveis globais |
 | `modal.json` | modal "Componentes de seções" |
 
-Duas caixas divergem de propósito e o script as trata como esperadas:
-`t5.titulo1` (rótulo diferente, decisão de escopo) e `modal.listaCategorias`
-(o mock do Figma desenha 12 categorias; o catálogo real tem outra contagem).
+Duas caixas divergem de propósito e o script as trata como esperadas — e a
+divergência é por **eixo**, não pelo nó inteiro (medido em 10/09):
+
+| Caixa | Eixo | Motivo |
+| --- | --- | --- |
+| `t5.titulo1` | só `w` (+32,66) | rótulo diferente: o Figma escreve "Defina a Cor Primária", o produto expõe os valores reais. `x`, `y` e `h` batem exatos |
+| `modal.listaCategorias` | só `h` (−219) | o mock desenha 12 categorias, o catálogo tem 8. É um scroller: `x`, `y`, `w` são especificação, `h` depende do conteúdo |
+
+## Delta ratificado: o `PanelToggle` não existe no Figma
+
+O controle de recolher painel **não tem nó em nenhuma fixture** — o design só
+desenha o estado expandido. Ele já foi `opacity: 0` por causa disso, e a decisão
+se provou errada: ninguém o encontrava.
+
+Hoje ele é visível e discreto, e o delta está **contido nos 32px de
+`--ed-canvas-pad`**, o vão entre o painel e o iframe onde o Figma só pinta o
+papel quadriculado. Nenhum pixel novo cai sobre conteúdo desenhado — a versão
+rotacionada anterior, essa sim, invadia 12px do painel esquerdo.
+
+O estágio 2a mede a contenção (`toggle esquerdo cabe no vão do canvas`): se o
+padding do canvas mudar ou o controle escorregar, reprova.

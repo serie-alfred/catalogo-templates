@@ -10,43 +10,65 @@
   padding: 0;
   border: 1px solid var(--ed-gray-000);
   background: var(--ed-bg-00);
-  color: var(--ed-gray-600);
+  /* Discreto em repouso — não invisível. A versão anterior era `opacity: 0`
+     porque o Figma não desenha este controle, e o resultado foi uma feature
+     que ninguém achava (o funil clicava por DOM e ficava verde). O delta em
+     relação ao design é deliberado e está ratificado em funil/figma/README.md.
+
+     Ele cabe inteiro nos 32px de `--ed-canvas-pad` (EditorCanvas/index.module.css),
+     entre a borda do painel e a do iframe: é o único lugar da tela onde o Figma
+     só pinta o papel quadriculado. Se aquele padding sumir, o controle passa a
+     cobrir o storefront — e o estágio 2a reprova por contenção. */
+  color: var(--ed-gray-300);
   cursor: pointer;
-  /* Invisível em repouso: o Figma não desenha este controle e o estado padrão
-     da tela tem que continuar idêntico ao design. */
-  opacity: 0;
-  transition: opacity 0.15s ease;
   transform: translateY(-50%);
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .toggle:hover,
-.toggle:focus-visible,
-.toggle[data-collapsed='true'] {
-  opacity: 1;
+.toggle:focus-visible {
+  color: var(--ed-gray-800);
+  background: var(--ed-bg-01);
+  box-shadow: var(--ed-shadow-card);
 }
 
 .toggle[data-side='left'] {
   left: calc(var(--ed-rail-w) + var(--ed-left-w));
-  border-radius: 0 8px 8px 0;
   border-left: 0;
-  transform: translateY(-50%) rotate(90deg);
-  transform-origin: center;
+  border-radius: 0 8px 8px 0;
 }
 
 .toggle[data-side='right'] {
   right: var(--ed-right-w);
-  border-radius: 8px 0 0 8px;
   border-right: 0;
-  transform: translateY(-50%) rotate(-90deg);
-  transform-origin: center;
+  border-radius: 8px 0 0 8px;
 }
 
-.toggle[data-side='left'][data-collapsed='true'] {
-  transform: translateY(-50%) rotate(-90deg);
+/* Quem gira é o ÍCONE, nunca a caixa. Rodando a caixa 90° a pastilha de
+   20×44 virava 44×20 em torno do mesmo centro e invadia 12px do painel
+   esquerdo — medido. Girando só o svg, a caixa fica onde foi posicionada. */
+.toggle svg {
+  transition: transform 0.15s ease;
 }
 
-.toggle[data-side='right'][data-collapsed='true'] {
-  transform: translateY(-50%) rotate(90deg);
+.toggle[data-side='left'] svg {
+  transform: rotate(90deg);
+}
+
+.toggle[data-side='right'] svg {
+  transform: rotate(-90deg);
+}
+
+/* Recolhido: o caret aponta para o lado de onde o painel volta. */
+.toggle[data-side='left'][data-collapsed='true'] svg {
+  transform: rotate(-90deg);
+}
+
+.toggle[data-side='right'][data-collapsed='true'] svg {
+  transform: rotate(90deg);
 }
 
 /* Alvo de clique confortável sem engordar a caixa visual. */
