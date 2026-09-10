@@ -53,7 +53,10 @@ export default function SectionsPanel() {
     selections,
     selectedPage,
     selectedUid,
-    setSelectedUid,
+    selectSection,
+    expandedUids,
+    toggleExpanded,
+    collapseAllSections,
     hoveredUid,
     setHoveredUid,
     scrollToSectionRef,
@@ -136,11 +139,11 @@ export default function SectionsPanel() {
 
   const handleSelect = useCallback(
     (uid: string) => {
-      setSelectedUid(uid);
+      selectSection(uid);
       // O canvas é um iframe: só o documento dele pode rolar até a seção.
       scrollToSectionRef.current?.(uid);
     },
-    [setSelectedUid, scrollToSectionRef]
+    [selectSection, scrollToSectionRef]
   );
 
   // O contorno dentro do frame não é aplicado aqui: o PreviewFrame observa
@@ -170,6 +173,8 @@ export default function SectionsPanel() {
   const rowHandlers = (row: SectionRowData) => ({
     selected: row.uid === selectedUid,
     hovered: row.uid === hoveredUid,
+    expanded: expandedUids.has(row.uid),
+    onToggleExpanded: () => toggleExpanded(row.uid),
     onSelect: () => handleSelect(row.uid),
     onHoverChange: (hovering: boolean) => handleHover(row.uid, hovering),
     onDuplicate: () => duplicateSection(row.uid),
@@ -178,11 +183,32 @@ export default function SectionsPanel() {
 
   const activeRow = activeUid ? rows.find(r => r.uid === activeUid) : null;
 
+  // Contar sobre `rows` (as da página aberta), não sobre o set inteiro: uma
+  // linha aberta noutra página faria a barra aparecer aqui sem ter o que fechar.
+  const abertasNaPagina = rows.filter(r => expandedUids.has(r.uid)).length;
+
   return (
     <section className={styles.panel} aria-label="Seções da página">
       {/* Sem cabeçalho "Seções · N": o Figma leva o painel direto para o
           primeiro acordeão. */}
       <div className={styles.list}>
+        {/* Só aparece quando resolve algum problema. O frame do Figma desenha
+            exatamente UMA linha aberta, então com o corte em 2 o estado de
+            repouso e o estado desenhado continuam idênticos — nenhuma linha
+            desce. E ela nasce colada ao momento em que a lista fica longa. */}
+        {abertasNaPagina >= 2 && (
+          <div className={styles.listBar}>
+            <button
+              type="button"
+              className={styles.collapseAll}
+              onClick={collapseAllSections}
+              aria-label="Recolher todas as seções"
+            >
+              Recolher todas
+            </button>
+          </div>
+        )}
+
         {rows.length === 0 ? (
           <p className={styles.empty}>
             Nenhuma seção nesta página. Use <strong>Adicionar seção</strong>{' '}

@@ -42,7 +42,7 @@ export default function PreviewFrame() {
     selections,
     selectedPage,
     selectedUid,
-    setSelectedUid,
+    selectSection,
     hoveredUid,
     setHoveredUid,
     isMobileView,
@@ -178,7 +178,11 @@ export default function PreviewFrame() {
           post(contentMessage());
           break;
         case 'select':
-          setSelectedUid(data.uid);
+          // `selectSection` e não `setSelectedUid`: clicar a seção no canvas
+          // tem que expandir a linha dela na lista, igual a clicar no nome.
+          // Com os dois caminhos discordando, o painel mostraria uma seção
+          // selecionada e recolhida ao mesmo tempo.
+          selectSection(data.uid);
           break;
         case 'hover':
           setHoveredUid(data.uid);
@@ -212,7 +216,7 @@ export default function PreviewFrame() {
     postRaw,
     themeMessage,
     contentMessage,
-    setSelectedUid,
+    selectSection,
     setHoveredUid,
   ]);
 

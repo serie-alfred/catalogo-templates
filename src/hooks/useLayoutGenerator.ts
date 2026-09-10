@@ -127,6 +127,47 @@ export function useLayoutGenerator() {
   const [hoveredUid, setHoveredUid] = useState<string | null>(null);
 
   /**
+   * Linhas expandidas no painel de seções. Várias ao mesmo tempo, cada uma
+   * alternando sozinha.
+   *
+   * Mora AQUI e não no `SectionRow` por três motivos medidos: o "recolher
+   * todas" precisa alcançar todas de uma vez; `SectionRowView` é montado duas
+   * vezes durante um arraste (o clone do `DragOverlay` nasceria fechado); e o
+   * painel esquerdo é desmontado a cada troca de destino do rail, o que
+   * apagaria o estado por instância.
+   *
+   * Transiente como o `selectedUid`: não persiste e não entra no histórico.
+   */
+  const [expandedUids, setExpandedUids] = useState<ReadonlySet<string>>(
+    () => new Set()
+  );
+
+  const toggleExpanded = useCallback((uid: string) => {
+    setExpandedUids(prev => {
+      const next = new Set(prev);
+      if (!next.delete(uid)) next.add(uid);
+      return next;
+    });
+  }, []);
+
+  const collapseAllSections = useCallback(() => setExpandedUids(new Set()), []);
+
+  /**
+   * Selecionar EXPANDE — mas como ESCRITA, não como derivação.
+   *
+   * É exatamente essa a diferença que conserta o bug relatado. Antes o
+   * `SectionRow` fazia `expanded = open || selected`: enquanto a linha
+   * estivesse selecionada, nenhum valor de `open` conseguia produzir `false`,
+   * então o botão "−" não fechava nada e a linha só cedia quando OUTRA era
+   * selecionada. Escrevendo no set, `expanded` passa a ler uma fonte só e o
+   * toggle volta a mandar.
+   */
+  const selectSection = useCallback((uid: string) => {
+    setSelectedUid(uid);
+    setExpandedUids(prev => (prev.has(uid) ? prev : new Set(prev).add(uid)));
+  }, []);
+
+  /**
    * Canal imperativo para o iframe do canvas. O `PreviewFrame` registra aqui um
    * dispatcher; o `SectionsPanel` o chama para rolar até uma seção.
    *
@@ -190,6 +231,14 @@ export function useLayoutGenerator() {
   const removeSection = (uid: string) => {
     setSelections(prev => prev.filter(item => item.uid !== uid));
     setSelectedUid(prev => (prev === uid ? null : prev));
+    // Sem podar, o uid de uma seção removida ficaria no set para sempre — e
+    // um `crypto.randomUUID()` futuro nunca colide, então é vazamento puro.
+    setExpandedUids(prev => {
+      if (!prev.has(uid)) return prev;
+      const next = new Set(prev);
+      next.delete(uid);
+      return next;
+    });
   };
 
   const [fontPrimary, setFontPrimary] = useState('Roboto');
@@ -1153,6 +1202,10 @@ export function useLayoutGenerator() {
     setSelectedPage,
     selectedUid,
     setSelectedUid,
+    selectSection,
+    expandedUids,
+    toggleExpanded,
+    collapseAllSections,
     hoveredUid,
     setHoveredUid,
     scrollToSectionRef,

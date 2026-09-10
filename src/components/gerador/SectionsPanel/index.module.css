@@ -23,6 +23,10 @@
 }
 
 .row {
+  /* Âncora da calha do grip (.handle é absoluto). NÃO é transform/filter/
+     contain — o CLAUDE.md proíbe esses no painel esquerdo, porque virariam
+     containing block do DragOverlay e do popover do ColorPicker. */
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -46,8 +50,11 @@
   gap: 8px;
 }
 
-/* Slot fixo de 24px: o caret, o grip e o cadeado se revezam sem deslocar o
-   nome da seção. */
+/* Slot fixo de 24px: agora é SÓ do caret, que virou botão. O grip morava aqui
+   e trocava de lugar com ele no hover — o usuário mirava na seta, o cursor
+   entrava, a seta virava grip, e o clique caía no handle do dnd-kit, que com
+   `distance: 4` ignora clique sem arraste. Alvo que troca de identidade sob o
+   cursor não é affordance, é armadilha. */
 .affordance {
   display: flex;
   align-items: center;
@@ -55,22 +62,73 @@
   flex-shrink: 0;
   width: 24px;
   height: 24px;
-  color: var(--ed-gray-800);
-}
-
-.handle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   padding: 0;
   border: 0;
   background: none;
-  color: var(--ed-gray-400);
+  color: var(--ed-gray-800);
+  cursor: pointer;
+}
+
+.affordance svg {
+  transition: transform 0.15s ease;
+}
+
+.row[data-expanded='true'] .affordance svg {
+  transform: rotate(180deg);
+}
+
+/* Na calha do `padding-left` da linha: 24px vazios, no Figma e no código.
+   Sempre no DOM (alcançável por Tab), pintado só no hover da linha ou no
+   próprio foco — em repouso a linha continua idêntica ao design, que não
+   desenha drag handle nenhum. */
+.handle {
+  position: absolute;
+  left: 4px;
+  top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ed-gray-300);
   cursor: grab;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.row:hover .handle,
+.handle:focus-visible {
+  opacity: 1;
 }
 
 .handle:active {
   cursor: grabbing;
+}
+
+/* Barra do "recolher todas": só existe com 2+ linhas abertas. */
+.listBar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 0 4px;
+}
+
+.collapseAll {
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--ed-gray-500);
+  cursor: pointer;
+}
+
+.collapseAll:hover {
+  background: var(--ed-bg-01);
+  color: var(--ed-gray-800);
 }
 
 .name {

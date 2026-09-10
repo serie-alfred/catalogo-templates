@@ -121,9 +121,26 @@ The same `selection` strings drive the duplicate-button blacklist in [src/utils/
 
 `SectionsPanel` does **not** reimplement that order — it splits the rows into three buckets (`order < 2` locked on top, `order === 2` reorderable, `order > 2` locked at the bottom) and puts only the middle bucket in a `SortableContext`. That's why header/breadcrumb/footer have no drag handle (`LOCKED_LAYOUT_KEYS`): the user can never attempt a drag that `getPriorityOrder` would undo. `moveSection` runs `arrayMove` over the indices of the **full `selections` array**, not the filtered one.
 
-Each row is an accordion (Figma). The 24px slot on the left shows the caret at rest — 1:1 with the
-design, which draws no drag handle — and swaps it for the grip while the pointer is over the row;
-locked rows show a padlock. The three buckets and the `SortableContext` are unchanged.
+Each row is an accordion (Figma), and **several can be open at once** — each toggles on its own,
+plus a "Recolher todas" bar that appears only from 2 open rows (the Figma frame draws exactly one
+open, so at rest the screen still matches the design).
+
+The 24px slot on the left is the **caret, and only the caret** — it is a `<button>` that toggles
+the row. It used to swap for the drag grip while the pointer was over the row, and that was a
+trap: the user aimed at the caret, the cursor entered, the caret became the grip, and the click
+landed on the dnd-kit handle, which ignores a click without a drag (`distance: 4`). The grip now
+lives in the row's 24px `padding-left` gutter — empty in the Figma — revealed on row hover or on
+its own focus, so at rest the row is still 1:1 with a design that draws no handle.
+
+**Open state lives in `useLayoutGenerator` (`expandedUids`), never in the row.** Three measured
+reasons: "collapse all" has to reach every row; `SectionRowView` is mounted twice during a drag
+(the `DragOverlay` clone would be born closed); and the left panel is unmounted on every rail
+change. Selecting a section **writes** to the set — it is not part of the derivation. That
+distinction is the fix: `expanded = open || selected` let the global selection override the local
+toggle, so the `−` could not close a selected row.
+
+Locked rows do **not** show a padlock — that claim was never true in the code; the reason is in
+the `title`. The three buckets and the `SortableContext` are unchanged.
 
 ### The editor shell (redesign, Figma "Versão Final V4")
 

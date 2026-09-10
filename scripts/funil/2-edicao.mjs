@@ -16,6 +16,7 @@ import {
   badgesDe,
   adicionarPeloModal,
   gruposNaLista,
+  clicarDeVerdade,
 } from './lib/editor.mjs';
 
 const r = relatorio('Estágio 2b — regras de edição');
@@ -173,8 +174,11 @@ await semear(page, {
   plataforma: 'Tray',
   selecoes: [sel('01', 'banner', 'home'), sel('01', 'bannerFull', 'home')],
 });
+// Uma linha tem DOIS controles de expandir com o mesmo rótulo — a setinha e o
+// `+`, que são dois disclosures da mesma região. Clicar nos dois abre e fecha
+// na mesma passada, então escopa-se pela classe do `+`.
 await page.evaluate(() =>
-  [...document.querySelectorAll('button')]
+  [...document.querySelectorAll('button[class*="SectionsPanel_toggle"]')]
     .filter(b => /^Expandir /.test(b.getAttribute('aria-label') ?? ''))
     .forEach(b => b.click())
 );
@@ -288,6 +292,157 @@ r.ok(
   'Tray→VTEX descarta o incompatível e mantém o resto',
   JSON.stringify(await selecoesSalvas(page)) === '["header:01"]',
   await selecoesSalvas(page)
+);
+
+// ── acordeão da lista: vários abertos, cada um por conta ────────────────────
+// Regressão de "só abrem, fecham quando clico em outro". A causa era
+// `expanded = open || selected`: a seleção é global e anulava o toggle local,
+// então o `−` da linha selecionada não tinha como produzir `false`.
+await semear(page, {
+  plataforma: 'Tray',
+  selecoes: [
+    sel('01', 'header', 'common'),
+    sel('01', 'banner', 'home'),
+    sel('01', 'bannerFull', 'home'),
+    sel('01', 'footer', 'common'),
+  ],
+});
+
+const linhas = () =>
+  page.evaluate(() =>
+    [...document.querySelectorAll('div[class*="SectionsPanel_row"]')].map(
+      l => ({
+        nome: l.querySelector('button[class*="name"]')?.textContent.trim(),
+        aberta: l.getAttribute('data-expanded') === 'true',
+        selecionada: l.getAttribute('data-selected') === 'true',
+        caretAria: l
+          .querySelector('button[class*="affordance"]')
+          ?.getAttribute('aria-expanded'),
+        corpo: !!l.querySelector('div[class*="children"]'),
+      })
+    )
+  );
+const clicarNaLinha = (i, classe) =>
+  page.evaluate(
+    (idx, cls) => {
+      const alvo = document.querySelectorAll('div[class*="SectionsPanel_row"]')[
+        idx
+      ];
+      const b = alvo?.querySelector(`button[class*="${cls}"]`);
+      b?.click();
+      return !!b;
+    },
+    i,
+    classe
+  );
+
+const l0 = await linhas();
+r.ok(
+  'a lista traz as 4 linhas',
+  l0.length === 4,
+  JSON.stringify(l0.map(l => l.nome))
+);
+r.ok(
+  'a setinha é um <button> com aria-expanded',
+  l0.length > 0 && l0.every(l => l.caretAria === 'false'),
+  JSON.stringify(l0.map(l => l.caretAria))
+);
+
+r.ok('a setinha responde ao clique', await clicarNaLinha(0, 'affordance'));
+await espera(500);
+r.ok('clicar na setinha ABRE a linha', (await linhas())[0].aberta);
+await clicarNaLinha(0, 'affordance');
+await espera(500);
+r.ok('clicar na setinha FECHA a linha', !(await linhas())[0].aberta);
+
+for (const i of [0, 1, 2]) {
+  await clicarNaLinha(i, 'toggle');
+  await espera(350);
+}
+let le = await linhas();
+r.ok(
+  'três linhas ficam abertas ao mesmo tempo',
+  le.filter(l => l.aberta).length === 3,
+  JSON.stringify(le.map(l => l.aberta))
+);
+await clicarNaLinha(1, 'toggle');
+await espera(450);
+le = await linhas();
+r.ok(
+  'fechar uma não fecha as outras',
+  le[0].aberta && !le[1].aberta && le[2].aberta,
+  JSON.stringify(le.map(l => l.aberta))
+);
+
+// O bug relatado, na forma exata em que o usuário o encontrou.
+await clicarNaLinha(3, 'name');
+await espera(800);
+le = await linhas();
+r.ok('selecionar pelo nome expande a linha', le[3].aberta && le[3].selecionada);
+await clicarNaLinha(3, 'toggle');
+await espera(600);
+le = await linhas();
+r.ok(
+  'o "−" FECHA a linha SELECIONADA (era o bug)',
+  !le[3].aberta && le[3].selecionada,
+  JSON.stringify(le[3])
+);
+
+// Recolher todas: só existe quando resolve algum problema.
+const barra = () =>
+  page.evaluate(
+    () =>
+      !!document.querySelector('button[aria-label="Recolher todas as seções"]')
+  );
+for (const i of [0, 1, 2]) {
+  if (!(await linhas())[i].aberta) {
+    await clicarNaLinha(i, 'toggle');
+    await espera(300);
+  }
+}
+r.ok('"Recolher todas" aparece com 2+ linhas abertas', await barra());
+r.ok(
+  '"Recolher todas" é alcançável de verdade',
+  await clicarDeVerdade(page, 'button[aria-label="Recolher todas as seções"]')
+);
+await espera(600);
+le = await linhas();
+r.ok(
+  '"Recolher todas" fecha todas',
+  le.every(l => !l.aberta),
+  JSON.stringify(le.map(l => l.aberta))
+);
+r.ok('e a própria barra some quando não há nada aberto', !(await barra()));
+
+// A setinha não pode sumir sob o cursor: era ela que virava grip de arraste.
+const sobHover = await page.evaluate(async () => {
+  const l = document.querySelectorAll('div[class*="SectionsPanel_row"]')[1];
+  l.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+  await new Promise(r => setTimeout(r, 300));
+  const caret = l.querySelector('button[class*="affordance"]');
+  const grip = l.querySelector('button[class*="handle"]');
+  const cr = caret?.getBoundingClientRect();
+  return {
+    caretPresente: !!caret,
+    caretOpaco: caret ? Number(getComputedStyle(caret).opacity) : 0,
+    caretLargura: cr ? Math.round(cr.width) : 0,
+    gripPresente: !!grip,
+    gripAEsquerda: grip
+      ? grip.getBoundingClientRect().right <= (cr?.left ?? 0)
+      : false,
+  };
+});
+r.ok(
+  'com o cursor na linha a setinha CONTINUA lá e clicável',
+  sobHover.caretPresente &&
+    sobHover.caretOpaco === 1 &&
+    sobHover.caretLargura === 24,
+  JSON.stringify(sobHover)
+);
+r.ok(
+  'o grip aparece à esquerda da setinha, sem tomar o slot dela',
+  sobHover.gripPresente && sobHover.gripAEsquerda,
+  JSON.stringify(sobHover)
 );
 
 r.ok(

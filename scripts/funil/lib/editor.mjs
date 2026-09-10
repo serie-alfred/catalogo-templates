@@ -12,11 +12,7 @@ export async function abrirBrowser({ argsExtra = [] } = {}) {
   return puppeteer.launch({
     executablePath: findChrome(),
     headless: 'shell',
-    args: [
-      '--force-device-scale-factor=1',
-      '--hide-scrollbars',
-      ...argsExtra,
-    ],
+    args: ['--force-device-scale-factor=1', '--hide-scrollbars', ...argsExtra],
     defaultViewport: { width: 1920, height: 1080, deviceScaleFactor: 1 },
   });
 }
@@ -68,7 +64,9 @@ export async function semear(page, { plataforma, selecoes = [], token = '' }) {
     await page
       .waitForFunction(
         n =>
-          document.querySelectorAll('[aria-label^="Expandir "]').length >= n ||
+          document.querySelectorAll(
+            'button[class*="SectionsPanel_toggle"][aria-label^="Expandir "]'
+          ).length >= n ||
           (document
             .querySelector('iframe')
             ?.contentDocument?.querySelectorAll('[data-section-uid]').length ??
