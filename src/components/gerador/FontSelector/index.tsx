@@ -33,6 +33,14 @@ export default function FontSelector({
   variant = 'field',
 }: FontSelectorProps) {
   const [allFonts, setAllFonts] = useState<FontItem[]>([]);
+  // Sem `GOOGLE_FONTS_API_KEY` a rota devolve 500, o catálogo chega vazio e o
+  // recurso morria inteiro em silêncio: as sugestões são o ÚNICO caminho que
+  // chama `onFontChange`, então digitar não aplicava nada e a tela não dizia
+  // por quê. Estado explícito para poder avisar — e o Enter abaixo mantém o
+  // seletor utilizável quando o catálogo não vem.
+  const [catalogo, setCatalogo] = useState<
+    'carregando' | 'ok' | 'indisponivel'
+  >('carregando');
   const [searchTerm, setSearchTerm] = useState(selectedFont || '');
   const [suggestions, setSuggestions] = useState<FontItem[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -41,8 +49,15 @@ export default function FontSelector({
   useEffect(() => {
     fetch('/gerador/api/fonts')
       .then(res => res.json())
-      .then(data => setAllFonts(Array.isArray(data) ? data : []))
-      .catch(() => setAllFonts([]));
+      .then(data => {
+        const lista = Array.isArray(data) ? data : [];
+        setAllFonts(lista);
+        setCatalogo(lista.length > 0 ? 'ok' : 'indisponivel');
+      })
+      .catch(() => {
+        setAllFonts([]);
+        setCatalogo('indisponivel');
+      });
   }, []);
 
   /**
@@ -85,6 +100,15 @@ export default function FontSelector({
     }, 150);
   };
 
+  // Aplica o que está digitado. É o único caminho quando o catálogo não veio,
+  // e um atalho legítimo quando veio: quem sabe o nome exato não precisa da
+  // lista.
+  const aplicarDigitado = () => {
+    const nome = searchTerm.trim();
+    if (nome.length > 0 && nome !== selectedFont) onFontChange(nome);
+    setShowSuggestions(false);
+  };
+
   const handleSelectFont = (font: string) => {
     onFontChange(font);
     setSearchTerm(font);
@@ -108,6 +132,12 @@ export default function FontSelector({
           onChange={handleInputChange}
           onFocus={() => searchTerm.length > 0 && setShowSuggestions(true)}
           onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              aplicarDigitado();
+            }
+          }}
           placeholder="Lorem Ipsum"
           className={styles.input}
           style={{ fontFamily: unset ? undefined : selectedFont }}
@@ -130,6 +160,13 @@ export default function FontSelector({
           </ul>
         )}
       </div>
+
+      {catalogo === 'indisponivel' && (
+        <p className={styles.aviso} role="status">
+          Catálogo de fontes indisponível. Digite o nome exato da família e
+          pressione <kbd>Enter</kbd> para aplicar.
+        </p>
+      )}
 
       {unset && (
         <p className={styles.inherits}>

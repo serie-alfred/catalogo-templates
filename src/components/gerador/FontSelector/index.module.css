@@ -93,3 +93,19 @@
   text-underline-position: from-font;
   cursor: pointer;
 }
+
+/* Aviso de catálogo indisponível (sem GOOGLE_FONTS_API_KEY a rota dá 500).
+   Mesma métrica do .inherits, cor de alerta em vez de secundária. */
+.aviso {
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--ed-danger, #b42318);
+}
+
+.aviso kbd {
+  padding: 0 3px;
+  border: 1px solid currentColor;
+  border-radius: 3px;
+  font: inherit;
+}

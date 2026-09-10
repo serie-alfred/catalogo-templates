@@ -315,6 +315,120 @@ ok(
 
 ok('sem erros de página', errs.length === 0, errs.join(' | '));
 
+// ── seletor de fontes sem catálogo ───────────────────────────────────────────
+// Sem `GOOGLE_FONTS_API_KEY` a rota devolve 500 e o catálogo chega vazio. Isso
+// vai acontecer no primeiro deploy em que a variável faltar na Vercel — e o
+// modo de falha era o pior possível: as sugestões eram o ÚNICO caminho que
+// chamava `onFontChange`, então digitar não aplicava nada e a tela não dizia
+// por quê. Aba própria, para a interceptação não contaminar o resto do estágio.
+const p2 = await b.newPage();
+const errs2 = [];
+p2.on('pageerror', e => errs2.push(e.message));
+await p2.setRequestInterception(true);
+p2.on('request', req => {
+  if (req.url().includes('/gerador/api/fonts')) {
+    req.respond({
+      status: 500,
+      contentType: 'application/json',
+      body: JSON.stringify({ error: 'Missing API key' }),
+    });
+    return;
+  }
+  req.continue();
+});
+await p2.evaluateOnNewDocument(seed => {
+  for (const [k, v] of Object.entries(seed)) localStorage.setItem(k, v);
+}, SEED);
+await p2.goto(`${BASE_URL}/gerador`, { waitUntil: 'networkidle2' });
+await p2.waitForSelector('.ed-shell');
+
+// Espera a hidratação antes de clicar: `.ed-shell` existe no HTML servido, mas
+// clique em botão não hidratado não faz nada — em silêncio. O bloco do rail lá
+// em cima só funciona porque roda DEPOIS da espera do canvas. Aqui a espera é
+// explícita, e o clique insiste até o `aria-current` mudar.
+await p2
+  .waitForFunction(
+    () =>
+      (document
+        .querySelector('iframe')
+        ?.contentDocument?.querySelectorAll('[data-section-uid]').length ??
+        0) >= 3,
+    { timeout: 45000, polling: 250 }
+  )
+  .catch(() => {});
+
+const railAtual = () =>
+  p2.evaluate(
+    () =>
+      document
+        .querySelector(
+          'nav[aria-label="Seções do editor"] button[aria-current]'
+        )
+        ?.getAttribute('aria-label') ?? ''
+  );
+const clicarTipografia = () =>
+  p2.evaluate(() => {
+    [...document.querySelectorAll('nav[aria-label="Seções do editor"] button')]
+      .find(x => x.getAttribute('aria-label') === 'Tipografia')
+      ?.click();
+  });
+
+let abriuTipografia = false;
+for (let tentativa = 0; tentativa < 20 && !abriuTipografia; tentativa++) {
+  await clicarTipografia();
+  await s(500);
+  abriuTipografia = (await railAtual()) === 'Tipografia';
+}
+ok('rail de tipografia acessível na aba sem catálogo', abriuTipografia);
+
+const avisoVisivel = await p2
+  .waitForFunction(
+    () =>
+      [...document.querySelectorAll('p[role="status"]')].some(el =>
+        /catálogo de fontes indispon/i.test(el.textContent ?? '')
+      ),
+    { timeout: 15000, polling: 250 }
+  )
+  .then(() => true)
+  .catch(() => false);
+ok(
+  'sem catálogo, o seletor de fontes avisa em vez de abrir vazio',
+  avisoVisivel
+);
+
+// e continua utilizável: digitar o nome exato + Enter aplica
+await p2
+  .waitForSelector('input[id^="input-font-"]', { timeout: 15000 })
+  .catch(() => {});
+const campo = await p2.$('input[id^="input-font-"]');
+if (campo) {
+  await campo.click({ clickCount: 3 });
+  await campo.type('Cormorant Garamond');
+  await campo.press('Enter');
+}
+const aplicou = await p2
+  .waitForFunction(
+    () =>
+      /Cormorant Garamond/.test(
+        document.documentElement.style.getPropertyValue('--font-primary')
+      ),
+    { timeout: 10000, polling: 250 }
+  )
+  .then(() => true)
+  .catch(() => false);
+ok(
+  'sem catálogo, digitar o nome + Enter aplica a fonte',
+  aplicou,
+  await p2.evaluate(() =>
+    document.documentElement.style.getPropertyValue('--font-primary')
+  )
+);
+ok(
+  'sem erros de página na aba sem catálogo',
+  errs2.length === 0,
+  errs2.join(' | ')
+);
+
 console.log(JSON.stringify(R, null, 1));
 await b.close();
 process.exit(R.every(r => r.ok) ? 0 : 1);
