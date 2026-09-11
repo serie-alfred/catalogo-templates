@@ -601,6 +601,14 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cat-main-font", label: "Fonte", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "02", selection: "category-main", key: "catmn0254hg3", image: "", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["category"], component: "CategoryMain02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "tertiary"] },
+      { id: "07", selection: "category-main", key: "catmn07bru8p", image: "", mobile: "", title: "Grade de produtos Template 7", description: "PLP completa: trilha, título, subcategorias, sidebar de filtros com faixa de preço, barra de ordenação e grade de cards", template: "7", pagina: ["category"], component: "CategoryMain07", path: "organisms/MainCategory07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+        { cssVar: "--plp-title-color", label: "Cor do título e dos textos", type: "color", default: "#2c2420", group: "Listagem", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--plp-accent", label: "Cor de destaque", type: "color", default: "#b8976a", group: "Listagem", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--plp-cta-bg", label: "Fundo do botão", type: "color", default: "#2c2420", group: "Listagem", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--plp-cta-text", label: "Texto do botão", type: "color", default: "#faf8f4", group: "Listagem", inheritsLabel: "cor de texto base" },
+        { cssVar: "--plp-font-title", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--plp-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
     ],
   },
   categoryDescription: {

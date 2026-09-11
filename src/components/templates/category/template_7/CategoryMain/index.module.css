@@ -1,0 +1,1180 @@
+/* Espelha organisms/MainCategory07 (faststore.starter) — a PLP inteira.
+
+   Conversão: `$vars` resolvidas inline (com ponto fixo: `$muted`/`$border` são
+   definidos EM TERMOS de `$titleColor`), aninhamento achatado por descendência
+   — só o `.seoHtml` tem 20 seletores de elemento aninhados, que CSS Modules
+   recusa soltos —, e `@media` de largura → `@container`.
+
+   As superfícies claras (`#f5f0e8` do SEO, `#ede4d8` dos chips, `#faf8f4` da
+   página) e os semânticos (`#c07a5a` novidade, `#5c7a66` Pix) ficam em hex por
+   decisão do autor da origem, com o motivo escrito lá: o terciário do tema demo
+   é escuro e apagaria o texto sobre eles. Não são convertidos aqui de propósito.
+
+   Cuidado registrado: `#faf8f4` (fundo da página) é byte-idêntico ao Nível 3 de
+   `--plp-cta-text`, e `#f5f0e8` (fundo do SEO) NÃO é `#faf8f4`. São três beges
+   distintos com papéis distintos — reusar um pelo outro muda o desenho. */
+
+.plpRootWrap {
+  container-type: inline-size;
+}
+
+/* MainCategory07 — PLP Brasilusa. Números: metrics.md (FRAME 2 desktop / FRAME 5 mobile).
+Tokens: fallback encadeado de 3 níveis (mapeamentos herdados da home: #2c2420 bg→primary, texto→text-primary; #b8976a→secundary; Cormorant→font-primary; DM Sans→font-secundary).
+Neutros sobre fundo customizável (muted/bordas) derivam do texto via color-mix. */
+/* superfícies neutras CLARAS estruturais (NÃO temáveis): texto escuro precisa de
+contraste garantido;
+--background-tertiary-color no tema demo é escuro e deixaria
+o texto invisível (failure-mode #14 / eye-check GATE 2). Mantidas em hex. */
+/* neutros derivados do texto (contrastam em qualquer fundo) */
+/* semânticos / estruturais (hex direto — não temáveis) */
+
+.plpRoot {
+  font-family: var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  background: #faf8f4;
+  /* RESET das margens do User Agent ─────────────────────────────────────────────
+  A origem deste componente é um HTML de design SEM reset de CSS, então as margens
+  que o browser dá em <p>/<h1..h6> (`margin: 1em 0` no <p>, 0.67em no <h1>, 0.83em no
+  <h2>…) entraram na medição do metrics.md e vinham reproduzidas aqui — em 8 regras
+  explicitamente (comentários "UA 1em") e em outras ~5 por herança, sem declaração
+  nenhuma: 75 elementos na página. Como margens de irmãos COLAPSAM, esses valores ainda
+  engoliam as margens de design (ex.: no card do guia o vão etiqueta→medida era 20px do
+  UA, e os 8px do design nunca aplicavam).
+  Zeramos tudo aqui e cada regra declara só o espaçamento do DESIGN. Desvio intencional
+  em relação ao metrics.md nesses papéis — registrado em _bases/MainCategory07/notas.md.
+  `:where()` é OBRIGATÓRIO: sem ele o seletor seria `.plpRoot p` (classe + elemento), de
+  especificidade MAIOR que `.cardTitle`/`.subtitle`, e o reset apagaria também as margens
+  de design. Com `:where()` a especificidade é só a de `.plpRoot`, então qualquer regra
+  de classe declarada depois vence. */
+}
+
+.plpRoot :where(p, .plpRoot h1, .plpRoot h2, .plpRoot h3, .plpRoot h4, .plpRoot h5, .plpRoot h6) {
+  margin: 0;
+}
+
+.desktop {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile {
+  display: none;
+}
+
+@container (max-width: 960px) {
+  .desktop {
+    display: none;
+  }
+
+  .mobile {
+    display: flex;
+    flex-direction: column;
+  }
+
+/* ═══════════ DESKTOP ═══════════ */
+
+}
+
+.headerBlock {
+  padding: 28px 56px 0;
+  flex-shrink: 0;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.crumbLink {
+  font: 400 11.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.crumbCurrent {
+  font: 500 11.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+}
+
+.crumbSep {
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 35%, transparent);
+  font-size: 10px;
+}
+
+.title {
+  font: 300 40px/1 var(--plp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  margin: 0 0 8px;
+}
+
+/* UA 0.67em de <h1> removida do topo; 8px = design */
+
+.subtitle {
+  font: 400 13.5px/1.6 var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+  max-width: 680px;
+  margin: 0 0 24px;
+}
+
+/* UA 1em removida do topo; 24px = design */
+
+.chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-bottom: 24px;
+  border-bottom: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 15%, transparent);
+}
+
+.chip {
+  background: #fff;
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
+  border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
+  padding: 8px 18px;
+  font: 400 11px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 1px;
+}
+
+.chipActive {
+  background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  color: var(--plp-cta-text, var(--text-color-base, #faf8f4));
+  border-color: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  font-weight: 500;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  padding: 0 56px 56px;
+  gap: 40px;
+  align-items: flex-start;
+}
+
+/* sidebar */
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  padding-top: 28px;
+  position: sticky;
+  top: 118px;
+  align-self: flex-start;
+}
+
+.sidebarHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.sidebarTitle {
+  font: 600 12px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  margin: 0;
+}
+
+/* UA 1em removida (era 12/12; o espaçamento da coluna vem do container) */
+
+.clearAll {
+  background: none;
+  border: none;
+  font: 400 11px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.filterBlock {
+  border-top: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 15%, transparent);
+  padding: 16px 0;
+}
+
+.filterHead {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.filterName {
+  font: 500 12px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+}
+
+/* metrics: origem usa <p> (UA 1em)@1024 */
+
+.filterChevron {
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+  transition: transform 0.18s ease;
+}
+
+.chevOpen {
+  transform: rotate(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .filterChevron {
+    transition: none;
+  }
+
+}
+
+.filterList {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.filterItem {
+  margin: 0;
+}
+
+.filterLabel {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+}
+
+.filterCheck {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
+  border-radius: 2px;
+  background: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.filterCheck:checked {
+  background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  border-color: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+}
+
+.filterCheck:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: solid var(--plp-cta-text, var(--text-color-base, #faf8f4));
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.filterText {
+  font: 400 12.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  line-height: 18px;
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
+}
+
+/* metrics: filter item@1024=18 */
+
+.filterCheck:checked ~ .filterText {
+  font-weight: 500;
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+}
+
+.filterQty {
+  font: 400 12.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+}
+
+/* price range */
+
+.priceRange {
+  margin-top: 14px;
+}
+
+.rangeTrack {
+  position: relative;
+  height: 4px;
+  background: #ede4d8;
+  border-radius: 2px;
+  margin-bottom: 16px;
+}
+
+.rangeFill {
+  position: absolute;
+  left: 20%;
+  right: 25%;
+  height: 4px;
+  background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  border-radius: 2px;
+}
+
+.rangeThumb {
+  position: absolute;
+  left: calc(20% - 7px);
+  top: -5px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border: 2px solid var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.rangeThumbR {
+  left: auto;
+  right: calc(25% - 7px);
+}
+
+/* inputs nativos invisíveis sobre o track: só os thumbs capturam (pointer-events), o track passa através;
+os thumbs VISÍVEIS (.rangeThumb) aparecem por baixo. Overlays
+absolutos → não mudam a altura do filter-block (fidelidade preservada). */
+
+.rangeInput {
+  position: absolute;
+  top: 50%;
+  left: -7px;
+  width: calc(100% + 14px);
+  height: 14px;
+  margin: 0;
+  transform: translateY(-50%);
+  background: none;
+  pointer-events: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.rangeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.rangeInput::-moz-range-thumb {
+  pointer-events: auto;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.rangeInput::-webkit-slider-runnable-track, .rangeInput::-moz-range-track {
+  background: none;
+  border: none;
+}
+
+.rangeInput:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  outline-offset: 2px;
+}
+
+.rangeInput:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  outline-offset: 2px;
+}
+
+.rangeLabels {
+  display: flex;
+  justify-content: space-between;
+  font: 400 11.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
+}
+
+/* grid area */
+
+.gridArea {
+  flex: 1;
+  padding-top: 28px;
+}
+
+.sortbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.sortLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.resultsCount {
+  font: 400 13px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
+}
+
+.activeChips {
+  display: flex;
+  gap: 8px;
+}
+
+.activeChip {
+  background: #ede4d8;
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
+  padding: 5px 12px;
+  font: 400 11px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.chipX {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  color: inherit;
+  padding: 0;
+}
+
+.sortRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sortLabel {
+  font: 400 12px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+}
+
+.sortSelect {
+  border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
+  background: #fff;
+  padding: 7px 12px;
+  font: 400 12px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  cursor: pointer;
+  outline: none;
+  border-radius: 1px;
+}
+
+.sortSelect:focus-visible {
+  outline: 2px solid var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  outline-offset: 2px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.empty {
+  font: 400 14px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+  padding: 48px 0;
+  text-align: center;
+}
+
+.card {
+  display: block;
+  background: #fff;
+  border-radius: 1px;
+  overflow: hidden;
+  box-shadow: 0 1px 12px rgba(44, 36, 32, 0.06);
+  text-decoration: none;
+}
+
+.cardMedia {
+  position: relative;
+  aspect-ratio: 1;
+  background: linear-gradient(150deg, #ede8e0, #ddd0c0);
+  overflow: hidden;
+}
+
+.cardImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.flag {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  color: #fff;
+  font: 600 8.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  padding: 3px 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.flagGold {
+  background: var(--plp-accent, var(--background-secundary-color, #b8976a));
+}
+
+.flagNew {
+  background: #c07a5a;
+}
+
+.flagSale {
+  background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+}
+
+.wish {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 28px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
+}
+
+.cardBody {
+  padding: 14px;
+}
+
+.cardTitle {
+  font: 400 14px/1.3 var(--plp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  margin: 0 0 8px;
+}
+
+/* UA 1em removida do topo; 8px = design */
+
+.cardPrice {
+  font: 600 17px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  margin: 0 0 1px;
+}
+
+/* UA 1em removida do topo; 1px = design */
+
+.cardInstallment {
+  font: 400 10.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+  margin: 0 0 2px;
+}
+
+/* UA 1em removida do topo; 2px = design */
+
+.cardInstallmentSolo {
+  margin-bottom: 12px;
+}
+
+/* metrics: card sem Pix (row 2)@1024 */
+
+.cardPix {
+  font: 500 10.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: #5c7a66;
+  margin: 0 0 12px;
+}
+
+/* UA 1em removida do topo; 12px = design */
+
+.cardCta {
+  display: inline-block;
+  width: 100%;
+  background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  color: var(--plp-cta-text, var(--text-color-base, #faf8f4));
+  border: none;
+  padding: 10px;
+  font: 500 10px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* pagination (só com dados reais) */
+
+.pagination {
+  display: flex;
+  gap: 6px;
+  margin-top: 32px;
+  justify-content: center;
+}
+
+.pageBtn {
+  min-width: 34px;
+  height: 34px;
+  border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
+  background: #fff;
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  font: 400 12px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  cursor: pointer;
+  border-radius: 1px;
+}
+
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.pageActive {
+  background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  color: var(--plp-cta-text, var(--text-color-base, #faf8f4));
+  border-color: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+}
+
+/* SEO size guide */
+
+.seo {
+  padding: 64px 56px;
+  background: #f5f0e8;
+}
+
+.seoTitle {
+  font: 300 32px/1 var(--plp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  margin: 0 0 32px;
+}
+
+/* UA 0.83em de <h2> removida do topo; 32px = design */
+/* ── Guia POR CATEGORIA: HTML livre do Intelligent Search ──────────────────────
+O cliente cadastra o HTML por categoria (Admin → Intelligent Search → Banners), então
+os seletores aqui são por ELEMENTO, não por classe: é o "contrato" que faz o HTML dele
+herdar o visual dos cards sem precisar conhecer nomes de classe (que são hasheados pelo
+CSS Module). Contrato dos cards: uma <ul> com <li>;
+dentro do <li>, <strong> = etiqueta, <em> = medida, o resto = descrição. Qualquer outro HTML (títulos, parágrafos, tabela)
+ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
+
+.seoHtml {
+  font: 400 13px/1.7 var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+}
+
+.seoHtml > :first-child {
+  margin-top: 0;
+}
+
+.seoHtml > :last-child {
+  margin-bottom: 0;
+}
+
+.seoHtml h2, .seoHtml h3, .seoHtml h4 {
+  font-family: var(--plp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
+  font-weight: 300;
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  margin: 24px 0 12px;
+}
+
+.seoHtml h2 {
+  font-size: 28px;
+}
+
+.seoHtml h3 {
+  font-size: 22px;
+}
+
+.seoHtml h4 {
+  font-size: 18px;
+}
+
+.seoHtml p {
+  margin: 0 0 12px;
+}
+
+.seoHtml a {
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  text-decoration: underline;
+}
+
+.seoHtml strong, .seoHtml b {
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+}
+
+.seoHtml {
+  /* grade de cards (mesmo visual do guia estruturado). Flex em vez de grid porque o número
+  de itens é do cliente: `flex: 1 1 180px` divide a linha por N (5 itens = 5 colunas, como no design; 4 = 4) e quebra sozinho quando não cabe — `auto-fit` deixaria trilhas
+  vazias à direita. */
+}
+
+.seoHtml ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.seoHtml li {
+  flex: 1 1 180px;
+  min-width: 0;
+  box-sizing: border-box;
+  background: #fff;
+  border-radius: 1px;
+  padding: 20px;
+  border-top: 3px solid var(--plp-accent, var(--background-secundary-color, #b8976a));
+}
+
+.seoHtml li strong, .seoHtml li b {
+  display: block;
+  font: 500 11px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--plp-accent, var(--background-secundary-color, #b8976a));
+  margin-bottom: 8px;
+}
+
+.seoHtml li em, .seoHtml li i {
+  display: block;
+  font: 400 20px/1 var(--plp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
+  font-style: normal;
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  margin-bottom: 8px;
+}
+
+.seoHtml {
+  /* listas numeradas seguem como texto corrido (não são cards) */
+}
+
+.seoHtml ol {
+  margin: 0 0 12px;
+  padding-left: 20px;
+}
+
+.seoHtml table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 12.5px;
+}
+
+.seoHtml th, .seoHtml td {
+  padding: 10px 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 15%, transparent);
+  text-align: left;
+}
+
+.seoHtml th {
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  font-weight: 500;
+}
+
+.seoHtml img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ═══════════ MOBILE ═══════════ */
+
+.mHeaderBlock {
+  padding: 16px 18px 12px;
+  background: #fff;
+  border-bottom: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 10%, transparent);
+  flex-shrink: 0;
+}
+
+.mBreadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.mCrumbLink {
+  font: 400 10.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.mCrumbCurrent {
+  font: 500 10.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+}
+
+.mCrumbSep {
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 35%, transparent);
+  font-size: 9px;
+}
+
+.mTitle {
+  font: 300 28px/1 var(--plp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  margin: 18.76px 0;
+}
+
+/* metrics: m-title@375 */
+
+.mSubcats {
+  overflow-x: auto;
+  padding: 12px 18px;
+  border-bottom: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 15%, transparent);
+  background: #faf8f4;
+  flex-shrink: 0;
+}
+
+.mSubcatsRow {
+  display: flex;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.mSubcat {
+  flex-shrink: 0;
+  background: #fff;
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
+  border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
+  padding: 7px 14px;
+  font: 400 10.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 1px;
+}
+
+.mSubcatActive {
+  background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  color: var(--plp-cta-text, var(--text-color-base, #faf8f4));
+  border-color: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  font-weight: 500;
+}
+
+.mFilterbar {
+  padding: 10px 18px;
+  border-bottom: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 15%, transparent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.mFilterBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #faf8f4;
+  border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
+  padding: 7px 12px;
+  font: 400 11.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
+  cursor: pointer;
+  border-radius: 1px;
+}
+
+.mActiveChip {
+  background: #ede4d8;
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
+  padding: 5px 10px;
+  font: 400 10.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.mChipX {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 0;
+  font-size: 13px;
+  line-height: 1;
+}
+
+.mSortWrap {
+  margin-left: auto;
+}
+
+.mSortSelect {
+  border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
+  background: #fff;
+  padding: 6px 10px;
+  font: 400 11px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  outline: none;
+  border-radius: 1px;
+}
+
+.mSortSelect:focus-visible {
+  outline: 2px solid var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  outline-offset: 2px;
+}
+
+.mGrid {
+  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.mCard {
+  display: block;
+  background: #fff;
+  border-radius: 1px;
+  overflow: hidden;
+  box-shadow: 0 1px 10px rgba(44, 36, 32, 0.07);
+  text-decoration: none;
+}
+
+.mCardMedia {
+  position: relative;
+  aspect-ratio: 1;
+  background: linear-gradient(150deg, #ede8e0, #ddd0c0);
+  overflow: hidden;
+}
+
+.mCardImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.mFlag {
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  color: #fff;
+  font: 600 7.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  padding: 2px 7px;
+  text-transform: uppercase;
+}
+
+.mWish {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 26px;
+  height: 26px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
+}
+
+.mCardBody {
+  padding: 11px;
+}
+
+.mCardTitle {
+  font: 400 12.5px/1.3 var(--plp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  margin: 0 0 6px;
+}
+
+/* UA 1em removida do topo; 6px = design */
+
+.mCardPrice {
+  font: 600 15px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  margin: 0 0 1px;
+}
+
+/* UA 1em removida do topo; 1px = design */
+
+.mCardInstallment {
+  font: 400 9.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+  margin: 0 0 2px;
+}
+
+/* UA 1em removida do topo; 2px = design */
+
+.mCardInstallmentSolo {
+  margin-bottom: 9px;
+}
+
+.mCardPix {
+  font: 500 9.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: #5c7a66;
+  margin: 0 0 9px;
+}
+
+/* UA 1em removida do topo; 9px = design */
+
+.mCardCta {
+  display: inline-block;
+  width: 100%;
+  background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  color: var(--plp-cta-text, var(--text-color-base, #faf8f4));
+  border: none;
+  padding: 8px;
+  font: 500 9px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+/* guia de tamanhos no MOBILE ─────────────────────────────────────────────────────
+O design de origem (FRAME 5) NÃO tinha este bloco no mobile — ele entra porque é
+conteúdo editorial/SEO e não pode desaparecer no telefone (decisão de produto, não
+há metrics de origem para copiar). Mesma linguagem do desktop (faixa #f5f0e8, card
+branco com topo de 3px na cor de destaque), com o gutter de 18px do mobile, 2 colunas
+e a tipografia um passo abaixo. */
+
+.mSeo {
+  padding: 28px 18px 32px;
+  background: #f5f0e8;
+}
+
+.mSeoTitle {
+  font: 300 24px/1.15 var(--plp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  margin: 0 0 18px;
+}
+
+/* o HTML por categoria (contrato .seoHtml) é o MESMO nas duas árvores;
+no mobile só cai
+um passo de tipografia — os cards do contrato já quebram sozinhos (flex: 1 1 180px). */
+
+.mSeo .seoHtml {
+  font-size: 12.5px;
+}
+
+.mSeo .seoHtml h2 {
+  font-size: 22px;
+}
+
+.mSeo .seoHtml h3 {
+  font-size: 18px;
+}
+
+.mSeo .seoHtml h4 {
+  font-size: 16px;
+}
+
+.mSeo .seoHtml li {
+  padding: 14px;
+}
+
+.mSeo .seoHtml li em, .mSeo .seoHtml li i {
+  font-size: 16px;
+}
+
+/* mobile filter drawer (bottom-sheet) */
+
+.mDrawerOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(44, 36, 32, 0.4);
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.mDrawer {
+  background: #faf8f4;
+  border-radius: 12px 12px 0 0;
+  padding: 20px 18px 32px;
+}
+
+.mDrawerHandle {
+  width: 36px;
+  height: 4px;
+  background: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
+
+.mDrawerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.mDrawerTitle {
+  font: 600 14px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.mClearAll {
+  background: none;
+  border: none;
+  font: 400 12px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.mDrawerBlock {
+  margin-bottom: 20px;
+}
+
+.mDrawerLabel {
+  font: 500 11px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
+  margin-bottom: 12px;
+}
+
+.mChipRow {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mDrawerChip {
+  background: #fff;
+  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
+  border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
+  padding: 8px 14px;
+  font: 400 11px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  border-radius: 1px;
+  cursor: pointer;
+}
+
+.mDrawerChipActive {
+  background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  color: var(--plp-cta-text, var(--text-color-base, #faf8f4));
+  border-color: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  font-weight: 500;
+}
+
+.mDrawerApply {
+  width: 100%;
+  background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
+  color: var(--plp-cta-text, var(--text-color-base, #faf8f4));
+  border: none;
+  padding: 15px;
+  font: 500 12px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  margin-top: 4px;
+}

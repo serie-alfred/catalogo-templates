@@ -86,6 +86,7 @@ export const PARES = [
   { starter: 'BannerCarousel06', id: '06', layoutKey: 'productLines', pagina: 'home' },
   { starter: 'ProductDescriptionBanner01', id: '01', layoutKey: 'productBanner', pagina: 'product' },
   { starter: 'CategoryTitle06', id: '06', layoutKey: 'categoryTitle', pagina: 'category' },
+  { starter: 'MainCategory07', id: '07', layoutKey: 'categoryMain', pagina: 'category' },
   {
     starter: 'Header07',
     id: '07',
@@ -188,7 +189,14 @@ const normalizar = paleta => {
     // componente "possui" a propriedade de um lado e não do outro, e o portão
     // via 6 divergências no Header07 em que os dois valores eram IGUAIS.
     // Como as outras, é do shell: nenhum componente declara isso no botão.
-    'button, input, select, textarea { line-height: normal; }';
+    //
+    // `font-family: inherit` pelo mesmo motivo, e é o mais sutil dos seis:
+    // controle de formulário NÃO herda a fonte por padrão do navegador, e cada
+    // shell resolve isso de um jeito. O `×` de fechar um chip do MainCategory07
+    // media 9,02px no starter e 8,19px aqui — com o DOM, o padding, o gap e o
+    // font-size idênticos. Sobrava 0,7px em cada chip.
+    'button, input, select, textarea { line-height: normal;' +
+    ' font-family: inherit; }';
   document.head.appendChild(st);
   // Regra de autor com `!important` em `*`, não inline no <html>/<body>: o
   // starter declara os tokens em `body.theme`, mas o catálogo os declara num
