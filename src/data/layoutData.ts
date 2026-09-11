@@ -120,6 +120,7 @@ export type Layouts = {
   helpFloat: LayoutSection;
   productLines: LayoutSection;
   productBanner: LayoutSection;
+  categoryTabs: LayoutSection;
   categoryTitle: LayoutSection;
 };
 
@@ -480,6 +481,22 @@ export const LAYOUTS: Layouts = {
     name: "Combinações",
     items: [
       { id: "01", selection: "combined-categ", key: "homcmb04y9z0", image: "", mobile: "", title: "Combinações Template 4", description: "Bloco combinado de categorias, chamada e desconto", template: "4", pagina: ["home"], component: "HomeCombined04", platforms: ['Tray'], backgroundVars: [] },
+    ],
+  },
+  categoryTabs: {
+    name: "Abas de categoria",
+    items: [
+      { id: "06", selection: "category-tabs", key: "cattab06frc5", image: "", mobile: "", title: "Abas de categoria Template 6", description: "Título, abas de categoria e carrossel de cards de modelo, com a segunda foto aparecendo no hover", template: "6", pagina: ["home"], component: "CategoryTabs06", path: "molecules/CategoryTabs06", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--categorytabs-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--categorytabs-title-font", label: "Fonte do título", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--categorytabs-tab-color", label: "Cor da aba", type: "color", default: "#212721", group: "Pills", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--categorytabs-tab-active-color", label: "Cor da aba ativa", type: "color", default: "#212721", group: "Pills", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--categorytabs-tab-font", label: "Fonte das abas", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--categorytabs-button-bg", label: "Fundo do botão do card", type: "color", default: "#212721", group: "Botão", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--categorytabs-button-text", label: "Texto do botão do card", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base" },
+        { cssVar: "--categorytabs-dot-active-color", label: "Cor do ponto ativo", type: "color", default: "#212721", group: "Carrossel", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--categorytabs-font", label: "Fonte do texto", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
     ],
   },
   categoryTitle: {

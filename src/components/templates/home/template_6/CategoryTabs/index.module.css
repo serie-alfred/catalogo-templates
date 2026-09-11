@@ -1,0 +1,387 @@
+/* CategoryTabs06 -> categoryTabs/06. Convertido 1:1 do
+   faststore.starter/src/components/molecules/CategoryTabs06/style.module.scss.
+
+   @media virou @container nos mesmos breakpoints; a .tabsWrap existe so para
+   carregar o container-type (um elemento nao consulta o proprio container).
+   var(--...) verbatim. */
+
+.tabsWrap {
+  container-type: inline-size;
+}
+
+/* ── CategoryTabs06 — "Compre Por Categoria" (abas + carrossel) ──── */
+/* FIDELIDADE: números de `_bases/CategoryTabs06/metrics.md`, anotados com */
+/* `// metrics:`. Dots em BARRA (48×48 com traço central — miolo é pseudo, */
+/* validado no eye-check); pill "Ver modelo" só no card central; hover real da */
+/* origem: scale(1.05) nos dots. Validação: `yarn fidelity CategoryTabs06 --neutral`. */
+
+.row {
+  display: flex;
+  /* metrics: row@1280 (flex column center) */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  /* metrics: row@1280 (header06 ↔ slider) */
+  width: 100%;
+  margin: 64px 0;
+  /* metrics: row@1280 (m 64/64) */
+  padding: 48px 0;
+  /* metrics: row@1280 (p 48/0) */
+  /* superfície cinza da seção inteira (origem: flexRowContent bg rgb(246,246,246)); */
+  /* sem ela o pill "Ver modelo" flutua no branco abaixo do cinza das fotos. */
+  /* Neutro estrutural (isento da cadeia de tema, como as fotos de produto). */
+  background-color: #f6f6f6;
+}
+
+@media(max-width: 768px) {
+  .row {
+    margin: 0 0 3.125rem;
+  }
+
+.row {}
+
+}
+
+.header06Col {
+  display: flex;
+  /* título + abas empilhados SEM gap (61.68 = 27.59 + 34.09) */
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 1.5rem;
+}
+
+.title {
+  margin: 0;
+  width: fit-content;
+  /* metrics: title@1280 (254.72, fit ao texto) */
+  font-family: var(--categorytabs-title-font, var(--font-primary, 'Fabriga', sans-serif));
+  font-size: 24px;
+  /* metrics: title@1280 */
+  font-weight: 600;
+  /* metrics: title@1280 */
+  line-height: 27.6px;
+  /* metrics: title@1280 */
+  text-align: center;
+  color: var(--categorytabs-title-color, var(--text-primary-color, #212721));
+}
+
+/* ── Abas ────────────────────────────────────────────────────────────────────── */
+
+.tabsRow {
+  display: flex;
+  /* metrics: tabs-row@1280 (flex center, 100%) */
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 34.09px;
+  /* metrics: tabs-row@1280 */
+}
+
+.tab {
+  box-sizing: border-box;
+  display: block;
+  /* metrics: tab@1280 (wrapper externo: SEM padding — o p 8 é do interno) */
+  margin: 0;
+  padding: 0;
+  /* metrics: tab@1280 */
+  border: 0;
+  background: none;
+  /* strut do wrapper (folha do papel tab na origem: 16/18.4) */
+  font-size: 16px;
+  /* metrics: tab@1280 (folha 16) */
+  line-height: 18.4px;
+  /* metrics: tab@1280 (folha 18.4) */
+  cursor: pointer;
+}
+
+.tabInner {
+  box-sizing: border-box;
+  display: block;
+  padding: 8px;
+  /* metrics: tab@1280 (container interno p 8; h 34.09 = 16.1 + 16 + 2) */
+  /* sublinhado das abas: inativa cinza-claro, ativa escura (screenshot do ar; */
+  /* a espessura 2 está embutida na altura medida 34.09) */
+  border-bottom: 2px solid rgba(33, 39, 33, 0.12);
+  transition: 0.4s;
+}
+
+.tabActive .tabInner {
+  border-bottom-color: var(--categorytabs-tab-active-color, var(--text-primary-color, #212721));
+}
+
+.tabLabel {
+  display: block;
+  /* Fabriga licenciada (AUSENTE no starter — papel leafText no map) */
+  font-family: var(--categorytabs-tab-font, var(--font-primary, 'Fabriga', sans-serif));
+  font-size: 14px;
+  /* metrics: tab-label@1280 */
+  font-weight: 400;
+  /* metrics: tab-label@1280 */
+  line-height: 16.1px;
+  /* metrics: tab-label@1280 */
+  color: var(--categorytabs-tab-color, var(--text-primary-color, #212721));
+}
+
+/* ── Slider ──────────────────────────────────────────────────────────────────── */
+
+.sliderZone {
+  position: relative;
+  /* âncora dos dots (absolutos como na origem) */
+  display: flex;
+  /* metrics: slider@1280 (flex, align center) */
+  align-items: center;
+  width: 100%;
+}
+
+.swiper {
+  width: 100%;
+  margin: 0;
+}
+
+.slide {
+  display: flex;
+  height: auto;
+}
+
+.card {
+  display: flex;
+  /* metrics: card@1280 (flex column space-between) */
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  /* metrics: card@1280 (426.66 = 1280/3, largura do slide) */
+  min-width: 0;
+  max-width: 26.875rem !important;
+  margin: 0 auto;
+}
+
+.cardLink {
+  display: flex;
+  /* metrics: card-link@1280 (flex column) */
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+}
+
+.imgLine {
+  position: relative;
+  /* âncora da 2ª foto (hover) sobreposta */
+  /* strut da origem: img INLINE numa linha 16/18.4 → baseline soma ~4.4 */
+  /* (card 473.05 = img 426.66 + 4.39 + pill 42) */
+  font-family: var(--categorytabs-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 16px;
+  /* metrics: card@1280 (fs 16 herdado) */
+  line-height: 18.4px;
+  /* metrics: card@1280 (lh 18.4) */
+  width: 100%;
+}
+
+.cardImg {
+  display: inline;
+  /* metrics: card-img@1280 (inline — baseline de img) */
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  /* metrics: card-img@1280 (426.66×426.66) */
+  object-fit: fill;
+  /* metrics: card-img@1280 (origem usa object-fit fill) */
+  transition: opacity 0.4s;
+  /* cross-fade p/ a 2ª foto no hover */
+}
+
+/* 2ª foto (hover) — origem: imageStackContainer, img de hover display none→block */
+/* no hover do card; a base (cardImg) some (opacity 1→0), revelando esta por cima */
+
+.cardImgHover {
+  position: absolute;
+  top: 0;
+  /* alinha com a img base (topo da imgLine, acima do strut de baseline) */
+  left: 0;
+  display: none;
+  /* metrics: hover card-img (origem: 2ª img display none→block) */
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  /* metrics: hover card-img (2ª foto 426.7×426.7 = a base) */
+  object-fit: fill;
+}
+
+/* Só troca a foto quando existe 2ª foto para revelar (`data-hover-image`, posto no card). */
+/* Sem a guarda, produto de UMA foto (kit de meias, por exemplo) levava a base a */
+/* opacity 0 sem nada por baixo — o card ficava BRANCO no hover. */
+
+.card[data-hover-image]:hover .cardImg {
+  opacity: 0;
+  /* metrics: hover card-img (base opacity 1→0) */
+}
+
+.card[data-hover-image]:hover .cardImgHover {
+  display: block;
+  /* metrics: hover card-img (2ª foto revelada) */
+}
+
+/* pill "Ver modelo" — visível SÓ no card CENTRAL da página (origem); os demais */
+/* reservam a altura. A visibilidade é dirigida pelas classes do Swiper */
+/* (swiper-slide-active/-next), que o Swiper mantém sincronizadas MESMO nos clones */
+/* do loop — à prova de clone (React toggle numa classe não chega no clone). */
+
+.cta {
+  box-sizing: border-box;
+  display: flex;
+  /* metrics: cta@1280 (flex center, 129×42) */
+  justify-content: center;
+  align-items: center;
+  width: 129px;
+  /* metrics: cta@1280 */
+  height: 42px;
+  /* metrics: cta@1280 */
+  margin: 0;
+  /* metrics: cta@1280 (m 0 — recuo pelo PAI, não por margin auto) */
+  align-self: center;
+  /* centrado pelo flex do cardBody (origem: flex center no wrapper) */
+  border-radius: 120px;
+  /* metrics: cta@1280 (radius 120 da origem) */
+  background: var(--categorytabs-button-bg, var(--background-primary-color, #212721));
+  visibility: hidden;
+  /* reserva a altura (card h inclui o pill em TODOS os slides) */
+}
+
+/* mobile (1/página): o centro é o próprio slide ativo */
+
+:global(.swiper-slide-active) .cta {
+  visibility: visible;
+}
+
+/* desktop (3/página): o ativo é o 1º dos 3; o centro é o próximo (slide do meio) */
+
+@container (min-width: 1025px) {
+  :global(.swiper-slide-active) .cta {
+    visibility: hidden;
+  }
+
+  :global(.swiper-slide-next) .cta {
+    visibility: visible;
+  }
+
+}
+
+.ctaLabel {
+  margin: 0;
+  font-family: var(--categorytabs-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 14px;
+  /* metrics: cta-label@1280 (14/700 lh 21) */
+  font-weight: 700;
+  line-height: 21px;
+  color: var(--categorytabs-button-text, var(--text-color-base, #ffffff));
+}
+
+/* ── Dots (barras, absolutos sobre o fim do slider) ──────────────────────────── */
+
+.dotsRow {
+  position: absolute;
+  left: 0;
+  bottom: 49.73px;
+  /* metrics: dot@1280 (linha dos dots a ~50px do fim do slider) */
+  width: 100%;
+  height: 48px;
+  /* metrics: dots-row@1280 */
+  display: flex;
+  /* metrics: dots-row@1280 (flex center) */
+  justify-content: center;
+  align-items: stretch;
+  /* metrics: dots-row@1280 (stretch — dots têm altura própria 48) */
+  gap: 8px;
+  /* metrics: dots-row@1280 (gap 8 — dots com margin 0) */
+  z-index: 2;
+}
+
+.dot {
+  position: relative;
+  box-sizing: border-box;
+  width: 48px;
+  /* metrics: dot@1280 (48×48, passo 56 = 48 + gap 8 da row) */
+  height: 48px;
+  margin: 0;
+  /* metrics: dot@1280 (m 0 — o espaçamento é o gap da row) */
+  padding: 0;
+  border: 0;
+  background: none;
+  /* caixa transparente (origem) — o traço é o ::before */
+  cursor: pointer;
+  transition: 0.4s;
+  /* barra central (visual do screenshot do ar — pseudo não sai na captura) */
+}
+
+.dot::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 2px;
+  background: rgba(33, 39, 33, 0.2);
+  transition: 0.4s;
+}
+
+.dot {
+  /* hover REAL da origem: caixa cresce 5% */
+}
+
+.dot:hover {
+  transform: scale(1.05);
+  /* metrics: hover dot (matrix 1.05) */
+}
+
+.dotActive::before {
+  background: var(--categorytabs-dot-active-color, var(--text-primary-color, #212721));
+}
+
+/* a11y: respeita usuários com redução de movimento */
+
+@media (prefers-reduced-motion: reduce) {
+  .dot, .tab {
+    transition-duration: 0ms !important;
+  }
+
+/* ── ≤1024: 1 card/página (origem vira 3-up em ≥1025 — MEDIDO em 8 larguras: */
+/* 1024 = 1 card de 430; 1099 = 3 cards de 366. Exceção justificada ao padrão */
+/* 1200 do repo, ver notas.md → "breakpoint 1025") ───────────────────────────── */
+
+}
+
+@container (max-width: 1024px) {
+  .row {
+    margin: 0 0 50px;
+    /* metrics: row@768 (m 0 em cima, 50 embaixo) */
+  }
+
+  .card {
+    /* 1 card/página centrado com largura fixa 430 (375 = 100% no phone via max-width) */
+    width: 430px;
+    /* metrics: card@768 (430 centrado, margens auto ≈ 169) */
+    max-width: 100%;
+    /* metrics: card@375 (ocupa os 375) */
+    margin: 0 auto;
+  }
+
+/* Origem posiciona os dots mais perto do fim no phone (15 vs 50) — mesma exceção */
+/* ~640 documentada do BannerMain06/BannerGrid06. */
+
+}
+
+@container (max-width: 639px) {
+  .dotsRow {
+    bottom: 15.39px;
+    /* metrics: dot@375 (linha a ~15px do fim) */
+  }
+
+}

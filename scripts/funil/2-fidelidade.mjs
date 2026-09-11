@@ -89,6 +89,7 @@ export const PARES = [
   { starter: 'MainCategory06', id: '06', layoutKey: 'categoryMain', pagina: 'category' },
   { starter: 'CategorySeoFaq06', id: '06', layoutKey: 'categoryDescription', pagina: 'category' },
   { starter: 'TrustvoxReviews06', id: '06', layoutKey: 'productReviews', pagina: 'product' },
+  { starter: 'CategoryTabs06', id: '06', layoutKey: 'categoryTabs', pagina: 'home' },
   { starter: 'MainCategory07', id: '07', layoutKey: 'categoryMain', pagina: 'category' },
   { starter: 'ProductDetails07', id: '04', layoutKey: 'productInfo', pagina: 'product' },
   { starter: 'ProductDetails06', id: '05', layoutKey: 'productInfo', pagina: 'product' },
