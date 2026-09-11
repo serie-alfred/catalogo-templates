@@ -22,7 +22,7 @@
   --f6-container: 1280px;
   background: var(--footer-bg, var(--background-footer, #f6f6f6));
   color: var(--footer-text, var(--text-color-footer, #212721));
-  font-family: var(--footer-font, var(--font-secundary, "Jost", sans-serif));
+  font-family: var(--footer-font, var(--font-secundary, 'Jost', sans-serif));
 }
 .footer06 *,
 .footer06 *::before,
@@ -74,7 +74,7 @@
   color: var(--f6-newsletter-text);
 }
 .newsletterText strong {
-  font-family: var(--footer-title-font, var(--font-primary, "Fabriga", sans-serif));
+  font-family: var(--footer-title-font, var(--font-primary, 'Fabriga', sans-serif));
   font-size: 18px;
   font-weight: 600;
   color: var(--f6-newsletter-text);
@@ -93,7 +93,7 @@
   border: 1px solid #e0e0e0;
   border-radius: 120px;
   background: var(--f6-panel);
-  font-family: var(--footer-font, var(--font-secundary, "Jost", sans-serif));
+  font-family: var(--footer-font, var(--font-secundary, 'Jost', sans-serif));
   font-size: 14px;
   color: var(--footer-text, var(--text-color-footer, #212721));
 }
@@ -111,7 +111,7 @@
   border-radius: 120px;
   background: var(--footer-button-bg, var(--background-secundary-color, #212721));
   color: var(--footer-button-text, var(--text-color-secundary, #ffffff));
-  font-family: var(--footer-font, var(--font-secundary, "Jost", sans-serif));
+  font-family: var(--footer-font, var(--font-secundary, 'Jost', sans-serif));
   font-size: 14px;
   white-space: nowrap;
   transition: opacity var(--f6-t-fast);
@@ -138,7 +138,7 @@
 }
 .social h3 {
   margin: 0 0 16px;
-  font-family: var(--footer-title-font, var(--font-primary, "Fabriga", sans-serif));
+  font-family: var(--footer-title-font, var(--font-primary, 'Fabriga', sans-serif));
   font-size: 18px;
   font-weight: 600;
   color: var(--footer-text, var(--text-color-footer, #212721));
@@ -190,7 +190,7 @@
   justify-content: center;
   gap: 8px;
   margin-bottom: 14px;
-  font-family: var(--footer-title-font, var(--font-primary, "Fabriga", sans-serif));
+  font-family: var(--footer-title-font, var(--font-primary, 'Fabriga', sans-serif));
   font-size: 18px;
   font-weight: 600;
   color: var(--footer-text, var(--text-color-footer, #212721));
@@ -252,7 +252,7 @@
 }
 
 .copyright {
-  font-family: var(--footer-font, var(--font-secundary, "Jost", sans-serif));
+  font-family: var(--footer-font, var(--font-secundary, 'Jost', sans-serif));
   font-size: 12px;
   color: var(--f6-muted);
   text-align: center;

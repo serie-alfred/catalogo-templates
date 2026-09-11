@@ -134,8 +134,8 @@ const normalizar = paleta => {
   // inline sem !important, em qualquer nível da árvore.
   const tokens = document.createElement('style');
   tokens.id = 'funil-normaliza-paleta';
-  tokens.textContent = '*, *::before, *::after {' +
-    Object.entries(paleta).map(([k, v]) => `${k}: ${v} !important;`).join('') + '}';
+  tokens.textContent = `*, *::before, *::after {${ 
+    Object.entries(paleta).map(([k, v]) => `${k}: ${v} !important;`).join('')  }}`;
   document.head.appendChild(tokens);
 };
 
@@ -169,6 +169,36 @@ const medir = props => {
 const face = v => String(v).split(',')[0].trim().replace(/^["']|["']$/g, '').toLowerCase();
 
 const s = ms => new Promise(r => setTimeout(r, ms));
+
+/**
+ * Espera o iframe do canvas ter o componente PINTADO — pelo menos um
+ * `[data-role]` com caixa. É o sinal que o estágio realmente precisa; o
+ * `.ed-shell` aparece muito antes disso.
+ */
+async function esperarConteudo(page, timeout = 90000) {
+  const inicio = Date.now();
+  for (;;) {
+    const f = page.frames().find(x => x.url().includes('frame-mobile'));
+    if (f) {
+      const n = await f
+        .evaluate(() =>
+          [...document.querySelectorAll('[data-role]')].filter(el => {
+            const r = el.getBoundingClientRect();
+            return r.width > 0 && r.height > 0;
+          }).length
+        )
+        .catch(() => 0);
+      if (n > 0) {
+        // um respiro para o layout assentar depois da primeira pintura
+        await s(400);
+        return n;
+      }
+    }
+    if (Date.now() - inicio > timeout)
+      throw new Error('o canvas não pintou nenhum [data-role] em 90s');
+    await s(250);
+  }
+}
 
 async function medirStarter(browser, comp, largura) {
   const p = await browser.newPage();
@@ -205,25 +235,39 @@ async function medirCatalogo(browser, par, mobile) {
     );
     await p.goto(`${BASE_URL}/gerador`, { waitUntil: 'networkidle2', timeout: 180000 });
     await p.waitForSelector('.ed-shell');
-    await s(3500);
+
+    // Esperar o CONTEÚDO, não o relógio. A primeira versão dormia 3500ms fixos
+    // e passava rodando o estágio sozinho; no funil completo, com o dev server
+    // já castigado pelos estágios anteriores, o clone mediu ZERO nós e o
+    // clique no Mobile estourou. Sleep fixo é medida de sorte.
+    await esperarConteudo(p);
 
     if (mobile) {
-      // Clicar e CONFERIR: o botão existe no HTML antes de o React hidratar, e
-      // clique em botão não hidratado não faz nada, em silêncio.
-      const ok = await p.evaluate(() => {
+      // O botão existe no HTML antes de o React hidratar, e clique em botão
+      // não hidratado não faz nada, em silêncio. Clicar, conferir, insistir.
+      const clique = () => p.evaluate(() => {
         const b = [...document.querySelectorAll('button')]
           .find(x => /Mobile/.test(x.textContent || ''));
-        if (!b) return false;
+        if (!b) return 'ausente';
+        if (b.getAttribute('aria-pressed') === 'true') return 'ja';
         b.click();
-        return true;
+        return 'clicou';
       });
-      if (!ok) throw new Error('botão Mobile não encontrado no topbar');
-      await p.waitForFunction(() => {
-        const b = [...document.querySelectorAll('button')]
-          .find(x => /Mobile/.test(x.textContent || ''));
-        return b?.getAttribute('aria-pressed') === 'true';
-      }, { timeout: 15000 });
-      await s(2000);
+      let ligado = false;
+      for (let tentativa = 0; tentativa < 12 && !ligado; tentativa++) {
+        const res = await clique();
+        if (res === 'ja') { ligado = true; break; }
+        ligado = await p
+          .waitForFunction(() => {
+            const b = [...document.querySelectorAll('button')]
+              .find(x => /Mobile/.test(x.textContent || ''));
+            return b?.getAttribute('aria-pressed') === 'true';
+          }, { timeout: 5000 })
+          .then(() => true)
+          .catch(() => false);
+      }
+      if (!ligado) throw new Error('a visão Mobile não ligou em 12 tentativas');
+      await esperarConteudo(p);
     }
 
     const f = p.frames().find(x => x.url().includes('frame-mobile'));

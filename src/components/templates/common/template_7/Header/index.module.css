@@ -76,7 +76,7 @@
   letter-spacing: -0.02em;
   line-height: 1;
   /* color: $; */
-  transition: color .25s var(--ease);
+  transition: color .25s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .logoDot { 
   color: var(--background-secundary-color); 
@@ -105,7 +105,7 @@
   font-size: 13.5px !important;
   letter-spacing: 0.01em !important;
   color: #000 !important;
-  transition: border-color .2s var(--ease), background-color .2s var(--ease), box-shadow .2s var(--ease) !important;
+  transition: border-color .2s cubic-bezier(0.2, 0.7, 0.2, 1), background-color .2s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow .2s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
 }
 .searchInput::placeholder { color: var(--grey-55); }
 .searchInput:hover { background: var(--grey-12); }
@@ -121,7 +121,7 @@
   top: 50%;
   transform: translateY(-50%);
   color: var(--grey-55);
-  transition: color .2s var(--ease);
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1);
   pointer-events: none;
 }
 .searchInput:focus + .searchIcon {
@@ -144,7 +144,7 @@
   letter-spacing: 0.01em;
   /* color: #000; */
   border-radius: 999px;
-  transition: color .2s var(--ease), background-color .2s var(--ease);
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1), background-color .2s cubic-bezier(0.2, 0.7, 0.2, 1);
   position: relative;
 }
 .action:hover { 
@@ -159,7 +159,7 @@
 }
 .actionIcon { 
   /* color: #000;  */
-  transition: color .2s var(--ease); 
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1); 
 }
 .actionLabel { 
   display: inline-block; 
@@ -217,7 +217,7 @@
   color: var(--text-color-base);
   position: relative;
   padding: 16px 0;
-  transition: color .2s var(--ease);
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1);
   font-family: var(--font-secundary);
 }
 .navLink::after {
@@ -228,7 +228,7 @@
   height: 1px;
   width: 0;
   background: var(--background-secundary-color);
-  transition: width .3s var(--ease);
+  transition: width .3s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .navLink:hover { 
   color: var(--background-secundary-color); 
@@ -288,7 +288,7 @@
   border-radius: 999px !important;
   color: var(--text-color-base) !important;
   position: relative !important;
-  transition: color .2s var(--ease), background-color .2s var(--ease) !important;
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1), background-color .2s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
   cursor: pointer;
 }
 /* .iconBtn:hover { color: #E73888; } */
@@ -328,7 +328,7 @@
   }
   
 .iconBtn {
-  transition: color .2s var(--ease), background-color .2s var(--ease);
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1), background-color .2s cubic-bezier(0.2, 0.7, 0.2, 1);
   background: none;
   box-shadow: none;
   border: none;

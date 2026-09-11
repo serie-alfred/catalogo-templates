@@ -32,7 +32,7 @@
     Menlo,
     monospace
   );
-  font-family: var(--header-font, var(--font-primary, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif));
+  font-family: var(--header-font, var(--font-primary, -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif));
   color: var(--header-text, var(--text-color-base, #1a1f2b));
   font-size: 15px;
   line-height: 1.5;
@@ -144,7 +144,7 @@
 
 .wordmark {
   display: inline-flex;
-  font: 700 25px/1 var(--header-title-font, var(--font-primary, -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif));
+  font: 700 25px/1 var(--header-title-font, var(--font-primary, -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif));
   letter-spacing: -0.055em;
   white-space: nowrap;
   color: var(--header-text, var(--text-color-base, #1a1f2b));

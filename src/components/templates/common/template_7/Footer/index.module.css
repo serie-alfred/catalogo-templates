@@ -143,7 +143,7 @@
   align-items: center;
   justify-content: center;
   color: var(--text-color-footer);
-  transition: color .25s var(--ease), background-color .25s var(--ease);
+  transition: color .25s cubic-bezier(0.2, 0.7, 0.2, 1), background-color .25s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .socials a:hover {
@@ -219,7 +219,7 @@ details.col.colList {
   font-size: 13.5px;
   color: var(--text-color-footer);
   padding-bottom: 2px;
-  transition: color .2s var(--ease);
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .colList a::after {
@@ -230,7 +230,7 @@ details.col.colList {
   height: 1px;
   width: 0;
   background: var(--background-secundary-color);
-  transition: width .3s var(--ease);
+  transition: width .3s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .colList a:hover {
@@ -311,7 +311,7 @@ details.col.colList {
   background: var(--paper);
   height: 50px;
   padding: 0px 4px 0px 0px;
-  transition: border-color .2s var(--ease), box-shadow .2s var(--ease);
+  transition: border-color .2s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow .2s cubic-bezier(0.2, 0.7, 0.2, 1);
   position: relative;
 }
 
@@ -355,7 +355,7 @@ details.col.colList {
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
-  transition: background .25s var(--ease) !important;
+  transition: background .25s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
   cursor: pointer;
 }
 
@@ -366,7 +366,7 @@ details.col.colList {
   stroke-linecap: round;
   fill: none;
   stroke: currentColor;
-  transition: transform .25s var(--ease);
+  transition: transform .25s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .nlBtn:hover {
@@ -562,7 +562,7 @@ details.col.colList {
   color: rgba(255,255,255,.7);
   border-bottom: 1px solid rgba(255,255,255,.18);
   padding-bottom: 1px;
-  transition: color .2s var(--ease);
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .legalCreds a:hover {
@@ -580,7 +580,7 @@ details.col.colList {
   /* color: rgba(255,255,255,.9); */
   font-size: 11px;
   letter-spacing: .04em;
-  transition: border-color .25s var(--ease), color .25s var(--ease), background .25s var(--ease);
+  transition: border-color .25s cubic-bezier(0.2, 0.7, 0.2, 1), color .25s cubic-bezier(0.2, 0.7, 0.2, 1), background .25s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .legalPlatformBrand {
@@ -615,7 +615,7 @@ details.col.colList {
   text-transform: uppercase;
   /* color: rgba(255,255,255,.55); */
   line-height: 1;
-  transition: color .25s var(--ease);
+  transition: color .25s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .legalPlatform:hover {
@@ -833,7 +833,7 @@ details.col.colList {
     display: flex !important;
     padding: 0 0 18px;
     gap: 14px;
-    animation: nfade .35s var(--ease);
+    animation: nfade .35s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 
   .colPolicies > .colHead > .colChev {

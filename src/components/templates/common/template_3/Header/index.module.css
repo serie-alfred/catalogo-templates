@@ -100,7 +100,7 @@
   letter-spacing: -0.02em;
   line-height: 1;
   /* color: $; */
-  transition: color .25s var(--ease);
+  transition: color .25s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .logoDot {
   color: var(--header-accent, var(--background-secundary-color, #e73888));
@@ -136,7 +136,7 @@
   font-size: 13.5px !important;
   letter-spacing: 0.01em !important;
   color: #000 !important;
-  transition: border-color .2s var(--ease), background-color .2s var(--ease), box-shadow .2s var(--ease) !important;
+  transition: border-color .2s cubic-bezier(0.2, 0.7, 0.2, 1), background-color .2s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow .2s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
 }
 .searchInput::placeholder { color: var(--grey-55); }
 .searchInput:hover { background: var(--grey-12); }
@@ -152,7 +152,7 @@
   top: 50%;
   transform: translateY(-50%);
   color: var(--grey-55);
-  transition: color .2s var(--ease);
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1);
   pointer-events: none;
 }
 .searchInput:focus + .searchIcon {
@@ -177,7 +177,7 @@
   letter-spacing: 0.01em;
   color: var(--header-text, var(--text-color-base, #000000));
   border-radius: 999px;
-  transition: color .2s var(--ease), background-color .2s var(--ease);
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1), background-color .2s cubic-bezier(0.2, 0.7, 0.2, 1);
   position: relative;
   /* .action é <a> (conta/wishlist, pointer por padrão) e também <button>
      (carrinho) — <button> não ganha pointer sozinho, precisa da regra. */
@@ -195,7 +195,7 @@
 }
 .actionIcon {
   color: var(--header-text, var(--text-color-base, #000000));
-  transition: color .2s var(--ease);
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 /* O stroke vem do currentColor: segue o --header-text e também o accent do
@@ -261,7 +261,7 @@
   color: var(--header-text, var(--text-color-base, #000000));
   position: relative;
   padding: 16px 0;
-  transition: color .2s var(--ease);
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1);
   font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
 }
 .navLink::after {
@@ -272,7 +272,7 @@
   height: 1px;
   width: 0;
   background: var(--header-accent, var(--background-secundary-color, #e73888));
-  transition: width .3s var(--ease);
+  transition: width .3s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .navLink:hover {
   color: var(--header-accent, var(--background-secundary-color, #e73888));
@@ -332,7 +332,7 @@
   border-radius: 999px !important;
   color: var(--header-text, var(--text-color-base, #000000)) !important;
   position: relative !important;
-  transition: color .2s var(--ease), background-color .2s var(--ease) !important;
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1), background-color .2s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
   cursor: pointer;
 }
 /* .iconBtn:hover { color: #E73888; } */
@@ -368,7 +368,7 @@
   }
 
 .iconBtn {
-  transition: color .2s var(--ease), background-color .2s var(--ease);
+  transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1), background-color .2s cubic-bezier(0.2, 0.7, 0.2, 1);
   background: none;
   box-shadow: none;
   border: none;
@@ -407,7 +407,7 @@
 .navChev {
   flex-shrink: 0;
   opacity: 0.4;
-  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease);
+  transition: opacity 0.2s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .l1Item:hover .navChev {
   opacity: 1;
@@ -446,18 +446,18 @@
   justify-content: space-between;
   gap: 16px;
   padding: 9px 20px;
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 13px;
   font-weight: 400;
   letter-spacing: 0.01em;
   color: var(--header-text, var(--text-color-base, #000000));
   white-space: nowrap;
-  transition: color 0.15s var(--ease), background-color 0.15s var(--ease);
+  transition: color 0.15s cubic-bezier(0.2, 0.7, 0.2, 1), background-color 0.15s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .l2Link svg {
   flex-shrink: 0;
   color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 40%, transparent);
-  transition: color 0.15s var(--ease);
+  transition: color 0.15s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .l2Link:hover {
   color: var(--header-accent, var(--background-secundary-color, #e73888));
@@ -485,13 +485,13 @@
 .l3Link {
   display: block;
   padding: 8px 20px;
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 12.5px;
   font-weight: 400;
   letter-spacing: 0.01em;
   color: var(--header-text, var(--text-color-base, #000000));
   white-space: nowrap;
-  transition: color 0.15s var(--ease), background-color 0.15s var(--ease);
+  transition: color 0.15s cubic-bezier(0.2, 0.7, 0.2, 1), background-color 0.15s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .l3Link:hover {
   color: var(--header-accent, var(--background-secundary-color, #e73888));
@@ -520,7 +520,7 @@
 .searchSectionTitle {
   margin: 0;
   padding: 12px 16px 8px;
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.07em;
@@ -543,11 +543,11 @@
   background: none;
   border: none;
   text-align: start;
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 13.5px;
   color: var(--header-text, var(--text-color-base, #000000));
   cursor: pointer;
-  transition: background 0.15s var(--ease);
+  transition: background 0.15s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .searchDropdown .searchTermItem svg {
   flex-shrink: 0;
@@ -578,7 +578,7 @@
   padding: 5px 12px;
   border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 18%, transparent);
   border-radius: 999px;
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 12.5px;
   color: var(--header-text, var(--text-color-base, #000000));
   white-space: nowrap;
@@ -606,7 +606,7 @@
   align-items: center;
   gap: 12px;
   padding: 10px 16px;
-  transition: background 0.15s var(--ease);
+  transition: background 0.15s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .searchProductLink:hover {
   background: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 5%, transparent);
@@ -636,14 +636,14 @@
 }
 
 .searchProductName {
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 13px;
   line-height: 1.35;
   color: var(--header-text, var(--text-color-base, #000000));
 }
 
 .searchProductPrice {
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 13px;
   font-weight: 600;
   color: var(--header-text, var(--text-color-base, #000000));
@@ -665,7 +665,7 @@
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0);
-  transition: background-color 0.3s var(--ease);
+  transition: background-color 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
   cursor: pointer;
 }
 .ndOverlay.ndOpen .ndBackdrop {
@@ -685,7 +685,7 @@
   background: var(--header-bg, var(--background-primary-color, #ffffff));
   color: var(--header-text, var(--text-color-base, #000000));
   transform: translateX(-100%);
-  transition: transform 0.35s var(--ease);
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .ndOverlay.ndOpen .ndDrawer {
   transform: translateX(0);
@@ -715,7 +715,7 @@
 .ndLogo {
   display: inline-flex;
   align-items: baseline;
-  font-family: var(--header-font, var(--font-primary, "Manrope", sans-serif));
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 700;
   font-size: 20px;
   letter-spacing: -0.02em;
@@ -742,7 +742,7 @@
   background: none;
   color: var(--header-text, var(--text-color-base, #000000));
   cursor: pointer;
-  transition: color 0.2s var(--ease), background-color 0.2s var(--ease);
+  transition: color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1), background-color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .ndTop .ndClose:hover {
   color: var(--header-accent, var(--background-secundary-color, #e73888));
@@ -769,14 +769,14 @@
   padding: 0;
   border: none;
   background: none;
-  font-family: var(--header-font, var(--font-primary, "Manrope", sans-serif));
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 18px;
   font-weight: 500;
   letter-spacing: -0.01em;
   color: var(--header-text, var(--text-color-base, #000000));
   text-align: left;
   cursor: pointer;
-  transition: color 0.2s var(--ease);
+  transition: color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .ndNav .ndL1Row:hover,
 .ndNav .ndL1Row.ndL1Open {
@@ -814,7 +814,7 @@
   align-items: center;
   justify-content: center;
   color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 30%, transparent);
-  transition: transform 0.25s var(--ease), color 0.2s var(--ease);
+  transition: transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .ndChevOpen {
   transform: rotate(90deg);
@@ -841,14 +841,14 @@
   padding: 0 0 0 12px;
   border: none;
   background: none;
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 15px;
   font-weight: 400;
   letter-spacing: -0.005em;
   color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 78%, transparent);
   text-align: left;
   cursor: pointer;
-  transition: color 0.2s var(--ease);
+  transition: color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .ndNav .ndL2Row:hover,
 .ndNav .ndL2Row.ndL2Open {
@@ -867,10 +867,10 @@
 .ndL3Link {
   display: block;
   padding: 10px 0 10px 28px;
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 13.5px;
   color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 65%, transparent);
-  transition: color 0.15s var(--ease);
+  transition: color 0.15s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .ndL3Link:hover {
   color: var(--header-accent, var(--background-secundary-color, #e73888));
@@ -890,16 +890,16 @@
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 13.5px;
   letter-spacing: 0.01em;
   color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 65%, transparent);
-  transition: color 0.2s var(--ease);
+  transition: color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .ndFootLink svg {
   flex-shrink: 0;
   color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 35%, transparent);
-  transition: color 0.2s var(--ease);
+  transition: color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .ndFootLink:hover,
 .ndFootLink:hover svg {
@@ -922,7 +922,7 @@
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0);
-  transition: background-color 0.3s var(--ease);
+  transition: background-color 0.3s cubic-bezier(0.2, 0.7, 0.2, 1);
   cursor: pointer;
 }
 .soOverlay.soOpen .soBackdrop {
@@ -943,7 +943,7 @@
   color: var(--header-text, var(--text-color-base, #000000));
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transform: translateY(-100%);
-  transition: transform 0.35s var(--ease);
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .soOverlay.soOpen .soPanel {
   transform: translateY(0);
@@ -984,7 +984,7 @@
   border: 1px solid var(--header-text, var(--text-color-base, #000000));
   border-radius: 999px;
   background: var(--header-bg, var(--background-primary-color, #ffffff));
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 14px;
   letter-spacing: 0.01em;
   color: var(--header-text, var(--text-color-base, #000000));
@@ -1003,13 +1003,13 @@
   padding: 0 8px;
   border: none;
   background: none;
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 13.5px;
   letter-spacing: 0.01em;
   white-space: nowrap;
   color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 65%, transparent);
   cursor: pointer;
-  transition: color 0.2s var(--ease);
+  transition: color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .soPanel .soCancel:hover {
   color: var(--header-accent, var(--background-secundary-color, #e73888));
@@ -1023,7 +1023,7 @@
 
 .soLabel {
   margin: 0 0 14px;
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.18em;
@@ -1044,17 +1044,17 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 14px;
   letter-spacing: -0.005em;
   color: var(--header-text, var(--text-color-base, #000000));
   cursor: pointer;
-  transition: color 0.2s var(--ease);
+  transition: color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .soItem svg {
   flex-shrink: 0;
   color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 35%, transparent);
-  transition: color 0.2s var(--ease);
+  transition: color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .soItem:hover,
 .soItem:hover svg {
@@ -1072,7 +1072,7 @@
 
 .soProductItem {
   border-radius: 8px;
-  transition: background 0.15s var(--ease);
+  transition: background 0.15s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .soProductItem:hover {
   background: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 5%, transparent);
@@ -1108,7 +1108,7 @@
 }
 
 .soProductName {
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 13.5px;
   line-height: 1.35;
   letter-spacing: -0.005em;
@@ -1119,7 +1119,7 @@
 }
 
 .soProductPrice {
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 12px;
   font-weight: 600;
   color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 60%, transparent);
@@ -1136,13 +1136,13 @@
   padding: 7px 14px;
   border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 18%, transparent);
   border-radius: 999px;
-  font-family: var(--header-font, var(--font-secundary, "Poppins", sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 11.5px;
   letter-spacing: 0.04em;
   color: var(--header-text, var(--text-color-base, #000000));
   background: var(--header-bg, var(--background-primary-color, #ffffff));
   cursor: pointer;
-  transition: border-color 0.2s var(--ease), background-color 0.2s var(--ease), color 0.2s var(--ease);
+  transition: border-color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1), background-color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .soTag:hover {
   border-color: var(--header-text, var(--text-color-base, #000000));
