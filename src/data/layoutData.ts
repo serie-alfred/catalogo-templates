@@ -364,6 +364,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--banner-grid-title-color", label: "Cor do título", type: "color", default: "#122161", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--banner-grid-font", label: "Fonte do título", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
+      { id: "06", selection: "banner-grid", key: "grd06frc9j1k", image: "", mobile: "", title: "Grid de banners Template 6", description: "Título centrado e slider de banner-cards de categoria: 3 por página no desktop, 1 com dots e setas no mobile", template: "6", pagina: ["home"], component: "BannerGrid06", path: "molecules/BannerGrid06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--banner-grid-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Grid de banners", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--banner-grid-card-title-color", label: "Cor do título do card", type: "color", default: "#ffffff", group: "Grid de banners", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--banner-grid-font", label: "Fonte do título", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--banner-grid-card-font", label: "Fonte do título do card", type: "font", default: "'League Spartan', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+      ] },
     ],
   },
   bannerSide: {

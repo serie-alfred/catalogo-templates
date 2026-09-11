@@ -101,6 +101,17 @@ O catálogo usa **CSS plano** (CSS Modules `.css`, PostCSS), não SCSS. Inverter
 
 - **Desaninhar:** `.pai { .filho {} }` → `.pai .filho {}` (reconstrua a cadeia de ancestrais).
 - **`&`:** `&:hover` → repetir o seletor pai (`.x:hover`); idem `&::before`, `&:last-of-type`.
+- **Se alguma `@container` mirar a PRÓPRIA raiz do componente, acrescente um wrapper.**
+  Um elemento não consulta o próprio container: com `container-type` na raiz, toda regra
+  `@container { .raiz { … } }` nunca casa — e falha em silêncio, porque o CSS é válido.
+  Mordeu duas vezes na leva de 11/09 (`BannerSide06` e `BannerGrid06`, este último com 32px
+  de diferença em 13 caixas). O conserto é um `<div>` nu com `container-type: inline-size`
+  por fora, e a raiz original volta a ser um filho comum. Vale sempre que a origem aplica o
+  breakpoint na própria raiz (`.wrapper`, `.row`, `.section`…).
+- **`@media` → `@container`, com UMA exceção:** componente `position: fixed` (overlay
+  ancorado na viewport, tipo `HelpFloatButton06`) mantém `@media`. Ele não tem coluna cujo
+  tamanho consultar, e um `@container` mediria um ancestral que não governa nada ali; dentro
+  do iframe do canvas a viewport já é 1440/375.
 - **`@media` → `@container`:** extraia os aninhados para o topo (seletor completo desaninhado) e troque `@media (min/max-width: …)` por `@container (min/max-width: …)` — o preview roda num container com `container-type: inline-size` na raiz, então é a largura do componente (desktop/mobile do gerador) que importa, não a da viewport. Mantenha os mesmos breakpoints do original.
 - **Eliminar SCSS-only:** variáveis `$x`, `@mixin`/`@include`/`@extend`, e funções (`darken()`, `lighten()`, `color-mix()` se o alvo não suportar) → resolver para CSS plano ou hex equivalente. Se aparecer algo que não dá para resolver, avise.
 - **MANTER `var(--…)` verbatim** — é o que faz o preview refletir o tema e os overrides por instância.
