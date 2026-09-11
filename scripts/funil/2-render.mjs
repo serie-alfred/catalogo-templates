@@ -217,7 +217,7 @@ for (const a of alvos) {
     // componente que está correto. A lista é explícita de propósito — "altura 0
     // é aceitável" não pode ser regra geral, senão o estágio deixa de pegar o
     // caso que ele existe para pegar: a seção que não montou.
-    const OVERLAYS = new Set(['help-float']);
+    const OVERLAYS = new Set(['help-float', 'popup-news']);
     const ehOverlay = OVERLAYS.has(a.selection);
     const passou =
       !m.erro &&

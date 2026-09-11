@@ -118,6 +118,7 @@ export type Layouts = {
   newsletter: LayoutSection;
   buySize: LayoutSection;
   helpFloat: LayoutSection;
+  popupNews: LayoutSection;
   productLines: LayoutSection;
   productBanner: LayoutSection;
   categoryTabs: LayoutSection;
@@ -539,6 +540,21 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--help-header-text", label: "Texto do cabeçalho", type: "color", default: "#212721", group: "Ajuda flutuante", inheritsLabel: "cor de texto primária" },
         { cssVar: "--help-divider", label: "Divisória entre itens", type: "color", default: "#828282", group: "Ajuda flutuante" },
         { cssVar: "--help-font", label: "Fonte", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
+    ],
+  },
+  popupNews: {
+    name: "Pop-up de newsletter",
+    items: [
+      { id: "06", selection: "popup-news", key: "popnew06frc1", image: "", mobile: "", title: "Pop-up de newsletter Template 6", description: "Modal de captura de lead com arte à esquerda, título com trecho destacado, quatro campos e rodapé legal; aparece só no desktop", template: "6", pagina: ["home"], component: "PopupNews06", path: "organisms/PopupNews06", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--popup-bg", label: "Fundo do pop-up", type: "color", default: "#ffffff", group: "Formulário" },
+        { cssVar: "--popup-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--popup-title-font", label: "Fonte do título", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--popup-text-color", label: "Cor do texto", type: "color", default: "#212721", group: "Formulário", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--popup-button-bg", label: "Fundo do botão", type: "color", default: "#000000", group: "Botão", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--popup-button-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base" },
+        { cssVar: "--popup-error-color", label: "Cor do aviso de erro", type: "color", default: "#b00020", group: "Formulário" },
+        { cssVar: "--popup-font", label: "Fonte do texto", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
     ],
   },

@@ -90,6 +90,11 @@ export const PARES = [
   { starter: 'CategorySeoFaq06', id: '06', layoutKey: 'categoryDescription', pagina: 'category' },
   { starter: 'TrustvoxReviews06', id: '06', layoutKey: 'productReviews', pagina: 'product' },
   { starter: 'CategoryTabs06', id: '06', layoutKey: 'categoryTabs', pagina: 'home' },
+  // `soDesktop`: a origem tem um guarda `min-width: 1025px` e NÃO renderiza nada
+  // abaixo disso — medir o mobile seria comparar vazio com vazio, e a espera por
+  // conteúdo do clone estouraria os 90s. O portão diz na saída que esse par mede
+  // um viewport só, para ninguém ler 1 componente como 2 viewports.
+  { starter: 'PopupNews06', id: '06', layoutKey: 'popupNews', pagina: 'home', soDesktop: true },
   { starter: 'MainCategory07', id: '07', layoutKey: 'categoryMain', pagina: 'category' },
   { starter: 'ProductDetails07', id: '04', layoutKey: 'productInfo', pagina: 'product' },
   { starter: 'ProductDetails06', id: '05', layoutKey: 'productInfo', pagina: 'product' },
@@ -625,7 +630,10 @@ try {
     process.exit(1);
   }
   for (const par of pares) {
-    for (const [rot, largura, mobile] of [['desktop', 1440, false], ['mobile', 375, true]]) {
+    const telas = par.soDesktop
+      ? [['desktop', 1440, false]]
+      : [['desktop', 1440, false], ['mobile', 375, true]];
+    for (const [rot, largura, mobile] of telas) {
       const rotulo = `${par.starter}/${rot}`;
       // O CLONE mede primeiro porque é ele quem define a altura do scrollport:
       // o editor dá ao iframe uma altura própria (1104px na PDP), e a origem
@@ -643,6 +651,7 @@ try {
       const nLivres = origem.filter(x => (par.textoLivre ?? []).includes(x.role)).length;
       console.log(
         `  ${rotulo}: ${origem.length} nós · ${n} asserções${ 
+          par.soDesktop ? ' (só desktop: a origem não renderiza no mobile)' : ''}${ 
           nLivres ? ` (${nLivres} com texto livre: geometria dispensada)` : ''}`
       );
     }
