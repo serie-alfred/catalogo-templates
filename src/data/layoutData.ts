@@ -330,6 +330,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--ruler-bg", label: "Fundo da régua", type: "color", default: "#122161", group: "Régua", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--ruler-text", label: "Texto e ícones da régua", type: "color", default: "#ffffff", group: "Régua", inheritsLabel: "cor de texto secundária" },
       ] },
+      { id: "03", selection: "ruler", key: "bnf03q2w3e4r", image: "", mobile: "", title: "Regua de benefícios Template 3", description: "Faixa escura de benefícios: ícone + título + subtítulo, 4 colunas no desktop e 2 no mobile", template: "3", pagina: ["home"], component: "Ruler03", path: "molecules/BenefitsStrip07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+        { cssVar: "--benefits-bg", label: "Fundo da faixa", type: "color", default: "#2c2420", group: "Régua", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--benefits-accent", label: "Ícones da régua", type: "color", default: "#b8976a", group: "Régua", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--benefits-title", label: "Texto da régua", type: "color", default: "#f5f0e8", group: "Régua", inheritsLabel: "cor de texto base" },
+        { cssVar: "--benefits-font", label: "Fonte da régua", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
       { id: "02", selection: "ruler", key: "bnf0213jan45", image: "", mobile: "", title: "Regua de benefícios Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Ruler02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary"] },
       { id: "04", selection: "ruler", key: "bnf04t5u6v7w", image: "", mobile: "", title: "Regua de benefícios Template 4", description: "Régua de benefícios em linha de ícones", template: "4", pagina: ["home"], component: "Ruler04", platforms: ['Tray'], backgroundVars: [] },
       { id: "05", selection: "ruler", key: "bnf05x8y9z0a", image: "", mobile: "", title: "Regua de benefícios Template 5", description: "Régua de benefícios em carrossel", template: "5", pagina: ["home"], component: "Ruler05", platforms: ['Tray'], backgroundVars: [] },

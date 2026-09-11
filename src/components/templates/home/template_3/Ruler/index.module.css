@@ -1,0 +1,142 @@
+/* Espelha molecules/BenefitsStrip07 (faststore.starter).
+   Conversão: `$vars` do SCSS resolvidas inline (as cadeias var() ficam verbatim),
+   aninhamento desfeito e `@media` → `@container`. Os breakpoints são os mesmos
+   da origem (768 e a faixa 768–1023). */
+
+.benefitsStrip07Root {
+  line-height: normal;
+  font-family: var(--benefits-font, var(--font-secundary, 'DM Sans', sans-serif));
+  container-type: inline-size;
+}
+
+.benefitsStrip07Root * {
+  box-sizing: border-box;
+}
+
+.desktop {
+  display: none;
+}
+
+.mobile {
+  display: block;
+}
+
+@container (min-width: 768px) {
+  .desktop {
+    display: block;
+  }
+
+  .mobile {
+    display: none;
+  }
+}
+
+.pixIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.2px solid var(--benefits-accent, var(--background-secundary-color, #b8976a));
+  border-radius: 50%;
+  flex-shrink: 0;
+  color: var(--benefits-accent, var(--background-secundary-color, #b8976a));
+}
+
+.pixText {
+  font-family: var(--benefits-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-weight: 700;
+}
+
+/* ═══ DESKTOP ═══ */
+.strip {
+  background: var(--benefits-bg, var(--background-primary-color, #2c2420));
+  padding: 40px 120px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+/* 768–1023: 4-col fica apertado demais (~108px/col) → 2-col legível.
+   O design 4-col é validado @1024/1280. */
+@container (min-width: 768px) and (max-width: 1023px) {
+  .strip {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 32px 40px;
+  }
+}
+
+.benefit {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.icon {
+  color: var(--benefits-accent, var(--background-secundary-color, #b8976a));
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.icon .pixText {
+  font-size: 10px;
+}
+
+.bTitle {
+  font-family: var(--benefits-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 13px;
+  font-weight: 500;
+  line-height: normal;
+  color: var(--benefits-title, var(--text-color-base, #f5f0e8));
+  margin: 0 0 4px;
+}
+
+.bSubtitle {
+  font-family: var(--benefits-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 11.5px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--benefits-title, var(--text-color-base, #f5f0e8)) 55%, transparent);
+  margin: 0 0;
+}
+
+/* ═══ MOBILE ═══ */
+.mStrip {
+  background: var(--benefits-bg, var(--background-primary-color, #2c2420));
+  padding: 28px 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.mBenefit {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.mIcon {
+  color: var(--benefits-accent, var(--background-secundary-color, #b8976a));
+  display: inline-flex;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.mIcon .pixText {
+  font-size: 7px;
+}
+
+.mBTitle {
+  font-family: var(--benefits-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+  color: var(--benefits-title, var(--text-color-base, #f5f0e8));
+}
+
+.mBSubtitle {
+  font-family: var(--benefits-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 10.5px;
+  font-weight: 400;
+  line-height: 1.4;
+  color: color-mix(in srgb, var(--benefits-title, var(--text-color-base, #f5f0e8)) 50%, transparent);
+  margin: 0;
+}

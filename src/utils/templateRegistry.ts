@@ -76,6 +76,7 @@ import Footer03 from '@/components/templates/common/template_3/Footer';
 // ******
 // Home
 import Showcase03 from '@/components/templates/home/template_3/Showcase';
+import Ruler03 from '@/components/templates/home/template_3/Ruler';
 
 // ******
 // Produto
@@ -192,6 +193,7 @@ export const TemplateRegistry: Record<
   Footer03,
   Spot03,
   Showcase03,
+  Ruler03,
   ProductInfo03,
 
   SpecialOffers04,
