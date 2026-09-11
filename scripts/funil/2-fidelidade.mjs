@@ -31,7 +31,7 @@
  *    nada visível na tela. Quem herda não é comparado; quem estabelece, é.
  */
 import puppeteer from 'puppeteer-core';
-import { findChrome, BASE_URL } from './lib/util.mjs';
+import { findChrome, BASE_URL, lerLayouts } from './lib/util.mjs';
 
 const STARTER_URL = process.env.FUNIL_STARTER_URL ?? 'http://localhost:3000';
 const TOL = 0.5;
@@ -87,6 +87,7 @@ export const PARES = [
   { starter: 'ProductDescriptionBanner01', id: '01', layoutKey: 'productBanner', pagina: 'product' },
   { starter: 'CategoryTitle06', id: '06', layoutKey: 'categoryTitle', pagina: 'category' },
   { starter: 'MainCategory07', id: '07', layoutKey: 'categoryMain', pagina: 'category' },
+  { starter: 'ProductDetails07', id: '04', layoutKey: 'productInfo', pagina: 'product' },
   {
     starter: 'Header07',
     id: '07',
@@ -122,6 +123,32 @@ const PROPS = [
  * problema de carregamento — fonte pedida e não baixada continua mudando a
  * caixa, e a caixa é a asserção.
  */
+/**
+ * Paleta de NÍVEL 1 do par — uma cor/fonte única por variável do
+ * `variablesSchema` do item, injetada nos DOIS lados.
+ *
+ * Sem isto o portão é cego para o erro que mais importa no elo frágil do
+ * pipeline: ler a var de nível 1 ERRADA. Medido — troquei `--pdp-title-color`
+ * por `--pdp-accent` dentro do `.price` do clone e o portão passou verde, porque
+ * as duas caem no mesmo fallback de nível 2 (`--text-primary-color`) e ninguém
+ * declara nível 1 na hora da medição. Com uma cor por var, o papel trocado pinta
+ * diferente e aparece. O nível 3 continua coberto pelo `1-variaveis`.
+ *
+ * Fonte vira uma família inexistente de propósito: o que se compara é o
+ * `font-family` computado (string), e o fallback `monospace` é o mesmo dos dois
+ * lados, então a geometria segue comparável.
+ */
+function paletaNivel1(par, layouts) {
+  const item = layouts[par.layoutKey]?.items.find(i => i.id === par.id);
+  const schema = item?.variablesSchema ?? [];
+  const fora = {};
+  schema.forEach((v, i) => {
+    fora[v.cssVar] =
+      v.type === 'font' ? `'Sonda${i}', monospace` : `rgb(0, ${31 + i}, 0)`;
+  });
+  return fora;
+}
+
 const PALETA = {
   '--background-primary-color': 'rgb(11, 0, 0)',
   '--background-primary-color-safe': 'rgb(12, 0, 0)',
@@ -195,8 +222,17 @@ const normalizar = paleta => {
     // shell resolve isso de um jeito. O `×` de fechar um chip do MainCategory07
     // media 9,02px no starter e 8,19px aqui — com o DOM, o padding, o gap e o
     // font-size idênticos. Sobrava 0,7px em cada chip.
+    //
+    // Sétima: `padding`. `src/styles/globals.css` do catálogo tem
+    // `* { box-sizing: border-box; padding: 0; margin: 0 }`; o shell do starter
+    // não zera o UA padding do <button> (1px 6px). O `.ctaBuy` do
+    // ProductDetails07 não declara padding nenhum nos dois lados, e mesmo assim
+    // o portão via "1px 6px" → "0px" — com `h` batendo (border-box + altura
+    // fixa), ou seja, sem consequência visual. Como as outras, some por
+    // especificidade: o seletor de elemento (0,0,1) perde para qualquer
+    // `.classe` que o componente declare.
     'button, input, select, textarea { line-height: normal;' +
-    ' font-family: inherit; }';
+    ' font-family: inherit; padding: 0; }';
   document.head.appendChild(st);
   // Regra de autor com `!important` em `*`, não inline no <html>/<body>: o
   // starter declara os tokens em `body.theme`, mas o catálogo os declara num
@@ -286,18 +322,24 @@ async function trocarPagina(page, pagina) {
     timeout: 30000,
     polling: 250,
   });
-  const limite = Date.now() + 20000;
+  const QUATRO =
+    "return (document.querySelector('[role=\"listbox\"][aria-label=\"P\u00e1gina\"]')" +
+    "?.querySelectorAll('[role=\"option\"]').length ?? 0) === 4;";
+  const limite = Date.now() + 40000;
   let abriu = false;
   while (Date.now() < limite && !abriu) {
-    const n = await page.evaluate(
-      () =>
-        document
-          .querySelector('[role="listbox"][aria-label="P\u00e1gina"]')
-          ?.querySelectorAll('[role="option"]').length ?? 0
-    );
-    if (n === 4) { abriu = true; break; }
+    abriu = await page.evaluate(new Function(QUATRO));
+    if (abriu) break;
     await page.evaluate(new Function(`${TRIG}t?.click()`));
-    await s(400);
+    // ESPERAR o menu, não dormir 400ms e clicar de novo: o gatilho é um toggle,
+    // então a versão anterior FECHAVA o que tinha acabado de abrir sempre que o
+    // editor demorava mais que isso. Sozinho o estágio passava; no funil
+    // completo, com o dev server já castigado, ele morria aqui com "o seletor
+    // de página não abriu com 4 opções" — no MainCategory07, o 15º par.
+    abriu = await page
+      .waitForFunction(new Function(QUATRO), { timeout: 8000, polling: 150 })
+      .then(() => true)
+      .catch(() => false);
   }
   if (!abriu) throw new Error('o seletor de página não abriu com 4 opções');
   await page.evaluate(nome => {
@@ -370,16 +412,16 @@ async function esperarConteudo(page, timeout = 90000) {
   }
 }
 
-async function medirStarter(browser, comp, largura) {
+async function medirStarter(browser, comp, largura, altura, paleta) {
   const p = await browser.newPage();
   try {
-    await p.setViewport({ width: largura, height: 1000, deviceScaleFactor: 1 });
+    await p.setViewport({ width: largura, height: altura, deviceScaleFactor: 1 });
     await p.goto(`${STARTER_URL}/dev-fidelity?component=${comp}`, {
       waitUntil: 'networkidle2', timeout: 180000,
     });
     await p.evaluate(() => document.fonts?.ready).catch(() => {});
     await s(1500);
-    await p.evaluate(normalizar, PALETA);
+    await p.evaluate(normalizar, paleta);
     await s(200);
     return await p.evaluate(medir, PROPS);
   } finally {
@@ -387,7 +429,7 @@ async function medirStarter(browser, comp, largura) {
   }
 }
 
-async function medirCatalogo(browser, par, mobile) {
+async function medirCatalogo(browser, par, mobile, paleta) {
   const p = await browser.newPage();
   try {
     await p.goto(`${BASE_URL}/gerador`, { waitUntil: 'networkidle2', timeout: 180000 });
@@ -444,9 +486,13 @@ async function medirCatalogo(browser, par, mobile) {
     // normalizar e medir na MESMA volta: se o contexto morrer entre as duas, a
     // medição sairia sem a normalização e o portão reprovaria por nada.
     return await noFrame(p, async f => {
-      await f.evaluate(normalizar, PALETA);
+      await f.evaluate(normalizar, paleta);
       await s(200);
-      return f.evaluate(medir, PROPS);
+      const nos = await f.evaluate(medir, PROPS);
+      // A altura do scrollport vai junto porque a origem precisa medir DENTRO
+      // dela — ver o comentário do laço.
+      const altura = await f.evaluate(() => window.innerHeight);
+      return { nos, altura };
     });
   } finally {
     await p.close();
@@ -511,6 +557,11 @@ function comparar(origem, clone, rotulo, falhas, textoLivre = []) {
   return asserts;
 }
 
+// FIDELIDADE_SO=<Nome> roda um par só (iteração durante a migração). O funil
+// nunca seta a variável, então o placar dele continua vendo os N pares.
+let so, pares;
+const LAYOUTS = lerLayouts();
+
 const browser = await puppeteer.launch({
   executablePath: findChrome(),
   headless: 'shell',
@@ -521,15 +572,32 @@ const browser = await puppeteer.launch({
 const falhas = [];
 let total = 0;
 try {
+  // FIDELIDADE_SO=<Nome> roda um par só — é para iterar durante a migração.
+  // O funil nunca seta a variável, então o placar dele continua vendo os N pares.
+  so = process.env.FIDELIDADE_SO;
+  pares = so ? PARES.filter(p => p.starter === so) : PARES;
+  if (so && !pares.length) {
+    console.error(`  FIDELIDADE_SO=${so} não casa com nenhum par declarado`);
+    process.exit(1);
+  }
   if (!PARES.length) {
     console.error('  nenhum par declarado — o portão não prova nada');
     process.exit(1);
   }
-  for (const par of PARES) {
+  for (const par of pares) {
     for (const [rot, largura, mobile] of [['desktop', 1440, false], ['mobile', 375, true]]) {
       const rotulo = `${par.starter}/${rot}`;
-      const origem = await medirStarter(browser, par.starter, largura);
-      const clone = await medirCatalogo(browser, par, mobile);
+      // O CLONE mede primeiro porque é ele quem define a altura do scrollport:
+      // o editor dá ao iframe uma altura própria (1104px na PDP), e a origem
+      // media numa janela de altura fixa. Para `position: sticky`, isso não é
+      // detalhe — o `.mStickyCta` do ProductDetails07 ficava GRAMPEADO no
+      // rodapé de um scrollport e em posição de fluxo no outro, e a mesma regra
+      // idêntica dos dois lados dava 104px de diferença (768px quando subi a
+      // janela da origem para 2400). Medir os dois na mesma altura faz o
+      // grampo acontecer no mesmo lugar — sem dispensar asserção nenhuma.
+      const paleta = { ...PALETA, ...paletaNivel1(par, LAYOUTS) };
+      const { nos: clone, altura } = await medirCatalogo(browser, par, mobile, paleta);
+      const origem = await medirStarter(browser, par.starter, largura, altura, paleta);
       const n = comparar(origem, clone, rotulo, falhas, par.textoLivre);
       total += n;
       const nLivres = origem.filter(x => (par.textoLivre ?? []).includes(x.role)).length;
@@ -549,5 +617,5 @@ if (falhas.length) {
   console.log(`\n  ${falhas.length} divergência(s):`);
   for (const f of falhas) console.log(`   ❌ ${f}`);
 }
-console.log(`  ${total - falhas.length}/${total} passam  (${PARES.length} componente(s))`);
+console.log(`  ${total - falhas.length}/${total} passam  (${pares.length} componente(s))`);
 process.exit(falhas.length ? 1 : 0);

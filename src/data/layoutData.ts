@@ -669,6 +669,14 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-info-font", label: "Fonte (informações)", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
         { cssVar: "--prod-gallery-font", label: "Fonte (selos da galeria)", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
       ] },
+      { id: "04", selection: "product-info", key: "info04pdp7br", image: "", mobile: "", title: "Detalhes do Produto Template 4", description: "PDP editorial: galeria com miniaturas, coluna de compra fixa com preço/Pix/variações, descrição com especificações e dúvidas, e prateleira de relacionados", template: "4", pagina: ["product"], component: "ProductInfo04", path: "organisms/ProductDetails07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+        { cssVar: "--pdp-title-color", label: "Cor do título e dos textos", type: "color", default: "#2c2420", group: "Textos", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--pdp-accent", label: "Cor de destaque", type: "color", default: "#b8976a", group: "Destaque", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--pdp-cta-bg", label: "Fundo do botão", type: "color", default: "#2c2420", group: "Botão principal", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--pdp-cta-text", label: "Texto do botão", type: "color", default: "#faf8f4", group: "Botão principal", inheritsLabel: "cor de texto base" },
+        { cssVar: "--pdp-font-title", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--pdp-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
     ],
   },
   productRelated: {
