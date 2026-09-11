@@ -1,3 +1,10 @@
+/* Os cinzas do campo de busca eram `var(--grey-NN)` — tokens da UI de
+   MARKETING do e-temas (globals.css), que não existem no tema do cliente e não
+   estão em variablesSchema nenhum: no preview pintavam com a marca do e-temas
+   e o cliente não conseguia editá-los. Agora derivam de `--header-text`, como
+   manda a regra de neutro sobre fundo customizável. Os percentuais foram
+   escolhidos para o valor sobre o branco padrão do header ser byte-idêntico ao
+   cinza que estava aqui: nada muda no default, e agora acompanha o tema. */
 /* ------------------------------------------------------------------
    Header (live, responsive)
 ------------------------------------------------------------------ */
@@ -130,16 +137,16 @@
   width: 100% !important;
   height: 42px !important;
   padding: 0 16px 0 44px !important;
-  border: 1px solid var(--grey-20) !important;
+  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 14.9%, transparent) !important;
   border-radius: 999px !important;
-  background: var(--grey-08) !important;
+  background: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 4.31%, transparent) !important;
   font-size: 13.5px !important;
   letter-spacing: 0.01em !important;
   color: #000 !important;
   transition: border-color .2s cubic-bezier(0.2, 0.7, 0.2, 1), background-color .2s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow .2s cubic-bezier(0.2, 0.7, 0.2, 1) !important;
 }
-.searchInput::placeholder { color: var(--grey-55); }
-.searchInput:hover { background: var(--grey-12); }
+.searchInput::placeholder { color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 45.1%, transparent); }
+.searchInput:hover { background: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 7.06%, transparent); }
 .searchInput:focus {
   outline: none;
   background: #fff;
@@ -151,7 +158,7 @@
   left: 16px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--grey-55);
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 45.1%, transparent);
   transition: color .2s cubic-bezier(0.2, 0.7, 0.2, 1);
   pointer-events: none;
 }

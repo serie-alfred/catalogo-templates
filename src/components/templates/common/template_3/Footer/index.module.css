@@ -1,3 +1,9 @@
+/* Cinzas e fontes da barra legal eram `var(--grey-NN)`, `var(--font-display)` e
+   `var(--font-body)` — tokens da UI de MARKETING do e-temas (globals.css), que
+   não existem no tema do cliente e não estão em variablesSchema nenhum. Agora
+   derivam de `--footer-text` e `--footer-font`. Os percentuais foram escolhidos
+   para o valor sobre o branco padrão do rodapé ser byte-idêntico ao cinza que
+   estava aqui. */
 /* Globais / Utilitários de Resets aplicados ao componente */
 .summary {
   cursor: pointer;
@@ -323,7 +329,7 @@ details.col.colList {
 .nlForm {
   display: flex;
   align-items: center;
-  border: 1px solid var(--grey-20);
+  border: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #000000)) 14.9%, transparent);
   border-radius: 999px;
   background: var(--footer-bg, var(--background-footer, #ffffff));
   height: 50px;
@@ -354,7 +360,7 @@ details.col.colList {
 }
 
 .nlInput::placeholder {
-  color: var(--grey-55);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #000000)) 45.1%, transparent);
 }
 
 .nlBtn {
@@ -420,7 +426,7 @@ details.col.colList {
   gap: 14px;
   height: 50px;
   padding: 0 22px;
-  border: 1px solid var(--grey-20);
+  border: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #000000)) 14.9%, transparent);
   border-radius: 999px;
   background: var(--footer-bg, var(--background-footer, #ffffff));
 }
@@ -495,7 +501,7 @@ details.col.colList {
 .payChip {
   width: 38px;
   height: 25px;
-  border: 1px solid var(--grey-20);
+  border: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #000000)) 14.9%, transparent);
   border-radius: 4px;
   display: inline-flex;
   align-items: center;
@@ -602,7 +608,7 @@ details.col.colList {
 }
 
 .legalPlatformBrand {
-  font-family: var(--font-display);
+  font-family: var(--footer-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 700;
   font-size: 12px;
   letter-spacing: -.005em;
@@ -626,7 +632,7 @@ details.col.colList {
 }
 
 .legalPlatformRole {
-  font-family: var(--font-body);
+  font-family: var(--footer-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 10.5px;
   font-weight: 500;
   letter-spacing: .16em;
@@ -758,7 +764,7 @@ details.col.colList {
 
   .col {
     order: 3;
-    border-top: 1px solid var(--grey-08);
+    border-top: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #000000)) 4.31%, transparent);
     padding: 0;
   }
 
@@ -809,7 +815,7 @@ details.col.colList {
   }
 
   .col:last-of-type {
-    border-bottom: 1px solid var(--grey-08);
+    border-bottom: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #000000)) 4.31%, transparent);
   }
 
   details.col.colPolicies {
