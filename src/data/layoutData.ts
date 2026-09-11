@@ -105,6 +105,7 @@ export type Layouts = {
   bannerProduct: LayoutSection;
   productDescription: LayoutSection;
   productInfo: LayoutSection;
+  productReviews: LayoutSection;
   productRelated: LayoutSection;
   textArea: LayoutSection;
   bannerTriple: LayoutSection;
@@ -715,6 +716,18 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-calc-text", label: "Texto do botão de frete", type: "color", default: "#ffffff", group: "Botão secundário", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--prod-chip-text", label: "Texto do tamanho selecionado", type: "color", default: "#ffffff", group: "Seletor de tamanho", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--prod-zoom-bg", label: "Fundo do zoom da foto", type: "color", default: "#f6f6f6", group: "Galeria / Selos" },
+        { cssVar: "--prod-font", label: "Fonte", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
+    ],
+  },
+  productReviews: {
+    name: "Avaliações do produto",
+    items: [
+      { id: "06", selection: "product-reviews", key: "prodrev06tvx", image: "", mobile: "", title: "Avaliações do produto Template 6", description: "Acordeão de avaliações da página de produto: moldura, título e o espaço reservado ao widget de avaliações", template: "6", pagina: ["product"], component: "ProductReviews06", path: "organisms/TrustvoxReviews06", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--prod-text", label: "Cor do título", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--prod-card-bg", label: "Fundo do cartão", type: "color", default: "#ffffff", group: "Título" },
+        { cssVar: "--prod-button-bg", label: "Cor do botão do widget", type: "color", default: "#212721", group: "Botão", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--prod-title-font", label: "Fonte do título", type: "font", default: "'Inter', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--prod-font", label: "Fonte", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
     ],
