@@ -115,6 +115,7 @@ export type Layouts = {
   review: LayoutSection;
   rooms: LayoutSection;
   newsletter: LayoutSection;
+  buySize: LayoutSection;
 };
 
 export const LAYOUTS: Layouts = {
@@ -445,6 +446,18 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "combined-categ", key: "homcmb04y9z0", image: "", mobile: "", title: "Combinações Template 4", description: "Bloco combinado de categorias, chamada e desconto", template: "4", pagina: ["home"], component: "HomeCombined04", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
+  buySize: {
+    name: "Compre por tamanho",
+    items: [
+      { id: "06", selection: "buy-size", key: "bsz06frc5e6f", image: "", mobile: "", title: "Compre por tamanho Template 6", description: "Título centrado, fileira de chips de tamanho e link para a lista completa", template: "6", pagina: ["home"], component: "BuySize06", path: "molecules/Categories06", platforms: ['VTEX'], backgroundVars: ["tertiary"], variablesSchema: [
+        { cssVar: "--categories-bg", label: "Fundo da seção", type: "color", default: "#f6f6f6", group: "Compre por tamanho", inheritsLabel: "cor terciária da marca" },
+        { cssVar: "--categories-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Compre por tamanho", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--categories-text", label: "Texto dos chips e do link", type: "color", default: "#212721", group: "Compre por tamanho", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--categories-font", label: "Fonte do título e dos chips", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+      ] },
+    ],
+  },
+
   newsletter: {
     name: "Newsletter",
     items: [

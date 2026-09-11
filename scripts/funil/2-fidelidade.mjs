@@ -50,6 +50,7 @@ export const PARES = [
   { starter: 'BannerMain07', id: '07', layoutKey: 'banner', pagina: 'home' },
   { starter: 'ShopByRoom07', id: '07', layoutKey: 'rooms', pagina: 'home' },
   { starter: 'Newsletter07', id: '07', layoutKey: 'newsletter', pagina: 'home' },
+  { starter: 'Categories06', id: '06', layoutKey: 'buySize', pagina: 'home' },
 ];
 
 /** Propriedades que valem asserção quando o nó as possui. */

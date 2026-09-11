@@ -158,6 +158,7 @@ import Categories07 from '@/components/templates/home/template_7/Categories';
 import BannerMain07 from '@/components/templates/home/template_7/BannerMain';
 import ShopByRoom07 from '@/components/templates/home/template_7/ShopByRoom';
 import Newsletter07 from '@/components/templates/home/template_7/Newsletter';
+import BuySize06 from '@/components/templates/home/template_6/BuySize';
 
 export const TemplateRegistry: Record<
   string,
@@ -244,4 +245,5 @@ export const TemplateRegistry: Record<
   BannerMain07,
   ShopByRoom07,
   Newsletter07,
+  BuySize06,
 };

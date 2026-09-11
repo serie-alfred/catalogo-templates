@@ -1,0 +1,181 @@
+/* Espelha molecules/Categories06 (faststore.starter): aninhamento desfeito,
+   `&:hover`/`&::before`/`&::after` expandidos, `@media` de largura →
+   `@container`. Os números vêm da captura ao vivo da origem
+   (_bases/Categories06/metrics.md) e ficam como estão. */
+
+/* ── Categories06 — "Compre por tamanho" ───────────────────────── */
+/* FIDELIDADE: números de `_bases/Categories06/metrics.md` (captura ao vivo, 4 */
+/* viewports), anotados com `// metrics:`. Validação: `yarn fidelity Categories06`. */
+/* Origem muda em 1024→1280 → breakpoint padrão do repo: 1200 (CLAUDE.md). */
+
+/* centralização pelo PAI (como a origem: flexRowContent jc center) — margin auto */
+/* no wrapper computaria margens ≠ 0 e falharia o diff */
+.outer {
+  container-type: inline-size;
+  display: flex;
+  justify-content: center;
+  padding: 4rem 0;
+  background: var(--categories-bg, var(--background-tertiary-color, #f6f6f6));
+  margin-top: 4rem;
+
+}
+
+@container (max-width: 768px) {
+  .outer {
+    padding: 2.5rem 0;
+    margin-top: 2.5rem;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;  /* metrics: wrapper-col@1280 */
+  align-items: center;  /* metrics: wrapper-col@1280 (título/conteúdo centrados) */
+  gap: 40px;  /* metrics: wrapper-col@1280 (título→chips→link 40) */
+  /* fit-content: 740 no desktop (largura da fileira de chips), 326 no tablet — */
+  /* metrics: wrapper-col@1280/768 */
+  width: fit-content;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: flex-start;  /* metrics: title-row@1280 */
+  align-items: flex-start;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--categories-font, var(--font-primary, 'Fabriga', sans-serif));
+  font-size: 24px;  /* metrics: title@1280 (folha 24px) */
+  line-height: 27.6px;  /* metrics: title@1280 (h 27.59) */
+  font-weight: 600;  /* metrics: title@1280 */
+  color: var(--categories-title-color, var(--text-primary-color, #212721));
+}
+
+.contentCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;  /* metrics: content-col@1280 */
+
+  /* A origem tem um bloco de SUBTÍTULO VAZIO (rich-text#subtitle-buy-size, h 0) */
+  /* antes dos chips — ele ocupa um slot do gap (content-col h 92 = 0 + 16 + 76). */
+}
+
+.contentCol::before {
+  content: '';
+}
+
+.chipsRow {
+  flex-shrink: 0;  /* ver skip no fidelity.map (origem alterna por breakpoint próprio) */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;  /* metrics: chips-row@1280 */
+  align-items: stretch;
+  gap: 16px;  /* metrics: chips-row@1280 */
+  width: 740px;  /* metrics: chips-row@1280 (14×38 + 13×16 = 740 exato) */
+}
+
+.chip {
+  display: flex;  /* metrics: chip@1280 (flex center) */
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  width: 38px;  /* metrics: chip@1280 (38×38) */
+  height: 38px;
+  border: 1px solid color-mix(in srgb, var(--categories-text, var(--text-primary-color, #212721)) 12%, transparent);  /* metrics: hover chip (REPOUSO 0.12) */
+  text-decoration: none;
+  transition: 0.4s;  /* metrics: chip@1280 */
+
+}
+
+/* hover REAL da origem: a borda escurece para sólida */
+.chip:hover {
+  border-color: var(--categories-text, var(--text-primary-color, #212721));
+}
+
+.chipLabel {
+  display: block;
+  font-family: var(--categories-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 12px;  /* metrics: chip@1280 (folha 12px) */
+  line-height: 13.8px;  /* metrics: chip@1280 */
+  font-weight: 600;  /* metrics: chip@1280 */
+  color: var(--categories-text, var(--text-primary-color, #212721));
+}
+
+.allLink {
+  display: flex;  /* metrics: all-link@1280 (flex ai center gap 4) */
+  align-items: center;
+  gap: 4px;
+  padding-bottom: 8px;  /* metrics: all-link@1280 (pb 8 — respiro do sublinhado) */
+  border-bottom: 1px solid color-mix(in srgb, var(--categories-text, var(--text-primary-color, #212721)) 16%, transparent);  /* metrics: hover all-link (REPOUSO 0.16) */
+  text-decoration: none;
+  font-size: 12px;  /* metrics: all-link@1280 (folha 12 — o wrapper não pode herdar 16) */
+  line-height: 13.8px;
+  color: var(--categories-text, var(--text-primary-color, #212721));
+  transition: 0.4s;  /* metrics: all-link@1280 */
+
+}
+
+/* hover REAL da origem: o sublinhado escurece para sólido */
+.allLink:hover {
+  border-bottom-color: var(--categories-text, var(--text-primary-color, #212721));  /* metrics: hover all-link */
+}
+
+/* seta "→" via pseudo. O stroke #212721 vai CRAVADO dentro do data-URI:
+   var() não atravessa a fronteira do SVG embutido. Fora do contrato, de
+   propósito. */
+.allLink::after {
+    content: url("data:image/svg+xml,%3Csvg width='8' height='8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_1855_3652)' stroke='%23212721' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1.25 4H6.75M4.5 1.75L6.75 4 4.5 6.25'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_1855_3652'%3E%3Cpath fill='%23fff' d='M0 0H8V8H0z'/%3E%3C/clipPath%3E%3C/defs%3E%3Cscript xmlns=''/%3E%3C/svg%3E");
+    font-size: 12px;
+    line-height: 13.8px;
+}
+
+.allLabel {
+  display: block;
+  font-family: var(--categories-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 12px;  /* metrics: all-label@1280 (folha 12px) */
+  line-height: 13.8px;  /* metrics: all-label@1280 */
+  font-weight: 400;  /* metrics: all-label@1280 */
+  color: var(--categories-text, var(--text-primary-color, #212721));
+}
+
+/* ── BREAKPOINT: origem muda em 1024→1280 → padrão do repo 1200 ──────────────── */
+@container (max-width: 1199px) {
+  .wrapper {
+    gap: 24px;  /* metrics: wrapper-col@375 (gap 24 no empilhado) */
+  }
+
+  .title {
+    font-size: 20px;  /* metrics: title@375 (folha 20px) */
+    line-height: 23px;  /* metrics: title@375 (h 23) */
+  }
+
+  .chipsRow {
+    width: 326px;  /* metrics: chips-row@375 (caixa fixa 326 — 2 fileiras de 7) */
+    gap: 10px 14px;  /* metrics: chips-row@375 (row-gap 10, column-gap 14) */
+  }
+
+  .chip {
+    width: 33px;  /* metrics: chip@375 (33×33) */
+    height: 33px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chip,
+  .allLink {
+    transition-duration: 0ms !important;
+  }
+}
+
+/* Origem: no phone o wrapper ocupa 100% (375) mas no tablet é fit-content (326). */
+/* Exceção justificada ao grid do repo: corte no breakpoint phone da origem (~640, */
+/* padrão Tachyons/VTEX) — ver _bases/Categories06/notas.md. */
+@container (max-width: 639px) {
+  .wrapper {
+    width: 100%;  /* metrics: wrapper-col@375 (100% do viewport) */
+  }
+}
