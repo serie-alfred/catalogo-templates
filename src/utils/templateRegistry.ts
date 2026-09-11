@@ -155,6 +155,7 @@ import Showcase07 from '@/components/templates/home/template_7/Showcase';
 import ClientReview07 from '@/components/templates/home/template_7/ClientReview';
 import BannerSoloLeft07 from '@/components/templates/home/template_7/BannerSoloLeft';
 import Categories07 from '@/components/templates/home/template_7/Categories';
+import BannerMain07 from '@/components/templates/home/template_7/BannerMain';
 
 export const TemplateRegistry: Record<
   string,
@@ -238,4 +239,5 @@ export const TemplateRegistry: Record<
   ClientReview07,
   BannerSoloLeft07,
   Categories07,
+  BannerMain07,
 };

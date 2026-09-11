@@ -327,6 +327,14 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--banner-main-accent", label: "Cor do bullet ativo", type: "color", default: "#682A77", group: "Carrossel", inheritsLabel: "cor primária da marca" },
       ] },
       { id: "06", selection: "banner-main", key: "ban06a1b2c3d", image: "", mobile: "", title: "Banners Template 6", description: "Banner clicável de largura total, com arte separada para desktop e mobile", template: "6", pagina: ["home"], component: "BannerMain06", path: "organisms/BannerMain06", platforms: ['Tray', 'VTEX'], backgroundVars: [] },
+      { id: "07", selection: "banner-main", key: "ban07bru6h7j", image: "", mobile: "", title: "Banners Template 7", description: "Hero com rótulo, título, subtítulo e CTAs sobre a arte; conteúdo e altura próprios no mobile", template: "7", pagina: ["home"], component: "BannerMain07", path: "organisms/BannerMain07", platforms: ['VTEX'], backgroundVars: ["secondary"], variablesSchema: [
+        { cssVar: "--banner-main-title-color", label: "Cor do título", type: "color", default: "#faf8f4", group: "Hero", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--banner-main-text", label: "Cor do rótulo e do subtítulo", type: "color", default: "#f5f0e8", group: "Hero", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--banner-main-cta-bg", label: "Fundo do botão principal", type: "color", default: "#faf8f4", group: "Hero", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--banner-main-cta-text", label: "Texto do botão principal", type: "color", default: "#2c2420", group: "Hero", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--banner-main-title-font", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--banner-main-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
     ],
   },
   ruler: {
