@@ -280,7 +280,16 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--footer-title-font", label: "Fonte dos títulos", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "07", selection: "footer", key: "ftr07bru3n4p", image: "", mobile: "", title: "Footer Template 7", description: "Rodapé Brasilusa: faixa de benefícios, colunas institucionais e barra inferior", template: "7", pagina: ["common"], component: "Footer07", path: "organisms/Footer07", platforms: ['VTEX'], backgroundVars: ["secondary", "tertiary", "footer"] },
+      { id: "07", selection: "footer", key: "ftr07bru3n4p", image: "", mobile: "", title: "Footer Template 7", description: "Rodapé Brasilusa: faixa de benefícios, colunas institucionais e barra inferior", template: "7", pagina: ["common"], component: "Footer07", path: "organisms/Footer07", platforms: ['VTEX'], backgroundVars: ["secondary", "tertiary", "footer"], variablesSchema: [
+        { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#1e1612", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
+        { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#f5f0e8", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
+        { cssVar: "--footer-accent", label: "Cor de destaque", type: "color", default: "#b8976a", group: "Rodapé", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--footer-button-bg", label: "Fundo do botão da newsletter", type: "color", default: "#b8976a", group: "Newsletter", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--footer-button-text", label: "Texto do botão da newsletter", type: "color", default: "#ffffff", group: "Newsletter", inheritsLabel: "cor de texto base" },
+        { cssVar: "--footer-input-bg", label: "Fundo do campo de e-mail", type: "color", default: "rgba(255, 255, 255, 0.07)", group: "Newsletter" },
+        { cssVar: "--footer-title-font", label: "Fonte dos títulos", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--footer-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
     ],
   },
 

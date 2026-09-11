@@ -84,9 +84,6 @@ const PENDENTES = {
     'comum com a origem (controles: Footer06 88%, Header04 100%). Trocar os ' +
     'tokens seria remendar o componente errado — o conserto é re-migrar, e ' +
     'isso sai junto do variablesSchema que falta. ACHADOS-EM-ABERTO.md, 11/09.',
-  Footer07:
-    'mesmo caso do Header07: 9% de classes e 16% de palavras. ' +
-    'ACHADOS-EM-ABERTO.md, 11/09.',
 };
 const dispensasUsadas = new Set();
 

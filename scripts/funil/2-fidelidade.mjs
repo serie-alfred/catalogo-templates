@@ -54,6 +54,7 @@ export const PARES = [
   { starter: 'HelpFloatButton06', id: '06', layoutKey: 'helpFloat', pagina: 'home' },
   { starter: 'BannerGrid06', id: '06', layoutKey: 'grid', pagina: 'home' },
   { starter: 'BannerCarousel06', id: '06', layoutKey: 'productLines', pagina: 'home' },
+  { starter: 'Footer07', id: '07', layoutKey: 'footer', pagina: 'common' },
 ];
 
 /** Propriedades que valem asserção quando o nó as possui. */
@@ -177,6 +178,32 @@ const face = v => String(v).split(',')[0].trim().replace(/^["']|["']$/g, '').toL
 const s = ms => new Promise(r => setTimeout(r, ms));
 
 /**
+ * Roda `fn` no iframe do canvas, RE-RESOLVENDO o frame a cada tentativa.
+ *
+ * O frame pode ser trocado entre o momento em que você o acha e o momento em
+ * que avalia nele — hot-reload do Next, uma remontagem do canvas — e o
+ * puppeteer devolve "Execution context was destroyed". Não é falha do
+ * componente: é o portão perdendo a corrida. Foi o que derrubou o estágio na
+ * primeira execução do funil completo.
+ */
+async function noFrame(page, fn, tentativas = 6) {
+  let ultimo;
+  for (let t = 0; t < tentativas; t++) {
+    const f = page.frames().find(x => x.url().includes('frame-mobile'));
+    if (f) {
+      try {
+        return await fn(f);
+      } catch (e) {
+        ultimo = e;
+        if (!/destroyed|detached|Target closed/i.test(String(e))) throw e;
+      }
+    }
+    await s(500);
+  }
+  throw ultimo ?? new Error('iframe do canvas não encontrado');
+}
+
+/**
  * Espera o iframe do canvas ter o componente PINTADO — pelo menos um
  * `[data-role]` com caixa. É o sinal que o estágio realmente precisa; o
  * `.ed-shell` aparece muito antes disso.
@@ -184,21 +211,19 @@ const s = ms => new Promise(r => setTimeout(r, ms));
 async function esperarConteudo(page, timeout = 90000) {
   const inicio = Date.now();
   for (;;) {
-    const f = page.frames().find(x => x.url().includes('frame-mobile'));
-    if (f) {
-      const n = await f
-        .evaluate(() =>
+    const n = await noFrame(page, f =>
+      f.evaluate(
+        () =>
           [...document.querySelectorAll('[data-role]')].filter(el => {
             const r = el.getBoundingClientRect();
             return r.width > 0 && r.height > 0;
           }).length
-        )
-        .catch(() => 0);
-      if (n > 0) {
-        // um respiro para o layout assentar depois da primeira pintura
-        await s(400);
-        return n;
-      }
+      )
+    ).catch(() => 0);
+    if (n > 0) {
+      // um respiro para o layout assentar depois da primeira pintura
+      await s(400);
+      return n;
     }
     if (Date.now() - inicio > timeout)
       throw new Error('o canvas não pintou nenhum [data-role] em 90s');
@@ -276,11 +301,13 @@ async function medirCatalogo(browser, par, mobile) {
       await esperarConteudo(p);
     }
 
-    const f = p.frames().find(x => x.url().includes('frame-mobile'));
-    if (!f) throw new Error('iframe do canvas não encontrado');
-    await f.evaluate(normalizar, PALETA);
-    await s(200);
-    return await f.evaluate(medir, PROPS);
+    // normalizar e medir na MESMA volta: se o contexto morrer entre as duas, a
+    // medição sairia sem a normalização e o portão reprovaria por nada.
+    return await noFrame(p, async f => {
+      await f.evaluate(normalizar, PALETA);
+      await s(200);
+      return f.evaluate(medir, PROPS);
+    });
   } finally {
     await p.close();
   }
