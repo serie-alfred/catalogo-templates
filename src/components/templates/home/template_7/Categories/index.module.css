@@ -1,0 +1,158 @@
+/* Espelha molecules/Categories07 (faststore.starter): `$vars` resolvidas
+   inline, aninhamento desfeito, `@media` → `@container`.
+   Scrim e gradiente de fallback dos cards ficam crus — estruturais. */
+
+.categories07Root {
+  line-height: normal;
+  font-family: var(--categories-body-font, var(--font-secundary, 'DM Sans', sans-serif));
+  container-type: inline-size;
+}
+
+.categories07Root * {
+  box-sizing: border-box;
+}
+
+.desktop {
+  display: none;
+}
+
+.mobile {
+  display: block;
+}
+
+@container (min-width: 768px) {
+  .desktop {
+    display: block;
+  }
+
+  .mobile {
+    display: none;
+  }
+}
+
+/* ═══ DESKTOP ═══ */
+.header {
+  padding: 64px 120px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-family: var(--categories-font, var(--font-primary, 'Cormorant Garamond', serif));
+  font-size: 38px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--categories-title-color, var(--text-primary-color, #2c2420));
+}
+
+.viewAll {
+  font-family: var(--categories-body-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: .1em;
+  color: var(--categories-accent, var(--background-primary-color, #b8976a));
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color .5s ease;
+}
+
+.viewAll:hover {
+  color: color-mix(in srgb, var(--categories-accent, var(--background-primary-color, #b8976a)) 68%, #000);
+}
+
+.grid {
+  padding: 0 120px 72px;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+
+.card {
+  display: block;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.label,
+.mLabel {
+  transition: color .5s ease;
+}
+
+.card:hover .label,
+.card:hover .mLabel {
+  color: var(--categories-accent, var(--background-primary-color, #b8976a));
+}
+
+.img {
+  height: 200px;
+  border-radius: 1px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(150deg, #d8c9b8 0%, #c4b09a 100%);
+  background-size: cover;
+  background-position: center;
+}
+
+.scrim {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  background: linear-gradient(to top, rgba(44, 36, 32, .3), transparent);
+}
+
+.label {
+  font-family: var(--categories-font, var(--font-primary, 'Cormorant Garamond', serif));
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--categories-title-color, var(--text-primary-color, #2c2420));
+  /* top do inline; bottom = UA 1em do <p> */
+  margin: 12px 0 1em;
+  text-align: center;
+}
+
+/* ═══ MOBILE ═══ */
+.mSection {
+  padding: 32px 18px 0;
+}
+
+.mTitle {
+  font-family: var(--categories-font, var(--font-primary, 'Cormorant Garamond', serif));
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--categories-title-color, var(--text-primary-color, #2c2420));
+  /* top = UA <h2>; bottom = inline 20px */
+  margin: 0 0 20px;
+}
+
+.mGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.mImg {
+  height: 130px;
+  border-radius: 1px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(150deg, #d8c9b8, #c4b09a);
+  background-size: cover;
+  background-position: center;
+}
+
+.mLabel {
+  font-family: var(--categories-font, var(--font-primary, 'Cormorant Garamond', serif));
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--categories-title-color, var(--text-primary-color, #2c2420));
+  /* top do inline; bottom = UA 1em */
+  margin: 8px 0 0;
+}

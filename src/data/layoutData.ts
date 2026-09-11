@@ -312,6 +312,12 @@ export const LAYOUTS: Layouts = {
       ] },
       { id: "04", selection: "multi-categories", key: "mulcat04n8p2", image: "", mobile: "", title: "Carrossel de Categorias Template 4", description: "Grade de categorias com imagem e rótulo", template: "4", pagina: ["home"], component: "MultiCategories04", platforms: ['Tray'], backgroundVars: [] },
       { id: "06", selection: "home-carousel", key: "homcar06q4r9", image: "", mobile: "", title: "Carrossel de Categorias Template 6", description: "Carrossel de categorias Ferracini", template: "6", pagina: ["home"], component: "HomeCarousel06", platforms: ['Tray'], backgroundVars: [] },
+      { id: "07", selection: "categories", key: "cat07bru4d5e", image: "", mobile: "", title: "Carrossel de Categorias Template 7", description: "Grid de curadoria: 6 cards no desktop e 4 no mobile, com título e link \'Ver todos\'", template: "7", pagina: ["home"], component: "Categories07", path: "molecules/Categories07", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--categories-title-color", label: "Cor do título e dos rótulos", type: "color", default: "#2c2420", group: "Categorias", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--categories-accent", label: "Cor do link e do hover", type: "color", default: "#b8976a", group: "Categorias", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--categories-font", label: "Fonte do título e dos rótulos", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--categories-body-font", label: "Fonte do link", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
     ],
   },
   banner: {

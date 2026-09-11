@@ -45,6 +45,7 @@ export const PARES = [
   { starter: 'BenefitsStrip07', id: '03', layoutKey: 'ruler', pagina: 'home' },
   { starter: 'SocialProof07', id: '07', layoutKey: 'review', pagina: 'home' },
   { starter: 'EditorialBanner07', id: '07', layoutKey: 'bannerSideLeft', pagina: 'home' },
+  { starter: 'Categories07', id: '07', layoutKey: 'categories', pagina: 'home' },
 ];
 
 /** Propriedades que valem asserção quando o nó as possui. */
@@ -95,7 +96,22 @@ const normalizar = paleta => {
     'letter-spacing: normal !important;' +
     'transition: none !important;' +
     'animation: none !important;' +
-    '}';
+    '}' +
+    // Terceira (e última) baseline de shell: o catálogo reseta `a { color:
+    // inherit }` em globals.css e o starter deixa o azul do navegador
+    // (rgb(0,0,238)) em todo <a> que o componente não colore. Invisível — o
+    // texto do link mora em filhos que definem a própria cor —, mas o portão
+    // via a diferença em cada card. Seletor `a` tem especificidade (0,0,1):
+    // qualquer classe do componente continua vencendo, então link que o
+    // componente ESTILIZA segue sendo comparado de verdade.
+    //
+    // O seletor é `a` PELADO por necessidade, não por estilo: a primeira versão
+    // era `a:not([class*="..."])`, e `:not()` herda a especificidade do
+    // argumento — (0,1,1) — passando a vencer a `.link` (0,1,0) do próprio
+    // componente. O portão acusou na hora: borderColor do link virou
+    // `rgb(23,26,28) rgb(23,26,28) rgb(19,0,0)`, com os lados seguindo a cor do
+    // shell em vez da do componente.
+    'a { color: inherit; }';
   document.head.appendChild(st);
   // Regra de autor com `!important` em `*`, não inline no <html>/<body>: o
   // starter declara os tokens em `body.theme`, mas o catálogo os declara num
