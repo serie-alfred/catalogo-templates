@@ -18,6 +18,8 @@
 }
 
 .item {
+  /* Âncora do alvo ampliado, abaixo. */
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,6 +30,17 @@
   color: var(--ed-gray-400);
   cursor: pointer;
   transition: color 0.15s ease;
+}
+
+/* Alvo de clique confortável SEM mover um pixel. O Figma desenha o botão
+   colado ao ícone, e o de tipografia tem 20×10 porque o glifo "Aa" é achatado —
+   10px de altura para acertar. Padding resolveria o alvo e empurraria os quatro
+   ícones para fora das coordenadas do design; um `::after` com inset negativo
+   amplia a área e não participa do layout. Mesma técnica do PanelToggle. */
+.item::after {
+  content: '';
+  position: absolute;
+  inset: -14px -16px;
 }
 
 .item:hover {

@@ -445,6 +445,101 @@ r.ok(
   JSON.stringify(sobHover)
 );
 
+// ── arraste: só o bucket do meio, e a nova ordem chega ao estado ───────────
+// `aria-label="Reordenar X"` não aparecia em NENHUM estágio. E `moveSection`
+// reordena o array `selections`, que é a ordem que vai para o config.json —
+// então um arraste quebrado entrega o tema com as seções fora de ordem.
+await semear(page, {
+  plataforma: 'Tray',
+  selecoes: [
+    sel('01', 'header', 'common'),
+    sel('01', 'banner', 'home'),
+    sel('01', 'bannerFull', 'home'),
+    sel('01', 'showcase', 'home'),
+    sel('01', 'footer', 'common'),
+  ],
+});
+
+const handles = await page.evaluate(() =>
+  [...document.querySelectorAll('button[aria-label^="Reordenar "]')].map(b =>
+    b.getAttribute('aria-label')
+  )
+);
+r.ok(
+  'só as linhas do bucket de conteúdo têm handle de arraste',
+  handles.length === 3 &&
+    !handles.some(h => /Header|Footer|Breadcrumb/i.test(h)),
+  handles.join(' | ')
+);
+
+const caixaDoHandle = i =>
+  page.evaluate(idx => {
+    const b = [
+      ...document.querySelectorAll('button[aria-label^="Reordenar "]'),
+    ][idx];
+    if (!b) return null;
+    b.closest('div[class*="SectionsPanel_row"]')?.dispatchEvent(
+      new MouseEvent('mouseenter', { bubbles: true })
+    );
+    const r2 = b.getBoundingClientRect();
+    return { x: r2.x + r2.width / 2, y: r2.y + r2.height / 2 };
+  }, i);
+
+const ordemAntes = await selecoesSalvas(page);
+const origem = await caixaDoHandle(0);
+const destino = await caixaDoHandle(2);
+if (origem && destino) {
+  await page.mouse.move(origem.x, origem.y);
+  await page.mouse.down();
+  // Passa dos 4px do `activationConstraint` antes de mirar no destino.
+  await page.mouse.move(origem.x, origem.y + 12, { steps: 4 });
+  await page.mouse.move(destino.x, destino.y + 10, { steps: 14 });
+  await page.mouse.up();
+  await espera(1400);
+}
+const ordemDepois = await selecoesSalvas(page);
+r.ok(
+  'arrastar reordena `selections` de verdade',
+  JSON.stringify(ordemDepois) !== JSON.stringify(ordemAntes),
+  `${ordemAntes.join(',')} → ${ordemDepois.join(',')}`
+);
+r.ok(
+  'a reordenação não perde nem duplica seção',
+  ordemDepois.length === ordemAntes.length &&
+    new Set(ordemDepois).size === new Set(ordemAntes).size,
+  ordemDepois.join(',')
+);
+
+const ordemCanvas = await page.evaluate(() =>
+  [
+    ...(document
+      .querySelector('iframe')
+      ?.contentDocument?.querySelectorAll('[data-selection]') ?? []),
+  ].map(e => e.getAttribute('data-selection'))
+);
+r.ok(
+  'header continua no topo e footer no fim depois do arraste',
+  ordemCanvas[0] === 'header' && ordemCanvas.at(-1) === 'footer',
+  ordemCanvas.join(' > ')
+);
+
+await page.reload({ waitUntil: 'domcontentloaded' });
+await page.waitForSelector('.ed-shell', { timeout: 60000 });
+await page
+  .waitForFunction(
+    n =>
+      (JSON.parse(localStorage.getItem('layoutSelections') ?? '[]').length ??
+        0) === n,
+    { timeout: 30000, polling: 250 },
+    ordemDepois.length
+  )
+  .catch(() => {});
+r.ok(
+  'a ordem nova sobrevive ao reload',
+  JSON.stringify(await selecoesSalvas(page)) === JSON.stringify(ordemDepois),
+  (await selecoesSalvas(page)).join(',')
+);
+
 // ── o popup do token da Wake ───────────────────────────────────────────────
 // Nunca era aberto pelo funil: `semear` grava `layoutPlatform` direto, e só o
 // `changePlatform` abre o diálogo. Semear Tray e escolher Wake na UI é o

@@ -178,14 +178,32 @@
   line-height: unset;
 }
 
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .price-promotion,
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .price-before,
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .priceNormal {
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .price-promotion,
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .price-before,
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .priceNormal {
   font-family: var(--font-secundary);
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  color: #868E96;
+  color: #868e96;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -194,7 +212,13 @@
   text-align: left;
 }
 
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .price-before {
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .price-before {
   margin-bottom: 6px;
   color: var(--color-semi-black);
 }
@@ -218,7 +242,7 @@
   overflow: hidden;
   padding: 8px;
   pointer-events: all;
-  transition: all .3s;
+  transition: all 0.3s;
   width: 40px;
 }
 
@@ -237,15 +261,33 @@
   top: 0;
 }
 
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .priceNormal,
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .price-promotion {
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .priceNormal,
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .price-promotion {
   font-weight: 600;
   font-size: 18px;
   color: black;
   text-decoration: none;
 }
 
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment {
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .productPayment {
   font-family: var(--font-secundary);
   font-size: 14px;
   font-weight: 400;
@@ -256,18 +298,60 @@
   text-align: left;
 }
 
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment br,
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment .txtFormaPagamento {
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .productPayment
+  br,
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .productPayment
+  .txtFormaPagamento {
   display: none;
 }
 
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment>.txt-corparcelas {
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .productPayment
+  > .txt-corparcelas {
   margin-left: 0px;
 }
 
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment span,
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment strong,
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment b {
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .productPayment
+  span,
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .productPayment
+  strong,
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .productPayment
+  b {
   font-family: var(--font-secundary);
   font-size: 14px;
   font-weight: 400;
@@ -275,13 +359,39 @@
   color: var(--color-semi-black);
 }
 
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment .operadora,
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment strong.operadora,
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment b.operadora {
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .productPayment
+  .operadora,
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .productPayment
+  strong.operadora,
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .prices
+  .productPayment
+  b.operadora {
   text-transform: lowercase;
 }
 
-.spot .productWrapper .productContent .productPriceWrapper .productPrice .out-of-stock {
+.spot
+  .productWrapper
+  .productContent
+  .productPriceWrapper
+  .productPrice
+  .out-of-stock {
   display: block;
   line-height: 1;
   font-family: var(--font-secundary);
@@ -331,25 +441,82 @@
     height: 52px;
   }
 
-  .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .price-promotion,
-  .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .price-before,
-  .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .priceNormal {
+  .spot
+    .productWrapper
+    .productContent
+    .productPriceWrapper
+    .productPrice
+    .prices
+    .price-promotion,
+  .spot
+    .productWrapper
+    .productContent
+    .productPriceWrapper
+    .productPrice
+    .prices
+    .price-before,
+  .spot
+    .productWrapper
+    .productContent
+    .productPriceWrapper
+    .productPrice
+    .prices
+    .priceNormal {
     font-size: 12px;
   }
 
-  .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .priceNormal,
-  .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .price-promotion {
+  .spot
+    .productWrapper
+    .productContent
+    .productPriceWrapper
+    .productPrice
+    .prices
+    .priceNormal,
+  .spot
+    .productWrapper
+    .productContent
+    .productPriceWrapper
+    .productPrice
+    .prices
+    .price-promotion {
     font-size: 16px;
   }
 
-  .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment {
+  .spot
+    .productWrapper
+    .productContent
+    .productPriceWrapper
+    .productPrice
+    .prices
+    .productPayment {
     font-size: 12px;
     margin-bottom: 0px;
   }
 
-  .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment span,
-  .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment strong,
-  .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .productPayment b {
+  .spot
+    .productWrapper
+    .productContent
+    .productPriceWrapper
+    .productPrice
+    .prices
+    .productPayment
+    span,
+  .spot
+    .productWrapper
+    .productContent
+    .productPriceWrapper
+    .productPrice
+    .prices
+    .productPayment
+    strong,
+  .spot
+    .productWrapper
+    .productContent
+    .productPriceWrapper
+    .productPrice
+    .prices
+    .productPayment
+    b {
     font-size: 12px;
   }
 

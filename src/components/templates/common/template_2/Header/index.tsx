@@ -6,7 +6,10 @@ const Header = () => {
   // Dados fixos para substituir as variáveis Twig
   const storeInfo = {
     name: 'logo',
-    logo: logo || '/logo.png', // Substitua pelo caminho real do logo
+    // Sem `|| '/logo.png'`: esse arquivo NÃO existe em public/, então sem logo
+    // carregado o componente pedia um 404 e mostrava ícone de imagem quebrada.
+    // O resto do catálogo cai num fallback de texto — este agora também.
+    logo,
     whatsapp: '5511999999999', // Número formatado sem caracteres especiais
     social: {
       youtube: 'https://youtube.com/paulibras',
@@ -238,13 +241,17 @@ const Header = () => {
             <div className={styles.middleLogo}>
               <h1>
                 <a href="/" data-tray-tst="logotipo_loja">
-                  <img
-                    src={storeInfo.logo}
-                    alt={`Logo`}
-                    width="184"
-                    height="56"
-                    fetchPriority="high"
-                  />
+                  {storeInfo.logo ? (
+                    <img
+                      src={storeInfo.logo}
+                      alt={`Logo`}
+                      width="184"
+                      height="56"
+                      fetchPriority="high"
+                    />
+                  ) : (
+                    <span className={styles.logoFallback}>SERIE//A</span>
+                  )}
                 </a>
               </h1>
             </div>

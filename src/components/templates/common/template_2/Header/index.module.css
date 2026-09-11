@@ -65,7 +65,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
- color: var(--text-tertiary-color);
+  color: var(--text-tertiary-color);
   font-family: var(--font-primary);
   font-weight: 500;
   font-size: 14px;
@@ -154,7 +154,14 @@
   background: none;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .searchButton {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .searchButton {
   background-color: transparent;
   height: 24px;
   width: 24px;
@@ -169,13 +176,27 @@
   transform: translateY(-50%);
 }
 
-@container(max-width: 778px){
-  .header .headerMiddle .middleContainer .middleRow .middleSearch .search form .searchButton {
-      top: 36% !important;
+@container (max-width: 778px) {
+  .header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleSearch
+    .search
+    form
+    .searchButton {
+    top: 36% !important;
   }
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .searchKey {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .searchKey {
   background-color: var(--color-white);
   color: var(--text-color-base);
   font-family: var(--font-secundary);
@@ -189,23 +210,81 @@
   transition: 0.5s;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .searchKey:-ms-input-placeholder,
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .searchKey::-ms-input-placeholder,
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .searchKey::-webkit-input-placeholder,
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .searchKey:-moz-placeholder,
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .searchKey::-moz-placeholder {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .searchKey:-ms-input-placeholder,
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .searchKey::-ms-input-placeholder,
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .searchKey::-webkit-input-placeholder,
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .searchKey:-moz-placeholder,
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .searchKey::-moz-placeholder {
   color: var(--color-black);
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .searchKey::placeholder {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .searchKey::placeholder {
   color: var(--color-black);
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .suggestion .suggestion-words {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .suggestion
+  .suggestion-words {
   display: none;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .suggestion .suggestion-products {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .suggestion
+  .suggestion-products {
   padding-top: 15px;
   max-height: 300px;
   overflow: hidden;
@@ -218,30 +297,82 @@
   /* Handle on hover */
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .suggestion .suggestion-products::-webkit-scrollbar {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .suggestion
+  .suggestion-products::-webkit-scrollbar {
   width: 5px;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .suggestion .suggestion-products::-webkit-scrollbar-track {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .suggestion
+  .suggestion-products::-webkit-scrollbar-track {
   background: #cccccc;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .suggestion .suggestion-products::-webkit-scrollbar-thumb {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .suggestion
+  .suggestion-products::-webkit-scrollbar-thumb {
   background: #616161;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .suggestion .suggestion-products::-webkit-scrollbar-thumb:hover {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .suggestion
+  .suggestion-products::-webkit-scrollbar-thumb:hover {
   background: #616161;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .suggestion .suggestion-products strong {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .suggestion
+  .suggestion-products
+  strong {
   font-family: var(--font-secundary);
   font-size: 12px;
   font-weight: 500;
   color: var(--color-black);
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .suggestion .suggestion-products .suggestion-product .suggestion-desc span {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleSearch
+  .search
+  form
+  .suggestion
+  .suggestion-products
+  .suggestion-product
+  .suggestion-desc
+  span {
   font-family: var(--font-secundary);
   font-size: 12px;
   font-weight: 400;
@@ -260,7 +391,13 @@
   margin-right: 8px;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configWhatsapp a,
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleConfig
+  .configWhatsapp
+  a,
 .header .headerMiddle .middleContainer .middleRow .middleConfig .configLogin a {
   display: flex;
   flex-wrap: wrap;
@@ -276,23 +413,73 @@
   transition: 0.5s;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configWhatsapp a svg path,
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configLogin a svg path {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleConfig
+  .configWhatsapp
+  a
+  svg
+  path,
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleConfig
+  .configLogin
+  a
+  svg
+  path {
   transition: 0.5s;
   stroke: var(--text-color-base);
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configWhatsapp a svg:first-of-type,
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configLogin a svg:first-of-type {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleConfig
+  .configWhatsapp
+  a
+  svg:first-of-type,
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleConfig
+  .configLogin
+  a
+  svg:first-of-type {
   margin-right: 8px;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configWhatsapp a svg:last-of-type,
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configLogin a svg:last-of-type {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleConfig
+  .configWhatsapp
+  a
+  svg:last-of-type,
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleConfig
+  .configLogin
+  a
+  svg:last-of-type {
   margin-left: 8px;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleConfig
+  .configCart
+  .cartWrapper {
   cursor: pointer;
   display: flex;
   flex-wrap: wrap;
@@ -303,17 +490,38 @@
   transition: 0.5s;
 }
 
-
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper svg {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleConfig
+  .configCart
+  .cartWrapper
+  svg {
   margin-right: 8px;
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper svg path {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleConfig
+  .configCart
+  .cartWrapper
+  svg
+  path {
   transition: 0.5s;
   stroke: var(--text-color-base);
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper .cartTitle {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleConfig
+  .configCart
+  .cartWrapper
+  .cartTitle {
   display: inline-block;
   line-height: 1;
   font-family: var(--font-primary);
@@ -322,7 +530,14 @@
   color: var(--text-color-base);
 }
 
-.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper .cartNumber {
+.header
+  .headerMiddle
+  .middleContainer
+  .middleRow
+  .middleConfig
+  .configCart
+  .cartWrapper
+  .cartNumber {
   width: 20px;
   height: 20px;
   display: flex;
@@ -357,33 +572,79 @@
   padding: 0px 15px;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul {
+.header .header__bottom .bottom__container .bottom__row .bottom__menu nav > ul {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li {
   position: relative;
 }
 
-@media(min-width: 1024px) {
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:hover .submenuWrapper {
-  display: block;
-}
+@media (min-width: 1024px) {
+  .header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li:hover
+    .submenuWrapper {
+    display: block;
+  }
 }
 
-
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:nth-of-type(n + 5) .submenuWrapper .submenuContainer .submenuInner>ul {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li:nth-of-type(n + 5)
+  .submenuWrapper
+  .submenuContainer
+  .submenuInner
+  > ul {
   background: var(--background-secundary-color);
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:nth-of-type(n + 5) .submenuWrapper .submenuContainer .submenuInner>ul>li ul {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li:nth-of-type(n + 5)
+  .submenuWrapper
+  .submenuContainer
+  .submenuInner
+  > ul
+  > li
+  ul {
   right: 100%;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li>a {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  > a {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -396,15 +657,40 @@
   transition: 0.5s;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li>a .submenu__arrow {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  > a
+  .submenu__arrow {
   margin-left: 8px;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__arrow--mobile {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  .submenu__arrow--mobile {
   display: none;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  .submenuWrapper {
   display: none;
   position: absolute;
   left: 0px;
@@ -417,28 +703,98 @@
   filter: drop-shadow(0 4px 4px rgba(0, 0, 0, 0.1));
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper .submenuContainer {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  .submenuWrapper
+  .submenuContainer {
   padding: 0px;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper .submenuContainer .submenuInner>ul {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  .submenuWrapper
+  .submenuContainer
+  .submenuInner
+  > ul {
   padding: 7px 0px;
   display: block;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper .submenuContainer .submenuInner>ul>li {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  .submenuWrapper
+  .submenuContainer
+  .submenuInner
+  > ul
+  > li {
   margin-top: 15px;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper .submenuContainer .submenuInner>ul>li:first-of-type {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  .submenuWrapper
+  .submenuContainer
+  .submenuInner
+  > ul
+  > li:first-of-type {
   margin-top: 0px;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper .submenuContainer .submenuInner>ul>li:hover ul {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  .submenuWrapper
+  .submenuContainer
+  .submenuInner
+  > ul
+  > li:hover
+  ul {
   display: block;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper .submenuContainer .submenuInner>ul>li>a {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  .submenuWrapper
+  .submenuContainer
+  .submenuInner
+  > ul
+  > li
+  > a {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -451,11 +807,38 @@
   text-decoration: none;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper .submenuContainer .submenuInner>ul>li>a svg {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  .submenuWrapper
+  .submenuContainer
+  .submenuInner
+  > ul
+  > li
+  > a
+  svg {
   margin-left: 8px;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper .submenuContainer .submenuInner>ul>li ul {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  .submenuWrapper
+  .submenuContainer
+  .submenuInner
+  > ul
+  > li
+  ul {
   display: none;
   position: absolute;
   right: -100%;
@@ -467,15 +850,58 @@
   min-width: 200px;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper .submenuContainer .submenuInner>ul>li ul li {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  .submenuWrapper
+  .submenuContainer
+  .submenuInner
+  > ul
+  > li
+  ul
+  li {
   margin-top: 15px;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper .submenuContainer .submenuInner>ul>li ul li:first-of-type {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  .submenuWrapper
+  .submenuContainer
+  .submenuInner
+  > ul
+  > li
+  ul
+  li:first-of-type {
   margin-top: 0px;
 }
 
-.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper .submenuContainer .submenuInner>ul>li ul li a {
+.header
+  .header__bottom
+  .bottom__container
+  .bottom__row
+  .bottom__menu
+  nav
+  > ul
+  > li
+  .submenuWrapper
+  .submenuContainer
+  .submenuInner
+  > ul
+  > li
+  ul
+  li
+  a {
   display: block;
   line-height: 1;
   font-family: var(--font-primary);
@@ -580,7 +1006,10 @@
   background: var(--background-tertiary-color);
 }
 
-.header .header__cart .cart__preview .preview-itens::-webkit-scrollbar-thumb:hover {
+.header
+  .header__cart
+  .cart__preview
+  .preview-itens::-webkit-scrollbar-thumb:hover {
   background: var(--background-tertiary-color);
 }
 
@@ -600,7 +1029,13 @@
   padding: 0px 0px 0px 0px;
 }
 
-.header .header__cart .cart__preview .preview-itens .preview-item .item-img img {
+.header
+  .header__cart
+  .cart__preview
+  .preview-itens
+  .preview-item
+  .item-img
+  img {
   width: 100%;
   max-width: 99px;
   height: auto;
@@ -613,11 +1048,24 @@
   flex-wrap: wrap;
 }
 
-.header .header__cart .cart__preview .preview-itens .preview-item .item-info .item-title {
+.header
+  .header__cart
+  .cart__preview
+  .preview-itens
+  .preview-item
+  .item-info
+  .item-title {
   width: 100%;
 }
 
-.header .header__cart .cart__preview .preview-itens .preview-item .item-info .item-title a {
+.header
+  .header__cart
+  .cart__preview
+  .preview-itens
+  .preview-item
+  .item-info
+  .item-title
+  a {
   font-family: var(--font-secundary);
   font-size: 14px;
   font-weight: 500;
@@ -633,12 +1081,26 @@
   padding-right: 18px;
 }
 
-.header .header__cart .cart__preview .preview-itens .preview-item .item-info .item-title a strong {
+.header
+  .header__cart
+  .cart__preview
+  .preview-itens
+  .preview-item
+  .item-info
+  .item-title
+  a
+  strong {
   font-weight: 500;
-  color: #1A1A1A;
+  color: #1a1a1a;
 }
 
-.header .header__cart .cart__preview .preview-itens .preview-item .item-info .item-quantity {
+.header
+  .header__cart
+  .cart__preview
+  .preview-itens
+  .preview-item
+  .item-info
+  .item-quantity {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -654,7 +1116,13 @@
   margin-top: 10px;
 }
 
-.header .header__cart .cart__preview .preview-itens .preview-item .item-info .item-p-unit {
+.header
+  .header__cart
+  .cart__preview
+  .preview-itens
+  .preview-item
+  .item-info
+  .item-p-unit {
   width: 100%;
   font-family: var(--font-secundary);
   font-size: 18px;
@@ -665,7 +1133,13 @@
   margin-top: 15px;
 }
 
-.header .header__cart .cart__preview .preview-itens .preview-item .item-info .rmv-prod {
+.header
+  .header__cart
+  .cart__preview
+  .preview-itens
+  .preview-item
+  .item-info
+  .rmv-prod {
   position: absolute;
   top: 2px;
   right: 0px;
@@ -776,30 +1250,91 @@
     max-width: 33%;
   }
 
-  .header .headerMiddle .middleContainer .middleRow .middleConfig .configWhatsapp a,
-  .header .headerMiddle .middleContainer .middleRow .middleConfig .configLogin a {
+  .header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configWhatsapp
+    a,
+  .header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configLogin
+    a {
     font-size: 12px;
     padding: 8px 10px;
   }
 
-  .header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper {
+  .header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configCart
+    .cartWrapper {
     padding: 8px 10px;
   }
 
-  .header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper .cartTitle {
+  .header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configCart
+    .cartWrapper
+    .cartTitle {
     font-size: 12px;
   }
 
-  .header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li>a {
+  .header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    > a {
     font-size: 10px;
     padding: 12px;
   }
 
-  .header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper .submenuContainer .submenuInner>ul>li>a {
+  .header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    .submenuWrapper
+    .submenuContainer
+    .submenuInner
+    > ul
+    > li
+    > a {
     font-size: 12px;
   }
 
-  .header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenuWrapper .submenuContainer .submenuInner>ul>li ul li a {
+  .header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    .submenuWrapper
+    .submenuContainer
+    .submenuInner
+    > ul
+    > li
+    ul
+    li
+    a {
     font-size: 12px;
   }
 }
@@ -810,16 +1345,43 @@
     max-width: 16%;
   }
 
-  .header .headerMiddle .middleContainer .middleRow .middleConfig .configWhatsapp a,
-  .header .headerMiddle .middleContainer .middleRow .middleConfig .configLogin a {
+  .header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configWhatsapp
+    a,
+  .header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configLogin
+    a {
     font-size: 12px;
   }
 
-  .header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper .cartTitle {
+  .header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configCart
+    .cartWrapper
+    .cartTitle {
     font-size: 12px;
   }
 
-  .header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li>a {
+  .header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    > a {
     font-size: 12px;
     padding: 12px 10px;
   }
@@ -836,23 +1398,49 @@
     max-width: 37%;
   }
 
-  .header .headerMiddle .middleContainer .middleRow .middleConfig .configWhatsapp a,
-  .header .headerMiddle .middleContainer .middleRow .middleConfig .configLogin a {
+  .header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configWhatsapp
+    a,
+  .header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configLogin
+    a {
     font-size: 12px;
   }
 
-  .header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper .cartTitle {
+  .header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configCart
+    .cartWrapper
+    .cartTitle {
     font-size: 12px;
   }
 
-  .header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li>a {
+  .header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    > a {
     font-size: 12px;
     padding: 12px 15px;
   }
 }
 
 @container (max-width: 1023px) {
-
   header.header .headerTop .topContainer .topRow .topLogin,
   header.header .headerTop .topContainer .topRow .topSocial {
     display: none;
@@ -899,25 +1487,61 @@
     justify-content: flex-end;
   }
 
-  header.header .headerMiddle .middleContainer .middleRow .middleConfig .configWhatsapp,
-  header.header .headerMiddle .middleContainer .middleRow .middleConfig .configLogin {
+  header.header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configWhatsapp,
+  header.header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configLogin {
     display: none;
   }
 
-  header.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper {
+  header.header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configCart
+    .cartWrapper {
     padding: 0px;
   }
 
-
-  header.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper .cartTitle {
+  header.header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configCart
+    .cartWrapper
+    .cartTitle {
     display: none;
   }
 
-  header.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper svg {
+  header.header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configCart
+    .cartWrapper
+    svg {
     margin-right: 0px;
   }
 
-  header.header .headerMiddle .middleContainer .middleRow .middleConfig .configCart .cartWrapper .cartNumber {
+  header.header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleConfig
+    .configCart
+    .cartWrapper
+    .cartNumber {
     left: 14px;
     top: -6px;
   }
@@ -930,15 +1554,36 @@
     padding: 0px;
   }
 
-  header.header .headerMiddle .middleContainer .middleRow .middleSearch .search {
+  header.header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleSearch
+    .search {
     padding: 0px 5px 20px 5px;
   }
 
-  header.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .searchButton svg path {
-    stroke: #7A7A7A;
+  header.header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleSearch
+    .search
+    form
+    .searchButton
+    svg
+    path {
+    stroke: #7a7a7a;
   }
 
-  header.header .headerMiddle .middleContainer .middleRow .middleSearch .search form .searchKey {
+  header.header
+    .headerMiddle
+    .middleContainer
+    .middleRow
+    .middleSearch
+    .search
+    form
+    .searchKey {
     border-radius: 50px;
   }
 
@@ -977,28 +1622,53 @@
     padding: 0px 15px;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__login .login__button div a {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__login
+    .login__button
+    div
+    a {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     font-family: var(--font-family);
     font-size: 14px;
     font-weight: 500;
-    color: #0F0F0F;
+    color: #0f0f0f;
     text-decoration: none;
     line-height: 1;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__login .login__button div a svg {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__login
+    .login__button
+    div
+    a
+    svg {
     margin-right: 10px;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__whatsapp {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__whatsapp {
     display: block;
     padding: 15px 15px 0px 15px;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__whatsapp .configWhatsapp a {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__whatsapp
+    .configWhatsapp
+    a {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -1010,7 +1680,14 @@
     text-decoration: none;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__whatsapp .configWhatsapp a svg {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__whatsapp
+    .configWhatsapp
+    a
+    svg {
     margin-right: 8px;
   }
 
@@ -1018,7 +1695,12 @@
     padding: 30px 0px;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav {
     min-height: calc(100vh - 250px);
     max-height: calc(100vh - 250px);
     overflow: hidden;
@@ -1028,41 +1710,109 @@
     /* width */
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav::-webkit-scrollbar {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav::-webkit-scrollbar {
     width: 3px;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul {
     justify-content: unset;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li {
     width: 100%;
     max-width: 100%;
     position: relative;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:hover>a {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li:hover
+    > a {
     background-color: #ffffff;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:hover .submenu__wrapper {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li:hover
+    .submenu__wrapper {
     display: none;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li.active .submenu__arrow--mobile svg {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li.active
+    .submenu__arrow--mobile
+    svg {
     transform: rotate(90deg);
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li>a {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    > a {
     padding: 10px 15px;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li>a .submenu__arrow {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    > a
+    .submenu__arrow {
     display: none;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__arrow--mobile {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    .submenu__arrow--mobile {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -1074,11 +1824,28 @@
     width: 30px;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__arrow--mobile svg {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    .submenu__arrow--mobile
+    svg {
     transition: 0.5s;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__wrapper {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    .submenu__wrapper {
     display: none;
     padding: 0px;
     position: unset;
@@ -1087,11 +1854,30 @@
     min-width: unset;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__wrapper .submenu__container {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    .submenu__wrapper
+    .submenu__container {
     padding: 0px;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__wrapper .submenu__container .submenu__inner {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    .submenu__wrapper
+    .submenu__container
+    .submenu__inner {
     max-height: unset;
     overflow: unset;
     overflow-y: unset;
@@ -1099,22 +1885,74 @@
     scrollbar-width: unset;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__wrapper .submenu__container .submenu__inner>ul>li {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    .submenu__wrapper
+    .submenu__container
+    .submenu__inner
+    > ul
+    > li {
     width: 100%;
     max-width: 100%;
     margin-top: 0px;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__wrapper .submenu__container .submenu__inner>ul>li>a {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    .submenu__wrapper
+    .submenu__container
+    .submenu__inner
+    > ul
+    > li
+    > a {
     display: block;
     padding: 10px 30px;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__wrapper .submenu__container .submenu__inner>ul>li>a svg {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    .submenu__wrapper
+    .submenu__container
+    .submenu__inner
+    > ul
+    > li
+    > a
+    svg {
     display: none;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__wrapper .submenu__container .submenu__inner>ul>li ul {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    .submenu__wrapper
+    .submenu__container
+    .submenu__inner
+    > ul
+    > li
+    ul {
     display: block;
     position: unset;
     right: unset;
@@ -1124,11 +1962,40 @@
     min-width: unset;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__wrapper .submenu__container .submenu__inner>ul>li ul li {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    .submenu__wrapper
+    .submenu__container
+    .submenu__inner
+    > ul
+    > li
+    ul
+    li {
     margin: 0px;
   }
 
-  header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__wrapper .submenu__container .submenu__inner>ul>li ul li a {
+  header.header
+    .header__bottom
+    .bottom__container
+    .bottom__row
+    .bottom__menu
+    nav
+    > ul
+    > li
+    .submenu__wrapper
+    .submenu__container
+    .submenu__inner
+    > ul
+    > li
+    ul
+    li
+    a {
     padding: 10px 30px;
     display: block;
   }
@@ -1136,4 +2003,16 @@
   header.header .header__cart .cart__preview .preview-itens {
     height: calc(100vh - 235px);
   }
+}
+/* Fallback de marca quando o cliente ainda não carregou logo. Mesmo padrão do
+   template_1 — antes o componente apontava para /logo.png, que não existe. */
+.logoFallback {
+  display: inline-block;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 24px;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--header-text, var(--text-color-base, #122161));
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
 }

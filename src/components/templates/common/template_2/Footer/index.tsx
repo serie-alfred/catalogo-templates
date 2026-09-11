@@ -7,7 +7,8 @@ const Footer = () => {
   // Dados fixos para substituir as variáveis Twig
   const storeInfo = {
     name: 'Paulibrás',
-    logo: logo || '/logo.png', // Substitua pelo caminho real do logo
+    // Ver o comentário gêmeo no Header02: '/logo.png' não existe em public/.
+    logo,
     textFooter: '© 2023 Paulibrás. Todos os direitos reservados.',
     social: {
       facebook: '#',
@@ -126,13 +127,17 @@ const Footer = () => {
               <div className={styles.footerLeft}>
                 <div className={styles.middleLogo}>
                   <a href="/" data-tray-tst="logotipo_loja">
-                    <img
-                      src={storeInfo.logo}
-                      alt="Logo"
-                      width="200"
-                      height="40"
-                      loading="lazy"
-                    />
+                    {storeInfo.logo ? (
+                      <img
+                        src={storeInfo.logo}
+                        alt="Logo"
+                        width="200"
+                        height="40"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span className={styles.logoFallback}>SERIE//A</span>
+                    )}
                   </a>
                 </div>
 

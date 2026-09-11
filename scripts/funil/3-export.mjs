@@ -175,12 +175,10 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
       const bl = await p
         .evaluate(() => ({ blobs: window.__blobs, erro: window.__cfgErro }))
         .catch(() => null);
-      log(
-        `   ...${i * 5}s ${st}` +
-          (bl
-            ? ` | blobs: ${bl.blobs?.join(', ') || 'nenhum'}${bl.erro ? ` | parse: ${bl.erro}` : ''}`
-            : '')
-      );
+      const detalhe = bl
+        ? ` | blobs: ${bl.blobs?.join(', ') || 'nenhum'}${bl.erro ? ` | parse: ${bl.erro}` : ''}`
+        : '';
+      log(`   ...${i * 5}s ${st}${detalhe}`);
     }
   }
   r.ok(`${plat}: o botão "Baixar" entrega o config.json`, !!config);

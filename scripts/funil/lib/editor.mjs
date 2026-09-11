@@ -107,19 +107,48 @@ export const visibilidadeDe = (page, seletor) =>
       x: Math.round(r.left),
       direita: Math.round(r.right),
       alcancavel: !!topo && (topo === el || el.contains(topo)),
+      // Quantos dos 4 pontos cardeais a 11px do centro ainda caem NO botão —
+      // ou seja, se existe uma área de 24×24 clicável centrada no controle.
+      // 11 e não 12 de propósito: 12 é exatamente a borda de um botão de 24px
+      // e o `elementFromPoint` ali é ambíguo.
+      //
+      // Mede o ALVO, não a caixa: um controle pode ter caixa pequena e alvo
+      // grande (`::after` com inset negativo, como o PanelToggle e o rail) — e
+      // é o alvo que o dedo acerta.
+      alvoEfetivo: [
+        [0, -11],
+        [11, 0],
+        [0, 11],
+        [-11, 0],
+      ].filter(([dx, dy]) => {
+        const p2 = document.elementFromPoint(
+          Math.round(r.left + r.width / 2 + dx),
+          Math.round(r.top + r.height / 2 + dy)
+        );
+        return !!p2 && (p2 === el || el.contains(p2));
+      }).length,
       desabilitado: !!el.disabled,
     };
   }, seletor);
 
 /** Um controle "vale" se está no DOM, tem caixa, é opaco e não está coberto. */
+/**
+ * Um controle "vale" se está no DOM, é opaco, não está coberto — e se dá para
+ * ACERTAR nele.
+ *
+ * O piso de tamanho é sobre o alvo, não sobre a caixa: os botões do rail são
+ * desenhados colados ao ícone (o de tipografia tem 20×10, porque o glifo "Aa" é
+ * achatado), e a área clicável é ampliada por um `::after` que não aparece no
+ * `getBoundingClientRect`. Exigir caixa grande reprovaria um controle que o
+ * dedo acerta; exigir só existência deixaria passar um alvo de 10px.
+ */
 export const controleUsavel = v =>
   !!v.existe &&
   v.opacity >= 0.4 &&
   v.visibility === 'visible' &&
   v.display !== 'none' &&
-  v.w >= 12 &&
-  v.h >= 12 &&
-  v.alcancavel;
+  v.alcancavel &&
+  (v.alvoEfetivo ?? 0) === 4;
 
 /**
  * Clica como humano: hit-test real do Chrome, então reprova se estiver coberto.

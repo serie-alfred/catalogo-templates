@@ -3,6 +3,14 @@ import { findChrome, BASE_URL, lerLayouts, SAIDA } from './lib/util.mjs';
 const CHROME = findChrome();
 const L = lerLayouts();
 
+/**
+ * Os 23 componentes que o redesign trouxe. Eram o escopo INTEIRO do estágio, e
+ * isso deixava 44 dos 67 itens do catálogo sem nenhum smoke de render — os
+ * pré-existentes, que são justamente os que ninguém olha mais.
+ *
+ * Agora a varredura é completa por padrão. `FUNIL_RENDER_NOVOS=1` reduz aos 23
+ * para uma volta rápida durante desenvolvimento; o portão do cutover roda tudo.
+ */
 const NOVAS = new Set([
   'hdr07bru1k2m',
   'crdprd06f6g7',
@@ -29,10 +37,11 @@ const NOVAS = new Set([
   'rev06b1c2d3e',
 ]);
 
+const SO_NOVOS = process.env.FUNIL_RENDER_NOVOS === '1';
 const alvos = [];
 for (const [layoutKey, sec] of Object.entries(L))
   for (const it of sec.items)
-    if (NOVAS.has(it.key)) {
+    if (!SO_NOVOS || NOVAS.has(it.key)) {
       const pag = it.pagina[0];
       const page =
         layoutKey === 'spot'
@@ -54,10 +63,18 @@ for (const [layoutKey, sec] of Object.entries(L))
         platforms: it.platforms,
       });
     }
-if (alvos.length !== NOVAS.size) {
-  console.error(`esperava ${NOVAS.size}, achei ${alvos.length}`);
+// Guarda contra alvo que some em silêncio: no modo reduzido o esperado são as
+// 23 chaves; no completo, todo item do catálogo.
+const esperados = SO_NOVOS
+  ? NOVAS.size
+  : Object.values(L).reduce((n, sec) => n + sec.items.length, 0);
+if (alvos.length !== esperados) {
+  console.error(`esperava ${esperados}, achei ${alvos.length}`);
   process.exit(1);
 }
+console.log(
+  `  varrendo ${alvos.length} componentes${SO_NOVOS ? ' (só os novos)' : ' (catálogo inteiro)'}`
+);
 
 const PAGENAME = {
   common: 'Todas as páginas',

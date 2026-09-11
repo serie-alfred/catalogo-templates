@@ -30,7 +30,12 @@
   }
 }
 
-.footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterTitle {
+.footer
+  .footerNewsletter
+  .newsletterContainer
+  .newsletterRow
+  .newsletter
+  .newsletterTitle {
   color: var(--text-color-footer);
   font-size: 33px;
   font-weight: 500;
@@ -38,11 +43,24 @@
   max-width: 539px;
 }
 
-.footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form {
+.footer
+  .footerNewsletter
+  .newsletterContainer
+  .newsletterRow
+  .newsletter
+  .newsletterForm
+  form {
   position: relative;
 }
 
-.footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .formItem {
+.footer
+  .footerNewsletter
+  .newsletterContainer
+  .newsletterRow
+  .newsletter
+  .newsletterForm
+  form
+  .formItem {
   border-radius: 50px;
   padding: 15px;
   width: 100%;
@@ -52,16 +70,42 @@
   color: black;
 }
 
-.footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .formItem .mce_inline_error :last-child {
+.footer
+  .footerNewsletter
+  .newsletterContainer
+  .newsletterRow
+  .newsletter
+  .newsletterForm
+  form
+  .formItem
+  .mce_inline_error
+  :last-child {
   background-color: var(--color-black) !important;
-  content: "" !important;
+  content: '' !important;
 }
 
-.footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .formItem .mce_inline_error :last-child ::before {
-  content: "Digíte seu email" !important;
+.footer
+  .footerNewsletter
+  .newsletterContainer
+  .newsletterRow
+  .newsletter
+  .newsletterForm
+  form
+  .formItem
+  .mce_inline_error
+  :last-child
+  ::before {
+  content: 'Digíte seu email' !important;
 }
 
-.footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .optionalParent {
+.footer
+  .footerNewsletter
+  .newsletterContainer
+  .newsletterRow
+  .newsletter
+  .newsletterForm
+  form
+  .optionalParent {
   position: absolute;
   right: 10px;
   display: flex;
@@ -73,7 +117,15 @@
   width: 107px;
 }
 
-.footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .optionalParent .inputButton {
+.footer
+  .footerNewsletter
+  .newsletterContainer
+  .newsletterRow
+  .newsletter
+  .newsletterForm
+  form
+  .optionalParent
+  .inputButton {
   background-color: var(--background-primary-color);
   border: none;
   border-radius: 120px;
@@ -83,7 +135,16 @@
   margin: 0px;
 }
 
-.footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .optionalParent .clear svg {
+.footer
+  .footerNewsletter
+  .newsletterContainer
+  .newsletterRow
+  .newsletter
+  .newsletterForm
+  form
+  .optionalParent
+  .clear
+  svg {
   margin-right: 15px;
 }
 
@@ -159,7 +220,13 @@
   }
 }
 
-.footer .footerTop .topContainer .topRow .footerRight .topMenu .institucionalMenu {
+.footer
+  .footerTop
+  .topContainer
+  .topRow
+  .footerRight
+  .topMenu
+  .institucionalMenu {
   flex-wrap: wrap;
   display: flex;
   flex-direction: column;
@@ -168,7 +235,13 @@
 }
 
 @container (max-width: 768px) {
-  .footer .footerTop .topContainer .topRow .footerRight .topMenu .institucionalMenu {
+  .footer
+    .footerTop
+    .topContainer
+    .topRow
+    .footerRight
+    .topMenu
+    .institucionalMenu {
     column-gap: 120px;
     width: 100%;
   }
@@ -178,17 +251,44 @@
   display: flex;
 }
 
-.footer .footerTop .topContainer .topRow .footerRight .topMenu .menuSocial li a {
+.footer
+  .footerTop
+  .topContainer
+  .topRow
+  .footerRight
+  .topMenu
+  .menuSocial
+  li
+  a {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
 }
 
-.footer .footerTop .topContainer .topRow .footerRight .topMenu .menuSocial li a svg {
+.footer
+  .footerTop
+  .topContainer
+  .topRow
+  .footerRight
+  .topMenu
+  .menuSocial
+  li
+  a
+  svg {
   margin-right: 8px;
 }
 
-.footer .footerTop .topContainer .topRow .footerRight .topMenu .menuSocial li a svg path{
+.footer
+  .footerTop
+  .topContainer
+  .topRow
+  .footerRight
+  .topMenu
+  .menuSocial
+  li
+  a
+  svg
+  path {
   fill: var(--text-color-footer);
 }
 
@@ -202,18 +302,61 @@
   margin: 0px 15px 0px 0px;
 }
 
-.footer .footerTop .topContainer .topRow .footerRight .topMenu .menuPayment li:nth-of-type(n + 4) {
+.footer
+  .footerTop
+  .topContainer
+  .topRow
+  .footerRight
+  .topMenu
+  .menuPayment
+  li:nth-of-type(n + 4) {
   margin-top: 14px;
 }
 
-.footer .footerTop .topContainer .topRow .footerRight .topMenu .menuPayment li:nth-of-type(3),
-.footer .footerTop .topContainer .topRow .footerRight .topMenu .menuPayment li:nth-of-type(6),
-.footer .footerTop .topContainer .topRow .footerRight .topMenu .menuPayment li:nth-of-type(9),
-.footer .footerTop .topContainer .topRow .footerRight .topMenu .menuPayment li:last-of-type {
+.footer
+  .footerTop
+  .topContainer
+  .topRow
+  .footerRight
+  .topMenu
+  .menuPayment
+  li:nth-of-type(3),
+.footer
+  .footerTop
+  .topContainer
+  .topRow
+  .footerRight
+  .topMenu
+  .menuPayment
+  li:nth-of-type(6),
+.footer
+  .footerTop
+  .topContainer
+  .topRow
+  .footerRight
+  .topMenu
+  .menuPayment
+  li:nth-of-type(9),
+.footer
+  .footerTop
+  .topContainer
+  .topRow
+  .footerRight
+  .topMenu
+  .menuPayment
+  li:last-of-type {
   margin-right: 0px;
 }
 
-.footer .footerTop .topContainer .topRow .footerRight .topMenu .menuPayment li img {
+.footer
+  .footerTop
+  .topContainer
+  .topRow
+  .footerRight
+  .topMenu
+  .menuPayment
+  li
+  img {
   width: 45px;
   height: 36px;
   display: block;
@@ -223,7 +366,14 @@
   margin-bottom: 10px;
 }
 
-.footer .footerTop .topContainer .topRow .footerRight .topMenu ul li:last-of-type {
+.footer
+  .footerTop
+  .topContainer
+  .topRow
+  .footerRight
+  .topMenu
+  ul
+  li:last-of-type {
   margin-bottom: 0px;
 }
 
@@ -316,7 +466,7 @@
 
 .footer .footerBottom .bottomContainer .bottomRow::before {
   display: block;
-  content: "";
+  content: '';
   position: absolute;
   left: 15px;
   top: -20px;
@@ -417,7 +567,7 @@
 }
 
 #NavLogoTray {
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
   padding: 13px 0px;
   display: none;
 }
@@ -455,43 +605,108 @@
 }
 
 @container (max-width: 1023px) {
-  .footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterTitle {
+  .footer
+    .footerNewsletter
+    .newsletterContainer
+    .newsletterRow
+    .newsletter
+    .newsletterTitle {
     width: 100%;
     max-width: 100%;
   }
 
-  .footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterTitle span {
+  .footer
+    .footerNewsletter
+    .newsletterContainer
+    .newsletterRow
+    .newsletter
+    .newsletterTitle
+    span {
     text-align: center;
   }
 
-  .footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm {
+  .footer
+    .footerNewsletter
+    .newsletterContainer
+    .newsletterRow
+    .newsletter
+    .newsletterForm {
     width: 100%;
     max-width: 100%;
     margin-top: 40px;
   }
 
-  .footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .mcEmbeddedSubscribe {
+  .footer
+    .footerNewsletter
+    .newsletterContainer
+    .newsletterRow
+    .newsletter
+    .newsletterForm
+    form
+    .mcEmbeddedSubscribe {
     font-size: 14px;
   }
 
-  .footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .optionalParent {
+  .footer
+    .footerNewsletter
+    .newsletterContainer
+    .newsletterRow
+    .newsletter
+    .newsletterForm
+    form
+    .optionalParent {
     margin: 0 auto;
   }
 
-  .footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .formItem {
+  .footer
+    .footerNewsletter
+    .newsletterContainer
+    .newsletterRow
+    .newsletter
+    .newsletterForm
+    form
+    .formItem {
     width: 100%;
     max-width: 100%;
     margin-bottom: 10px;
   }
 
-  .footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .mcEmbeddedSubscribe,
-  .footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .mcEmbedSignup {
+  .footer
+    .footerNewsletter
+    .newsletterContainer
+    .newsletterRow
+    .newsletter
+    .newsletterForm
+    form
+    .mcEmbeddedSubscribe,
+  .footer
+    .footerNewsletter
+    .newsletterContainer
+    .newsletterRow
+    .newsletter
+    .newsletterForm
+    form
+    .mcEmbedSignup {
     margin: 0px auto;
     font-size: 14px;
   }
 
-  .footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .mcEmbeddedSubscribe:hover,
-  .footer .footerNewsletter .newsletterContainer .newsletterRow .newsletter .newsletterForm form .mcEmbedSignup:hover {
+  .footer
+    .footerNewsletter
+    .newsletterContainer
+    .newsletterRow
+    .newsletter
+    .newsletterForm
+    form
+    .mcEmbeddedSubscribe:hover,
+  .footer
+    .footerNewsletter
+    .newsletterContainer
+    .newsletterRow
+    .newsletter
+    .newsletterForm
+    form
+    .mcEmbedSignup:hover {
     background-color: #0f0f0f;
   }
 
@@ -543,7 +758,13 @@
     margin-right: 15px;
   }
 
-  .footer .footerTop .topContainer .topRow .topMenu .menuSocial li:last-of-type {
+  .footer
+    .footerTop
+    .topContainer
+    .topRow
+    .topMenu
+    .menuSocial
+    li:last-of-type {
     margin-right: 0px;
   }
 
@@ -589,4 +810,16 @@
     width: 100%;
     max-width: 320px;
   }
+}
+/* Fallback de marca quando o cliente ainda não carregou logo. Mesmo padrão do
+   template_1 — antes o componente apontava para /logo.png, que não existe. */
+.logoFallback {
+  display: inline-block;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 24px;
+  line-height: 1;
+  white-space: nowrap;
+  color: var(--header-text, var(--text-color-base, #122161));
+  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
 }
