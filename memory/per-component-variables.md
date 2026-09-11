@@ -8,7 +8,7 @@ metadata:
 The gerador supports per-instance color/font overrides written into each config.json entry as a `variables` object (keys are literal CSS custom-property names like `--header-topbar-bg`, applied verbatim by the downstream template-generator).
 
 **To add this to a new component:**
-1. Add `variablesSchema: ComponentVariable[]` to its `LayoutItem` in `src/data/layoutData.ts` (**28 of the 67 active items have one** — don't trust a hand-kept list here; run `grep -c "variablesSchema:" src/data/layoutData.ts`). The pencil "Editar" button + side panel only appear when this exists and is non-empty.
+1. Add `variablesSchema: ComponentVariable[]` to its `LayoutItem` in `src/data/layoutData.ts` (**40 of the 79 active items have one**, 52 of which are VTEX — don't trust a hand-kept list here; run `yarn funil 1-variaveis`, which prints the tally and validates every entry). The pencil "Editar" button + side panel only appear when this exists and is non-empty.
    - **Headers (`--header-*`) shared namespace:** `--header-topbar-bg`/`--header-topbar-text` (topbar → secundary/text-secundary), `--header-bg` (main + nav bg → primary), `--header-text` (text/icons → text-base), `--header-accent` (hover, underline, badges → secundary), `--header-nav-bg`/`--header-nav-text` (separate nav bar, Header01 only → secundary/text-secundary), `--header-font` (→ font-secundary, or font-primary for Header01). Header03 accent defaults `#e73888`; Header01 and Header04 defaults match their original designs.
    - **Footers (`--footer-*`) shared namespace:** `--footer-bg` (→ background-footer), `--footer-text` (→ text-color-footer), `--footer-accent` (hover, links → secundary), `--footer-legal-bg`/`--footer-legal-text` (legal bar → secundary/text-secundary), `--footer-button-bg`/`--footer-button-text` (newsletter CTA → secundary/text-secundary), `--footer-font` (→ font-secundary). Footer03 defaults: bg `#ffffff`, text `#000000`, accent `#e60f73`. Footer04 defaults differ (dark theme).
    - **Spot cards (`--spot-*`) shared namespace:** `--spot-btn-bg`/`--spot-btn-text` (CTA/size button → secundary), `--spot-tag-bg`/`--spot-tag-text` (discount tag → tertiary), `--spot-font` (→ font-secundary). Defaults per card stay byte-identical to each card's original hex (the Level-3 fallback). Sourced from ``../faststore.starter`` ProductCard0N via `/from-faststore`. **Text/title and price colors are intentionally NOT themeable** — name/price stay a fixed hex per card (03/04 `#292929`/`#141414`; Spot05 price is a fixed `#0096fe` accent). Don't reintroduce `--spot-text`/`--spot-price`.
@@ -18,6 +18,21 @@ The gerador supports per-instance color/font overrides written into each config.
    `var(--header-topbar-bg, var(--background-secundary-color, #122161))` — individual var wins; else the existing global token; else the hardcoded default.
 3. State/setters live in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`); persistence rides along with `selections` in localStorage automatically.
 4. Config injection: `pickChangedVariables()` includes ONLY keys whose value differs from the schema default, in both `buildConfigJson` (Tray/Wake) and `buildFaststoreConfigJson` (VTEX).
+
+**O estágio `1-variaveis` do funil agora valida isso** (11/09). Antes não havia nada:
+nome que não bate entre schema e CSS falhava em SILÊNCIO nos dois sentidos — campo no
+painel que não pinta nada, ou zona que o cliente não consegue editar. O portão confere
+que toda `cssVar` é consumida, que o `default` é UM dos Níveis 3 declarados (uma var
+pode ter vários e isso é legítimo — `--header-font` do Header03 cai em 'Poppins' no
+corpo e 'Manrope' no logo) e que nenhum template lê token interno do e-temas
+(`--ink`/`--paper`/`--accent`/`--grey-NN`/`--font-display`/`--font-body`). Ele segue os
+imports de `templates/_shared/` (a gaveta de carrinho é quem pinta `--cart-text`) e
+ignora comentários. Achou 16 defeitos na primeira execução, entre eles dois campos do
+Footer01 que não pintavam nada e a pilha de fontes truncada do Header05.
+
+**Caixa do hex e aspas importam.** `pickChangedVariables` compara STRING: um default
+`#682A77` contra um ColorPicker que emite minúsculo exporta um valor que o usuário não
+escolheu. Mesma coisa para `"Poppins"` contra `'Poppins'`. Seis itens estavam assim.
 
 Panel: `src/components/gerador/ComponentVariablesPanel` — desde o redesign é a QUARTA COLUNA do shell, permanente, não um drawer. Live preview = `item.variables` applied as inline CSS vars on the section wrapper in `src/components/preview/ThemeRenderer` (the single renderer for editor, `/p` and export stage).
 

@@ -85,6 +85,60 @@ Exemplo: o item `component: "Showcase01"` tem `path: "organisms/ProductShelfCust
 | `ProductInfo03` | `product/template_3/ProductInfo` | `organisms/ProductDetails02` (galeria embutida, não é componente à parte) | **sim** (galeria) |
 | `ProductRelated01` | `product/template_1/ProductRelated` | `organisms/ProductShowcase01` | **sim** |
 
+**Leva de 11/09 — 12 pares novos, todos com prova de 1:1** (estágio `2-fidelidade`
+do funil, desktop e mobile):
+
+| Catálogo (`component`) | Pasta no catálogo | `path` → `faststore.starter/src/components/…` | Swiper? |
+|---|---|---|---|
+| `Ruler03` | `home/template_3/Ruler` | `molecules/BenefitsStrip07` | — |
+| `ClientReview07` | `home/template_7/ClientReview` | `molecules/SocialProof07` | — |
+| `BannerSoloLeft07` | `home/template_7/BannerSoloLeft` | `molecules/EditorialBanner07` | — |
+| `Categories07` | `home/template_7/Categories` | `molecules/Categories07` | — |
+| `BannerSide06` | `home/template_6/BannerSide` | `molecules/BannerSide06` | — |
+| `BannerMain07` | `home/template_7/BannerMain` | `organisms/BannerMain07` | — |
+| `ShopByRoom07` | `home/template_7/ShopByRoom` | `organisms/ShopByRoom07` | — |
+| `Newsletter07` | `home/template_7/Newsletter` | `organisms/Newsletter07` | — |
+| `BuySize06` | `home/template_6/BuySize` | `molecules/Categories06` | — |
+| `HelpFloat06` | `home/template_6/HelpFloat` | `organisms/HelpFloatButton06` | — |
+| `BannerGrid06` | `home/template_6/BannerGrid` | `molecules/BannerGrid06` | **sim** |
+| `BannerCarousel06` | `home/template_6/BannerCarousel` | `molecules/BannerCarousel06` | **sim** |
+
+Cinco deles não tinham slot equivalente e ganharam **seção própria** no painel:
+Ambientes, Newsletter, Compre por tamanho, Ajuda flutuante e Outras linhas. Criar
+uma seção custa três edições — a linha no tipo `Layouts`, o bloco em `LAYOUTS` e o
+import no registry. `LayoutKey` é derivado e `getPriorityOrder` já devolve 2 por
+default.
+
+> ⚠️ **O tipo `Layouts` PARECE duplicar as chaves de `LAYOUTS` e não duplica.** Trocá-lo
+> por `typeof LAYOUTS` quebra a compilação: é a anotação que ALARGA os literais do
+> `as const` para `LayoutItem`. Sem ela, `variablesSchema` some dos itens que não o
+> declaram e `platforms` vira tupla de literais. Testado em 11/09; a linha a mais é o
+> preço certo.
+
+## Duas armadilhas de conversão que custaram caro
+
+**1. `@container` que mira a própria raiz nunca casa.** Um elemento não consulta o
+próprio container. Se a raiz do componente carrega o `container-type` e as regras
+responsivas miram essa mesma raiz, elas são CSS válido que nunca aplica — falha
+100% silenciosa. Aconteceu duas vezes na leva (`BannerSide06` e `BannerGrid06`,
+este com 32px de diferença em 13 caixas). O conserto é um `<div>` nu com
+`container-type: inline-size` por fora.
+
+**2. Componente `position: fixed` mantém `@media`.** `HelpFloatButton06` é overlay
+ancorado na viewport: não tem coluna cujo tamanho consultar, e um `@container`
+mediria um ancestral que não governa nada. Dentro do iframe do canvas a viewport já
+é 1440/375.
+
+## Dois portões que provam o que antes era afirmação
+
+- **`1-variaveis`** (estático): toda `cssVar` do `variablesSchema` é consumida pelo CSS,
+  todo `default` é um dos Níveis 3 declarados, e nenhum template lê token interno do
+  e-temas. Achou 16 defeitos na primeira execução.
+- **`2-fidelidade`** (browser): casa nó a nó, por `data-role`, o componente real do
+  starter (`/dev-fidelity`) com a réplica daqui (iframe do `/gerador`), em desktop e
+  mobile. Só cobre par com `data-role` espelhado dos DOIS lados — hoje os 12 acima.
+  Os itens anteriores seguem sem prova de 1:1 (ver `ACHADOS-EM-ABERTO.md`).
+
 > Componentes de templates **sem** `'VTEX'` em `platforms` (ex.: `Ruler02/04/05`,
 > `HomeCarousel06`, `ProductInfo02`, `BannerTripleSwiper05`) não têm `path` — são variantes
 > exclusivas de Tray/Wake. Mas **"sem `path`" não significa "não existe no starter"**: antes de

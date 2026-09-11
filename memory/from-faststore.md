@@ -18,4 +18,22 @@ Key behaviors:
 - **SCSS→CSS:** inverts `/to-faststore` (de-nests, resolves `&`, `@media`→`@container`, strips `$`/`@mixin`/SCSS functions), keeps `var(--…)` verbatim. **Reset fix:** `<button>`/`<li>`/`<ul>` needing own bg/border/list-style must be prefixed with the component root class (e.g. `.productDetails .addToCart`) to beat `.preview__area …` reset `(0,1,1)` — no `!important`.
 - **Registration:** `templateRegistry.ts` (key = `component`) + `layoutData.ts` (unique 12-char `key`, `path` required for VTEX, `platforms` includes `'VTEX'`, `backgroundVars`).
 
+**Prova de 1:1 (11/09).** O estágio `2-fidelidade` do funil casa nó a nó, por `data-role`
+espelhado dos dois lados, o componente real (`localhost:3000/dev-fidelity?component=X`)
+com a réplica (iframe do `/gerador`), em desktop 1440 e mobile 375. A caixa é a
+asserção; CSS é diagnóstico. Ele normaliza quatro baselines de SHELL que o componente
+não declara e que diferem entre as duas casas — `letter-spacing` (o core do FastStore
+põe .16px no `body.theme`), cor de link não estilizado, e cor e fonte herdadas do
+`<body>` — além de desligar `transition`/`animation` (a própria injeção da paleta
+dispara as transições, e medir cedo lê o valor interpolado). E injeta uma **paleta-sonda**
+com uma cor única por token de marca: ler `--background-secundary-color` onde o original
+lê `--background-primary-color` deixa de ser invisível. **Ao migrar, ponha `data-role`
+nos dois lados** — a família 06 do starter é anterior à convenção e precisa ganhá-los.
+
+**Duas armadilhas que custaram caro na leva de 11/09:**
+- `@container` que mira a PRÓPRIA raiz nunca casa (elemento não consulta o próprio
+  container) — CSS válido que nunca aplica. Precisa de um `<div>` nu com
+  `container-type` por fora. Mordeu `BannerSide06` e `BannerGrid06`.
+- componente `position: fixed` mantém `@media`: não tem coluna cujo tamanho consultar.
+
 Note: some legacy `template_4` preview stubs (`common/template_4/{Footer,Header}`) predate this and don't match the `.starter` MANU designs — overwrite them via the command when ingesting the real `.starter` component.
