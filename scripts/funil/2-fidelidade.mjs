@@ -49,6 +49,11 @@ const TOL = 0.5;
  * com fallback "SERIE//A". Então `brand-name` é "Brasilusa" na origem e
  * "SERIE//A" aqui, de propósito.
  *
+ * A mesma regra vale para o NOME DA MARCA dentro do conteúdo: o mock da origem
+ * diz "Clube VIP Brasilusa" e "curadoria Brasilusa" porque o starter é o repo
+ * do componente daquele cliente; o catálogo é um produto público e não pode
+ * exibir a marca de um cliente para outro.
+ *
  * Esses nós são casados por papel + ordem (não por texto) e têm a GEOMETRIA
  * dispensada — largura de texto diferente é a consequência esperada de texto
  * diferente. O que continua valendo: eles existem nos dois lados, na mesma
@@ -56,13 +61,25 @@ const TOL = 0.5;
  */
 export const PARES = [
   { starter: 'BenefitsStrip07', id: '03', layoutKey: 'ruler', pagina: 'home' },
-  { starter: 'SocialProof07', id: '07', layoutKey: 'review', pagina: 'home' },
+  {
+    starter: 'SocialProof07',
+    id: '07',
+    layoutKey: 'review',
+    pagina: 'home',
+    textoLivre: ['sp-subtitle'],
+  },
   { starter: 'EditorialBanner07', id: '07', layoutKey: 'bannerSideLeft', pagina: 'home' },
   { starter: 'Categories07', id: '07', layoutKey: 'categories', pagina: 'home' },
   { starter: 'BannerSide06', id: '06', layoutKey: 'bannerSide', pagina: 'home' },
   { starter: 'BannerMain07', id: '07', layoutKey: 'banner', pagina: 'home' },
   { starter: 'ShopByRoom07', id: '07', layoutKey: 'rooms', pagina: 'home' },
-  { starter: 'Newsletter07', id: '07', layoutKey: 'newsletter', pagina: 'home' },
+  {
+    starter: 'Newsletter07',
+    id: '07',
+    layoutKey: 'newsletter',
+    pagina: 'home',
+    textoLivre: ['nl-eyebrow'],
+  },
   { starter: 'Categories06', id: '06', layoutKey: 'buySize', pagina: 'home' },
   { starter: 'HelpFloatButton06', id: '06', layoutKey: 'helpFloat', pagina: 'home' },
   { starter: 'BannerGrid06', id: '06', layoutKey: 'grid', pagina: 'home' },
@@ -81,7 +98,7 @@ export const PARES = [
     id: '07',
     layoutKey: 'footer',
     pagina: 'common',
-    textoLivre: ['brand-name', 'm-brand-name', 'copyright', 'm-copyright'],
+    textoLivre: ['brand-name', 'm-brand-name', 'copyright', 'm-copyright', 'nl-eyebrow'],
   },
 ];
 

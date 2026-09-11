@@ -11,7 +11,7 @@ import styles from './index.module.css';
  */
 const conteudo = {
   number: '+100 mil ambientes',
-  subtitle: 'transformados com conforto, estilo e curadoria Brasilusa',
+  subtitle: 'transformados com conforto, estilo e curadoria especializada',
   rating: '4,9 · mais de 12.000 avaliações',
   starCount: 5,
 };

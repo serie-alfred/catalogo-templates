@@ -514,7 +514,7 @@ const FooterNovo = () => {
             © 2026 BRAND<span>.</span> Todos os direitos reservados.
           </span>
           <span className={styles.legalCnpj}>
-            BRAND Streetwear Ltda. · CNPJ 38.482.117/0001-04 · Rua&nbsp;Augusta,
+            Sua Loja Ltda. · CNPJ 00.000.000/0001-00 · Rua&nbsp;Augusta,
             2.840 — São&nbsp;Paulo, SP
           </span>
           <a href="#" className={styles.legalPlatform}>

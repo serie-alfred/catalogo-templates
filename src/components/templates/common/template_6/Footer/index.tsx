@@ -23,15 +23,15 @@ const data = {
     },
     {
       title: 'Central de Ajuda',
-      links: ['Ferracini Club', 'Política de Entrega', 'Rastreie seu pedido', 'Trocas e devoluções', 'Segurança e Privacidade'],
+      links: ['Clube de Vantagens', 'Política de Entrega', 'Rastreie seu pedido', 'Trocas e devoluções', 'Segurança e Privacidade'],
     },
     {
       title: 'Atendimento',
       text: 'Segunda a Sexta: 08h às 16h',
-      links: ['WhatsApp Ferracini'],
+      links: ['Atendimento por WhatsApp'],
     },
   ],
-  copyright: '© 2026 - CNPJ: 53.577.383/0006-36 Calçados Ferracini Ltda. Franca - SP',
+  copyright: '© 2026 - CNPJ: 00.000.000/0001-00 Sua Loja Ltda. Sua Cidade - UF',
 };
 
 const SocialIcon = ({ name }: { name: string }) => {

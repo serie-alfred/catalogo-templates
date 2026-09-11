@@ -36,7 +36,7 @@ const conteudo = {
   brandTagline: 'casa · conforto · estilo',
   brandDescription:
     'Curadoria de produtos têxteis e de decoração para transformar cada ambiente da sua casa.',
-  nlEyebrow: 'Clube VIP Brasilusa',
+  nlEyebrow: 'Clube VIP',
   nlEyebrowMobile: 'Clube VIP',
   nlTitle: 'Receba lançamentos e ofertas em primeira mão',
   nlTitleMobile: 'Receba novidades em primeira mão',

@@ -171,7 +171,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--header-title-font", label: "Fonte do logo", type: "font", default: "-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "06", selection: "header", key: "hdr06frc1a2b", image: "", mobile: "", title: "Header Template 6", description: "Header Ferracini: top-bar em slider, mega-menu por hover, busca e ícones (favoritos, lojas, conta, sacola)", template: "6", pagina: ["common"], component: "Header06", path: "organisms/Header06", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+      { id: "06", selection: "header", key: "hdr06frc1a2b", image: "", mobile: "", title: "Header Template 6", description: "Top-bar em slider, mega-menu por hover, busca e ícones (favoritos, lojas, conta, sacola)", template: "6", pagina: ["common"], component: "Header06", path: "organisms/Header06", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--header-topbar-bg", label: "Fundo da barra superior", type: "color", default: "#ffffff", group: "Barra superior", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--header-topbar-text", label: "Texto da barra superior", type: "color", default: "#4f4f4f", group: "Barra superior", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--header-topbar-font", label: "Fonte da barra superior", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
@@ -185,7 +185,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#212721", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "07", selection: "header", key: "hdr07bru1k2m", image: "", mobile: "", title: "Header Template 7", description: "Header Brasilusa: barra superior rotativa, busca central, ícones de conta/sacola e menu de categorias", template: "7", pagina: ["common"], component: "Header07", path: "organisms/Header07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+      { id: "07", selection: "header", key: "hdr07bru1k2m", image: "", mobile: "", title: "Header Template 7", description: "Barra superior rotativa, busca central, ícones de conta/sacola e menu de categorias", template: "7", pagina: ["common"], component: "Header07", path: "organisms/Header07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--header-topbar-bg", label: "Fundo da barra superior", type: "color", default: "#2c2420", group: "Barra superior", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-topbar-text", label: "Texto da barra superior", type: "color", default: "#f5f0e8", group: "Barra superior", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#fff", group: "Header" },
@@ -234,8 +234,8 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--spot-price-color", label: "Cor do preço principal", type: "color", default: "#0096fe", group: "Preço", inheritsLabel: "cor primária da marca" },
         { cssVar: "--spot-font", label: "Fonte do card de produto", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "06", selection: "spot", key: "crdprd06f6g7", image: "", mobile: "", title: "Card de Produto Template 6", description: "Card Ferracini com etiqueta de oferta e botão comprar", template: "6", pagina: ["common"], component: "Spot06", path: "molecules/ProductCard06", platforms: ['VTEX'], backgroundVars: ["tertiary"] },
-      { id: "07", selection: "spot", key: "crdprd07h8j9", image: "", mobile: "", title: "Card de Produto Template 7", description: "Card Brasilusa minimalista, sem botão de compra", template: "7", pagina: ["common"], component: "Spot07", path: "molecules/ProductCard07", platforms: ['VTEX'], backgroundVars: ["secondary"] },
+      { id: "06", selection: "spot", key: "crdprd06f6g7", image: "", mobile: "", title: "Card de Produto Template 6", description: "Card com etiqueta de oferta e botão comprar", template: "6", pagina: ["common"], component: "Spot06", path: "molecules/ProductCard06", platforms: ['VTEX'], backgroundVars: ["tertiary"] },
+      { id: "07", selection: "spot", key: "crdprd07h8j9", image: "", mobile: "", title: "Card de Produto Template 7", description: "Card minimalista, sem botão de compra", template: "7", pagina: ["common"], component: "Spot07", path: "molecules/ProductCard07", platforms: ['VTEX'], backgroundVars: ["secondary"] },
     ],
   },
   breadcrumb: {
@@ -287,7 +287,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--footer-title-font", label: "Fonte do logo/títulos", type: "font", default: "'Roboto', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "06", selection: "footer", key: "ftr06frc3c4d", image: "", mobile: "", title: "Footer Template 6", description: "Footer Ferracini: newsletter (nome + e-mail), redes sociais, 3 colunas e barra inferior com copyright", template: "6", pagina: ["common"], component: "Footer06", path: "organisms/Footer06", platforms: ['VTEX'], backgroundVars: ["footer", "secondary"], variablesSchema: [
+      { id: "06", selection: "footer", key: "ftr06frc3c4d", image: "", mobile: "", title: "Footer Template 6", description: "Newsletter (nome + e-mail), redes sociais, 3 colunas e barra inferior com copyright", template: "6", pagina: ["common"], component: "Footer06", path: "organisms/Footer06", platforms: ['VTEX'], backgroundVars: ["footer", "secondary"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#f6f6f6", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#212721", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
         { cssVar: "--footer-accent", label: "Cor de destaque (hover, links)", type: "color", default: "#c0121c", group: "Destaque", inheritsLabel: "cor secundária da marca" },
@@ -298,7 +298,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--footer-title-font", label: "Fonte dos títulos", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "07", selection: "footer", key: "ftr07bru3n4p", image: "", mobile: "", title: "Footer Template 7", description: "Rodapé Brasilusa: faixa de benefícios, colunas institucionais e barra inferior", template: "7", pagina: ["common"], component: "Footer07", path: "organisms/Footer07", platforms: ['VTEX'], backgroundVars: ["secondary", "tertiary", "footer"], variablesSchema: [
+      { id: "07", selection: "footer", key: "ftr07bru3n4p", image: "", mobile: "", title: "Footer Template 7", description: "Rodapé escuro: newsletter, colunas institucionais e barra inferior", template: "7", pagina: ["common"], component: "Footer07", path: "organisms/Footer07", platforms: ['VTEX'], backgroundVars: ["secondary", "tertiary", "footer"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#1e1612", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#f5f0e8", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
         { cssVar: "--footer-accent", label: "Cor de destaque", type: "color", default: "#b8976a", group: "Rodapé", inheritsLabel: "cor primária da marca" },
@@ -341,7 +341,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--categories-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "04", selection: "multi-categories", key: "mulcat04n8p2", image: "", mobile: "", title: "Carrossel de Categorias Template 4", description: "Grade de categorias com imagem e rótulo", template: "4", pagina: ["home"], component: "MultiCategories04", platforms: ['Tray'], backgroundVars: [] },
-      { id: "06", selection: "home-carousel", key: "homcar06q4r9", image: "", mobile: "", title: "Carrossel de Categorias Template 6", description: "Carrossel de categorias Ferracini", template: "6", pagina: ["home"], component: "HomeCarousel06", platforms: ['Tray'], backgroundVars: [] },
+      { id: "06", selection: "home-carousel", key: "homcar06q4r9", image: "", mobile: "", title: "Carrossel de Categorias Template 6", description: "Carrossel de categorias", template: "6", pagina: ["home"], component: "HomeCarousel06", platforms: ['Tray'], backgroundVars: [] },
       { id: "07", selection: "categories", key: "cat07bru4d5e", image: "", mobile: "", title: "Carrossel de Categorias Template 7", description: "Grid de curadoria: 6 cards no desktop e 4 no mobile, com título e link \'Ver todos\'", template: "7", pagina: ["home"], component: "Categories07", path: "molecules/Categories07", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--categories-title-color", label: "Cor do título e dos rótulos", type: "color", default: "#2c2420", group: "Categorias", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-accent", label: "Cor do link e do hover", type: "color", default: "#b8976a", group: "Categorias", inheritsLabel: "cor primária da marca" },
@@ -436,8 +436,8 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--showcase-font", label: "Fonte do título", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--showcase-accent", label: "Cor do bullet ativo", type: "color", default: "#0096fe", group: "Carrossel", inheritsLabel: "cor primária da marca" },
       ] },
-      { id: "06", selection: "showcase", key: "vtr06frc4d5e", image: "", mobile: "", title: "Vitrine Template 6", description: "Vitrine Ferracini com título, subtítulo e carrossel", template: "6", pagina: ["home"], component: "Showcase06", path: "organisms/ProductShelfCustom06", platforms: ['Tray', 'VTEX'], backgroundVars: [] },
-      { id: "07", selection: "showcase", key: "vtr07bru5q6r", image: "", mobile: "", title: "Vitrine Template 7", description: "Vitrine Brasilusa com título e link para a listagem completa", template: "7", pagina: ["home"], component: "Showcase07", path: "organisms/ProductShelfCustom07", platforms: ['VTEX'], backgroundVars: ["primary"] },
+      { id: "06", selection: "showcase", key: "vtr06frc4d5e", image: "", mobile: "", title: "Vitrine Template 6", description: "Vitrine com título, subtítulo e carrossel", template: "6", pagina: ["home"], component: "Showcase06", path: "organisms/ProductShelfCustom06", platforms: ['Tray', 'VTEX'], backgroundVars: [] },
+      { id: "07", selection: "showcase", key: "vtr07bru5q6r", image: "", mobile: "", title: "Vitrine Template 7", description: "Vitrine com título e link para a listagem completa", template: "7", pagina: ["home"], component: "Showcase07", path: "organisms/ProductShelfCustom07", platforms: ['VTEX'], backgroundVars: ["primary"] },
     ],
   },
   bannerTriple: {
@@ -445,8 +445,8 @@ export const LAYOUTS: Layouts = {
     items: [
       { id: "01", selection: "banner-triple", key: "bntrp05f4g5h", image: "", mobile: "", title: "Banner Triplo Template 5", description: "Três banners lado a lado, estáticos", template: "5", pagina: ["home"], component: "BannerTriple05", platforms: ['Tray'], backgroundVars: [] },
       { id: "02", selection: "banner-triple-swiper", key: "bntsw05j6k7l", image: "", mobile: "", title: "Banner Triplo Template 5 (carrossel)", description: "Três banners em carrossel", template: "5", pagina: ["home"], component: "BannerTripleSwiper05", platforms: ['Tray'], backgroundVars: [] },
-      { id: "03", selection: "banner-triple", key: "bntrp06m8n9p", image: "", mobile: "", title: "Banner Triplo Template 6", description: "Três banners lado a lado (Ferracini)", template: "6", pagina: ["home"], component: "BannerTriple06", platforms: ['Tray'], backgroundVars: [] },
-      { id: "04", selection: "category-triple", key: "cattrp06q1r2", image: "", mobile: "", title: "Banner Triplo de Categorias Template 6", description: "Três categorias em carrossel (Ferracini)", template: "6", pagina: ["home"], component: "CategoryTriple06", platforms: ['Tray'], backgroundVars: [] },
+      { id: "03", selection: "banner-triple", key: "bntrp06m8n9p", image: "", mobile: "", title: "Banner Triplo Template 6", description: "Três banners lado a lado", template: "6", pagina: ["home"], component: "BannerTriple06", platforms: ['Tray'], backgroundVars: [] },
+      { id: "04", selection: "category-triple", key: "cattrp06q1r2", image: "", mobile: "", title: "Banner Triplo de Categorias Template 6", description: "Três categorias em carrossel", template: "6", pagina: ["home"], component: "CategoryTriple06", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
   bannerSolo: {
@@ -576,7 +576,7 @@ export const LAYOUTS: Layouts = {
   review: {
     name: "Depoimentos",
     items: [
-      { id: "01", selection: "client-review", key: "rev06b1c2d3e", image: "", mobile: "", title: "Depoimentos Template 6", description: "Carrossel de depoimentos de clientes (Ferracini)", template: "6", pagina: ["home"], component: "ClientReview06", platforms: ['Tray'], backgroundVars: [] },
+      { id: "01", selection: "client-review", key: "rev06b1c2d3e", image: "", mobile: "", title: "Depoimentos Template 6", description: "Carrossel de depoimentos de clientes", template: "6", pagina: ["home"], component: "ClientReview06", platforms: ['Tray'], backgroundVars: [] },
       { id: "07", selection: "client-review", key: "rev07bru9s8t", image: "", mobile: "", title: "Depoimentos Template 7", description: "Prova social centralizada: número em destaque, subtítulo, estrelas e nota", template: "7", pagina: ["home"], component: "ClientReview07", path: "molecules/SocialProof07", platforms: ['VTEX'], backgroundVars: ["tertiary", "primary"], variablesSchema: [
         { cssVar: "--socialproof-bg", label: "Fundo da seção", type: "color", default: "#f2ede4", group: "Depoimentos", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--socialproof-number-color", label: "Cor do número", type: "color", default: "#2c2420", group: "Depoimentos", inheritsLabel: "cor de texto primária" },

@@ -14,7 +14,7 @@ import styles from './index.module.css';
  * troca para a mensagem de sucesso e não emite evento — preview não rastreia.
  */
 const conteudo = {
-  eyebrow: 'Clube VIP Brasilusa',
+  eyebrow: 'Clube VIP',
   eyebrowMobile: 'Clube VIP',
   title: 'Receba inspirações e ofertas exclusivas',
   titleMobile: 'Receba inspirações e ofertas exclusivas',
@@ -24,7 +24,7 @@ const conteudo = {
   placeholderMobile: 'Seu e-mail',
   buttonLabel: 'Cadastrar',
   note: 'Ao cadastrar você concorda com nossa política de privacidade. Sem spam, prometemos.',
-  successMessage: 'Pronto! Você entrou para o Clube VIP Brasilusa.',
+  successMessage: 'Pronto! Você entrou para o Clube VIP.',
 };
 
 export default function Newsletter() {
