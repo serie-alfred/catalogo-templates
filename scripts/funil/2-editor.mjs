@@ -2,14 +2,14 @@
  * Estágio 2a — o editor de ponta a ponta: shell, canvas, painéis, atalhos,
  * modal, troca de plataforma e os invariantes de tema (fonte e contraste).
  */
-import puppeteer from 'puppeteer-core';
-import { findChrome, BASE_URL } from './lib/util.mjs';
+import { BASE_URL, relatorio } from './lib/util.mjs';
 import {
+  abrirBrowser,
+  novaAba,
   visibilidadeDe,
   controleUsavel,
   clicarDeVerdade,
 } from './lib/editor.mjs';
-const CHROME = findChrome();
 const SEED = {
   layoutPlatform: 'Wake',
   layoutSelections: JSON.stringify([
@@ -20,20 +20,17 @@ const SEED = {
   panelLeftCollapsed: '0',
   panelRightCollapsed: '0',
 };
-const R = [];
-const ok = (n, cond, extra = '') =>
-  R.push({ t: n, ok: !!cond, extra: String(extra).slice(0, 90) });
+// Era o único estágio com relatório próprio, e isso custava duas coisas: ele
+// sumia do placar do runner (que conta `N/M passam`) e coletava só `pageerror`,
+// deixando passar todo `console.error` — inclusive os do React, no estágio mais
+// central do funil. Agora usa o mesmo `relatorio()` e a mesma `novaAba()` dos
+// outros.
+const r = relatorio('Estágio 2a — o editor de ponta a ponta');
+const ok = (n, cond, extra = '') => r.ok(n, cond, extra);
 
-const b = await puppeteer.launch({
-  executablePath: CHROME,
-  headless: 'shell',
-  args: ['--force-device-scale-factor=1', '--hide-scrollbars'],
-  defaultViewport: { width: 1920, height: 1080, deviceScaleFactor: 1 },
-});
-const p = await b.newPage();
-const errs = [];
-p.on('pageerror', e => errs.push(e.message));
-const s = ms => new Promise(r => setTimeout(r, ms));
+const b = await abrirBrowser();
+const { page: p, erros: errs } = await novaAba(b);
+const s = ms => new Promise(r2 => setTimeout(r2, ms));
 
 await p.goto(`${BASE_URL}/gerador`, {
   waitUntil: 'networkidle2',
@@ -470,9 +467,7 @@ ok('sem erros de página', errs.length === 0, errs.join(' | '));
 // modo de falha era o pior possível: as sugestões eram o ÚNICO caminho que
 // chamava `onFontChange`, então digitar não aplicava nada e a tela não dizia
 // por quê. Aba própria, para a interceptação não contaminar o resto do estágio.
-const p2 = await b.newPage();
-const errs2 = [];
-p2.on('pageerror', e => errs2.push(e.message));
+const { page: p2, erros: errs2 } = await novaAba(b);
 await p2.setRequestInterception(true);
 p2.on('request', req => {
   if (req.url().includes('/gerador/api/fonts')) {
@@ -572,12 +567,15 @@ ok(
     document.documentElement.style.getPropertyValue('--font-primary')
   )
 );
+// Esta aba derruba `/gerador/api/fonts` com 500 DE PROPÓSITO, então o
+// `console: Failed to load resource` que vem daí é esperado — o que não pode
+// aparecer é erro de runtime.
+const errosReais = errs2.filter(e => !/Failed to load resource/.test(e));
 ok(
   'sem erros de página na aba sem catálogo',
-  errs2.length === 0,
-  errs2.join(' | ')
+  errosReais.length === 0,
+  errosReais.join(' | ')
 );
 
-console.log(JSON.stringify(R, null, 1));
 await b.close();
-process.exit(R.every(r => r.ok) ? 0 : 1);
+process.exit(r.fechar() ? 0 : 1);
