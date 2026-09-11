@@ -212,8 +212,19 @@ for (const a of alvos) {
       };
     }, a.selection);
 
+    // Overlay ancorado na viewport (`position: fixed`) não ocupa fluxo: a caixa
+    // da SEÇÃO tem altura 0 por construção, e exigir `h > 0` reprovaria um
+    // componente que está correto. A lista é explícita de propósito — "altura 0
+    // é aceitável" não pode ser regra geral, senão o estágio deixa de pegar o
+    // caso que ele existe para pegar: a seção que não montou.
+    const OVERLAYS = new Set(['help-float']);
+    const ehOverlay = OVERLAYS.has(a.selection);
     const passou =
-      !m.erro && m.nSec === 1 && m.h > 0 && m.nodes > 0 && errs.length === 0;
+      !m.erro &&
+      m.nSec === 1 &&
+      (ehOverlay || m.h > 0) &&
+      m.nodes > 0 &&
+      errs.length === 0;
     await p.evaluate(
       () =>
         new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)))
@@ -228,7 +239,7 @@ for (const a of alvos) {
       `${passou ? '✅' : '❌'} ${a.comp.padEnd(21)} ${a.plat.padEnd(4)} ${a.page.padEnd(8)} ${
         m.erro
           ? `ERRO: ${m.erro}`
-          : `${m.w}x${m.h}px  ${m.nodes} nós  ${m.imgs} img  ${m.txt} chars`
+          : `${m.w}x${m.h}px${ehOverlay ? ' (overlay: fora do fluxo)' : ''}  ${m.nodes} nós  ${m.imgs} img  ${m.txt} chars`
       }${errs.length ? `  ⚠️ ${errs.slice(0, 2).join(' | ')}` : ''}`
     );
   } catch (e) {
