@@ -231,29 +231,49 @@ await bloco('fontes', async () => {
   await clicarDeVerdade(page, 'aside[aria-label="Painel de edição"] input');
   await espera(400);
 
-  // Mesmo motivo dos campos de cor: o input é controlado e digitar tecla a
-  // tecla deixa estados parciais. O setter nativo entrega de uma vez.
-  await page.evaluate(() => {
-    const el = document.querySelector(
-      'aside[aria-label="Painel de edição"] input'
-    );
-    el?.focus();
-    const setter = Object.getOwnPropertyDescriptor(
-      window.HTMLInputElement.prototype,
-      'value'
-    ).set;
-    setter.call(el, 'Manr');
-    el?.dispatchEvent(new Event('input', { bubbles: true }));
-  });
-  const temSugestao = await page
-    .waitForFunction(
-      () =>
-        (document.querySelectorAll('button[class*="suggestion"]').length ?? 0) >
-        0,
-      { timeout: 10000, polling: 200 }
+  // Insistir, não esperar uma vez. O catálogo de fontes é buscado pela rota
+  // `/gerador/api/fonts`, que faz round-trip ao Google: isolado o estágio pega
+  // a rota quente e a lista abre na hora; no funil inteiro, com o browser
+  // recém-aberto, a primeira busca demora mais que qualquer timeout fixo.
+  // Digitar de novo a cada volta é barato e cobre os dois casos.
+  const digitarNoCampo = valor =>
+    page.evaluate(v => {
+      const el = document.querySelector(
+        'aside[aria-label="Painel de edição"] input'
+      );
+      el?.focus();
+      const setter = Object.getOwnPropertyDescriptor(
+        window.HTMLInputElement.prototype,
+        'value'
+      ).set;
+      setter.call(el, v);
+      el?.dispatchEvent(new Event('input', { bubbles: true }));
+    }, valor);
+
+  let temSugestao = false;
+  for (let i = 0; i < 12 && !temSugestao; i++) {
+    // Alterna o termo para forçar um `input` novo mesmo se o valor já era esse.
+    await digitarNoCampo(i % 2 ? 'Manr' : 'Manro');
+    temSugestao = await page
+      .waitForFunction(
+        () =>
+          (document.querySelectorAll('button[class*="suggestion"]').length ??
+            0) > 0,
+        { timeout: 2500, polling: 150 }
+      )
+      .then(() => true)
+      .catch(() => false);
+    if (
+      !temSugestao &&
+      (await page.evaluate(
+        () =>
+          !!document.querySelector(
+            'aside[aria-label="Painel de edição"] p[role="status"]'
+          )
+      ))
     )
-    .then(() => true)
-    .catch(() => false);
+      break;
+  }
 
   if (!temSugestao) {
     // Sem GOOGLE_FONTS_API_KEY a rota devolve 500 — aí é ambiente, não produto,

@@ -56,6 +56,17 @@ const DIVERGENCIAS_CONSCIENTES = [
       'x, y e h continuam valendo e são conferidos.',
   },
   {
+    label: 'modal.linha1',
+    eixos: ['h'],
+    motivo:
+      'O rodapé do card mostra os chips de variável do componente, que o mock ' +
+      'não desenha (ele repete um card ilustrativo 3x3). Largura e posição são ' +
+      'especificação e continuam conferidas; a altura segue o conteúdo.',
+  },
+  { label: 'modal.card1', eixos: ['h'], motivo: 'idem modal.linha1' },
+  { label: 'modal.card2', eixos: ['h'], motivo: 'idem modal.linha1' },
+  { label: 'modal.card3', eixos: ['h'], motivo: 'idem modal.linha1' },
+  {
     label: 't3.meta1',
     eixos: ['w'],
     motivo:
@@ -789,6 +800,102 @@ for (let i = 0; i < quantas; i++) {
     `modal.categoria${i + 1}`,
     `${DLG} aside div[class*="ScrollArea_viewport"] button|${i}`,
     { ...fig, x: fig.x - 2100 + mo.x, y: fig.y - 101 + mo.y }
+  );
+}
+
+// A grade de cards — a maior sub-árvore da fixture. O conteúdo depende da
+// categoria ativa, então o que se compara é a CAIXA: linha, card, e a barra de
+// rolagem com os dois carets. Nenhuma delas depende de quantos itens a
+// categoria tem.
+const grade = caminho(
+  M,
+  'Frame 165 > Frame 166 > Frame 160 > Frame 48 > Frame 40'
+);
+const linhasFig = (grade?.filhos ?? []).filter(n =>
+  /^Frame (138|141|142)$/.test(n.name)
+);
+// Os cards em ordem de documento, achatados — é assim que o DOM os entrega.
+const cardsFig = linhasFig.flatMap(l => filhos(l, 'lucide/x'));
+
+const nLinhas = await page.evaluate(
+  () =>
+    document.querySelectorAll(
+      '[role="dialog"] div[class*="SelectSectionItem_carousel"]'
+    ).length
+);
+const nCards = await page.evaluate(
+  () =>
+    document.querySelectorAll(
+      '[role="dialog"] div[class*="SectionModal_grid"] div[class*="imageContainer"]'
+    ).length
+);
+r.ok(
+  `modal: a grade tem o que medir (${nLinhas} linhas / ${nCards} cards no produto, ${linhasFig.length}/${cardsFig.length} no mock)`,
+  nLinhas > 0 && nCards > 0 && linhasFig.length > 0
+);
+
+const desloca = n => n && { ...n, x: n.x - 2100 + mo.x, y: n.y - 101 + mo.y };
+
+// Só a primeira linha: as outras são a MESMA estrutura repetida, e o que
+// interessa nelas é o passo — medido logo abaixo. Comparar as três inteiras
+// multiplicaria por 3 qualquer divergência de uma.
+await cmp(
+  'modal.linha1',
+  '[role="dialog"] div[class*="SelectSectionItem_carousel"]|0',
+  desloca(linhasFig[0]),
+  'xwh'
+);
+for (let j = 0; j < Math.min(nCards, cardsFig.length, 3); j++) {
+  await cmp(
+    `modal.card${j + 1}`,
+    `[role="dialog"] div[class*="SectionModal_grid"] div[class*="imageContainer"]|${j}`,
+    desloca(cardsFig[j]),
+    'wh'
+  );
+}
+
+// Sem asserção de passo entre linhas: as duas estruturas não correspondem. O
+// mock repete um card ilustrativo numa grade 3x3 de uma categoria só; o produto
+// desenha UM carrossel por seção, cada um com as variantes daquela seção.
+// Comparar o espaçamento seria comparar coisas diferentes que por acaso têm o
+// mesmo formato.
+
+// A barra de rolagem da grade e seus dois carets.
+await cmp(
+  'modal.barraGrade',
+  '[role="dialog"] div[class*="SectionModal_grid"] div[class*="ScrollArea_bar"]',
+  desloca(
+    caminho(
+      M,
+      'Frame 165 > Frame 166 > Frame 160 > Frame 48 > Frame 40 > Pagination'
+    )
+  ),
+  'w'
+);
+for (const [j, nome] of ['CaretLeft', 'CaretRight'].entries()) {
+  await cmp(
+    `modal.grade.caret${j + 1}`,
+    `[role="dialog"] div[class*="SectionModal_grid"] button[class*="ScrollArea_caret"]|${j}`,
+    desloca(
+      caminho(
+        M,
+        `Frame 165 > Frame 166 > Frame 160 > Frame 48 > Frame 40 > ${nome}`
+      )
+    ),
+    'wh'
+  );
+}
+for (const [j, nome] of ['CaretLeft', 'CaretRight'].entries()) {
+  await cmp(
+    `modal.categorias.caret${j + 1}`,
+    `[role="dialog"] aside button[class*="ScrollArea_caret"]|${j}`,
+    desloca(
+      caminho(
+        M,
+        `Frame 165 > Frame 166 > Frame 163 > Pagination Container > ${nome}`
+      )
+    ),
+    'wh'
   );
 }
 

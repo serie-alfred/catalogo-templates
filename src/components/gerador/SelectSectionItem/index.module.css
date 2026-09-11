@@ -55,7 +55,11 @@
 }
 
 .infoContainer {
-  padding: 16px;
+  /* Derivado do Figma, não estimado: a barra `Frame 38` tem 47,33px e o botão
+     `Frame 39` dentro dela tem 27,33 — sobram 10 em cima e 10 embaixo. Na
+     horizontal, o rótulo começa 16 depois da borda. Era `16px` nos quatro
+     lados, o que engordava o card em 12px. */
+  padding: 10px 16px;
   background: white;
   display: flex;
   justify-content: space-between;
