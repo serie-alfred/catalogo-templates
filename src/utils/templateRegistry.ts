@@ -159,6 +159,7 @@ import BannerMain07 from '@/components/templates/home/template_7/BannerMain';
 import ShopByRoom07 from '@/components/templates/home/template_7/ShopByRoom';
 import Newsletter07 from '@/components/templates/home/template_7/Newsletter';
 import BuySize06 from '@/components/templates/home/template_6/BuySize';
+import HelpFloat06 from '@/components/templates/home/template_6/HelpFloat';
 
 export const TemplateRegistry: Record<
   string,
@@ -246,4 +247,5 @@ export const TemplateRegistry: Record<
   ShopByRoom07,
   Newsletter07,
   BuySize06,
+  HelpFloat06,
 };

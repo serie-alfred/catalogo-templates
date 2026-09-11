@@ -116,6 +116,7 @@ export type Layouts = {
   rooms: LayoutSection;
   newsletter: LayoutSection;
   buySize: LayoutSection;
+  helpFloat: LayoutSection;
 };
 
 export const LAYOUTS: Layouts = {
@@ -446,6 +447,20 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "combined-categ", key: "homcmb04y9z0", image: "", mobile: "", title: "Combinações Template 4", description: "Bloco combinado de categorias, chamada e desconto", template: "4", pagina: ["home"], component: "HomeCombined04", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
+  helpFloat: {
+    name: "Ajuda flutuante",
+    items: [
+      { id: "06", selection: "help-float", key: "hlp06frc7g8h", image: "", mobile: "", title: "Ajuda flutuante Template 6", description: "Barra fixa na borda direita com WhatsApp, trocas, rastreio e horário; recolhida mostra só os ícones", template: "6", pagina: ["home"], component: "HelpFloat06", path: "organisms/HelpFloatButton06", platforms: ['VTEX'], backgroundVars: ["secondary", "primary"], variablesSchema: [
+        { cssVar: "--help-bg", label: "Fundo da barra", type: "color", default: "#37343b", group: "Ajuda flutuante", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--help-text", label: "Texto e ícones", type: "color", default: "#ffffff", group: "Ajuda flutuante", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--help-header-bg", label: "Fundo do cabeçalho", type: "color", default: "#ffffff", group: "Ajuda flutuante" },
+        { cssVar: "--help-header-text", label: "Texto do cabeçalho", type: "color", default: "#212721", group: "Ajuda flutuante", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--help-divider", label: "Divisória entre itens", type: "color", default: "#828282", group: "Ajuda flutuante" },
+        { cssVar: "--help-font", label: "Fonte", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
+    ],
+  },
+
   buySize: {
     name: "Compre por tamanho",
     items: [
