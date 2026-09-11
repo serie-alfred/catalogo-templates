@@ -31,7 +31,9 @@ const conteudo = {
     {
       label: 'Fale no WhatsApp',
       icon: icone("%3Cpath d='M3 17l1.2-3.3A7 7 0 1 1 7 16.2L3 17z'/%3E"),
-      href: 'https://api.whatsapp.com/send/?phone=5516936180695',
+      // o número da origem era a linha de atendimento REAL do cliente; aqui vai o
+      // placeholder que o resto do catálogo usa (template_2/Header, template_7/Header)
+      href: 'https://api.whatsapp.com/send/?phone=5511999999999',
     },
     {
       label: 'Trocas e devoluções',

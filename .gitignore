@@ -31,7 +31,10 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
+# `.env*.local` e não só `.env`: foi pela brecha do `.env.local` que uma chave de API
+# de verdade entrou no repo — e este repositório é PÚBLICO no GitHub.
 .env
+.env*.local
 
 # vercel
 .vercel
