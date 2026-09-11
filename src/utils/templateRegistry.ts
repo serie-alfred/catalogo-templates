@@ -163,6 +163,7 @@ import HelpFloat06 from '@/components/templates/home/template_6/HelpFloat';
 import BannerGrid06 from '@/components/templates/home/template_6/BannerGrid';
 import BannerCarousel06 from '@/components/templates/home/template_6/BannerCarousel';
 import ProductBanner01 from '@/components/templates/product/template_1/ProductBanner';
+import CategoryTitle06 from '@/components/templates/category/template_6/CategoryTitle';
 
 export const TemplateRegistry: Record<
   string,
@@ -254,4 +255,5 @@ export const TemplateRegistry: Record<
   BannerGrid06,
   BannerCarousel06,
   ProductBanner01,
+  CategoryTitle06,
 };

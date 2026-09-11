@@ -68,6 +68,7 @@ export const PARES = [
   { starter: 'BannerGrid06', id: '06', layoutKey: 'grid', pagina: 'home' },
   { starter: 'BannerCarousel06', id: '06', layoutKey: 'productLines', pagina: 'home' },
   { starter: 'ProductDescriptionBanner01', id: '01', layoutKey: 'productBanner', pagina: 'product' },
+  { starter: 'CategoryTitle06', id: '06', layoutKey: 'categoryTitle', pagina: 'category' },
   {
     starter: 'Header07',
     id: '07',
@@ -159,7 +160,11 @@ const normalizar = paleta => {
     // shell em vez da do componente.
     'a { color: inherit; }' +
     "html, body { color: rgb(9, 9, 9) !important;" +
-    " font-family: 'Roboto', sans-serif !important; }" +
+    " font-family: 'Roboto', sans-serif !important;" +
+    // `line-height` entra na mesma lista: o starter herda 1.15 do shell e aqui
+    // é `normal`. Deu 2px de deslocamento e um `16.1px → normal` no
+    // CategoryTitle06, com o componente não declarando nada.
+    ' line-height: normal !important; }' +
     // Quinta baseline: CONTROLE DE FORMULÁRIO não herda line-height igual nas
     // duas casas. No starter o botão fica com 18.4px (o shell do FastStore) e
     // aqui ele herda da raiz — então `line-height: normal` declarado pelo

@@ -119,6 +119,7 @@ export type Layouts = {
   helpFloat: LayoutSection;
   productLines: LayoutSection;
   productBanner: LayoutSection;
+  categoryTitle: LayoutSection;
 };
 
 export const LAYOUTS: Layouts = {
@@ -480,6 +481,17 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "combined-categ", key: "homcmb04y9z0", image: "", mobile: "", title: "Combinações Template 4", description: "Bloco combinado de categorias, chamada e desconto", template: "4", pagina: ["home"], component: "HomeCombined04", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
+  categoryTitle: {
+    name: "Título da categoria",
+    items: [
+      { id: "06", selection: "category-title", key: "cattit06frc7", image: "", mobile: "", title: "Título da categoria Template 6", description: "Linha com o nome da categoria e a contagem de produtos encontrados", template: "6", pagina: ["category"], component: "CategoryTitle06", path: "organisms/CategoryTitle06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--plp-text", label: "Cor do título e da contagem", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--plp-title-font", label: "Fonte do título", type: "font", default: "'League Spartan', sans-serif", group: "Tipografia" },
+        { cssVar: "--plp-font", label: "Fonte da contagem", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
+    ],
+  },
+
   productBanner: {
     name: "Banner do produto",
     items: [
