@@ -8,7 +8,7 @@ import styles from './index.module.css';
 
 /**
  * Espelha `organisms/Footer07` do faststore.starter — footer institucional
- * escuro da Brasilusa, com duas artes distintas do design (bloco desktop ≥768 e
+ * escuro do 07, com duas artes distintas do design (bloco desktop ≥768 e
  * bloco mobile <768, alternados por CSS, com textos de newsletter próprios).
  *
  * Esta é a RE-migração. O mock anterior deste slot renderizava um footer de

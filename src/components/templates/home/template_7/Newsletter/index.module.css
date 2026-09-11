@@ -3,7 +3,7 @@
    `--newsletter-input-border` é Modo FIEL (1 nível): #d8c9b8 é um tan do
    design, sem token de marca equivalente. */
 
-/* Newsletter07 — Brasilusa "Clube VIP" (home). Números = inline dos artboards
+/* Newsletter07 — "Clube VIP" (home). Números = inline dos artboards
    (_bases/Newsletter07/nl-desktop.html / nl-mobile.html) + metrics.md. Breakpoint 768.
    Newsletter é stub (dispara generate_lead). UA margins de <p>/<h2> replicadas;
    line-height:normal nos form controls (não herdam do root). */

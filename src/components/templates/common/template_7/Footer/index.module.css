@@ -1,6 +1,6 @@
 /* Espelha organisms/Footer07 (faststore.starter) — o de VERDADE.
    O mock anterior deste slot renderizava OUTRO componente (moda masculina
-   streetwear) enquanto o `path` entregava este, da Brasilusa: 9% de classes e
+   streetwear) enquanto o `path` entregava este, de outra família: 9% de classes e
    16% de palavras em comum. Ver ACHADOS-EM-ABERTO.md, 11/09.
 
    Conversão: `$vars` resolvidas inline, os 6 blocos `&` desaninhados, `@media`
@@ -8,7 +8,7 @@
    elemento não consulta o próprio container e as `@container` aqui miram
    `.desktop`/`.mobile`, filhos de `.footer`. */
 
-/* ── Footer07 (Brasilusa) — footer escuro c/ newsletter ───────────────────── */
+/* ── Footer07 — footer escuro c/ newsletter ──────────────────────────────── */
 /* FIDELIDADE: números dos estilos INLINE dos artboards do HTML (desktop + mobile), */
 /* em `_bases/Footer07/footer-desktop.html` / `footer-mobile.html`. Dois blocos */
 /* alternados por CSS no breakpoint 768 (design tem 2 artes distintas). */

@@ -46,11 +46,11 @@ const TOL = 0.5;
  *
  * O `/from-faststore` proíbe trazer o wordmark da marca de origem para o
  * catálogo — o preview é público e mostra o logo do usuário (`useLayout()`)
- * com fallback "SERIE//A". Então `brand-name` é "Brasilusa" na origem e
+ * com fallback "SERIE//A". Então `brand-name` é o wordmark da marca na origem e
  * "SERIE//A" aqui, de propósito.
  *
  * A mesma regra vale para o NOME DA MARCA dentro do conteúdo: o mock da origem
- * diz "Clube VIP Brasilusa" e "curadoria Brasilusa" porque o starter é o repo
+ * diz "Clube VIP <marca>" e "curadoria <marca>" porque o starter é o repo
  * do componente daquele cliente; o catálogo é um produto público e não pode
  * exibir a marca de um cliente para outro.
  *

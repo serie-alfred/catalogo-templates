@@ -12,7 +12,7 @@ import styles from './index.module.css';
  * Espelha `organisms/Header07` do faststore.starter — o de VERDADE.
  *
  * O mock anterior deste slot renderizava um header de moda masculina
- * streetwear enquanto o `path` entregava este, da Brasilusa: 6% de classes e
+ * streetwear enquanto o `path` entregava este, de outra família: 6% de classes e
  * 7% de palavras em comum com a origem. Ver ACHADOS-EM-ABERTO.md, 11/09.
  *
  * O que sai em relação à origem, e por quê:
@@ -21,7 +21,7 @@ import styles from './index.module.css';
  *    o mesmo helper que os outros headers do catálogo usam;
  *  • `ProfileChallenge` → renderiza o ramo deslogado (não há sessão aqui);
  *  • `useCart`/`useCartToggleButton`/`useCartInstance` → estado local + 1 item;
- *  • o wordmark "BRASILUSA" → `useLayout().logo` com fallback "SERIE//A", como
+ *  • o wordmark da marca → `useLayout().logo` com fallback "SERIE//A", como
  *    manda o /from-faststore: o catálogo é público e mostra a marca do usuário.
  *
  * ⚠️ O mini-cart usa o `_shared/CartSidebar01`, e isso é um delta CONHECIDO. A
@@ -31,7 +31,7 @@ import styles from './index.module.css';
  * resolveu os `--fs-*` para valores literais em classes próprias, então os
  * overrides do 07 não se aplicam a ele mecanicamente: portá-los é reescrever
  * classe a classe. A ESTRUTURA da gaveta está certa; a pele é a base do
- * FastStore, não a da Brasilusa. Registrado em ACHADOS-EM-ABERTO.md.
+ * FastStore, não a do 07. Registrado em ACHADOS-EM-ABERTO.md.
  */
 const MAX_SUGGESTIONS = 5;
 

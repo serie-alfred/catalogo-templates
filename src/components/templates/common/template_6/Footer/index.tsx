@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import styles from './index.module.css';
 
-// Preview estático do Footer06 (Ferracini) — dados fixos, sem VTEX/GraphQL/hooks.
+// Preview estático do Footer06 — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Footer06 (gerado via /from-faststore).
 // Newsletter como formulário não-interativo (readOnly); colunas sempre abertas no card.
 

@@ -4,7 +4,7 @@ import styles from './index.module.css';
 
 /**
  * Espelha `molecules/BenefitsStrip07` do faststore.starter — faixa de benefícios
- * Brasilusa: 4 itens (ícone + título + subtítulo), grid 4-col no desktop e 2-col
+ * do 07: 4 itens (ícone + título + subtítulo), grid 4-col no desktop e 2-col
  * no mobile, com conteúdos diferentes por breakpoint.
  *
  * A origem alterna desktop/mobile por `@media`; aqui vira `@container`, porque o

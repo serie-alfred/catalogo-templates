@@ -1,6 +1,6 @@
 /* Espelha organisms/Header07 (faststore.starter) — o de VERDADE.
    O mock anterior deste slot renderizava OUTRO componente (moda masculina
-   streetwear) enquanto o `path` entregava este, da Brasilusa: 6% de classes e
+   streetwear) enquanto o `path` entregava este, de outra família: 6% de classes e
    7% de palavras em comum. Ver ACHADOS-EM-ABERTO.md, 11/09.
 
    Conversão: `$vars` resolvidas inline e aninhamento ACHATADO por descendência
@@ -15,7 +15,7 @@
   container-type: inline-size;
 }
 
-/* Header07 — Brasilusa. Números = estilos inline dos artboards (_bases/Header07/
+/* Header07. Números = estilos inline dos artboards (_bases/Header07/
 header-desktop.html / header-mobile.html) + metrics.md. Cor/fonte = cadeia de 3
 níveis (temável). Breakpoint desktop 1200 (nav de 9 itens exige a largura — exceção
 justificada vs footer 768; ver notas.md). Neutros estruturais (hairlines, cinzas,

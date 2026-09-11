@@ -16,7 +16,7 @@
   container-type: inline-size;
 }
 
-/* ProductDetails07 — PDP Brasilusa. Números: metrics.md (FRAME 3 desktop / FRAME 6 mobile).
+/* ProductDetails07 — a PDP do 07. Números: metrics.md (FRAME 3 desktop / FRAME 6 mobile).
 Tokens: fallback encadeado de 3 níveis (mesmos mapeamentos do MainCategory07/home:
 ink→--text-primary-color, gold→--background-secundary-color, CTA→--background-primary-color, Cormorant→--font-primary, DM Sans→--font-secundary). Neutros sobre fundo customizável
 (muted/bordas) derivam do texto via color-mix. Origem SEM reset → margens UA (h1 0.67em, h2 0.83em, p/h3 1em do próprio font-size) RE-ADICIONADAS explícitas (FastStore zera). */

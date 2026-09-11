@@ -16,8 +16,8 @@ Rodar `/from-faststore <Nome>` já implica, por padrão, sem o dev pedir:
 6. **Bloco colocável (organism) vs peça (molecule):** se a origem é meio-bloco que depende de um irmão (ex.: `ProductInfo02` é só a coluna de info, ao lado da galeria), migre o **organism** que compõe o bloco inteiro e use o `path` dele (passo 2).
 7. **A marca da origem não vem junto — nem o logo, nem o CONTEÚDO.** A regra do logo (abaixo)
    cobria só o logo, e em 11/09 apareceu que o catálogo mostrava, para prospects, o CNPJ e a
-   razão social de um cliente (`53.577.383/0006-36 Calçados Ferracini Ltda`) e da parceira de
-   plataforma, além de "Clube VIP Brasilusa" e 12 descrições de seção com nome de cliente.
+   razão social de um cliente (CNPJ + nome empresarial completo, literais) e da parceira de
+   plataforma, além de "Clube VIP <marca>" e 12 descrições de seção com nome de cliente.
    Ao migrar, troque: **nome de marca em copy** → genérico ("Clube VIP", "curadoria
    especializada"); **razão social e CNPJ** → `Sua Loja Ltda` / `00.000.000/0001-00`;
    **URL de CDN de cliente** → `placehold.co`; **`description`/`title` do `LayoutItem`** →

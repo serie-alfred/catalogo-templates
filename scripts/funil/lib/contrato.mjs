@@ -356,7 +356,7 @@ export function conferirImports(paths, r) {
  * falha — trata como contrato: mudou a lista, alguém mexeu na compatibilidade e
  * precisa saber.
  *
- * A família 07 (Brasilusa) é fechada. O `ProductCard07` recebe
+ * A família 07 é fechada. O `ProductCard07` recebe
  * `ProductCard07Product`, um shape próprio montado por `productToCard07(node)`, e
  * não o `Product` do core que todas as outras vitrines entregam. Abrir isso é
  * redesenhar a família, não declarar uma flag.

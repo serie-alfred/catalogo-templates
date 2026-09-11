@@ -18,7 +18,7 @@
   container-type: inline-size;
 }
 
-/* MainCategory07 — PLP Brasilusa. Números: metrics.md (FRAME 2 desktop / FRAME 5 mobile).
+/* MainCategory07 — a PLP do 07. Números: metrics.md (FRAME 2 desktop / FRAME 5 mobile).
 Tokens: fallback encadeado de 3 níveis (mapeamentos herdados da home: #2c2420 bg→primary, texto→text-primary; #b8976a→secundary; Cormorant→font-primary; DM Sans→font-secundary).
 Neutros sobre fundo customizável (muted/bordas) derivam do texto via color-mix. */
 /* superfícies neutras CLARAS estruturais (NÃO temáveis): texto escuro precisa de
