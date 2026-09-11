@@ -103,11 +103,69 @@ do funil, desktop e mobile):
 | `BannerGrid06` | `home/template_6/BannerGrid` | `molecules/BannerGrid06` | **sim** |
 | `BannerCarousel06` | `home/template_6/BannerCarousel` | `molecules/BannerCarousel06` | **sim** |
 
-Cinco deles não tinham slot equivalente e ganharam **seção própria** no painel:
-Ambientes, Newsletter, Compre por tamanho, Ajuda flutuante e Outras linhas. Criar
-uma seção custa três edições — a linha no tipo `Layouts`, o bloco em `LAYOUTS` e o
-import no registry. `LayoutKey` é derivado e `getPriorityOrder` já devolve 2 por
-default.
+**Leva de 11/09, segunda metade — os 12 de atrito real**, os que dependiam de
+`usePDP`/`useSearch`/`useSession` ou de resolver próprio:
+
+| Catálogo (`component`) | Pasta no catálogo | `path` → `faststore.starter/src/components/…` | Swiper? |
+|---|---|---|---|
+| `ProductBanner01` | `product/template_1/ProductBanner` | `molecules/ProductDescriptionBanner01` | — |
+| `CategoryTitle06` | `category/template_6/CategoryTitle` | `organisms/CategoryTitle06` | — |
+| `CategoryDescription06` | `category/template_6/CategoryDescription` | `organisms/CategorySeoFaq06` | — |
+| `CategoryTabs06` | `home/template_6/CategoryTabs` | `molecules/CategoryTabs06` | **sim** |
+| `PopupNews06` | `home/template_6/PopupNews` | `organisms/PopupNews06` | — |
+| `CategoryMain06` | `category/template_6/CategoryMain` | `organisms/MainCategory06` | — |
+| `CategoryMain07` | `category/template_7/CategoryMain` | `organisms/MainCategory07` | — |
+| `ProductReviews06` | `product/template_6/ProductReviews` | `organisms/TrustvoxReviews06` | — |
+| `ProductInfo01` (repontado) | `product/template_1/ProductInfo` | `organisms/ProductDetails01` | **sim** (galeria) |
+| `ProductInfo04` | `product/template_4/ProductInfo` | `organisms/ProductDetails07` | — |
+| `ProductInfo05` | `product/template_5/ProductInfo` | `organisms/ProductDetails06` | **sim** |
+| `ProductInfo07` | `product/template_7/ProductInfo` | `organisms/ProductDetails03` | **sim** (mobile) |
+
+`Header07` e `Footer07` entraram na mesma leva: os itens já existiam, mas
+apontavam para `Header06`/`Footer06` — o preview mostrava um componente e o tema
+saía com outro.
+
+Fora da leva de propósito: **`WiddeScript06`** (injeta script de terceiro, não tem
+UI) e os **16 institucionais**, que exigem abrir o tipo de página `landingPage` em
+toda a cadeia.
+
+Nove componentes não tinham slot equivalente e ganharam **seção própria** no
+painel: Ambientes, Newsletter, Compre por tamanho, Ajuda flutuante, Outras linhas,
+Banner do produto, Título da categoria, Avaliações do produto, Abas de categoria e
+Pop-up de newsletter. Criar uma seção custa três edições — a linha no tipo
+`Layouts`, o bloco em `LAYOUTS` e o import no registry. `LayoutKey` é derivado e
+`getPriorityOrder` já devolve 2 por default.
+
+### Seis componentes eram INVISÍVEIS no palco, cada um por um motivo
+
+Sem renderizar no `/dev-fidelity` não há 1:1 para provar. Nenhum deles precisou de
+mudança de comportamento — só de dado ou de uma prop que o palco injeta:
+
+| Componente | Por que não desenhava | Saída |
+|---|---|---|
+| `ProductDescriptionBanner01` | sem conteúdo de CMS | fallback de mock |
+| `TrustvoxReviews06` | `return null` sem produto | desenha a CASCA (o interior é do widget) |
+| `CategorySeoFaq06` | recusa mock de propósito (o `MOCK_ENABLED` é true em produção) | `PROPS_DE_PALCO` no DevFidelityStage |
+| `ProductDetails01` | `usePDP()` volta null fora da PDP | mock próprio |
+| `ProductDetails03` | idem | mock próprio |
+| `MainCategory06` | `scoped` derivava do CAMINHO da página: `/dev-fidelity` virava uma coleção que não existe | `collectionUrl: '/'` no palco |
+
+### O que a rota real fornece e o clone precisa re-adicionar
+
+Três dos componentes usam peças NATIVAS do FastStore (`[data-fs-button]`,
+`[data-fs-rating]`, `[data-fs-sku-selector]`). O skin de cada um só ajusta o que
+quer mudar; o resto vem do CSS do core, que no catálogo não existe. O portão
+achou cada pedaço pela diferença de caixa:
+
+- `[data-fs-button-wrapper]` tem `border: 2px solid transparent` → **4px** de
+  altura e 4px de largura (botão de filtros da PLP 06);
+- o wrapper também carrega `padding: 4px 16px` e a tipografia 16/600/16 → 32px
+  por botão no mobile da PDP 03, e 1px de altura no título das avaliações;
+- `[data-fs-rating]` e `[data-fs-sku-selector]` trazem a própria caixa (flex,
+  respiro, corpo) → a linha de avaliação fechava com altura 0.
+
+Cada um está no CSS do clone num bloco marcado "o que, na rota real, vem do CSS
+do CORE do FastStore", com o número que o portão mediu.
 
 > ⚠️ **O tipo `Layouts` PARECE duplicar as chaves de `LAYOUTS` e não duplica.** Trocá-lo
 > por `typeof LAYOUTS` quebra a compilação: é a anotação que ALARGA os literais do
@@ -136,8 +194,36 @@ mediria um ancestral que não governa nada. Dentro do iframe do canvas a viewpor
   e-temas. Achou 16 defeitos na primeira execução.
 - **`2-fidelidade`** (browser): casa nó a nó, por `data-role`, o componente real do
   starter (`/dev-fidelity`) com a réplica daqui (iframe do `/gerador`), em desktop e
-  mobile. Só cobre par com `data-role` espelhado dos DOIS lados — hoje os 12 acima.
-  Os itens anteriores seguem sem prova de 1:1 (ver `ACHADOS-EM-ABERTO.md`).
+  mobile. Só cobre par com `data-role` espelhado dos DOIS lados — hoje **25**
+  componentes e ~9.800 asserções. Os itens anteriores a esta leva seguem sem prova
+  de 1:1 (ver `ACHADOS-EM-ABERTO.md`).
+
+### O que o `2-fidelidade` aprendeu no caminho
+
+Cada item abaixo entrou porque uma divergência MEDIDA provou que faltava. Nenhum
+deles dispensa asserção; todos fazem os dois lados ficarem comparáveis:
+
+1. **Sete linhas de base de shell.** `letter-spacing`, cor de `<a>` sem classe,
+   cor e fonte herdadas do `<body>`, `line-height` herdado, `font-family` de
+   controle de formulário e — a sétima — `padding`: o catálogo tem
+   `* { padding: 0 }` no `globals.css` e o starter não zera o UA padding do
+   `<button>`.
+2. **Os dois lados medem no MESMO scrollport.** O clone mede primeiro e entrega a
+   altura do iframe à origem. Para `position: sticky` isso não é detalhe: o
+   `.mStickyCta` da PDP 07 ficava grampeado no rodapé de um scrollport e em fluxo
+   no outro, com a mesma regra dos dois lados.
+3. **Sondas de NÍVEL 1.** Cada var do `variablesSchema` recebe cor (ou família)
+   única nos dois lados. Sem isso o portão era cego para o erro que mais importa
+   no elo frágil do pipeline — ler a var errada: trocar `--pdp-title-color` por
+   `--pdp-accent` dentro do `.price` passava verde, porque as duas caem no mesmo
+   fallback de Nível 2.
+4. **Espera pelas IMAGENS.** O card da PLP dimensiona a foto pelo arquivo; medir
+   no meio do carregamento dava `h=337` num cartão e `h=18` no vizinho.
+5. **`textoLivre` por rodízio**, não só por marca: a barra de avisos do Header07
+   troca de mensagem num timer e os dois lados montam em instantes diferentes.
+6. **`soDesktop`** para o par cuja origem não renderiza no mobile (PopupNews06
+   tem guarda `min-width: 1025px`) — e a saída DIZ que aquele par mede um
+   viewport só.
 
 > Componentes de templates **sem** `'VTEX'` em `platforms` (ex.: `Ruler02/04/05`,
 > `HomeCarousel06`, `ProductInfo02`, `BannerTripleSwiper05`) não têm `path` — são variantes

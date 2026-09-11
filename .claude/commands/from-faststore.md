@@ -27,6 +27,23 @@ Rodar `/from-faststore <Nome>` já implica, por padrão, sem o dev pedir:
 
 Decisões que **continuam exigindo o dev** (pergunte, não invente): zona temável com valor cru/token interno (passo 1, "quando PARAR"); `selection`/`pagina` quando o nome não casa a tabela (passo 2); `platforms` além de `'VTEX'`.
 
+## 0.5. O componente RENDERIZA no palco? (antes de qualquer linha de código)
+
+`/dev-fidelity?component=<Nome>` com zero nós não dá 1:1 para provar. Seis componentes da
+leva de 11/09 caíram aí, cada um por um motivo, e a saída **nunca** foi mudar o
+comportamento do componente:
+
+| Sintoma | Saída |
+|---|---|
+| conteúdo é 100% do CMS | fallback de mock DENTRO do componente, se ele já aceita mock |
+| o componente RECUSA mock de propósito (`MOCK_ENABLED` é true em produção) | `PROPS_DE_PALCO` no `DevFidelityStage` |
+| `usePDP()`/`usePLP()` volta null fora da rota | `mock.ts` PRÓPRIO do sufixo + fallback por `MOCK_ENABLED` |
+| o componente se acha "escopado" pelo caminho da página | prop de palco que zera o escopo (ex.: `collectionUrl: '/'`) |
+| interior é de terceiro (widget) | desenhe a CASCA; não fabrique dado de comércio |
+
+Regra que vale para todos: o palco **não** é alcançado pelo grafo de manifests, então nada
+que esteja nele chega ao tema de cliente nenhum.
+
 ## 0. Resolver e ler a origem
 
 1. Localize a pasta do componente no `.starter`, varrendo os kinds: `../faststore.starter/src/components/{atoms,molecules,organisms,overrides}/$ARGUMENTS/`. Se o usuário passou um caminho, use-o. Se não achar, **aborte** listando onde procurou.
@@ -131,6 +148,15 @@ O catálogo usa **CSS plano** (CSS Modules `.css`, PostCSS), não SCSS. Inverter
   propósito**, para que qualquer classe própria do componente vença sem esforço. **Não prefixe
   seletores nem use `!important` por causa de reset**: escreva o CSS normalmente. (A orientação
   anterior, de prefixar com a classe raiz para chegar a (0,2,0), era para a regra antiga.)
+- **Peça NATIVA do FastStore no meio do componente? o CSS do core vem junto.** Quando a
+  origem usa `[data-fs-button]`, `[data-fs-rating]`, `[data-fs-sku-selector]`,
+  `[data-fs-quantity-selector]` etc., o SCSS do componente só ajusta o que ele quer mudar —
+  a CAIXA vem do CSS do core, que no catálogo não existe. Medido na leva de 11/09:
+  `[data-fs-button-wrapper]` tem `border: 2px solid transparent` (4px de altura e de
+  largura), `padding: 4px 16px` e tipografia 16/600/16; `[data-fs-rating]` e
+  `[data-fs-sku-selector]` trazem a própria caixa. Re-adicione o pedaço necessário num bloco
+  marcado `/* o que, na rota real, vem do CSS do CORE do FastStore */`, com o número que o
+  portão mediu — e NÃO invente: leia o valor computado na origem (`getComputedStyle`).
 - Referência de saída fiel: `src/components/templates/common/template_1/Header/index.module.css` e `product/template_3/ProductInfo/index.module.css` (componente grande, com o fix do reset).
 
 ## 5. Derivar o `variablesSchema` (núcleo)
