@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
@@ -515,4 +516,134 @@ export function conferirScssPortavel(vtexPaths, r) {
     problemas.join(' | ')
   );
   return problemas;
+}
+
+/**
+ * Os três alertas que a apuração paralela levantou, como invariante.
+ *
+ * Eles foram conferidos à mão uma vez e a conferência evaporou — igual aos logs
+ * que moravam em /tmp. Um alerta que depende de alguém lembrar de reconferir
+ * não é proteção nenhuma.
+ */
+export async function conferirAlertasDaApuracao(r) {
+  const STARTER = FASTSTORE_STARTER;
+  const GERADOR = GENERATOR;
+
+  // ── 1. Bug 5: o `:root` do starter não pode vencer o bloco gerado ─────────
+  // O cenário do alerta é o dia em que o `custom-theme.scss` da `base/faststore`
+  // — que tem BEGIN órfão e um `:root` hardcoded — chegar à `main`, que é o
+  // tema-base do cliente. Hoje o estágio 4 prova a forma ATUAL; isto prova o
+  // cenário, rodando o gerador real contra o arquivo real da prateleira.
+  const scssDaPrateleira = path.join(STARTER, 'src/themes/custom-theme.scss');
+  if (!fs.existsSync(scssDaPrateleira)) {
+    r.ok(
+      'bug 5: o SCSS da prateleira existe para o ensaio',
+      false,
+      scssDaPrateleira
+    );
+  } else {
+    const { VariablesGenerator } = await import(
+      pathToFileURL(
+        path.join(
+          GERADOR,
+          'src/platforms/faststore/services/VariablesGenerator.js'
+        )
+      ).href
+    );
+    const ensaiar = async conteudo => {
+      const palco = fs.mkdtempSync(path.join(os.tmpdir(), 'funil-bug5-'));
+      const alvo = path.join(palco, 'src/themes');
+      fs.mkdirSync(alvo, { recursive: true });
+      fs.writeFileSync(path.join(alvo, 'custom-theme.scss'), conteudo);
+      await new VariablesGenerator().write(palco, {
+        colorPrimaryBackground: '#abcdef',
+      });
+      const saida = fs.readFileSync(
+        path.join(alvo, 'custom-theme.scss'),
+        'utf8'
+      );
+      fs.rmSync(palco, { recursive: true, force: true });
+      return {
+        saida,
+        // `/^:root/gm` NÃO serve: quando o conserto falha, o marcador órfão é
+        // removido junto com as quebras de linha antes dele e o `:root`
+        // obsoleto cola no `}` anterior (`}:root {`). A âncora de início de
+        // linha deixa de casar e a asserção passa COM o bug presente — foi
+        // exatamente o que aconteceu na primeira versão disto.
+        nRoots: (saida.match(/:root\s*\{/g) ?? []).length,
+        ultimoRoot: saida.lastIndexOf(':root'),
+        inicioGerado: saida.lastIndexOf('/* BEGIN:custom-variables */'),
+      };
+    };
+
+    const conferir = (rotulo, res) => {
+      r.ok(
+        `bug 5 · ${rotulo}: sobra UM \`:root\` só`,
+        res.nRoots === 1,
+        `${res.nRoots} blocos :root na saída`
+      );
+      r.ok(
+        `bug 5 · ${rotulo}: e é o do editor, vencendo a cascata`,
+        res.inicioGerado !== -1 && res.ultimoRoot > res.inicioGerado,
+        `BEGIN em ${res.inicioGerado}, último :root em ${res.ultimoRoot}`
+      );
+      r.ok(
+        `bug 5 · ${rotulo}: a cor escolhida sobrevive`,
+        res.saida.includes('#abcdef')
+      );
+    };
+
+    // (a) O arquivo REAL da prateleira, como está hoje. Guarda de regressão da
+    //     forma atual — hoje ele tem o par de sentinelas completo.
+    conferir(
+      'SCSS real da prateleira',
+      await ensaiar(fs.readFileSync(scssDaPrateleira, 'utf8'))
+    );
+
+    // (b) O CENÁRIO do alerta, construído: BEGIN órfão (sem END) seguido de um
+    //     `:root` hardcoded. Não adianta esperar que o repo contenha essa forma
+    //     — ela foi consertada, e um ensaio que depende disso passa por acaso.
+    //     Foi o que aconteceu na primeira versão desta asserção: desliguei o
+    //     tratamento do órfão no gerador e ela continuou verde, porque estava
+    //     exercitando o ramo do par bem-formado.
+    conferir(
+      'BEGIN órfão + :root do starter',
+      await ensaiar(
+        [
+          '.theme {',
+          '  --fs-color-main-2: #0366dd;',
+          '}',
+          '',
+          '/* BEGIN:custom-variables */',
+          ':root {',
+          "  --font-primary: 'Roboto', sans-serif;",
+          '  --background-primary-color: #682A77;',
+          '}',
+          '',
+          '/* BEGIN:component-theme-imports */',
+          '/* END:component-theme-imports */',
+          '',
+        ].join('\n')
+      )
+    );
+  }
+
+  // ── 2. `vtex content` vem de um plugin que o wrapper tem que garantir ─────
+  const pkg = JSON.parse(
+    fs.readFileSync(path.join(STARTER, 'package.json'), 'utf8')
+  );
+  const cmsSync = pkg.scripts?.['cms-sync'] ?? '';
+  r.ok(
+    'o `cms-sync` do starter passa pelo guarda de plugins do toolbelt',
+    /ensure-vtex-plugins/.test(cmsSync),
+    cmsSync
+  );
+  const guarda = path.join(STARTER, 'scripts/ensure-vtex-plugins.mjs');
+  const fonte = fs.existsSync(guarda) ? fs.readFileSync(guarda, 'utf8') : '';
+  r.ok(
+    'e o guarda cobre os DOIS plugins (`cms` e `content`)',
+    /@vtex\/cli-plugin-cms/.test(fonte) &&
+      /@vtex\/cli-plugin-content/.test(fonte),
+    fonte ? 'guarda presente' : 'scripts/ensure-vtex-plugins.mjs não existe'
+  );
 }

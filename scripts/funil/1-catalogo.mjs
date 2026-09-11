@@ -12,6 +12,7 @@ import {
   conferirImports,
   conferirParesCardVitrine,
   conferirScssPortavel,
+  conferirAlertasDaApuracao,
 } from './lib/contrato.mjs';
 import {
   RAIZ,
@@ -265,6 +266,11 @@ await conferirParesCardVitrine(vtexPaths, r);
 // 13. e o SCSS desses assets precisa compilar nas DUAS versões do FastStore: o
 //     starter está na v4, o tema-base do cliente ainda na v3.
 conferirScssPortavel(vtexPaths, r);
+
+// 14. os três alertas da apuração paralela viram INVARIANTE, não lembrete.
+//     Eu os conferi à mão uma vez, e essa conferência evaporou como qualquer
+//     coisa que só existe no terminal. Aqui elas rodam em toda execução.
+await conferirAlertasDaApuracao(r);
 
 console.log(
   `  (${todos.length} itens em ${Object.keys(layouts).length} seções)`
