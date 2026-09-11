@@ -118,6 +118,7 @@ export type Layouts = {
   buySize: LayoutSection;
   helpFloat: LayoutSection;
   productLines: LayoutSection;
+  productBanner: LayoutSection;
 };
 
 export const LAYOUTS: Layouts = {
@@ -479,6 +480,13 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "combined-categ", key: "homcmb04y9z0", image: "", mobile: "", title: "Combinações Template 4", description: "Bloco combinado de categorias, chamada e desconto", template: "4", pagina: ["home"], component: "HomeCombined04", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
+  productBanner: {
+    name: "Banner do produto",
+    items: [
+      { id: "01", selection: "product-banner", key: "pdb01vtx4k5l", image: "", mobile: "", title: "Banner do produto Template 1", description: "Banner livre do produto, cadastrado no campo descriptionBanner da VTEX; arte separada para desktop e mobile", template: "1", pagina: ["product"], component: "ProductBanner01", path: "molecules/ProductDescriptionBanner01", platforms: ['VTEX'], backgroundVars: [] },
+    ],
+  },
+
   productLines: {
     name: "Outras linhas",
     items: [

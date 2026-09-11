@@ -67,6 +67,7 @@ export const PARES = [
   { starter: 'HelpFloatButton06', id: '06', layoutKey: 'helpFloat', pagina: 'home' },
   { starter: 'BannerGrid06', id: '06', layoutKey: 'grid', pagina: 'home' },
   { starter: 'BannerCarousel06', id: '06', layoutKey: 'productLines', pagina: 'home' },
+  { starter: 'ProductDescriptionBanner01', id: '01', layoutKey: 'productBanner', pagina: 'product' },
   {
     starter: 'Header07',
     id: '07',
@@ -229,6 +230,62 @@ const face = v => String(v).split(',')[0].trim().replace(/^["']|["']$/g, '').toL
 
 const s = ms => new Promise(r => setTimeout(r, ms));
 
+const NOME_DA_PAGINA = {
+  common: 'Todas as páginas',
+  home: 'Homepage',
+  category: 'Página de Categoria',
+  product: 'Página de Produto',
+};
+
+/**
+ * Troca a página ativa do editor. Item de PDP/PLP só é renderizado pelo canvas
+ * quando a página correspondente está selecionada — sem isso o clone media zero
+ * nós e o portão reprovava um componente correto.
+ *
+ * Rotina emprestada do `2-render`, pelo mesmo motivo dela: o gatilho existe no
+ * HTML antes de o React hidratar, e clique em botão não hidratado não faz nada,
+ * em silêncio. Clicar, conferir, insistir.
+ */
+async function trocarPagina(page, pagina) {
+  const alvo = NOME_DA_PAGINA[pagina === 'common' ? 'home' : pagina];
+  if (!alvo || alvo === 'Homepage') return;
+  const TRIG =
+    "const t=[...document.querySelectorAll('[aria-haspopup=\"listbox\"]')]" +
+    '.find(b=>/Homepage|Todas as p\u00e1ginas|P\u00e1gina de/.test(b.textContent));';
+  await page.waitForFunction(new Function(`${TRIG}return !!t`), {
+    timeout: 30000,
+    polling: 250,
+  });
+  const limite = Date.now() + 20000;
+  let abriu = false;
+  while (Date.now() < limite && !abriu) {
+    const n = await page.evaluate(
+      () =>
+        document
+          .querySelector('[role="listbox"][aria-label="P\u00e1gina"]')
+          ?.querySelectorAll('[role="option"]').length ?? 0
+    );
+    if (n === 4) { abriu = true; break; }
+    await page.evaluate(new Function(`${TRIG}t?.click()`));
+    await s(400);
+  }
+  if (!abriu) throw new Error('o seletor de página não abriu com 4 opções');
+  await page.evaluate(nome => {
+    [
+      ...document.querySelectorAll(
+        '[role="listbox"][aria-label="P\u00e1gina"] [role="option"]'
+      ),
+    ]
+      .find(x => x.textContent.trim() === nome)
+      ?.click();
+  }, alvo);
+  await page.waitForFunction(
+    new Function('nome', `${TRIG}return t && t.textContent.trim().startsWith(nome)`),
+    { timeout: 30000, polling: 250 },
+    alvo
+  );
+}
+
 /**
  * Roda `fn` no iframe do canvas, RE-RESOLVENDO o frame a cada tentativa.
  *
@@ -318,6 +375,7 @@ async function medirCatalogo(browser, par, mobile) {
     );
     await p.goto(`${BASE_URL}/gerador`, { waitUntil: 'networkidle2', timeout: 180000 });
     await p.waitForSelector('.ed-shell');
+    await trocarPagina(p, par.pagina);
 
     // Esperar o CONTEÚDO, não o relógio. A primeira versão dormia 3500ms fixos
     // e passava rodando o estágio sozinho; no funil completo, com o dev server

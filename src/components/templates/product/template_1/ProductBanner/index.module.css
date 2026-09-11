@@ -1,0 +1,53 @@
+/* Espelha molecules/ProductDescriptionBanner01 (faststore.starter):
+   aninhamento desfeito, `@media` → `@container`.
+
+   `.container` reproduz a classe GLOBAL do starter (custom-theme.scss:
+   max-width 1200 + margin auto + padding 0 15px). O catálogo tem
+   `component__container`, mas ele NÃO tem max-width — usá-lo deixaria o
+   componente 240px mais largo que o original a 1440. */
+
+.root {
+  container-type: inline-size;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.productDescription {
+  width: 100%;
+  max-width: 100%;
+  margin: 64px 0;
+}
+
+.productDescription img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  border-radius: 26px;
+}
+
+.productDescription [class='desktop__only'] {
+  display: flex;
+  max-width: 100%;
+}
+
+.productDescription [class='mobile__only'] {
+  display: none;
+}
+
+@container (max-width: 768px) {
+  .productDescription {
+    margin: 24px 0;
+  }
+
+  .productDescription [class='desktop__only'] {
+    display: none;
+  }
+
+  .productDescription [class='mobile__only'] {
+    display: flex;
+  }
+}

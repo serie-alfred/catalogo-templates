@@ -162,6 +162,7 @@ import BuySize06 from '@/components/templates/home/template_6/BuySize';
 import HelpFloat06 from '@/components/templates/home/template_6/HelpFloat';
 import BannerGrid06 from '@/components/templates/home/template_6/BannerGrid';
 import BannerCarousel06 from '@/components/templates/home/template_6/BannerCarousel';
+import ProductBanner01 from '@/components/templates/product/template_1/ProductBanner';
 
 export const TemplateRegistry: Record<
   string,
@@ -252,4 +253,5 @@ export const TemplateRegistry: Record<
   HelpFloat06,
   BannerGrid06,
   BannerCarousel06,
+  ProductBanner01,
 };
