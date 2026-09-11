@@ -18,7 +18,7 @@ const d = await p.evaluate(() => {
     return out;
   };
   return { papeis: vis.map(n=>`${n.getAttribute('data-role')} ${Math.round(n.getBoundingClientRect().width)}x${Math.round(n.getBoundingClientRect().height)}`),
-           arvore: arv(st.querySelector('[data-role]').closest('section') || st, 0) };
+           arvore: arv(st, 0) };
 });
 console.log(d.papeis.join('\n')); console.log('--- ARVORE ---'); console.log(d.arvore);
 await b.close();

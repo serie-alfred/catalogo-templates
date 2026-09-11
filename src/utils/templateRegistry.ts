@@ -83,6 +83,7 @@ import Ruler03 from '@/components/templates/home/template_3/Ruler';
 import ProductInfo03 from '@/components/templates/product/template_3/ProductInfo';
 import ProductInfo04 from '@/components/templates/product/template_4/ProductInfo';
 import ProductInfo05 from '@/components/templates/product/template_5/ProductInfo';
+import ProductInfo07 from '@/components/templates/product/template_7/ProductInfo';
 import ProductReviews06 from '@/components/templates/product/template_6/ProductReviews';
 
 // ************
@@ -218,6 +219,7 @@ export const TemplateRegistry: Record<
   ProductInfo03,
   ProductInfo04,
   ProductInfo05,
+  ProductInfo07,
   ProductReviews06,
 
   SpecialOffers04,
