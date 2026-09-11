@@ -87,6 +87,7 @@ export const PARES = [
   { starter: 'ProductDescriptionBanner01', id: '01', layoutKey: 'productBanner', pagina: 'product' },
   { starter: 'CategoryTitle06', id: '06', layoutKey: 'categoryTitle', pagina: 'category' },
   { starter: 'MainCategory06', id: '06', layoutKey: 'categoryMain', pagina: 'category' },
+  { starter: 'CategorySeoFaq06', id: '06', layoutKey: 'categoryDescription', pagina: 'category' },
   { starter: 'MainCategory07', id: '07', layoutKey: 'categoryMain', pagina: 'category' },
   { starter: 'ProductDetails07', id: '04', layoutKey: 'productInfo', pagina: 'product' },
   { starter: 'ProductDetails06', id: '05', layoutKey: 'productInfo', pagina: 'product' },
@@ -95,7 +96,12 @@ export const PARES = [
     id: '07',
     layoutKey: 'header',
     pagina: 'common',
-    textoLivre: ['brand-name', 'm-brand-name'],
+    // `m-topbar-msg` entra aqui não por marca, mas por RODÍZIO: a barra de
+    // avisos troca de mensagem num timer, e os dois lados montam em instantes
+    // diferentes — a origem mostrava "Frete grátis…" e o clone "Mais de 100
+    // mil ambientes…". Passou verde por sorte até a espera de imagens deslocar
+    // as fases. Por ordinal, o papel continua sendo comparado em estilo.
+    textoLivre: ['brand-name', 'm-brand-name', 'm-topbar-msg'],
   },
   {
     starter: 'Footer07',

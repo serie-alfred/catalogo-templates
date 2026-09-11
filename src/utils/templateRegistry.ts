@@ -166,6 +166,7 @@ import BannerGrid06 from '@/components/templates/home/template_6/BannerGrid';
 import BannerCarousel06 from '@/components/templates/home/template_6/BannerCarousel';
 import ProductBanner01 from '@/components/templates/product/template_1/ProductBanner';
 import CategoryTitle06 from '@/components/templates/category/template_6/CategoryTitle';
+import CategoryDescription06 from '@/components/templates/category/template_6/CategoryDescription';
 import CategoryMain07 from '@/components/templates/category/template_7/CategoryMain';
 import CategoryMain06 from '@/components/templates/category/template_6/CategoryMain';
 
@@ -261,6 +262,7 @@ export const TemplateRegistry: Record<
   BannerGrid06,
   BannerCarousel06,
   ProductBanner01,
+  CategoryDescription06,
   CategoryTitle06,
   CategoryMain06,
   CategoryMain07,
