@@ -88,6 +88,7 @@ export const PARES = [
   { starter: 'CategoryTitle06', id: '06', layoutKey: 'categoryTitle', pagina: 'category' },
   { starter: 'MainCategory07', id: '07', layoutKey: 'categoryMain', pagina: 'category' },
   { starter: 'ProductDetails07', id: '04', layoutKey: 'productInfo', pagina: 'product' },
+  { starter: 'ProductDetails06', id: '05', layoutKey: 'productInfo', pagina: 'product' },
   {
     starter: 'Header07',
     id: '07',
