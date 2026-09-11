@@ -41,6 +41,19 @@ const TOL = 0.5;
  * `data-role` espelhado dos dois lados — os migrados antes deste portão não têm
  * `data-role` no catálogo e ficam sem cobertura até serem revisitados.
  */
+/**
+ * `textoLivre`: papéis cujo TEXTO diverge POR CONTRATO entre os dois lados.
+ *
+ * O `/from-faststore` proíbe trazer o wordmark da marca de origem para o
+ * catálogo — o preview é público e mostra o logo do usuário (`useLayout()`)
+ * com fallback "SERIE//A". Então `brand-name` é "Brasilusa" na origem e
+ * "SERIE//A" aqui, de propósito.
+ *
+ * Esses nós são casados por papel + ordem (não por texto) e têm a GEOMETRIA
+ * dispensada — largura de texto diferente é a consequência esperada de texto
+ * diferente. O que continua valendo: eles existem nos dois lados, na mesma
+ * quantidade, e as propriedades de CSS que o nó possui batem.
+ */
 export const PARES = [
   { starter: 'BenefitsStrip07', id: '03', layoutKey: 'ruler', pagina: 'home' },
   { starter: 'SocialProof07', id: '07', layoutKey: 'review', pagina: 'home' },
@@ -54,7 +67,13 @@ export const PARES = [
   { starter: 'HelpFloatButton06', id: '06', layoutKey: 'helpFloat', pagina: 'home' },
   { starter: 'BannerGrid06', id: '06', layoutKey: 'grid', pagina: 'home' },
   { starter: 'BannerCarousel06', id: '06', layoutKey: 'productLines', pagina: 'home' },
-  { starter: 'Footer07', id: '07', layoutKey: 'footer', pagina: 'common' },
+  {
+    starter: 'Footer07',
+    id: '07',
+    layoutKey: 'footer',
+    pagina: 'common',
+    textoLivre: ['brand-name', 'm-brand-name', 'copyright', 'm-copyright'],
+  },
 ];
 
 /** Propriedades que valem asserção quando o nó as possui. */
@@ -162,9 +181,22 @@ const medir = props => {
       // "possui" = computado diferente do pai. Herdado não é do componente.
       if (!csPai || cs[p] !== csPai[p]) st[p] = cs[p];
     }
+    // Texto PRÓPRIO do nó (só os filhos-texto diretos), não a subárvore.
+    // Com `textContent` da subárvore, trocar o wordmark da marca por
+    // "SERIE//A" mudava a chave de TODOS os ancestrais — `grid`, `col`,
+    // `bottom`, `footer` — e o portão acusava 10 nós inexistentes dos dois
+    // lados. O texto próprio mantém o sinal onde ele importa (a folha) e
+    // deixa os contêineres para o ordinal.
+    const proprio = [...n.childNodes]
+      .filter(x => x.nodeType === 3)
+      .map(x => x.textContent)
+      .join('')
+      .trim()
+      .replace(/\s+/g, ' ')
+      .slice(0, 40);
     return {
       role: n.getAttribute('data-role'),
-      texto: (n.textContent || '').trim().replace(/\s+/g, ' ').slice(0, 40),
+      texto: proprio,
       w: +r.width.toFixed(2), h: +r.height.toFixed(2),
       dx: +(r.left - base.left).toFixed(2), dy: +(r.top - base.top).toFixed(2),
       st,
@@ -313,10 +345,23 @@ async function medirCatalogo(browser, par, mobile) {
   }
 }
 
-function comparar(origem, clone, rotulo, falhas) {
-  const chave = n => `${n.role}#${n.texto}`;
-  const mapO = new Map(origem.map(n => [chave(n), n]));
-  const mapC = new Map(clone.map(n => [chave(n), n]));
+function comparar(origem, clone, rotulo, falhas, textoLivre = []) {
+  const livre = new Set(textoLivre);
+  // papel livre entra por papel + ordem; o resto, por papel + texto
+  const chaveador = () => {
+    const ordem = new Map();
+    return n => {
+      // sem texto próprio (contêiner) ou papel de texto livre → papel + ordem
+      if (n.texto && !livre.has(n.role)) return `${n.role}#${n.texto}`;
+      const i = (ordem.get(n.role) ?? 0) + 1;
+      ordem.set(n.role, i);
+      return `${n.role}#${i}`;
+    };
+  };
+  const chaveO = chaveador();
+  const chaveC = chaveador();
+  const mapO = new Map(origem.map(n => [chaveO(n), n]));
+  const mapC = new Map(clone.map(n => [chaveC(n), n]));
 
   if (!mapO.size) {
     falhas.push(`${rotulo}: ORIGEM sem nenhum [data-role] visível`);
@@ -336,12 +381,14 @@ function comparar(origem, clone, rotulo, falhas) {
   for (const [k, o] of mapO) {
     const c = mapC.get(k);
     if (!c) continue;
-    for (const eixo of ['w', 'h', 'dx', 'dy']) {
-      asserts++;
-      const d = Math.abs(o[eixo] - c[eixo]);
-      if (d > TOL)
-        falhas.push(`${rotulo}: ${k} · ${eixo} ${o[eixo]} → ${c[eixo]} (Δ ${d.toFixed(2)}px)`);
-    }
+    // geometria dispensada onde o texto diverge por contrato
+    if (!livre.has(o.role))
+      for (const eixo of ['w', 'h', 'dx', 'dy']) {
+        asserts++;
+        const d = Math.abs(o[eixo] - c[eixo]);
+        if (d > TOL)
+          falhas.push(`${rotulo}: ${k} · ${eixo} ${o[eixo]} → ${c[eixo]} (Δ ${d.toFixed(2)}px)`);
+      }
     for (const p of PROPS) {
       if (!(p in o.st)) continue; // a origem não possui a propriedade neste nó
       asserts++;
@@ -373,9 +420,13 @@ try {
       const rotulo = `${par.starter}/${rot}`;
       const origem = await medirStarter(browser, par.starter, largura);
       const clone = await medirCatalogo(browser, par, mobile);
-      const n = comparar(origem, clone, rotulo, falhas);
+      const n = comparar(origem, clone, rotulo, falhas, par.textoLivre);
       total += n;
-      console.log(`  ${rotulo}: ${origem.length} nós · ${n} asserções`);
+      const nLivres = origem.filter(x => (par.textoLivre ?? []).includes(x.role)).length;
+      console.log(
+        `  ${rotulo}: ${origem.length} nós · ${n} asserções${ 
+          nLivres ? ` (${nLivres} com texto livre: geometria dispensada)` : ''}`
+      );
     }
   }
 } finally {

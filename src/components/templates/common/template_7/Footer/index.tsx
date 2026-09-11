@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 
+import { useLayout } from '@/context/LayoutContext';
+
 import styles from './index.module.css';
 
 /**
@@ -15,6 +17,10 @@ import styles from './index.module.css';
  *
  * A newsletter da origem inscreve de verdade (`useNewsLetter` → Master Data).
  * Aqui é estado local: preview não faz rede.
+ *
+ * O nome da marca NÃO vem da origem: o `/from-faststore` proíbe trazer o
+ * wordmark do cliente para o catálogo, que é público. Vem de `useLayout().logo`
+ * com o fallback "SERIE//A", como em Header01/03/04/06.
  */
 interface Link {
   label: string;
@@ -27,7 +33,6 @@ interface Column {
 }
 
 const conteudo = {
-  brandName: 'Brasilusa',
   brandTagline: 'casa · conforto · estilo',
   brandDescription:
     'Curadoria de produtos têxteis e de decoração para transformar cada ambiente da sua casa.',
@@ -71,10 +76,11 @@ const conteudo = {
   ] as Column[],
   payments: ['Visa', 'Master', 'Pix', 'Boleto'],
   copyright:
-    '© 2026 Brasilusa. Todos os direitos reservados. CNPJ 00.000.000/0001-00',
+    '© 2026 Sua Loja. Todos os direitos reservados. CNPJ 00.000.000/0001-00',
 };
 
 export default function Footer() {
+  const { logo } = useLayout();
   const [sentDesktop, setSentDesktop] = useState(false);
   const [sentMobile, setSentMobile] = useState(false);
 
@@ -158,7 +164,11 @@ export default function Footer() {
           <div className={styles.grid} data-role="grid">
             <div className={styles.brand} data-role="col">
               <div className={styles.brandName} data-role="brand-name">
-                {conteudo.brandName}
+                {logo ? (
+                  <img src={logo} alt="Logo" className={styles.brandLogo} />
+                ) : (
+                  'SERIE//A'
+                )}
               </div>
               <div className={styles.brandTagline} data-role="brand-tagline">
                 {conteudo.brandTagline}
@@ -186,7 +196,11 @@ export default function Footer() {
 
         <div className={styles.mobile} data-role="footer">
           <div className={styles.brandNameM} data-role="m-brand-name">
-            {conteudo.brandName}
+            {logo ? (
+              <img src={logo} alt="Logo" className={styles.brandLogo} />
+            ) : (
+              'SERIE//A'
+            )}
           </div>
           <div className={styles.brandTaglineM} data-role="m-brand-tagline">
             {conteudo.brandTagline}

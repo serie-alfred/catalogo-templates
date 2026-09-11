@@ -430,3 +430,12 @@
     transition-duration: 0ms !important;
   }
 }
+
+/* Logo do usuário quando há upload; sem ele, o wordmark "SERIE//A" do
+   `.brandName`. Regra do /from-faststore: o wordmark da marca de origem não
+   vem para o catálogo. */
+.brandLogo {
+  max-height: 28px;
+  width: auto;
+  display: block;
+}
