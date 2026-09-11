@@ -78,13 +78,7 @@ const INTERNOS = /^--(ink|paper|accent|grey-\d+|hairline|ease|font-display|font-
  * agendada. Dispensa que não é mais necessária REPROVA — senão vira lixo que
  * ninguém remove.
  */
-const PENDENTES = {
-  Header07:
-    'a réplica não é do organisms/Header07: 6% de classes e 7% de palavras em ' +
-    'comum com a origem (controles: Footer06 88%, Header04 100%). Trocar os ' +
-    'tokens seria remendar o componente errado — o conserto é re-migrar, e ' +
-    'isso sai junto do variablesSchema que falta. ACHADOS-EM-ABERTO.md, 11/09.',
-};
+const PENDENTES = {};
 const dispensasUsadas = new Set();
 
 const layouts = lerLayouts();

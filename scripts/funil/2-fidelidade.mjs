@@ -68,6 +68,13 @@ export const PARES = [
   { starter: 'BannerGrid06', id: '06', layoutKey: 'grid', pagina: 'home' },
   { starter: 'BannerCarousel06', id: '06', layoutKey: 'productLines', pagina: 'home' },
   {
+    starter: 'Header07',
+    id: '07',
+    layoutKey: 'header',
+    pagina: 'common',
+    textoLivre: ['brand-name', 'm-brand-name'],
+  },
+  {
     starter: 'Footer07',
     id: '07',
     layoutKey: 'footer',
@@ -151,7 +158,14 @@ const normalizar = paleta => {
     // shell em vez da do componente.
     'a { color: inherit; }' +
     "html, body { color: rgb(9, 9, 9) !important;" +
-    " font-family: 'Roboto', sans-serif !important; }";
+    " font-family: 'Roboto', sans-serif !important; }" +
+    // Quinta baseline: CONTROLE DE FORMULÁRIO não herda line-height igual nas
+    // duas casas. No starter o botão fica com 18.4px (o shell do FastStore) e
+    // aqui ele herda da raiz — então `line-height: normal` declarado pelo
+    // componente "possui" a propriedade de um lado e não do outro, e o portão
+    // via 6 divergências no Header07 em que os dois valores eram IGUAIS.
+    // Como as outras, é do shell: nenhum componente declara isso no botão.
+    'button, input, select, textarea { line-height: normal; }';
   document.head.appendChild(st);
   // Regra de autor com `!important` em `*`, não inline no <html>/<body>: o
   // starter declara os tokens em `body.theme`, mas o catálogo os declara num
@@ -176,9 +190,15 @@ const medir = props => {
     const r = n.getBoundingClientRect();
     const cs = getComputedStyle(n);
     const csPai = n.parentElement ? getComputedStyle(n.parentElement) : null;
+    // `st` = o que o nó POSSUI (computado diferente do pai) — decide o que
+    // vale asserção. `tudo` = o computado inteiro — é contra ele que se
+    // compara. Separar os dois importa: comparar possuído-contra-possuído
+    // dava falso vermelho sempre que a coincidência com o pai mudava de um
+    // lado para o outro, com os dois valores IGUAIS na tela.
     const st = {};
+    const tudo = {};
     for (const p of props) {
-      // "possui" = computado diferente do pai. Herdado não é do componente.
+      tudo[p] = cs[p];
       if (!csPai || cs[p] !== csPai[p]) st[p] = cs[p];
     }
     // Texto PRÓPRIO do nó (só os filhos-texto diretos), não a subárvore.
@@ -199,7 +219,7 @@ const medir = props => {
       texto: proprio,
       w: +r.width.toFixed(2), h: +r.height.toFixed(2),
       dx: +(r.left - base.left).toFixed(2), dy: +(r.top - base.top).toFixed(2),
-      st,
+      st, tudo,
     };
   });
 };
@@ -390,12 +410,14 @@ function comparar(origem, clone, rotulo, falhas, textoLivre = []) {
           falhas.push(`${rotulo}: ${k} · ${eixo} ${o[eixo]} → ${c[eixo]} (Δ ${d.toFixed(2)}px)`);
       }
     for (const p of PROPS) {
-      if (!(p in o.st)) continue; // a origem não possui a propriedade neste nó
+      if (!(p in o.st)) continue; // a origem não ESTABELECE a propriedade aqui
       asserts++;
+      // ...mas compara contra o COMPUTADO do clone: o que importa é o que
+      // pinta na tela, não se ele coincide com o pai dele.
       const a = p === 'fontFamily' ? face(o.st[p]) : o.st[p];
-      const b = p === 'fontFamily' ? face(c.st[p] ?? '') : c.st[p];
+      const b = p === 'fontFamily' ? face(c.tudo[p] ?? '') : c.tudo[p];
       if (a !== b)
-        falhas.push(`${rotulo}: ${k} · ${p} "${o.st[p]}" → "${c.st[p] ?? '(herdado)'}"`);
+        falhas.push(`${rotulo}: ${k} · ${p} "${o.st[p]}" → "${c.tudo[p] ?? '(ausente)'}"`);
     }
   }
   return asserts;
