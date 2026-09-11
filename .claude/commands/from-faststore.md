@@ -14,7 +14,16 @@ Rodar `/from-faststore <Nome>` já implica, por padrão, sem o dev pedir:
 4. **Estrutura espelha o slot.** Use o(s) template(s) já existente(s) do mesmo slot como referência de wrapper/estrutura (ex.: `product/template_1/ProductInfo`).
 5. **Numeração automática do `template_N`** = próximo número livre do slot no catálogo (passo 2).
 6. **Bloco colocável (organism) vs peça (molecule):** se a origem é meio-bloco que depende de um irmão (ex.: `ProductInfo02` é só a coluna de info, ao lado da galeria), migre o **organism** que compõe o bloco inteiro e use o `path` dele (passo 2).
-7. **Logo nunca fixo.** Se o componente migrado (Header/Footer) tem logo da marca de origem (SVG inline, `<img>` com src fixo, wordmark hardcoded), **NÃO** traga esse logo para o preview. Troque por logo dinâmico via `useLayout()`, com fallback de texto fixo `"SERIE//A"` — exatamente o esquema de `Header01`/`Header03`/`Header04` (passo 3).
+7. **A marca da origem não vem junto — nem o logo, nem o CONTEÚDO.** A regra do logo (abaixo)
+   cobria só o logo, e em 11/09 apareceu que o catálogo mostrava, para prospects, o CNPJ e a
+   razão social de um cliente (`53.577.383/0006-36 Calçados Ferracini Ltda`) e da parceira de
+   plataforma, além de "Clube VIP Brasilusa" e 12 descrições de seção com nome de cliente.
+   Ao migrar, troque: **nome de marca em copy** → genérico ("Clube VIP", "curadoria
+   especializada"); **razão social e CNPJ** → `Sua Loja Ltda` / `00.000.000/0001-00`;
+   **URL de CDN de cliente** → `placehold.co`; **`description`/`title` do `LayoutItem`** →
+   descreve o DESENHO, nunca de quem ele é. Os papéis afetados entram no `textoLivre` do par
+   no `2-fidelidade` — é divergência deliberada, e o portão precisa saber disso.
+8. **Logo nunca fixo.** Se o componente migrado (Header/Footer) tem logo da marca de origem (SVG inline, `<img>` com src fixo, wordmark hardcoded), **NÃO** traga esse logo para o preview. Troque por logo dinâmico via `useLayout()`, com fallback de texto fixo `"SERIE//A"` — exatamente o esquema de `Header01`/`Header03`/`Header04` (passo 3).
 
 Decisões que **continuam exigindo o dev** (pergunte, não invente): zona temável com valor cru/token interno (passo 1, "quando PARAR"); `selection`/`pagina` quando o nome não casa a tabela (passo 2); `platforms` além de `'VTEX'`.
 
