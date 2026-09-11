@@ -262,7 +262,7 @@ export default function SectionsPanel() {
                       // seletores `.panel button` (o reset contra o
                       // `.sidebar button` global) não alcançariam a linha e o
                       // clone sairia com os botões sem estilo.
-                      <div className={styles.panel}>
+                      <div className={styles.panel} data-ed-portal>
                         <SectionRowView data={activeRow} dragging />
                       </div>
                     )}

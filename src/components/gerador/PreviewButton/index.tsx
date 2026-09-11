@@ -69,7 +69,7 @@ export default function PreviewButton() {
 
       {(url || error) &&
         createPortal(
-          <div className={styles.overlay} onClick={closeModal}>
+          <div className={styles.overlay} onClick={closeModal} data-ed-portal>
             <div className={styles.modal} onClick={e => e.stopPropagation()}>
               <button
                 className={styles.close}

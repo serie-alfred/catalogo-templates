@@ -14,6 +14,7 @@ import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 
 import { irParaRail } from './lib/editor.mjs';
+import { arvore, caminho, filhos } from './lib/geometria.mjs';
 import { findChrome, BASE_URL, relatorio, espera } from './lib/util.mjs';
 
 const r = relatorio('Estágio 2d — geometria vs. Figma');
@@ -26,12 +27,16 @@ const r = relatorio('Estágio 2d — geometria vs. Figma');
  * 1/64 px: o ruído real é ~0,01. Um defeito de verdade é >= 1px (um `gap: 12`
  * que devia ser 16 dá 4). 0,5 separa os dois sem margem para dúvida.
  *
- * `texto` — a largura de um texto hug é medida por dois motores diferentes
- * (Figma e HarfBuzz), então diverge fração de pixel mesmo com o design certo;
- * já a ALTURA o Figma arredonda para inteiro, e por isso ela é comparada
- * arredondada e exata, o que é mais forte que qualquer tolerância.
+ * `texto` — as duas dimensões são medidas por motores diferentes (Figma e
+ * HarfBuzz) e ainda passam pela métrica do fallback que o `next/font` injeta,
+ * então divergem fração de pixel mesmo com o design certo. A altura tolera 1px
+ * e isso NÃO é frouxo: o menor passo de tamanho de fonte que importa aqui é
+ * 12→14px, que move a caixa 2px. Medido: o título do modal a 14px dava 16
+ * contra 19 do Figma (erro real, pego); a 16px dá 20 contra 19 (ruído de
+ * motor, tolerado) — e a largura passou a bater em 191,53 contra 192, que é o
+ * que confirma que 16 é o tamanho certo.
  */
-const TOL = { estrutura: 0.5, textoPos: 0.5, textoW: 1.5 };
+const TOL = { estrutura: 0.5, textoPos: 0.5, textoW: 1.5, textoH: 1 };
 
 /**
  * Divergências CONSCIENTES: o produto está certo e o Figma é que não descreve
@@ -51,12 +56,15 @@ const DIVERGENCIAS_CONSCIENTES = [
       'x, y e h continuam valendo e são conferidos.',
   },
   {
-    label: 'modal.listaCategorias',
-    eixos: ['h'],
+    label: 't3.meta1',
+    eixos: ['w'],
     motivo:
-      'O mock desenha 12 categorias, o catálogo tem 8. A caixa é um scroller: ' +
-      'x, y e w são especificação, só h depende do conteúdo.',
+      'A caixa hugueia o texto da dica, e o Figma escreve o placeholder ' +
+      'literal "90 x 90 (X Mb)" enquanto o produto escreve "(2 Mb)". ' +
+      'Caracteres diferentes, largura diferente. Vale para os 3 slots.',
   },
+  { label: 't3.meta2', eixos: ['w'], motivo: 'idem t3.meta1' },
+  { label: 't3.meta3', eixos: ['w'], motivo: 'idem t3.meta1' },
 ];
 
 const CHROME = findChrome();
@@ -138,9 +146,18 @@ await page
   .catch(() => {});
 await espera(600);
 
-const measure = sel =>
-  page.evaluate(s => {
-    const el = document.querySelector(s);
+/**
+ * `sel` aceita o sufixo `|N` para pegar o N-ésimo casamento em ordem de
+ * documento. Necessário porque as linhas da lista não são irmãs diretas — o
+ * `SortableContext` embrulha as reordenáveis num `div` a mais, e por isso
+ * `:nth-of-type` não alcança a 2ª e a 3ª.
+ */
+const measure = seletor =>
+  page.evaluate(bruto => {
+    const [s, idx] = bruto.split('|');
+    const el = idx
+      ? document.querySelectorAll(s)[Number(idx)]
+      : document.querySelector(s);
     if (!el) return null;
     const r = el.getBoundingClientRect();
     return {
@@ -149,7 +166,7 @@ const measure = sel =>
       w: +r.width.toFixed(2),
       h: +r.height.toFixed(2),
     };
-  }, sel);
+  }, seletor);
 
 const rows = [];
 
@@ -188,13 +205,11 @@ const cmp = async (label, sel, fig, axes = 'xywh', opts = {}) => {
       const limite = texto
         ? a === 'w'
           ? TOL.textoW
-          : TOL.textoPos
+          : a === 'h'
+            ? TOL.textoH
+            : TOL.textoPos
         : TOL.estrutura;
-      // Altura de texto: o Figma arredonda, então a comparação é exata.
-      const dentro =
-        texto && a === 'h'
-          ? Math.round(got.h) === fig.h
-          : Math.abs(d[a]) <= limite;
+      const dentro = Math.abs(d[a]) <= limite;
 
       if (waiver?.eixos.includes(a)) {
         if (dentro) waivadosQueBatem.push(a);
@@ -238,218 +253,547 @@ const cmp = async (label, sel, fig, axes = 'xywh', opts = {}) => {
   }
 };
 
-// ---------- coluna esquerda / rail ----------
-const L = load('t1-esquerda');
-await cmp('rail', 'nav[aria-label="Seções do editor"]', find(L, 'Frame 30'));
-await cmp(
-  'rail.logo',
-  'nav[aria-label="Seções do editor"] > svg',
-  find(L, 'Group 1')
-);
-const railBtns = ['Edição', 'lucide/palette', 'Vector', 'lucide/component'];
-for (let i = 0; i < 4; i++) {
+// ═══════════════════════════════════════════════════════════════════════════
+// Tela 1 — Componentes: rail, cabeçalho, plataforma, lista de seções
+// ═══════════════════════════════════════════════════════════════════════════
+const L = arvore(load('t1-esquerda'));
+const noL = e => caminho(L, e);
+
+const RAIL = 'nav[aria-label="Seções do editor"]';
+const ASIDE = 'aside[aria-label="Painel de edição"]';
+
+await cmp('rail', RAIL, noL('Frame 30'));
+await cmp('rail.logo', `${RAIL} > svg`, noL('Frame 30 > Group 1'));
+for (const [i, nome] of [
+  'Edição',
+  'lucide/palette',
+  'Vector',
+  'lucide/component',
+].entries()) {
   await cmp(
     `rail.item${i + 1}`,
-    `nav[aria-label="Seções do editor"] button:nth-of-type(${i + 1}) svg`,
-    find(L, railBtns[i])
+    `${RAIL} button:nth-of-type(${i + 1}) svg`,
+    noL(`Frame 30 > ${nome}`)
   );
 }
-await cmp(
-  'painelEsq',
-  'aside[aria-label="Painel de edição"]',
-  find(L, 'Frame 143')
-);
+
+await cmp('painelEsq', ASIDE, noL('Frame 143'));
 await cmp(
   'painelEsq.header',
-  'aside[aria-label="Painel de edição"] > header',
-  find(L, 'Frame 148', 0)
+  `${ASIDE} > header`,
+  noL('Frame 143 > Frame 148')
+);
+await cmp(
+  'painelEsq.titleRow',
+  `${ASIDE} div[class*="titleRow"]`,
+  noL('Frame 143 > Frame 148 > Frame 150')
+);
+await cmp(
+  'painelEsq.titulo',
+  `${ASIDE} span[class*="EditorLeftPanel_title"]`,
+  noL('Frame 143 > Frame 148 > Frame 150 > Frame 148'),
+  'xywh',
+  { tipo: 'texto' }
+);
+await cmp(
+  'painelEsq.versao',
+  `${ASIDE} span[class*="version"]`,
+  noL('Frame 143 > Frame 148 > Frame 150 > Frame 44')
 );
 await cmp(
   'painelEsq.cardPlataforma',
   'button[class*="PlatformSelect"][class*="card"]',
-  find(L, 'Options')
+  noL('Frame 143 > Frame 148 > Options')
+);
+// `x` e `w` só: o Container do Figma tem 18px de altura (a caixa de texto que
+// ele hugueia) e o span do produto tem 16 — e como ele é centrado nos 48px do
+// card, essa diferença de altura arrasta o `y` junto. É métrica de fonte, não
+// layout.
+await cmp(
+  'painelEsq.plataformaLegenda',
+  'span[class*="PlatformSelect_caption"]',
+  noL('Frame 143 > Frame 148 > Options > Container'),
+  'xw'
+);
+await cmp(
+  'painelEsq.plataformaChevron',
+  'button[class*="PlatformSelect"][class*="card"] > svg:last-of-type',
+  noL('Frame 143 > Frame 148 > Options > Arrow / Chevron_Right_MD')
 );
 
-// ---------- topbar ----------
-const T = load('t1-topbar');
-const off = { x: 420, y: 0 };
-const shift = f => f && { ...f, x: f.x + off.x, y: f.y + off.y };
-await cmp('topbar', 'header[class*="topbar"]', shift(find(T, 'Frame 130')));
+// As três linhas da lista. O Figma desenha a 1ª EXPANDIDA e as outras duas
+// recolhidas, e é esse o estado que o estágio monta (o clique no header dentro
+// do canvas expande a linha dele).
+//
+// Na expandida só x/y/w entram: o corpo aberto do mock desenha "Título" e
+// "Produtos", e o produto desenha "Modelo" + as ações da linha. Conteúdo
+// diferente, altura diferente — e é o mock que está velho, não o produto.
+const LINHAS = [
+  { fig: 'Frame 132', cabeca: 'Frame 149', eixos: 'xyw' },
+  { fig: 'Frame 144', cabeca: 'Frame 150', eixos: 'xwh' },
+  { fig: 'Frame 145', cabeca: 'Frame 151', eixos: 'xwh' },
+];
+for (const [i, linha] of LINHAS.entries()) {
+  const dom = `div[class*="SectionsPanel_row"]|${i}`;
+  const raiz = `Frame 143 > ${linha.fig}`;
+  await cmp(`lista.linha${i + 1}`, dom, noL(raiz), linha.eixos);
+  // As linhas 2 e 3 herdam o deslocamento da 1ª (o corpo expandido do mock é
+  // 20px mais curto que o do produto), então comparar `y` absoluto pintaria 8
+  // caixas de vermelho por causa de UMA divergência. O que importa é o
+  // espaçamento entre linhas consecutivas, e esse é comparável.
+  if (i > 0) {
+    const anterior = noL(`Frame 143 > ${LINHAS[i - 1].fig}`);
+    const atual = noL(raiz);
+    const domAnterior = await measure(
+      `div[class*="SectionsPanel_row"]|${i - 1}`
+    );
+    const domAtual = await measure(dom);
+    const esperado = +(atual.y - anterior.y).toFixed(2);
+    const veio =
+      domAnterior && domAtual ? +(domAtual.y - domAnterior.y).toFixed(2) : NaN;
+    if (i === 1) {
+      // O passo da 1ª para a 2ª embute a altura do corpo EXPANDIDO, e aí os
+      // dois lados divergem por conteúdo: o mock abre "Título" e "Produtos"
+      // (campos que o produto não tem) e o produto abre "Modelo" mais as ações
+      // da linha. 20px de diferença, conhecida e travada — se mudar, reprova.
+      r.ok(
+        'lista: o passo com a linha expandida é o conhecido (mock ≠ produto)',
+        veio - esperado === 20,
+        `esperado ${esperado} + 20 conhecidos, veio ${veio}`
+      );
+    } else {
+      r.ok(
+        `lista: o passo da linha ${i} para a ${i + 1} bate com o Figma`,
+        Math.abs(veio - esperado) <= TOL.estrutura,
+        `esperado ${esperado}, veio ${veio}`
+      );
+    }
+  }
+  const eixosFilho = i === 0 ? 'xywh' : 'xwh';
+  await cmp(
+    `lista.linha${i + 1}.cabeca`,
+    `${dom.split('|')[0]} div[class*="SectionsPanel_head"]|${i}`,
+    noL(`${raiz} > ${linha.cabeca}`),
+    eixosFilho
+  );
+  await cmp(
+    `lista.linha${i + 1}.caret`,
+    `${dom.split('|')[0]} button[class*="affordance"]|${i}`,
+    noL(`${raiz} > ${linha.cabeca} > Frame 148 > Arrow / Caret_Down_SM`),
+    eixosFilho
+  );
+  await cmp(
+    `lista.linha${i + 1}.toggle`,
+    `${dom.split('|')[0]} button[class*="SectionsPanel_toggle"]|${i}`,
+    noL(
+      `${raiz} > ${linha.cabeca} > Edit / ${i === 0 ? 'Remove_Minus' : 'Add_Plus'}`
+    ),
+    eixosFilho
+  );
+}
+
 await cmp(
-  'topbar.historico',
-  'header[class*="topbar"] div[class*="history"]',
-  shift(find(T, 'Frame 153'))
+  'lista.adicionarArea',
+  'div[class*="PanelComponents_footer"]',
+  noL('Frame 143 > Frame 161'),
+  'xwh'
 );
 await cmp(
+  'lista.adicionarBotao',
+  'button[class*="PanelComponents_add"]',
+  noL('Frame 143 > Frame 161 > Frame 160'),
+  'xwh'
+);
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Topbar
+// ═══════════════════════════════════════════════════════════════════════════
+const T = arvore(load('t1-topbar'));
+// A fixture nasce em x=0; no produto a topbar começa depois do rail e do painel.
+const OFF = 420;
+const noT = e => {
+  const n = caminho(T, e);
+  return n && { ...n, x: n.x + OFF };
+};
+const TOPBAR = 'header[class*="topbar"]';
+
+await cmp('topbar', TOPBAR, noT('Frame 130'));
+await cmp(
+  'topbar.historico',
+  `${TOPBAR} div[class*="history"]`,
+  noT('Frame 153')
+);
+for (const [i, nome] of ['Frame 143', 'Frame 148'].entries()) {
+  await cmp(
+    `topbar.historico.botao${i + 1}`,
+    `${TOPBAR} div[class*="history"] button:nth-of-type(${i + 1})`,
+    noT(`Frame 153 > ${nome}`)
+  );
+  await cmp(
+    `topbar.historico.icone${i + 1}`,
+    `${TOPBAR} div[class*="history"] button:nth-of-type(${i + 1}) svg`,
+    noT(
+      `Frame 153 > ${nome} > ${i === 0 ? 'Arrow / Arrow_Undo_Up_Left' : 'Arrow / Arrow_Undo_Up_Right'}`
+    )
+  );
+}
+await cmp(
   'topbar.pagina',
-  'button[aria-haspopup="listbox"]:not([class*="card"])',
-  shift(find(T, 'Frame 154'))
+  `${TOPBAR} button[aria-haspopup="listbox"]`,
+  noT('Frame 154')
+);
+await cmp(
+  'topbar.paginaCaret',
+  `${TOPBAR} button[aria-haspopup="listbox"] svg`,
+  noT('Frame 154 > Frame 148 > Arrow / Caret_Down_SM')
 );
 await cmp(
   'topbar.toggle',
   'div[role="group"][aria-label="Visão do preview"]',
-  shift(find(T, 'Frame 48'))
+  noT('Frame 48')
 );
-await cmp(
-  'topbar.desktop',
-  'div[role="group"] button:nth-of-type(1)',
-  shift(find(T, 'Frame 25'))
-);
-await cmp(
-  'topbar.mobile',
-  'div[role="group"] button:nth-of-type(2)',
-  shift(find(T, 'Frame 27'))
-);
+for (const [i, nome] of ['Frame 25', 'Frame 27'].entries()) {
+  await cmp(
+    `topbar.${i === 0 ? 'desktop' : 'mobile'}`,
+    `div[role="group"] button:nth-of-type(${i + 1})`,
+    noT(`Frame 48 > ${nome}`)
+  );
+  await cmp(
+    `topbar.${i === 0 ? 'desktop' : 'mobile'}.icone`,
+    `div[role="group"] button:nth-of-type(${i + 1}) svg`,
+    noT(
+      `Frame 48 > ${nome} > ${i === 0 ? 'lucide/monitor-stop' : 'lucide/smartphone'}`
+    )
+  );
+}
 
-// ---------- painel direito ----------
-const R = load('t1-direita');
-await cmp(
-  'painelDir',
-  'aside[aria-label="Propriedades"]',
-  find(R, 'Frame 158')
-);
-await cmp(
-  'painelDir.header',
-  'aside[aria-label="Propriedades"] > header',
-  find(R, 'Frame 131')
-);
+// ═══════════════════════════════════════════════════════════════════════════
+// Painel direito — variáveis do componente selecionado
+// ═══════════════════════════════════════════════════════════════════════════
+const R2 = arvore(load('t1-direita'));
+const noR = e => caminho(R2, e);
+const DIR = 'aside[aria-label="Propriedades"]';
+
+await cmp('painelDir', DIR, noR('Frame 158'));
+await cmp('painelDir.header', `${DIR} > header`, noR('Frame 158 > Frame 131'));
 await cmp(
   'painelDir.previsualizar',
-  'aside[aria-label="Propriedades"] button[class*="trigger"]',
-  find(R, 'Button', 0)
+  `${DIR} button[class*="trigger"]`,
+  noR('Frame 158 > Frame 131 > Button[1]')
+);
+await cmp(
+  'painelDir.previsualizarIcone',
+  `${DIR} button[class*="trigger"] svg`,
+  noR('Frame 158 > Frame 131 > Button[1] > Edit / Show')
 );
 await cmp(
   'painelDir.baixar',
-  'aside[aria-label="Propriedades"] button[class*="download"]',
-  find(R, 'Button', 1)
+  `${DIR} button[class*="download"]`,
+  noR('Frame 158 > Frame 131 > Button[2]')
 );
 await cmp(
-  'painelDir.grupo1',
-  'aside[aria-label="Propriedades"] section[class*="group"]',
-  find(R, 'Frame 49')
-);
-await cmp(
-  'painelDir.rotulo1',
-  'aside[aria-label="Propriedades"] section span[class*="label"]',
-  find(R, 'Fundo da barra superior'),
-  'xywh',
-  { tipo: 'texto' }
-);
-await cmp(
-  'painelDir.swatch1',
-  'aside[aria-label="Propriedades"] button[class*="swatch"]',
-  find(R, 'Ellipse 1', 0)
-);
-await cmp(
-  'painelDir.hex1',
-  'aside[aria-label="Propriedades"] input[class*="value"]',
-  find(R, 'Button', 2)
-);
-await cmp(
-  'painelDir.titulo1',
-  'aside[aria-label="Propriedades"] section h3',
-  find(R, 'Heading 3', 0),
-  'xyh',
-  { tipo: 'texto' }
+  'painelDir.baixarIcone',
+  `${DIR} button[class*="download"] svg`,
+  noR('Frame 158 > Frame 131 > Button[2] > Arrow / Arrow_Down_SM')
 );
 
-// ---------- tela 5: variáveis globais ----------
+// Os dois primeiros grupos do mock são os que têm a mesma forma do produto
+// (heading + campo com rótulo, swatch e hex). Do 3º em diante o mock simplifica.
+// Só o 1º grupo. Do 2º em diante o mock desenha cópia inventada ("Header",
+// "Menu", "Lorem Ipsum") que não corresponde a nenhum schema real — e o 2º
+// grupo do Header01 é de FONTE, sem swatch nem hex.
+for (const [i, grupo] of ['Frame 49'].entries()) {
+  const raiz = `Frame 158 > Frame 145 > ${grupo}`;
+  const dom = `${DIR} section[class*="group"]:nth-of-type(${i + 1})`;
+  await cmp(`painelDir.grupo${i + 1}`, dom, noR(raiz), 'xw');
+  await cmp(
+    `painelDir.grupo${i + 1}.titulo`,
+    `${dom} h3`,
+    noR(`${raiz} > Frame 31 > Heading 3`),
+    'xw'
+  );
+  await cmp(
+    `painelDir.grupo${i + 1}.rotulo`,
+    `${dom} span[class*="label"]`,
+    noR(
+      `${raiz} > Frame 31 > Frame 120 > ${i === 0 ? 'Fundo da barra superior' : 'Fundo do header (meio)'}`
+    ),
+    'xywh',
+    { tipo: 'texto' }
+  );
+  await cmp(
+    `painelDir.grupo${i + 1}.swatch`,
+    `${dom} button[class*="swatch"]`,
+    noR(`${raiz} > Frame 31 > Frame 120 > Frame 55 > Ellipse 1`),
+    'xwh'
+  );
+  await cmp(
+    `painelDir.grupo${i + 1}.hex`,
+    `${dom} input[class*="value"]`,
+    noR(`${raiz} > Frame 31 > Frame 120 > Frame 55 > Button`),
+    'xwh'
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Tela 5 — Variáveis globais: 4 blocos idênticos
+// ═══════════════════════════════════════════════════════════════════════════
 await irParaRail(page, 'Variáveis globais');
+await page
+  .waitForFunction(
+    () =>
+      document.querySelectorAll(
+        'aside[aria-label="Painel de edição"] section[class*="PanelGlobalColors_block"]'
+      ).length >= 4,
+    { timeout: 15000, polling: 200 }
+  )
+  .catch(() => {});
 await espera(500);
-const G = load('t5-esquerda');
-await cmp(
-  't5.header',
-  'aside[aria-label="Painel de edição"] > header',
-  find(G, 'Frame 148', 0)
-);
-await cmp(
-  't5.bloco1',
-  'aside[aria-label="Painel de edição"] section',
-  find(G, 'Frame 146')
-);
-await cmp(
-  't5.titulo1',
-  'aside[aria-label="Painel de edição"] section h3',
-  find(G, 'Heading 3', 0),
-  'xywh',
-  { tipo: 'texto' }
-);
-await cmp(
-  't5.hex1',
-  'aside[aria-label="Painel de edição"] input[class*="value"]',
-  find(G, 'Button', 0)
-);
 
-// ---------- tela 4: tipografia ----------
+const G = arvore(load('t5-esquerda'));
+const noG = e => caminho(G, e);
+await cmp('t5.header', `${ASIDE} > header`, noG('Frame 143 > Frame 148'));
+for (const [i, bloco] of [
+  'Frame 146',
+  'Frame 149',
+  'Frame 150',
+  'Frame 151',
+].entries()) {
+  const raiz = `Frame 143 > ${bloco}`;
+  const dom = `${ASIDE} section[class*="PanelGlobalColors_block"]:nth-of-type(${i + 1})`;
+  await cmp(`t5.bloco${i + 1}`, dom, noG(raiz));
+  await cmp(
+    `t5.titulo${i + 1}`,
+    `${dom} h3`,
+    noG(`${raiz} > Frame 31 > Heading 3`),
+    'xyh',
+    { tipo: 'texto' }
+  );
+  await cmp(
+    `t5.campo${i + 1}`,
+    `${dom} div[class*="ColorPicker_row"]`,
+    noG(`${raiz} > Frame 31 > Frame 55`),
+    'xyh'
+  );
+  await cmp(
+    `t5.swatch${i + 1}`,
+    `${dom} button[class*="swatch"]`,
+    noG(`${raiz} > Frame 31 > Frame 55 > Ellipse 1`)
+  );
+  await cmp(
+    `t5.hex${i + 1}`,
+    `${dom} input[class*="value"]`,
+    noG(`${raiz} > Frame 31 > Frame 55 > Button`),
+    'xwh'
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Tela 4 — Tipografia: 3 blocos idênticos
+// ═══════════════════════════════════════════════════════════════════════════
 await irParaRail(page, 'Tipografia');
+await page
+  .waitForFunction(
+    () =>
+      document.querySelectorAll(
+        'aside[aria-label="Painel de edição"] section[class*="block"]'
+      ).length >= 3,
+    { timeout: 15000, polling: 200 }
+  )
+  .catch(() => {});
 await espera(500);
-const F4 = load('t4-esquerda');
-await cmp(
-  't4.header',
-  'aside[aria-label="Painel de edição"] > header',
-  find(F4, 'Frame 148', 0)
-);
-await cmp(
-  't4.bloco1',
-  'aside[aria-label="Painel de edição"] section',
-  find(F4, 'Frame 146') || find(F4, 'Frame 145')
-);
-await cmp(
-  't4.input1',
-  'aside[aria-label="Painel de edição"] input[class*="input"]',
-  find(F4, 'Button', 0)
-);
 
-// ---------- modal ----------
+const F4 = arvore(load('t4-esquerda'));
+const noF4 = e => caminho(F4, e);
+await cmp('t4.header', `${ASIDE} > header`, noF4('Frame 143 > Frame 148'));
+for (const [i, bloco] of ['Frame 146', 'Frame 149', 'Frame 150'].entries()) {
+  const raiz = `Frame 143 > ${bloco}`;
+  const dom = `${ASIDE} section[class*="block"]:nth-of-type(${i + 1})`;
+  await cmp(`t4.bloco${i + 1}`, dom, noF4(raiz));
+  await cmp(
+    `t4.titulo${i + 1}`,
+    `${dom} h3`,
+    noF4(`${raiz} > Frame 31 > Heading 3`),
+    'xywh',
+    { tipo: 'texto' }
+  );
+  await cmp(
+    `t4.input${i + 1}`,
+    `${dom} input`,
+    noF4(`${raiz} > Frame 31 > Button`),
+    'xywh'
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Tela 3 — Identidade visual. A fixture existia no repo e NUNCA era lida:
+// o estágio clicava nos destinos 1 e 2 do rail e nunca no 3.
+// ═══════════════════════════════════════════════════════════════════════════
+await irParaRail(page, 'Identidade visual');
+await page
+  .waitForFunction(
+    () => document.querySelectorAll('input[type="file"]').length >= 3,
+    { timeout: 15000, polling: 200 }
+  )
+  .catch(() => {});
+await espera(500);
+
+const T3 = arvore(load('t3-esquerda'));
+const noT3 = e => caminho(T3, e);
+await cmp('t3.header', `${ASIDE} > header`, noT3('Frame 143 > Frame 148'));
+for (const [i, slot] of ['Frame 146', 'Frame 149', 'Frame 150'].entries()) {
+  const raiz = `Frame 143 > ${slot}`;
+  const conteudo = `${raiz} > ${i === 0 ? 'Frame 33' : 'Frame 32'}`;
+  const metaFig = `${conteudo} > Frame 122 > Frame ${123 + i}`;
+  const dom = `${ASIDE} section[class*="block"]:nth-of-type(${i + 1})`;
+  // `x` e `w` só: a altura do slot no mock varia (248/262/253) porque cada um
+  // desenha uma arte de placeholder diferente — o produto renderiza sempre a
+  // mesma moldura. Registrado em figma/README.md.
+  await cmp(`t3.slot${i + 1}`, dom, noT3(raiz), 'xw');
+  await cmp(
+    `t3.meta${i + 1}`,
+    `${dom} div[class*="meta"]`,
+    noT3(metaFig),
+    'xw'
+  );
+  await cmp(
+    `t3.titulo${i + 1}`,
+    `${dom} h3`,
+    noT3(`${metaFig} > Heading 3 > ${['Logo', 'Favicon', 'Share Link'][i]}`),
+    'xh',
+    { tipo: 'texto' }
+  );
+  await cmp(
+    `t3.dica${i + 1}`,
+    `${dom} p[class*="hint"]`,
+    noT3(`${metaFig} > 90 x 90 (X Mb)`),
+    'xh',
+    { tipo: 'texto' }
+  );
+  await cmp(
+    `t3.acao${i + 1}`,
+    `${dom} button[class*="action"]`,
+    noT3(`${conteudo} > Frame 122 > Frame 51`),
+    'xh'
+  );
+}
+// ═══════════════════════════════════════════════════════════════════════════
+// Modal "Componentes de seções" — a maior fixture, 105 nós
+// ═══════════════════════════════════════════════════════════════════════════
 await irParaRail(page, 'Componentes');
 await espera(400);
 await page.evaluate(() => {
   [...document.querySelectorAll('aside[aria-label="Painel de edição"] button')]
     .find(b => b.textContent.includes('Adicionar seção'))
-    .click();
+    ?.click();
 });
-await page.waitForSelector('[role="dialog"]');
+await page.waitForSelector('[role="dialog"]', { timeout: 15000 });
 await page
   .waitForFunction(
     () =>
-      (document.querySelectorAll('[role="dialog"] #dynamic-tabs button')
-        .length ?? 0) > 0,
+      (document.querySelectorAll(
+        '[role="dialog"] div[class*="ScrollArea_viewport"] button'
+      ).length ?? 0) > 0,
     { timeout: 15000, polling: 200 }
   )
   .catch(() => {});
 await espera(500);
-const M = load('modal');
+
+const M = arvore(load('modal'));
+// O diálogo é centrado em runtime, então a fixture é deslocada pela posição
+// medida do card em vez de por um offset mágico.
 const mo = await page.evaluate(() => {
-  const r = document.querySelector('[role="dialog"]').getBoundingClientRect();
-  return { x: r.x, y: r.y };
+  const r2 = document.querySelector('[role="dialog"]').getBoundingClientRect();
+  return { x: r2.x, y: r2.y };
 });
-const mshift = f => f && { ...f, x: f.x - 2100 + mo.x, y: f.y - 101 + mo.y };
-await cmp('modal.card', '[role="dialog"]', mshift(find(M, 'Frame 165')));
+const noM = e => {
+  const n = caminho(M, e);
+  return n && { ...n, x: n.x - 2100 + mo.x, y: n.y - 101 + mo.y };
+};
+const DLG = '[role="dialog"]';
+
+await cmp('modal.card', DLG, noM('Frame 165'));
+await cmp('modal.header', `${DLG} > header`, noM('Frame 165 > Frame 144'));
 await cmp(
-  'modal.header',
-  '[role="dialog"] > header',
-  mshift(find(M, 'Frame 144'))
+  'modal.titulo',
+  `${DLG} h2`,
+  noM('Frame 165 > Frame 144 > Frame 150 > Componentes de seções'),
+  'xh',
+  { tipo: 'texto' }
+);
+await cmp(
+  'modal.fechar',
+  `${DLG} button[class*="close"]`,
+  noM('Frame 165 > Frame 144 > Frame 150 > Menu / Close_MD')
+);
+await cmp(
+  'modal.corpo',
+  `${DLG} div[class*="body"]`,
+  noM('Frame 165 > Frame 166')
 );
 await cmp(
   'modal.colCategorias',
-  '[role="dialog"] aside',
-  mshift(find(M, 'Frame 163'))
+  `${DLG} aside`,
+  noM('Frame 165 > Frame 166 > Frame 163')
 );
 await cmp(
   'modal.listaCategorias',
-  '[role="dialog"] #dynamic-tabs',
-  mshift(find(M, 'Frame 169'))
+  `${DLG} aside div[class*="ScrollArea_viewport"]`,
+  noM('Frame 165 > Frame 166 > Frame 163 > Frame 169')
 );
 await cmp(
-  'modal.itemCategoria',
-  '[role="dialog"] #dynamic-tabs button',
-  mshift(find(M, 'Button', 0))
+  'modal.barraCategorias',
+  `${DLG} aside div[class*="ScrollArea_bar"]`,
+  noM('Frame 165 > Frame 166 > Frame 163 > Pagination Container'),
+  'xw'
 );
 await cmp(
   'modal.colGrade',
-  '[role="dialog"] div[class*="grid"]',
-  mshift(find(M, 'Frame 160'))
+  `${DLG} div[class*="SectionModal_grid"]`,
+  noM('Frame 165 > Frame 166 > Frame 160')
 );
+await cmp(
+  'modal.gradeArea',
+  `${DLG} div[class*="SectionModal_grid"] div[class*="ScrollArea_root"]`,
+  noM('Frame 165 > Frame 166 > Frame 160 > Frame 48'),
+  'xw'
+);
+await cmp(
+  'modal.gradeViewport',
+  `${DLG} div[class*="SectionModal_grid"] div[class*="ScrollArea_viewport"]`,
+  noM('Frame 165 > Frame 166 > Frame 160 > Frame 48 > Frame 40'),
+  'xw'
+);
+
+// Os botões de categoria: o mock desenha 15, o catálogo tem menos. Comparar os
+// que existem nos dois, e o PASSO entre eles — é o passo que pega deriva
+// cumulativa de espaçamento, que medir só o primeiro nunca veria.
+const nCategorias = await page.evaluate(
+  () =>
+    document.querySelectorAll(
+      '[role="dialog"] aside div[class*="ScrollArea_viewport"] button'
+    ).length
+);
+const figCategorias = filhos(
+  caminho(M, 'Frame 165 > Frame 166 > Frame 163 > Frame 169'),
+  'Button'
+);
+r.ok(
+  `modal: há categorias para medir (${nCategorias} no produto, ${figCategorias.length} no mock)`,
+  nCategorias > 0 && figCategorias.length > 0
+);
+const quantas = Math.min(nCategorias, figCategorias.length, 8);
+for (let i = 0; i < quantas; i++) {
+  const fig = figCategorias[i];
+  await cmp(
+    `modal.categoria${i + 1}`,
+    `${DLG} aside div[class*="ScrollArea_viewport"] button|${i}`,
+    { ...fig, x: fig.x - 2100 + mo.x, y: fig.y - 101 + mo.y }
+  );
+}
+
+await page.keyboard.press('Escape');
+await espera(400);
 
 // Todo `var(--ed-*)` consumido tem que existir. O --ed-danger passou
 // despercebido porque tinha fallback inline: a tela ficava com uma cor

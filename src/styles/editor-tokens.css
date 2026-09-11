@@ -100,9 +100,29 @@ html {
  * override é escopado ao shell. Precisa de `!important` porque é a única forma
  * de vencer outro `!important`.
  */
-.ed-shell :focus-visible {
+.ed-shell :focus-visible,
+[data-ed-portal] :focus-visible {
   outline: 2px solid var(--ed-blue-600) !important;
   outline-offset: 2px;
+}
+
+/**
+ * As superfícies portalizadas do editor — modal de seções, popover do
+ * ColorPicker, modal do preview, DragOverlay do dnd-kit — vivem em
+ * `document.body`, FORA do `.ed-shell`. Elas são portalizadas de propósito
+ * (os painéis são `overflow: auto/clip` e recortariam), mas sair do shell
+ * custava duas coisas, as duas medidas:
+ *
+ *  1. a FONTE. `globals.css` põe `font-family: var(--font-family)` no `body`, e
+ *     essa variável é o tema DO CLIENTE. O modal renderizava em Noto Sans
+ *     enquanto o editor inteiro estava em Inter;
+ *  2. o ANEL DE FOCO. O override acima era escopado ao shell, então um diálogo
+ *     com armadilha de Tab não tinha nenhuma indicação de foco.
+ *
+ * `[data-ed-portal]` na raiz portalizada resolve as duas.
+ */
+[data-ed-portal] {
+  font-family: var(--ed-font);
 }
 
 /*

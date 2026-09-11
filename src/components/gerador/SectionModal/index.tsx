@@ -61,7 +61,7 @@ export default function SectionModal({ onClose }: { onClose: () => void }) {
   }, [onClose]);
 
   return createPortal(
-    <div className={styles.overlay} onMouseDown={onClose}>
+    <div className={styles.overlay} onMouseDown={onClose} data-ed-portal>
       <div
         ref={cardRef}
         className={styles.card}

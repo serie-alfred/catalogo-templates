@@ -33,7 +33,11 @@
 
 .title {
   margin: 0;
-  font-size: 14px;
+  /* 16 e não 14: a caixa do título tem 19px de altura no Figma, que é o que
+     16px rende com o line-height normal do Inter (14px renderia 17). É a única
+     exceção à regra de "quase tudo 14px" do editor-tokens.css — e é o único
+     <h2> do editor. */
+  font-size: 16px;
   font-weight: 600;
   color: var(--ed-gray-800);
 }

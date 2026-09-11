@@ -142,6 +142,7 @@ export default function ColorPicker({
           <div
             ref={popoverRef}
             className={styles.popover}
+            data-ed-portal
             style={{ top: pos.top, left: pos.left }}
           >
             <HexColorPicker color={color} onChange={setColor} />

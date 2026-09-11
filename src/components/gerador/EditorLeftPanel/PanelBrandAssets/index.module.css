@@ -35,7 +35,8 @@
 .meta {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  /* 4 e não 2: no Figma o título termina em y=214 e a dica começa em 218. */
+  gap: 4px;
 }
 
 .title {
@@ -47,7 +48,9 @@
 
 .hint {
   margin: 0;
-  font-size: 12px;
+  /* 14 e não 12: a caixa da dica tem 17px de altura no Figma, que é o que 14px
+     rende com line-height normal do Inter (12px renderia 15). */
+  font-size: 14px;
   color: var(--ed-gray-400);
 }
 
@@ -55,7 +58,11 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
+  /* Derivado das coordenadas do Figma, não estimado: o ícone fica em x=119,4
+     contra a caixa em x=99,4, o que dá 20px até o conteúdo — 19 de padding
+     mais 1 de borda. Na vertical, ícone em 263,5 contra caixa em 251 dá 12,5,
+     e a caixa fecha em 41px de altura. */
+  padding: 11.5px 19px;
   border-radius: 12px;
   border-style: dashed;
   border-width: 1px;
