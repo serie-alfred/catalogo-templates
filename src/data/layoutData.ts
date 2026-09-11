@@ -113,6 +113,8 @@ export type Layouts = {
   specialOffers: LayoutSection;
   homeCombined: LayoutSection;
   review: LayoutSection;
+  rooms: LayoutSection;
+  newsletter: LayoutSection;
 };
 
 export const LAYOUTS: Layouts = {
@@ -443,6 +445,42 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "combined-categ", key: "homcmb04y9z0", image: "", mobile: "", title: "Combinações Template 4", description: "Bloco combinado de categorias, chamada e desconto", template: "4", pagina: ["home"], component: "HomeCombined04", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
+  newsletter: {
+    name: "Newsletter",
+    items: [
+      { id: "07", selection: "newsletter", key: "nlt07bru3c4d", image: "", mobile: "", title: "Newsletter Template 7", description: "Captura de e-mail em 2 colunas no desktop e empilhada no mobile, com conteúdos próprios por breakpoint", template: "7", pagina: ["home"], component: "Newsletter07", path: "organisms/Newsletter07", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--newsletter-title-color", label: "Cor do título", type: "color", default: "#2c2420", group: "Newsletter", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--newsletter-accent", label: "Cor do rótulo", type: "color", default: "#b8976a", group: "Newsletter", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--newsletter-desc-color", label: "Cor do parágrafo", type: "color", default: "#6a5e58", group: "Newsletter", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--newsletter-note-color", label: "Cor do aviso", type: "color", default: "#8c7d74", group: "Newsletter", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--newsletter-button-bg", label: "Fundo do botão", type: "color", default: "#2c2420", group: "Formulário", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--newsletter-button-text", label: "Texto do botão", type: "color", default: "#faf8f4", group: "Formulário", inheritsLabel: "cor de texto base" },
+        { cssVar: "--newsletter-input-bg", label: "Fundo do campo", type: "color", default: "#fff", group: "Formulário" },
+        { cssVar: "--newsletter-input-text", label: "Texto do campo", type: "color", default: "#4a3f38", group: "Formulário", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--newsletter-input-border", label: "Borda do campo", type: "color", default: "#d8c9b8", group: "Formulário" },
+        { cssVar: "--newsletter-title-font", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--newsletter-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
+    ],
+  },
+
+  rooms: {
+    name: "Ambientes",
+    items: [
+      { id: "07", selection: "rooms", key: "room07bru1a2", image: "", mobile: "", title: "Ambientes Template 7", description: "Escolha por ambiente: rótulo, título e pills de navegação com um ativo", template: "7", pagina: ["home"], component: "ShopByRoom07", path: "organisms/ShopByRoom07", platforms: ['VTEX'], backgroundVars: ["tertiary", "primary"], variablesSchema: [
+        { cssVar: "--room-bg", label: "Fundo da seção", type: "color", default: "#f2ede4", group: "Ambientes", inheritsLabel: "cor terciária da marca" },
+        { cssVar: "--room-accent", label: "Cor do rótulo", type: "color", default: "#b8976a", group: "Ambientes", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--room-title-color", label: "Cor do título", type: "color", default: "#2c2420", group: "Ambientes", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--room-pill-active-bg", label: "Fundo da pill ativa", type: "color", default: "#2c2420", group: "Pills", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--room-pill-active-text", label: "Texto da pill ativa", type: "color", default: "#f5f0e8", group: "Pills", inheritsLabel: "cor de texto base" },
+        { cssVar: "--room-pill-text", label: "Texto da pill", type: "color", default: "#4a3f38", group: "Pills", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--room-pill-border", label: "Borda da pill", type: "color", default: "#c8baa8", group: "Pills" },
+        { cssVar: "--room-title-font", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--room-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
+    ],
+  },
+
   review: {
     name: "Depoimentos",
     items: [

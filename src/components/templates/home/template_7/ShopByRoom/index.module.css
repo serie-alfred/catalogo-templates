@@ -1,0 +1,78 @@
+/* Espelha organisms/ShopByRoom07 (faststore.starter): `$vars` resolvidas
+   inline, aninhamento desfeito, `@media` → `@container`.
+   `--room-pill-border` é Modo FIEL (1 nível): #c8baa8 é um tan próprio do
+   design, sem token de marca equivalente — editável, sem herança que
+   surpreenda. */
+
+/* ShopByRoom07 — Brasilusa "Escolha por ambiente". Números = inline do artboard
+   (_bases/ShopByRoom07/room-desktop.html) + metrics.md. DESKTOP-ONLY no design →
+   reflow responsivo no mobile (padding menor); fidelidade @768/1024/1280. */
+
+
+.shopByRoom07Root {
+  line-height: normal;
+  font-family: var(--room-font, var(--font-secundary, 'DM Sans', sans-serif));
+  container-type: inline-size;
+}
+
+.shopByRoom07Root * {
+  box-sizing: border-box;
+}
+
+.section {
+  background: var(--room-bg, var(--background-tertiary-color, #f2ede4));
+  padding: 56px 120px;
+  margin-top: 32px;
+}
+.eyebrow {
+  font-family: var(--room-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--room-accent, var(--background-primary-color, #b8976a));
+}
+.title {
+  font-family: var(--room-title-font, var(--font-primary, 'Cormorant Garamond', serif));
+  font-size: 34px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--room-title-color, var(--text-primary-color, #2c2420));
+  margin-bottom: 32px;
+}
+.pills {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.pill,
+.pillActive {
+  font-family: var(--room-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 10px 24px;
+  border-radius: 1px;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  transition: .5s;
+}
+.pillActive, .pill:hover {
+  background: var(--room-pill-active-bg, var(--background-primary-color, #2c2420));
+  color: var(--room-pill-active-text, var(--text-color-base, #f5f0e8));
+  border: 1px solid var(--room-pill-active-bg, var(--background-primary-color, #2c2420));
+}
+.pill {
+  background: transparent;
+  color: var(--room-pill-text, var(--text-primary-color, #4a3f38));
+  border: 1px solid var(--room-pill-border, #c8baa8);
+}
+
+@container (max-width: 767px) {
+  .section { padding: 40px 18px; }
+}

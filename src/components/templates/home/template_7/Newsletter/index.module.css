@@ -1,0 +1,128 @@
+/* Espelha organisms/Newsletter07 (faststore.starter): `$vars` resolvidas
+   inline, aninhamento desfeito, `@media` → `@container`.
+   `--newsletter-input-border` é Modo FIEL (1 nível): #d8c9b8 é um tan do
+   design, sem token de marca equivalente. */
+
+/* Newsletter07 — Brasilusa "Clube VIP" (home). Números = inline dos artboards
+   (_bases/Newsletter07/nl-desktop.html / nl-mobile.html) + metrics.md. Breakpoint 768.
+   Newsletter é stub (dispara generate_lead). UA margins de <p>/<h2> replicadas;
+   line-height:normal nos form controls (não herdam do root). */
+
+
+.newsletter07Root {
+  line-height: normal;
+  font-family: var(--newsletter-font, var(--font-secundary, 'DM Sans', sans-serif));
+  container-type: inline-size;
+}
+
+.newsletter07Root * {
+  box-sizing: border-box;
+}
+.desktop { display: none; }
+.mobile { display: block; }
+@container (min-width: 768px) {
+  .desktop { display: block; }
+  .mobile { display: none; }
+}
+
+/* shared form controls */
+.input {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--newsletter-input-border, #d8c9b8);
+  border-right: none;
+  background: var(--newsletter-input-bg, var(--background-primary-color-safe, #fff));
+  outline: none;
+  font-family: var(--newsletter-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: var(--newsletter-input-text, var(--text-primary-color, #4a3f38));
+  line-height: normal;
+}
+.button {
+  background: var(--newsletter-button-bg, var(--background-primary-color, #2c2420));
+  color: var(--newsletter-button-text, var(--text-color-base, #faf8f4));
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  font-family: var(--newsletter-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-weight: 500;
+  text-transform: uppercase;
+  line-height: normal;
+  transition: background-color .5s ease, color .5s ease, border-color .5s ease;
+}
+.button:hover { background: color-mix(in srgb, var(--newsletter-button-bg, var(--background-primary-color, #2c2420)) 85%, #fff); }
+.success {
+  font-family: var(--newsletter-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 14px;
+  color: var(--newsletter-title-color, var(--text-primary-color, #2c2420));
+  margin: 0;
+}
+
+/* ═══ DESKTOP ═══ */
+.section {
+  padding: 72px 120px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.eyebrow {
+  font-family: var(--newsletter-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--newsletter-accent, var(--background-primary-color, #b8976a));
+  margin-bottom: 12px;
+}
+.title {
+  font-family: var(--newsletter-title-font, var(--font-primary, 'Cormorant Garamond', serif));
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--newsletter-title-color, var(--text-primary-color, #2c2420));
+  margin: 0.0 0 16px;
+}
+.desc {
+  font-family: var(--newsletter-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--newsletter-desc-color, var(--text-primary-color, #6a5e58));
+  margin: 1em 0;
+}
+.form { display: flex; gap: 0; margin-bottom: 12px; }
+.form .input { padding: 14px 18px; font-size: 14px; }
+.form .button { padding: 14px 28px; font-size: 12px; letter-spacing: .08em; }
+.note {
+  font-family: var(--newsletter-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--newsletter-note-color, var(--text-primary-color, #8c7d74));
+  margin: 1em 0;
+}
+
+/* ═══ MOBILE ═══ */
+.mSection { padding: 32px 18px; }
+.mEyebrow {
+  font-family: var(--newsletter-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 10px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--newsletter-accent, var(--background-primary-color, #b8976a));
+  margin: 0 0 10px;
+}
+.mTitle {
+  font-family: var(--newsletter-title-font, var(--font-primary, 'Cormorant Garamond', serif));
+  font-size: 26px;
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--newsletter-title-color, var(--text-primary-color, #2c2420));
+  margin: 0 0 12px;
+}
+.mForm { display: flex; gap: 0; margin-top: 16px; }
+.mForm .input { padding: 12px 14px; font-size: 13px; }
+.mForm .button { padding: 12px 16px; font-size: 11px; letter-spacing: .06em; }
