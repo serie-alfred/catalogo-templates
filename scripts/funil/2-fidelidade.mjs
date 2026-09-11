@@ -86,6 +86,7 @@ export const PARES = [
   { starter: 'BannerCarousel06', id: '06', layoutKey: 'productLines', pagina: 'home' },
   { starter: 'ProductDescriptionBanner01', id: '01', layoutKey: 'productBanner', pagina: 'product' },
   { starter: 'CategoryTitle06', id: '06', layoutKey: 'categoryTitle', pagina: 'category' },
+  { starter: 'MainCategory06', id: '06', layoutKey: 'categoryMain', pagina: 'category' },
   { starter: 'MainCategory07', id: '07', layoutKey: 'categoryMain', pagina: 'category' },
   { starter: 'ProductDetails07', id: '04', layoutKey: 'productInfo', pagina: 'product' },
   { starter: 'ProductDetails06', id: '05', layoutKey: 'productInfo', pagina: 'product' },
@@ -390,6 +391,34 @@ async function noFrame(page, fn, tentativas = 6) {
  * `[data-role]` com caixa. É o sinal que o estágio realmente precisa; o
  * `.ed-shell` aparece muito antes disso.
  */
+/**
+ * Espera as IMAGENS do documento terminarem de carregar.
+ *
+ * O card da PLP 06 dimensiona a foto pelo próprio arquivo: medido no meio do
+ * carregamento, o mesmo `card-img` dava h=337 num cartão e h=18 no vizinho. Como
+ * os dois lados baixam de origens diferentes (o starter do CDN, o clone do
+ * placehold.co), quem medisse primeiro venceria — e o portão acusaria uma
+ * divergência que não existe. Teto de 15s: imagem que não carrega em 15s não vai
+ * carregar, e o portão prefere medir a travar.
+ */
+const esperarImagens = f =>
+  f
+    .evaluate(
+      () =>
+        new Promise(resolve => {
+          const pendentes = [...document.images].filter(i => !i.complete);
+          if (!pendentes.length) return resolve(0);
+          let faltam = pendentes.length;
+          const fim = () => { if (--faltam <= 0) resolve(pendentes.length); };
+          pendentes.forEach(i => {
+            i.addEventListener('load', fim, { once: true });
+            i.addEventListener('error', fim, { once: true });
+          });
+          setTimeout(() => resolve(-1), 15000);
+        })
+    )
+    .catch(() => 0);
+
 async function esperarConteudo(page, timeout = 90000) {
   const inicio = Date.now();
   for (;;) {
@@ -422,6 +451,7 @@ async function medirStarter(browser, comp, largura, altura, paleta) {
     });
     await p.evaluate(() => document.fonts?.ready).catch(() => {});
     await s(1500);
+    await esperarImagens(p);
     await p.evaluate(normalizar, paleta);
     await s(200);
     return await p.evaluate(medir, PROPS);
@@ -487,6 +517,7 @@ async function medirCatalogo(browser, par, mobile, paleta) {
     // normalizar e medir na MESMA volta: se o contexto morrer entre as duas, a
     // medição sairia sem a normalização e o portão reprovaria por nada.
     return await noFrame(p, async f => {
+      await esperarImagens(f);
       await f.evaluate(normalizar, paleta);
       await s(200);
       const nos = await f.evaluate(medir, PROPS);
