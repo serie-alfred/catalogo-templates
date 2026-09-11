@@ -141,6 +141,7 @@ import BannerTriple06 from '@/components/templates/home/template_6/BannerTriple'
 import CategoryTriple06 from '@/components/templates/home/template_6/CategoryTriple';
 import ClientReview06 from '@/components/templates/home/template_6/ClientReview';
 import HomeCarousel06 from '@/components/templates/home/template_6/HomeCarousel';
+import BannerSide06 from '@/components/templates/home/template_6/BannerSide';
 
 // ************
 //Template 7
@@ -228,6 +229,7 @@ export const TemplateRegistry: Record<
   CategoryTriple06,
   ClientReview06,
   HomeCarousel06,
+  BannerSide06,
 
   Header07,
   Footer07,

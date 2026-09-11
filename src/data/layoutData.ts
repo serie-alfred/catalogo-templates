@@ -362,6 +362,10 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "banner-side", key: "bansd014mh45", image: "", mobile: "", title: "Banner Side Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerSide01", path: "molecules/BannerSide01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
       { id: "02", selection: "banner-duplo", key: "bansdhg028e3", image: "", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerDuplo02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
       { id: "03", selection: "banner-side", key: "bansd0334nb7", image: "", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerSide02", platforms: ['Tray', 'Wake'], backgroundVars: ["tertiary"] },
+      { id: "06", selection: "banner-side", key: "bansd06f7g8h", image: "", mobile: "", title: "Banner Side Template 6", description: "Par de banner-cards lado a lado: arte clicável, parágrafo e link \'Veja mais\'", template: "6", pagina: ["home"], component: "BannerSide06", path: "molecules/BannerSide06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--banner-side-text", label: "Cor do texto e do sublinhado", type: "color", default: "#212721", group: "Banner Side", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--banner-side-font", label: "Fonte do texto", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
     ],
   },
   showcase: {

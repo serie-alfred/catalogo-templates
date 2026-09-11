@@ -1,0 +1,122 @@
+/* Espelha molecules/BannerSide06 (faststore.starter): aninhamento desfeito,
+   `&:hover` expandido e `@media` de largura → `@container`. Os números vêm da
+   captura ao vivo da origem (`_bases/BannerSide06/metrics.md`) e estão
+   anotados lá — aqui ficam como estão, sem reinterpretação.
+   `prefers-reduced-motion` segue `@media`: não é largura. */
+
+/* Wrapper que só existe no catálogo — ver o comentário no index.tsx. */
+.bannerSide06Root {
+  container-type: inline-size;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 4px;
+  margin: 64px 0;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: calc((100% - 4px) / 2);
+  max-width: 512px;
+  min-width: 0;
+}
+
+.card {
+  display: block;
+  overflow: hidden;
+}
+
+.cardImg {
+  /* inline DE PROPÓSITO: a origem deixa o descender de baseline
+     (card 535.4 = img 531 + 4.4); display block mataria essa diferença */
+  display: inline;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 512 / 531;
+  object-fit: cover;
+  filter: brightness(0.8);
+  transition: 0.4s;
+}
+
+.card:hover .cardImg {
+  transform: scale(1.1);
+  filter: brightness(1);
+}
+
+.textCol {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
+.text {
+  margin: 0;
+  font-family: var(--banner-side-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 14px;
+  line-height: 28px;
+  font-weight: 400;
+  text-align: center;
+  color: var(--banner-side-text, var(--text-primary-color, #212721));
+}
+
+.vejaLink {
+  display: flex;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--banner-side-text, var(--text-primary-color, #212721));
+  text-decoration: none;
+  transition: 0.4s;
+}
+
+.vejaLink:hover {
+  border-bottom-color: color-mix(in srgb, var(--banner-side-text, var(--text-primary-color, #212721)) 16%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardImg,
+  .vejaLink {
+    transition-duration: 0ms !important;
+  }
+}
+
+.vejaLabel {
+  display: block;
+  font-family: var(--banner-side-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 12px;
+  line-height: 13.8px;
+  font-weight: 400;
+  color: var(--banner-side-text, var(--text-primary-color, #212721));
+}
+
+/* tablet-landscape (961–1199): full-bleed, sem margem superior */
+@container (max-width: 1199px) {
+  .row {
+    margin-top: 0;
+  }
+}
+
+/* ≤960: colunas fixas de 390 lado a lado, com transbordo à direita — é o
+   comportamento REAL da origem (row jc flex-start, gap 0, sem quebra) */
+@container (max-width: 960px) {
+  .row {
+    justify-content: flex-start;
+    gap: 0;
+    overflow-x: scroll;
+  }
+
+  .column {
+    width: 390px;
+    min-width: min(390px, 100%);
+  }
+
+  .cardImg {
+    width: 390px;
+    max-width: none;
+  }
+}

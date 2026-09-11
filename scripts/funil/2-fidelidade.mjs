@@ -46,6 +46,7 @@ export const PARES = [
   { starter: 'SocialProof07', id: '07', layoutKey: 'review', pagina: 'home' },
   { starter: 'EditorialBanner07', id: '07', layoutKey: 'bannerSideLeft', pagina: 'home' },
   { starter: 'Categories07', id: '07', layoutKey: 'categories', pagina: 'home' },
+  { starter: 'BannerSide06', id: '06', layoutKey: 'bannerSide', pagina: 'home' },
 ];
 
 /** Propriedades que valem asserção quando o nó as possui. */
@@ -105,13 +106,25 @@ const normalizar = paleta => {
     // qualquer classe do componente continua vencendo, então link que o
     // componente ESTILIZA segue sendo comparado de verdade.
     //
+    // E a baseline HERDADA do documento: cor e fonte do <body>. Tudo que o
+    // componente NÃO declara cai nelas, e elas são diferentes nas duas casas
+    // (starter rgb(23,26,28); catálogo rgb(26,26,26)). Dois sintomas medidos,
+    // a mesma causa: o descender de baseline embaixo da <img> inline do
+    // BannerSide06 rendia 0,61px de diferença em 6 caixas, e o borderColor do
+    // link vinha `rgb(23,26,28) rgb(23,26,28) rgb(19,0,0)` — só o lado que o
+    // componente pinta batia. `!important` no body é necessário: o starter
+    // declara em `body.theme`, (0,1,1). Quem declara na própria classe
+    // continua vencendo, que é o ponto.
+    //
     // O seletor é `a` PELADO por necessidade, não por estilo: a primeira versão
     // era `a:not([class*="..."])`, e `:not()` herda a especificidade do
     // argumento — (0,1,1) — passando a vencer a `.link` (0,1,0) do próprio
     // componente. O portão acusou na hora: borderColor do link virou
     // `rgb(23,26,28) rgb(23,26,28) rgb(19,0,0)`, com os lados seguindo a cor do
     // shell em vez da do componente.
-    'a { color: inherit; }';
+    'a { color: inherit; }' +
+    "html, body { color: rgb(9, 9, 9) !important;" +
+    " font-family: 'Roboto', sans-serif !important; }";
   document.head.appendChild(st);
   // Regra de autor com `!important` em `*`, não inline no <html>/<body>: o
   // starter declara os tokens em `body.theme`, mas o catálogo os declara num
