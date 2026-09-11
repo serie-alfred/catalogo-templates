@@ -180,6 +180,8 @@ const measure = seletor =>
   }, seletor);
 
 const rows = [];
+/** Ids das fixtures que alguma comparação realmente alcançou. */
+const medidos = new Set();
 
 /**
  * Compara uma caixa e ASSERTA.
@@ -205,6 +207,7 @@ const cmp = async (label, sel, fig, axes = 'xywh', opts = {}) => {
       return;
     }
 
+    if (fig?.id) medidos.add(fig.id);
     const texto = opts.tipo === 'texto';
     const waiver = DIVERGENCIAS_CONSCIENTES.find(w => w.label === label);
     const d = {};
@@ -901,6 +904,47 @@ for (const [j, nome] of ['CaretLeft', 'CaretRight'].entries()) {
 
 await page.keyboard.press('Escape');
 await espera(400);
+
+// ── cobertura: o que das fixtures ficou de fora, e por quê ─────────────────
+// Sem isto, "133 de 300" é afirmação. Com isto, é conta — e a conta reprova se
+// alguém apagar metade das comparações sem ninguém perceber.
+const ICONE =
+  /^(lucide\/|Arrow \/|Edit \/|Menu \/|CaretLeft|CaretRight|Pagination$)/;
+const FORMA = /^(Vector|Group \d+|Ellipse \d+|Rectangle \d+|Union|Subtract)$/;
+const censo = { total: 0, semCaixa: 0, dentroDeIcone: 0, medido: 0, resto: 0 };
+for (const nome of [
+  't1-esquerda',
+  't1-topbar',
+  't1-direita',
+  't3-esquerda',
+  't4-esquerda',
+  't5-esquerda',
+  'modal',
+]) {
+  const nos = arvore(load(nome));
+  const dentro = new Set();
+  for (const n of nos) {
+    censo.total++;
+    if (n.pai && (dentro.has(n.pai.id) || ICONE.test(n.pai.name)))
+      dentro.add(n.id);
+    if (!(n.w > 0 && n.h > 0)) censo.semCaixa++;
+    else if (dentro.has(n.id) || FORMA.test(n.name)) censo.dentroDeIcone++;
+    else if (medidos.has(n.id)) censo.medido++;
+    else censo.resto++;
+  }
+}
+console.log(
+  `\n  censo das fixtures: ${censo.total} nós · ${censo.semCaixa} sem caixa · ` +
+    `${censo.dentroDeIcone} internos de ícone · ${censo.medido} MEDIDOS · ${censo.resto} sem gêmeo no DOM`
+);
+// O piso é sobre NÓS DISTINTOS do Figma, não sobre asserções: o estágio tem
+// mais asserções que nós porque algumas conferem waiver e outras não são
+// comparação de caixa. Confundir os dois inflava o número que eu reportava.
+r.ok(
+  `cobertura das fixtures não regrediu (${censo.medido} nós do Figma comparados)`,
+  censo.medido >= 115,
+  `medidos ${censo.medido}, piso 115`
+);
 
 // Todo `var(--ed-*)` consumido tem que existir. O --ed-danger passou
 // despercebido porque tinha fallback inline: a tela ficava com uma cor

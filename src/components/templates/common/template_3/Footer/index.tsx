@@ -5,6 +5,52 @@ import { useState, type SyntheticEvent } from 'react';
 import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
 
+/**
+ * O par +/− do acordeão de coluna do rodapé.
+ *
+ * Estavam 34 linhas de SVG repetidas literalmente nas QUATRO colunas — 136 das
+ * 611 linhas do arquivo. Fica local, e não num `_shared/`, porque o sufixo `03`
+ * é uma ilha: um sub-componente compartilhado entre sufixos faria o gerador
+ * deixar arquivo para trás ao montar um tema que use só um deles.
+ *
+ * Quem alterna a visibilidade é o CSS, pelo `[open]` do `<details>` — por isso
+ * os dois convivem no DOM e nenhum recebe estado.
+ */
+const ColChevron = () => (
+  <div className={styles.colChev}>
+    <svg
+      className={styles.plusIcon}
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
+    </svg>
+
+    <svg
+      className={styles.minusIcon}
+      xmlns="http://www.w3.org/2000/svg"
+      width="22"
+      height="22"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M5 12h14" />
+    </svg>
+  </div>
+);
+
 const FooterNovo = () => {
   const { logo } = useLayout();
   const [open, setOpen] = useState<Record<string, boolean>>({
@@ -202,38 +248,7 @@ const FooterNovo = () => {
           >
             <summary className={styles.colHead}>
               <span>Institucional</span>
-              <div className={styles.colChev}>
-                <svg
-                  className={styles.plusIcon}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                  <path d="M12 5v14" />
-                </svg>
-
-                <svg
-                  className={styles.minusIcon}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                </svg>
-              </div>
+              <ColChevron />
             </summary>
 
             <ul className={styles.colList}>
@@ -268,38 +283,7 @@ const FooterNovo = () => {
           >
             <summary className={styles.colHead}>
               <span>Atendimento</span>
-              <div className={styles.colChev}>
-                <svg
-                  className={styles.plusIcon}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                  <path d="M12 5v14" />
-                </svg>
-
-                <svg
-                  className={styles.minusIcon}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                </svg>
-              </div>
+              <ColChevron />
             </summary>
             <ul className={`${styles.colList}`}>
               <li>
@@ -333,38 +317,7 @@ const FooterNovo = () => {
           >
             <summary className={styles.colHead}>
               <span>Categorias</span>
-              <div className={styles.colChev}>
-                <svg
-                  className={styles.plusIcon}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                  <path d="M12 5v14" />
-                </svg>
-
-                <svg
-                  className={styles.minusIcon}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                </svg>
-              </div>
+              <ColChevron />
             </summary>
             <ul className={styles.colList}>
               <li>
@@ -400,38 +353,7 @@ const FooterNovo = () => {
           >
             <summary className={styles.colHead}>
               <span>Políticas</span>
-              <div className={styles.colChev}>
-                <svg
-                  className={styles.plusIcon}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                  <path d="M12 5v14" />
-                </svg>
-
-                <svg
-                  className={styles.minusIcon}
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                </svg>
-              </div>
+              <ColChevron />
             </summary>
             <ul className={styles.colList}>
               <li>
