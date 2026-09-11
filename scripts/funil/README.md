@@ -127,6 +127,16 @@ Duas regras que saíram disso, e que valem para qualquer estágio novo:
    placar. Sem isso, uma exceção no 3º de 23 derruba o estágio — e, no `funil.mjs`, os quatro
    estágios seguintes que dependem dele. Um flake vira "6/10" e some a informação dos outros 20.
 
+## O resultado vira evidência, não recado
+
+Uma execução COMPLETA grava `.funil/resultado.json`: placar por estágio, total de asserções, e o
+**commit de cada um dos 4 repos** naquele instante. É esse último campo que faz diferença — "o
+funil passou" não diz nada sobre o código de agora se alguém commitou depois.
+
+O `cutover-preflight.sh` lê esse arquivo e reprova se a última execução foi vermelha, se nunca
+houve uma, ou se qualquer repo mudou desde então. Execução parcial não grava nada: carimbar o
+conjunto a partir de um estágio seria provar o todo olhando uma parte.
+
 Quando um estágio falhar, a primeira pergunta é "o produto está errado ou o teste chegou cedo?".
 Rode o estágio sozinho, com o dev quente: se passar, é o segundo caso.
 
