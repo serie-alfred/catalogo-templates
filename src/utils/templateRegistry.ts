@@ -151,6 +151,8 @@ import Header07 from '@/components/templates/common/template_7/Header';
 import Footer07 from '@/components/templates/common/template_7/Footer';
 import Spot07 from '@/components/templates/common/template_7/Spot';
 import Showcase07 from '@/components/templates/home/template_7/Showcase';
+import ClientReview07 from '@/components/templates/home/template_7/ClientReview';
+import BannerSoloLeft07 from '@/components/templates/home/template_7/BannerSoloLeft';
 
 export const TemplateRegistry: Record<
   string,
@@ -230,4 +232,6 @@ export const TemplateRegistry: Record<
   Footer07,
   Spot07,
   Showcase07,
+  ClientReview07,
+  BannerSoloLeft07,
 };

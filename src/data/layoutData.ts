@@ -405,6 +405,14 @@ export const LAYOUTS: Layouts = {
     name: "Banner com texto",
     items: [
       { id: "01", selection: "banner-solo-left", key: "bnslft05w7x8", image: "", mobile: "", title: "Banner com texto Template 5", description: "Banner com bloco de texto alinhado à esquerda", template: "5", pagina: ["home"], component: "BannerSoloLeft05", platforms: ['Tray'], backgroundVars: [] },
+      { id: "07", selection: "banner-solo-left", key: "bnslft07b2c3", image: "", mobile: "", title: "Banner com texto Template 7", description: "Banner editorial em 2 colunas: imagem com citação e coluna de texto com link", template: "7", pagina: ["home"], component: "BannerSoloLeft07", path: "molecules/EditorialBanner07", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--editorial-title-color", label: "Cor do título e do link", type: "color", default: "#2c2420", group: "Banner com texto", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--editorial-body-color", label: "Cor do parágrafo", type: "color", default: "#6a5e58", group: "Banner com texto", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--editorial-accent", label: "Cor do rótulo e do hover", type: "color", default: "#b8976a", group: "Banner com texto", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--editorial-quote-color", label: "Cor da citação sobre a imagem", type: "color", default: "#faf8f4", group: "Banner com texto", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--editorial-title-font", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--editorial-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
     ],
   },
   specialOffers: {
@@ -423,6 +431,14 @@ export const LAYOUTS: Layouts = {
     name: "Depoimentos",
     items: [
       { id: "01", selection: "client-review", key: "rev06b1c2d3e", image: "", mobile: "", title: "Depoimentos Template 6", description: "Carrossel de depoimentos de clientes (Ferracini)", template: "6", pagina: ["home"], component: "ClientReview06", platforms: ['Tray'], backgroundVars: [] },
+      { id: "07", selection: "client-review", key: "rev07bru9s8t", image: "", mobile: "", title: "Depoimentos Template 7", description: "Prova social centralizada: número em destaque, subtítulo, estrelas e nota", template: "7", pagina: ["home"], component: "ClientReview07", path: "molecules/SocialProof07", platforms: ['VTEX'], backgroundVars: ["tertiary", "primary"], variablesSchema: [
+        { cssVar: "--socialproof-bg", label: "Fundo da seção", type: "color", default: "#f2ede4", group: "Depoimentos", inheritsLabel: "cor terciária da marca" },
+        { cssVar: "--socialproof-number-color", label: "Cor do número", type: "color", default: "#2c2420", group: "Depoimentos", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--socialproof-muted", label: "Cor do subtítulo e da nota", type: "color", default: "#8c7d74", group: "Depoimentos", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--socialproof-accent", label: "Cor das estrelas", type: "color", default: "#b8976a", group: "Depoimentos", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--socialproof-title-font", label: "Fonte do número", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--socialproof-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
     ],
   },
 

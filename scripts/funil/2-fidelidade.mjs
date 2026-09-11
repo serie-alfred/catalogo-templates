@@ -43,6 +43,8 @@ const TOL = 0.5;
  */
 export const PARES = [
   { starter: 'BenefitsStrip07', id: '03', layoutKey: 'ruler', pagina: 'home' },
+  { starter: 'SocialProof07', id: '07', layoutKey: 'review', pagina: 'home' },
+  { starter: 'EditorialBanner07', id: '07', layoutKey: 'bannerSideLeft', pagina: 'home' },
 ];
 
 /** Propriedades que valem asserção quando o nó as possui. */
@@ -84,7 +86,16 @@ const PALETA = {
 const normalizar = paleta => {
   const st = document.createElement('style');
   st.id = 'funil-normaliza-shell';
-  st.textContent = '*, *::before, *::after { letter-spacing: normal !important; }';
+  // `transition`/`animation` desligadas: a própria injeção da paleta DISPARA as
+  // transições de cor, e medir 200ms depois lê o valor INTERPOLADO. Foi assim
+  // que o link do EditorialBanner07 apareceu como rgb(22,13,13) na origem e
+  // rgb(21,8,8) no clone — nenhum dos dois era a cor real, e os dois lados
+  // estavam certos. Portão mede repouso.
+  st.textContent = '*, *::before, *::after {' +
+    'letter-spacing: normal !important;' +
+    'transition: none !important;' +
+    'animation: none !important;' +
+    '}';
   document.head.appendChild(st);
   // Regra de autor com `!important` em `*`, não inline no <html>/<body>: o
   // starter declara os tokens em `body.theme`, mas o catálogo os declara num
