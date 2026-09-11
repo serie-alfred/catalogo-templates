@@ -1,0 +1,151 @@
+/* Espelha molecules/BannerCarousel06 (faststore.starter): bloco aninhado
+   desfeito, `@media` de largura → `@container`.
+
+   `.bannerCarousel06Root` não existe na origem, onde a raiz é a própria
+   `.outer`. Ele existe porque um elemento não consulta o próprio container, e
+   as `@container` daqui miram `.outer` e `.titleRow`/`.slider`/`.cardImg`.
+   Ver a regra em .claude/commands/from-faststore.md. */
+
+.bannerCarousel06Root {
+  container-type: inline-size;
+}
+
+/* ── BannerCarousel06 — "Outras Linhas" ─────────────────────────── */
+/* FIDELIDADE: números de `_bases/BannerCarousel06/metrics.md` (captura ao vivo, 4 */
+/* viewports), anotados com `// metrics:`. Validação: `yarn fidelity BannerCarousel06`. */
+/* Origem: SEM dots e SEM setas (swipe-only); 4/página desktop, 1/página ≤1199; */
+/* arte mobile PRÓPRIA (aspect 780×912) via <picture>. */
+
+/* recuo pelo PAI (como a origem) — margin no wrapper computaria 32 e falharia o diff */
+.outer {
+  display: flex;
+  justify-content: center;
+  display: flex;
+  margin: 4rem auto 2rem;
+  max-width: 124rem;
+  padding: 0 2rem;
+
+}
+
+@container (max-width: 768px) {
+  .outer {
+    margin: 2rem auto 1rem;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.titleRow {
+  display: flex;
+  justify-content: flex-start;  /* metrics: title-row@1280 (à esquerda no desktop) */
+}
+
+.titleWrap {
+  display: block;  /* metrics: title-wrap@1280 (156×61.6 — respiro embutido no h2) */
+}
+
+.title {
+  margin: 0 0 34px;  /* metrics: title-wrap@1280 (61.6 = lh 27.6 + 34 de respiro) */
+  font-family: var(--banner-carousel-font, var(--font-primary, 'Fabriga', sans-serif));
+  font-size: 24px;  /* metrics: title@1280 (folha 24px — igual em TODOS os viewports) */
+  line-height: 27.6px;  /* metrics: title@1280 */
+  font-weight: 500;  /* metrics: title@1280 */
+  color: var(--banner-carousel-title-color, var(--text-primary-color, #212721));
+}
+
+/* Swiper root (papel: slider) */
+.slider {
+  position: relative;
+  width: 100%;
+  display: flex;  /* metrics: slider@1280 (d flex ai center, como o sliderLayoutContainer) */
+  align-items: center;
+}
+
+.slide {
+  display: flex;
+}
+
+.card {
+  position: relative;
+  width: 100%;  /* metrics: card@1280 (300.3 = (1216 − 3×4) / 4; sem escala aqui) */
+}
+
+.cardLink {
+  display: block;
+  overflow: hidden;  /* zoom do hover fica contido no card (como na origem) */
+}
+
+.cardImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 458 / 766;  /* metrics: card-img@1280 (arte desktop 458×766) */
+  object-fit: cover;
+  filter: brightness(0.8);  /* metrics: hover card-img (REPOUSO escurecido 0.8) */
+  transition: 0.4s;  /* metrics: card-img@1280 (transition da origem) */
+}
+
+/* hover REAL da origem (capturado): imagem clareia (0.8→1) e dá zoom 1.1 */
+.card:hover .cardImg {
+  transform: scale(1.1);  /* metrics: hover card-img (matrix 1.1) */
+  filter: brightness(1);  /* metrics: hover card-img */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardImg {
+    transition-duration: 0ms !important;
+  }
+}
+
+.overlay {
+  position: absolute;
+  left: 50%;  /* metrics: comprar-overlay@1280 (centrado horizontalmente no card) */
+  transform: translateX(-50%);
+  bottom: 48px;  /* metrics: comprar-overlay@1280 (48 do fundo do card) */
+  display: block;
+}
+
+.overlayInner {
+  display: flex;
+  flex-direction: column;
+  padding-top: 36px;  /* metrics: comprar-overlay@1280 (bloco 58.8 = link 22.8 + 36) */
+}
+
+.comprar {
+  display: flex;  /* metrics: comprar-link@1280 (flex center) */
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 8px;  /* metrics: comprar-link@1280 (pb 8 — respiro do sublinhado) */
+  /* o sublinhado é do PRÓPRIO CTA: segue a cor dele, não é estrutural */
+  border-bottom: 1px solid var(--banner-carousel-cta-color, var(--text-color-secundary, #ffffff));
+  text-decoration: none;
+}
+
+.comprarLabel {
+  display: block;
+  font-family: var(--banner-carousel-cta-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 12px;  /* metrics: comprar-link@1280 (folha 12px) */
+  line-height: 13.8px;  /* metrics: comprar-link@1280 */
+  font-weight: 700;  /* metrics: comprar-link@1280 */
+  color: var(--banner-carousel-cta-color, var(--text-color-secundary, #ffffff));
+}
+
+/* ── BREAKPOINT: origem muda em 1024→1280 → padrão do repo 1200 ──────────────── */
+@container (max-width: 1199px) {
+  .titleRow {
+    justify-content: center;  /* metrics: title-row@375 (título centrado no empilhado) */
+  }
+
+  .slider {
+    max-width: 480px;  /* metrics: slider@768 (480 fixo no tablet; min(480,100%) no phone) */
+    margin: 0 auto;
+  }
+
+  .cardImg {
+    aspect-ratio: 780 / 912;  /* metrics: card-img@375 (arte mobile 780×912 — h 363.6 @311) */
+  }
+}

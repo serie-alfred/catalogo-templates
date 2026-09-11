@@ -117,6 +117,7 @@ export type Layouts = {
   newsletter: LayoutSection;
   buySize: LayoutSection;
   helpFloat: LayoutSection;
+  productLines: LayoutSection;
 };
 
 export const LAYOUTS: Layouts = {
@@ -453,6 +454,18 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "combined-categ", key: "homcmb04y9z0", image: "", mobile: "", title: "Combinações Template 4", description: "Bloco combinado de categorias, chamada e desconto", template: "4", pagina: ["home"], component: "HomeCombined04", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
+  productLines: {
+    name: "Outras linhas",
+    items: [
+      { id: "06", selection: "product-lines", key: "lin06frc2m3n", image: "", mobile: "", title: "Outras linhas Template 6", description: "Título à esquerda e carrossel de cards de linha com CTA sobreposto: 4 por página no desktop, 1 no mobile", template: "6", pagina: ["home"], component: "BannerCarousel06", path: "molecules/BannerCarousel06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--banner-carousel-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Outras linhas", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--banner-carousel-cta-color", label: "Cor do CTA sobre a arte", type: "color", default: "#ffffff", group: "Outras linhas", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--banner-carousel-font", label: "Fonte do título", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--banner-carousel-cta-font", label: "Fonte do CTA", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
+    ],
+  },
+
   helpFloat: {
     name: "Ajuda flutuante",
     items: [

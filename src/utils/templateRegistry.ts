@@ -161,6 +161,7 @@ import Newsletter07 from '@/components/templates/home/template_7/Newsletter';
 import BuySize06 from '@/components/templates/home/template_6/BuySize';
 import HelpFloat06 from '@/components/templates/home/template_6/HelpFloat';
 import BannerGrid06 from '@/components/templates/home/template_6/BannerGrid';
+import BannerCarousel06 from '@/components/templates/home/template_6/BannerCarousel';
 
 export const TemplateRegistry: Record<
   string,
@@ -250,4 +251,5 @@ export const TemplateRegistry: Record<
   BuySize06,
   HelpFloat06,
   BannerGrid06,
+  BannerCarousel06,
 };
