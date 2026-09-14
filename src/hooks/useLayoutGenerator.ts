@@ -116,6 +116,18 @@ export function useLayoutGenerator() {
   const [showPlatformError, setShowPlatformError] = useState<boolean>(false);
   const [isMobileView, setIsMobileView] = useState<boolean>(false);
 
+  /**
+   * Desfecho do último export, para o modal de confirmação.
+   *
+   * Fora do desenvolvimento o clique não baixa nada (ver configDelivery.ts), e
+   * um clique sem retorno visual é indistinguível de um botão quebrado. Mora no
+   * hook, e não no painel, porque quem conhece o desfecho é o `exportLayout`.
+   */
+  const [exportFeedback, setExportFeedback] = useState<
+    'sent' | 'failed' | null
+  >(null);
+  const dismissExportFeedback = useCallback(() => setExportFeedback(null), []);
+
   /** Destino ativo do rail de navegação — decide o que o painel esquerdo
    *  mostra. Substitui o par `activeTab`/`isOpen` da antiga dock inferior: o
    *  painel agora está SEMPRE aberto, então não existe estado "fechado". */
@@ -1034,15 +1046,13 @@ export function useLayoutGenerator() {
         // Sem download, o clique não deixa nenhum rastro na tela. A confirmação
         // é o único sinal de que algo aconteceu — foi a falta dela que fez este
         // fluxo ser trocado por download no passado.
-        window.alert('Configuração enviada para a equipe por e-mail.');
+        setExportFeedback('sent');
       } catch (error) {
         console.error('Falha ao enviar o config por e-mail:', error);
         // Resgate: o envio falhou, então o arquivo é entregue ao usuário para o
         // trabalho não se perder. É a exceção deliberada à regra acima.
         downloadConfig();
-        window.alert(
-          'Não foi possível enviar a configuração para a equipe. O config.json foi baixado — encaminhe manualmente.'
-        );
+        setExportFeedback('failed');
       }
     }
   };
@@ -1225,6 +1235,8 @@ export function useLayoutGenerator() {
     changePlatform,
     toggleSelection,
     exportLayout,
+    exportFeedback,
+    dismissExportFeedback,
     createPreview,
     setItemVariable,
     resetItemVariables,

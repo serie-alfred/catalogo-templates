@@ -1,0 +1,140 @@
+/*
+ * Mesma linguagem do SectionModal: overlay #141414 a 40%, cartão branco de
+ * raio 16 com a borda por dentro (`inset` em vez de `border`, para a caixa não
+ * crescer 2px), tudo em tokens --ed-.
+ */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9990;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(20, 20, 20, 0.4);
+  animation: overlayIn 0.16s ease-out;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: min(420px, 100%);
+  padding: 40px 32px 32px;
+  text-align: center;
+  border-radius: 16px;
+  background: var(--ed-bg-00);
+  box-shadow:
+    inset 0 0 0 1px var(--ed-gray-000),
+    0 12px 32px rgba(0, 0, 0, 0.16);
+  animation: cardIn 0.2s ease-out;
+}
+
+.close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ed-gray-400);
+  cursor: pointer;
+}
+
+.close:hover {
+  color: var(--ed-gray-800);
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 20px;
+  border-radius: 50%;
+}
+
+/* O azul da marca é o mesmo do gradiente dos estados ativos do editor. */
+.badgeOk {
+  color: var(--ed-blue-600);
+  background: var(--ed-blue-100);
+}
+
+/* --ed-danger, não --ed-red: este é o vermelho legível, e aqui ele acompanha
+   um texto de erro. Ver a nota dos dois vermelhos em editor-tokens.css. */
+.badgeErr {
+  color: var(--ed-danger);
+  background: #fdeceb;
+}
+
+.title {
+  /* 16px é o tamanho do <h2> do SectionModal — a única exceção à regra de
+     "quase tudo 14px" do chrome. */
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ed-gray-800);
+}
+
+.text {
+  margin: 0 0 24px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ed-gray-500);
+}
+
+.text code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--ed-bg-01);
+  font-size: 12.5px;
+  color: var(--ed-gray-700);
+}
+
+.action {
+  width: 100%;
+  height: 44px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--ed-grad-active);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ed-bg-00);
+  cursor: pointer;
+}
+
+.action:hover {
+  background: var(--ed-blue-800);
+}
+
+@keyframes overlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* O editor é desktop-only, mas o modal encolhe junto com a janela. */
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .card {
+    animation: none;
+  }
+}

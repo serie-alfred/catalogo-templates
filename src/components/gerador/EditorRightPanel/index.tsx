@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useLayout } from '@/context/LayoutContext';
 import PreviewButton from '../PreviewButton';
 import ComponentVariablesPanel from '../ComponentVariablesPanel';
+import ExportFeedbackModal from '../ExportFeedbackModal';
 import { ArrowDown } from '@/assets/icons/editor';
 import { isLocalDelivery } from '@/utils/configDelivery';
 
@@ -22,7 +23,8 @@ export default function EditorRightPanel({
 }: {
   className?: string;
 }) {
-  const { exportLayout, platform } = useLayout();
+  const { exportLayout, platform, exportFeedback, dismissExportFeedback } =
+    useLayout();
   const [exporting, setExporting] = useState(false);
 
   /* O rótulo segue o destino real do config (ver configDelivery.ts): em
@@ -74,6 +76,15 @@ export default function EditorRightPanel({
       <div className={`${styles.body} ed-scroll`}>
         <ComponentVariablesPanel />
       </div>
+
+      {/* Desfecho do export. Substitui o `window.alert` de antes — sem download
+          em produção, esta é a única evidência de que o clique fez algo. */}
+      {exportFeedback && (
+        <ExportFeedbackModal
+          status={exportFeedback}
+          onClose={dismissExportFeedback}
+        />
+      )}
     </aside>
   );
 }

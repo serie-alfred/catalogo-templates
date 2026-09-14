@@ -64,6 +64,8 @@ export default function SeededLayoutProvider({
         setHoveredUid: noop,
         setItemVariable: noop,
         resetItemVariables: noop,
+        exportFeedback: null,
+        dismissExportFeedback: noop,
         // O snapshot vence os defaults.
         ...seed,
       }) as unknown as LayoutContextType,
