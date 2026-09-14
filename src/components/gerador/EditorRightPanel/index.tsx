@@ -1,17 +1,18 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useLayout } from '@/context/LayoutContext';
 import PreviewButton from '../PreviewButton';
 import ComponentVariablesPanel from '../ComponentVariablesPanel';
 import { ArrowDown } from '@/assets/icons/editor';
+import { isLocalDelivery } from '@/utils/configDelivery';
 
 import styles from './index.module.css';
 
 /**
- * Painel direito: cabeçalho fixo com Pré-visualizar e Baixar, e abaixo as
- * variáveis da seção em edição.
+ * Painel direito: cabeçalho fixo com Pré-visualizar e o botão de export, e
+ * abaixo as variáveis da seção em edição.
  *
  * O cabeçalho aparece sempre — inclusive quando nenhuma seção está selecionada
  * e o corpo está vazio.
@@ -23,6 +24,15 @@ export default function EditorRightPanel({
 }) {
   const { exportLayout, platform } = useLayout();
   const [exporting, setExporting] = useState(false);
+
+  /* O rótulo segue o destino real do config (ver configDelivery.ts): em
+     desenvolvimento o clique baixa o arquivo, fora dele envia por e-mail e não
+     baixa nada. Resolvido em efeito porque `window` não existe no servidor — o
+     HTML sai com "Enviar", que é o caso de produção, e só o dev vê a troca. */
+  const [localDelivery, setLocalDelivery] = useState(false);
+  useEffect(() => {
+    setLocalDelivery(isLocalDelivery(window.location.hostname));
+  }, []);
 
   /* O export monta o palco off-screen, espera as fontes e todas as imagens e
      captura dois PNGs — são vários segundos. Sem sinal de ocupado o usuário
@@ -55,8 +65,9 @@ export default function EditorRightPanel({
           disabled={exporting || !platform}
           title={platform ? undefined : 'Escolha uma plataforma primeiro'}
         >
-          {exporting ? 'Gerando…' : 'Baixar'}
-          <ArrowDown width={20} height={20} />
+          {exporting ? 'Gerando…' : localDelivery ? 'Baixar' : 'Enviar'}
+
+          {localDelivery && <ArrowDown width={20} height={20} />}
         </button>
       </header>
 

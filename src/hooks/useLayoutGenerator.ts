@@ -5,6 +5,7 @@ import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layoutData';
 import { belongsToPage } from '@/utils/previewRender';
 import { captureAndDownloadScreenshot } from '@/utils/screenshotExport';
 import { sendLayoutConfigEmail } from '@/services/emailService';
+import { isLocalDelivery } from '@/utils/configDelivery';
 import type { Platform } from '@/types/platform';
 import { useThemeHistory, type ThemeDoc } from './useThemeHistory';
 import { buildThemeStyle, contrastOn } from '@/utils/themeStyle';
@@ -1004,34 +1005,44 @@ export function useLayoutGenerator() {
 
     const configJson = buildConfigJson();
     if (configJson) {
-      // O botão se chama "Baixar", então ele baixa — em qualquer ambiente.
-      // Antes o download só acontecia FORA de produção: em www.e-temas.com.br o
-      // clique mandava um e-mail e não entregava arquivo nenhum ao usuário, que
-      // ficava sem sinal de que algo tinha acontecido.
-      const blob = new Blob([JSON.stringify(configJson, null, 2)], {
-        type: 'application/json',
-      });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'config.json';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      /** Entrega o config.json como download no navegador do usuário. */
+      const downloadConfig = () => {
+        const blob = new Blob([JSON.stringify(configJson, null, 2)], {
+          type: 'application/json',
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'config.json';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      };
 
-      // Em produção o time também recebe o config por e-mail — é assim que a
-      // implantação chega até eles. O download não substitui esse caminho, e
-      // uma falha de envio não pode engolir o arquivo que o usuário já tem.
-      if (window.location.hostname === 'www.e-temas.com.br') {
-        try {
-          await sendLayoutConfigEmail(configJson);
-        } catch (error) {
-          console.error('Falha ao enviar o config por e-mail:', error);
-          window.alert(
-            'O arquivo foi baixado, mas não foi possível enviá-lo para a equipe. Encaminhe o config.json manualmente.'
-          );
-        }
+      // O config é um insumo da equipe de implantação, não um arquivo do usuário
+      // final: fora do desenvolvimento ele vai por e-mail e NÃO é baixado. O
+      // porquê do gate ser `localhost` está em configDelivery.ts, que o rótulo
+      // do botão também consome — os dois não podem divergir.
+      if (isLocalDelivery(window.location.hostname)) {
+        downloadConfig();
+        return;
+      }
+
+      try {
+        await sendLayoutConfigEmail(configJson);
+        // Sem download, o clique não deixa nenhum rastro na tela. A confirmação
+        // é o único sinal de que algo aconteceu — foi a falta dela que fez este
+        // fluxo ser trocado por download no passado.
+        window.alert('Configuração enviada para a equipe por e-mail.');
+      } catch (error) {
+        console.error('Falha ao enviar o config por e-mail:', error);
+        // Resgate: o envio falhou, então o arquivo é entregue ao usuário para o
+        // trabalho não se perder. É a exceção deliberada à regra acima.
+        downloadConfig();
+        window.alert(
+          'Não foi possível enviar a configuração para a equipe. O config.json foi baixado — encaminhe manualmente.'
+        );
       }
     }
   };

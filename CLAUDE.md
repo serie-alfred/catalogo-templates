@@ -251,9 +251,15 @@ Tray↔Wake never loses anything — their catalogs are identical.
 ### Export flow
 
 `exportLayout` (the "Baixar" button in the right panel header) does three things in sequence: (1) `await mountExportStage()` — which flips `isCapturing`, mounts [ExportStage](src/components/gerador/ExportStage/index.tsx) off-screen and resolves after two `requestAnimationFrame`s (layout, then paint) — then `await`s `waitForImages` on both copies plus `document.fonts.ready` before `html2canvas`ing the `desktopPreviewRef` (1920px) and `mobilePreviewRef` (375px) divs, downloading PNGs to the user. **Those awaits are load-bearing**: the stage used to be mounted since page load, so images and fonts were long since ready; without them the PNGs come out with blank images and fallback type, and nobody checks the PNG; (2) build a JSON config grouped by `platform → { global, variables, assets, [page]: items[] }`;
-(3) **always** download it, and _additionally_ mail it via `/gerador/api/send-email` on
-`www.e-temas.com.br` — the button says "Baixar", so it downloads everywhere; the mail is how the
-implementation team receives it. When `platform === 'wake'`, the JSON also includes `wakeToken`.
+(3) **entrega por exatamente UM caminho, decidido por `localhost`**: em desenvolvimento faz o
+download; fora dele envia via `/gerador/api/send-email` e **não** baixa — o config é insumo da
+equipe de implantação, não arquivo do usuário final. O gate é `localhost`, **não um domínio**: o
+host de produção já mudou uma vez (conta antiga da Vercel) e um gate por domínio volta a quebrar
+em silêncio. Como o clique deixa de produzir arquivo, o envio **tem** de confirmar na tela
+(`window.alert`) — foi a ausência desse sinal que fez este fluxo virar download no passado. Falha
+de envio é a única exceção: baixa como resgate e avisa. `sendLayoutConfigEmail` **lança** em
+resposta não-ok; `fetch` sozinho resolve num 500 e o `catch` nunca rodava, o que agora perderia o
+config sem sinal nenhum. When `platform === 'wake'`, the JSON also includes `wakeToken`.
 The screenshots are best-effort: a html2canvas failure warns and still delivers the JSON.
 
 Both config shapes carry `assets` (logo, favicon, ogImage). The faststore one had none until this
