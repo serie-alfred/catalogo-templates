@@ -1,0 +1,383 @@
+/* CategorySeoFaq06 -> categoryDescription/06. Convertido 1:1 do
+   faststore.starter/src/components/organisms/CategorySeoFaq06/style.module.scss.
+
+   @media virou @container nos mesmos breakpoints; a .seoFaqWrap existe so para
+   carregar o container-type (um elemento nao consulta o proprio container).
+   var(--...) verbatim. */
+
+.seoFaqWrap {
+  container-type: inline-size;
+}
+
+/* CategorySeoFaq06 — bloco SEO editorial + FAQ do rodapé da PLP (06).
+Valores do ground truth site de referência (PLP) (computed styles @1280, capturados
+no audit). Cor/fonte via cadeia de 3 níveis (temável); neutros (hairlines) via
+color-mix a partir do texto (nunca hex fixo — CLAUDE.md). */
+/* hairlines estruturais derivados do texto (contrastam em qualquer fundo) */
+
+.categorySeoFaq06 {
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  color: var(--plp-text, var(--text-primary-color, #212721));
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ---------- SEO editorial ---------- */
+
+.seoBlock {
+  border-top: 1px solid color-mix(in srgb, var(--plp-text, var(--text-primary-color, #212721)) 12%, transparent);
+  /* metrics: separador do grid (origem #e0e0e0) */
+  padding: 4rem 1.25rem;
+  box-sizing: border-box;
+}
+
+@container (max-width: 960px) {
+  .seoBlock {
+    padding: 40px 20px;
+  }
+
+.seoBlock {}
+
+}
+
+.seoWrapper {
+  max-width: 45rem;
+  /* metrics: wrapperTextCategory@1280 */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.seoTitle {
+  margin: auto;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+  /* era #212721 cravado — mesmo valor, agora pela cadeia de 3 níveis */
+  letter-spacing: .0313rem;
+  text-align: center;
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+}
+
+/* Colapsado NÃO usa clamp de altura nem fade: o corte é por BLOCO no index.tsx (só a 1ª */
+/* seção do HTML é renderizada), então não há linha pela metade nem texto sob opacidade — */
+/* o resto entra no DOM apenas ao clicar em "saiba mais". */
+
+.seoContent {
+  text-align: center;
+  /* ground truth: bloco editorial centralizado no ar */
+  padding: 0rem 1.25rem;
+}
+
+.seoContent :global(h2) {
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  font-size: 1.5rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: .0313rem;
+  line-height: 1.3;
+  margin: 0 0 18px;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+  text-align: center;
+}
+
+@media(max-width: 768px) {
+  .seoContent :global(h2) {
+    text-align: center;
+  }
+
+.seoContent :global(h2) {}
+
+}
+
+.seoContent :global(h3) {
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: .0313rem;
+  line-height: 1.3;
+  margin: 12px 0;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+  text-align: left;
+}
+
+.seoContent :global(h2:not(:first-child)) {
+  margin-top: 24px;
+}
+
+.seoContent :global(p) {
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  margin: 0 0 12px;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+  text-align: center;
+  margin: 0;
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+  letter-spacing: .0313rem;
+}
+
+.seoContent :global(a) {
+  color: var(--plp-text, var(--text-primary-color, #212721));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.seoContent :global(strong) {
+  font-weight: 700;
+}
+
+.seoToggle {
+  align-self: center;
+  /* ground truth: "saiba mais" centralizado */
+  margin-top: 12px;
+  padding: 8px 0;
+  min-height: 44px;
+  /* alvo de toque a11y */
+  display: inline-flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  font-size: 16px;
+  font-weight: 700;
+  /* metrics: btnTextCategory 16/700 */
+  text-transform: lowercase;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+}
+
+/* ---------- FAQ ---------- */
+
+.faqBlock {
+  max-width: 45rem;
+  /* metrics: faq@1280 */
+  margin: 0 auto;
+  padding: 0 20px 64px;
+  box-sizing: border-box;
+}
+
+.faqTitle {
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  font-size: 24px;
+  /* metrics: faqTitle 24/500 */
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  line-height: 27.6px;
+  text-align: center;
+  margin: 24px 0;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+}
+
+.faqItem {
+  border-bottom: 1px solid color-mix(in srgb, var(--plp-text, var(--text-primary-color, #212721)) 16%, transparent);
+  /* metrics: item divider (origem #ddd) */
+  padding:  0;
+  /* metrics: faqItem padding 12/12 */
+}
+
+.faqQuestion {
+  width: 100%;
+  min-height: 44px;
+  /* alvo de toque a11y (origem ~23px é baixo demais) */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 6px;
+  /* metrics: faqQuestion padding lateral 6 */
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  font-size: 18px;
+  /* metrics: faqQuestion 18/600 */
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+}
+
+@media(max-width: 768px) {
+  .faqQuestion {
+    padding: 12px 6px;
+  }
+
+}
+
+.faqQuestion span {
+  flex: 1;
+}
+
+.chevron {
+  flex: 0 0 auto;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+  transition: transform 0.3s ease;
+}
+
+.faqOpen .chevron {
+  transform: rotate(180deg);
+}
+
+.faqAnswerWrap {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+  /* metrics: transition max-height .3s (origem) */
+}
+
+.faqOpen .faqAnswerWrap {
+  max-height: 600px;
+}
+
+.faqAnswer {
+  margin: 0;
+  padding: 8px 6px 4px;
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  font-size: 13.5px;
+  /* metrics: faqAnswer 14/400 lh24 */
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: .0313rem;
+  margin: 0px 0 24px;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+}
+
+/* ---------- FAQ vindo em HTML (banner do Intelligent Search, área "two") ----------
+Mesma régua visual do acordeão estruturado, mas aplicada a marcação livre. Cadastrando
+cada pergunta como <details><summary>…</summary><p>…</p></details> o acordeão funciona
+NATIVO (sem JS) e ganha o divisor + a seta girando. Sem <details>, o HTML renderiza
+como texto corrido (h3 = pergunta, p = resposta). */
+
+.faqHtml {
+  display: flex;
+  flex-direction: column;
+}
+
+.faqHtml :global(details) {
+  border-bottom: 1px solid color-mix(in srgb, var(--plp-text, var(--text-primary-color, #212721)) 16%, transparent);
+  /* mesmo divisor do .faqItem */
+}
+
+.faqHtml {
+  /* a seta é gerada no ::after do summary (o marcador nativo é removido abaixo) */
+}
+
+.faqHtml :global(summary) {
+  min-height: 44px;
+  /* alvo de toque a11y */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 6px;
+  cursor: pointer;
+  list-style: none;
+  /* Firefox */
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  font-size: 18px;
+  /* metrics: faqQuestion 18/600 */
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+}
+
+@container (max-width: 768px) {
+  .faqHtml :global(summary) {
+    padding: 12px 6px;
+  }
+
+}
+
+.faqHtml :global(summary)::-webkit-details-marker {
+  display: none;
+}
+
+.faqHtml :global(summary) {
+  /* Safari/Chrome */
+}
+
+.faqHtml :global(summary)::after {
+  content: '';
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  /* chevron p/ baixo */
+  transition: transform 0.3s ease;
+}
+
+.faqHtml :global(details[open]) > :global(summary)::after {
+  transform: rotate(225deg) translateY(-2px);
+  /* aberto: aponta p/ cima */
+}
+
+.faqHtml :global(p) {
+  margin: 0 0 24px;
+  padding: 8px 6px 4px;
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  font-size: 13.5px;
+  /* metrics: faqAnswer 14/400 lh24 */
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: .0313rem;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+}
+
+.faqHtml {
+  /* pergunta como título, quando o HTML não usa <details> */
+}
+
+.faqHtml :global(h3), .faqHtml :global(h4) {
+  margin: 16px 0 0;
+  padding: 0 6px;
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+}
+
+.faqHtml :global(ul), .faqHtml :global(ol) {
+  margin: 0 0 24px;
+  padding: 0 6px 0 26px;
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  font-size: 13.5px;
+  line-height: 24px;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+}
+
+.faqHtml :global(a) {
+  color: var(--plp-text, var(--text-primary-color, #212721));
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.faqHtml :global(strong) {
+  font-weight: 700;
+}
+
+/* respeita usuários com movimento reduzido */
+
+@media (prefers-reduced-motion: reduce) {
+  .chevron, .faqAnswerWrap {
+    transition: none;
+  }
+
+  .faqHtml :global(summary)::after {
+    transition: none;
+  }
+
+}

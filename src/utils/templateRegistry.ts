@@ -76,10 +76,15 @@ import Footer03 from '@/components/templates/common/template_3/Footer';
 // ******
 // Home
 import Showcase03 from '@/components/templates/home/template_3/Showcase';
+import Ruler03 from '@/components/templates/home/template_3/Ruler';
 
 // ******
 // Produto
 import ProductInfo03 from '@/components/templates/product/template_3/ProductInfo';
+import ProductInfo04 from '@/components/templates/product/template_4/ProductInfo';
+import ProductInfo05 from '@/components/templates/product/template_5/ProductInfo';
+import ProductInfo07 from '@/components/templates/product/template_7/ProductInfo';
+import ProductReviews06 from '@/components/templates/product/template_6/ProductReviews';
 
 // ************
 // Template 04
@@ -140,6 +145,7 @@ import BannerTriple06 from '@/components/templates/home/template_6/BannerTriple'
 import CategoryTriple06 from '@/components/templates/home/template_6/CategoryTriple';
 import ClientReview06 from '@/components/templates/home/template_6/ClientReview';
 import HomeCarousel06 from '@/components/templates/home/template_6/HomeCarousel';
+import BannerSide06 from '@/components/templates/home/template_6/BannerSide';
 
 // ************
 //Template 7
@@ -150,6 +156,23 @@ import Header07 from '@/components/templates/common/template_7/Header';
 import Footer07 from '@/components/templates/common/template_7/Footer';
 import Spot07 from '@/components/templates/common/template_7/Spot';
 import Showcase07 from '@/components/templates/home/template_7/Showcase';
+import ClientReview07 from '@/components/templates/home/template_7/ClientReview';
+import BannerSoloLeft07 from '@/components/templates/home/template_7/BannerSoloLeft';
+import Categories07 from '@/components/templates/home/template_7/Categories';
+import BannerMain07 from '@/components/templates/home/template_7/BannerMain';
+import ShopByRoom07 from '@/components/templates/home/template_7/ShopByRoom';
+import Newsletter07 from '@/components/templates/home/template_7/Newsletter';
+import BuySize06 from '@/components/templates/home/template_6/BuySize';
+import HelpFloat06 from '@/components/templates/home/template_6/HelpFloat';
+import BannerGrid06 from '@/components/templates/home/template_6/BannerGrid';
+import BannerCarousel06 from '@/components/templates/home/template_6/BannerCarousel';
+import ProductBanner01 from '@/components/templates/product/template_1/ProductBanner';
+import CategoryTabs06 from '@/components/templates/home/template_6/CategoryTabs';
+import PopupNews06 from '@/components/templates/home/template_6/PopupNews';
+import CategoryTitle06 from '@/components/templates/category/template_6/CategoryTitle';
+import CategoryDescription06 from '@/components/templates/category/template_6/CategoryDescription';
+import CategoryMain07 from '@/components/templates/category/template_7/CategoryMain';
+import CategoryMain06 from '@/components/templates/category/template_6/CategoryMain';
 
 export const TemplateRegistry: Record<
   string,
@@ -192,7 +215,12 @@ export const TemplateRegistry: Record<
   Footer03,
   Spot03,
   Showcase03,
+  Ruler03,
   ProductInfo03,
+  ProductInfo04,
+  ProductInfo05,
+  ProductInfo07,
+  ProductReviews06,
 
   SpecialOffers04,
   BannerSolo04,
@@ -223,9 +251,27 @@ export const TemplateRegistry: Record<
   CategoryTriple06,
   ClientReview06,
   HomeCarousel06,
+  BannerSide06,
 
   Header07,
   Footer07,
   Spot07,
   Showcase07,
+  ClientReview07,
+  BannerSoloLeft07,
+  Categories07,
+  BannerMain07,
+  ShopByRoom07,
+  Newsletter07,
+  BuySize06,
+  HelpFloat06,
+  BannerGrid06,
+  BannerCarousel06,
+  ProductBanner01,
+  CategoryDescription06,
+  CategoryTabs06,
+  PopupNews06,
+  CategoryTitle06,
+  CategoryMain06,
+  CategoryMain07,
 };

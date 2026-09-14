@@ -1,0 +1,131 @@
+/* Espelha molecules/EditorialBanner07 (faststore.starter): `$vars` resolvidas
+   inline, aninhamento desfeito, `@media` → `@container`.
+   Textura, scrim e o gradiente de fallback da imagem ficam em valor cru — são
+   estruturais (sobreposições decorativas), fora do contrato de tema. */
+
+.editorialBanner07Root {
+  line-height: normal;
+  font-family: var(--editorial-font, var(--font-secundary, 'DM Sans', sans-serif));
+  container-type: inline-size;
+}
+
+.editorialBanner07Root * {
+  box-sizing: border-box;
+}
+
+.section {
+  padding: 80px 120px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.image {
+  height: 400px;
+  border-radius: 1px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(140deg, #c8b49a, #b8a085);
+  background-size: cover;
+  background-position: center;
+}
+
+.texture {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, transparent, transparent 18px, rgba(150, 120, 90, .06) 18px, rgba(150, 120, 90, .06) 19px),
+    repeating-linear-gradient(90deg, transparent, transparent 18px, rgba(150, 120, 90, .06) 18px, rgba(150, 120, 90, .06) 19px);
+}
+
+.scrim {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  background: linear-gradient(to top, rgba(44, 36, 32, .4), transparent);
+}
+
+.quoteWrap {
+  position: absolute;
+  bottom: 28px;
+  left: 28px;
+}
+
+.quote {
+  font-family: var(--editorial-title-font, var(--font-primary, 'Cormorant Garamond', serif));
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  font-style: italic;
+  color: var(--editorial-quote-color, var(--text-color-secundary, #faf8f4));
+}
+
+.eyebrow {
+  font-family: var(--editorial-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--editorial-accent, var(--background-primary-color, #b8976a));
+  margin: 1em 0 14px;
+}
+
+.title {
+  font-family: var(--editorial-title-font, var(--font-primary, 'Cormorant Garamond', serif));
+  font-size: 38px;
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--editorial-title-color, var(--text-primary-color, #2c2420));
+  margin-bottom: 20px;
+}
+
+.body {
+  font-family: var(--editorial-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 1.75;
+  color: var(--editorial-body-color, var(--text-primary-color, #6a5e58));
+  margin: 0 0 24px;
+}
+
+.link {
+  display: inline;
+  font-family: var(--editorial-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 12px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--editorial-title-color, var(--text-primary-color, #2c2420));
+  text-decoration: none;
+  cursor: pointer;
+  border-bottom: 1px solid var(--editorial-title-color, var(--text-primary-color, #2c2420));
+  padding-bottom: 3px;
+  transition: color .5s ease, border-color .5s ease;
+}
+
+.link:hover {
+  color: var(--editorial-accent, var(--background-primary-color, #b8976a));
+  border-bottom-color: var(--editorial-accent, var(--background-primary-color, #b8976a));
+}
+
+/* mobile reflow: 1 coluna, imagem mais baixa */
+@container (max-width: 767px) {
+  .section {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    padding: 48px 18px;
+  }
+
+  .image {
+    height: 260px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+}

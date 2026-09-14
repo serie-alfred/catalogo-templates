@@ -1,0 +1,70 @@
+/* Espelha molecules/SocialProof07 (faststore.starter): `$vars` do SCSS
+   resolvidas inline, aninhamento desfeito, `@media` → `@container`. */
+
+.socialProof07Root {
+  line-height: normal;
+  font-family: var(--socialproof-font, var(--font-secundary, 'DM Sans', sans-serif));
+  container-type: inline-size;
+}
+
+.socialProof07Root * {
+  box-sizing: border-box;
+}
+
+.section {
+  background: var(--socialproof-bg, var(--background-tertiary-color, #f2ede4));
+  padding: 64px 120px;
+  text-align: center;
+}
+
+.number {
+  font-family: var(--socialproof-title-font, var(--font-primary, 'Cormorant Garamond', serif));
+  font-size: 54px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--socialproof-number-color, var(--text-primary-color, #2c2420));
+}
+
+.subtitle {
+  font-family: var(--socialproof-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--socialproof-muted, var(--text-primary-color, #8c7d74));
+  margin: 1em 0 32px;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.star {
+  color: var(--socialproof-accent, var(--background-primary-color, #b8976a));
+  display: block;
+}
+
+.rating {
+  font-family: var(--socialproof-font, var(--font-secundary, 'DM Sans', sans-serif));
+  font-size: 13px;
+  font-weight: 400;
+  line-height: normal;
+  color: var(--socialproof-muted, var(--text-primary-color, #8c7d74));
+  margin-left: 8px;
+}
+
+@container (max-width: 767px) {
+  .section {
+    padding: 48px 18px;
+  }
+
+  .number {
+    font-size: 38px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+}

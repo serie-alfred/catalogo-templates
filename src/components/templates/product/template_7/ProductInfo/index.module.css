@@ -1,0 +1,908 @@
+/* ProductDetails03 -> productInfo/07. Convertido 1:1 dos oito arquivos que
+   formam o grafo da PDP 03 no faststore.starter (organisms/ProductDetails03 +
+   as sete molecules que ela compoe: galeria, info, titulo, preco, variacoes,
+   compra e o acordeao de especificacoes).
+
+   @media virou @container nos mesmos breakpoints; a .pd03Wrap existe so para
+   carregar o container-type (um elemento nao consulta o proprio container).
+   var(--...) verbatim. */
+
+.pd03Wrap {
+  container-type: inline-size;
+}
+
+/* ── o que, na rota real, vem do CSS do CORE do FastStore ──
+   Os dois botoes de compra sao `[data-fs-button]` nativos: o core da a eles
+   `display:flex; align-items:stretch; padding:0` e ao wrapper `border: 2px solid
+   transparent` + inline-flex centrado com largura cheia. Sao 4px de caixa nos
+   dois eixos — o mesmo achado do botao de filtros da PLP 06. */
+.productDetails [data-fs-button] {
+  display: flex;
+  align-items: stretch;
+  /* `fit-content` é do core e é load-bearing no MOBILE: lá o componente não dá
+     largura aos dois botões, então sem isto eles esticavam para os 345 da coluna
+     em vez de fechar no conteúdo (288 e 211). */
+  width: fit-content;
+  padding: 0;
+  cursor: pointer;
+}
+.productDetails [data-fs-button] [data-fs-button-wrapper] {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border: 2px solid transparent;
+  /* `4px 16px` é o `--fs-button-padding` do core já resolvido neste tema
+     (`calc(spacing-1 - border*2)` na vertical, `spacing-3` na horizontal), e a
+     tipografia 16/600/16 é a que o <span> do rótulo herda. No desktop o
+     componente dá largura fixa aos botões e nada disso aparecia; no mobile, sem
+     eles, cada botão fechava 32px mais estreito. */
+  padding: 4px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+/* O `SkuSelector` do @faststore/ui: o componente estiliza o rótulo, a lista e
+   as opções, mas a CAIXA do seletor (coluna, 12px de respiro, corpo 14) vem do
+   core. Sem ela o bloco fechava 12px mais baixo e empurrava tudo abaixo dele. */
+.productInfo [data-fs-sku-selector] {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-size: 14px;
+}
+
+/* A estrela do `Rating` do @faststore/ui: o componente so declara a COR e o
+   tamanho do icone (14x14); a caixa da lista e do item vem do core. Sem ela a
+   linha de avaliacao fecha com altura 0 e empurra tudo que vem depois. */
+.productTitle [data-fs-rating] {
+  display: flex;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.productTitle [data-fs-rating-item] {
+  position: relative;
+  display: list-item;
+  width: 14px;
+  height: 14px;
+}
+.productTitle [data-fs-rating-item] [data-fs-rating-icon-wrapper] {
+  display: flex;
+  width: 14px;
+  height: 14px;
+  overflow: hidden;
+}
+.productTitle [data-fs-rating-item] svg {
+  display: flex;
+  align-items: center;
+  color: rgb(144, 153, 162);
+}
+.productTitle [data-fs-rating-item] svg[data-fs-rating-icon-outline] {
+  position: absolute;
+  inset: 0;
+}
+
+/* O `container` global do tema: na rota real ele vem do CSS do core (largura
+   maxima + gutters), e o `.container` do componente so ajusta o grid. */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  /* 15px de gutter: medido no `.container` global do tema da origem, que na rota
+     real vem do CSS do core. Sem ele o bloco encostava na borda no mobile e a
+     galeria (que tem `margin: 0 -15px` para sangrar) puxava 30px a mais. */
+  padding: 0 15px;
+}
+
+/* -- ProductDetails03 -- */
+.productDetails {
+  margin: 1rem 0 70px;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0;
+}
+
+@container (max-width: 989px) {
+  .container {
+    display: block;
+  }
+
+.container {}
+
+}
+/* -- ProductGallery03 -- */
+.productGallery {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  align-self: flex-start;
+}
+
+@container (max-width: 989px) {
+  .productGallery {
+    width: auto;
+    margin: 0 -15px 24px;
+  }
+
+}
+
+@container (min-width: 990px) {
+  .productGallery {
+    position: sticky;
+    top: var(--prod-gallery-top, 96px);
+    width: 49.5%;
+    max-width: 49.5%;
+    height: calc(100vh - var(--prod-gallery-top, 96px) - 24px);
+  }
+
+}
+
+.productGallery .badges {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.productGallery .badges .badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--prod-gallery-font, 'Inter', sans-serif);
+  background-color: var(--prod-gallery-badge-bg, #121212);
+  color: var(--prod-gallery-badge-text, #ffffff);
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.3px;
+}
+
+.productGallery {
+  /* ── Desktop: masonry com scroll interno + scrollbar custom sobreposta ── */
+}
+
+.productGallery .desktopGallery {
+  display: none;
+}
+
+@container (min-width: 990px) {
+  .productGallery .desktopGallery {
+    display: block;
+    position: relative;
+    height: 100%;
+  }
+
+.productGallery .desktopGallery {}
+
+}
+
+.productGallery .scrollArea {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  column-gap: 16px;
+  row-gap: 16px;
+  /* Esconde a scrollbar nativa (cross-browser) — a custom assume */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.productGallery .scrollArea::-webkit-scrollbar {
+  display: none;
+}
+
+.productGallery .scrollArea .mediaItem {
+  width: calc(50% - 8px);
+  margin: 0;
+  /* a cada 3 itens (1º, 4º, 7º…) a imagem ocupa a linha inteira */
+}
+
+.productGallery .scrollArea .mediaItem:nth-child(3n + 1) {
+  width: 100%;
+}
+
+.productGallery .scrollArea .mediaItem img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background-color: #efefef;
+}
+
+.productGallery {
+  /* Scrollbar custom — flutua sobre a borda esquerda, centralizada na vertical */
+}
+
+.productGallery .scrollbar {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 34px;
+  height: 198px;
+  background: white;
+  border-radius: 4px;
+}
+
+.productGallery .scrollbar .arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 37px;
+  padding: 8px;
+  border: none;
+  background: none;
+  color: #333333;
+  cursor: pointer;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.productGallery .scrollbar .arrow.disabled {
+  opacity: 0.3;
+  cursor: default;
+  pointer-events: none;
+}
+
+.productGallery .scrollbar .arrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+.productGallery .scrollbar .track {
+  position: relative;
+  flex: 1;
+  width: 6px;
+  margin: 6px 0;
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 3px;
+}
+
+.productGallery .scrollbar .track .handle {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  min-height: 24px;
+  background-color: #626262;
+  border-radius: 3px;
+  cursor: grab;
+  transition: background-color 0.2s ease;
+}
+
+.productGallery .scrollbar .track .handle:hover {
+  background-color: #4a4a4a;
+}
+
+.productGallery .scrollbar .track .handle:active {
+  cursor: grabbing;
+}
+
+.productGallery {
+  /* ── Mobile: slider horizontal ── */
+}
+
+.productGallery .mobileGallery {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+@container (min-width: 990px) {
+  .productGallery .mobileGallery {
+    display: none;
+  }
+
+}
+
+.productGallery .mobileGallery .swiper {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  padding-bottom: 32px;
+}
+
+.productGallery .mobileGallery .swiper .mobileImg {
+  width: 100%;
+  display: block;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background-color: #efefef;
+}
+
+.productGallery .mobileGallery .swiper [class~="swiper-pagination"] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 8px;
+  bottom: 8px;
+}
+
+.productGallery .mobileGallery .swiper [class~="swiper-pagination-bullet"] {
+  width: 11px;
+  height: 11px;
+  background-color: #e3e3e3;
+  opacity: 1;
+  border: none;
+  border-radius: 100%;
+  margin: 0 8px 0 0 !important;
+  transition: all 0.2s ease-in-out;
+}
+
+.productGallery .mobileGallery .swiper [class~="swiper-pagination-bullet"]:last-child {
+  margin: 0 !important;
+}
+
+.productGallery .mobileGallery .swiper [class~="swiper-pagination-bullet-active"] {
+  background-color: var(--prod-gallery-dot-active, #121212);
+}
+
+/* -- ProductInfo03 -- */
+.productInfo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+@container (min-width: 990px) {
+  .productInfo {
+    width: 50.5%;
+    padding-left: 1.6rem;
+  }
+
+}
+
+.productInfo .stock {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--prod-info-text, #121212);
+  margin: 16px 0 0;
+}
+
+.productInfo {
+  /* Faixa de 3 selos de confiança (linha no desktop, empilhada no mobile) */
+}
+
+.productInfo .trustBadges {
+  list-style: none;
+  margin: 40px 0 38px;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+@container (max-width: 989px) {
+  .productInfo .trustBadges {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+}
+
+.productInfo .trustBadges li {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+@container (max-width: 989px) {
+  .productInfo .trustBadges li {
+    flex-direction: row;
+    text-align: left;
+    gap: 16px;
+  }
+
+}
+
+.productInfo .trustBadges li svg {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  color: var(--prod-info-text, #121212);
+}
+
+.productInfo .trustBadges li span {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.4;
+  color: var(--prod-info-text, #121212);
+}
+
+/* -- ProductTitle03 -- */
+.productTitle {
+  display: flex;
+  flex-direction: column;
+}
+
+.productTitle .sku {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+  color: #8c8c8c;
+  margin-bottom: 8px;
+}
+
+.productTitle h1 {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.35;
+  color: var(--prod-info-title, #000);
+  margin: 8px 0 0;
+}
+
+.productTitle .rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.productTitle .rating [data-fs-rating] {
+  --fs-rating-color: var(--prod-info-rating, #121212);
+}
+
+.productTitle .rating span {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 400;
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+.productTitle .stars [data-fs-icon] {
+  width: 14px;
+  height: 14px;
+}
+
+.productTitle .specs {
+  list-style: none;
+  margin: 24px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.productTitle .specs li {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--prod-info-text, #121212);
+}
+
+.productTitle .specs li strong {
+  font-weight: 300;
+}
+
+/* -- ProductPrice03 -- */
+.productPrice {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 24px 0 0;
+}
+
+.productPrice .listPrice {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1;
+  color: #8a8a8a;
+  text-decoration: line-through;
+  letter-spacing: -0.5px;
+}
+
+.productPrice .price {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 1;
+  color: var(--prod-info-price, #121212);
+  letter-spacing: -0.5px;
+}
+
+/* -- ProductVariations03 -- */
+.productVariations {
+  margin-top: 24px;
+  /* Título da variação (ex.: "Tamanho: 40") */
+}
+
+.productVariations label[data-fs-sku-selector-title] {
+  display: block;
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--prod-info-text, #121212);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.productVariations label[data-fs-sku-selector-title] strong {
+  font-weight: 600;
+}
+
+.productVariations ul[data-fs-sku-selector-list] {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 3.5px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.productVariations {
+  /* ── TAMANHO (variant="label") — pills retangulares estilo rebelhorn ── */
+}
+
+.productVariations[data-fs-sku-selector-variant="label"] li[data-fs-sku-selector-option] {
+  position: relative;
+  background-color: #ffffff;
+  border: 1px solid var(--prod-info-variant-border, #121212);
+  min-width: 44px;
+  height: 44px;
+  padding: 0 8px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.productVariations[data-fs-sku-selector-variant="label"] li[data-fs-sku-selector-option]:hover {
+  background-color: #f2f2f2;
+}
+
+.productVariations[data-fs-sku-selector-variant="label"] li[data-fs-sku-selector-option][data-fs-sku-selector-checked="true"] {
+  background-color: var(--prod-info-variant-active-bg, #121212);
+}
+
+.productVariations[data-fs-sku-selector-variant="label"] li[data-fs-sku-selector-option][data-fs-sku-selector-checked="true"] > span {
+  color: var(--prod-info-variant-active-text, #ffffff);
+}
+
+.productVariations[data-fs-sku-selector-variant="label"] li[data-fs-sku-selector-option] a[data-fs-sku-selector-option-link] {
+  position: absolute;
+  inset: 0;
+  border-radius: 5px;
+}
+
+.productVariations[data-fs-sku-selector-variant="label"] li[data-fs-sku-selector-option] a[data-fs-sku-selector-option-link] span[data-fs-sr-only] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.productVariations[data-fs-sku-selector-variant="label"] li[data-fs-sku-selector-option] > span {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 400;
+  font-size: 16px;
+  color: var(--prod-info-text, #121212);
+  line-height: 1;
+  pointer-events: none;
+  border: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  outline: none !important;
+  transition: color 0.2s ease;
+}
+
+/* ── COR — swatches em FOTO (estilo rebelhorn: retângulos 4:5, foto da variante) ── */
+
+.colorVariations {
+  margin-top: 24px;
+}
+
+.colorLabel {
+  display: block;
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--prod-info-text, #121212);
+  margin-bottom: 12px;
+}
+
+.colorLabel strong {
+  font-weight: 600;
+}
+
+.colorGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3.5px;
+}
+
+.colorSwatch {
+  position: relative;
+  display: block;
+  width: clamp(64px, 22%, 128px);
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  cursor: pointer;
+  outline: 1.5px solid transparent;
+  outline-offset: -1.5px;
+  transition: outline-color 0.2s ease;
+}
+
+.colorSwatch img, .colorSwatch .colorFill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.colorSwatch .colorFill {
+  background: #efefef;
+}
+
+.colorSwatch:hover {
+  outline-color: rgba(18, 18, 18, 0.4);
+}
+
+.colorSwatch.active {
+  outline-color: var(--prod-info-variant-active-bg, rgba(18, 18, 18, 0.75));
+}
+
+.colorSwatch.active::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--prod-info-variant-active-bg, #121212);
+}
+
+/* -- ProductBuy03 -- */
+.productBuy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+  /* Seletor de quantidade (botões +/- redondos) */
+}
+
+.productBuy .quantity [data-fs-quantity-selector] {
+  align-items: center;
+  border-radius: 8px;
+  height: 48px;
+  width: 140px;
+  display:none;
+}
+
+.productBuy .quantity [data-fs-quantity-selector] input[data-quantity-selector-input] {
+  flex: 1;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  text-align: center;
+  font-weight: 500;
+  font-size: 16px;
+  color: #1a1a1a;
+  background: transparent;
+}
+
+.productBuy .quantity [data-fs-quantity-selector] button[data-quantity-selector-button] {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  background-color: #efeff0;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0 4px;
+  transition: background-color 0.2s ease;
+  color: #1a1a1a;
+}
+
+.productBuy .quantity [data-fs-quantity-selector] button[data-quantity-selector-button]:hover:not(:disabled) {
+  background-color: #e0e0e0;
+}
+
+.productBuy .quantity [data-fs-quantity-selector] button[data-quantity-selector-button]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.productBuy .quantity [data-fs-quantity-selector] button[data-quantity-selector-button] [data-fs-button-wrapper] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.productBuy .quantity [data-fs-quantity-selector] button[data-quantity-selector-button] [data-fs-button-icon] svg[data-fs-icon] {
+  width: 16px;
+  height: 16px;
+  color: #1a1a1a;
+}
+
+.productBuy {
+  /* Linha de botões (lado a lado no desktop, empilhados em telas estreitas) */
+}
+
+.productBuy .buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+}
+
+@container (max-width: 480px) {
+  .productBuy .buttons {
+    flex-direction: column;
+  }
+
+.productBuy .buttons {}
+
+}
+
+.productBuy .addToCart, .productBuy .buyNow {
+  flex: 1;
+  height: 48px;
+  padding: 0 24px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s, opacity 0.3s;
+}
+
+@media(max-width: 768px) {
+  .productBuy .addToCart, .productBuy .buyNow {
+    flex: unset;
+  }
+
+}
+
+.productBuy .addToCart [data-fs-button-wrapper], .productBuy .buyNow [data-fs-button-wrapper] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.productBuy .addToCart [data-fs-button-wrapper] > span, .productBuy .buyNow [data-fs-button-wrapper] > span {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 400;
+  font-size: 16px;
+  color: inherit;
+}
+
+.productBuy {
+  /* Botão primário "Adicionar ao carrinho" (escuro por padrão, tematizável) */
+}
+
+.productBuy .addToCart {
+  background-color: var(--prod-info-btn-bg, #121212);
+  border: 1px solid var(--prod-info-btn-bg, #121212);
+  color: var(--prod-info-btn-text, #ffffff);
+}
+
+.productBuy .addToCart:hover {
+  background-color: transparent;
+  color: var(--prod-info-btn-bg, #121212);
+}
+
+.productBuy {
+  /* Botão secundário "Comprar agora" */
+}
+
+.productBuy .buyNow {
+  background-color: var(--prod-info-btn2-bg, #000);
+  border: 1px solid var(--prod-info-btn2-bg, #000);
+  color: var(--prod-info-btn2-text, #ffffff);
+}
+
+.productBuy .buyNow:hover {
+  background-color: transparent;
+  color: var(--prod-info-btn-bg, #121212);
+}
+
+/* -- ProductSpecsAccordion03 -- */
+.accordion {
+  margin-top: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  border-top: 1px solid var(--prod-info-divider, rgba(18, 18, 18, 0.12));
+}
+
+.item:last-child {
+  border-bottom: 1px solid var(--prod-info-divider, rgba(18, 18, 18, 0.12));
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: var(--prod-info-text, #121212);
+}
+
+.title {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: -0.32px;
+  line-height: 1.2;
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--prod-info-text, #121212);
+  transition: transform 0.2s ease;
+}
+
+.iconOpen {
+  transform: rotate(180deg);
+}
+
+.content {
+  padding: 0 0 18px;
+}
+
+.content p, .content > div {
+  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.35;
+  color: var(--prod-info-content, rgba(18, 18, 18, 0.75));
+  margin: 0;
+}
+
+.content :global(img) {
+  max-width: 100%;
+  height: auto;
+}

@@ -1,0 +1,224 @@
+/* TrustvoxReviews06 -> productReviews/06. Convertido 1:1 do
+   faststore.starter/src/components/organisms/TrustvoxReviews06/style.module.scss.
+
+   @media virou @container nos mesmos breakpoints; a .tvxWrap existe so para
+   carregar o container-type (um elemento nao consulta o proprio container).
+   var(--...) verbatim. */
+
+.tvxWrap {
+  container-type: inline-size;
+}
+
+/* ── o que, na rota real, vem do CSS do CORE do FastStore ──
+   O gatilho do acordeão é um `[data-fs-button]` nativo. O core dá a ele
+   `display:flex; align-items:stretch; padding:0`, e ao wrapper `border: 2px
+   solid transparent` mais a TIPOGRAFIA (16/600, line-height 16) — que é o que o
+   <h2> do título herda, já que ele só declara font-size e peso. Sem esta parte o
+   título fechava 1px mais alto aqui do que na origem. Mesmo achado do botão de
+   filtros da PLP 06, onde os 2px de borda fechavam 4px de caixa. */
+.outer [data-fs-button] {
+  display: flex;
+  align-items: stretch;
+  padding: 0;
+  cursor: pointer;
+}
+.outer [data-fs-button] [data-fs-button-wrapper] {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border: 2px solid transparent;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+/* TrustvoxReviews06 — card de opiniões da PDP (estrutura do ar: disclosure com título
+centralizado + caret, conteúdo aberto por padrão).
+⚠️ Diferente dos outros componentes desta pasta, os números aqui NÃO vêm de
+`_bases/.../metrics.md` (não há probe capturado para esta seção) — foram lidos do
+print de referência. Se aparecer a captura, vale reconferir raio/paddings.
+O interior do card é desenhado pelo próprio widget (classes `ts-*` do Trustvox),
+fora do alcance do CSS module: qualquer ajuste lá precisa ser :global. */
+/* O título vinha com `font-family: 'Inter'` CRAVADO — zona temável com fonte fixa,
+e sem nem uma família de reserva. Vira cadeia de 3 níveis como o resto: nível 2 é
+a fonte primária da marca (título), nível 3 é o valor de origem. */
+
+.outer {
+  width: 100%;
+  font-family: var(--prod-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+}
+
+/* Largura ALINHADA às colunas da PDP (galleryCol + info), não a um container de
+página: a ProductDetails06 não usa max-width — as colunas são derivadas em vw
+(`.main` é flex centrado, sem largura máxima), então qualquer % fixo aqui
+descasaria em algum breakpoint.
+.galleryCol  flex-basis  calc(18.87vw + 571.79px)
+.info        flex-basis  calc(8.786vw + 266.31px)
+.main        gap 24px  ·  padding lateral 32px
+────────────────────────────────────────────────
+conteúdo   =  calc(27.656vw + 862.1px)
+Confere com as métricas do repo: @1280 → 813.23 + 378.77 + 24 = 1216px;
+@1920 → 934 + 435 + 24 = 1393px.
+O `min(…, 100% - 64px)` reproduz o segundo regime: abaixo de ~1280px as colunas
+(flex: 0 1) encolhem para caber no `.main` menos o padding de 32px de cada lado.
+Conferido em 960/1100/1280/1366/1440/1920/2560 — as duas larguras batem em todos.
+`100%` e não `100vw` de propósito — vw inclui a barra de rolagem e vazaria.
+O min() vive dentro de calc() para o Sass não confundir com a função min() dele. */
+
+.container {
+  width: calc(min(27.656vw + 862.1px, 100% - 64px));
+  margin: 0 auto;
+  padding: 0 0 2rem;
+  box-sizing: border-box;
+  font-family: var(--prod-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+}
+
+@container (max-width: 960px) {
+  .container {
+    /* mobile: `.main` fica com padding 0 e é o `.info` que abre gutter de 20px —
+    alinhar pelo texto do produto, então, e não pela galeria (que é full-bleed) */
+    width: calc(100% - 40px);
+    padding: 0 0 1rem;
+  }
+
+}
+
+.container :global(.trustvox-widget), .container :global(.trustvox-widget div), .container :global(.trustvox-widget span) {
+  font-family: var(--prod-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+}
+
+.container :global(.trustvox-widget .ts-button) {
+  width: 100%;
+  border-radius: 7.5rem !important;
+  background-color: var(--prod-button-bg, var(--background-primary-color, #212721)) !important;
+  border: 0 !important;
+  transition: .4s ease;
+}
+
+.container :global(.ts-button:disabled), .container :global(.ts-button[disabled]) {
+  cursor: not-allowed;
+  opacity: .7;
+  pointer-events: none;
+}
+
+.container :global(.ts-no-reviews_subtitle span) {
+  font-size: 16px;
+  font-family: var(--prod-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+}
+
+.container :global(.ts-customer-questions-title) {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 16px 0;
+  font-family: var(--prod-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+}
+
+/* o card arredondado do print */
+
+.accordion {
+  border: 1px solid color-mix(in srgb, var(--prod-text, var(--text-primary-color, #212721)) 14%, transparent);
+  border-radius: 24px;
+  background-color: var(--prod-card-bg, #ffffff);
+  overflow: hidden;
+}
+
+@container (max-width: 960px) {
+  .accordion {
+    border-radius: 16px;
+  }
+
+.accordion {}
+
+/* Gatilho: o AccordionButton é um Button variant="tertiary" do FastStore, então o
+seletor sobe a especificidade com [data-fs-button] para vencer o tema. */
+
+}
+
+.trigger[data-fs-button] {
+  display: flex;
+  width: 100%;
+  min-height: auto;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: var(--prod-text, var(--text-primary-color, #212721));
+  cursor: pointer;
+}
+
+.trigger[data-fs-button]:hover {
+  background-color: transparent;
+}
+
+.trigger[data-fs-button] :global([data-fs-button-wrapper]) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background-color: transparent !important;
+  padding: 0;
+}
+
+.trigger[data-fs-button] :global([data-fs-button-wrapper]):hover {
+  background-color: transparent !important;
+}
+
+.trigger[data-fs-button] :global([data-fs-button-icon]) {
+  display: inline-flex;
+  align-items: center;
+  color: var(--prod-text, var(--text-primary-color, #212721));
+}
+
+.title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--prod-text, var(--text-primary-color, #212721));
+  font-family: var(--prod-title-font, var(--font-primary, 'Inter', sans-serif));
+}
+
+/* "−/+" do gatilho: acompanha o título, mas com corpo um pouco maior para o traço
+não virar um risquinho. line-height 1 + largura fixa evitam o título "pular"
+horizontalmente na troca de + para - (glifos têm larguras diferentes). */
+
+.sign {
+  display: inline-block;
+  width: 12px;
+  font-family: 'Inter';
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1;
+  text-align: center;
+  color: var(--prod-text, var(--text-primary-color, #212721));
+}
+
+.panel {
+  padding: 0 24px 24px;
+  /* `hidden` do AccordionPanel: o conteúdo continua montado (o widget sobrevive ao
+  recolher), só sai da tela. Explícito porque `padding` venceria o default. */
+}
+
+.panel[hidden] {
+  display: none;
+}
+
+@container (max-width: 960px) {
+  .panel {
+    padding: 0 12px 16px;
+  }
+
+}
+
+.widgetHost {
+  width: 100%;
+  /* o widget centraliza o próprio conteúdo; garante que nada estoure a largura */
+}
+
+.widgetHost :global(.trustvox-widget), .widgetHost :global(#_sincero_widget) {
+  max-width: 100%;
+  margin: 0 auto;
+  margin-top: 30px;
+}

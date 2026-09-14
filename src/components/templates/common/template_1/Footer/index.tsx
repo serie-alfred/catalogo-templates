@@ -21,7 +21,7 @@ export default function Footer() {
     social_linkedin: 'https://linkedin.com/company/loja',
     social_youtube: 'https://youtube.com/loja',
     text_footer:
-      'TRAY TECNOLOGIA EM ECOMMERCE LTDA - CNPJ: 08.844.842/0001-31 © Todos os direitos reservados. Os preços exibidos nessa loja são fictícios e servem apenas para demonstração Tecnologia TrayCommerce',
+      'SUA LOJA LTDA - CNPJ: 00.000.000/0001-00 © Todos os direitos reservados. Os preços exibidos nesta prévia são fictícios e servem apenas para demonstração.',
   };
 
   return (

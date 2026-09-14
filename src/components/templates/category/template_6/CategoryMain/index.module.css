@@ -1,0 +1,1766 @@
+/* MainCategory06 -> categoryMain/06. Convertido 1:1 de quatro arquivos do
+   faststore.starter, que sao o grafo do que a PLP 06 desenha:
+
+     organisms/MainCategory06/style.module.scss   o container e a trilha
+     sass/productGallery06.module.scss            o skin do override (toolbar,
+                                                  grade, botoes) -- e o mesmo
+                                                  que a PLP da rota real usa
+     organisms/CategoryTitle06/style.module.scss  titulo + contagem
+     molecules/ProductCard06/style.module.scss    o card
+
+   FICA DE FORA o que a origem NAO desenha no palco: o drawer de filtros
+   (renderiza com visibility:hidden ate abrir), a folha de tamanho do card e o
+   bloco "Compre por tamanho" (sem conteudo de CMS, nao renderiza). Nenhum deles
+   tem no visivel no palco, e o portao compara no a no.
+
+   @media virou @container nos mesmos breakpoints; a .plp06Wrap existe so para
+   carregar o container-type (um elemento nao consulta o proprio container).
+   var(--...) verbatim. */
+
+.plp06Wrap {
+  container-type: inline-size;
+}
+
+/* -- MainCategory06 -- */
+/* MainCategory06 — PLP (/calcados/sneakers)
+Números dirigidos por _bases/MainCategory06/metrics.md (origem ao vivo @375/@1280).
+Cor/fonte = cadeia de fallback 3 níveis (temável). ProductCard06 é reusado no grid
+(já validado 1:1 com o card do PLP: 294×~389, img quadrada, nome 14/400, parcela real). */
+/* container: NÃO fica aqui. Largura máxima e gutters laterais vêm do skin da PLP 06
+(`[data-fs-product-listing]` em src/sass/productGallery06.module.scss) e, no título, da
+satélite CategoryTitle06 — os mesmos da rota de categoria. Duplicar aqui empurrava o
+conteúdo 32px para dentro (gutter em cima de gutter). Só o ritmo vertical e a fonte. */
+
+.plp06Root {
+  width: 100%;
+  padding: 24px 0 64px;
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  box-sizing: border-box;
+}
+
+/* ── breadcrumb06 ── */
+/* container próprio: a trilha está FORA do `[data-fs-product-listing]`, então alinha nos
+mesmos gutters do listing (2rem, 20px no mobile) — igual ao .breadcrumb06Row do palco. */
+/* Mesma trilha do ProductDetails (números do ground truth da PDP: home/link 12/400,
+caret 8px, último em bold): "Home" + caret + níveis da categoria. Cor via cadeia de 3
+níveis; neutros por color-mix a partir do texto (nunca hex fixo). */
+
+.breadcrumb06 {
+  display: flex;
+  justify-content: space-between;
+  /* metrics PDP: breadcrumb06 justify space-between (1 filho) */
+  align-items: center;
+  box-sizing: border-box;
+  max-width: 120rem;
+  margin: 0 auto 12px;
+  /* espaçamento até o título da PLP */
+  padding: 0 2rem;
+  min-height: 19.34px;
+  /* metrics PDP: breadcrumb06 h */
+}
+
+@container (max-width: 960px) {
+  .breadcrumb06 {
+    padding: 0 20px;
+  }
+
+}
+
+@container (min-width: 961px) and (max-width: 1247px) {
+  .breadcrumb06 {
+    padding: 0 16px;
+  }
+
+.breadcrumb06 {}
+
+}
+
+.breadcrumb06Inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.crumbSeg {
+  padding: 0 4px;
+}
+
+/* metrics PDP: bc-arrow pad 4/4 */
+
+.crumbHome {
+  display: inline-block;
+  padding-right: 4px;
+  /* metrics PDP: bc-home pad-r */
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 12px;
+  text-decoration: none;
+  color: color-mix(in srgb, var(--plp-text, var(--text-primary-color, #212721)) 62%, transparent);
+}
+
+.crumbSep {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  color: color-mix(in srgb, var(--plp-text, var(--text-primary-color, #212721)) 62%, transparent);
+}
+
+.crumbLink {
+  display: inline-block;
+  margin-left: 3.2px;
+  /* metrics PDP: bc-link mar-l */
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 13.8px;
+  text-transform: lowercase;
+  /* origem: sentence-case via first-letter */
+  text-decoration: none;
+  color: color-mix(in srgb, var(--plp-text, var(--text-primary-color, #212721)) 74%, transparent);
+  /* AA */
+  opacity: 0.82;
+  /* igual à PDP (contraste AA) */
+}
+
+.crumbLink::first-letter {
+  text-transform: uppercase;
+}
+
+a.crumbLink:hover {
+  text-decoration: underline;
+}
+
+.crumbTerm {
+  font-weight: 700;
+  /* último nível em bold (metrics PDP: bc-link[1]) */
+  line-height: 17.34px;
+  color: var(--plp-text, var(--text-primary-color, #1d1d1b));
+  opacity: 1;
+}
+
+/* ── PLP 06: o LOOK vem do skin do override (src/sass/productGallery06.module.scss),
+aplicado por `gallery.productGallery06` no root desta seção — título/contagem usam o skin
+da satélite CategoryTitle06 e o formato da grade é do ColumnToggle. Aqui ficam só o
+container acima e, abaixo, o punhado de regras que na ROTA REAL vêm do CSS do CORE (a
+seção nativa ProductGallery06): numa landing esse CSS não existe. Mesmo papel do
+PlpOverrideStage.module.scss no palco. */
+
+.plp06Root {
+  /* toolbar: o skin só define flex-direction/justify-content */
+}
+
+.plp06Root :global([data-fs-product-listing-sort]) {
+  display: flex;
+  align-items: center;
+  /* O "Compre por tamanho" (molecules/CategoryBuySize06) entra como TERCEIRO filho da
+  toolbar, entre o toggle de colunas e o botão Filtros; com o `row-reverse` do skin
+  ele cai no MEIO, e o `flex: 1` da molécula toma a folga e centraliza o conteúdo.
+  O `wrap` só age abaixo de 1024px, onde a molécula pede linha inteira
+  (`flex-basis: 100%` + `order: 1`, no SCSS dela) por não haver folga central. */
+  flex-wrap: wrap;
+}
+
+.plp06Root {
+  /* o grid nativo é um <ul> */
+}
+
+.plp06Root :global([data-fs-product-grid]) {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Busca sem resultado — ocupa o lugar do grid vazio (antes o mock preenchia com
+produtos de exemplo, que vazavam para a loja porque MOCK_ENABLED é true em produção). */
+
+.emptyResults {
+  margin: 0;
+  padding: 2.5rem 1.25rem;
+  text-align: center;
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 1rem;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--plp-text, var(--text-primary-color, #212721)) 74%, transparent);
+}
+
+/* O BLOCO SEO + FAQ virou seção própria: src/components/organisms/CategorySeoFaq06/ —
+marcação, estilos, acordeão e o clamp "saiba mais" vivem lá. Este organism só a
+renderiza no fim da página (ver index.tsx), repassando o conteúdo do CMS. */
+/* O DRAWER DE FILTROS virou molécula própria, 100% custom:
+src/components/molecules/FilterDrawer06/ — marcação e estilos vivem lá. */
+/* a11y: prefers-reduced-motion — não sobrou transição declarada NESTE módulo. O movimento
+vive no skin do override, no FilterDrawer06, no ProductCard06 e na CategorySeoFaq06, cada um
+com a própria guarda. */
+
+/* ── o que, na rota real, vem do CSS do CORE do FastStore ──
+   O botão de filtros é um `[data-fs-button]` NATIVO re-skinado, e o skin não
+   declara tudo: o core dá ao botão `display:flex; align-items:stretch;
+   width:fit-content; padding:0`, e ao wrapper `border: 2px solid transparent`
+   (--fs-border-width-thick) além do inline-flex centrado.
+
+   Os 2px de borda do wrapper são 4px de altura e 4px de largura, e foi
+   exatamente o que o portão acusou: o botão saía 44 em vez de 48, 129 em vez de
+   133 — e a barra inteira encolhia junto, porque a altura dela é a do botão.
+   Aqui esse pedaço do core entra explícito; na rota de categoria real ele já
+   está no ar. */
+.plp06Root [data-fs-button] {
+  display: flex;
+  align-items: stretch;
+  width: fit-content;
+  padding: 0;
+  cursor: pointer;
+}
+.plp06Root [data-fs-button] [data-fs-button-wrapper] {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border: 2px solid transparent;
+}
+
+/* -- productGallery06 (skin do override) -- */
+/* PLP (06) — re-skin da seção NATIVA ProductGallery via [data-fs-*].
+Seletores confirmados pela cartografia do core; números do ground truth
+site de referência (PLP) (_bases/MainCategory/capture, 4 vps) + drawer de filtro
+ABERTO capturado do ar (Chrome real, 2026-07): drawer direito 400px, "ORDENAR POR:"
+com checkboxes, "FILTRAR POR:", grupos abertos, chips de Tamanho, chips de Cor com
+amostra, range de preço, SEM footer (aplica na hora), botão "Filtros" = pílula escura.
+Cor/fonte = fallback encadeado de 3 níveis (temável); neutros via color-mix.
+Título+contagem da categoria = seção satélite CategoryTitle (composta acima da
+[Product Gallery] no CMS) — a contagem/sort nativos ficam ocultos aqui (o sort vive
+DENTRO do drawer, como na origem). Card = ProductCard via __experimentalProductCard. */
+
+.productGallery06 {
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  color: var(--plp-text, var(--text-primary-color, #212721));
+  /* ---------- container / gutters ---------- */
+}
+
+.productGallery06 [data-fs-product-listing] {
+  width: 100%;
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 2rem 2rem 0;
+  margin: 0 auto;
+  box-sizing: border-box;
+  height: auto;
+  padding-top: 0;
+}
+
+.productGallery06 [data-fs-product-listing] [data-fs-product-listing-content-grid] {
+  width: 100% !important;
+  margin: 0;
+  max-width: 100%;
+}
+
+@container (max-width: 960px) {
+  .productGallery06 [data-fs-product-listing] {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+}
+
+.productGallery06 [data-fs-product-listing] {
+  /* metrics: raiz@375 */
+}
+
+@container (min-width: 961px) and (max-width: 1247px) {
+  .productGallery06 [data-fs-product-listing] {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+}
+
+.productGallery06 {
+  /* ---------- grade de CARDS (o <ul> real) ---------- */
+}
+
+.productGallery06 [data-fs-product-grid] {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* metrics: 2 col @375/768/1024 */
+  column-gap: 10px;
+  /* metrics: pitch-card ≈ 10 */
+  row-gap: 24px;
+  --fs-product-grid-columns-mobile: 2;
+  --fs-product-grid-columns-tablet: 2;
+}
+
+@container (min-width: 1200px) {
+  .productGallery06 [data-fs-product-grid] {
+    grid-template-columns: repeat(4, 1fr);
+    /* metrics: 4 col @1280 (card 294) */
+    column-gap: 10px;
+    row-gap: 32px;
+    --fs-product-grid-columns-desktop: 4;
+  }
+
+}
+
+.productGallery06 [data-fs-product-grid-item] {
+  min-width: 0;
+}
+
+.productGallery06 {
+  /* ---------- limpa chrome nativo ---------- */
+}
+
+.productGallery06 [data-fs-product-listing-results] {
+  border-top: none;
+  background: transparent;
+}
+
+.productGallery06 {
+  /* contagem nativa oculta (título+contagem = CategoryTitle, acima da seção) */
+}
+
+.productGallery06 [data-fs-product-listing-results-count] {
+  display: none;
+}
+
+.productGallery06 {
+  /* sort nativo oculto — na origem a ordenação vive DENTRO do drawer de filtros */
+}
+
+.productGallery06 [data-fs-product-listing-sort] [data-fs-select-field] {
+  display: none;
+}
+
+.productGallery06 [data-fs-product-listing-sort-skeleton] {
+  display: none;
+}
+
+.productGallery06 {
+  /* ---------- toolbar: [Filtros] à esquerda + toggle à direita (metrics: h68; btn 116×44 @x0; toggle 78×31 @x1122) ---------- */
+  /* DOM: [sortSkeleton(select oculto + ColumnToggle)] [botão Filtros] → row-reverse */
+  /* põe o botão à esquerda e o toggle à direita, como na origem. */
+}
+
+.productGallery06 [data-fs-product-listing-sort] {
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  min-height: 68px;
+  /* 16px de recuo à direita: é o que a origem tem na linha da toolbar
+  (`padding: 24px 16px 0 0`), e é o que tira o toggle de baixo da barra de ajuda
+  — ela é `position: fixed; right: 0` com no mínimo 40px de largura, então sem
+  este recuo os ícones ficam encobertos. Medido na origem: borda direita do
+  switcher em 1863 contra 1879 do container. */
+  padding: 0 16px 2rem 0;
+  /* ...mas esse recuo é de DESKTOP. Medido na origem em 390 de viewport, o
+  `galleryLayoutSwitcher` encosta na borda direita do container: último botão
+  terminando em x=370, os mesmos 20px de margem do lado esquerdo (o "Filtros"
+  começa em x=20). Com os 16px herdados, o nosso parava em 354 — 16px curto, e
+  era esse o desalinhamento. A barra de ajuda não justifica o recuo aqui: no
+  mobile ela fica fora da tela (medida em x=392, viewport 390) e a aba visível
+  ocupa uma faixa vertical acima desta linha. */
+}
+
+@container (max-width: 960px) {
+  .productGallery06 [data-fs-product-listing-sort] {
+    padding-right: 0;
+  }
+
+.productGallery06 [data-fs-product-listing-sort] {}
+
+}
+
+.productGallery06 {
+  /* ---------- ColumnToggle (ícones dot-grid da origem; hit area ≥44 p/ a11y) ---------- */
+}
+
+.productGallery06 .colToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0px;
+}
+
+.productGallery06 {
+  /* Tratamento do ponto — medido na origem em www.site de referência (PLP)
+  (`galleryLayoutOptionButton`, viewport 1920):
+  ponto 5×5, `border-radius: 2px`, `box-sizing: border-box`, `border: 1px solid`
+  INATIVO  → `background: transparent` + borda #c6c6c6   (contorno vazado)
+  ATIVO    → `background: #000` + borda #000             (preenchido)
+  grade 3×3 e 4×3, `gap: 3px`
+  O nosso desenhava o ponto SEMPRE preenchido, só variando a opacidade — por isso
+  lia diferente: quadradinho cinza cheio no lugar de contorno vazado arredondado. */
+}
+
+.productGallery06 .colBtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Origem: barra de 78px no total, com 6px de respiro ENTRE as duas grades (o
+  botão inativo tem `padding: 1px 6px` e o ativo `0`, alternando conforme a
+  seleção). `1px 3px` nos dois dá o mesmo respiro de 6px e o mesmo total de
+  78px, sem o pulo de layout ao trocar de opção. */
+  padding: 1px 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  /* Alvo de toque de 44px SEM mexer no layout: a caixa visível continua a da
+  origem (31px de altura), que sozinha não passa no gate de a11y. */
+}
+
+.productGallery06 .colBtn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+}
+
+.productGallery06 .colBtn i {
+  box-sizing: border-box;
+  display: block;
+  background: transparent;
+  border: 1px solid var(--plp-toggle-idle, #c6c6c6);
+  border-radius: 2px;
+}
+
+.productGallery06 .colBtn {
+  /* a caixa do ícone na origem é 29×29 (3 col) e 37×29 (4 col): o conteúdo dá */
+  /* 21×21 / 29×21 e os 8px restantes são `padding: 4px` com border-box */
+}
+
+.productGallery06 .colBtn > span {
+  box-sizing: border-box;
+  padding: 4px;
+}
+
+.productGallery06 .colBtnActive i {
+  background: var(--plp-toggle-active, #000000);
+  border-color: var(--plp-toggle-active, #000000);
+}
+
+.productGallery06 .icoBars {
+  display: none;
+  flex-direction: column;
+  gap: 3px;
+  /* metrics @375: barras 18×5, pitch 8 */
+}
+
+.productGallery06 .icoBars i {
+  width: 18px;
+  height: 5px;
+}
+
+.productGallery06 .icoDots2 {
+  display: none;
+  grid-template-columns: repeat(2, 9px);
+  /* metrics @375: pontos 9×9, pitch 12 */
+  grid-template-rows: repeat(2, 9px);
+  gap: 3px;
+}
+
+.productGallery06 .icoDots2 i {
+  width: 9px;
+  height: 9px;
+}
+
+.productGallery06 .icoDots3 {
+  display: none;
+  grid-template-columns: repeat(3, 5px);
+  /* origem: pontos 5×5, gap 3 → grade 29×29 */
+  grid-template-rows: repeat(3, 5px);
+  gap: 3px;
+}
+
+.productGallery06 .icoDots3 i {
+  width: 5px;
+  height: 5px;
+}
+
+.productGallery06 .icoDots4 {
+  display: none;
+  grid-template-columns: repeat(4, 5px);
+  /* origem: grade 37×29 */
+  grid-template-rows: repeat(3, 5px);
+  gap: 3px;
+}
+
+.productGallery06 .icoDots4 i {
+  width: 5px;
+  height: 5px;
+}
+
+@container (max-width: 960px) {
+  .productGallery06 .icoBars {
+    display: inline-flex;
+  }
+
+  .productGallery06 .icoDots2 {
+    display: inline-grid;
+  }
+
+}
+
+@container (min-width: 961px) {
+  .productGallery06 .icoDots3 {
+    display: inline-grid;
+  }
+
+  .productGallery06 .icoDots4 {
+    display: inline-grid;
+  }
+
+}
+
+.productGallery06 {
+  /* re-mapa do grid quando o toggle pede MENOS colunas (origem: 1 col mobile / 3 col desktop) */
+}
+
+.productGallery06 [data-fs-product-listing][data-cols-06='less'] [data-fs-product-grid] {
+  grid-template-columns: 1fr;
+}
+
+@container (min-width: 961px) and (max-width: 1199px) {
+  .productGallery06 [data-fs-product-listing][data-cols-06='less'] [data-fs-product-grid] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+}
+
+@container (min-width: 1200px) {
+  .productGallery06 [data-fs-product-listing][data-cols-06='less'] [data-fs-product-grid] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+}
+
+.productGallery06 [data-fs-product-listing-sort] [data-fs-button][data-testid='open-filter-button'] {
+  display: inline-flex;
+  /* o nativo esconde no desktop — origem mostra em toda largura */
+  background: var(--plp-btn-bg, var(--background-primary-color, #212721));
+  /* ground truth: pílula ESCURA com texto claro + ícone */
+  color: var(--plp-btn-text, var(--text-color-base, #ffffff));
+  border: none;
+  justify-content: center;
+  /* Medido na origem (`openIconContainer` em www.site de referência (PLP)):
+  116×44, `border-radius: 120px`, fundo #212721, conteúdo centrado com 10px
+  entre ícone e texto. O `min-width` fixa a caixa em 116 porque a palavra
+  "Filtros" da origem vem embutida no sprite SVG — a nossa é texto real e
+  mede diferente, o que deixava a pílula 9px mais estreita. */
+  border-radius: 120px;
+  min-width: 116px;
+  min-height: 44px;
+}
+
+.productGallery06 [data-fs-product-listing-sort] [data-fs-button][data-testid='open-filter-button'] [data-fs-button-wrapper] {
+  font: 600 14px/1 var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  column-gap: 10px;
+  padding: 12px 20px;
+  color: var(--plp-btn-text, var(--text-color-base, #ffffff));
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  /* ícone de filtro (sliders) do tema 06 — mesmo SVG do MainCategory, aqui como */
+  /* MÁSCARA para o traço herdar `currentColor` (= var(--plp-btn-text, var(--text-color-base, #ffffff)), temável). No mask a cor */
+  /* do SVG é irrelevante: o que vale é o alfa. */
+}
+
+.productGallery06 [data-fs-product-listing-sort] [data-fs-button][data-testid='open-filter-button'] [data-fs-button-wrapper]::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cg stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8.125 8.125C9.16053 8.125 10 7.28553 10 6.25 10 5.21447 9.16053 4.375 8.125 4.375 7.08947 4.375 6.25 5.21447 6.25 6.25 6.25 7.28553 7.08947 8.125 8.125 8.125zM13.125 15.625C14.1605 15.625 15 14.7855 15 13.75 15 12.7145 14.1605 11.875 13.125 11.875 12.0895 11.875 11.25 12.7145 11.25 13.75 11.25 14.7855 12.0895 15.625 13.125 15.625zM10 6.25H16.875M3.125 6.25H6.25M15 13.75H16.875M3.125 13.75H11.25'/%3E%3C/g%3E%3C/svg%3E") no-repeat center / 20px 20px;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none'%3E%3Cg stroke='%23000' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8.125 8.125C9.16053 8.125 10 7.28553 10 6.25 10 5.21447 9.16053 4.375 8.125 4.375 7.08947 4.375 6.25 5.21447 6.25 6.25 6.25 7.28553 7.08947 8.125 8.125 8.125zM13.125 15.625C14.1605 15.625 15 14.7855 15 13.75 15 12.7145 14.1605 11.875 13.125 11.875 12.0895 11.875 11.25 12.7145 11.25 13.75 11.25 14.7855 12.0895 15.625 13.125 15.625zM10 6.25H16.875M3.125 6.25H6.25M15 13.75H16.875M3.125 13.75H11.25'/%3E%3C/g%3E%3C/svg%3E") no-repeat center / 20px 20px;
+}
+
+.productGallery06 [data-fs-product-listing-sort] [data-fs-button][data-testid='open-filter-button'] {
+  /* ícone nativo oculto: o do tema entra no ::before acima (senão sairiam dois) */
+}
+
+.productGallery06 [data-fs-product-listing-sort] [data-fs-button][data-testid='open-filter-button'] [data-fs-icon] {
+  display: none;
+}
+
+.productGallery06 [data-fs-product-listing-sort] [data-fs-button][data-testid='open-filter-button']:hover {
+  filter: brightness(1.08);
+}
+
+.productGallery06 {
+  /* ---------- desktop: sem sidebar (filtro = drawer via FilterModal) ---------- */
+}
+
+@container (min-width: 1200px) {
+  .productGallery06 [data-fs-product-listing-filters] {
+    position: static;
+  }
+
+  .productGallery06 [data-fs-product-listing-sort] {
+    grid-column: 1 / -1;
+  }
+
+  .productGallery06 [data-fs-product-listing-results] {
+    grid-column: 1 / -1;
+  }
+
+}
+
+.productGallery06 {
+  /* ---------- paginação "Mostrar mais" ---------- */
+}
+
+.productGallery06 [data-fs-product-listing-pagination] {
+  display: flex;
+  justify-content: center;
+  padding: 32px 0;
+}
+
+.productGallery06 [data-fs-product-listing-pagination='bottom'] [data-fs-button], .productGallery06 [data-fs-product-listing-pagination='bottom'] [data-fs-link-button], .productGallery06 [data-testid='show-more'] {
+  background: var(--plp-btn-bg, var(--background-primary-color, #212721));
+  color: var(--plp-btn-text, var(--text-color-base, #ffffff));
+  border: none;
+  border-radius: 999px;
+  min-height: 48px;
+  width: auto;
+}
+
+.productGallery06 [data-fs-product-listing-pagination='bottom'] [data-fs-button] [data-fs-button-wrapper], .productGallery06 [data-fs-product-listing-pagination='bottom'] [data-fs-link-button] [data-fs-button-wrapper], .productGallery06 [data-testid='show-more'] [data-fs-button-wrapper] {
+  font: 700 16px/1 var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  text-transform: none;
+  padding: 8px 20px;
+  color: var(--plp-btn-text, var(--text-color-base, #ffffff));
+}
+
+.productGallery06 [data-fs-product-listing-pagination='bottom'] [data-fs-button]:hover, .productGallery06 [data-fs-product-listing-pagination='bottom'] [data-fs-link-button]:hover, .productGallery06 [data-testid='show-more']:hover {
+  filter: brightness(1.08);
+}
+
+/* O DRAWER DE FILTROS não é mais skin de componente fechado do @faststore/ui:
+virou molecules/FilterDrawer (marcação + CSS 100% nossos), plugado nos slots do
+gallery pelo FilterAdapter. Este módulo cuida só do gallery nativo re-skinado. */
+
+/* -- CategoryTitle06 -- */
+/* CategoryTitle06 — título + contagem da PLP (06).
+Ground truth: título 24/700 lh27.6 capitalize (metrics plp-title@1280); contagem
+14/500 uppercase à direita na mesma linha (metrics plp-count; origem stretch 50/50).
+Cores/fontes na cadeia de 3 níveis. */
+
+.categoryTitle06 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+}
+
+@container (max-width: 960px) {
+  .categoryTitle06 {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding: 1rem;
+    padding-bottom: 0;
+  }
+
+}
+
+.categoryTitle06 {
+  /* metrics raiz@375 */
+}
+
+@container (min-width: 961px) and (max-width: 1247px) {
+  .categoryTitle06 {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+.categoryTitle06 {}
+
+}
+
+.title {
+  margin: 16px 0;
+  /* metrics: plp-title margin@1280 */
+  /* Só o <h1> usa League Spartan; a contagem ao lado segue no var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif)) do container. */
+  /* Token já definido em src/themes/custom-theme.scss e a face é carregada em */
+  /* src/fonts/WebFonts.tsx (pesos 300-900, então o 700 abaixo existe). */
+  font-family: var(--plp-title-font, var(--font-league-spartan, 'League Spartan', sans-serif));
+  font-size: 24px;
+  /* metrics: plp-title 24/700 */
+  font-weight: 700;
+  line-height: 27.6px;
+  text-transform: capitalize;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+}
+
+/* Serve as DUAS posições: a linha do título e a linha da trilha (quando
+`countInBreadcrumb` está ligado, a contagem é injetada no <nav data-role="breadcrumb06">,
+que é space-between). `flex-shrink: 0` + `nowrap` para não quebrar ao lado de trilhas
+longas no mobile. */
+
+.count {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: .1875rem;
+  white-space: nowrap;
+  /* #212721 É o Nível 3 de var(--plp-text, var(--text-primary-color, #212721)) — o hex fixo fazia a contagem ignorar o tema */
+  color: var(--plp-text, var(--text-primary-color, #212721));
+  opacity: .64;
+  font-size: .875rem;
+  font-weight: 400;
+}
+
+/* QUAL CÓPIA APARECE — desktop: na linha da trilha; mobile: de volta na linha do título,
+como no ground truth da origem (título e contagem 50/50 na mesma linha).
+As duas cópias existem no DOM e quem decide é o CSS: sem JS, sem matchMedia e sem flash
+na hidratação. `display: none` também remove do a11y tree, então só uma é anunciada.
+Precisam vir DEPOIS de `.count` (mesma especificidade → vence a ordem no arquivo). */
+
+@container (max-width: 960px) {
+  .countInTrail {
+    display: none;
+  }
+
+.countInTrail {}
+
+}
+
+@container (min-width: 961px) {
+  .countInTitle {
+    display: none;
+  }
+
+.countInTitle {}
+
+}
+/* -- ProductCard06 -- */
+/* ── ProductCard06 — card de vitrine com swap nome↔SKU no hover ─── */
+/* FIDELIDADE: números de `_bases/ProductShelfCustom06/metrics.md` (repouso) e */
+/* `metrics-hover.md` (estado hoverado @1280), anotados com `// metrics:`. */
+/* O hover do CARD troca a linha do nome pela linha do seletor de tamanho */
+/* (display swap, CSS puro — igual à origem); o chip tem hover próprio na borda. */
+
+.card {
+  position: relative;
+  display: flex;
+  /* metrics: card@1280 (flex column) */
+  flex-direction: column;
+  justify-content: space-between;
+  /* metrics: card@1280 */
+  width: 100%;
+  /* metrics: card@1280 (card = largura do slide) */
+  min-width: 0;
+  /* nome nowrap não pode inflar o min-content do slide */
+  height: 100%;
+  overflow: hidden;
+  /* origem: classe overflow-hidden no containerNormal */
+  text-align: center;
+  /* metrics: card@1280 (herança tc da origem) */
+}
+
+/* Links de navegação (imagem + info) — layout idêntico ao antigo .cardLink */
+
+.imgLink, .infoLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.cardInner {
+  display: flex;
+  flex-direction: column;
+  gap: 11.2px;
+  /* metrics: card@1280 (zona da imagem ↔ info; 396 = 305 + 11.2 + 80) */
+}
+
+/* ── Zona da imagem ──────────────────────────────────────────────────────────── */
+
+.imgZone {
+  position: relative;
+  /* âncora do flag e do botão de carrinho (mobile) */
+  width: 100%;
+  /* metrics: card-img-wrap@1280 (300, largura do slide) */
+  /* swipe horizontal é do carrossel; rolagem vertical da página segue livre */
+  touch-action: pan-y;
+  /* strut da origem: img INLINE numa linha Jost 16/18.4 → baseline soma ~4.4 */
+  /* (zona 304.63 = img 300.23 + baseline) — igual ao padrão do BannerMain06 mobile */
+  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 16px;
+  /* metrics: card@1280 (fs 16 herdado) */
+  line-height: 18.4px;
+  /* metrics: card@1280 (lh 18.4) */
+}
+
+.imgWrap {
+  display: block;
+  /* metrics: card-img-wrap@1280 */
+  width: 100%;
+  position: relative;
+  /* âncora da 2ª foto (hover) — não altera o layout da principal */
+  overflow: hidden;
+  /* recorta os slots vizinhos da pista do carrossel (.hoverTrack) */
+}
+
+.cardImg {
+  display: inline;
+  /* metrics: card-img@1280 (inline — baseline soma ~4.4 na zona) */
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  /* metrics: card-img@1280 (300×300) */
+  object-fit: cover;
+}
+
+/* ── Foto revelada no hover ── */
+/* Nas vitrines é a 2ª foto do produto; na categoria (imageCarousel) é a foto da posição */
+/* atual do carrossel — as setas mexem NESTA camada, e a principal (.cardImg) fica fixa, */
+/* então tirar o mouse do card já volta para ela. */
+/* Repete width/aspect-ratio da .cardImg em vez de usar `inset: 0`: a .imgWrap é um */
+/* bloco com img INLINE dentro, então a altura dela inclui o strut de baseline (~4.4px) */
+/* e um `inset: 0` esticaria a foto de hover além do quadrado 1:1 da principal. */
+
+.cardImgHover {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  /* o clique continua sendo do <Link> embaixo */
+}
+
+/* Só onde existe hover real: em touch o `:hover` "cola" depois do toque e a 2ª foto */
+/* ficaria presa na tela até o próximo tap em outro lugar. */
+
+@media (hover: hover) {
+  .card:hover .cardImgHover {
+    opacity: 1;
+  }
+
+/* ── Pista deslizante da camada de hover (categoria, prop imageCarousel) ── */
+/* Faz o papel da .cardImgHover lá, mas com um slot por foto: as setas mudam o */
+/* `translateX` (inline, vindo do índice em JS) e a foto atual SAI para o lado enquanto a */
+/* próxima ENTRA. Os slots que sobram ficam fora do quadrado e são recortados pelo */
+/* `overflow: hidden` da .imgWrap. Mesmas medidas da .cardImgHover, e pelo mesmo motivo */
+/* (`inset: 0` esticaria por causa do strut de baseline da imagem inline). */
+
+}
+
+.hoverTrack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  opacity: 0;
+  /* opacidade = revelar/esconder no hover; transform = o deslize entre as fotos */
+  transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+  /* o clique continua sendo do <Link> embaixo */
+}
+
+/* `flex: 0 0 100%` (sem shrink) = cada foto ocupa o card inteiro e as demais transbordam */
+/* para o lado, que é o que dá o deslize. O aspect-ratio mantém o slot quadrado mesmo */
+/* enquanto o <img> ainda não existe (fotos distantes só entram depois do 1º hover). */
+
+.hoverSlide {
+  flex: 0 0 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.hoverSlide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (hover: hover) {
+  .card:hover .hoverTrack {
+    opacity: 1;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hoverTrack {
+    transition: opacity 0.35s ease;
+  }
+
+/* troca seca, sem o deslize */
+
+/* ── Produto esgotado: véu sobre a foto + rótulo centralizado ────────────────── */
+/* Valores da origem (véu #e0e0e0 a 50%, rótulo 20/700 em #212721). O `opacity` fica no */
+/* container, então o rótulo esmaece junto — é assim no ar. */
+/* Não usa `inset: 0`/`height: 100%` pelo mesmo motivo da .cardImgHover: a .imgWrap */
+/* carrega o strut de baseline da imagem inline, e o véu passaria ~4px do quadrado 1:1. */
+
+}
+
+.soldOut {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  /* origem */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #e0e0e0;
+  opacity: 0.5;
+}
+
+.soldOut p {
+  margin: 0;
+  font-size: 1.25rem;
+  /* 20px — origem */
+  font-weight: 700;
+  line-height: 1.5rem;
+  letter-spacing: 0.0313rem;
+  color: #212721;
+}
+
+/* ── Setas do carrossel de imagens (só MainCategory06, via prop imageCarousel) ── */
+/* Aparecem apenas no hover do card; o visual do card não muda em repouso. */
+
+.imgNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  /* acima do <Link>/imagem */
+  /* botão circular translúcido sobre a foto (pastilha de 40px; o chevron segue 20px) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: hsla(0, 0%, 100%, 0.3411764706);
+  cursor: pointer;
+  opacity: 0;
+  /* repouso: escondida */
+  transition: opacity 0.18s ease;
+  /* chevron fornecido (SVG data-URI). A cor #000 vive dentro da data-URI (currentColor */
+  /* não resolve em background-image) — exceção estrutural documentada. */
+}
+
+.imgNav::before {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'><path fill='%23000' d='M15.563,40.836c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293l15-15c0.391-0.391,0.391-1.023,0-1.414l-15-15c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l14.293,14.293L15.563,39.422C15.172,39.813,15.172,40.446,15.563,40.836z'/></svg>") no-repeat 50%;
+  pointer-events: none;
+}
+
+.imgNav {
+  /* extremos da pista (1ª/última foto do hover): sem wrap, a seta não tem para onde ir. */
+  /* `visibility` em vez de `opacity` para não brigar com a regra de revelar no hover. */
+}
+
+.imgNav:disabled {
+  visibility: hidden;
+}
+
+.imgZone:hover .imgNav {
+  opacity: 1;
+}
+
+.imgNavPrev {
+  left: 8px;
+}
+
+.imgNavPrev::before {
+  transform: rotate(180deg);
+}
+
+.imgNavPrev {
+  /* aponta para a esquerda */
+}
+
+.imgNavNext {
+  right: 8px;
+}
+
+/* ── Dots do carrossel (prop imageDots — só página de categoria, só MOBILE) ── */
+/* Barras largas dividindo o card em partes IGUAIS: cada botão é `flex: 1 1 0` num flex */
+/* row de largura total, então N fotos = N barras de 100/N% (dinâmico, sem cálculo em JS). */
+/* O botão é a área de toque (≥24px de altura — WCAG 2.5.8 AA); a barra visível é o span. */
+
+.imgDots {
+  display: none;
+  /* desktop: continua com as setas de hover */
+  position: absolute;
+  z-index: 3;
+  /* acima do <Link>/imagem, igual às setas */
+  /* ocupa 100% da largura do card (sem recuo lateral), como pedido */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  gap: 0;
+  /* respiro entre as barras (o flex:1 divide o restante igualmente) */
+  align-items: center;
+}
+
+.imgDot {
+  flex: 1 1 0;
+  /* divide o espaço igualmente até 100% do card */
+  min-width: 0;
+  display: flex;
+  align-items: flex-end;
+  min-height: 24px;
+  /* alvo de toque (a barra visível tem 3px) */
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.imgDotBar {
+  display: block;
+  width: 100%;
+  height: 4px;
+  /* inativo/ativo derivados do texto do card (contrastam em qualquer fundo) */
+  background-color: hsla(0,0%,52.9%,.1294117647);
+  transition: background 0.18s ease;
+}
+
+.imgDotActive .imgDotBar {
+  background: var(--shelf-text, var(--text-primary-color, #212721));
+}
+
+@container (max-width: 960px) {
+  .imgDots {
+    display: flex;
+  }
+
+/* dentro do card COM dots, as setas somem no mobile (os dots as substituem); cards sem */
+/* a prop `imageDots` (vitrines) seguem intactos. */
+
+  .imgZoneDots .imgNav {
+    display: none;
+  }
+
+/* Mesma troca em QUALQUER ponteiro sem hover, mesmo largo (iPad em portrait ≥1024px): */
+/* lá a camada de hover nunca aparece, então as setas — que navegam justamente essa */
+/* camada — não teriam efeito visível. Quem navega no touch são os dots + swipe, que */
+/* mexem na foto da base. */
+
+}
+
+@media (hover: none) {
+  .imgDots {
+    display: flex;
+  }
+
+  .imgZoneDots .imgNav {
+    display: none;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imgNav, .imgDotBar {
+    transition: none;
+  }
+
+/* flag "Novidade" — texto puro sobre a imagem (origem SEM fundo) */
+
+}
+
+.flagRow {
+  position: absolute;
+  top: 16px;
+  /* metrics: flag@1280 (y card+16) */
+  left: 16px;
+  /* metrics: flag@1280 (x card+16) */
+  display: flex;
+  column-gap: 4px;
+  /* a origem empilha mais de um selo na mesma linha (wrapper-flags-shelf) */
+}
+
+.flag {
+  box-sizing: border-box;
+  display: flex;
+  /* metrics: flag@1280 (flex center) */
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: 1.5rem;
+  margin: 0;
+  padding: 0 .625rem;
+  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 12px;
+  /* metrics: flag@1280 */
+  font-weight: 400;
+  line-height: 13.2px;
+  /* metrics: flag@1280 (folha 13.2) */
+  color: var(--shelf-flag-color, var(--text-primary-color, #212721));
+  border: 1px solid color-mix(in srgb, var(--shelf-text-color, var(--text-primary-color, #212721)) 15%, transparent);
+}
+
+/* ── Wishlist (coração, canto superior direito) ──────────────────────────────── */
+
+.wishlist {
+  position: absolute;
+  top: 16px;
+  /* metrics: wishlist@1280 (top 16 da origem) */
+  right: 16px;
+  /* metrics: wishlist@1280 (right 16 da origem) */
+  box-sizing: border-box;
+  width: 21px;
+  /* metrics: wishlist@1280 (21×18) */
+  height: 18px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--shelf-wishlist-color, var(--text-primary-color, #212721));
+  cursor: pointer;
+  /* a11y: alvo de toque do coração (21×18 é pequeno) sem alterar a caixa medida */
+}
+
+.wishlist::before {
+  content: '';
+  position: absolute;
+  inset: -14px;
+}
+
+.wishlist svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Adicionar ao carrinho (canto inferior direito da imagem — SÓ mobile) ────── */
+
+.addCart {
+  position: absolute;
+  bottom: 7px;
+  right: 9px;
+  z-index: 2;
+  display: none;
+  /* desktop: oculto (o hover revela o seletor de tamanho) */
+  font-size: 0;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--shelf-icon-bg, #ffffff);
+  border-radius: 50%;
+  cursor: pointer;
+  /* Ícone da sacola via ::before (SVG encodado como background-image). */
+  /* Cor fixa %238c8e8c (#8c8e8c) — currentColor não resolve em background-image. */
+}
+
+.addCart::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='15' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.748 4.252h-.235c-.783 0-1.175 0-1.492.143-.28.125-.519.328-.689.583-.192.29-.257.676-.386 1.448l-.759 4.553v.002c-.173 1.041-.26 1.562-.11 1.968.133.357.386.655.716.845.376.215.904.215 1.96.215h8.493c1.057 0 1.586 0 1.961-.216.33-.189.583-.487.715-.844.151-.406.064-.926-.109-1.967v-.003l-.76-4.553c-.128-.772-.193-1.158-.385-1.448a1.626 1.626 0 00-.689-.583c-.317-.143-.708-.143-1.491-.143h-.236m-6.504 0h6.504m-6.504 0a3.252 3.252 0 116.504 0' stroke='%238c8e8c' stroke-width='.813' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.addCart:active {
+  transform: scale(0.94);
+}
+
+.addCart:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Info (nome/SKU + preço) ─────────────────────────────────────────────────── */
+
+.infoCol {
+  display: flex;
+  /* metrics: info-col@1280 (flex column gap 11.2) */
+  flex-direction: column;
+  gap: 11.2px;
+}
+
+.nameSkuBox {
+  position: relative;
+  height: 28px;
+  /* metrics: info-col@1280 (80 = 28 + 11.2 + 40.78 — constante nos 4 vps) */
+}
+
+.nameRow {
+  /* linha do NOME (papel name-sku-wrap): colapsa no hover do card (swap). */
+  /* overflow cria BFC → as margens do h3 contam na altura (24 = 18 + 3 + 3) */
+  width: 100%;
+  overflow: hidden;
+}
+
+.name {
+  display: flow-root;
+  /* metrics: name@1280 (flow-root na origem — o hover diffa display) */
+  align-items: center;
+  /* metrics: name@1280 (computado na origem) */
+  min-height: 18px;
+  /* metrics: name@1280 (rect.h 18 medido; 18 + m 3/3 = linha de 24) */
+  margin: 3px 0;
+  /* metrics: name@1280 (m 3/0) */
+  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 14px;
+  /* metrics: name@1280 */
+  font-weight: 400;
+  line-height: 16.1px;
+  /* metrics: name@1280 */
+  letter-spacing: 0.5008px;
+  /* metrics: name@1280 */
+  text-align: left;
+  /* metrics: name@1280 */
+  color: var(--shelf-text-color, var(--text-primary-color, #212721));
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ── Seletor de tamanho/SKU (revelado no hover do card) ──────────────────────── */
+
+.skuRow {
+  /* dentro do nameSkuBox (position relative): substitui a linha do nome no hover */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  /* metrics-hover: sku-row@1280 (300×24) */
+  display: none;
+  /* repouso: oculto (origem: display none → flex no hover) */
+  justify-content: flex-start;
+  /* metrics-hover: sku-row@1280 */
+  align-items: flex-start;
+  column-gap: 4px;
+  /* metrics-hover: sku-row@1280 (gap 4 entre chips) */
+}
+
+.skuChip {
+  box-sizing: border-box;
+  display: flex;
+  /* metrics-hover: sku-chip@1280 (flex center) */
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  /* metrics-hover: sku-chip@1280 (31×24 p/ 2 caracteres) */
+  padding: 4px;
+  /* metrics-hover: sku-chip@1280 (p 4) */
+  border: 1px solid rgba(33, 39, 33, 0.12);
+  /* metrics-hover: sku-chip@1280 (repouso 0.12) */
+  border-radius: 4px;
+  /* metrics-hover: sku-chip@1280 */
+  background: none;
+  /* stack de SISTEMA da origem (tachyons default) — não é Jost/Fabriga */
+  font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
+  font-size: 14px;
+  /* metrics-hover: sku-chip@1280 */
+  font-weight: 600;
+  line-height: 16.1px;
+  /* metrics-hover: sku-chip@1280 */
+  letter-spacing: 0.5008px;
+  text-decoration: none;
+  color: var(--shelf-text-color, var(--text-primary-color, #212721));
+  transition: 0.4s;
+  /* metrics-hover: sku-chip@1280 (transition 0.4s) */
+  cursor: pointer;
+  /* hover REAL da origem: borda 0.12 → sólida */
+}
+
+.skuChip:hover:not(:disabled) {
+  border-color: rgb(33, 39, 33);
+  /* metrics: hover sku-chip (border rgba 0.12 → sólida) */
+}
+
+.skuChip {
+  /* sem SKU disponível → não clicável (mantém o visual; só troca o cursor) */
+}
+
+.skuChip:disabled {
+  cursor: default;
+}
+
+.skuChip {
+  /* enquanto adiciona ao carrinho */
+}
+
+.skuChip[data-adding] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* swap nome ↔ SKU no hover do card (igual à origem: display puro) */
+/* // Só onde existe hover REAL, pelo mesmo motivo da 2ª foto lá em cima: em toque o */
+/* `:hover` cola depois do tap, e encostar o dedo num produto abria a régua de */
+/* tamanhos embaixo do card — comportamento que a origem não tem. No mobile quem */
+/* abre os tamanhos é o botão da sacola, que monta a folha (`.sheet*`, SizeCartModal06). */
+/* `:not([data-soldout])` — produto esgotado não tem hover: sem a régua de tamanhos (que */
+/* nem é renderizada lá) e, principalmente, sem esconder o nome, senão o card ficaria só */
+/* com o véu ao passar o mouse. */
+
+@media (hover: hover) {
+  .card:not([data-soldout]):hover .name {
+    display: none;
+    /* metrics: hover card (h3 flow-root → none) */
+  }
+
+  .card:not([data-soldout]):hover .skuRow {
+    display: flex;
+    /* metrics: hover card (linha SKU none → flex) */
+  }
+
+/* ── Preço + parcelas ────────────────────────────────────────────────────────── */
+
+}
+
+.priceWrap {
+  display: flex;
+  /* metrics: price-wrap@1280 (flex column, sem gap, 2 filhos) */
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.price {
+  display: flex;
+  /* metrics: price@1280 (flex column gap 4) */
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  /* metrics: price@1280 (gap 4 — slot vazio do preço "de" + gap = 22.4 de altura) */
+  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 16px;
+  /* metrics: price@1280 (folha 16/400) */
+  font-weight: 400;
+  line-height: 18.4px;
+  /* metrics: price@1280 */
+  color: var(--shelf-text-color, var(--text-primary-color, #212721));
+  /* origem tem um slot VAZIO (preço "de" riscado ausente) que ocupa a 1ª posição */
+  /* do flex — com o gap 4 ele explica os 22.4 de altura (18.4 + 4) */
+}
+
+.price::before {
+  content: '';
+}
+
+.price {
+  /* com desconto, quem ocupa esse slot é o riscado (.listPrice) — o pseudo sai de cena */
+  /* para não somar uma 3ª linha e empurrar o preço para baixo */
+}
+
+.price[data-has-list-price]::before {
+  content: none;
+}
+
+/* Preço "de" riscado (1ª linha do .price quando há desconto — o mesmo dado que gera o */
+/* selo "OFF x%"). Fonte menor que o preço de venda, mas line-height 18.4 igual ao slot */
+/* vazio que ele substitui: assim card com e sem desconto têm exatamente a mesma altura. */
+
+.listPrice {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18.4px;
+  text-decoration: line-through;
+  color: rgb(130, 130, 130);
+  /* mesmo cinza estrutural da origem do "ou"/parcelas */
+}
+
+.priceLine {
+  white-space: nowrap;
+}
+
+/* "ou" menor no fim da linha do preço (origem: "R$ 429,90 ou" / "10X de R$ 42,99") */
+
+.priceOu {
+  font-size: 12px;
+  /* metrics: price@1280 (span "ou" 12/500, 13.3 de largura) */
+  font-weight: 500;
+  line-height: 13.8px;
+  color: rgb(130, 130, 130);
+  /* cinza estrutural da origem */
+}
+
+.instRow {
+  /* strut da origem: linha de 16px/18.4 com span menor dentro (h 18.4) */
+  font-size: 16px;
+  /* metrics: price-wrap@1280 (linha das parcelas h 18.4 via strut) */
+  line-height: 18.4px;
+}
+
+.installments {
+  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 12px;
+  /* metrics: raiz@1280 (parcelas 12/500 lh 13.8) */
+  font-weight: 500;
+  line-height: 13.8px;
+  color: rgb(130, 130, 130);
+  /* cinza estrutural da origem (isento da cadeia de tema) */
+}
+
+/* a11y: respeita usuários com redução de movimento */
+
+@media (prefers-reduced-motion: reduce) {
+  .skuChip {
+    transition-duration: 0ms !important;
+  }
+
+/* ── Mobile: exibe o botão de adicionar ao carrinho ─────────────────────────── */
+
+}
+
+@container (max-width: 960px) {
+  .addCart {
+    display: inline-flex;
+  }
+
+/* ── ≤1199: tipografia menor do nome (mudança da origem em 1024→1280) ────────── */
+
+}
+
+@container (max-width: 1199px) {
+  .name {
+    min-height: 0;
+    /* metrics: name@1024 (h 13.8 = linha exata) */
+    margin: 0;
+    /* metrics: name@1024 (sem margens) */
+    font-size: 12px;
+    /* metrics: name@1024 */
+    line-height: 13.8px;
+    /* metrics: name@1024 */
+  }
+
+/* ── Folha de tamanho + quantidade (SizeCartModal06 — botão de sacola do mobile) ─ */
+/* Renderizada por portal em document.body (fora do carrossel), ancorada na base da */
+/* viewport. Visual da origem: X no topo, "Tamanhos:" + guia, chips, seletor de */
+/* quantidade centralizado e CTA pill em largura cheia. */
+
+}
+
+.sheetOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  /* acima do minicart/overlays nativos do FastStore */
+  display: flex;
+  align-items: flex-end;
+  /* folha ancorada na base (bottom sheet) */
+  justify-content: center;
+  background: rgba(3, 4, 78, 0.5);
+  /* #03044e a 50% — overlay translúcido (isento da cadeia de tema) */
+  /* arrastar sobre o overlay não rola a página atrás (2ª barreira da trava) */
+  touch-action: none;
+  overscroll-behavior: contain;
+}
+
+.sheet {
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  touch-action: pan-y;
+  /* a folha em si rola (quando o conteúdo transborda) */
+  overscroll-behavior: contain;
+  /* sem encadear a rolagem para a página atrás */
+  padding: 0 24px calc(24px + env(safe-area-inset-bottom, 0px));
+  background: #ffffff;
+  /* superfície de papel do modal (neutro estrutural, como o guia da PDP) */
+  animation: sheetUp 0.24s ease;
+}
+
+.sheetHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 56px;
+  margin-right: -10px;
+  /* alinha o ícone de 24px a ~24 da borda da folha */
+}
+
+.sheetClose {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  /* alvo de toque */
+  height: 44px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: color-mix(in srgb, var(--shelf-text-color, var(--text-primary-color, #212721)) 55%, transparent);
+  cursor: pointer;
+}
+
+.sheetTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.sheetTitle {
+  margin: 0;
+  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 17.25px;
+  color: var(--shelf-text-color, var(--text-primary-color, #212721));
+}
+
+.sheetGuide {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  /* alvo de toque */
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 17.25px;
+  color: var(--shelf-text-color, var(--text-primary-color, #212721));
+  cursor: pointer;
+}
+
+.sheetSizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sheetChip {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  /* alvo de toque (o chip da origem tem ~40; 44 atende o gate de a11y) */
+  height: 44px;
+  padding: 0 6px;
+  border: 1px solid color-mix(in srgb, var(--shelf-text-color, var(--text-primary-color, #212721)) 12%, transparent);
+  border-radius: 4px;
+  background: none;
+  /* mesma stack de SISTEMA do chip de hover do card (tachyons default da origem) */
+  font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 16.1px;
+  color: var(--shelf-text-color, var(--text-primary-color, #212721));
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.sheetChip:hover:not(:disabled) {
+  border-color: var(--shelf-text-color, var(--text-primary-color, #212721));
+}
+
+.sheetChip {
+  /* selecionado: preenchido (mesmo padrão do chip da PDP 06) */
+}
+
+.sheetChip[data-selected] {
+  border-color: var(--shelf-text-color, var(--text-primary-color, #212721));
+  background: var(--shelf-text-color, var(--text-primary-color, #212721));
+  /* texto sobre preenchimento ESCURO → token auto-derivado p/ superfície escura */
+  color: var(--shelf-chip-text, var(--text-color-secundary, #ffffff));
+}
+
+.sheetChip {
+  /* tamanho sem SKU no slugsMap → não selecionável (nunca adiciona outro tamanho) */
+}
+
+.sheetChip[data-unavailable] {
+  opacity: 0.4;
+}
+
+.sheetChip:disabled {
+  cursor: default;
+}
+
+.sheetQty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.sheetQtyBtn {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  /* alvo de toque */
+  height: 44px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: color-mix(in srgb, var(--shelf-text-color, var(--text-primary-color, #212721)) 55%, transparent);
+  cursor: pointer;
+}
+
+.sheetQtyBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.sheetQtyInput {
+  box-sizing: border-box;
+  width: 64px;
+  height: 44px;
+  padding: 0 0 0 8px;
+  border: none;
+  background: transparent;
+  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 16px;
+  /* 16 evita o zoom automático do iOS ao focar o campo */
+  font-weight: 500;
+  text-align: center;
+  color: var(--shelf-text-color, var(--text-primary-color, #212721));
+}
+
+.sheetAdd {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 55px;
+  /* mesmo CTA mobile da PDP 06 */
+  margin-top: 8px;
+  padding: 1px 6px;
+  border: none;
+  border-radius: 120px;
+  background: var(--shelf-btn-bg, var(--background-primary-color, #212721));
+  color: var(--shelf-btn-text, var(--text-color-base, #ffffff));
+  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 17.25px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  text-transform: uppercase;
+  cursor: pointer;
+  /* sem tamanho escolhido (ou adição em voo): cinza derivado do TEXTO da seção, */
+  /* que contrasta em qualquer tema — nunca um cinza fixo */
+}
+
+.sheetAdd:disabled {
+  background: color-mix(in srgb, var(--shelf-text-color, var(--text-primary-color, #212721)) 72%, transparent);
+  color: var(--shelf-btn-disabled-text, var(--text-color-secundary, #ffffff));
+  cursor: not-allowed;
+}
+
+/* desktop (a folha só é alcançável pelo botão mobile, mas o resize não pode quebrá-la) */
+
+@container (min-width: 961px) {
+  .sheetOverlay {
+    align-items: center;
+  }
+
+  .sheet {
+    max-width: 420px;
+    border-radius: 8px;
+    animation: none;
+  }
+
+/* ── Guia de medidas (dormente — só renderiza com imagem por produto) ────────── */
+
+}
+
+.guideOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  /* acima da folha */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 4, 78, 0.5);
+  /* mesmo overlay da folha */
+}
+
+.guideModal {
+  position: relative;
+  width: 600px;
+  max-width: 92vw;
+  background: #ffffff;
+}
+
+.guideClose {
+  appearance: none;
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--shelf-text-color, var(--text-primary-color, #212721));
+  cursor: pointer;
+}
+
+.guideImg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet {
+    animation: none;
+  }
+
+  .sheetChip {
+    transition: none;
+  }
+
+/* Flag menor no phone (origem muda entre 375 e 768 — breakpoint ~640 da loja, */
+/* mesma exceção documentada do BannerGrid06/BannerMain06) */
+
+}
+
+@container (max-width: 639px) {
+  .flag {
+    height: 18.97px;
+    /* metrics: flag@375 (53×19) */
+    padding: 0 5px;
+    /* metrics: flag@375 (p 0/5) */
+    font-size: 10px;
+    /* metrics: flag@375 */
+    line-height: 11px;
+    /* metrics: flag@375 (folha 11) */
+    background-color: var(--shelf-flag-bg, var(--background-primary-color, #000000));
+    color: var(--shelf-flag-text, var(--text-color-base, #ffffff));
+  }
+
+}
+
+@keyframes sheetUp {
+  from { transform: translateY(100%); }
+  to { transform: none; }
+}

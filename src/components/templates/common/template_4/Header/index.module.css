@@ -22,7 +22,7 @@
   --h4-t-mid: 300ms ease;
   --h4-container: 1280px;
   position: relative;
-  font-family: var(--header-font, var(--font-secundary, "Inter", system-ui, sans-serif));
+  font-family: var(--header-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
   font-size: 15px;
   line-height: 1.7;
   color: var(--header-text, var(--text-color-base, #0a0a0a));

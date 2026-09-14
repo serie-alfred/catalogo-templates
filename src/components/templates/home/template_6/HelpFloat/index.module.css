@@ -1,0 +1,279 @@
+/* Espelha organisms/HelpFloatButton06 (faststore.starter). SCSS sem
+   aninhamento nem `$var`, então a conversão é só comentário e `@media` de
+   largura → `@container` (o `prefers-reduced-motion` continua `@media`).
+
+   A barra é `position: fixed` ancorada no topo/direita: dentro do iframe do
+   canvas ela se comporta como na loja, e a caixa é comparável entre os dois
+   lados porque a âncora é o topo, não o centro. Por isso também o breakpoint
+   continua `@media` — ver o comentário mais abaixo. */
+
+/* ── HelpFloatButton06 — barra flutuante de ajuda (borda direita) ── */
+/* FIDELIDADE: números de `_bases/HelpFloatButton06/metrics.md` (4 vps), anotados */
+/* com `// metrics:`. Recolhida por padrão (mostra ~40px de ícones); expande no */
+/* toggle. Validação: `yarn fidelity HelpFloatButton06 --neutral`. */
+
+/* Largura dirigida pelo conteúdo: a barra tem sempre o mínimo que cabe o maior */
+/* rótulo/texto, sem ellipsis. Por isso o estado recolhido usa `transform` (relativo */
+/* à própria largura) em vez de um `right` negativo fixo — que só funcionaria com */
+/* a largura travada em 190.56px. */
+.bar {
+  position: fixed;
+  top: 160px;  /* origem: barra a ~160px do topo */
+  right: 0;
+  z-index: 900;
+  box-sizing: border-box;
+  width: fit-content;
+  min-width: 40px;  /* nunca menor que a coluna de ícones visível */
+  transform: translateX(calc(100% - 40px));  /* recolhida: deixa 40px (ícones) à vista */
+  transition: transform 0.3s ease;
+}
+
+.bar.open {
+  transform: translateX(0);  /* expandida: revela os rótulos */
+}
+
+/* Aba do WhatsApp — SÓ mobile, exatamente como na origem, que tem dois controles
+   distintos: esta aba (fora da barra, com o ícone do WhatsApp) e o `.header06`
+   abaixo (dentro da barra, com o chevron, que serve para fechar). No desktop
+   existe só o header06 — por isso a aba nasce oculta aqui. */
+.mobileTab {
+  display: none;
+}
+
+/* ── Cabeçalho "ajuda" (branco, toggle) ──────────────────────────────────────── */
+.header06 {
+  box-sizing: border-box;
+  display: flex;  /* metrics: header06@1280 (flex, align center, SEM gap) */
+  align-items: center;
+  width: 100%;  /* acompanha a largura da barra (definida pelo maior item) */
+  height: 40px;  /* metrics: header06@1280 (altura 40) */
+  padding: 10px 12px;  /* metrics: header06@1280 (pt 10, pl 12) */
+  border: 0;
+  background: var(--help-header-bg, #ffffff);  /* cabeçalho branco (origem) */
+  color: var(--help-header-text, var(--text-primary-color, #212721));
+  cursor: pointer;
+}
+
+.chevron {
+  flex: none;
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;  /* espaço até "ajuda" (via margin, não gap — header06 gap = normal) */
+  transition: transform 0.3s ease;
+}
+
+.bar.open .chevron {
+  transform: rotate(180deg);  /* aponta p/ fora quando expandida */
+}
+
+.header06Label {
+  font-family: var(--help-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 14px;  /* recon: "ajuda" 14px */
+  font-weight: 400;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* ── Lista de itens ──────────────────────────────────────────────────────────── */
+.list {
+  box-sizing: border-box;
+  display: flex;  /* metrics: list@1280 (flex column) */
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  box-sizing: border-box;
+  display: flex;  /* metrics: item@1280 (flex COLUMN, align stretch) */
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 41px;  /* metrics: item@1280 (41 de altura); cresce quando a aba abre */
+  padding: 10px 12px;  /* metrics: item@1280 (pt 10 / pl 12) */
+  line-height: 15.68px;  /* metrics: item@1280 (folha herdada 15.68) */
+  background: var(--help-bg, var(--background-secundary-color, #37343b));
+  /* Modo FIEL (1 nível): #828282 sobre o #37343b da barra não fecha como */
+  /* mix de --help-text em percentual nenhum (dá 0.375/0.384/0.362 nos três */
+  /* canais). Derivar mudaria a cor; var component-scoped deixa editável. */
+  border-bottom: .5px solid var(--help-divider, #828282);
+}
+
+.itemLink {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  text-decoration: none;
+  line-height: 15.68px;  /* metrics: item/icon@1280 (o <button> reseta p/ normal → fixa aqui) */
+  color: var(--help-text, var(--text-color-secundary, #ffffff));
+  cursor: pointer;
+}
+
+.icon {
+  display: block;
+  flex: none;  /* com o rótulo visível ao lado, o ícone não pode encolher (origem: shrink 1) */
+  width: 20px;  /* metrics: icon@1280 (20×20) */
+  height: 20px;
+  margin-right: 8px;  /* metrics: icon@1280 (mr 8) */
+  object-fit: contain;
+}
+
+/* seta de "expandir" da aba (origem: 2ª svg no item de atendimento) */
+.infoArrow {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-left: auto;
+  transition: transform 0.3s ease;
+}
+
+.infoArrowOpen {
+  transform: rotate(90deg);  /* aba aberta: seta aponta p/ baixo */
+}
+
+/* ── Collapse da aba (ex.: horário de atendimento) ───────────────────────────── */
+/* O painel é montado/desmontado no React em vez de escondido por `max-height: 0`: */
+/* conteúdo apenas recortado por overflow continuaria contando na largura intrínseca */
+/* da barra, deixando-a larga mesmo com a aba fechada. */
+.tabPanel {
+  animation: tabIn 0.2s ease;
+}
+
+@keyframes tabIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.tabText {
+  margin: 10px 0 0;
+  padding-top: 10px;
+  font-family: var(--help-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.35;
+  white-space: nowrap;  /* a barra cresce p/ caber o texto (sem quebra, como na origem) */
+  color: var(--help-text, var(--text-color-secundary, #ffffff));
+}
+
+/* rótulo visível ao lado do ícone — é o que a barra expandida revela (`.bar.open`). */
+/* A barra recolhida já o esconde fora do viewport (translateX), então não há motivo */
+/* para ocultá-lo no CSS. Sem ellipsis: a barra cresce até caber o texto inteiro. */
+.itemLabel {
+  font-family: var(--help-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 15.68px;  /* metrics: item@1280 (folha herdada 15.68) */
+  white-space: nowrap;
+}
+
+/* a11y: respeita redução de movimento */
+@media (prefers-reduced-motion: reduce) {
+  .bar,
+  .chevron,
+  .infoArrow { transition: none !important; }
+  .tabPanel { animation: none !important; }
+}
+
+/* ── Phone (≤767): cabeçalho vira aba vertical estreita (origem @375: 36.92×90) ── */
+/* Mobile — replica o mecanismo da origem (regras extraídas do CSS do tema em
+   produção). A barra sai INTEIRA da tela (`translate(101%)`) e quem continua à
+   vista é a aba, pendurada na borda esquerda dela por `translateX(-100%)`.
+   Ao abrir, a barra desliza e só DEPOIS a aba se recolhe, graças ao
+   `transition-delay` de 0.4s — que é igual à duração do deslize. Ao fechar, o
+   caminho é o inverso.
+
+     origem, barra @<=480px : transform: translate(101%)
+     origem, aba   @<=480px : position:absolute; top:0; left:.0625rem;
+                              height:5.625rem; padding:0; flex-direction:column;
+                              transform:translateX(-100%); transition:.4s ease
+     origem, aba aberta     : transform: translateX(100%); transition-delay:.4s
+
+   O corte da origem é 480px — o nosso era 767px, o que aplicava o layout de
+   celular também em tablet. */
+/* `@media`, não `@container`, e é o único componente em que isso é o certo: a
+   barra é `position: fixed`, ancorada na VIEWPORT — não tem coluna cujo
+   tamanho consultar, e um `@container` mediria um ancestral que não governa
+   nada aqui. Dentro do iframe do canvas a viewport é 1440/375, que é
+   exatamente o que este breakpoint quer saber. */
+@media (max-width: 480px) {
+  .bar {
+    min-width: 0;
+    transform: translateX(101%);
+    /* 0.4s só aqui: o delay da aba abaixo é 0.4s e precisa casar com a duração do */
+    /* deslize, senão sobra um vão parado entre as duas etapas. O desktop segue */
+    /* com os 0.3s originais. */
+    transition: transform 0.4s ease;
+  }
+
+  .bar.open { transform: translateX(0); }
+
+  /* A aba do WhatsApp fica FORA da barra: `translateX(-100%)` a pendura na borda
+     esquerda, então ela continua na tela mesmo com a barra deslocada para fora.
+     Ao abrir, ela recolhe para dentro — e só depois que a barra terminou de
+     entrar, graças ao `transition-delay` igual à duração do deslize. */
+  .mobileTab {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 1px;  /* origem: .0625rem */
+    /* origem: z-index -1. Sem isso, ao recolher (translateX(100%)) a aba entra na */
+    /* área da barra e fica POR CIMA do header06 e da lista — por ser `absolute`, ela */
+    /* pinta acima dos irmãos estáticos. Com -1 ela desliza por trás do conteúdo, */
+    /* e no estado recolhido segue visível porque aí está fora da caixa da barra. */
+    z-index: -1;
+    width: 36.92px;  /* origem: aba 37×90 @375 */
+    height: 90px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0;
+    border: 0;
+    background: var(--help-bg, var(--background-primary-color, #212721));
+    color: var(--help-text, var(--text-color-base, #ffffff));
+    cursor: pointer;
+    transform: translateX(-100%);
+    transition: transform 0.4s ease;
+  }
+
+  .bar.open .mobileTab {
+    transform: translateX(100%);
+    transition-delay: 0.4s;
+  }
+
+  .mobileTabLabel {
+    /* rótulo vertical, como na origem (que usa rotate(-90deg)) */
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  /* O header06 segue DENTRO da barra e é o controle de fechar no mobile — é a
+     "barrinha de ajuda" que a origem mostra ao abrir: chevron E a palavra "ajuda",
+     na horizontal, igual ao desktop (medido na origem: 191×40, texto "ajuda").
+     Declarado explicitamente porque a versão anterior deste bloco virava o header06
+     numa aba vertical e escondia o rótulo. */
+  .header06 {
+    position: relative;  /* fica acima da aba, que está em z-index -1 */
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    height: 40px;
+    padding: 10px 12px;
+  }
+
+  .header06Label {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+
+  .chevron { transform: none; }
+  .bar.open .chevron { transform: rotate(180deg); }
+}

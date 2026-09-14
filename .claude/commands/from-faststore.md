@@ -14,9 +14,35 @@ Rodar `/from-faststore <Nome>` já implica, por padrão, sem o dev pedir:
 4. **Estrutura espelha o slot.** Use o(s) template(s) já existente(s) do mesmo slot como referência de wrapper/estrutura (ex.: `product/template_1/ProductInfo`).
 5. **Numeração automática do `template_N`** = próximo número livre do slot no catálogo (passo 2).
 6. **Bloco colocável (organism) vs peça (molecule):** se a origem é meio-bloco que depende de um irmão (ex.: `ProductInfo02` é só a coluna de info, ao lado da galeria), migre o **organism** que compõe o bloco inteiro e use o `path` dele (passo 2).
-7. **Logo nunca fixo.** Se o componente migrado (Header/Footer) tem logo da marca de origem (SVG inline, `<img>` com src fixo, wordmark hardcoded), **NÃO** traga esse logo para o preview. Troque por logo dinâmico via `useLayout()`, com fallback de texto fixo `"SERIE//A"` — exatamente o esquema de `Header01`/`Header03`/`Header04` (passo 3).
+7. **A marca da origem não vem junto — nem o logo, nem o CONTEÚDO.** A regra do logo (abaixo)
+   cobria só o logo, e em 11/09 apareceu que o catálogo mostrava, para prospects, o CNPJ e a
+   razão social de um cliente (CNPJ + nome empresarial completo, literais) e da parceira de
+   plataforma, além de "Clube VIP <marca>" e 12 descrições de seção com nome de cliente.
+   Ao migrar, troque: **nome de marca em copy** → genérico ("Clube VIP", "curadoria
+   especializada"); **razão social e CNPJ** → `Sua Loja Ltda` / `00.000.000/0001-00`;
+   **URL de CDN de cliente** → `placehold.co`; **`description`/`title` do `LayoutItem`** →
+   descreve o DESENHO, nunca de quem ele é. Os papéis afetados entram no `textoLivre` do par
+   no `2-fidelidade` — é divergência deliberada, e o portão precisa saber disso.
+8. **Logo nunca fixo.** Se o componente migrado (Header/Footer) tem logo da marca de origem (SVG inline, `<img>` com src fixo, wordmark hardcoded), **NÃO** traga esse logo para o preview. Troque por logo dinâmico via `useLayout()`, com fallback de texto fixo `"SERIE//A"` — exatamente o esquema de `Header01`/`Header03`/`Header04` (passo 3).
 
 Decisões que **continuam exigindo o dev** (pergunte, não invente): zona temável com valor cru/token interno (passo 1, "quando PARAR"); `selection`/`pagina` quando o nome não casa a tabela (passo 2); `platforms` além de `'VTEX'`.
+
+## 0.5. O componente RENDERIZA no palco? (antes de qualquer linha de código)
+
+`/dev-fidelity?component=<Nome>` com zero nós não dá 1:1 para provar. Seis componentes da
+leva de 11/09 caíram aí, cada um por um motivo, e a saída **nunca** foi mudar o
+comportamento do componente:
+
+| Sintoma | Saída |
+|---|---|
+| conteúdo é 100% do CMS | fallback de mock DENTRO do componente, se ele já aceita mock |
+| o componente RECUSA mock de propósito (`MOCK_ENABLED` é true em produção) | `PROPS_DE_PALCO` no `DevFidelityStage` |
+| `usePDP()`/`usePLP()` volta null fora da rota | `mock.ts` PRÓPRIO do sufixo + fallback por `MOCK_ENABLED` |
+| o componente se acha "escopado" pelo caminho da página | prop de palco que zera o escopo (ex.: `collectionUrl: '/'`) |
+| interior é de terceiro (widget) | desenhe a CASCA; não fabrique dado de comércio |
+
+Regra que vale para todos: o palco **não** é alcançado pelo grafo de manifests, então nada
+que esteja nele chega ao tema de cliente nenhum.
 
 ## 0. Resolver e ler a origem
 
@@ -101,6 +127,17 @@ O catálogo usa **CSS plano** (CSS Modules `.css`, PostCSS), não SCSS. Inverter
 
 - **Desaninhar:** `.pai { .filho {} }` → `.pai .filho {}` (reconstrua a cadeia de ancestrais).
 - **`&`:** `&:hover` → repetir o seletor pai (`.x:hover`); idem `&::before`, `&:last-of-type`.
+- **Se alguma `@container` mirar a PRÓPRIA raiz do componente, acrescente um wrapper.**
+  Um elemento não consulta o próprio container: com `container-type` na raiz, toda regra
+  `@container { .raiz { … } }` nunca casa — e falha em silêncio, porque o CSS é válido.
+  Mordeu duas vezes na leva de 11/09 (`BannerSide06` e `BannerGrid06`, este último com 32px
+  de diferença em 13 caixas). O conserto é um `<div>` nu com `container-type: inline-size`
+  por fora, e a raiz original volta a ser um filho comum. Vale sempre que a origem aplica o
+  breakpoint na própria raiz (`.wrapper`, `.row`, `.section`…).
+- **`@media` → `@container`, com UMA exceção:** componente `position: fixed` (overlay
+  ancorado na viewport, tipo `HelpFloatButton06`) mantém `@media`. Ele não tem coluna cujo
+  tamanho consultar, e um `@container` mediria um ancestral que não governa nada ali; dentro
+  do iframe do canvas a viewport já é 1440/375.
 - **`@media` → `@container`:** extraia os aninhados para o topo (seletor completo desaninhado) e troque `@media (min/max-width: …)` por `@container (min/max-width: …)` — o preview roda num container com `container-type: inline-size` na raiz, então é a largura do componente (desktop/mobile do gerador) que importa, não a da viewport. Mantenha os mesmos breakpoints do original.
 - **Eliminar SCSS-only:** variáveis `$x`, `@mixin`/`@include`/`@extend`, e funções (`darken()`, `lighten()`, `color-mix()` se o alvo não suportar) → resolver para CSS plano ou hex equivalente. Se aparecer algo que não dá para resolver, avise.
 - **MANTER `var(--…)` verbatim** — é o que faz o preview refletir o tema e os overrides por instância.
@@ -111,6 +148,15 @@ O catálogo usa **CSS plano** (CSS Modules `.css`, PostCSS), não SCSS. Inverter
   propósito**, para que qualquer classe própria do componente vença sem esforço. **Não prefixe
   seletores nem use `!important` por causa de reset**: escreva o CSS normalmente. (A orientação
   anterior, de prefixar com a classe raiz para chegar a (0,2,0), era para a regra antiga.)
+- **Peça NATIVA do FastStore no meio do componente? o CSS do core vem junto.** Quando a
+  origem usa `[data-fs-button]`, `[data-fs-rating]`, `[data-fs-sku-selector]`,
+  `[data-fs-quantity-selector]` etc., o SCSS do componente só ajusta o que ele quer mudar —
+  a CAIXA vem do CSS do core, que no catálogo não existe. Medido na leva de 11/09:
+  `[data-fs-button-wrapper]` tem `border: 2px solid transparent` (4px de altura e de
+  largura), `padding: 4px 16px` e tipografia 16/600/16; `[data-fs-rating]` e
+  `[data-fs-sku-selector]` trazem a própria caixa. Re-adicione o pedaço necessário num bloco
+  marcado `/* o que, na rota real, vem do CSS do CORE do FastStore */`, com o número que o
+  portão mediu — e NÃO invente: leia o valor computado na origem (`getComputedStyle`).
 - Referência de saída fiel: `src/components/templates/common/template_1/Header/index.module.css` e `product/template_3/ProductInfo/index.module.css` (componente grande, com o fix do reset).
 
 ## 5. Derivar o `variablesSchema` (núcleo)

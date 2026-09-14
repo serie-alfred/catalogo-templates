@@ -405,7 +405,7 @@ const Footer = () => {
             <div className={styles.bottomRow}>
               <div className={styles.footerCopyright}>
                 <span>
-                  TRAY TECNOLOGIA EM ECOMMERCE LTDA - CNPJ: 08.844.842/0001-31
+                  SUA LOJA LTDA - CNPJ: 00.000.000/0001-00
                   © Todos os direitos reservados. Os preços exibidos nessa loja
                   são fictícios e servem apenas para demonstração Tecnologia
                   TrayCommerce

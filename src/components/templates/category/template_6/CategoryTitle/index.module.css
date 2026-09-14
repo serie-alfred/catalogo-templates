@@ -1,0 +1,89 @@
+/* Espelha organisms/CategoryTitle06 (faststore.starter): `$vars` resolvidas
+   inline, `@media` inline extraídos para blocos `@container` no fim.
+   `.root` não existe na origem — é o wrapper que carrega o `container-type`,
+   porque as queries miram a própria `.categoryTitle06`. */
+
+.root {
+  container-type: inline-size;
+}
+
+/* CategoryTitle06 — título + contagem da PLP (06).
+   Ground truth: título 24/700 lh27.6 capitalize (metrics plp-title@1280); contagem
+   14/500 uppercase à direita na mesma linha (metrics plp-count; origem stretch 50/50).
+   Cores/fontes na cadeia de 3 níveis. */
+
+
+.categoryTitle06 {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+  margin: 0 auto;
+  box-sizing: border-box;
+  font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+
+}
+
+.title {
+  margin: 16px 0;  /* metrics: plp-title margin@1280 */
+  /* Só o <h1> usa League Spartan; a contagem ao lado segue no var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif)) do container. */
+  /* Token já definido em src/themes/custom-theme.scss e a face é carregada em */
+  /* src/fonts/WebFonts.tsx (pesos 300-900, então o 700 abaixo existe). */
+  font-family: var(--plp-title-font, var(--font-league-spartan, 'League Spartan', sans-serif));
+  font-size: 24px;  /* metrics: plp-title 24/700 */
+  font-weight: 700;
+  line-height: 27.6px;
+  text-transform: capitalize;
+  color: var(--plp-text, var(--text-primary-color, #212721));
+}
+
+/* Serve as DUAS posições: a linha do título e a linha da trilha (quando
+   `countInBreadcrumb` está ligado, a contagem é injetada no <nav data-role="breadcrumb06">,
+   que é space-between). `flex-shrink: 0` + `nowrap` para não quebrar ao lado de trilhas
+   longas no mobile. */
+.count {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: .1875rem;
+  white-space: nowrap;
+  /* #212721 É o Nível 3 de var(--plp-text, var(--text-primary-color, #212721)) — o hex fixo fazia a contagem ignorar o tema */
+  color: var(--plp-text, var(--text-primary-color, #212721));
+  opacity: .64;
+  font-size: .875rem;
+  font-weight: 400;
+}
+
+/* QUAL CÓPIA APARECE — desktop: na linha da trilha; mobile: de volta na linha do título,
+   como no ground truth da origem (título e contagem 50/50 na mesma linha).
+   As duas cópias existem no DOM e quem decide é o CSS: sem JS, sem matchMedia e sem flash
+   na hidratação. `display: none` também remove do a11y tree, então só uma é anunciada.
+   Precisam vir DEPOIS de `.count` (mesma especificidade → vence a ordem no arquivo). */
+
+@container (max-width: 960px) {
+  .categoryTitle06 {
+    padding-left: 20px; padding-right: 20px; padding: 1rem; padding-bottom: 0;
+  }
+}
+
+@container (min-width: 961px) and (max-width: 1247px) {
+  .categoryTitle06 {
+    padding-left: 16px; padding-right: 16px;
+  }
+}
+
+@container (max-width: 960px) {
+  .countInTrail {
+    display: none;
+  }
+}
+
+@container (min-width: 961px) {
+  .countInTitle {
+    display: none;
+  }
+}

@@ -1,0 +1,240 @@
+/* Espelha molecules/BannerGrid06 (faststore.starter): blocos aninhados
+   desfeitos, `@media` de largura → `@container`. Os números vêm da captura ao
+   vivo (_bases/BannerGrid06/metrics.md) e ficam como estão. */
+
+/* ── BannerGrid06 — título + slider de 3 banner-cards ───────────── */
+/* FIDELIDADE: todo número vem de `_bases/BannerGrid06/metrics.md` (gerado da captura */
+/* ao vivo em 4 viewports) — anotado com `// metrics: <papel>@<vp>`. Validação: */
+/* `yarn fidelity BannerGrid06`. Origem troca de layout em 1024→1280 → breakpoint */
+/* padrão do repo: desktop ≥1200, empilhado ≤1199 (CLAUDE.md). */
+
+/* O wrapper externo não existe na origem, onde a raiz é a própria `.wrapper`.
+   Ele existe porque um elemento NÃO consulta o próprio container: com o
+   `container-type` na `.wrapper`, as `@container` que miram `.wrapper`
+   (o `gap: 40px` do mobile, a `margin`) nunca casavam. Medido: 32px de
+   diferença em 13 caixas. */
+.bannerGrid06Root {
+  container-type: inline-size;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 72px;  /* metrics: wrapper-col@1280 (título→slider 72) */
+   margin: 4rem auto 2rem;
+}
+
+@container (max-width: 768px) {
+  .wrapper {
+    margin: 2.5rem auto 0;
+  }
+}
+
+.titleRow {
+  display: flex;
+  justify-content: center;  /* metrics: title-row@1280 (jc center) */
+  align-items: flex-start;  /* metrics: title-row@375 (ai flex-start) */
+}
+
+.title {
+  margin: 0;
+  font-family: var(--banner-grid-font, var(--font-primary, 'Fabriga', sans-serif));
+  font-size: 24px;  /* metrics: title@1280 (folha 24px) */
+  line-height: 27.6px;  /* metrics: title@1280 (h 27.59) */
+  font-weight: 500;  /* metrics: title@1280 */
+  color: var(--banner-grid-title-color, var(--text-primary-color, #212721));
+  max-width: 120rem;
+}
+
+/* Swiper root (papel: slider) */
+.slider {
+  position: relative;
+  width: 100%;
+  display: flex;  /* metrics: slider@375 (d flex, ai center — como o sliderLayoutContainer) */
+  align-items: center;
+}
+
+.slide {
+  display: flex;  /* metrics: card@1280 (slide flex; conteúdo centrado) */
+}
+
+.slideInner {
+  display: flex;
+  justify-content: center;  /* origem: slideChildrenContainer jc center (card 101% centrado) */
+  width: 100%;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  /* metrics: card@1280 (430.92 = slide 426.66 × 1.01). É TRANSFORM na origem — não */
+  /* afeta o layout (slider mantém a altura do slide; o card "vaza" 1% visualmente). */
+  transform: scale(1.01);
+}
+
+.cardLink {
+  display: flex;  /* metrics: card-link@1280 (d flex, cobre o card) */
+  width: 100%;
+  overflow: hidden;  /* zoom do hover fica contido no card (como na origem) */
+}
+
+.cardImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 637 / 811;  /* metrics: card-img@1280 (arte 637×811 dirige a altura) */
+  object-fit: cover;
+  filter: brightness(0.8);  /* metrics: hover card-img (REPOUSO escurecido 0.8) */
+  transition: 0.4s;  /* metrics: card-img@1280 (transition da origem) */
+}
+
+/* hover REAL da origem (capturado): imagem clareia (0.8→1) e dá zoom 1.1 */
+.card:hover .cardImg {
+  transform: scale(1.1);  /* metrics: hover card-img (matrix 1.1) */
+  filter: brightness(1);  /* metrics: hover card-img */
+}
+
+.cardTextBox {
+  position: absolute;
+  /* valores AUTORAIS: o rect medido é ×1.01 pela escala do card (101 / 64.64) */
+  left: 100px;  /* metrics: card-text-box@1280 (offset esquerdo fixo, todos os viewports) */
+  bottom: 64px;  /* metrics: card-text-box@1280 (constante em todos os viewports) */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;  /* metrics: card-text-box@1280 */
+}
+
+.cardTitle {
+  margin: 0;
+  font-family: var(--banner-grid-card-font, var(--font-primary, 'League Spartan', sans-serif));
+  font-size: 24px;  /* metrics: card-title@1280 (constante em todos os viewports) */
+  line-height: 28px;  /* metrics: card-title@1280 (h 28.28) */
+  font-weight: 800;  /* metrics: card-title@1280 */
+  letter-spacing: 0.5px;  /* metrics: card-title@1280 (ls 0.5008) */
+  white-space: nowrap;  /* ao vivo o título do card é sempre uma linha */
+  color: var(--banner-grid-card-title-color, var(--text-color-secundary, #ffffff));
+}
+
+/* ── Dots (Swiper pagination — só tablet/phone; desktop tem 1 página) ────────── */
+/* container criado pelo Swiper; bullets usam .dot/.dotActive (bulletClass custom) */
+.slider :global(.swiper-pagination) {
+  position: absolute;
+  left: 0;
+  bottom: 50px;  /* metrics: dot@768 (dots a 50px do fim do slider no tablet) */
+  width: 100%;
+  display: none;  /* desktop: origem não exibe dots (1 página) */
+  justify-content: center;  /* metrics: dots-row@375 (jc center) */
+  z-index: 2;
+}
+
+.dot {
+  display: block;  /* metrics: dot@375 (d block) */
+  position: relative;
+  width: 48px;  /* metrics: dot@375 (barra 48×2) */
+  height: 2px;
+  margin: 0 4px;  /* metrics: dot@375 (gap 8 via margin 4) */
+  background: #ffffff;  /* estrutural (indicador sobre a imagem) — isento do fallback */
+  opacity: 0.3;  /* metrics: dot@375 (inativas 0.3) */
+  cursor: pointer;
+
+}
+
+/* a11y: barra de 2px é alvo de toque minúsculo — expande a área clicável sem
+   alterar a caixa visual/medida (pseudo-elemento não entra no rect) */
+.dot::before {
+  content: '';
+  position: absolute;
+  inset: -12px 0;
+}
+
+.dotActive {
+  opacity: 1;  /* metrics: dot@375 (ativa opacity 1) */
+}
+
+/* ── Setas laterais (só tablet/phone) ───────────────────────────────────────── */
+.arrowPrev,
+.arrowNext {
+  position: absolute;
+  /* origem: left/right 0 + margin 4 (x visual = 4); top compensa o margin-top p/ centrar */
+  top: calc(50% - 4px);  /* metrics: arrow-left@375 (centrada; margin-top 4 compensado) */
+  transform: translateY(-50%);
+  box-sizing: border-box;
+  width: 22px;  /* metrics: arrow-left@375 (botão 22×12 = caret 10 + padding 6+6) */
+  height: 12px;
+  margin: 4px;  /* metrics: arrow-left@375 (m 4 nos 4 lados) */
+  padding: 0 6px;  /* metrics: arrow-left@375 (pl/pr 6) */
+  border: 0;
+  background: none;
+  display: none;  /* desktop: origem não exibe setas (1 página) */
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;  /* estrutural (controle sobre a imagem) — isento do fallback */
+  cursor: pointer;
+  z-index: 2;
+}
+
+.arrowPrev {
+  left: 0;  /* metrics: arrow-left@375 (x=4 via margin) */
+}
+
+.arrowNext {
+  right: 0;  /* metrics: arrow-right@375 (right=4 via margin) */
+}
+
+.arrowIcon {
+  width: 10px;  /* metrics: arrow-icon@375 (caret 10×10) */
+  height: 10px;
+  fill: currentColor;
+}
+
+/* a11y: botão de 22×12 é alvo de toque minúsculo — expande a área clicável sem */
+/* alterar a caixa visual/medida */
+.arrowPrev::before,
+.arrowNext::before {
+  content: '';
+  position: absolute;
+  inset: -16px -11px;
+}
+
+/* a11y: respeita usuários com redução de movimento (transição do Swiper vira corte seco) */
+@media (prefers-reduced-motion: reduce) {
+  .slider :global(.swiper-wrapper),
+  .cardImg {
+    transition-duration: 0ms !important;
+  }
+}
+
+/* ── BREAKPOINT: origem muda em 1024→1280 → padrão do repo 1200 ──────────────── */
+@container (max-width: 1199px) {
+  .wrapper {
+    gap: 40px;  /* metrics: wrapper-col@375 (título→slider 40) */
+  }
+
+  .title {
+    font-size: 20px;  /* metrics: title@375 (folha 20px) */
+    line-height: 23px;  /* metrics: title@375 (h 23) */
+  }
+
+  .slider {
+    max-width: 480px;  /* metrics: slider@768 (480 fixo no tablet; min(480, 100%) cobre o phone) */
+    margin: 0 auto;
+  }
+
+  .slider :global(.swiper-pagination) {
+    display: flex;
+  }
+
+  .arrowPrev,
+  .arrowNext {
+    display: flex;
+  }
+}
+
+/* Origem posiciona os dots mais perto do fim no phone (15px vs 50px no tablet). */
+/* Exceção justificada ao grid do repo: corte no breakpoint phone da origem (~640, */
+/* padrão Tachyons/VTEX) — ver _bases/BannerGrid06/notas.md. */
+@container (max-width: 639px) {
+  .slider :global(.swiper-pagination) {
+    bottom: 15px;  /* metrics: dot@375 (dots a 15px do fim do slider no phone) */
+  }
+}

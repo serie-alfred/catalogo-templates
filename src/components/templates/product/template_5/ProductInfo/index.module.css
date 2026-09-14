@@ -1,0 +1,2259 @@
+/* ProductDetails06 -> productInfo/05. Convertido 1:1 do
+   faststore.starter/src/components/organisms/ProductDetails06/style.module.scss,
+   com as duas moleculas que o bloco compoe (SizeFitAlert06 e ShippingSimulator06)
+   inline -- o grafo inteiro num arquivo so, como manda o /from-faststore.
+
+   Duas classes do simulador de frete ganharam prefixo: .name -> .shipName e
+   .srOnly -> .shipSrOnly. Na origem sao modulos CSS separados e os nomes nao se
+   viam; aqui os tres arquivos moram no mesmo modulo, e .name do simulador
+   (o nome da transportadora) sobrescreveria o .name da PDP (o <h1>).
+
+   @media virou @container nos mesmos breakpoints; a .pdp06RootWrap existe so
+   para carregar o container-type (um elemento nao consulta o proprio container).
+   var(--...) verbatim. */
+
+.pdp06RootWrap {
+  container-type: inline-size;
+}
+
+/* ProductDetails — PDP (réplica 1:1 do Liverpool ao vivo).
+TODO px vem de _bases/ProductDetails/metrics.md (capture 375/1280) ou de delta-y
+entre papéis do capture (anotado "deriv"). Nós ROLADOS espelham display/margem da
+origem (margens 0 — o ritmo vem dos wrappers gapRow/buyWrap/etc, como no ar, onde
+o espaçamento vive nos flexColChild). Cor/fonte = cadeia 3 níveis (temável). */
+
+.pdp06Root {
+  width: 100%;
+  font-family: var(--prod-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+}
+
+.pdp06Root * {
+  box-sizing: border-box;
+}
+
+/* ── barra "envio no mesmo dia" (container--frete-message: bg #f2f2f2 full-width) ── */
+
+.bar {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  /* wrapper centrado (margens laterais do p = 0, como no ar) */
+  background: var(--prod-bar-bg, color-mix(in srgb, var(--text-primary-color, #212721) 5%, transparent));
+  /* metrics: bg rgb(242,242,242) = neutro ~5% do texto (não é cor de marca — contraste garantido em qualquer tema) */
+}
+
+@media(max-width: 768px) {
+  .bar {
+    margin-top: 0;
+    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+    font-size: 12px;
+  }
+
+}
+
+.barText {
+  display: block;
+  /* metrics: bar-text display block */
+  margin: 14px 0;
+  /* metrics: bar-text@1280 margin 14/0 */
+  font-size: 14px;
+  /* metrics: bar-text@1280 */
+  font-weight: 700;
+  /* metrics: bar-text@1280 */
+  line-height: 21px;
+  /* metrics: bar-text@1280 */
+  color: var(--prod-bar-text, var(--text-primary-color, #1d1d1b));
+  /* metrics: bar-text cor rgb(29,29,27) */
+}
+
+@container (max-width: 960px) {
+  .barText {
+    margin: 12px 0;
+    /* metrics: bar-text@375 */
+    font-size: 12px;
+    /* metrics: bar-text@375 */
+    line-height: 18px;
+    /* metrics: bar-text@375 */
+  }
+
+/* ── linha principal: galeria | info (origem: flex center/center, shrink 0) ── */
+
+}
+
+.main {
+  width: 100%;
+  /* probe@1920: pdp-main w=1920, max-width NONE (fluido; colunas centradas) */
+  margin: 0 auto;
+  padding: 16px 32px 32px;
+  /* metrics: pdp-main@1280 pad 16/32/32/32 */
+  display: flex;
+  /* metrics: pdp-main display flex */
+  justify-content: center;
+  /* metrics: pdp-main justify center */
+  align-items: stretch;
+  /* metrics: pdp-main@1280 align stretch */
+  gap: 24px;
+  /* metrics: pdp-main@1280 gap */
+}
+
+@container (max-width: 960px) {
+  .main {
+    padding: 0;
+    /* metrics: pdp-main@375 pad 0 */
+    flex-direction: column;
+    /* metrics: pdp-main@375 flex column */
+    align-items: center;
+    /* metrics: pdp-main@375 align center (filhos com w-100 explícito) */
+    flex-shrink: 0;
+    /* metrics: pdp-main@375 flex-shrink 0 */
+    gap: 24px;
+    /* metrics: pdp-main@375 gap */
+    padding-bottom: 3rem;
+  }
+
+/* ── GALERIA (origem: gallery BLOCK 813.23 = thumbs 159.23 + 17 + main 637; o flexCol
+wrapper é quem estica — .galleryCol) ── */
+
+}
+
+.galleryCol {
+  /* deriv 2 pontos: gallery 813.23@1280vw / 934@1920vw → 18.87vw + 571.79px */
+  flex: 0 1 calc(18.87vw + 571.79px);
+  align-self: stretch;
+  min-width: 0;
+}
+
+.gallery {
+  position: relative;
+  display: block;
+  /* metrics: gallery display block */
+  min-width: 0;
+}
+
+@container (min-width: 961px) {
+  .gallery {
+    position: sticky;
+    /* probe: flexColChild--container-image sticky */
+    top: 120px;
+    /* probe: top 120px (imagem fica presa enquanto as infos scrollam) */
+  }
+
+}
+
+.thumbsCol {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  /* thumbs acompanham a altura do palco (4º thumb corta sob o caret, como no ar) */
+  display: flex;
+  flex-direction: column;
+  width: calc(3.402vw + 115.68px);
+  /* deriv 2 pontos: thumb 159.23@1280 / 181@1920 */
+  min-height: 0;
+}
+
+.thumbsViewport {
+  position: relative;
+  flex: 1 1 auto;
+  /* altura = palco - caret 60 (origem: 4º thumb cortado sob o caret) */
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* fade/sombra branca na base — esmaece o 4º thumb cortado (como no site de referência) */
+
+.thumbsViewport::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 90px;
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.92) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.thumbsTrack {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  /* deriv metrics: passo y 165.2 - 159.23 (origem posiciona por transform) */
+  transition: transform 0.3s ease;
+}
+
+.thumbSlide {
+  flex: none;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  /* thumb quadrada (159.23@1280 / 181@1920) */
+  margin: 0;
+  /* metrics: thumb-slide mar 0 */
+  opacity: 0.5;
+  /* probe: thumb INATIVA opacity 0.5 */
+}
+
+.thumbSlideActive {
+  opacity: 1;
+}
+
+/* probe@1920: thumb ATIVA opacity 1 */
+
+.thumb {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbActive {
+  /* origem mantém opacidade 0.5 também na ativa — sem estilo extra */
+}
+
+.thumbCaret {
+  appearance: none;
+  cursor: pointer;
+  width: 100%;
+  height: 60px;
+  /* metrics: thumb-caret@1280 */
+  min-height: 60px;
+  /* não encolhe (shrink 1 computado como no ar, altura garantida) */
+  padding: 32px 0 4px;
+  /* metrics: thumb-caret@1280 pad */
+  border: none;
+  background: transparent;
+  flex: 0 1 auto;
+  /* metrics: thumb-caret flex-shrink 1 */
+  display: flex;
+  align-items: stretch;
+  /* metrics: thumb-caret align stretch */
+  justify-content: center;
+  /* metrics: thumb-caret justify center */
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+  /* metrics: thumb-caret cor rgb(0,0,0) */
+}
+
+.thumbCaret svg {
+  margin: auto 0 0;
+}
+
+.thumbCaret:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.thumbCaretUp {
+  padding: 4px 0 8px;
+  /* espelho do caret de descida (origem tem caret-prev no DOM) */
+  height: 32px;
+  min-height: 32px;
+}
+
+.thumbCaretUp svg {
+  margin: 0 auto auto;
+}
+
+.stage {
+  position: relative;
+  margin-left: calc(3.402vw + 132.68px);
+  /* deriv: thumbs fluida + 17 de respiro (17 constante nos 2 pontos) */
+  min-width: 0;
+}
+
+.mainSwiper {
+  width: 100%;
+}
+
+.mainSlide {
+  width: 100%;
+  font-size: 16px;
+  /* metrics: main-slide folha 16/18.4 */
+  line-height: 18.4px;
+}
+
+.stageImg {
+  display: inline;
+  /* metrics: main-img@1280 display inline */
+  vertical-align: top;
+  /* sem vão de descender (slide h = img h, como no ar) */
+  width: 100%;
+  /* metrics: main-img@1280 637 (coluna) / @375 375 (viewport) */
+  aspect-ratio: 637 / 641.39;
+  /* metrics+probe: main-img@1280 637×641.39 — proporção mantida em QUALQUER largura (height fixa deixava faixas brancas em larguras intermediárias) */
+  height: auto;
+  object-fit: contain;
+  /* probe: object-fit contain */
+  font-size: 16px;
+  /* metrics: main-img folha 16/18.4 */
+  line-height: 18.4px;
+}
+
+@container (max-width: 960px) {
+  .stageImg {
+    display: block;
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+
+/* metrics: main-img@375 (block, 375x375) */
+
+}
+
+.stagePlaceholder {
+  width: 100%;
+  aspect-ratio: 637 / 641;
+  background: #f6f6f6;
+}
+
+/* setas — só mobile no ar (swiperCaret 16×16, display block) */
+
+.caret {
+  display: none;
+  appearance: none;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 16px;
+  /* metrics: m-caret@375 */
+  height: 16px;
+  /* metrics: m-caret@375 */
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+}
+
+.caret svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+}
+
+.caret {
+  /* no início/fim do carrossel a seta não navega → atenua e trava o clique */
+}
+
+.caret:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.caretPrev {
+  left: 10px;
+}
+
+.caretPrev svg {
+  transform: rotate(180deg);
+}
+
+.caretPrev {
+  /* seta "anterior" aponta para a esquerda */
+}
+
+.caretNext {
+  right: 10px;
+}
+
+@container (max-width: 960px) {
+  .caret {
+    display: block;
+  }
+
+/* metrics: m-caret display block */
+
+/* traços (swiperBullet 48×2, gap 8, inativo preto 12%) */
+
+}
+
+.dashes {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 34px;
+  /* deriv metrics: dash y=782.9 vs base do palco 816.9 */
+  z-index: 2;
+  display: flex;
+  gap: 8px;
+  /* deriv metrics: passo x 56 − 48 */
+}
+
+.dash {
+  appearance: none;
+  cursor: pointer;
+  width: 48px;
+  /* metrics: dash@1280 */
+  height: 2px;
+  /* metrics: dash@1280 */
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  /* metrics: dash radius 0 */
+  background: color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 12%, transparent);
+  /* metrics: dash inativo (derivado do texto, como as bordas) */
+}
+
+.dashActive {
+  background: var(--prod-info-text, var(--text-primary-color, #212721));
+  /* metrics: dash ativo rgb(33,39,33) */
+}
+
+@container (max-width: 960px) {
+  .galleryCol {
+    flex: none;
+    width: 100%;
+  }
+
+  .info {
+    flex: none;
+    width: 100%;
+  }
+
+  .thumbsCol {
+    display: none;
+  }
+
+/* origem @375: sem thumbs (swiper horizontal + setas) */
+
+  .stage {
+    margin-left: 0;
+  }
+
+  .dashes {
+    bottom: 2rem;
+  }
+
+/* ── INFO ── */
+
+}
+
+.info {
+  /* deriv 2 pontos: info 378.77@1280vw / 435@1920vw → 8.786vw + 266.31px */
+  flex: 0 1 calc(8.786vw + 266.31px);
+  align-self: stretch;
+  min-width: 0;
+}
+
+@container (max-width: 960px) {
+  .info {
+    flex: none;
+    width: 100%;
+    padding: 0 20px;
+  }
+
+/* deriv metrics: breadcrumb06@375 w=335 (gutter 20) */
+
+/* ritmo entre blocos (na origem vive nos flexColChild não-rolados) */
+
+}
+
+.gapRow {
+  margin-bottom: 16px;
+}
+
+/* deriv metrics: deltas y 16 (breadcrumb06→wish→name→cod) */
+
+.gapRowSm {
+  margin-bottom: 15px;
+}
+
+/* deriv metrics: cod 323 → list-price 338 */
+
+.gapRowXs {
+  margin-bottom: 2.6px;
+}
+
+/* deriv metrics: list-price 358 → selling 360.6 */
+
+.buyWrap {
+  margin-bottom: 24px;
+  line-height: 0;
+}
+
+/* deriv metrics: buy 565.7 → linha consulte ~589 */
+
+.envioWrap {
+  margin-bottom: 14px;
+}
+
+/* deriv metrics: envio→troca 38−24 */
+
+.trocaWrap {
+  margin-bottom: 34px;
+}
+
+/* deriv metrics: troca ~761 → desc-title 795.2 */
+/* breadcrumb06 — nó rolado block/space-between com trilha interna (como o flexRowContent do ar) */
+
+.breadcrumb06 {
+  display: flex;
+  /* metrics: breadcrumb06 display flex */
+  justify-content: space-between;
+  /* metrics: breadcrumb06 justify space-between (1 filho) */
+  align-items: center;
+  /* metrics: breadcrumb06 align center */
+  margin: 0;
+  min-height: 19.34px;
+  /* metrics: breadcrumb06 h */
+}
+
+.breadcrumb06Inner {
+  display: flex;
+  /* trilha do ar é flex → home e "arrows" (segmentos) blockificados */
+  align-items: center;
+}
+
+.crumbSeg {
+  padding: 0 4px;
+}
+
+/* metrics: bc-arrow pad 4/4 (espelho do .arrow--N: caret+link) */
+
+.crumbHome {
+  display: inline-block;
+  padding-right: 4px;
+  /* metrics: bc-home pad-r */
+  font-size: 12px;
+  /* metrics: bc-home */
+  font-weight: 400;
+  line-height: 12px;
+  /* metrics: bc-home */
+  text-decoration: none;
+  color: color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 62%, transparent);
+  /* metrics: bc-home rgb(151,152,153) */
+}
+
+.crumbSep {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  color: color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 62%, transparent);
+  /* metrics: caretIcon rgb(151,152,153) */
+}
+
+.crumbLink {
+  display: inline-block;
+  /* metrics: bc-link display inline-block */
+  margin-left: 3.2px;
+  /* metrics: bc-link mar-l */
+  font-size: 12px;
+  /* metrics: bc-link */
+  font-weight: 400;
+  /* metrics: bc-link[0] */
+  line-height: 13.8px;
+  text-transform: lowercase;
+  /* metrics: bc-link text-transform (sentence-case via first-letter) */
+  text-decoration: none;
+  color: color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 74%, transparent);
+  /* AA: subido de 55% (contraste do breadcrumb06) */
+  opacity: 0.82;
+  /* subido de 0.64 p/ contraste AA (cor é theme-excluded na fidelidade) */
+}
+
+.crumbLink::first-letter {
+  text-transform: uppercase;
+}
+
+.crumbLink {
+  /* origem exibe "Calçados"/"Outlet" (zoom bc) */
+}
+
+.crumbTerm {
+  font-weight: 700;
+  /* metrics: bc-link[1] (Outlet) */
+  line-height: 17.34px;
+  /* metrics: bc-link[1] h */
+  color: var(--prod-info-text, var(--text-primary-color, #1d1d1b));
+  /* metrics: bc-link[1] rgb(29,29,27) */
+  opacity: 1;
+  /* metrics: bc-link[1] sem opacidade */
+}
+
+/* estrelas + wishlist/share — nó rolado block; flex interno */
+
+.wishRow {
+  display: block;
+  /* metrics: wish-row display block */
+  height: 25px;
+  /* metrics: wish-row h */
+  margin: 0;
+}
+
+.wishRowInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.ratingBox {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+}
+
+.starsBox {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+}
+
+.ratingCount {
+  font-size: 12px;
+}
+
+.ratingCta {
+  margin-left: 4px;
+  font-size: 12px;
+  color: inherit;
+  text-decoration: underline;
+}
+
+.wishActions {
+  display: inline-flex;
+  align-items: center;
+}
+
+.iconBtn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  /* metrics: wish-row h=25 (alvo compacto como no ar) */
+  height: 25px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+}
+
+.iconBtn img {
+  display: block;
+  width: 17px;
+  height: 17px;
+}
+
+.iconBtn {
+  /* metrics: share-icon 16.9 */
+}
+
+/* ── popover de compartilhar (estado ABERTO — probe/share-open.json) ─────────────
+O balão é ancorado no ícone e alinhado à direita dele: na origem o container
+(260×52) termina exatamente no mesmo x do wrap do ícone (975.2+260 = 1235.2 =
+borda direita do wrap). */
+
+.shareWrap {
+  position: relative;
+  /* probe: shareButtons position relative */
+  display: inline-flex;
+}
+
+.sharePopover {
+  position: absolute;
+  /* probe: container position absolute */
+  top: 31px;
+  /* probe: container 10px abaixo do ícone (ícone 17px centrado em 25px) */
+  right: 0;
+  /* probe: borda direita do container == borda direita do wrap */
+  /* DESVIO DELIBERADO da origem (probe: 999): 999 passava por cima do Header06 */
+  /* (sticky, z-index 100). 20 mantém o balão acima de todo o conteúdo da PDP */
+  /* (internos ≤ 3) e abaixo do header06 — popover ancorado no fluxo, ao contrário do */
+  /* .guideOverlay, que é modal full-screen e por isso fica acima do header06. */
+  z-index: 20;
+  display: flex;
+  /* probe: container display flex */
+  gap: 10px;
+  /* probe: container gap 10 */
+  width: 260px;
+  /* probe: container w 260 */
+  height: 52px;
+  /* probe: container h 52 */
+  padding: 10px;
+  /* probe: container padding 10 */
+  background: #fff;
+  /* probe: container bg rgb(255,255,255) — superfície do balão (neutro estrutural) */
+  border: 1px solid #ccc;
+  /* probe: container border 1px solid rgb(204,204,204) */
+  border-radius: 8px;
+  /* probe: container radius 8 */
+  box-sizing: border-box;
+}
+
+/* tiles dos canais — cor de MARCA de cada rede (não é token de tema) */
+
+.shareTile {
+  display: flex;
+  /* probe: tile display flex */
+  align-items: center;
+  /* probe: tile align-items center */
+  justify-content: center;
+  /* probe: tile justify-content center */
+  width: 52px;
+  /* probe: tile w 52 */
+  height: 30px;
+  /* probe: tile h 30 */
+  padding: 5px 16px;
+  /* probe: tile padding 5/16 */
+  border: none;
+  /* probe: tile border none */
+  border-radius: 3px;
+  /* probe: tile radius 3 */
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  appearance: none;
+}
+
+.shareTile img, .shareTile svg {
+  display: block;
+  width: 20px;
+  /* probe: img w/h 20 */
+  height: 20px;
+  transform: scale(1.3);
+  /* probe: img transform matrix(1.3) → 26×26 renderizado */
+}
+
+.shareWpp {
+  background: #25d366;
+}
+
+/* probe: rgb(37,211,102) */
+
+.shareInsta {
+  background: #e1306c;
+}
+
+/* probe: rgb(225,48,108) */
+
+.shareFb {
+  background: #1877f2;
+}
+
+/* probe: rgb(24,119,242) */
+
+.shareCopy {
+  background: #979595;
+}
+
+/* probe: rgb(151,149,149) */
+
+.srOnly {
+  position: absolute;
+  /* fora do fluxo flex → não altera as métricas do balão */
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.heartSvg {
+  display: flex;
+  width: 14px;
+  height: 13px;
+  transform: scale(1.3);
+  /* 14×13 × 1.3 ≈ 18.2×16.9 (metrics: wish-icon) */
+  margin-right: 7px;
+  /* metrics: wish-icon mar-r 7 */
+}
+
+/* ícone via ::before + mask → herda a cor (currentColor) do contexto (temável) */
+
+.heartSvg::before {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2014%2012%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%220.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12.5802%201.25524C13.787%202.42178%2013.8332%204.29889%2012.6852%205.5196L6.93292%2011.6357L1.18142%205.51958C0.033424%204.29887%200.0796571%202.42174%201.28642%201.25519C2.63385%20-0.0473233%204.85296%200.0716979%206.04335%201.51009L6.93332%202.58508L7.82253%201.50997C9.01291%200.0715756%2011.2328%20-0.0472817%2012.5802%201.25524Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2014%2012%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%220.7%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M12.5802%201.25524C13.787%202.42178%2013.8332%204.29889%2012.6852%205.5196L6.93292%2011.6357L1.18142%205.51958C0.033424%204.29887%200.0796571%202.42174%201.28642%201.25519C2.63385%20-0.0473233%204.85296%200.0716979%206.04335%201.51009L6.93332%202.58508L7.82253%201.50997C9.01291%200.0715756%2011.2328%20-0.0472817%2012.5802%201.25524Z%22%2F%3E%3C%2Fsvg%3E") center / contain no-repeat;
+}
+
+/* favoritado → coração preenchido (troca a máscara para a versão sólida) */
+
+.iconBtn[aria-pressed='true'] .heartSvg::before {
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2014%2012%22%20fill%3D%22black%22%3E%3Cpath%20d%3D%22M12.5802%201.25524C13.787%202.42178%2013.8332%204.29889%2012.6852%205.5196L6.93292%2011.6357L1.18142%205.51958C0.033424%204.29887%200.0796571%202.42174%201.28642%201.25519C2.63385%20-0.0473233%204.85296%200.0716979%206.04335%201.51009L6.93332%202.58508L7.82253%201.50997C9.01291%200.0715756%2011.2328%20-0.0472817%2012.5802%201.25524Z%22%2F%3E%3C%2Fsvg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2014%2012%22%20fill%3D%22black%22%3E%3Cpath%20d%3D%22M12.5802%201.25524C13.787%202.42178%2013.8332%204.29889%2012.6852%205.5196L6.93292%2011.6357L1.18142%205.51958C0.033424%204.29887%200.0796571%202.42174%201.28642%201.25519C2.63385%20-0.0473233%204.85296%200.0716979%206.04335%201.51009L6.93332%202.58508L7.82253%201.50997C9.01291%200.0715756%2011.2328%20-0.0472817%2012.5802%201.25524Z%22%2F%3E%3C%2Fsvg%3E");
+}
+
+/* nome + cod */
+
+.name {
+  margin: 0;
+  /* metrics: name mar 0 (ritmo no wrapper) */
+  font-size: 18px;
+  /* metrics: name@1280 */
+  font-weight: 700;
+  /* metrics: name */
+  line-height: 20.7px;
+  /* metrics: name@1280 */
+  text-transform: uppercase;
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+}
+
+@container (max-width: 960px) {
+  .name {
+    max-width: 300px;
+    /* metrics: name@375 w=300 (col 335) */
+    font-size: 16px;
+    /* metrics: name@375 */
+    line-height: 23.12px;
+    /* metrics: name@375 */
+  }
+
+}
+
+.cod {
+  display: flex;
+  /* metrics: cod display flex */
+  margin: 0;
+  font-size: 12px;
+  /* metrics: cod */
+  font-weight: 300;
+  /* metrics: cod (Jost 300 carregada no WebFonts) */
+  line-height: 13.8px;
+  /* metrics: cod */
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+  /* metrics: cod cor rgb(0,0,0) */
+}
+
+.codLabel {
+  font-weight: 300;
+}
+
+.codValue {
+  padding-left: 5px;
+}
+
+/* metrics: cod-value pad-l */
+/* preços */
+
+.listPriceWrap {
+  margin: 0;
+  height: 20px;
+}
+
+/* metrics: list-price h (linha) */
+
+.listPrice {
+  display: inline;
+  /* metrics: list-price display inline */
+  font-size: 14px;
+  /* metrics: list-price */
+  font-weight: 400;
+  line-height: 16.1px;
+  text-decoration: line-through;
+  color: color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 55%, transparent);
+  /* metrics: rgb(114,114,115) */
+}
+
+.priceRow {
+  display: flex;
+  align-items: flex-end;
+  /* origem: selling e installments terminam juntos (y-base 388.2) */
+  column-gap: 8px;
+  /* sem isto os dois flex items colam ("R$ 389,90ou 9x de R$ 43,32"): */
+  /* o literal de espaço do selling fica ENTRE "R$" e o inteiro, e a */
+  /* string do parcelamento ("ou ") tem espaço só no fim. */
+  /* 8px medido no ar: fim do "90" em 1309,9 e início do "ou" em 1317,9. */
+  margin: 0 0 16px;
+  /* deriv metrics: installments -> size-label 404.2 */
+}
+
+.sellingWrap {
+  display: block;
+}
+
+.selling {
+  display: inline;
+  /* metrics/probe: selling display inline (folha 16/18.4) */
+  font-size: 16px;
+  line-height: 18.4px;
+  font-weight: 500;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+  /* metrics: selling rgb(33,39,33) */
+}
+
+.sellingBox {
+  display: flex;
+  /* probe: currencyContainer--selling display FLEX (filhos blockificados) */
+  align-items: center;
+  /* idem origem: sem isto os filhos de 18.4 esticam e o "R$"/"90" */
+  /* encostam no TOPO da linha de 27.6, virando sobrescrito. */
+  /* Medido em /tenis-deck-7062-737e/p: R$ e 90 ficam ~5px abaixo */
+  /* do topo do inteiro, não alinhados com ele. */
+  width: fit-content;
+  font-size: 24px;
+  /* probe: currencyContainer fs 24 lh 27.6 */
+  line-height: 27.6px;
+}
+
+.sellingCode {
+  font-size: 16px;
+  line-height: 18.4px;
+}
+
+/* metrics: selling-code */
+
+.sellingLit {
+  white-space: pre;
+}
+
+/* literal de espaço (currencyLiteral do ar, fs 24) */
+
+.sellingInt {
+  margin-left: -4px;
+}
+
+/* metrics: selling-int@1280 (ml -4; fs 24 herdado do box) */
+
+.sellingFrac {
+  font-size: 16px;
+  line-height: 18.4px;
+}
+
+/* metrics: selling-frac */
+/* A vírgula acompanha o INTEIRO, não os centavos: no ar o `currencyDecimal` computa */
+/* 24/27.6 (medido em o site de referência/tenis-deck-7062-737e/p — largura 7,5px */
+/* contra 5,2px se fosse 16px). Declarada explicitamente, e não omitida, para o valor */
+/* ficar registrado: sem a classe o `style.sellingComma` de index.tsx vira `undefined` */
+/* e o acerto passa a depender de herança silenciosa. */
+
+.sellingComma {
+  font-size: 24px;
+  line-height: 27.6px;
+}
+
+@container (max-width: 960px) {
+  .sellingInt {
+    font-size: 22px;
+    line-height: 25.3px;
+  }
+
+/* metrics: selling-int@375 (box segue 24) */
+
+}
+
+.installments {
+  margin-left: 0;
+  /* respiro vem do column-gap do .priceRow (o literal de espaço do */
+  /* selling fica entre "R$" e o inteiro, não no fim) */
+  padding-bottom: 0;
+  /* no ar a base do parcelamento fica ~1px acima da base do preço. */
+  /* Varrido 0/1/2/3px na página publicada: 0 dá 1,5px (o mais */
+  /* próximo) e cada 1px de padding afasta outro 1px. Com os 3px */
+  /* antigos o texto subia 4,5px, bem acima da origem. */
+  font-size: 14px;
+  /* metrics: installments */
+  font-weight: 400;
+  line-height: 16.1px;
+  letter-spacing: 0.7px;
+  /* metrics: installments ls 0.6992 */
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+}
+
+.instNum {
+  font-weight: 700;
+}
+
+/* metrics: inst-num 700 */
+
+.instVal {
+  font-weight: 700;
+}
+
+/* metrics: inst-val 700 */
+/* tamanho + chips */
+/* ── "Cores" — carrossel de similars acima dos tamanhos (probe/cores-1280.json,
+probe/cores-375.json). Cada tile é um produto (cor) próprio.
+Origem: bloco 435×188.78 = título (16/18.4, margem 16 em cima e embaixo) +
+trilha 138.39; viewport recuado 20px de cada lado p/ as setas (32×22) ficarem
+nas bordas; slide 137 = imagem 134 quadrada + 3px de respiro.
+Nº de slides por vista: pedido do cliente = 3 no desktop / 2.3 no mobile
+(a origem usa 2.88 e 2.19 — viewport ÷ slide fixo de 137/135). */
+
+.colorsBlock {
+  margin: 0;
+}
+
+.colorsTitle {
+  margin: 16px 0;
+  /* probe: title mar-t/mar-b 16 */
+  font-size: 16px;
+  /* probe: title 16/18.4/400 */
+  font-weight: 400;
+  line-height: 18.4px;
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+  /* probe: rgb(0,0,0) */
+}
+
+.colorsCarousel {
+  position: relative;
+  padding: 0 20px;
+  /* probe: viewport recuado 20px de cada lado (435 → 395) */
+}
+
+.colorsSwiper {
+  width: 100%;
+  overflow: hidden;
+  /* probe: slick-list overflow hidden */
+}
+
+.colorSlide {
+  height: auto;
+}
+
+.colorTile {
+  display: block;
+  /* probe: <a> inline-block 137×134 com a imagem 134 quadrada */
+  text-decoration: none;
+}
+
+.colorTile img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  /* probe: img 134×134 (quadrada) */
+  object-fit: cover;
+  /* origem usa `fill` com fonte quadrada → mesmo resultado, sem distorcer */
+}
+
+.colorsArrow {
+  position: absolute;
+  /* probe: setas absolute nas bordas do bloco */
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  /* probe: arrow display flex */
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  /* probe: arrow 32×22 */
+  height: 22px;
+  padding: 0 6px;
+  /* probe: arrow pad-l/pad-r 6 */
+  border: none;
+  background: transparent;
+  /* probe: arrow bg transparente */
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+  /* probe: currentColor rgb(0,0,0) */
+  cursor: pointer;
+  appearance: none;
+}
+
+.colorsArrow svg {
+  display: block;
+}
+
+.colorsArrowPrev {
+  left: -10px;
+}
+
+/* probe: prev 10px à esquerda da borda do bloco */
+
+.colorsArrowNext {
+  right: -10px;
+  /* probe: next 10px à direita da borda do bloco */
+}
+
+.colorsArrowNext svg {
+  transform: rotate(180deg);
+}
+
+.colorsArrowNext {
+  /* probe: next = mesma seta girada 180° */
+}
+
+.sizeBlock {
+  margin: 24px 0 0px;
+}
+
+.sizeLabel {
+  display: flex;
+  /* metrics: size-label display flex */
+  margin-bottom: 15px;
+  /* metrics: size-label@1280 mar-b */
+  font-size: 15px;
+  /* metrics: size-label */
+  font-weight: 400;
+  line-height: 17.25px;
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+}
+
+@container (max-width: 960px) {
+  .sizeLabel {
+    margin-bottom: 18px;
+  }
+
+/* metrics: size-label@375 mar-b */
+
+}
+
+.sizes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  /* deriv metrics: chips passo x 42 − 36 */
+}
+
+.sizeChip {
+  appearance: none;
+  position: relative;
+  width: 36px;
+  /* metrics: size-chip@1280 */
+  height: 34px;
+  /* metrics: size-chip@1280 */
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 12%, transparent);
+  /* metrics: border rgb(224,224,224) */
+  border-radius: 4px;
+  /* metrics: size-chip rad */
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  /* metrics: size-chip fs */
+  font-weight: 500;
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.sizeChip:hover {
+  border-color: var(--prod-info-text, var(--text-primary-color, #212721));
+  /* probe: hover borda #e0e0e0 -> rgb(33,39,33) */
+}
+
+@container (max-width: 960px) {
+  .sizeChip {
+    width: 37px;
+    height: 35px;
+  }
+
+/* metrics: size-chip@375 */
+
+/* selecionado: preenchido (probe: bg rgb(33,39,33), texto branco, fw 500) */
+
+}
+
+.sizeActive {
+  border-color: var(--prod-info-text, var(--text-primary-color, #212721));
+  background: var(--prod-info-text, var(--text-primary-color, #212721));
+  /* texto sobre o preenchimento ESCURO (=--prod-info-text) → --text-color-secundary
+  (auto-derivado p/ superfície escura), não --text-color-base (pode ser escuro) */
+  color: var(--prod-chip-text, var(--text-color-secundary, #ffffff));
+  font-weight: 500;
+}
+
+/* indisponível: diagonal + número acinzentado + sino no canto (zoom do chip 37 do ar) */
+
+.sizeUnavailable {
+  cursor: default;
+  color: color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 12%, transparent);
+  /* probe: número rgb(224,224,224) */
+}
+
+.sizeUnavailable:hover {
+  border-color: color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 12%, transparent);
+}
+
+.sizeUnavailable:hover .aviseBalloon {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sizeUnavailable {
+  background:
+  linear-gradient(to bottom right, transparent calc(50% - 0.5px), color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 14%, transparent) calc(50% - 0.5px), color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 14%, transparent) calc(50% + 0.5px), transparent calc(50% + 0.5px));
+}
+
+.sizeText {
+  position: relative;
+}
+
+.aviseBalloon {
+  position: absolute;
+  /* probe: balão absolute */
+  top: 100%;
+  /* probe: y = base do chip (472 = 436 + 36) */
+  left: 50%;
+  transform: translateX(-50%);
+  /* probe: centrado no chip */
+  width: 78px;
+  /* probe: balão 78×30 */
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  /* probe: radius 4 */
+  background: color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 5%, white);
+  /* probe: rgb(242,242,242) */
+  color: color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 55%, transparent);
+  /* probe: rgb(114,114,115) */
+  font-size: 10px;
+  /* probe: 10px/400 */
+  font-weight: 400;
+  line-height: 14.45px;
+  /* probe: lh 14.45 */
+  box-shadow: 0 4px 8px rgba(61, 61, 61, 0.08);
+  /* probe: shadow */
+  cursor: pointer;
+  /* probe: cursor pointer */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s ease;
+  z-index: 3;
+  white-space: nowrap;
+}
+
+.sizeBell {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  display: flex;
+}
+
+.sizeBell::before {
+  content: '';
+  width: 14px;
+  height: 14px;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M0.333313 5.66667C0.333313 4.55556 0.580646 3.53623 1.07531 2.60867C1.56998 1.68111 2.23376 0.911559 3.06665 0.300003L3.84998 1.36667C3.18331 1.85556 2.65287 2.47223 2.25865 3.21667C1.86442 3.96111 1.66709 4.77778 1.66665 5.66667H0.333313ZM12.3333 5.66667C12.3333 4.77778 12.136 3.96111 11.7413 3.21667C11.3466 2.47223 10.8164 1.85556 10.1506 1.36667L10.934 0.300003C11.7673 0.911114 12.4313 1.68067 12.926 2.60867C13.4206 3.53667 13.6675 4.556 13.6666 5.66667H12.3333ZM1.66665 11.6667V10.3333H2.99998V5.66667C2.99998 4.74445 3.27776 3.92511 3.83331 3.20867C4.38887 2.49223 5.11109 2.02267 5.99998 1.8V1.33334C5.99998 1.05556 6.09731 0.819559 6.29198 0.625336C6.48665 0.431114 6.72265 0.333781 6.99998 0.333336C7.27731 0.332892 7.51354 0.430225 7.70865 0.625336C7.90376 0.820447 8.00087 1.05645 7.99998 1.33334V1.8C8.88887 2.02223 9.61109 2.49178 10.1666 3.20867C10.7222 3.92556 11 4.74489 11 5.66667V10.3333H12.3333V11.6667H1.66665ZM6.99998 13.6667C6.63331 13.6667 6.31954 13.5362 6.05865 13.2753C5.79776 13.0144 5.66709 12.7004 5.66665 12.3333H8.33331C8.33331 12.7 8.20287 13.014 7.94198 13.2753C7.68109 13.5367 7.36709 13.6671 6.99998 13.6667ZM4.33331 10.3333H9.66665V5.66667C9.66665 4.93334 9.40554 4.30556 8.88331 3.78334C8.36109 3.26111 7.73331 3 6.99998 3C6.26665 3 5.63887 3.26111 5.11665 3.78334C4.59442 4.30556 4.33331 4.93334 4.33331 5.66667V10.3333Z" fill="%233D3D3D"/></svg>') no-repeat;
+}
+
+/* ── Produto indisponível: bloco que substitui a área de compra ──
+Valores do IO (store-theme/styles/scss/pdp/availabilty/vtex.store-components.scss):
+título 1.5rem/700 e subtítulo .875rem/400, os dois em caixa alta, pílulas de raio
+7.5rem e botão #212721 de 2.5rem de altura. As cores literais do IO são exatamente os
+fallbacks das vars de tema daqui, então uso as vars (mesmo valor, temável).
+A largura é a exceção: o IO deixa os três campos em linha acima de 1024px, e aqui eles
+ficam empilhados em qualquer largura (visual pedido). */
+/* altura única dos três campos — trocar aqui move inputs e botão juntos */
+
+.availability {
+  padding-bottom: 1.5625rem;
+  margin-top: 2rem;
+}
+
+.availabilityTitle {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+}
+
+.availabilitySubtitle {
+  margin: 0;
+  padding-bottom: 1rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+}
+
+/* Empilhado: nome, e-mail e botão um sob o outro, os três na largura da coluna. */
+
+.availabilityForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.availabilityInput {
+  box-sizing: border-box;
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 7.5rem;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+  /* placeholder na MESMA cor do texto (é assim no IO — não é cinza esmaecido) */
+}
+
+.availabilityInput::placeholder {
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.availabilityInput:focus {
+  outline: 0;
+}
+
+.availabilitySubmit {
+  appearance: none;
+  box-sizing: border-box;
+  width: 100%;
+  height: 2.5rem;
+  /* mesma altura dos inputs */
+  border: 0;
+  border-radius: 7.5rem;
+  background-color: var(--prod-calc-bg, var(--background-secundary-color, #212721));
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--prod-calc-text, var(--text-color-secundary, #ffffff));
+  cursor: pointer;
+  transition: background-color 400ms ease;
+}
+
+.availabilitySubmit:hover:not(:disabled) {
+  background-color: #000;
+}
+
+.availabilitySubmit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .availabilitySubmit {
+    transition: none;
+  }
+
+}
+
+.aviseOk {
+  margin: 0;
+  font-size: 13px;
+  color: var(--prod-value-color, var(--background-primary-color-safe, #4c9d7c));
+}
+
+.aviseError {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: #c0392b;
+}
+
+/* guia de medidas */
+
+.sizeGuide {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 3.5px;
+  /* metrics: guia-btn gap */
+  margin-top: 18px;
+  /* metrics: guia-btn mar-t */
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 15px;
+  /* metrics: guia-btn */
+  font-weight: 400;
+  line-height: 17.25px;
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+  cursor: pointer;
+}
+
+/* comprar agora */
+
+.buy {
+  appearance: none;
+  display: inline-block;
+  /* metrics: buy display inline-block */
+  width: 100%;
+  height: 43px;
+  /* metrics: buy@1280 */
+  margin: 15px 0 0;
+  /* metrics: buy mar-t 15 (ritmo abaixo no .buyWrap) */
+  padding: 1px 6px;
+  /* metrics: buy pad */
+  border: none;
+  border-radius: 120px;
+  /* metrics: buy rad */
+  background: var(--prod-buy-bg, var(--background-primary-color, #4c9d7c));
+  /* metrics: rgb(76,157,124) */
+  color: var(--prod-buy-text, var(--text-color-base, #ffffff));
+  font-family: inherit;
+  font-size: 14px;
+  /* metrics: buy@1280 */
+  font-weight: 500;
+  line-height: 16.1px;
+  text-align: center;
+  text-transform: uppercase;
+  /* metrics: buy text-transform */
+  cursor: pointer;
+}
+
+@container (max-width: 960px) {
+  .buy {
+    height: 55px;
+    /* metrics: buy@375 */
+    font-size: 15px;
+    /* metrics: buy@375 */
+    line-height: 17.25px;
+  }
+
+/* consulte prazo + pill */
+
+}
+
+.shipRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+  /* deriv metrics: linha consulte → cep 623.2 */
+}
+
+.consulte {
+  margin: 0;
+  font-size: 15px;
+  /* metrics: consulte */
+  font-weight: 400;
+  line-height: 22.5px;
+  /* metrics: consulte */
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+}
+
+.fretePill {
+  margin: 0;
+  padding: 3px 10px;
+  /* metrics: frete-pill pad */
+  border-radius: 10px;
+  /* metrics: frete-pill rad */
+  background: var(--prod-pill-bg, color-mix(in srgb, var(--text-primary-color, #212721) 15%, transparent));
+  /* metrics: rgb(217,217,217) = neutro ~15% do texto (contraste garantido) */
+  font-size: 11px;
+  /* metrics: frete-pill@1280 */
+  font-weight: 500;
+  line-height: 16.5px;
+  /* metrics: frete-pill@1280 */
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+  white-space: nowrap;
+}
+
+.fretePill strong {
+  font-weight: 700;
+}
+
+@container (max-width: 960px) {
+  .fretePill {
+    font-size: 10px;
+    line-height: 15px;
+  }
+
+/* metrics: frete-pill@375 */
+
+/* cep — o simulador é molecules/ShippingSimulator06 (traz os próprios estilos);
+aqui fica só o ritmo vertical do bloco na coluna de info */
+
+}
+
+.cepWrap {
+  margin-bottom: 32px;
+  /* deriv metrics: cep 667.2 → envio 699.2 */
+}
+
+/* envio imediato / troca fácil */
+
+.infoLine {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  /* metrics: envio-row gap */
+  height: 24px;
+  /* metrics: envio-row h */
+  margin: 0;
+  /* metrics: envio/troca-row mar 0 (ritmo nos wrappers) */
+  font-size: 10px;
+  /* metrics: envio-row folha 10/300 (herdada; o texto sobrepõe 16/500) */
+  font-weight: 300;
+  line-height: 11.5px;
+}
+
+.envioLine {
+  /* âncora do papel envio-row */
+}
+
+.trocaLine {
+  /* âncora do papel troca-row */
+}
+
+@container (max-width: 960px) {
+  .infoLine {
+    flex-shrink: 0;
+  }
+
+/* metrics: envio-row@375 flex-shrink 0 */
+
+}
+
+.infoIcon {
+  display: block;
+  max-height: 20px;
+  width: auto;
+}
+
+/* origem: max-height 20px (ícones 20×14 / 17×17) */
+
+.infoText {
+  margin: 0;
+  font-size: 16px;
+  /* metrics: envio-text */
+  font-weight: 500;
+  /* metrics: envio-text */
+  line-height: 24px;
+  /* metrics: envio-text */
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+}
+
+.infoText strong {
+  font-weight: 700;
+}
+
+/* descrição (HTML real do produto, centrado como no ar) */
+
+.descBlock {
+  margin: 0;
+}
+
+.descTitle {
+  width: fit-content;
+  /* metrics: desc-title w=71.14 (h2 fit) */
+  margin: 0 0 8px;
+  /* metrics: desc-title mar-b */
+  font-size: 16px;
+  /* metrics: desc-title */
+  font-weight: 500;
+  /* metrics: desc-title */
+  line-height: 18.4px;
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+}
+
+.descContent {
+  font-size: 15px;
+  /* probe: descrição 15px lh 17.25 centrada */
+  line-height: 17.25px;
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+}
+
+.descContent p {
+  margin: 0 0 16px;
+}
+
+.descContent {
+  /* O HTML da descrição vem do catálogo e às vezes traz <a> como destaque de texto. */
+  /* Sem isso o navegador pinta azul/roxo (visitado) com sublinhado — aqui o link se */
+  /* comporta como o <strong>: só negrito, herdando a cor do texto. */
+}
+
+.descContent a, .descContent a:visited, .descContent a:hover, .descContent a:active, .descContent a:focus {
+  font-weight: 700;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* características (na coluna de info, ícone por spec, valor verde) */
+
+.specs {
+  margin-top: 40px;
+}
+
+.specTitle {
+  display: flex;
+  /* metrics: spec-title display flex */
+  margin: 0 0 15px;
+  /* metrics: spec-title mar-b */
+  font-size: 15px;
+  /* metrics: spec-title */
+  font-weight: 400;
+  line-height: 17.25px;
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+}
+
+/* sectionSpecifications do ar: os tiles ficam em LINHA (quebram quando não cabem) */
+
+.specRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.specContent {
+  display: flex;
+  flex-direction: column;
+  /* metrics: spec-content flex column */
+  align-items: center;
+  width: 104.72px;
+  /* metrics: spec-content w */
+  text-align: center;
+}
+
+.specIcon {
+  width: 58px;
+  /* metrics: spec-icon */
+  height: 59px;
+  /* metrics: spec-icon */
+  margin-bottom: 4px;
+  /* metrics: spec-icon mar-b */
+  font-size: 7px;
+  /* metrics: spec-icon fs (folha) */
+  line-height: 8.05px;
+  /* metrics: spec-icon lh */
+}
+
+.specName {
+  margin-bottom: 15px;
+  /* metrics: spec-name mar-b */
+  font-size: 15px;
+  /* metrics: spec-name */
+  font-weight: 400;
+  line-height: 17.25px;
+  white-space: nowrap;
+  /* metrics: spec-name 1 linha (w = largura natural do texto) */
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+}
+
+.specValue {
+  font-size: 13px;
+  /* metrics: spec-value */
+  font-weight: 400;
+  line-height: 14.95px;
+  color: var(--prod-value-color, var(--background-primary-color-safe, #4c9d7c));
+  /* metrics: rgb(76,157,124) */
+}
+
+/* ── modal guia de medidas: imagem 600px, branco, radius 0, X no canto (como no ar) ── */
+
+.guideOverlay {
+  position: fixed;
+  inset: 0;
+  /* modal full-screen: precisa cobrir o Header06 (sticky, z-index 100) e também os */
+  /* drawers do próprio Header06 (2000–2200). 2300 fica acima de todos eles. */
+  z-index: 2300;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guideModal {
+  position: relative;
+  width: 600px;
+  /* probe: guia-modal 600×465 */
+  max-width: 92vw;
+  background: #ffffff;
+  border-radius: 0;
+  /* probe: radius 0 */
+  padding: 0;
+  /* probe: padding 0 */
+}
+
+.guideClose {
+  appearance: none;
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+  cursor: pointer;
+}
+
+.guideImg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ── ZOOM DA FOTO ───────────────────────────────────────────────────────────
+Réplica do modal da origem, medido em o site de referência/tenis-deck-7062-737e/p:
+superfície de tela cheia SEM véu escuro, foto de 700×700 `object-fit: contain`
+centrada e um "X" preto no canto superior direito. 700px em 855 de altura = ~82vh,
+e é a altura que manda no dimensionamento.
+A cor da superfície é #f6f6f6, e não branco. Duas medições independentes na origem,
+em Chrome: o `backdrop--product-img-zoom` que cobre a viewport computa
+rgb(246,246,246), e os 8 pontos de borda da própria foto do produto dão o mesmo
+rgb(246,246,246) — as fotos vêm do VTEX com esse fundo cravado. Branco fazia a
+moldura da foto aparecer como um retângulo mais claro no meio da tela.
+É o mesmo valor de `.stagePlaceholder`. */
+
+.zoomOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 3400;
+  /* acima do guia de medidas (2300), dos drawers do Header06 (2000–2200) */
+  /* e do minicart (3000/3100), todos portalados para o <body> */
+  background: var(--prod-zoom-bg, #f6f6f6);
+  /* = fundo cravado nas fotos e o backdrop da origem */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+
+/* Janela do zoom: 700×700 no ar, com a cópia ampliada correndo por baixo. */
+
+.zoomStage {
+  position: relative;
+  width: min(700px, 90vw);
+  height: min(700px, 82vh);
+  /* no ar: 700 de 855 de viewport */
+  overflow: hidden;
+  cursor: crosshair;
+}
+
+.zoomImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.zoomImg[data-hidden] {
+  visibility: hidden;
+}
+
+.zoomImg {
+  /* dá lugar à cópia ampliada */
+}
+
+/* Cópia 2×. `width/height: 200%` mantém a razão da janela em qualquer viewport, então
+a conta de deslocamento do index.tsx (overflow = tamanho × (fator − 1)) continua
+válida sem depender de px fixo. */
+
+.zoomLens {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  max-width: none;
+  object-fit: contain;
+  pointer-events: none;
+  /* o mousemove tem de continuar chegando no palco */
+  visibility: hidden;
+  will-change: transform;
+}
+
+.zoomLens[data-on] {
+  visibility: visible;
+}
+
+/* O zoom é desktop-only (gate em index.tsx). Estes fallbacks existem só para o caso
+de o modal ficar montado durante um resize antes do efeito rodar. */
+
+@media (hover: none), (pointer: coarse) {
+  .zoomStage {
+    cursor: default;
+  }
+
+  .zoomLens {
+    display: none;
+  }
+
+  .zoomImg[data-hidden] {
+    visibility: visible;
+  }
+
+/* Cursor de lupa só onde o clique realmente amplia. */
+
+}
+
+.stageImg[data-zoomable] {
+  cursor: zoom-in;
+}
+
+.zoomClose {
+  appearance: none;
+  position: absolute;
+  top: 40px;
+  /* medido no ar: X por volta de 1874,54 num viewport de 1920×855 */
+  right: 40px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+  cursor: pointer;
+}
+
+.zoomClose:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
+@container (max-width: 960px) {
+  .zoomClose {
+    top: 16px;
+    right: 16px;
+  }
+
+/* a11y: respeita prefers-reduced-motion — zera as transições declaradas (thumbs,
+chips, balão, botões). O movimento do Swiper é minimizado via speed no index. */
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumbsTrack, .sizeChip, .aviseBalloon, .iconBtn, .buy, .cepBtn, .caret, .thumbCaret {
+    transition: none !important;
+  }
+
+}
+/* -- SizeFitAlert06 -- */
+/* SizeFitAlert06 — aviso de forma (PDP 06). Todo px vem de
+_bases/ProductDetails06/probe/forma-1280.json / forma-375.json. */
+
+.fitAlert {
+  display: flex;
+  /* probe: root display flex */
+  align-items: flex-start;
+  /* probe@1280: align-items flex-start */
+  padding-top: 18px;
+  /* probe: root pad-top 18 (respiro em relação ao guia de medidas) */
+  font-family: var(--prod-font, var(--font-secundary, 'Jost', sans-serif));
+}
+
+.fitAlert svg {
+  display: block;
+  /* probe: svg display block */
+  width: 14px;
+  /* probe: svg computado 14px (a origem também estreita o atributo 15) */
+  height: 16px;
+  /* probe: svg computado 16px */
+  flex: none;
+  /* não encolhe quando o texto quebra em 2 linhas */
+}
+
+@container (max-width: 960px) {
+  .fitAlert {
+    align-items: center;
+  }
+
+/* probe@375: align-items center */
+
+}
+
+.fitText {
+  margin: 0 0 0 8px;
+  /* probe: box mar-left 8, demais margens 0 (zera o default do <p>) */
+  font-size: 12px;
+  /* probe: box 12/13.8/400 */
+  font-weight: 400;
+  line-height: 13.8px;
+  color: var(--prod-info-text, var(--text-primary-color, #000000));
+  /* probe: rgb(0,0,0) */
+}
+
+.fitText span {
+  font-weight: 500;
+}
+
+.fitText {
+  /* probe: "Atenção!" e o conselho em 500 */
+}
+
+.fitText strong {
+  font-weight: 700;
+}
+
+.fitText {
+  /* probe: "Forma <X>" em 700 */
+}
+
+/* -- ShippingSimulator06 (.shipName -> .shipName, .shipSrOnly -> .shipSrOnly) -- */
+/* Simulador de frete — traduz o CSS do tema IO de referência
+(Minicart/ActionInputs/styles.module.scss + Minicart/ShippingOptions/styles.module.scss)
+para a cadeia de tokens temável do FastStore. Medidas mantidas em rem, como na origem. */
+
+.container {
+  width: 100%;
+  font-family: inherit;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+}
+
+/* ── sem CEP: input + Calcular (pílula do nosso PDP, não o quadrado do IO) ── */
+
+.form {
+  position: relative;
+  width: 100%;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  height: 44px;
+  padding: 10px 12px;
+  border: 1px solid color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 12%, transparent);
+  border-radius: 80px;
+  background: #ffffff;
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+}
+
+.input::placeholder {
+  color: color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 50%, transparent);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--prod-info-text, var(--text-primary-color, #212721));
+}
+
+.button {
+  appearance: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 90px;
+  height: 44px;
+  padding: 1px 6px;
+  border: none;
+  border-radius: 80px;
+  background: var(--prod-calc-bg, var(--background-secundary-color, #222722));
+  color: var(--prod-calc-text, var(--text-color-secundary, #ffffff));
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* ── com CEP: Alterar · (CEP:00000-000) · preço · seta (postalCodeBox do IO) ── */
+
+.postalCodeBox {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  /* ocupa a mesma altura do input que substitui */
+  gap: 0.375rem;
+}
+
+.changePostalCodeButton {
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.75rem;
+  letter-spacing: 0.0253rem;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+  text-decoration: underline;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.changePostalCodeButton:hover {
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+}
+
+.changePostalCodeButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.currentPostalCode {
+  font-size: 0.7rem;
+  letter-spacing: 0.0253rem;
+}
+
+.city {
+  opacity: 0.7;
+}
+
+.currentShippingPrice {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.0253rem;
+}
+
+.openShippingOptionsBtn {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--prod-accent-color, var(--background-primary-color, #4c9d7c));
+  /* seta no acento do tema */
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.openShippingOptionsBtn.isOpen {
+  transform: rotate(90deg);
+}
+
+/* ── lista de opções (ShippingOptions do IO) ── */
+
+.options {
+  width: 100%;
+  padding-bottom: 0.5rem;
+}
+
+.group + .group {
+  margin-top: 0.5rem;
+}
+
+.title {
+  margin: 1rem 0 .5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.0253rem;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+}
+
+.list {
+  margin: 0.375rem 0 0;
+  padding: 0 0 0 0.125rem;
+  list-style: none;
+  gap: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.option {
+  list-style: none;
+  margin-top: 0.125rem;
+  /* radio do IO: círculo vazio; preenchido quando é a opção selecionada */
+}
+
+.option.isSelected .select::before {
+  content: '';
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+.select {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: none;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+}
+
+.optionBtn {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.optionBtn > * {
+  margin: 0;
+  font-family: inherit;
+  font-size: 0.75rem;
+  letter-spacing: 0.0253rem;
+  color: inherit;
+}
+
+.optionBtn:disabled {
+  cursor: not-allowed;
+}
+
+.optionBtn .shipName {
+  margin-left: 0.375rem;
+  font-weight: 500;
+}
+
+.optionBtn {
+  /* separador vertical entre nome · prazo · preço, como na origem */
+}
+
+.optionBtn .time, .optionBtn .price {
+  display: flex;
+  align-items: center;
+}
+
+.optionBtn .time::before, .optionBtn .price::before {
+  content: '';
+  display: inline-block;
+  width: 0.0625rem;
+  height: 0.75rem;
+  margin: 0 0.375rem;
+  background-color: currentColor;
+}
+
+.optionBtn .price {
+  font-weight: 500;
+}
+
+/* aviso do estado sem carrinho (a escolha ainda não está no orderForm) */
+
+.hint {
+  margin: 0.375rem 0 0;
+  font-size: 0.6875rem;
+  line-height: 0.9375rem;
+  opacity: 0.7;
+}
+
+.error {
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--prod-accent-color, var(--background-primary-color, #4c9d7c));
+}
+
+.shipSrOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ── Variante `cart`: o campo compacto do minicart ──────────────────────────
+Na origem o minicart NÃO usa o campo grande da PDP: CEP e cupom dividem o
+mesmo arquivo (`Minicart/ActionInputs/styles.module.scss`) — input de 12px com
+borda #E0E0E0 e raio 2px à esquerda, botão escuro colado à direita com raio 2px
+à direita, conjunto limitado a 11.75rem e alinhado à direita da linha.
+Fica aqui, e não no minicart, porque os CSS Modules embaralham os nomes das
+classes internas: de fora não há como alcançá-las. */
+
+.cart {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  /* Geometria do `ActionInputs` da origem, copiada declaração por declaração. O */
+  /* ponto é que NADA aqui depende do conteúdo: a largura do campo e a do botão */
+  /* saem do container (11.75rem), não do texto. Medido em Chrome: 119px + 69px, */
+  /* idêntico ao campo de cupom e estável em todos os estados — inclusive quando o */
+  /* rótulo vira "..." durante o loading, que antes engordava o input em 34px no */
+  /* meio da digitação. */
+}
+
+.cart .form {
+  display: flex;
+  align-items: stretch;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 11.75rem;
+  /* origem: .content — fixo, e não max-width, para as duas linhas baterem */
+  max-width: 11.75rem;
+  /* o `0` do topo/base não é decoração: o Chrome dá `margin-block-end: 1em` a */
+  /* todo <form>, e eram 16px de sobra medidos embaixo do campo */
+  margin: 0 0 0 auto;
+  overflow: hidden;
+  /* origem */
+}
+
+.cart .input {
+  /* some a pílula de 44px da PDP */
+  box-sizing: border-box;
+  width: 100%;
+  /* origem: base percentual, imune ao valor digitado */
+  min-width: 7.25rem;
+  /* origem */
+  height: auto;
+  padding: 0.625rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 16%, transparent);
+  border-right: 0;
+  border-radius: 2px 0 0 2px;
+  font-size: 12px;
+  letter-spacing: 0.0253rem;
+}
+
+.cart .button {
+  /* deixa de ser absoluto sobre o input e passa a ser irmão colado */
+  position: static;
+  box-sizing: border-box;
+  width: 100%;
+  /* origem — o max-width abaixo é quem manda; o texto não entra na conta */
+  max-width: 4.3125rem;
+  /* origem */
+  height: auto;
+  padding: 0 0.5rem;
+  border-radius: 0 2px 2px 0;
+  font-weight: 400;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.cart .postalCodeBox {
+  width: 100%;
+  min-height: 0;
+}
+
+.cart .options {
+  width: 100%;
+}
+
+.cart .error {
+  flex: 1 0 100%;
+}
+
+/* Rótulo da variante `cart` — mesma régua do campo de cupom do minicart. */
+
+.cart .label {
+  font-size: 0.875rem;
+  color: var(--prod-info-text, var(--text-primary-color, #212721));
+}
+
+/* Auto-zoom do iOS: campo com font-size < 16px faz o Safari ampliar a página
+inteira ao receber foco — no minicart isso desalinha a gaveta. `pointer: coarse`
+atinge só dispositivos de toque; no desktop o campo continua com 12px.
+Vale para as duas variantes (pílula da PDP e campo compacto do minicart).
+A 16px o placeholder não cabia mais nos 119px fixos do minicart ("Calcule seu
+frete" mede 116px numa caixa de 94px). Em vez de encurtar o texto, o campo passa
+a ocupar a largura livre da linha: no mobile a gaveta tem folga que o desktop não
+tem, e o botão continua travado em 4.3125rem, então as duas linhas seguem iguais. */
+
+@media (pointer: coarse) {
+  .input, .cart .input {
+    font-size: 16px;
+  }
+
+  .cart .form {
+    /* largura FIXA e igual nas duas linhas — com `flex: 1 1 auto` cada linha ficava */
+    /* com a sobra do seu rótulo ("Frete:" e "Cupom:" têm larguras diferentes) e os */
+    /* campos deixavam de bater. 15rem dá 146px de caixa de texto, e o maior */
+    /* placeholder ("Insira seu cupom") mede 119,7px a 16px. */
+    width: 15rem;
+    max-width: 100%;
+  }
+
+}

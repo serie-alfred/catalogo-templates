@@ -45,6 +45,26 @@ if (precisaDeDev) {
   }
 }
 
+// O 2-fidelidade é o único estágio que precisa dos DOIS servidores: ele compara
+// o componente real do starter com a réplica daqui. Sem esta conferência, ele
+// morre com um ERR_CONNECTION_REFUSED que parece problema do catálogo.
+const STARTER_URL = process.env.FUNIL_STARTER_URL ?? 'http://localhost:3000';
+if (estagios.some(f => f.startsWith('2-fidelidade'))) {
+  const vivo = await fetch(`${STARTER_URL}/dev-fidelity`, { redirect: 'manual' })
+    .then(r => r.status < 500)
+    .catch(() => false);
+  if (!vivo) {
+    console.error(
+      `\n💥 ${STARTER_URL}/dev-fidelity não responde. O estágio 2-fidelidade\n` +
+        `   compara contra o componente REAL, então precisa do starter de pé:\n` +
+        `   yarn --cwd ../faststore.starter dev\n` +
+        `   (500 ali costuma ser contentSource: o palco vive no CMS legado —\n` +
+        `    ver faststore.starter/CLAUDE.md → "De onde vem o conteúdo")`
+    );
+    process.exit(1);
+  }
+}
+
 /**
  * O commit de cada um dos 4 repos no momento da execução.
  *

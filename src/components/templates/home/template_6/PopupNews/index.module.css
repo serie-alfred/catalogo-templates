@@ -1,0 +1,299 @@
+/* PopupNews06 -> popupNews/06. Convertido 1:1 do
+   faststore.starter/src/components/organisms/PopupNews06/style.module.scss.
+
+   @media virou @container nos mesmos breakpoints; a .popupWrap existe so para
+   carregar o container-type (um elemento nao consulta o proprio container).
+   var(--...) verbatim. */
+
+.popupWrap {
+  container-type: inline-size;
+}
+
+/* ── PopupNews06 — modal de newsletter (DESKTOP-ONLY) ───────────── */
+/* FIDELIDADE: números de `_bases/PopupNews06/metrics.md` (capturado @1280, a */
+/* origem só exibe o popup em ≥1025px). Anotados com `// metrics:`. */
+/* Validação: `yarn fidelity PopupNews06 --neutral`. */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  /* backdrop estrutural */
+}
+
+.content {
+  position: relative;
+  display: flex;
+  /* metrics: content@1280 (section é flex na origem) */
+  box-sizing: border-box;
+  width: 650px;
+  /* metrics: raiz@1280 (650×498) */
+  height: 498px;
+  overflow: hidden;
+  background: var(--popup-bg, #ffffff);
+  /* superfície do modal */
+  font-family: var(--popup-font, var(--font-secundary, 'Jost', sans-serif));
+}
+
+/* ── Imagem (metade direita) ─────────────────────────────────────────────────── */
+
+.image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 325px;
+  /* metrics: image@1280 (325×498) */
+  height: 498px;
+  object-fit: cover;
+}
+
+/* ── Fechar (X, canto sup. direito, sobre a imagem) ──────────────────────────── */
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  box-sizing: border-box;
+  width: 20px;
+  /* metrics: close@1280 (20×24.4) */
+  height: 24.39px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #ffffff;
+  /* X branco sobre a imagem (estrutural) */
+  cursor: pointer;
+}
+
+.close svg {
+  display: block;
+}
+
+/* ── Painel (título + form) — absoluto sobre a metade esquerda ───────────────── */
+
+.panel {
+  position: absolute;
+  top: 90px;
+  left: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  /* recon: painel gap 20 (título ↔ form) */
+  width: 357px;
+  /* recon: painel 357 (transborda a metade 325 sobre a imagem) */
+  padding-left: 35px;
+  /* recon: painel padding-left 35 */
+  background: var(--popup-bg, #ffffff);
+}
+
+/* Estado de SUCESSO: sem título nem formulário, o painel passa a ocupar a metade */
+/* esquerda exata (325 = largura da imagem à direita, sem o transbordo de 357 que o form */
+/* usa) e centra a mensagem nos dois eixos. */
+
+.panelSuccess {
+  top: 0;
+  width: 325px;
+  /* metrics: image@1280 (a metade direita começa em 325) */
+  height: 100%;
+  /* .content tem altura fixa (498) */
+  padding: 0 24px;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  margin: 0;
+  width: 240px;
+  /* metrics: title@1280 (240×82.78) */
+  font-family: var(--popup-title-font, var(--font-primary, 'Jost', sans-serif));
+  font-size: 24px;
+  /* metrics: title@1280 */
+  font-weight: 200;
+  /* metrics: title@1280 (peso fino) */
+  line-height: 27.6px;
+  /* metrics: title@1280 */
+  letter-spacing: 1px;
+  /* metrics: title@1280 */
+  color: var(--popup-title-color, var(--text-primary-color, #212721));
+}
+
+.highlight {
+  font-weight: 800;
+  /* metrics: title@1280 (span "10% off" peso 800) */
+}
+
+/* ── Form ────────────────────────────────────────────────────────────────────── */
+
+.form {
+  display: flex;
+  /* metrics: form@1280 (flex column gap 25) */
+  flex-direction: column;
+  gap: 25px;
+  width: 286.86px;
+  /* metrics: form@1280 */
+}
+
+.fields {
+  display: grid;
+  /* metrics: field@1280 (grid 2×2) */
+  grid-template-columns: 137px 137px;
+  /* metrics: field@1280 (2 colunas de 137) */
+  row-gap: 25px;
+  /* recon: grid dos campos row-gap 25 */
+  column-gap: 10px;
+  /* recon: column-gap 10 */
+}
+
+.field {
+  box-sizing: border-box;
+  display: flex;
+  /* metrics: field@1280 (flex column, space-between, gap 12) */
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  width: 137px;
+  /* metrics: field@1280 (137×46.59) */
+}
+
+.label {
+  margin: 0;
+  font-size: 12px;
+  /* metrics: label@1280 (12/400, lh 13.8, uppercase) */
+  font-weight: 400;
+  line-height: 13.8px;
+  text-transform: uppercase;
+  /* metrics: label@1280 */
+  color: #bdbdbd;
+  /* cinza de placeholder da origem (estrutural) */
+}
+
+.input {
+  box-sizing: border-box;
+  width: 137px;
+  /* metrics: input@1280 (137×20.8) */
+  padding: 1px 2px 5px;
+  /* metrics: input@1280 (p 1/2/5/2) */
+  border: 0;
+  border-bottom: 1px solid #bdbdbd;
+  /* sublinhado do campo (estrutural) */
+  border-radius: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 12px;
+  /* metrics: input@1280 (12/500, lh 13.8) */
+  font-weight: 500;
+  line-height: 13.8px;
+  color: var(--popup-text-color, var(--text-primary-color, #212721));
+}
+
+.input:focus {
+  outline: none;
+  border-bottom-color: var(--text-primary-color, #212721);
+}
+
+.input {
+  /* input date nativo: sem padding-right (a origem mede 0 nesse campo) */
+}
+
+.input[type='date'] {
+  padding-right: 0;
+}
+
+.submit {
+  box-sizing: border-box;
+  display: block;
+  /* metrics: submit@1280 (block, altura fixa; texto no topo) */
+  width: 286.86px;
+  /* metrics: submit@1280 (286.86×32.98) */
+  height: 32.98px;
+  /* metrics: submit@1280 (altura explícita; padding 1/6, lh 13.8) */
+  padding: 1px 6px;
+  /* metrics: submit@1280 */
+  text-align: center;
+  border: 0;
+  background: var(--popup-button-bg, var(--background-primary-color, #000000));
+  font-family: inherit;
+  font-size: 12px;
+  /* metrics: submit@1280 (12/300, ls 3px) */
+  font-weight: 300;
+  letter-spacing: 3px;
+  color: var(--popup-button-text, var(--text-color-base, #ffffff));
+  cursor: pointer;
+}
+
+.submit:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+/* falha no cadastro (motivo vindo do resolver) — acima do botão, sem deslocar o layout */
+/* medido: usa a mesma tipografia dos labels e cabe na folga do bloco do formulário */
+
+.error {
+  margin: 0 0 6px;
+  font-size: 12px;
+  line-height: 1.2;
+  color: var(--popup-error-color, #b00020);
+}
+
+/* Mensagem de sucesso: centralizada na largura do painel, como o `.messageSucess` do */
+/* popup do IO (que é o único conteúdo em cena enquanto ela aparece). */
+
+.success {
+  width: 100%;
+  margin: 0;
+  font-size: 20px;
+  /* maior que o corpo do form (14): é o único conteúdo em cena */
+  font-weight: 500;
+  line-height: 28px;
+  text-align: center;
+  /* centrada na metade esquerda — ver .panelSuccess */
+  color: var(--popup-text-color, var(--text-primary-color, #212721));
+}
+
+/* ── Rodapé fino (política/cupom) — base da metade esquerda ──────────────────── */
+
+.finePrint {
+  position: absolute;
+  left: 0;
+  bottom: 20px;
+  z-index: 1;
+  box-sizing: border-box;
+  width: 325px;
+  /* metrics: fine-print@1280 (325×46, p 0/20) */
+  margin: 0;
+  padding: 0 20px;
+  font-size: 10px;
+  /* metrics: fine-print@1280 (10/500, lh 11.5) */
+  font-weight: 500;
+  line-height: 11.5px;
+  text-align: center;
+  color: var(--popup-text-color, var(--text-primary-color, #212721));
+}
+
+/* a origem NÃO exibe o popup abaixo de 1025px — o componente já retorna null via */
+/* useIsDesktop; este guard cobre qualquer render residual */
+
+@container (max-width: 1024px) {
+  .overlay {
+    display: none;
+  }
+
+/* Auto-zoom do iOS — mesmo motivo do formulário do rodapé. O popup abre em cima
+da página, então o zoom ao focar é ainda mais perceptível aqui. */
+
+}
+
+@media (pointer: coarse) {
+  .field {
+    font-size: 16px;
+  }
+
+}
