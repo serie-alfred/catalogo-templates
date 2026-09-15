@@ -18,6 +18,91 @@ const PASTA = {
  * O caminho é montado com o BALDE (global→Common, home→Home…), o `template` e o
  * `selection`. O campo `component` não participa — é rótulo do catálogo.
  */
+/**
+ * Agrupa as entradas do config por um eixo de identidade e separa as cópias que
+ * NÃO são representáveis no tema.
+ *
+ * `key` é campo do ITEM do catálogo, não da instância: duplicar seção é recurso
+ * (`duplicateSection`), e as duas cópias saem com a MESMA key de propósito. A
+ * unicidade que importa é entre ITENS, e quem a mede é o estágio 1 — lá está o
+ * motivo (a Wake deduplica SCSS/JS por `key::arquivo`). Medir unicidade aqui, nas
+ * ENTRADAS, era proibir o recurso: passava só porque nenhum seed duplicava.
+ *
+ * O que o tema não comporta é DIVERGÊNCIA entre as cópias: as três plataformas
+ * injetam as `variables` num arquivo SCSS por COMPONENTE. Duas cópias com blocos
+ * diferentes ⇒ um só chega, e a escolha some sem erro nenhum.
+ *
+ * @param entradas entradas do config.json
+ * @param chaveDe  eixo de identidade — `template/selection` no Tray/Wake (o
+ *                 caminho de origem onde a injeção acontece), `component` no
+ *                 FastStore (o índice do `componentVarsMap` do generator)
+ */
+export function copiasDivergentes(entradas, chaveDe) {
+  const grupos = new Map();
+  for (const e of entradas) {
+    const k = chaveDe(e);
+    if (!grupos.has(k)) grupos.set(k, []);
+    grupos.get(k).push(e);
+  }
+  const divergentes = [...grupos]
+    .filter(
+      ([, es]) =>
+        new Set(es.map(e => JSON.stringify(e.variables ?? {}))).size > 1
+    )
+    .map(([k, es]) => `${k} \u00d7${es.length}`);
+  const duplicadas = [...grupos].filter(([, es]) => es.length > 1).length;
+  return { divergentes, duplicadas };
+}
+
+/**
+ * Autoteste do detector acima. Sem ele a asserção de cópias seria vácua nos dois
+ * ramos: o seed do estágio 3 só produz duplicata LEGÍTIMA (mesmas variables), e o
+ * ramo que reprova nunca seria exercitado — que é exatamente como a asserção
+ * anterior ("keys únicas") passou verde a vida toda sem nunca ver uma duplicata.
+ */
+export function autotesteCopias(r) {
+  const k = e => e.component;
+  const iguais = [
+    { component: 'a/X', variables: { '--c': '#fff' } },
+    { component: 'a/X', variables: { '--c': '#fff' } },
+  ];
+  const difs = [
+    { component: 'a/X', variables: { '--c': '#fff' } },
+    { component: 'a/X', variables: { '--c': '#000' } },
+  ];
+  const pintadaEIntocada = [
+    { component: 'a/X', variables: { '--c': '#fff' } },
+    { component: 'a/X' },
+  ];
+  const sozinha = [{ component: 'a/X' }, { component: 'b/Y' }];
+
+  const A = copiasDivergentes(iguais, k);
+  const B = copiasDivergentes(difs, k);
+  const C = copiasDivergentes(pintadaEIntocada, k);
+  const D = copiasDivergentes(sozinha, k);
+
+  r.ok(
+    'detector de cópias: duplicata com as MESMAS variables passa',
+    A.divergentes.length === 0 && A.duplicadas === 1,
+    JSON.stringify(A)
+  );
+  r.ok(
+    'detector de cópias: variables diferentes REPROVA',
+    B.divergentes.length === 1,
+    JSON.stringify(B)
+  );
+  r.ok(
+    'detector de cópias: cópia pintada + cópia intocada REPROVA',
+    C.divergentes.length === 1,
+    JSON.stringify(C)
+  );
+  r.ok(
+    'detector de cópias: sem duplicata, nada a relatar',
+    D.divergentes.length === 0 && D.duplicadas === 0,
+    JSON.stringify(D)
+  );
+}
+
 export function conferirTrayWake(config, plataforma, r) {
   const raiz = config[plataforma.toLowerCase()];
   const entradas = [];
@@ -44,12 +129,14 @@ export function conferirTrayWake(config, plataforma, r) {
     semOrigem.join(' | ')
   );
 
-  const keys = entradas.map(e => e.key);
-  const dup = [...new Set(keys.filter((k, i) => keys.indexOf(k) !== i))];
+  const { divergentes, duplicadas } = copiasDivergentes(
+    entradas,
+    e => `${e.template}/${e.selection}`
+  );
   r.ok(
-    `${plataforma}: keys únicas`,
-    dup.length === 0,
-    `repetidas: ${dup.join(', ')}`
+    `${plataforma}: nenhuma cópia com variables divergentes${duplicadas ? ` (${duplicadas} duplicada${duplicadas > 1 ? 's' : ''})` : ''}`,
+    divergentes.length === 0,
+    `só um conjunto chega ao tema: ${divergentes.join(', ')}`
   );
 
   r.ok(
@@ -79,12 +166,11 @@ export function conferirFaststore(config, r) {
   );
   const comps = [...new Set(entradas.map(e => e.component))];
 
-  const keys = entradas.map(e => e.key);
-  const dup = [...new Set(keys.filter((k, i) => keys.indexOf(k) !== i))];
+  const { divergentes, duplicadas } = copiasDivergentes(entradas, e => e.component);
   r.ok(
-    `VTEX: keys únicas (${keys.length})`,
-    dup.length === 0,
-    `repetidas: ${dup.join(', ')}`
+    `VTEX: nenhuma cópia com variables divergentes (${entradas.length} entradas${duplicadas ? `, ${duplicadas} duplicada${duplicadas > 1 ? 's' : ''}` : ''})`,
+    divergentes.length === 0,
+    `só um conjunto chega ao tema: ${divergentes.join(', ')}`
   );
   r.ok(
     'VTEX: bloco assets presente',

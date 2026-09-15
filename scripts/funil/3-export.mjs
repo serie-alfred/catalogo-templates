@@ -8,7 +8,11 @@ import {
   mkdirSync,
 } from 'node:fs';
 import { relatorio } from './lib/util.mjs';
-import { conferirTrayWake, conferirFaststore } from './lib/contrato.mjs';
+import {
+  conferirTrayWake,
+  conferirFaststore,
+  autotesteCopias,
+} from './lib/contrato.mjs';
 const CHROME = findChrome();
 const L = lerLayouts();
 const s = ms => new Promise(r => setTimeout(r, ms));
@@ -16,6 +20,10 @@ const log = m => {
   process.stdout.write(`${m}\n`);
 };
 const r = relatorio('Estágio 3 — export e contrato com o generator');
+
+// O detector de cópias antes de qualquer config real: é ele que decide se a
+// asserção abaixo mede alguma coisa, e o seed só exercita o ramo que tolera.
+autotesteCopias(r);
 // Os PNGs também são baixados; pasta limpa a cada run para a conferência valer.
 const DL = `${SAIDA}/download`;
 rmSync(DL, { recursive: true, force: true });
@@ -40,6 +48,24 @@ const seedFor = plat => {
             layoutKey,
             pagina: pg,
           });
+
+  // Uma duplicata de propósito. Duplicar seção é recurso do editor
+  // (`duplicateSection`), e até aqui NENHUM seed produzia duas instâncias do
+  // mesmo item — então a asserção de cópias do contrato passava por vacuidade,
+  // sem nunca ter visto o caso que existe para julgar. Esta cópia leva as MESMAS
+  // `variables` da original: é a duplicata legítima, que o tema comporta. O ramo
+  // que reprova (cópias divergentes) é exercitado pelo autoteste em `contrato.mjs`.
+  const alvo = out.find(sel => {
+    const it = L[sel.layoutKey].items.find(i => i.id === sel.id);
+    return it?.variablesSchema?.length && it.platforms.includes(plat);
+  });
+  if (alvo) {
+    const it = L[alvo.layoutKey].items.find(i => i.id === alvo.id);
+    const v = it.variablesSchema[0];
+    const valor = v.type === 'font' ? "'Manrope', sans-serif" : '#123456';
+    alvo.variables = { [v.cssVar]: valor };
+    out.push({ ...alvo, uid: `${alvo.uid}-copia` });
+  }
   return out;
 };
 
