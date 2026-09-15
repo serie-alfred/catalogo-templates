@@ -52,6 +52,9 @@ export type ComponentVariable = {
  * @property key - A 12-character string key, preferably starting with a template identifier.
  * @property image - URL or path to the item's image.
  * @property mobile - URL or path to the mobile version of the image.
+ *                   Nao e lido por nenhum componente hoje: os mockups do designer
+ *                   ja trazem desktop e mobile no mesmo quadro.
+ * @property imageSource - 'design' (arte do designer) ou 'auto' (screenshot gerado).
  * @property title - Title of the layout item.
  * @property description - Description of the layout item.
  * @property template - Identifier or name of the template associated with this item.
@@ -72,6 +75,21 @@ export type LayoutItem = {
   pagina: Pagina[];
   platforms: Platform[];
   backgroundVars: BackgroundVar[];
+  /**
+   * Origem da thumb que o card do seletor mostra.
+   * `design`  — mockup entregue pelo designer (Banners E-temas). Intocável.
+   * `auto`    — screenshot do componente real gerado por `yarn thumbs`.
+   *             Vale como **pendência**: é o que ainda não veio do design.
+   * ausente   — sem imagem; o card cai no placeholder.
+   * `scripts/thumbs/auto.mjs` NUNCA sobrescreve um item marcado `design`.
+   */
+  imageSource?: "design" | "auto";
+  /**
+   * Quando um mesmo mockup mostra mais de um componente nítido, os outros
+   * `component` que dividem o arquivo. Existe para achar e trocar esses casos
+   * quando o designer entregar a arte isolada — some junto com a troca.
+   */
+  imageSharedWith?: string[];
   path?: string;
   override?: boolean;
   /**
@@ -130,7 +148,7 @@ export const LAYOUTS: Layouts = {
   header: {
     name: "Header",
     items: [
-      { id: "01", selection: "header", key: "hdr01a2b3c4d", image: "", mobile: "", title: "Header Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Header01", path: "organisms/Header01", platforms: ['Tray','Wake', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
+      { id: "01", selection: "header", key: "hdr01a2b3c4d", image: "header/Header01.webp", imageSource: "design", mobile: "", title: "Header Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Header01", path: "organisms/Header01", platforms: ['Tray','Wake', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
         { cssVar: "--header-topbar-bg", label: "Fundo da barra superior", type: "color", default: "#122161", group: "Barra superior", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--header-topbar-text", label: "Texto/ícones da barra superior", type: "color", default: "#ffffff", group: "Barra superior", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--header-bg", label: "Fundo do header (meio)", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
@@ -140,8 +158,8 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "02", selection: "header", key: "hdr02h8l2gty", image: "", mobile: "", title: "Header Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Header02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
-      { id: "03", selection: "header", key: "hdr03a2b3c4d", image: "", mobile: "", title: "Header Template 3", description: "Header com topbar animada e menu de navegação", template: "3", pagina: ["common"], component: "Header03", path: "organisms/Header03", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+      { id: "02", selection: "header", key: "hdr02h8l2gty", image: "header/Header02.webp", imageSource: "design", mobile: "", title: "Header Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Header02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
+      { id: "03", selection: "header", key: "hdr03a2b3c4d", image: "header/Header03.webp", imageSource: "auto", mobile: "", title: "Header Template 3", description: "Header com topbar animada e menu de navegação", template: "3", pagina: ["common"], component: "Header03", path: "organisms/Header03", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--header-topbar-bg", label: "Fundo da barra superior", type: "color", default: "#000000", group: "Barra superior", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--header-topbar-text", label: "Texto da barra superior", type: "color", default: "#ffffff", group: "Barra superior", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
@@ -150,7 +168,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "04", selection: "header", key: "hdr04mnu7zk2", image: "", mobile: "", title: "Header Template 4", description: "Header escuro premium (MANU) com barra de avisos, navegação e tira de benefícios", template: "4", pagina: ["common"], component: "Header04", path: "organisms/Header04", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+      { id: "04", selection: "header", key: "hdr04mnu7zk2", image: "header/Header04.webp", imageSource: "auto", mobile: "", title: "Header Template 4", description: "Header escuro premium (MANU) com barra de avisos, navegação e tira de benefícios", template: "4", pagina: ["common"], component: "Header04", path: "organisms/Header04", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--header-topbar-bg", label: "Fundo da barra superior", type: "color", default: "#0a0a0a", group: "Barra superior", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--header-topbar-text", label: "Texto/ícones da barra superior", type: "color", default: "#ffffff", group: "Barra superior", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
@@ -163,7 +181,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Inter', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--header-title-font", label: "Fonte do logo", type: "font", default: "Georgia, serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "05", selection: "header", key: "hdr05mnu6xj1", image: "", mobile: "", title: "Header Template 5", description: "Header claro (SÉRIE//A) com barra de serviço, busca, wordmark e navegação por categorias", template: "5", pagina: ["common"], component: "Header05", path: "organisms/Header05", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+      { id: "05", selection: "header", key: "hdr05mnu6xj1", image: "header/Header05.webp", imageSource: "auto", mobile: "", title: "Header Template 5", description: "Header claro (SÉRIE//A) com barra de serviço, busca, wordmark e navegação por categorias", template: "5", pagina: ["common"], component: "Header05", path: "organisms/Header05", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-service-bg", label: "Fundo da barra de serviço", type: "color", default: "#1a1f2b", group: "Header", inheritsLabel: "cor de texto do header" },
         { cssVar: "--header-service-text", label: "Texto da barra de serviço", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "fundo do header" },
@@ -174,7 +192,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--header-title-font", label: "Fonte do logo", type: "font", default: "-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "06", selection: "header", key: "hdr06frc1a2b", image: "", mobile: "", title: "Header Template 6", description: "Top-bar em slider, mega-menu por hover, busca e ícones (favoritos, lojas, conta, sacola)", template: "6", pagina: ["common"], component: "Header06", path: "organisms/Header06", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+      { id: "06", selection: "header", key: "hdr06frc1a2b", image: "header/Header06.webp", imageSource: "auto", mobile: "", title: "Header Template 6", description: "Top-bar em slider, mega-menu por hover, busca e ícones (favoritos, lojas, conta, sacola)", template: "6", pagina: ["common"], component: "Header06", path: "organisms/Header06", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--header-topbar-bg", label: "Fundo da barra superior", type: "color", default: "#ffffff", group: "Barra superior", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--header-topbar-text", label: "Texto da barra superior", type: "color", default: "#4f4f4f", group: "Barra superior", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--header-topbar-font", label: "Fonte da barra superior", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
@@ -188,7 +206,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#212721", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "07", selection: "header", key: "hdr07bru1k2m", image: "", mobile: "", title: "Header Template 7", description: "Barra superior rotativa, busca central, ícones de conta/sacola e menu de categorias", template: "7", pagina: ["common"], component: "Header07", path: "organisms/Header07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+      { id: "07", selection: "header", key: "hdr07bru1k2m", image: "header/Header07.webp", imageSource: "auto", mobile: "", title: "Header Template 7", description: "Barra superior rotativa, busca central, ícones de conta/sacola e menu de categorias", template: "7", pagina: ["common"], component: "Header07", path: "organisms/Header07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--header-topbar-bg", label: "Fundo da barra superior", type: "color", default: "#2c2420", group: "Barra superior", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-topbar-text", label: "Texto da barra superior", type: "color", default: "#f5f0e8", group: "Barra superior", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#fff", group: "Header" },
@@ -210,57 +228,57 @@ export const LAYOUTS: Layouts = {
   spot: {
     name: "Card de Produto",
     items: [
-      { id: "01", selection: "spot", key: "crdprd017839", image: "", mobile: "", title: "Card de Produto Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Spot01", path: "molecules/ProductCard01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["secondary", "tertiary"], variablesSchema: [
+      { id: "01", selection: "spot", key: "crdprd017839", image: "spot/Spot01.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Spot01", path: "molecules/ProductCard01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["secondary", "tertiary"], variablesSchema: [
         { cssVar: "--spot-tag-bg", label: "Cor da etiqueta 'Novo'", type: "color", default: "#f5a623", group: "Etiquetas", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--spot-btn-bg", label: "Cor do botão comprar", type: "color", default: "#122161", group: "Botão", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--spot-btn-text", label: "Texto do botão comprar", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--spot-font", label: "Fonte do card de produto", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "02", selection: "spot", key: "cardprd02g96", image: "", mobile: "", title: "Card de Produto Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Spot02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary"] },
-      { id: "03", selection: "spot", key: "crdprd03h291", image: "", mobile: "", title: "Card de Produto Template 3", description: "Card de produto com seletor de tamanhos", template: "3", pagina: ["common"], component: "Spot03", path: "molecules/ProductCard03", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["secondary", "tertiary"], variablesSchema: [
+      { id: "02", selection: "spot", key: "cardprd02g96", image: "spot/Spot02.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Spot02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary"] },
+      { id: "03", selection: "spot", key: "crdprd03h291", image: "spot/Spot03.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 3", description: "Card de produto com seletor de tamanhos", template: "3", pagina: ["common"], component: "Spot03", path: "molecules/ProductCard03", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["secondary", "tertiary"], variablesSchema: [
         { cssVar: "--spot-tag-bg", label: "Fundo da etiqueta de desconto", type: "color", default: "#ffffff", group: "Etiquetas", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--spot-tag-text", label: "Texto da etiqueta de desconto", type: "color", default: "#000000", group: "Etiquetas", inheritsLabel: "cor de texto primária" },
         { cssVar: "--spot-btn-bg", label: "Fundo do seletor de tamanho (hover)", type: "color", default: "#000000", group: "Seletor de tamanho", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--spot-btn-text", label: "Texto do seletor de tamanho (hover)", type: "color", default: "#ffffff", group: "Seletor de tamanho", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--spot-font", label: "Fonte do card de produto", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "04", selection: "spot", key: "crdprd04f1a2", image: "", mobile: "", title: "Card de Produto Template 4", description: "Card de produto com botão de adicionar", template: "4", pagina: ["common"], component: "Spot04", path: "molecules/ProductCard04", platforms: ['VTEX'], backgroundVars: ["secondary", "tertiary"], variablesSchema: [
+      { id: "04", selection: "spot", key: "crdprd04f1a2", image: "spot/Spot04.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 4", description: "Card de produto com botão de adicionar", template: "4", pagina: ["common"], component: "Spot04", path: "molecules/ProductCard04", platforms: ['VTEX'], backgroundVars: ["secondary", "tertiary"], variablesSchema: [
         { cssVar: "--spot-tag-bg", label: "Fundo da etiqueta de desconto", type: "color", default: "#219653", group: "Etiquetas", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--spot-tag-text", label: "Texto da etiqueta de desconto", type: "color", default: "#ffffff", group: "Etiquetas", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--spot-btn-bg", label: "Fundo do botão adicionar", type: "color", default: "#e40101", group: "Botão", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--spot-btn-text", label: "Texto do botão adicionar", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--spot-font", label: "Fonte do card de produto", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "05", selection: "spot", key: "crdprd05b3c4", image: "", mobile: "", title: "Card de Produto Template 5", description: "Card de produto com avaliação e desejos", template: "5", pagina: ["common"], component: "Spot05", path: "molecules/ProductCard05", platforms: ['VTEX'], backgroundVars: ["tertiary"], variablesSchema: [
+      { id: "05", selection: "spot", key: "crdprd05b3c4", image: "spot/Spot05.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 5", description: "Card de produto com avaliação e desejos", template: "5", pagina: ["common"], component: "Spot05", path: "molecules/ProductCard05", platforms: ['VTEX'], backgroundVars: ["tertiary"], variablesSchema: [
         { cssVar: "--spot-tag-bg", label: "Fundo da etiqueta de desconto", type: "color", default: "#219653", group: "Etiquetas", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--spot-tag-text", label: "Texto da etiqueta de desconto", type: "color", default: "#ffffff", group: "Etiquetas", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--spot-price-color", label: "Cor do preço principal", type: "color", default: "#0096fe", group: "Preço", inheritsLabel: "cor primária da marca" },
         { cssVar: "--spot-font", label: "Fonte do card de produto", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "06", selection: "spot", key: "crdprd06f6g7", image: "", mobile: "", title: "Card de Produto Template 6", description: "Card com etiqueta de oferta e botão comprar", template: "6", pagina: ["common"], component: "Spot06", path: "molecules/ProductCard06", platforms: ['VTEX'], backgroundVars: ["tertiary"] },
-      { id: "07", selection: "spot", key: "crdprd07h8j9", image: "", mobile: "", title: "Card de Produto Template 7", description: "Card minimalista, sem botão de compra", template: "7", pagina: ["common"], component: "Spot07", path: "molecules/ProductCard07", platforms: ['VTEX'], backgroundVars: ["secondary"] },
+      { id: "06", selection: "spot", key: "crdprd06f6g7", image: "spot/Spot06.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 6", description: "Card com etiqueta de oferta e botão comprar", template: "6", pagina: ["common"], component: "Spot06", path: "molecules/ProductCard06", platforms: ['VTEX'], backgroundVars: ["tertiary"] },
+      { id: "07", selection: "spot", key: "crdprd07h8j9", image: "spot/Spot07.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 7", description: "Card minimalista, sem botão de compra", template: "7", pagina: ["common"], component: "Spot07", path: "molecules/ProductCard07", platforms: ['VTEX'], backgroundVars: ["secondary"] },
     ],
   },
   breadcrumb: {
     name: "Breadcrumb",
     items: [
-      { id: "01", selection: "breadcrumb", key: "bred01q3r4s5", image: "", mobile: "", title: "Breadcrumb Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Breadcrumb01", path: "overrides/Breadcrumb01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "01", selection: "breadcrumb", key: "bred01q3r4s5", image: "breadcrumb/Breadcrumb01.webp", imageSource: "auto", mobile: "", title: "Breadcrumb Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Breadcrumb01", path: "overrides/Breadcrumb01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--breadcrumb-text", label: "Cor do texto e links", type: "color", default: "#292929", group: "Breadcrumb", inheritsLabel: "cor de texto primária" },
         { cssVar: "--breadcrumb-font", label: "Fonte", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "02", selection: "breadcrumb", key: "bred02q7l4k5", image: "", mobile: "", title: "Breadcrumb Template 2", description: "Breadcrumb com separador em chevron", template: "2", pagina: ["common"], component: "Breadcrumb02", platforms: ['Wake'], backgroundVars: [] },
+      { id: "02", selection: "breadcrumb", key: "bred02q7l4k5", image: "breadcrumb/Breadcrumb02.webp", imageSource: "auto", mobile: "", title: "Breadcrumb Template 2", description: "Breadcrumb com separador em chevron", template: "2", pagina: ["common"], component: "Breadcrumb02", platforms: ['Wake'], backgroundVars: [] },
     ],
   },
   footer: {
     name: "Footer",
     items: [
-      { id: "01", selection: "footer", key: "ftr01r39ws5p", image: "", mobile: "", title: "Footer Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Footer01",path: "organisms/Footer01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["footer"], variablesSchema: [
+      { id: "01", selection: "footer", key: "ftr01r39ws5p", image: "footer/Footer01.webp", imageSource: "design", mobile: "", title: "Footer Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Footer01",path: "organisms/Footer01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["footer"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#1A051C", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#3D3D3D", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "02", selection: "footer", key: "ftr02qmrhs43", image: "", mobile: "", title: "Footer Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Footer02", platforms: ['Tray', 'Wake'], backgroundVars: ["footer", "primary", "tertiary"] },
-      { id: "03", selection: "footer", key: "ftr03q3r4s5t", image: "", mobile: "", title: "Footer Template 3", description: "Footer com benefícios, newsletter e links", template: "3", pagina: ["common"], component: "Footer03", path: "organisms/Footer03", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["footer", "secondary"], variablesSchema: [
+      { id: "02", selection: "footer", key: "ftr02qmrhs43", image: "footer/Footer02.webp", imageSource: "design", mobile: "", title: "Footer Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Footer02", platforms: ['Tray', 'Wake'], backgroundVars: ["footer", "primary", "tertiary"] },
+      { id: "03", selection: "footer", key: "ftr03q3r4s5t", image: "footer/Footer03.webp", imageSource: "auto", mobile: "", title: "Footer Template 3", description: "Footer com benefícios, newsletter e links", template: "3", pagina: ["common"], component: "Footer03", path: "organisms/Footer03", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["footer", "secondary"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#ffffff", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#000000", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
         { cssVar: "--footer-accent", label: "Cor de destaque (hover, links)", type: "color", default: "#e60f73", group: "Destaque", inheritsLabel: "cor secundária da marca" },
@@ -270,7 +288,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-button-text", label: "Texto do botão newsletter", type: "color", default: "#ffffff", group: "Newsletter", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "04", selection: "footer", key: "ftr04m4nu9x2", image: "", mobile: "", title: "Footer Template 4", description: "Rodapé escuro premium (MANU) com marca, colunas em accordion no mobile, newsletter e barra inferior", template: "4", pagina: ["common"], component: "Footer04", path: "organisms/Footer04", platforms: ['VTEX'], backgroundVars: ["footer", "primary", "secondary"], variablesSchema: [
+      { id: "04", selection: "footer", key: "ftr04m4nu9x2", image: "footer/Footer04.webp", imageSource: "auto", mobile: "", title: "Footer Template 4", description: "Rodapé escuro premium (MANU) com marca, colunas em accordion no mobile, newsletter e barra inferior", template: "4", pagina: ["common"], component: "Footer04", path: "organisms/Footer04", platforms: ['VTEX'], backgroundVars: ["footer", "primary", "secondary"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#0a0a0a", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#ffffff", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
         { cssVar: "--footer-accent", label: "Cor de destaque (hover do botão)", type: "color", default: "#ffffff", group: "Destaque", inheritsLabel: "cor secundária da marca" },
@@ -279,7 +297,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--footer-title-font", label: "Fonte do logo/títulos", type: "font", default: "'Roboto', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "05", selection: "footer", key: "ftr05mnu8wq4", image: "", mobile: "", title: "Footer Template 5", description: "Rodapé claro (SÉRIE//A) com newsletter, colunas, contato e barra de pagamentos", template: "5", pagina: ["common"], component: "Footer05", path: "organisms/Footer05", platforms: ['VTEX'], backgroundVars: ["footer", "secondary"], variablesSchema: [
+      { id: "05", selection: "footer", key: "ftr05mnu8wq4", image: "footer/Footer05.webp", imageSource: "design", mobile: "", title: "Footer Template 5", description: "Rodapé claro (SÉRIE//A) com newsletter, colunas, contato e barra de pagamentos", template: "5", pagina: ["common"], component: "Footer05", path: "organisms/Footer05", platforms: ['VTEX'], backgroundVars: ["footer", "secondary"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#fff", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#000", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
         { cssVar: "--footer-accent", label: "Cor de destaque (botão, links, hover)", type: "color", default: "#e60f73", group: "Destaque", inheritsLabel: "cor secundária da marca" },
@@ -290,7 +308,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--footer-title-font", label: "Fonte do logo/títulos", type: "font", default: "'Roboto', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "06", selection: "footer", key: "ftr06frc3c4d", image: "", mobile: "", title: "Footer Template 6", description: "Newsletter (nome + e-mail), redes sociais, 3 colunas e barra inferior com copyright", template: "6", pagina: ["common"], component: "Footer06", path: "organisms/Footer06", platforms: ['VTEX'], backgroundVars: ["footer", "secondary"], variablesSchema: [
+      { id: "06", selection: "footer", key: "ftr06frc3c4d", image: "footer/Footer06.webp", imageSource: "auto", mobile: "", title: "Footer Template 6", description: "Newsletter (nome + e-mail), redes sociais, 3 colunas e barra inferior com copyright", template: "6", pagina: ["common"], component: "Footer06", path: "organisms/Footer06", platforms: ['VTEX'], backgroundVars: ["footer", "secondary"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#f6f6f6", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#212721", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
         { cssVar: "--footer-accent", label: "Cor de destaque (hover, links)", type: "color", default: "#c0121c", group: "Destaque", inheritsLabel: "cor secundária da marca" },
@@ -301,7 +319,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--footer-title-font", label: "Fonte dos títulos", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "07", selection: "footer", key: "ftr07bru3n4p", image: "", mobile: "", title: "Footer Template 7", description: "Rodapé escuro: newsletter, colunas institucionais e barra inferior", template: "7", pagina: ["common"], component: "Footer07", path: "organisms/Footer07", platforms: ['VTEX'], backgroundVars: ["secondary", "tertiary", "footer"], variablesSchema: [
+      { id: "07", selection: "footer", key: "ftr07bru3n4p", image: "footer/Footer07.webp", imageSource: "auto", mobile: "", title: "Footer Template 7", description: "Rodapé escuro: newsletter, colunas institucionais e barra inferior", template: "7", pagina: ["common"], component: "Footer07", path: "organisms/Footer07", platforms: ['VTEX'], backgroundVars: ["secondary", "tertiary", "footer"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#1e1612", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#f5f0e8", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
         { cssVar: "--footer-accent", label: "Cor de destaque", type: "color", default: "#b8976a", group: "Rodapé", inheritsLabel: "cor primária da marca" },
@@ -318,34 +336,34 @@ export const LAYOUTS: Layouts = {
   bannerFull: {
     name: "Banner largura máxima",
     items: [
-      { id: "01", selection: "banner-full", key: "banful01hwt4", image: "", mobile: "", title: "Banner largura máxima Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerFull01", path: "atoms/BannerFull01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
-      { id: "02", selection: "banner-full", key: "bnfull02x7k9", image: "", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerFull02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
-      { id: "04", selection: "category-banner", key: "BanFul02op74", image: "", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["category"], component: "BannerFullCategory02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
-      { id: "05", selection: "banner-full", key: "bnfull05k3m7", image: "", mobile: "", title: "Banner largura máxima Template 5", description: "Banner único ocupando a largura total da página", template: "5", pagina: ["home"], component: "BannerFull05", platforms: ['Tray'], backgroundVars: [] },
+      { id: "01", selection: "banner-full", key: "banful01hwt4", image: "bannerFull/BannerFull01.webp", imageSource: "design", imageSharedWith: ["Categories01"], mobile: "", title: "Banner largura máxima Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerFull01", path: "atoms/BannerFull01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
+      { id: "02", selection: "banner-full", key: "bnfull02x7k9", image: "bannerFull/BannerFull02.webp", imageSource: "design", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerFull02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
+      { id: "04", selection: "category-banner", key: "BanFul02op74", image: "bannerFull/BannerFullCategory02.webp", imageSource: "design", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["category"], component: "BannerFullCategory02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
+      { id: "05", selection: "banner-full", key: "bnfull05k3m7", image: "bannerFull/BannerFull05.webp", imageSource: "design", mobile: "", title: "Banner largura máxima Template 5", description: "Banner único ocupando a largura total da página", template: "5", pagina: ["home"], component: "BannerFull05", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
   brand: {
     name: "Marcas",
     items: [
-      { id: "01", selection: "brands", key: "mar01b3k7h2b", image: "", mobile: "", title: "Marcas Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Brand01", path: "molecules/Brands01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
+      { id: "01", selection: "brands", key: "mar01b3k7h2b", image: "brand/Brand01.webp", imageSource: "design", imageSharedWith: ["BannerSide01"], mobile: "", title: "Marcas Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Brand01", path: "molecules/Brands01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
     ],
   },
   textArea: {
     name: "Área de Texto",
     items: [
-      { id: "01", selection: "text-area", key: "txt01a2b3c4d", image: "", mobile: "", title: "Área de Texto Template 1", description: "Bloco de conteúdo HTML livre, preenchido no CMS", template: "1", pagina: ["home"], override: true, path: "molecules/TextArea", component: "TextArea", platforms: ['VTEX'], backgroundVars: [] },
+      { id: "01", selection: "text-area", key: "txt01a2b3c4d", image: "textArea/TextArea.webp", imageSource: "auto", mobile: "", title: "Área de Texto Template 1", description: "Bloco de conteúdo HTML livre, preenchido no CMS", template: "1", pagina: ["home"], override: true, path: "molecules/TextArea", component: "TextArea", platforms: ['VTEX'], backgroundVars: [] },
     ],
   },
   categories: {
     name: "Carrossel de Categorias",
     items: [
-      { id: "01", selection: "categories", key: "cat01lk3ndkl", image: "", mobile: "", title: "Carrossel de Categorias Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Categories01", path: "molecules/Categories01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "01", selection: "categories", key: "cat01lk3ndkl", image: "categories/Categories01.webp", imageSource: "design", imageSharedWith: ["BannerFull01"], mobile: "", title: "Carrossel de Categorias Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Categories01", path: "molecules/Categories01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--categories-title-color", label: "Cor do título e nomes", type: "color", default: "#122161", group: "Texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "04", selection: "multi-categories", key: "mulcat04n8p2", image: "", mobile: "", title: "Carrossel de Categorias Template 4", description: "Grade de categorias com imagem e rótulo", template: "4", pagina: ["home"], component: "MultiCategories04", platforms: ['Tray'], backgroundVars: [] },
-      { id: "06", selection: "home-carousel", key: "homcar06q4r9", image: "", mobile: "", title: "Carrossel de Categorias Template 6", description: "Carrossel de categorias", template: "6", pagina: ["home"], component: "HomeCarousel06", platforms: ['Tray'], backgroundVars: [] },
-      { id: "07", selection: "categories", key: "cat07bru4d5e", image: "", mobile: "", title: "Carrossel de Categorias Template 7", description: "Grid de curadoria: 6 cards no desktop e 4 no mobile, com título e link \'Ver todos\'", template: "7", pagina: ["home"], component: "Categories07", path: "molecules/Categories07", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "04", selection: "multi-categories", key: "mulcat04n8p2", image: "categories/MultiCategories04.webp", imageSource: "auto", mobile: "", title: "Carrossel de Categorias Template 4", description: "Grade de categorias com imagem e rótulo", template: "4", pagina: ["home"], component: "MultiCategories04", platforms: ['Tray'], backgroundVars: [] },
+      { id: "06", selection: "home-carousel", key: "homcar06q4r9", image: "categories/HomeCarousel06.webp", imageSource: "auto", mobile: "", title: "Carrossel de Categorias Template 6", description: "Carrossel de categorias", template: "6", pagina: ["home"], component: "HomeCarousel06", platforms: ['Tray'], backgroundVars: [] },
+      { id: "07", selection: "categories", key: "cat07bru4d5e", image: "categories/Categories07.webp", imageSource: "auto", mobile: "", title: "Carrossel de Categorias Template 7", description: "Grid de curadoria: 6 cards no desktop e 4 no mobile, com título e link \'Ver todos\'", template: "7", pagina: ["home"], component: "Categories07", path: "molecules/Categories07", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--categories-title-color", label: "Cor do título e dos rótulos", type: "color", default: "#2c2420", group: "Categorias", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-accent", label: "Cor do link e do hover", type: "color", default: "#b8976a", group: "Categorias", inheritsLabel: "cor primária da marca" },
         { cssVar: "--categories-font", label: "Fonte do título e dos rótulos", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
@@ -356,11 +374,11 @@ export const LAYOUTS: Layouts = {
   banner: {
     name: "Banners",
     items: [
-      { id: "01", selection: "banner-main", key: "ban01m1k3nq2", image: "", mobile: "", title: "Banners Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerMain01", path: "organisms/BannerMain01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "01", selection: "banner-main", key: "ban01m1k3nq2", image: "banner/BannerMain01.webp", imageSource: "design", mobile: "", title: "Banners Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerMain01", path: "organisms/BannerMain01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--banner-main-accent", label: "Cor do bullet ativo", type: "color", default: "#682A77", group: "Carrossel", inheritsLabel: "cor primária da marca" },
       ] },
-      { id: "06", selection: "banner-main", key: "ban06a1b2c3d", image: "", mobile: "", title: "Banners Template 6", description: "Banner clicável de largura total, com arte separada para desktop e mobile", template: "6", pagina: ["home"], component: "BannerMain06", path: "organisms/BannerMain06", platforms: ['Tray', 'VTEX'], backgroundVars: [] },
-      { id: "07", selection: "banner-main", key: "ban07bru6h7j", image: "", mobile: "", title: "Banners Template 7", description: "Hero com rótulo, título, subtítulo e CTAs sobre a arte; conteúdo e altura próprios no mobile", template: "7", pagina: ["home"], component: "BannerMain07", path: "organisms/BannerMain07", platforms: ['VTEX'], backgroundVars: ["secondary"], variablesSchema: [
+      { id: "06", selection: "banner-main", key: "ban06a1b2c3d", image: "banner/BannerMain06.webp", imageSource: "auto", mobile: "", title: "Banners Template 6", description: "Banner clicável de largura total, com arte separada para desktop e mobile", template: "6", pagina: ["home"], component: "BannerMain06", path: "organisms/BannerMain06", platforms: ['Tray', 'VTEX'], backgroundVars: [] },
+      { id: "07", selection: "banner-main", key: "ban07bru6h7j", image: "banner/BannerMain07.webp", imageSource: "auto", mobile: "", title: "Banners Template 7", description: "Hero com rótulo, título, subtítulo e CTAs sobre a arte; conteúdo e altura próprios no mobile", template: "7", pagina: ["home"], component: "BannerMain07", path: "organisms/BannerMain07", platforms: ['VTEX'], backgroundVars: ["secondary"], variablesSchema: [
         { cssVar: "--banner-main-title-color", label: "Cor do título", type: "color", default: "#faf8f4", group: "Hero", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--banner-main-text", label: "Cor do rótulo e do subtítulo", type: "color", default: "#f5f0e8", group: "Hero", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--banner-main-cta-bg", label: "Fundo do botão principal", type: "color", default: "#faf8f4", group: "Hero", inheritsLabel: "cor de texto secundária" },
@@ -373,29 +391,29 @@ export const LAYOUTS: Layouts = {
   ruler: {
     name: "Regua de benefícios",
     items: [
-      { id: "01", selection: "ruler", key: "bnf01lm3a894", image: "", mobile: "", title: "Regua de benefícios Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Ruler01", path: "molecules/Ruler01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["secondary"], variablesSchema: [
+      { id: "01", selection: "ruler", key: "bnf01lm3a894", image: "ruler/Ruler01.webp", imageSource: "design", mobile: "", title: "Regua de benefícios Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Ruler01", path: "molecules/Ruler01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["secondary"], variablesSchema: [
         { cssVar: "--ruler-bg", label: "Fundo da régua", type: "color", default: "#122161", group: "Régua", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--ruler-text", label: "Texto e ícones da régua", type: "color", default: "#ffffff", group: "Régua", inheritsLabel: "cor de texto secundária" },
       ] },
-      { id: "03", selection: "ruler", key: "bnf03q2w3e4r", image: "", mobile: "", title: "Regua de benefícios Template 3", description: "Faixa escura de benefícios: ícone + título + subtítulo, 4 colunas no desktop e 2 no mobile", template: "3", pagina: ["home"], component: "Ruler03", path: "molecules/BenefitsStrip07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+      { id: "03", selection: "ruler", key: "bnf03q2w3e4r", image: "ruler/Ruler03.webp", imageSource: "auto", mobile: "", title: "Regua de benefícios Template 3", description: "Faixa escura de benefícios: ícone + título + subtítulo, 4 colunas no desktop e 2 no mobile", template: "3", pagina: ["home"], component: "Ruler03", path: "molecules/BenefitsStrip07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--benefits-bg", label: "Fundo da faixa", type: "color", default: "#2c2420", group: "Régua", inheritsLabel: "cor primária da marca" },
         { cssVar: "--benefits-accent", label: "Ícones da régua", type: "color", default: "#b8976a", group: "Régua", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--benefits-title", label: "Texto da régua", type: "color", default: "#f5f0e8", group: "Régua", inheritsLabel: "cor de texto base" },
         { cssVar: "--benefits-font", label: "Fonte da régua", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "02", selection: "ruler", key: "bnf0213jan45", image: "", mobile: "", title: "Regua de benefícios Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Ruler02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary"] },
-      { id: "04", selection: "ruler", key: "bnf04t5u6v7w", image: "", mobile: "", title: "Regua de benefícios Template 4", description: "Régua de benefícios em linha de ícones", template: "4", pagina: ["home"], component: "Ruler04", platforms: ['Tray'], backgroundVars: [] },
-      { id: "05", selection: "ruler", key: "bnf05x8y9z0a", image: "", mobile: "", title: "Regua de benefícios Template 5", description: "Régua de benefícios em carrossel", template: "5", pagina: ["home"], component: "Ruler05", platforms: ['Tray'], backgroundVars: [] },
+      { id: "02", selection: "ruler", key: "bnf0213jan45", image: "ruler/Ruler02.webp", imageSource: "design", mobile: "", title: "Regua de benefícios Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Ruler02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary"] },
+      { id: "04", selection: "ruler", key: "bnf04t5u6v7w", image: "ruler/Ruler04.webp", imageSource: "auto", mobile: "", title: "Regua de benefícios Template 4", description: "Régua de benefícios em linha de ícones", template: "4", pagina: ["home"], component: "Ruler04", platforms: ['Tray'], backgroundVars: [] },
+      { id: "05", selection: "ruler", key: "bnf05x8y9z0a", image: "ruler/Ruler05.webp", imageSource: "design", mobile: "", title: "Regua de benefícios Template 5", description: "Régua de benefícios em carrossel", template: "5", pagina: ["home"], component: "Ruler05", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
   grid: {
     name: "Grid de banners",
     items: [
-      { id: "01", selection: "banner-grid", key: "grd01qw09er8", image: "", mobile: "", title: "Grid de banners Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerGrid01", path: "molecules/BannerGrid01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "01", selection: "banner-grid", key: "grd01qw09er8", image: "grid/BannerGrid01.webp", imageSource: "design", mobile: "", title: "Grid de banners Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerGrid01", path: "molecules/BannerGrid01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--banner-grid-title-color", label: "Cor do título", type: "color", default: "#122161", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--banner-grid-font", label: "Fonte do título", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "06", selection: "banner-grid", key: "grd06frc9j1k", image: "", mobile: "", title: "Grid de banners Template 6", description: "Título centrado e slider de banner-cards de categoria: 3 por página no desktop, 1 com dots e setas no mobile", template: "6", pagina: ["home"], component: "BannerGrid06", path: "molecules/BannerGrid06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "06", selection: "banner-grid", key: "grd06frc9j1k", image: "grid/BannerGrid06.webp", imageSource: "auto", mobile: "", title: "Grid de banners Template 6", description: "Título centrado e slider de banner-cards de categoria: 3 por página no desktop, 1 com dots e setas no mobile", template: "6", pagina: ["home"], component: "BannerGrid06", path: "molecules/BannerGrid06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--banner-grid-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Grid de banners", inheritsLabel: "cor de texto primária" },
         { cssVar: "--banner-grid-card-title-color", label: "Cor do título do card", type: "color", default: "#ffffff", group: "Grid de banners", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--banner-grid-font", label: "Fonte do título", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
@@ -406,10 +424,10 @@ export const LAYOUTS: Layouts = {
   bannerSide: {
     name: "Banner Side",
     items: [
-      { id: "01", selection: "banner-side", key: "bansd014mh45", image: "", mobile: "", title: "Banner Side Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerSide01", path: "molecules/BannerSide01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
-      { id: "02", selection: "banner-duplo", key: "bansdhg028e3", image: "", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerDuplo02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
-      { id: "03", selection: "banner-side", key: "bansd0334nb7", image: "", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerSide02", platforms: ['Tray', 'Wake'], backgroundVars: ["tertiary"] },
-      { id: "06", selection: "banner-side", key: "bansd06f7g8h", image: "", mobile: "", title: "Banner Side Template 6", description: "Par de banner-cards lado a lado: arte clicável, parágrafo e link \'Veja mais\'", template: "6", pagina: ["home"], component: "BannerSide06", path: "molecules/BannerSide06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "01", selection: "banner-side", key: "bansd014mh45", image: "bannerSide/BannerSide01.webp", imageSource: "design", imageSharedWith: ["Brand01"], mobile: "", title: "Banner Side Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerSide01", path: "molecules/BannerSide01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
+      { id: "02", selection: "banner-duplo", key: "bansdhg028e3", image: "bannerSide/BannerDuplo02.webp", imageSource: "design", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerDuplo02", platforms: ['Tray', 'Wake'], backgroundVars: [] },
+      { id: "03", selection: "banner-side", key: "bansd0334nb7", image: "bannerSide/BannerSide02.webp", imageSource: "design", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerSide02", platforms: ['Tray', 'Wake'], backgroundVars: ["tertiary"] },
+      { id: "06", selection: "banner-side", key: "bansd06f7g8h", image: "bannerSide/BannerSide06.webp", imageSource: "auto", mobile: "", title: "Banner Side Template 6", description: "Par de banner-cards lado a lado: arte clicável, parágrafo e link \'Veja mais\'", template: "6", pagina: ["home"], component: "BannerSide06", path: "molecules/BannerSide06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--banner-side-text", label: "Cor do texto e do sublinhado", type: "color", default: "#212721", group: "Banner Side", inheritsLabel: "cor de texto primária" },
         { cssVar: "--banner-side-font", label: "Fonte do texto", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
@@ -418,51 +436,51 @@ export const LAYOUTS: Layouts = {
   showcase: {
     name: "Vitrines",
     items: [
-      { id: "01", selection: "showcase", key: "vtr01cm487ha", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Showcase01", path: "organisms/ProductShelfCustom01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "01", selection: "showcase", key: "vtr01cm487ha", image: "showcase/Showcase01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Showcase01", path: "organisms/ProductShelfCustom01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--showcase-title-color", label: "Cor do título", type: "color", default: "#122161", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--showcase-font", label: "Fonte do título", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--showcase-accent", label: "Cor do bullet ativo", type: "color", default: "#682a77", group: "Carrossel", inheritsLabel: "cor primária da marca" },
       ] },
-      { id: "02", selection: "showcase", key: "vtr02mq91m48", image: "", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Showcase02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary"] },
-      { id: "03", selection: "showcase", key: "vtr03s5t6u7v", image: "", mobile: "", title: "Vitrine Template 3", description: "Vitrine de produtos com carrossel e seletor de tamanhos", template: "3", pagina: ["home"], component: "Showcase03", path: "organisms/ProductShelfCustom03", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "02", selection: "showcase", key: "vtr02mq91m48", image: "showcase/Showcase02.webp", imageSource: "design", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Showcase02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary"] },
+      { id: "03", selection: "showcase", key: "vtr03s5t6u7v", image: "showcase/Showcase03.webp", imageSource: "auto", mobile: "", title: "Vitrine Template 3", description: "Vitrine de produtos com carrossel e seletor de tamanhos", template: "3", pagina: ["home"], component: "Showcase03", path: "organisms/ProductShelfCustom03", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--showcase-title-color", label: "Cor do título", type: "color", default: "#292929", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--showcase-font", label: "Fonte do título", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--showcase-accent", label: "Cor do bullet ativo", type: "color", default: "#000000", group: "Carrossel", inheritsLabel: "cor primária da marca" },
       ] },
-      { id: "04", selection: "showcase", key: "vtr04w8x9y0z", image: "", mobile: "", title: "Vitrine Template 4", description: "Vitrine com setas laterais e dots na barra inferior", template: "4", pagina: ["home"], component: "Showcase04", path: "organisms/ProductShelfCustom04", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "04", selection: "showcase", key: "vtr04w8x9y0z", image: "showcase/Showcase04.webp", imageSource: "auto", mobile: "", title: "Vitrine Template 4", description: "Vitrine com setas laterais e dots na barra inferior", template: "4", pagina: ["home"], component: "Showcase04", path: "organisms/ProductShelfCustom04", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--showcase-title-color", label: "Cor do título", type: "color", default: "#292929", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--showcase-font", label: "Fonte do título", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--showcase-accent", label: "Cor do bullet ativo", type: "color", default: "#e40101", group: "Carrossel", inheritsLabel: "cor primária da marca" },
       ] },
-      { id: "05", selection: "showcase", key: "vtr05a1b2c3d", image: "", mobile: "", title: "Vitrine Template 5", description: "Vitrine com fundo cinza, setas laterais e avaliação", template: "5", pagina: ["home"], component: "Showcase05", path: "organisms/ProductShelfCustom05", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "05", selection: "showcase", key: "vtr05a1b2c3d", image: "showcase/Showcase05.webp", imageSource: "design", mobile: "", title: "Vitrine Template 5", description: "Vitrine com fundo cinza, setas laterais e avaliação", template: "5", pagina: ["home"], component: "Showcase05", path: "organisms/ProductShelfCustom05", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--showcase-title-color", label: "Cor do título", type: "color", default: "#292929", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--showcase-font", label: "Fonte do título", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--showcase-accent", label: "Cor do bullet ativo", type: "color", default: "#0096fe", group: "Carrossel", inheritsLabel: "cor primária da marca" },
       ] },
-      { id: "06", selection: "showcase", key: "vtr06frc4d5e", image: "", mobile: "", title: "Vitrine Template 6", description: "Vitrine com título, subtítulo e carrossel", template: "6", pagina: ["home"], component: "Showcase06", path: "organisms/ProductShelfCustom06", platforms: ['Tray', 'VTEX'], backgroundVars: [] },
-      { id: "07", selection: "showcase", key: "vtr07bru5q6r", image: "", mobile: "", title: "Vitrine Template 7", description: "Vitrine com título e link para a listagem completa", template: "7", pagina: ["home"], component: "Showcase07", path: "organisms/ProductShelfCustom07", platforms: ['VTEX'], backgroundVars: ["primary"] },
+      { id: "06", selection: "showcase", key: "vtr06frc4d5e", image: "showcase/Showcase06.webp", imageSource: "auto", mobile: "", title: "Vitrine Template 6", description: "Vitrine com título, subtítulo e carrossel", template: "6", pagina: ["home"], component: "Showcase06", path: "organisms/ProductShelfCustom06", platforms: ['Tray', 'VTEX'], backgroundVars: [] },
+      { id: "07", selection: "showcase", key: "vtr07bru5q6r", image: "showcase/Showcase07.webp", imageSource: "auto", mobile: "", title: "Vitrine Template 7", description: "Vitrine com título e link para a listagem completa", template: "7", pagina: ["home"], component: "Showcase07", path: "organisms/ProductShelfCustom07", platforms: ['VTEX'], backgroundVars: ["primary"] },
     ],
   },
   bannerTriple: {
     name: "Banner Triplo",
     items: [
-      { id: "01", selection: "banner-triple", key: "bntrp05f4g5h", image: "", mobile: "", title: "Banner Triplo Template 5", description: "Três banners lado a lado, estáticos", template: "5", pagina: ["home"], component: "BannerTriple05", platforms: ['Tray'], backgroundVars: [] },
-      { id: "02", selection: "banner-triple-swiper", key: "bntsw05j6k7l", image: "", mobile: "", title: "Banner Triplo Template 5 (carrossel)", description: "Três banners em carrossel", template: "5", pagina: ["home"], component: "BannerTripleSwiper05", platforms: ['Tray'], backgroundVars: [] },
-      { id: "03", selection: "banner-triple", key: "bntrp06m8n9p", image: "", mobile: "", title: "Banner Triplo Template 6", description: "Três banners lado a lado", template: "6", pagina: ["home"], component: "BannerTriple06", platforms: ['Tray'], backgroundVars: [] },
-      { id: "04", selection: "category-triple", key: "cattrp06q1r2", image: "", mobile: "", title: "Banner Triplo de Categorias Template 6", description: "Três categorias em carrossel", template: "6", pagina: ["home"], component: "CategoryTriple06", platforms: ['Tray'], backgroundVars: [] },
+      { id: "01", selection: "banner-triple", key: "bntrp05f4g5h", image: "bannerTriple/BannerTriple05.webp", imageSource: "design", mobile: "", title: "Banner Triplo Template 5", description: "Três banners lado a lado, estáticos", template: "5", pagina: ["home"], component: "BannerTriple05", platforms: ['Tray'], backgroundVars: [] },
+      { id: "02", selection: "banner-triple-swiper", key: "bntsw05j6k7l", image: "bannerTriple/BannerTripleSwiper05.webp", imageSource: "design", mobile: "", title: "Banner Triplo Template 5 (carrossel)", description: "Três banners em carrossel", template: "5", pagina: ["home"], component: "BannerTripleSwiper05", platforms: ['Tray'], backgroundVars: [] },
+      { id: "03", selection: "banner-triple", key: "bntrp06m8n9p", image: "bannerTriple/BannerTriple06.webp", imageSource: "auto", mobile: "", title: "Banner Triplo Template 6", description: "Três banners lado a lado", template: "6", pagina: ["home"], component: "BannerTriple06", platforms: ['Tray'], backgroundVars: [] },
+      { id: "04", selection: "category-triple", key: "cattrp06q1r2", image: "bannerTriple/CategoryTriple06.webp", imageSource: "auto", mobile: "", title: "Banner Triplo de Categorias Template 6", description: "Três categorias em carrossel", template: "6", pagina: ["home"], component: "CategoryTriple06", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
   bannerSolo: {
     name: "Banner Solo",
     items: [
-      { id: "01", selection: "banner-solo", key: "bnsolo04s3t4", image: "", mobile: "", title: "Banner Solo Template 4", description: "Banner único com título fixo e botão de ação", template: "4", pagina: ["home"], component: "BannerSolo04", platforms: ['Tray'], backgroundVars: [] },
+      { id: "01", selection: "banner-solo", key: "bnsolo04s3t4", image: "bannerSolo/BannerSolo04.webp", imageSource: "auto", mobile: "", title: "Banner Solo Template 4", description: "Banner único com título fixo e botão de ação", template: "4", pagina: ["home"], component: "BannerSolo04", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
   bannerSideLeft: {
     name: "Banner com texto",
     items: [
-      { id: "01", selection: "banner-solo-left", key: "bnslft05w7x8", image: "", mobile: "", title: "Banner com texto Template 5", description: "Banner com bloco de texto alinhado à esquerda", template: "5", pagina: ["home"], component: "BannerSoloLeft05", platforms: ['Tray'], backgroundVars: [] },
-      { id: "07", selection: "banner-solo-left", key: "bnslft07b2c3", image: "", mobile: "", title: "Banner com texto Template 7", description: "Banner editorial em 2 colunas: imagem com citação e coluna de texto com link", template: "7", pagina: ["home"], component: "BannerSoloLeft07", path: "molecules/EditorialBanner07", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "01", selection: "banner-solo-left", key: "bnslft05w7x8", image: "bannerSideLeft/BannerSoloLeft05.webp", imageSource: "design", mobile: "", title: "Banner com texto Template 5", description: "Banner com bloco de texto alinhado à esquerda", template: "5", pagina: ["home"], component: "BannerSoloLeft05", platforms: ['Tray'], backgroundVars: [] },
+      { id: "07", selection: "banner-solo-left", key: "bnslft07b2c3", image: "bannerSideLeft/BannerSoloLeft07.webp", imageSource: "auto", mobile: "", title: "Banner com texto Template 7", description: "Banner editorial em 2 colunas: imagem com citação e coluna de texto com link", template: "7", pagina: ["home"], component: "BannerSoloLeft07", path: "molecules/EditorialBanner07", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--editorial-title-color", label: "Cor do título e do link", type: "color", default: "#2c2420", group: "Banner com texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--editorial-body-color", label: "Cor do parágrafo", type: "color", default: "#6a5e58", group: "Banner com texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--editorial-accent", label: "Cor do rótulo e do hover", type: "color", default: "#b8976a", group: "Banner com texto", inheritsLabel: "cor primária da marca" },
@@ -475,19 +493,19 @@ export const LAYOUTS: Layouts = {
   specialOffers: {
     name: "Ofertas Especiais",
     items: [
-      { id: "01", selection: "special-offers", key: "spcofr04u5v6", image: "", mobile: "", title: "Ofertas Especiais Template 4", description: "Bloco de ofertas com cartões de desconto", template: "4", pagina: ["home"], component: "SpecialOffers04", platforms: ['Tray'], backgroundVars: [] },
+      { id: "01", selection: "special-offers", key: "spcofr04u5v6", image: "specialOffers/SpecialOffers04.webp", imageSource: "auto", mobile: "", title: "Ofertas Especiais Template 4", description: "Bloco de ofertas com cartões de desconto", template: "4", pagina: ["home"], component: "SpecialOffers04", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
   homeCombined: {
     name: "Combinações",
     items: [
-      { id: "01", selection: "combined-categ", key: "homcmb04y9z0", image: "", mobile: "", title: "Combinações Template 4", description: "Bloco combinado de categorias, chamada e desconto", template: "4", pagina: ["home"], component: "HomeCombined04", platforms: ['Tray'], backgroundVars: [] },
+      { id: "01", selection: "combined-categ", key: "homcmb04y9z0", image: "homeCombined/HomeCombined04.webp", imageSource: "auto", mobile: "", title: "Combinações Template 4", description: "Bloco combinado de categorias, chamada e desconto", template: "4", pagina: ["home"], component: "HomeCombined04", platforms: ['Tray'], backgroundVars: [] },
     ],
   },
   categoryTabs: {
     name: "Abas de categoria",
     items: [
-      { id: "06", selection: "category-tabs", key: "cattab06frc5", image: "", mobile: "", title: "Abas de categoria Template 6", description: "Título, abas de categoria e carrossel de cards de modelo, com a segunda foto aparecendo no hover", template: "6", pagina: ["home"], component: "CategoryTabs06", path: "molecules/CategoryTabs06", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "06", selection: "category-tabs", key: "cattab06frc5", image: "categoryTabs/CategoryTabs06.webp", imageSource: "auto", mobile: "", title: "Abas de categoria Template 6", description: "Título, abas de categoria e carrossel de cards de modelo, com a segunda foto aparecendo no hover", template: "6", pagina: ["home"], component: "CategoryTabs06", path: "molecules/CategoryTabs06", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--categorytabs-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categorytabs-title-font", label: "Fonte do título", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--categorytabs-tab-color", label: "Cor da aba", type: "color", default: "#212721", group: "Pills", inheritsLabel: "cor de texto primária" },
@@ -503,7 +521,7 @@ export const LAYOUTS: Layouts = {
   categoryTitle: {
     name: "Título da categoria",
     items: [
-      { id: "06", selection: "category-title", key: "cattit06frc7", image: "", mobile: "", title: "Título da categoria Template 6", description: "Linha com o nome da categoria e a contagem de produtos encontrados", template: "6", pagina: ["category"], component: "CategoryTitle06", path: "organisms/CategoryTitle06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "06", selection: "category-title", key: "cattit06frc7", image: "categoryTitle/CategoryTitle06.webp", imageSource: "auto", mobile: "", title: "Título da categoria Template 6", description: "Linha com o nome da categoria e a contagem de produtos encontrados", template: "6", pagina: ["category"], component: "CategoryTitle06", path: "organisms/CategoryTitle06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--plp-text", label: "Cor do título e da contagem", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--plp-title-font", label: "Fonte do título", type: "font", default: "'League Spartan', sans-serif", group: "Tipografia" },
         { cssVar: "--plp-font", label: "Fonte da contagem", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
@@ -514,14 +532,14 @@ export const LAYOUTS: Layouts = {
   productBanner: {
     name: "Banner do produto",
     items: [
-      { id: "01", selection: "product-banner", key: "pdb01vtx4k5l", image: "", mobile: "", title: "Banner do produto Template 1", description: "Banner livre do produto, cadastrado no campo descriptionBanner da VTEX; arte separada para desktop e mobile", template: "1", pagina: ["product"], component: "ProductBanner01", path: "molecules/ProductDescriptionBanner01", platforms: ['VTEX'], backgroundVars: [] },
+      { id: "01", selection: "product-banner", key: "pdb01vtx4k5l", image: "productBanner/ProductBanner01.webp", imageSource: "auto", mobile: "", title: "Banner do produto Template 1", description: "Banner livre do produto, cadastrado no campo descriptionBanner da VTEX; arte separada para desktop e mobile", template: "1", pagina: ["product"], component: "ProductBanner01", path: "molecules/ProductDescriptionBanner01", platforms: ['VTEX'], backgroundVars: [] },
     ],
   },
 
   productLines: {
     name: "Outras linhas",
     items: [
-      { id: "06", selection: "product-lines", key: "lin06frc2m3n", image: "", mobile: "", title: "Outras linhas Template 6", description: "Título à esquerda e carrossel de cards de linha com CTA sobreposto: 4 por página no desktop, 1 no mobile", template: "6", pagina: ["home"], component: "BannerCarousel06", path: "molecules/BannerCarousel06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "06", selection: "product-lines", key: "lin06frc2m3n", image: "productLines/BannerCarousel06.webp", imageSource: "auto", mobile: "", title: "Outras linhas Template 6", description: "Título à esquerda e carrossel de cards de linha com CTA sobreposto: 4 por página no desktop, 1 no mobile", template: "6", pagina: ["home"], component: "BannerCarousel06", path: "molecules/BannerCarousel06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--banner-carousel-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Outras linhas", inheritsLabel: "cor de texto primária" },
         { cssVar: "--banner-carousel-cta-color", label: "Cor do CTA sobre a arte", type: "color", default: "#ffffff", group: "Outras linhas", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--banner-carousel-font", label: "Fonte do título", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
@@ -533,7 +551,7 @@ export const LAYOUTS: Layouts = {
   helpFloat: {
     name: "Ajuda flutuante",
     items: [
-      { id: "06", selection: "help-float", key: "hlp06frc7g8h", image: "", mobile: "", title: "Ajuda flutuante Template 6", description: "Barra fixa na borda direita com WhatsApp, trocas, rastreio e horário; recolhida mostra só os ícones", template: "6", pagina: ["home"], component: "HelpFloat06", path: "organisms/HelpFloatButton06", platforms: ['VTEX'], backgroundVars: ["secondary", "primary"], variablesSchema: [
+      { id: "06", selection: "help-float", key: "hlp06frc7g8h", image: "helpFloat/HelpFloat06.webp", imageSource: "auto", mobile: "", title: "Ajuda flutuante Template 6", description: "Barra fixa na borda direita com WhatsApp, trocas, rastreio e horário; recolhida mostra só os ícones", template: "6", pagina: ["home"], component: "HelpFloat06", path: "organisms/HelpFloatButton06", platforms: ['VTEX'], backgroundVars: ["secondary", "primary"], variablesSchema: [
         { cssVar: "--help-bg", label: "Fundo da barra", type: "color", default: "#37343b", group: "Ajuda flutuante", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--help-text", label: "Texto e ícones", type: "color", default: "#ffffff", group: "Ajuda flutuante", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--help-header-bg", label: "Fundo do cabeçalho", type: "color", default: "#ffffff", group: "Ajuda flutuante" },
@@ -546,7 +564,7 @@ export const LAYOUTS: Layouts = {
   popupNews: {
     name: "Pop-up de newsletter",
     items: [
-      { id: "06", selection: "popup-news", key: "popnew06frc1", image: "", mobile: "", title: "Pop-up de newsletter Template 6", description: "Modal de captura de lead com arte à esquerda, título com trecho destacado, quatro campos e rodapé legal; aparece só no desktop", template: "6", pagina: ["home"], component: "PopupNews06", path: "organisms/PopupNews06", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "06", selection: "popup-news", key: "popnew06frc1", image: "popupNews/PopupNews06.webp", imageSource: "auto", mobile: "", title: "Pop-up de newsletter Template 6", description: "Modal de captura de lead com arte à esquerda, título com trecho destacado, quatro campos e rodapé legal; aparece só no desktop", template: "6", pagina: ["home"], component: "PopupNews06", path: "organisms/PopupNews06", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--popup-bg", label: "Fundo do pop-up", type: "color", default: "#ffffff", group: "Formulário" },
         { cssVar: "--popup-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--popup-title-font", label: "Fonte do título", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
@@ -562,7 +580,7 @@ export const LAYOUTS: Layouts = {
   buySize: {
     name: "Compre por tamanho",
     items: [
-      { id: "06", selection: "buy-size", key: "bsz06frc5e6f", image: "", mobile: "", title: "Compre por tamanho Template 6", description: "Título centrado, fileira de chips de tamanho e link para a lista completa", template: "6", pagina: ["home"], component: "BuySize06", path: "molecules/Categories06", platforms: ['VTEX'], backgroundVars: ["tertiary"], variablesSchema: [
+      { id: "06", selection: "buy-size", key: "bsz06frc5e6f", image: "buySize/BuySize06.webp", imageSource: "auto", mobile: "", title: "Compre por tamanho Template 6", description: "Título centrado, fileira de chips de tamanho e link para a lista completa", template: "6", pagina: ["home"], component: "BuySize06", path: "molecules/Categories06", platforms: ['VTEX'], backgroundVars: ["tertiary"], variablesSchema: [
         { cssVar: "--categories-bg", label: "Fundo da seção", type: "color", default: "#f6f6f6", group: "Compre por tamanho", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--categories-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Compre por tamanho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-text", label: "Texto dos chips e do link", type: "color", default: "#212721", group: "Compre por tamanho", inheritsLabel: "cor de texto primária" },
@@ -574,7 +592,7 @@ export const LAYOUTS: Layouts = {
   newsletter: {
     name: "Newsletter",
     items: [
-      { id: "07", selection: "newsletter", key: "nlt07bru3c4d", image: "", mobile: "", title: "Newsletter Template 7", description: "Captura de e-mail em 2 colunas no desktop e empilhada no mobile, com conteúdos próprios por breakpoint", template: "7", pagina: ["home"], component: "Newsletter07", path: "organisms/Newsletter07", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "07", selection: "newsletter", key: "nlt07bru3c4d", image: "newsletter/Newsletter07.webp", imageSource: "auto", mobile: "", title: "Newsletter Template 7", description: "Captura de e-mail em 2 colunas no desktop e empilhada no mobile, com conteúdos próprios por breakpoint", template: "7", pagina: ["home"], component: "Newsletter07", path: "organisms/Newsletter07", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--newsletter-title-color", label: "Cor do título", type: "color", default: "#2c2420", group: "Newsletter", inheritsLabel: "cor de texto primária" },
         { cssVar: "--newsletter-accent", label: "Cor do rótulo", type: "color", default: "#b8976a", group: "Newsletter", inheritsLabel: "cor primária da marca" },
         { cssVar: "--newsletter-desc-color", label: "Cor do parágrafo", type: "color", default: "#6a5e58", group: "Newsletter", inheritsLabel: "cor de texto primária" },
@@ -593,7 +611,7 @@ export const LAYOUTS: Layouts = {
   rooms: {
     name: "Ambientes",
     items: [
-      { id: "07", selection: "rooms", key: "room07bru1a2", image: "", mobile: "", title: "Ambientes Template 7", description: "Escolha por ambiente: rótulo, título e pills de navegação com um ativo", template: "7", pagina: ["home"], component: "ShopByRoom07", path: "organisms/ShopByRoom07", platforms: ['VTEX'], backgroundVars: ["tertiary", "primary"], variablesSchema: [
+      { id: "07", selection: "rooms", key: "room07bru1a2", image: "rooms/ShopByRoom07.webp", imageSource: "auto", mobile: "", title: "Ambientes Template 7", description: "Escolha por ambiente: rótulo, título e pills de navegação com um ativo", template: "7", pagina: ["home"], component: "ShopByRoom07", path: "organisms/ShopByRoom07", platforms: ['VTEX'], backgroundVars: ["tertiary", "primary"], variablesSchema: [
         { cssVar: "--room-bg", label: "Fundo da seção", type: "color", default: "#f2ede4", group: "Ambientes", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--room-accent", label: "Cor do rótulo", type: "color", default: "#b8976a", group: "Ambientes", inheritsLabel: "cor primária da marca" },
         { cssVar: "--room-title-color", label: "Cor do título", type: "color", default: "#2c2420", group: "Ambientes", inheritsLabel: "cor de texto primária" },
@@ -610,8 +628,8 @@ export const LAYOUTS: Layouts = {
   review: {
     name: "Depoimentos",
     items: [
-      { id: "01", selection: "client-review", key: "rev06b1c2d3e", image: "", mobile: "", title: "Depoimentos Template 6", description: "Carrossel de depoimentos de clientes", template: "6", pagina: ["home"], component: "ClientReview06", platforms: ['Tray'], backgroundVars: [] },
-      { id: "07", selection: "client-review", key: "rev07bru9s8t", image: "", mobile: "", title: "Depoimentos Template 7", description: "Prova social centralizada: número em destaque, subtítulo, estrelas e nota", template: "7", pagina: ["home"], component: "ClientReview07", path: "molecules/SocialProof07", platforms: ['VTEX'], backgroundVars: ["tertiary", "primary"], variablesSchema: [
+      { id: "01", selection: "client-review", key: "rev06b1c2d3e", image: "review/ClientReview06.webp", imageSource: "auto", mobile: "", title: "Depoimentos Template 6", description: "Carrossel de depoimentos de clientes", template: "6", pagina: ["home"], component: "ClientReview06", platforms: ['Tray'], backgroundVars: [] },
+      { id: "07", selection: "client-review", key: "rev07bru9s8t", image: "review/ClientReview07.webp", imageSource: "auto", mobile: "", title: "Depoimentos Template 7", description: "Prova social centralizada: número em destaque, subtítulo, estrelas e nota", template: "7", pagina: ["home"], component: "ClientReview07", path: "molecules/SocialProof07", platforms: ['VTEX'], backgroundVars: ["tertiary", "primary"], variablesSchema: [
         { cssVar: "--socialproof-bg", label: "Fundo da seção", type: "color", default: "#f2ede4", group: "Depoimentos", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--socialproof-number-color", label: "Cor do número", type: "color", default: "#2c2420", group: "Depoimentos", inheritsLabel: "cor de texto primária" },
         { cssVar: "--socialproof-muted", label: "Cor do subtítulo e da nota", type: "color", default: "#8c7d74", group: "Depoimentos", inheritsLabel: "cor de texto primária" },
@@ -626,7 +644,7 @@ export const LAYOUTS: Layouts = {
   categoryMain: {
     name: "Grade de produtos",
     items: [
-      { id: "01", selection: "category-main", key: "catmn01ll098", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryMain01", path: "organisms/MainCategory01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
+      { id: "01", selection: "category-main", key: "catmn01ll098", image: "categoryMain/CategoryMain01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryMain01", path: "organisms/MainCategory01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
         { cssVar: "--cat-main-text", label: "Cor do texto", type: "color", default: "#141414", group: "Texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--cat-main-btn-bg", label: "Cor do botão de filtro", type: "color", default: "#122161", group: "Botões", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--cat-main-btn-text", label: "Texto do botão de filtro", type: "color", default: "#ffffff", group: "Botões", inheritsLabel: "cor de texto secundária" },
@@ -634,8 +652,8 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cat-main-page-text", label: "Texto da paginação ativa", type: "color", default: "#ffffff", group: "Destaque", inheritsLabel: "cor de texto base" },
         { cssVar: "--cat-main-font", label: "Fonte", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "02", selection: "category-main", key: "catmn0254hg3", image: "", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["category"], component: "CategoryMain02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "tertiary"] },
-      { id: "06", selection: "category-main", key: "catmn06frc9d", image: "", mobile: "", title: "Grade de produtos Template 6", description: "PLP com trilha e contagem, título da categoria, barra com seletor de densidade e botão de filtros, e grade de cards com carrossel de fotos, selo, seletor de tamanho no hover e lista de desejos", template: "6", pagina: ["category"], component: "CategoryMain06", path: "organisms/MainCategory06", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+      { id: "02", selection: "category-main", key: "catmn0254hg3", image: "categoryMain/CategoryMain02.webp", imageSource: "auto", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["category"], component: "CategoryMain02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "tertiary"] },
+      { id: "06", selection: "category-main", key: "catmn06frc9d", image: "categoryMain/CategoryMain06.webp", imageSource: "auto", mobile: "", title: "Grade de produtos Template 6", description: "PLP com trilha e contagem, título da categoria, barra com seletor de densidade e botão de filtros, e grade de cards com carrossel de fotos, selo, seletor de tamanho no hover e lista de desejos", template: "6", pagina: ["category"], component: "CategoryMain06", path: "organisms/MainCategory06", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--plp-text", label: "Cor do título e da contagem", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--plp-title-font", label: "Fonte do título", type: "font", default: "'League Spartan', sans-serif", group: "Tipografia" },
         { cssVar: "--plp-font", label: "Fonte da listagem", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
@@ -656,7 +674,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--shelf-btn-disabled-text", label: "Texto do botão desabilitado", type: "color", default: "#ffffff", group: "Seletor de tamanho", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--shelf-chip-text", label: "Texto do tamanho selecionado", type: "color", default: "#ffffff", group: "Seletor de tamanho", inheritsLabel: "cor de texto secundária" },
       ] },
-      { id: "07", selection: "category-main", key: "catmn07bru8p", image: "", mobile: "", title: "Grade de produtos Template 7", description: "PLP completa: trilha, título, subcategorias, sidebar de filtros com faixa de preço, barra de ordenação e grade de cards", template: "7", pagina: ["category"], component: "CategoryMain07", path: "organisms/MainCategory07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+      { id: "07", selection: "category-main", key: "catmn07bru8p", image: "categoryMain/CategoryMain07.webp", imageSource: "auto", mobile: "", title: "Grade de produtos Template 7", description: "PLP completa: trilha, título, subcategorias, sidebar de filtros com faixa de preço, barra de ordenação e grade de cards", template: "7", pagina: ["category"], component: "CategoryMain07", path: "organisms/MainCategory07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--plp-title-color", label: "Cor do título e dos textos", type: "color", default: "#2c2420", group: "Listagem", inheritsLabel: "cor de texto primária" },
         { cssVar: "--plp-accent", label: "Cor de destaque", type: "color", default: "#b8976a", group: "Listagem", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--plp-cta-bg", label: "Fundo do botão", type: "color", default: "#2c2420", group: "Listagem", inheritsLabel: "cor primária da marca" },
@@ -669,11 +687,11 @@ export const LAYOUTS: Layouts = {
   categoryDescription: {
     name: "Descrição de categoria",
     items: [
-      { id: "01", selection: "category-description", key: "catdes01hp82", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryDescription01", path: "organisms/DescriptionCategory01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "01", selection: "category-description", key: "catdes01hp82", image: "categoryDescription/CategoryDescription01.webp", imageSource: "auto", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryDescription01", path: "organisms/DescriptionCategory01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--cat-desc-text", label: "Cor do texto", type: "color", default: "#122161", group: "Texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--cat-desc-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "06", selection: "category-description", key: "catdes06frc3", image: "", mobile: "", title: "Descrição de categoria Template 6", description: "Texto editorial da categoria com corte \"saiba mais\" e acordeão de dúvidas frequentes", template: "6", pagina: ["category"], component: "CategoryDescription06", path: "organisms/CategorySeoFaq06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "06", selection: "category-description", key: "catdes06frc3", image: "categoryDescription/CategoryDescription06.webp", imageSource: "auto", mobile: "", title: "Descrição de categoria Template 6", description: "Texto editorial da categoria com corte \"saiba mais\" e acordeão de dúvidas frequentes", template: "6", pagina: ["category"], component: "CategoryDescription06", path: "organisms/CategorySeoFaq06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--plp-text", label: "Cor do texto", type: "color", default: "#212721", group: "Texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--plp-font", label: "Fonte", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
@@ -683,13 +701,13 @@ export const LAYOUTS: Layouts = {
   bannerProduct: {
     name: "Banner",
     items: [
-      { id: "01", selection: "banner-top", key: "ban01p4q5r6s", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "BannerTop01", platforms: ['Tray', 'Wake'], backgroundVars: [] },
+      { id: "01", selection: "banner-top", key: "ban01p4q5r6s", image: "bannerProduct/BannerTop01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "BannerTop01", platforms: ['Tray', 'Wake'], backgroundVars: [] },
     ],
   },
   productDescription: {
     name: "descrição",
     items: [
-      { id: "01", selection: "product-description", key: "desc01t7u8v9w", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductDescription01", path: "molecules/ProductDescription01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["tertiary"], variablesSchema: [
+      { id: "01", selection: "product-description", key: "desc01t7u8v9w", image: "productDescription/ProductDescription01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductDescription01", path: "molecules/ProductDescription01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["tertiary"], variablesSchema: [
         { cssVar: "--prod-desc-text", label: "Cor do texto", type: "color", default: "#122161", group: "Texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-desc-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
@@ -698,7 +716,7 @@ export const LAYOUTS: Layouts = {
   productInfo: {
     name: "Informações do produto",
     items: [
-      { id: "01", selection: "product-info", key: "info01x0y1z2a", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductInfo01", path: "organisms/ProductDetails01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
+      { id: "01", selection: "product-info", key: "info01x0y1z2a", image: "productInfo/ProductInfo01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductInfo01", path: "organisms/ProductDetails01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
         { cssVar: "--prod-info-btn-bg", label: "Cor do botão comprar", type: "color", default: "#682A77", group: "Botão principal", inheritsLabel: "cor primária da marca" },
         { cssVar: "--prod-info-btn-text", label: "Texto do botão comprar", type: "color", default: "#ffffff", group: "Botão principal", inheritsLabel: "cor de texto base" },
         { cssVar: "--prod-info-tag-bg", label: "Cor da etiqueta 'Novo'", type: "color", default: "#f5a623", group: "Etiquetas", inheritsLabel: "cor terciária da marca" },
@@ -707,8 +725,8 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-info-secondary-text", label: "Texto do botão secundário", type: "color", default: "#ffffff", group: "Botão secundário", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--prod-info-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "02", selection: "product-info", key: "info02b3c4d5e", image: "", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["product"], component: "ProductInfo02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
-      { id: "03", selection: "product-info", key: "info03c4d5e6f", image: "", mobile: "", title: "Detalhes do Produto Template 3", description: "PDP FastStore (SérieA): galeria com scroll, título, avaliação, variações de cor/tamanho, selos de confiança e accordion", template: "3", pagina: ["product"], component: "ProductInfo03", path: "organisms/ProductDetails02", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "02", selection: "product-info", key: "info02b3c4d5e", image: "productInfo/ProductInfo02.webp", imageSource: "design", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["product"], component: "ProductInfo02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
+      { id: "03", selection: "product-info", key: "info03c4d5e6f", image: "productInfo/ProductInfo03.webp", imageSource: "auto", mobile: "", title: "Detalhes do Produto Template 3", description: "PDP FastStore (SérieA): galeria com scroll, título, avaliação, variações de cor/tamanho, selos de confiança e accordion", template: "3", pagina: ["product"], component: "ProductInfo03", path: "organisms/ProductDetails02", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--prod-info-title", label: "Cor do título do produto", type: "color", default: "#000", group: "Título e avaliação" },
         { cssVar: "--prod-info-rating", label: "Cor das estrelas de avaliação", type: "color", default: "#121212", group: "Título e avaliação" },
         { cssVar: "--prod-info-price", label: "Cor do preço", type: "color", default: "#121212", group: "Preço" },
@@ -728,7 +746,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-info-font", label: "Fonte (informações)", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
         { cssVar: "--prod-gallery-font", label: "Fonte (selos da galeria)", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
       ] },
-      { id: "04", selection: "product-info", key: "info04pdp7br", image: "", mobile: "", title: "Detalhes do Produto Template 4", description: "PDP editorial: galeria com miniaturas, coluna de compra fixa com preço/Pix/variações, descrição com especificações e dúvidas, e prateleira de relacionados", template: "4", pagina: ["product"], component: "ProductInfo04", path: "organisms/ProductDetails07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+      { id: "04", selection: "product-info", key: "info04pdp7br", image: "productInfo/ProductInfo04.webp", imageSource: "auto", mobile: "", title: "Detalhes do Produto Template 4", description: "PDP editorial: galeria com miniaturas, coluna de compra fixa com preço/Pix/variações, descrição com especificações e dúvidas, e prateleira de relacionados", template: "4", pagina: ["product"], component: "ProductInfo04", path: "organisms/ProductDetails07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--pdp-title-color", label: "Cor do título e dos textos", type: "color", default: "#2c2420", group: "Textos", inheritsLabel: "cor de texto primária" },
         { cssVar: "--pdp-accent", label: "Cor de destaque", type: "color", default: "#b8976a", group: "Destaque", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--pdp-cta-bg", label: "Fundo do botão", type: "color", default: "#2c2420", group: "Botão principal", inheritsLabel: "cor primária da marca" },
@@ -736,7 +754,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--pdp-font-title", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--pdp-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "05", selection: "product-info", key: "info05pdp6fc", image: "", mobile: "", title: "Detalhes do Produto Template 5", description: "PDP completa: barra de aviso, galeria com miniaturas verticais, trilha, avaliação, preço com centavos reduzidos, carrossel de cores, grade de tamanhos com esgotados, guia de medidas, aviso de forma, cálculo de frete, descrição e características", template: "5", pagina: ["product"], component: "ProductInfo05", path: "organisms/ProductDetails06", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+      { id: "05", selection: "product-info", key: "info05pdp6fc", image: "productInfo/ProductInfo05.webp", imageSource: "design", mobile: "", title: "Detalhes do Produto Template 5", description: "PDP completa: barra de aviso, galeria com miniaturas verticais, trilha, avaliação, preço com centavos reduzidos, carrossel de cores, grade de tamanhos com esgotados, guia de medidas, aviso de forma, cálculo de frete, descrição e características", template: "5", pagina: ["product"], component: "ProductInfo05", path: "organisms/ProductDetails06", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--prod-bar-bg", label: "Fundo da barra de aviso", type: "color", default: "#f2f2f2", group: "Barra superior", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-bar-text", label: "Texto da barra de aviso", type: "color", default: "#1d1d1b", group: "Barra superior", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-info-text", label: "Cor do texto", type: "color", default: "#212721", group: "Textos", inheritsLabel: "cor de texto primária" },
@@ -751,7 +769,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-zoom-bg", label: "Fundo do zoom da foto", type: "color", default: "#f6f6f6", group: "Galeria / Selos" },
         { cssVar: "--prod-font", label: "Fonte", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "07", selection: "product-info", key: "info07pd03g", image: "", mobile: "", title: "Detalhes do Produto Template 7", description: "PDP com galeria em coluna rolável, SKU e avaliação, ficha curta, preço, variação de cor e tamanho, compra, selos de confiança e acordeão de especificações", template: "7", pagina: ["product"], component: "ProductInfo07", path: "organisms/ProductDetails03", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "07", selection: "product-info", key: "info07pd03g", image: "productInfo/ProductInfo07.webp", imageSource: "auto", mobile: "", title: "Detalhes do Produto Template 7", description: "PDP com galeria em coluna rolável, SKU e avaliação, ficha curta, preço, variação de cor e tamanho, compra, selos de confiança e acordeão de especificações", template: "7", pagina: ["product"], component: "ProductInfo07", path: "organisms/ProductDetails03", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--prod-info-title", label: "Cor do título", type: "color", default: "#000", group: "Título e avaliação" },
         { cssVar: "--prod-info-text", label: "Cor do texto", type: "color", default: "#121212", group: "Textos" },
         { cssVar: "--prod-info-content", label: "Cor do texto secundário", type: "color", default: "rgba(18, 18, 18, 0.75)", group: "Textos" },
@@ -776,7 +794,7 @@ export const LAYOUTS: Layouts = {
   productReviews: {
     name: "Avaliações do produto",
     items: [
-      { id: "06", selection: "product-reviews", key: "prodrev06tvx", image: "", mobile: "", title: "Avaliações do produto Template 6", description: "Acordeão de avaliações da página de produto: moldura, título e o espaço reservado ao widget de avaliações", template: "6", pagina: ["product"], component: "ProductReviews06", path: "organisms/TrustvoxReviews06", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "06", selection: "product-reviews", key: "prodrev06tvx", image: "productReviews/ProductReviews06.webp", imageSource: "auto", mobile: "", title: "Avaliações do produto Template 6", description: "Acordeão de avaliações da página de produto: moldura, título e o espaço reservado ao widget de avaliações", template: "6", pagina: ["product"], component: "ProductReviews06", path: "organisms/TrustvoxReviews06", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--prod-text", label: "Cor do título", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-card-bg", label: "Fundo do cartão", type: "color", default: "#ffffff", group: "Título" },
         { cssVar: "--prod-button-bg", label: "Cor do botão do widget", type: "color", default: "#212721", group: "Botão", inheritsLabel: "cor primária da marca" },
@@ -788,7 +806,7 @@ export const LAYOUTS: Layouts = {
   productRelated: {
     name: "Produtos Relacionados",
     items: [
-      { id: "01", selection: "product-related", key: "rel01f6g7h8i", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductRelated01", path: "organisms/ProductShowcase01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
+      { id: "01", selection: "product-related", key: "rel01f6g7h8i", image: "productRelated/ProductRelated01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductRelated01", path: "organisms/ProductShowcase01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
     ],
   },
 } as const;

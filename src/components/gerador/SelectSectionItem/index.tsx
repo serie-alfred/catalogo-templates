@@ -61,15 +61,20 @@ export default function SelectSectionItem({
           }`}
         >
           <div className={styles.carouselImage}>
+            {/* 744x401 = 2x o slot (.carouselImage é aspect-ratio 334.667/180.333,
+                ratio 1.856) e é o tamanho em que scripts/thumbs/ grava os arquivos.
+                Antes daqui saía 371x96 — ratio 3.86 — e o next/image dimensionava e
+                otimizava para uma caixa que não existe; o object-fit: cover do CSS
+                escondia o erro. */}
             <Image
               src={
                 item.image
                   ? `${imageBasePath}${item.image}`
-                  : 'https://placehold.co/371x96/png'
+                  : 'https://placehold.co/744x401/png'
               }
               alt={item.title}
-              width={371}
-              height={96}
+              width={744}
+              height={401}
             />
           </div>
 

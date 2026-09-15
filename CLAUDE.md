@@ -57,11 +57,11 @@ All state for the builder lives in [src/hooks/useLayoutGenerator.ts](src/hooks/u
 A template is a React component plus a catalog entry. Two files always need to change together:
 
 1. **Component** — add it under `src/components/templates/{common,home,category,product}/template_N/<Name>/`. The folder convention is `index.tsx` + `index.module.css`. Components receive `{ isMobile }` from [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx) — the single renderer for every surface. Templates may read **only** `logo` and `selections` from `useLayout()`: outside the editor the context is seeded by hand ([SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx)), so any other field is a default, not real state.
-2. **Registry** — import it in [src/utils/templateRegistry.ts](src/utils/templateRegistry.ts) and add it to the `TemplateRegistry` object. The string key must match the `component` field used in `LAYOUTS`. **If the registry entry is missing, `ThemeRenderer` renders a visible red marker naming the component** — it used to emit `<img src="/images/gerador/…">`, which with `image: ''` in all 67 items was a mute 404, so the mistake hid instead of showing.
+2. **Registry** — import it in [src/utils/templateRegistry.ts](src/utils/templateRegistry.ts) and add it to the `TemplateRegistry` object. The string key must match the `component` field used in `LAYOUTS`. **If the registry entry is missing, `ThemeRenderer` renders a visible red marker naming the component** — it used to emit `<img src="/images/gerador/…">`, which with `image: ''` in all items was a mute 404 (os campos `image` já estão preenchidos hoje — ver **Thumbs do seletor** abaixo), so the mistake hid instead of showing.
 3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`Tray | Wake | VTEX`), and `component` (the `TemplateRegistry` key).
 
 > **Os dois lados saem de sincronia com facilidade, e em silêncio.** Hoje eles estão casados:
-> **67 componentes no registry, 67 `LayoutItem`s ativos, zero órfãos dos dois lados** — e o
+> **90 componentes no registry, 90 `LayoutItem`s ativos, zero órfãos dos dois lados** — e o
 > `layoutData.ts` não tem mais nenhum item comentado. Foi assim que ficou depois que os 22 órfãos
 > (o tema **07 inteiro** incluído) viraram itens de verdade; antes, metade do catálogo estava
 > importada e invisível. Confira os dois sentidos antes de commitar:
@@ -85,12 +85,44 @@ A template is a React component plus a catalog entry. Two files always need to c
 > por isso: não tem `template_1/newsletter` em nenhuma das duas plataformas, não tem manifest
 > próprio, e o mock é sub-componente do `Footer01` (que já o renderiza).
 
+### Thumbs do seletor (`image` / `imageSource`)
+
+Cada card do modal "Componentes de seções" mostra
+`public/images/gerador/<layoutKey>/<Component>.webp` — 744×401, que é 2× o slot
+(`.carouselImage` é `aspect-ratio: 334.667/180.333`). **Os 90 itens têm imagem**; o fallback
+`placehold.co` em [SelectSectionItem](src/components/gerador/SelectSectionItem/index.tsx) só
+sobrevive como rede.
+
+`imageSource` diz de onde a imagem veio, e é a **lista de pendências do designer**:
+
+- `design` (32) — mockup entregue pelo designer. Só existe para as famílias 1, 2 e 5, que são as
+  únicas com arte. Os mockups **não são versionados** (~40 MB de JPG);
+  `scripts/thumbs/mapa.json` guarda o pareamento e o caminho da origem.
+- `auto` (58) — screenshot do componente real, tirado por `scripts/thumbs/auto.mjs`. Vale como
+  "ainda não veio do design". Não tenta imitar o estilo do mockup de propósito: um "quase igual"
+  apagaria a distinção que este campo existe para manter.
+
+`yarn thumbs` regera tudo (o estágio `auto` precisa de `yarn dev` de pé). **Duas travas impedem
+que uma rodada futura apague a arte do designer**: o componente estar em `mapa.json`, ou o item já
+estar marcado `imageSource: "design"`. O `aplicar.mjs` é idempotente e escreve o catálogo a partir
+do que existe **em disco** — apagar um `.webp` devolve o item ao placeholder sem editar TypeScript.
+
+`imageSharedWith` marca os 4 casos em que um mockup mostra dois componentes nítidos
+(`Categories01`↔`BannerFull01`, `Brand01`↔`BannerSide01`): os dois itens dividem o mesmo arquivo
+até o designer entregar a arte isolada. O campo some junto com a troca.
+
+`mobile` continua vazio e não é lido por ninguém: o mockup já traz desktop e celular no mesmo quadro.
+
+O inventário completo, a lista do que falta e os 8 mockups órfãos (arte de componente que o
+catálogo não tem) estão em **[docs/THUMBS-DOS-COMPONENTES.md](docs/THUMBS-DOS-COMPONENTES.md)**,
+que é gerado — não edite à mão.
+
 ### Per-component variables (`variablesSchema`)
 
-A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **28 of the 67 active items declare one.** It is not a property of being VTEX-capable: `Header07`, `Footer07`, `Spot06/07` and `Showcase06/07` are VTEX and declare none — they were enabled from the registry orphans and nobody has authored their schemas yet. To count: `grep -c "variablesSchema:" src/data/layoutData.ts`. `Header01` has 8 vars: topbar/header/nav × bg+text, `--cart-text` and `--header-font`.
+A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **52 of the 90 active items declare one.** It is not a property of being VTEX-capable: `Header07`, `Footer07`, `Spot06/07` and `Showcase06/07` are VTEX and declare none — they were enabled from the registry orphans and nobody has authored their schemas yet. To count: `grep -c "variablesSchema:" src/data/layoutData.ts`. `Header01` has 8 vars: topbar/header/nav × bg+text, `--cart-text` and `--header-font`.
 
 - `ComponentVariable = { cssVar, label, type: "color" | "font", default, group?, inheritsLabel? }`. `cssVar` is the literal CSS custom-property name written verbatim into `config.json` (e.g. `--header-topbar-bg`); `default` is the value the downstream SCSS uses as its `var()` fallback; `group` buckets fields in the panel; `inheritsLabel` is the friendly name of the global token shown while the field is still unset.
-- **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) _is_ the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because 39 of the 67 active items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
+- **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) _is_ the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because 38 of the 90 active items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
 - **State:** `LayoutSelection.variables?: Record<cssVar, value>` in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`); persisted with `selections` under the `layoutSelections` localStorage key.
 - **Export:** `pickChangedVariables()` writes ONLY keys whose value differs from the schema `default` (omitted key ⇒ downstream SCSS uses its own `var()` fallback), as a `variables` object on the entry — in both `buildConfigJson` (Tray/Wake) and `buildFaststoreConfigJson` (VTEX).
 - Font values are stored as `'Family', sans-serif`; the panel parses the family out for `FontSelector` and re-wraps on change.
