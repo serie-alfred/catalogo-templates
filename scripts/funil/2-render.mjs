@@ -102,7 +102,7 @@ await p.goto(`${BASE_URL}/gerador`, {
 });
 
 const linhas = [];
-// Uma varredura de 67 itens NÃO pode ser tudo-ou-nada: qualquer exceção no meio
+// Uma varredura do catálogo inteiro NÃO pode ser tudo-ou-nada: qualquer exceção no meio
 // (um wait que estoura, um elemento que não apareceu) derrubava o estágio e, com
 // ele, os quatro estágios seguintes que dependem dele. Agora a falha de um alvo é
 // a falha DAQUELE alvo — aparece na tabela e conta no placar, e o lote termina.

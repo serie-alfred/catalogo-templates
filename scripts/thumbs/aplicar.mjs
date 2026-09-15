@@ -54,6 +54,13 @@ const atualizado = original
     if (!m || !/\bimage:\s*"/.test(linha)) return linha;
     const comp = m[1];
 
+    // Lido da linha ORIGINAL, antes de zerar. É o que faz `design` GRUDAR: sem isto
+    // o cadeado era um só, com uma rodada de atraso — tirar um componente de
+    // mapa.json rebaixava o item para "auto" com o .webp do designer intacto em
+    // disco, e a rodada seguinte de auto.mjs sobrescrevia a arte com um screenshot.
+    // Para rebaixar de verdade, apague o .webp: sem arquivo o item volta ao placeholder.
+    const eraDesign = /\bimageSource:\s*"design"/.test(linha);
+
     // Zera antes de escrever — é o que garante idempotência.
     let l = linha
       .replace(/\s*imageSource:\s*"[^"]*",/g, '')
@@ -66,7 +73,7 @@ const atualizado = original
       semArquivo.push(comp);
       return l;
     }
-    const fonte = DO_DESIGNER.has(comp) ? 'design' : 'auto';
+    const fonte = DO_DESIGNER.has(comp) || eraDesign ? 'design' : 'auto';
     fonte === 'design' ? design++ : auto++;
     const irmaos = irmaosDe.get(comp);
     const extra =

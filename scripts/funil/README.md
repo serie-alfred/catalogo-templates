@@ -20,8 +20,11 @@ e o `yarn dev` de pé para os estágios 2 e 3. Saídas em `.funil/` (ignorada).
 | Estágio | O que prova | Precisa de |
 |---|---|---|
 | `1-catalogo` | chaves e ids únicos, registry casado, mock em disco, **origem real em `global-templates`** para todo item Tray/Wake, manifest para todo `path` VTEX | nada |
+| `1-grafo` | todo `path` VTEX resolve no grafo de `manifest.json`, com o `AssetRegistry` e o `DependencyResolver` reais do generator | checkouts irmãos de `faststore.starter` e `produtos-template-generator` |
+| `1-variaveis` | toda `cssVar` do `variablesSchema` é consumida pelo CSS, e o `default` bate com o nível 3 do fallback encadeado | nada |
+| `2-fidelidade` | a réplica do catálogo bate com o componente real do starter | dev server **e** o `yarn dev` do `faststore.starter` em :3000 |
 | `2-editor` | shell, canvas, painéis, atalhos, modal, troca de plataforma, fonte que não vaza no `:root`, contraste derivado | dev server |
-| `2-render` | **os 67 componentes do catálogo** montam sozinhos, sem erro de console, com altura e conteúdo (`FUNIL_RENDER_NOVOS=1` reduz aos 23 do redesign) | dev server |
+| `2-render` | **todo item do catálogo** monta sozinho, sem erro de console, com altura e conteúdo (`FUNIL_RENDER_NOVOS=1` reduz aos 23 do redesign) | dev server |
 | `2-edicao` | regras de negócio: singleton substitui, não-singleton coexiste, duplicar/remover, painel de variáveis, troca de plataforma | dev server |
 | `2-geometria` | fidelidade ao Figma: **119 nós comparados** (134 asserções), tolerância por classe de nó e exceções codificadas por eixo. Imprime o censo das fixtures e reprova se a cobertura regredir. **Reprova** | dev server |
 | `2-preview` | visão mobile, link `/p/{id}/{page}` compartilhável e a rota `/gerador/import-log` | dev server |
@@ -166,13 +169,15 @@ a geração do tema inteiro, não só aquele componente.
 (o runner só pega `^\d`). É inventário para decidir.
 
 Ele responde "quais assets do `faststore.starter` nenhum tema consegue receber", e
-existe porque o estágio 1 responde só metade. `conferirImports` parte dos 40 `path`
-VTEX do catálogo — 106 assets. Faltam dois grupos de root que o resto do pipeline
+existe porque o estágio 1 responde só metade. `conferirImports` parte apenas dos
+`path` VTEX do catálogo (63 hoje). Faltam dois grupos de root que o resto do pipeline
 injeta: `overrides/CrossSellingShelf01` (auto-injetado por `useLayoutGenerator`
 quando `ProductShowcase01` é escolhido) e `organisms/ProductShowcase<NN>` (empurrado
 por `BuildPipeline._resolve` para o sufixo da vitrine escolhida). Com os três grupos
-são 46 roots → **109 assets**, e é por isso que uma varredura ingênua acusa o
-`ProductShowcase07` de órfão sem ele ser.
+são **69 roots → 151 assets** dos 186 manifests (medido: o script imprime as quatro
+linhas), e é por isso que uma varredura ingênua acusa o `ProductShowcase07` de órfão
+sem ele ser. Os números envelhecem a cada componente novo — rode `yarn alcance` em vez
+de confiar nestes.
 
 O script também varre **import não declarado nos 186 manifests**, não só nos que
 estão no alcance — um asset com `section` e import não declarado compila aqui e

@@ -22,13 +22,19 @@ import { DESTINO, LARGURA, ALTURA, caminhoDe, lerMapa } from './lib.mjs';
 const MAPA = lerMapa();
 const ORIGEM = process.env.THUMBS_ORIGEM ?? MAPA.origem;
 
+// Sair com 0, não com 1. Os mockups são deliberadamente não versionados (~40 MB),
+// então NENHUMA outra máquina — nem o CI — tem a pasta: com `exit(1)` o `&&` do
+// `yarn thumbs` derrubava junto os dois estágios que não dependem dela, e o comando
+// documentado falhava na primeira linha para todo mundo que não é o dono do
+// ~/Downloads. As thumbs de design já em disco são preservadas de qualquer jeito.
 if (!fs.existsSync(ORIGEM)) {
-  console.error(
-    `✗ origem não encontrada: ${ORIGEM}\n` +
-      `  Os mockups não são versionados (são ~40 MB de JPG). Aponte THUMBS_ORIGEM\n` +
-      `  para a pasta "Banners E-temas" ou ajuste "origem" em scripts/thumbs/mapa.json.`
+  console.warn(
+    `⚠️  sem os mockups em ${ORIGEM}\n` +
+      `   Pulando o estágio de design — as thumbs de design já em disco ficam como estão.\n` +
+      `   Para regerá-las, aponte THUMBS_ORIGEM para a pasta "Banners E-temas"\n` +
+      `   ou ajuste "origem" em scripts/thumbs/mapa.json.`
   );
-  process.exit(1);
+  process.exit(0);
 }
 
 // Uma arte que mostra dois componentes nítidos aparece duas vezes no mapa, uma por

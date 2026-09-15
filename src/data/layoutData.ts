@@ -80,7 +80,8 @@ export type LayoutItem = {
    * `design`  — mockup entregue pelo designer (Banners E-temas). Intocável.
    * `auto`    — screenshot do componente real gerado por `yarn thumbs`.
    *             Vale como **pendência**: é o que ainda não veio do design.
-   * ausente   — sem imagem; o card cai no placeholder.
+   * ausente   — NÃO é estado aceito: o estágio 1 do funil reprova item sem thumb em
+   *              disco. Rode `yarn thumbs:auto` para gerar o screenshot do componente.
    * `scripts/thumbs/auto.mjs` NUNCA sobrescreve um item marcado `design`.
    */
   imageSource?: "design" | "auto";

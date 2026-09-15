@@ -19,7 +19,7 @@ yarn lint      # next lint
 yarn start     # next start (production)
 ```
 
-There is no test runner. Verification is `yarn funil` — six stages covering catalog integrity, the editor, the export and the theme the generator assembles from it. See [scripts/funil/README.md](scripts/funil/README.md). It needs `yarn dev` up for stages 2 and 3, and a Chrome (or `CHROME_PATH`).
+There is no test runner. Verification is `yarn funil` — the stages in [scripts/funil/](scripts/funil/) covering catalog integrity, the editor, the export and the theme the generator assembles from it. See [scripts/funil/README.md](scripts/funil/README.md) for what each one proves and what it needs. It wants `yarn dev` up, a Chrome (or `CHROME_PATH`), and — for `2-fidelidade` — the starter's own `yarn dev` on :3000; the preflight aborts the whole run when that one is missing, so reach for a single stage (`yarn funil 1`) when you only need the static checks.
 
 ### Required env vars
 
@@ -145,7 +145,7 @@ The downstream **template-generator** reads each entry's `variables` and injects
 - **`pagina === "common"`** — the code loops `item.pagina.map(...)` to produce one `LayoutSelection` per entry, but in practice **every item in `layoutData.ts` has a single-element `pagina`**, so a `common` item yields exactly ONE row; it's `belongsToPage` that makes it show up on all three pages. Re-selecting the same common item on the same `layoutKey` replaces the existing row.
 - Other items — appended, with a `MAX_PER_PAGE` (currently 101) cap per page.
 
-The same `selection` strings drive the duplicate-button blacklist in [src/utils/sectionRules.ts](src/utils/sectionRules.ts) (`NON_DUPLICABLE_SELECTIONS`). It is keyed by `selection`, not `layoutKey`, and that is load-bearing: the `bannerFull` section mixes `banner-full` (duplicable) with `category-banner` (singleton), so no layoutKey rule can separate them. Update both lists when introducing a new singleton.
+The same `selection` strings drive the duplicate-button blacklist in [src/utils/sectionRules.ts](src/utils/sectionRules.ts) (`NON_DUPLICABLE_SELECTIONS`). It is keyed by `selection`, not `layoutKey`, and that is load-bearing: the `bannerFull` section mixes `banner-full` (duplicable) with `category-banner` (singleton), so no layoutKey rule can separate them. A new singleton goes in **`PAGE_SINGLETON_SELECTIONS`** — that's the list `toggleSelection` reads, and `NON_DUPLICABLE_SELECTIONS` is a union derived from it, which the file itself says not to edit by hand.
 
 ### Render order
 
