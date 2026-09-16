@@ -19,7 +19,7 @@
   font-weight: 700;
   font-size: 24px;
   font-family: var(--cat-desc-font, var(--font-primary, 'Manrope', sans-serif));
-  color: var(--text-primary-color);
+  color: var(--cat-desc-text, var(--text-primary-color, #122161));
   margin: 0 0 1rem 0;
 }
 
@@ -37,7 +37,7 @@
   font-weight: 400;
   font-size: 16px;
   font-family: var(--cat-desc-font, var(--font-secundary, 'Poppins', sans-serif));
-  color: var(--text-primary-color);
+  color: var(--cat-desc-text, var(--text-primary-color, #122161));
   letter-spacing: 0.25px;
   line-height: 25px;
 }

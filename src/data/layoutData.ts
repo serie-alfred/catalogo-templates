@@ -186,6 +186,8 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-login-bg", label: "Fundo do botão Entrar (menu mobile)", type: "color", default: "#212721", group: "Menu mobile", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-login-text", label: "Texto do botão Entrar (menu mobile)", type: "color", default: "#ffffff", group: "Menu mobile", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#212721", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--cart-button-bg", label: "Fundo do botão 'Finalizar Compra'", type: "color", default: "#212721", group: "Mini-carrinho", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--cart-button-text", label: "Texto do botão 'Finalizar Compra'", type: "color", default: "#ffffff", group: "Mini-carrinho", inheritsLabel: "cor de texto base" },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "07", selection: "header", key: "hdr07bru1k2m", image: "", mobile: "", title: "Header Template 7", description: "Barra superior rotativa, busca central, ícones de conta/sacola e menu de categorias", template: "7", pagina: ["common"], component: "Header07", path: "organisms/Header07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
@@ -701,6 +703,8 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "product-info", key: "info01x0y1z2a", image: "", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductInfo01", path: "organisms/ProductDetails01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
         { cssVar: "--prod-info-btn-bg", label: "Cor do botão comprar", type: "color", default: "#682A77", group: "Botão principal", inheritsLabel: "cor primária da marca" },
         { cssVar: "--prod-info-btn-text", label: "Texto do botão comprar", type: "color", default: "#ffffff", group: "Botão principal", inheritsLabel: "cor de texto base" },
+        { cssVar: "--prod-info-variant-active-bg", label: "Variação selecionada: fundo", type: "color", default: "#682A77", group: "Variações" },
+        { cssVar: "--prod-info-variant-active-text", label: "Variação selecionada: texto", type: "color", default: "#ffffff", group: "Variações" },
         { cssVar: "--prod-info-tag-bg", label: "Cor da etiqueta 'Novo'", type: "color", default: "#f5a623", group: "Etiquetas", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--prod-info-tag-text", label: "Texto da etiqueta 'Novo'", type: "color", default: "#ffffff", group: "Etiquetas", inheritsLabel: "cor de texto terciária" },
         { cssVar: "--prod-info-secondary-bg", label: "Cor do botão secundário", type: "color", default: "#122161", group: "Botão secundário", inheritsLabel: "cor secundária da marca" },

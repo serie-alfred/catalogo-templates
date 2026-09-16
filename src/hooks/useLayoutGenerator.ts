@@ -8,7 +8,7 @@ import { sendLayoutConfigEmail } from '@/services/emailService';
 import { isLocalDelivery } from '@/utils/configDelivery';
 import type { Platform } from '@/types/platform';
 import { useThemeHistory, type ThemeDoc } from './useThemeHistory';
-import { buildThemeStyle, contrastOn } from '@/utils/themeStyle';
+import { buildThemeStyle, contrastOn, colorSafeOnWhite } from '@/utils/themeStyle';
 import {
   partitionByPlatform,
   sanitizePlatform,
@@ -843,6 +843,7 @@ export function useLayoutGenerator() {
           colorFooterText,
           colorPrimaryText,
           colorSecondaryText,
+          colorPrimaryBackgroundSafe: colorSafeOnWhite(colorPrimaryBackground),
         },
         assets: {
           logo,
@@ -959,6 +960,7 @@ export function useLayoutGenerator() {
           colorFooterText,
           colorPrimaryText,
           colorSecondaryText,
+          colorPrimaryBackgroundSafe: colorSafeOnWhite(colorPrimaryBackground),
         },
         home: pageItems['home'] ?? [],
         category: pageItems['category'] ?? [],

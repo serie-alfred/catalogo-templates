@@ -54,7 +54,7 @@
   top: 0;
   right: 0;
   height: 100dvh;
-  width: min(92vw, 420px);
+  width: min(92vw, 470px);
   z-index: 3100;
   background: var(--cart-bg, #ffffff);
   color: var(--cart-text, var(--text-primary-color, #212721));
@@ -698,7 +698,17 @@
   /* o `0` do topo/base não é decoração: o Chrome dá `margin-block-end: 1em` a
      todo <form>, e eram 16px de sobra medidos embaixo do campo */
   margin: 0 0 0 auto;
+  /* Borda única no wrapper: campo e botão só desenham o próprio fundo, sem
+     borda individual. Com os dois colados lado a lado, uma borda por
+     elemento deixava o canto direito "aberto" sempre que o fundo do botão
+     ficava próximo do fundo do drawer — a borda do wrapper fecha o
+     retângulo em qualquer combinação de cor. */
+  border: 1px solid color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 16%, transparent);
+  border-radius: 2px;
   overflow: hidden;
+}
+.ssCart .ssForm:focus-within {
+  border-color: var(--prod-info-text, var(--text-primary-color, #212721));
 }
 
 .ssCart .ssInput {
@@ -707,9 +717,8 @@
   min-width: 7.25rem;
   height: auto;
   padding: 0.625rem 0.75rem;
-  border: 1px solid color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 16%, transparent);
-  border-right: 0;
-  border-radius: 2px 0 0 2px;
+  border: 0;
+  border-radius: 0;
   font-size: 12px;
   letter-spacing: 0.0253rem;
 }
@@ -721,7 +730,7 @@
   max-width: 4.3125rem;
   height: auto;
   padding: 0 0.5rem;
-  border-radius: 0 2px 2px 0;
+  border-radius: 0;
   font-weight: 400;
   text-transform: none;
   white-space: nowrap;
@@ -767,7 +776,15 @@
   width: 11.75rem;
   max-width: 11.75rem;
   margin: 0 0 0 auto;
+  /* Borda única no wrapper (ver comentário equivalente em .ssCart .ssForm):
+     evita o canto direito "aberto" quando o fundo do botão Aplicar fica
+     próximo do fundo do drawer. */
+  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #212721)) 16%, transparent);
+  border-radius: 2px;
   overflow: hidden;
+}
+.cpForm:focus-within {
+  border-color: var(--cart-text, var(--text-primary-color, #212721));
 }
 
 .cpContainer .cpInput {
@@ -775,9 +792,7 @@
   width: 100%;
   min-width: 7.25rem;
   padding: 0.625rem 0.75rem;
-  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #212721)) 16%, transparent);
-  border-right: 0;
-  border-radius: 2px 0 0 2px;
+  border: 0;
   background: var(--cart-bg, #ffffff);
   font-family: inherit;
   font-size: 12px;
@@ -789,7 +804,6 @@
 }
 .cpContainer .cpInput:focus-visible {
   outline: none;
-  border-color: var(--cart-text, var(--text-primary-color, #212721));
 }
 
 .cpContainer .cpApply {
@@ -799,7 +813,7 @@
   padding: 0 0.5rem;
   white-space: nowrap;
   border: 0;
-  border-radius: 0 2px 2px 0;
+  border-radius: 0;
   background: var(--cart-button-bg, var(--background-primary-color, #212721));
   color: var(--cart-button-text, var(--text-color-base, #ffffff));
   font-family: inherit;

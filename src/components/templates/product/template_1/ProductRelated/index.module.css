@@ -65,7 +65,10 @@
 }
 
 .showcase__swiper :global(.swiper-pagination-bullet-active) {
-  background-color: var(--showcase-accent, var(--background-primary-color, #682a77));
+  background-color: var(
+    --showcase-accent,
+    var(--background-primary-color-safe, #682a77)
+  );
 }
 
 /* Setas de navegação. */

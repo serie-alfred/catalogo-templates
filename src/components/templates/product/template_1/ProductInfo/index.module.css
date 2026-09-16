@@ -848,8 +848,8 @@
 .listaCorVariacao .selected {
   border: 1px solid transparent !important;
   box-shadow: unset !important;
-  background-color: var(--prod-info-btn-bg, var(--background-primary-color, #682A77));
-  color: var(--prod-info-btn-text, var(--text-color-base, #ffffff));
+  background-color: var(--prod-info-variant-active-bg, var(--background-primary-color, #682A77));
+  color: var(--prod-info-variant-active-text, var(--text-color-base, #ffffff));
 }
 
 .corVariacao {
