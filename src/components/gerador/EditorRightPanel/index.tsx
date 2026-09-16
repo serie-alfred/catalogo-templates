@@ -1,90 +1,38 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { useLayout } from '@/context/LayoutContext';
-import PreviewButton from '../PreviewButton';
 import ComponentVariablesPanel from '../ComponentVariablesPanel';
-import ExportFeedbackModal from '../ExportFeedbackModal';
-import { ArrowDown } from '@/assets/icons/editor';
-import { isLocalDelivery } from '@/utils/configDelivery';
 
 import styles from './index.module.css';
 
 /**
- * Painel direito: cabeçalho fixo com Pré-visualizar e o botão de export, e
- * abaixo as variáveis da seção em edição.
+ * Painel direito: as variáveis da seção em edição, e só isso.
  *
- * O cabeçalho aparece sempre — inclusive quando nenhuma seção está selecionada
- * e o corpo está vazio.
+ * O cabeçalho com "Pré-visualizar" e o botão de export foi para a EditorTopbar,
+ * que passou a atravessar esta coluna — na tela os botões não mudaram de lugar.
+ * O motivo é de dimensionamento: 273px de botões cravavam um piso de 320px num
+ * painel cujo conteúdo mais largo (a linha do ColorPicker) cabe em ~201, e o
+ * canvas pagava a diferença.
  */
 export default function EditorRightPanel({
   className,
+  inert,
 }: {
   className?: string;
+  /** Recolhido: fica no DOM (para a transição ter o que animar) mas fora do
+      alcance de Tab e dos leitores de tela. */
+  inert?: boolean;
 }) {
-  const { exportLayout, platform, exportFeedback, dismissExportFeedback } =
-    useLayout();
-  const [exporting, setExporting] = useState(false);
-
-  /* O rótulo segue o destino real do config (ver configDelivery.ts): em
-     desenvolvimento o clique baixa o arquivo, fora dele envia por e-mail e não
-     baixa nada. Resolvido em efeito porque `window` não existe no servidor — o
-     HTML sai com "Enviar", que é o caso de produção, e só o dev vê a troca. */
-  const [localDelivery, setLocalDelivery] = useState(false);
-  useEffect(() => {
-    setLocalDelivery(isLocalDelivery(window.location.hostname));
-  }, []);
-
-  /* O export monta o palco off-screen, espera as fontes e todas as imagens e
-     captura dois PNGs — são vários segundos. Sem sinal de ocupado o usuário
-     clica de novo achando que não funcionou. */
-  const handleExport = async (event: React.FormEvent) => {
-    if (exporting) return;
-    setExporting(true);
-    try {
-      await exportLayout(event);
-    } finally {
-      setExporting(false);
-    }
-  };
-
   return (
     <aside
       className={`${styles.panel} ${className ?? ''}`}
       aria-label="Propriedades"
+      inert={inert}
     >
-      <header className={styles.header}>
-        <PreviewButton />
-        <button
-          type="button"
-          className={styles.download}
-          onClick={handleExport}
-          /* Sem plataforma o export só liga `showPlatformError`, que quem
-             mostra é o PlatformSelect — e ele só existe no destino
-             "Componentes" do rail. Nos outros o clique não daria retorno
-             nenhum. */
-          disabled={exporting || !platform}
-          title={platform ? undefined : 'Escolha uma plataforma primeiro'}
-        >
-          {exporting ? 'Gerando…' : localDelivery ? 'Baixar' : 'Enviar'}
-
-          {localDelivery && <ArrowDown width={20} height={20} />}
-        </button>
-      </header>
-
       <div className={`${styles.body} ed-scroll`}>
         <ComponentVariablesPanel />
       </div>
-
-      {/* Desfecho do export. Substitui o `window.alert` de antes — sem download
-          em produção, esta é a única evidência de que o clique fez algo. */}
-      {exportFeedback && (
-        <ExportFeedbackModal
-          status={exportFeedback}
-          onClose={dismissExportFeedback}
-        />
-      )}
     </aside>
   );
 }

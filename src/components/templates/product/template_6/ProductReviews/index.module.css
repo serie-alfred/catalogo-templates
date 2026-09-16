@@ -187,7 +187,11 @@ horizontalmente na troca de + para - (glifos têm larguras diferentes). */
 .sign {
   display: inline-block;
   width: 12px;
-  font-family: 'Inter';
+  /* Segue o TÍTULO, como o comentário acima já prometia. Era `'Inter'` cravado:
+     trocar a fonte do título deixava o "+/−" para trás, na fonte antiga. A
+     estabilidade do glifo, que é o motivo da trava existir, quem garante é o
+     `width: 12px` + `text-align: center` logo abaixo — não a família. */
+  font-family: var(--prod-title-font, var(--font-primary, 'Inter', sans-serif));
   font-size: 18px;
   font-weight: 600;
   line-height: 1;

@@ -1,6 +1,13 @@
 .shelf {
   width: 100%;
-  background-color: #f5f5f5;
+  /* Fundo OPCIONAL, desligado por padrão. Era `#f5f5f5` cravado — hex fixo numa
+     cor temável, o que o contrato de 3 níveis proíbe: no tema do cliente ele
+     pintava um cinza que ninguém pediu e que não dava para tirar. Sem
+     `--showcase-bg` a vitrine é transparente e herda o fundo da página; quem
+     quiser o cinza agora o escolhe no painel (variablesSchema do Showcase05).
+     Nível 2 de propósito NÃO existe aqui: encadear para um token global faria a
+     vitrine puxar uma cor de marca sozinha, que é justo o que se quer evitar. */
+  background-color: var(--showcase-bg, transparent);
   padding: 32px 0 40px;
   container-type: inline-size;
 }

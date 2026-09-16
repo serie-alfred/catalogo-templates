@@ -153,7 +153,12 @@ export function SectionRowView({
                 <TextBlock width={22} height={22} />
                 Modelo
               </span>
-              <span className={styles.childValue}>{data.title}</span>
+              {/* `title`: `.childValue` tem ellipsis e o painel encolheu de 344
+                  para 264, então o nome do template corta bem antes do que
+                  cortava. O hover é o que devolve o nome inteiro. */}
+              <span className={styles.childValue} title={data.title}>
+                {data.title}
+              </span>
             </button>
 
             {data.isCommon && (

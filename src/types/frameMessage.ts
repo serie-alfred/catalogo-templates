@@ -87,5 +87,7 @@ export type FromFrame =
       action: 'duplicate' | 'remove';
       uid: string;
     }
-  | { source: typeof FRAME_CHILD; type: 'select'; uid: string }
+  /* `uid: null` = clicou fora de qualquer seção, ou seja, DESSELECIONOU.
+     Mesma forma do 'hover' logo abaixo, e pelo mesmo motivo. */
+  | { source: typeof FRAME_CHILD; type: 'select'; uid: string | null }
   | { source: typeof FRAME_CHILD; type: 'hover'; uid: string | null };

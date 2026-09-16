@@ -64,10 +64,18 @@ export default function PlatformSelect({
         {value ? (
           <>
             {MARKS[value] ?? <span className={styles.mark}>{value}</span>}
-            <span className={styles.caption}>(Storefront)</span>
+            {/* `title` nos dois: `.caption` tem ellipsis e o painel esquerdo
+                foi de 344 para 264 — hoje ainda cabe, mas o corte fica a poucos
+                pixels e o rótulo é a única coisa que diz qual plataforma está
+                selecionada. */}
+            <span className={styles.caption} title="(Storefront)">
+              (Storefront)
+            </span>
           </>
         ) : (
-          <span className={styles.caption}>Selecione uma plataforma</span>
+          <span className={styles.caption} title="Selecione uma plataforma">
+            Selecione uma plataforma
+          </span>
         )}
         <ChevronRight width={20} height={20} />
       </button>

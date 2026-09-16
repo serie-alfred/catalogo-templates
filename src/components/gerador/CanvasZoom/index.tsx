@@ -56,7 +56,10 @@ export default function CanvasZoom({ escala }: { escala: number }) {
   const texto = zoomMode === 'fit' ? `Ajustar · ${pct}%` : ROTULOS[zoomMode];
 
   return (
-    <div ref={rootRef} className={styles.root}>
+    /* `data-canvas-control`: o EditorCanvas desseleciona ao clique no fundo,
+       e este controle flutua SOBRE esse fundo — sem a marca, mudar o zoom
+       tiraria a seleção junto. */
+    <div ref={rootRef} className={styles.root} data-canvas-control>
       <button
         type="button"
         className={styles.trigger}

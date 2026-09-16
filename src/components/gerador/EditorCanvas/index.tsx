@@ -27,13 +27,17 @@ import styles from './index.module.css';
  * É aqui que a largura útil é medida, porque é aqui que o padding mora. O
  * `useCanvasZoom` transforma essa medida na caixa do frame.
  */
-export default function EditorCanvas() {
+export default function EditorCanvas({ className }: { className?: string }) {
   const { isMobileView, zoomMode } = useLayout();
   const ref = useRef<HTMLElement | null>(null);
   const caixa = useCanvasZoom(ref, { modo: zoomMode, mobile: isMobileView });
 
+  /* A desseleção por clique no fundo NÃO mora mais aqui: subiu para o shell
+     (gerador/(editor)/page.tsx), que cobre o canvas E o resto da chrome —
+     topbar, painéis, rail. Ver o comentário de lá. */
+
   return (
-    <main className={styles.canvas} ref={ref}>
+    <main className={`${styles.canvas} ${className ?? ''}`} ref={ref}>
       <PreviewFrame caixa={caixa} />
       <CanvasZoom escala={caixa.escala} />
     </main>

@@ -15,6 +15,12 @@ type ColorPickerProps = {
   unset?: boolean;
   /** Nome amigável do token herdado, ex.: "cor de texto secundária". */
   inheritsLabel?: string;
+  /**
+   * A variável não herda token nenhum: vazia significa DESLIGADA, não
+   * "herdando". Sem isto o estado vazio anunciaria "Usando variável da
+   * configuração global", que para um fundo opcional é falso.
+   */
+  optional?: boolean;
   /** Derivada por luminância: exibe o valor, não deixa editar. */
   readOnly?: boolean;
   /**
@@ -37,6 +43,7 @@ export default function ColorPicker({
   setColor,
   unset = false,
   inheritsLabel,
+  optional = false,
   readOnly = false,
   variant = 'field',
 }: ColorPickerProps) {
@@ -114,13 +121,18 @@ export default function ColorPicker({
 
         {unset ? (
           <p className={styles.inherits}>
-            Usando variável da {inheritsLabel ?? 'configuração global'}{' '}
+            {optional ? 'Sem cor definida' : null}
+            {optional ? null : (
+              <>Usando variável da {inheritsLabel ?? 'configuração global'}</>
+            )}{' '}
             <button
               type="button"
               className={styles.inheritsCta}
               onClick={toggle}
             >
-              (clique aqui para alterar)
+              {optional
+                ? '(clique aqui para definir)'
+                : '(clique aqui para alterar)'}
             </button>
           </p>
         ) : (

@@ -1,10 +1,12 @@
-/* Largura hug: 24 + 27.404 (mark) + 24 = 75.404px, o valor do Figma. */
+/* A largura NÃO é hug: quem dimensiona é a trilha do grid (`--ed-rail-w: 56px`).
+   O Figma tinha 24 + 27.404 (mark) + 24 = 75.404 de hug, e 19px de rail para
+   ícones de 20 é cromo que o canvas pagava. 16 + 24 + 16 = 56. */
 .rail {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
-  padding: 24px;
+  gap: 28px;
+  padding: 16px;
   height: 100%;
   /* Divisor como sombra interna, não `border`: no Figma a borda é desenhada
      POR DENTRO da caixa e não desloca o conteúdo. Uma `border` de 1px

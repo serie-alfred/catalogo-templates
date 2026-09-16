@@ -19,13 +19,25 @@
      entre a borda do painel e a do iframe: é o único lugar da tela onde o Figma
      só pinta o papel quadriculado. Se aquele padding sumir, o controle passa a
      cobrir o storefront — e o estágio 2a reprova por contenção. */
-  color: var(--ed-gray-300);
+  /* Um passo mais presente, não dois: o ícone sobe de --ed-gray-300 para o 500
+     e a borda do 000 (a cor de TODA borda do design) para o 200, mais a sombra
+     de card que já existe no vocabulário. O controle continua secundário — sem
+     preenchimento e sem cor de marca —, mas deixa de sumir contra o papel
+     quadriculado, que era a queixa. O estado de hover segue mais forte que este,
+     senão o hover perderia a função. */
+  color: var(--ed-gray-500);
+  border-color: var(--ed-gray-200);
+  box-shadow: var(--ed-shadow-card);
   cursor: pointer;
   transform: translateY(-50%);
   transition:
     color 0.15s ease,
     background 0.15s ease,
-    box-shadow 0.15s ease;
+    box-shadow 0.15s ease,
+    /* Acompanha a trilha do grid, com a MESMA curva e a mesma duração do shell
+       — senão a pastilha descola da borda do painel no meio do caminho. */
+      left 280ms cubic-bezier(0.4, 0, 0.2, 1),
+    right 280ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .toggle:hover,
@@ -36,13 +48,13 @@
 }
 
 .toggle[data-side='left'] {
-  left: calc(var(--ed-rail-w) + var(--ed-left-w));
+  left: calc(var(--ed-rail-w) + var(--ed-left-track, var(--ed-left-w)));
   border-left: 0;
   border-radius: 0 8px 8px 0;
 }
 
 .toggle[data-side='right'] {
-  right: var(--ed-right-w);
+  right: var(--ed-right-track, var(--ed-right-w));
   border-right: 0;
   border-radius: 8px 0 0 8px;
 }
@@ -76,4 +88,10 @@
   content: '';
   position: absolute;
   inset: -8px -6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle {
+    transition: none;
+  }
 }

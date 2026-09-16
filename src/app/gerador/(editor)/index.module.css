@@ -1,7 +1,16 @@
-/* Shell do editor: rail | painel esquerdo | centro | painel direito.
+/* Shell do editor: rail | painel esquerdo | centro | painel direito, em duas
+ * linhas (topbar / conteúdo).
  *
- * As colunas são os valores literais do Figma. 75.404 + 344.596 = 420 = a
- * largura do painel direito; a 1920 o centro fica com 1080, como no design.
+ * A TOPBAR ATRAVESSA centro + painel direito (`grid-column: 3 / 5`). Antes ela
+ * vivia dentro da coluna central e o painel direito tinha um cabeçalho próprio
+ * de 64px com "Pré-visualizar" e "Baixar". Eram duas caixas coladas fingindo
+ * ser uma barra: no desenho já lia como uma faixa contínua, e o custo era que
+ * as duas ações GLOBAIS do editor moravam no painel de PROPRIEDADES DA SEÇÃO e
+ * cravavam o piso dele em 320px (273px de botões + 48 de padding).
+ *
+ * Unificando, os botões seguem no mesmo canto (encostados à direita) e o painel
+ * direito passa a ser dimensionado pelo que ele de fato mostra — a linha de cor
+ * mais larga, ~201px. É o que permitiu 420 → 264.
  *
  * `minmax(0, 1fr)` é load-bearing nas duas direções: `1fr` puro carrega
  * `min-width/min-height: auto`, e o <iframe> do canvas (elemento substituído,
@@ -13,11 +22,29 @@
 .shell {
   position: relative;
   display: grid;
+  /* DUAS camadas de variável, e a distinção é load-bearing:
+     `--ed-left-w` é a largura ABERTA e nunca muda — é ela que dita a largura do
+     conteúdo do painel, que por isso não reflui durante a animação;
+     `--ed-left-track` é a TRILHA, e é ela que vai a 0 ao recolher.
+     Antes `--ed-left-w` ia a 0 e levava o conteúdo junto: o texto quebrava em
+     uma letra por linha no meio do caminho. */
+  --ed-left-track: var(--ed-left-w);
+  --ed-right-track: var(--ed-right-w);
   grid-template-columns:
     var(--ed-rail-w)
-    var(--ed-left-w)
+    var(--ed-left-track)
     minmax(0, 1fr)
-    var(--ed-right-w);
+    var(--ed-right-track);
+  /* `grid-template-columns` é animável quando o número de trilhas não muda — e
+     não muda: recolher só leva uma delas a 0. O canvas acompanha de graça, e o
+     zoom com ele: useCanvasZoom mede por ResizeObserver, que dispara a cada
+     quadro da transição em vez de só no fim. */
+  transition: grid-template-columns 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  /* A altura do canvas sai daqui: `100dvh` menos a topbar. Nenhum termo depende
+     de conteúdo — é o que mantém `100vh` e `position: fixed` dos drawers dentro
+     do iframe significando o que significam na loja publicada. Antes esta linha
+     morava no `.center`; subiu para o shell junto com a topbar. */
+  grid-template-rows: var(--ed-topbar-h) minmax(0, 1fr);
   height: 100dvh;
   overflow: hidden;
   font-family: var(--ed-font);
@@ -25,39 +52,72 @@
   background: var(--ed-bg-00);
 }
 
-/* A altura do canvas sai daqui: `100dvh` menos a topbar. Nenhum termo depende
-   de conteúdo — é o que mantém `100vh` e `position: fixed` dos drawers dentro
-   do iframe significando o que significam na loja publicada. */
 /* Colocação EXPLÍCITA. Recolher um painel o desmonta, e sem isto o
    auto-placement reatribui as colunas: o canvas caía na trilha que acabou de
    ir a 0px e o painel direito ficava com o `1fr`. */
+
+/* Rail e painel esquerdo atravessam as duas linhas: o mark do E-temas e o
+   cabeçalho "Editor de Temas" ficam na mesma faixa de 64px da topbar, como no
+   design. */
 .rail {
   grid-column: 1;
+  grid-row: 1 / 3;
 }
 
 .left {
   grid-column: 2;
+  grid-row: 1 / 3;
+}
+
+.topbar {
+  grid-column: 3 / 5;
+  grid-row: 1;
 }
 
 .center {
   grid-column: 3;
-  display: grid;
-  grid-template-rows: var(--ed-topbar-h) minmax(0, 1fr);
+  grid-row: 2;
   min-width: 0;
   min-height: 0;
 }
 
+.right {
+  grid-column: 4;
+  grid-row: 2;
+}
+
 /* Recolher devolve a largura da coluna ao canvas. A variável é sobrescrita no
    próprio shell para o PanelToggle, que se posiciona a partir dela, acompanhar
-   sem cálculo duplicado. */
+   sem cálculo duplicado. Com a topbar em `3 / 5`, recolher o painel direito
+   também encolhe a barra — ela para na borda do canvas, sem trilha órfã. */
 .shell[data-left-collapsed='true'] {
-  --ed-left-w: 0px;
+  --ed-left-track: 0px;
 }
 
 .shell[data-right-collapsed='true'] {
-  --ed-right-w: 0px;
+  --ed-right-track: 0px;
 }
 
+/* Os painéis continuam MONTADOS ao recolher — é o que permite animar. Quem
+   recorta é o próprio painel (ele é o item do grid); os filhos carregam a
+   largura aberta e por isso deslizam inteiros para fora em vez de espremer.
+   `> *` e não `*`: só os filhos diretos precisam da trava. */
+.left,
 .right {
-  grid-column: 4;
+  overflow: hidden;
+}
+
+.left > * {
+  width: var(--ed-left-w);
+}
+
+.right > * {
+  width: var(--ed-right-w);
+}
+
+/* Quem prefere menos movimento recebe a mesma mudança, instantânea. */
+@media (prefers-reduced-motion: reduce) {
+  .shell {
+    transition: none;
+  }
 }

@@ -2,6 +2,16 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  /* A largura do Figma fica no GRUPO; as duas opções a dividem por igual
+     (`flex: 1 1 0` abaixo). Antes cada opção tinha largura cravada — 88 inativa,
+     109 ativa — e isso quebrava de dois jeitos:
+       1. 88px dão 68 de miolo, e "Desktop" + ícone de 18 + gap precisam de 76,1.
+          Com o Mobile ativo o ícone do Desktop era ESPREMIDO de 18 para 9,9px
+          (medido). Os 88 do design foram tirados com "Mobile", que é mais curto;
+          "Desktop" inativo nunca foi testado.
+       2. a caixa mudava de tamanho ao alternar, e o conjunto "pulava".
+     A ênfase do ativo continua — vem do gradiente e da altura, não da largura. */
+  width: 213px;
   height: 40px;
   padding: 2px;
   border-radius: 12px;
@@ -11,20 +21,23 @@
 /* Os dois rótulos aparecem sempre: o Figma mostra o inativo em --ed-gray-400.
    Antes só o ativo era visível (`span { display: none }` no módulo). */
 /*
- * As caixas são as do Figma: ativo 109×36, inativo 88×30 — não a altura toda
- * da barra nos dois, e não largura automática.
- *
- * As larguras são cravadas porque o avanço do Inter difere ~0,9px entre o
- * arquivo do Figma e o do Google Fonts, e sem elas o grupo fecha em 211,36 em
- * vez dos 213 do design. Os rótulos são fixos nesta tela.
+ * As larguras cravadas do Figma (ativo 109, inativo 88) SAÍRAM — ver o porquê
+ * medido no comentário do `.group`. O que sobrou do design é a altura do ativo
+ * (36, contra os 40 da barra) e a largura total do conjunto.
  */
 .option {
-  width: 88px;
+  flex: 1 1 0;
+  min-width: 0;
   justify-content: center;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 6px 16px 6px 4px;
+  gap: 8px;
+  padding: 6px 10px;
+  /* A troca de estado deixa de ser um corte seco. Curva e duração iguais às do
+     shell (index.module.css do editor), para o editor inteiro ter um tempo só. */
+  transition:
+    background 220ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 220ms cubic-bezier(0.4, 0, 0.2, 1);
   border: 0;
   border-radius: 10px;
   background: none;
@@ -37,9 +50,21 @@
 }
 
 .option[aria-pressed='true'] {
-  width: 109px;
   height: 36px;
-  padding: 6px 16px;
   background: var(--ed-grad-active);
   color: var(--ed-bg-00);
+}
+
+/* O ícone NUNCA encolhe. Era ele que cedia quando a caixa apertava — um <svg>
+   em flex tem `flex-shrink: 1` por padrão, então o glifo deformava em vez de o
+   texto truncar. Com a trava, falta de espaço vira reticência no rótulo, que é
+   degradação legível. */
+.option svg {
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option {
+    transition: none;
+  }
 }

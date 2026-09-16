@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { Fragment, useMemo } from 'react';
 
 import { useLayout } from '@/context/LayoutContext';
 import { LAYOUTS, ComponentVariable } from '@/data/layoutData';
@@ -117,39 +117,51 @@ export default function ComponentVariablesPanel() {
             {group.variables.map(variable => {
               const current = selection.variables?.[variable.cssVar];
               const isUnset = current == null;
+              const nota = variable.previewNote ? (
+                <p className={styles.nota}>{variable.previewNote}</p>
+              ) : null;
 
+              /* Fragmento com `key` no lugar do `key` que estava no controle:
+                 a nota é irmã dele, e as duas juntas são UM item da lista. */
               if (variable.type === 'font') {
                 return (
-                  <FontSelector
+                  <Fragment
                     // remonta ao alternar set/unset para limpar o estado interno
                     key={`${variable.cssVar}-${isUnset ? 'unset' : 'set'}`}
-                    label={variable.label}
-                    cssVariable={variable.cssVar.replace(/^--/, '')}
-                    selectedFont={current ? parseFontFamily(current) : ''}
-                    unset={isUnset}
-                    inheritsLabel={variable.inheritsLabel}
-                    onFontChange={family =>
-                      setItemVariable(
-                        selectedUid,
-                        variable.cssVar,
-                        toFontValue(family)
-                      )
-                    }
-                  />
+                  >
+                    <FontSelector
+                      label={variable.label}
+                      cssVariable={variable.cssVar.replace(/^--/, '')}
+                      selectedFont={current ? parseFontFamily(current) : ''}
+                      unset={isUnset}
+                      inheritsLabel={variable.inheritsLabel}
+                      onFontChange={family =>
+                        setItemVariable(
+                          selectedUid,
+                          variable.cssVar,
+                          toFontValue(family)
+                        )
+                      }
+                    />
+                    {nota}
+                  </Fragment>
                 );
               }
 
               return (
-                <ColorPicker
-                  key={variable.cssVar}
-                  label={variable.label}
-                  color={current ?? variable.default}
-                  unset={isUnset}
-                  inheritsLabel={variable.inheritsLabel}
-                  setColor={value =>
-                    setItemVariable(selectedUid, variable.cssVar, value)
-                  }
-                />
+                <Fragment key={variable.cssVar}>
+                  <ColorPicker
+                    label={variable.label}
+                    color={current ?? variable.default}
+                    unset={isUnset}
+                    inheritsLabel={variable.inheritsLabel}
+                    optional={variable.optional}
+                    setColor={value =>
+                      setItemVariable(selectedUid, variable.cssVar, value)
+                    }
+                  />
+                  {nota}
+                </Fragment>
               );
             })}
           </section>

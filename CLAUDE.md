@@ -176,11 +176,28 @@ the `title`. The three buckets and the `SortableContext` are unchanged.
 
 ### The editor shell (redesign, Figma "Versão Final V4")
 
-`/gerador` is a four-column CSS grid in [(editor)/index.module.css](<src/app/gerador/(editor)/index.module.css>):
-`75.404px | 344.596px | minmax(0,1fr) | 420px` — rail, left panel, canvas column, right panel.
-The centre column is a sub-grid of `64px | minmax(0,1fr)` (topbar, canvas). The floating bottom dock
-is gone, and with it `Sidebar/`, `SidebarTabEditTheme`, `PreviewArea` and `styles/gerador.css`.
+`/gerador` is a four-column, two-row CSS grid in [(editor)/index.module.css](<src/app/gerador/(editor)/index.module.css>):
+columns `56px | 264px | minmax(0,1fr) | 264px` (rail, left panel, canvas, right panel), rows
+`64px | minmax(0,1fr)` (topbar, content). The floating bottom dock is gone, and with it `Sidebar/`,
+`SidebarTabEditTheme`, `PreviewArea` and `styles/gerador.css`.
 
+- **The widths are NOT the literal Figma values any more** (they were `75.404 | 344.596 | 420`).
+  That trio spent 840px on fixed chrome: on a 1440 notebook the canvas got 600px and the preview
+  opened at 40% zoom, and on a 1280 one, 440px at 26% — the QA complaint. Measured through the same
+  code path, the compact trio gives **856px / 55%** at 1440 and **696px / 44%** at 1280.
+- **The topbar spans the canvas AND the right panel** (`grid-column: 3 / 5`), and is a direct child
+  of the shell — not of the centre column, which is now the canvas alone. It used to stop at the
+  canvas, and the right panel carried its own 64px header with **Pré-visualizar** and the export
+  button. Those two are _global_ actions living in the _section properties_ panel, and their 273px
+  pinned that panel's floor at 320px although its widest real content (the `ColorPicker` row) fits
+  in ~201. Merging the two boxes is what bought `420 → 264`; the buttons stayed in the same corner.
+  The `.actions` track is `auto`, **never** `var(--ed-right-w)` — collapsing the panel zeroes that
+  variable and the buttons would vanish with it.
+- **The topbar draws the bottom border** (`inset 0 -1px 0`) across both columns. `EditorCanvas` lost
+  its own `inset 0 1px 0` top border in the same change, or the two stack into a 2px line.
+- **`--ed-canvas-pad` stays at 32px** while everything else tightened to 16: it is the gutter the
+  `PanelToggle` sits in, between the panel edge and the iframe. Shrink it and the control covers the
+  storefront — funnel stage 2a fails on containment.
 - **`minmax(0, 1fr)` is load-bearing** in both axes. Plain `1fr` carries `min-width/min-height: auto`,
   and the `<iframe>` (a replaced element with a 300px intrinsic width) would blow the track out and
   push the right panel off screen.
@@ -192,7 +209,7 @@ is gone, and with it `Sidebar/`, `SidebarTabEditTheme`, `PreviewArea` and `style
   against the whole page — the original bug, in disguise.
 - **`ExportStage` is a sibling of the shell**, which is `overflow: hidden` and would clip the
   off-screen stage at `top/left: -99999px`.
-- The `.rail` element declares no `width`: it is the grid track (`--ed-rail-w: 75.404px`, [editor-tokens.css](src/styles/editor-tokens.css)) that sizes it, and `padding: 24px` + the 27.404px mark fill it exactly.
+- The `.rail` element declares no `width`: it is the grid track (`--ed-rail-w: 56px`, [editor-tokens.css](src/styles/editor-tokens.css)) that sizes it — `padding: 16px` + a 24px mark. It was hug in the Figma (24 + the 27.404px mark + 24 = 75.404), which spent 19px of chrome around 20px icons.
 
 **One renderer for every surface.** [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx)
 serves `/p`, the editor canvas and the export stage. Its wrappers are bare `div`s **on purpose**: no
@@ -282,7 +299,7 @@ Tray↔Wake never loses anything — their catalogs are identical.
 
 ### Export flow
 
-`exportLayout` (the "Baixar" button in the right panel header) does three things in sequence: (1) `await mountExportStage()` — which flips `isCapturing`, mounts [ExportStage](src/components/gerador/ExportStage/index.tsx) off-screen and resolves after two `requestAnimationFrame`s (layout, then paint) — then `await`s `waitForImages` on both copies plus `document.fonts.ready` before `html2canvas`ing the `desktopPreviewRef` (1920px) and `mobilePreviewRef` (375px) divs, downloading PNGs to the user. **Those awaits are load-bearing**: the stage used to be mounted since page load, so images and fonts were long since ready; without them the PNGs come out with blank images and fallback type, and nobody checks the PNG; (2) build a JSON config grouped by `platform → { global, variables, assets, [page]: items[] }`;
+`exportLayout` (the "Baixar" button, in the **topbar** since the right panel lost its header) does three things in sequence: (1) `await mountExportStage()` — which flips `isCapturing`, mounts [ExportStage](src/components/gerador/ExportStage/index.tsx) off-screen and resolves after two `requestAnimationFrame`s (layout, then paint) — then `await`s `waitForImages` on both copies plus `document.fonts.ready` before `html2canvas`ing the `desktopPreviewRef` (1920px) and `mobilePreviewRef` (375px) divs, downloading PNGs to the user. **Those awaits are load-bearing**: the stage used to be mounted since page load, so images and fonts were long since ready; without them the PNGs come out with blank images and fallback type, and nobody checks the PNG; (2) build a JSON config grouped by `platform → { global, variables, assets, [page]: items[] }`;
 (3) **entrega por exatamente UM caminho, decidido por `localhost`**: em desenvolvimento faz o
 download; fora dele envia via `/gerador/api/send-email` e **não** baixa — o config é insumo da
 equipe de implantação, não arquivo do usuário final. O gate é `localhost`, **não um domínio**: o
@@ -299,7 +316,7 @@ redesign, so VTEX exports were silently dropping the brand assets.
 
 ### Shareable preview (`/p/[id]/[page]`)
 
-Alongside export, the right panel header has a **Pré-visualizar** button ([PreviewButton](src/components/gerador/PreviewButton/index.tsx)) that persists the current theme server-side and returns a short random URL the client can open and navigate like a real site. Three pages share one id: `/p/{id}/home`, `/p/{id}/categoria`, `/p/{id}/produto`, switched via a floating bubble ([PreviewNav](src/components/preview/PreviewNav/index.tsx)).
+Alongside export, the topbar has a **Pré-visualizar** button ([PreviewButton](src/components/gerador/PreviewButton/index.tsx)) that persists the current theme server-side and returns a short random URL the client can open and navigate like a real site. Three pages share one id: `/p/{id}/home`, `/p/{id}/categoria`, `/p/{id}/produto`, switched via a floating bubble ([PreviewNav](src/components/preview/PreviewNav/index.tsx)).
 
 - **Snapshot**: `useLayoutGenerator.buildPreviewSnapshot()` serializes `{ platform, selections, colors, fonts, logo, favicon, ogImage }` (`PreviewSnapshot` in [src/lib/previewStore.ts](src/lib/previewStore.ts); `ogImage` is optional so older snapshots stay valid); `createPreview()` POSTs it to `/gerador/api/preview` and returns `${origin}/p/{id}/home`.
 - **Storage is hybrid** ([previewStore.ts](src/lib/previewStore.ts)): a `fileStore` writes `.preview-store/{id}.json` in dev (zero config, gitignored) and a `kvStore` uses `@vercel/kv` in prod. `getStore()` picks KV when `KV_REST_API_URL` is set. The module is `server-only`; the client hook imports only the **type** (`import type`), so it never bundles it.
