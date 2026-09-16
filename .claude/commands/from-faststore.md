@@ -202,7 +202,7 @@ Para cada match, monte um `ComponentVariable` (`{ cssVar, label, type, default, 
 
 ## 6. Registrar nos 3 lugares (ver `CLAUDE.md` → "Adding or editing a template")
 
-1. **`src/utils/templateRegistry.ts`** — `import <Componente> from '@/components/templates/<pagina>/template_N/<Família>';` (no bloco do template N; `<Componente>` = chave com número, ex.: `ProductInfo03`; `<Família>` = pasta do slot, ex.: `ProductInfo` — passo 2) e adicione `<Componente>` ao objeto `TemplateRegistry`. A string-chave **deve** bater com o campo `component` (senão `ThemeRenderer` cai no PNG placeholder).
+1. **`src/utils/templateRegistry.ts`** — `import <Componente> from '@/components/templates/<pagina>/template_N/<Família>';` (no bloco do template N; `<Componente>` = chave com número, ex.: `ProductInfo03`; `<Família>` = pasta do slot, ex.: `ProductInfo` — passo 2) e adicione `<Componente>` ao objeto `TemplateRegistry`. A string-chave **deve** bater com o campo `component` (senão `ThemeRenderer` desenha um marcador vermelho nomeando o componente — não é mais um PNG placeholder mudo).
 2. **`src/data/layoutData.ts`** — `LayoutItem` na `LayoutSection` da seção mapeada:
    - `id`: o número livre do slot (`"03"`); `template`: o número (`"3"`); `selection`/`pagina`: do passo 2 (ambos do **passo 2**, não do sufixo FastStore).
    - `key`: **12 chars único** — gere e cheque colisão (`grep "key:" src/data/layoutData.ts`).
@@ -210,7 +210,14 @@ Para cada match, monte um `ComponentVariable` (`{ cssVar, label, type, default, 
    - `platforms`: inclua `'VTEX'` (pergunte se também `'Tray'`/`'Wake'`).
    - `path`: do `manifest.id` do componente migrado (organism quando for bloco colocável, ex.: `"organisms/ProductDetails02"`) — **obrigatório p/ VTEX**; sem ele o `buildFaststoreConfigJson` descarta a entrada. Pode diferir do `component`.
    - `backgroundVars`: no **caminho A**, derive dos tokens de fundo herdados (`--background-footer`→`"footer"`, `--background-primary-color`→`"primary"`, `--background-secundary-color`→`"secondary"`, `--background-tertiary-color`→`"tertiary"`). No **caminho B** (fiel, sem herança), `[]`.
-   - `image`/`mobile`: `""` (o preview substitui o PNG).
+   - `image`/`imageSource`: **não preencha à mão.** Deixe `image: ""` e, depois de registrar,
+     rode `yarn thumbs:auto` (precisa do `yarn dev` de pé): ele fotografa o componente real,
+     grava `public/images/gerador/<layoutKey>/<Component>.webp` e escreve os dois campos com
+     `imageSource: "auto"` — que é o que sinaliza "ainda sem arte do designer".
+     Sem esse passo o item nasce com o card cinza do `placehold.co` e **fica invisível na
+     contabilidade de pendências** (`docs/THUMBS-DOS-COMPONENTES.md` é gerado a partir do disco).
+   - `mobile`: `""`. Campo declarado e não lido por nenhum componente — os mockups do designer
+     já trazem desktop e celular no mesmo quadro.
    - `variablesSchema`: o array do passo 5.
 
 ## 7. Atualizar docs/memória do catálogo

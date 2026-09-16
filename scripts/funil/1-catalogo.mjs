@@ -88,6 +88,64 @@ r.ok(
   semCampo.join(' | ')
 );
 
+// 3b. a thumb existe DE VERDADE. A checagem acima usa `in`, que só olha a presença
+//     da chave: `image: ""` passa, e um caminho apontando para arquivo apagado
+//     também. Foi exatamente esse o estado que durou até 15/09/2026 — funil verde,
+//     90 cards no placeholder cinza. Sem esta asserção a próxima regressão é igual
+//     de silenciosa: apagar um .webp, renomear uma pasta, ou acrescentar um
+//     LayoutItem sem rodar `yarn thumbs`.
+const THUMBS = path.join(RAIZ, 'public/images/gerador');
+const semThumb = todos.flatMap(i =>
+  !i.image || !fs.existsSync(path.join(THUMBS, i.image))
+    ? [`${i.component} → ${i.image || '(vazio)'}`]
+    : []
+);
+r.ok(
+  `thumb em disco para os ${todos.length} itens`,
+  semThumb.length === 0,
+  semThumb.join(' | ')
+);
+
+// 3c. `imageSource` é o que separa arte do designer de screenshot gerado, e é a
+//     lista de pendências que docs/THUMBS-DOS-COMPONENTES.md publica. Item sem ele
+//     não some da tela — some da contabilidade, que é pior.
+const fontesValidas = new Set(['design', 'auto']);
+const semFonte = todos
+  .filter(i => !fontesValidas.has(i.imageSource))
+  .map(i => `${i.component} → ${i.imageSource ?? '(ausente)'}`);
+r.ok(
+  'toda thumb declara imageSource (design|auto)',
+  semFonte.length === 0,
+  semFonte.join(' | ')
+);
+
+// 3d. o caminho segue <layoutKey>/<Component>.webp e nenhum .webp fica órfão.
+//     `component` é a chave porque é o único campo único nos 90 itens (`id` repete
+//     entre seções, `key` repete em alguns, `title` repete em 4).
+const foraDaRegra = todos
+  .filter(i => i.image && i.image !== `${i.layoutKey}/${i.component}.webp`)
+  .map(i => `${i.component} → ${i.image}`);
+r.ok(
+  'thumb segue <layoutKey>/<Component>.webp',
+  foraDaRegra.length === 0,
+  foraDaRegra.join(' | ')
+);
+
+const referenciadas = new Set(todos.map(i => i.image));
+const orfas = fs.existsSync(THUMBS)
+  ? fs
+      .readdirSync(THUMBS)
+      .filter(d => fs.statSync(path.join(THUMBS, d)).isDirectory())
+      .flatMap(d =>
+        fs
+          .readdirSync(path.join(THUMBS, d))
+          .filter(f => f.endsWith('.webp'))
+          .map(f => `${d}/${f}`)
+      )
+      .filter(f => !referenciadas.has(f))
+  : [];
+r.ok('nenhuma thumb órfã em public/images/gerador', orfas.length === 0, orfas.join(' | '));
+
 // 4. todo item VTEX tem path — sem ele o export descarta o item em silêncio
 const vtexSemPath = todos
   .filter(i => i.platforms.includes('VTEX') && !i.path)

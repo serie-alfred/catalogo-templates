@@ -129,7 +129,7 @@ Fora da leva de propósito: **`WiddeScript06`** (injeta script de terceiro, não
 UI) e os **16 institucionais**, que exigem abrir o tipo de página `landingPage` em
 toda a cadeia.
 
-Nove componentes não tinham slot equivalente e ganharam **seção própria** no
+Dez componentes não tinham slot equivalente e ganharam **seção própria** no
 painel: Ambientes, Newsletter, Compre por tamanho, Ajuda flutuante, Outras linhas,
 Banner do produto, Título da categoria, Avaliações do produto, Abas de categoria e
 Pop-up de newsletter. Criar uma seção custa três edições — a linha no tipo

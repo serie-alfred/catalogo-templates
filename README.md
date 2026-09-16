@@ -84,9 +84,9 @@ o preview, converte o SCSS, deriva o `variablesSchema` e registra tudo.
 3. **Catálogo** — um `LayoutItem` em [src/data/layoutData.ts](src/data/layoutData.ts), com `key`
    única e, para VTEX, o `path` do componente no starter.
 
-Faltando o registro no registry, o item cai num PNG placeholder **sem erro nenhum**. Hoje os dois
-lados estão casados — 67 componentes, 67 itens ativos, zero órfãos — e é o estágio 1 do funil que
-mantém assim, junto com o comando de auditoria no `CLAUDE.md`.
+Faltando o registro no registry, o `ThemeRenderer` desenha um marcador vermelho nomeando o
+componente. Hoje os dois lados estão casados — **90 componentes, 90 itens ativos, zero órfãos** —
+e é o estágio 1 do funil que mantém assim, junto com o comando de auditoria no `CLAUDE.md`.
 
 ---
 
@@ -113,12 +113,17 @@ src/
 └── styles/                     globals · editor-tokens · templates · storefront · preview · editor-canvas
 ```
 
-Os 42 PNGs de `public/images/gerador/` (8,3 MB) **saíram**. Eram screenshots da época anterior
-ao preview em React: o commit `5633c33` trocou `image: "header/desktop/header_01.png"` por
-`image: ""` nos 67 itens e os arquivos ficaram para trás. Com todos vazios, o "fallback" que a
-doc prometia era um `<img src="/images/gerador/">` — 404 mudo. Hoje o `ThemeRenderer` mostra um
-marcador vermelho nomeando o componente que falta no registry, que é o erro que interessa ver.
+Cada card do modal "Componentes de seções" mostra
+`public/images/gerador/<layoutKey>/<Component>.webp`, apontado pelo `image` do item. O campo
+`imageSource` diz se a miniatura é arte do designer (`design`) ou um screenshot do componente
+real (`auto`) — e `auto` **é a pendência**: é o que ainda não veio do design. A contagem viva
+está em [docs/THUMBS-DOS-COMPONENTES.md](docs/THUMBS-DOS-COMPONENTES.md), que é gerado; não a
+copie para cá, que foi assim que a versão anterior desta seção envelheceu.
 
-Os campos `image`/`mobile` do `LayoutItem` continuam existindo e **vazios de propósito**: o
-`SelectSectionItem` os consulta para a miniatura do modal e cai num placeholder externo. Trocar
-essa miniatura pelo preview real é decisão de produto, não limpeza.
+`yarn thumbs` regera tudo (`yarn thumbs:auto` pula a etapa que depende dos mockups, que não são
+versionados). O estágio 1 do funil reprova thumb faltando, `imageSource` ausente, caminho fora da
+regra e arquivo órfão — a partir de 15/09/2026, quando os 90 cards deixaram de ser o mesmo
+quadrado cinza do `placehold.co`.
+
+O campo `mobile` continua declarado e vazio: nenhum componente o lê, e os mockups do designer já
+trazem desktop e celular no mesmo quadro.

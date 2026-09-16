@@ -55,8 +55,27 @@ export default function ComponentVariablesPanel() {
     return order.map(name => ({ name, variables: byGroup.get(name)! }));
   }, [layoutItem]);
 
+  /* Quantas cópias deste mesmo item existem no tema. Duplicar seção é recurso
+     (`duplicateSection`, e o ramo de showcase do `toggleSelection`), e as
+     variáveis são por `uid` — então o editor DEIXA pintar duas cópias de cores
+     diferentes, e o canvas, o /p/{id} e os PNGs do export mostram as duas.
+     O tema não comporta isso: as três plataformas injetam num arquivo SCSS por
+     COMPONENTE. Wake e Tray gravam na pasta de origem, compartilhada pelas
+     instâncias; no FastStore o `componentVarsMap` é indexado por `component` e
+     a segunda cópia sequer chega ao `sections.json`. Sem este aviso a escolha
+     some entre a tela e a entrega, sem erro nenhum. */
+  const copias = useMemo(
+    () =>
+      selection
+        ? selections.filter(
+            s => s.id === selection.id && s.layoutKey === selection.layoutKey
+          ).length
+        : 0,
+    [selections, selection]
+  );
+
   /* Estados vazios: o painel é permanente, então não some — explica por quê.
-     39 dos 67 itens do catálogo não declaram `variablesSchema`, então o
+     38 dos 90 itens do catálogo não declaram `variablesSchema`, então o
      segundo caso é garantido, não hipotético. */
   if (!selectedUid || !selection) {
     return (
@@ -82,6 +101,14 @@ export default function ComponentVariablesPanel() {
           direto para o primeiro grupo de variáveis. O cabeçalho com ícone,
           título e descrição é da Tela 2, que desenha as propriedades
           estruturais — fora do escopo acordado. */}
+      {copias > 1 && (
+        <p className={styles.aviso} role="status">
+          Este componente está <strong>{copias}×</strong> no tema. As cores e
+          fontes daqui valem para <strong>todas as cópias</strong> — o tema
+          guarda um conjunto por componente, não por cópia.
+        </p>
+      )}
+
       <div className={styles.body}>
         {groups.map(group => (
           <section key={group.name} className={styles.group}>

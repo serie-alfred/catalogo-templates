@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styles from './index.module.css';
-import Spot from '@/components/templates/common/template_1/Spot';
+import Spot from '@/components/templates/common/template_2/Spot';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { LAYOUTS } from '@/data/layoutData';
 import { useLayout } from '@/context/LayoutContext';

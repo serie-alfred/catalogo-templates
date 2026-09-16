@@ -1,0 +1,307 @@
+{
+  "_": [
+    "Mapa mockup -> componente do catalogo. Apurado visualmente e conferido, um a um,",
+    "contra os renders reais de .funil/ (scripts/funil/2-render.mjs).",
+    "As tres familias estao provadas por texto de mock, nao por semelhanca:",
+    "  V1 -> template 1  ('Entrega Expressa' so existe em home/template_1/Ruler)",
+    "  V2 -> template 2  ('Bonus primeira compra' so existe em home/template_2/Ruler)",
+    "  V3 -> template 5  ('Frete Gratis' so existe em home/template_5/Ruler)",
+    "Dois itens apontando o MESMO arquivo = arte dividida; e dai que sai imageSharedWith."
+  ],
+  "origem": "/Users/daycross/Downloads/Banners E-temas V2",
+  "itens": [
+    {
+      "arquivo": "V1/Base.jpg",
+      "layoutKey": "banner",
+      "id": "01",
+      "component": "BannerMain01",
+      "nota": "hero full-bleed com setas e dots"
+    },
+    {
+      "arquivo": "V1/Base-1.jpg",
+      "layoutKey": "header",
+      "id": "01",
+      "component": "Header01",
+      "nota": "header na home; ver alternativa V1/Base-13 (o mesmo header na PDP)"
+    },
+    {
+      "arquivo": "V1/Base-2.jpg",
+      "layoutKey": "ruler",
+      "id": "01",
+      "component": "Ruler01",
+      "nota": "regua de 4 beneficios com icone"
+    },
+    {
+      "arquivo": "V1/Base-3.jpg",
+      "layoutKey": "grid",
+      "id": "01",
+      "component": "BannerGrid01",
+      "nota": "titulo + 1 banner grande e grade 2x2"
+    },
+    {
+      "arquivo": "V1/Base-4.jpg",
+      "layoutKey": "showcase",
+      "id": "01",
+      "component": "Showcase01",
+      "nota": "vitrine 'Destaques'"
+    },
+    {
+      "arquivo": "V1/Base-5.jpg",
+      "layoutKey": "categories",
+      "id": "01",
+      "component": "Categories01",
+      "nota": "carrossel de categorias circulares"
+    },
+    {
+      "arquivo": "V1/Base-5.jpg",
+      "layoutKey": "bannerFull",
+      "id": "01",
+      "component": "BannerFull01",
+      "nota": "banner sangrado 'Alicates' logo abaixo das categorias"
+    },
+    {
+      "arquivo": "V1/Base-6.jpg",
+      "layoutKey": "brand",
+      "id": "01",
+      "component": "Brand01",
+      "nota": "carrossel de logos de marca"
+    },
+    {
+      "arquivo": "V1/Base-6.jpg",
+      "layoutKey": "bannerSide",
+      "id": "01",
+      "component": "BannerSide01",
+      "nota": "dois banners lado a lado abaixo das marcas"
+    },
+    {
+      "arquivo": "V1/Base-8.jpg",
+      "layoutKey": "footer",
+      "id": "01",
+      "component": "Footer01",
+      "nota": "corpo do rodape; ver alternativa V1/Base-7 (a faixa de newsletter do proprio Footer01)"
+    },
+    {
+      "arquivo": "V1/Base-9.jpg",
+      "layoutKey": "categoryMain",
+      "id": "01",
+      "component": "CategoryMain01",
+      "nota": "PLP com sidebar de filtros"
+    },
+    {
+      "arquivo": "V1/Base-10.jpg",
+      "layoutKey": "productInfo",
+      "id": "01",
+      "component": "ProductInfo01",
+      "nota": "PDP: galeria + bloco de compra"
+    },
+    {
+      "arquivo": "V1/Base-11.jpg",
+      "layoutKey": "bannerProduct",
+      "id": "01",
+      "component": "BannerTop01",
+      "nota": "tarja 'DESCONTOS progressivos' no topo da PDP"
+    },
+    {
+      "arquivo": "V1/Base-12.jpg",
+      "layoutKey": "productDescription",
+      "id": "01",
+      "component": "ProductDescription01",
+      "nota": "descricao + ficha tecnica"
+    },
+    {
+      "arquivo": "V1/Base-14.jpg",
+      "layoutKey": "productRelated",
+      "id": "01",
+      "component": "ProductRelated01",
+      "nota": "'Produtos Relacionados'"
+    },
+    {
+      "arquivo": "V2/Base.jpg",
+      "layoutKey": "header",
+      "id": "02",
+      "component": "Header02",
+      "nota": "logo esq / busca central / Contato-Login-Carrinho"
+    },
+    {
+      "arquivo": "V2/Base-1.jpg",
+      "layoutKey": "bannerFull",
+      "id": "02",
+      "component": "BannerFull02",
+      "nota": "hero sangrado; ver alternativa V2/Base-6"
+    },
+    {
+      "arquivo": "V2/Base-2.jpg",
+      "layoutKey": "ruler",
+      "id": "02",
+      "component": "Ruler02",
+      "nota": "faixa preta de beneficios"
+    },
+    {
+      "arquivo": "V2/Base-3.jpg",
+      "layoutKey": "showcase",
+      "id": "02",
+      "component": "Showcase02",
+      "nota": "vitrine 'Promocoes'"
+    },
+    {
+      "arquivo": "V2/Base-4.jpg",
+      "layoutKey": "bannerSide",
+      "id": "03",
+      "component": "BannerSide02",
+      "nota": "bloco preto 50/50 com imagem"
+    },
+    {
+      "arquivo": "V2/Base-5.jpg",
+      "layoutKey": "bannerSide",
+      "id": "02",
+      "component": "BannerDuplo02",
+      "nota": "titulo + 2 cards lado a lado"
+    },
+    {
+      "arquivo": "V2/Base-7.jpg",
+      "layoutKey": "footer",
+      "id": "02",
+      "component": "Footer02",
+      "nota": "rodape escuro com newsletter"
+    },
+    {
+      "arquivo": "V2/Base-8.jpg",
+      "layoutKey": "bannerFull",
+      "id": "04",
+      "component": "BannerFullCategory02",
+      "nota": "banner full-bleed no topo da categoria"
+    },
+    {
+      "arquivo": "V2/Base-9.jpg",
+      "layoutKey": "productInfo",
+      "id": "02",
+      "component": "ProductInfo02",
+      "nota": "PDP: galeria + compra"
+    },
+    {
+      "arquivo": "V3/Base-1.jpg",
+      "layoutKey": "bannerTriple",
+      "id": "01",
+      "component": "BannerTriple05",
+      "nota": "3 colunas coladas, sem raio"
+    },
+    {
+      "arquivo": "V3/Base-6.jpg",
+      "layoutKey": "bannerTriple",
+      "id": "02",
+      "component": "BannerTripleSwiper05",
+      "nota": "3 cards com gap e cantos arredondados"
+    },
+    {
+      "arquivo": "V3/Base-8.jpg",
+      "layoutKey": "ruler",
+      "id": "05",
+      "component": "Ruler05",
+      "nota": "faixa branca, 4 itens sem icone; melhor que a alternativa V3/Base-2, onde o celular deixa outro componente nitido tambem"
+    },
+    {
+      "arquivo": "V3/Base-15.jpg",
+      "layoutKey": "showcase",
+      "id": "05",
+      "component": "Showcase05",
+      "nota": "vitrine 'Novidades'; melhor que V3/Base-3 (nav inferior coerente com o bottom_nav)"
+    },
+    {
+      "arquivo": "V3/Base-4.jpg",
+      "layoutKey": "bannerSideLeft",
+      "id": "01",
+      "component": "BannerSoloLeft05",
+      "nota": "imagem esq + texto e botao pill dir"
+    },
+    {
+      "arquivo": "V3/Base-7.jpg",
+      "layoutKey": "bannerFull",
+      "id": "05",
+      "component": "BannerFull05",
+      "nota": "banner sangrado 1920x640"
+    },
+    {
+      "arquivo": "V3/Base-10.jpg",
+      "layoutKey": "footer",
+      "id": "05",
+      "component": "Footer05",
+      "nota": "pareamento de TIPO: o unico rodape da familia 5; colunas e selos divergem do mock"
+    },
+    {
+      "arquivo": "V3/Base-13.jpg",
+      "layoutKey": "productInfo",
+      "id": "05",
+      "component": "ProductInfo05",
+      "nota": "pareamento de TIPO: unico product-info da familia 5; galeria e CTA divergem do mock"
+    }
+  ],
+  "orfaos": [
+    {
+      "arquivo": "V2/Base-10.jpg",
+      "mostra": "hero de PDP + grade de 4 atributos com icone + barra de abas",
+      "precisaria": "um product-highlights/abas na familia 2 (product/template_2 so tem ProductInfo)"
+    },
+    {
+      "arquivo": "V2/Base-11.jpg",
+      "mostra": "abas Descricao/Itens/Garantia + tabela de especificacoes zebrada",
+      "precisaria": "ProductDescription02 (product-description so existe em template_1)"
+    },
+    {
+      "arquivo": "V3/Base.jpg",
+      "mostra": "header de 1 fileira TRANSPARENTE sobre o hero + hero com titulo e CTA sobrepostos",
+      "precisaria": "um Header05 transparente: o Header05 do catalogo veio do faststore.starter e tem 3 andares opacos"
+    },
+    {
+      "arquivo": "V3/Base-5.jpg",
+      "mostra": "faixa de 5 logos de marca (GUCCI/CHANEL/asos/PRADA/GANT)",
+      "precisaria": "Brand05 (a secao brand so tem Brand01, familia 1)"
+    },
+    {
+      "arquivo": "V3/Base-9.jpg",
+      "mostra": "newsletter em 2 colunas, 2 inputs empilhados e botao abaixo",
+      "precisaria": "Newsletter05 (a secao newsletter so tem Newsletter07)"
+    },
+    {
+      "arquivo": "V3/Base-11.jpg",
+      "mostra": "banner-hero full-bleed no topo da categoria",
+      "precisaria": "um category-banner da familia 5 (nenhum item 05 tem pagina 'category')"
+    },
+    {
+      "arquivo": "V3/Base-12.jpg",
+      "mostra": "titulo da categoria + barra HORIZONTAL de filtros + ordenacao",
+      "precisaria": "CategoryMain05 ou CategoryTitle05 (categoryMain tem 01, 02, 06, 07)"
+    },
+    {
+      "arquivo": "V3/Base-14.jpg",
+      "mostra": "acordeao de FAQ na PDP",
+      "precisaria": "CategoryDescription05 / um FAQ da familia 5"
+    }
+  ],
+  "alternativas": [
+    {
+      "arquivo": "V1/Base-7.jpg",
+      "component": "Footer01",
+      "porque": "mostra a faixa de newsletter que o proprio Footer01 renderiza no topo; Base-8 mostra o corpo do rodape e representa melhor"
+    },
+    {
+      "arquivo": "V1/Base-13.jpg",
+      "component": "Header01",
+      "porque": "mesmo header, na PDP em vez da home; Base-1 e mais limpo"
+    },
+    {
+      "arquivo": "V2/Base-6.jpg",
+      "component": "BannerFull02",
+      "porque": "segundo banner sangrado da mesma home; Base-1 e o hero e tem conferencia de confianca alta"
+    },
+    {
+      "arquivo": "V3/Base-2.jpg",
+      "component": "Ruler05",
+      "porque": "no celular desta arte um card do BannerTripleSwiper05 tambem esta nitido, o que torna a imagem ambigua; Base-8 nao tem esse problema"
+    },
+    {
+      "arquivo": "V3/Base-3.jpg",
+      "component": "Showcase05",
+      "porque": "no celular as setas ficam nas bordas, layout que o CSS do Showcase05 nao produz; em Base-15 elas ficam junto aos dots, como o bottom_nav gera"
+    }
+  ]
+}

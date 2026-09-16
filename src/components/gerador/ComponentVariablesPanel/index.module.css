@@ -15,6 +15,24 @@
   color: var(--ed-gray-400);
 }
 
+/* Aviso de cópia: o painel promete "variáveis deste componente", e para uma
+   seção duplicada essa promessa não chega ao tema. Fica no topo do painel, que é
+   onde a divergência NASCE — não no export, que em localhost nem abre modal. */
+.aviso {
+  margin: 0;
+  padding: 12px 24px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ed-gray-400);
+  background: var(--ed-blue-50, #e6f9ff);
+  border-bottom: 1px solid var(--ed-gray-200, #e4e7ea);
+}
+
+.aviso strong {
+  color: var(--ed-gray-600, #1a1a1a);
+  font-weight: 600;
+}
+
 .body {
   display: flex;
   flex-direction: column;
