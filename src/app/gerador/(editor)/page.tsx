@@ -37,33 +37,33 @@ export default function GeradorPage() {
   }
 
   /*
-   * Clicar em qualquer lugar "morto" da chrome do editor desseleciona: o papel
-   * quadriculado do canvas, a sobra do painel esquerdo abaixo da lista, a faixa
-   * vazia da topbar, o rail. Um handler só, no shell, porque a regra é uma só —
-   * antes ele existia apenas no EditorCanvas e o resto da tela não respondia.
+   * Desseleção por clique fora — por ZONA MORTA DECLARADA, não por lista-negra.
    *
-   * O clique DENTRO do iframe não chega aqui (evento não cruza a fronteira de
-   * documento): aquele caso é do `useCanvasInteractions`, que roda no documento
-   * do canvas e já desseleciona ao clique fora de uma seção.
+   * A primeira versão listava o que NÃO desseleciona (button, input, a…) e
+   * desselecionava todo o resto. Isso é frágil por construção: qualquer coisa
+   * fora da lista vira armadilha. Custou dois bugs reais — o popover de cor
+   * (portal do React propaga pela árvore do React, não do DOM) e, pior, o
+   * <span> do rótulo da variável: clicar no texto "Fundo da barra superior"
+   * esvaziava o painel que o usuário estava editando.
    *
-   * Três exceções, as três necessárias:
-   *  - qualquer coisa interativa. Um clique num botão, campo, opção ou rótulo é
-   *    uma AÇÃO, não "clicar fora";
-   *  - `[data-canvas-control]`, o seletor de zoom, que é um <div> flutuando
-   *    sobre o canvas e cujo padding não é botão;
-   *  - `[data-ed-portal]`, TODA superfície portalizada. Este é o caso que não é
-   *    óbvio: o popover do ColorPicker, o modal de seções e os demais vivem em
-   *    `document.body`, FORA deste <div> no DOM — mas um portal do React
-   *    propaga o evento pela árvore do REACT, não pela do DOM, então o clique
-   *    chega aqui mesmo assim. A área de saturação do react-colorful é um
-   *    <div>, não casava com a lista de interativos, e escolher uma cor
-   *    desselecionava a seção no meio do gesto.
+   * Agora só três superfícies dizem "aqui não tem nada": o papel quadriculado
+   * do canvas, a faixa da topbar e o rail. Elas carregam `data-deselect-zone`.
+   * Tudo o mais — os dois painéis inteiros, portais, modais — não desseleciona,
+   * e nenhum elemento novo passa a desselecionar por descuido.
+   *
+   * O guard de interativos continua DENTRO da zona: a topbar e o rail têm
+   * botões, e clicar neles é ação, não "clicar fora".
+   *
+   * O caso simétrico — clicar fora de uma seção mas DENTRO do tema — é do
+   * `useCanvasInteractions`, que roda no documento do iframe.
    */
   const INTERATIVO =
-    'button, a, input, select, textarea, label, [role="button"], [role="option"], [role="listbox"], [data-canvas-control], [data-ed-portal]';
+    'button, a, input, select, textarea, label, [role="button"], [role="option"], [role="listbox"], [data-canvas-control]';
 
-  const desselecionarNaChrome = (event: React.MouseEvent) => {
-    if ((event.target as Element).closest(INTERATIVO)) return;
+  const desselecionarNaZonaMorta = (event: React.MouseEvent) => {
+    const alvo = event.target as Element;
+    if (!alvo?.closest?.('[data-deselect-zone]')) return;
+    if (alvo.closest(INTERATIVO)) return;
     selectSection(null);
   };
 
@@ -73,7 +73,7 @@ export default function GeradorPage() {
         className={`ed-shell ${styles.shell}`}
         data-left-collapsed={leftCollapsed ? 'true' : undefined}
         data-right-collapsed={rightCollapsed ? 'true' : undefined}
-        onClick={desselecionarNaChrome}
+        onClick={desselecionarNaZonaMorta}
       >
         <EditorRail className={styles.rail} />
         {/* SEMPRE montado, mesmo recolhido: desmontar mataria a animação — não

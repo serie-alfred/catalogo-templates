@@ -289,6 +289,30 @@ export function useCanvasInteractions(
   }, [rootRef, enabled]);
 }
 
+/**
+ * Marca a seção SELECIONADA, imperativamente.
+ *
+ * Irmã da `highlightSection`, e pelo mesmo motivo: `data-selected` saiu do
+ * render do ThemeRenderer porque um clique de seleção fazia dois wrappers
+ * re-renderizarem a subárvore inteira do template (um Header com megamenu, uma
+ * Vitrine com Swiper) só para trocar um atributo. Medido: 12 cliques custavam
+ * 339ms de bloqueio da thread mesmo com as seções já memoizadas.
+ *
+ * Quem observa este atributo continua funcionando: o MutationObserver do
+ * `syncActions` (acima) escuta `attributeFilter: ['data-selected']` e não
+ * distingue escrita do React de escrita imperativa.
+ */
+export function markSelected(root: HTMLElement | null, uid: string | null) {
+  if (!root) return;
+  root
+    .querySelectorAll<HTMLElement>('[data-selected="true"]')
+    .forEach(el => el.removeAttribute('data-selected'));
+  if (!uid) return;
+  root
+    .querySelector<HTMLElement>(`[data-section-uid="${uid}"]`)
+    ?.setAttribute('data-selected', 'true');
+}
+
 /** Destaca imperativamente uma seção do canvas (hover vindo do painel). */
 export function highlightSection(root: HTMLElement | null, uid: string | null) {
   if (!root) return;

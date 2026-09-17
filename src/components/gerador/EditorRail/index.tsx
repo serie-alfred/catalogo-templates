@@ -50,6 +50,7 @@ export default function EditorRail({ className }: { className?: string }) {
     <nav
       className={`${styles.rail} ${className ?? ''}`}
       aria-label="Seções do editor"
+      data-deselect-zone
     >
       <EtemasMark className={styles.mark} width={24} height={21.02} />
 

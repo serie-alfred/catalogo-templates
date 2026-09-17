@@ -92,7 +92,10 @@ export default function EditorTopbar({ className }: { className?: string }) {
   }, [undo, redo]);
 
   return (
-    <header className={`${styles.topbar} ${className ?? ''}`}>
+    <header
+      className={`${styles.topbar} ${className ?? ''}`}
+      data-deselect-zone
+    >
       {/* Os controles de VISTA ficam alinhados ao canvas; as ações globais, à
           direita. As duas colunas da barra espelham o que está embaixo delas. */}
       <div className={styles.canvasControls}>

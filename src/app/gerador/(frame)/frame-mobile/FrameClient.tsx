@@ -7,6 +7,7 @@ import SeededLayoutProvider from '@/components/preview/SeededLayoutProvider';
 import {
   useCanvasInteractions,
   highlightSection,
+  markSelected,
   scrollToSection,
 } from '@/hooks/useCanvasInteractions';
 import { loadComponentFonts, loadGoogleFont } from '@/utils/googleFont';
@@ -25,7 +26,6 @@ interface Content {
   selections: LayoutSelection[];
   pagina: string;
   logo: string;
-  selectedUid: string | null;
   isMobile: boolean;
 }
 
@@ -45,6 +45,9 @@ export default function FrameClient() {
   const [content, setContent] = useState<Content | null>(null);
 
   const rootRef = useRef<HTMLDivElement | null>(null);
+  /* Última seção selecionada. Guardada em ref porque ela NÃO participa do
+     render: quem a aplica é `markSelected`, direto no DOM. */
+  const selecionadaRef = useRef<string | null>(null);
 
   const post = (message: FromFrame) => {
     window.parent?.postMessage(message, window.location.origin);
@@ -95,9 +98,15 @@ export default function FrameClient() {
             selections: data.selections,
             pagina: data.pagina,
             logo: data.logo,
-            selectedUid: data.selectedUid,
             isMobile: data.isMobile,
           });
+          break;
+        /* Seleção é atributo, não estrutura: aplicada direto no DOM, sem passar
+           por render. O uid fica guardado para ser REAPLICADO depois de cada
+           re-render do tema — nós novos nascem sem o atributo. */
+        case 'selected':
+          selecionadaRef.current = data.uid;
+          markSelected(rootRef.current, data.uid);
           break;
         case 'highlight':
           highlightSection(rootRef.current, data.uid);
@@ -169,6 +178,19 @@ export default function FrameClient() {
     );
   }, [theme]);
 
+  /*
+   * Reaplica a seleção depois de cada render do tema.
+   *
+   * `data-selected` é escrito imperativamente, fora do React. Quando o conteúdo
+   * muda (seção adicionada, removida, reordenada, ou a remontagem ao trocar
+   * desktop↔mobile), o React cria wrappers novos — e eles nascem sem o
+   * atributo. Sem isto a seção perderia o contorno e os badges sumiriam
+   * justamente depois de duplicar uma seção.
+   */
+  useEffect(() => {
+    markSelected(rootRef.current, selecionadaRef.current);
+  }, [content]);
+
   useEffect(() => {
     if (!content) return;
     loadComponentFonts(content.selections, document);
@@ -215,7 +237,6 @@ export default function FrameClient() {
           selections={content.selections}
           pagina={content.pagina}
           isMobile={content.isMobile}
-          selectedUid={content.selectedUid}
         />
       </div>
     </SeededLayoutProvider>

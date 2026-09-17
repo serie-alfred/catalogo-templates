@@ -37,7 +37,11 @@ export default function EditorCanvas({ className }: { className?: string }) {
      topbar, painéis, rail. Ver o comentário de lá. */
 
   return (
-    <main className={`${styles.canvas} ${className ?? ''}`} ref={ref}>
+    <main
+      className={`${styles.canvas} ${className ?? ''}`}
+      ref={ref}
+      data-deselect-zone
+    >
       <PreviewFrame caixa={caixa} />
       <CanvasZoom escala={caixa.escala} />
     </main>
