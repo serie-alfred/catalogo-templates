@@ -724,8 +724,6 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-info-btn-text", label: "Texto do botão comprar", type: "color", default: "#ffffff", group: "Botão principal", inheritsLabel: "cor de texto base" },
         { cssVar: "--prod-info-variant-active-bg", label: "Variação selecionada: fundo", type: "color", default: "#682A77", group: "Variações" },
         { cssVar: "--prod-info-variant-active-text", label: "Variação selecionada: texto", type: "color", default: "#ffffff", group: "Variações" },
-        { cssVar: "--prod-info-tag-bg", label: "Cor da etiqueta 'Novo'", type: "color", default: "#f5a623", group: "Etiquetas", inheritsLabel: "cor terciária da marca" },
-        { cssVar: "--prod-info-tag-text", label: "Texto da etiqueta 'Novo'", type: "color", default: "#ffffff", group: "Etiquetas", inheritsLabel: "cor de texto terciária" },
         { cssVar: "--prod-info-secondary-bg", label: "Cor do botão secundário", type: "color", default: "#122161", group: "Botão secundário", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--prod-info-secondary-text", label: "Texto do botão secundário", type: "color", default: "#ffffff", group: "Botão secundário", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--prod-info-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },

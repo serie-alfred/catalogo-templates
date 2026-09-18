@@ -686,8 +686,8 @@ const CategoryMain = () => {
                                     <span className={styles.filterName}>
                                       {item.label}
                                     </span>
-                                    <span className={styles.filterCount}>
-                                      ({item.quantity})
+                                    <span className={styles.filterCountSlider}>
+                                      {item.quantity}
                                     </span>
                                   </label>
                                 </li>

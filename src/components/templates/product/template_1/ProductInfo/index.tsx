@@ -164,12 +164,6 @@ const ProductInfo = () => {
                   </div>
 
                   <div className={styles.content__productTag}>
-                    <div className={styles.tagFeatured}>
-                      <span>OFERTA</span>
-                    </div>
-                    <div className={styles.tagNew}>
-                      <span>Novo</span>
-                    </div>
                     <div className={styles.tagDiscount}>
                       <span>- 13%</span>
                     </div>

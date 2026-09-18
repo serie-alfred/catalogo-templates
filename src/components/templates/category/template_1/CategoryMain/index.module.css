@@ -503,6 +503,24 @@
 
 /* ── Modal de filtro (mobile) — <FilterSlider> + filter.scss ────────────── */
 
+/* Pilula cinza clara em volta da contagem, no lugar dos parenteses soltos do
+   sidebar — mesmo tratamento do [data-fs-badge-wrapper] em filter.scss. */
+.filterCountSlider {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 7px;
+  border-radius: var(--fs-border-radius-pill, 999px);
+  background-color: color-mix(in srgb, var(--cm1-text) 8%, transparent);
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 140%;
+  color: var(--cm1-muted);
+  transition: 0.5s;
+}
+
 .filterOverlay {
   position: fixed;
   inset: 0;
@@ -544,6 +562,12 @@
   color: var(--cm1-text);
 }
 
+/* O X fechava invisível: --cat-main-accent não é oferecida no gerador de temas,
+   então o valor caía sempre em --background-primary-color — a cor de fundo de
+   marca, branca na maioria das lojas — desenhando branco sobre o painel branco.
+   O fallback agora é a cor de texto do próprio painel, que sempre contrasta.
+   Quem definir --cat-main-accent continua mandando. Mesma correção no
+   filter.scss do MainCategory01 (faststore.starter, base/faststore). */
 .filterSliderClose {
   display: flex;
   align-items: center;
@@ -551,7 +575,7 @@
   padding: 4px;
   border: 0;
   background: none;
-  color: var(--cm1-text);
+  color: var(--cat-main-accent, var(--cm1-text));
   cursor: pointer;
 }
 
@@ -651,7 +675,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 4px;
+  border-radius: var(--fs-border-radius-pill, 120px);
   cursor: pointer;
   font-weight: 600;
   font-size: 16px;

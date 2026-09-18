@@ -87,10 +87,19 @@ function pickChangedVariables(
   const overrides = selection.variables;
   if (!schema || !overrides) return undefined;
 
+  // Antes comparava com `variable.default` e omitia o valor quando batia — a
+  // premissa era que o SCSS caísse exatamente nesse default quando a chave
+  // falta. Só que a cadeia real é individual → TOKEN GLOBAL → default: se o
+  // usuário escolhe um valor igual ao default mas o token global do meio (ex.
+  // `--text-color-base`) resolve para outra cor, omitir troca o valor
+  // escolhido pelo token global sem avisar (ex.: texto branco escolhido some
+  // porque `--cart-button-text` nunca chega a existir e o fallback do meio
+  // vira preto). Sempre emitir o que o usuário de fato escolheu é a única
+  // leitura segura.
   const changed: Record<string, string> = {};
   for (const variable of schema) {
     const value = overrides[variable.cssVar];
-    if (value != null && value !== variable.default) {
+    if (value != null) {
       changed[variable.cssVar] = value;
     }
   }
