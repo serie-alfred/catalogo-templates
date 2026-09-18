@@ -62,10 +62,18 @@ export type ToFrame =
       selections: LayoutSelection[];
       pagina: string;
       logo: string;
-      selectedUid: string | null;
       /** Repassado aos templates. O frame serve as duas visões. */
       isMobile: boolean;
     }
+  /**
+   * Seção selecionada, em canal PRÓPRIO e aplicado imperativamente no frame.
+   *
+   * Morava dentro de `content`, e por isso um clique de seleção republicava o
+   * array `selections` inteiro e reconciliava a árvore de templates — 28ms de
+   * bloqueio por clique, medido, para escrever um atributo. Mesma forma e mesmo
+   * motivo do `highlight` logo abaixo.
+   */
+  | { source: typeof FRAME_PARENT; type: 'selected'; uid: string | null }
   | { source: typeof FRAME_PARENT; type: 'highlight'; uid: string | null }
   /** Fator de escala do canvas. O frame contra-escala a camada de controles
    *  (badges e rótulo de hover) para que ela não encolha junto com o tema. */
@@ -87,5 +95,7 @@ export type FromFrame =
       action: 'duplicate' | 'remove';
       uid: string;
     }
-  | { source: typeof FRAME_CHILD; type: 'select'; uid: string }
+  /* `uid: null` = clicou fora de qualquer seção, ou seja, DESSELECIONOU.
+     Mesma forma do 'hover' logo abaixo, e pelo mesmo motivo. */
+  | { source: typeof FRAME_CHILD; type: 'select'; uid: string | null }
   | { source: typeof FRAME_CHILD; type: 'hover'; uid: string | null };

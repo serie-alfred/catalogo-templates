@@ -54,12 +54,22 @@
   --ed-font:
     var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
-  /* Métricas do shell (Figma, tela de 1920×1080).
-     75.404 = padding 24 + logo 27.404 + padding 24 — o rail é hug, não fixo.
-     75.404 + 344.596 = 420 = largura do painel direito. */
-  --ed-rail-w: 75.404px;
-  --ed-left-w: 344.596px;
-  --ed-right-w: 420px;
+  /* Métricas do shell.
+     NÃO são mais os valores literais do Figma "Versão Final V4" (rail 75.404,
+     esquerdo 344.596, direito 420). Aquele trio come 840px de cromo fixo: num
+     notebook de 1440 sobravam 600px de canvas e o preview abria a 40% de zoom —
+     a queixa do QA. Com estes, o canvas vai a 856px e abre a ~55%.
+
+     O rail deixou de ser hug: 16 + 24 (mark) + 16 = 56. O mark é 27.404×24 no
+     Figma e passa a ser desenhado a 24 de largura (EditorRail/index.tsx).
+
+     --ed-canvas-pad CONTINUA em 32px de propósito: é a calha onde o PanelToggle
+     cabe inteiro, entre a borda do painel e a do iframe. Encolher isso faz o
+     controle cobrir o storefront e o estágio 2a do funil reprova por contenção
+     (ver PanelToggle/index.module.css). */
+  --ed-rail-w: 56px;
+  --ed-left-w: 264px;
+  --ed-right-w: 264px;
   --ed-topbar-h: 64px;
   --ed-canvas-pad: 32px;
 }

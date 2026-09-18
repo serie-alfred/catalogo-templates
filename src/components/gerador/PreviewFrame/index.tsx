@@ -85,9 +85,18 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
   duplicateRef.current = duplicateSection;
   const removeRef = useRef(removeSection);
   removeRef.current = removeSection;
-  /** Último payload de tema pendente, drenado 1× por frame. */
-  const pendingThemeRef = useRef<ToFrame | null>(null);
+  /* Lido só no handshake, para mandar a seleção inicial. Ref e não dep: entrar
+     na lista do efeito faria o listener de `message` ser remontado a cada
+     clique de seleção. Mesmo padrão dos refs acima. */
+  const selectedUidRef = useRef(selectedUid);
+  selectedUidRef.current = selectedUid;
+  /* Um slot pendente POR TIPO de mensagem, drenado 1× por frame.
+     Era um slot só, quando só `theme` passava por aqui. Com `content` entrando
+     no mesmo rAF, um slot único faria os dois se atropelarem: a última escrita
+     do quadro venceria e a outra mensagem sumiria. */
+  const pendentesRef = useRef<Map<ToFrame['type'], ToFrame>>(new Map());
   const rafRef = useRef<number | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /** Envia sem esperar o handshake. Só o `hello` usa isto. */
   const postRaw = useCallback((message: ToFrame) => {
@@ -105,17 +114,39 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
     [postRaw]
   );
 
-  /** Coalesce por frame: o color picker dispara a cada movimento do mouse. */
-  const postThemeCoalesced = useCallback(
+  /**
+   * Coalesce por frame, por tipo: o color picker dispara a cada movimento do
+   * mouse (react-colorful escuta `mousemove` cru, sem rAF nem throttle).
+   *
+   * `content` PRECISA passar por aqui, e não só `theme`. Ele carrega o array
+   * `selections` inteiro, e no frame isso reconcilia toda a árvore de templates
+   * — medido: 12 cliques de seleção geravam 22 mensagens `content`, cada uma
+   * pagando a árvore completa. Num arraste eram 60–120 por segundo, e o custo
+   * escala com o número de seções da página. Era a causa do editor "travado".
+   */
+  const postCoalescido = useCallback(
     (message: ToFrame) => {
-      pendingThemeRef.current = message;
-      if (rafRef.current != null) return;
-      rafRef.current = requestAnimationFrame(() => {
+      pendentesRef.current.set(message.type, message);
+      if (rafRef.current != null || timerRef.current != null) return;
+
+      const drenar = () => {
+        if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
+        if (timerRef.current != null) clearTimeout(timerRef.current);
         rafRef.current = null;
-        const pending = pendingThemeRef.current;
-        pendingThemeRef.current = null;
-        if (pending) post(pending);
-      });
+        timerRef.current = null;
+        const pendentes = [...pendentesRef.current.values()];
+        pendentesRef.current.clear();
+        pendentes.forEach(post);
+      };
+
+      /* DOIS gatilhos em corrida, e o timer NÃO é redundância defensiva: o
+         browser SUSPENDE `requestAnimationFrame` quando a aba está em segundo
+         plano ou escondida. Só com o rAF, a fila ficava presa e o canvas
+         congelava — o preview parava de refletir qualquer edição até a aba
+         voltar ao primeiro plano. Medido: zero mensagens entregues com o painel
+         oculto. Quem disparar primeiro drena e cancela o outro. */
+      rafRef.current = requestAnimationFrame(drenar);
+      timerRef.current = setTimeout(drenar, 32);
     },
     [post]
   );
@@ -162,10 +193,11 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
       selections,
       pagina: selectedPage,
       logo,
-      selectedUid,
       isMobile: isMobileView,
     }),
-    [selections, selectedPage, logo, selectedUid, isMobileView]
+    /* `selectedUid` SAIU daqui: mudar a seleção não pode custar uma republicação
+       do tema inteiro. Vai no canal `selected`, aplicado imperativamente. */
+    [selections, selectedPage, logo, isMobileView]
   );
 
   // Handshake + eventos vindos do frame.
@@ -182,6 +214,11 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
           readyRef.current = true;
           post(themeMessage());
           post(contentMessage());
+          post({
+            source: FRAME_PARENT,
+            type: 'selected',
+            uid: selectedUidRef.current,
+          });
           break;
         case 'select':
           // `selectSection` e não `setSelectedUid`: clicar a seção no canvas
@@ -235,12 +272,22 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
   }, [post, caixa.escala]);
 
   useEffect(() => {
-    postThemeCoalesced(themeMessage());
-  }, [postThemeCoalesced, themeMessage]);
+    postCoalescido(themeMessage());
+  }, [postCoalescido, themeMessage]);
 
   useEffect(() => {
-    post(contentMessage());
-  }, [post, contentMessage]);
+    postCoalescido(contentMessage());
+  }, [postCoalescido, contentMessage]);
+
+  /* Canal próprio da seleção. Coalescido junto com os outros: um arraste sobre
+     as seções pode trocar a seleção várias vezes no mesmo quadro. */
+  useEffect(() => {
+    postCoalescido({
+      source: FRAME_PARENT,
+      type: 'selected',
+      uid: selectedUid,
+    });
+  }, [postCoalescido, selectedUid]);
 
   // Hover vindo do painel de seções → contorna a seção dentro do frame.
   useEffect(() => {
@@ -260,6 +307,7 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
   useEffect(
     () => () => {
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
+      if (timerRef.current != null) clearTimeout(timerRef.current);
     },
     []
   );

@@ -36,3 +36,29 @@
 .preview-template .component__container {
   max-width: 1200px !important;
 }
+
+/*
+ * A primeira seção de CONTEÚDO não tem folga acima dela.
+ *
+ * 13 componentes do catálogo declaram `margin: 40px 0` na própria raiz — é o
+ * respiro ENTRE seções, e entre duas seções ele está certo. O problema é a
+ * primeira: logo abaixo do header, aquele `margin-top` vira uma faixa vazia de
+ * 40px entre a navegação e o banner, que o QA reportou e que aparece com
+ * qualquer combinação de header + primeira seção. O header não contribui em
+ * nada — a raiz dele não tem margem nenhuma, nem aqui nem no faststore.starter.
+ *
+ * Alvo é o FILHO de `.preview-template`, não o wrapper: a margem mora na raiz
+ * do componente, e como o wrapper é um div pelado (sem padding nem borda) ela
+ * colapsa para fora dele — zerar no wrapper não teria efeito.
+ *
+ * Dois casos, e os dois são a mesma ideia:
+ *   1. a seção que vem logo depois do header;
+ *   2. a primeira seção da página quando não há header (aí a faixa vazia fica
+ *      no topo da viewport).
+ *
+ * O `margin-bottom` fica intocado: quem separa uma seção da seguinte é ele.
+ */
+.preview-template:first-child > *,
+.preview-template[data-selection='header'] + .preview-template > * {
+  margin-top: 0;
+}

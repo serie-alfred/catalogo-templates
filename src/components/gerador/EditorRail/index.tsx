@@ -13,9 +13,10 @@ import styles from './index.module.css';
  * Rail de navegação do editor. Quatro destinos, na ordem do Figma; o mark do
  * E-temas no topo é decorativo.
  *
- * A largura NÃO é declarada: o rail é hug, como no Figma. `padding: 24px` de
- * cada lado + o mark de 27.404px dão exatamente os 75.404px do design, e
- * 75.404 + 344.596 (painel esquerdo) = 420 = a largura do painel direito.
+ * A largura NÃO é declarada aqui: quem dimensiona é a trilha do grid do shell
+ * (`--ed-rail-w`, hoje 56px). O rail era hug no Figma — 24 + mark de 27.404 +
+ * 24 = 75.404 — e sobravam 19px de cromo em volta de ícones de 20. O mark passa
+ * a ser desenhado a 24 de largura (a altura acompanha, 27.404×24 → 24×21).
  *
  * Cada ícone tem o tamanho literal do Figma — o "Aa" não é quadrado.
  */
@@ -49,8 +50,9 @@ export default function EditorRail({ className }: { className?: string }) {
     <nav
       className={`${styles.rail} ${className ?? ''}`}
       aria-label="Seções do editor"
+      data-deselect-zone
     >
-      <EtemasMark className={styles.mark} />
+      <EtemasMark className={styles.mark} width={24} height={21.02} />
 
       {ITEMS.map(({ target, label, icon }) => (
         <button

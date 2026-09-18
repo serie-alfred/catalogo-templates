@@ -35,6 +35,21 @@ export type ComponentVariableType = "color" | "font";
  * @property group   - agrupamento visual opcional ("Barra superior", "Menu"...).
  * @property inheritsLabel - nome amigável da variável global herdada enquanto não
  *                     há override (ex.: "cor primária da marca"), exibido no painel.
+ * @property previewNote - por que mexer nesta variável não muda nada NO PREVIEW,
+ *                     embora mude no tema entregue. O preview é um mock: ele não
+ *                     replica modal de tamanho, simulador de frete, zoom de
+ *                     imagem, widget de terceiro nem o CSS do @faststore/ui, e
+ *                     não abre drawer nem mega-menu sozinho. Sem esta nota o
+ *                     usuário escolhe a cor, não vê efeito e conclui que está
+ *                     quebrado — foi o que o QA reportou no mini-carrinho.
+ *                     NÃO use para variável que não funciona em lugar nenhum:
+ *                     essa se remove do schema.
+ * @property optional - a variável NÃO herda nada: sem valor próprio ela fica
+ *                     desligada (`default` costuma ser "transparent"). Só muda o
+ *                     que o painel escreve no estado vazio — em vez de "Usando
+ *                     variável da …", que seria mentira, ele diz que não há cor
+ *                     definida. Para efeito que o design oferece mas não impõe,
+ *                     como o fundo da Vitrine 5.
  */
 export type ComponentVariable = {
   cssVar: string;
@@ -43,6 +58,8 @@ export type ComponentVariable = {
   default: string;
   group?: string;
   inheritsLabel?: string;
+  optional?: boolean;
+  previewNote?: string;
 };
 
 /**
@@ -154,9 +171,9 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-topbar-text", label: "Texto/ícones da barra superior", type: "color", default: "#ffffff", group: "Barra superior", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--header-bg", label: "Fundo do header (meio)", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-text", label: "Texto/ícones do header", type: "color", default: "#122161", group: "Header", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--header-nav-bg", label: "Fundo da barra de menu", type: "color", default: "#122161", group: "Menu", inheritsLabel: "cor secundária da marca" },
-        { cssVar: "--header-nav-text", label: "Texto do menu principal", type: "color", default: "#ffffff", group: "Menu", inheritsLabel: "cor de texto secundária" },
-        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--header-nav-bg", label: "Fundo da barra de menu", type: "color", default: "#122161", group: "Menu", inheritsLabel: "cor secundária da marca", previewNote: "Só na visão Desktop: no mobile a navegação vira menu hambúrguer." },
+        { cssVar: "--header-nav-text", label: "Texto do menu principal", type: "color", default: "#ffffff", group: "Menu", inheritsLabel: "cor de texto secundária", previewNote: "Só na visão Desktop: no mobile a navegação vira menu hambúrguer." },
+        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária", previewNote: "Aparece com o mini-carrinho aberto." },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "02", selection: "header", key: "hdr02h8l2gty", image: "header/Header02.webp", imageSource: "design", mobile: "", title: "Header Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Header02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary", "secondary", "tertiary"] },
@@ -166,7 +183,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-text", label: "Texto/ícones do header", type: "color", default: "#000000", group: "Header", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-accent", label: "Cor de destaque (hover, underline)", type: "color", default: "#e73888", group: "Header", inheritsLabel: "cor secundária da marca" },
-        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária", previewNote: "Aparece com o mini-carrinho aberto." },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "04", selection: "header", key: "hdr04mnu7zk2", image: "header/Header04.webp", imageSource: "auto", mobile: "", title: "Header Template 4", description: "Header escuro premium (MANU) com barra de avisos, navegação e tira de benefícios", template: "4", pagina: ["common"], component: "Header04", path: "organisms/Header04", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
@@ -176,9 +193,9 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-text", label: "Texto/ícones do header", type: "color", default: "#0a0a0a", group: "Header", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-accent", label: "Cor de destaque (badge, hover, menu)", type: "color", default: "#0a0a0a", group: "Destaque", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--header-accent-text", label: "Texto sobre o destaque", type: "color", default: "#ffffff", group: "Destaque", inheritsLabel: "cor de texto secundária" },
-        { cssVar: "--header-strip-bg", label: "Fundo da faixa de benefícios", type: "color", default: "#f5f5f5", group: "Faixa de benefícios", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--header-strip-text", label: "Texto da faixa de benefícios", type: "color", default: "#6b6b6b", group: "Faixa de benefícios", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--header-strip-bg", label: "Fundo da faixa de benefícios", type: "color", default: "#f5f5f5", group: "Faixa de benefícios", inheritsLabel: "cor primária da marca", previewNote: "Só na visão Desktop — alterne no topo do editor." },
+        { cssVar: "--header-strip-text", label: "Texto da faixa de benefícios", type: "color", default: "#6b6b6b", group: "Faixa de benefícios", inheritsLabel: "cor de texto primária", previewNote: "Só na visão Desktop — alterne no topo do editor." },
+        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária", previewNote: "Aparece com o mini-carrinho aberto." },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Inter', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--header-title-font", label: "Fonte do logo", type: "font", default: "Georgia, serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
@@ -188,8 +205,8 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-service-text", label: "Texto da barra de serviço", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "fundo do header" },
         { cssVar: "--header-text", label: "Texto/ícones", type: "color", default: "#1a1f2b", group: "Header", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-accent", label: "Cor de destaque (ofertas, hover, foco)", type: "color", default: "#2f9e57", group: "Destaque", inheritsLabel: "cor secundária da marca" },
-        { cssVar: "--header-danger", label: "Cor de alerta/oferta", type: "color", default: "#d6432a", group: "Destaque" },
-        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--header-danger", label: "Cor de alerta/oferta", type: "color", default: "#d6432a", group: "Destaque", previewNote: "Só na visão Desktop — alterne no topo do editor." },
+        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária", previewNote: "Aparece com o mini-carrinho aberto." },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--header-title-font", label: "Fonte do logo", type: "font", default: "-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
@@ -199,10 +216,10 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-topbar-font", label: "Fonte da barra superior", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-text", label: "Texto/ícones do header", type: "color", default: "#212721", group: "Header", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--header-mega-panel", label: "Fundo do banner do mega-menu", type: "color", default: "#21464f", group: "Mega-menu" },
-        { cssVar: "--header-rule", label: "Borda do autocomplete", type: "color", default: "#e3e4e6", group: "Busca" },
-        { cssVar: "--header-muted", label: "Texto das sugestões de busca", type: "color", default: "#727273", group: "Busca" },
-        { cssVar: "--header-login-bg", label: "Fundo do botão Entrar (menu mobile)", type: "color", default: "#212721", group: "Menu mobile", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--header-mega-panel", label: "Fundo do banner do mega-menu", type: "color", default: "#21464f", group: "Mega-menu", previewNote: "Aparece no mega-menu, ao passar o mouse na navegação." },
+        { cssVar: "--header-rule", label: "Borda do autocomplete", type: "color", default: "#e3e4e6", group: "Busca", previewNote: "Aparece no dropdown da busca, com o campo focado." },
+        { cssVar: "--header-muted", label: "Texto das sugestões de busca", type: "color", default: "#727273", group: "Busca", previewNote: "Só na visão Mobile — alterne no topo do editor." },
+        { cssVar: "--header-login-bg", label: "Fundo do botão Entrar (menu mobile)", type: "color", default: "#212721", group: "Menu mobile", inheritsLabel: "cor primária da marca", previewNote: "Só na visão Mobile: o botão de login é do menu mobile." },
         { cssVar: "--header-login-text", label: "Texto do botão Entrar (menu mobile)", type: "color", default: "#ffffff", group: "Menu mobile", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#212721", group: "Mini-carrinho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--cart-button-bg", label: "Fundo do botão 'Finalizar Compra'", type: "color", default: "#212721", group: "Mini-carrinho", inheritsLabel: "cor primária da marca" },
@@ -216,14 +233,16 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-text", label: "Texto do header", type: "color", default: "#2c2420", group: "Header", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-nav-text", label: "Texto do menu", type: "color", default: "#4a3f38", group: "Menu", inheritsLabel: "cor de texto primária" },
         { cssVar: "--header-accent", label: "Cor de destaque", type: "color", default: "#b8976a", group: "Header", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--header-sale", label: "Cor de \'Saldos\' e destaques", type: "color", default: "#c07a5a", group: "Menu" },
+        { cssVar: "--header-sale", label: "Cor de \'Saldos\' e destaques", type: "color", default: "#c07a5a", group: "Menu", previewNote: "Só na visão Desktop — alterne no topo do editor." },
         { cssVar: "--header-rule", label: "Linhas divisórias", type: "color", default: "#ede4d8", group: "Header" },
-        { cssVar: "--header-muted", label: "Texto secundário", type: "color", default: "#8c7d74", group: "Header" },
-        { cssVar: "--header-surface", label: "Fundo dos painéis", type: "color", default: "#fff", group: "Menu" },
-        { cssVar: "--header-field-bg", label: "Fundo do campo de busca", type: "color", default: "#faf8f4", group: "Busca" },
-        { cssVar: "--header-field-border", label: "Borda do campo de busca", type: "color", default: "#e8dfd5", group: "Busca" },
-        { cssVar: "--header-mega-quote", label: "Citação sobre a arte do megamenu", type: "color", default: "#faf8f4", group: "Menu" },
+        { cssVar: "--header-muted", label: "Texto secundário", type: "color", default: "#8c7d74", group: "Header", previewNote: "Aparece no overlay de busca, aberto." },
+        { cssVar: "--header-surface", label: "Fundo dos painéis", type: "color", default: "#fff", group: "Menu", previewNote: "Aparece no overlay de busca, aberto." },
+        { cssVar: "--header-field-bg", label: "Fundo do campo de busca", type: "color", default: "#faf8f4", group: "Busca", previewNote: "Só na visão Desktop — alterne no topo do editor." },
+        { cssVar: "--header-field-border", label: "Borda do campo de busca", type: "color", default: "#e8dfd5", group: "Busca", previewNote: "Só na visão Desktop — alterne no topo do editor." },
+        { cssVar: "--header-mega-quote", label: "Citação sobre a arte do megamenu", type: "color", default: "#faf8f4", group: "Menu", previewNote: "Aparece no mega-menu, ao passar o mouse." },
         { cssVar: "--header-font", label: "Fonte da marca", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        // Faltava: o Header07 renderiza mini-carrinho (CartSidebar07 no tema real, CartSidebar01 no mock) e era o único do catálogo sem controle de cor dele. O CartSidebar07 era 100% hex cravado; virou temável na mesma auditoria.
+        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#2c2420", group: "Mini-carrinho", inheritsLabel: "cor de texto primária", previewNote: "Aparece com o mini-carrinho aberto." },
         { cssVar: "--header-body-font", label: "Fonte do menu e do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
     ],
@@ -241,8 +260,8 @@ export const LAYOUTS: Layouts = {
       { id: "03", selection: "spot", key: "crdprd03h291", image: "spot/Spot03.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 3", description: "Card de produto com seletor de tamanhos", template: "3", pagina: ["common"], component: "Spot03", path: "molecules/ProductCard03", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["secondary", "tertiary"], variablesSchema: [
         { cssVar: "--spot-tag-bg", label: "Fundo da etiqueta de desconto", type: "color", default: "#ffffff", group: "Etiquetas", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--spot-tag-text", label: "Texto da etiqueta de desconto", type: "color", default: "#000000", group: "Etiquetas", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--spot-btn-bg", label: "Fundo do seletor de tamanho (hover)", type: "color", default: "#000000", group: "Seletor de tamanho", inheritsLabel: "cor secundária da marca" },
-        { cssVar: "--spot-btn-text", label: "Texto do seletor de tamanho (hover)", type: "color", default: "#ffffff", group: "Seletor de tamanho", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--spot-btn-bg", label: "Fundo do seletor de tamanho (hover)", type: "color", default: "#000000", group: "Seletor de tamanho", inheritsLabel: "cor secundária da marca", previewNote: "Aparece ao passar o mouse no card." },
+        { cssVar: "--spot-btn-text", label: "Texto do seletor de tamanho (hover)", type: "color", default: "#ffffff", group: "Seletor de tamanho", inheritsLabel: "cor de texto secundária", previewNote: "Aparece ao passar o mouse no card." },
         { cssVar: "--spot-font", label: "Fonte do card de produto", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "04", selection: "spot", key: "crdprd04f1a2", image: "spot/Spot04.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 4", description: "Card de produto com botão de adicionar", template: "4", pagina: ["common"], component: "Spot04", path: "molecules/ProductCard04", platforms: ['VTEX'], backgroundVars: ["secondary", "tertiary"], variablesSchema: [
@@ -294,7 +313,7 @@ export const LAYOUTS: Layouts = {
       { id: "04", selection: "footer", key: "ftr04m4nu9x2", image: "footer/Footer04.webp", imageSource: "auto", mobile: "", title: "Footer Template 4", description: "Rodapé escuro premium (MANU) com marca, colunas em accordion no mobile, newsletter e barra inferior", template: "4", pagina: ["common"], component: "Footer04", path: "organisms/Footer04", platforms: ['VTEX'], backgroundVars: ["footer", "primary", "secondary"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#0a0a0a", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#ffffff", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
-        { cssVar: "--footer-accent", label: "Cor de destaque (hover do botão)", type: "color", default: "#ffffff", group: "Destaque", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--footer-accent", label: "Cor de destaque (hover do botão)", type: "color", default: "#ffffff", group: "Destaque", inheritsLabel: "cor secundária da marca", previewNote: "Aparece ao passar o mouse nos botões." },
         { cssVar: "--footer-button-bg", label: "Fundo do botão da newsletter", type: "color", default: "#ffffff", group: "Newsletter", inheritsLabel: "cor primária da marca" },
         { cssVar: "--footer-button-text", label: "Texto do botão da newsletter", type: "color", default: "#0a0a0a", group: "Newsletter", inheritsLabel: "cor de texto base" },
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
@@ -314,7 +333,7 @@ export const LAYOUTS: Layouts = {
       { id: "06", selection: "footer", key: "ftr06frc3c4d", image: "footer/Footer06.webp", imageSource: "auto", mobile: "", title: "Footer Template 6", description: "Newsletter (nome + e-mail), redes sociais, 3 colunas e barra inferior com copyright", template: "6", pagina: ["common"], component: "Footer06", path: "organisms/Footer06", platforms: ['VTEX'], backgroundVars: ["footer", "secondary"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#f6f6f6", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#212721", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
-        { cssVar: "--footer-accent", label: "Cor de destaque (hover, links)", type: "color", default: "#c0121c", group: "Destaque", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--footer-accent", label: "Cor de destaque (hover, links)", type: "color", default: "#c0121c", group: "Destaque", inheritsLabel: "cor secundária da marca", previewNote: "Aparece ao passar o mouse nos links e no campo em foco." },
         { cssVar: "--footer-newsletter-bg", label: "Fundo da faixa da newsletter", type: "color", default: "#ffffff", group: "Newsletter" },
         { cssVar: "--footer-newsletter-text", label: "Texto da faixa da newsletter", type: "color", default: "#212721", group: "Newsletter" },
         { cssVar: "--footer-button-bg", label: "Fundo do botão newsletter", type: "color", default: "#212721", group: "Newsletter", inheritsLabel: "cor secundária da marca" },
@@ -368,9 +387,9 @@ export const LAYOUTS: Layouts = {
       { id: "06", selection: "home-carousel", key: "homcar06q4r9", image: "categories/HomeCarousel06.webp", imageSource: "auto", mobile: "", title: "Carrossel de Categorias Template 6", description: "Carrossel de categorias", template: "6", pagina: ["home"], component: "HomeCarousel06", platforms: ['Tray'], backgroundVars: [] },
       { id: "07", selection: "categories", key: "cat07bru4d5e", image: "categories/Categories07.webp", imageSource: "auto", mobile: "", title: "Carrossel de Categorias Template 7", description: "Grid de curadoria: 6 cards no desktop e 4 no mobile, com título e link \'Ver todos\'", template: "7", pagina: ["home"], component: "Categories07", path: "molecules/Categories07", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--categories-title-color", label: "Cor do título e dos rótulos", type: "color", default: "#2c2420", group: "Categorias", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--categories-accent", label: "Cor do link e do hover", type: "color", default: "#b8976a", group: "Categorias", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--categories-accent", label: "Cor do link e do hover", type: "color", default: "#b8976a", group: "Categorias", inheritsLabel: "cor primária da marca", previewNote: "Só na visão Desktop — alterne no topo do editor." },
         { cssVar: "--categories-font", label: "Fonte do título e dos rótulos", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
-        { cssVar: "--categories-body-font", label: "Fonte do link", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+        { cssVar: "--categories-body-font", label: "Fonte do link", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária", previewNote: "Só na visão Desktop — alterne no topo do editor." },
       ] },
     ],
   },
@@ -455,7 +474,11 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--showcase-font", label: "Fonte do título", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--showcase-accent", label: "Cor do bullet ativo", type: "color", default: "#e40101", group: "Carrossel", inheritsLabel: "cor primária da marca" },
       ] },
-      { id: "05", selection: "showcase", key: "vtr05a1b2c3d", image: "showcase/Showcase05.webp", imageSource: "design", mobile: "", title: "Vitrine Template 5", description: "Vitrine com fundo cinza, setas laterais e avaliação", template: "5", pagina: ["home"], component: "Showcase05", path: "organisms/ProductShelfCustom05", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "05", selection: "showcase", key: "vtr05a1b2c3d", image: "showcase/Showcase05.webp", imageSource: "design", mobile: "", title: "Vitrine Template 5", description: "Vitrine com setas laterais e avaliação; fundo opcional", template: "5", pagina: ["home"], component: "Showcase05", path: "organisms/ProductShelfCustom05", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        // Sem valor a vitrine fica TRANSPARENTE. Era #f5f5f5 cravado no SCSS — hex
+        // fixo numa cor temável, o que o contrato do starter proíbe. Virou efeito
+        // que o usuário liga se quiser; `optional` só troca a frase do estado vazio.
+        { cssVar: "--showcase-bg", label: "Fundo da vitrine", type: "color", default: "transparent", group: "Fundo", optional: true },
         { cssVar: "--showcase-title-color", label: "Cor do título", type: "color", default: "#292929", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--showcase-font", label: "Fonte do título", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--showcase-accent", label: "Cor do bullet ativo", type: "color", default: "#0096fe", group: "Carrossel", inheritsLabel: "cor primária da marca" },
@@ -511,8 +534,8 @@ export const LAYOUTS: Layouts = {
       { id: "06", selection: "category-tabs", key: "cattab06frc5", image: "categoryTabs/CategoryTabs06.webp", imageSource: "auto", mobile: "", title: "Abas de categoria Template 6", description: "Título, abas de categoria e carrossel de cards de modelo, com a segunda foto aparecendo no hover", template: "6", pagina: ["home"], component: "CategoryTabs06", path: "molecules/CategoryTabs06", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--categorytabs-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categorytabs-title-font", label: "Fonte do título", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
-        { cssVar: "--categorytabs-tab-color", label: "Cor da aba", type: "color", default: "#212721", group: "Pills", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--categorytabs-tab-active-color", label: "Cor da aba ativa", type: "color", default: "#212721", group: "Pills", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--categorytabs-tab-color", label: "Cor da aba", type: "color", default: "#212721", group: "Botões", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--categorytabs-tab-active-color", label: "Cor da aba ativa", type: "color", default: "#212721", group: "Botões", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categorytabs-tab-font", label: "Fonte das abas", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--categorytabs-button-bg", label: "Fundo do botão do card", type: "color", default: "#212721", group: "Botão", inheritsLabel: "cor primária da marca" },
         { cssVar: "--categorytabs-button-text", label: "Texto do botão do card", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base" },
@@ -568,14 +591,14 @@ export const LAYOUTS: Layouts = {
     name: "Pop-up de newsletter",
     items: [
       { id: "06", selection: "popup-news", key: "popnew06frc1", image: "popupNews/PopupNews06.webp", imageSource: "auto", mobile: "", title: "Pop-up de newsletter Template 6", description: "Modal de captura de lead com arte à esquerda, título com trecho destacado, quatro campos e rodapé legal; aparece só no desktop", template: "6", pagina: ["home"], component: "PopupNews06", path: "organisms/PopupNews06", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
-        { cssVar: "--popup-bg", label: "Fundo do pop-up", type: "color", default: "#ffffff", group: "Formulário" },
-        { cssVar: "--popup-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--popup-title-font", label: "Fonte do título", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
-        { cssVar: "--popup-text-color", label: "Cor do texto", type: "color", default: "#212721", group: "Formulário", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--popup-button-bg", label: "Fundo do botão", type: "color", default: "#000000", group: "Botão", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--popup-button-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base" },
-        { cssVar: "--popup-error-color", label: "Cor do aviso de erro", type: "color", default: "#b00020", group: "Formulário" },
-        { cssVar: "--popup-font", label: "Fonte do texto", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+        { cssVar: "--popup-bg", label: "Fundo do pop-up", type: "color", default: "#ffffff", group: "Formulário", previewNote: "Só na visão Desktop: o popup não abre abaixo de 1024px (no tema real também não)." },
+        { cssVar: "--popup-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor de texto primária", previewNote: "Só na visão Desktop: o popup não abre abaixo de 1024px (no tema real também não)." },
+        { cssVar: "--popup-title-font", label: "Fonte do título", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária", previewNote: "Só na visão Desktop: o popup não abre abaixo de 1024px (no tema real também não)." },
+        { cssVar: "--popup-text-color", label: "Cor do texto", type: "color", default: "#212721", group: "Formulário", inheritsLabel: "cor de texto primária", previewNote: "Só na visão Desktop: o popup não abre abaixo de 1024px (no tema real também não)." },
+        { cssVar: "--popup-button-bg", label: "Fundo do botão", type: "color", default: "#000000", group: "Botão", inheritsLabel: "cor primária da marca", previewNote: "Só na visão Desktop: o popup não abre abaixo de 1024px (no tema real também não)." },
+        { cssVar: "--popup-button-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base", previewNote: "Só na visão Desktop: o popup não abre abaixo de 1024px (no tema real também não)." },
+        { cssVar: "--popup-error-color", label: "Cor do aviso de erro", type: "color", default: "#b00020", group: "Formulário", previewNote: "Pinta a mensagem de erro do formulário; o preview não dispara esse estado." },
+        { cssVar: "--popup-font", label: "Fonte do texto", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária", previewNote: "Só na visão Desktop: o popup não abre abaixo de 1024px (no tema real também não)." },
       ] },
     ],
   },
@@ -598,8 +621,8 @@ export const LAYOUTS: Layouts = {
       { id: "07", selection: "newsletter", key: "nlt07bru3c4d", image: "newsletter/Newsletter07.webp", imageSource: "auto", mobile: "", title: "Newsletter Template 7", description: "Captura de e-mail em 2 colunas no desktop e empilhada no mobile, com conteúdos próprios por breakpoint", template: "7", pagina: ["home"], component: "Newsletter07", path: "organisms/Newsletter07", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--newsletter-title-color", label: "Cor do título", type: "color", default: "#2c2420", group: "Newsletter", inheritsLabel: "cor de texto primária" },
         { cssVar: "--newsletter-accent", label: "Cor do rótulo", type: "color", default: "#b8976a", group: "Newsletter", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--newsletter-desc-color", label: "Cor do parágrafo", type: "color", default: "#6a5e58", group: "Newsletter", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--newsletter-note-color", label: "Cor do aviso", type: "color", default: "#8c7d74", group: "Newsletter", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--newsletter-desc-color", label: "Cor do parágrafo", type: "color", default: "#6a5e58", group: "Newsletter", inheritsLabel: "cor de texto primária", previewNote: "Só na visão Desktop — alterne no topo do editor." },
+        { cssVar: "--newsletter-note-color", label: "Cor do aviso", type: "color", default: "#8c7d74", group: "Newsletter", inheritsLabel: "cor de texto primária", previewNote: "Só na visão Desktop — alterne no topo do editor." },
         { cssVar: "--newsletter-button-bg", label: "Fundo do botão", type: "color", default: "#2c2420", group: "Formulário", inheritsLabel: "cor primária da marca" },
         { cssVar: "--newsletter-button-text", label: "Texto do botão", type: "color", default: "#faf8f4", group: "Formulário", inheritsLabel: "cor de texto base" },
         { cssVar: "--newsletter-input-bg", label: "Fundo do campo", type: "color", default: "#fff", group: "Formulário" },
@@ -614,14 +637,14 @@ export const LAYOUTS: Layouts = {
   rooms: {
     name: "Ambientes",
     items: [
-      { id: "07", selection: "rooms", key: "room07bru1a2", image: "rooms/ShopByRoom07.webp", imageSource: "auto", mobile: "", title: "Ambientes Template 7", description: "Escolha por ambiente: rótulo, título e pills de navegação com um ativo", template: "7", pagina: ["home"], component: "ShopByRoom07", path: "organisms/ShopByRoom07", platforms: ['VTEX'], backgroundVars: ["tertiary", "primary"], variablesSchema: [
+      { id: "07", selection: "rooms", key: "room07bru1a2", image: "rooms/ShopByRoom07.webp", imageSource: "auto", mobile: "", title: "Ambientes Template 7", description: "Escolha por ambiente: rótulo, título e botões de navegação com um ativo", template: "7", pagina: ["home"], component: "ShopByRoom07", path: "organisms/ShopByRoom07", platforms: ['VTEX'], backgroundVars: ["tertiary", "primary"], variablesSchema: [
         { cssVar: "--room-bg", label: "Fundo da seção", type: "color", default: "#f2ede4", group: "Ambientes", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--room-accent", label: "Cor do rótulo", type: "color", default: "#b8976a", group: "Ambientes", inheritsLabel: "cor primária da marca" },
         { cssVar: "--room-title-color", label: "Cor do título", type: "color", default: "#2c2420", group: "Ambientes", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--room-pill-active-bg", label: "Fundo da pill ativa", type: "color", default: "#2c2420", group: "Pills", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--room-pill-active-text", label: "Texto da pill ativa", type: "color", default: "#f5f0e8", group: "Pills", inheritsLabel: "cor de texto base" },
-        { cssVar: "--room-pill-text", label: "Texto da pill", type: "color", default: "#4a3f38", group: "Pills", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--room-pill-border", label: "Borda da pill", type: "color", default: "#c8baa8", group: "Pills" },
+        { cssVar: "--room-pill-active-bg", label: "Fundo do botão ativo", type: "color", default: "#2c2420", group: "Botões", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--room-pill-active-text", label: "Texto do botão ativo", type: "color", default: "#f5f0e8", group: "Botões", inheritsLabel: "cor de texto base" },
+        { cssVar: "--room-pill-text", label: "Texto do botão", type: "color", default: "#4a3f38", group: "Botões", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--room-pill-border", label: "Borda do botão", type: "color", default: "#c8baa8", group: "Botões" },
         { cssVar: "--room-title-font", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--room-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
@@ -649,8 +672,8 @@ export const LAYOUTS: Layouts = {
     items: [
       { id: "01", selection: "category-main", key: "catmn01ll098", image: "categoryMain/CategoryMain01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryMain01", path: "organisms/MainCategory01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
         { cssVar: "--cat-main-text", label: "Cor do texto", type: "color", default: "#141414", group: "Texto", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--cat-main-btn-bg", label: "Cor do botão de filtro", type: "color", default: "#122161", group: "Botões", inheritsLabel: "cor secundária da marca" },
-        { cssVar: "--cat-main-btn-text", label: "Texto do botão de filtro", type: "color", default: "#ffffff", group: "Botões", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--cat-main-btn-bg", label: "Cor do botão de filtro", type: "color", default: "#122161", group: "Botões", inheritsLabel: "cor secundária da marca", previewNote: "Só na visão Mobile — alterne no topo do editor." },
+        { cssVar: "--cat-main-btn-text", label: "Texto do botão de filtro", type: "color", default: "#ffffff", group: "Botões", inheritsLabel: "cor de texto secundária", previewNote: "Só na visão Mobile — alterne no topo do editor." },
         { cssVar: "--cat-main-accent", label: "Cor de destaque (paginação)", type: "color", default: "#682a77", group: "Destaque", inheritsLabel: "cor primária da marca" },
         { cssVar: "--cat-main-page-text", label: "Texto da paginação ativa", type: "color", default: "#ffffff", group: "Destaque", inheritsLabel: "cor de texto base" },
         { cssVar: "--cat-main-font", label: "Fonte", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
@@ -666,16 +689,16 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--plp-toggle-active", label: "Seletor de colunas — ativo", type: "color", default: "#000000", group: "Botões" },
         { cssVar: "--shelf-text-color", label: "Cor dos textos do card", type: "color", default: "#212721", group: "Textos", inheritsLabel: "cor de texto primária" },
         { cssVar: "--shelf-font", label: "Fonte do card", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
-        { cssVar: "--shelf-text", label: "Traço ativo das fotos", type: "color", default: "#212721", group: "Carrossel", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--shelf-flag-color", label: "Texto do selo", type: "color", default: "#212721", group: "Etiquetas", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--shelf-flag-bg", label: "Fundo do selo no mobile", type: "color", default: "#000000", group: "Etiquetas", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--shelf-flag-text", label: "Texto do selo no mobile", type: "color", default: "#ffffff", group: "Etiquetas", inheritsLabel: "cor de texto base" },
+        { cssVar: "--shelf-text", label: "Traço ativo das fotos", type: "color", default: "#212721", group: "Carrossel", inheritsLabel: "cor de texto primária", previewNote: "Só na visão Mobile — alterne no topo do editor." },
+        { cssVar: "--shelf-flag-color", label: "Texto do selo", type: "color", default: "#212721", group: "Etiquetas", inheritsLabel: "cor de texto primária", previewNote: "Só na visão Desktop — alterne no topo do editor." },
+        { cssVar: "--shelf-flag-bg", label: "Fundo do selo no mobile", type: "color", default: "#000000", group: "Etiquetas", inheritsLabel: "cor primária da marca", previewNote: "Só na visão Mobile — alterne no topo do editor." },
+        { cssVar: "--shelf-flag-text", label: "Texto do selo no mobile", type: "color", default: "#ffffff", group: "Etiquetas", inheritsLabel: "cor de texto base", previewNote: "Só na visão Mobile — alterne no topo do editor." },
         { cssVar: "--shelf-wishlist-color", label: "Cor do coração", type: "color", default: "#212721", group: "Botões", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--shelf-icon-bg", label: "Fundo do botão de carrinho", type: "color", default: "#ffffff", group: "Botões" },
-        { cssVar: "--shelf-btn-bg", label: "Fundo do botão da folha de tamanho", type: "color", default: "#212721", group: "Seletor de tamanho", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--shelf-btn-text", label: "Texto do botão da folha de tamanho", type: "color", default: "#ffffff", group: "Seletor de tamanho", inheritsLabel: "cor de texto base" },
-        { cssVar: "--shelf-btn-disabled-text", label: "Texto do botão desabilitado", type: "color", default: "#ffffff", group: "Seletor de tamanho", inheritsLabel: "cor de texto secundária" },
-        { cssVar: "--shelf-chip-text", label: "Texto do tamanho selecionado", type: "color", default: "#ffffff", group: "Seletor de tamanho", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--shelf-icon-bg", label: "Fundo do botão de carrinho", type: "color", default: "#ffffff", group: "Botões", previewNote: "Só na visão Mobile — alterne no topo do editor." },
+        { cssVar: "--shelf-btn-bg", label: "Fundo do botão da folha de tamanho", type: "color", default: "#212721", group: "Seletor de tamanho", inheritsLabel: "cor primária da marca", previewNote: "Do modal de tamanho do card, que o preview não abre." },
+        { cssVar: "--shelf-btn-text", label: "Texto do botão da folha de tamanho", type: "color", default: "#ffffff", group: "Seletor de tamanho", inheritsLabel: "cor de texto base", previewNote: "Do modal de tamanho do card, que o preview não abre." },
+        { cssVar: "--shelf-btn-disabled-text", label: "Texto do botão desabilitado", type: "color", default: "#ffffff", group: "Seletor de tamanho", inheritsLabel: "cor de texto secundária", previewNote: "Do modal de tamanho do card, que o preview não abre." },
+        { cssVar: "--shelf-chip-text", label: "Texto do tamanho selecionado", type: "color", default: "#ffffff", group: "Seletor de tamanho", inheritsLabel: "cor de texto secundária", previewNote: "Do modal de tamanho do card, que o preview não abre." },
       ] },
       { id: "07", selection: "category-main", key: "catmn07bru8p", image: "categoryMain/CategoryMain07.webp", imageSource: "auto", mobile: "", title: "Grade de produtos Template 7", description: "PLP completa: trilha, título, subcategorias, sidebar de filtros com faixa de preço, barra de ordenação e grade de cards", template: "7", pagina: ["category"], component: "CategoryMain07", path: "organisms/MainCategory07", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--plp-title-color", label: "Cor do título e dos textos", type: "color", default: "#2c2420", group: "Listagem", inheritsLabel: "cor de texto primária" },
@@ -745,7 +768,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-info-btn2-text", label: "Botão 'Comprar agora': texto", type: "color", default: "#ffffff", group: "Botão secundário" },
         { cssVar: "--prod-gallery-badge-bg", label: "Selo: cor de fundo", type: "color", default: "#121212", group: "Galeria / Selos" },
         { cssVar: "--prod-gallery-badge-text", label: "Selo: cor do texto", type: "color", default: "#ffffff", group: "Galeria / Selos" },
-        { cssVar: "--prod-gallery-dot-active", label: "Galeria: indicador ativo (mobile)", type: "color", default: "#121212", group: "Galeria / Selos" },
+        { cssVar: "--prod-gallery-dot-active", label: "Galeria: indicador ativo (mobile)", type: "color", default: "#121212", group: "Galeria / Selos", previewNote: "Só na visão Mobile — alterne no topo do editor." },
         { cssVar: "--prod-info-font", label: "Fonte (informações)", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
         { cssVar: "--prod-gallery-font", label: "Fonte (selos da galeria)", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
       ] },
@@ -758,18 +781,18 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--pdp-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "05", selection: "product-info", key: "info05pdp6fc", image: "productInfo/ProductInfo05.webp", imageSource: "design", mobile: "", title: "Detalhes do Produto Template 5", description: "PDP completa: barra de aviso, galeria com miniaturas verticais, trilha, avaliação, preço com centavos reduzidos, carrossel de cores, grade de tamanhos com esgotados, guia de medidas, aviso de forma, cálculo de frete, descrição e características", template: "5", pagina: ["product"], component: "ProductInfo05", path: "organisms/ProductDetails06", platforms: ['VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
-        { cssVar: "--prod-bar-bg", label: "Fundo da barra de aviso", type: "color", default: "#f2f2f2", group: "Barra superior", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--prod-bar-bg", label: "Fundo da barra de aviso", type: "color", default: "#f2f2f2", group: "Barra superior", inheritsLabel: "cor de texto primária", previewNote: "Só na visão Desktop — alterne no topo do editor." },
         { cssVar: "--prod-bar-text", label: "Texto da barra de aviso", type: "color", default: "#1d1d1b", group: "Barra superior", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-info-text", label: "Cor do texto", type: "color", default: "#212721", group: "Textos", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-value-color", label: "Cor do preço", type: "color", default: "#4c9d7c", group: "Preço", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--prod-accent-color", label: "Cor de destaque", type: "color", default: "#4c9d7c", group: "Destaque", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--prod-accent-color", label: "Cor de destaque", type: "color", default: "#4c9d7c", group: "Destaque", inheritsLabel: "cor primária da marca", previewNote: "Do simulador de frete e da mensagem de erro, ausentes do preview." },
         { cssVar: "--prod-pill-bg", label: "Fundo do selo de frete", type: "color", default: "#d3d4d3", group: "Destaque", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-buy-bg", label: "Fundo do botão comprar", type: "color", default: "#4c9d7c", group: "Botão principal", inheritsLabel: "cor primária da marca" },
         { cssVar: "--prod-buy-text", label: "Texto do botão comprar", type: "color", default: "#ffffff", group: "Botão principal", inheritsLabel: "cor de texto base" },
         { cssVar: "--prod-calc-bg", label: "Fundo do botão de frete", type: "color", default: "#212721", group: "Botão secundário", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--prod-calc-text", label: "Texto do botão de frete", type: "color", default: "#ffffff", group: "Botão secundário", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--prod-chip-text", label: "Texto do tamanho selecionado", type: "color", default: "#ffffff", group: "Seletor de tamanho", inheritsLabel: "cor de texto secundária" },
-        { cssVar: "--prod-zoom-bg", label: "Fundo do zoom da foto", type: "color", default: "#f6f6f6", group: "Galeria / Selos" },
+        { cssVar: "--prod-zoom-bg", label: "Fundo do zoom da foto", type: "color", default: "#f6f6f6", group: "Galeria / Selos", previewNote: "Do zoom da imagem, que o preview não abre." },
         { cssVar: "--prod-font", label: "Fonte", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "07", selection: "product-info", key: "info07pd03g", image: "productInfo/ProductInfo07.webp", imageSource: "auto", mobile: "", title: "Detalhes do Produto Template 7", description: "PDP com galeria em coluna rolável, SKU e avaliação, ficha curta, preço, variação de cor e tamanho, compra, selos de confiança e acordeão de especificações", template: "7", pagina: ["product"], component: "ProductInfo07", path: "organisms/ProductDetails03", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
@@ -777,7 +800,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-info-text", label: "Cor do texto", type: "color", default: "#121212", group: "Textos" },
         { cssVar: "--prod-info-content", label: "Cor do texto secundário", type: "color", default: "rgba(18, 18, 18, 0.75)", group: "Textos" },
         { cssVar: "--prod-info-divider", label: "Cor das divisórias", type: "color", default: "rgba(18, 18, 18, 0.12)", group: "Textos" },
-        { cssVar: "--prod-info-rating", label: "Cor das estrelas", type: "color", default: "#121212", group: "Título e avaliação" },
+        { cssVar: "--prod-info-rating", label: "Cor das estrelas", type: "color", default: "#121212", group: "Título e avaliação", previewNote: "Das estrelas de avaliação, desenhadas pelo CSS do @faststore/ui — que o preview não carrega." },
         { cssVar: "--prod-info-price", label: "Cor do preço", type: "color", default: "#121212", group: "Preço" },
         { cssVar: "--prod-info-btn-bg", label: "Fundo do botão comprar", type: "color", default: "#121212", group: "Botão principal" },
         { cssVar: "--prod-info-btn-text", label: "Texto do botão comprar", type: "color", default: "#ffffff", group: "Botão principal" },
@@ -788,7 +811,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-info-variant-active-text", label: "Texto da variação escolhida", type: "color", default: "#ffffff", group: "Variações" },
         { cssVar: "--prod-gallery-badge-bg", label: "Fundo da etiqueta", type: "color", default: "#121212", group: "Etiquetas" },
         { cssVar: "--prod-gallery-badge-text", label: "Texto da etiqueta", type: "color", default: "#ffffff", group: "Etiquetas" },
-        { cssVar: "--prod-gallery-dot-active", label: "Ponto ativo da galeria", type: "color", default: "#121212", group: "Galeria / Selos" },
+        { cssVar: "--prod-gallery-dot-active", label: "Ponto ativo da galeria", type: "color", default: "#121212", group: "Galeria / Selos", previewNote: "Só na visão Mobile — alterne no topo do editor." },
         { cssVar: "--prod-info-font", label: "Fonte da informação", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
         { cssVar: "--prod-gallery-font", label: "Fonte da galeria", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
       ] },
@@ -800,9 +823,9 @@ export const LAYOUTS: Layouts = {
       { id: "06", selection: "product-reviews", key: "prodrev06tvx", image: "productReviews/ProductReviews06.webp", imageSource: "auto", mobile: "", title: "Avaliações do produto Template 6", description: "Acordeão de avaliações da página de produto: moldura, título e o espaço reservado ao widget de avaliações", template: "6", pagina: ["product"], component: "ProductReviews06", path: "organisms/TrustvoxReviews06", platforms: ['VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--prod-text", label: "Cor do título", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-card-bg", label: "Fundo do cartão", type: "color", default: "#ffffff", group: "Título" },
-        { cssVar: "--prod-button-bg", label: "Cor do botão do widget", type: "color", default: "#212721", group: "Botão", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--prod-button-bg", label: "Cor do botão do widget", type: "color", default: "#212721", group: "Botão", inheritsLabel: "cor primária da marca", previewNote: "Do widget Trustvox, que só existe na loja publicada." },
         { cssVar: "--prod-title-font", label: "Fonte do título", type: "font", default: "'Inter', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
-        { cssVar: "--prod-font", label: "Fonte", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+        { cssVar: "--prod-font", label: "Fonte", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária", previewNote: "Do widget Trustvox, que só existe na loja publicada." },
       ] },
     ],
   },

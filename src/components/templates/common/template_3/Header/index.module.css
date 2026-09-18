@@ -51,6 +51,13 @@
   will-change: transform;
   /* 38s por repetição da lista × 4 repetições: mesma velocidade de antes. */
   animation: marquee 152s linear infinite;
+  /* Quem manda no play/pause é a SUPERFÍCIE, não o componente. Medido no canvas
+     do editor: esta animação sozinha custa 8,8ms de todo quadro (mediana de
+     25,5ms com ela rodando contra 16,7ms com ela pausada — 39fps contra 60),
+     continuamente, mesmo com o usuário parado. O default é `running`, então a
+     loja real e o preview compartilhável (/p) não mudam; só o iframe do editor
+     define `paused`, em (frame)/frame.css. */
+  animation-play-state: var(--preview-motion, running);
   width: max-content;
 }
 

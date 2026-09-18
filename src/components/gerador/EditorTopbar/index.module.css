@@ -1,16 +1,38 @@
+/* A barra atravessa a coluna do canvas E a do painel direito. As duas colunas
+   daqui espelham o que está embaixo: os controles de vista alinhados ao canvas,
+   as ações globais sobre o painel.
+
+   A segunda trilha é `auto`, NÃO `var(--ed-right-w)`: recolher o painel zera
+   essa variável no shell, e com ela na trilha os dois botões iriam a 0 e
+   sumiriam. Com `auto` eles apenas encostam na borda direita da barra. */
 .topbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  height: var(--ed-topbar-h);
+  /* Borda embaixo, atravessando a barra inteira. Antes era `inset -1px 0 0` —
+     uma borda à DIREITA, que separava a coluna central do cabeçalho do painel
+     direito. Com a barra única esse traço vertical não existe mais, e quem
+     separava a barra do que vem abaixo era a borda de topo do canvas
+     (removida de EditorCanvas junto com esta troca, senão dobra para 2px). */
+  box-shadow: inset 0 -1px 0 var(--ed-gray-000);
+  background: var(--ed-bg-00);
+}
+
+.canvasControls {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  height: var(--ed-topbar-h);
-  padding: 16px 24px;
-  box-shadow: inset -1px 0 0 var(--ed-gray-000);
-  background: var(--ed-bg-00);
+  min-width: 0;
+  padding: 0 24px;
 }
 
-/* 213px é a largura do bloco no Figma — mantém o seletor de página centrado
-   mesmo com o toggle sendo mais largo que os dois botões. */
+/* 213px mantém o seletor de página centrado entre o bloco de histórico e o
+   toggle Desktop/Mobile, que também fecha em 213 — o toggle é mais largo que os
+   dois botões de undo/redo juntos. `width` e não `flex-basis`: o flex-shrink
+   padrão continua valendo, então numa tela muito estreita o bloco cede antes de
+   estourar a barra. */
 .history {
   display: flex;
   align-items: center;
@@ -35,4 +57,40 @@
 .iconButton:disabled {
   color: var(--ed-gray-200);
   cursor: default;
+}
+
+/* Pré-visualizar + export. Vinham do cabeçalho do EditorRightPanel, com o mesmo
+   padding lateral de 24 que ele tinha. Ficam encostados à direita; como o painel
+   encolheu de 420 para 264, o grupo acompanhou e hoje começa ~57px antes da
+   borda do painel — é right-align, não alinhamento de coluna. */
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 24px;
+}
+
+.download {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 10px 14px 10px 18px;
+  /* Sombra interna, não `border`: a largura é ditada pelo conteúdo e uma borda
+     de 1px somaria 2px à caixa que o Figma mede sem eles. */
+  box-shadow: inset 0 0 0 1px var(--ed-bg-02);
+  border: 0;
+  border-radius: 12px;
+  background: var(--ed-bg-00);
+  color: var(--ed-gray-800);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.download:disabled {
+  opacity: 0.7;
+  cursor: progress;
 }

@@ -6,7 +6,8 @@ import { NON_DUPLICABLE_SELECTIONS } from '@/utils/sectionRules';
 
 interface CanvasInteractionOptions {
   /** Chamado ao clicar em qualquer ponto de uma seção. */
-  onSelect?: (uid: string) => void;
+  /** Clique numa seção; `null` = clicou fora e desselecionou. */
+  onSelect?: (uid: string | null) => void;
   /** Chamado ao entrar/sair de uma seção (null = saiu do canvas). */
   onHover?: (uid: string | null) => void;
   /** Badge verde da seção selecionada. */
@@ -213,8 +214,25 @@ export function useCanvasInteractions(
       // não casa o seletor e passa ileso, de propósito.
       if ((e.target as Element)?.closest?.('a[href]')) e.preventDefault();
 
-      const uid = sectionOf(e.target)?.getAttribute('data-section-uid');
-      if (uid) handlersRef.current.onSelect?.(uid);
+      /* O cromo do próprio canvas não é "fora": os badges de duplicar/remover e
+         o rótulo de hover são filhos `fixed` do <body>, fora da árvore do tema,
+         e sem esta saída antecipada clicar em "duplicar" desselecionaria a
+         seção antes do próprio badge agir. O `stopPropagation` que o badge faz
+         não resolve — ele roda na BOLHA, e este listener é de CAPTURA. */
+      if (
+        (e.target as Element)?.closest?.(
+          '.editor-section-actions, .editor-section-label'
+        )
+      ) {
+        return;
+      }
+
+      /* `?? null` e SEM guard: clicar fora de qualquer seção tem que
+         DESSELECIONAR. O `if (uid)` que morava aqui descartava exatamente esse
+         caso, e a seleção só saía clicando em outra seção — nunca dava para
+         ficar sem nada selecionado. */
+      const uid = sectionOf(e.target)?.getAttribute('data-section-uid') ?? null;
+      handlersRef.current.onSelect?.(uid);
     };
 
     // Botão do meio abre nova aba e NÃO dispara click.
@@ -233,7 +251,12 @@ export function useCanvasInteractions(
     const capture = { capture: true } as const;
     root.addEventListener('pointerover', onPointerOver, capture);
     root.addEventListener('pointerout', onPointerOut, capture);
-    root.addEventListener('click', onClick, capture);
+    /* O CLICK vai no DOCUMENTO, não no `root`. Medido: o `root` tem a altura do
+       conteúdo (623px num tema de uma seção) enquanto a viewport do iframe tem
+       1462 — os 839px vazios abaixo pertencem ao <body>, e um listener no root
+       nunca os vê. Era justamente ali que o usuário clicava para desselecionar.
+       Os outros continuam no root: dizem respeito ao conteúdo do tema. */
+    doc.addEventListener('click', onClick, capture);
     root.addEventListener('auxclick', onAuxClick, capture);
     root.addEventListener('submit', onSubmit, capture);
     root.addEventListener('dragstart', onDragStart, capture);
@@ -252,7 +275,7 @@ export function useCanvasInteractions(
     return () => {
       root.removeEventListener('pointerover', onPointerOver, capture);
       root.removeEventListener('pointerout', onPointerOut, capture);
-      root.removeEventListener('click', onClick, capture);
+      doc.removeEventListener('click', onClick, capture);
       root.removeEventListener('auxclick', onAuxClick, capture);
       root.removeEventListener('submit', onSubmit, capture);
       root.removeEventListener('dragstart', onDragStart, capture);
@@ -264,6 +287,30 @@ export function useCanvasInteractions(
       actions.remove();
     };
   }, [rootRef, enabled]);
+}
+
+/**
+ * Marca a seção SELECIONADA, imperativamente.
+ *
+ * Irmã da `highlightSection`, e pelo mesmo motivo: `data-selected` saiu do
+ * render do ThemeRenderer porque um clique de seleção fazia dois wrappers
+ * re-renderizarem a subárvore inteira do template (um Header com megamenu, uma
+ * Vitrine com Swiper) só para trocar um atributo. Medido: 12 cliques custavam
+ * 339ms de bloqueio da thread mesmo com as seções já memoizadas.
+ *
+ * Quem observa este atributo continua funcionando: o MutationObserver do
+ * `syncActions` (acima) escuta `attributeFilter: ['data-selected']` e não
+ * distingue escrita do React de escrita imperativa.
+ */
+export function markSelected(root: HTMLElement | null, uid: string | null) {
+  if (!root) return;
+  root
+    .querySelectorAll<HTMLElement>('[data-selected="true"]')
+    .forEach(el => el.removeAttribute('data-selected'));
+  if (!uid) return;
+  root
+    .querySelector<HTMLElement>(`[data-section-uid="${uid}"]`)
+    ?.setAttribute('data-selected', 'true');
 }
 
 /** Destaca imperativamente uma seção do canvas (hover vindo do painel). */

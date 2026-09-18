@@ -9,7 +9,7 @@
   justify-content: center;
   gap: 11px;
   width: 100%;
-  padding: 14px 24px;
+  padding: 14px 16px;
   /* Borda como sombra interna: o Figma dá 48px de altura para 14+20+14, então
      uma `border` de 1px estouraria a caixa em 2px. */
   box-shadow: inset 0 0 0 1px var(--ed-bg-02);

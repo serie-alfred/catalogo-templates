@@ -32,3 +32,26 @@ body {
     --foreground: #171717;
   }
 }
+
+/*
+ * Movimento decorativo PAUSADO no canvas — e só nele.
+ *
+ * O marquee da topbar do Header03 é uma animação infinita: medido, ela custa
+ * 8,8ms de cada quadro (39fps contra 60), sempre, mesmo com a tela parada. Num
+ * editor isso é um imposto permanente para animar uma tarja que o usuário não
+ * está olhando.
+ *
+ * Fica ligado na seção SELECIONADA: quem está editando o header vê o efeito
+ * funcionando; as outras seções não cobram nada. A variável cascateia, então o
+ * componente só precisa lê-la (`animation-play-state`).
+ *
+ * A loja real e o preview compartilhável (/p) NÃO passam por aqui — lá o
+ * default `running` do componente vale, e o movimento é o que o design pede.
+ */
+:root {
+  --preview-motion: paused;
+}
+
+.preview-template[data-selected='true'] {
+  --preview-motion: running;
+}

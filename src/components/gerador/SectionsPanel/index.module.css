@@ -10,7 +10,7 @@
 
 .empty {
   margin: 0;
-  padding: 20px 24px;
+  padding: 16px;
   font-size: 14px;
   line-height: 1.5;
   color: var(--ed-gray-400);
@@ -30,7 +30,10 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 20px 24px;
+  /* Assimétrico de propósito: os 24 da ESQUERDA são a calha onde o `.handle`
+     mora (`left: 4px`, 16 de largura). Os outros três lados desceram de 20/24
+     para 16 com o painel indo a 264. */
+  padding: 16px 16px 16px 24px;
   box-shadow: inset 0 -1px 0 var(--ed-gray-000);
   background: var(--ed-bg-00);
 }
@@ -115,18 +118,23 @@
   padding: 0 0 4px;
 }
 
+/* Era 12px em --ed-gray-500 sem caixa nenhuma: lia como legenda, não como
+   controle, e ninguém achava. Vira um chip discreto — borda de 1px e texto um
+   tom mais escuro. Continua secundário: sem preenchimento, sem peso extra. */
 .collapseAll {
-  padding: 4px 8px;
-  border: 0;
-  border-radius: 6px;
-  background: none;
+  padding: 5px 10px;
+  border: 1px solid var(--ed-gray-000);
+  border-radius: 8px;
+  background: var(--ed-bg-00);
   font-family: inherit;
   font-size: 12px;
-  color: var(--ed-gray-500);
+  font-weight: 600;
+  color: var(--ed-gray-600);
   cursor: pointer;
 }
 
 .collapseAll:hover {
+  border-color: var(--ed-gray-200);
   background: var(--ed-bg-01);
   color: var(--ed-gray-800);
 }
@@ -178,12 +186,18 @@
   min-width: 0;
 }
 
+/* EMPILHADO, não lado a lado. Em linha, o rótulo constante "Modelo" mais o
+   ícone comiam 81px fixos dos 264 do painel e sobravam 88 para o nome do
+   template: "Banner Triplo de Categorias Template 6" aparecia como
+   "Banner Tri…" — 34% do texto, medido. Empilhando, o nome fica com a linha
+   inteira (~179px) e em duas linhas cabe por completo. */
 .child {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
   width: 100%;
-  padding: 8px 12px;
+  padding: 8px 10px;
   border: 0;
   border-radius: 8px;
   background: none;
@@ -193,7 +207,7 @@
 }
 
 .childActive {
-  padding: 8px 16px;
+  padding: 8px 10px;
   background: var(--ed-blue-50);
 }
 
@@ -207,12 +221,20 @@
   color: var(--ed-gray-800);
 }
 
+/* Até duas linhas, e só então ellipsis — com o `title` do SectionRow como
+   último recurso para um nome que nem em duas linhas caiba. */
 .childValue {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  max-width: 100%;
   overflow: hidden;
   font-size: 14px;
+  line-height: 1.35;
   color: var(--ed-gray-500);
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  text-align: left;
+  overflow-wrap: anywhere;
 }
 
 .badge {

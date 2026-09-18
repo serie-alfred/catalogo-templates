@@ -18,7 +18,15 @@ import styles from './index.module.css';
  * O cabeçalho é mais alto em "componentes" porque só ali ele carrega a linha de
  * plataforma, então a altura NÃO pode virar uma linha do grid do shell.
  */
-export default function EditorLeftPanel({ className }: { className?: string }) {
+export default function EditorLeftPanel({
+  className,
+  inert,
+}: {
+  className?: string;
+  /** Recolhido: fica no DOM (para a transição ter o que animar) mas fora do
+      alcance de Tab e dos leitores de tela. */
+  inert?: boolean;
+}) {
   const { railTarget, platform, showPlatformError, changePlatform } =
     useLayout();
 
@@ -28,6 +36,7 @@ export default function EditorLeftPanel({ className }: { className?: string }) {
     <aside
       className={`${styles.panel} ${className ?? ''}`}
       aria-label="Painel de edição"
+      inert={inert}
     >
       <header className={styles.header}>
         <div className={styles.titleRow}>

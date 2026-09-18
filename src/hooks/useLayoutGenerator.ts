@@ -209,8 +209,13 @@ export function useLayoutGenerator() {
    * selecionada. Escrevendo no set, `expanded` passa a ler uma fonte só e o
    * toggle volta a mandar.
    */
-  const selectSection = useCallback((uid: string) => {
+  /* `uid: null` desseleciona (clique fora de qualquer seção no canvas). Nesse
+     caso o conjunto de linhas abertas fica INTACTO: recolher o acordeão junto
+     faria o usuário perder o contexto que ele abriu à mão só por ter clicado no
+     fundo — e `expandedUids` é estado próprio, não derivado da seleção. */
+  const selectSection = useCallback((uid: string | null) => {
     setSelectedUid(uid);
+    if (!uid) return;
     setExpandedUids(prev => (prev.has(uid) ? prev : new Set(prev).add(uid)));
   }, []);
 
