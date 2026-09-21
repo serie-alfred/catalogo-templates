@@ -77,9 +77,15 @@ await bloco('varredura', async () => {
     ],
     ['lista: setinha da 1ª seção', 'button[class*="affordance"]'],
     ['lista: +/− da 1ª seção', 'button[class*="SectionsPanel_toggle"]'],
+    /*
+     * Os dois botões globais moram na TOPBAR desde o redesign de 21/09 — antes
+     * ficavam num cabeçalho próprio do painel direito. Eles não sumiram nem
+     * mudaram de função: o que mudou foi o pai. O rótulo "direita:" fica para
+     * não quebrar a leitura do histórico do funil.
+     */
     [
       'direita: Pré-visualizar',
-      'aside[aria-label="Propriedades"] button[class*="trigger"]',
+      'header[class*="topbar"] button[class*="trigger"]',
     ],
   ];
   for (const [nome, sel] of CONTROLES) {
@@ -91,7 +97,7 @@ await bloco('varredura', async () => {
   // Aqui há plataforma, então ele tem que estar usável.
   const baixar = await visibilidadeDe(
     page,
-    'aside[aria-label="Propriedades"] button[class*="download"]'
+    'header[class*="topbar"] button[class*="download"]'
   );
   r.ok(
     'alcance — direita: Baixar (com plataforma escolhida)',

@@ -28,8 +28,6 @@
      `--ed-left-track` é a TRILHA, e é ela que vai a 0 ao recolher.
      Antes `--ed-left-w` ia a 0 e levava o conteúdo junto: o texto quebrava em
      uma letra por linha no meio do caminho. */
-  --ed-left-track: var(--ed-left-w);
-  --ed-right-track: var(--ed-right-w);
   grid-template-columns:
     var(--ed-rail-w)
     var(--ed-left-track)

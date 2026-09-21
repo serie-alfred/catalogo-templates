@@ -144,9 +144,21 @@ export function conferirTrayWake(config, plataforma, r) {
     !!raiz.assets,
     Object.keys(raiz.assets ?? {}).join(',')
   );
+  /*
+   * 14 desde 16/09/2026 (commit 1c8a3dc): entrou `colorPrimaryBackgroundSafe`,
+   * a cor primária de marca ajustada para continuar visível sobre branco —
+   * `colorSafeOnWhite` devolve #000 quando a luminância passa de 220. Ela vira
+   * o token `--background-primary-color-safe` em `themeStyle.ts`, e NÃO é peso
+   * morto: 7 componentes do catálogo e 10 do starter a consomem.
+   *
+   * O número segue cravado de propósito. É ele que pega variável global
+   * entrando ou saindo sem querer — o que o export manda para o tema do cliente
+   * não pode mudar em silêncio.
+   */
+  const GLOBAIS_ESPERADAS = 14;
   r.ok(
-    `${plataforma}: 13 variáveis globais`,
-    Object.keys(raiz.variables ?? {}).length === 13,
+    `${plataforma}: ${GLOBAIS_ESPERADAS} variáveis globais`,
+    Object.keys(raiz.variables ?? {}).length === GLOBAIS_ESPERADAS,
     `${Object.keys(raiz.variables ?? {}).length}`
   );
   if (plataforma === 'Wake')
@@ -166,7 +178,10 @@ export function conferirFaststore(config, r) {
   );
   const comps = [...new Set(entradas.map(e => e.component))];
 
-  const { divergentes, duplicadas } = copiasDivergentes(entradas, e => e.component);
+  const { divergentes, duplicadas } = copiasDivergentes(
+    entradas,
+    e => e.component
+  );
   r.ok(
     `VTEX: nenhuma cópia com variables divergentes (${entradas.length} entradas${duplicadas ? `, ${duplicadas} duplicada${duplicadas > 1 ? 's' : ''}` : ''})`,
     divergentes.length === 0,

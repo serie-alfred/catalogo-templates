@@ -48,13 +48,13 @@
 }
 
 .toggle[data-side='left'] {
-  left: calc(var(--ed-rail-w) + var(--ed-left-track, var(--ed-left-w)));
+  left: calc(var(--ed-rail-w) + var(--ed-left-track));
   border-left: 0;
   border-radius: 0 8px 8px 0;
 }
 
 .toggle[data-side='right'] {
-  right: var(--ed-right-track, var(--ed-right-w));
+  right: var(--ed-right-track);
   border-right: 0;
   border-radius: 8px 0 0 8px;
 }

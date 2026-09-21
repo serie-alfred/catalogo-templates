@@ -70,6 +70,13 @@
   --ed-rail-w: 56px;
   --ed-left-w: 264px;
   --ed-right-w: 264px;
+  /* TRILHA do grid, distinta da largura ABERTA acima. O shell sobrescreve só
+     estas duas ao recolher, e é por isso que o conteúdo do painel não reflui
+     durante a animação — ele continua dimensionado por `--ed-*-w`.
+     Moram aqui, e não no CSS Module do shell, porque todo token `--ed-` é
+     declarado neste arquivo (é o que o estágio 2d do funil confere). */
+  --ed-left-track: var(--ed-left-w);
+  --ed-right-track: var(--ed-right-w);
   --ed-topbar-h: 64px;
   --ed-canvas-pad: 32px;
 }

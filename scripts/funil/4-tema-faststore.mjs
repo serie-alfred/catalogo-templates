@@ -266,16 +266,22 @@ r.ok(
 // 09/09 a reversão era manual e o tema montado saía com a chave ligada — uma
 // seção sem conteúdo no CMS entregava dado de exemplo na loja. Quem desliga
 // agora é o MockGuard do gerador; esta é a rede que impede a volta.
+// `const` OU `let`: o starter trocou para `let` em 1e0e96b (18/09) para que
+// `enableMockScope()` religue a chave em runtime, e essa função viaja junto
+// para o tema — forçar `const` aqui quebraria o `tsc` do tema. O que importa é
+// o VALOR, não a palavra-chave; o MockGuard preserva a que encontrar.
 const mockData = path.join(TEMA, 'src/utils/mockData/index.ts');
 if (fs.existsSync(mockData)) {
   const linha = fs
     .readFileSync(mockData, 'utf8')
     .split('\n')
-    .find(l => l.startsWith('export const MOCK_ENABLED'));
+    .find(l => /^export (const|let) MOCK_ENABLED\b/.test(l));
   r.ok(
     'MOCK_ENABLED desligado em produção no tema entregue',
-    linha === "export const MOCK_ENABLED = process.env.NODE_ENV !== 'production'",
-    linha
+    /^export (const|let) MOCK_ENABLED = process\.env\.NODE_ENV !== 'production'$/.test(
+      linha ?? ''
+    ),
+    linha ?? 'declaração de MOCK_ENABLED não encontrada'
   );
 }
 

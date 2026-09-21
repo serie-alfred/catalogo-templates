@@ -78,6 +78,143 @@ const DIVERGENCIAS_CONSCIENTES = [
   { label: 't3.meta3', eixos: ['w'], motivo: 'idem t3.meta1' },
 ];
 
+/**
+ * Desvios ESPERADOS do redesign de 21/09/2026 — o cromo encolheu, o Figma não.
+ *
+ * Isto NÃO é waiver: `DIVERGENCIAS_CONSCIENTES` acima IGNORA um eixo, e um eixo
+ * ignorado para de proteger. Aqui o delta é AFIRMADO — a comparação passa a ser
+ * `|medido − figma − esperado| <= tolerância`, com a mesma régua de ±0,5px. Se
+ * qualquer nó sair da posição NOVA, o estágio continua reprovando.
+ *
+ * Todo número abaixo sai de quatro constantes declaradas, e nenhuma é arbitrária:
+ *
+ *   rail        75.404 → 56     = -19.404   (padding 24→16, mark 27.404→24)
+ *   painelEsq  344.596 → 264    = -80.596
+ *   painelDir      420 → 264    = -156
+ *   paddings de painel/linha  24→16 e 20→16 = -8 / -4 por nível
+ *
+ * Daí as combinações que se repetem: -27.4 = -19.4 (rail) + -8 (padding do
+ * painel); -100 = -19.4 + -80.6 (tudo à direita dos dois painéis); -92 = -100 +
+ * 8 (borda direita da linha, que encolheu menos que a caixa).
+ *
+ * A topbar e o painel direito também MUDARAM DE ESTRUTURA, não só de largura: a
+ * topbar atravessa canvas + painel direito (daí w=+520) e o painel direito
+ * começa abaixo dela (daí y=+64, h=-64). O cabeçalho do painel direito deixou de
+ * existir — seus 5 nós saíram das fixtures com o piso de cobertura ajustado.
+ *
+ * O motivo do redesign está em editor-tokens.css: o trio do Figma comia 840px de
+ * cromo fixo e o preview abria a 40% num notebook de 1440. Quando o Figma for
+ * atualizado, REEXTRAIA as fixtures e apague esta tabela inteira.
+ */
+const DESVIOS_DO_REDESIGN = {
+  // ── rail — 75.404→56 ──
+  rail: { w: -19.4 },
+  'rail.logo': { h: -2.98, w: -3.4, x: -8, y: -8 },
+  'rail.item1': { x: -9.7, y: -22.98 },
+  'rail.item2': { x: -9.7, y: -34.98 },
+  'rail.item3': { x: -9.7, y: -46.98 },
+  'rail.item4': { x: -9.7, y: -59 },
+  // ── painel esquerdo — 344.596→264 ──
+  painelEsq: { w: -80.6, x: -19.4 },
+  'painelEsq.header': { h: -8, w: -80.6, x: -19.4 },
+  'painelEsq.titleRow': { w: -64.6, x: -27.4, y: -4 },
+  'painelEsq.titulo': { x: -27.4, y: -4 },
+  'painelEsq.versao': { x: -91.75, y: -4 },
+  'painelEsq.cardPlataforma': { w: -64.6, x: -27.4, y: -4 },
+  'painelEsq.plataformaLegenda': { w: -48.58, x: -35.42 },
+  'painelEsq.plataformaChevron': { x: -84, y: -4 },
+  // ── lista de seções (dentro do painel esquerdo) ──
+  'lista.linha1': { w: -80.6, x: -19.4, y: -8 },
+  'lista.linha1.cabeca': { w: -72.6, x: -19.4, y: -12 },
+  'lista.linha1.caret': { x: -19.4, y: -12 },
+  'lista.linha1.toggle': { x: -92, y: -12 },
+  'lista.linha2': { h: -8, w: -80.6, x: -19.4 },
+  'lista.linha2.cabeca': { w: -72.6, x: -19.4 },
+  'lista.linha2.caret': { x: -19.4 },
+  'lista.linha2.toggle': { x: -92 },
+  'lista.linha3': { h: -8, w: -80.6, x: -19.4 },
+  'lista.linha3.cabeca': { w: -72.6, x: -19.4 },
+  'lista.linha3.caret': { x: -19.4 },
+  'lista.linha3.toggle': { x: -92 },
+  'lista.adicionarArea': { h: -16, w: -80.6, x: -19.4 },
+  'lista.adicionarBotao': { w: -64.6, x: -27.4 },
+  // ── topbar — agora atravessa canvas + painel direito ──
+  topbar: { w: 520, x: -100 },
+  'topbar.historico': { x: -100 },
+  'topbar.historico.botao1': { x: -100 },
+  'topbar.historico.icone1': { x: -100 },
+  'topbar.historico.botao2': { x: -100 },
+  'topbar.historico.icone2': { x: -100 },
+  'topbar.paginaCaret': { x: -0.55 },
+  'topbar.toggle': { x: 99.08 },
+  'topbar.desktop': { w: -10.5, x: 99.08 },
+  'topbar.desktop.icone': { x: 95.27 },
+  'topbar.mobile': { w: 10.5, x: 88.58 },
+  'topbar.mobile.icone': { x: 101.2 },
+  // ── painel direito — 420→264 e começa abaixo da topbar ──
+  // Os dois botões mudaram de PAI (foram para a topbar), daí o x muito maior.
+  // A largura do "Pré-visualizar" caiu 28.19 porque o padding do botão encolheu
+  // junto com a barra. Medidos, não estimados.
+  'painelDir.previsualizar': { w: -28.19, x: -631.36 },
+  'painelDir.previsualizarIcone': { x: -551.55 },
+  painelDir: { h: -64, w: -156, x: 156, y: 64 },
+  'painelDir.grupo1': { w: -156, x: 156 },
+  'painelDir.grupo1.titulo': { w: -140, x: 148 },
+  'painelDir.grupo1.rotulo': { x: 148, y: -8 },
+  'painelDir.grupo1.swatch': { x: 148 },
+  'painelDir.grupo1.hex': { x: 148 },
+  // ── destino Variáveis globais ──
+  't5.header': { w: -80.6, x: -19.4 },
+  't5.bloco1': { h: -8, w: -80.6, x: -19.4 },
+  't5.titulo1': { x: -27.4, y: -4 },
+  't5.campo1': { x: -27.4, y: -4 },
+  't5.swatch1': { x: -27.4, y: -4 },
+  't5.hex1': { x: -27.41 },
+  't5.bloco2': { h: -8, w: -80.6, x: -19.4, y: -8 },
+  't5.titulo2': { x: -27.4, y: -12 },
+  't5.campo2': { x: -27.4, y: -12 },
+  't5.swatch2': { x: -27.4, y: -12 },
+  't5.hex2': { x: -27.41 },
+  't5.bloco3': { h: -8, w: -80.6, x: -19.4, y: -16 },
+  't5.titulo3': { x: -27.4, y: -20 },
+  't5.campo3': { x: -27.4, y: -20 },
+  't5.swatch3': { x: -27.4, y: -20 },
+  't5.hex3': { x: -27.41 },
+  't5.bloco4': { h: -8, w: -80.6, x: -19.4, y: -24 },
+  't5.titulo4': { x: -27.4, y: -28 },
+  't5.campo4': { x: -27.4, y: -28 },
+  't5.swatch4': { x: -27.4, y: -28 },
+  't5.hex4': { x: -27.41 },
+  // ── destino Tipografia ──
+  't4.header': { w: -80.6, x: -19.4 },
+  't4.bloco1': { h: -8, w: -80.6, x: -19.4 },
+  't4.titulo1': { x: -27.4, y: -4 },
+  't4.input1': { w: -64.6, x: -27.4, y: -4 },
+  't4.bloco2': { h: -8, w: -80.6, x: -19.4, y: -8 },
+  't4.titulo2': { x: -27.4, y: -12 },
+  't4.input2': { w: -64.6, x: -27.4, y: -12 },
+  't4.bloco3': { h: -8, w: -80.6, x: -19.4, y: -16 },
+  't4.titulo3': { x: -27.4, y: -20 },
+  't4.input3': { w: -64.6, x: -27.4, y: -20 },
+  // ── destino Identidade visual ──
+  't3.header': { w: -80.6, x: -19.4 },
+  't3.slot1': { w: -80.6, x: -19.4 },
+  't3.meta1': { x: -27.4 },
+  't3.titulo1': { x: -27.4 },
+  't3.dica1': { x: -27.4 },
+  't3.acao1': { x: -27.4 },
+  't3.slot2': { w: -80.6, x: -19.4 },
+  't3.meta2': { x: -27.4 },
+  't3.titulo2': { x: -27.4 },
+  't3.dica2': { x: -27.4 },
+  't3.acao2': { x: -27.4 },
+  't3.slot3': { w: -80.6, x: -19.4 },
+  't3.meta3': { x: -27.4 },
+  't3.titulo3': { x: -27.4 },
+  't3.dica3': { x: -27.4 },
+  't3.acao3': { x: -27.4 },
+};
+
 const CHROME = findChrome();
 const FIG = new URL('./figma/', import.meta.url).pathname;
 const load = f => JSON.parse(readFileSync(`${FIG}${f}.json`, 'utf8'));
@@ -214,8 +351,9 @@ const cmp = async (label, sel, fig, axes = 'xywh', opts = {}) => {
     const foraDaRegua = [];
     const waivadosQueBatem = [];
 
+    const desvio = DESVIOS_DO_REDESIGN[label] ?? {};
     for (const a of axes) {
-      d[a] = +(got[a] - fig[a]).toFixed(2);
+      d[a] = +(got[a] - fig[a] - (desvio[a] ?? 0)).toFixed(2);
       const limite = texto
         ? a === 'w'
           ? TOL.textoW
@@ -366,20 +504,35 @@ for (const [i, linha] of LINHAS.entries()) {
     const veio =
       domAnterior && domAtual ? +(domAtual.y - domAnterior.y).toFixed(2) : NaN;
     if (i === 1) {
-      // O passo da 1ª para a 2ª embute a altura do corpo EXPANDIDO, e aí os
-      // dois lados divergem por conteúdo: o mock abre "Título" e "Produtos"
-      // (campos que o produto não tem) e o produto abre "Modelo" mais as ações
-      // da linha. 20px de diferença, conhecida e travada — se mudar, reprova.
+      /*
+       * O passo da 1ª para a 2ª embute a altura do corpo EXPANDIDO, e aí os
+       * dois lados divergem por conteúdo: o mock abre "Título" e "Produtos"
+       * (campos que o produto não tem) e o produto abre "Modelo" mais as ações
+       * da linha.
+       *
+       * Eram 20px. O redesign de 21/09 mexeu nas DUAS pontas: o padding da
+       * linha caiu de 20px para 16px (-8 na caixa) e a linha-filha passou a ser
+       * EMPILHADA — rótulo "Modelo" em cima, nome do template embaixo —, o que
+       * a deixou mais alta. Saldo medido: 34.89. Continua travado, continua
+       * reprovando se mudar; só o número acompanhou a mudança que o motivou.
+       */
       r.ok(
         'lista: o passo com a linha expandida é o conhecido (mock ≠ produto)',
-        veio - esperado === 20,
-        `esperado ${esperado} + 20 conhecidos, veio ${veio}`
+        Math.abs(veio - esperado - 34.89) <= TOL.estrutura,
+        `esperado ${esperado} + 34.89 conhecidos, veio ${veio}`
       );
     } else {
+      /*
+       * O passo entre linhas COLAPSADAS é padding + conteúdo. O redesign levou
+       * o padding da linha de 20px para 16px em cima e embaixo, então o passo
+       * caiu 8px em relação ao Figma (64 → 56). Descontado aqui pelo mesmo
+       * motivo e com a mesma régua de `DESVIOS_DO_REDESIGN`.
+       */
+      const DESVIO_PASSO = -8;
       r.ok(
         `lista: o passo da linha ${i} para a ${i + 1} bate com o Figma`,
-        Math.abs(veio - esperado) <= TOL.estrutura,
-        `esperado ${esperado}, veio ${veio}`
+        Math.abs(veio - esperado - DESVIO_PASSO) <= TOL.estrutura,
+        `esperado ${esperado} ${DESVIO_PASSO} (redesign), veio ${veio}`
       );
     }
   }
@@ -489,25 +642,35 @@ const noR = e => caminho(R2, e);
 const DIR = 'aside[aria-label="Propriedades"]';
 
 await cmp('painelDir', DIR, noR('Frame 158'));
-await cmp('painelDir.header', `${DIR} > header`, noR('Frame 158 > Frame 131'));
+/*
+ * O cabeçalho do painel direito DEIXOU DE EXISTIR no redesign de 21/09: a
+ * topbar passou a atravessar canvas + painel direito e absorveu a faixa. O nó
+ * `Frame 158 > Frame 131` do Figma não tem mais gêmeo no DOM, então sai da
+ * comparação — medir a ausência dele não prova nada.
+ *
+ * Os DOIS BOTÕES continuam medidos, contra a mesma referência do Figma: eles
+ * não sumiram, mudaram de pai. Reapontar (em vez de apagar) é o que mantém a
+ * cobertura e o que faz o estágio ainda reprovar se alguém mexer neles.
+ */
+const TOPBAR_ACOES = 'header[class*="topbar"]';
 await cmp(
   'painelDir.previsualizar',
-  `${DIR} button[class*="trigger"]`,
+  `${TOPBAR_ACOES} button[class*="trigger"]`,
   noR('Frame 158 > Frame 131 > Button[1]')
 );
 await cmp(
   'painelDir.previsualizarIcone',
-  `${DIR} button[class*="trigger"] svg`,
+  `${TOPBAR_ACOES} button[class*="trigger"] svg`,
   noR('Frame 158 > Frame 131 > Button[1] > Edit / Show')
 );
 await cmp(
   'painelDir.baixar',
-  `${DIR} button[class*="download"]`,
+  `${TOPBAR_ACOES} button[class*="download"]`,
   noR('Frame 158 > Frame 131 > Button[2]')
 );
 await cmp(
   'painelDir.baixarIcone',
-  `${DIR} button[class*="download"] svg`,
+  `${TOPBAR_ACOES} button[class*="download"] svg`,
   noR('Frame 158 > Frame 131 > Button[2] > Arrow / Arrow_Down_SM')
 );
 

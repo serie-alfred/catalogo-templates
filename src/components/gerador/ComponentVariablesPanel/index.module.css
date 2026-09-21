@@ -24,12 +24,12 @@
   font-size: 13px;
   line-height: 1.45;
   color: var(--ed-gray-400);
-  background: var(--ed-blue-50, #e6f9ff);
-  border-bottom: 1px solid var(--ed-gray-200, #e4e7ea);
+  background: var(--ed-blue-50);
+  border-bottom: 1px solid var(--ed-gray-200);
 }
 
 .aviso strong {
-  color: var(--ed-gray-600, #1a1a1a);
+  color: var(--ed-gray-600);
   font-weight: 600;
 }
 

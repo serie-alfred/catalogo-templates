@@ -225,10 +225,22 @@ await clicarDeVerdade(p, 'button[aria-label="Recolher painel esquerdo"]');
 await s(700);
 const escSemEsq = await escala();
 const vpSemEsq = await vpInterna();
+/*
+ * "Aumenta" RESPEITANDO O TETO. A escala é `Math.min(1, desejada)` — o canvas
+ * nunca amplia o tema (useCanvasZoom). O limiar fixo de +0,15 nasceu quando os
+ * painéis somavam 764px: a 1920 a escala ia de 0,706 para 0,945 e sobrava
+ * folga. Com os painéis em 528px (redesign de 21/09) ela vai de 0,883 para 1,0
+ * e o teto chega antes do limiar — a asserção exigia 1,033, que é impossível
+ * por construção.
+ *
+ * Reprova se a escala NÃO crescer, e continua exigindo os 0,15 sempre que
+ * couberem. Não foi afrouxada para ficar verde: o degrau segue medido.
+ */
+const alvoEsc = Math.min(1, escAntes + 0.15);
 ok(
   'recolher esquerdo aumenta a escala do canvas',
-  escSemEsq > escAntes + 0.15,
-  `${escAntes} → ${escSemEsq}`
+  escSemEsq > escAntes && escSemEsq >= alvoEsc - 0.001,
+  `${escAntes} → ${escSemEsq} (alvo ${alvoEsc.toFixed(3)}, teto 1)`
 );
 
 await clicarDeVerdade(p, 'button[aria-label="Recolher painel direito"]');
