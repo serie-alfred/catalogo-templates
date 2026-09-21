@@ -242,7 +242,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-mega-quote", label: "Citação sobre a arte do megamenu", type: "color", default: "#faf8f4", group: "Menu", previewNote: "Aparece no mega-menu, ao passar o mouse." },
         { cssVar: "--header-font", label: "Fonte da marca", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         // Faltava: o Header07 renderiza mini-carrinho (CartSidebar07 no tema real, CartSidebar01 no mock) e era o único do catálogo sem controle de cor dele. O CartSidebar07 era 100% hex cravado; virou temável na mesma auditoria.
-        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#2c2420", group: "Mini-carrinho", inheritsLabel: "cor de texto primária", previewNote: "Aparece com o mini-carrinho aberto." },
+        // `default` segue o nível 3 do MOCK (_shared/CartSidebar01, #171a1c), que é o que
+        // o preview mostra e o que o portão 1-variaveis compara. O CartSidebar07 do
+        // tema real cai em #2c2420 — divergência mock↔real ANTERIOR a esta variável,
+        // registrada em ACHADOS-EM-ABERTO. Não afeta o export: `pickChangedVariables`
+        // só escreve quando o usuário muda o valor.
+        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária", previewNote: "Aparece com o mini-carrinho aberto." },
         { cssVar: "--header-body-font", label: "Fonte do menu e do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
     ],
@@ -607,7 +612,7 @@ export const LAYOUTS: Layouts = {
     name: "Compre por tamanho",
     items: [
       { id: "06", selection: "buy-size", key: "bsz06frc5e6f", image: "buySize/BuySize06.webp", imageSource: "auto", mobile: "", title: "Compre por tamanho Template 6", description: "Título centrado, fileira de chips de tamanho e link para a lista completa", template: "6", pagina: ["home"], component: "BuySize06", path: "molecules/Categories06", platforms: ['VTEX'], backgroundVars: ["tertiary"], variablesSchema: [
-        { cssVar: "--categories-bg", label: "Fundo da seção", type: "color", default: "#f6f6f6", group: "Compre por tamanho", inheritsLabel: "cor terciária da marca" },
+        { cssVar: "--categories-bg", label: "Fundo da seção", type: "color", default: "#ffffff", group: "Compre por tamanho", optional: true },
         { cssVar: "--categories-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Compre por tamanho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-text", label: "Texto dos chips e do link", type: "color", default: "#212721", group: "Compre por tamanho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-font", label: "Fonte do título e dos chips", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
@@ -638,7 +643,7 @@ export const LAYOUTS: Layouts = {
     name: "Ambientes",
     items: [
       { id: "07", selection: "rooms", key: "room07bru1a2", image: "rooms/ShopByRoom07.webp", imageSource: "auto", mobile: "", title: "Ambientes Template 7", description: "Escolha por ambiente: rótulo, título e botões de navegação com um ativo", template: "7", pagina: ["home"], component: "ShopByRoom07", path: "organisms/ShopByRoom07", platforms: ['VTEX'], backgroundVars: ["tertiary", "primary"], variablesSchema: [
-        { cssVar: "--room-bg", label: "Fundo da seção", type: "color", default: "#f2ede4", group: "Ambientes", inheritsLabel: "cor terciária da marca" },
+        { cssVar: "--room-bg", label: "Fundo da seção", type: "color", default: "#ffffff", group: "Ambientes", optional: true },
         { cssVar: "--room-accent", label: "Cor do rótulo", type: "color", default: "#b8976a", group: "Ambientes", inheritsLabel: "cor primária da marca" },
         { cssVar: "--room-title-color", label: "Cor do título", type: "color", default: "#2c2420", group: "Ambientes", inheritsLabel: "cor de texto primária" },
         { cssVar: "--room-pill-active-bg", label: "Fundo do botão ativo", type: "color", default: "#2c2420", group: "Botões", inheritsLabel: "cor primária da marca" },
@@ -656,7 +661,7 @@ export const LAYOUTS: Layouts = {
     items: [
       { id: "01", selection: "client-review", key: "rev06b1c2d3e", image: "review/ClientReview06.webp", imageSource: "auto", mobile: "", title: "Depoimentos Template 6", description: "Carrossel de depoimentos de clientes", template: "6", pagina: ["home"], component: "ClientReview06", platforms: ['Tray'], backgroundVars: [] },
       { id: "07", selection: "client-review", key: "rev07bru9s8t", image: "review/ClientReview07.webp", imageSource: "auto", mobile: "", title: "Depoimentos Template 7", description: "Prova social centralizada: número em destaque, subtítulo, estrelas e nota", template: "7", pagina: ["home"], component: "ClientReview07", path: "molecules/SocialProof07", platforms: ['VTEX'], backgroundVars: ["tertiary", "primary"], variablesSchema: [
-        { cssVar: "--socialproof-bg", label: "Fundo da seção", type: "color", default: "#f2ede4", group: "Depoimentos", inheritsLabel: "cor terciária da marca" },
+        { cssVar: "--socialproof-bg", label: "Fundo da seção", type: "color", default: "#ffffff", group: "Depoimentos", optional: true },
         { cssVar: "--socialproof-number-color", label: "Cor do número", type: "color", default: "#2c2420", group: "Depoimentos", inheritsLabel: "cor de texto primária" },
         { cssVar: "--socialproof-muted", label: "Cor do subtítulo e da nota", type: "color", default: "#8c7d74", group: "Depoimentos", inheritsLabel: "cor de texto primária" },
         { cssVar: "--socialproof-accent", label: "Cor das estrelas", type: "color", default: "#b8976a", group: "Depoimentos", inheritsLabel: "cor primária da marca" },
