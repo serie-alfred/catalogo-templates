@@ -48,6 +48,67 @@ export default function ColorPicker({
   variant = 'field',
 }: ColorPickerProps) {
   const [open, setOpen] = useState(false);
+  /*
+   * Arraste no picker: valor LOCAL para pintar na hora, commit no contexto
+   * estrangulado a 1 por quadro.
+   *
+   * `react-colorful` escuta `mousemove` cru — sem rAF, sem throttle — e cada
+   * evento chamava `setColor`, que escreve no contexto do editor. Com 13
+   * consumidores sem memo, isso re-renderizava a chrome inteira dezenas de
+   * vezes por segundo durante um único arraste.
+   *
+   * O local existe para o feedback não regredir: a amostra e o campo hex
+   * refletem o gesto imediatamente, sem esperar o commit. O `rafRef` garante
+   * que o contexto (e, por tabela, a ponte com o iframe) receba no máximo uma
+   * atualização por quadro, que é o teto útil para preview ao vivo.
+   */
+  const [valorLocal, setValorLocal] = useState<string | null>(null);
+  const pendenteRef = useRef<string | null>(null);
+  const commitRafRef = useRef<number | null>(null);
+
+  const drenarCommit = useCallback(() => {
+    if (commitRafRef.current != null) {
+      cancelAnimationFrame(commitRafRef.current);
+      commitRafRef.current = null;
+    }
+    const pendente = pendenteRef.current;
+    pendenteRef.current = null;
+    if (pendente != null) setColor(pendente);
+  }, [setColor]);
+
+  const aoArrastar = useCallback(
+    (valor: string) => {
+      setValorLocal(valor);
+      pendenteRef.current = valor;
+      if (commitRafRef.current != null) return;
+      commitRafRef.current = requestAnimationFrame(() => {
+        commitRafRef.current = null;
+        const pendente = pendenteRef.current;
+        pendenteRef.current = null;
+        if (pendente != null) setColor(pendente);
+      });
+    },
+    [setColor]
+  );
+
+  /* Solta o mouse ou fecha o popover: garante que o último valor do gesto foi
+     comitado, mesmo que o quadro final não tenha chegado a rodar. */
+  useEffect(() => {
+    if (open) return;
+    drenarCommit();
+    setValorLocal(null);
+  }, [open, drenarCommit]);
+
+  useEffect(
+    () => () => {
+      if (commitRafRef.current != null)
+        cancelAnimationFrame(commitRafRef.current);
+    },
+    []
+  );
+
+  /* O que a UI mostra: o valor do gesto em curso, ou o do estado. */
+  const corExibida = valorLocal ?? color;
   const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
   const anchorRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -113,8 +174,8 @@ export default function ColorPicker({
           onClick={toggle}
           disabled={readOnly}
           className={`${styles.swatch} ${unset ? styles.swatchUnset : ''}`}
-          style={unset ? undefined : { backgroundColor: color }}
-          aria-label={unset ? `Definir ${label}` : `${label}: ${color}`}
+          style={unset ? undefined : { backgroundColor: corExibida }}
+          aria-label={unset ? `Definir ${label}` : `${label}: ${corExibida}`}
         >
           {unset && <X size={16} strokeWidth={1.5} />}
         </button>
@@ -138,7 +199,7 @@ export default function ColorPicker({
         ) : (
           <input
             type="text"
-            value={color}
+            value={corExibida}
             readOnly={readOnly}
             className={styles.value}
             onChange={e => setColor(e.target.value)}
@@ -157,7 +218,7 @@ export default function ColorPicker({
             data-ed-portal
             style={{ top: pos.top, left: pos.left }}
           >
-            <HexColorPicker color={color} onChange={setColor} />
+            <HexColorPicker color={corExibida} onChange={aoArrastar} />
           </div>,
           document.body
         )}
