@@ -504,7 +504,13 @@
    paleta onde as duas não coincidem. A borda continua em `--cart-text` nos dois,
    por isso não aparece aqui. Guardado por [data-variant='07'] para os headers
    01/03/04/05 não enxergarem nada disto. */
-.section[data-variant='07'] .quantitySelector .quantityButton {
+/* `:not(:disabled)` não é detalhe: sem ele esta regra (0,4,0) atropela a
+   `.quantityButton:disabled` (0,3,0) logo acima, e o botão desabilitado passava
+   a mostrar a cor da MARCA em vez do cinza de desabilitado. Os dois componentes
+   reais deixam os tokens `--fs-qty-selector-disabled-*` comentados, ou seja,
+   herdam o desabilitado do @faststore/ui — a variante não pode sobrescrevê-lo.
+   Pego renderizando a gaveta no canvas, não lendo o CSS. */
+.section[data-variant='07'] .quantitySelector .quantityButton:not(:disabled) {
   background-color: var(--background-primary-color, #1c1c1c);
   color: var(--text-color-base, #ffffff);
 }
