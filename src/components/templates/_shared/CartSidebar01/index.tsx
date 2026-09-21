@@ -12,7 +12,14 @@ import styles from './index.module.css';
 // preview. Os atributos data-fs-* são mantidos para o DOM ficar equivalente ao
 // que o cliente recebe no tema.
 //
-// Usado pelos headers 01, 03, 04 e 05 (o Header06 usa o CartSidebar06).
+// Usado pelos headers 01, 03, 04, 05 e 07 (o Header06 usa o CartSidebar06).
+//
+// A prop `variant` existe porque o CartSidebar07 real NÃO é outro desenho: o
+// diff contra o CartSidebar01 do .starter não muda uma única propriedade de
+// layout, e só um seletor difere entre os dois arquivos. O que difere é cor.
+// Por isso a variante mora aqui, guardada por `data-variant`, em vez de num
+// `_shared/CartSidebar07` que duplicaria ~820 linhas para expressar 2
+// declarações — duplicata dessa proporção não fica sincronizada.
 
 export interface CartSidebarPlaceholderItem {
   name: string;
@@ -45,6 +52,12 @@ interface CartSidebar01Props {
   /** Rótulo do cabeçalho — "Carrinho" no CartSidebar01 do .starter. */
   title?: string;
   item?: CartSidebarPlaceholderItem;
+  /**
+   * Qual mini-cart real esta réplica está imitando. `'01'` serve os headers
+   * 01/03/04/05; `'07'` reconcilia as duas cores em que o CartSidebar07 do
+   * .starter diverge do 01 (ver o bloco "Variante 07" no CSS).
+   */
+  variant?: '01' | '07';
 }
 
 export default function CartSidebar01({
@@ -52,6 +65,7 @@ export default function CartSidebar01({
   onClose,
   title = 'Carrinho',
   item = DEFAULT_ITEM,
+  variant = '01',
 }: CartSidebar01Props) {
   const [quantity, setQuantity] = useState(1);
   const [removed, setRemoved] = useState(false);
@@ -93,7 +107,7 @@ export default function CartSidebar01({
   const discount = subTotal - total;
 
   return (
-    <div className={styles.section}>
+    <div className={styles.section} data-variant={variant}>
       <div
         className={styles.overlay}
         data-fs-overlay=""

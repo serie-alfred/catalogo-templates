@@ -490,3 +490,21 @@
     animation-duration: 0.01ms !important;
   }
 }
+
+/* ── Variante 07 ─────────────────────────────────────────────────────────────
+   O CartSidebar07 do .starter tem a MESMA estrutura do 01 — o diff entre os
+   dois não muda nenhuma propriedade de layout. Diverge em duas cores do seletor
+   de quantidade, e só nelas:
+
+     CartSidebar01 real   background-color: var(--cart-text, …)                 ← o que as regras acima replicam
+     CartSidebar07 real   background-color: var(--background-primary-color, …)
+                          color:            var(--text-color-base, #fff)
+
+   O círculo do 07 segue a MARCA, não o texto do carrinho; divergem em toda
+   paleta onde as duas não coincidem. A borda continua em `--cart-text` nos dois,
+   por isso não aparece aqui. Guardado por [data-variant='07'] para os headers
+   01/03/04/05 não enxergarem nada disto. */
+.section[data-variant='07'] .quantitySelector .quantityButton {
+  background-color: var(--background-primary-color, #1c1c1c);
+  color: var(--text-color-base, #ffffff);
+}

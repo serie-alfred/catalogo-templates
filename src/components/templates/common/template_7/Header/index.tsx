@@ -24,14 +24,20 @@ import styles from './index.module.css';
  *  • o wordmark da marca → `useLayout().logo` com fallback "SERIE//A", como
  *    manda o /from-faststore: o catálogo é público e mostra a marca do usuário.
  *
- * ⚠️ O mini-cart usa o `_shared/CartSidebar01`, e isso é um delta CONHECIDO. A
- * gaveta da origem (`organisms/CartSidebar07`) tem a MESMA marcação — são 432
- * linhas de override em `[data-fs-*]` sobre o drawer do @faststore/ui, e a
- * única classe que ela declara é `.section`. Só que o replica do catálogo
- * resolveu os `--fs-*` para valores literais em classes próprias, então os
- * overrides do 07 não se aplicam a ele mecanicamente: portá-los é reescrever
- * classe a classe. A ESTRUTURA da gaveta está certa; a pele é a base do
- * FastStore, não a do 07. Registrado em ACHADOS-EM-ABERTO.md.
+ * O mini-cart usa o `_shared/CartSidebar01` com `variant="07"`.
+ *
+ * Este comentário afirmava que a gaveta era um delta conhecido e que portar o
+ * 07 seria "reescrever classe a classe", porque "a pele é a base do FastStore,
+ * não a do 07". Medido em 21/09, isso não se sustentava: no `.starter`,
+ * `diff CartSidebar01/style.module.scss CartSidebar07/style.module.scss` não
+ * muda NENHUMA propriedade de layout (0 linhas com display/flex/grid/position/
+ * width/height), 61 das 110 linhas alteradas são cor, e só UM seletor difere
+ * entre os dois arquivos. A pele do 01 já é a do 07.
+ *
+ * O delta real são duas cores do seletor de quantidade: o círculo do 07 é
+ * pintado por `--background-primary-color` (a marca) e o do 01 por
+ * `--cart-text` (o texto). É o que a `variant` reconcilia — ver o bloco
+ * "Variante 07" em `_shared/CartSidebar01/index.module.css`.
  */
 const MAX_SUGGESTIONS = 5;
 
@@ -738,6 +744,7 @@ export default function Header() {
       </aside>
 
       <CartSidebar01
+        variant="07"
         open={cartOpen}
         onClose={() => setCartOpen(false)}
         item={{

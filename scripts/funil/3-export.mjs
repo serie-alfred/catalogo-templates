@@ -8,6 +8,7 @@ import {
   mkdirSync,
 } from 'node:fs';
 import { relatorio } from './lib/util.mjs';
+import { NON_DUPLICABLE_SELECTIONS } from '../../src/utils/sectionRules.ts';
 import {
   conferirTrayWake,
   conferirFaststore,
@@ -55,9 +56,32 @@ const seedFor = plat => {
   // sem nunca ter visto o caso que existe para julgar. Esta cópia leva as MESMAS
   // `variables` da original: é a duplicata legítima, que o tema comporta. O ramo
   // que reprova (cópias divergentes) é exercitado pelo autoteste em `contrato.mjs`.
+  //
+  // O alvo tem DUAS condições além do schema, e as duas foram aprendidas na
+  // rodada completa de 21/09 — até então este seed só era exercitado pelos
+  // estágios 1-4, e o 5 nunca tinha visto sua saída:
+  //
+  //   1. `pagina === 'home'`. Fora da Home o generator da Tray/Wake não
+  //      instancia cópia: o `instanceCount` não chega a processCategoryHtmlFile
+  //      nem a processProductHtmlFile, então a segunda entrada vira include
+  //      repetido do primeiro snippet mais um `_2.html` órfão no tema. O
+  //      estágio 5 reprova exatamente isso.
+  //   2. a `selection` tem de ser duplicável DE VERDADE, lido de
+  //      `NON_DUPLICABLE_SELECTIONS` — a mesma constante que esconde o botão de
+  //      duplicar na UI, importada em vez de reescrita para o harness não poder
+  //      divergir do produto.
+  //
+  // Sem as duas, o alvo caía no primeiro item com schema, que é o `Header01`:
+  // balde `global` E `selection: 'header'`, que está na lista de não-duplicáveis.
+  // O seed fabricava uma seleção que a UI proíbe e que o generator não honra.
   const alvo = out.find(sel => {
     const it = L[sel.layoutKey].items.find(i => i.id === sel.id);
-    return it?.variablesSchema?.length && it.platforms.includes(plat);
+    return (
+      it?.variablesSchema?.length &&
+      it.platforms.includes(plat) &&
+      sel.pagina === 'home' &&
+      !NON_DUPLICABLE_SELECTIONS.has(it.selection)
+    );
   });
   if (alvo) {
     const it = L[alvo.layoutKey].items.find(i => i.id === alvo.id);
