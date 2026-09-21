@@ -285,6 +285,31 @@ if (fs.existsSync(mockData)) {
   );
 }
 
+// O DevFidelityStage viaja para o tema (o DevFidelityInjector o copia por fora do
+// grafo de manifests) e chama `enableMockScope()`, que RELIGA MOCK_ENABLED em
+// runtime — por cima do que o MockGuard acabou de desligar. Até 21/09 o que
+// segurava isso era só a frase "nunca numa página real" no schema da seção. Agora
+// o palco tem trava de build; esta é a rede que impede a trava de sumir sem aviso,
+// que foi exatamente como o MockGuard virou no-op.
+const palco = path.join(
+  TEMA,
+  'src/components/organisms/DevFidelityStage/index.tsx'
+);
+if (fs.existsSync(palco)) {
+  const fonte = fs.readFileSync(palco, 'utf8');
+  const temConstante = /const PALCO_ATIVO\s*=[\s\S]{0,200}?process\.env\.NODE_ENV !== 'production'/.test(
+    fonte
+  );
+  const temSaida = /if \(!PALCO_ATIVO\) return null/.test(fonte);
+  r.ok(
+    'DevFidelityStage desligado em produção no tema entregue',
+    temConstante && temSaida,
+    !temConstante
+      ? 'sem a constante PALCO_ATIVO ligada a NODE_ENV'
+      : 'PALCO_ATIVO existe mas nada retorna null com ela'
+  );
+}
+
 // ── portão: o tema compila? ──────────────────────────────────────────────────
 if (process.env.FUNIL_TEMA_BUILD === '0') {
   console.log('  ⏭️  yarn build do tema pulado (FUNIL_TEMA_BUILD=0)');
