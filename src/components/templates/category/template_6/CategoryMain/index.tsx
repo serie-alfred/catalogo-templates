@@ -68,9 +68,17 @@ const HeartIcon = () => (
   </svg>
 );
 
-/** `overrides/ProductGallery06/ColumnToggle06` — os dois botões de densidade. */
-function ColumnToggle() {
-  const [menos, setMenos] = useState(false);
+/**
+ * `overrides/ProductGallery06/ColumnToggle06` — os dois botões de densidade.
+ *
+ * Divergência de IMPLEMENTAÇÃO em relação à origem, com o mesmo resultado no DOM:
+ * lá o toggle é um override de slot e não alcança o estado da listagem, então
+ * escreve `data-cols-06` imperativamente via `closest('[data-fs-product-listing]')`.
+ * Aqui o CategoryMain é dono da árvore inteira, então o estado sobe para ele e o
+ * atributo sai no JSX — o CSS que reage é exatamente o mesmo
+ * (`[data-fs-product-listing][data-cols-06='less'] [data-fs-product-grid]`).
+ */
+function ColumnToggle({ menos, onChange }: { menos: boolean; onChange: (v: boolean) => void }) {
   return (
     <div className={styles.colToggle} data-fs-column-toggle data-role="col-toggle">
       <button
@@ -78,7 +86,7 @@ function ColumnToggle() {
         aria-pressed={menos}
         aria-label="Menos colunas"
         className={`${styles.colBtn}${menos ? ` ${styles.colBtnActive}` : ''}`}
-        onClick={() => setMenos(true)}
+        onClick={() => onChange(true)}
       >
         <span className={styles.icoBars} aria-hidden="true"><i /><i /><i /></span>
         <span className={styles.icoDots3} aria-hidden="true">
@@ -90,7 +98,7 @@ function ColumnToggle() {
         aria-pressed={!menos}
         aria-label="Mais colunas"
         className={`${styles.colBtn}${!menos ? ` ${styles.colBtnActive}` : ''}`}
-        onClick={() => setMenos(false)}
+        onClick={() => onChange(false)}
       >
         <span className={styles.icoDots2} aria-hidden="true">
           {Array.from({ length: 4 }).map((_, i) => <i key={i} />)}
@@ -242,6 +250,10 @@ function Card({ p, index }: { p: Produto; index: number }) {
 }
 
 export default function CategoryMain() {
+  // densidade do grid: `false` = 4 col no desktop / 2 no mobile (padrão da origem);
+  // `true` = 3 / 1. Ver ColumnToggle acima.
+  const [menosColunas, setMenosColunas] = useState(false);
+
   /* a contagem mora na trilha (countInBreadcrumb), como na origem */
   const contagem = (extra?: string) => (
     <span className={`${styles.count}${extra ? ` ${extra}` : ''}`} data-role="plp-count">
@@ -282,10 +294,14 @@ export default function CategoryMain() {
           {contagem(styles.countInTitle)}
         </section>
 
-        <section data-fs-product-listing data-testid="product-gallery">
+        <section
+          data-fs-product-listing
+          data-testid="product-gallery"
+          data-cols-06={menosColunas ? 'less' : 'default'}
+        >
           <div data-fs-product-listing-content-grid data-fs-content="product-gallery">
             <div data-fs-product-listing-sort data-role="toolbar">
-              <ColumnToggle />
+              <ColumnToggle menos={menosColunas} onChange={setMenosColunas} />
               <button type="button" data-fs-button data-testid="open-filter-button" data-role="filter-btn" aria-haspopup="dialog">
                 <span data-fs-button-wrapper>{ROTULO_FILTRO}</span>
               </button>

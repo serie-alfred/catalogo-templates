@@ -47,11 +47,15 @@
 }
 
 /* ═══ DESKTOP ═══ */
+/* flex em vez de grid 4-col fixo: com 4 itens o resultado é o do design, mas com
+   3 (ou 2) a linha incompleta fica CENTRADA em vez de deixar uma coluna vazia à
+   direita — o CMS permite cadastrar qualquer quantidade de benefícios. */
 .strip {
   background: var(--benefits-bg, var(--background-primary-color, #2c2420));
   padding: 40px 120px;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 32px;
 }
 
@@ -59,15 +63,21 @@
    O design 4-col é validado @1024/1280. */
 @container (min-width: 768px) and (max-width: 1023px) {
   .strip {
-    grid-template-columns: repeat(2, 1fr);
     padding: 32px 40px;
+  }
+
+  .benefit {
+    flex-basis: calc(50% - 16px);
   }
 }
 
 .benefit {
   display: flex;
   align-items: flex-start;
+  justify-content: center;
   gap: 16px;
+  flex: 0 1 calc(25% - 24px);
+  min-width: 200px;
 }
 
 .icon {
@@ -99,11 +109,13 @@
 }
 
 /* ═══ MOBILE ═══ */
+/* mesma troca do desktop: 2 colunas por flex-basis, linha incompleta centrada. */
 .mStrip {
   background: var(--benefits-bg, var(--background-primary-color, #2c2420));
   padding: 28px 18px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
 }
 
@@ -111,6 +123,8 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
+  flex: 0 1 calc(50% - 10px); /* 2 colunas com gap 20 */
+  min-width: 130px;
 }
 
 .mIcon {

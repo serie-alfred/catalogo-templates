@@ -76,13 +76,13 @@ import Footer03 from '@/components/templates/common/template_3/Footer';
 // ******
 // Home
 import Showcase03 from '@/components/templates/home/template_3/Showcase';
-import Ruler03 from '@/components/templates/home/template_3/Ruler';
+import Ruler07 from '@/components/templates/home/template_7/Ruler';
 
 // ******
 // Produto
 import ProductInfo03 from '@/components/templates/product/template_3/ProductInfo';
 import ProductInfo04 from '@/components/templates/product/template_4/ProductInfo';
-import ProductInfo05 from '@/components/templates/product/template_5/ProductInfo';
+import ProductInfo06 from '@/components/templates/product/template_6/ProductInfo';
 import ProductInfo07 from '@/components/templates/product/template_7/ProductInfo';
 import ProductReviews06 from '@/components/templates/product/template_6/ProductReviews';
 
@@ -215,10 +215,10 @@ export const TemplateRegistry: Record<
   Footer03,
   Spot03,
   Showcase03,
-  Ruler03,
+  Ruler07,
   ProductInfo03,
   ProductInfo04,
-  ProductInfo05,
+  ProductInfo06,
   ProductInfo07,
   ProductReviews06,
 

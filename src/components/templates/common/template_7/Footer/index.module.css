@@ -229,7 +229,19 @@
 
 .payments {
   display: flex;  /* inline: flex gap 16 */
+  align-items: center;  /* bandeiras em imagem e em texto na mesma linha de base ótica */
   gap: 16px;
+}
+
+/* Bandeira em imagem (origem: item com `image` cadastrado no CMS): altura fixa e
+   largura livre, para todas ficarem do mesmo tamanho. Sem a opacidade do texto —
+   logo de bandeira precisa ficar legível. No catálogo só o texto é exibido. */
+.paymentImg {
+  display: block;
+  height: 20px;
+  width: auto;
+  max-height: 20px;
+  object-fit: contain;
 }
 
 .payment {
@@ -239,8 +251,57 @@
   opacity: 0.35;
 }
 
+/* ── Créditos (plataforma + agência) — conteúdo fixo, fora do CMS ─────────────
+   Os dois logos dividem o mesmo teto de altura para ficarem alinhados na linha;
+   a altura de cada um difere porque o lockup da VTEX ocupa a caixa inteira e a
+   assinatura da agência é só o wordmark — assim a altura ótica das letras bate. */
+.credits {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 28px;
+  margin-top: 0;
+}
+
+.credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: opacity .3s ease;
+}
+
+a.credit:hover { opacity: .7; }
+
+.creditLabel {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--footer-text, var(--text-color-footer, #f5f0e8));
+  opacity: 0.75;
+}
+
+.creditLogo {
+  display: block;
+  width: auto;
+  max-height: 20px;  /* teto comum aos dois logos */
+}
+
+.creditLogoVtex { height: 20px; }
+/* wordmark da agência em currentColor (acompanha a cor do texto do rodapé) */
+.creditLogoAgency { height: 12px; color: var(--footer-text, var(--text-color-footer, #f5f0e8)); }
+
 /* ══ MOBILE (<768) ════════════════════════════════════════════════════════════ */
 .mobile { padding: 32px 18px 24px; }  /* inline: padding 32/18/24 */
+
+/* créditos um pouco menores no mobile (mesmo teto compartilhado) */
+.mobile .credits { margin-top: 0; gap: 8px 20px; }
+.mobile .creditLabel { font-size: 9px; }
+.mobile .creditLogo { max-height: 16px; }
+.mobile .creditLogoVtex { height: 16px; }
+.mobile .creditLogoAgency { height: 10px; }
 
 .brandNameM {
   margin-bottom: 4px;
@@ -405,6 +466,15 @@
   gap: 12px;
   margin-bottom: 10px;
 }
+/* bandeira em imagem, versão mobile (origem) */
+.paymentImgM {
+  display: block;
+  height: 18px;
+  width: auto;
+  max-height: 18px;
+  object-fit: contain;
+}
+
 .paymentM {
   font-size: 10px;
   font-weight: 400;

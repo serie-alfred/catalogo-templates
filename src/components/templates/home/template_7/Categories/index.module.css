@@ -70,8 +70,50 @@
   gap: 16px;
 }
 
+/* variante carrossel (>= 6 categorias) — mesmas caixas do grid, num Swiper */
+.carousel {
+  position: relative;
+  padding: 0 120px 72px;
+}
+
+.slide {
+  height: auto;
+  display: flex;
+}
+
+.navPrev,
+.navNext {
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--categories-title-color, var(--text-primary-color, #2c2420));
+  box-shadow: 0 1px 10px rgba(44, 36, 32, .16);
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease;
+}
+
+.navPrev:hover,
+.navNext:hover {
+  background: var(--categories-accent, var(--background-primary-color, #b8976a));
+  color: #fff;
+}
+
+.navPrev { left: 88px; }
+.navNext { right: 88px; }
+
+/* width:100% para o card preencher o slide do Swiper (no grid já preenchia a coluna) */
 .card {
   display: block;
+  width: 100%;
   cursor: pointer;
   text-decoration: none;
 }

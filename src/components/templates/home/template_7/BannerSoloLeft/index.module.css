@@ -21,14 +21,25 @@
   align-items: center;
 }
 
+/* padding-top hack: altura vira proporcional à largura (808x400 = 49.505%),
+   então a caixa acompanha a tela mantendo a proporção sem precisar de media
+   query — troque os 49.505% se a proporção da arte de referência mudar.
+   Na origem a imagem cadastrada entra como <img> absoluto em cima (.imageEl);
+   aqui só o gradiente de placeholder aparece. */
 .image {
-  height: 400px;
+  height: 0;
+  padding-top: 49.505%; /* 400 / 808 * 100 */
   border-radius: 1px;
   overflow: hidden;
   position: relative;
   background: linear-gradient(140deg, #c8b49a, #b8a085);
-  background-size: cover;
-  background-position: center;
+}
+
+.imageEl {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .texture {
@@ -113,16 +124,13 @@
   border-bottom-color: var(--editorial-accent, var(--background-primary-color, #b8976a));
 }
 
-/* mobile reflow: 1 coluna, imagem mais baixa */
+/* mobile reflow: 1 coluna — a proporção 808x400 da .image já é responsiva
+   via padding-top, não precisa de override de altura aqui */
 @container (max-width: 767px) {
   .section {
     grid-template-columns: 1fr;
     gap: 28px;
     padding: 48px 18px;
-  }
-
-  .image {
-    height: 260px;
   }
 
   .title {

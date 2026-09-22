@@ -133,6 +133,18 @@ terracota #C07A5A) = hex inline. */
   text-transform: uppercase;
 }
 
+.brandLogo {
+  /* o logo do usuário entra no lugar do wordmark: teto de altura E de
+     largura, senão um PNG grande estoura os 78px da barra e empurra
+     nav/ações para fora. */
+  display: inline-block;
+  vertical-align: middle;
+  height: 28px;
+  width: auto;
+  max-width: 184px;
+  object-fit: contain;
+}
+
 .brandTagline {
   display: block;
   font-family: var(--header-body-font, var(--font-secundary, 'DM Sans', sans-serif));
@@ -413,6 +425,11 @@ terracota #C07A5A) = hex inline. */
 .mBar .brandName {
   font-size: 16px;
   letter-spacing: .18em;
+}
+
+.mBar .brandLogo {
+  height: 24px;
+  max-width: 150px;
 }
 
 .mBar .brandTagline {
@@ -721,6 +738,11 @@ terracota #C07A5A) = hex inline. */
   letter-spacing: .18em;
 }
 
+.drawerHead .brandLogo {
+  height: 22px;
+  max-width: 150px;
+}
+
 .drawerHead .brandTagline {
   font-size: 7.5px;
   letter-spacing: .2em;
@@ -917,6 +939,14 @@ terracota #C07A5A) = hex inline. */
   border-bottom: none;
 }
 
+/* svg inline herda o baseline da linha e desce alguns px em relação ao rótulo;
+   display:block corrige. flex-shrink: 0 impede que o ícone seja espremido
+   quando o texto ao lado é longo. */
+.drawerAccountRow svg {
+  display: block;
+  flex-shrink: 0;
+}
+
 .drawerAccountRow span {
   font-family: var(--header-body-font, var(--font-secundary, 'DM Sans', sans-serif));
   font-size: 12.5px;
@@ -944,9 +974,59 @@ terracota #C07A5A) = hex inline. */
   color: #6a5e58;
 }
 
+/* ── WhatsApp flutuante ──────────────────────────────────────────────────
+   Cor real do WhatsApp (#25D366), não a paleta da marca — é um afordance
+   reconhecível universalmente, igual ao WhatsIcon do drawer acima.
+   Renderizado FORA da `.headerShell` (o `container-type` dela seria o bloco-
+   container de um `position: fixed`) — mesma razão do drawer e do mini-cart. */
+.whatsappFloat {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  /* acima do conteúdo normal, abaixo do drawer/cart (998+) e do overlay de busca (1000) */
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25D366;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .25);
+  transition: transform .2s ease, box-shadow .2s ease;
+  /* svg inline herda o baseline da linha e desce alguns px dentro da bolha;
+     display:block + line-height 0 tiram esse deslocamento. */
+  line-height: 0;
+}
+
+.whatsappFloat svg {
+  display: block;
+}
+
+.whatsappFloat:hover {
+  transform: scale(1.06);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .3);
+}
+
+/* `@media`, não `@container`: a bolha é `position: fixed` ancorada na VIEWPORT
+   e vive fora da casca, então não há coluna cujo tamanho consultar. Dentro do
+   iframe do canvas a viewport é 1440/375 — exatamente o que o corte quer saber.
+   Mesmo raciocínio do HelpFloat do template_6. */
+@media (max-width: 767px) {
+  .whatsappFloat {
+    right: 14px;
+    bottom: 14px;
+    width: 50px;
+    height: 50px;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .mega, .drawer, .drawerOverlay, .searchOverlay {
     transition: none;
   }
 
+  .whatsappFloat {
+    transition: none;
+  }
 }

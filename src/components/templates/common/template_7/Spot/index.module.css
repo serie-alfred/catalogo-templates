@@ -1,139 +1,192 @@
-.spot {
+/* Espelha `molecules/ProductCard07` (faststore.starter) — o card da vitrine/PLP
+   do 07. Conversão: `$var` do SCSS resolvidas inline e aninhamento ACHATADO por
+   descendência (CSS Modules recusa seletor sem classe). Sem `@media`/`@container`:
+   o card tem um layout só, quem decide a largura é a grade da vitrine.
+
+   O slot renderizava um card de outra família (calçado, seletor de tamanho no
+   hover, sem "Comprar") enquanto o `path` do layoutData apontava para o 07. */
+
+/* ── card ─────────────────────────────────────────────────────────────────── */
+/* coluna flex + .fill no corpo = botão sempre colado na base, com os cards da
+   mesma linha alinhados mesmo com títulos/parcelas de alturas diferentes */
+.card {
   position: relative;
-  width: 300px;
-}
-
-.tagDiscount {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  padding: 6px 8px;
-  background: var(--background-secundary-color);
-  color: var(--text-color-secundary);
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  z-index: 10;
-}
-
-.productImage {
-  width: 100%;
-  height: 373px;
-  position: relative;
-}
-
-.productImage img {
-  height: 100%;
-  object-fit: cover;
-}
-
-.sizesContainer {
   display: flex;
-  visibility: hidden;
-  opacity: 0;
+  flex-direction: column;
+  /* preenche a coluna da vitrine (origem: width/height 100%) e, exibido sozinho
+     no modal do catálogo, para nos 300px do card de referência */
+  width: 100%;
+  max-width: 300px;
+  height: 100%;
+  background: #fff;
+  border-radius: 1px;
+  overflow: hidden;
+  box-shadow: 0 1px 16px rgba(44, 36, 32, .07);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.img {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: linear-gradient(150deg, #ede8e0, #ddd0c0);
+  background-size: cover;
+  background-position: center;
+}
+
+.flag {
   position: absolute;
-  align-items: center;
-  left: 5px;
-  right: 5px;
-  bottom: 4px;
-  gap: 2px;
-  transition: all 0.2s ease-in;
+  top: 10px;
+  left: 10px;
+  color: #fff;
+  font-family: var(--font-secundary, 'DM Sans', sans-serif);
+  font-size: 9px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: .06em;
+  padding: 3px 9px;
+  text-transform: uppercase;
 }
 
-.productImage:hover .sizesContainer {
-  visibility: visible;
-  opacity: 1;
-}
+.flagGold { background: var(--shelf-accent, var(--background-primary-color, #b8976a)); }
+.flagSale { background: #c07a5a; }
 
-.sizeItem {
-  flex: 1;
+/* coração da wishlist: na origem é um <button> real (favorita/desfavorita) com
+   z-index acima do link-overlay do card. No preview ele é inerte. */
+.wish {
+  position: absolute;
+  z-index: 2;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  appearance: none;
+  background: rgba(255, 255, 255, .9);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
-  aspect-ratio: 1/1;
+  color: #4a3f38;
   cursor: pointer;
-  transition: 0.2s ease-in;
+  transition: color .3s ease, background-color .3s ease;
 }
 
-.sizeItem:hover {
-  background: var(--background-secundary-color);
+.wish:hover {
+  color: var(--wish-active-color, var(--shelf-accent, var(--background-primary-color, #b8976a)));
 }
 
-.sizeItem span {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary-color);
-}
-
-.sizeItem:hover span {
-  color: var(--text-color-secundary);
-}
-
-/* .active-sizeItem {
-  background: var(--background-secundary-color);
-  color: var(--text-color-secundary);
-} */
-
-
-
-.infoProduct {
+.cardBody {
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 8px 0px;
+  flex: 1 1 auto;
 }
 
-.infoProduct p {
+.brand {
+  font-family: var(--font-secundary, 'DM Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: #8c7d74;
+  margin: 0 0 4px;
+}
+
+.cardTitle {
+  font-family: var(--font-primary, 'Cormorant Garamond', serif);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--shelf-title-color, var(--text-primary-color, #2c2420));
+  margin-bottom: 12px;
+  min-height: 40px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color .5s ease;
+}
+
+.card:hover .cardTitle {
+  color: var(--shelf-accent, var(--background-primary-color, #b8976a));
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 3px;
+}
+
+/* preço "de" riscado — na origem só renderiza quando listPrice > price */
+.listPrice {
+  font-family: var(--font-secundary, 'DM Sans', sans-serif);
   font-size: 14px;
-  font-weight: 600;
-  color: var(--text-primary-color);
+  color: color-mix(in srgb, var(--shelf-title-color, var(--text-primary-color, #2c2420)) 55%, transparent);
+  text-decoration: line-through;
 }
 
 .price {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.priceBefore {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 400;
-  font-size: 14px;
-  text-decoration: line-through;
-  color: #b8b8b8;
-  position: relative;
-}
-
-.priceBefore::after {
-  content: '';
-  width: 2px;
-  height: 10px;
-  background: var(--text-primary-color);
-  color: #000;
-  display: block;
-}
-
-.priceAfter {
+  font-family: var(--font-secundary, 'DM Sans', sans-serif);
+  font-size: 19px;
   font-weight: 600;
+  line-height: normal;
+  color: var(--shelf-title-color, var(--text-primary-color, #2c2420));
+  margin: 0;
 }
 
-.installments {
+/* Altura FIXA para a linha de parcela: produtos sem parcelamento renderizam a
+   mesma caixa vazia, então o "Comprar" fica na mesma altura em todos os cards
+   da vitrine. */
+.installment {
+  font-family: var(--font-secundary, 'DM Sans', sans-serif);
+  font-size: 11.5px;
   font-weight: 400;
+  line-height: 1.3;
+  color: #8c7d74;
+  min-height: 15px;
+  margin-bottom: 3px;
 }
 
-.installments span{
-  font-weight: 400;
+/* absorve a sobra do card mais alto da linha */
+.fill { flex: 1 0 0; }
+
+.pix {
+  font-family: var(--font-secundary, 'DM Sans', sans-serif);
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: normal;
+  color: #5c7a66;
+  margin-bottom: 14px;
 }
 
-@container (max-width: 760px) {
-  .spot {
-    width: 264px;
-  }
+.buy {
+  position: relative;
+  z-index: 2;
+  display: inline-block;
+  width: 100%;
+  border: 0;
+  appearance: none;
+  background: var(--shelf-buy-bg, var(--background-primary-color, #2c2420));
+  color: var(--shelf-buy-text, var(--text-color-base, #faf8f4));
+  padding: 11px;
+  font-family: var(--font-secundary, 'DM Sans', sans-serif);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color .5s ease, color .5s ease;
+}
 
-  .productImage {
-    height: 330px;
-  }
+.buy:hover {
+  background: color-mix(in srgb, var(--shelf-buy-bg, var(--background-primary-color, #2c2420)) 85%, #fff);
 }
