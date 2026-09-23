@@ -22,6 +22,7 @@
  * não chegar no destino. Para esse lado existe o `yarn alcance` do starter.
  */
 import { pathToFileURL } from 'node:url';
+import fs from 'node:fs';
 import path from 'node:path';
 import { itens, relatorio, FASTSTORE_STARTER, GENERATOR } from './lib/util.mjs';
 
@@ -42,11 +43,27 @@ r.ok('há item VTEX para conferir', alvos.length > 0, `${alvos.length}`);
 const resolver = new DependencyResolver();
 const alcance = new Set();
 
+// `dependencies.scss` não é asset: o resolver só junta o NOME, e quem copia é o
+// CopyScss, já na fase EXECUTE — o VALIDATE do generator não confere essa origem.
+// Nome sem arquivo estoura ENOENT com o tema meio escrito. Foi o `productGallery`
+// que o MainCategory06 passou a declarar em 22/09/2026 no lugar de `productGallery06`.
+const scssSemArquivo = g =>
+  [...g.scss].filter(
+    n => !fs.existsSync(path.join(FASTSTORE_STARTER, 'src/sass', `${n}.module.scss`))
+  );
+
 for (const item of alvos) {
   try {
     const g = resolver.resolve([item.path], registry);
     for (const id of g.ids) alcance.add(id);
-    r.ok(`${item.component} → ${item.path}`, g.ids.size > 0, `${g.ids.size} assets`);
+    const semArquivo = scssSemArquivo(g);
+    r.ok(
+      `${item.component} → ${item.path}`,
+      g.ids.size > 0 && semArquivo.length === 0,
+      semArquivo.length
+        ? `scss declarado sem arquivo em src/sass: ${semArquivo.join(', ')}`
+        : `${g.ids.size} assets`
+    );
   } catch (e) {
     r.ok(`${item.component} → ${item.path}`, false, String(e.message).slice(0, 120));
   }
@@ -56,10 +73,13 @@ for (const item of alvos) {
 // onde um ID duplicado entre dois grafos apareceria.
 try {
   const g = resolver.resolve(alvos.map(i => i.path), registry);
+  const semArquivo = scssSemArquivo(g);
   r.ok(
     'o grafo COMPLETO resolve de uma vez',
-    g.ids.size >= alcance.size,
-    `${g.ids.size} assets · ${g.constants.size} constantes · ${g.scss.size} scss`
+    g.ids.size >= alcance.size && semArquivo.length === 0,
+    semArquivo.length
+      ? `scss declarado sem arquivo em src/sass: ${semArquivo.join(', ')}`
+      : `${g.ids.size} assets · ${g.constants.size} constantes · ${g.scss.size} scss`
   );
 } catch (e) {
   r.ok('o grafo COMPLETO resolve de uma vez', false, String(e.message).slice(0, 140));

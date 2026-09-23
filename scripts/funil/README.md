@@ -20,7 +20,7 @@ e o `yarn dev` de pé para os estágios 2 e 3. Saídas em `.funil/` (ignorada).
 | Estágio | O que prova | Precisa de |
 |---|---|---|
 | `1-catalogo` | chaves e ids únicos, registry casado, mock em disco, **origem real em `global-templates`** para todo item Tray/Wake, manifest para todo `path` VTEX | nada |
-| `1-grafo` | todo `path` VTEX resolve no grafo de `manifest.json`, com o `AssetRegistry` e o `DependencyResolver` reais do generator | checkouts irmãos de `faststore.starter` e `produtos-template-generator` |
+| `1-grafo` | todo `path` VTEX resolve no grafo de `manifest.json`, com o `AssetRegistry` e o `DependencyResolver` reais do generator, e todo `scss` declarado existe em `src/sass` | checkouts irmãos de `faststore.starter` e `produtos-template-generator` |
 | `1-variaveis` | toda `cssVar` do `variablesSchema` é consumida pelo CSS, e o `default` bate com o nível 3 do fallback encadeado | nada |
 | `2-fidelidade` | a réplica do catálogo bate com o componente real do starter | dev server **e** o `yarn dev` do `faststore.starter` em :3000 |
 | `2-editor` | shell, canvas, painéis, atalhos, modal, troca de plataforma, fonte que não vaza no `:root`, contraste derivado | dev server |

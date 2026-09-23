@@ -394,6 +394,13 @@ const arquivosTs = dir => {
   return out;
 };
 
+/** Um import relativo sem extensão resolve para algum arquivo em disco? */
+const existeModulo = abs =>
+  ['', '.ts', '.tsx', '.js', '.jsx'].some(
+    ext => fs.existsSync(abs + ext) && fs.statSync(abs + ext).isFile()
+  ) ||
+  ['index.ts', 'index.tsx'].some(f => fs.existsSync(path.join(abs, f)));
+
 /**
  * Todo import relativo aponta para algo que o grafo de `dependencies` alcança?
  *
@@ -401,9 +408,23 @@ const arquivosTs = dir => {
  * inteiro está em disco. No tema gerado só chega o que está DECLARADO, e um
  * import para um asset fora do grafo vira "Cannot find module" no build do tema
  * — depois de clonar, copiar e compilar. Aqui custa milissegundos.
+ *
+ * Import cujo alvo não tem manifest dono também é falha, e era o ponto cego
+ * desta checagem: ela só olhava imports com dono. Em 22/09/2026 três utils
+ * entraram no starter como arquivo solto (`src/utils/vtexImage.ts`) — o
+ * AssetRegistry não os enxerga, o tema-base não os tem, e quatro componentes do
+ * catálogo passaram a importar um módulo que nunca chega ao tema. Dois lugares
+ * sem manifest são legítimos: `src/constants` (o AddConstant reconcilia) e
+ * `src/sass`, que viaja por `dependencies.scss` — e por isso é conferido contra
+ * ela.
  */
 export function conferirImports(paths, r) {
   const manifests = lerManifests();
+  const SRC = path.join(FASTSTORE_STARTER, 'src');
+  const scssDe = fecho =>
+    new Set(
+      [...fecho].flatMap(i => manifests.get(i)?.dependencies?.scss ?? [])
+    );
   const donoDe = abs => {
     let melhor = null;
     for (const [id, d] of manifests) {
@@ -426,11 +447,28 @@ export function conferirImports(paths, r) {
     if (!d) continue;
     const fecho = fechoCompleto(id, manifests);
     for (const f of arquivosTs(d._dir)) {
-      const src = fs.readFileSync(f, 'utf8');
-      for (const [, imp] of src.matchAll(/from\s+'(\.[^']+)'/g)) {
-        const dono = donoDe(path.normalize(path.resolve(path.dirname(f), imp)));
-        if (!dono || dono === id || fecho.has(dono)) continue;
-        falhas.add(`${id} importa ${dono} sem declarar`);
+      // sem comentários: `// import Image from "../Image"` (SmartImage01) não é uso
+      const src = semComentarios(fs.readFileSync(f, 'utf8'));
+      // aspas duplas também: os resolvers do starter importam assim
+      for (const [, , imp] of src.matchAll(/from\s+(['"])(\.[^'"]+)\1/g)) {
+        const alvo = path.normalize(path.resolve(path.dirname(f), imp));
+        const dono = donoDe(alvo);
+        if (dono) {
+          if (dono !== id && !fecho.has(dono))
+            falhas.add(`${id} importa ${dono} sem declarar`);
+          continue;
+        }
+        const rel = path.relative(SRC, alvo);
+        if (rel.startsWith('..') || rel.split(path.sep)[0] === 'constants')
+          continue;
+        if (rel.split(path.sep)[0] === 'sass') {
+          const nome = path.basename(rel).replace(/\.module\.scss$/, '');
+          if (!scssDe(fecho).has(nome))
+            falhas.add(`${id} importa sass/${nome} sem declarar em scss`);
+          continue;
+        }
+        if (existeModulo(alvo))
+          falhas.add(`${id} importa src/${rel}, arquivo solto sem manifest.json`);
       }
     }
   }
