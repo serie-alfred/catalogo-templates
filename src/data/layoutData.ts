@@ -619,7 +619,7 @@ export const LAYOUTS: Layouts = {
   buySize: {
     name: "Compre por tamanho",
     items: [
-      { id: "06", selection: "buy-size", key: "bsz06frc5e6f", image: "buySize/BuySize06.webp", imageSource: "auto", mobile: "", title: "Compre por tamanho Template 6", description: "Título centrado, fileira de chips de tamanho e link para a lista completa", template: "6", pagina: ["home"], component: "BuySize06", path: "molecules/Categories06", platforms: ['VTEX'], backgroundVars: ["tertiary"], variablesSchema: [
+      { id: "06", selection: "buy-size", key: "bsz06frc5e6f", image: "buySize/BuySize06.webp", imageSource: "auto", mobile: "", title: "Compre por tamanho Template 6", description: "Título centrado, fileira de chips de tamanho e link para a lista completa", template: "6", pagina: ["home"], component: "BuySize06", path: "molecules/Categories06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--categories-bg", label: "Fundo da seção", type: "color", default: "#f6f6f6", group: "Compre por tamanho", optional: true },
         { cssVar: "--categories-title-color", label: "Cor do título", type: "color", default: "#212721", group: "Compre por tamanho", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-text", label: "Texto dos chips e do link", type: "color", default: "#212721", group: "Compre por tamanho", inheritsLabel: "cor de texto primária" },
