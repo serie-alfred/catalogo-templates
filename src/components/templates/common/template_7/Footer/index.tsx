@@ -138,8 +138,12 @@ const conteudo = {
     },
   ] as Column[],
   payments: ['Visa', 'Master', 'Pix', 'Boleto'],
+  // "Sua Marca" tem 9 letras DE PROPÓSITO, o mesmo tamanho do nome da marca no mock da
+  // origem. A barra de baixo é `space-between` com os créditos no meio: cada caractere
+  // a mais ou a menos no copyright desloca os créditos em meio caractere, e o 2-fidelidade
+  // mede em fonte-sonda monoespaçada. Com 8 letras ("Sua Loja") eram 3,3px de diferença.
   copyright:
-    '© 2026 Sua Loja. Todos os direitos reservados. CNPJ 00.000.000/0001-00',
+    '© 2026 Sua Marca. Todos os direitos reservados. CNPJ 00.000.000/0001-00',
 };
 
 export default function Footer() {

@@ -173,15 +173,17 @@ export default function PopupNews() {
             )}
           </div>
 
+          {/* `div`, não `p`, como na origem: lá o campo aceita HTML do CMS, e um `<p>`
+              colado pelo editor dentro de outro `<p>` é aninhamento inválido */}
           {!enviado && (
-            <p className={styles.finePrint} data-role="popup-fine">
+            <div className={styles.finePrint} data-role="popup-fine">
               {CONTEUDO.finePrint.split('\n').map((linha, i) => (
                 <React.Fragment key={i}>
                   {i > 0 && <br />}
                   {linha}
                 </React.Fragment>
               ))}
-            </p>
+            </div>
           )}
         </section>
       </div>

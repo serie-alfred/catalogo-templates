@@ -179,7 +179,7 @@ function PriceRange({ min, max }: { min: number; max: number }) {
 export default function CategoryMain() {
   const [colapsado, setColapsado] = useState<ReadonlySet<string>>(() => new Set());
   const [ordem, setOrdem] = useState('orders_desc');
-  const [subcatAtiva, setSubcatAtiva] = useState<string | null>(null);
+  const [subcatsAtivas, setSubcatsAtivas] = useState<ReadonlySet<string>>(() => new Set());
   const [marcados, setMarcados] = useState<ReadonlySet<string>>(
     () =>
       new Set(
@@ -206,8 +206,17 @@ export default function CategoryMain() {
       return n;
     });
 
-  const subcatEstaAtiva = (value: string, i: number) =>
-    subcatAtiva ? subcatAtiva === value : i === 0;
+  // Como na origem: o realce reflete SÓ a seleção real — nenhum chip ativo em repouso
+  // (antes o 1º aparecia ativo sem filtrar nada, e lia como filtro aplicado) — e o
+  // clique ALTERNA o valor, com multi-seleção, igual ao filtro lateral.
+  const subcatEstaAtiva = (value: string) => subcatsAtivas.has(value);
+
+  const alternarSubcat = (value: string) =>
+    setSubcatsAtivas(prev => {
+      const n = new Set(prev);
+      if (!n.delete(value)) n.add(value);
+      return n;
+    });
 
   const removerChip = (value: string) =>
     setChips(prev => prev.filter(c => c.value !== value));
@@ -334,13 +343,13 @@ export default function CategoryMain() {
               {SUBTITULO}
             </p>
             <div className={styles.chips} data-role="chips">
-              {SUBCATEGORIAS.map((s, i) => (
+              {SUBCATEGORIAS.map(s => (
                 <button
                   key={s.value}
                   data-role="chip"
-                  className={`${styles.chip} ${subcatEstaAtiva(s.value, i) ? styles.chipActive : ''}`}
-                  aria-pressed={subcatEstaAtiva(s.value, i)}
-                  onClick={() => setSubcatAtiva(s.value)}
+                  className={`${styles.chip} ${subcatEstaAtiva(s.value) ? styles.chipActive : ''}`}
+                  aria-pressed={subcatEstaAtiva(s.value)}
+                  onClick={() => alternarSubcat(s.value)}
                 >
                   {s.label}
                 </button>
@@ -486,13 +495,13 @@ export default function CategoryMain() {
 
           <div className={styles.mSubcats} data-role="m-subcats">
             <div className={styles.mSubcatsRow}>
-              {SUBCATEGORIAS.map((s, i) => (
+              {SUBCATEGORIAS.map(s => (
                 <button
                   key={s.value}
                   data-role="m-subcat"
-                  className={`${styles.mSubcat} ${subcatEstaAtiva(s.value, i) ? styles.mSubcatActive : ''}`}
-                  aria-pressed={subcatEstaAtiva(s.value, i)}
-                  onClick={() => setSubcatAtiva(s.value)}
+                  className={`${styles.mSubcat} ${subcatEstaAtiva(s.value) ? styles.mSubcatActive : ''}`}
+                  aria-pressed={subcatEstaAtiva(s.value)}
+                  onClick={() => alternarSubcat(s.value)}
                 >
                   {s.label}
                 </button>

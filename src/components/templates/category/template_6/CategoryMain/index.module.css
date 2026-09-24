@@ -31,9 +31,12 @@ Cor/fonte = cadeia de fallback 3 níveis (temável). ProductCard06 é reusado no
 satélite CategoryTitle06 — os mesmos da rota de categoria. Duplicar aqui empurrava o
 conteúdo 32px para dentro (gutter em cima de gutter). Só o ritmo vertical e a fonte. */
 
+/* O respiro de 24px do topo mora na TRILHA (padding-top do .breadcrumb06), não aqui: a
+origem põe um banner de topo de categoria antes da trilha, colado no topo da seção. O
+catálogo não tem esse banner (sem conteúdo de CMS a origem também não o desenha). */
 .plp06Root {
   width: 100%;
-  padding: 24px 0 64px;
+  padding: 0px 0 64px;
   font-family: var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
   box-sizing: border-box;
 }
@@ -54,7 +57,9 @@ níveis; neutros por color-mix a partir do texto (nunca hex fixo). */
   max-width: 120rem;
   margin: 0 auto 12px;
   /* espaçamento até o título da PLP */
-  padding: 0 2rem;
+  padding: 24px 2rem 0;
+  /* as duas @container abaixo sobrescrevem o padding inteiro, então até 1247px a trilha
+  fica sem os 24px de cima — igual à origem */
   min-height: 19.34px;
   /* metrics PDP: breadcrumb06 h */
 }
@@ -796,24 +801,28 @@ Precisam vir DEPOIS de `.count` (mesma especificidade → vence a ordem no arqui
   /* metrics: card@1280 (lh 18.4) */
 }
 
+/* Foto em RETRATO 265/406 com `contain` sobre fundo #f6f6f6: a arte do produto entra
+inteira, sem corte, e o que sobra da caixa vira o fundo claro. A .imgWrap virou flex, então
+a <img> é item flex (bloco): o strut de baseline de ~4.4px da img inline deixou de existir. */
+
 .imgWrap {
-  display: block;
-  /* metrics: card-img-wrap@1280 */
+  display: flex;
+  align-items: center;
   width: 100%;
   position: relative;
   /* âncora da 2ª foto (hover) — não altera o layout da principal */
   overflow: hidden;
   /* recorta os slots vizinhos da pista do carrossel (.hoverTrack) */
+  background-color: #f6f6f6;
 }
 
 .cardImg {
   display: inline;
-  /* metrics: card-img@1280 (inline — baseline soma ~4.4 na zona) */
+  /* inline no CSS, mas bloco na prática: é item flex da .imgWrap */
   width: 100%;
   height: auto;
-  aspect-ratio: 1 / 1;
-  /* metrics: card-img@1280 (300×300) */
-  object-fit: cover;
+  aspect-ratio: 265 / 406;
+  object-fit: contain;
 }
 
 /* ── Foto revelada no hover ── */
@@ -826,16 +835,17 @@ Precisam vir DEPOIS de `.count` (mesma especificidade → vence a ordem no arqui
 
 .cardImgHover {
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 0;
   width: 100%;
   height: auto;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
+  aspect-ratio: 265 / 406;
+  object-fit: contain;
   opacity: 0;
   transition: opacity 0.35s ease;
   pointer-events: none;
   /* o clique continua sendo do <Link> embaixo */
+  transform: translateY(-50%);
 }
 
 /* Só onde existe hover real: em touch o `:hover` "cola" depois do toque e a 2ª foto */
@@ -861,7 +871,7 @@ Precisam vir DEPOIS de `.count` (mesma especificidade → vence a ordem no arqui
   left: 0;
   display: flex;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 265 / 406;
   opacity: 0;
   /* opacidade = revelar/esconder no hover; transform = o deslize entre as fotos */
   transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -875,14 +885,14 @@ Precisam vir DEPOIS de `.count` (mesma especificidade → vence a ordem no arqui
 
 .hoverSlide {
   flex: 0 0 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 265 / 406;
 }
 
 .hoverSlide img {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 @media (hover: hover) {
@@ -917,7 +927,7 @@ Precisam vir DEPOIS de `.count` (mesma especificidade → vence a ordem no arqui
   align-items: center;
   justify-content: center;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 265 / 406;
   background: #e0e0e0;
   opacity: 0.5;
 }
@@ -1118,32 +1128,30 @@ Precisam vir DEPOIS de `.count` (mesma especificidade → vence a ordem no arqui
 
 .wishlist {
   position: absolute;
-  top: 16px;
-  /* metrics: wishlist@1280 (top 16 da origem) */
-  right: 16px;
-  /* metrics: wishlist@1280 (right 16 da origem) */
+  /* a11y (PageSpeed "áreas de toque"): o Lighthouse mede o client rect do botão e */
+  /* ignora expansor em ::before — então o botão É a área de 44×44, com o coração */
+  /* de 21×18 centrado dentro. top/right recolocam o coração no mesmo ponto visual */
+  /* que o 21×18 em top/right 16 da origem (centro a 26.5 × 25 da quina). */
+  top: 3px;
+  right: 4px;
   box-sizing: border-box;
-  width: 21px;
-  /* metrics: wishlist@1280 (21×18) */
-  height: 18px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   border: 0;
   background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--shelf-wishlist-color, var(--text-primary-color, #212721));
   cursor: pointer;
-  /* a11y: alvo de toque do coração (21×18 é pequeno) sem alterar a caixa medida */
-}
-
-.wishlist::before {
-  content: '';
-  position: absolute;
-  inset: -14px;
 }
 
 .wishlist svg {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 21px;
+  /* metrics: wishlist@1280 (21×18) */
+  height: 18px;
 }
 
 /* ── Adicionar ao carrinho (canto inferior direito da imagem — SÓ mobile) ────── */
@@ -1391,8 +1399,8 @@ Precisam vir DEPOIS de `.count` (mesma especificidade → vence a ordem no arqui
   /* metrics: price@1280 (span "ou" 12/500, 13.3 de largura) */
   font-weight: 500;
   line-height: 13.8px;
-  color: rgb(130, 130, 130);
-  /* cinza estrutural da origem */
+  color: rgb(91, 91, 91);
+  /* cinza estrutural da origem; escureceu de rgb(130,130,130) por contraste (AA) */
 }
 
 .instRow {
@@ -1408,8 +1416,9 @@ Precisam vir DEPOIS de `.count` (mesma especificidade → vence a ordem no arqui
   /* metrics: raiz@1280 (parcelas 12/500 lh 13.8) */
   font-weight: 500;
   line-height: 13.8px;
-  color: rgb(130, 130, 130);
-  /* cinza estrutural da origem (isento da cadeia de tema) */
+  color: rgb(91, 91, 91);
+  /* cinza estrutural da origem (isento da cadeia de tema); era rgb(130,130,130) antes do */
+  /* ajuste de contraste (AA) */
 }
 
 /* a11y: respeita usuários com redução de movimento */

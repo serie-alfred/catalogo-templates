@@ -157,8 +157,10 @@ export default function ProductInfo() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [openAcc, setOpenAcc] = useState<number | null>(null);
 
-  const acordeaoMobile = [
-    { title: 'Descrição do produto', body: DESCRICAO.paragrafos.join('\n\n') },
+  // a descrição vai como PARÁGRAFOS (na origem, o HTML da API num <div>); os outros dois
+  // itens seguem texto com `\n`, num <p> com `pre-line`
+  const acordeaoMobile: Array<{ title: string; body?: string; paragrafos?: string[] }> = [
+    { title: 'Descrição do produto', paragrafos: DESCRICAO.paragrafos },
     {
       title: 'Composição e especificações',
       body: [
@@ -372,11 +374,14 @@ export default function ProductInfo() {
               <h2 className={styles.descTitle} data-role="desc-title">
                 {DESCRICAO.titulo}
               </h2>
-              {DESCRICAO.paragrafos.map((p, i) => (
-                <p key={i} className={styles.descP} data-role="desc-p">
-                  {p}
-                </p>
-              ))}
+              {/* UM `desc-p` com os parágrafos dentro, como na origem: lá a descrição é o
+                  HTML que a API entrega, injetado num bloco só. Os <p> internos não têm
+                  margem (o reset zera nos dois lados, e a origem não declara nenhuma). */}
+              <div className={styles.descP} data-role="desc-p">
+                {DESCRICAO.paragrafos.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
             </div>
             <div className={styles.specsCol} data-role="specs-col">
               <p className={styles.sectionEyebrow}>{ESPECIFICACOES.eyebrow}</p>
@@ -576,7 +581,14 @@ export default function ProductInfo() {
                     <p className={styles.mAccQ}>{a.title}</p>
                     <span className={styles.mAccToggle}>{openAcc === i ? '−' : '+'}</span>
                   </div>
-                  {openAcc === i && a.body && (
+                  {openAcc === i && a.paragrafos && (
+                    <div id={`pdp07-acc-panel-${i}`} className={styles.mAccBody} role="region">
+                      {a.paragrafos.map((p, j) => (
+                        <p key={j}>{p}</p>
+                      ))}
+                    </div>
+                  )}
+                  {openAcc === i && !a.paragrafos && a.body && (
                     <p id={`pdp07-acc-panel-${i}`} className={styles.mAccBody} role="region">
                       {a.body}
                     </p>
