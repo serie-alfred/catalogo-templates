@@ -153,7 +153,9 @@ r.ok('nenhuma thumb órfã em public/images/gerador', orfas.length === 0, orfas.
 //     próximo `yarn thumbs` escreveria productInfo/ProductInfo05.webp, que nenhum item
 //     lê, e a arte deixaria de ter origem registrada. O sentido inverso pega o mesmo
 //     buraco pelo outro lado: item `design` fora do mapa só continua `design` pelo
-//     cadeado do aplicar.mjs, sem dizer de qual arquivo a imagem saiu.
+//     cadeado do aplicar.mjs, sem dizer de qual arquivo a imagem saiu. E item do mapa
+//     marcado `auto` é arte do designer que o catálogo conta como pendência (e que o
+//     auto.mjs pularia de qualquer jeito, pelo outro cadeado).
 {
   const mapa = JSON.parse(
     fs.readFileSync(path.join(RAIZ, 'scripts/thumbs/mapa.json'), 'utf8')
@@ -164,12 +166,16 @@ r.ok('nenhuma thumb órfã em public/images/gerador', orfas.length === 0, orfas.
   const semOrigem = todos
     .filter(i => i.imageSource === 'design' && !doMapa.has(`${i.layoutKey}/${i.component}`))
     .map(i => `${i.layoutKey}/${i.component}`);
+  const naoDesign = todos
+    .filter(i => i.imageSource !== 'design' && doMapa.has(`${i.layoutKey}/${i.component}`))
+    .map(i => `${i.layoutKey}/${i.component} (${i.imageSource ?? 'sem imageSource'})`);
   r.ok(
     `mapa.json casa com o catálogo (${doMapa.size} artes de design)`,
-    semItem.length === 0 && semOrigem.length === 0,
+    semItem.length === 0 && semOrigem.length === 0 && naoDesign.length === 0,
     [
       semItem.length && `no mapa sem item no catálogo: ${semItem.join(', ')}`,
       semOrigem.length && `design sem arte no mapa: ${semOrigem.join(', ')}`,
+      naoDesign.length && `no mapa mas não design no catálogo: ${naoDesign.join(', ')}`,
     ]
       .filter(Boolean)
       .join(' | ')

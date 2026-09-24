@@ -824,9 +824,34 @@ export async function conferirAlertasDaApuracao(r) {
  *
  * `root` cai na mesma regra: espalhado no topo, um `Query` ali sobrescreve o
  * bloco que os outros resolvers montaram.
+ *
+ * As outras formas passam pelo mesmo `_insertSpread` do patcher, e cada uma
+ * falha em silêncio do seu jeito:
+ * - objeto `{ "Query": "x.Query" }`: cada par vira `...expr` no bloco. `{ "Query":
+ *   "x" }` é o `"Query"` de novo (Query.Query, o bug de 23/09 na outra grafia);
+ *   `x.Foo` sem `Foo` no export quebra o tsc do tema; `{ "Mutation": "x.Query" }`
+ *   põe a query no bloco errado.
+ * - `"QueryAndMutation"`: atalho para `{ Query: x.Query, Mutation: x.Mutation }`,
+ *   então num export só com `Query` o tsc do tema reprova (TS2339).
+ * - qualquer outro texto (`"Querys"`, ausente): o patcher não acha o bloco, avisa
+ *   no log e o resolver chega importado e NÃO registrado — a query responde null.
+ * E, sem spread do objeto inteiro, todo bloco de topo do export tem de ir para
+ * algum lugar: um `StoreProduct` que nenhum par leva some do tema.
  */
-const SPREAD_INTEIRO = new Set(['Query', 'Mutation', 'root']);
 const BLOCOS = ['Query', 'Mutation'];
+const DESTINOS = new Set(['Query', 'Mutation', 'root']);
+
+/** Os pares [bloco, expressão] que o `ResolverIndexPatcher._insertSpread` escreve. */
+function paresDoPatcher({ as, spread } = {}) {
+  if (spread && typeof spread === 'object') return Object.entries(spread);
+  if (spread === 'QueryAndMutation')
+    return [
+      ['Query', `${as}.Query`],
+      ['Mutation', `${as}.Mutation`],
+    ];
+  if (typeof spread === 'string' && DESTINOS.has(spread)) return [[spread, as]];
+  return null;
+}
 
 /** Chaves de topo do default export, ou null quando a forma não é legível daqui. */
 function chavesDoDefaultExport(ts, fonte) {
@@ -877,21 +902,46 @@ function chavesDoDefaultExport(ts, fonte) {
  */
 function problemaDeRegistro(ts, registration, fonte) {
   const spread = registration?.spread;
-  if (typeof spread !== 'string' || !SPREAD_INTEIRO.has(spread)) return null;
+  const pares = paresDoPatcher(registration);
+  if (!pares?.length)
+    return `spread ${JSON.stringify(spread)}: o patcher não acha esse bloco no resolvers/index.ts, e o resolver chega importado e não registrado`;
   const chaves = chavesDoDefaultExport(ts, fonte);
   if (!chaves)
-    return `spread "${spread}", e a forma do default export não é legível daqui`;
-  const blocos = BLOCOS.filter(b => chaves.includes(b));
-  if (!blocos.length) return null;
-  if (spread === 'root')
-    return `spread "root" com ${blocos.join('/')} no topo do default export: sobrescreve o bloco dos outros resolvers`;
-  const forma = Object.fromEntries(
-    blocos.map(b => [b, `${registration.as}.${b}`])
-  );
-  return (
-    `spread "${spread}" com ${blocos.join('/')} no topo do default export: ` +
-    `o tema recebe ${blocos.map(b => `${spread}.${b}`).join(' e ')}; use ${JSON.stringify(forma)}`
-  );
+    return `spread ${JSON.stringify(spread)}, e a forma do default export não é legível daqui`;
+  const cobertas = new Set();
+  let inteiro = false;
+  for (const [bloco, expr] of pares) {
+    if (!DESTINOS.has(bloco))
+      return `bloco "${bloco}": o patcher só acha Query, Mutation e root no resolvers/index.ts`;
+    const [raiz, sub, ...resto] = String(expr).split('.');
+    if (raiz !== registration.as || resto.length)
+      return `"${expr}" não é "${registration.as}" nem "${registration.as}.<bloco>"`;
+    if (sub === undefined) {
+      inteiro = true;
+      const blocos = BLOCOS.filter(b => chaves.includes(b));
+      if (!blocos.length) continue;
+      if (bloco === 'root')
+        return `"${expr}" espalhado no topo com ${blocos.join('/')} no default export: sobrescreve o bloco dos outros resolvers`;
+      const forma = Object.fromEntries(
+        blocos.map(b => [b, `${registration.as}.${b}`])
+      );
+      return (
+        `"${expr}" espalhado inteiro em ${bloco} com ${blocos.join('/')} no topo do default export: ` +
+        `o tema recebe ${blocos.map(b => `${bloco}.${b}`).join(' e ')}; use ${JSON.stringify(forma)}`
+      );
+    }
+    if (!chaves.includes(sub))
+      return `"${expr}": o default export não tem ${sub} no topo (${chaves.join(', ') || 'nenhuma chave'})`;
+    if (bloco !== 'root' && sub !== bloco)
+      return `"${expr}" vai para o bloco ${bloco}`;
+    cobertas.add(sub);
+  }
+  if (!inteiro) {
+    const soltas = chaves.filter(k => !cobertas.has(k));
+    if (soltas.length)
+      return `${soltas.join(', ')} no topo do default export não vai para bloco nenhum: some do tema`;
+  }
+  return null;
 }
 
 export async function conferirRegistroDeResolvers(r) {
@@ -912,13 +962,25 @@ export async function conferirRegistroDeResolvers(r) {
     ['Query', 'export default montar();', true],
     ['Query', 'const x = { getA: async () => null };\nexport default x;', false],
     [{ Query: 'x.Query' }, 'const x = { Query: {} };\nexport default x;', false],
+    // As formas que o patcher também escreve, e que até 24/09 passavam sem conferência.
+    [{ Query: 'x' }, 'const x = { Query: {} };\nexport default x;', true],
+    [{ Query: 'x.Query' }, 'const x = { getA: async () => null };\nexport default x;', true],
+    [{ Query: 'x.Query' }, 'export default montar();', true],
+    [{ Mutation: 'x.Query' }, 'const x = { Query: {}, Mutation: {} };\nexport default x;', true],
+    [{ Query: 'x.Query' }, 'const x = { Query: {}, Mutation: {} };\nexport default x;', true],
+    [{ StoreProduct: 'x.StoreProduct' }, 'const x = { StoreProduct: {} };\nexport default x;', true],
+    ['QueryAndMutation', 'const x = { Query: {} };\nexport default x;', true],
+    ['QueryAndMutation', 'const x = { Query: {}, Mutation: {} };\nexport default x;', false],
+    ['QueryAndMutation', 'const x = { Query: {}, Mutation: {}, StoreProduct: {} };\nexport default x;', true],
+    ['Querys', 'const x = { getA: async () => null };\nexport default x;', true],
+    [undefined, 'const x = { getA: async () => null };\nexport default x;', true],
   ];
   const trocados = casos.filter(
     ([spread, fonte, reprova]) =>
       !!problemaDeRegistro(ts, { as: 'x', spread }, fonte) !== reprova
   );
   r.ok(
-    'detector de registro: Query/Mutation no topo de um spread inteiro reprova, o resto passa',
+    `detector de registro: as ${casos.length} formas de spread do patcher reprovam onde o tema quebraria e passam onde não`,
     trocados.length === 0,
     trocados
       .map(([s, f]) => `${JSON.stringify(s)} ← ${f.replace(/\n/g, ' ')}`)
@@ -931,7 +993,8 @@ export async function conferirRegistroDeResolvers(r) {
   for (const [id, d] of lerManifests()) {
     if (d.type !== 'resolver') continue;
     total++;
-    if (SPREAD_INTEIRO.has(d.registration?.spread)) inteiros++;
+    if (paresDoPatcher(d.registration)?.some(([, e]) => !String(e).includes('.')))
+      inteiros++;
     const arquivo = ['index.ts', 'index.tsx']
       .map(f => path.join(d._dir, f))
       .find(f => fs.existsSync(f));
@@ -943,7 +1006,7 @@ export async function conferirRegistroDeResolvers(r) {
     if (problema) falhas.push(`${id}: ${problema}`);
   }
   r.ok(
-    `${total} resolvers, ${inteiros} com spread do objeto inteiro: nenhum traz Query/Mutation no topo`,
+    `${total} resolvers (${inteiros} com o objeto inteiro, ${total - inteiros} por bloco): todo registro vira um spread que o tema aceita`,
     falhas.length === 0,
     falhas.join(' | ')
   );
