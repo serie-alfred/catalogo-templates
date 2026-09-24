@@ -1,0 +1,1 @@
+Reconferido nos commits exatos, em clones limpos sem working tree de outra sessão (starter fe3cf8f + catálogo 5b8f611 + generator 5dab895): funil 1 com 3/3 estágios e 849/849 asserções. A mensagem diz 848/848 porque foi medida sobre as bases anteriores (starter 2af381f, catálogo d7cc1b5). O 59d9b13, que entrou por baixo, somou uma asserção.
