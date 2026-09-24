@@ -2,3 +2,10 @@ Correção da mensagem (24/09, 13:15), sem reescrever o histórico: 5b8f611 já 
 - Onde a mensagem diz "Montado sobre d7cc1b5", o pai real é 59d9b13. A sessão Harden commitou entre a mensagem e o update-ref, e o update-ref com o valor velho garantiu que nada se perdeu.
 - A rodada isolada foi refeita sobre o commit real (este + starter 8ab48eb): funil 1 849/849, tsc sem erro, ESLint limpo. O 848/848 da mensagem é da rodada anterior, sobre d7cc1b5 + o patch.
 - Uma das dependências listadas como sem commit já entrou: o .count do CategoryTitle06, no starter fe3cf8f (13:13).
+
+Atualização (24/09, ~13:25): as dependências da seção "Como mergear" já estão commitadas, locais e sem push:
+- starter 4fa5e0a: data-role do MainCategory06, ProductCard06 e PopupNews06;
+- starter 0a38a28: gallery.productGallery06;
+- starter fe3cf8f: .count do CategoryTitle06;
+- catálogo ae786b1: o data-role breadcrumb da réplica.
+Os arquivos que os 5 pares renderizam estão iguais ao HEAD nos dois repos. O que sobra sujo no catálogo é metadado de thumb no layoutData.ts, sem mexer em variablesSchema, e o 1-catalogo.mjs. Então o verde medido às 13:02–13:08 vale para o estado commitado: catálogo a partir de ae786b1 e starter a partir de 0a38a28.
