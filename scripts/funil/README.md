@@ -19,7 +19,7 @@ e o `yarn dev` de pé para os estágios 2 e 3. Saídas em `.funil/` (ignorada).
 
 | Estágio | O que prova | Precisa de |
 |---|---|---|
-| `1-catalogo` | chaves e ids únicos, registry casado, mock em disco, **origem real em `global-templates`** para todo item Tray/Wake, manifest para todo `path` VTEX | nada |
+| `1-catalogo` | chaves e ids únicos, registry casado, mock em disco, **origem real em `global-templates`** para todo item Tray/Wake, manifest para todo `path` VTEX, e o `registration.spread` de todo resolver casa com a forma do default export (espalhar o objeto inteiro com `Query` no topo dá `Query.Query` no tema, e o GraphQL inteiro dele responde 500) | nada |
 | `1-grafo` | todo `path` VTEX resolve no grafo de `manifest.json`, com o `AssetRegistry` e o `DependencyResolver` reais do generator, e todo `scss` declarado existe em `src/sass` | checkouts irmãos de `faststore.starter` e `produtos-template-generator` |
 | `1-variaveis` | toda `cssVar` do `variablesSchema` é consumida pelo CSS, e o `default` bate com o nível 3 do fallback encadeado | nada |
 | `2-fidelidade` | a réplica do catálogo bate com o componente real do starter. **Dois placares**: nó a nó por `data-role` (caixa e CSS, em repouso) e a **paleta** — cor e fonte de tema em todo nó, inclusive sem `data-role` e sob `:hover` (ver 2f abaixo) | dev server **e** o `yarn dev` do `faststore.starter` em :3000 |

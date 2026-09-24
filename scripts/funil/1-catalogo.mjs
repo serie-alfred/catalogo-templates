@@ -13,6 +13,7 @@ import {
   conferirParesCardVitrine,
   conferirScssPortavel,
   conferirAlertasDaApuracao,
+  conferirRegistroDeResolvers,
 } from './lib/contrato.mjs';
 import {
   RAIZ,
@@ -329,6 +330,11 @@ conferirScssPortavel(vtexPaths, r);
 //     Eu os conferi à mão uma vez, e essa conferência evaporou como qualquer
 //     coisa que só existe no terminal. Aqui elas rodam em toda execução.
 await conferirAlertasDaApuracao(r);
+
+// 15. todo resolver chega ao tema registrado do jeito que o default export pede.
+//     O `resolvers/index.ts` do starter é escrito à mão e nunca lê o
+//     `registration`; o do tema é escrito só a partir dele.
+await conferirRegistroDeResolvers(r);
 
 console.log(
   `  (${todos.length} itens em ${Object.keys(layouts).length} seções)`

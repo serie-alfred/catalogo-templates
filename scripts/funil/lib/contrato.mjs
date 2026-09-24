@@ -805,3 +805,147 @@ export async function conferirAlertasDaApuracao(r) {
     fonte ? 'guarda presente' : 'scripts/ensure-vtex-plugins.mjs não existe'
   );
 }
+
+/**
+ * O `registration.spread` de cada resolver casa com a FORMA do default export?
+ *
+ * O generator não importa o resolver: escreve texto no `resolvers/index.ts` do
+ * tema (ResolverIndexPatcher). `spread: "Query"` vira `Query: { ...x }` — o
+ * objeto INTEIRO entra no bloco. Se o default export já é `{ Query: {...} }`, o
+ * tema recebe `Query.Query`, e o `makeExecutableSchema` do core recusa o schema
+ * inteiro, não só aquele campo. Medido em 23/09/2026 com o `resolvers/trustvox`
+ * (assim desde 7f94e92): toda operação do `/api/graphql`, nativa ou não,
+ * respondia 500, e PDP e PLP também. O `yarn build` do tema passa — nenhuma
+ * página pré-renderizada chama o GraphQL — e só loga o erro no "Collecting page
+ * data".
+ *
+ * No starter isso não aparece: o `resolvers/index.ts` dele é escrito à mão
+ * (`...trustvoxResolver.Query`) e nunca lê o `registration`.
+ *
+ * `root` cai na mesma regra: espalhado no topo, um `Query` ali sobrescreve o
+ * bloco que os outros resolvers montaram.
+ */
+const SPREAD_INTEIRO = new Set(['Query', 'Mutation', 'root']);
+const BLOCOS = ['Query', 'Mutation'];
+
+/** Chaves de topo do default export, ou null quando a forma não é legível daqui. */
+function chavesDoDefaultExport(ts, fonte) {
+  const sf = ts.createSourceFile('resolver.ts', fonte, ts.ScriptTarget.Latest);
+  const locais = new Map();
+  let alvo = null;
+  for (const st of sf.statements) {
+    if (ts.isVariableStatement(st))
+      for (const d of st.declarationList.declarations)
+        if (ts.isIdentifier(d.name) && d.initializer)
+          locais.set(d.name.text, d.initializer);
+    if (ts.isExportAssignment(st) && !st.isExportEquals) alvo = st.expression;
+  }
+  const chavesDe = (expr, vistos) => {
+    while (
+      expr &&
+      (ts.isParenthesizedExpression(expr) ||
+        ts.isAsExpression(expr) ||
+        ts.isSatisfiesExpression(expr))
+    )
+      expr = expr.expression;
+    if (expr && ts.isIdentifier(expr)) {
+      if (vistos.has(expr.text) || !locais.has(expr.text)) return null;
+      return chavesDe(locais.get(expr.text), new Set([...vistos, expr.text]));
+    }
+    if (!expr || !ts.isObjectLiteralExpression(expr)) return null;
+    const chaves = [];
+    for (const p of expr.properties) {
+      if (ts.isSpreadAssignment(p)) {
+        const sub = chavesDe(p.expression, vistos);
+        if (!sub) return null;
+        chaves.push(...sub);
+      } else if (
+        p.name &&
+        (ts.isIdentifier(p.name) || ts.isStringLiteral(p.name))
+      ) {
+        chaves.push(p.name.text);
+      } else return null; // chave computada
+    }
+    return chaves;
+  };
+  return chavesDe(alvo, new Set());
+}
+
+/**
+ * Forma ilegível REPROVA: um detector que devolve "tudo certo" quando não
+ * entendeu o arquivo é o `ja-desligado` do MockGuard de novo.
+ */
+function problemaDeRegistro(ts, registration, fonte) {
+  const spread = registration?.spread;
+  if (typeof spread !== 'string' || !SPREAD_INTEIRO.has(spread)) return null;
+  const chaves = chavesDoDefaultExport(ts, fonte);
+  if (!chaves)
+    return `spread "${spread}", e a forma do default export não é legível daqui`;
+  const blocos = BLOCOS.filter(b => chaves.includes(b));
+  if (!blocos.length) return null;
+  if (spread === 'root')
+    return `spread "root" com ${blocos.join('/')} no topo do default export: sobrescreve o bloco dos outros resolvers`;
+  const forma = Object.fromEntries(
+    blocos.map(b => [b, `${registration.as}.${b}`])
+  );
+  return (
+    `spread "${spread}" com ${blocos.join('/')} no topo do default export: ` +
+    `o tema recebe ${blocos.map(b => `${spread}.${b}`).join(' e ')}; use ${JSON.stringify(forma)}`
+  );
+}
+
+export async function conferirRegistroDeResolvers(r) {
+  // Carregado aqui, não no topo: os estágios 3 e 5 importam este módulo e não
+  // precisam do parser.
+  const { default: ts } = await import('typescript');
+
+  // Autoteste: com o trustvox consertado nenhum resolver real passa pelo ramo
+  // que reprova, e a asserção abaixo ficaria verde sem nunca ter sido testada.
+  const casos = [
+    ['Query', 'const x = { Query: { a: () => 1 } };\nexport default x;', true],
+    ['Mutation', 'export default { Mutation: { m: () => 1 } };', true],
+    [
+      'root',
+      'const q = { Query: {} };\nconst x = { StoreProduct: {}, ...q };\nexport default x;',
+      true,
+    ],
+    ['Query', 'export default montar();', true],
+    ['Query', 'const x = { getA: async () => null };\nexport default x;', false],
+    [{ Query: 'x.Query' }, 'const x = { Query: {} };\nexport default x;', false],
+  ];
+  const trocados = casos.filter(
+    ([spread, fonte, reprova]) =>
+      !!problemaDeRegistro(ts, { as: 'x', spread }, fonte) !== reprova
+  );
+  r.ok(
+    'detector de registro: Query/Mutation no topo de um spread inteiro reprova, o resto passa',
+    trocados.length === 0,
+    trocados
+      .map(([s, f]) => `${JSON.stringify(s)} ← ${f.replace(/\n/g, ' ')}`)
+      .join(' | ')
+  );
+
+  const falhas = [];
+  let total = 0;
+  let inteiros = 0;
+  for (const [id, d] of lerManifests()) {
+    if (d.type !== 'resolver') continue;
+    total++;
+    if (SPREAD_INTEIRO.has(d.registration?.spread)) inteiros++;
+    const arquivo = ['index.ts', 'index.tsx']
+      .map(f => path.join(d._dir, f))
+      .find(f => fs.existsSync(f));
+    const problema = problemaDeRegistro(
+      ts,
+      d.registration,
+      arquivo ? fs.readFileSync(arquivo, 'utf8') : ''
+    );
+    if (problema) falhas.push(`${id}: ${problema}`);
+  }
+  r.ok(
+    `${total} resolvers, ${inteiros} com spread do objeto inteiro: nenhum traz Query/Mutation no topo`,
+    falhas.length === 0,
+    falhas.join(' | ')
+  );
+  return falhas;
+}
