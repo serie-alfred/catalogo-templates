@@ -69,11 +69,12 @@ const HeartIcon = () => (
 );
 
 /**
- * `overrides/ProductGallery06/ColumnToggle06` — os dois botões de densidade.
+ * `molecules/ColumnToggle06` — os dois botões de densidade.
  *
  * Divergência de IMPLEMENTAÇÃO em relação à origem, com o mesmo resultado no DOM:
- * lá o toggle é um override de slot e não alcança o estado da listagem, então
- * escreve `data-cols-06` imperativamente via `closest('[data-fs-product-listing]')`.
+ * lá o toggle é uma molécula que o MainCategory06 e o override ProductGallery06
+ * renderizam, sem acesso ao estado da listagem, então escreve `data-cols-06`
+ * imperativamente via `closest('[data-fs-product-listing]')`.
  * Aqui o CategoryMain é dono da árvore inteira, então o estado sobe para ele e o
  * atributo sai no JSX — o CSS que reage é exatamente o mesmo
  * (`[data-fs-product-listing][data-cols-06='less'] [data-fs-product-grid]`).
