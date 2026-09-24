@@ -15,14 +15,14 @@
   display: flex;
   justify-content: center;
   padding: 4rem 0;
-  /* Superfície BRANCA, sem nível 2. O nível 2 era `--background-tertiary-color`,
+  /* Superfície CLARA, sem nível 2. O nível 2 era `--background-tertiary-color`,
      que no tema padrão vale #000 — e o texto desta seção sai de
      `--text-primary-color` (#1a1a1a). Os dois não são par de contraste: medido no
      /gerador, esta seção renderizava preto sobre preto, ilegível (QA 16/09).
-     O nível 3 do próprio componente já era claro (#f6f6f6/#f2ede4), ou seja o
-     autor esperava superfície clara — quem contradizia era o token de marca.
+     Nível 3 é o cinza da origem (#f6f6f6, de volta desde 22/09 no lugar do
+     #ffffff); o `default` do schema acompanha.
      Nível 1 continua: quem quiser colorir a faixa usa a variável do componente. */
-  background: var(--categories-bg, #ffffff);
+  background: var(--categories-bg, #f6f6f6);
   margin-top: 4rem;
 
 }
