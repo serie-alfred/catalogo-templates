@@ -42,7 +42,7 @@
 }
 
 /* Serve as DUAS posições: a linha do título e a linha da trilha (quando
-   `countInBreadcrumb` está ligado, a contagem é injetada no <nav data-role="breadcrumb06">,
+   `countInBreadcrumb` está ligado, a contagem é injetada no <nav data-role="breadcrumb">,
    que é space-between). `flex-shrink: 0` + `nowrap` para não quebrar ao lado de trilhas
    longas no mobile. */
 .count {

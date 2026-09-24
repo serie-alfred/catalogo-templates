@@ -265,7 +265,7 @@ export default function CategoryMain() {
     /* wrapper só do catálogo: carrega o container-type das @container */
     <div className={styles.plp06Wrap}>
       <div className={`${styles.productGallery06} ${styles.plp06Root}`}>
-        <nav className={styles.breadcrumb06} aria-label="Trilha de navegação" data-role="breadcrumb06">
+        <nav className={styles.breadcrumb06} aria-label="Trilha de navegação" data-role="breadcrumb">
           <div className={styles.breadcrumb06Inner}>
             <a className={styles.crumbHome} href="/">Home</a>
             {TRILHA.map((c, i) => {

@@ -11,7 +11,7 @@ import styles from './index.module.css';
  * usar quando não há PLP no contexto.
  *
  * A origem tem DUAS cópias da contagem — uma para a linha da trilha (injetada
- * por portal no `[data-role="breadcrumb06"]`) e outra para a linha do título —
+ * por portal no `[data-role="breadcrumb"]`) e outra para a linha do título —
  * e o CSS escolhe qual aparece. Sem seção de trilha na página, a da trilha nem
  * chega a existir e a do título vale nos dois breakpoints: é esse o caso aqui.
  */
