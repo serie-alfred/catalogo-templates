@@ -224,6 +224,13 @@ deles dispensa asserção; todos fazem os dois lados ficarem comparáveis:
 6. **`soDesktop`** para o par cuja origem não renderiza no mobile (PopupNews06
    tem guarda `min-width: 1025px`) — e a saída DIZ que aquele par mede um
    viewport só.
+7. **Uma segunda leitura para o que o `data-role` não vê** (23/09). O back-port
+   `92aa66f` cravou `#fff` no sublinhado do `<a class=comprar>` do
+   BannerCarousel06 e o par seguiu 198/198: nó sem `data-role` e estilo de
+   `:hover` estavam fora do alcance. Agora, na mesma página, todo nó é lido duas
+   vezes — com a paleta-sonda e com uma segunda paleta — e o valor que não muda
+   entre elas está cravado; o `:hover` é emulado em toda regra. Placar próprio;
+   detalhe em `scripts/funil/README.md` (2f) e `lib/fidelidade-paleta.mjs`.
 
 > Componentes de templates **sem** `'VTEX'` em `platforms` (ex.: `Ruler02/04/05`,
 > `HomeCarousel06`, `ProductInfo02`, `BannerTripleSwiper05`) não têm `path` — são variantes

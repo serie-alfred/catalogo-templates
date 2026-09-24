@@ -22,7 +22,7 @@ e o `yarn dev` de pé para os estágios 2 e 3. Saídas em `.funil/` (ignorada).
 | `1-catalogo` | chaves e ids únicos, registry casado, mock em disco, **origem real em `global-templates`** para todo item Tray/Wake, manifest para todo `path` VTEX | nada |
 | `1-grafo` | todo `path` VTEX resolve no grafo de `manifest.json`, com o `AssetRegistry` e o `DependencyResolver` reais do generator, e todo `scss` declarado existe em `src/sass` | checkouts irmãos de `faststore.starter` e `produtos-template-generator` |
 | `1-variaveis` | toda `cssVar` do `variablesSchema` é consumida pelo CSS, e o `default` bate com o nível 3 do fallback encadeado | nada |
-| `2-fidelidade` | a réplica do catálogo bate com o componente real do starter | dev server **e** o `yarn dev` do `faststore.starter` em :3000 |
+| `2-fidelidade` | a réplica do catálogo bate com o componente real do starter. **Dois placares**: nó a nó por `data-role` (caixa e CSS, em repouso) e a **paleta** — cor e fonte de tema em todo nó, inclusive sem `data-role` e sob `:hover` (ver 2f abaixo) | dev server **e** o `yarn dev` do `faststore.starter` em :3000 |
 | `2-editor` | shell, canvas, painéis, atalhos, modal, troca de plataforma, fonte que não vaza no `:root`, contraste derivado | dev server |
 | `2-render` | **todo item do catálogo** monta sozinho, sem erro de console, com altura e conteúdo (`FUNIL_RENDER_NOVOS=1` reduz aos 23 do redesign) | dev server |
 | `2-edicao` | regras de negócio: singleton substitui, não-singleton coexiste, duplicar/remover, painel de variáveis, troca de plataforma | dev server |
@@ -91,6 +91,43 @@ A perna **editor → config** da *variável por componente* não é exercitada a
 painel de propriedades não expõe um seletor estável para dirigi-la. A perna
 **config → tema** é, no estágio 4 (`InjectComponentVariables` põe
 `--breadcrumb-text` dentro de `.breadcrumb` no SCSS gerado).
+
+## Estágio 2f — o que o `data-role` não vê
+
+A medição nó a nó só enxerga quem tem `data-role`, e só em repouso. O back-port `92aa66f`
+do starter (22/09) mostrou o custo: o sublinhado do `<a class=comprar>` do BannerCarousel06
+virou `#fff` cravado e o par seguiu **198/198**; o mesmo com o `.outer` do Categories06, o
+`.accordion`/`.sign` do TrustvoxReviews06 e três bordas de `:hover`. Uma sonda à mão achou.
+
+Por isso o estágio faz uma **segunda leitura na mesma página**, depois da primeira, com
+placar próprio (`N/M passam (paleta fora do [data-role] e sob :hover)` — o `funil.mjs`
+soma as duas linhas). Ela mora em `lib/fidelidade-paleta.mjs`:
+
+- **todo nó** da raiz do componente, com chave = `data-role`, senão o nome local da classe
+  de CSS module (`style_comprar__…` no starter, `BannerCarousel_comprar__…` aqui), senão a
+  do ancestral + a tag;
+- **só o que pinta**: cor e fonte onde há texto próprio, borda do lado visível, fundo,
+  sombra, degradê, `fill`/`stroke` de forma SVG, o `::placeholder` de campo;
+- **duas vezes**, com a paleta-sonda e com uma segunda paleta. O valor que muda entre as
+  duas acompanha o tema; o que não muda está cravado. Vira asserção onde algum lado
+  acompanha o tema, então `color-mix` com branco e sombra entram sem interpretar cor;
+- **de novo com `:hover` emulado** em toda regra (cópia de cada regra com `:hover`, o pseudo
+  trocado por um `:not()` de mesma especificidade), comparando só o que o hover mudou.
+
+**Provado em 23/09**: com o `#ffffff` do `.comprar` e o `rgba(33, 39, 33, 0.16)` do
+`.vejaLink:hover` re-cravados no starter, os placares deram `198/198` + `8/10` e
+`228/228` + `10/12`, e as divergências dizem onde:
+`.comprar · borderBottomColor "rgb(255, 255, 255) cravado" → "var(--banner-carousel-cta-color)"`.
+Na primeira rodada completa (25 pares, `9897/9897` + `1201/1203`) ela achou uma divergência
+real que ninguém via: a aba mobile do HelpFloatButton06 desenhava um balão com `stroke` na
+réplica, onde a origem tem o glifo com `fill` — os dois no mesmo token, então nenhum portão
+de variável acusava. A réplica passou a usar o glifo da origem.
+
+O que ela **não** vê: nó cuja chave só existe de um lado (peça nativa do FastStore contra
+classe da réplica — estrutura é assunto do `data-role`), cor dentro de SVG em data-URI,
+conteúdo portado para fora da raiz, e qualquer propriedade que não seja cor ou fonte. O
+`:hover` emulado é tudo pairado ao mesmo tempo, um superconjunto do real, e vale porque os
+dois lados recebem o mesmo.
 
 ## Por que quase toda falha do funil já foi do PRÓPRIO funil
 

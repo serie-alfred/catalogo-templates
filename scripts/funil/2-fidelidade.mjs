@@ -10,6 +10,10 @@
  * nó por `role + texto`, e afirma sobre a CAIXA (w/h/dx/dy relativos ao primeiro
  * nó visível). Caixa é a asserção; CSS é diagnóstico — com uma exceção, abaixo.
  *
+ * Isso deixa de fora o nó sem `data-role` e o `:hover`. Uma segunda leitura, na
+ * mesma página e com placar próprio, cobre os dois para cor e fonte da paleta:
+ * `lib/fidelidade-paleta.mjs`.
+ *
  * ── As três regras que a calibração exigiu (medidas em BenefitsStrip07) ──
  *
  * 1. NORMALIZA `letter-spacing` nos dois lados. O core do FastStore põe
@@ -32,6 +36,8 @@
  */
 import puppeteer from 'puppeteer-core';
 import { findChrome, BASE_URL, lerLayouts } from './lib/util.mjs';
+// A paleta fora do [data-role] e sob :hover — a segunda leitura, ver a lib.
+import { medirPaleta, compararPaleta } from './lib/fidelidade-paleta.mjs';
 
 const STARTER_URL = process.env.FUNIL_STARTER_URL ?? 'http://localhost:3000';
 const TOL = 0.5;
@@ -468,7 +474,10 @@ async function medirStarter(browser, comp, largura, altura, paleta) {
     await esperarImagens(p);
     await p.evaluate(normalizar, paleta);
     await s(200);
-    return await p.evaluate(medir, PROPS);
+    const nos = await p.evaluate(medir, PROPS);
+    // Depois do repouso, sempre: o `:hover` emulado reescreve as folhas.
+    const mapas = await medirPaleta(p, '[data-fidelity-stage]', paleta);
+    return { nos, mapas };
   } finally {
     await p.close();
   }
@@ -538,7 +547,8 @@ async function medirCatalogo(browser, par, mobile, paleta) {
       // A altura do scrollport vai junto porque a origem precisa medir DENTRO
       // dela — ver o comentário do laço.
       const altura = await f.evaluate(() => window.innerHeight);
-      return { nos, altura };
+      const mapas = await medirPaleta(f, '[data-section-uid]', paleta);
+      return { nos, altura, mapas };
     });
   } finally {
     await p.close();
@@ -617,6 +627,9 @@ const browser = await puppeteer.launch({
 
 const falhas = [];
 let total = 0;
+// Placar próprio da paleta: o de `data-role` continua comparável entre rodadas.
+const falhasPaleta = [];
+let totalPaleta = 0;
 try {
   // FIDELIDADE_SO=<Nome> roda um par só — é para iterar durante a migração.
   // O funil nunca seta a variável, então o placar dele continua vendo os N pares.
@@ -645,13 +658,18 @@ try {
       // janela da origem para 2400). Medir os dois na mesma altura faz o
       // grampo acontecer no mesmo lugar — sem dispensar asserção nenhuma.
       const paleta = { ...PALETA, ...paletaNivel1(par, LAYOUTS) };
-      const { nos: clone, altura } = await medirCatalogo(browser, par, mobile, paleta);
-      const origem = await medirStarter(browser, par.starter, largura, altura, paleta);
+      const { nos: clone, altura, mapas: mapasC } =
+        await medirCatalogo(browser, par, mobile, paleta);
+      const { nos: origem, mapas: mapasO } =
+        await medirStarter(browser, par.starter, largura, altura, paleta);
       const n = comparar(origem, clone, rotulo, falhas, par.textoLivre);
       total += n;
+      const np = compararPaleta(mapasO, mapasC, rotulo, falhasPaleta, paleta);
+      totalPaleta += np.repouso + np.hover;
       const nLivres = origem.filter(x => (par.textoLivre ?? []).includes(x.role)).length;
       console.log(
-        `  ${rotulo}: ${origem.length} nós · ${n} asserções${ 
+        `  ${rotulo}: ${origem.length} nós · ${n} asserções · paleta ${np.repouso + np.hover}${
+          np.hover ? ` (${np.hover} sob :hover)` : ''}${ 
           par.soDesktop ? ' (só desktop: a origem não renderiza no mobile)' : ''}${ 
           nLivres ? ` (${nLivres} com texto livre: geometria dispensada)` : ''}`
       );
@@ -667,5 +685,13 @@ if (falhas.length) {
   console.log(`\n  ${falhas.length} divergência(s):`);
   for (const f of falhas) console.log(`   ❌ ${f}`);
 }
+if (falhasPaleta.length) {
+  console.log(`\n  ${falhasPaleta.length} divergência(s) de paleta (fora do [data-role] ou sob :hover):`);
+  for (const f of falhasPaleta) console.log(`   ❌ ${f}`);
+}
 console.log(`  ${total - falhas.length}/${total} passam  (${pares.length} componente(s))`);
-process.exit(falhas.length ? 1 : 0);
+// Segundo placar na mesma forma: o funil.mjs soma toda linha `N/M passam`.
+console.log(
+  `  ${totalPaleta - falhasPaleta.length}/${totalPaleta} passam  (paleta fora do [data-role] e sob :hover)`
+);
+process.exit(falhas.length || falhasPaleta.length ? 1 : 0);
