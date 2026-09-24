@@ -375,8 +375,9 @@ export default function ProductInfo() {
                 {DESCRICAO.titulo}
               </h2>
               {/* UM `desc-p` com os parágrafos dentro, como na origem: lá a descrição é o
-                  HTML que a API entrega, injetado num bloco só. Os <p> internos não têm
-                  margem (o reset zera nos dois lados, e a origem não declara nenhuma). */}
+                  HTML que a API entrega, injetado num bloco só. O reset zera a margem dos
+                  <p> internos nos dois lados; os 16px entre eles vêm de `.descP p + p`,
+                  declarado igual aqui e no starter. */}
               <div className={styles.descP} data-role="desc-p">
                 {DESCRICAO.paragrafos.map((p, i) => (
                   <p key={i}>{p}</p>

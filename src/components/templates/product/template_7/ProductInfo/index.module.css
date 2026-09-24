@@ -574,6 +574,13 @@ sem url → gradiente-placeholder do container */
   margin-bottom: 15px;
 }
 
+/* A descrição chega em HTML, parágrafos num bloco só, e o reset zera a margem do <p>:
+   eles saíam colados. 16px é o espaço de quando cada parágrafo era um bloco próprio.
+   Espelha o ProductDetails07 do starter. */
+.descP p + p {
+  margin-top: 16px;
+}
+
 .specsGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
