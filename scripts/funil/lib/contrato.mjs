@@ -417,6 +417,16 @@ const existeModulo = abs =>
  * sem manifest são legítimos: `src/constants` (o AddConstant reconcilia) e
  * `src/sass`, que viaja por `dependencies.scss` — e por isso é conferido contra
  * ela.
+ *
+ * Declarar o dono não basta quando o dono é um override. O generator ACHATA
+ * `overrides/<Nome><NN>/`: o index e os irmãos vão soltos para `overrides/`, a
+ * pasta deixa de existir no tema, e só os imports dos arquivos do próprio
+ * override são reescritos. Quem aponta para dentro dela de fora fica com um
+ * caminho que o tema não tem. Foi assim que o `MainCategory06` — que importava
+ * o `ColumnToggle06` de `overrides/ProductGallery06/` desde 58dc5fe
+ * (29/07/2026), com o override declarado — deixou todo tema com ele sem
+ * compilar, e esta checagem verde. Peça que mais alguém usa vira asset próprio
+ * (`molecules/ColumnToggle06`).
  */
 export function conferirImports(paths, r) {
   const manifests = lerManifests();
@@ -442,6 +452,7 @@ export function conferirImports(paths, r) {
     for (const id of fechoCompleto(p, manifests)) alcance.add(id);
 
   const falhas = new Set();
+  const dentroDeOverride = new Set();
   for (const id of alcance) {
     const d = manifests.get(id);
     if (!d) continue;
@@ -454,6 +465,9 @@ export function conferirImports(paths, r) {
         const alvo = path.normalize(path.resolve(path.dirname(f), imp));
         const dono = donoDe(alvo);
         if (dono) {
+          // `type`, não o prefixo do id: é por ele que o BuildPipeline decide achatar
+          if (dono !== id && manifests.get(dono).type === 'override')
+            dentroDeOverride.add(`${id} importa src/${path.relative(SRC, alvo)}`);
           if (dono !== id && !fecho.has(dono))
             falhas.add(`${id} importa ${dono} sem declarar`);
           continue;
@@ -477,7 +491,12 @@ export function conferirImports(paths, r) {
     falhas.size === 0,
     [...falhas].join(' | ')
   );
-  return [...falhas];
+  r.ok(
+    'nenhum asset importa de dentro da pasta de um override (o achatamento a apaga no tema)',
+    dentroDeOverride.size === 0,
+    [...dentroDeOverride].join(' | ')
+  );
+  return [...falhas, ...dentroDeOverride];
 }
 
 /**
