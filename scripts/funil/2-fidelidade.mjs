@@ -36,95 +36,13 @@
  */
 import puppeteer from 'puppeteer-core';
 import { findChrome, BASE_URL, lerLayouts } from './lib/util.mjs';
+// Os pares moram na lib porque o estágio 1 também os confere.
+import { PARES } from './lib/fidelidade.mjs';
 // A paleta fora do [data-role] e sob :hover — a segunda leitura, ver a lib.
 import { medirPaleta, compararPaleta } from './lib/fidelidade-paleta.mjs';
 
 const STARTER_URL = process.env.FUNIL_STARTER_URL ?? 'http://localhost:3000';
 const TOL = 0.5;
-
-/**
- * Os pares cobertos. Só entra aqui componente migrado com o contrato de
- * `data-role` espelhado dos dois lados — os migrados antes deste portão não têm
- * `data-role` no catálogo e ficam sem cobertura até serem revisitados.
- */
-/**
- * `textoLivre`: papéis cujo TEXTO diverge POR CONTRATO entre os dois lados.
- *
- * O `/from-faststore` proíbe trazer o wordmark da marca de origem para o
- * catálogo — o preview é público e mostra o logo do usuário (`useLayout()`)
- * com fallback "SERIE//A". Então `brand-name` é o wordmark da marca na origem e
- * "SERIE//A" aqui, de propósito.
- *
- * A mesma regra vale para o NOME DA MARCA dentro do conteúdo: o mock da origem
- * diz "Clube VIP <marca>" e "curadoria <marca>" porque o starter é o repo
- * do componente daquele cliente; o catálogo é um produto público e não pode
- * exibir a marca de um cliente para outro.
- *
- * Esses nós são casados por papel + ordem (não por texto) e têm a GEOMETRIA
- * dispensada — largura de texto diferente é a consequência esperada de texto
- * diferente. O que continua valendo: eles existem nos dois lados, na mesma
- * quantidade, e as propriedades de CSS que o nó possui batem.
- */
-export const PARES = [
-  { starter: 'BenefitsStrip07', id: '03', layoutKey: 'ruler', pagina: 'home' },
-  {
-    starter: 'SocialProof07',
-    id: '07',
-    layoutKey: 'review',
-    pagina: 'home',
-    textoLivre: ['sp-subtitle'],
-  },
-  { starter: 'EditorialBanner07', id: '07', layoutKey: 'bannerSideLeft', pagina: 'home' },
-  { starter: 'Categories07', id: '07', layoutKey: 'categories', pagina: 'home' },
-  { starter: 'BannerSide06', id: '06', layoutKey: 'bannerSide', pagina: 'home' },
-  { starter: 'BannerMain07', id: '07', layoutKey: 'banner', pagina: 'home' },
-  { starter: 'ShopByRoom07', id: '07', layoutKey: 'rooms', pagina: 'home' },
-  {
-    starter: 'Newsletter07',
-    id: '07',
-    layoutKey: 'newsletter',
-    pagina: 'home',
-    textoLivre: ['nl-eyebrow'],
-  },
-  { starter: 'Categories06', id: '06', layoutKey: 'buySize', pagina: 'home' },
-  { starter: 'HelpFloatButton06', id: '06', layoutKey: 'helpFloat', pagina: 'home' },
-  { starter: 'BannerGrid06', id: '06', layoutKey: 'grid', pagina: 'home' },
-  { starter: 'BannerCarousel06', id: '06', layoutKey: 'productLines', pagina: 'home' },
-  { starter: 'ProductDescriptionBanner01', id: '01', layoutKey: 'productBanner', pagina: 'product' },
-  { starter: 'CategoryTitle06', id: '06', layoutKey: 'categoryTitle', pagina: 'category' },
-  { starter: 'MainCategory06', id: '06', layoutKey: 'categoryMain', pagina: 'category' },
-  { starter: 'CategorySeoFaq06', id: '06', layoutKey: 'categoryDescription', pagina: 'category' },
-  { starter: 'TrustvoxReviews06', id: '06', layoutKey: 'productReviews', pagina: 'product' },
-  { starter: 'CategoryTabs06', id: '06', layoutKey: 'categoryTabs', pagina: 'home' },
-  // `soDesktop`: a origem tem um guarda `min-width: 1025px` e NÃO renderiza nada
-  // abaixo disso — medir o mobile seria comparar vazio com vazio, e a espera por
-  // conteúdo do clone estouraria os 90s. O portão diz na saída que esse par mede
-  // um viewport só, para ninguém ler 1 componente como 2 viewports.
-  { starter: 'PopupNews06', id: '06', layoutKey: 'popupNews', pagina: 'home', soDesktop: true },
-  { starter: 'MainCategory07', id: '07', layoutKey: 'categoryMain', pagina: 'category' },
-  { starter: 'ProductDetails07', id: '04', layoutKey: 'productInfo', pagina: 'product' },
-  { starter: 'ProductDetails06', id: '05', layoutKey: 'productInfo', pagina: 'product' },
-  { starter: 'ProductDetails03', id: '07', layoutKey: 'productInfo', pagina: 'product' },
-  {
-    starter: 'Header07',
-    id: '07',
-    layoutKey: 'header',
-    pagina: 'common',
-    // `m-topbar-msg` entra aqui não por marca, mas por RODÍZIO: a barra de
-    // avisos troca de mensagem num timer, e os dois lados montam em instantes
-    // diferentes — a origem mostrava "Frete grátis…" e o clone "Mais de 100
-    // mil ambientes…". Passou verde por sorte até a espera de imagens deslocar
-    // as fases. Por ordinal, o papel continua sendo comparado em estilo.
-    textoLivre: ['brand-name', 'm-brand-name', 'm-topbar-msg'],
-  },
-  {
-    starter: 'Footer07',
-    id: '07',
-    layoutKey: 'footer',
-    pagina: 'common',
-    textoLivre: ['brand-name', 'm-brand-name', 'copyright', 'm-copyright', 'nl-eyebrow'],
-  },
-];
 
 /** Propriedades que valem asserção quando o nó as possui. */
 const PROPS = [
@@ -627,6 +545,7 @@ const browser = await puppeteer.launch({
 
 const falhas = [];
 let total = 0;
+let naoMedidas = 0;
 // Placar próprio da paleta: o de `data-role` continua comparável entre rodadas.
 const falhasPaleta = [];
 let totalPaleta = 0;
@@ -649,30 +568,44 @@ try {
       : [['desktop', 1440, false], ['mobile', 375, true]];
     for (const [rot, largura, mobile] of telas) {
       const rotulo = `${par.starter}/${rot}`;
-      // O CLONE mede primeiro porque é ele quem define a altura do scrollport:
-      // o editor dá ao iframe uma altura própria (1104px na PDP), e a origem
-      // media numa janela de altura fixa. Para `position: sticky`, isso não é
-      // detalhe — o `.mStickyCta` do ProductDetails07 ficava GRAMPEADO no
-      // rodapé de um scrollport e em posição de fluxo no outro, e a mesma regra
-      // idêntica dos dois lados dava 104px de diferença (768px quando subi a
-      // janela da origem para 2400). Medir os dois na mesma altura faz o
-      // grampo acontecer no mesmo lugar — sem dispensar asserção nenhuma.
-      const paleta = { ...PALETA, ...paletaNivel1(par, LAYOUTS) };
-      const { nos: clone, altura, mapas: mapasC } =
-        await medirCatalogo(browser, par, mobile, paleta);
-      const { nos: origem, mapas: mapasO } =
-        await medirStarter(browser, par.starter, largura, altura, paleta);
-      const n = comparar(origem, clone, rotulo, falhas, par.textoLivre);
-      total += n;
-      const np = compararPaleta(mapasO, mapasC, rotulo, falhasPaleta, paleta);
-      totalPaleta += np.repouso + np.hover;
-      const nLivres = origem.filter(x => (par.textoLivre ?? []).includes(x.role)).length;
-      console.log(
-        `  ${rotulo}: ${origem.length} nós · ${n} asserções · paleta ${np.repouso + np.hover}${
-          np.hover ? ` (${np.hover} sob :hover)` : ''}${ 
-          par.soDesktop ? ' (só desktop: a origem não renderiza no mobile)' : ''}${ 
-          nLivres ? ` (${nLivres} com texto livre: geometria dispensada)` : ''}`
-      );
+      // Um par que estoura é falha DAQUELE par: vira divergência e o laço
+      // segue. Sem isto a exceção subia até o `finally` e levava os pares
+      // seguintes junto — foi assim que o id renumerado do BenefitsStrip07
+      // (63f0c6d), o par nº 1, escondeu os outros 24 atrás de "o canvas não
+      // pintou nenhum [data-role]". Conta como UMA asserção reprovada: sem ela,
+      // um lote em que todos estouram imprimiria `-50/0 passam`.
+      try {
+        // O CLONE mede primeiro porque é ele quem define a altura do scrollport:
+        // o editor dá ao iframe uma altura própria (1104px na PDP), e a origem
+        // media numa janela de altura fixa. Para `position: sticky`, isso não é
+        // detalhe — o `.mStickyCta` do ProductDetails07 ficava GRAMPEADO no
+        // rodapé de um scrollport e em posição de fluxo no outro, e a mesma regra
+        // idêntica dos dois lados dava 104px de diferença (768px quando subi a
+        // janela da origem para 2400). Medir os dois na mesma altura faz o
+        // grampo acontecer no mesmo lugar — sem dispensar asserção nenhuma.
+        const paleta = { ...PALETA, ...paletaNivel1(par, LAYOUTS) };
+        const { nos: clone, altura, mapas: mapasC } =
+          await medirCatalogo(browser, par, mobile, paleta);
+        const { nos: origem, mapas: mapasO } =
+          await medirStarter(browser, par.starter, largura, altura, paleta);
+        const n = comparar(origem, clone, rotulo, falhas, par.textoLivre);
+        total += n;
+        const np = compararPaleta(mapasO, mapasC, rotulo, falhasPaleta, paleta);
+        totalPaleta += np.repouso + np.hover;
+        const nLivres = origem.filter(x => (par.textoLivre ?? []).includes(x.role)).length;
+        console.log(
+          `  ${rotulo}: ${origem.length} nós · ${n} asserções · paleta ${np.repouso + np.hover}${
+            np.hover ? ` (${np.hover} sob :hover)` : ''}${
+            par.soDesktop ? ' (só desktop: a origem não renderiza no mobile)' : ''}${
+            nLivres ? ` (${nLivres} com texto livre: geometria dispensada)` : ''}`
+        );
+      } catch (e) {
+        total++;
+        naoMedidas++;
+        const motivo = String(e?.message ?? e).split('\n')[0];
+        falhas.push(`${rotulo}: não mediu — ${motivo}`);
+        console.log(`  ${rotulo}: não mediu — ${motivo}`);
+      }
     }
   }
 } finally {
@@ -689,7 +622,10 @@ if (falhasPaleta.length) {
   console.log(`\n  ${falhasPaleta.length} divergência(s) de paleta (fora do [data-role] ou sob :hover):`);
   for (const f of falhasPaleta) console.log(`   ❌ ${f}`);
 }
-console.log(`  ${total - falhas.length}/${total} passam  (${pares.length} componente(s))`);
+console.log(
+  `  ${total - falhas.length}/${total} passam  (${pares.length} componente(s)${
+    naoMedidas ? `; ${naoMedidas} tela(s) não medida(s)` : ''})`
+);
 // Segundo placar na mesma forma: o funil.mjs soma toda linha `N/M passam`.
 console.log(
   `  ${totalPaleta - falhasPaleta.length}/${totalPaleta} passam  (paleta fora do [data-role] e sob :hover)`

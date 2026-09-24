@@ -22,7 +22,8 @@ Rodar `/from-faststore <Nome>` já implica, por padrão, sem o dev pedir:
    especializada"); **razão social e CNPJ** → `Sua Loja Ltda` / `00.000.000/0001-00`;
    **URL de CDN de cliente** → `placehold.co`; **`description`/`title` do `LayoutItem`** →
    descreve o DESENHO, nunca de quem ele é. Os papéis afetados entram no `textoLivre` do par
-   no `2-fidelidade` — é divergência deliberada, e o portão precisa saber disso.
+   (os `PARES` do `2-fidelidade`, em `scripts/funil/lib/fidelidade.mjs`) — é divergência
+   deliberada, e o portão precisa saber disso.
 8. **Logo nunca fixo.** Se o componente migrado (Header/Footer) tem logo da marca de origem (SVG inline, `<img>` com src fixo, wordmark hardcoded), **NÃO** traga esse logo para o preview. Troque por logo dinâmico via `useLayout()`, com fallback de texto fixo `"SERIE//A"` — exatamente o esquema de `Header01`/`Header03`/`Header04` (passo 3).
 
 Decisões que **continuam exigindo o dev** (pergunte, não invente): zona temável com valor cru/token interno (passo 1, "quando PARAR"); `selection`/`pagina` quando o nome não casa a tabela (passo 2); `platforms` além de `'VTEX'`.

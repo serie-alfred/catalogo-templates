@@ -81,7 +81,7 @@ Exemplo: o item `component: "Showcase01"` tem `path: "organisms/ProductShelfCust
 | `CategoryMain01` | `category/template_1/CategoryMain` | `organisms/MainCategory01` | **sim** (filtros) |
 | `CategoryDescription01` | `category/.../CategoryDescription` | `organisms/DescriptionCategory01` | — |
 | `ProductDescription01` | `product/.../ProductDescription` | `molecules/ProductDescription01` | — |
-| `ProductInfo01` | `product/template_1/ProductInfo` | `molecules/ProductInfo01` (galeria: `molecules/ProductGallery01`) | **sim** (galeria) |
+| `ProductInfo01` | `product/template_1/ProductInfo` | `organisms/ProductDetails01` (compõe `molecules/ProductInfo01` + `molecules/ProductGallery01`) | **sim** (galeria) |
 | `ProductInfo03` | `product/template_3/ProductInfo` | `organisms/ProductDetails02` (galeria embutida, não é componente à parte) | **sim** (galeria) |
 | `ProductRelated01` | `product/template_1/ProductRelated` | `organisms/ProductShowcase01` | **sim** |
 
@@ -90,7 +90,7 @@ do funil, desktop e mobile):
 
 | Catálogo (`component`) | Pasta no catálogo | `path` → `faststore.starter/src/components/…` | Swiper? |
 |---|---|---|---|
-| `Ruler03` | `home/template_3/Ruler` | `molecules/BenefitsStrip07` | — |
+| `Ruler07` | `home/template_7/Ruler` | `molecules/BenefitsStrip07` | — |
 | `ClientReview07` | `home/template_7/ClientReview` | `molecules/SocialProof07` | — |
 | `BannerSoloLeft07` | `home/template_7/BannerSoloLeft` | `molecules/EditorialBanner07` | — |
 | `Categories07` | `home/template_7/Categories` | `molecules/Categories07` | — |
@@ -117,9 +117,15 @@ do funil, desktop e mobile):
 | `CategoryMain07` | `category/template_7/CategoryMain` | `organisms/MainCategory07` | — |
 | `ProductReviews06` | `product/template_6/ProductReviews` | `organisms/TrustvoxReviews06` | — |
 | `ProductInfo01` (repontado) | `product/template_1/ProductInfo` | `organisms/ProductDetails01` | **sim** (galeria) |
-| `ProductInfo04` | `product/template_4/ProductInfo` | `organisms/ProductDetails07` | — |
-| `ProductInfo05` | `product/template_5/ProductInfo` | `organisms/ProductDetails06` | **sim** |
-| `ProductInfo07` | `product/template_7/ProductInfo` | `organisms/ProductDetails03` | **sim** (mobile) |
+| `ProductInfo04` | `product/template_4/ProductInfo` | `organisms/ProductDetails03` | **sim** (mobile) |
+| `ProductInfo06` | `product/template_6/ProductInfo` | `organisms/ProductDetails06` | **sim** |
+| `ProductInfo07` | `product/template_7/ProductInfo` | `organisms/ProductDetails07` | — |
+
+> **Renumeração de 22/09 (`63f0c6d`).** As tabelas acima usam os nomes de hoje: `Ruler03`
+> virou `Ruler07` (pasta `template_7`), `ProductInfo05` virou `ProductInfo06`, e
+> `ProductInfo04`/`ProductInfo07` trocaram de par — o 07 agora replica o `ProductDetails07`.
+> O `2-fidelidade` endereça cada réplica por `layoutKey/id`, então o estágio 1 do funil
+> confere que o `path` de cada par termina no componente que ele mede.
 
 `Header07` e `Footer07` entraram na mesma leva: os itens já existiam, mas
 apontavam para `Header06`/`Footer06` — o preview mostrava um componente e o tema

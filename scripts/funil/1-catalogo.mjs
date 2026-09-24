@@ -23,6 +23,7 @@ import {
   itens,
   relatorio,
 } from './lib/util.mjs';
+import { conferirParesDeFidelidade } from './lib/fidelidade.mjs';
 
 const r = relatorio('Estágio 1 — catálogo íntegro');
 
@@ -302,6 +303,12 @@ r.ok(
   semManifest.length === 0,
   semManifest.join(', ')
 );
+
+// 8b. todo par do `2-fidelidade` aponta para a réplica do componente que mede.
+//     Renumerar um item não avisa o par: o 63f0c6d renumerou quatro, e o estágio
+//     de fidelidade morreu no primeiro par com um erro de canvas que não dizia
+//     nada — ou, na troca 04↔07, mediu cada PDP contra a réplica da outra.
+conferirParesDeFidelidade(layouts, r);
 
 // 9. cada componente VTEX se sustenta sozinho no tema gerado. O starter tem os
 //    quatro fragments em disco e sempre compila; o tema só recebe o que está
