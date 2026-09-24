@@ -43,6 +43,15 @@ spot. Só assim a **substituição de spot** é exercitada: ela é um
 `replaceAll('ProductCard06','ProductCard01')` sobre todo arquivo de texto do
 asset, e num tema de família única não há o que trocar.
 
+Ele também põe **cor por componente** no config, como sai de um export real
+(o `pickChangedVariables` grava toda variável que o cliente mexeu): um bloco
+`variables` num componente comum e num override, com os nomes do
+`variablesSchema` do catálogo e valores-marcador. Depois confere que cada
+marcador chegou ao SCSS do tema (o componente na própria pasta, o override em
+`src/sass/`). O config coerente não traz `variables`, e foi assim que o VALIDATE
+do generator reprovou todo componente não-override com cor escolhida de 08/09 a
+23/09 ("destino disputado por duas origens") sem este estágio perceber.
+
 O `config.json` do generator é versionado — o estágio guarda e devolve, inclusive
 se algo estourar no meio.
 

@@ -11,7 +11,13 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
-import { GENERATOR, FASTSTORE_STARTER, SAIDA, relatorio } from './lib/util.mjs';
+import {
+  GENERATOR,
+  FASTSTORE_STARTER,
+  SAIDA,
+  itens,
+  relatorio,
+} from './lib/util.mjs';
 
 const r = relatorio('Estágio 4 — tema FastStore montado');
 const CONFIG_VIVO = path.join(GENERATOR, 'src/config/config.json');
@@ -87,6 +93,55 @@ r.ok(
   Boolean(vitrine),
   'o config coerente não trazia a ProductShelfCustom01'
 );
+
+// Cor por componente, como num export real: o `pickChangedVariables` grava no
+// config toda variável que o cliente mexeu, e o config coerente não traz
+// nenhuma. Foi assim que este estágio passou verde enquanto o VALIDATE do
+// generator reprovava TODO componente não-override com `variables` ("destino
+// disputado por duas origens", de 0936789 a 23/09): o primeiro config de
+// cliente morreria ali. Uma entrada por caminho de injeção: o componente cuja
+// pasta é copiada, e o override, achatado num .tsx com o SCSS solto em
+// src/sass/. Os nomes saem do `variablesSchema` do catálogo, que é o contrato,
+// e cada valor é um marcador que nenhum SCSS do starter tem.
+const catalogoVtex = itens().filter(i => i.platforms?.includes('VTEX'));
+const coresDe = e =>
+  (
+    catalogoVtex.find(i => i.key === e.key && i.path === e.component)
+      ?.variablesSchema ?? []
+  ).filter(v => v.type === 'color');
+const entradas = Object.values(config.faststore).filter(Array.isArray).flat();
+// Cópia duplicada com `variables` divergentes é outro assunto (um SCSS por
+// componente, ver o aviso do VALIDATE): o alvo tem de aparecer uma vez só.
+const unico = e =>
+  entradas.filter(x => x.component === e.component).length === 1;
+const alvo = override =>
+  entradas.find(
+    e =>
+      e.component?.startsWith('overrides/') === override &&
+      unico(e) &&
+      coresDe(e).length > 0
+  );
+const comCor = [alvo(false), alvo(true)];
+let marcador = 0;
+for (const e of comCor.filter(Boolean)) {
+  e.variables = Object.fromEntries(
+    coresDe(e).map(v => [
+      v.cssVar,
+      `#0f0f${String(++marcador).padStart(2, '0')}`,
+    ])
+  );
+}
+r.ok(
+  `variables num componente não-override (${comCor[0]?.component ?? '—'})`,
+  Boolean(comCor[0]),
+  'nenhuma entrada não-override do config tem cor no variablesSchema'
+);
+r.ok(
+  `variables num override (${comCor[1]?.component ?? '—'})`,
+  Boolean(comCor[1]),
+  'nenhum override do config tem cor no variablesSchema'
+);
+
 fs.writeFileSync(
   `${SAIDA}/config-VTEX-cruzado.json`,
   JSON.stringify(config, null, 2)
@@ -164,6 +219,41 @@ r.ok(
   semOverride.length === 0,
   semOverride.join(', ')
 );
+
+// As `variables` de cada alvo chegaram ao SCSS do tema: o componente na própria
+// pasta, o override em src/sass/. VALIDATE que reprova já derruba o estágio lá
+// em cima; isto pega o outro jeito de perder a cor do cliente, que é o plano
+// sair sem a injeção ou a injeção cair fora do SCSS do componente.
+const scssEm = dir =>
+  fs.existsSync(dir)
+    ? fs
+        .readdirSync(dir, { recursive: true })
+        .filter(f => f.endsWith('.scss'))
+        .map(f => path.join(dir, f))
+    : [];
+for (const e of comCor.filter(Boolean)) {
+  const onde = e.component.startsWith('overrides/')
+    ? 'src/sass'
+    : path.join('src/components', e.component);
+  const fontes = scssEm(path.join(TEMA, onde)).map(f => ({
+    arquivo: path.relative(TEMA, f),
+    css: fs.readFileSync(f, 'utf8'),
+  }));
+  const declaracoes = Object.entries(e.variables).map(
+    ([k, v]) => `${k}: ${v};`
+  );
+  const faltam = declaracoes.filter(
+    d => !fontes.some(({ css }) => css.includes(d))
+  );
+  const ondeCaiu = fontes
+    .filter(({ css }) => declaracoes.some(d => css.includes(d)))
+    .map(({ arquivo }) => arquivo);
+  r.ok(
+    `variables de ${e.component} no SCSS do tema (${ondeCaiu.join(', ') || onde})`,
+    faltam.length === 0,
+    `faltam em ${onde}: ${faltam.join(' ')}`
+  );
+}
 
 // Fragments: a pasta de origem só tem manifest, o código é flat. Antes do
 // conserto do `fragmentFile` isto morria com ENOENT e derrubava o build inteiro.
