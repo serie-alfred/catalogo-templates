@@ -95,25 +95,42 @@ sobrevive como rede.
 
 `imageSource` diz de onde a imagem veio, e é a **lista de pendências do designer**:
 
-- `design` (32) — mockup entregue pelo designer. Só existe para as famílias 1, 2 e 5, que são as
-  únicas com arte. Os mockups **não são versionados** (~40 MB de JPG);
-  `scripts/thumbs/mapa.json` guarda o pareamento e o caminho da origem.
-- `auto` (58) — screenshot do componente real, tirado por `scripts/thumbs/auto.mjs`. Vale como
+- `design` (56) — mockup entregue pelo designer: as pastas V1–V3 (famílias 1, 2 e 5) e o `Lote2`
+  de 23/09/2026 (famílias 1, 3, 4, 5, 6 e 7). Os mockups **não são versionados** (~80 MB de JPG e
+  PNG); `scripts/thumbs/mapa.json` guarda o pareamento e o caminho da origem.
+- `auto` (34) — screenshot do componente real, tirado por `scripts/thumbs/auto.mjs`. Vale como
   "ainda não veio do design". Não tenta imitar o estilo do mockup de propósito: um "quase igual"
   apagaria a distinção que este campo existe para manter.
 
-`yarn thumbs` regera tudo (o estágio `auto` precisa de `yarn dev` de pé). **Duas travas impedem
+**O pareamento arte→componente se prova pelo texto, não pela semelhança.** Os arquivos chegam
+com nome genérico (`Base-N.jpg`, `ChatGPT Image … .png`); o que liga cada um ao componente é um
+texto de mock que só existe num lugar — `'Produto de Exemplo'` e `'10,71'` só no `Spot01`. O
+`Lote2` foi gerado pelo designer a partir dos prints `auto`, e conserva o texto que o print tinha;
+onde o print era só placeholder, a arte inventa copy em inglês. Compare com o componente **atual**
+(`yarn dev`), não com o print do pedido: nome e conteúdo mudam entre o pedido e a entrega.
+
+`yarn thumbs` regera tudo (o estágio `auto` precisa de `yarn dev` de pé); depois de mexer num
+componente, `THUMBS_SO=<Component> yarn thumbs:auto` refotografa só ele — a rodada inteira regrava
+os 34 prints, quase todos com bytes diferentes e nada visível mudado. **Duas travas impedem
 que uma rodada futura apague a arte do designer**: o componente estar em `mapa.json`, ou o item já
 estar marcado `imageSource: "design"`. O `aplicar.mjs` é idempotente e escreve o catálogo a partir
 do que existe **em disco** — apagar um `.webp` devolve o item ao placeholder sem editar TypeScript.
 
-`imageSharedWith` marca os 4 casos em que um mockup mostra dois componentes nítidos
-(`Categories01`↔`BannerFull01`, `Brand01`↔`BannerSide01`): os dois itens dividem o mesmo arquivo
-até o designer entregar a arte isolada. O campo some junto com a troca.
+`imageSharedWith` marca o item cujo mockup deixa dois componentes nítidos: os dois dividem o
+mesmo arquivo até o designer entregar a arte isolada, e o campo some junto com a troca. **Hoje
+nenhum** — os 4 que existiam (`Categories01`↔`BannerFull01`, `Brand01`↔`BannerSide01`) ganharam
+arte própria no `Lote2`.
+
+Arte fora da proporção do slot declara `"enquadramento": "contain"` no `mapa.json` e entra
+inteira sobre branco (hoje só o `CategoryTitle06`, que chegou plano e 3:1).
+
+O estágio 1 do funil confere o `mapa.json` contra o catálogo **nos dois sentidos**: componente
+renomeado deixa o mapa apontando para um nome que não existe (o `ProductInfo05`→`06` de 22/09
+fez isso), e o `design.mjs` escreveria um `.webp` que nenhum item lê.
 
 `mobile` continua vazio e não é lido por ninguém: o mockup já traz desktop e celular no mesmo quadro.
 
-O inventário completo, a lista do que falta e os 8 mockups órfãos (arte de componente que o
+O inventário completo, a lista do que falta e os 9 mockups órfãos (arte de componente que o
 catálogo não tem) estão em **[docs/THUMBS-DOS-COMPONENTES.md](docs/THUMBS-DOS-COMPONENTES.md)**,
 que é gerado — não edite à mão.
 

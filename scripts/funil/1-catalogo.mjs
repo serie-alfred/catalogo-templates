@@ -148,6 +148,34 @@ const orfas = fs.existsSync(THUMBS)
   : [];
 r.ok('nenhuma thumb órfã em public/images/gerador', orfas.length === 0, orfas.join(' | '));
 
+// 3e. mapa.json ↔ catálogo. Renomear um componente não avisa o mapa: foi assim que o
+//     ProductInfo05 virou ProductInfo06 em 22/09/2026 com o mapa ainda dizendo 05 — o
+//     próximo `yarn thumbs` escreveria productInfo/ProductInfo05.webp, que nenhum item
+//     lê, e a arte deixaria de ter origem registrada. O sentido inverso pega o mesmo
+//     buraco pelo outro lado: item `design` fora do mapa só continua `design` pelo
+//     cadeado do aplicar.mjs, sem dizer de qual arquivo a imagem saiu.
+{
+  const mapa = JSON.parse(
+    fs.readFileSync(path.join(RAIZ, 'scripts/thumbs/mapa.json'), 'utf8')
+  );
+  const noCatalogo = new Set(todos.map(i => `${i.layoutKey}/${i.component}`));
+  const doMapa = new Set(mapa.itens.map(i => `${i.layoutKey}/${i.component}`));
+  const semItem = [...doMapa].filter(c => !noCatalogo.has(c));
+  const semOrigem = todos
+    .filter(i => i.imageSource === 'design' && !doMapa.has(`${i.layoutKey}/${i.component}`))
+    .map(i => `${i.layoutKey}/${i.component}`);
+  r.ok(
+    `mapa.json casa com o catálogo (${doMapa.size} artes de design)`,
+    semItem.length === 0 && semOrigem.length === 0,
+    [
+      semItem.length && `no mapa sem item no catálogo: ${semItem.join(', ')}`,
+      semOrigem.length && `design sem arte no mapa: ${semOrigem.join(', ')}`,
+    ]
+      .filter(Boolean)
+      .join(' | ')
+  );
+}
+
 // 4. todo item VTEX tem path — sem ele o export descarta o item em silêncio
 const vtexSemPath = todos
   .filter(i => i.platforms.includes('VTEX') && !i.path)

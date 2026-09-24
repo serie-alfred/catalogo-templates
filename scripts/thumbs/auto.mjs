@@ -37,11 +37,20 @@ const PAGENAME = {
 const OVERLAYS = new Set(['help-float', 'popup-news']);
 const s = ms => new Promise(r => setTimeout(r, ms));
 
+// THUMBS_SO=Spot07,Footer07 refotografa só estes. Sem o filtro a rodada regrava todos os
+// prints, e a renderização não é determinística byte a byte: medido em 23/09/2026, os 34
+// .webp mudaram algumas dezenas de bytes cada, 29 deles sem nenhuma diferença visível — o
+// diff do componente que mudou de verdade some no meio do ruído.
+const SO = process.env.THUMBS_SO?.split(',')
+  .map(c => c.trim())
+  .filter(Boolean);
+
 const L = lerLayouts();
 const alvos = [];
 for (const [layoutKey, sec] of Object.entries(L))
   for (const it of sec.items) {
     if (DO_DESIGNER.has(it.component) || it.imageSource === 'design') continue;
+    if (SO && !SO.includes(it.component)) continue;
     const pag = it.pagina[0];
     alvos.push({
       layoutKey,
@@ -62,9 +71,15 @@ for (const [layoutKey, sec] of Object.entries(L))
   }
 
 const total = Object.values(L).reduce((n, sec) => n + sec.items.length, 0);
-console.log(
-  `  ${alvos.length} itens sem arte de design (de ${total}); ${total - alvos.length} preservados`
-);
+if (SO) {
+  // Pedido que não virou alvo é item de design (protegido) ou nome que não existe.
+  const fora = SO.filter(c => !alvos.some(a => a.component === c));
+  const aviso = fora.length ? ` — fora (design ou inexistente): ${fora.join(', ')}` : '';
+  console.log(`  THUMBS_SO: ${alvos.length} de ${SO.length} pedidos${aviso}`);
+} else
+  console.log(
+    `  ${alvos.length} itens sem arte de design (de ${total}); ${total - alvos.length} preservados`
+  );
 if (!alvos.length) process.exit(0);
 
 const b = await puppeteer.launch({

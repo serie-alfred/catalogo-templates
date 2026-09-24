@@ -8,34 +8,26 @@ em `src/data/layoutData.ts`. O campo `imageSource` diz de onde ela veio.
 
 | | itens | o que é |
 |---|---|---|
-| `design` | 32 | mockup entregue pelo designer (pasta *Banners E-temas*) |
-| `auto` | 58 | screenshot do componente real — **pendente de arte do designer** |
+| `design` | 56 | mockup entregue pelo designer (pasta *Banners E-temas*) |
+| `auto` | 34 | screenshot do componente real — **pendente de arte do designer** |
 | sem imagem | 0 | cai no placeholder |
 
 ## Pendente do designer
 
 Estes têm thumb automática. É a lista do que falta chegar do design:
 
-- **Header** — Header03, Header04, Header05, Header06, Header07
-- **Card de Produto** — Spot01, Spot02, Spot03, Spot04, Spot05, Spot06, Spot07
-- **Breadcrumb** — Breadcrumb01, Breadcrumb02
-- **Footer** — Footer03, Footer04, Footer06, Footer07
+- **Header** — Header04, Header06, Header07
+- **Card de Produto** — Spot02, Spot03, Spot04, Spot05, Spot07
+- **Breadcrumb** — Breadcrumb02
+- **Footer** — Footer04, Footer06, Footer07
 - **Área de Texto** — TextArea
-- **Carrossel de Categorias** — MultiCategories04, HomeCarousel06, Categories07
-- **Banners** — BannerMain06, BannerMain07
-- **Regua de benefícios** — Ruler03, Ruler04
+- **Carrossel de Categorias** — Categories07
+- **Banners** — BannerMain07
 - **Grid de banners** — BannerGrid06
-- **Banner Side** — BannerSide06
-- **Vitrines** — Showcase03, Showcase04, Showcase06, Showcase07
-- **Banner Triplo** — BannerTriple06, CategoryTriple06
-- **Banner Solo** — BannerSolo04
+- **Vitrines** — Showcase03, Showcase04, Showcase06
+- **Banner Triplo** — CategoryTriple06
 - **Banner com texto** — BannerSoloLeft07
-- **Ofertas Especiais** — SpecialOffers04
-- **Combinações** — HomeCombined04
 - **Abas de categoria** — CategoryTabs06
-- **Título da categoria** — CategoryTitle06
-- **Banner do produto** — ProductBanner01
-- **Outras linhas** — BannerCarousel06
 - **Ajuda flutuante** — HelpFloat06
 - **Pop-up de newsletter** — PopupNews06
 - **Compre por tamanho** — BuySize06
@@ -43,9 +35,7 @@ Estes têm thumb automática. É a lista do que falta chegar do design:
 - **Ambientes** — ShopByRoom07
 - **Depoimentos** — ClientReview06, ClientReview07
 - **Grade de produtos** — CategoryMain02, CategoryMain06, CategoryMain07
-- **Descrição de categoria** — CategoryDescription01, CategoryDescription06
-- **Informações do produto** — ProductInfo03, ProductInfo04, ProductInfo07
-- **Avaliações do produto** — ProductReviews06
+- **Informações do produto** — ProductInfo03, ProductInfo04
 
 ## Arte do designer
 
@@ -53,35 +43,59 @@ Estes têm thumb automática. É a lista do que falta chegar do design:
 |---|---|---|---|
 | `Header01` | Header `header/01` | `V1/Base-1.jpg` | header na home; ver alternativa V1/Base-13 (o mesmo header na PDP) |
 | `Header02` | Header `header/02` | `V2/Base.jpg` | logo esq / busca central / Contato-Login-Carrinho |
+| `Header03` | Header `header/03` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_27_55.png` | topbar vermelha rolante + header preto com busca central + menu de 7 itens |
+| `Header05` | Header `header/05` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_27.png` | linha 'FRETE GRATIS' + busca a esquerda, logo central e menu |
+| `Spot01` | Card de Produto `spot/01` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_02.png` | cards com selos OFERTA/NOVO/-20%, avaliacao e botao Comprar, numa vitrine 'Titulo' |
+| `Spot06` | Card de Produto `spot/06` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_33.png` | cards 'Tenis Esportivo Confortavel' com OFERTA/NOVO/-33% numa vitrine 'Mais vendidos'; saiu do print do card, nao da Showcase06 (cujo titulo e 'Vitrine de Ofertas') |
+| `Breadcrumb01` | Breadcrumb `breadcrumb/01` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_15.png` | trilha 'Home > Lorem Ipsum' |
 | `Footer01` | Footer `footer/01` | `V1/Base-8.jpg` | corpo do rodape; ver alternativa V1/Base-7 (a faixa de newsletter do proprio Footer01) |
 | `Footer02` | Footer `footer/02` | `V2/Base-7.jpg` | rodape escuro com newsletter |
+| `Footer03` | Footer `footer/03` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_27_57.png` | 5 beneficios + 3 colunas + newsletter + pagamentos + barra vermelha |
 | `Footer05` | Footer `footer/05` | `V3/Base-10.jpg` | pareamento de TIPO: o unico rodape da familia 5; colunas e selos divergem do mock |
-| `BannerFull01` | Banner largura máxima `bannerFull/01` | `V1/Base-5.jpg` | banner sangrado 'Alicates' logo abaixo das categorias ⚠️ divide com Categories01 |
+| `BannerFull01` | Banner largura máxima `bannerFull/01` | `Lote2/Base-1.jpg` | banner sangrado 'Alicates'; refacao isolada da V1/Base-5, que dividia a arte com o Categories01 |
 | `BannerFull02` | Banner largura máxima `bannerFull/02` | `V2/Base-1.jpg` | hero sangrado; ver alternativa V2/Base-6 |
 | `BannerFullCategory02` | Banner largura máxima `bannerFull/04` | `V2/Base-8.jpg` | banner full-bleed no topo da categoria |
 | `BannerFull05` | Banner largura máxima `bannerFull/05` | `V3/Base-7.jpg` | banner sangrado 1920x640 |
-| `Brand01` | Marcas `brand/01` | `V1/Base-6.jpg` | carrossel de logos de marca ⚠️ divide com BannerSide01 |
-| `Categories01` | Carrossel de Categorias `categories/01` | `V1/Base-5.jpg` | carrossel de categorias circulares ⚠️ divide com BannerFull01 |
+| `Brand01` | Marcas `brand/01` | `Lote2/Base-2.jpg` | carrossel de logos de marca; refacao isolada da V1/Base-6, que dividia a arte com o BannerSide01 |
+| `Categories01` | Carrossel de Categorias `categories/01` | `Lote2/Base.jpg` | carrossel de categorias circulares; refacao isolada da V1/Base-5, que dividia a arte com o BannerFull01 |
+| `MultiCategories04` | Carrossel de Categorias `categories/04` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_27_45.png` | 'Browse by rooms': 1 grande + 1 larga + 2 quadradas sobre fundo escuro |
+| `HomeCarousel06` | Carrossel de Categorias `categories/06` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_34.png` | pareamento de TIPO: carrossel de categorias em circulo; a arte poe um titulo de secao que o componente nao renderiza e 6 por linha no desktop, contra 8 |
 | `BannerMain01` | Banners `banner/01` | `V1/Base.jpg` | hero full-bleed com setas e dots |
+| `BannerMain06` | Banners `banner/06` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_31.png` | hero 'Elevate Your Everyday'; celular 2:1 como o banner mobile do 06 |
 | `Ruler01` | Regua de benefícios `ruler/01` | `V1/Base-2.jpg` | regua de 4 beneficios com icone |
+| `Ruler07` | Regua de benefícios `ruler/07` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_25.png` | faixa escura de 4 beneficios com icone; no pedido de 15/09 era o Ruler03 (renomeado em 63f0c6d) |
 | `Ruler02` | Regua de benefícios `ruler/02` | `V2/Base-2.jpg` | faixa preta de beneficios |
+| `Ruler04` | Regua de benefícios `ruler/04` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_09.png` | faixa clara de logos 300x77; a arte traz o tooltip 'Pre-visualizacao do tema' (o title do iframe do gerador) sobre o primeiro logo |
 | `Ruler05` | Regua de benefícios `ruler/05` | `V3/Base-8.jpg` | faixa branca, 4 itens sem icone; melhor que a alternativa V3/Base-2, onde o celular deixa outro componente nitido tambem |
 | `BannerGrid01` | Grid de banners `grid/01` | `V1/Base-3.jpg` | titulo + 1 banner grande e grade 2x2 |
-| `BannerSide01` | Banner Side `bannerSide/01` | `V1/Base-6.jpg` | dois banners lado a lado abaixo das marcas ⚠️ divide com Brand01 |
+| `BannerSide01` | Banner Side `bannerSide/01` | `Lote2/Base-3.jpg` | dois banners lado a lado; refacao isolada da V1/Base-6, que dividia a arte com o Brand01 |
 | `BannerDuplo02` | Banner Side `bannerSide/02` | `V2/Base-5.jpg` | titulo + 2 cards lado a lado |
 | `BannerSide02` | Banner Side `bannerSide/03` | `V2/Base-4.jpg` | bloco preto 50/50 com imagem |
+| `BannerSide06` | Banner Side `bannerSide/06` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_29.png` | 'Best Sellers' / 'Mochilas' com paragrafo e 'Veja mais' |
 | `Showcase01` | Vitrines `showcase/01` | `V1/Base-4.jpg` | vitrine 'Destaques' |
 | `Showcase02` | Vitrines `showcase/02` | `V2/Base-3.jpg` | vitrine 'Promocoes' |
 | `Showcase05` | Vitrines `showcase/05` | `V3/Base-15.jpg` | vitrine 'Novidades'; melhor que V3/Base-3 (nav inferior coerente com o bottom_nav) |
+| `Showcase07` | Vitrines `showcase/07` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_40.png` | 'Lorem Ipsum Dolor Sit' + 'Ver Todos' + cards 428x428; mostra o card de ANTES do commit 63f0c6d, sem coracao nem botao Comprar |
 | `BannerTriple05` | Banner Triplo `bannerTriple/01` | `V3/Base-1.jpg` | 3 colunas coladas, sem raio |
 | `BannerTripleSwiper05` | Banner Triplo `bannerTriple/02` | `V3/Base-6.jpg` | 3 cards com gap e cantos arredondados |
+| `BannerTriple06` | Banner Triplo `bannerTriple/03` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_30.png` | 3 banners largos lado a lado, empilhados no celular |
+| `BannerSolo04` | Banner Solo `bannerSolo/01` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_12.png` | 'Titulo Fixo do Banner' + imagem 749x570 com duas lascas |
 | `BannerSoloLeft05` | Banner com texto `bannerSideLeft/01` | `V3/Base-4.jpg` | imagem esq + texto e botao pill dir |
+| `SpecialOffers04` | Ofertas Especiais `specialOffers/01` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_03.png` | 'Special Offers': 3 cards coloridos com 'Browse Now' |
+| `HomeCombined04` | Combinações `homeCombined/01` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_27_51.png` | 'Exquisite design...' + duas imagens + card '25% OFF' |
+| `CategoryTitle06` | Título da categoria `categoryTitle/06` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_38.png` | 'Sneakers' + '128 Produtos encontrados'; chegou plana e em 2170x725 (3:1), sem o mockup — o cover cortaria o titulo |
+| `ProductBanner01` | Banner do produto `productBanner/01` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_24.png` | 'Banner do produto (desktop/mobile)' entre a compra e a descricao |
+| `BannerCarousel06` | Outras linhas `productLines/06` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_36.png` | 'Outras Linhas': Speed / Still / 424 / Flip Classic |
 | `CategoryMain01` | Grade de produtos `categoryMain/01` | `V1/Base-9.jpg` | PLP com sidebar de filtros |
+| `CategoryDescription01` | Descrição de categoria `categoryDescription/01` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_19.png` | 'Nome da Categoria' + descricao, acima da grade |
+| `CategoryDescription06` | Descrição de categoria `categoryDescription/06` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_35.png` | texto de SEO 'TENIS CASUAIS MASCULINOS' + 'saiba mais' + FAQ |
 | `BannerTop01` | Banner `bannerProduct/01` | `V1/Base-11.jpg` | tarja 'DESCONTOS progressivos' no topo da PDP |
 | `ProductDescription01` | descrição `productDescription/01` | `V1/Base-12.jpg` | descricao + ficha tecnica |
 | `ProductInfo01` | Informações do produto `productInfo/01` | `V1/Base-10.jpg` | PDP: galeria + bloco de compra |
 | `ProductInfo02` | Informações do produto `productInfo/02` | `V2/Base-9.jpg` | PDP: galeria + compra |
-| `ProductInfo05` | Informações do produto `productInfo/05` | `V3/Base-13.jpg` | pareamento de TIPO: unico product-info da familia 5; galeria e CTA divergem do mock |
+| `ProductInfo06` | Informações do produto `productInfo/06` | `V3/Base-13.jpg` | pareamento de TIPO: arte da familia 5 (V3) para o organisms/ProductDetails06, que era o ProductInfo05 ate o commit 63f0c6d; galeria e CTA divergem do mock |
+| `ProductInfo07` | Informações do produto `productInfo/07` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_13.png` | PDP do tapete: galeria + coluna de compra; no pedido de 15/09 era o ProductInfo04 (o commit 63f0c6d trocou 04 e 07) |
+| `ProductReviews06` | Avaliações do produto `productReviews/06` | `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_28.png` | acordeao 'Avaliacoes e comentarios' com nota 4.8 |
 | `ProductRelated01` | Produtos Relacionados `productRelated/01` | `V1/Base-14.jpg` | 'Produtos Relacionados' |
 
 ## Mockups que não entraram
@@ -101,11 +115,16 @@ Cada linha é um candidato a componente novo.
 | `V3/Base-11.jpg` | banner-hero full-bleed no topo da categoria | um category-banner da familia 5 (nenhum item 05 tem pagina 'category') |
 | `V3/Base-12.jpg` | titulo da categoria + barra HORIZONTAL de filtros + ordenacao | CategoryMain05 ou CategoryTitle05 (categoryMain tem 01, 02, 06, 07) |
 | `V3/Base-14.jpg` | acordeao de FAQ na PDP | CategoryDescription05 / um FAQ da familia 5 |
+| `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_23.png` | PLP inteira da loja do 03 (header, trilha, banner 'Camisetas', filtros e grade), tudo nitido e plano, em 1536x1024 | um CategoryMain03 (categoryMain tem 01, 02, 06, 07); nao e o CategoryMain02 — nenhum texto do print dele sobreviveu, e a grade tem 4 colunas contra 3 |
 
 ### Alternativas — o mesmo componente, num enquadramento pior
 
 | mockup | componente | por que não foi escolhido |
 |---|---|---|
+| `V1/Base-5.jpg` | `Categories01` | deixava o Categories01 e o BannerFull01 nitidos juntos; substituida pela refacao isolada Lote2/Base.jpg |
+| `V1/Base-5.jpg` | `BannerFull01` | deixava o BannerFull01 e o Categories01 nitidos juntos; substituida pela refacao isolada Lote2/Base-1.jpg |
+| `V1/Base-6.jpg` | `Brand01` | deixava o Brand01 e o BannerSide01 nitidos juntos; substituida pela refacao isolada Lote2/Base-2.jpg |
+| `V1/Base-6.jpg` | `BannerSide01` | deixava o BannerSide01 e o Brand01 nitidos juntos; substituida pela refacao isolada Lote2/Base-3.jpg |
 | `V1/Base-7.jpg` | `Footer01` | mostra a faixa de newsletter que o proprio Footer01 renderiza no topo; Base-8 mostra o corpo do rodape e representa melhor |
 | `V1/Base-13.jpg` | `Header01` | mesmo header, na PDP em vez da home; Base-1 e mais limpo |
 | `V2/Base-6.jpg` | `BannerFull02` | segundo banner sangrado da mesma home; Base-1 e o hero e tem conferencia de confianca alta |
@@ -117,9 +136,13 @@ Cada linha é um candidato a componente novo.
 ```bash
 yarn thumbs           # design → auto → aplicar (o `auto` precisa de `yarn dev` de pé)
 yarn thumbs:aplicar   # só reescreve o layoutData a partir do que está em disco
+THUMBS_SO=Footer07 yarn thumbs:auto   # refotografa só estes (lista separada por vírgula)
 ```
 
-Os mockups **não são versionados** (~40 MB de JPG). `scripts/thumbs/mapa.json` guarda o
+Depois de mexer num componente, refotografe **só ele**: a rodada inteira regrava todos os
+prints `auto` com diferenças de bytes que não mudam nada na tela, e o diff útil se perde.
+
+Os mockups **não são versionados** (~80 MB de JPG e PNG). `scripts/thumbs/mapa.json` guarda o
 caminho da pasta em `origem`; `THUMBS_ORIGEM` sobrescreve.
 
 `auto.mjs` nunca sobrescreve um item `design` — dois cadeados: o componente estar em

@@ -6,7 +6,14 @@
     "  V1 -> template 1  ('Entrega Expressa' so existe em home/template_1/Ruler)",
     "  V2 -> template 2  ('Bonus primeira compra' so existe em home/template_2/Ruler)",
     "  V3 -> template 5  ('Frete Gratis' so existe em home/template_5/Ruler)",
-    "Dois itens apontando o MESMO arquivo = arte dividida; e dai que sai imageSharedWith."
+    "Lote2/ e o E-temas.zip de 23/09/2026: as 4 refacoes isoladas das artes divididas da V1",
+    "(Base*.jpg) e 25 artes geradas pelo designer a partir dos prints automaticos (ChatGPT Image",
+    "*.png). Os nomes nao dizem nada; o pareamento das 25 saiu do texto que cada arte conserva",
+    "do print ('Produto de Exemplo' e '10,71' so existem no Spot01; 'Tenis Esportivo Confortavel'",
+    "so no Spot06). Onde o print nao tinha texto a arte inventa copy em ingles — e o que separa",
+    "o BannerMain06 (placeholder 1920x400) do BannerMain07.",
+    "Dois itens apontando o MESMO arquivo = arte dividida; e dai que sai imageSharedWith.",
+    "'enquadramento': 'contain' = arte fora da proporcao do slot, mostrada inteira sobre branco."
   ],
   "origem": "/Users/daycross/Downloads/Banners E-temas V2",
   "itens": [
@@ -46,32 +53,32 @@
       "nota": "vitrine 'Destaques'"
     },
     {
-      "arquivo": "V1/Base-5.jpg",
+      "arquivo": "Lote2/Base.jpg",
       "layoutKey": "categories",
       "id": "01",
       "component": "Categories01",
-      "nota": "carrossel de categorias circulares"
+      "nota": "carrossel de categorias circulares; refacao isolada da V1/Base-5, que dividia a arte com o BannerFull01"
     },
     {
-      "arquivo": "V1/Base-5.jpg",
+      "arquivo": "Lote2/Base-1.jpg",
       "layoutKey": "bannerFull",
       "id": "01",
       "component": "BannerFull01",
-      "nota": "banner sangrado 'Alicates' logo abaixo das categorias"
+      "nota": "banner sangrado 'Alicates'; refacao isolada da V1/Base-5, que dividia a arte com o Categories01"
     },
     {
-      "arquivo": "V1/Base-6.jpg",
+      "arquivo": "Lote2/Base-2.jpg",
       "layoutKey": "brand",
       "id": "01",
       "component": "Brand01",
-      "nota": "carrossel de logos de marca"
+      "nota": "carrossel de logos de marca; refacao isolada da V1/Base-6, que dividia a arte com o BannerSide01"
     },
     {
-      "arquivo": "V1/Base-6.jpg",
+      "arquivo": "Lote2/Base-3.jpg",
       "layoutKey": "bannerSide",
       "id": "01",
       "component": "BannerSide01",
-      "nota": "dois banners lado a lado abaixo das marcas"
+      "nota": "dois banners lado a lado; refacao isolada da V1/Base-6, que dividia a arte com o Brand01"
     },
     {
       "arquivo": "V1/Base-8.jpg",
@@ -230,9 +237,178 @@
     {
       "arquivo": "V3/Base-13.jpg",
       "layoutKey": "productInfo",
+      "id": "06",
+      "component": "ProductInfo06",
+      "nota": "pareamento de TIPO: arte da familia 5 (V3) para o organisms/ProductDetails06, que era o ProductInfo05 ate o commit 63f0c6d; galeria e CTA divergem do mock"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_02.png",
+      "layoutKey": "spot",
+      "id": "01",
+      "component": "Spot01",
+      "nota": "cards com selos OFERTA/NOVO/-20%, avaliacao e botao Comprar, numa vitrine 'Titulo'"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_15.png",
+      "layoutKey": "breadcrumb",
+      "id": "01",
+      "component": "Breadcrumb01",
+      "nota": "trilha 'Home > Lorem Ipsum'"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_19.png",
+      "layoutKey": "categoryDescription",
+      "id": "01",
+      "component": "CategoryDescription01",
+      "nota": "'Nome da Categoria' + descricao, acima da grade"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_24.png",
+      "layoutKey": "productBanner",
+      "id": "01",
+      "component": "ProductBanner01",
+      "nota": "'Banner do produto (desktop/mobile)' entre a compra e a descricao"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_27_55.png",
+      "layoutKey": "header",
+      "id": "03",
+      "component": "Header03",
+      "nota": "topbar vermelha rolante + header preto com busca central + menu de 7 itens"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_27_57.png",
+      "layoutKey": "footer",
+      "id": "03",
+      "component": "Footer03",
+      "nota": "5 beneficios + 3 colunas + newsletter + pagamentos + barra vermelha"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_12.png",
+      "layoutKey": "bannerSolo",
+      "id": "01",
+      "component": "BannerSolo04",
+      "nota": "'Titulo Fixo do Banner' + imagem 749x570 com duas lascas"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_27_45.png",
+      "layoutKey": "categories",
+      "id": "04",
+      "component": "MultiCategories04",
+      "nota": "'Browse by rooms': 1 grande + 1 larga + 2 quadradas sobre fundo escuro"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_27_51.png",
+      "layoutKey": "homeCombined",
+      "id": "01",
+      "component": "HomeCombined04",
+      "nota": "'Exquisite design...' + duas imagens + card '25% OFF'"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_03.png",
+      "layoutKey": "specialOffers",
+      "id": "01",
+      "component": "SpecialOffers04",
+      "nota": "'Special Offers': 3 cards coloridos com 'Browse Now'"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_09.png",
+      "layoutKey": "ruler",
+      "id": "04",
+      "component": "Ruler04",
+      "nota": "faixa clara de logos 300x77; a arte traz o tooltip 'Pre-visualizacao do tema' (o title do iframe do gerador) sobre o primeiro logo"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_27.png",
+      "layoutKey": "header",
       "id": "05",
-      "component": "ProductInfo05",
-      "nota": "pareamento de TIPO: unico product-info da familia 5; galeria e CTA divergem do mock"
+      "component": "Header05",
+      "nota": "linha 'FRETE GRATIS' + busca a esquerda, logo central e menu"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_31.png",
+      "layoutKey": "banner",
+      "id": "06",
+      "component": "BannerMain06",
+      "nota": "hero 'Elevate Your Everyday'; celular 2:1 como o banner mobile do 06"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_29.png",
+      "layoutKey": "bannerSide",
+      "id": "06",
+      "component": "BannerSide06",
+      "nota": "'Best Sellers' / 'Mochilas' com paragrafo e 'Veja mais'"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_30.png",
+      "layoutKey": "bannerTriple",
+      "id": "03",
+      "component": "BannerTriple06",
+      "nota": "3 banners largos lado a lado, empilhados no celular"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_34.png",
+      "layoutKey": "categories",
+      "id": "06",
+      "component": "HomeCarousel06",
+      "nota": "pareamento de TIPO: carrossel de categorias em circulo; a arte poe um titulo de secao que o componente nao renderiza e 6 por linha no desktop, contra 8"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_33.png",
+      "layoutKey": "spot",
+      "id": "06",
+      "component": "Spot06",
+      "nota": "cards 'Tenis Esportivo Confortavel' com OFERTA/NOVO/-33% numa vitrine 'Mais vendidos'; saiu do print do card, nao da Showcase06 (cujo titulo e 'Vitrine de Ofertas')"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_35.png",
+      "layoutKey": "categoryDescription",
+      "id": "06",
+      "component": "CategoryDescription06",
+      "nota": "texto de SEO 'TENIS CASUAIS MASCULINOS' + 'saiba mais' + FAQ"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_36.png",
+      "layoutKey": "productLines",
+      "id": "06",
+      "component": "BannerCarousel06",
+      "nota": "'Outras Linhas': Speed / Still / 424 / Flip Classic"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_38.png",
+      "layoutKey": "categoryTitle",
+      "id": "06",
+      "component": "CategoryTitle06",
+      "enquadramento": "contain",
+      "nota": "'Sneakers' + '128 Produtos encontrados'; chegou plana e em 2170x725 (3:1), sem o mockup — o cover cortaria o titulo"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_28.png",
+      "layoutKey": "productReviews",
+      "id": "06",
+      "component": "ProductReviews06",
+      "nota": "acordeao 'Avaliacoes e comentarios' com nota 4.8"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_25.png",
+      "layoutKey": "ruler",
+      "id": "07",
+      "component": "Ruler07",
+      "nota": "faixa escura de 4 beneficios com icone; no pedido de 15/09 era o Ruler03 (renomeado em 63f0c6d)"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_40.png",
+      "layoutKey": "showcase",
+      "id": "07",
+      "component": "Showcase07",
+      "nota": "'Lorem Ipsum Dolor Sit' + 'Ver Todos' + cards 428x428; mostra o card de ANTES do commit 63f0c6d, sem coracao nem botao Comprar"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_13.png",
+      "layoutKey": "productInfo",
+      "id": "07",
+      "component": "ProductInfo07",
+      "nota": "PDP do tapete: galeria + coluna de compra; no pedido de 15/09 era o ProductInfo04 (o commit 63f0c6d trocou 04 e 07)"
     }
   ],
   "orfaos": [
@@ -275,9 +451,34 @@
       "arquivo": "V3/Base-14.jpg",
       "mostra": "acordeao de FAQ na PDP",
       "precisaria": "CategoryDescription05 / um FAQ da familia 5"
+    },
+    {
+      "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_23.png",
+      "mostra": "PLP inteira da loja do 03 (header, trilha, banner 'Camisetas', filtros e grade), tudo nitido e plano, em 1536x1024",
+      "precisaria": "um CategoryMain03 (categoryMain tem 01, 02, 06, 07); nao e o CategoryMain02 — nenhum texto do print dele sobreviveu, e a grade tem 4 colunas contra 3"
     }
   ],
   "alternativas": [
+    {
+      "arquivo": "V1/Base-5.jpg",
+      "component": "Categories01",
+      "porque": "deixava o Categories01 e o BannerFull01 nitidos juntos; substituida pela refacao isolada Lote2/Base.jpg"
+    },
+    {
+      "arquivo": "V1/Base-5.jpg",
+      "component": "BannerFull01",
+      "porque": "deixava o BannerFull01 e o Categories01 nitidos juntos; substituida pela refacao isolada Lote2/Base-1.jpg"
+    },
+    {
+      "arquivo": "V1/Base-6.jpg",
+      "component": "Brand01",
+      "porque": "deixava o Brand01 e o BannerSide01 nitidos juntos; substituida pela refacao isolada Lote2/Base-2.jpg"
+    },
+    {
+      "arquivo": "V1/Base-6.jpg",
+      "component": "BannerSide01",
+      "porque": "deixava o BannerSide01 e o Brand01 nitidos juntos; substituida pela refacao isolada Lote2/Base-3.jpg"
+    },
     {
       "arquivo": "V1/Base-7.jpg",
       "component": "Footer01",
