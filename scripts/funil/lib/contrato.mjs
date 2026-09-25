@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { GLOBAL_TEMPLATES, GENERATOR, FASTSTORE_STARTER } from './util.mjs';
 
@@ -167,6 +167,53 @@ export function conferirTrayWake(config, plataforma, r) {
 }
 
 /**
+ * QUAL `global-templates` as checagens de origem Tray/Wake leem — e se é o que o
+ * generator clona.
+ *
+ * Os estágios 1 e 5 leem o checkout irmão, clone do GitHub
+ * (`seriedesign/global-templates`); a trilha Tray/Wake do generator clona o
+ * GitLab (`GLOBAL_COMPONENTS_REPO_URL`, lido do próprio generator). As duas só
+ * são a mesma árvore se alguém empurrou para as duas: componente que só existe
+ * no GitHub passa aqui com "origem existe" e some do tema da Tray sem erro.
+ *
+ * Os dois remotos são privados. Com `credential.helper` vazio o `ls-remote`
+ * responde 401 em ~2s em vez de travar no osxkeychain (ver README), então a
+ * comparação roda onde houver acesso sem o keychain (GIT_ASKPASS, URL com
+ * token) e, onde não houver, o estágio DIZ o que mediu em vez de calar.
+ */
+export async function conferirParidadeGlobalTemplates(r) {
+  const { GLOBAL_COMPONENTS_REPO_URL: doGenerator } = await import(
+    pathToFileURL(path.join(GENERATOR, 'src/constants/config.js')).href
+  );
+  const git = (args, env = process.env) =>
+    spawnSync('git', args, { encoding: 'utf8', timeout: 20000, env });
+  const local = git(['-C', GLOBAL_TEMPLATES, 'rev-parse', 'HEAD']).stdout.trim();
+  const origemLocal = git(['-C', GLOBAL_TEMPLATES, 'remote', 'get-url', 'origin'])
+    .stdout.trim();
+  const remoto = git(['-c', 'credential.helper=', 'ls-remote', doGenerator, 'HEAD'], {
+    ...process.env,
+    GIT_TERMINAL_PROMPT: '0',
+  });
+  const cabeca = remoto.status === 0 ? remoto.stdout.split(/\s/)[0] : '';
+  if (cabeca) {
+    r.ok(
+      `global-templates lido (${local.slice(0, 7)}) é o commit que o generator clona`,
+      cabeca === local,
+      `${doGenerator} está em ${cabeca.slice(0, 7)} — as origens Tray/Wake foram conferidas em outra árvore`
+    );
+    return;
+  }
+  const motivo =
+    remoto.error?.code ??
+    (remoto.stderr.trim().split('\n').pop()?.replace(/^fatal:\s*/, '').slice(0, 90) ||
+      `exit ${remoto.status ?? remoto.signal}`);
+  console.log(
+    `  ℹ️  origem Tray/Wake conferida em ${origemLocal || GLOBAL_TEMPLATES} @ ${local.slice(0, 7)};` +
+      ` o generator clona ${doGenerator}, que não respondeu daqui (${motivo}) — paridade não verificada`
+  );
+}
+
+/**
  * Confere o config faststore resolvendo o grafo com as classes REAIS do
  * generator — não uma réplica. Se o resolve estoura, o tema não monta.
  */
@@ -249,6 +296,11 @@ const CAMPO_PROVEDOR = {
   ],
   releaseDate: ['fragments/ServerProduct'],
   descriptionBanner: ['fragments/ServerProduct'],
+  // Os dois vêm do mesmo `extend type StoreProduct` (typeDefs/product.graphql), e
+  // só o ServerProduct os pede. Até 24/09 não estavam aqui: a PDP que perdesse o
+  // fragment passava por esta checagem e morria no tsc do tema.
+  categories: ['fragments/ServerProduct'],
+  properties: ['fragments/ServerProduct'],
   suggestionProducts: ['fragments/ClientSearchSuggestions'],
 };
 
@@ -292,43 +344,40 @@ const lerRecursivo = (dir, ext = /\.tsx?$/) => {
 };
 
 /**
- * Todo `path` VTEX do catálogo consegue se sustentar sozinho no tema gerado?
- * Roda em milissegundos e pega antes do build o que hoje só aparece depois de
- * clonar, copiar e compilar.
+ * Toda raiz do tema (ver `raizesDoTema`) consegue se sustentar sozinha no tema
+ * gerado? Roda em milissegundos e pega antes do build o que hoje só aparece
+ * depois de clonar, copiar e compilar.
  */
 export function conferirFragmentos(paths, r) {
   const raiz = path.join(FASTSTORE_STARTER, 'src');
-  const manifests = new Map();
-  (function varrer(dir) {
-    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-      if (e.name === 'node_modules' || e.name.startsWith('.')) continue;
-      const p = path.join(dir, e.name);
-      if (e.isDirectory()) varrer(p);
-      else if (e.name === 'manifest.json') {
-        const m = JSON.parse(fs.readFileSync(p, 'utf8'));
-        manifests.set(m.id, m);
-      }
-    }
-  })(raiz);
+  const manifests = lerManifests();
 
   const falhas = [];
   for (const id of paths) {
     const fecho = fechoDeps(id, manifests);
-    let txt = lerRecursivo(path.join(raiz, 'components', id));
+    // O código que o root leva para o tema: o dele, o de cada componente e
+    // override do fecho, e os hooks/utils. Ler só a pasta do root deixava de fora
+    // a peça que de fato lê o campo — o `properties` do ProductDetails03 mora no
+    // ProductInfo03, que ele declara e que ninguém lia aqui.
+    const codigo = [[id, lerRecursivo(path.join(raiz, 'components', id))]];
     for (const dep of fecho) {
+      if (dep === id) continue;
       if (dep.startsWith('hooks/') || dep.startsWith('utils/'))
-        txt += lerRecursivo(path.join(raiz, dep));
+        codigo.push([dep, lerRecursivo(path.join(raiz, dep))]);
+      else if (['component', 'override'].includes(manifests.get(dep)?.type))
+        codigo.push([dep, lerRecursivo(manifests.get(dep)._dir)]);
     }
     for (const [campo, provedores] of Object.entries(CAMPO_PROVEDOR)) {
-      if (!new RegExp(`\\.${campo}\\b`).test(txt)) continue;
-      if (provedores.some(p => fecho.has(p))) continue;
+      const uso = new RegExp(`\\.${campo}\\b`);
+      const quem = codigo.find(([, txt]) => uso.test(txt))?.[0];
+      if (!quem || provedores.some(p => fecho.has(p))) continue;
       falhas.push(
-        `${id} usa .${campo} sem ${provedores.map(p => p.split('/')[1]).join(' nem ')}`
+        `${id} usa .${campo}${quem === id ? '' : ` (em ${quem})`} sem ${provedores.map(p => p.split('/')[1]).join(' nem ')}`
       );
     }
   }
   r.ok(
-    `${paths.length} paths VTEX se sustentam sozinhos no tema`,
+    `${paths.length} raízes do tema se sustentam sozinhas`,
     falhas.length === 0,
     falhas.join(' | ')
   );
@@ -383,6 +432,35 @@ export function lerManifests() {
   return m;
 }
 
+/**
+ * As raízes do grafo que o TEMA recebe: os `path` VTEX do catálogo e as duas
+ * que entram sem ser escolha direta do cliente —
+ *
+ *  - `overrides/CrossSellingShelf01`, que o export (`useLayoutGenerator`) põe
+ *    no config sempre que `organisms/ProductShowcase01` está entre as escolhas;
+ *  - `organisms/ProductShowcase<NN>` do sufixo da vitrine escolhida, que o
+ *    `BuildPipeline._resolve` empurra para a substituição de showcase nos
+ *    overrides ter alvo (e só quando o registry tem esse id — daí `temAsset`).
+ *
+ * Partir só dos `path` deixava essas seis fora de todo estágio estático: um
+ * import não declarado no `ProductShowcase07` só apareceria no build do tema de
+ * quem escolhesse a vitrine 07. O `yarn alcance` já as contava; agora os três
+ * leem daqui.
+ *
+ * @param paths    os `path` VTEX do catálogo
+ * @param temAsset id → o manifest existe (o `registry.has` do generator)
+ */
+export function raizesDoTema(paths, temAsset) {
+  const autoInjetadas = paths.includes('organisms/ProductShowcase01')
+    ? ['overrides/CrossSellingShelf01']
+    : [];
+  const alvosShowcase = paths
+    .filter(p => /^organisms\/ProductShelfCustom\d+$/.test(p))
+    .map(p => `organisms/ProductShowcase${p.replace(/\D+/g, '')}`)
+    .filter(temAsset);
+  return [...new Set([...paths, ...autoInjetadas, ...alvosShowcase])];
+}
+
 const arquivosTs = dir => {
   const out = [];
   if (!fs.existsSync(dir)) return out;
@@ -399,7 +477,23 @@ const existeModulo = abs =>
   ['', '.ts', '.tsx', '.js', '.jsx'].some(
     ext => fs.existsSync(abs + ext) && fs.statSync(abs + ext).isFile()
   ) ||
-  ['index.ts', 'index.tsx'].some(f => fs.existsSync(path.join(abs, f)));
+  ['index.ts', 'index.tsx', 'index.js', 'index.jsx'].some(f =>
+    fs.existsSync(path.join(abs, f))
+  );
+
+/**
+ * A pergunta que o `OverrideFlattener` faz a cada import antes de reescrevê-lo:
+ * "resolve a partir da origem?", com as extensões DELE e `existsSync` puro (que
+ * aceita pasta). O que resolve é reescrito para o destino; o que não resolve já
+ * foi escrito para o destino e fica como está — `../../sass/…` no Breadcrumb01,
+ * `../molecules/…` no CrossSellingShelf01 —, e no tema é lido a partir de
+ * `src/components/overrides/`.
+ */
+const EXTENSOES_DO_ACHATADOR = ['', '.tsx', '.ts', '.jsx', '.js', '.scss', '.css', '/index.tsx', '/index.ts'];
+const achatadorReescreve = (base, especificador) =>
+  EXTENSOES_DO_ACHATADOR.some(ext =>
+    fs.existsSync(path.resolve(base, especificador) + ext)
+  );
 
 /**
  * Todo import relativo aponta para algo que o grafo de `dependencies` alcança?
@@ -427,6 +521,15 @@ const existeModulo = abs =>
  * (29/07/2026), com o override declarado — deixou todo tema com ele sem
  * compilar, e esta checagem verde. Peça que mais alguém usa vira asset próprio
  * (`molecules/ColumnToggle06`).
+ *
+ * O arquivo do próprio override tem o problema inverso: a família 01 foi escrita
+ * para o DESTINO achatado, e o achatador só reescreve o import que resolve a
+ * partir da origem (`achatadorReescreve`). Lido da origem, o
+ * `../molecules/ProductCard01` do CrossSellingShelf01 não apontava para nada e
+ * caía no silêncio — um `../molecules/X` não declarado passava igual. Agora o
+ * import que o achatador deixa como está é lido de onde o tema o lê, e import
+ * que não resolve em lugar nenhum reprova: antes ele só era falha se o alvo
+ * existisse como arquivo solto.
  */
 export function conferirImports(paths, r) {
   const manifests = lerManifests();
@@ -446,7 +549,7 @@ export function conferirImports(paths, r) {
     return melhor;
   };
 
-  // O alcance do catálogo: os paths e tudo que eles arrastam.
+  // O alcance do tema: as raízes e tudo que elas arrastam.
   const alcance = new Set();
   for (const p of paths)
     for (const id of fechoCompleto(p, manifests)) alcance.add(id);
@@ -460,16 +563,32 @@ export function conferirImports(paths, r) {
     for (const f of arquivosTs(d._dir)) {
       // sem comentários: `// import Image from "../Image"` (SmartImage01) não é uso
       const src = semComentarios(fs.readFileSync(f, 'utf8'));
+      // O achatador só passa pelos arquivos do primeiro nível do override.
+      const achatado = d.type === 'override' && path.dirname(f) === d._dir;
       // aspas duplas também: os resolvers do starter importam assim
       for (const [, , imp] of src.matchAll(/from\s+(['"])(\.[^'"]+)\1/g)) {
-        const alvo = path.normalize(path.resolve(path.dirname(f), imp));
+        const noDestino = achatado && !achatadorReescreve(path.dirname(f), imp);
+        const alvo = path.normalize(
+          noDestino
+            ? path.resolve(SRC, 'components/overrides', imp)
+            : path.resolve(path.dirname(f), imp)
+        );
+        const onde = noDestino ? ' (lido no destino achatado)' : '';
+        if (!existeModulo(alvo)) {
+          falhas.add(
+            `${id} importa '${imp}', que não resolve ${
+              achatado ? 'nem na origem nem no destino achatado' : `a partir de src/${path.relative(SRC, path.dirname(f))}`
+            }`
+          );
+          continue;
+        }
         const dono = donoDe(alvo);
         if (dono) {
           // `type`, não o prefixo do id: é por ele que o BuildPipeline decide achatar
           if (dono !== id && manifests.get(dono).type === 'override')
-            dentroDeOverride.add(`${id} importa src/${path.relative(SRC, alvo)}`);
+            dentroDeOverride.add(`${id} importa src/${path.relative(SRC, alvo)}${onde}`);
           if (dono !== id && !fecho.has(dono))
-            falhas.add(`${id} importa ${dono} sem declarar`);
+            falhas.add(`${id} importa ${dono} sem declarar${onde}`);
           continue;
         }
         const rel = path.relative(SRC, alvo);
@@ -478,16 +597,15 @@ export function conferirImports(paths, r) {
         if (rel.split(path.sep)[0] === 'sass') {
           const nome = path.basename(rel).replace(/\.module\.scss$/, '');
           if (!scssDe(fecho).has(nome))
-            falhas.add(`${id} importa sass/${nome} sem declarar em scss`);
+            falhas.add(`${id} importa sass/${nome} sem declarar em scss${onde}`);
           continue;
         }
-        if (existeModulo(alvo))
-          falhas.add(`${id} importa src/${rel}, arquivo solto sem manifest.json`);
+        falhas.add(`${id} importa src/${rel}, arquivo solto sem manifest.json${onde}`);
       }
     }
   }
   r.ok(
-    `${alcance.size} assets no alcance do catálogo: todo import está declarado`,
+    `${alcance.size} assets no alcance do tema: todo import resolve e está declarado`,
     falhas.size === 0,
     [...falhas].join(' | ')
   );
@@ -556,8 +674,15 @@ export async function conferirParesCardVitrine(vtexPaths, r) {
     .filter(p => /^molecules\/ProductCard\d+$/.test(p))
     .map(p => ({ p, n: sufixo(p) }));
 
+  // Um lado vazio não é "nada a medir": o catálogo VTEX sempre ofereceu os dois,
+  // e o que esvazia a matriz é o padrão parar de casar (renomear a família, ou o
+  // card perder o VTEX). Até 24/09 isto passava verde e a matriz sumia inteira.
   if (!vitrines.length || !cards.length) {
-    r.ok('matriz vitrine×card: catálogo não oferece os dois lados', true);
+    r.ok(
+      'matriz vitrine×card: o catálogo VTEX oferece os dois lados',
+      false,
+      `${vitrines.length} vitrine(s) organisms/ProductShelfCustomNN e ${cards.length} card(s) molecules/ProductCardNN entre os paths — a matriz inteira sumiu`
+    );
     return [];
   }
 

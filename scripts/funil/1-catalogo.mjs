@@ -14,6 +14,9 @@ import {
   conferirScssPortavel,
   conferirAlertasDaApuracao,
   conferirRegistroDeResolvers,
+  conferirParidadeGlobalTemplates,
+  lerManifests,
+  raizesDoTema,
 } from './lib/contrato.mjs';
 import {
   RAIZ,
@@ -192,8 +195,11 @@ r.ok(
   vtexSemPath.join(', ')
 );
 
-// 5. registry ↔ catálogo, nos dois sentidos. Entrada sem item ativo é peso morto
-//    no bundle; item sem entrada cai num placeholder PNG sem avisar.
+// 5. registry ↔ catálogo, nos dois sentidos, pelas CHAVES do objeto
+//    `TemplateRegistry` — é ele que o ThemeRenderer consulta. Até 24/09 isto lia
+//    as linhas de import: tirar `Footer06,` do objeto e deixar o import passava
+//    verde, e no app o rodapé virava o marcador vermelho "não está no
+//    TemplateRegistry". Entrada sem item ativo é peso morto no bundle.
 const regSrc = fs.readFileSync(
   path.join(RAIZ, 'src/utils/templateRegistry.ts'),
   'utf8'
@@ -201,11 +207,50 @@ const regSrc = fs.readFileSync(
 const importados = new Set(
   [...regSrc.matchAll(/^import\s+([A-Z][A-Za-z0-9]*)\s+from/gm)].map(m => m[1])
 );
+const { default: ts } = await import('typescript');
+const fonteReg = ts.createSourceFile(
+  'templateRegistry.ts',
+  regSrc,
+  ts.ScriptTarget.Latest,
+  true
+);
+const objeto = fonteReg.statements
+  .filter(ts.isVariableStatement)
+  .flatMap(st => [...st.declarationList.declarations])
+  .find(d => ts.isIdentifier(d.name) && d.name.text === 'TemplateRegistry')
+  ?.initializer;
+// chave → o identificador que ela renderiza
+const registro = new Map();
+const ilegiveis = [];
+for (const p of objeto && ts.isObjectLiteralExpression(objeto)
+  ? objeto.properties
+  : []) {
+  if (ts.isShorthandPropertyAssignment(p)) registro.set(p.name.text, p.name.text);
+  else if (
+    ts.isPropertyAssignment(p) &&
+    (ts.isIdentifier(p.name) || ts.isStringLiteral(p.name)) &&
+    ts.isIdentifier(p.initializer)
+  )
+    registro.set(p.name.text, p.initializer.text);
+  else ilegiveis.push(p.getText().slice(0, 60));
+}
 const usados = new Set(todos.map(i => i.component));
-const orfaos = [...importados].filter(c => !usados.has(c));
-const ausentes = [...usados].filter(c => !importados.has(c));
+const renderizados = new Set(registro.values());
+const orfaos = [
+  ...[...registro.keys()].filter(c => !usados.has(c)).map(c => `${c} (chave sem item)`),
+  ...[...importados]
+    .filter(c => !renderizados.has(c))
+    .map(c => `${c} (importado e fora do objeto)`),
+];
+const ausentes = [
+  ...(registro.size ? [] : ['objeto TemplateRegistry não encontrado ou vazio']),
+  ...ilegiveis.map(t => `entrada que não é \`Nome\` nem \`Nome: Ident\`: ${t}`),
+  ...[...usados].filter(c => !registro.has(c)).map(c => `${c} (sem chave no objeto)`),
+  ...[...registro].filter(([k, v]) => k !== v).map(([k, v]) => `${k} renderiza ${v}`),
+  ...[...renderizados].filter(v => !importados.has(v)).map(v => `${v} (sem import)`),
+];
 r.ok(
-  `registry sem órfão (${importados.size} imports)`,
+  `registry sem órfão (${registro.size} chaves, ${importados.size} imports)`,
   orfaos.length === 0,
   orfaos.join(', ')
 );
@@ -215,7 +260,7 @@ r.ok(
   ausentes.join(', ')
 );
 
-// 6. o mock existe em disco
+// 6. o mock existe em disco — o do identificador que a chave renderiza
 const caminhoMock = new Map(
   [
     ...regSrc.matchAll(
@@ -224,7 +269,7 @@ const caminhoMock = new Map(
   ].map(m => [m[1], m[2]])
 );
 const semMock = [...usados].filter(c => {
-  const rel = caminhoMock.get(c);
+  const rel = caminhoMock.get(registro.get(c) ?? c);
   return (
     !rel || !fs.existsSync(path.join(RAIZ, 'src/components/templates', rel))
   );
@@ -258,10 +303,13 @@ for (const i of todos) {
   }
 }
 r.ok(
-  `origem Tray (${nTray}) e Wake (${nWake}) existe`,
+  `origem Tray (${nTray}) e Wake (${nWake}) existe no global-templates local`,
   semOrigem.length === 0,
   semOrigem.join(' | ')
 );
+// ...que é o clone do GitHub, não o do GitLab que o generator clona: diz qual
+// árvore foi lida e compara as duas quando o GitLab responde.
+await conferirParidadeGlobalTemplates(r);
 
 // 7b. conteúdo hospedado no CDN de OUTRA loja.
 //
@@ -280,8 +328,9 @@ r.ok(
 // Não é conserto meu — trocar as imagens ou definir onde hospedá-las é decisão de
 // produto, e a trilha Wake não é validável desta máquina.
 //
-// O que dá para garantir é que a lista não CRESÇA. Estes 8 são os alcançáveis pelo
-// catálogo hoje; um nono reprova o estágio.
+// O que dá para garantir é que a lista não CRESÇA, e que encolha junto quando uma
+// pasta for limpa: item que saiu e continua aqui é vaga reservada para a mesma
+// pasta voltar a sujar sem ninguém ver. As duas direções reprovam.
 const CDN_DE_TERCEIRO =
   /(agenciaseriedesign2|guardaroba|plenitudedistribuidora|chasleao)\.fbitsstatic\.net/;
 // Eram 8. Os três `Wake/Common/template_*/spot` saíram em 10/09 com a remoção
@@ -319,8 +368,11 @@ r.ok(
   novos.length === 0,
   novos.join(', ')
 );
-if (sumiram.length)
-  console.log(`  ℹ️  limpos desde a medição: ${sumiram.join(', ')}`);
+r.ok(
+  `CONTAMINADOS_CONHECIDOS só lista pasta ainda suja (${CONTAMINADOS_CONHECIDOS.size})`,
+  sumiram.length === 0,
+  `limpos desde a medição — tire de CONTAMINADOS_CONHECIDOS: ${sumiram.join(', ')}`
+);
 
 // 8. manifest do faststore presente para cada path
 const semManifest = todos
@@ -338,25 +390,40 @@ r.ok(
   semManifest.join(', ')
 );
 
+// As raízes que o generator acrescenta às do catálogo (ver `raizesDoTema`). Sem
+// elas, os itens 9, 10 e 13 abaixo nunca liam o ProductShowcase03…07 nem o
+// CrossSellingShelf01 — que chegam ao tema de quem escolhe a vitrine.
+const manifests = lerManifests();
+const vtexPaths = [
+  ...new Set(
+    todos.filter(i => i.platforms.includes('VTEX') && i.path).map(i => i.path)
+  ),
+];
+const raizes = raizesDoTema(vtexPaths, id => manifests.has(id));
+const injetadas = raizes.filter(id => !vtexPaths.includes(id));
+const injetadaSemManifest = injetadas.filter(id => !manifests.has(id));
+r.ok(
+  `manifest presente para as ${injetadas.length} raízes que o generator injeta (${injetadas.join(', ')})`,
+  injetadas.length > 0 && injetadaSemManifest.length === 0,
+  injetadas.length
+    ? `sem manifest: ${injetadaSemManifest.join(', ')}`
+    : 'nenhuma — o catálogo não oferece ProductShowcase01 nem vitrine com showcase'
+);
+
 // 8b. todo par do `2-fidelidade` aponta para a réplica do componente que mede.
 //     Renumerar um item não avisa o par: o 63f0c6d renumerou quatro, e o estágio
 //     de fidelidade morreu no primeiro par com um erro de canvas que não dizia
 //     nada — ou, na troca 04↔07, mediu cada PDP contra a réplica da outra.
 conferirParesDeFidelidade(layouts, r);
 
-// 9. cada componente VTEX se sustenta sozinho no tema gerado. O starter tem os
+// 9. cada raiz do tema se sustenta sozinha no tema gerado. O starter tem os
 //    quatro fragments em disco e sempre compila; o tema só recebe o que está
 //    declarado, e um campo de extensão sem fragment derruba o build lá.
-const vtexPaths = [
-  ...new Set(
-    todos.filter(i => i.platforms.includes('VTEX') && i.path).map(i => i.path)
-  ),
-];
-conferirFragmentos(vtexPaths, r);
+conferirFragmentos(raizes, r);
 // 10. e todo import relativo desses assets aponta para algo declarado. É a forma
 //     geral do item 9: no starter tudo resolve porque o repo inteiro está em
 //     disco; no tema só chega o que está no grafo.
-conferirImports(vtexPaths, r);
+conferirImports(raizes, r);
 
 // 11. o catálogo oferece card e vitrine como escolhas INDEPENDENTES; a
 //     substituição de spot troca o card dentro da vitrine. Qualquer par é
@@ -365,7 +432,7 @@ await conferirParesCardVitrine(vtexPaths, r);
 
 // 13. e o SCSS desses assets precisa compilar nas DUAS versões do FastStore: o
 //     starter está na v4, o tema-base do cliente ainda na v3.
-conferirScssPortavel(vtexPaths, r);
+conferirScssPortavel(raizes, r);
 
 // 14. os três alertas da apuração paralela viram INVARIANTE, não lembrete.
 //     Eu os conferi à mão uma vez, e essa conferência evaporou como qualquer

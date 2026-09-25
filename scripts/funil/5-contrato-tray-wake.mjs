@@ -13,9 +13,16 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { GLOBAL_TEMPLATES, SAIDA, relatorio } from './lib/util.mjs';
-import { conferirTrayWake } from './lib/contrato.mjs';
+import {
+  conferirTrayWake,
+  conferirParidadeGlobalTemplates,
+} from './lib/contrato.mjs';
 
 const r = relatorio('Estágio 5 — contrato Tray/Wake');
+
+// As origens abaixo são conferidas no clone local (GitHub); o generator clona o
+// GitLab. Diz qual árvore foi lida e compara as duas quando o GitLab responde.
+await conferirParidadeGlobalTemplates(r);
 
 for (const plataforma of ['Tray', 'Wake']) {
   const arquivo = `${SAIDA}/config-${plataforma}.json`;

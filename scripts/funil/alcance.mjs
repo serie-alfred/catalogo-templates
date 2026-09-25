@@ -18,8 +18,9 @@
  * A substituição de SPOT não acrescenta alcance: o alvo é o `ProductCard<NN>`
  * escolhido, que já é root pelo item de catálogo.
  *
- * `conferirImports` (contrato.mjs) usa só o grupo 1 — 106 assets. Com os outros
- * dois são 109. A diferença é justamente onde mora o `ProductShowcase07`.
+ * A lista vem de `raizesDoTema` (contrato.mjs), a mesma que os estágios 1 e 1g
+ * usam desde 24/09 — até ali eles partiam só do grupo 1, e o `ProductShowcase07`
+ * ficava fora de toda checagem estática.
  *
  *   yarn alcance
  *
@@ -29,7 +30,8 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { itens, FASTSTORE_STARTER } from './lib/util.mjs';
+import { itens } from './lib/util.mjs';
+import { lerManifests, fechoCompleto, raizesDoTema } from './lib/contrato.mjs';
 
 /** Os prefixos que o manifest deixa implícitos (`useInView` → `hooks/useInView`). */
 const PREFIXO = {
@@ -38,24 +40,6 @@ const PREFIXO = {
   typings: 'typings/',
   utils: 'utils/',
 };
-
-/** Todos os manifests do starter, por id, guardando a pasta de cada um. */
-function lerManifests() {
-  const m = new Map();
-  (function varrer(dir) {
-    for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
-      if (e.name === 'node_modules' || e.name.startsWith('.')) continue;
-      const p = path.join(dir, e.name);
-      if (e.isDirectory()) varrer(p);
-      else if (e.name === 'manifest.json') {
-        const d = JSON.parse(fs.readFileSync(p, 'utf8'));
-        d._dir = path.dirname(p);
-        m.set(d.id, d);
-      }
-    }
-  })(path.join(FASTSTORE_STARTER, 'src'));
-  return m;
-}
 
 /** Dependências declaradas de um asset, normalizadas para id. */
 function declaradas(d) {
@@ -72,19 +56,6 @@ function declaradas(d) {
     ...(g.typeDefs ?? []).map(x => (x.includes('/') ? x : `typeDefs/${x}`))
   );
   return out;
-}
-
-/** Mesma travessia de `fechoCompleto` em contrato.mjs. */
-function fecho(id, m) {
-  const vis = new Set();
-  const fila = [id];
-  while (fila.length) {
-    const i = fila.pop();
-    if (vis.has(i) || !m.has(i)) continue;
-    vis.add(i);
-    fila.push(...declaradas(m.get(i)));
-  }
-  return vis;
 }
 
 const arquivosTs = dir => {
@@ -107,27 +78,19 @@ const catalogo = [
   ),
 ];
 
-// Root 2 — auto-injeção do export (useLayoutGenerator.ts).
-const autoInjetados = catalogo.includes('organisms/ProductShowcase01')
-  ? ['overrides/CrossSellingShelf01']
-  : [];
-
-// Root 3 — alvo da substituição de showcase (BuildPipeline._resolve).
-const alvosShowcase = catalogo
-  .filter(p => /^organisms\/ProductShelfCustom\d+$/.test(p))
-  .map(p => `organisms/ProductShowcase${p.replace(/\D+/g, '')}`)
-  .filter(id => manifests.has(id));
-
-const roots = [...new Set([...catalogo, ...autoInjetados, ...alvosShowcase])];
+// Roots 2 e 3 — a auto-injeção do export e o alvo da substituição de showcase.
+const roots = raizesDoTema(catalogo, id => manifests.has(id));
+const autoInjetados = roots.filter(id => id.startsWith('overrides/') && !catalogo.includes(id));
+const alvosShowcase = roots.filter(id => id.startsWith('organisms/ProductShowcase') && !catalogo.includes(id));
 const alcance = new Set();
-for (const r of roots) for (const id of fecho(r, manifests)) alcance.add(id);
+for (const r of roots) for (const id of fechoCompleto(r, manifests)) alcance.add(id);
 
 // O alcance POTENCIAL: se todo asset que declara `section` entrasse no catálogo.
 // É o que separa "só falta registrar o pai" de "não tem como chegar".
 const potencial = new Set(alcance);
 for (const id of manifests.keys()) {
   if (manifests.get(id).section) {
-    for (const x of fecho(id, manifests)) potencial.add(x);
+    for (const x of fechoCompleto(id, manifests)) potencial.add(x);
   }
 }
 
@@ -180,7 +143,7 @@ const donoDe = abs => {
 };
 const naoDeclarados = new Map();
 for (const [id, d] of manifests) {
-  const f = fecho(id, manifests);
+  const f = fechoCompleto(id, manifests);
   for (const arq of arquivosTs(d._dir)) {
     const src = fs.readFileSync(arq, 'utf8');
     for (const [, imp] of src.matchAll(/from\s+'(\.[^']+)'/g)) {
