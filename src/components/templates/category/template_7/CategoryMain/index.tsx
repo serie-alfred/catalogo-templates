@@ -136,7 +136,11 @@ const fmt = (n: number) => n.toFixed(2).replace('.', ',');
 const flagClass = (v?: string) =>
   v === 'sale' ? styles.flagSale : v === 'new' ? styles.flagNew : styles.flagGold;
 
-/** Espelha o PriceRange07 local da origem: dois `input[type=range]` sobre o track. */
+/**
+ * Espelha o PriceRange07 local da origem: fill e os dois thumbs VISÍVEIS
+ * posicionados pelo estado, e dois `input[type=range]` invisíveis por cima,
+ * que só capturam o arraste — sem os `<span>` o slider não tem thumb nenhum.
+ */
 function PriceRange({ min, max }: { min: number; max: number }) {
   const [lo, setLo] = useState(min);
   const [hi, setHi] = useState(max);
@@ -148,6 +152,14 @@ function PriceRange({ min, max }: { min: number; max: number }) {
         <span
           className={styles.rangeFill}
           style={{ left: `${pctLo}%`, right: `${100 - pctHi}%` }}
+        />
+        <span
+          className={styles.rangeThumb}
+          style={{ left: `calc(${pctLo}% - 7px)` }}
+        />
+        <span
+          className={`${styles.rangeThumb} ${styles.rangeThumbR}`}
+          style={{ left: `calc(${pctHi}% - 7px)`, right: 'auto' }}
         />
         <input
           type="range"
@@ -169,8 +181,8 @@ function PriceRange({ min, max }: { min: number; max: number }) {
         />
       </div>
       <div className={styles.rangeLabels} data-role="range-labels">
-        <span>R$ {fmt(lo)}</span>
-        <span>R$ {fmt(hi)}</span>
+        <span>R$ {Math.round(lo)}</span>
+        <span>R$ {Math.round(hi)}</span>
       </div>
     </div>
   );

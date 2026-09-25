@@ -21,7 +21,8 @@ import styles from './index.module.css';
  * dimensiona as fotos é o CSS.
  *
  * Fica o `useState` do slide ativo, do tamanho escolhido, do popover de
- * compartilhar e do modal do guia — é o que faz o preview responder ao clique.
+ * compartilhar e do modal do guia — é o que faz o preview responder ao clique —,
+ * e o do carrossel de cores travado, que tira as setas como na origem.
  */
 const IMAGENS = [
   { url: 'https://placehold.co/800x800/efefef/999999?text=Foto+1', alternateName: 'Sapato — vista lateral' },
@@ -115,25 +116,41 @@ const StarIcon = ({ frac }: { frac: number }) => (
   </svg>
 );
 
+/* Ícone de compartilhar — path verbatim da origem (12×12, stroke 0.7), em 17px
+   como lá. Inline, herda o currentColor do .iconBtn. */
 const ShareIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
-    <circle cx="18" cy="5" r="3" />
-    <circle cx="6" cy="12" r="3" />
-    <circle cx="18" cy="19" r="3" />
-    <path d="M8.59 13.51l6.83 3.98M15.41 6.51L8.59 10.49" />
+  <svg width="17" height="17" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+    <path
+      d="M5.06701 6.63278L10.9577 0.742215M11.1293 1.80716L8.59973 10.0282C8.37304 10.765 8.2596 11.1335 8.06408 11.2557C7.89449 11.3617 7.68452 11.3794 7.49981 11.3027C7.28684 11.2144 7.11397 10.8693 6.76914 10.1796L5.16695 6.97521C5.11223 6.86576 5.08484 6.81127 5.04829 6.76385C5.01585 6.72177 4.97842 6.68386 4.93634 6.65142C4.88999 6.6157 4.83641 6.58891 4.73185 6.53663L1.52009 4.93076C0.830412 4.58592 0.485541 4.41334 0.397169 4.20036C0.320528 4.01565 0.338007 3.80548 0.44397 3.63589C0.566153 3.44034 0.934679 3.32674 1.67167 3.09997L9.89274 0.57041C10.4721 0.392134 10.7619 0.303068 10.9577 0.374914C11.1281 0.437494 11.2625 0.57175 11.3251 0.742215C11.3969 0.937823 11.3074 1.22835 11.1293 1.80716Z"
+      stroke="currentColor"
+      strokeWidth="0.7"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
   </svg>
 );
 
+/* Seta do carrossel de cores — SVG da origem (20×20, apontando para a esquerda; a
+   "próxima" é a mesma girada 180° pelo CSS). Não é o caret do palco (7×12, apontando
+   para a direita): com ele, e o mesmo giro, as duas setas apontavam para o lado errado. */
 const ColorsArrow = () => (
-  <svg width="7" height="12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M1 0.849121L6 5.84912L1 10.8491" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+    <path d="M12.5 16.25L6.25 10L12.5 3.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
+/* Ícone do guia de medidas — SVG verbatim da origem (16×13): o glifo é fill, dentro de
+   um <g> recortado, não stroke. */
 const GuiaIcon = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-    <path d="M3 7h18v10H3z" />
-    <path d="M7 7v4M11 7v6M15 7v4M19 7v6" />
+  <svg aria-hidden="true" width="16" height="13" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clipPath="url(#pdp06-guia-clip)">
+      <path d="M10.5836 3.78363C9.92113 4.29863 9.11689 4.5914 8.29818 4.76107C7.00328 5.02915 4.94822 5.05243 3.67836 4.675C3.40252 4.59281 3.15313 4.46689 2.89387 4.34837V4.96566C2.89387 5.15614 2.40921 5.28101 2.33689 4.95825C2.37746 4.39845 2.25259 3.68098 2.33795 3.14024C2.50057 2.10953 4.41911 1.88272 5.23817 1.84286C5.51331 1.82946 6.07875 1.80688 6.33096 1.84674C6.58316 1.8866 6.74825 2.118 6.77435 2.35574C6.82655 2.83512 6.74154 3.41079 6.76659 3.90039C6.69463 4.22314 6.20961 4.09827 6.20961 3.90779V2.40865C5.33729 2.41395 4.30094 2.39631 3.48435 2.73459C2.27093 3.23724 3.09211 3.94095 3.94468 4.16212C5.51472 4.56953 8.80013 4.5004 10.1067 3.43089C11.4132 2.36139 9.83647 1.50988 8.89995 1.14726C6.83114 0.345133 3.93903 0.345486 1.97569 1.43686C1.22365 1.85486 0.353444 2.63441 0.635635 3.58998C1.0621 5.03515 2.78875 5.81153 4.18172 5.93463L15.1882 5.93357C15.4856 5.93781 15.7184 6.18966 15.735 6.48032C15.6277 8.06306 15.8729 9.82464 15.735 11.3862C15.7075 11.6977 15.505 11.9139 15.1882 11.933L4.35809 11.9312C2.63496 11.6843 0.605653 10.8179 0.00423287 9.0539L0 3.16493C0.195417 0.672122 4.18842 -0.0859138 6.15811 0.00791473C7.51933 0.0728187 10.9462 0.769831 11.1441 2.46474C11.2562 3.4256 11.07 4.58153 11.1458 5.56285C11.0891 5.92581 10.5836 5.79354 10.5836 5.60024V3.78363ZM15.1692 6.49972L4.21488 6.50148C2.82579 6.3939 1.43353 5.81153 0.565793 4.70075V9.0218C0.565793 9.27436 1.28503 10.032 1.50161 10.2024C1.59826 10.2786 1.71678 10.3816 1.83565 10.4151V8.52797C1.83565 8.33749 2.32032 8.21262 2.39263 8.53538L2.41626 10.7693C3.07447 11.0811 3.78383 11.3167 4.51647 11.3675V9.23345C4.51647 8.98759 5.08085 8.98759 5.08085 9.23345V11.3675H7.19728V9.23345C7.19728 8.98759 7.76166 8.98759 7.76166 9.23345V11.3675H9.8781V9.23345C9.8781 8.98759 10.4425 8.98759 10.4425 9.23345V11.3675H12.5589V9.23345C12.5589 8.98759 13.1233 8.98759 13.1233 9.23345V11.3675H15.1692V6.49972Z" fill="currentColor" />
+    </g>
+    <defs>
+      <clipPath id="pdp06-guia-clip">
+        <rect width="15.778" height="11.9332" fill="white" />
+      </clipPath>
+    </defs>
   </svg>
 );
 
@@ -207,6 +224,9 @@ export default function ProductInfo() {
   const [fav, setFav] = useState(false);
   const mainSwiperRef = React.useRef<SwiperType | null>(null);
   const colorsSwiperRef = React.useRef<SwiperType | null>(null);
+  // sem transbordo (as 3 cores em 3 por vista, no desktop) o Swiper trava — aí as
+  // setas não renderizam, como na origem, em vez de ficarem clicáveis sem fazer nada
+  const [colorsLocked, setColorsLocked] = useState(false);
 
   /* tamanho de entrada = o primeiro COM estoque, como na origem */
   const tamanhoPadrao = TAMANHOS.find(t => t.available !== false)?.value ?? null;
@@ -433,19 +453,24 @@ export default function ProductInfo() {
             <div className={styles.colorsBlock} data-role="colors-block">
               <p className={styles.colorsTitle} data-role="colors-title">Cores</p>
               <div className={styles.colorsCarousel}>
-                <button
-                  type="button"
-                  className={`${styles.colorsArrow} ${styles.colorsArrowPrev}`}
-                  onClick={() => colorsSwiperRef.current?.slidePrev()}
-                  aria-label="Cores anteriores"
-                >
-                  <ColorsArrow />
-                </button>
+                {!colorsLocked && (
+                  <button
+                    type="button"
+                    className={`${styles.colorsArrow} ${styles.colorsArrowPrev}`}
+                    onClick={() => colorsSwiperRef.current?.slidePrev()}
+                    aria-label="Cores anteriores"
+                  >
+                    <ColorsArrow />
+                  </button>
+                )}
                 <Swiper
                   className={styles.colorsSwiper}
                   onSwiper={s => {
                     colorsSwiperRef.current = s;
+                    setColorsLocked(!!s.isLocked);
                   }}
+                  onResize={s => setColorsLocked(!!s.isLocked)}
+                  onBreakpoint={s => setColorsLocked(!!s.isLocked)}
                   slidesPerView={2.3}
                   spaceBetween={3}
                   breakpoints={{ 961: { slidesPerView: 3, spaceBetween: 3 } }}
@@ -464,14 +489,16 @@ export default function ProductInfo() {
                     </SwiperSlide>
                   ))}
                 </Swiper>
-                <button
-                  type="button"
-                  className={`${styles.colorsArrow} ${styles.colorsArrowNext}`}
-                  onClick={() => colorsSwiperRef.current?.slideNext()}
-                  aria-label="Próximas cores"
-                >
-                  <ColorsArrow />
-                </button>
+                {!colorsLocked && (
+                  <button
+                    type="button"
+                    className={`${styles.colorsArrow} ${styles.colorsArrowNext}`}
+                    onClick={() => colorsSwiperRef.current?.slideNext()}
+                    aria-label="Próximas cores"
+                  >
+                    <ColorsArrow />
+                  </button>
+                )}
               </div>
             </div>
 

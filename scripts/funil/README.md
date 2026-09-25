@@ -138,17 +138,24 @@ de variável acusava. A réplica passou a usar o glifo da origem.
 **Chave de um lado só que pinta com o tema reprova** (desde 24/09). Antes ela sumia da
 conta: trocar `.comprar` por `.buy` com `#fff` cravado dava 0 asserções e 0 falhas, e a
 tela sem asserção nenhuma passava com `0/0` — hoje ela também reprova, salvo par que
-declara `semPaleta` (o ProductDescriptionBanner01, banner só de imagem). A primeira rodada
-achou divergências reais que nenhum portão via, e elas ficam em `paletaDeUmLado` no par,
-com o motivo, até a réplica ser consertada — a dispensa que nenhuma tela usa reprova:
-o slider de preço do MainCategory07 sem os `.rangeThumb` na réplica, e no ProductDetails06
+declara `semPaleta` (o ProductDescriptionBanner01, banner só de imagem). Divergência
+conhecida fica em `paletaDeUmLado` no par, com o motivo, até a réplica ser consertada — e
+a dispensa que nenhuma tela usa reprova, então o conserto leva a linha junto. A primeira
+rodada achou divergências reais que nenhum portão via, todas consertadas em 25/09: o
+slider de preço do MainCategory07 sem os `.rangeThumb` na réplica, e no ProductDetails06
 o `ShareIcon` e o `GuiaIcon` com glifos diferentes e as setas do carrossel de cores
-sempre visíveis na réplica (a origem as esconde com o carrossel travado).
+sempre visíveis na réplica (a origem as esconde com o carrossel travado). Hoje sobra uma
+dispensa, e ela não é defeito: o rótulo sr-only do CEP, `.srOnly` no ShippingSimulator06
+da origem e `.shipSrOnly` na réplica, que inlina os dois componentes num CSS module só.
 
 O que ela **não** vê: chave de um lado só que só pinta cravado (estrutura, assunto do
 `data-role`), cor dentro de SVG em data-URI, conteúdo portado para fora da raiz, e
-qualquer propriedade que não seja cor ou fonte. O `:hover` emulado é tudo pairado ao
-mesmo tempo, um superconjunto do real, e vale porque os dois lados recebem o mesmo.
+qualquer propriedade que não seja cor ou fonte. O conserto de 25/09 achou duas assim, só
+olhando as telas: a seta do carrossel de cores da réplica era o caret do palco e, com o
+giro do CSS, apontava para o lado errado; e os rótulos do slider de preço saíam com
+centavos (texto de `<span>` sem `data-role` não é comparado). O `:hover` emulado é tudo
+pairado ao mesmo tempo, um superconjunto do real, e vale porque os dois lados recebem o
+mesmo.
 
 ## Por que quase toda falha do funil já foi do PRÓPRIO funil
 

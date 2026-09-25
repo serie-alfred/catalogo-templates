@@ -84,17 +84,7 @@ export const PARES = [
   // conteúdo do clone estouraria os 90s. O portão diz na saída que esse par mede
   // um viewport só, para ninguém ler 1 componente como 2 viewports.
   { starter: 'PopupNews06', id: '06', layoutKey: 'popupNews', pagina: 'home', soDesktop: true },
-  {
-    starter: 'MainCategory07',
-    id: '07',
-    layoutKey: 'categoryMain',
-    pagina: 'category',
-    paletaDeUmLado: {
-      '.rangeThumb':
-        'a réplica tem o CSS dos thumbs do slider de preço mas não renderiza os dois <span>: na tela dela o slider não tem thumb visível',
-      '.rangeThumb.rangeThumbR': 'o thumb da direita do mesmo slider (ver .rangeThumb)',
-    },
-  },
+  { starter: 'MainCategory07', id: '07', layoutKey: 'categoryMain', pagina: 'category' },
   { starter: 'ProductDetails07', id: '07', layoutKey: 'productInfo', pagina: 'product' },
   {
     starter: 'ProductDetails06',
@@ -102,14 +92,6 @@ export const PARES = [
     layoutKey: 'productInfo',
     pagina: 'product',
     paletaDeUmLado: {
-      '@guia-btn>svg>g>path':
-        'o GuiaIcon da origem é desenhado com fill dentro de <g>; o da réplica, com stroke — glifos diferentes',
-      '@guia-btn>svg>path': 'o GuiaIcon da réplica (ver @guia-btn>svg>g>path)',
-      '.iconBtn>svg>circle':
-        'o ShareIcon da réplica é o de três nós (3 <circle>); o da origem é um aviãozinho, um <path> só',
-      '.colorsArrow.colorsArrowPrev>svg>path':
-        'a origem esconde as setas do carrossel de cores quando ele está travado (colorsLocked); a réplica as mostra sempre',
-      '.colorsArrow.colorsArrowNext>svg>path': 'a seta seguinte do mesmo carrossel (ver colorsArrowPrev)',
       '.srOnly':
         'o rótulo sr-only do CEP: `.srOnly` no ShippingSimulator06 da origem, `.shipSrOnly` na réplica, que inlina os dois componentes num CSS module',
       '.shipSrOnly': 'o mesmo rótulo, do lado da réplica (ver .srOnly)',
