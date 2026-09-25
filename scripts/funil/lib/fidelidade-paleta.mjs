@@ -16,8 +16,11 @@
  *    LOCAL das classes de CSS module (`style_comprar__eOG6y` no webpack do
  *    starter, `BannerCarousel_comprar__r_H4T` no Turbopack daqui — o
  *    `/from-faststore` preserva o nome), senão a chave do ancestral + a tag.
- *    Chave que só existe de um lado não é comparada: é estrutura, e estrutura é
- *    assunto da medição por `data-role`.
+ *    Chave que só existe de um lado e pinta com o tema REPROVA: é cor de tema que
+ *    ninguém do outro lado confere. Até 24/09 ela sumia da conta — trocar
+ *    `.comprar` por `.buy` com `#fff` cravado dava 0 asserções e 0 falhas. A que
+ *    só pinta cravado continua fora: é estrutura, assunto do `data-role`. E tela
+ *    com 0 asserções reprova, salvo par que declara `semPaleta`.
  * 2. Só o que PINTA: cor e fonte só em nó com texto próprio — o
  *    `[data-fs-button-wrapper]` do Trustvox herda o azul do core do FastStore e
  *    divergia, sem texto nenhum para pintar —; borda só do lado visível;
@@ -210,9 +213,24 @@ function legivel(registro, nomes) {
 
 /**
  * Compara os mapas dos dois lados e empurra uma divergência por asserção
- * reprovada. Devolve `{ repouso, hover }` — quantas asserções houve em cada.
+ * reprovada. Devolve `{ repouso, hover, umLado, dispensadas }` — quantas
+ * asserções houve em cada leitura, quantas chaves de um lado só reprovaram, e
+ * quais chaves de `deUmLado` foram usadas (o estágio reprova a dispensa que
+ * nenhuma tela do par usou).
+ *
+ * @param opcoes.deUmLado  `{ chave: motivo }` — divergências conhecidas, de um
+ *                         lado só, que aguardam conserto na réplica
+ * @param opcoes.semPaleta motivo pelo qual o par não tem nada que pinte com o
+ *                         tema (0 asserções deixa de reprovar; >0 reprova)
  */
-export function compararPaleta(origem, clone, rotulo, falhas, paleta) {
+export function compararPaleta(
+  origem,
+  clone,
+  rotulo,
+  falhas,
+  paleta,
+  { deUmLado = {}, semPaleta = null } = {}
+) {
   // cor pelo valor computado; fonte pela face, que é o que o mapa guarda
   const face = v => v.split(',')[0].trim().replace(/^["']|["']$/g, '').toLowerCase();
   const nomes = new Map(
@@ -222,7 +240,7 @@ export function compararPaleta(origem, clone, rotulo, falhas, paleta) {
     v.length ? `"${v.map(r => legivel(r, nomes)).join(' | ')}"` : erro;
   if (!origem.repouso || !clone.repouso) {
     falhas.push(`${rotulo}: paleta sem raiz do componente (${origem.repouso ? 'clone' : 'origem'})`);
-    return { repouso: 1, hover: 0 };
+    return { repouso: 1, hover: 0, umLado: 0, dispensadas: new Set() };
   }
   for (const [lado, m] of [['origem', origem], ['clone', clone]])
     if (!m.regras) falhas.push(`${rotulo}: nenhuma regra de :hover emulada na ${lado}`);
@@ -251,8 +269,53 @@ export function compararPaleta(origem, clone, rotulo, falhas, paleta) {
   const mC = mudou(clone);
   const repouso = contar(origem.repouso, clone.repouso, '');
   const hover = contar(origem.hover ?? {}, clone.hover ?? {}, ' :hover', (k, p) => mO(k, p) || mC(k, p));
+
+  // A chave de um lado só que pinta com o tema — cada uma é uma asserção
+  // reprovada, salvo a divergência conhecida de `deUmLado`. A leitura sob
+  // :hover só acrescenta o nó que o hover revela.
+  let umLado = 0;
+  const dispensadas = new Set();
+  const vistas = new Set();
+  const semPar = (a, b, lado, onde) => {
+    for (const [k, ps] of Object.entries(a ?? {})) {
+      if (b?.[k] || vistas.has(`${lado}\u0000${k}`)) continue;
+      const tema = Object.keys(ps).filter(p => ps[p].some(acompanha));
+      if (!tema.length) continue;
+      vistas.add(`${lado}\u0000${k}`);
+      if (k in deUmLado) {
+        dispensadas.add(k);
+        continue;
+      }
+      umLado++;
+      falhas.push(
+        `${rotulo}${onde}: ${k} só existe na ${lado} e pinta com o tema (${tema.join(', ')}) — o outro lado não tem o nó, ou a classe mudou de nome`
+      );
+    }
+  };
+  semPar(origem.repouso, clone.repouso, 'origem', '');
+  semPar(clone.repouso, origem.repouso, 'réplica', '');
+  semPar(origem.hover, clone.hover, 'origem', ' :hover');
+  semPar(clone.hover, origem.hover, 'réplica', ' :hover');
+
+  // Tela sem asserção nenhuma não provou nada — e passava com `0/0`.
+  const semRegras = [origem, clone].filter(m => !m.regras).length;
+  let vazio = 0;
+  const medidas = repouso + hover + umLado + dispensadas.size;
+  if (semPaleta && medidas) {
+    vazio = 1;
+    falhas.push(
+      `${rotulo}: o par declara semPaleta ("${semPaleta}") e a leitura achou ${medidas} ponto(s) de tema — tire a dispensa`
+    );
+  } else if (!semPaleta && !medidas) {
+    vazio = 1;
+    falhas.push(
+      `${rotulo}: 0 asserções de paleta — nada pinta com o tema nos dois lados, ou nenhuma chave casou; se o componente não tem cor nem fonte de tema, declare semPaleta no par`
+    );
+  }
   return {
-    repouso: repouso + [origem, clone].filter(m => !m.regras).length,
+    repouso: repouso + semRegras + vazio,
     hover,
+    umLado,
+    dispensadas,
   };
 }

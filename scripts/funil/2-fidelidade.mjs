@@ -7,8 +7,15 @@
  * contra o Figma, não o conteúdo do canvas. Ninguém comparava os dois lados.
  *
  * Como compara: os dois lados publicam os MESMOS `data-role`. O portão casa nó a
- * nó por `role + texto`, e afirma sobre a CAIXA (w/h/dx/dy relativos ao primeiro
- * nó visível). Caixa é a asserção; CSS é diagnóstico — com uma exceção, abaixo.
+ * nó por `role + texto` — e, quando o par se repete, pela ordem entre os iguais
+ * —, e afirma sobre a CAIXA (w/h/dx/dy relativos ao primeiro nó visível). Caixa é
+ * a asserção; CSS é diagnóstico — com uma exceção, abaixo.
+ *
+ * O ordinal entre os iguais é de 24/09. Antes, a chave era só `role + texto`, e o
+ * Map ficava com o ÚLTIMO de cada grupo: no MainCategory06, 21 dos 94 nós (os 12
+ * cards repetem nome e preço) nunca eram comparados — clone com nó a mais ou
+ * recolorido, desde que repetido, dava 0 falhas. Na primeira rodada com o
+ * ordinal, os 72 nós que a chave engolia nos 25 pares casaram todos.
  *
  * Isso deixa de fora o nó sem `data-role` e o `:hover`. Uma segunda leitura, na
  * mesma página e com placar próprio, cobre os dois para cor e fonte da paleta:
@@ -30,9 +37,17 @@
  *    foi exatamente assim que apareceu que o starter pedia Poppins e nunca a
  *    carregava (título 15px contra 20px).
  *
- * 3. Propriedade só é comparada no nó que a POSSUI — computado diferente do pai.
- *    Um wrapper sem texto próprio herda a cor do shell e divergia por isso, sem
- *    nada visível na tela. Quem herda não é comparado; quem estabelece, é.
+ * 3. Propriedade só é comparada no nó onde ALGUM dos lados a POSSUI — computado
+ *    diferente do pai. Um wrapper sem texto próprio herda a cor do shell e
+ *    divergia por isso, sem nada visível na tela: quem herda dos dois lados não é
+ *    comparado; quem estabelece, é. Até 24/09 só a ORIGEM decidia, e o clone que
+ *    estabelecesse 30px bold num papel de texto livre (geometria dispensada),
+ *    onde a origem herda, nunca era conferido. Ligar o outro lado trouxe 48
+ *    reprovações, todas a mesma: `fontSize 16px → 13.3333px` em `<button>` — o
+ *    shell do starter tem `button, input, … { font-size: 100% }` e o catálogo
+ *    não, então o botão da réplica ficava no padrão do navegador. É a oitava
+ *    baseline de shell do `normalizar` (os botões medidos não têm texto próprio,
+ *    então nada disso aparecia na tela).
  */
 import puppeteer from 'puppeteer-core';
 import { findChrome, BASE_URL, lerLayouts } from './lib/util.mjs';
@@ -171,8 +186,15 @@ const normalizar = paleta => {
     // fixa), ou seja, sem consequência visual. Como as outras, some por
     // especificidade: o seletor de elemento (0,0,1) perde para qualquer
     // `.classe` que o componente declare.
+    //
+    // Oitava: `font-size`. O shell do starter traz o normalize
+    // `button, input, optgroup, select, textarea { font-size: 100% }`; o
+    // catálogo não, e o controle fica nos 13.333px do navegador. Invisível
+    // enquanto só a origem decidia o que comparar; com os dois lados decidindo
+    // (regra 3), eram 48 reprovações `16px → 13.3333px` em botão sem texto
+    // próprio. Mesma regra, mesma especificidade da do starter.
     'button, input, select, textarea { line-height: normal;' +
-    ' font-family: inherit; padding: 0; }';
+    ' font-family: inherit; font-size: 100%; padding: 0; }';
   document.head.appendChild(st);
   // Regra de autor com `!important` em `*`, não inline no <html>/<body>: o
   // starter declara os tokens em `body.theme`, mas o catálogo os declara num
@@ -475,15 +497,19 @@ async function medirCatalogo(browser, par, mobile, paleta) {
 
 function comparar(origem, clone, rotulo, falhas, textoLivre = []) {
   const livre = new Set(textoLivre);
-  // papel livre entra por papel + ordem; o resto, por papel + texto
+  // papel livre entra por papel + ordem; o resto, por papel + texto — e o
+  // repetido, por papel + texto + a ordem entre os iguais. Sem o ordinal o Map
+  // guardava só o último de cada grupo, e os outros nunca eram comparados.
   const chaveador = () => {
-    const ordem = new Map();
+    const vistas = new Map();
     return n => {
       // sem texto próprio (contêiner) ou papel de texto livre → papel + ordem
-      if (n.texto && !livre.has(n.role)) return `${n.role}#${n.texto}`;
-      const i = (ordem.get(n.role) ?? 0) + 1;
-      ordem.set(n.role, i);
-      return `${n.role}#${i}`;
+      const porTexto = !!n.texto && !livre.has(n.role);
+      const base = porTexto ? `${n.role}#${n.texto}` : n.role;
+      const i = (vistas.get(base) ?? 0) + 1;
+      vistas.set(base, i);
+      if (!porTexto) return `${base}#${i}`;
+      return i === 1 ? base : `${base} [${i}]`;
     };
   };
   const chaveO = chaveador();
@@ -518,14 +544,18 @@ function comparar(origem, clone, rotulo, falhas, textoLivre = []) {
           falhas.push(`${rotulo}: ${k} · ${eixo} ${o[eixo]} → ${c[eixo]} (Δ ${d.toFixed(2)}px)`);
       }
     for (const p of PROPS) {
-      if (!(p in o.st)) continue; // a origem não ESTABELECE a propriedade aqui
+      // nenhum dos dois lados ESTABELECE a propriedade aqui (regra 3)
+      if (!(p in o.st) && !(p in c.st)) continue;
       asserts++;
-      // ...mas compara contra o COMPUTADO do clone: o que importa é o que
-      // pinta na tela, não se ele coincide com o pai dele.
-      const a = p === 'fontFamily' ? face(o.st[p]) : o.st[p];
+      // ...mas compara COMPUTADO contra computado: o que importa é o que pinta
+      // na tela, não se cada lado coincide com o próprio pai.
+      const a = p === 'fontFamily' ? face(o.tudo[p] ?? '') : o.tudo[p];
       const b = p === 'fontFamily' ? face(c.tudo[p] ?? '') : c.tudo[p];
       if (a !== b)
-        falhas.push(`${rotulo}: ${k} · ${p} "${o.st[p]}" → "${c.tudo[p] ?? '(ausente)'}"`);
+        falhas.push(
+          `${rotulo}: ${k} · ${p} "${o.tudo[p] ?? '(ausente)'}" → "${c.tudo[p] ?? '(ausente)'}"${
+            p in o.st ? '' : ' (só a réplica estabelece)'}`
+        );
     }
   }
   return asserts;
@@ -566,6 +596,10 @@ try {
     const telas = par.soDesktop
       ? [['desktop', 1440, false]]
       : [['desktop', 1440, false], ['mobile', 375, true]];
+    // As divergências conhecidas de paleta que alguma tela do par usou — a
+    // dispensa que nenhuma usou reprova no fim do par, como toda dispensa aqui.
+    const dispensasUsadas = new Set();
+    let telasMedidas = 0;
     for (const [rot, largura, mobile] of telas) {
       const rotulo = `${par.starter}/${rot}`;
       // Um par que estoura é falha DAQUELE par: vira divergência e o laço
@@ -590,14 +624,20 @@ try {
           await medirStarter(browser, par.starter, largura, altura, paleta);
         const n = comparar(origem, clone, rotulo, falhas, par.textoLivre);
         total += n;
-        const np = compararPaleta(mapasO, mapasC, rotulo, falhasPaleta, paleta);
-        totalPaleta += np.repouso + np.hover;
+        const np = compararPaleta(mapasO, mapasC, rotulo, falhasPaleta, paleta, {
+          deUmLado: par.paletaDeUmLado,
+          semPaleta: par.semPaleta,
+        });
+        totalPaleta += np.repouso + np.hover + np.umLado;
+        for (const k of np.dispensadas) dispensasUsadas.add(k);
+        telasMedidas++;
         const nLivres = origem.filter(x => (par.textoLivre ?? []).includes(x.role)).length;
         console.log(
-          `  ${rotulo}: ${origem.length} nós · ${n} asserções · paleta ${np.repouso + np.hover}${
+          `  ${rotulo}: ${origem.length} nós · ${n} asserções · paleta ${np.repouso + np.hover + np.umLado}${
             np.hover ? ` (${np.hover} sob :hover)` : ''}${
             par.soDesktop ? ' (só desktop: a origem não renderiza no mobile)' : ''}${
-            nLivres ? ` (${nLivres} com texto livre: geometria dispensada)` : ''}`
+            nLivres ? ` (${nLivres} com texto livre: geometria dispensada)` : ''}${
+            par.semPaleta ? ' (semPaleta: nada nele pinta com o tema)' : ''}`
         );
       } catch (e) {
         total++;
@@ -605,6 +645,17 @@ try {
         const motivo = String(e?.message ?? e).split('\n')[0];
         falhas.push(`${rotulo}: não mediu — ${motivo}`);
         console.log(`  ${rotulo}: não mediu — ${motivo}`);
+      }
+    }
+    // Só dá para dizer que a dispensa sobrou se todas as telas do par mediram.
+    for (const [k, motivo] of Object.entries(par.paletaDeUmLado ?? {})) {
+      if (dispensasUsadas.has(k))
+        console.log(`  ⏳ ${par.starter}: ${k} só de um lado — ${motivo}`);
+      else if (telasMedidas === telas.length) {
+        totalPaleta++;
+        falhasPaleta.push(
+          `${par.starter}: a divergência conhecida "${k}" não apareceu em nenhuma tela — tire de paletaDeUmLado no par`
+        );
       }
     }
   }
