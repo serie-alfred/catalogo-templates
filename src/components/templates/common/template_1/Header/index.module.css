@@ -168,7 +168,7 @@ header.header .header__middle .middle__container .middle__row .middle__search .s
 }
 
 header.header .header__middle .middle__container .middle__row .middle__search .search form .searchKey {
-  background-color: var(--color-white);
+  background-color: #fff;
   border: 1px solid rgba(137, 137, 137, 0.4784313725);
   border-radius: 16px;
   font-size: 16px;
@@ -177,7 +177,7 @@ header.header .header__middle .middle__container .middle__row .middle__search .s
   padding: 0px 15px 0px 50px;
   width: 100%;
   height: 56px;
-  color: var(--color-black);
+  color: #000;
   transition: 0.5s;
 }
 
@@ -186,11 +186,12 @@ header.header .header__middle .middle__container .middle__row .middle__search .s
 header.header .header__middle .middle__container .middle__row .middle__search .search form .searchKey::-webkit-input-placeholder,
 header.header .header__middle .middle__container .middle__row .middle__search .search form .searchKey:-moz-placeholder,
 header.header .header__middle .middle__container .middle__row .middle__search .search form .searchKey::-moz-placeholder {
-  color: var(--color-black);
+  color: #c7ccd1;
 }
 
 header.header .header__middle .middle__container .middle__row .middle__search .search form .searchKey::placeholder {
-  color: var(--color-black);
+  /* = --fs-color-neutral-3 do FastStore, que o placeholder do NavBarSearch01 lê */
+  color: #c7ccd1;
 }
 
 header.header .header__middle .middle__container .middle__row .middle__search .search form .suggestion .suggestion-words {
@@ -230,14 +231,14 @@ header.header .header__middle .middle__container .middle__row .middle__search .s
   font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-size: 12px;
   font-weight: 500;
-  color: var(--color-black);
+  color: #171a1c;
 }
 
 header.header .header__middle .middle__container .middle__row .middle__search .search form .suggestion .suggestion-products .suggestion-product .suggestion-desc span {
   font-family: var(--header-font, var(--font-secundary, 'Manrope', sans-serif));
   font-size: 12px;
   font-weight: 400;
-  color: var(--color-black);
+  color: #171a1c;
 }
 
 header.header .header__middle .middle__container .middle__row .middle__config {
@@ -415,7 +416,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   left: 0px;
   top: 100%;
   z-index: 11;
-  background-color: var(--color-white, #ffffff);
+  background-color: #ffffff;
   min-width: max-content;
   height: auto;
   padding: 0px;
@@ -466,7 +467,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   right: -150%;
   top: 0;
   width: 100%;
-  background-color: var(--color-white, #ffffff);
+  background-color: #ffffff;
   z-index: 1;
   padding: 7px 0px;
   min-width: 200px;
@@ -511,7 +512,7 @@ header.header .header__cart .cart__preview {
   max-width: 390px;
   height: 100%;
   z-index: 99999;
-  background-color: var(--color-white, #ffffff);
+  background-color: #ffffff;
   transition: 0.5s;
 }
 
@@ -641,7 +642,7 @@ header.header .header__cart .cart__preview .preview-itens .preview-item .item-in
 
 header.header .header__cart .cart__preview .preview-itens .preview-item .item-info .item-title a strong {
   font-weight: 500;
-  color: var(--color-black);
+  color: var(--cart-text, #171a1c);
 }
 
 header.header .header__cart .cart__preview .preview-itens .preview-item .item-info .item-quantity {
@@ -690,7 +691,7 @@ header.header .header__cart .cart__preview .preview__total {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  background-color: var(--color-white, #ffffff);
+  background-color: #ffffff;
   border-radius: 0px;
 }
 
@@ -706,7 +707,7 @@ header.header .header__cart .cart__preview .preview__total .total span {
   font-family: var(--header-font, var(--font-secundary, 'Manrope', sans-serif));
   font-size: 24px;
   font-weight: 700;
-  color: var(--color-black);
+  color: var(--cart-text, var(--text-primary-color, #3C3C3C));
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -715,7 +716,7 @@ header.header .header__cart .cart__preview .preview__total .total span {
 header.header .header__cart .cart__preview .preview__total .total span strong {
   font-weight: 700;
   font-size: 24px;
-  color: var(--color-black);
+  color: var(--cart-text, #1c1c1c);
   width: calc(100% - 59px);
   display: block;
   text-align: right;
@@ -723,7 +724,7 @@ header.header .header__cart .cart__preview .preview__total .total span strong {
 
 header.header .header__cart .cart__preview .preview__total .total span strong span {
   font-weight: 700;
-  color: var(--color-black);
+  color: var(--cart-text, #1c1c1c);
   display: inline-block;
 }
 
@@ -763,7 +764,7 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
 }
 
 header.header .header__cart .cart__preview .preview__total .keep__buy span {
-  background-color: var(--color-white, #ffffff);
+  background-color: #ffffff;
   font-weight: 400;
   font-size: 14px;
   color: var(--header-text, var(--text-color-base, #122161));
@@ -772,7 +773,7 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span {
 }
 
 header.header .header__cart .cart__preview .preview__total .keep__buy span:hover {
-  background-color: var(--color-white, #ffffff) !important;
+  background-color: #ffffff !important;
 }
 
 @container (min-width: 1024px) and (max-width: 1199px) {
@@ -935,7 +936,8 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
   }
 
   header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper:hover {
-    background-color: var(--color-white, #ffffff);
+    /* o MiniCartController01 não pinta caixa no hover abaixo de 1024px */
+    background-color: transparent;
   }
 
   header.header .header__middle .middle__container .middle__row .middle__config .config__cart .cart__wrapper:hover svg path {
@@ -1074,7 +1076,7 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
   }
 
   header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:hover>a {
-    background-color: var(--color-white, #ffffff);
+    background-color: transparent;
   }
 
   header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:hover .submenu__wrapper {
@@ -1109,7 +1111,7 @@ header.header .header__cart .cart__preview .preview__total .keep__buy span:hover
   }
 
   header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__arrow--mobile svg path {
-    stroke: var(--color-black);
+    stroke: #000;
   }
 
   header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__wrapper {

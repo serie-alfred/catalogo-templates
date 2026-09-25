@@ -13,7 +13,8 @@
   gap: 2px;
 }
 .homeShowcase .showcaseContainer .showcaseTitle h2 {
-  font-family: var(--font-family);
+  font-family: var(--shelf-title-font, var(--font-primary, 'Fabriga', sans-serif));
+  color: var(--shelf-title-color, var(--text-primary-color, #212721));
   font-weight: 600;
   font-size: 27px;
   line-height: 120%;
@@ -59,8 +60,11 @@
 .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet:last-of-type {
   margin: 0px;
 }
+/* A vitrine real não tem bolinhas, só as setas: o bullet ativo segue a cor delas no
+   ProductShelfCustom06 (`--shelf-arrow-color`). O --color-black que ficava aqui só
+   existe no globals.css do catálogo. */
 .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet.swiperPaginationBulletActive {
-  background-color: var(--color-black);
+  background-color: var(--shelf-arrow-color, var(--text-primary-color, #212721));
 }
 .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonPrev,
 .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonNext {

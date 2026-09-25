@@ -171,8 +171,8 @@
   bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--color-white);
-  color: var(--color-semi-black);
+  background-color: #fff;
+  color: #6a6a6a;
   width: 90%;
   max-width: 900px;
   padding: 25px 16px;
@@ -192,7 +192,7 @@
   font-size: 12px;
   font-weight: 400;
   font-family: var(--font-primary);
-  color: var(--text-semi-black);
+  color: #1a1a1a;
   width: 65%;
 }
 
@@ -208,8 +208,8 @@
 
 .modal__lgpd .lgpd__content .lgpd__accept {
   width: 25%;
-  background-color: var(--color-semi-black);
-  color: var(--color-white);
+  background-color: #6a6a6a;
+  color: #fff;
   text-decoration: none;
   text-transform: uppercase;
   padding: 7px 12px;
@@ -239,12 +239,12 @@
   text-transform: uppercase;
   display: block;
   text-align: center;
-  color: var(--color-black) !important;
+  color: #000 !important;
   font-family: var(--footer-font, var(--font-secundary, 'Poppins', sans-serif));
 }
 
 #NavLogoTray .logotray-message a {
-  color: var(--color-black) !important;
+  color: #000 !important;
   font-size: 12px !important;
   font-weight: 900;
   font-family: var(--font-primary);

@@ -30,7 +30,7 @@
    font-family: var(--breadcrumb-font, var(--font-secundary, 'Poppins', sans-serif));
    font-weight: 500;
    font-size: 14px;
-   color: var(--breadcrumb-text, var(--color-semi-black, #292929));
+   color: var(--breadcrumb-text, #7c7c83);
    text-decoration: none;
  }
 

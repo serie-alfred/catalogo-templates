@@ -333,7 +333,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 400;
   font-size: 14px;
-  color: var(--color-semi-black);
+  color: #525252;
   margin-bottom: 25px;
 }
 
@@ -343,7 +343,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 700;
   font-size: 24px;
-  color: var(--color-black);
+  color: #292929;
   margin-bottom: 25px;
 }
 
@@ -364,7 +364,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 400;
   font-size: 12px;
-  color: var(--color-semi-black);
+  color: #525252;
   margin-top: 1px;
 }
 
@@ -453,7 +453,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 700;
   font-size: 22px;
-  color: var(--color-black);
+  color: #000;
   line-height: 1;
   display: flex;
   flex-wrap: wrap;
@@ -468,7 +468,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoDe {
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   text-decoration: line-through;
-  color: var(--color-semi-black);
+  color: #7a7a7a;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -501,7 +501,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .PrecoPrincipal {
   font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
-  color: var(--color-black);
+  color: #000;
   height: unset;
   margin: 0px;
   display: block;
@@ -520,7 +520,7 @@
 }
 
 .precoParc {
-  color: var(--color-semi-black);
+  color: #3d3d3d;
   display: inline-block;
   font-size: 14px;
   font-style: normal;
@@ -559,7 +559,7 @@
   display: inline-block;
   content: 'Em';
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
-  color: var(--color-semi-black);
+  color: #3d3d3d;
   margin-right: 3px;
   margin-left: 3px;
   font-size: 14px;
@@ -702,7 +702,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 500;
   font-size: 14px;
-  color: var(--color-semi-black);
+  color: #525252;
   text-decoration: underline;
   margin-top: 30px;
   cursor: pointer;
@@ -719,7 +719,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 700;
   font-size: 16px;
-  color: var(--color-black);
+  color: #0f0f0f;
   margin-bottom: 15px !important;
 }
 
@@ -806,7 +806,7 @@
 }
 
 .listaCorVariacao li {
-  background-color: var(--color-white);
+  background-color: #fff;
   border: 1px solid #DFDFE0;
   width: 93px;
   height: 56px;
@@ -814,7 +814,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 16px;
   font-weight: 600;
-  color: var(--color-black);
+  color: #0f0f0f;
   line-height: 1;
   display: flex;
   flex-wrap: wrap;
@@ -880,7 +880,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar .cor_variacao .lista_cor_variacao li div {
-  background-color: var(--color-white);
+  background-color: #fff;
   border: 1px solid #DFDFE0;
   width: 93px;
   height: 56px;
@@ -900,7 +900,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar .cor_variacao .lista_cor_variacao li .cor_selecionada {
   border: 1px solid transparent !important;
   box-shadow: unset !important;
-  background-color: var(--color-black);
+  background-color: var(--prod-info-variant-active-bg, var(--background-primary-color, #682A77));
   color: var(--prod-info-secondary-text, var(--text-color-secundary, #ffffff));
 }
 
@@ -1092,7 +1092,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 700;
   font-size: 16px;
-  color: var(--color-black);
+  color: #0f0f0f;
   margin-bottom: 25px;
 }
 

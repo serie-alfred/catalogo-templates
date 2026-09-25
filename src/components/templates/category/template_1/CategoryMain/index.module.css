@@ -32,14 +32,15 @@
      marca (default #000 no useLayoutGenerator), não uma superfície — e o texto
      dos painéis cai em --cat-main-text (default --text-primary-color, default
      #1a1a1a). O par ficava preto sobre preto. A origem crava `white` nesses
-     painéis; aqui é o token --color-white, o mesmo que o resto deste
-     componente já usava.
+     painéis, então o Nível 1 cai direto no hex, sem Nível 2 — fundo claro
+     estrutural. O --color-white que ficava no meio só existe no globals.css
+     do catálogo: o tema gerado nunca o declara.
 
      --cat-main-panel-bg e --cat-main-panel-text andam em par: quem escurecer o
      painel precisa clarear o texto, senão o contraste se perde de novo. Sem
      --cat-main-panel-text definida, o texto do painel segue --cat-main-text
      como o resto do componente. */
-  --cm1-panel-bg: var(--cat-main-panel-bg, var(--color-white, #ffffff));
+  --cm1-panel-bg: var(--cat-main-panel-bg, #ffffff);
   --cm1-text: var(--cat-main-panel-text, var(--cat-main-text, var(--text-primary-color, #141414)));
   --cm1-muted: color-mix(in srgb, var(--cm1-text) 55%, transparent);
   --cm1-border: color-mix(in srgb, var(--cm1-text) 15%, transparent);
