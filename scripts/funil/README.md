@@ -19,21 +19,21 @@ e o `yarn dev` de pé para os estágios 2 e 3. Saídas em `.funil/` (ignorada).
 
 | Estágio | O que prova | Precisa de |
 |---|---|---|
-| `1-catalogo` | chaves e ids únicos, registry casado, mock em disco, **origem real em `global-templates`** para todo item Tray/Wake, manifest para todo `path` VTEX, e o `registration.spread` de todo resolver casa com a forma do default export, nas quatro grafias que o `ResolverIndexPatcher` escreve — texto, objeto, `QueryAndMutation` e `root` (espalhar o objeto inteiro com `Query` no topo dá `Query.Query` no tema, e o GraphQL inteiro dele responde 500; bloco que o export não tem quebra o tsc; texto desconhecido deixa o resolver importado e não registrado) | nada |
-| `1-grafo` | todo `path` VTEX resolve no grafo de `manifest.json`, com o `AssetRegistry` e o `DependencyResolver` reais do generator, e todo `scss` declarado existe em `src/sass` | checkouts irmãos de `faststore.starter` e `produtos-template-generator` |
+| `1-catalogo` | chaves e ids únicos, registry casado **pelas chaves do objeto `TemplateRegistry`** (não pelas linhas de import), mock em disco, **origem real em `global-templates`** para todo item Tray/Wake (e diz QUAL clone leu — ver abaixo), `CONTAMINADOS_CONHECIDOS` exato nos dois sentidos, manifest para todo `path` VTEX e para as **raízes que o generator injeta** (`CrossSellingShelf01` e o `ProductShowcase` da vitrine), fragment, import e SCSS de todas elas — import de override lido onde o tema o lê (o destino achatado), e import que não resolve em lugar nenhum reprova —, a matriz vitrine×card (lado vazio reprova), e o `registration.spread` de todo resolver casa com a forma do default export, nas quatro grafias que o `ResolverIndexPatcher` escreve — texto, objeto, `QueryAndMutation` e `root` (espalhar o objeto inteiro com `Query` no topo dá `Query.Query` no tema, e o GraphQL inteiro dele responde 500; bloco que o export não tem quebra o tsc; texto desconhecido deixa o resolver importado e não registrado) | nada |
+| `1-grafo` | todo `path` VTEX **e toda raiz que o generator injeta** resolve no grafo de `manifest.json`, com o `AssetRegistry` e o `DependencyResolver` reais do generator, e todo `scss` declarado existe em `src/sass`. Prova que o que está DECLARADO existe — não que a declaração está completa (isso é o `conferirImports` do estágio 1) | checkouts irmãos de `faststore.starter` e `produtos-template-generator` |
 | `1-variaveis` | toda `cssVar` do `variablesSchema` é consumida pelo CSS, e o `default` bate com o nível 3 do fallback encadeado | nada |
-| `2-fidelidade` | a réplica do catálogo bate com o componente real do starter. Os pares moram em `lib/fidelidade.mjs` — o estágio 1 confere que cada um aponta para a réplica certa —, e um par que estoura vira divergência dele, sem esconder os outros. **Dois placares**: nó a nó por `data-role` (caixa e CSS, em repouso) e a **paleta** — cor e fonte de tema em todo nó, inclusive sem `data-role` e sob `:hover` (ver 2f abaixo) | dev server **e** o `yarn dev` do `faststore.starter` em :3000 |
+| `2-fidelidade` | a réplica do catálogo bate com o componente real do starter. Os pares moram em `lib/fidelidade.mjs` — o estágio 1 confere que cada um aponta para a réplica certa —, e um par que estoura vira divergência dele, sem esconder os outros. **Dois placares**: nó a nó por `data-role` (caixa e CSS, em repouso; nó repetido casa pela ordem entre os iguais, e a propriedade é comparada quando QUALQUER lado a estabelece) e a **paleta** — cor e fonte de tema em todo nó, inclusive sem `data-role` e sob `:hover`; chave de um lado só que pinta com o tema reprova, e tela com 0 asserções também (ver 2f abaixo) | dev server **e** o `yarn dev` do `faststore.starter` em :3000 |
 | `2-editor` | shell, canvas, painéis, atalhos, modal, troca de plataforma, fonte que não vaza no `:root`, contraste derivado | dev server |
-| `2-render` | **todo item do catálogo** monta sozinho, sem erro de console, com altura e conteúdo (`FUNIL_RENDER_NOVOS=1` reduz aos 23 do redesign) | dev server |
+| `2-render` | **todo item do catálogo** monta sozinho, sem erro de console, com altura e conteúdo, e sem o marcador vermelho `[data-registry-missing]` do ThemeRenderer (`FUNIL_RENDER_NOVOS=1` reduz aos 23 do redesign — execução parcial) | dev server |
 | `2-edicao` | regras de negócio: singleton substitui, não-singleton coexiste, duplicar/remover, painel de variáveis, troca de plataforma | dev server |
 | `2-geometria` | fidelidade ao Figma: **119 nós comparados** (134 asserções), tolerância por classe de nó e exceções codificadas por eixo. Imprime o censo das fixtures e reprova se a cobertura regredir. **Reprova** | dev server |
 | `2-preview` | visão mobile, link `/p/{id}/{page}` compartilhável e a rota `/gerador/import-log` | dev server |
 | `2-zoom` | o preview "Desktop" é desktop: viewport lógica de 1440 em qualquer tela, escala, controle de zoom e **clique de mouse real** dentro do frame escalado | dev server |
 | `2-usabilidade` | todo controle é achável, alcançável e faz alguma coisa: varredura de alcance, as 10 cores globais, o `FontSelector` no caminho feliz, `ScrollArea`, o `Fechar` do modal, a fonte das superfícies portalizadas e o `DesktopOnlyNotice` | dev server |
 | `2-integracao` | a escolha do cliente **chega ao config**: cor global → `config.json` → as 3 páginas do preview → sobrevive ao reload | dev server |
-| `3-export` | o botão "Baixar" entrega os três configs; cada um resolve o contrato da sua plataforma; os dois PNGs saem | dev server |
-| `4-tema-faststore` | o generator monta o tema de verdade e **ele compila** (`yarn build`) — a única perna do pipeline executável desta máquina | estágio 3 · `gh` autenticado · minutos |
-| `5-contrato-tray-wake` | contrato estático de Tray e Wake: pasta de origem, `instanceCount`, dedupe `key::arquivo`, nenhum caminho com espaço | estágio 3 |
+| `3-export` | toda seleção semeada hidrata (o app servido é este catálogo); o botão "Baixar" entrega os três configs; cada um resolve o contrato da sua plataforma; os dois PNGs saem | dev server |
+| `4-tema-faststore` | o generator monta o tema de verdade e **ele compila** (`yarn build`) — a única perna do pipeline executável desta máquina. As travas de dado de exemplo (`MOCK_ENABLED`, `DevFidelityStage`) são conferidas no tema entregue, e arquivo ausente reprova (`FUNIL_TEMA_BUILD=0` pula o build — execução parcial) | estágio 3 · `gh` autenticado · minutos |
+| `5-contrato-tray-wake` | contrato estático de Tray e Wake: pasta de origem, `instanceCount`, dedupe `key::arquivo`, nenhum caminho com espaço — no clone local de `global-templates` (ver abaixo) | estágio 3 |
 
 ## Estágio 4 — o que ele monta, e por que cruzado
 
@@ -47,8 +47,10 @@ Ele também põe **cor por componente** no config, como sai de um export real
 (o `pickChangedVariables` grava toda variável que o cliente mexeu): um bloco
 `variables` num componente comum e num override, com os nomes do
 `variablesSchema` do catálogo e valores-marcador. Depois confere que cada
-marcador chegou ao SCSS do tema (o componente na própria pasta, o override em
-`src/sass/`). O config coerente não traz `variables`, e foi assim que o VALIDATE
+declaração `--var: marcador;` chegou a algum SCSS do tema (qualquer arquivo da
+pasta do componente, ou de `src/sass/` para o override). Não confere em QUE
+seletor ela caiu, nem que o SCSS de fato lê a variável — essa segunda é do
+`1-variaveis`. O config coerente não traz `variables`, e foi assim que o VALIDATE
 do generator reprovou todo componente não-override com cor escolhida de 08/09 a
 23/09 ("destino disputado por duas origens") sem este estágio perceber.
 
@@ -98,8 +100,9 @@ recarrega o editor para ver se o trabalho sobreviveu — o `/gerador` não tem
 
 A perna **editor → config** da *variável por componente* não é exercitada aqui: o
 painel de propriedades não expõe um seletor estável para dirigi-la. A perna
-**config → tema** é, no estágio 4 (`InjectComponentVariables` põe
-`--breadcrumb-text` dentro de `.breadcrumb` no SCSS gerado).
+**config → tema** é, em parte, no estágio 4: ele confere que a declaração de cada
+variável escolhida chegou a um SCSS do componente no tema gerado — não o seletor
+em que o `InjectComponentVariables` a pôs.
 
 ## Estágio 2f — o que o `data-role` não vê
 
@@ -132,11 +135,20 @@ real que ninguém via: a aba mobile do HelpFloatButton06 desenhava um balão com
 réplica, onde a origem tem o glifo com `fill` — os dois no mesmo token, então nenhum portão
 de variável acusava. A réplica passou a usar o glifo da origem.
 
-O que ela **não** vê: nó cuja chave só existe de um lado (peça nativa do FastStore contra
-classe da réplica — estrutura é assunto do `data-role`), cor dentro de SVG em data-URI,
-conteúdo portado para fora da raiz, e qualquer propriedade que não seja cor ou fonte. O
-`:hover` emulado é tudo pairado ao mesmo tempo, um superconjunto do real, e vale porque os
-dois lados recebem o mesmo.
+**Chave de um lado só que pinta com o tema reprova** (desde 24/09). Antes ela sumia da
+conta: trocar `.comprar` por `.buy` com `#fff` cravado dava 0 asserções e 0 falhas, e a
+tela sem asserção nenhuma passava com `0/0` — hoje ela também reprova, salvo par que
+declara `semPaleta` (o ProductDescriptionBanner01, banner só de imagem). A primeira rodada
+achou divergências reais que nenhum portão via, e elas ficam em `paletaDeUmLado` no par,
+com o motivo, até a réplica ser consertada — a dispensa que nenhuma tela usa reprova:
+o slider de preço do MainCategory07 sem os `.rangeThumb` na réplica, e no ProductDetails06
+o `ShareIcon` e o `GuiaIcon` com glifos diferentes e as setas do carrossel de cores
+sempre visíveis na réplica (a origem as esconde com o carrossel travado).
+
+O que ela **não** vê: chave de um lado só que só pinta cravado (estrutura, assunto do
+`data-role`), cor dentro de SVG em data-URI, conteúdo portado para fora da raiz, e
+qualquer propriedade que não seja cor ou fonte. O `:hover` emulado é tudo pairado ao
+mesmo tempo, um superconjunto do real, e vale porque os dois lados recebem o mesmo.
 
 ## Por que quase toda falha do funil já foi do PRÓPRIO funil
 
@@ -179,12 +191,22 @@ Duas regras que saíram disso, e que valem para qualquer estágio novo:
 ## O resultado vira evidência, não recado
 
 Uma execução COMPLETA grava `.funil/resultado.json`: placar por estágio, total de asserções, e o
-**commit de cada um dos 4 repos** naquele instante. É esse último campo que faz diferença — "o
-funil passou" não diz nada sobre o código de agora se alguém commitou depois.
+**commit de cada um dos 4 repos** naquele instante. É esse campo que faz diferença — "o funil
+passou" não diz nada sobre o código de agora se alguém commitou depois.
+
+Commit igual não basta, e até 24/09 era só o que ele guardava. O registro agora traz também,
+no início e no fim da execução, o que estava **fora do commit** em cada repo (`git status
+--porcelain` — o funil lê o working tree) e **de que pasta rodava** o processo que respondeu em
+`FUNIL_BASE_URL`/`FUNIL_STARTER_URL` (`lsof`: outra sessão pode subir o catálogo de outro
+checkout na mesma porta), e as variáveis que desviam o que é medido (`FASTSTORE_*`,
+`NEXT_PUBLIC_DEV_FIDELITY`). Com isso ele diz `evidencia: true|false` e os `motivos`. As que
+**estreitam** — `FUNIL_TEMA_BUILD=0`, `FIDELIDADE_SO`, `FUNIL_RENDER_NOVOS=1` — a execução
+completa recusa: para iterar, rode os estágios por nome.
 
 O `cutover-preflight.sh` lê esse arquivo e reprova se a última execução foi vermelha, se nunca
-houve uma, ou se qualquer repo mudou desde então. Execução parcial não grava nada: carimbar o
-conjunto a partir de um estágio seria provar o todo olhando uma parte.
+houve uma, se qualquer repo mudou desde então, se ela não vale como evidência (cada motivo vira
+uma linha) ou se o registro é de antes desses campos. Execução parcial não grava nada: carimbar
+o conjunto a partir de um estágio seria provar o todo olhando uma parte.
 
 Quando um estágio falhar, a primeira pergunta é "o produto está errado ou o teste chegou cedo?".
 Rode o estágio sozinho, com o dev quente: se passar, é o segundo caso.
@@ -204,6 +226,14 @@ do catálogo. Um `selection` com typo não dá erro em lugar nenhum: a seção
 simplesmente não existe no tema entregue. O estágio 1 é o único lugar onde isso
 aparece antes da loja.
 
+Com uma ressalva que os estágios 1 e 5 agora dizem em voz alta: eles leem o checkout
+irmão, que é clone do **GitHub**, e o generator clona o **GitLab**
+(`GLOBAL_COMPONENTS_REPO_URL`). Componente empurrado só para um dos dois passa aqui e some
+do tema. Os dois remotos são privados; com `credential.helper` vazio o `ls-remote` do
+GitLab responde 401 em ~2 s em vez de travar, então onde houver acesso sem o keychain o
+estágio compara os commits e reprova se divergirem, e onde não houver imprime o que leu
+(`ℹ️ origem Tray/Wake conferida em … @ <commit>; … paridade não verificada`).
+
 No VTEX é o oposto: o `path` resolve contra `faststore.starter` pelo grafo de
 `manifest.json`, e o estágio 3 usa o `AssetRegistry` + `DependencyResolver`
 **reais do generator** — não uma réplica — porque um path que não resolve derruba
@@ -214,16 +244,15 @@ a geração do tema inteiro, não só aquele componente.
 `scripts/funil/alcance.mjs` não é estágio: não falha, não entra no `yarn funil`
 (o runner só pega `^\d`). É inventário para decidir.
 
-Ele responde "quais assets do `faststore.starter` nenhum tema consegue receber", e
-existe porque o estágio 1 responde só metade. `conferirImports` parte apenas dos
-`path` VTEX do catálogo (63 hoje). Faltam dois grupos de root que o resto do pipeline
-injeta: `overrides/CrossSellingShelf01` (auto-injetado por `useLayoutGenerator`
-quando `ProductShowcase01` é escolhido) e `organisms/ProductShowcase<NN>` (empurrado
-por `BuildPipeline._resolve` para o sufixo da vitrine escolhida). Com os três grupos
-são **69 roots → 151 assets** dos 186 manifests (medido: o script imprime as quatro
-linhas), e é por isso que uma varredura ingênua acusa o `ProductShowcase07` de órfão
-sem ele ser. Os números envelhecem a cada componente novo — rode `yarn alcance` em vez
-de confiar nestes.
+Ele responde "quais assets do `faststore.starter` nenhum tema consegue receber". As raízes
+são três grupos: os `path` VTEX do catálogo, `overrides/CrossSellingShelf01`
+(auto-injetado por `useLayoutGenerator` quando `ProductShowcase01` é escolhido) e
+`organisms/ProductShowcase<NN>` (empurrado por `BuildPipeline._resolve` para o sufixo da
+vitrine escolhida). A lista sai de `raizesDoTema` (`lib/contrato.mjs`), a mesma dos estágios
+1 e 1g — até 24/09 eles partiam só do primeiro grupo, e o `ProductShowcase07` ficava fora de
+toda checagem estática. É também por isso que uma varredura ingênua o acusa de órfão sem ele
+ser. Os números envelhecem a cada componente novo — rode `yarn alcance` em vez de confiar
+em algum escrito aqui.
 
 O script também varre **import não declarado nos 186 manifests**, não só nos que
 estão no alcance — um asset com `section` e import não declarado compila aqui e
