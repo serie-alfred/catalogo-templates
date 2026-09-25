@@ -1,9 +1,9 @@
-Depois do commit (25/09, ~13:00): quatro commits do Footer06 entraram em cima
+Depois do commit (25/09, entre 12:39 e 14:00), quatro commits do Footer06 entraram em cima
 (fb4daca, d5e7b19, bef61fd, a9bcf6e), e nenhum toca os dois arquivos deste:
 `git log cb1a3aa..main -- scripts/funil/1-variaveis.mjs scripts/funil/README.md`
 sai vazio.
 
-Reconferido nos commits exatos, em clones limpos (`git clone --shared`, sem
+Reconferido às ~17:20 nos commits exatos, em clones limpos (`git clone --shared`, sem
 working tree de outra sessão): starter 5e9066c + catálogo a9bcf6e, com o
 generator 5762706 e o global-templates 1af7fed iguais ao origin. `funil 1`:
 3/3 estágios, 1202/1202, e as mesmas 17 regras mortas nas linhas ℹ️.
