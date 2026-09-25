@@ -34,8 +34,10 @@
   text-decoration: none;
   transition: color var(--f6-t-fast);
 }
+/* Sem destaque no hover, como o Footer06 do starter: a captura de hover da origem
+   mostrou que nada muda no mouseover (links, campo em foco, ícones sociais). */
 .footer06 a:hover {
-  color: var(--footer-accent, var(--background-secundary-color, #c0121c));
+  color: var(--footer-text, var(--text-color-footer, #212721));
 }
 .footer06 :where(button) {
   font: inherit;
@@ -100,9 +102,8 @@
 .footer06 .field::placeholder {
   color: #828282;
 }
-.footer06 .field:focus {
+.footer06 .field:focus-visible {
   outline: none;
-  border-color: var(--footer-accent, var(--background-secundary-color, #c0121c));
 }
 
 .footer06 .newsletterBtn {
@@ -160,15 +161,15 @@
   color: var(--footer-text, var(--text-color-footer, #212721));
   transition: background var(--f6-t-fast), color var(--f6-t-fast);
 }
-.socialLinks a:hover {
-  background: rgba(33, 39, 33, 0.06);
-  color: var(--footer-accent, var(--background-secundary-color, #c0121c));
-}
-
 .socialIcon {
   width: 22px;
   height: 22px;
   fill: currentColor;
+  opacity: .7;
+  transition: .4s ease;
+}
+.socialIcon:hover {
+  opacity: 1;
 }
 
 .columns {

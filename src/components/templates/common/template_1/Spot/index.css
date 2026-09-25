@@ -93,7 +93,7 @@
 }
 
 .spot .product-wrapper .product-image .product-tag div.tag-new span {
-  background-color: var(--spot-tag-bg, var(--background-tertiary-color, #f5a623));
+  background-color: var(--background-tertiary-color, #f5a623);
   color: var(--spot-btn-text, var(--text-color-secundary, #ffffff));
 }
 

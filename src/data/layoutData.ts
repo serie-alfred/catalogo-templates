@@ -256,7 +256,6 @@ export const LAYOUTS: Layouts = {
     name: "Card de Produto",
     items: [
       { id: "01", selection: "spot", key: "crdprd017839", image: "spot/Spot01.webp", imageSource: "design", mobile: "", title: "Card de Produto Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Spot01", path: "molecules/ProductCard01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["secondary", "tertiary"], variablesSchema: [
-        { cssVar: "--spot-tag-bg", label: "Cor da etiqueta 'Novo'", type: "color", default: "#f5a623", group: "Etiquetas", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--spot-btn-bg", label: "Cor do botão comprar", type: "color", default: "#122161", group: "Botão", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--spot-btn-text", label: "Texto do botão comprar", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--spot-font", label: "Fonte do card de produto", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
@@ -346,7 +345,6 @@ export const LAYOUTS: Layouts = {
       { id: "06", selection: "footer", key: "ftr06frc3c4d", image: "footer/Footer06.webp", imageSource: "auto", mobile: "", title: "Footer Template 6", description: "Newsletter (nome + e-mail), redes sociais, 3 colunas e barra inferior com copyright", template: "6", pagina: ["common"], component: "Footer06", path: "organisms/Footer06", platforms: ['VTEX'], backgroundVars: ["footer", "secondary"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#f6f6f6", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#212721", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
-        { cssVar: "--footer-accent", label: "Cor de destaque (hover, links)", type: "color", default: "#c0121c", group: "Destaque", inheritsLabel: "cor secundária da marca", previewNote: "Aparece ao passar o mouse nos links e no campo em foco." },
         { cssVar: "--footer-newsletter-bg", label: "Fundo da faixa da newsletter", type: "color", default: "#ffffff", group: "Newsletter" },
         { cssVar: "--footer-newsletter-text", label: "Texto da faixa da newsletter", type: "color", default: "#212721", group: "Newsletter" },
         { cssVar: "--footer-button-bg", label: "Fundo do botão newsletter", type: "color", default: "#212721", group: "Newsletter", inheritsLabel: "cor secundária da marca" },
