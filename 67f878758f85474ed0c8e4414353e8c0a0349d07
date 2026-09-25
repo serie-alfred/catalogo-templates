@@ -1,0 +1,108 @@
+Para a thread principal (25/09, ~17:50). É um adendo à mensagem, sem reescrever o
+histórico, porque cb1a3aa, fb4daca, d5e7b19, bef61fd e a9bcf6e já foram commitados em
+cima deste.
+
+Reconferido nos commits exatos, em clones limpos, sem working tree de outra sessão. Os
+irmãos estavam nos HEADs da hora do commit: catálogo 67f8787, starter dc0edca, generator
+5762706 e global-templates 1af7fed. Resultado: funil 1 com 3/3 estágios e 1201/1201, tsc
+sem erro e ESLint limpo nos três arquivos de código. No HEAD integrado (catálogo a9bcf6e
++ starter 5e9066c), o funil 1 dá 1202/1202.
+
+O 2-fidelidade dos dois pares não foi refeito em clone, porque precisaria de dev próprio
+e a máquina estava com carga perto de 500. Mesmo assim, o verde da mensagem vale para o
+estado commitado:
+- no catálogo, a árvore medida era 95aacff mais estes 4 arquivos (o git status antes do
+  commit mostrou só eles);
+- no starter, os arquivos que os dois pares renderizam (organisms/MainCategory07,
+  organisms/ProductDetails06, molecules/SizeFitAlert06 e molecules/ShippingSimulator06)
+  são idênticos em dc0edca, em origin/base/faststore (73244ec, o que está no ar) e no
+  HEAD 5e9066c.
+Quem prova os dois pares sobre o HEAD final é o funil completo da integração.
+
+Os commits de cima tocam dois caminhos deste, sem conflito: o cb1a3aa muda no README só a
+linha do 1-variaveis, e o d5e7b19 acrescenta o par Footer06 ao PARES do fidelidade.mjs.
+Os dois partem da versão deste commit.
+
+PEDIDO × OPCIONAL. A mensagem junta os dois num commit só, e a regra é commit separado
+para o opcional sair com git revert. Com cinco commits por cima, separar agora seria
+reescrever o histórico dos outros. Então fica assim:
+- PEDIDO: os thumbs do slider do CategoryMain07; o ShareIcon, o GuiaIcon e o colorsLocked
+  do ProductInfo06; as 7 linhas de dispensa fora; e o parágrafo do 2f no README.
+- OPCIONAL (a seção "De quebra" da mensagem): a seta do carrossel de cores com o glifo da
+  origem, e os rótulos do slider sem centavos. Recomendo manter, porque sem isso as duas
+  setas apontam para o lado errado no mobile.
+- Se o usuário não quiser o opcional, o patch no fim desta nota tira só ele. Conferido em
+  a9bcf6e: aplica limpo, e com ele o tsc passa e o funil 1 dá 1202/1202. Para aplicar, da
+  raiz do catálogo, e depois commitar como um commit novo:
+    git notes show 67f8787 | awk '/^```diff$/{f=1;next} /^```$/{f=0} f' | git apply
+
+PENDENTE (não bloqueia o merge): o card do seletor do CategoryMain07 (imageSource "auto")
+é um print do componente de 23/09. Ele mostra o slider sem thumbs, os rótulos com
+centavos e o 1º chip de subcategoria ativo, que o 6ef9973 já tinha tirado. O comando é
+THUMBS_SO=CategoryMain07 yarn thumbs:auto (com o yarn dev de pé). A tentativa das 17:20
+falhou com "o seletor de página não abriu com 4 opções", por causa da carga, e não
+gravou nada. Refazer com a máquina livre gera um commit à parte, só com o .webp; o
+ProductInfo06 é arte do designer e fica como está.
+
+Como mergear, atualizado:
+- É só o catálogo. Não depende de commit do starter, porque a origem já era assim antes
+  de dc0edca.
+- Sem push. Esta nota sobe à parte: git push origin refs/notes/commits.
+
+```diff
+diff --git a/scripts/funil/README.md b/scripts/funil/README.md
+index a921f43..f149398 100644
+--- a/scripts/funil/README.md
++++ b/scripts/funil/README.md
+@@ -151,11 +151,11 @@ da origem e `.shipSrOnly` na réplica, que inlina os dois componentes num CSS mo
+ O que ela **não** vê: chave de um lado só que só pinta cravado (estrutura, assunto do
+ `data-role`), cor dentro de SVG em data-URI, conteúdo portado para fora da raiz, e
+ qualquer propriedade que não seja cor ou fonte. O conserto de 25/09 achou duas assim, só
+-olhando as telas: a seta do carrossel de cores da réplica era o caret do palco e, com o
+-giro do CSS, apontava para o lado errado; e os rótulos do slider de preço saíam com
+-centavos (texto de `<span>` sem `data-role` não é comparado). O `:hover` emulado é tudo
+-pairado ao mesmo tempo, um superconjunto do real, e vale porque os dois lados recebem o
+-mesmo.
++olhando as telas, e elas continuam na réplica: a seta do carrossel de cores é o caret do
++palco e, com o giro do CSS, aponta para o lado errado; e os rótulos do slider de preço
++saem com centavos (texto de `<span>` sem `data-role` não é comparado). O `:hover`
++emulado é tudo pairado ao mesmo tempo, um superconjunto do real, e vale porque os dois
++lados recebem o mesmo.
+ 
+ ## Por que quase toda falha do funil já foi do PRÓPRIO funil
+ 
+diff --git a/src/components/templates/category/template_7/CategoryMain/index.tsx b/src/components/templates/category/template_7/CategoryMain/index.tsx
+index 98b0823..746e5f7 100644
+--- a/src/components/templates/category/template_7/CategoryMain/index.tsx
++++ b/src/components/templates/category/template_7/CategoryMain/index.tsx
+@@ -181,8 +181,8 @@ function PriceRange({ min, max }: { min: number; max: number }) {
+         />
+       </div>
+       <div className={styles.rangeLabels} data-role="range-labels">
+-        <span>R$ {Math.round(lo)}</span>
+-        <span>R$ {Math.round(hi)}</span>
++        <span>R$ {fmt(lo)}</span>
++        <span>R$ {fmt(hi)}</span>
+       </div>
+     </div>
+   );
+diff --git a/src/components/templates/product/template_6/ProductInfo/index.tsx b/src/components/templates/product/template_6/ProductInfo/index.tsx
+index 1fa6bd4..7693ffe 100644
+--- a/src/components/templates/product/template_6/ProductInfo/index.tsx
++++ b/src/components/templates/product/template_6/ProductInfo/index.tsx
+@@ -130,12 +130,9 @@ const ShareIcon = () => (
+   </svg>
+ );
+ 
+-/* Seta do carrossel de cores — SVG da origem (20×20, apontando para a esquerda; a
+-   "próxima" é a mesma girada 180° pelo CSS). Não é o caret do palco (7×12, apontando
+-   para a direita): com ele, e o mesmo giro, as duas setas apontavam para o lado errado. */
+ const ColorsArrow = () => (
+-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+-    <path d="M12.5 16.25L6.25 10L12.5 3.75" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
++  <svg width="7" height="12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
++    <path d="M1 0.849121L6 5.84912L1 10.8491" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+   </svg>
+ );
+ 
+```
