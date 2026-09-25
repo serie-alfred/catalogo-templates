@@ -131,6 +131,12 @@ do funil, desktop e mobile):
 apontavam para `Header06`/`Footer06` — o preview mostrava um componente e o tema
 saía com outro.
 
+`Footer06` ganhou par em 25/09/2026. A réplica tinha ficado no starter de junho
+(campo de 44px, círculo de 42px nos ícones, barra inferior sem selos nem logos)
+e nada acusava, porque sem `data-role` o componente não tinha como entrar no
+`PARES`. Os selos e os logos de plataforma da origem vêm do CDN da loja: na
+réplica são `placehold.co` na mesma proporção e `public/images/footer/platform/`.
+
 Fora da leva de propósito: **`WiddeScript06`** (injeta script de terceiro, não tem
 UI) e os **16 institucionais**, que exigem abrir o tipo de página `landingPage` em
 toda a cadeia.

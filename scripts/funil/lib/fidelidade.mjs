@@ -117,6 +117,18 @@ export const PARES = [
     pagina: 'common',
     textoLivre: ['brand-name', 'm-brand-name', 'copyright', 'm-copyright', 'nl-eyebrow'],
   },
+  {
+    starter: 'Footer06',
+    id: '06',
+    layoutKey: 'footer',
+    pagina: 'common',
+    // O copyright da origem tem razão social e CNPJ do cliente; o da réplica é
+    // genérico, com os mesmos 60 caracteres (ver o `copyright` dela): a barra de
+    // baixo divide a sobra entre selos e logos, e no mobile o texto quebra em duas
+    // linhas. Os selos da origem são do CDN da loja e aqui são placehold.co, mas
+    // na mesma proporção — imagem não tem texto próprio, então não entra aqui.
+    textoLivre: ['copyright'],
+  },
 ];
 
 /**
