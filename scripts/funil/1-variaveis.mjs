@@ -23,12 +23,37 @@
  *     `--font-family`) e na loja gerada a declaração fica inválida ou cai no
  *     fallback do starter — borda que some, fundo que vira transparente, fonte
  *     que cai na herdada;
- *  4. toda `cssVar` do schema aparece como `var(<cssVar>` no SCSS do fecho do
+ *  4. toda `cssVar` do schema é lida por uma regra VIVA do SCSS do fecho do
  *     `path` no starter — a pasta de cada componente que o grafo de manifests
  *     arrasta, mais o `dependencies.scss` declarado —, que é de onde o tema é
  *     montado. Em 24/09/2026 cinco campos passavam em 1 e 2 e morriam aqui: o
  *     painel mexia no preview, o gerador injetava a var no tema e nenhum
- *     seletor a lia.
+ *     seletor a lia. E achar `var(<cssVar>` no texto não bastava: em 25/09 o
+ *     Nível 1 posto no `.tag-new span` do ProductCard01 passava, e o TSX dele
+ *     nunca renderiza `tag-new`. Por isso cada SCSS é compilado com o sass
+ *     (aninhamento, `&` e variáveis `$x` saem resolvidos como no build), e a
+ *     regra que lê só é viva se, em algum seletor da lista, TODA classe do
+ *     módulo aparece como `<import>.x`, `<import>?.x` ou `<import>['x']` num
+ *     TSX do fecho que importa aquele módulo — classe de CSS module é do arquivo
+ *     que a declara, e o `.title` de outro módulo não a põe no DOM. Uma classe
+ *     que falta mata o seletor: `.spot … div.tag-new span` tem o `.spot`, que o
+ *     card usa, e morre pelo `.tag-new`. Não pedem nada do TSX o atributo
+ *     (`[data-fs-*]` é markup nativo do FastStore), a tag, o `:global(...)` e o
+ *     `:not(...)`; `:is/:where/:has` pedem uma alternativa; `@keyframes` vive
+ *     pela regra que anima com ele. Fica isenta a folha global — a que o
+ *     manifest põe em `themeImports`, como o `filter.scss` do MainCategory01,
+ *     importada no `custom-theme.scss` do tema —, porque classe global não
+ *     passa pelo import.
+ *
+ * Regra viva quer dizer que o TSX REFERENCIA as classes, não que o nó aparece:
+ * render condicional, prop que ninguém passa e a parte do seletor que o TSX não
+ * escreve (`[data-fs-*]`, tag) ficam presumidos. A chave dinâmica
+ * (`style[chave]`) não conta como referência: lendo o código não dá para saber
+ * que classe ela escolhe. O único caso hoje é o `style[buttonClassName]` do
+ * Drawer01, e ele nunca acha classe do Drawer01 — o NavBar01 passa
+ * `style.mobileMenuBtn`, que o módulo dele não declara, e o Drawer01 cai no
+ * padrão. Uma regra morta ao lado de uma viva que lê a mesma var não reprova —
+ * vira a linha ℹ️ do item.
  *
  * O que ele NÃO prova: que a declaração injetada ALCANÇA o nó que consome. O
  * `cssVariableInjector` do generator escreve só no primeiro seletor de topo do
@@ -44,6 +69,11 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+// Os dois são dependência do próprio catálogo: o estágio não pede o
+// node_modules do starter.
+import * as sass from 'sass';
+import postcss from 'postcss';
 import { lerLayouts, itens, relatorio, RAIZ, FASTSTORE_STARTER } from './lib/util.mjs';
 import { lerManifests, fechoCompleto } from './lib/contrato.mjs';
 
@@ -156,21 +186,41 @@ const dispensasUsadas = new Set();
  * é onde mora o estilo dos overrides.
  */
 const manifests = lerManifests();
-const scssEm = dir =>
+const arquivosEm = (dir, re) =>
   fs.readdirSync(dir, { withFileTypes: true }).flatMap(e =>
     e.isDirectory()
-      ? scssEm(path.join(dir, e.name))
-      : e.name.endsWith('.scss') ? [path.join(dir, e.name)] : []
+      ? arquivosEm(path.join(dir, e.name), re)
+      : re.test(e.name) ? [path.join(dir, e.name)] : []
   );
 function scssDoFecho(id) {
   const arqs = new Set();
   for (const dep of fechoCompleto(id, manifests)) {
     const d = manifests.get(dep);
-    for (const f of scssEm(d._dir)) arqs.add(f);
+    for (const f of arquivosEm(d._dir, /\.scss$/)) arqs.add(f);
     for (const nome of d.dependencies?.scss ?? [])
       arqs.add(path.join(FASTSTORE_STARTER, 'src/sass', `${nome}.module.scss`));
   }
   return [...arqs].filter(f => fs.existsSync(f));
+}
+/**
+ * As folhas globais do fecho: o que o manifest põe em `themeImports`, e o
+ * gerador importa no `custom-theme.scss` do tema. O nome casa como no
+ * `findVariablesNeedingGlobalScope` do generator: sem `.scss`, sem o `_` de
+ * partial, sem caixa.
+ */
+function globaisDoFecho(id) {
+  const globais = new Set();
+  for (const dep of fechoCompleto(id, manifests)) {
+    const d = manifests.get(dep);
+    const nomes = new Set(
+      (d.themeImports ?? []).map(t => path.basename(String(t)).replace(/\.scss$/i, '').toLowerCase())
+    );
+    if (!nomes.size) continue;
+    for (const f of arquivosEm(d._dir, /\.scss$/))
+      if (nomes.has(path.basename(f).replace(/\.scss$/i, '').replace(/^_+/, '').toLowerCase()))
+        globais.add(f);
+  }
+  return globais;
 }
 // SCSS tem os dois tipos de comentário. O `//` precedido de `:` fica, porque é
 // o `http://` dos SVGs em data-URI, não comentário.
@@ -179,6 +229,394 @@ const semComentariosScss = txt =>
 // O nome é `--[\w-]+`, nada nele é especial numa regex; o lookahead impede que
 // `--spot-tag-bg` case dentro de `--spot-tag-bg-hover`.
 const consome = (scss, nome) => new RegExp(`var\\(\\s*${nome}(?![\\w-])`).test(scss);
+
+/**
+ * Import de pacote (`@faststore/ui/…`, dezessete no CartSidebar01 e no 07)
+ * vira folha vazia: é CSS do FastStore, que não lê var do painel, e assim o
+ * estágio não depende do node_modules do starter. O import relativo o sass
+ * resolve em disco, como no build, e o que não resolve reprova ("não compila
+ * aqui") em vez de sumir.
+ */
+const pacoteVazio = {
+  canonicalize: url => (/^[@~]/.test(url) ? new URL(`funil-pacote:${url}`) : null),
+  load: () => ({ contents: '', syntax: 'scss' }),
+};
+/**
+ * Por var, onde a folha compilada a lê: `{ rotulo, seletores }`, com as
+ * listas de seletores que precisam casar. É a da própria regra; dentro de
+ * `@keyframes`, a de cada regra que anima com ele; fora de regra de estilo
+ * (`@font-face`, `@page`), nenhuma — `var()` não resolve ali.
+ */
+function regrasQueLeem(css) {
+  const raiz = postcss.parse(css);
+  const animam = new Map();
+  raiz.walkDecls(/^animation(-name)?$/i, d => {
+    if (d.parent.type !== 'rule') return;
+    for (const nome of d.value.split(/[\s,]+/)) {
+      if (!animam.has(nome)) animam.set(nome, []);
+      animam.get(nome).push(d.parent.selector);
+    }
+  });
+  const ondeDe = new Map();
+  const leem = new Map();
+  raiz.walkDecls(d => {
+    const regra = d.parent;
+    if (!ondeDe.has(regra)) {
+      const quadro =
+        regra.parent?.type === 'atrule' && /keyframes$/i.test(regra.parent.name)
+          ? regra.parent.params.trim()
+          : null;
+      ondeDe.set(
+        regra,
+        quadro !== null
+          ? { rotulo: `@keyframes ${quadro}`, seletores: animam.get(quadro) ?? [] }
+          : regra.type === 'rule'
+            ? { rotulo: regra.selector.replace(/\s+/g, ' '), seletores: [regra.selector] }
+            : { rotulo: `@${regra.name}`, seletores: [] }
+      );
+    }
+    for (const [, nome] of d.value.matchAll(/var\(\s*(--[\w-]+)/g)) {
+      if (!leem.has(nome)) leem.set(nome, new Set());
+      leem.get(nome).add(ondeDe.get(regra));
+    }
+  });
+  return leem;
+}
+function compilarScss(texto, arquivo, importers = []) {
+  try {
+    const { css } = sass.compileString(texto, {
+      url: pathToFileURL(arquivo),
+      importers: [...importers, pacoteVazio],
+      logger: sass.Logger.silent,
+    });
+    return { leem: regrasQueLeem(css) };
+  } catch (e) {
+    return { erro: String(e?.message ?? e).split('\n')[0] };
+  }
+}
+const folhas = new Map();
+const folhaDe = (arquivo, texto) => {
+  if (!folhas.has(arquivo)) {
+    const folha = compilarScss(texto, arquivo);
+    // Reprova a var só quando nenhuma outra regra a leva ao nó; o aviso sai
+    // sempre, porque uma folha fora da checagem é um furo, não um detalhe.
+    if (folha.erro)
+      console.log(`  ⚠️  ${path.relative(FASTSTORE_STARTER, arquivo)} não compila aqui (${folha.erro}) — as regras dela ficam fora da checagem 4`);
+    folhas.set(arquivo, folha);
+  }
+  return folhas.get(arquivo);
+};
+const entrada = (arquivo, texto) => ({ arquivo, texto, limpo: semComentariosScss(texto) });
+
+/** Onde fecha o `(` ou `[` aberto em `i`, pulando string e escape. */
+function fecha(s, i) {
+  const par = s[i] === '(' ? ')' : ']';
+  for (let j = i, nivel = 0; j < s.length; j++) {
+    if (s[j] === '\\') j++;
+    else if (s[j] === '"' || s[j] === "'") j = fimDaString(s, j);
+    else if (s[j] === s[i]) nivel++;
+    else if (s[j] === par && --nivel === 0) return j;
+  }
+  return s.length;
+}
+function fimDaString(s, i) {
+  for (let j = i + 1; j < s.length; j++) {
+    if (s[j] === '\\') j++;
+    else if (s[j] === s[i]) return j;
+  }
+  return s.length;
+}
+/** A lista cortada nas vírgulas de fora de parêntese, colchete e string. */
+function alternativas(lista) {
+  const out = [];
+  let ini = 0;
+  for (let i = 0; i < lista.length; i++) {
+    const c = lista[i];
+    if (c === '\\') i++;
+    else if (c === '"' || c === "'") i = fimDaString(lista, i);
+    else if (c === '(' || c === '[') i = fecha(lista, i);
+    else if (c === ',') { out.push(lista.slice(ini, i)); ini = i + 1; }
+  }
+  out.push(lista.slice(ini));
+  return out.map(s => s.trim()).filter(Boolean);
+}
+/**
+ * O segundo nome que o css-loader exporta para cada classe: o `@faststore/core`
+ * põe `exportLocalsConvention: 'camelCase'` no css-loader, o tema é montado com
+ * `next build --webpack`, e `style.tagNew` também acha `.tag-new`. Porte do
+ * `camelcase` que o Next embute no css-loader, sem as opções que ele não usa.
+ */
+const camelDoCssLoader = nome => {
+  let s = nome.trim();
+  if (s.length <= 1) return s.toLowerCase();
+  if (s !== s.toLowerCase()) {
+    let minuscula = false, maiuscula = false, maiusculaAntes = false;
+    for (let i = 0; i < s.length; i++) {
+      const c = s[i];
+      if (minuscula && /\p{Lu}/u.test(c)) {
+        s = `${s.slice(0, i)}-${s.slice(i)}`;
+        minuscula = false;
+        maiusculaAntes = maiuscula;
+        maiuscula = true;
+        i++;
+      } else if (maiuscula && maiusculaAntes && /\p{Ll}/u.test(c)) {
+        s = `${s.slice(0, i - 1)}-${s.slice(i - 1)}`;
+        maiusculaAntes = maiuscula;
+        maiuscula = false;
+        minuscula = true;
+      } else {
+        minuscula = c.toLowerCase() === c && c.toUpperCase() !== c;
+        maiusculaAntes = maiuscula;
+        maiuscula = c.toUpperCase() === c && c.toLowerCase() !== c;
+      }
+    }
+  }
+  return s
+    .replace(/^[_.\- ]+/, '')
+    .toLowerCase()
+    .replace(/[_.\- ]+([\p{Alpha}\p{N}_]|$)/gu, (_, p) => p.toUpperCase())
+    .replace(/\d+([\p{Alpha}\p{N}_]|$)/gu, m => m.toUpperCase());
+};
+const usa = (usadas, classe) => usadas.has(classe) || usadas.has(camelDoCssLoader(classe));
+
+const IDENT = /^(?:[\w-]|[^\x00-\x7f]|\\.)+/;
+const PEDEM_UMA = new Set(['is', 'where', 'matches', '-webkit-any', '-moz-any', 'has', 'local']);
+/** As classes do módulo que faltam para o seletor casar; `[]` = vivo. */
+function faltamNoSeletor(sel, usadas) {
+  const falta = [];
+  for (let i = 0; i < sel.length; ) {
+    const c = sel[i];
+    if (c === '\\') i += 2;
+    else if (c === '"' || c === "'") i = fimDaString(sel, i) + 1;
+    else if (c === '[') i = fecha(sel, i) + 1; // atributo: `[data-fs-*]` é do FastStore
+    else if (c === '.' && IDENT.test(sel.slice(i + 1))) {
+      const cru = IDENT.exec(sel.slice(i + 1))[0];
+      const nome = cru.replace(/\\(.)/g, '$1');
+      if (!usa(usadas, nome)) falta.push(nome);
+      i += 1 + cru.length;
+    } else if (c === ':') {
+      const m = /^::?([\w-]+)/.exec(sel.slice(i));
+      if (!m) { i++; continue; }
+      const nome = m[1].toLowerCase();
+      const j = i + m[0].length;
+      if (sel[j] === '(') {
+        // `:global(...)` é de terceiro, `:not(...)` não exige, `:nth-*` não
+        // tem classe: só os que pedem uma alternativa entram
+        const fim = fecha(sel, j);
+        if (PEDEM_UMA.has(nome)) falta.push(...faltamNaLista(sel.slice(j + 1, fim), usadas));
+        i = fim + 1;
+      } else if (nome === 'global') break; // `:global .x`: o resto é global
+      else i = j;
+    } else i++;
+  }
+  return falta;
+}
+/** O seletor da lista que casa (`[]`), ou o que menos falta para casar. */
+function faltamNaLista(lista, usadas) {
+  let menor = null;
+  for (const alt of alternativas(lista)) {
+    const falta = faltamNoSeletor(alt, usadas);
+    if (!falta.length) return [];
+    if (!menor || falta.length < menor.length) menor = falta;
+  }
+  return menor ?? [];
+}
+
+/**
+ * O que um TSX usa de cada módulo que importa — `<import>.x`, `<import>?.x`,
+ * `<import>['x']` —, pelo nome do import: `style`, `styles`, `titleStyles`,
+ * `trail`, `gallery`… O módulo resolve a partir do TSX; o `../../sass/…` que o
+ * Breadcrumb01 e o CrossSellingShelf01 escrevem para o destino achatado,
+ * a partir de `src/components/overrides/` (ver `conferirImports`). Chave que
+ * não é literal (`style[chave]`) fica anotada e não conta.
+ */
+const semComentariosTs = txt =>
+  txt.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+function acessosDoTsx(arquivo, texto, existe = fs.existsSync) {
+  const src = semComentariosTs(texto);
+  // Sem as linhas de import: o `styles.scss` de `import '…/Rating/styles.scss'`
+  // não é acesso a um `styles`.
+  const corpo = src.replace(/^\s*import\b[\s\S]*?['"][^'"\n]*['"]/gm, '');
+  const acessos = [];
+  for (const [, id, spec] of src.matchAll(
+    /import\s+(?:\*\s+as\s+)?([\w$]+)\s+from\s+['"]([^'"]+\.scss)['"]/g
+  )) {
+    const modulo = [
+      path.resolve(path.dirname(arquivo), spec),
+      path.resolve(FASTSTORE_STARTER, 'src/components/overrides', spec),
+    ].find(p => existe(p));
+    if (!modulo) continue;
+    const nome = id.replace(/\$/g, '\\$');
+    const classes = new Set();
+    const dinamicos = [];
+    for (const m of corpo.matchAll(new RegExp(
+      `(?<![\\w$.])${nome}\\s*\\??\\.\\s*([A-Za-z_$][\\w$]*)` +
+        `|(?<![\\w$.])${nome}\\s*(?:\\?\\.)?\\s*\\[([^\\]]*)\\]`,
+      'g'
+    ))) {
+      if (m[1]) { classes.add(m[1]); continue; }
+      const literal = /^\s*(['"`])((?:\\.|(?!\1)[^\\])*)\1\s*$/.exec(m[2]);
+      if (literal && !(literal[1] === '`' && literal[2].includes('${')))
+        classes.add(literal[2]);
+      else dinamicos.push(`${id}[${m[2].trim()}]`);
+    }
+    acessos.push({ modulo, classes, dinamicos });
+  }
+  return acessos;
+}
+function juntar(usos, acessos, deOnde) {
+  for (const { modulo, classes, dinamicos } of acessos) {
+    if (!usos.has(modulo)) usos.set(modulo, { classes: new Set(), dinamicos: [] });
+    const u = usos.get(modulo);
+    for (const c of classes) u.classes.add(c);
+    u.dinamicos.push(...dinamicos.map(d => `${deOnde}: ${d}`));
+  }
+  return usos;
+}
+const acessosPorTsx = new Map();
+/** Por módulo, as classes que os TSX do fecho usam (e as chaves dinâmicas). */
+function usosDoFecho(id) {
+  const usos = new Map();
+  for (const dep of fechoCompleto(id, manifests))
+    for (const f of arquivosEm(manifests.get(dep)._dir, /\.[jt]sx?$/)) {
+      if (!acessosPorTsx.has(f))
+        acessosPorTsx.set(f, acessosDoTsx(f, fs.readFileSync(f, 'utf8')));
+      juntar(usos, acessosPorTsx.get(f), path.relative(FASTSTORE_STARTER, f));
+    }
+  return usos;
+}
+
+// Folha que importa outra folha local pode ler a var sem citá-la no texto.
+const IMPORTA_LOCAL = /@(?:import|use|forward)\s+['"](?![@~])/;
+/**
+ * A var chega a uma regra viva? `folhasDoFecho` são as entradas do fecho,
+ * `globais` as de `themeImports`, `usos` o que cada módulo tem de TSX. Partial
+ * que não é módulo nem global conta pelo módulo que o importa, não sozinho.
+ * Devolve as regras mortas que a leem: são o motivo da falha, ou a linha ℹ️
+ * do item quando outra regra leva a var ao nó.
+ */
+function leituraViva(nome, folhasDoFecho, globais, usos, compilar = folhaDe) {
+  let viva = false;
+  let isenta = false;
+  const mortas = [];
+  const soltas = [];
+  for (const { arquivo, texto, limpo } of folhasDoFecho) {
+    const global = globais.has(arquivo);
+    const cita = consome(limpo, nome);
+    const onde = path.relative(FASTSTORE_STARTER, arquivo);
+    if (!global && !arquivo.endsWith('.module.scss')) {
+      if (cita)
+        soltas.push({ onde, rotulo: 'a folha', porque: 'não é módulo nem `themeImports`: conta pelo módulo que a importa', falta: [] });
+      continue;
+    }
+    if (!cita && !IMPORTA_LOCAL.test(limpo)) continue;
+    const { erro, leem } = compilar(arquivo, texto);
+    if (erro) {
+      mortas.push({ onde, rotulo: 'a folha', porque: `não compila aqui: ${erro}`, falta: [] });
+      continue;
+    }
+    const regras = leem.get(nome);
+    if (!regras) {
+      if (cita)
+        mortas.push({ onde, rotulo: `var(${nome}`, porque: 'nenhuma declaração compilada lê — variável Sass sem uso?', falta: [] });
+      continue;
+    }
+    if (global) { isenta = true; continue; }
+    const u = usos.get(arquivo);
+    for (const regra of regras) {
+      let falta = null;
+      for (const s of regra.seletores) {
+        const f = faltamNaLista(s, u?.classes ?? new Set());
+        if (!falta || f.length < falta.length) falta = f;
+      }
+      if (falta && !falta.length) { viva = true; continue; }
+      const porque = !falta
+        ? regra.rotulo.startsWith('@keyframes') ? 'nenhuma regra anima com ele' : 'fora de regra de estilo'
+        : !u
+          ? 'nenhum TSX do fecho importa o módulo'
+          : `o TSX não usa ${falta.map(c => `.${c}`).join(' ')}` +
+            (u.dinamicos.length ? ` — chave dinâmica não conta: ${u.dinamicos.join(', ')}` : '');
+      mortas.push({ onde, rotulo: regra.rotulo, porque, falta: falta ?? [] });
+    }
+  }
+  if (!viva && !isenta) mortas.push(...soltas);
+  return { viva: viva || isenta, soIsenta: !viva && isenta, mortas };
+}
+const descrever = m => `${m.onde}: ${m.rotulo} (${m.porque})`;
+/** O veredito da checagem 4 para uma var: o que o laço e o autoteste leem. */
+function veredito(nome, folhasDoFecho, globais, usos, compilar = folhaDe) {
+  if (!folhasDoFecho.some(f => consome(f.limpo, nome)))
+    return { ok: false, soIsenta: false, mortas: [], detalhe: `nenhum var(${nome} nos ${folhasDoFecho.length} SCSS` };
+  const { viva, soIsenta, mortas } = leituraViva(nome, folhasDoFecho, globais, usos, compilar);
+  return {
+    ok: viva,
+    soIsenta,
+    mortas,
+    detalhe:
+      `nenhuma regra viva: ${mortas.slice(0, 3).map(descrever).join(' | ')}` +
+      (mortas.length > 3 ? ` | +${mortas.length - 3}` : ''),
+  };
+}
+
+/**
+ * Autoteste do detector. Hoje nenhuma var real cai no ramo que reprova, e a
+ * asserção por var ficaria verde sem nunca ter sido exercitada — o mesmo
+ * motivo do autoteste de registro de resolvers no `lib/contrato.mjs`.
+ */
+{
+  // [o caso, as folhas (uma string é o `style.module.scss`), o corpo do TSX que
+  //  importa `style` e `outro`, a var chega?]. Folha sem `.module` e sem `_` é
+  //  de `themeImports`; o `@import './x'` de um caso lê o `_x.scss` dele.
+  const TAG_NEW = '.spot { .tag { div { &.tag-new span { color: var(--v); } } } }';
+  const PARCIAL = { 'style.module.scss': ".x { @import './parcial'; }", '_parcial.scss': '.y { color: var(--v); }' };
+  const casos = [
+    ['classe que o TSX não usa (o `.tag-new` de 25/09)', TAG_NEW, 'style.spot; style.tag;', false],
+    ['a mesma regra, com o TSX usando a classe', TAG_NEW, "style.spot; style.tag; style['tag-new'];", true],
+    ['`style.tagNew` acha `.tag-new` (camelCase do css-loader)', TAG_NEW, 'style.spot; style.tag; style.tagNew;', true],
+    ['`&` com sufixo é outra classe', '.card { &__title { color: var(--v); } }', 'style.card;', false],
+    ['variável Sass leva a var à regra que a usa', '$c: var(--v, #000); .morta { color: $c; } .viva { color: red; }', 'style.viva;', false],
+    ['`[data-fs-*]` e tag não pedem nada do TSX', '.spot { [data-fs-button] span { color: var(--v); } }', 'style?.spot;', true],
+    ['`:global(...)` é classe de terceiro', '.spot :global(.swiper-slide) { color: var(--v); }', 'style.spot;', true],
+    ['`:not(...)` não exige a classe', '.spot:not(.oculto) { color: var(--v); }', 'style.spot;', true],
+    ['`:is(...)` pede uma alternativa', ':is(.a, .b) .c { color: var(--v); }', 'style.b; style.c;', true],
+    ['`:is(...)` sem alternativa usada', ':is(.a, .b) .c { color: var(--v); }', 'style.c;', false],
+    ['na lista, basta um seletor vivo', '.morta, .viva { color: var(--v); }', 'style.viva;', true],
+    ['`@keyframes` que só a regra morta anima', '@keyframes pulso { to { color: var(--v); } } .morta { animation: pulso 1s; }', 'style.outra;', false],
+    ['`@keyframes` que a regra viva anima', '@keyframes pulso { to { color: var(--v); } } .viva { animation: pulso 1s; }', 'style.viva;', true],
+    ['chave dinâmica não conta, nem com o nome da classe', '.x { color: var(--v); }', 'style[x];', false],
+    ['var que nenhuma folha cita', '.x { color: var(--outra); }', 'style.x;', false],
+    ['comentário no TSX não conta', '.x { color: var(--v); }', '/* style.x */', false],
+    ['classe de OUTRO módulo não conta', '.x { color: var(--v); }', 'outro.x;', false],
+    ['folha de `themeImports` fica isenta', { 'filter.scss': '[data-fs-filter] .x { color: var(--v); }' }, '', true],
+    ['partial conta pelo módulo que o importa', PARCIAL, 'style.x; style.y;', true],
+    ['… e reprova se o TSX não usa a classe', PARCIAL, 'style.x;', false],
+    ['partial que nenhum módulo importa não conta', { '_parcial.scss': '.y { color: var(--v); }' }, 'style.y;', false],
+  ];
+  const trocados = casos.filter(([, folhasDoCaso, corpo, chega], i) => {
+    const dir = `/funil-autoteste/${i}`;
+    const scss = typeof folhasDoCaso === 'string' ? { 'style.module.scss': folhasDoCaso } : folhasDoCaso;
+    const tsx =
+      "import style from './style.module.scss';\n" +
+      "import outro from './outro.module.scss';\n" +
+      `${corpo}\n`;
+    const usos = juntar(new Map(), acessosDoTsx(`${dir}/index.tsx`, tsx, p => p.startsWith(dir)), 'autoteste');
+    const irma = {
+      canonicalize: url => (`_${path.basename(url)}.scss` in scss ? new URL(`funil-autoteste:${i}/_${path.basename(url)}.scss`) : null),
+      load: url => ({ contents: scss[path.basename(url.pathname)], syntax: 'scss' }),
+    };
+    const folhasDoFecho = Object.entries(scss).map(([nome, texto]) => entrada(`${dir}/${nome}`, texto));
+    const globais = new Set(
+      folhasDoFecho.map(f => f.arquivo).filter(a => !a.endsWith('.module.scss') && !path.basename(a).startsWith('_'))
+    );
+    const { ok } = veredito('--v', folhasDoFecho, globais, usos, (a, t) => compilarScss(t, a, [irma]));
+    return ok !== chega;
+  });
+  r.ok(
+    `detector de regra viva: os ${casos.length} casos reprovam onde a var não chega a nó nenhum e passam onde chega`,
+    trocados.length === 0,
+    trocados.map(([caso]) => caso).join(' | ')
+  );
+}
 
 const layouts = lerLayouts();
 const todos = itens(layouts);
@@ -201,6 +639,7 @@ r.ok(
 
 let semSchema = 0;
 let noStarter = 0;
+let soPorFolhaGlobal = 0;
 for (const item of comPath) {
   const pasta = pastaDe.get(item.component);
   if (!pasta) continue;
@@ -272,21 +711,33 @@ for (const item of comPath) {
     );
   }
 
-  // 4 — o SCSS do starter consome a var que o painel oferece
+  // 4 — o SCSS do starter lê a var que o painel oferece, numa regra viva
   if (!manifests.has(item.path)) {
     r.ok(`${item.component}: ${item.path} tem manifest no starter`, false);
     continue;
   }
   const arqsDoFecho = scssDoFecho(item.path);
-  const scss = arqsDoFecho
-    .map(f => semComentariosScss(fs.readFileSync(f, 'utf8')))
-    .join('\n');
+  const folhasDoFecho = arqsDoFecho.map(f => entrada(f, fs.readFileSync(f, 'utf8')));
+  const globais = globaisDoFecho(item.path);
+  const usos = usosDoFecho(item.path);
+  const mortasDoItem = new Map();
   for (const v of schema) {
     noStarter++;
+    const { ok, soIsenta, mortas, detalhe } = veredito(v.cssVar, folhasDoFecho, globais, usos);
+    if (soIsenta) soPorFolhaGlobal++;
+    if (ok) for (const m of mortas) mortasDoItem.set(descrever(m), m);
     r.ok(
-      `${item.component} · ${v.cssVar}: o SCSS do starter consome`,
-      consome(scss, v.cssVar),
-      `nenhum var(${v.cssVar} nos ${arqsDoFecho.length} SCSS do fecho de ${item.path}`
+      `${item.component} · ${v.cssVar}: o SCSS do starter consome numa regra viva`,
+      ok,
+      `${detalhe} — fecho de ${item.path}`
+    );
+  }
+  if (mortasDoItem.size) {
+    const classes = [...new Set([...mortasDoItem.values()].flatMap(m => m.falta))];
+    console.log(
+      `  ℹ️  ${item.component}: ${mortasDoItem.size} regra(s) morta(s) também leem var do painel, ` +
+        `que chega por outra — o TSX não usa ${classes.slice(0, 8).map(c => `.${c}`).join(' ')}` +
+        (classes.length > 8 ? ` +${classes.length - 8}` : '')
     );
   }
 }
@@ -300,7 +751,7 @@ for (const nome of Object.keys(PENDENTES))
 
 console.log(
   `  (${comPath.length} itens VTEX · ${comPath.length - semSchema} com schema · ` +
-  `${semSchema} sem · ${noStarter} vars conferidas no starter · ` +
-  `${INTERNOS.size} tokens internos)`
+  `${semSchema} sem · ${noStarter} vars conferidas no starter, em ${folhas.size} SCSS ` +
+  `compilados, ${soPorFolhaGlobal} só por folha global · ${INTERNOS.size} tokens internos)`
 );
 process.exit(r.fechar() ? 0 : 1);
