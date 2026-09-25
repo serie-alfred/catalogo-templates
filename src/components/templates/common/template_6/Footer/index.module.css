@@ -317,7 +317,7 @@
   object-fit: contain;
 }
 
-/* logos de plataforma/agência (fixos): sempre à direita */
+/* logos de plataforma/agência (fixos, SVG inline no TSX): sempre à direita */
 .platformLogos {
   flex: 1;
   display: flex;
@@ -325,10 +325,12 @@
   justify-content: flex-end;
   gap: 16px;
 }
-.platformLogos img {
+/* `block`: inline, o <svg> sentaria na linha de base e o link ganharia a altura
+   da linha. A largura sai da proporção do width/height de cada <svg>. */
+.platformLogos svg {
+  display: block;
   height: 27px;
   width: auto;
-  object-fit: contain;
 }
 
 .copyright {
