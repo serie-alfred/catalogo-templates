@@ -1,0 +1,33 @@
+Depois do commit (25/09, ~13:00): quatro commits do Footer06 entraram em cima
+(fb4daca, d5e7b19, bef61fd, a9bcf6e), e nenhum toca os dois arquivos deste:
+`git log cb1a3aa..main -- scripts/funil/1-variaveis.mjs scripts/funil/README.md`
+sai vazio.
+
+Reconferido nos commits exatos, em clones limpos (`git clone --shared`, sem
+working tree de outra sessão): starter 5e9066c + catálogo a9bcf6e, com o
+generator 5762706 e o global-templates 1af7fed iguais ao origin. `funil 1`:
+3/3 estágios, 1202/1202, e as mesmas 17 regras mortas nas linhas ℹ️.
+
+Os dois testes negativos, refeitos nesse clone por preload `node --import`
+(troca `fs.readFileSync` e `child_process.execFileSync` e chama
+`syncBuiltinESMExports()`; nenhum arquivo é tocado):
+- `--spot-tag-bg` de volta ao `&.tag-new span` do ProductCard01, ao
+  `.tag-new span` da réplica do Spot01 e ao schema dele: o 1v de 95aacff passa
+  1097/1097; o deste reprova só `Spot01 · --spot-tag-bg` ("o TSX não usa
+  .tag-new").
+- `style.cartBadge` trocado por `undefined` no TSX do Header04, com o SCSS
+  intacto: o de 95aacff passa 1094/1094; o deste reprova só
+  `Header04 · --header-accent-text` (sobra o `.btnDark`, já morto).
+
+Para reconferir: `yarn --cwd catalogo-templates funil 1` dá 3/3 (1202/1202 no
+estado a9bcf6e + starter 5e9066c), e o `git log` acima continua vazio.
+
+Push: só o catálogo, sem pré-requisito no starter nem no generator — o sass e
+o postcss já são dependência do catálogo. Na ordem de sempre (starter →
+generator → catálogo) este não pede nada.
+
+Fora deste commit, em tarefa separada: remover do starter as 17 regras mortas
+que leem var do painel (as linhas ℹ️ do 1v listam cada uma).
+
+O ebf47b4 foi a primeira versão deste commit, antes de qualquer commit em
+cima; o amend só corrigiu o comentário sobre o Drawer01 e o NavBar01.
