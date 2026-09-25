@@ -360,20 +360,25 @@ r.ok(
 // `enableMockScope()` religue a chave em runtime, e essa função viaja junto
 // para o tema — forçar `const` aqui quebraria o `tsc` do tema. O que importa é
 // o VALOR, não a palavra-chave; o MockGuard preserva a que encontrar.
+// O arquivo tem de EXISTIR: o palco abaixo o importa em toda geração, e uma
+// conferência que some quando o arquivo some não confere nada — até 24/09 ela
+// morava dentro de um `if (existsSync)`, e mudar o mockData de lugar calava a trava.
 const mockData = path.join(TEMA, 'src/utils/mockData/index.ts');
-if (fs.existsSync(mockData)) {
-  const linha = fs
-    .readFileSync(mockData, 'utf8')
-    .split('\n')
-    .find(l => /^export (const|let) MOCK_ENABLED\b/.test(l));
-  r.ok(
-    'MOCK_ENABLED desligado em produção no tema entregue',
-    /^export (const|let) MOCK_ENABLED = process\.env\.NODE_ENV !== 'production'$/.test(
-      linha ?? ''
-    ),
-    linha ?? 'declaração de MOCK_ENABLED não encontrada'
-  );
-}
+const linhaMock = fs.existsSync(mockData)
+  ? fs
+      .readFileSync(mockData, 'utf8')
+      .split('\n')
+      .find(l => /^export (const|let) MOCK_ENABLED\b/.test(l))
+  : undefined;
+r.ok(
+  'MOCK_ENABLED desligado em produção no tema entregue',
+  /^export (const|let) MOCK_ENABLED = process\.env\.NODE_ENV !== 'production'$/.test(
+    linhaMock ?? ''
+  ),
+  fs.existsSync(mockData)
+    ? (linhaMock ?? 'declaração de MOCK_ENABLED não encontrada')
+    : `${path.relative(TEMA, mockData)} não existe no tema — a trava não foi conferida`
+);
 
 // O DevFidelityStage viaja para o tema (o DevFidelityInjector o copia por fora do
 // grafo de manifests) e chama `enableMockScope()`, que RELIGA MOCK_ENABLED em
@@ -381,24 +386,29 @@ if (fs.existsSync(mockData)) {
 // segurava isso era só a frase "nunca numa página real" no schema da seção. Agora
 // o palco tem trava de build; esta é a rede que impede a trava de sumir sem aviso,
 // que foi exatamente como o MockGuard virou no-op.
+// O DevFidelityInjector copia o palco em TODA geração, então aqui também a
+// ausência reprova em vez de pular a conferência.
 const palco = path.join(
   TEMA,
   'src/components/organisms/DevFidelityStage/index.tsx'
 );
-if (fs.existsSync(palco)) {
-  const fonte = fs.readFileSync(palco, 'utf8');
-  const temConstante = /const PALCO_ATIVO\s*=[\s\S]{0,200}?process\.env\.NODE_ENV !== 'production'/.test(
-    fonte
+const fontePalco = fs.existsSync(palco) ? fs.readFileSync(palco, 'utf8') : null;
+const temConstante =
+  fontePalco !== null &&
+  /const PALCO_ATIVO\s*=[\s\S]{0,200}?process\.env\.NODE_ENV !== 'production'/.test(
+    fontePalco
   );
-  const temSaida = /if \(!PALCO_ATIVO\) return null/.test(fonte);
-  r.ok(
-    'DevFidelityStage desligado em produção no tema entregue',
-    temConstante && temSaida,
-    !temConstante
+const temSaida =
+  fontePalco !== null && /if \(!PALCO_ATIVO\) return null/.test(fontePalco);
+r.ok(
+  'DevFidelityStage desligado em produção no tema entregue',
+  temConstante && temSaida,
+  fontePalco === null
+    ? `${path.relative(TEMA, palco)} não existe no tema — o DevFidelityInjector o copia em toda geração, e a trava não foi conferida`
+    : !temConstante
       ? 'sem a constante PALCO_ATIVO ligada a NODE_ENV'
       : 'PALCO_ATIVO existe mas nada retorna null com ela'
-  );
-}
+);
 
 // ── portão: o tema compila? ──────────────────────────────────────────────────
 if (process.env.FUNIL_TEMA_BUILD === '0') {

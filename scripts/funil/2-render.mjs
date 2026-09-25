@@ -209,6 +209,12 @@ for (const a of alvos) {
         nodes: el.querySelectorAll('*').length,
         txt: (el.innerText || '').trim().length,
         imgs: el.querySelectorAll('img').length,
+        // O ThemeRenderer pinta este marcador vermelho quando o `component` não
+        // está no TemplateRegistry. Ele tem altura, nós e texto, e não loga erro
+        // nenhum — até 24/09 passava aqui como "renderiza limpo".
+        foraDoRegistry:
+          el.querySelector('[data-registry-missing]')?.getAttribute('data-registry-missing') ??
+          null,
       };
     }, a.selection);
 
@@ -219,6 +225,8 @@ for (const a of alvos) {
     // caso que ele existe para pegar: a seção que não montou.
     const OVERLAYS = new Set(['help-float', 'popup-news']);
     const ehOverlay = OVERLAYS.has(a.selection);
+    if (!m.erro && m.foraDoRegistry)
+      m.erro = `marcador [data-registry-missing]: ${m.foraDoRegistry} não está no TemplateRegistry`;
     const passou =
       !m.erro &&
       m.nSec === 1 &&

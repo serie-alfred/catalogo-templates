@@ -161,10 +161,25 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
   await p.waitForSelector('.ed-shell', { timeout: 60000 });
   await s(8000);
 
-  const hidratou = await p.evaluate(
-    () => JSON.parse(localStorage.getItem('layoutSelections')).length
+  // O `sanitizeSelections` da hidratação descarta toda seleção cujo
+  // `layoutKey/id` o app servido não conhece — e o export sai sem ela, com o
+  // contrato abaixo verde porque só confere o que VEIO no config. Semente e app
+  // leem o mesmo layoutData.ts, então perder qualquer uma quer dizer que o app em
+  // :5503 não é este catálogo (outro checkout na porta, HMR atrasado, alguém
+  // editando o arquivo no meio da rodada). Até 24/09 isto só era impresso.
+  const hidratadas = await p.evaluate(() =>
+    JSON.parse(localStorage.getItem('layoutSelections') ?? '[]').map(
+      s => `${s.layoutKey}/${s.id}@${s.pagina}`
+    )
   );
-  log(`${plat}: semeados ${seed.length} → hidratados ${hidratou}`);
+  const perdidas = seed
+    .map(s => `${s.layoutKey}/${s.id}@${s.pagina}`)
+    .filter(k => !hidratadas.includes(k));
+  r.ok(
+    `${plat}: as ${seed.length} seleções semeadas hidratam (${hidratadas.length})`,
+    hidratadas.length === seed.length && perdidas.length === 0,
+    `perdidas na hidratação: ${[...new Set(perdidas)].join(', ') || '(nenhuma, mas a contagem mudou)'}`
+  );
 
   await p.evaluate(() => {
     window.__cfg = null;
