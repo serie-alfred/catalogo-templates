@@ -1,0 +1,26 @@
+Para a thread principal (25/09): irmão do starter 5e9066c (base/faststore). Os dois
+sobem juntos, por cima do par bef61fd (catálogo) + 6266126 (starter), dos links
+das colunas do Footer06. Os quatro estão locais, sem push e lineares nas branches.
+Push na ordem de sempre: starter antes do catálogo, porque o main daqui é o deploy
+de produção. O pacote de merge da pilha inteira (8 commits) fica fora dos repos
+até o push.
+
+Reconferido nos commits exatos, em clones descartáveis (git clone --no-hardlinks,
+yarn install --frozen-lockfile --prefer-offline, yarn build):
+- next build do a9bcf6e: compilou, lint e tipos passaram, 10/10 páginas estáticas
+  (854 s, com a máquina carregada). Os avisos são do autoprefixer no template_2
+  (BannerDuplo, BannerSide), anteriores à pilha. A saída traz
+  .Footer_platformLogos__ddytD svg{display:block;height:27px;width:auto} e o
+  viewBox 0 0 80 24, e nenhuma referência a footer/platform/;
+- faststore build do starter 5e9066c: exit 0, 7/7 páginas estáticas; os avisos
+  são deprecações de @import do Sass no CartSidebar01/07.
+
+Para reconferir, com os dev de :5503 e :3000 de pé:
+  FIDELIDADE_SO=Footer06 node scripts/funil/2-fidelidade.mjs → 821/821 e 60/60
+  yarn funil 1 → 3/3 estágios, 1202/1202
+Nada muda no painel, no variablesSchema nem no config.json. A thumb do card foi
+refotografada e mostra também os links do bef61fd.
+
+As duas decisões visuais deste par (texto da agência em currentColor e o viewBox
+original do logo da agência) estão explicadas, com o caminho de volta, na nota do
+starter 5e9066c.
