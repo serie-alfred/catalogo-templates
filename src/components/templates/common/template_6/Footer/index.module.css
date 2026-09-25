@@ -259,8 +259,10 @@
   align-items: center;
   gap: 1rem;
 }
+/* O fundo do .body é temável: o cinza deriva do texto do rodapé. 80% dá #4c504c
+   sobre o #f6f6f6 padrão, o mesmo contraste do #4f4f4f do design (7,6:1). */
 .groupLinks a {
-  color: var(--footer-link, #4f4f4f);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #212721)) 80%, transparent);
   font-size: 0.875rem;
   font-weight: 400;
   transition: 0.4s ease;
@@ -278,7 +280,7 @@
 .linkHighlight {
   margin: 0;
   text-align: center;
-  color: var(--footer-link, #4f4f4f);
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #212721)) 80%, transparent); /* a dos links da coluna */
   font-size: 0.875rem;
   font-weight: 400;
   transition: 0.4s ease;
