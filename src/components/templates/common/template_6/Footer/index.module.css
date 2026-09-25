@@ -1,69 +1,57 @@
-/* Preview Footer06 — gerado de faststore.starter via /from-faststore. CSS plano + @container. */
-.footer06 {
+/* Preview Footer06 — espelho de faststore.starter/src/components/organisms/Footer06/style.module.scss.
+   CSS plano, mesma ordem e mesmos seletores da origem; `@media (max-width)` vira
+   `@container` sobre a raiz (o canvas troca desktop/mobile por CSS no mesmo documento).
+   Mexeu na origem, traga para cá na mesma posição: a cascata depende da ordem. */
+
+.footer {
   container-type: inline-size;
-  width: 100%;
-  --f6-hairline: color-mix(
-    in srgb,
-    var(--footer-text, var(--text-color-footer, #212721)) 15%,
-    transparent
-  );
-  --f6-panel: var(--footer-panel, #ffffff);
-  /* Faixa da newsletter: fundo e texto têm var própria. O texto NÃO herda
-     --footer-text de propósito — a faixa tem fundo próprio (branco por padrão),
-     então seguir a cor do rodapé fazia o texto sumir em rodapé escuro. */
-  --f6-newsletter-bg: var(--footer-newsletter-bg, var(--footer-panel, #ffffff));
-  --f6-newsletter-text: var(--footer-newsletter-text, #212721);
-  --f6-muted: color-mix(
-    in srgb,
-    var(--footer-text, var(--text-color-footer, #212721)) 55%,
-    transparent
-  );
-  --f6-t-fast: 150ms ease;
-  --f6-container: 1280px;
-  background: var(--footer-bg, var(--background-footer, #f6f6f6));
   color: var(--footer-text, var(--text-color-footer, #212721));
   font-family: var(--footer-font, var(--font-secundary, 'Jost', sans-serif));
 }
-.footer06 *,
-.footer06 *::before,
-.footer06 *::after {
+.footer *,
+.footer *::before,
+.footer *::after {
   box-sizing: border-box;
 }
-.footer06 a {
+.footer a {
   color: inherit;
   text-decoration: none;
-  transition: color var(--f6-t-fast);
+  transition: color 150ms ease;
 }
-/* Sem destaque no hover, como o Footer06 do starter: a captura de hover da origem
-   mostrou que nada muda no mouseover (links, campo em foco, ícones sociais). */
-.footer06 a:hover {
+.footer a:hover {
   color: var(--footer-text, var(--text-color-footer, #212721));
 }
-.footer06 :where(button) {
+/* :where() zera a especificidade do reset para que .newsletterBtn vença */
+.footer :where(button) {
   font: inherit;
   background: none;
   border: 0;
   color: inherit;
   cursor: pointer;
 }
-.footer06 img {
+.footer img {
   display: block;
   max-width: 100%;
 }
 
+/* ── NEWSLETTER (painel branco) ── */
 .newsletter {
-  background: var(--f6-newsletter-bg);
-  border-bottom: 1px solid var(--f6-hairline);
+  width: 100%;
+  padding: 2rem 0;
+  border-top: 1px solid
+    color-mix(in srgb, var(--footer-text, var(--text-color-footer, #212721)) 15%, transparent);
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--footer-text, var(--text-color-footer, #212721)) 15%, transparent);
+  background-color: var(--footer-newsletter-bg, var(--footer-panel, #ffffff));
 }
 
 .newsletterInner {
-  max-width: var(--f6-container);
+  max-width: 68.75rem;
   margin: 0 auto;
-  padding: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 32px;
+  gap: 1rem;
 }
 
 .newsletterText {
@@ -71,77 +59,133 @@
   flex-direction: column;
   gap: 2px;
 }
+/* NÃO herda --footer-text: a faixa tem fundo próprio (branco por padrão), e seguir
+   a cor do rodapé fazia o texto sumir em rodapé escuro. */
 .newsletterText span {
-  font-size: 13px;
-  color: var(--f6-newsletter-text);
+  font-size: 14px;
+  color: var(--footer-newsletter-text, #212721);
 }
 .newsletterText strong {
-  font-family: var(--footer-title-font, var(--font-primary, 'Fabriga', sans-serif));
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--f6-newsletter-text);
+  font-family: var(--footer-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--footer-newsletter-text, #212721);
 }
 
 .newsletterForm {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+@container (max-width: 768px) {
+  .newsletterForm {
+    display: flex;
+    flex-direction: column !important;
+    gap: 0.5rem;
+    align-items: center !important;
+  }
 }
 
-.footer06 .field {
-  height: 44px;
-  min-width: 180px;
-  padding: 0 18px;
+.field {
+  height: 36px;
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 0 16px;
   border: 1px solid #e0e0e0;
   border-radius: 120px;
-  background: var(--f6-panel);
+  background: var(--footer-panel, #ffffff);
   font-family: var(--footer-font, var(--font-secundary, 'Jost', sans-serif));
   font-size: 14px;
   color: var(--footer-text, var(--text-color-footer, #212721));
 }
-.footer06 .field::placeholder {
+@container (max-width: 768px) {
+  .field {
+    max-width: 16.375rem;
+    height: 2.25rem;
+    flex: auto !important;
+  }
+}
+.field::placeholder {
   color: #828282;
 }
-.footer06 .field:focus-visible {
+.field:hover {
+  outline: none;
+  background-color: #e0e0e0;
+}
+.field:focus-visible {
   outline: none;
 }
+/* o E-mail é ~2x o Nome */
+.field:last-of-type {
+  flex: 2;
+}
 
-.footer06 .newsletterBtn {
-  height: 44px;
-  padding: 0 32px;
+.newsletterBtn {
+  height: 36px;
+  padding: 0 24px;
   border-radius: 120px;
   background: var(--footer-button-bg, var(--background-secundary-color, #212721));
   color: var(--footer-button-text, var(--text-color-secundary, #ffffff));
   font-family: var(--footer-font, var(--font-secundary, 'Jost', sans-serif));
-  font-size: 14px;
+  font-size: 12px;
+  font-weight: 700;
   white-space: nowrap;
-  transition: opacity var(--f6-t-fast);
+  transition: opacity 150ms ease;
 }
-.footer06 .newsletterBtn:hover {
+@container (max-width: 768px) {
+  .newsletterBtn {
+    margin-top: 1rem;
+    max-width: 5.375rem;
+  }
+}
+.newsletterBtn:hover {
   opacity: 0.88;
   color: var(--footer-button-text, var(--text-color-secundary, #ffffff));
 }
 
+/* Confirmação da newsletter: ocupa a faixa inteira, altura fixa de 24px para a
+   faixa não "pular" ao trocar o formulário pela mensagem. */
 .nlSuccess {
-  font-size: 14px;
-  color: var(--f6-newsletter-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.5rem;
+  margin: 0;
+  font-family: var(--footer-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--footer-newsletter-text, #212721);
+}
+@container (max-width: 1024px) {
+  .nlSuccess {
+    font-size: 1rem;
+  }
 }
 
+/* ── SOCIAL + COLUNAS (faixa do rodapé) ── */
 .body {
-  max-width: var(--f6-container);
-  margin: 0 auto;
-  padding: 36px 24px 44px;
+  padding: 2rem 0 3rem;
+  background-color: var(--footer-bg, var(--background-footer, #f6f6f6));
 }
 
 .social {
-  text-align: center;
-  margin-bottom: 36px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid
+    color-mix(in srgb, var(--footer-text, var(--text-color-footer, #212721)) 15%, transparent);
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+  height: auto;
+  justify-content: center;
+  flex-direction: column;
 }
 .social h3 {
-  margin: 0 0 16px;
+  margin: 0 0 1.5rem;
   font-family: var(--footer-title-font, var(--font-primary, 'Fabriga', sans-serif));
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 1.25rem;
+  font-weight: 700;
   color: var(--footer-text, var(--text-color-footer, #212721));
 }
 
@@ -149,39 +193,33 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 2.7956rem;
 }
-.socialLinks a {
-  width: 42px;
-  height: 42px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  color: var(--footer-text, var(--text-color-footer, #212721));
-  transition: background var(--f6-t-fast), color var(--f6-t-fast);
-}
+
+/* os glifos pintam com currentColor, que é o --footer-text herdado da raiz */
 .socialIcon {
-  width: 22px;
-  height: 22px;
-  fill: currentColor;
-  opacity: .7;
-  transition: .4s ease;
+  width: 27px;
+  opacity: 0.7;
+  height: auto;
+  transition: 0.4s ease;
 }
 .socialIcon:hover {
   opacity: 1;
 }
+/* o "f" do Facebook é um vazado: pinta com o fundo da faixa, não com o texto */
+.socialIconCutout {
+  stroke: var(--footer-bg, var(--background-footer, #f6f6f6));
+}
 
 .columns {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  max-width: 900px;
+  display: flex;
+  justify-content: space-between;
+  max-width: 73.125rem;
   margin: 0 auto;
 }
 
 .group {
-  min-width: 0;
+  width: 100%;
 }
 
 .groupTitle {
@@ -189,10 +227,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin-bottom: 14px;
+  margin-bottom: 1.5rem;
   font-family: var(--footer-title-font, var(--font-primary, 'Fabriga', sans-serif));
-  font-size: 18px;
+  font-size: 1.125rem;
   font-weight: 600;
   color: var(--footer-text, var(--text-color-footer, #212721));
   cursor: default;
@@ -200,65 +237,107 @@
 
 .groupToggle {
   display: none;
-  font-size: 20px;
-  line-height: 1;
+  align-items: center;
+  justify-content: center;
+  color: var(--footer-text, var(--text-color-footer, #212721));
+}
+.groupToggle svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+  transition: transform 250ms ease;
+}
+
+/* caret aponta pra cima quando a coluna está aberta */
+.groupOpen .groupToggle svg {
+  transform: rotate(-90deg);
 }
 
 .groupLinks {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 11px;
+  gap: 1rem;
 }
 .groupLinks a {
-  font-size: 14px;
-  color: var(--footer-text, var(--text-color-footer, #212721));
+  color: var(--footer-link, #4f4f4f);
+  font-size: 0.875rem;
+  font-weight: 400;
+  transition: 0.4s ease;
+  margin: 0;
+  font-family: var(--footer-title-font, var(--font-primary, 'Fabriga', sans-serif));
 }
 
 .colText {
   margin: 0;
-  font-size: 14px;
-  color: var(--f6-muted);
+  font-size: 0.875rem;
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #212721)) 55%, transparent);
+  font-weight: 400;
 }
 
 .linkHighlight {
-  font-weight: 600;
+  margin: 0;
+  text-align: center;
+  color: var(--footer-link, #4f4f4f);
+  font-size: 0.875rem;
+  font-weight: 400;
+  transition: 0.4s ease;
+  text-decoration: underline !important;
 }
 
+/* ── BARRA INFERIOR ── */
 .bottom {
-  background: var(--f6-panel);
-  border-top: 1px solid var(--f6-hairline);
+  border-top: 1px solid
+    color-mix(in srgb, var(--footer-text, var(--text-color-footer, #212721)) 15%, transparent);
+  background-color: var(--footer-bg, var(--background-footer, #f6f6f6));
 }
 
 .bottomInner {
-  max-width: var(--f6-container);
-  margin: 0 auto;
-  padding: 20px 24px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 24px;
-  position: relative;
+  justify-content: space-between;
+  max-width: 73.125rem;
+  margin: 0 auto;
+  padding: 1.5rem 0;
 }
 
+/* selos: ancorados à esquerda. `flex: 1` nas duas pontas mantém o copyright
+   centrado na barra independente da quantidade de imagens de cada lado. */
 .seals {
+  flex: 1;
   display: flex;
-  align-items: center;
-  gap: 12px;
+  justify-content: flex-start;
+  gap: 1.125rem;
 }
 .seals img {
-  height: 34px;
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* logos de plataforma/agência (fixos): sempre à direita */
+.platformLogos {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+.platformLogos img {
+  height: 27px;
   width: auto;
   object-fit: contain;
 }
 
 .copyright {
   font-family: var(--footer-font, var(--font-secundary, 'Jost', sans-serif));
-  font-size: 12px;
-  color: var(--f6-muted);
   text-align: center;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--footer-text, var(--text-color-footer, #212721));
 }
 
+/* ── BREAKPOINTS ── */
 @container (max-width: 767px) {
   .newsletterInner {
     flex-direction: column;
@@ -266,45 +345,84 @@
     text-align: center;
     gap: 16px;
   }
+
   .newsletterText {
     align-items: center;
   }
+
   .newsletterForm {
     flex-direction: column;
     align-items: stretch;
   }
+
   .field,
-  .footer06 .newsletterBtn {
+  .newsletterBtn {
     width: 100%;
   }
+
+  .body {
+    padding-bottom: 0;
+  }
   .columns {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: 0;
+    align-items: center;
   }
+
   .group {
-    border-bottom: 1px solid var(--f6-hairline);
+    width: fit-content;
+    margin-bottom: 2.2rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
   }
+
   .groupTitle {
-    justify-content: space-between;
-    margin-bottom: 0;
-    padding: 16px 4px;
-    cursor: pointer;
+    align-items: center;
+    gap: 1rem;
+    width: fit-content;
   }
+
   .groupToggle {
-    display: inline;
+    display: inline-flex;
+    width: 0.75rem;
+    height: 0.75rem;
+    transform: rotate(270deg);
   }
+
   .groupLinks {
     display: none;
-    align-items: flex-start;
-    padding: 0 4px 16px;
+    gap: 1rem;
   }
+
   .groupOpen .groupLinks {
     display: flex;
   }
+
   .bottomInner {
     flex-direction: column;
-    gap: 16px;
+    gap: 2rem;
+    padding-inline: 1.25rem;
+  }
+
+  /* empilhado: sem laterais, os blocos voltam a ser centrados (o `flex: 1` do
+     desktop esticaria a altura na direção column) */
+  .seals,
+  .platformLogos {
+    flex: none;
+    justify-content: center;
+  }
+
+  .copyright {
+    position: static;
+    transform: none;
   }
 }
 
-/*# sourceMappingURL=footer06.css.map */
+/* Auto-zoom do iOS: os campos estão em 14px e fariam o Safari ampliar a página ao
+   focar. `pointer: coarse` restringe a dispositivos de toque. */
+@media (pointer: coarse) {
+  .field {
+    font-size: 16px;
+  }
+}
