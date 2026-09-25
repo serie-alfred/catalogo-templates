@@ -336,7 +336,7 @@ export function conferirFragmentos(paths, r) {
 }
 
 /** Fecho transitivo por manifests, incluindo resolvers e typeDefs. */
-function fechoCompleto(id, manifests) {
+export function fechoCompleto(id, manifests) {
   const pref = {
     hooks: 'hooks/',
     fragments: 'fragments/',
@@ -366,7 +366,7 @@ function fechoCompleto(id, manifests) {
 }
 
 /** Todos os manifests do starter, indexados por id, com a pasta de cada um. */
-function lerManifests() {
+export function lerManifests() {
   const m = new Map();
   (function varrer(dir) {
     for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
