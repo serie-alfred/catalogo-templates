@@ -20,9 +20,9 @@ yarn start     # next start (production)
 yarn checkout:sync [--sha <sha>] [--repo <pasta>]   # vendoriza UM commit do ../checkout-vtex (ver "Modo Checkout")
 ```
 
-No espelho `../e-temas-wt/` (integração do checkout, sem commit) o dev é `yarn next dev -p 5510` —
-o `yarn dev` fixa a 5503, que é do catálogo real de outra sessão — e o funil roda com
-`FUNIL_BASE_URL=http://localhost:5510`.
+O `yarn dev` fixa a 5503. Com a porta ocupada (outra sessão), suba `yarn next dev -p <porta>` e rode o
+funil com `FUNIL_BASE_URL=http://localhost:<porta>`; o `2-checkout` quer o dev **sem KV**
+(`env KV_REST_API_URL= KV_REST_API_TOKEN= UPSTASH_REDIS_REST_URL= UPSTASH_REDIS_REST_TOKEN= yarn next dev -p 5511`).
 
 There is no test runner. Verification is `yarn funil` — the stages in [scripts/funil/](scripts/funil/) covering catalog integrity, the editor, the export and the theme the generator assembles from it. See [scripts/funil/README.md](scripts/funil/README.md) for what each one proves and what it needs. It wants `yarn dev` up, a Chrome (or `CHROME_PATH`), and — for `2-fidelidade` — the starter's own `yarn dev` on :3000; the preflight aborts the whole run when that one is missing, so reach for a single stage (`yarn funil 1`) when you only need the static checks.
 
