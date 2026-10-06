@@ -7,6 +7,7 @@ import { useCanvasZoom } from '@/hooks/useCanvasZoom';
 
 import CanvasZoom from '../CanvasZoom';
 import PreviewFrame from '../PreviewFrame';
+import EditorCheckoutFrame from '../CheckoutFrame/EditorCheckoutFrame';
 
 import styles from './index.module.css';
 
@@ -28,9 +29,15 @@ import styles from './index.module.css';
  * `useCanvasZoom` transforma essa medida na caixa do frame.
  */
 export default function EditorCanvas({ className }: { className?: string }) {
-  const { isMobileView, zoomMode } = useLayout();
+  const { isMobileView, zoomMode, editorMode } = useLayout();
   const ref = useRef<HTMLElement | null>(null);
-  const caixa = useCanvasZoom(ref, { modo: zoomMode, mobile: isMobileView });
+  const noCheckout = editorMode === 'checkout';
+  // O checkout tem largura lógica própria (1280/390, a dos frames do Figma).
+  const caixa = useCanvasZoom(ref, {
+    modo: zoomMode,
+    mobile: isMobileView,
+    checkout: noCheckout,
+  });
 
   /* A desseleção por clique no fundo NÃO mora mais aqui: subiu para o shell
      (gerador/(editor)/page.tsx), que cobre o canvas E o resto da chrome —
@@ -42,7 +49,13 @@ export default function EditorCanvas({ className }: { className?: string }) {
       ref={ref}
       data-deselect-zone
     >
-      <PreviewFrame caixa={caixa} />
+      {/* Um OU outro: o PreviewFrame desmonta no checkout e refaz o handshake
+          (hello/ready) na volta — é o mesmo caminho do primeiro load. */}
+      {noCheckout ? (
+        <EditorCheckoutFrame caixa={caixa} />
+      ) : (
+        <PreviewFrame caixa={caixa} />
+      )}
       <CanvasZoom escala={caixa.escala} />
     </main>
   );

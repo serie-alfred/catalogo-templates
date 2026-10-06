@@ -1,24 +1,12 @@
 'use client';
 
-import React, { Fragment, useMemo } from 'react';
+import React, { useMemo } from 'react';
 
 import { useLayout } from '@/context/LayoutContext';
-import { LAYOUTS, ComponentVariable } from '@/data/layoutData';
-import ColorPicker from '../ColorPicker';
-import FontSelector from '../FontSelector';
+import { LAYOUTS } from '@/data/layoutData';
+import VariablesList from './VariablesList';
 
 import styles from './index.module.css';
-
-/** Extrai a família ("Manrope") de um valor de fonte ("'Manrope', sans-serif"). */
-function parseFontFamily(value: string): string {
-  const first = value.split(',')[0] ?? '';
-  return first.replace(/['"]/g, '').trim();
-}
-
-/** Empacota a família escolhida no formato gravado no config. */
-function toFontValue(family: string): string {
-  return `'${family}', sans-serif`;
-}
 
 export default function ComponentVariablesPanel() {
   const { selectedUid, selections, setItemVariable, resetItemVariables } =
@@ -36,24 +24,6 @@ export default function ComponentVariablesPanel() {
       null
     );
   }, [selection]);
-
-  // Agrupa as variáveis pelo campo `group` (preservando a ordem do schema).
-  const groups = useMemo(() => {
-    const schema = layoutItem?.variablesSchema ?? [];
-    const order: string[] = [];
-    const byGroup = new Map<string, ComponentVariable[]>();
-
-    for (const variable of schema) {
-      const groupName = variable.group ?? 'Geral';
-      if (!byGroup.has(groupName)) {
-        byGroup.set(groupName, []);
-        order.push(groupName);
-      }
-      byGroup.get(groupName)!.push(variable);
-    }
-
-    return order.map(name => ({ name, variables: byGroup.get(name)! }));
-  }, [layoutItem]);
 
   /* Quantas cópias deste mesmo item existem no tema. Duplicar seção é recurso
      (`duplicateSection`, e o ramo de showcase do `toggleSelection`), e as
@@ -110,62 +80,13 @@ export default function ComponentVariablesPanel() {
       )}
 
       <div className={styles.body}>
-        {groups.map(group => (
-          <section key={group.name} className={styles.group}>
-            <h3 className={styles.groupTitle}>{group.name}</h3>
-
-            {group.variables.map(variable => {
-              const current = selection.variables?.[variable.cssVar];
-              const isUnset = current == null;
-              const nota = variable.previewNote ? (
-                <p className={styles.nota}>{variable.previewNote}</p>
-              ) : null;
-
-              /* Fragmento com `key` no lugar do `key` que estava no controle:
-                 a nota é irmã dele, e as duas juntas são UM item da lista. */
-              if (variable.type === 'font') {
-                return (
-                  <Fragment
-                    // remonta ao alternar set/unset para limpar o estado interno
-                    key={`${variable.cssVar}-${isUnset ? 'unset' : 'set'}`}
-                  >
-                    <FontSelector
-                      label={variable.label}
-                      cssVariable={variable.cssVar.replace(/^--/, '')}
-                      selectedFont={current ? parseFontFamily(current) : ''}
-                      unset={isUnset}
-                      inheritsLabel={variable.inheritsLabel}
-                      onFontChange={family =>
-                        setItemVariable(
-                          selectedUid,
-                          variable.cssVar,
-                          toFontValue(family)
-                        )
-                      }
-                    />
-                    {nota}
-                  </Fragment>
-                );
-              }
-
-              return (
-                <Fragment key={variable.cssVar}>
-                  <ColorPicker
-                    label={variable.label}
-                    color={current ?? variable.default}
-                    unset={isUnset}
-                    inheritsLabel={variable.inheritsLabel}
-                    optional={variable.optional}
-                    setColor={value =>
-                      setItemVariable(selectedUid, variable.cssVar, value)
-                    }
-                  />
-                  {nota}
-                </Fragment>
-              );
-            })}
-          </section>
-        ))}
+        <VariablesList
+          variables={layoutItem.variablesSchema}
+          values={selection.variables}
+          onChange={(cssVar, value) =>
+            setItemVariable(selectedUid, cssVar, value)
+          }
+        />
       </div>
 
       <footer className={styles.footer}>

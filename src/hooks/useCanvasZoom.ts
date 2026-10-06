@@ -5,7 +5,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { LARGURA_LOGICA, type ZoomMode } from './useLayoutGenerator';
 
 export interface CaixaDoFrame {
-  /** Largura da viewport INTERNA do iframe. Fixa: 1440 ou 375. */
+  /** Largura da viewport INTERNA do iframe. Fixa: 1440 ou 375 (checkout: 1280 ou 390). */
   larguraLogica: number;
   /** Altura da viewport interna. Derivada, para o `100vh` fechar (ver abaixo). */
   alturaLogica: number;
@@ -35,9 +35,20 @@ export interface CaixaDoFrame {
  * para que `alturaLogica × escala` feche sem sobra fracionária. É essa sobra de
  * 0,4px que vira barra de rolagem fantasma.
  */
+/**
+ * Largura lógica do checkout: a dos frames do Figma (ETP1–ETP4) e das capturas
+ * das fixtures. Não é a da loja (1440/375): o checkout nativo tem os próprios
+ * breakpoints (767/1023) e o Figma foi desenhado em 1280 e 390.
+ */
+export const LARGURA_CHECKOUT = { desktop: 1280, mobile: 390 } as const;
+
 export function useCanvasZoom(
   alvo: React.RefObject<HTMLElement | null>,
-  { modo, mobile }: { modo: ZoomMode; mobile: boolean }
+  {
+    modo,
+    mobile,
+    checkout = false,
+  }: { modo: ZoomMode; mobile: boolean; checkout?: boolean }
 ): CaixaDoFrame {
   const [caixa, setCaixa] = useState({ w: 0, h: 0 });
   const ultimo = useRef('');
@@ -67,7 +78,8 @@ export function useCanvasZoom(
     return () => ro.disconnect();
   }, [alvo]);
 
-  const larguraLogica = mobile ? LARGURA_LOGICA.mobile : LARGURA_LOGICA.desktop;
+  const larguras = checkout ? LARGURA_CHECKOUT : LARGURA_LOGICA;
+  const larguraLogica = mobile ? larguras.mobile : larguras.desktop;
   const disponivelW = Math.max(caixa.w, 1);
   const disponivelH = Math.max(caixa.h, 420);
 

@@ -10,10 +10,23 @@ import type { Platform } from '@/types/platform';
 import { useThemeHistory, type ThemeDoc } from './useThemeHistory';
 import { buildThemeStyle, contrastOn, colorSafeOnWhite } from '@/utils/themeStyle';
 import {
+  modeForPlatform,
   partitionByPlatform,
+  sanitizeEditorMode,
   sanitizePlatform,
   sanitizeSelections,
 } from '@/utils/platformCompat';
+import {
+  CHECKOUT_PADRAO,
+  blocoDoConfig,
+  carregarBase,
+  comporParaExport,
+  reduzirLogo,
+  sanitizeCheckout,
+  variaveisGlobais,
+  type CheckoutEtapa,
+  type CheckoutState,
+} from '@/utils/checkout';
 // type-only: não puxa o módulo server-only para o bundle do cliente.
 import type { PreviewSnapshot } from '@/lib/previewStore';
 
@@ -23,6 +36,13 @@ export type RailTarget =
   | 'variaveis'
   | 'tipografia'
   | 'identidade';
+
+/**
+ * O que o canvas mostra: a loja (as páginas montadas com seções) ou o checkout
+ * nativo da VTEX com o nosso visual. `checkout` só existe com `platform ===
+ * 'VTEX'` — ver `modeForPlatform` em platformCompat.ts.
+ */
+export type EditorMode = 'loja' | 'checkout';
 
 /**
  * Zoom do canvas. `fit` é o padrão: encolhe o frame o quanto for preciso para
@@ -142,6 +162,22 @@ export function useLayoutGenerator() {
    *  painel agora está SEMPRE aberto, então não existe estado "fechado". */
   const [railTarget, setRailTarget] = useState<RailTarget>('componentes');
 
+  /**
+   * Modo do editor e o estado do checkout. O modo é persistido (`editorMode`)
+   * e o checkout tem chave própria (`checkout`): `{ model, variables, etapa }`,
+   * em que `variables` é o NÍVEL 1 do contrato do checkout-vtex — o que vai em
+   * `faststore.checkout.variables`. A etapa é navegação, como `selectedPage`:
+   * persiste, mas não entra no histórico.
+   */
+  const [editorMode, setEditorModeState] = useState<EditorMode>('loja');
+  const [checkout, setCheckout] = useState<CheckoutState>(CHECKOUT_PADRAO);
+  /**
+   * O logo como ele entra no header do checkout (≤ 280×64 em raster), com o
+   * logo de onde saiu: a redução é assíncrona, e até ela voltar o header ainda
+   * mostra o anterior (`logoCheckoutPendente`).
+   */
+  const [logoReduzido, setLogoReduzido] = useState({ de: '', valor: '' });
+
   /** Painéis recolhidos. Existem para devolver largura ao canvas: as colunas
    *  fixas comem 840px, e num monitor de 1440 sobram 536 — abaixo da trava de
    *  1200px de `.component__container`, o que faria o preview "Desktop"
@@ -248,6 +284,23 @@ export function useLayoutGenerator() {
     );
   };
 
+  /** Papel do checkout (nível 1). Grava o que veio; o compose só lê o que é válido. */
+  const setCheckoutVariable = useCallback((cssVar: string, value: string) => {
+    setCheckout(prev => ({
+      ...prev,
+      variables: { ...prev.variables, [cssVar]: value },
+    }));
+  }, []);
+
+  /** Volta todos os papéis a herdar (nível 2 da loja → nível 3 do Figma). */
+  const resetCheckoutVariables = useCallback(() => {
+    setCheckout(prev => ({ ...prev, variables: {} }));
+  }, []);
+
+  const setCheckoutEtapa = useCallback((etapa: CheckoutEtapa) => {
+    setCheckout(prev => (prev.etapa === etapa ? prev : { ...prev, etapa }));
+  }, []);
+
   /**
    * Reordena duas seções. O arrayMove roda sobre os índices do array COMPLETO
    * `selections` (não do filtrado/ordenado por página) — é dele que a ordem de
@@ -298,6 +351,8 @@ export function useLayoutGenerator() {
   const [fontTertiary, setFontTertiary] = useState('Open Sans');
 
   const [logo, setLogo] = useState<string>('');
+  const logoCheckout = logoReduzido.valor;
+  const logoCheckoutPendente = logoReduzido.de !== logo;
   const [favicon, setFavicon] = useState<string>('');
   /** Imagem de compartilhamento (og:image) do preview. Data URL, como as outras. */
   const [ogImage, setOgImage] = useState<string>('');
@@ -409,7 +464,28 @@ export function useLayoutGenerator() {
       if (storedSelections) {
         setSelections(sanitizeSelections(JSON.parse(storedSelections)));
       }
-      setPlatform(sanitizePlatform(localStorage.getItem('layoutPlatform')));
+      const storedPlatform = sanitizePlatform(
+        localStorage.getItem('layoutPlatform')
+      );
+      setPlatform(storedPlatform);
+      const storedMode = sanitizeEditorMode(
+        localStorage.getItem('editorMode'),
+        storedPlatform
+      );
+      setEditorModeState(storedMode);
+      // "Componentes" não existe no checkout (ver `setEditorMode`): sem isto o
+      // reload no modo Checkout deixava o rail sem nenhum destino aceso.
+      if (storedMode === 'checkout') setRailTarget('variaveis');
+      // Try próprio: um `checkout` ilegível não pode abortar a hidratação do
+      // logo/favicon abaixo — com `hydrated` ligado no finally, os saves
+      // gravariam os defaults vazios por cima do que estava guardado.
+      try {
+        const storedCheckout = localStorage.getItem('checkout');
+        if (storedCheckout)
+          setCheckout(sanitizeCheckout(JSON.parse(storedCheckout)));
+      } catch (e) {
+        console.error('Checkout guardado ilegível, usando o padrão:', e);
+      }
       setLogo(localStorage.getItem('logo') || '');
       setFavicon(localStorage.getItem('favicon') || '');
       setOgImage(localStorage.getItem('ogImage') || '');
@@ -525,6 +601,51 @@ export function useLayoutGenerator() {
   useEffect(() => {
     if (!hydrated) return;
     try {
+      localStorage.setItem('checkout', JSON.stringify(checkout));
+      localStorage.setItem('editorMode', editorMode);
+    } catch (e) {
+      console.error('Erro ao salvar o checkout:', e);
+    }
+  }, [checkout, editorMode, hydrated]);
+
+  /* Qualquer caminho que tire a plataforma de VTEX tira o editor do checkout —
+     não só o `changePlatform`: a hidratação e o import-log também escrevem
+     `platform`. */
+  useEffect(() => {
+    // Antes da hidratação `platform` ainda é o null do SSR: filtrar ali tiraria
+    // do checkout o modo que a hidratação acabou de ler (os dois updates caem na
+    // mesma fila, e este vem depois).
+    if (!hydrated) return;
+    setEditorModeState(prev => modeForPlatform(prev, platform));
+  }, [platform, hydrated]);
+
+  /* O logo do header do checkout é o MESMO que vai no export: reduzido uma vez
+     aqui, e não no CheckoutFrame, para o preview mostrar os bytes que saem. */
+  useEffect(() => {
+    let vivo = true;
+    reduzirLogo(logo)
+      .then(v => vivo && setLogoReduzido({ de: logo, valor: v }))
+      .catch(() => vivo && setLogoReduzido({ de: logo, valor: '' }));
+    return () => {
+      vivo = false;
+    };
+  }, [logo]);
+
+  /** Entra/sai do modo Checkout. Fora de VTEX o pedido de entrar é ignorado. */
+  const setEditorMode = useCallback(
+    (mode: EditorMode) => {
+      const efetivo = modeForPlatform(mode, platform);
+      setEditorModeState(efetivo);
+      // "Componentes" não existe no checkout: a estrutura é fixa.
+      if (efetivo === 'checkout')
+        setRailTarget(prev => (prev === 'componentes' ? 'variaveis' : prev));
+    },
+    [platform]
+  );
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
       localStorage.setItem('panelLeftCollapsed', leftCollapsed ? '1' : '0');
       localStorage.setItem('panelRightCollapsed', rightCollapsed ? '1' : '0');
       localStorage.setItem('wakeToken', wakeCustomValue);
@@ -634,6 +755,9 @@ export function useLayoutGenerator() {
     }
 
     setPlatform(value);
+    // Checkout é só VTEX: sair de VTEX sai do modo (o efeito de `platform`
+    // cobre também quem escreve a plataforma sem passar por aqui).
+    setEditorModeState(prev => modeForPlatform(prev, value));
     if (kept.length !== selections.length) {
       const survivors = new Set(kept.map(s => s.uid));
       setSelections(kept);
@@ -784,7 +908,10 @@ export function useLayoutGenerator() {
   };
 
   /** Monta JSON de configuração com dados globais e por página */
-  const buildConfigJson = (): Record<string, unknown> | null => {
+  const buildConfigJson = async (): Promise<Record<
+    string,
+    unknown
+  > | null> => {
     if (!platform) return null;
 
     if (platform === 'VTEX') {
@@ -877,7 +1004,9 @@ export function useLayoutGenerator() {
   };
 
   /** Monta JSON de configuração no formato faststore para plataforma VTEX */
-  const buildFaststoreConfigJson = (): Record<string, unknown> => {
+  const buildFaststoreConfigJson = async (): Promise<
+    Record<string, unknown>
+  > => {
     const mapToFaststoreItem = (item: LayoutSelection) => {
       const section = LAYOUTS[item.layoutKey];
       const found: LayoutItem | undefined = section.items.find(
@@ -947,6 +1076,63 @@ export function useLayoutGenerator() {
         return acc;
       }, {});
 
+    // Nível 2 do checkout = as variáveis globais da loja. A MESMA função que o
+    // preview do checkout usa, para as duas pontas não divergirem.
+    const variables = variaveisGlobais(
+      {
+        colorPrimary,
+        colorSecondary,
+        colorTertiary,
+        colorPrimaryBackground,
+        colorSecondaryBackground,
+        colorTertiaryBackground,
+        colorFooter,
+        colorFooterText,
+        colorPrimaryText,
+        colorSecondaryText,
+      },
+      { fontPrimary, fontSecondary, fontTertiary }
+    );
+
+    // O logo do tema VTEX só é usado no header do checkout (o do Header é
+    // conteúdo de CMS): sai reduzido a ≤ 280×64 em raster, o mesmo que o
+    // preview mostra. O upload aceita 2 MB e o data URL vai inteiro no template
+    // do Admin; acima de 100 KB o compose não o embute (aviso, gate0 #17): o
+    // header sai com {{LOGO_SRC}} para o time trocar. URL https vai como veio.
+    const logoDoTema = await reduzirLogo(logo);
+    const blocoCheckout = blocoDoConfig(checkout);
+
+    // O compose do checkout roda aqui também, como conferência: o que ele recusa
+    // o generator recusa na VALIDATE, e é melhor o time saber agora. Não barra o
+    // export — o config continua sendo o entregável. Só lança o que é exclusivo
+    // do checkout (gate0 #14b); nível 2 inválido, a guarda de visibilidade e o
+    // logo recusado (#14a, #17) voltam como avisos, que o generator também dá
+    // sem abortar — ficam no console, e o painel do checkout já os mostra.
+    try {
+      const base = await carregarBase();
+      const { avisos } = comporParaExport(base, {
+        level2: variables,
+        level1: blocoCheckout.variables,
+        logo: logoDoTema || null,
+        version: blocoCheckout.version,
+      });
+      const relevantes = avisos.filter(
+        a => a.codigo !== 'placeholder-manual' && a.codigo !== 'logo-ausente'
+      );
+      if (relevantes.length)
+        console.warn(
+          'Avisos do checkout VTEX neste tema:',
+          relevantes.map(a => `${a.codigo}: ${a.mensagem}`)
+        );
+    } catch (error) {
+      console.error('O checkout não compõe com este tema:', error);
+      window.alert(
+        `O checkout VTEX não compõe com este tema: ${
+          error instanceof Error ? error.message : String(error)
+        }\n\nO config.json será entregue assim mesmo; o generator vai recusar o checkout.`
+      );
+    }
+
     const config: Record<string, unknown> = {
       platform: 'faststore',
       faststore: {
@@ -956,26 +1142,14 @@ export function useLayoutGenerator() {
         // em todo export VTEX. O template-generator ignora chaves que não
         // conhece, então incluir não quebra quem já consome o arquivo.
         assets: {
-          logo,
+          logo: logoDoTema,
           favicon,
           ogImage,
         },
-        variables: {
-          fontPrimary,
-          fontSecondary,
-          fontTertiary,
-          colorPrimary,
-          colorSecondary,
-          colorTertiary,
-          colorPrimaryBackground,
-          colorSecondaryBackground,
-          colorTertiaryBackground,
-          colorFooter,
-          colorFooterText,
-          colorPrimaryText,
-          colorSecondaryText,
-          colorPrimaryBackgroundSafe: colorSafeOnWhite(colorPrimaryBackground),
-        },
+        variables,
+        // Sempre presente em VTEX (checkout-vtex/docs/contrato.md): o checkout
+        // sai em todo tema e herda as cores da loja; `variables` é o nível 1.
+        checkout: blocoCheckout,
         home: pageItems['home'] ?? [],
         category: pageItems['category'] ?? [],
         product: pageItems['product'] ?? [],
@@ -1031,7 +1205,7 @@ export function useLayoutGenerator() {
       setIsCapturing(false);
     }
 
-    const configJson = buildConfigJson();
+    const configJson = await buildConfigJson();
     if (configJson) {
       /** Entrega o config.json como download no navegador do usuário. */
       const downloadConfig = () => {
@@ -1094,8 +1268,12 @@ export function useLayoutGenerator() {
         colorSecondaryText,
       },
       fonts: { fontPrimary, fontSecondary, fontTertiary },
+      // Os papéis do checkout entram no histórico: desfazer uma cor do checkout
+      // é o mesmo gesto que desfazer uma cor global.
+      checkout: checkout.variables,
     }),
     [
+      checkout.variables,
       selections,
       colorPrimary,
       colorSecondary,
@@ -1129,6 +1307,7 @@ export function useLayoutGenerator() {
     setFontPrimary(doc.fonts.fontPrimary);
     setFontSecondary(doc.fonts.fontSecondary);
     setFontTertiary(doc.fonts.fontTertiary);
+    setCheckout(prev => ({ ...prev, variables: doc.checkout ?? {} }));
   }, []);
 
   const { undo, redo, canUndo, canRedo } = useThemeHistory(
@@ -1156,6 +1335,8 @@ export function useLayoutGenerator() {
     logo,
     favicon,
     ogImage,
+    // Opcional no tipo: snapshots de antes do checkout continuam válidos.
+    ...(platform === 'VTEX' ? { checkout: blocoDoConfig(checkout) } : {}),
   });
 
   /**
@@ -1171,7 +1352,10 @@ export function useLayoutGenerator() {
       });
       if (!res.ok) return null;
       const { id } = (await res.json()) as { id: string };
-      return `${window.location.origin}/p/${id}/home`;
+      // No modo Checkout o link abre direto na etapa que está no canvas.
+      return editorMode === 'checkout' && platform === 'VTEX'
+        ? `${window.location.origin}/p/${id}/checkout/${checkout.etapa}`
+        : `${window.location.origin}/p/${id}/home`;
     } catch (error) {
       console.error('Erro ao criar preview:', error);
       return null;
@@ -1258,6 +1442,14 @@ export function useLayoutGenerator() {
     resetItemVariables,
     railTarget,
     setRailTarget,
+    editorMode,
+    setEditorMode,
+    checkout,
+    setCheckoutVariable,
+    resetCheckoutVariables,
+    setCheckoutEtapa,
+    logoCheckout,
+    logoCheckoutPendente,
     leftCollapsed,
     setLeftCollapsed,
     rightCollapsed,

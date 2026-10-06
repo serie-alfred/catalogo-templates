@@ -2,7 +2,9 @@
 
 import React from 'react';
 
+import { useLayout } from '@/context/LayoutContext';
 import ComponentVariablesPanel from '../ComponentVariablesPanel';
+import CheckoutVariablesPanel from '../CheckoutVariablesPanel';
 
 import styles from './index.module.css';
 
@@ -24,6 +26,8 @@ export default function EditorRightPanel({
       alcance de Tab e dos leitores de tela. */
   inert?: boolean;
 }) {
+  const { editorMode } = useLayout();
+
   return (
     <aside
       className={`${styles.panel} ${className ?? ''}`}
@@ -31,7 +35,12 @@ export default function EditorRightPanel({
       inert={inert}
     >
       <div className={`${styles.body} ed-scroll`}>
-        <ComponentVariablesPanel />
+        {/* No checkout não há seção selecionável: o painel mostra os papéis. */}
+        {editorMode === 'checkout' ? (
+          <CheckoutVariablesPanel />
+        ) : (
+          <ComponentVariablesPanel />
+        )}
       </div>
     </aside>
   );

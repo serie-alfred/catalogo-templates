@@ -1,0 +1,30 @@
+<footer class="etm-footer" data-etm-modelo="Checkout01">
+  <p class="etm-footer__copy">© {{RAZAO_SOCIAL}}. Todos os direitos reservados.<br>
+CNPJ: {{CNPJ}}</p>
+  <p class="etm-footer__aviso">{{AVISO_LEGAL}}</p>
+</footer>
+<style>
+/* ETC:SLOT tokens-footer */
+/*
+ * Escopado em .etm-footer (nunca :root). Também aparece no Order Placed, onde
+ * o checkout6-custom.css não carrega: o bloco de tokens acima traz os --ck01-*
+ * resolvidos, e estas regras deixam o rodapé de pé sozinho lá (copyright à
+ * esquerda e aviso à direita no desktop; empilhados e centrados no celular).
+ * O texto é o --ck01-footer-text, derivado do fundo (gate0 #28): o Gray-300 do
+ * Figma enquanto ele tem 3:1 contra o --ck01-header-bg, senão a menor mistura do
+ * texto do header com o fundo que chega lá.
+ * No checkout, 29-footer.css repete a medida fina do Figma sob
+ * #checkoutMainContainer e o 10-base.css o cola no fim da janela (gate0 #4).
+ * O <br> do copyright é do desktop (duas linhas); no celular o texto corre e
+ * a quebra some — o espaço depois do <br> vira o espaço entre as frases.
+ */
+.etm-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; box-sizing: border-box; padding: 0 64px 24px; background-color: var(--ck01-header-bg); color: var(--ck01-footer-text); font-family: var(--ck01-font); font-size: 12px; font-weight: 500; line-height: 1.4; letter-spacing: 0.96px; }
+.etm-footer .etm-footer__copy { flex: none; margin: 0; white-space: nowrap; }
+.etm-footer .etm-footer__aviso { flex: 0 1 671px; min-width: 0; margin: 0; }
+@media (max-width: 767px) {
+  .etm-footer { flex-direction: column; align-items: stretch; gap: 24px; padding: 0 24px 24px; text-align: center; }
+  .etm-footer .etm-footer__copy { white-space: normal; }
+  .etm-footer .etm-footer__copy br { display: none; }
+  .etm-footer .etm-footer__aviso { flex: none; }
+}
+</style>

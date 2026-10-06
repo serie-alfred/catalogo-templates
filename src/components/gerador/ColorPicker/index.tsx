@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom';
 import { HexColorPicker } from 'react-colorful';
 import { X } from 'lucide-react';
 
+import { corDoSeletor, ehHexCompleto, validaOuPreto } from './hex';
 import styles from './index.module.css';
 
 type ColorPickerProps = {
@@ -15,6 +16,13 @@ type ColorPickerProps = {
   unset?: boolean;
   /** Nome amigável do token herdado, ex.: "cor de texto secundária". */
   inheritsLabel?: string;
+  /**
+   * A frase inteira do estado herdado, no lugar de "Usando variável da
+   * {inheritsLabel}". Existe para o checkout, que diz de onde herda AO VIVO
+   * ("Herdando de cor primária da marca (#000000)") e herda às vezes do padrão
+   * do modelo, que "variável da …" não descreve.
+   */
+  inheritsText?: string;
   /**
    * A variável não herda token nenhum: vazia significa DESLIGADA, não
    * "herdando". Sem isto o estado vazio anunciaria "Usando variável da
@@ -43,6 +51,7 @@ export default function ColorPicker({
   setColor,
   unset = false,
   inheritsLabel,
+  inheritsText,
   optional = false,
   readOnly = false,
   variant = 'field',
@@ -78,6 +87,9 @@ export default function ColorPicker({
 
   const aoArrastar = useCallback(
     (valor: string) => {
+      // O seletor só deveria mandar hex completo (ver `hex.ts`); o que não for
+      // não chega ao estado.
+      if (!ehHexCompleto(valor)) return;
       setValorLocal(valor);
       pendenteRef.current = valor;
       if (commitRafRef.current != null) return;
@@ -109,6 +121,28 @@ export default function ColorPicker({
 
   /* O que a UI mostra: o valor do gesto em curso, ou o do estado. */
   const corExibida = valorLocal ?? color;
+
+  /* O seletor nunca recebe hex parcial: com `#c` ele inventava `#NaNNaNNaN`
+     e o devolvia pelo `onChange` por cima do que estava sendo digitado. Fica na
+     última cor completa até o texto voltar a ser uma. */
+  const [ultimaValida, setUltimaValida] = useState(() => validaOuPreto(color));
+  useEffect(() => {
+    if (ehHexCompleto(corExibida)) setUltimaValida(corExibida);
+  }, [corExibida]);
+  const corNoSeletor = corDoSeletor(corExibida, ultimaValida);
+
+  /* Digitar manda: um arraste pendente (o quadro ainda não comitou) ou o valor
+     local de um arraste anterior com o seletor ainda aberto não podem
+     sobrescrever o texto, nem prender o campo no valor do gesto. */
+  const aoDigitar = (valor: string) => {
+    if (commitRafRef.current != null) {
+      cancelAnimationFrame(commitRafRef.current);
+      commitRafRef.current = null;
+    }
+    pendenteRef.current = null;
+    setValorLocal(null);
+    setColor(valor);
+  };
   const [pos, setPos] = useState<{ top: number; left: number } | null>(null);
   const anchorRef = useRef<HTMLDivElement>(null);
   const popoverRef = useRef<HTMLDivElement>(null);
@@ -183,7 +217,9 @@ export default function ColorPicker({
         {unset ? (
           <p className={styles.inherits}>
             {optional ? 'Sem cor definida' : null}
-            {optional ? null : (
+            {optional ? null : inheritsText ? (
+              inheritsText
+            ) : (
               <>Usando variável da {inheritsLabel ?? 'configuração global'}</>
             )}{' '}
             <button
@@ -202,7 +238,7 @@ export default function ColorPicker({
             value={corExibida}
             readOnly={readOnly}
             className={styles.value}
-            onChange={e => setColor(e.target.value)}
+            onChange={e => aoDigitar(e.target.value)}
             onFocus={readOnly ? undefined : toggle}
             aria-label={label}
           />
@@ -218,7 +254,7 @@ export default function ColorPicker({
             data-ed-portal
             style={{ top: pos.top, left: pos.left }}
           >
-            <HexColorPicker color={corExibida} onChange={aoArrastar} />
+            <HexColorPicker color={corNoSeletor} onChange={aoArrastar} />
           </div>,
           document.body
         )}

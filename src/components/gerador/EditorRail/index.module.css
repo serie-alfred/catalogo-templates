@@ -52,3 +52,19 @@
 .item[aria-current='page'] {
   color: var(--ed-blue-600);
 }
+
+/* O alternador Loja ↔ Checkout vem DEPOIS dos destinos (não pode mexer nas
+   coordenadas dos quatro, que o estágio 2-geometria mede) e separado deles: é
+   modo do canvas, não destino do painel. No pé do rail ele ficava embaixo do
+   indicador do Next em dev e longe dos olhos. */
+.divisor {
+  flex-shrink: 0;
+  width: 24px;
+  height: 1px;
+  margin: -12px 0;
+  background: var(--ed-gray-000);
+}
+
+.modo[aria-pressed='true'] {
+  color: var(--ed-blue-600);
+}

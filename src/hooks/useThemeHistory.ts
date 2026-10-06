@@ -21,6 +21,8 @@ export interface ThemeDoc {
   selections: LayoutSelection[];
   colors: Record<string, string>;
   fonts: Record<string, string>;
+  /** Papéis do checkout (nível 1). Opcional: entrada gravada antes dele vale. */
+  checkout?: Record<string, string>;
 }
 
 /** Além disto, as entradas mais antigas são descartadas. */
@@ -33,6 +35,35 @@ const HISTORY_LIMIT = 50;
 const COALESCE_MS = 250;
 
 const structureOf = (doc: ThemeDoc) => doc.selections.map(s => s.uid).join('|');
+
+/** Tipos de <input> que não são texto: arraste e clique seguem o prazo. */
+const NAO_TEXTO = new Set([
+  'button',
+  'checkbox',
+  'color',
+  'file',
+  'image',
+  'radio',
+  'range',
+  'reset',
+  'submit',
+]);
+
+/**
+ * Um campo onde se DIGITA (o hex do ColorPicker, o nome da fonte). Enquanto o
+ * foco está nele, a entrada do histórico fica aberta e só fecha quando ele sai.
+ *
+ * O campo grava a cada tecla, e o valor passa por `#`, `#1`, `#12`, `#123`…
+ * antes de chegar a `#123456`. Com só o prazo de 250 ms, quem digita devagar
+ * (ou uma máquina carregada, que espaça as teclas) fechava uma entrada por
+ * tecla: o Cmd+Z parava no `#123` digitado pela metade, ou num `#12345` que
+ * nenhum filtro aceita e mostrava o padrão. Digitar um valor é UM gesto.
+ */
+function ehCampoDeTexto(alvo: EventTarget | Element | null): boolean {
+  if (alvo instanceof HTMLTextAreaElement) return true;
+  if (alvo instanceof HTMLInputElement) return !NAO_TEXTO.has(alvo.type);
+  return alvo instanceof HTMLElement && alvo.isContentEditable;
+}
 
 /**
  * Histórico de desfazer/refazer sobre o documento do tema.
@@ -66,6 +97,28 @@ export function useThemeHistory(
   };
 
   const serialized = JSON.stringify(doc);
+  /** O estado de agora: é o que um fechamento adiantado (undo, foco saindo) grava. */
+  const latest = useRef(serialized);
+  latest.current = serialized;
+
+  const pararPrazo = () => {
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = null;
+  };
+
+  /** Fecha a entrada aberta, se houver: o estado de agora vira o último fechado. */
+  const fechar = useCallback(() => {
+    pararPrazo();
+    // Um undo/redo em curso: o efeito dele é quem fecha (e o `latest` ainda
+    // pode ser o de antes do apply).
+    if (applying.current) return;
+    if (committed.current === null || committed.current === latest.current)
+      return;
+    past.current = [...past.current, committed.current].slice(-HISTORY_LIMIT);
+    future.current = [];
+    committed.current = latest.current;
+    sync();
+  }, []);
 
   useEffect(() => {
     if (!enabled) return;
@@ -81,37 +134,38 @@ export function useThemeHistory(
     }
     if (serialized === committed.current) return;
 
-    const commit = () => {
-      if (committed.current === null || committed.current === serialized)
-        return;
-      past.current = [...past.current, committed.current].slice(-HISTORY_LIMIT);
-      future.current = [];
-      committed.current = serialized;
-      sync();
-    };
-
     // Mudança estrutural (entrou, saiu ou trocou de posição uma seção) fecha na
     // hora: são gestos discretos, não um arraste contínuo.
     const structural =
       structureOf(doc) !==
       structureOf(JSON.parse(committed.current) as ThemeDoc);
 
-    if (timer.current) clearTimeout(timer.current);
-    if (structural) {
-      commit();
-    } else {
-      timer.current = setTimeout(commit, COALESCE_MS);
-    }
+    pararPrazo();
+    if (structural) fechar();
+    // Digitando: fecha quando o foco sair do campo (o `focusout` abaixo).
+    else if (!ehCampoDeTexto(document.activeElement))
+      timer.current = setTimeout(fechar, COALESCE_MS);
+  }, [serialized, enabled, doc, fechar]);
 
-    return () => {
-      if (timer.current) clearTimeout(timer.current);
+  useEffect(() => {
+    if (!enabled) return;
+    const aoSairDoCampo = (event: FocusEvent) => {
+      if (ehCampoDeTexto(event.target)) fechar();
     };
-  }, [serialized, enabled, doc]);
+    document.addEventListener('focusout', aoSairDoCampo);
+    return () => {
+      document.removeEventListener('focusout', aoSairDoCampo);
+      pararPrazo();
+    };
+  }, [enabled, fechar]);
 
   const travel = useCallback(
     (from: React.RefObject<string[]>, to: React.RefObject<string[]>) => {
+      // O que ainda está aberto (o prazo não venceu, ou o foco segue no campo)
+      // fecha ANTES: desfazer volta exatamente um gesto — sem isto, um Cmd+Z
+      // dentro do prazo descartava a mudança em curso E voltava mais uma.
+      fechar();
       if (from.current.length === 0) return;
-      if (timer.current) clearTimeout(timer.current);
 
       const next = from.current[from.current.length - 1];
       from.current = from.current.slice(0, -1);
@@ -123,7 +177,7 @@ export function useThemeHistory(
       apply(JSON.parse(next) as ThemeDoc);
       sync();
     },
-    [apply]
+    [apply, fechar]
   );
 
   const undo = useCallback(() => travel(past, future), [travel]);

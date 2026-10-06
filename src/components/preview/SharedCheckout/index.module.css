@@ -1,0 +1,6 @@
+/* O iframe é a página inteira: a viewport dele é a do visitante. */
+.page {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+}

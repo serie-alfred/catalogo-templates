@@ -1,10 +1,8 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 
-import { CaretDown } from '@/assets/icons/editor';
-
-import styles from './index.module.css';
+import Dropdown from './Dropdown';
 
 interface SelectPageProps {
   selectedPage: string;
@@ -30,60 +28,13 @@ export default function SelectPage({
   selectedPage,
   setSelectedPage,
 }: SelectPageProps) {
-  const [open, setOpen] = useState(false);
-  const rootRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!open) return;
-    const onPointerDown = (event: MouseEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
-    };
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
-    };
-    document.addEventListener('mousedown', onPointerDown);
-    document.addEventListener('keydown', onKeyDown);
-    return () => {
-      document.removeEventListener('mousedown', onPointerDown);
-      document.removeEventListener('keydown', onKeyDown);
-    };
-  }, [open]);
-
-  const current = PAGES.find(p => p.key === selectedPage) ?? PAGES[1];
-
   return (
-    <div ref={rootRef} className={styles.root}>
-      <button
-        type="button"
-        className={styles.trigger}
-        onClick={() => setOpen(prev => !prev)}
-        aria-haspopup="listbox"
-        aria-expanded={open}
-      >
-        {current.name}
-        <CaretDown width={24} height={24} />
-      </button>
-
-      {open && (
-        <ul className={styles.menu} role="listbox" aria-label="Página">
-          {PAGES.map(page => (
-            <li key={page.key}>
-              <button
-                type="button"
-                role="option"
-                aria-selected={page.key === selectedPage}
-                className={styles.item}
-                onClick={() => {
-                  setSelectedPage(page.key);
-                  setOpen(false);
-                }}
-              >
-                {page.name}
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <Dropdown
+      options={PAGES}
+      value={selectedPage}
+      onChange={setSelectedPage}
+      ariaLabel="Página"
+      fallback={PAGES[1]}
+    />
   );
 }

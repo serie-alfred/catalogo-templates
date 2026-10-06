@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Palette, SquarePen, Component } from 'lucide-react';
+import { Palette, SquarePen, Component, ShoppingCart } from 'lucide-react';
 
 import { useLayout } from '@/context/LayoutContext';
 import type { RailTarget } from '@/hooks/useLayoutGenerator';
@@ -44,7 +44,13 @@ const ITEMS: { target: RailTarget; label: string; icon: React.ReactNode }[] = [
 ];
 
 export default function EditorRail({ className }: { className?: string }) {
-  const { railTarget, setRailTarget } = useLayout();
+  const { railTarget, setRailTarget, platform, editorMode, setEditorMode } =
+    useLayout();
+  const noCheckout = editorMode === 'checkout';
+  // No checkout a estrutura é fixa: não há seção para compor.
+  const itens = noCheckout
+    ? ITEMS.filter(i => i.target !== 'componentes')
+    : ITEMS;
 
   return (
     <nav
@@ -54,7 +60,7 @@ export default function EditorRail({ className }: { className?: string }) {
     >
       <EtemasMark className={styles.mark} width={24} height={21.02} />
 
-      {ITEMS.map(({ target, label, icon }) => (
+      {itens.map(({ target, label, icon }) => (
         <button
           key={target}
           type="button"
@@ -67,6 +73,25 @@ export default function EditorRail({ className }: { className?: string }) {
           {icon}
         </button>
       ))}
+
+      {/* Onde o usuário "seleciona o checkout". Só existe em VTEX — o
+          checkout-vtex é o checkout NATIVO da VTEX — e vem depois dos
+          destinos, com um divisor: não é um painel, é o que o canvas mostra.
+          `aria-pressed`, e não `aria-current`, que é dos destinos. */}
+      {platform === 'VTEX' && <span className={styles.divisor} aria-hidden />}
+      {platform === 'VTEX' && (
+        <button
+          type="button"
+          className={`${styles.item} ${styles.modo}`}
+          aria-label="Checkout"
+          title={noCheckout ? 'Voltar para a loja' : 'Editar o checkout'}
+          aria-pressed={noCheckout}
+          data-editor-mode-toggle=""
+          onClick={() => setEditorMode(noCheckout ? 'loja' : 'checkout')}
+        >
+          <ShoppingCart width={20} height={20} />
+        </button>
+      )}
     </nav>
   );
 }

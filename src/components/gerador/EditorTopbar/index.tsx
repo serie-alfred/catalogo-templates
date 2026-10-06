@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useLayout } from '@/context/LayoutContext';
 import SelectPage from '../SelectPage';
+import SelectCheckoutStep from '../SelectCheckoutStep';
 import ResponsiveToggle from '../ResponsiveToggle';
 import PreviewButton from '../PreviewButton';
 import ExportFeedbackModal from '../ExportFeedbackModal';
@@ -45,6 +46,9 @@ export default function EditorTopbar({ className }: { className?: string }) {
     platform,
     exportFeedback,
     dismissExportFeedback,
+    editorMode,
+    checkout,
+    setCheckoutEtapa,
   } = useLayout();
 
   const [exporting, setExporting] = useState(false);
@@ -120,10 +124,18 @@ export default function EditorTopbar({ className }: { className?: string }) {
           </button>
         </div>
 
-        <SelectPage
-          selectedPage={selectedPage}
-          setSelectedPage={setSelectedPage}
-        />
+        {/* No checkout o canvas mostra uma ETAPA, não uma página da loja. */}
+        {editorMode === 'checkout' ? (
+          <SelectCheckoutStep
+            etapa={checkout.etapa}
+            setEtapa={setCheckoutEtapa}
+          />
+        ) : (
+          <SelectPage
+            selectedPage={selectedPage}
+            setSelectedPage={setSelectedPage}
+          />
+        )}
 
         <ResponsiveToggle
           isMobile={isMobileView}

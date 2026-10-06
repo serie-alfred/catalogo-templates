@@ -16,6 +16,10 @@ import ThemeRenderer from '@/components/preview/ThemeRenderer';
  *
  * `stickyHeader={false}`: o html2canvas renderiza `position: sticky` de forma
  * imprevisível, e o editor nunca aplicou sticky nessas cópias.
+ *
+ * O CHECKOUT não entra aqui, nem no modo Checkout: os PNGs são das páginas da
+ * loja. O checkout é uma fixture do DOM da VTEX num iframe (CheckoutFrame), que
+ * o html2canvas não atravessa, e o que dele vai no config são só os papéis.
  */
 export default function ExportStage() {
   const { isCapturing, selections, selectedPage, desktopPreviewRef, mobilePreviewRef } =

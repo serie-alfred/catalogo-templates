@@ -4,6 +4,93 @@ import path from 'node:path';
 import { execFileSync, spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 import { GLOBAL_TEMPLATES, GENERATOR, FASTSTORE_STARTER } from './util.mjs';
+import { DEST as CHECKOUT_DEST } from './checkout.mjs';
+
+/*
+ * O contrato do checkout (checkout-vtex/docs/contrato.md): lido do que o
+ * `yarn checkout:sync` vendorizou — o modelo, o SHA e o próprio lib que decide
+ * o que é valor válido. Sem o sync, as asserções de checkout reprovam dizendo
+ * isso, em vez de o módulo inteiro estourar no import.
+ */
+const checkoutVendorizado = fs.existsSync(CHECKOUT_DEST.version);
+const CK = checkoutVendorizado
+  ? {
+      versao: JSON.parse(fs.readFileSync(CHECKOUT_DEST.version, 'utf8')),
+      modelo: JSON.parse(fs.readFileSync(CHECKOUT_DEST.modelo, 'utf8')),
+      level2: await import(pathToFileURL(path.join(CHECKOUT_DEST.lib, 'level2.mjs')).href),
+      derive: await import(pathToFileURL(path.join(CHECKOUT_DEST.lib, 'derive.mjs')).href),
+      compose: await import(pathToFileURL(path.join(CHECKOUT_DEST.lib, 'compose.mjs')).href),
+    }
+  : null;
+/** A base do modelo (dist com slots) que o compose do generator lê. */
+const baseDoCheckout = () =>
+  Object.fromEntries(
+    ['css', 'js', 'header', 'footer'].map(k => [
+      k,
+      fs.readFileSync(path.join(CHECKOUT_DEST.public, CK.modelo.arquivos[k]), 'utf8'),
+    ])
+  );
+
+/**
+ * `faststore.checkout` do config VTEX: sempre presente, com o modelo, o SHA que
+ * o catálogo vendorizou (é esse que o generator clona) e só papéis do PAINEL com
+ * valor que o compose aceita — o que não for, a VALIDATE do generator recusa.
+ */
+function conferirCheckoutFaststore(raiz, r, esperado) {
+  const ck = raiz.checkout;
+  if (!r.ok('VTEX: faststore.checkout presente (sempre, em todo tema VTEX)', !!ck && !!CK, CK ? 'ausente' : 'rode yarn checkout:sync'))
+    return;
+  r.ok(
+    `VTEX: faststore.checkout.model = ${CK.modelo.id} e version = o SHA vendorizado (${CK.versao.sha.slice(0, 12)})`,
+    ck.model === CK.modelo.id && ck.version === CK.versao.sha,
+    `model ${ck.model} · version ${ck.version}`
+  );
+  const painel = new Map(CK.modelo.papeis.filter(p => p.painel).map(p => [p.cssVar, p]));
+  const ruins = Object.entries(ck.variables ?? {}).filter(([k, v]) => {
+    const p = painel.get(k);
+    if (!p) return true;
+    return p.type === 'color' ? !CK.derive.normalizeHex(v) : !CK.derive.parseFontValue(v);
+  });
+  r.ok(
+    'VTEX: faststore.checkout.variables só com papéis do painel e valores que o compose aceita',
+    !!ck.variables && typeof ck.variables === 'object' && ruins.length === 0,
+    ruins.map(([k, v]) => `${k}=${v}`).join(', ')
+  );
+  if (esperado)
+    r.ok(
+      'VTEX: os papéis semeados chegam ao faststore.checkout.variables',
+      JSON.stringify(ck.variables) === JSON.stringify(esperado),
+      JSON.stringify(ck.variables)
+    );
+  const fora = Object.keys(raiz.variables ?? {}).filter(k => !Object.hasOwn(CK.level2.VAR_MAP, k));
+  r.ok(
+    'VTEX: faststore.variables (o nível 2 do checkout) só com chaves do VAR_MAP',
+    fora.length === 0,
+    fora.join(', ')
+  );
+
+  // gate0 #26: o preview mostra texto de exemplo no rodapé
+  // (src/utils/checkoutExemplo.ts; o 2-checkout confere o canvas); o que o
+  // generator compõe a partir do config EXPORTADO — a mesma leitura canônica,
+  // `optionsFromConfig`, e o mesmo compose do SHA — continua com os
+  // placeholders, listados no README do checkout/.
+  let composto = null;
+  try {
+    const { options } = CK.compose.optionsFromConfig(raiz);
+    composto = CK.compose.composeCheckout(CK.modelo, baseDoCheckout(), options);
+  } catch (e) {
+    r.ok('VTEX: o config exportado compõe o checkout (o compose que o generator roda)', false, e.message);
+  }
+  if (composto) {
+    const phs = (CK.modelo.placeholders ?? []).filter(ph => ph.arquivo === CK.modelo.arquivos.footer).map(ph => ph.id);
+    const semPh = phs.filter(ph => !composto.footer.includes(ph) || !composto.readme.includes(ph));
+    r.ok(
+      `VTEX: o compose do config exportado sai com os placeholders do rodapé (${phs.join(', ')}), no footer e no README — o texto de exemplo é só do preview`,
+      phs.length >= 3 && semPh.length === 0,
+      `sem placeholder: ${semPh.join(', ') || '(o modelo não declara placeholder no footer)'}`
+    );
+  }
+}
 
 const PASTA = {
   global: 'Common',
@@ -163,6 +250,13 @@ export function conferirTrayWake(config, plataforma, r) {
   );
   if (plataforma === 'Wake')
     r.ok('Wake: wakeToken presente', !!config.wakeToken);
+  // O checkout-vtex é o checkout NATIVO da VTEX: não existe em Tray/Wake, nem
+  // quando o localStorage traz papéis de checkout de uma sessão VTEX anterior.
+  r.ok(
+    `${plataforma}: sem checkout no config (é só VTEX)`,
+    !raiz.checkout && !config.faststore,
+    Object.keys(raiz).join(',')
+  );
   return entradas;
 }
 
@@ -217,8 +311,9 @@ export async function conferirParidadeGlobalTemplates(r) {
  * Confere o config faststore resolvendo o grafo com as classes REAIS do
  * generator — não uma réplica. Se o resolve estoura, o tema não monta.
  */
-export function conferirFaststore(config, r) {
+export function conferirFaststore(config, r, { checkoutEsperado } = {}) {
   const raiz = config.faststore;
+  conferirCheckoutFaststore(raiz, r, checkoutEsperado);
   const baldes = ['global', 'home', 'category', 'product', 'overrides'];
   const entradas = baldes.flatMap(b =>
     (raiz[b] ?? []).map(e => ({ ...e, balde: b }))

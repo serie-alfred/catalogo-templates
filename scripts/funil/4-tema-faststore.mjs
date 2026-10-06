@@ -7,13 +7,25 @@
  *
  * Roda com `--test` (dispensa o prompt da URL da loja), SEM `--push` (não cria
  * branch) e SEM `--sync` (não publica no Headless CMS da VTEX).
+ *
+ * Também confere o checkout VTEX, que sai em TODO tema FastStore (`checkout/`):
+ * o generator clona o checkout-vtex no SHA de `faststore.checkout.version`
+ * (`CHECKOUT_VTEX_REPO`; sem a env, o irmão `../checkout-vtex` quando ele tem
+ * commit), compõe com o `lib/compose.mjs` do clone e grava 5 arquivos. O estágio
+ * prova dois casos negativos (papel desconhecido e, gate0 #25, o checkout-vtex que
+ * não clona com o config COM `faststore.checkout` → a VALIDATE aborta sem escrever) e,
+ * no positivo, que os bytes são os do compose do CATÁLOGO (o lib vendorizado em
+ * src/lib/checkout/) para o mesmo config — o que o /gerador mostra é o que sai.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { pathToFileURL } from 'node:url';
 import {
   GENERATOR,
   FASTSTORE_STARTER,
+  E_TEMAS,
+  RAIZ,
   SAIDA,
   itens,
   relatorio,
@@ -142,16 +154,122 @@ r.ok(
   'nenhum override do config tem cor no variablesSchema'
 );
 
+// ── checkout VTEX: o config ──────────────────────────────────────────────────
+// O export já leva `faststore.checkout` (o estágio 3 confere modelo, SHA e
+// papéis). Aqui o nível 1 vira MARCADOR — valores que nenhum arquivo da base tem —
+// em parte dos papéis do painel; botão, tag e texto ficam de fora de propósito,
+// para herdar o nível 2 (`faststore.variables`) e exercitar a cadeia inteira. E o
+// logo vira um data URL marcador: o coerente sai com `assets.logo` vazio.
+const VERSAO_CK = JSON.parse(
+  fs.readFileSync(path.join(RAIZ, 'src/data/checkout/VERSION.json'), 'utf8')
+);
+const MODELO_CK = JSON.parse(
+  fs.readFileSync(
+    path.join(RAIZ, 'src/data/checkout', VERSAO_CK.modelo, 'checkout.json'),
+    'utf8'
+  )
+);
+const ARQ_CK = { ...MODELO_CK.arquivos, readme: 'README.md' };
+const baseCk = Object.fromEntries(
+  ['css', 'js', 'header', 'footer'].map(k => [
+    k,
+    fs.readFileSync(
+      path.join(RAIZ, 'public/gerador/checkout', MODELO_CK.id, ARQ_CK[k]),
+      'utf8'
+    ),
+  ])
+);
+const shaCk = config.faststore.checkout?.version ?? null;
+r.ok(
+  `faststore.checkout.version = o SHA vendorizado no catálogo (${String(VERSAO_CK.sha).slice(0, 12)})`,
+  shaCk !== null &&
+    shaCk === VERSAO_CK.sha &&
+    config.faststore.checkout?.model === MODELO_CK.id,
+  `config ${config.faststore.checkout?.model ?? '—'}@${shaCk ?? '—'} · VERSION.json ${VERSAO_CK.modelo}@${VERSAO_CK.sha}`
+);
+
+const MARCADORES_CK = {
+  '--checkout-accent': '#0c0c01',
+  '--checkout-text-muted': '#0c0c02',
+  '--checkout-page-bg': '#fcfcf3',
+  '--checkout-surface-bg': '#fcfcf4',
+  '--checkout-border': '#fcfcf5',
+  '--checkout-header-bg': '#fcfcf6',
+  '--checkout-font': "'Karla', Arial, Helvetica, sans-serif",
+};
+const doPainel = new Set(
+  MODELO_CK.papeis.filter(p => p.painel).map(p => p.cssVar)
+);
+const foraDoPainel = Object.keys(MARCADORES_CK).filter(k => !doPainel.has(k));
+const naBase = Object.values(MARCADORES_CK)
+  .filter(v => v.startsWith('#'))
+  .filter(v =>
+    Object.values(baseCk).some(t => t.toLowerCase().includes(v.toLowerCase()))
+  );
+r.ok(
+  `nível 1 marcador em ${Object.keys(MARCADORES_CK).length} papéis do painel, nenhum valor presente na base`,
+  foraDoPainel.length === 0 && naBase.length === 0,
+  `fora do painel: ${foraDoPainel.join(', ') || '—'} · já na base: ${naBase.join(', ') || '—'}`
+);
+const SVG_LOGO =
+  '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="32" viewBox="0 0 120 32">' +
+  '<title>funil-4-logo</title><rect width="120" height="32" rx="4" fill="#0c0c0c"/></svg>';
+const LOGO_MARCADOR = `data:image/svg+xml;base64,${Buffer.from(SVG_LOGO).toString('base64')}`;
+config.faststore.checkout = {
+  ...config.faststore.checkout,
+  variables: MARCADORES_CK,
+};
+config.faststore.assets = {
+  ...(config.faststore.assets ?? {}),
+  logo: LOGO_MARCADOR,
+};
+
+// De onde o generator clona o checkout-vtex. O remote do GitHub ainda não existe
+// (e o default do generator aponta para ele); sem a env, o irmão com commit. Clone
+// enxerga COMMIT: o SHA pedido tem de existir lá, e trabalho não commitado some.
+const temHead = dir =>
+  spawnSync('git', ['rev-parse', '-q', '--verify', 'HEAD'], {
+    cwd: dir,
+    encoding: 'utf8',
+  }).status === 0;
+const irmaoCk = path.join(E_TEMAS, 'checkout-vtex');
+const repoCheckout =
+  process.env.CHECKOUT_VTEX_REPO ??
+  (fs.existsSync(path.join(irmaoCk, '.git')) && temHead(irmaoCk)
+    ? `file://${irmaoCk}`
+    : undefined);
+console.log(
+  `  ℹ️  checkout-vtex: ${repoCheckout ?? 'o default do generator (github.com/seriedesign/checkout-vtex)'}`
+);
+if (repoCheckout?.startsWith('file://')) {
+  const local = repoCheckout.replace('file://', '');
+  const sujoCk = spawnSync('git', ['status', '--porcelain'], {
+    cwd: local,
+    encoding: 'utf8',
+  }).stdout.trim();
+  r.ok(
+    'checkout local do checkout-vtex sem alteração pendente',
+    sujoCk === '',
+    `${sujoCk.split('\n').length} arquivo(s) não commitado(s) — o clone não os veria`
+  );
+  r.ok(
+    `o SHA do config existe no checkout-vtex local (${String(shaCk).slice(0, 12)})`,
+    spawnSync('git', ['cat-file', '-e', `${shaCk}^{commit}`], { cwd: local })
+      .status === 0,
+    `${local} não tem o commit ${shaCk}`
+  );
+}
+
 fs.writeFileSync(
   `${SAIDA}/config-VTEX-cruzado.json`,
   JSON.stringify(config, null, 2)
 );
-fs.writeFileSync(CONFIG_VIVO, JSON.stringify(config, null, 2));
 
 // yarn resolve `node` do PATH; garantir que é o mesmo Node que roda o funil.
 const env = {
   ...process.env,
   PATH: `${path.dirname(process.execPath)}:${process.env.PATH}`,
+  ...(repoCheckout ? { CHECKOUT_VTEX_REPO: repoCheckout } : {}),
 };
 const rodar = (cmd, args, cwd) =>
   spawnSync(cmd, args, {
@@ -160,6 +278,144 @@ const rodar = (cmd, args, cwd) =>
     encoding: 'utf8',
     maxBuffer: 64 * 1024 * 1024,
   });
+const existe = p => fs.existsSync(path.join(TEMA, p));
+
+// ── checkout VTEX: o caso negativo, ANTES do positivo ────────────────────────
+// Papel que o modelo não tem é erro exclusivo do checkout (gate0 #14b): a
+// VALIDATE reprova antes de qualquer escrita. Roda primeiro porque o SYNC da
+// rodada seguinte reclona o tema-base (reset + clean -x) — ao contrário, apagaria
+// o tema que o build lá embaixo compila. "Sem escrever" = o tema-base fica
+// exatamente como o clone o deixou: nada no status, nem ignorado, e sem checkout/.
+const negativo = structuredClone(config);
+negativo.faststore.checkout.variables = {
+  ...MARCADORES_CK,
+  '--checkout-nao-existe': '#123456',
+};
+fs.writeFileSync(CONFIG_VIVO, JSON.stringify(negativo, null, 2));
+console.log(
+  '  ⏳ caso negativo: faststore.checkout.variables com um papel que o modelo não tem'
+);
+const neg = rodar('yarn', ['start:test'], GENERATOR);
+const saidaNeg = `${neg.stdout ?? ''}${neg.stderr ?? ''}`;
+fs.writeFileSync(`${SAIDA}/generator-negativo.log`, saidaNeg);
+r.ok(
+  'negativo: o generator aborta (exit ≠ 0)',
+  neg.status !== 0,
+  `exit ${neg.status} — log em .funil/generator-negativo.log`
+);
+r.ok(
+  'negativo: a VALIDATE reprova com papel-desconhecido (--checkout-nao-existe)',
+  /VALIDATE reprovou o plano/.test(saidaNeg) &&
+    /checkout \(papel-desconhecido\): "--checkout-nao-existe"/.test(saidaNeg),
+  saidaNeg
+    .split('\n')
+    .filter(l => /❌|VALIDATE/.test(l))
+    .slice(0, 4)
+    .join(' | ') || 'sem linha de VALIDATE no log'
+);
+r.ok('negativo: o EXECUTE não começou', !/\[8\/10\] EXECUTE/.test(saidaNeg));
+const estadoNeg = spawnSync('git', ['status', '--porcelain', '--ignored'], {
+  cwd: TEMA,
+  encoding: 'utf8',
+});
+r.ok(
+  'negativo: nada escrito — o tema-base é o clone intacto, sem checkout/',
+  estadoNeg.status === 0 &&
+    estadoNeg.stdout.trim() === '' &&
+    !existe('checkout'),
+  estadoNeg.status !== 0
+    ? `git status falhou em ${TEMA}`
+    : estadoNeg.stdout.trim().split('\n').slice(0, 5).join(', ') ||
+        'checkout/ existe'
+);
+
+// ── checkout VTEX: o clone que falha (gate0 #25), também antes do positivo ────
+// O config do /gerador atual leva `faststore.checkout`: pediu aquele modelo naquele
+// SHA. Se o checkout-vtex não clona (repo inexistente, sem rede, sem credencial), o
+// problema é exclusivo do checkout e a VALIDATE reprova com `clone-falhou` antes
+// de qualquer escrita — nada de "pular" o checkout em silêncio (isso é só para o
+// config antigo, SEM a chave, que o teste do generator cobre). O mesmo config do
+// positivo, só a origem do checkout trocada por um caminho que não existe. Com o
+// remote trocado, o SYNC apaga o `repo-temp-checkout/` da rodada anterior: o
+// positivo abaixo reclona do zero.
+const INEXISTENTE_CK = path.join(SAIDA, 'checkout-vtex-inexistente');
+fs.rmSync(INEXISTENTE_CK, { recursive: true, force: true });
+const urlInexistenteCk = pathToFileURL(INEXISTENTE_CK).href;
+fs.writeFileSync(CONFIG_VIVO, JSON.stringify(config, null, 2));
+console.log(
+  `  ⏳ caso gate0 #25: config COM faststore.checkout e CHECKOUT_VTEX_REPO=${urlInexistenteCk}`
+);
+const semClone = spawnSync('yarn', ['start:test'], {
+  cwd: GENERATOR,
+  env: { ...env, CHECKOUT_VTEX_REPO: urlInexistenteCk },
+  encoding: 'utf8',
+  maxBuffer: 64 * 1024 * 1024,
+});
+const saidaSemClone = `${semClone.stdout ?? ''}${semClone.stderr ?? ''}`;
+fs.writeFileSync(`${SAIDA}/generator-sem-clone.log`, saidaSemClone);
+r.ok(
+  'gate0 #25: o generator aborta (exit ≠ 0)',
+  semClone.status !== 0,
+  `exit ${semClone.status} — log em .funil/generator-sem-clone.log`
+);
+r.ok(
+  'gate0 #25: o SYNC não cai — registra checkout-vtex (clone-falhou) e segue',
+  /checkout-vtex \(clone-falhou\)/.test(saidaSemClone) &&
+    /\[\d+\/10\] (DISCOVER|RESOLVE|PLAN|VALIDATE)/.test(saidaSemClone),
+  saidaSemClone
+    .split('\n')
+    .filter(l => /💥|clone-falhou|\[\d+\/10\]/.test(l))
+    .slice(0, 4)
+    .join(' | ') || 'sem linha do SYNC no log'
+);
+const errosCkSemClone = saidaSemClone
+  .split('\n')
+  .filter(l => l.includes('❌ checkout ('));
+r.ok(
+  'gate0 #25: a VALIDATE reprova com clone-falhou, o caminho e o fatal: do git',
+  /VALIDATE reprovou o plano/.test(saidaSemClone) &&
+    errosCkSemClone.length === 1 &&
+    errosCkSemClone[0].includes('checkout (clone-falhou)') &&
+    errosCkSemClone[0].includes(urlInexistenteCk) &&
+    /fatal:/.test(errosCkSemClone[0]),
+  errosCkSemClone.map(l => l.trim().slice(0, 240)).join(' | ') ||
+    saidaSemClone
+      .split('\n')
+      .filter(l => /❌|VALIDATE/.test(l))
+      .slice(0, 4)
+      .join(' | ') ||
+    'sem linha de VALIDATE no log'
+);
+r.ok(
+  'gate0 #25: com a chave no config não é "pulado" (nem aviso checkout-pulado)',
+  !/checkout-pulado|checkout: pulado/.test(saidaSemClone)
+);
+r.ok(
+  'gate0 #25: o EXECUTE não começou e nenhuma WriteCheckout',
+  !/\[8\/10\] EXECUTE/.test(saidaSemClone) &&
+    !/WriteCheckout →/.test(saidaSemClone)
+);
+const estadoSemClone = spawnSync(
+  'git',
+  ['status', '--porcelain', '--ignored'],
+  { cwd: TEMA, encoding: 'utf8' }
+);
+r.ok(
+  'gate0 #25: nada escrito — o tema-base é o clone intacto, sem checkout/',
+  estadoSemClone.status === 0 &&
+    estadoSemClone.stdout.trim() === '' &&
+    !existe('checkout'),
+  estadoSemClone.status !== 0
+    ? `git status falhou em ${TEMA}`
+    : estadoSemClone.stdout.trim().split('\n').slice(0, 5).join(', ') ||
+        'checkout/ existe'
+);
+r.ok(
+  'gate0 #25: o caminho inexistente continua inexistente (o clone não criou nada lá)',
+  !fs.existsSync(INEXISTENTE_CK)
+);
+
+fs.writeFileSync(CONFIG_VIVO, JSON.stringify(config, null, 2));
 
 console.log(
   '  ⏳ yarn start:test — clona os repos, monta o tema e roda yarn install (minutos)'
@@ -185,7 +441,6 @@ if (build.status !== 0) {
 }
 
 // ── o tema no disco ──────────────────────────────────────────────────────────
-const existe = p => fs.existsSync(path.join(TEMA, p));
 const esperados = [
   ...new Set(
     (config.faststore.global ?? [])
@@ -409,6 +664,151 @@ r.ok(
       ? 'sem a constante PALCO_ATIVO ligada a NODE_ENV'
       : 'PALCO_ATIVO existe mas nada retorna null com ela'
 );
+
+// ── checkout VTEX: o que saiu em checkout/ ───────────────────────────────────
+// Exatamente os 5 do CheckoutWriter: `.ts` o tsconfig do tema checaria, e
+// `manifest.json` o AssetRegistry derrubaria na próxima geração.
+const DIR_CK = path.join(TEMA, 'checkout');
+const nomesCk = Object.values(ARQ_CK).sort();
+const noDiscoCk = fs.existsSync(DIR_CK)
+  ? fs.readdirSync(DIR_CK, { recursive: true }).map(String).sort()
+  : [];
+r.ok(
+  `checkout/ com exatamente os 5 arquivos (${nomesCk.join(', ')})`,
+  JSON.stringify(noDiscoCk) === JSON.stringify(nomesCk),
+  `tem: ${noDiscoCk.join(', ') || 'nada'}`
+);
+r.ok(
+  'checkout/ sem .ts nem manifest.json',
+  !noDiscoCk.some(
+    f => /\.tsx?$/.test(f) || path.basename(f) === 'manifest.json'
+  ),
+  noDiscoCk.filter(f => /\.tsx?$|manifest\.json$/.test(f)).join(', ')
+);
+const ck = Object.fromEntries(
+  Object.entries(ARQ_CK).map(([k, nome]) => [
+    k,
+    fs.existsSync(path.join(DIR_CK, nome))
+      ? fs.readFileSync(path.join(DIR_CK, nome), 'utf8')
+      : '',
+  ])
+);
+r.ok(
+  `o clone do checkout-vtex parou no SHA do config (${String(shaCk).slice(0, 12)})`,
+  spawnSync('git', ['rev-parse', 'HEAD'], {
+    cwd: path.join(GENERATOR, 'repo-temp-checkout'),
+    encoding: 'utf8',
+  }).stdout.trim() === shaCk
+);
+r.ok(
+  'o log registra o WriteCheckout no SHA do config',
+  new RegExp(
+    `WriteCheckout → checkout/checkout6-custom\\.css.*\\(${MODELO_CK.id}@${String(shaCk).slice(0, 12)}\\)`
+  ).test(saida)
+);
+
+// @import primeiro: depois de qualquer regra, o navegador o ignora (comentário e
+// banner `/*! … */` não contam). E é o da fonte do nível 1 marcador.
+const semComentarios = ck.css.replace(/\/\*[\s\S]*?\*\//g, '');
+const primeiroImport = /^\s*@import url\('([^']+)'\);/.exec(semComentarios);
+r.ok(
+  '@import do Google Fonts é a primeira instrução do checkout6-custom.css (Karla)',
+  Boolean(primeiroImport) && /[?&]family=Karla:wght@/.test(primeiroImport[1]),
+  primeiroImport?.[1] ?? semComentarios.trimStart().slice(0, 80)
+);
+const tokensCk =
+  /\/\* ETC:BEGIN tokens \*\/\s*:root\s*\{([^}]*)\}/.exec(ck.css)?.[1] ?? '';
+const semMarcador = Object.entries(MARCADORES_CK)
+  .map(([k, v]) => `${k}: ${v};`)
+  .filter(d => !tokensCk.includes(d));
+r.ok(
+  `os ${Object.keys(MARCADORES_CK).length} marcadores de nível 1 no :root do bloco tokens`,
+  tokensCk !== '' && semMarcador.length === 0,
+  tokensCk
+    ? `faltam: ${semMarcador.join(' ')}`
+    : 'bloco ETC:BEGIN tokens não encontrado'
+);
+r.ok(
+  'o nível 2 da loja entra no mesmo :root (botão e texto herdam faststore.variables)',
+  /--background-primary-color: #[0-9a-f]{6};/.test(tokensCk) &&
+    /--text-primary-color: #[0-9a-f]{6};/.test(tokensCk),
+  tokensCk.trim().split('\n').slice(0, 4).join(' ')
+);
+r.ok(
+  'o logo do config está no checkout-header.html (sem {{LOGO_SRC}})',
+  ck.header.includes(`src="${LOGO_MARCADOR}"`) &&
+    !ck.header.includes('{{LOGO_SRC}}')
+);
+const comEtc = Object.entries(ck)
+  .filter(([, t]) => t.includes('{{ETC_') || t.includes('ETC:SLOT'))
+  .map(([k]) => ARQ_CK[k]);
+r.ok(
+  'zero {{ETC_ e ETC:SLOT nos 5 arquivos',
+  comEtc.length === 0,
+  comEtc.join(', ')
+);
+// README de upload: o pre-flight é o que impede colar numa conta em que o Admin é
+// ignorado, e os placeholders são o que o time preenche antes.
+const phRestantes = (MODELO_CK.placeholders ?? []).filter(ph =>
+  Object.entries(ARQ_CK).some(
+    ([k, nome]) => nome === ph.arquivo && ck[k].includes(ph.id)
+  )
+);
+const phSemReadme = phRestantes.filter(
+  ph => !ck.readme.includes(`\`${ph.id}\``)
+);
+r.ok(
+  `README com os ${phRestantes.length} placeholders a preencher (${phRestantes.map(p => p.id).join(', ')})`,
+  phRestantes.length > 0 && phSemReadme.length === 0,
+  `faltam: ${phSemReadme.map(p => p.id).join(', ')}`
+);
+const preflight = [
+  'Antes de colar (bloqueia)',
+  '/* source: <',
+  'vtex.checkout-ui-custom',
+  shaCk,
+];
+const semPreflight = preflight.filter(m => !ck.readme.includes(m));
+r.ok(
+  'README com o pre-flight bloqueante e o SHA',
+  semPreflight.length === 0,
+  `faltam: ${semPreflight.join(', ')}`
+);
+
+// A equivalência com o /gerador: o compose do lib VENDORIZADO no catálogo, sobre a
+// base servida ao preview, com o mesmo config, tem de dar os MESMOS bytes. O 1-checkout
+// prova vendorizado == SHA; isto fecha o laço do outro lado (generator == SHA).
+try {
+  const libCk = await import(
+    pathToFileURL(path.join(RAIZ, 'src/lib/checkout/compose.mjs')).href
+  );
+  const { options } = libCk.optionsFromConfig(config.faststore);
+  const doCatalogo = libCk.composeCheckout(MODELO_CK, baseCk, options);
+  const difs = Object.keys(ARQ_CK)
+    .filter(k => doCatalogo[k] !== ck[k])
+    .map(k => {
+      const a = doCatalogo[k] ?? '';
+      const b = ck[k];
+      let i = 0;
+      while (i < a.length && a[i] === b[i]) i++;
+      return `${ARQ_CK[k]} (byte ${i}: catálogo ${JSON.stringify(a.slice(i, i + 30))} × tema ${JSON.stringify(b.slice(i, i + 30))})`;
+    });
+  r.ok(
+    'bytes do checkout/ == compose do catálogo (src/lib/checkout, mesmo config), os 5 arquivos',
+    difs.length === 0,
+    difs.join('; ')
+  );
+  const avisosCk = doCatalogo.avisos.map(a => a.codigo);
+  console.log(
+    `  ℹ️  avisos do compose: ${[...new Set(avisosCk)].join(', ') || 'nenhum'}`
+  );
+} catch (e) {
+  r.ok(
+    'bytes do checkout/ == compose do catálogo (src/lib/checkout, mesmo config), os 5 arquivos',
+    false,
+    `o compose do catálogo lançou: ${e.message}`
+  );
+}
 
 // ── portão: o tema compila? ──────────────────────────────────────────────────
 if (process.env.FUNIL_TEMA_BUILD === '0') {

@@ -1,0 +1,232 @@
+{
+  "descricao": "Modelo Checkout01 do E-temas. Fonte de verdade do contrato do modelo: papéis (formato ComponentVariable do catálogo, default = nível 3; `visibilidade` = guarda do nível 2, gate0 #14a), neutros fixos (sem painel nem herança), etapas, fontes, handles React, frames do Figma, slots e placeholders. NUNCA renomeie para manifest.json: o AssetRegistry do generator derruba o build com manifest desconhecido. Ver docs/contrato.md.",
+  "id": "Checkout01",
+  "contrato": 1,
+  "prefixo": "ck01",
+  "plataforma": "vtex",
+  "arquivos": {
+    "css": "checkout6-custom.css",
+    "js": "checkout6-custom.js",
+    "header": "checkout-header.html",
+    "footer": "checkout-footer.html"
+  },
+  "etapas": [
+    { "id": "carrinho", "hash": "#/cart", "passo": "carrinho", "etp": "ETP1", "figma": "carrinho" },
+    { "id": "email", "hash": "#/email", "passo": "identificacao", "etp": "ETP2", "figma": "perfil", "nota": "o Figma não desenha o e-mail: vale o visual da ETP2 (perfil)" },
+    { "id": "perfil", "hash": "#/profile", "passo": "identificacao", "etp": "ETP2", "figma": "perfil" },
+    { "id": "entrega", "hash": "#/shipping", "passo": "identificacao", "etp": "ETP3", "figma": "entrega" },
+    { "id": "pagamento", "hash": "#/payment", "passo": "pagamento", "etp": "ETP4", "figma": "pagamento" }
+  ],
+  "stepper": [
+    { "id": "carrinho", "rotulo": "Carrinho" },
+    { "id": "identificacao", "rotulo": "Identificação" },
+    { "id": "pagamento", "rotulo": "Pagamento" },
+    { "id": "confirmacao", "rotulo": "Confirmação", "classeBody": "body-checkout-confirmation", "nota": "só acende no Order Placed, onde o checkout6-custom.css não carrega: a regra mora no <style> do header" }
+  ],
+  "classes": {
+    "etapa": "ck01-step-",
+    "passo": "ck01-passo-",
+    "nota": "o etapa.js grava html.ck01-step-<etapa> e html.ck01-passo-<passo> no <head>, a partir do hash; hash vazio = carrinho; hash desconhecido = nenhuma classe"
+  },
+  "fontes": {
+    "familia": "Montserrat",
+    "pesos": [400, 500, 600, 700],
+    "pesosImport": [300, 400, 500, 600, 700],
+    "tamanhos": [9, 10, 12, 14, 16],
+    "nota": "o Open Sans que aparece 1× no Figma (23028:1027, ETP4 desktop) é descuido do arquivo: vale Montserrat"
+  },
+  "breakpoints": { "mobile": 767, "tablet": 1023 },
+  "handles": [
+    { "app": "vtex.omnishipping", "prefixo": "vtex-omnishipping-1-x-", "major": 1, "medido": "1.22.1" },
+    { "app": "vtex.shipping-preview", "prefixo": "vtex-shipping-preview-0-x-", "major": 0, "medido": "0.15.0" },
+    { "app": "vtex.pickup-points-modal", "prefixo": "vtex-pickup-points-modal-3-x-", "major": 3, "medido": "3.8.3" }
+  ],
+  "papeis": [
+    {
+      "cssVar": "--checkout-button-bg", "alias": "--ck01-button-bg",
+      "label": "Botão principal", "type": "color", "default": "#009dde", "group": "Botões",
+      "inheritsLabel": "cor primária da marca",
+      "level2": "--background-primary-color", "level3": "#009dde", "painel": true,
+      "visibilidade": { "contra": ["--checkout-page-bg", "--checkout-surface-bg"], "min": 1.2 },
+      "figma": "Brand/Azul", "onde": "os CTAs principais, em desktop e mobile (gate0 #11): Seguir com o pedido · Continuar (e-mail) · Ir para a entrega · Ir para o pagamento · Finalizar pedido; links e seleções das peças nativas"
+    },
+    {
+      "cssVar": "--checkout-button-text", "alias": "--ck01-button-text",
+      "label": "Texto do botão principal", "type": "color", "default": "#ffffff", "group": "Botões",
+      "level2": null, "level3": "#ffffff", "painel": false,
+      "derivado": { "regra": "contraste", "de": "--checkout-button-bg" },
+      "figma": "Full White"
+    },
+    {
+      "cssVar": "--checkout-accent", "alias": "--ck01-accent",
+      "label": "Botão de destaque", "type": "color", "default": "#ed8b00", "group": "Botões",
+      "inheritsLabel": "cor secundária da marca",
+      "level2": "--background-secundary-color", "level3": "#ed8b00", "painel": true,
+      "visibilidade": { "contra": ["--checkout-page-bg", "--checkout-surface-bg"], "min": 1.2 },
+      "figma": "Brand/Amarelo", "onde": "Continuar comprando e os botões secundários (gate0 #11) · polegar da barra de rolagem da lista no celular"
+    },
+    {
+      "cssVar": "--checkout-accent-text", "alias": "--ck01-accent-text",
+      "label": "Texto do botão de destaque", "type": "color", "default": "#ffffff", "group": "Botões",
+      "level2": null, "level3": "#ffffff", "painel": false,
+      "derivado": { "regra": "contraste", "de": "--checkout-accent" },
+      "figma": "Full White"
+    },
+    {
+      "cssVar": "--checkout-tag-bg", "alias": "--ck01-tag-bg",
+      "label": "Etiqueta de desconto", "type": "color", "default": "#0096fe", "group": "Destaques",
+      "inheritsLabel": "cor primária da marca",
+      "level2": "--background-primary-color", "level3": "#0096fe", "painel": true,
+      "visibilidade": { "contra": ["--checkout-page-bg", "--checkout-surface-bg"], "min": 1.2 },
+      "figma": "blue/blue-500", "onde": "tag \"20%\" dos itens; um azul só no lugar de #0096fe e #00a0df (gate0 #2)"
+    },
+    {
+      "cssVar": "--checkout-tag-text", "alias": "--ck01-tag-text",
+      "label": "Texto da etiqueta de desconto", "type": "color", "default": "#ffffff", "group": "Destaques",
+      "level2": null, "level3": "#ffffff", "painel": false,
+      "derivado": { "regra": "contraste", "de": "--checkout-tag-bg" },
+      "figma": "Full White"
+    },
+    {
+      "cssVar": "--checkout-text", "alias": "--ck01-text",
+      "label": "Texto", "type": "color", "default": "#292929", "group": "Texto",
+      "inheritsLabel": "cor de texto primária",
+      "level2": "--text-primary-color", "level3": "#292929", "painel": true,
+      "visibilidade": { "contra": ["--checkout-page-bg", "--checkout-surface-bg"], "min": 4.5 },
+      "figma": "Gray-Scale/Gray-800", "onde": "títulos, totais, quantidade, \"100% seguro\", passo ativo do stepper (79 nós de texto; o #141414 é só o preço \"por\")"
+    },
+    {
+      "cssVar": "--checkout-text-muted", "alias": "--ck01-text-muted",
+      "label": "Texto secundário", "type": "color", "default": "#7a7a7a", "group": "Texto",
+      "inheritsLabel": "derivado do texto",
+      "level2": null, "level3": "#7a7a7a", "painel": true,
+      "derivado": { "regra": "mistura", "de": "--checkout-text", "com": "--checkout-page-bg", "peso": 62.15 },
+      "figma": "Gray-Scale/Gray-400", "onde": "rótulos do resumo (SUBTOTAL, DESCONTO, ENTREGA); chevron"
+    },
+    {
+      "cssVar": "--checkout-page-bg", "alias": "--ck01-page-bg",
+      "label": "Fundo da página", "type": "color", "default": "#ffffff", "group": "Estrutura",
+      "level2": null, "level3": "#ffffff", "painel": true,
+      "figma": "Background/Background-00", "onde": "fundo dos 8 frames"
+    },
+    {
+      "cssVar": "--checkout-surface-bg", "alias": "--ck01-surface-bg",
+      "label": "Fundo das caixas", "type": "color", "default": "#ffffff", "group": "Estrutura",
+      "level2": null, "level3": "#ffffff", "painel": true,
+      "figma": "Background/Background-00", "onde": "caixas com borda (resumo, seções)"
+    },
+    {
+      "cssVar": "--checkout-border", "alias": "--ck01-border",
+      "label": "Bordas", "type": "color", "default": "#efeff0", "group": "Estrutura",
+      "level2": null, "level3": "#efeff0", "painel": true,
+      "figma": "Background/background-3", "onde": "borda das caixas, da foto, da quantidade, da lixeira e do resumo"
+    },
+    {
+      "cssVar": "--checkout-header-bg", "alias": "--ck01-header-bg",
+      "label": "Fundo do header e do rodapé", "type": "color", "default": "#ffffff", "group": "Estrutura",
+      "level2": null, "level3": "#ffffff", "painel": true,
+      "figma": "Background/Background-00"
+    },
+    {
+      "cssVar": "--checkout-header-text", "alias": "--ck01-header-text",
+      "label": "Texto do header", "type": "color", "default": "#292929", "group": "Estrutura",
+      "level2": null, "level3": "#292929", "painel": false,
+      "derivado": { "regra": "legivel", "de": "--checkout-text", "sobre": "--checkout-header-bg", "min": 4.5 },
+      "figma": "Gray-Scale/Gray-800", "onde": "texto do header e do stepper (\"100% seguro\", passo ativo): o texto da página quando ele tem 4,5:1 contra o fundo do header; senão, o contraste calculado do fundo (gate0 #23)"
+    },
+    {
+      "cssVar": "--checkout-header-muted", "alias": "--ck01-header-muted",
+      "label": "Passo inativo do stepper", "type": "color", "default": "#dfdfe0", "group": "Estrutura",
+      "level2": null, "level3": "#dfdfe0", "painel": false,
+      "derivado": { "regra": "visivel", "de": "--ck01-gray-000", "sobre": "--checkout-header-bg", "min": 3, "senao": "--checkout-header-text", "misturar": true },
+      "figma": "Gray-Scale/Gray-000", "onde": "passo inativo do stepper (barra e rótulo), no checkout e no Order Placed: o neutro do Figma enquanto ele se vê sobre o fundo do header; senão, a menor mistura do texto do header com o fundo que chega ao limite (gate0 #28)"
+    },
+    {
+      "cssVar": "--checkout-header-line", "alias": "--ck01-header-line",
+      "label": "Traço do header no celular", "type": "color", "default": "#f5f5f5", "group": "Estrutura",
+      "level2": null, "level3": "#f5f5f5", "painel": false,
+      "derivado": { "regra": "visivel", "de": "--ck01-background-01", "sobre": "--checkout-header-bg", "min": 3, "senao": "--checkout-header-text", "misturar": true },
+      "figma": "Background/Background-01", "onde": "o traço entre a linha do logo e a do stepper no celular (gate0 #28); no desktop a borda de baixo do header fica no neutro --ck01-background-01, que encosta na página"
+    },
+    {
+      "cssVar": "--checkout-footer-text", "alias": "--ck01-footer-text",
+      "label": "Texto do rodapé", "type": "color", "default": "#8f8f8f", "group": "Estrutura",
+      "level2": null, "level3": "#8f8f8f", "painel": false,
+      "derivado": { "regra": "visivel", "de": "--ck01-gray-300", "sobre": "--checkout-header-bg", "min": 3, "senao": "--checkout-header-text", "misturar": true },
+      "figma": "Gray-Scale/Gray-300", "onde": "textos do rodapé (razão social, CNPJ, aviso legal), no checkout e no Order Placed (gate0 #28)"
+    },
+    {
+      "cssVar": "--checkout-header-icon", "alias": "--ck01-header-icon",
+      "label": "Cadeado do header", "type": "color", "default": "#009dde", "group": "Estrutura",
+      "level2": null, "level3": "#009dde", "painel": false,
+      "derivado": { "regra": "visivel", "de": "--checkout-button-bg", "sobre": "--checkout-header-bg", "min": 3, "senao": "--checkout-header-text", "misturar": false },
+      "figma": "Brand/Azul", "onde": "o cadeado do \"100% seguro\": a cor do botão enquanto ela se vê sobre o fundo do header; senão, o texto do header (gate0 #28)"
+    },
+    {
+      "cssVar": "--checkout-font", "alias": "--ck01-font",
+      "label": "Fonte", "type": "font", "default": "'Montserrat', Arial, Helvetica, sans-serif", "group": "Tipografia",
+      "inheritsLabel": "fonte primária",
+      "level2": "--font-primary", "level3": "'Montserrat', Arial, Helvetica, sans-serif", "painel": true,
+      "figma": "Text"
+    }
+  ],
+  "neutros": [
+    { "cssVar": "--ck01-gray-000", "valor": "#dfdfe0", "figma": "Gray-Scale/Gray-000", "uso": "stepper inativo (texto e barra)" },
+    { "cssVar": "--ck01-gray-200", "valor": "#b8b8b8", "figma": "Gray-Scale/Gray-200", "uso": "preço \"de\" riscado; ícones − e +" },
+    { "cssVar": "--ck01-gray-300", "valor": "#8f8f8f", "figma": "Gray-Scale/Gray-300", "uso": "texto do rodapé; \"001\" do resumo; contorno e texto do Compartilhar (gate0 #2)" },
+    { "cssVar": "--ck01-gray-500", "valor": "#666666", "figma": "Gray-Scale/Gray-500", "uso": "valores do resumo, placeholders, \"Aguardando…\"; ícone editar" },
+    { "cssVar": "--ck01-gray-600", "valor": "#525252", "figma": "Gray-Scale/Gray-600", "uso": "nome do produto" },
+    { "cssVar": "--ck01-gray-900", "valor": "#141414", "figma": "Gray-Scale/Gray-900", "uso": "preço \"por\"" },
+    { "cssVar": "--ck01-gray-1", "valor": "#333333", "figma": "Gray 1", "uso": "títulos das seções, total; thumb da scroll bar desktop" },
+    { "cssVar": "--ck01-background-01", "valor": "#f5f5f5", "figma": "Background/Background-01", "uso": "borda inferior do header" },
+    { "cssVar": "--ck01-field-border", "valor": "#eeeeee", "figma": null, "uso": "borda dos campos; trilho da scroll bar mobile" },
+    { "cssVar": "--ck01-card-bg", "valor": "#fafafa", "figma": null, "uso": "card de produto (carrinho desktop), caixas de dados preenchidos, coluna 2 da ETP3 e da ETP4" },
+    { "cssVar": "--ck01-section-bg", "valor": "#fdfdfd", "figma": null, "uso": "cards de item (mobile) e seções de formulário" },
+    { "cssVar": "--ck01-radio-border", "valor": "#111111", "figma": null, "uso": "borda do rádio do opt-in de newsletter" },
+    { "cssVar": "--ck01-white", "valor": "#ffffff", "figma": "Full White", "uso": "fundo de campo e de quantidade, que é sempre branco" },
+    { "cssVar": "--ck01-shadow", "valor": "rgba(0, 0, 0, 0.08)", "figma": null, "uso": "sombra do header (0 2px 4px) e drop-shadow dos botões Editar" },
+    { "cssVar": "--ck01-error", "valor": "#dd4b39", "figma": null, "uso": "NEUTRO FIXO de erro (gate0 #13): borda e mensagem do campo com erro. É o vermelho nativo da VTEX, não é cor de marca: fora do painel, sem nível 1 nem 2, não herda da loja" }
+  ],
+  "slots": {
+    "css": ["font-import", "tokens"],
+    "js": ["config", "integracoes"],
+    "header": ["tokens-header"],
+    "footer": ["tokens-footer"]
+  },
+  "marcadores": {
+    "header": ["{{ETC_LOGO_SRC}}"]
+  },
+  "placeholders": [
+    { "id": "{{RAZAO_SOCIAL}}", "arquivo": "checkout-footer.html", "descricao": "razão social da loja, como está no CNPJ" },
+    { "id": "{{CNPJ}}", "arquivo": "checkout-footer.html", "descricao": "CNPJ da loja, no formato 00.000.000/0000-00" },
+    { "id": "{{AVISO_LEGAL}}", "arquivo": "checkout-footer.html", "descricao": "texto legal do rodapé (preços, promoções, endereço)" },
+    { "id": "{{LOGO_SRC}}", "arquivo": "checkout-header.html", "descricao": "URL (https) do logo da loja", "quando": "só quando o config.json não traz logo" }
+  ],
+  "limites": {
+    "jsBytes": 40960,
+    "logoAvisoBytes": 30720,
+    "logoErroBytes": 102400
+  },
+  "figma": {
+    "viewports": [1280, 390],
+    "frames": {
+      "carrinho-1280": { "id": "23036:3692", "nome": "Desktop - ETP 1", "w": 1280, "h": 844 },
+      "perfil-1280": { "id": "23028:1263", "nome": "Desktop - ETP 2", "w": 1280, "h": 897 },
+      "entrega-1280": { "id": "23030:1353", "nome": "Desktop - ETP 3", "w": 1280, "h": 937 },
+      "pagamento-1280": { "id": "23030:1527", "nome": "Desktop - ETP 4", "w": 1280, "h": 897 },
+      "carrinho-390": { "id": "23036:2946", "nome": "Mobile - ETP 1", "w": 390, "h": 1093 },
+      "perfil-390": { "id": "23036:3108", "nome": "Mobile - ETP 2", "w": 389, "h": 1556, "nota": "comparado como 390 (gate0 #5)" },
+      "entrega-390": { "id": "23036:3206", "nome": "Mobile - ETP 3", "w": 390, "h": 1724 },
+      "pagamento-390": { "id": "23036:3304", "nome": "Mobile - ETP 4", "w": 390, "h": 1662 }
+    },
+    "logo": {
+      "nota": "o logo de exemplo do Figma são duas camadas empilhadas (sombra + desenho); o build as junta num SVG só para o dist/default",
+      "w": 139.907,
+      "h": 32,
+      "camadas": [
+        { "nodeId": "23036:3898", "asset": "4750173cc41ebd8eaae5df160b5079f1e5f152fe.svg", "x": 0, "y": 0 },
+        { "nodeId": "23036:3901", "asset": "dd0d9d538887c5f81b094858142fa64b6d54d59e.svg", "x": 0.92, "y": 0.39 }
+      ]
+    }
+  }
+}

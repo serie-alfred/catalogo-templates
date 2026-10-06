@@ -7,6 +7,7 @@ import { buildThemeStyle } from '@/utils/themeStyle';
 import ThemeRenderer from '../ThemeRenderer';
 import PreviewNav from '../PreviewNav';
 import SeededLayoutProvider from '../SeededLayoutProvider';
+import { snapshotTemCheckout } from '@/utils/checkout';
 
 interface SharedPreviewProps {
   snapshot: PreviewSnapshot;
@@ -61,7 +62,11 @@ export default function SharedPreview({
       <div style={themeStyle}>
         <ThemeRenderer selections={snapshot.selections} pagina={pagina} />
       </div>
-      <PreviewNav id={id} activeSlug={activeSlug} />
+      <PreviewNav
+        id={id}
+        activeSlug={activeSlug}
+        temCheckout={snapshotTemCheckout(snapshot)}
+      />
     </SeededLayoutProvider>
   );
 }

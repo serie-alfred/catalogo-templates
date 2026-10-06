@@ -34,6 +34,15 @@ export interface PreviewSnapshot {
    * gravados antes deste campo existir continuam válidos.
    */
   ogImage?: string;
+  /**
+   * O checkout VTEX (`faststore.checkout` do config): modelo, SHA do
+   * checkout-vtex e os papéis. Só em VTEX, e opcional pelo mesmo motivo.
+   */
+  checkout?: {
+    model: string;
+    version: string;
+    variables: Record<string, string>;
+  };
 }
 
 interface PreviewStore {

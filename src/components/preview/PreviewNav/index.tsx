@@ -3,20 +3,27 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { PREVIEW_PAGES } from '@/utils/previewRender';
+import { CHECKOUT_ETAPAS } from '@/utils/checkout';
 import styles from './index.module.css';
 
 interface PreviewNavProps {
   /** ID do preview compartilhado (prefixo comum das 3 páginas). */
   id: string;
-  /** Slug da página atualmente aberta: "home" | "categoria" | "produto". */
+  /** Slug da página atualmente aberta: "home" | "categoria" | "produto" | "checkout/<etapa>". */
   activeSlug: string;
+  /** O snapshot tem checkout (tema VTEX): o menu ganha as etapas dele. */
+  temCheckout?: boolean;
 }
 
 /**
  * Balão flutuante no canto direito. Ao clicar, abre um menu para navegar entre
  * as páginas do preview (Home / Categoria / Produto).
  */
-export default function PreviewNav({ id, activeSlug }: PreviewNavProps) {
+export default function PreviewNav({
+  id,
+  activeSlug,
+  temCheckout = false,
+}: PreviewNavProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -36,6 +43,23 @@ export default function PreviewNav({ id, activeSlug }: PreviewNavProps) {
               {page.label}
             </Link>
           ))}
+          {temCheckout && (
+            <>
+              <span className={styles.menuTitle}>Checkout</span>
+              {CHECKOUT_ETAPAS.map(etapa => (
+                <Link
+                  key={etapa.id}
+                  href={`/p/${id}/checkout/${etapa.id}`}
+                  className={`${styles.menuItem} ${
+                    `checkout/${etapa.id}` === activeSlug ? styles.active : ''
+                  }`}
+                  onClick={() => setOpen(false)}
+                >
+                  {etapa.rotulo}
+                </Link>
+              ))}
+            </>
+          )}
         </nav>
       )}
 

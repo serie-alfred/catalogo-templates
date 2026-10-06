@@ -19,6 +19,8 @@ type FontSelectorProps = {
   unset?: boolean;
   /** Nome amigável do token herdado, ex.: "fonte dos títulos". */
   inheritsLabel?: string;
+  /** A frase inteira do estado herdado (ver ColorPicker). */
+  inheritsText?: string;
   /** Ver ColorPicker: `block` na esquerda (sem rótulo), `field` na direita. */
   variant?: 'block' | 'field';
 };
@@ -30,6 +32,7 @@ export default function FontSelector({
   onFontChange,
   unset = false,
   inheritsLabel,
+  inheritsText,
   variant = 'field',
 }: FontSelectorProps) {
   const [allFonts, setAllFonts] = useState<FontItem[]>([]);
@@ -170,7 +173,9 @@ export default function FontSelector({
 
       {unset && (
         <p className={styles.inherits}>
-          Usando variável da {inheritsLabel ?? 'configuração global'}{' '}
+          {inheritsText ?? (
+            <>Usando variável da {inheritsLabel ?? 'configuração global'}</>
+          )}{' '}
           <button
             type="button"
             className={styles.inheritsCta}

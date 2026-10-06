@@ -6,6 +6,10 @@ import tsParser from "@typescript-eslint/parser";
 import reactPlugin from "eslint-plugin-react";
 
 export default defineConfig([
+  // Vendorizado do checkout-vtex pelo `yarn checkout:sync`, byte a byte o do SHA
+  // (o estágio 1-checkout do funil confere). Não é código deste repo: corrigir
+  // aqui seria divergir do arquivo que o generator roda.
+  { ignores: ["src/lib/checkout/**"] },
   {
     files: ["**/*.{js,mjs,cjs}"],
     languageOptions: {

@@ -21,8 +21,10 @@ e o `yarn dev` de pé para os estágios 2 e 3. Saídas em `.funil/` (ignorada).
 |---|---|---|
 | `1-catalogo` | chaves e ids únicos, registry casado **pelas chaves do objeto `TemplateRegistry`** (não pelas linhas de import), mock em disco, **origem real em `global-templates`** para todo item Tray/Wake (e diz QUAL clone leu — ver abaixo), `CONTAMINADOS_CONHECIDOS` exato nos dois sentidos, manifest para todo `path` VTEX e para as **raízes que o generator injeta** (`CrossSellingShelf01` e o `ProductShowcase` da vitrine), fragment, import e SCSS de todas elas — import de override lido onde o tema o lê (o destino achatado), e import que não resolve em lugar nenhum reprova —, a matriz vitrine×card (lado vazio reprova), e o `registration.spread` de todo resolver casa com a forma do default export, nas quatro grafias que o `ResolverIndexPatcher` escreve — texto, objeto, `QueryAndMutation` e `root` (espalhar o objeto inteiro com `Query` no topo dá `Query.Query` no tema, e o GraphQL inteiro dele responde 500; bloco que o export não tem quebra o tsc; texto desconhecido deixa o resolver importado e não registrado) | nada |
 | `1-grafo` | todo `path` VTEX **e toda raiz que o generator injeta** resolve no grafo de `manifest.json`, com o `AssetRegistry` e o `DependencyResolver` reais do generator, e todo `scss` declarado existe em `src/sass`. Prova que o que está DECLARADO existe — não que a declaração está completa (isso é o `conferirImports` do estágio 1) | checkouts irmãos de `faststore.starter` e `produtos-template-generator` |
+| `1-checkout` | o checkout-vtex vendorizado pelo `yarn checkout:sync` é byte a byte o `git show <sha>` (lib, `checkout.json`, dist) e os hashes do `VERSION.json` batem com o disco; as fixtures não têm script nem dado da conta/pessoal, só CDN público, e trazem base, tokens e slots (`[data-etm-slot]` na real, comentários na provisória); a fixture **real** é o `fixtures/<etapa>/<vp>/index.html` do SHA (só o `src` do cartão achatado), o `card.html` do pagamento idem, e o **JS dela é o do dist** (`sha256Js` do `fixture.json` = do VERSION.json = o do `default/checkout6-custom.js`); `provisorio: false` exige as 10 reais; todo papel é consumido como Nível 1 com a cadeia e o `default` = Nível 3, e (com as reais) todo alias pinta alguma regra; o compose de amostra passa no lint do checkout-vtex e o lib reproduz o `dist/default`; o Nível 2 ⊆ `VAR_MAP` do generator; o VERSION.json tem o sha256 de **cada** arquivo vendorizado; o catálogo **não guarda** a lista do que o repo público não pode receber (gate0 #29) — com o checkout-vtex ao lado ela é carregada de lá, em memória, e os vendorizados e todo arquivo que a integração criou ou mudou (`FONTES_DA_INTEGRACAO`) têm zero termos; sem ele, "termos não conferidos: sem checkout-vtex ao lado" e as comparações com o SHA viram aviso (a integridade fica com os hashes) | `src/data/checkout/VERSION.json`; o `../checkout-vtex` com o SHA (ou `CHECKOUT_VTEX_DIR`) para a comparação byte a byte e os termos |
 | `1-variaveis` | toda `cssVar` do `variablesSchema` é consumida pelo CSS da réplica **e** lida por uma **regra viva** do SCSS do fecho do `path` no starter (pastas dos componentes + `dependencies.scss`): cada SCSS é compilado com o sass do catálogo (aninhamento, `&` e `$x` resolvidos como no build), e num dos seletores da regra **toda** classe do módulo aparece como `<import>.x` ou `<import>['x']` (ou no camelCase que o css-loader também exporta) num TSX do fecho que importa aquele módulo. Atributo (`[data-fs-*]`), tag, `:global(...)` e `:not(...)` não pedem nada do TSX, `@keyframes` vive pela regra que anima com ele, e a folha de `themeImports` fica isenta. Regra morta ao lado de uma viva vira linha ℹ️, e um autoteste de 21 casos exercita o ramo que reprova. O `default` bate com o nível 3 da réplica; e a réplica não lê token interno do catálogo — o que `src/styles/*.css` e o `frame.css` declaram, menos os tokens de tema do `buildThemeStyle` e a lista `PERMITIDOS`. **Não** prova que o nó aparece: o TSX referenciar a classe não é renderizar (render condicional, prop que ninguém passa), a parte do seletor que o TSX não escreve é presumida, e classe que só `style[chave]` alcança conta como morta. Também **não** lê o tema gerado: consumir no SCSS não prova que a injeção alcança o nó (conteúdo portado precisa de seletor de topo `…Portal`) — isso é com o estágio 4 e as sondas do `2-fidelidade` | checkout irmão de `faststore.starter` (o sass e o postcss são do próprio catálogo) |
 | `2-fidelidade` | a réplica do catálogo bate com o componente real do starter. Os pares moram em `lib/fidelidade.mjs` — o estágio 1 confere que cada um aponta para a réplica certa —, e um par que estoura vira divergência dele, sem esconder os outros. **Dois placares**: nó a nó por `data-role` (caixa e CSS, em repouso; nó repetido casa pela ordem entre os iguais, e a propriedade é comparada quando QUALQUER lado a estabelece) e a **paleta** — cor e fonte de tema em todo nó, inclusive sem `data-role` e sob `:hover`; chave de um lado só que pinta com o tema reprova, e tela com 0 asserções também (ver 2f abaixo) | dev server **e** o `yarn dev` do `faststore.starter` em :3000 |
+| `2-checkout` | o modo Checkout: só em VTEX; entra e sai pelo rail, e **trocar de plataforma pela UI sai do modo** (voltar a VTEX não o reabre); cor global muda o nó-sonda e o header recomposto, e a cor da loja que some no fundo cai na **guarda** (o botão real volta ao Figma e o painel diz por quê); o hex digitado com o seletor **aberto** fica exatamente o digitado, tecla a tecla (o `#NaN…` do react-colorful); cada papel muda o nó-sonda **e nós reais** — pela UI no carrinho e no alcance direto das 10 fixtures, cartão incluso; pesos 300–700; logo reduzido no slot; desfazer/refazer e reload; clique/submit não navegam nem enviam, e os botões de etapa ("Seguir com o pedido", "Ir para…", "Editar") trocam a fixture do preview; as 5 etapas em 1280 e 390, com o cartão do pagamento pintado e na altura da `scrollHeight`; **equivalência 0 px** entre `<link>` base + `<style>` do `emitTokens` e o arquivo composto (carrinho e pagamento, 1280 e 390) com **controle negativo** (um papel trocado tem de diferir); o export leva `faststore.checkout` e o mesmo logo do preview; logo https passa como veio e logo recusado vira aviso no painel; o rodapé do preview mostra **texto de exemplo** no lugar de `{{RAZAO_SOCIAL}}`/`{{CNPJ}}`/`{{AVISO_LEGAL}}` e o painel diz que o arquivo sai com eles (gate0 #26); **header escuro** troca o texto do header, o "100% seguro" e o passo ativo pelo contraste calculado (gate0 #23); a rota **`/p/{id}/checkout/{etapa}`** com o armazenamento local (provado antes de postar: um arquivo em `.preview-store/` tem de abrir, senão o dev lê o KV e nada é gravado) — 200 com o tema do snapshot VTEX, valores **injetados** filtrados (ck-tokens = emitTokens só do aceito, nada executa), 404 para snapshot Tray (com ou sem o bloco `checkout`), etapa inválida e id inexistente. A nova tentativa da equivalência (só para ≤ 50 px, a 1ª captura no log) e o seletor de plataforma no modo Checkout são do gate0 #27, aprovados. Capturas em `.funil/checkout/` | dev server **sem KV** (no espelho: `FUNIL_BASE_URL=http://localhost:5510`) |
 | `2-editor` | shell, canvas, painéis, atalhos, modal, troca de plataforma, fonte que não vaza no `:root`, contraste derivado | dev server |
 | `2-render` | **todo item do catálogo** monta sozinho, sem erro de console, com altura e conteúdo, e sem o marcador vermelho `[data-registry-missing]` do ThemeRenderer (`FUNIL_RENDER_NOVOS=1` reduz aos 23 do redesign — execução parcial) | dev server |
 | `2-edicao` | regras de negócio: singleton substitui, não-singleton coexiste, duplicar/remover, painel de variáveis, troca de plataforma | dev server |
@@ -31,8 +33,8 @@ e o `yarn dev` de pé para os estágios 2 e 3. Saídas em `.funil/` (ignorada).
 | `2-zoom` | o preview "Desktop" é desktop: viewport lógica de 1440 em qualquer tela, escala, controle de zoom e **clique de mouse real** dentro do frame escalado | dev server |
 | `2-usabilidade` | todo controle é achável, alcançável e faz alguma coisa: varredura de alcance, as 10 cores globais, o `FontSelector` no caminho feliz, `ScrollArea`, o `Fechar` do modal, a fonte das superfícies portalizadas e o `DesktopOnlyNotice` | dev server |
 | `2-integracao` | a escolha do cliente **chega ao config**: cor global → `config.json` → as 3 páginas do preview → sobrevive ao reload | dev server |
-| `3-export` | toda seleção semeada hidrata (o app servido é este catálogo); o botão "Baixar" entrega os três configs; cada um resolve o contrato da sua plataforma; os dois PNGs saem | dev server |
-| `4-tema-faststore` | o generator monta o tema de verdade e **ele compila** (`yarn build`) — a única perna do pipeline executável desta máquina. As travas de dado de exemplo (`MOCK_ENABLED`, `DevFidelityStage`) são conferidas no tema entregue, e arquivo ausente reprova (`FUNIL_TEMA_BUILD=0` pula o build — execução parcial) | estágio 3 · `gh` autenticado · minutos |
+| `3-export` | toda seleção semeada hidrata (o app servido é este catálogo); o botão "Baixar" entrega os três configs; cada um resolve o contrato da sua plataforma — em VTEX, `faststore.checkout` com o modelo, o SHA vendorizado e os papéis semeados, e o compose do config exportado (`optionsFromConfig` + o lib do SHA, o que o generator roda) sai com os placeholders do rodapé no footer e no README (o texto de exemplo é só do preview, gate0 #26); em Tray/Wake, nenhum checkout mesmo com papéis no localStorage —; os dois PNGs saem | dev server |
+| `4-tema-faststore` | o generator monta o tema de verdade e **ele compila** (`yarn build`) — a única perna do pipeline executável desta máquina. As travas de dado de exemplo (`MOCK_ENABLED`, `DevFidelityStage`) são conferidas no tema entregue, e arquivo ausente reprova (`FUNIL_TEMA_BUILD=0` pula o build — execução parcial). **Checkout VTEX:** papel desconhecido e, com `faststore.checkout` no config, checkout-vtex que não clona (`clone-falhou`, gate0 #25) fazem a VALIDATE abortar sem escrever; no positivo, `checkout/` com exatamente 5 arquivos, `@import` primeiro, nível 1 marcador no `:root`, logo no header, zero `{{ETC_`, README com placeholders e pre-flight, e **os bytes = o compose do lib vendorizado no catálogo** para o mesmo config | estágio 3 · `gh` autenticado · `CHECKOUT_VTEX_REPO` (ou o irmão `../checkout-vtex` com commit) · minutos |
 | `5-contrato-tray-wake` | contrato estático de Tray e Wake: pasta de origem, `instanceCount`, dedupe `key::arquivo`, nenhum caminho com espaço — no clone local de `global-templates` (ver abaixo) | estágio 3 |
 
 ## Estágio 4 — o que ele monta, e por que cruzado
@@ -64,6 +66,39 @@ Duas coisas que ele **não** faz, de propósito: não roda `--push` (não cria
 Clone enxerga **commit**, não working tree: trabalho não commitado no starter fica
 invisível e o tema sai com a versão antiga, sem aviso. O estágio avisa quando
 `FASTSTORE_COMPONENTS_REPO` aponta para um checkout sujo.
+
+### O checkout VTEX no estágio 4
+
+Todo tema FastStore sai com `checkout/` (os 4 arquivos do Admin + o README de upload). O
+generator clona o checkout-vtex no SHA de `faststore.checkout.version` — o que o export leva, e o
+estágio confere que é o do `src/data/checkout/VERSION.json`. O remote
+`seriedesign/checkout-vtex` ainda não existe: sem `CHECKOUT_VTEX_REPO`, o estágio passa ao
+generator o irmão `../checkout-vtex` **quando ele tem commit** (no espelho, o snapshot), e
+reprova se esse checkout estiver sujo ou não tiver o SHA. Como os outros, o clone enxerga commit.
+
+No config ele troca o nível 1 do export por **marcadores** (`#0c0c01`, `#fcfcf3`…, fonte Karla)
+em 7 papéis do painel — botão, tag e texto ficam de fora para herdar o nível 2 — e põe um logo
+data URL marcador. Três rodadas do generator:
+
+1. **negativa, antes** (o SYNC da rodada seguinte reclona o tema-base, então ao contrário apagaria o
+   tema que o build compila): `--checkout-nao-existe` no nível 1 → exit ≠ 0, a VALIDATE aponta
+   `papel-desconhecido`, o EXECUTE não começa e o tema-base fica como o clone o deixou
+   (`git status --porcelain --ignored` vazio, sem `checkout/`). Log em `.funil/generator-negativo.log`;
+2. **o clone que falha (gate0 #25), também antes**: o config do positivo (COM `faststore.checkout`)
+   e `CHECKOUT_VTEX_REPO=file://…/.funil/checkout-vtex-inexistente` → exit ≠ 0, o SYNC registra
+   `checkout-vtex (clone-falhou)` e segue, a VALIDATE reprova com **um** erro do checkout,
+   `clone-falhou`, com o caminho e o `fatal:` do git, sem `checkout-pulado` (isso é só para config
+   SEM a chave), sem EXECUTE nem `WriteCheckout`, e o tema-base intacto, sem `checkout/`. Log em
+   `.funil/generator-sem-clone.log`. O remote trocado apaga o `repo-temp-checkout/`: o positivo
+   reclona do zero;
+3. **positiva**: exatamente `README.md`, `checkout-footer.html`, `checkout-header.html`,
+   `checkout6-custom.css`, `checkout6-custom.js` (nada de `.ts` nem `manifest.json`); o clone parado
+   no SHA; `@import` do Google Fonts como primeira instrução; os marcadores e o nível 2 no `:root` do
+   bloco `tokens`; o logo no header; zero `{{ETC_`/`ETC:SLOT`; README com os placeholders que
+   sobraram e o pre-flight bloqueante (`/* source: <`, `vtex.checkout-ui-custom`) com o SHA; e a
+   **equivalência com o /gerador** — `composeCheckout` do `src/lib/checkout/` sobre a base de
+   `public/gerador/checkout/`, com `optionsFromConfig` do mesmo config, dá os mesmos bytes nos 5
+   arquivos. O `1-checkout` prova vendorizado == SHA; isto prova generator == SHA.
 
 ## Por que Tray e Wake param na validação estática
 
@@ -172,8 +207,12 @@ próxima vai ser igual: **o teste chegava antes da UI**.
 | "canvas renderiza no 1º load → 0 seções" | `s(6000)` fixo, e o canvas pinta **por volta** de 6 s — o estágio media na borda |
 | "alternar para mobile não troca a moldura" (`desktop → desktop`) | o botão existe no HTML antes de o React hidratar; `.click()` num botão não hidratado não faz nada, **em silêncio** |
 | o estágio de render morreu no 3º de 23, e levou 4 estágios junto | o mesmo clique não hidratado, agora num `waitForFunction` seco: a exceção subiu e abortou o lote inteiro |
+| `2-checkout`, 14 rodadas vermelhas sob carga: "iframe trocado no meio do passo" (sondas somem, `#ck-base`/`ck-tokens` null, captura branca com "1 cores") | a captura com recorte do Puppeteer usa `captureBeyondViewport: true` por padrão, e o Chrome **redimensiona a janela** durante a captura: a aba viu `resize` para 1×1; o `useIsMobile` do /gerador (≤ 768) trocou o editor pelo `DesktopOnlyNotice`, o shell desmontou e voltou com um iframe novo (medido em 25/09 com um observador de mutação: `removido=DIV.ed-shell` logo depois do `resize w=1`) |
+| `2-checkout`: o desfazer parava no `#123` digitado pela metade, ou no padrão | **produto**, não harness: o histórico fechava uma entrada a cada pausa de 250 ms, e o campo hex grava a cada tecla — quem digita devagar (ou a máquina carregada) guardava `#123` e `#12345` (inválido, que cai no padrão). O `useThemeHistory` agora fecha a entrada de um campo de texto quando o foco sai dele, e o desfazer fecha antes o que está aberto (reproduzido com a CPU da aba a 20×: antes parava no padrão, depois volta ao valor anterior) |
+| `2-checkout`: o menu do `/p` vazio | o clique no balão chegava antes da hidratação da página do `/p` (que compila na 1ª vez); agora clica até `aria-expanded="true"` |
+| `2-checkout`: o "nós reais por papel" mudava de rodada para rodada (accent 12/11/10, text-muted 38/34/26) com as mesmas variantes | a CSS da VTEX na fixture tem **transição** de cor, fundo e borda: o rAF duplo lia o nó no meio do caminho, e o que o papel anterior mexeu, ainda voltando à base, contava para o papel de agora — contagem inflada, que podia aprovar um papel que não pinta nada. A leitura (`pintura()` e o alcance direto) agora espera as transições acabarem (`assentarTransicoes`, pelo `getAnimations()`): 3 repetições idênticas (26/09) |
 
-Duas regras que saíram disso, e que valem para qualquer estágio novo:
+As regras que saíram disso, e que valem para qualquer estágio novo:
 
 1. **Espere a condição, não o relógio.** `waitForFunction` no elemento que você vai usar, nunca
    `espera(n)` como garantia.
@@ -194,6 +233,17 @@ Duas regras que saíram disso, e que valem para qualquer estágio novo:
    item num `try/catch`: a falha de um alvo é a falha DAQUELE alvo, aparece na tabela e conta no
    placar. Sem isso, uma exceção no 3º de 23 derruba o estágio — e, no `funil.mjs`, os quatro
    estágios seguintes que dependem dele. Um flake vira "6/10" e some a informação dos outros 20.
+6. **Captura com recorte, sempre `captureBeyondViewport: false`** (`page.screenshot({ clip })` e
+   `elemento.screenshot()`). O padrão do Puppeteer redimensiona a janela durante a captura, e o
+   /gerador reage a largura ≤ 768 desmontando o editor. O recorte tem de caber na janela
+   (1920×1080). Sem recorte o Puppeteer já força `false`.
+7. **Depois de mudar o canvas do checkout, espere o frame dizer que aplicou.** O `CheckoutFrame`
+   publica `data-pedido` (a impressão da fixture + níveis + logo que recebeu) e, depois dos
+   efeitos, `data-aplicado` com o mesmo valor; `data-pronto` só vem com o logo já reduzido. O
+   `2-checkout` espera `data-aplicado === data-pedido` e um rAF duplo no iframe
+   (`esperarAplicado`) em vez de `espera(n)`; a captura da equivalência só vale quando duas
+   seguidas têm os mesmos bytes (`capturaEstavel`). Quem lê cor **computada** espera também o
+   fim das transições CSS (`assentarTransicoes`): o rAF duplo não basta, a CSS da fixture anima.
 
 ## O resultado vira evidência, não recado
 

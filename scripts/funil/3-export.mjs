@@ -139,20 +139,28 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
   );
 
   const seed = coerente ? coerenteFor(plataforma) : seedFor(plataforma);
+  // Papéis do checkout no localStorage em TODAS as plataformas: em VTEX eles têm
+  // de chegar ao `faststore.checkout.variables`; em Tray/Wake não podem vazar.
+  const CHECKOUT_SEMEADO = {
+    '--checkout-accent': '#ffeb3b',
+    '--checkout-font': "'Lato', Arial, Helvetica, sans-serif",
+  };
   await p.goto(`${BASE_URL}/gerador`, {
     waitUntil: 'domcontentloaded',
     timeout: 90000,
   });
   await p.evaluate(
-    (pl, sel, tok) => {
+    (pl, sel, tok, ck) => {
       localStorage.clear();
       localStorage.setItem('layoutPlatform', pl);
       localStorage.setItem('layoutSelections', sel);
       if (tok) localStorage.setItem('wakeToken', tok);
+      localStorage.setItem('checkout', ck);
     },
     plataforma,
     JSON.stringify(seed),
-    plataforma === 'Wake' ? 'TOKEN-DE-TESTE' : ''
+    plataforma === 'Wake' ? 'TOKEN-DE-TESTE' : '',
+    JSON.stringify({ model: 'Checkout01', variables: CHECKOUT_SEMEADO, etapa: 'carrinho' })
   );
   await p.goto(`${BASE_URL}/gerador`, {
     waitUntil: 'domcontentloaded',
@@ -259,7 +267,8 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
       config.platform === esperado,
       config.platform
     );
-    if (plataforma === 'VTEX') conferirFaststore(config, r);
+    if (plataforma === 'VTEX')
+      conferirFaststore(config, r, { checkoutEsperado: CHECKOUT_SEMEADO });
     else conferirTrayWake(config, plataforma, r);
   }
   await p.close();

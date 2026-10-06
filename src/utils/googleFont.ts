@@ -1,17 +1,34 @@
 import { LAYOUTS, type LayoutSection } from '@/data/layoutData';
 
+/** Os pesos que a loja baixa desde sempre (os templates só usam regular e bold). */
+const PESOS_PADRAO = [400, 700];
+
 /**
- * Injeta o <link> de uma fonte do Google, idempotente por família.
+ * Injeta o <link> de uma fonte do Google, idempotente por família (e pesos).
  *
  * O parâmetro `doc` existe porque o iframe da visão mobile é OUTRO documento:
  * os <link> injetados no documento do editor não valem lá, e sem isso as
  * fontes por componente (ex.: `--header-font: 'Manrope'` do Header01) cairiam
  * silenciosamente no fallback dentro do frame.
+ *
+ * `pesos` existe por causa do checkout: o Checkout01 usa 300–700 e o arquivo
+ * entregue importa os cinco (`buildGoogleFontsImport` do checkout-vtex). Com
+ * 400;700 só, o 500 e o 600 do preview seriam sintetizados pelo navegador — o
+ * preview mentiria sobre o peso. Sem o parâmetro nada muda: mesmo `id`, mesma
+ * URL de antes.
  */
-export function loadGoogleFont(family: string, doc: Document = document) {
+export function loadGoogleFont(
+  family: string,
+  doc: Document = document,
+  pesos: readonly number[] = PESOS_PADRAO
+) {
   if (!family) return;
 
-  const id = `preview-font-${family.replace(/\s+/g, '-')}`;
+  const lista = [...new Set(pesos)].sort((a, b) => a - b);
+  const padrao = lista.join(';') === PESOS_PADRAO.join(';');
+  const id = `preview-font-${family.replace(/\s+/g, '-')}${
+    padrao ? '' : `-w${lista.join('-')}`
+  }`;
   if (doc.getElementById(id)) return;
 
   const link = doc.createElement('link');
@@ -20,7 +37,7 @@ export function loadGoogleFont(family: string, doc: Document = document) {
   link.href = `https://fonts.googleapis.com/css2?family=${family.replace(
     / /g,
     '+'
-  )}:wght@400;700&display=swap`;
+  )}:wght@${lista.join(';')}&display=swap`;
   doc.head.appendChild(link);
 }
 

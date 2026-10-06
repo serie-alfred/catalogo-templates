@@ -1,0 +1,170 @@
+{
+  "descricao": "O commit do checkout-vtex vendorizado pelo yarn checkout:sync. Não edite: rode o sync. `hashes` é o sha256 de CADA arquivo gravado (lib, checkout.json, dist, fixtures, cartões): o estágio 1-checkout do funil confere a integridade por eles e, com o checkout-vtex ao lado, que cada arquivo é o do SHA.",
+  "repo": "seriedesign/checkout-vtex",
+  "sha": "8a1d5b6892dae22874a515f16d4143b8955eb901",
+  "commit": "2026-10-06T16:11:04-03:00 feat: checkout-vtex — modelo Checkout01, compose e fixtures",
+  "modelo": "Checkout01",
+  "contrato": 1,
+  "provisorio": false,
+  "fixtures": {
+    "origem": "modelos/Checkout01/fixtures (reais: DOM com o nosso JS, CSSOM serializado, card.html do cartão)",
+    "reais": 10,
+    "provisorias": 0,
+    "sha256JsDoDist": "396712f276b1800896d04bf315b5a09d2fdc8b4c5f5d083c27d3bcfb279eb730",
+    "checkoutUi": "v6.153.0",
+    "viewports": [
+      1280,
+      390
+    ],
+    "etapas": [
+      "carrinho",
+      "email",
+      "perfil",
+      "entrega",
+      "pagamento"
+    ],
+    "arquivos": {
+      "carrinho.1280.html": {
+        "etapa": "carrinho",
+        "vp": 1280,
+        "origem": "real",
+        "checkoutUi": "v6.153.0",
+        "cardUi": "1.42.10",
+        "capturadaEm": "2026-10-05T22:28:43.143Z",
+        "sha256Js": "396712f276b1800896d04bf315b5a09d2fdc8b4c5f5d083c27d3bcfb279eb730",
+        "bytes": 228242
+      },
+      "carrinho.390.html": {
+        "etapa": "carrinho",
+        "vp": 390,
+        "origem": "real",
+        "checkoutUi": "v6.153.0",
+        "cardUi": "1.42.10",
+        "capturadaEm": "2026-10-05T22:28:49.338Z",
+        "sha256Js": "396712f276b1800896d04bf315b5a09d2fdc8b4c5f5d083c27d3bcfb279eb730",
+        "bytes": 228219
+      },
+      "email.1280.html": {
+        "etapa": "email",
+        "vp": 1280,
+        "origem": "real",
+        "checkoutUi": "v6.153.0",
+        "cardUi": "1.42.10",
+        "capturadaEm": "2026-10-05T22:28:56.649Z",
+        "sha256Js": "396712f276b1800896d04bf315b5a09d2fdc8b4c5f5d083c27d3bcfb279eb730",
+        "bytes": 230918
+      },
+      "email.390.html": {
+        "etapa": "email",
+        "vp": 390,
+        "origem": "real",
+        "checkoutUi": "v6.153.0",
+        "cardUi": "1.42.10",
+        "capturadaEm": "2026-10-05T22:29:04.067Z",
+        "sha256Js": "396712f276b1800896d04bf315b5a09d2fdc8b4c5f5d083c27d3bcfb279eb730",
+        "bytes": 230889
+      },
+      "perfil.1280.html": {
+        "etapa": "perfil",
+        "vp": 1280,
+        "origem": "real",
+        "checkoutUi": "v6.153.0",
+        "cardUi": "1.42.10",
+        "capturadaEm": "2026-10-05T22:29:13.739Z",
+        "sha256Js": "396712f276b1800896d04bf315b5a09d2fdc8b4c5f5d083c27d3bcfb279eb730",
+        "bytes": 231056
+      },
+      "perfil.390.html": {
+        "etapa": "perfil",
+        "vp": 390,
+        "origem": "real",
+        "checkoutUi": "v6.153.0",
+        "cardUi": "1.42.10",
+        "capturadaEm": "2026-10-05T22:29:26.836Z",
+        "sha256Js": "396712f276b1800896d04bf315b5a09d2fdc8b4c5f5d083c27d3bcfb279eb730",
+        "bytes": 231027
+      },
+      "entrega.1280.html": {
+        "etapa": "entrega",
+        "vp": 1280,
+        "origem": "real",
+        "checkoutUi": "v6.153.0",
+        "cardUi": "1.42.10",
+        "capturadaEm": "2026-10-05T22:29:36.114Z",
+        "sha256Js": "396712f276b1800896d04bf315b5a09d2fdc8b4c5f5d083c27d3bcfb279eb730",
+        "bytes": 235474
+      },
+      "entrega.390.html": {
+        "etapa": "entrega",
+        "vp": 390,
+        "origem": "real",
+        "checkoutUi": "v6.153.0",
+        "cardUi": "1.42.10",
+        "capturadaEm": "2026-10-05T22:29:44.273Z",
+        "sha256Js": "396712f276b1800896d04bf315b5a09d2fdc8b4c5f5d083c27d3bcfb279eb730",
+        "bytes": 235451
+      },
+      "pagamento.1280.html": {
+        "etapa": "pagamento",
+        "vp": 1280,
+        "origem": "real",
+        "checkoutUi": "v6.153.0",
+        "cardUi": "1.42.10",
+        "capturadaEm": "2026-10-05T22:30:03.182Z",
+        "sha256Js": "396712f276b1800896d04bf315b5a09d2fdc8b4c5f5d083c27d3bcfb279eb730",
+        "card": "pagamento.1280.card.html",
+        "bytes": 231721
+      },
+      "pagamento.390.html": {
+        "etapa": "pagamento",
+        "vp": 390,
+        "origem": "real",
+        "checkoutUi": "v6.153.0",
+        "cardUi": "1.42.10",
+        "capturadaEm": "2026-10-05T22:30:18.698Z",
+        "sha256Js": "396712f276b1800896d04bf315b5a09d2fdc8b4c5f5d083c27d3bcfb279eb730",
+        "card": "pagamento.390.card.html",
+        "bytes": 231716
+      }
+    }
+  },
+  "libs": [
+    "compose.mjs",
+    "css.mjs",
+    "derive.mjs",
+    "level2.mjs",
+    "lint.mjs",
+    "modelo.mjs"
+  ],
+  "hashes": {
+    "public/gerador/checkout/Checkout01/carrinho.1280.html": "05b52a6c7da1cd24fd2acfbac9f6e2c22a07b2c552896c3c46786f8140ce7781",
+    "public/gerador/checkout/Checkout01/carrinho.390.html": "67b5c5b52e161a0189cc305f4afde41fab17a16a0f481b361473ac64fac7eb6b",
+    "public/gerador/checkout/Checkout01/checkout-footer.html": "cf4d9dacdcd7a60ecc7d5a91c600c875e3d8c3eaab021ec90a0b4c57ca7c3f87",
+    "public/gerador/checkout/Checkout01/checkout-header.html": "875b2ded02679ae238e47b4b0b8353945e3720e0beb2ca521f4329230e3dbe79",
+    "public/gerador/checkout/Checkout01/checkout6-custom.css": "ebef3c5845c7f3ca3b7bc24f4ffed5ea1172f94bd60683ffe3fae8ea6d81a802",
+    "public/gerador/checkout/Checkout01/checkout6-custom.js": "f5f6ba6501505f2e8bd8d67287de42a8aab6ec6fca6ede52f881602a5a6bb3ab",
+    "public/gerador/checkout/Checkout01/default/checkout-footer.html": "f1cd00ffc7c24282543b242951632657f7729ac65e02f44f3b453aa87980e777",
+    "public/gerador/checkout/Checkout01/default/checkout-header.html": "010eb0f97cfb7aac89a516d3238c5d7e9c56b861dd741e4dd4babaa1cb68b136",
+    "public/gerador/checkout/Checkout01/default/checkout6-custom.css": "94e41aa270e660d9889d4537f775350902c73feb9792ea552e6205f8acbd441a",
+    "public/gerador/checkout/Checkout01/default/checkout6-custom.js": "396712f276b1800896d04bf315b5a09d2fdc8b4c5f5d083c27d3bcfb279eb730",
+    "public/gerador/checkout/Checkout01/default/README.md": "23550d1d5d48552aa50e8f89883d5bcd8d84f0504915c1c8aa5a3de8decea429",
+    "public/gerador/checkout/Checkout01/email.1280.html": "c8e052590d24b6b83446ac752cd451b8b71ecd3498d8903d8e577a159fc30af3",
+    "public/gerador/checkout/Checkout01/email.390.html": "b71e1da8e42f4d18d2688c1166755625d27da94c50d0c5ca35f2449a5b31324d",
+    "public/gerador/checkout/Checkout01/entrega.1280.html": "f36a1beb945bcce67585c9f914b7259f7821e53cdf9affe24dc9b96c179be94f",
+    "public/gerador/checkout/Checkout01/entrega.390.html": "75ed5af7ac023b9029bcffa1a0d1fa6894d5cef7f49eee291a0a556fa9d34b2c",
+    "public/gerador/checkout/Checkout01/pagamento.1280.card.html": "f756cb98c44e759aad830637779056b14e88fcf4acf0f4fe124d191340e80177",
+    "public/gerador/checkout/Checkout01/pagamento.1280.html": "c0887113135f2003d103654175ee518b6c6d9bb42c9a10b91392116d1c7fd8b7",
+    "public/gerador/checkout/Checkout01/pagamento.390.card.html": "02b80324815830432a510bd2baa5cea8e8bdc3225a01d278a709aca907949670",
+    "public/gerador/checkout/Checkout01/pagamento.390.html": "4212d2debc9420e9b9e74b18905daa9f5f2255e6ef76f6a1b02fb3619dfdbc12",
+    "public/gerador/checkout/Checkout01/perfil.1280.html": "3af98910920a59c5dc91adc0eee899fe65d7632e6f2d04c84423f246239c40b1",
+    "public/gerador/checkout/Checkout01/perfil.390.html": "c4566451145fed795f33535e9cd7294a84c3625ae6a834965cf51c7a201f8f97",
+    "public/gerador/checkout/Checkout01/produto.svg": "f9479c52b6eaab3303f9a5ce01b024878fb7fc7db849168cded5fb9583800034",
+    "src/data/checkout/Checkout01/checkout.json": "8043f8551736c1729fa1e436687eee7981944edd83d19c5ded9d58a934494840",
+    "src/lib/checkout/compose.mjs": "35568621d51073515a46e66f9a8d87b5e34ca0703de6fb9027d13840406f797c",
+    "src/lib/checkout/css.mjs": "7981d8c0183fea955aa6e7adc62730490e30f5f709d21c7732ef32b8697f25f6",
+    "src/lib/checkout/derive.mjs": "a4128200358a49116686f49efb098e4f75db318244be0428787f3a73a76fb2b5",
+    "src/lib/checkout/level2.mjs": "21225ab93185201b0409fc072816e3fff90b19493ac45690171637ca84ca2a6c",
+    "src/lib/checkout/lint.mjs": "79d0134332c282ef38d0c4acb7921f6a95d593366fbe45ef8e49f0884cdc599e",
+    "src/lib/checkout/modelo.mjs": "a95e86adbafe5cef850bd01812b51b4c096506e5e88b6159fd30a1de578e0db6"
+  }
+}

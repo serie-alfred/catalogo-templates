@@ -1,0 +1,61 @@
+<header class="etm-header" data-etm-modelo="Checkout01">
+  <div class="etm-header__barra">
+    <a class="etm-header__logo" href="/" aria-label="Voltar para a loja">
+      <img class="etm-header__logo-img" src="{{ETC_LOGO_SRC}}" alt="" height="32">
+    </a>
+    <p class="etm-header__selo">
+      <span class="etm-header__selo-icone" aria-hidden="true"></span>
+      <span class="etm-header__selo-texto">100%<br>seguro</span>
+    </p>
+  </div>
+  <ol class="etm-stepper" aria-label="Etapas da compra">
+    <li class="etm-stepper__passo" data-passo="carrinho"><span class="etm-stepper__barra" aria-hidden="true"></span><span class="etm-stepper__rotulo">Carrinho</span></li>
+    <li class="etm-stepper__passo" data-passo="identificacao"><span class="etm-stepper__barra" aria-hidden="true"></span><span class="etm-stepper__rotulo">Identificação</span></li>
+    <li class="etm-stepper__passo" data-passo="pagamento"><span class="etm-stepper__barra" aria-hidden="true"></span><span class="etm-stepper__rotulo">Pagamento</span></li>
+    <li class="etm-stepper__passo" data-passo="confirmacao"><span class="etm-stepper__barra" aria-hidden="true"></span><span class="etm-stepper__rotulo">Confirmação</span></li>
+  </ol>
+</header>
+<style>
+/* ETC:SLOT tokens-header */
+/*
+ * Escopado em .etm-header (nunca :root: no body ele venceria os tokens da
+ * página). Este template também aparece no Order Placed, onde o
+ * checkout6-custom.css NÃO carrega; o bloco de tokens acima (o compose
+ * preenche) traz os --ck01-* já resolvidos, e as regras abaixo bastam para o
+ * header ficar de pé sozinho lá: uma linha no desktop, duas no celular, o
+ * cadeado e o passo "Confirmação" aceso por body.body-checkout-confirmation.
+ * O texto e o passo aceso usam --ck01-header-text (gate0 #23): o texto da
+ * página quando ele se lê sobre o fundo do header, senão o contraste calculado.
+ * O passo inativo (--ck01-header-muted), o traço do celular (--ck01-header-line)
+ * e o cadeado (--ck01-header-icon) também derivam do fundo (gate0 #28). O compose
+ * resolve todos em hex neste bloco, então valem no Order Placed.
+ * O selo tem os 167 px do Figma ("Security badge container", justify-end): é o
+ * que põe o stepper em x = 435,95 no desktop (com o selo do tamanho do texto, o
+ * justify-between o levaria a 482).
+ * No checkout, 20-header.css e 21-stepper.css repetem a geometria fina do
+ * Figma sob #checkoutMainContainer (vencem por especificidade) e acendem o
+ * passo por html.ck01-passo-*. O cadeado (mask-image, cor pelo papel) só
+ * existe aqui e vale nas duas páginas.
+ */
+.etm-header { display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; height: 72px; padding: 20px 64px 19px; background-color: var(--ck01-header-bg); border-bottom: 1px solid var(--ck01-background-01); box-shadow: 0 2px 4px var(--ck01-shadow); color: var(--ck01-header-text); font-family: var(--ck01-font); }
+.etm-header .etm-header__barra { display: contents; }
+.etm-header .etm-header__logo { display: flex; flex: none; order: 1; }
+.etm-header .etm-header__logo-img { display: block; width: auto; height: 32px; }
+.etm-header .etm-stepper { display: flex; flex: none; order: 2; gap: 19px; margin: 0; padding: 0; list-style: none; }
+.etm-header .etm-stepper__passo { display: flex; flex-direction: column; align-items: center; gap: 8px; width: 81px; }
+.etm-header .etm-stepper__barra { display: block; align-self: stretch; height: 4px; border-radius: 2px; background-color: var(--ck01-header-muted); }
+.etm-header .etm-stepper__rotulo { height: 12px; font-size: 10px; font-weight: 400; line-height: normal; white-space: nowrap; color: var(--ck01-header-muted); }
+.body-checkout-confirmation .etm-header .etm-stepper__passo[data-passo="confirmacao"] .etm-stepper__barra { background-color: var(--ck01-header-text); }
+.body-checkout-confirmation .etm-header .etm-stepper__passo[data-passo="confirmacao"] .etm-stepper__rotulo { color: var(--ck01-header-text); font-weight: 700; }
+.etm-header .etm-header__selo { display: flex; flex: none; order: 3; align-items: center; justify-content: flex-end; gap: 8px; width: 167px; margin: 0; }
+.etm-header .etm-header__selo-icone { flex: none; width: 24px; height: 24px; background-color: var(--ck01-header-icon); -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black'%3E%3Cg transform='translate(3.25 1.25)'%3E%3Cpath d='M1.01781 17.5947C1.24269 19.265 2.62613 20.5735 4.30966 20.6509C5.72627 20.716 7.1653 20.75 8.75 20.75C10.3347 20.75 11.7737 20.716 13.1903 20.6509C14.8739 20.5735 16.2573 19.265 16.4822 17.5947C16.629 16.5047 16.75 15.3876 16.75 14.25C16.75 13.1124 16.629 11.9953 16.4822 10.9053C16.2573 9.23502 14.8739 7.92649 13.1903 7.84909C11.7737 7.78397 10.3347 7.75 8.75 7.75C7.1653 7.75 5.72627 7.78397 4.30966 7.84909C2.62613 7.92649 1.24269 9.23502 1.01781 10.9053C0.871046 11.9953 0.75 13.1124 0.75 14.25C0.75 15.3876 0.871046 16.5047 1.01781 17.5947Z' stroke-width='1.5'/%3E%3Cpath d='M4.25 7.75V5.25C4.25 2.76472 6.26472 0.75 8.75 0.75C11.2353 0.75 13.25 2.76472 13.25 5.25V7.75' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.7461 14.25H8.75508' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E") center / 24px 24px no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black'%3E%3Cg transform='translate(3.25 1.25)'%3E%3Cpath d='M1.01781 17.5947C1.24269 19.265 2.62613 20.5735 4.30966 20.6509C5.72627 20.716 7.1653 20.75 8.75 20.75C10.3347 20.75 11.7737 20.716 13.1903 20.6509C14.8739 20.5735 16.2573 19.265 16.4822 17.5947C16.629 16.5047 16.75 15.3876 16.75 14.25C16.75 13.1124 16.629 11.9953 16.4822 10.9053C16.2573 9.23502 14.8739 7.92649 13.1903 7.84909C11.7737 7.78397 10.3347 7.75 8.75 7.75C7.1653 7.75 5.72627 7.78397 4.30966 7.84909C2.62613 7.92649 1.24269 9.23502 1.01781 10.9053C0.871046 11.9953 0.75 13.1124 0.75 14.25C0.75 15.3876 0.871046 16.5047 1.01781 17.5947Z' stroke-width='1.5'/%3E%3Cpath d='M4.25 7.75V5.25C4.25 2.76472 6.26472 0.75 8.75 0.75C11.2353 0.75 13.25 2.76472 13.25 5.25V7.75' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M8.7461 14.25H8.75508' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/g%3E%3C/svg%3E") center / 24px 24px no-repeat; }
+.etm-header .etm-header__selo-texto { min-width: 43px; font-size: 12px; font-weight: 500; line-height: 12px; color: var(--ck01-header-text); }
+@media (max-width: 767px) {
+  .etm-header { flex-direction: column; align-items: stretch; height: auto; padding: 0; border-bottom: 0; box-shadow: none; }
+  .etm-header .etm-header__barra { display: flex; align-items: center; justify-content: space-between; box-sizing: border-box; height: 72px; padding: 20px 24px 19px; background-color: var(--ck01-header-bg); border-bottom: 1px solid var(--ck01-header-line); box-shadow: 0 2px 4px var(--ck01-shadow); }
+  .etm-header .etm-header__selo { width: auto; }
+  .etm-header .etm-stepper { justify-content: space-between; gap: 0; padding: 17px 24px; }
+  .etm-header .etm-stepper__passo { width: 64px; }
+  .etm-header .etm-stepper__rotulo { height: 11px; font-size: 9px; }
+}
+</style>

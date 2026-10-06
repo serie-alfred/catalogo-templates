@@ -17,7 +17,12 @@ yarn dev       # next dev
 yarn build     # next build (ESLint runs as part of the build — see next.config.ts)
 yarn lint      # next lint
 yarn start     # next start (production)
+yarn checkout:sync [--sha <sha>] [--repo <pasta>]   # vendoriza UM commit do ../checkout-vtex (ver "Modo Checkout")
 ```
+
+No espelho `../e-temas-wt/` (integração do checkout, sem commit) o dev é `yarn next dev -p 5510` —
+o `yarn dev` fixa a 5503, que é do catálogo real de outra sessão — e o funil roda com
+`FUNIL_BASE_URL=http://localhost:5510`.
 
 There is no test runner. Verification is `yarn funil` — the stages in [scripts/funil/](scripts/funil/) covering catalog integrity, the editor, the export and the theme the generator assembles from it. See [scripts/funil/README.md](scripts/funil/README.md) for what each one proves and what it needs. It wants `yarn dev` up, a Chrome (or `CHROME_PATH`), and — for `2-fidelidade` — the starter's own `yarn dev` on :3000; the preflight aborts the whole run when that one is missing, so reach for a single stage (`yarn funil 1`) when you only need the static checks.
 
@@ -46,7 +51,7 @@ The two routes intentionally have separate `layout.tsx` files. Don't unify them.
 
 All state for the builder lives in [src/hooks/useLayoutGenerator.ts](src/hooks/useLayoutGenerator.ts) — selections, current platform, focused section, current page (`selectedPage`), the active rail destination (`railTarget`), mobile/desktop toggle, theme colors, fonts, assets, canvas/screenshot refs, section selection (`selectedUid`/`hoveredUid`), the section actions (`moveSection`/`duplicateSection`/`removeSection`), the Wake-token popup state, undo/redo, export logic. [src/context/LayoutContext.tsx](src/context/LayoutContext.tsx) just wraps that hook and exposes it via `useLayout()`. Components inside `gerador/` should consume `useLayout()` rather than receiving these as props.
 
-**Undo/redo** lives in [src/hooks/useThemeHistory.ts](src/hooks/useThemeHistory.ts) and is an _observer_: it never intercepts an action, it serializes the result. The versioned document is `selections` + the 10 colors + the 3 fonts — not UI state, not `platform` (it has its own confirm dialog), not the three assets (2 MB data URLs × 50 entries). Structural changes commit immediately; everything else is debounced 250 ms so a color-picker drag is one entry.
+**Undo/redo** lives in [src/hooks/useThemeHistory.ts](src/hooks/useThemeHistory.ts) and is an _observer_: it never intercepts an action, it serializes the result. The versioned document is `selections` + the 10 colors + the 3 fonts — not UI state, not `platform` (it has its own confirm dialog), not the three assets (2 MB data URLs × 50 entries). Structural changes commit immediately; everything else is debounced 250 ms so a color-picker drag is one entry — except while a **text field** has focus (the hex input, the font name): those fields write on every keystroke, so the entry stays open until focus leaves the field (`focusout`), and typing `#123456` slowly is one entry, not `#1`…`#12345`. `undo`/`redo` first close whatever is still open, so one Cmd+Z always goes back exactly one gesture.
 
 **The seeded context must stay in sync.** [SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx) forges the context object for `/p` and the iframe with an `as unknown as` cast, so the compiler will NOT catch a field you add to or remove from the hook's return.
 
@@ -296,7 +301,9 @@ Note the typo `--background-secundary-color` (and `--text-color-secundary`, `--f
 ### Persistence
 
 Selections, platform, colors, fonts and the three assets are mirrored to `localStorage` under keys
-`layoutSelections`, `layoutPlatform`, `colors`, `fonts`, `logo`, `favicon`, `ogImage`. The hook
+`layoutSelections`, `layoutPlatform`, `colors`, `fonts`, `logo`, `favicon`, `ogImage` — and the
+checkout mode under `editorMode` (`loja|checkout`) and `checkout` (`{ model, variables, etapa }`,
+read back through `sanitizeEditorMode`/`sanitizeCheckout`). The hook
 hydrates in a post-mount effect (not in `useState` initializers), gated by `hydrated` so the save
 effects don't overwrite storage with defaults first.
 
@@ -312,7 +319,11 @@ every page was wiped, variable overrides included, with no warning and no undo. 
 `partitionByPlatform` splits by the item's `platforms`; survivors keep their `uid`, `pagina` and the
 very same `variables` object (same item ⇒ same schema ⇒ `pickChangedVariables` still compares against
 the same defaults). Losses raise a confirm listing them by name; cancelling changes nothing.
-Tray↔Wake never loses anything — their catalogs are identical.
+Tray↔Wake never loses anything — their catalogs are identical. **Leaving VTEX leaves the checkout
+mode** (`modeForPlatform`): not only in `changePlatform` but in an effect on `platform`, because the
+hydration and `/gerador/import-log` also write it. Coming back to VTEX does not re-enter the mode.
+The `PlatformSelect` normally lives only under "Componentes"; in checkout mode (no "Componentes")
+it shows in the left panel header, otherwise there would be no way to switch platform there.
 
 ### Export flow
 
@@ -341,6 +352,97 @@ Alongside export, the topbar has a **Pré-visualizar** button ([PreviewButton](s
 - **Theme outside the gerador**: [SharedPreview](src/components/preview/SharedPreview/index.tsx) applies the theme vars inline on a wrapper (`buildThemeStyle` in [themeStyle.ts](src/utils/themeStyle.ts), shared with the mobile iframe) plus the Google-font `<link>`s, and wraps children in [SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx) with `{ logo, selections }` from the snapshot. The preview must NOT run `useLayoutGenerator` (it would hydrate the author's localStorage). The `p` route group has its own `layout.tsx` importing `templates.css` + `globals.css` + `storefront.css` + `preview.css` (no chrome do editor, no `LayoutProvider`).
 - **Shared storefront CSS**: [storefront.css](src/styles/storefront.css) holds the two rules that must hold on all three surfaces (`.preview-sticky-header` and the `.preview-template .component__container` 1200px clamp). Document-level rules stay split on purpose — `preview.css` for `/p`, `(frame)/frame.css` for the iframe — because their `color-scheme: light !important` / `background: #fff !important` would repaint the editor's own chrome.
 - **Prod requires** a Vercel KV database and env vars `KV_REST_API_URL` / `KV_REST_API_TOKEN`.
+
+### Modo Checkout (VTEX)
+
+O rail ganha, só em VTEX, o alternador **Checkout** (`[data-editor-mode-toggle]`): o canvas troca a
+loja pelo checkout nativo da VTEX com o visual do modelo `Checkout01` do repo irmão
+[`../checkout-vtex`](../checkout-vtex/CLAUDE.md) (arquitetura §4 e `docs/gate0.md` lá). O cliente
+só muda **cor e fonte**; a estrutura do checkout é fixa, então "Componentes" some do rail.
+
+- **Estado** (`useLayoutGenerator`): `editorMode` e `checkout = { model, variables, etapa }`, em que
+  `variables` é o **nível 1** (`faststore.checkout.variables`) e entra no undo/redo (`themeDoc`); a
+  etapa é navegação, como `selectedPage`. O nível 2 são as cores/fontes globais da loja,
+  `variaveisGlobais` — a MESMA função no preview e no export.
+- **Chrome:** a topbar mostra `SelectCheckoutStep` (Carrinho · E-mail · Identificação · Entrega ·
+  Pagamento); o painel direito é o `CheckoutVariablesPanel`, com o `VariablesList` extraído do
+  `ComponentVariablesPanel`, dizendo AO VIVO de onde cada papel herda ("Herdando de cor primária da
+  marca (#…)", "do padrão do modelo", e na **guarda de visibilidade** — gate0 #14a/#16, cor da loja
+  que some no fundo — "Usando a cor do modelo (…) porque a da loja (…) não aparece no fundo").
+- **Canvas:** `CheckoutFrame` (irmão do `PreviewFrame`; o `/p/{id}/checkout/{etapa}` reusa o mesmo)
+  carrega a fixture ESTÁTICA `public/gerador/checkout/Checkout01/<etapa>.<vp>.html` (1280 ou 390,
+  `LARGURA_CHECKOUT`) e, por ser mesma origem, escreve no `contentDocument`: o `:root` do
+  `emitTokens` em `<style id="ck-tokens">`, o header/footer COMPOSTOS nos slots
+  (`[data-etm-slot]` na fixture real, par de comentários `ck-slot:` na provisória), a fonte com os
+  pesos 300–700 e as travas de clique/submit. No pagamento faz o mesmo no **iframe do cartão**
+  (`pagamento.<vp>.card.html`, que carrega o mesmo CSS) e acerta a altura dele pela `scrollHeight`.
+  No **rodapé**, `{{RAZAO_SOCIAL}}`, `{{CNPJ}}` e `{{AVISO_LEGAL}}` viram texto de EXEMPLO
+  ([src/utils/checkoutExemplo.ts](src/utils/checkoutExemplo.ts), gate0 #26) — só no preview: o
+  painel explica (`[data-checkout-placeholders]`) que o arquivo sai com os placeholders, preenchido
+  pelo time antes de subir, e o compose/export continua com eles. O texto do header, o "100% seguro"
+  e o passo ativo do stepper usam o papel derivado `--checkout-header-text` (gate0 #23, fora do
+  painel): o texto da página enquanto ele tem 4,5:1 sobre o fundo do header, senão o contraste.
+  No `<iframe>`: `data-pedido` (impressão de fixture + níveis + logo recebidos) e, depois dos
+  efeitos, `data-aplicado` com o mesmo valor; `data-pronto` só com o logo já reduzido
+  (`logoCheckoutPendente`: a redução é assíncrona). É por eles que o funil espera, não por tempo.
+- **`/p/{id}/checkout/{etapa}`:** só snapshot VTEX **com** o bloco `checkout`
+  (`snapshotTemCheckout`; o POST do preview grava o que vier, então um Tray com o bloco dá 404 e não
+  ganha as etapas no menu). Cor e papel do snapshot passam pelos mesmos filtros do canvas
+  (`variaveisValidas`, `nivel2DoPreview`) antes de virar CSS.
+- **Sem drift:** nada no catálogo calcula token. [src/utils/checkout.ts](src/utils/checkout.ts) só
+  adapta o estado ao `compose.mjs` vendorizado em `src/lib/checkout/` (ignorado pelo ESLint: é byte
+  a byte o do SHA). O compose só **lança** pelo que é exclusivo do checkout (papel desconhecido,
+  nível 1 inválido, modelo/template quebrado); nível 2 inválido, guarda de visibilidade e logo
+  recusado (formato, > 100 KB — gate0 #17) voltam como **avisos** — o preview troca o logo recusado
+  pelo de exemplo e o painel avisa (`[data-checkout-aviso]`). `reduzirLogo` nunca lança: só
+  redesenha data URL (≤ 280×64); URL https vai como veio.
+- **Export:** `faststore.checkout = { model, version: <SHA do VERSION.json>, variables }` sai em
+  TODO tema VTEX, e `assets.logo` sai reduzido — o mesmo que o header do preview mostra.
+
+**`yarn checkout:sync`** lê um COMMIT (`git archive`), nunca o working tree — o mesmo SHA que o
+generator clona. Grava `src/lib/checkout/*.mjs`, `src/data/checkout/Checkout01/checkout.json`,
+`public/gerador/checkout/Checkout01/` (o `dist/` inteiro + as fixtures) e
+`src/data/checkout/VERSION.json` (SHA, o **sha256 de cada arquivo gravado** — lib, `checkout.json`,
+dist, fixtures, cartões —, origem de cada fixture). **Fixtures:** prefere as
+REAIS de `modelos/Checkout01/fixtures/<etapa>/<vp>/` (`yarn fixtures:capturar` do checkout-vtex:
+DOM com o nosso JS, CSSOM serializado, `card.html`) — reprova se o `sha256Js` delas não for o do
+`dist/default` do mesmo SHA — e só onde falta uma real gera a PROVISÓRIA da `captura-crua`
+(precisa do Chrome). `provisorio: false` quando as 10 são reais. O catálogo é repo PÚBLICO: em
+fixture real ou provisória, `<script>`, atributo `on…=` ou URL `javascript:` reprova (o iframe não
+tem sandbox e é da origem do catálogo). **A lista do que o repo público não pode receber (gate0 #29)
+não mora no catálogo** — nem cópia, nem vendorizada: é a canônica do checkout-vtex, fora do `lib/`
+dele. O sync a acha no **próprio SHA** (o único `publico.mjs` fora do `lib/`; o caminho não aparece
+aqui porque a pasta é um dos termos), lê com `git show` e importa de um `data:` URL, em memória;
+com ela confere **todo** arquivo que vai gravar (lib, `checkout.json`, dist, fixtures, cartões e o
+VERSION.json) e, na provisória, aplica as `TROCAS` dela. SHA sem a lista, com ela dentro do `lib/`
+(o formato de antes do gate0 #29) ou com termo em qualquer arquivo reprova. `scripts/funil/lib/checkout.mjs` só sabe
+**achar e carregar** a lista (`listaDoSha`, `listaDoWorkingTree`); não guarda termo. **Reprovar não toca o catálogo:** tudo é
+preparado numa pasta temporária e só aplicado depois de todas as travas (antes de 25/09 uma
+fixture reprovada no meio deixava o `public/` meio apagado, o `lib/` do SHA novo e o VERSION.json
+do velho). Não edite nada disso à mão: o `1-checkout` confere a integridade pelos hashes do
+VERSION.json e, com o checkout-vtex ao lado (`../checkout-vtex` ou `CHECKOUT_VTEX_DIR`), byte a byte
+contra o SHA e os termos da lista carregada de lá (a do SHA; sem o commit, a do working tree) nos
+vendorizados e em **todo** arquivo que a integração criou ou mudou (`FONTES_DA_INTEGRACAO` no
+`1-checkout`, inclusive painéis e hooks fora do modo Checkout; arquivo novo da integração entra
+nessa lista). Sem o checkout-vtex ao lado (clone só do catálogo, que é
+público): "termos não conferidos: sem checkout-vtex ao lado" — aviso, não reprova.
+
+Funil: `1-checkout` (estático: vendorizado = SHA, fixtures, JS da fixture = dist, papéis × CSS,
+lint, `VAR_MAP`, hashes e a lista do repo público lida do checkout-vtex), `2-checkout` (o modo no navegador: nós reais por papel,
+guarda, cartão, equivalência 0 px com controle negativo, logo, troca de plataforma, rodapé de
+exemplo, header escuro e a rota `/p/{id}/checkout/{etapa}` — esta pede o dev **sem KV**, e o estágio
+prova o armazenamento local antes de postar) e o `3-export` (`faststore.checkout` no config, e o
+compose dele com os placeholders do rodapé). Ver [scripts/funil/README.md](scripts/funil/README.md).
+
+O SHA vendorizado é o `sha` de [src/data/checkout/VERSION.json](src/data/checkout/VERSION.json)
+— a única fonte dele no catálogo; nenhum doc ou comentário daqui repete o valor, que muda a cada
+`yarn checkout:sync` (e, enquanto o checkout-vtex não tem remote, pode ser um commit que só existe
+num snapshot local). O VERSION.json também diz `provisorio`, a origem de cada fixture e o sha256
+de cada arquivo gravado. O que se desenha sobre o fundo do header e do rodapé (passo
+inativo, traço, texto do rodapé, cadeado) vem derivado do lib (gate0 #28, papéis fora do painel);
+o catálogo não calcula nada disso. O seletor de
+plataforma no modo Checkout e a nova tentativa da equivalência (≤ 50 px, a 1ª captura no log) estão
+aprovados (gate0 #27).
 
 ### Mobile users
 

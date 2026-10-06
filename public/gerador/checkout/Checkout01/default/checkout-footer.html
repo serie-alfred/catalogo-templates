@@ -1,0 +1,67 @@
+<!-- E-temas · Checkout01 · contrato 1 · versão sem SHA (build local) — gerado pelo lib/compose.mjs do checkout-vtex; não edite à mão: mude as cores no /gerador e gere de novo -->
+<footer class="etm-footer" data-etm-modelo="Checkout01">
+  <p class="etm-footer__copy">© {{RAZAO_SOCIAL}}. Todos os direitos reservados.<br>
+CNPJ: {{CNPJ}}</p>
+  <p class="etm-footer__aviso">{{AVISO_LEGAL}}</p>
+</footer>
+<style>
+/* ETC:BEGIN tokens-footer */
+.etm-footer {
+  --ck01-button-bg: #009dde;
+  --ck01-button-text: #ffffff;
+  --ck01-accent: #ed8b00;
+  --ck01-accent-text: #ffffff;
+  --ck01-tag-bg: #0096fe;
+  --ck01-tag-text: #ffffff;
+  --ck01-text: #292929;
+  --ck01-text-muted: #7a7a7a;
+  --ck01-page-bg: #ffffff;
+  --ck01-surface-bg: #ffffff;
+  --ck01-border: #efeff0;
+  --ck01-header-bg: #ffffff;
+  --ck01-header-text: #292929;
+  --ck01-header-muted: #dfdfe0;
+  --ck01-header-line: #f5f5f5;
+  --ck01-footer-text: #8f8f8f;
+  --ck01-header-icon: #009dde;
+  --ck01-font: 'Montserrat', Arial, Helvetica, sans-serif;
+  --ck01-gray-000: #dfdfe0;
+  --ck01-gray-200: #b8b8b8;
+  --ck01-gray-300: #8f8f8f;
+  --ck01-gray-500: #666666;
+  --ck01-gray-600: #525252;
+  --ck01-gray-900: #141414;
+  --ck01-gray-1: #333333;
+  --ck01-background-01: #f5f5f5;
+  --ck01-field-border: #eeeeee;
+  --ck01-card-bg: #fafafa;
+  --ck01-section-bg: #fdfdfd;
+  --ck01-radio-border: #111111;
+  --ck01-white: #ffffff;
+  --ck01-shadow: rgba(0, 0, 0, 0.08);
+  --ck01-error: #dd4b39;
+}
+/* ETC:END tokens-footer */
+/*
+ * Escopado em .etm-footer (nunca :root). Também aparece no Order Placed, onde
+ * o checkout6-custom.css não carrega: o bloco de tokens acima traz os --ck01-*
+ * resolvidos, e estas regras deixam o rodapé de pé sozinho lá (copyright à
+ * esquerda e aviso à direita no desktop; empilhados e centrados no celular).
+ * O texto é o --ck01-footer-text, derivado do fundo (gate0 #28): o Gray-300 do
+ * Figma enquanto ele tem 3:1 contra o --ck01-header-bg, senão a menor mistura do
+ * texto do header com o fundo que chega lá.
+ * No checkout, 29-footer.css repete a medida fina do Figma sob
+ * #checkoutMainContainer e o 10-base.css o cola no fim da janela (gate0 #4).
+ * O <br> do copyright é do desktop (duas linhas); no celular o texto corre e
+ * a quebra some — o espaço depois do <br> vira o espaço entre as frases.
+ */
+.etm-footer { display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; box-sizing: border-box; padding: 0 64px 24px; background-color: var(--ck01-header-bg); color: var(--ck01-footer-text); font-family: var(--ck01-font); font-size: 12px; font-weight: 500; line-height: 1.4; letter-spacing: 0.96px; }
+.etm-footer .etm-footer__copy { flex: none; margin: 0; white-space: nowrap; }
+.etm-footer .etm-footer__aviso { flex: 0 1 671px; min-width: 0; margin: 0; }
+@media (max-width: 767px) {
+  .etm-footer { flex-direction: column; align-items: stretch; gap: 24px; padding: 0 24px 24px; text-align: center; }
+  .etm-footer .etm-footer__copy { white-space: normal; }
+  .etm-footer .etm-footer__copy br { display: none; }
+  .etm-footer .etm-footer__aviso { flex: none; }
+}
+</style>

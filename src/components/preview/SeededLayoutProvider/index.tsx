@@ -3,6 +3,7 @@
 import React, { useMemo } from 'react';
 import { LayoutContext, type LayoutContextType } from '@/context/LayoutContext';
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
+import { CHECKOUT_PADRAO } from '@/utils/checkout';
 
 export interface LayoutSeed {
   logo?: string;
@@ -66,6 +67,16 @@ export default function SeededLayoutProvider({
         resetItemVariables: noop,
         exportFeedback: null,
         dismissExportFeedback: noop,
+        // Modo Checkout: fora do editor ninguém entra nele (o /p/{id}/checkout
+        // usa o CheckoutFrame por props), mas o campo existe no hook.
+        editorMode: 'loja',
+        setEditorMode: noop,
+        checkout: CHECKOUT_PADRAO,
+        setCheckoutVariable: noop,
+        resetCheckoutVariables: noop,
+        setCheckoutEtapa: noop,
+        logoCheckout: '',
+        logoCheckoutPendente: false,
         // O snapshot vence os defaults.
         ...seed,
       }) as unknown as LayoutContextType,

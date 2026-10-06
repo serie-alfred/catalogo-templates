@@ -1,5 +1,5 @@
 import { LAYOUTS, type LayoutKey } from '@/data/layoutData';
-import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
+import type { EditorMode, LayoutSelection } from '@/hooks/useLayoutGenerator';
 import { PLATFORMS, type Platform } from '@/types/platform';
 
 /** O LayoutItem por trás de uma selection, ou null se a entrada é lixo. */
@@ -72,4 +72,25 @@ export function sanitizeSelections(value: unknown): LayoutSelection[] {
 /** Aceita só um dos valores do tipo — o localStorage pode conter qualquer coisa. */
 export function sanitizePlatform(value: string | null): Platform | null {
   return PLATFORMS.includes(value as Platform) ? (value as Platform) : null;
+}
+
+/**
+ * O modo Checkout só existe em VTEX: o checkout-vtex é o checkout NATIVO da
+ * VTEX, e Tray/Wake não têm o que mostrar ali. Trocar de plataforma sai do modo
+ * — e a hidratação passa pelo mesmo filtro, porque o `/gerador/import-log`
+ * grava `layoutPlatform` cru e o `editorMode` guardado pode ser de outra sessão.
+ */
+export function modeForPlatform(
+  mode: EditorMode,
+  platform: Platform | null
+): EditorMode {
+  return mode === 'checkout' && platform !== 'VTEX' ? 'loja' : mode;
+}
+
+/** `editorMode` lido do localStorage: só os dois valores, e só o que a plataforma aceita. */
+export function sanitizeEditorMode(
+  value: string | null,
+  platform: Platform | null
+): EditorMode {
+  return modeForPlatform(value === 'checkout' ? 'checkout' : 'loja', platform);
 }
