@@ -36,6 +36,8 @@ export const PAGE_SINGLETON_SELECTIONS: ReadonlySet<string> = new Set([
   'product-description',
   'banner-main',
   'banner-top',
+  // A LP é a página inteira: escolher outra LP troca a que está lá.
+  'landing-page',
 ]);
 
 /**

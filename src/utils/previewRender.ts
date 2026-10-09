@@ -1,4 +1,4 @@
-import type { LayoutKey, Pagina } from '@/data/layoutData';
+import { LAYOUTS, type LayoutKey, type Pagina } from '@/data/layoutData';
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import type { Platform } from '@/types/platform';
 
@@ -27,10 +27,11 @@ export function belongsToPage(
     return false;
   }
 
-  // breadcrumb "common" fica escondido na home.
+  // breadcrumb "common" fica escondido na home e nas LPs (o Figma das LPs não
+  // tem trilha: a página começa no hero, logo abaixo do header).
   if (
     item.layoutKey === 'breadcrumb' &&
-    selectedPage === 'home' &&
+    (selectedPage === 'home' || selectedPage === 'landing') &&
     item.pagina === 'common'
   ) {
     return false;
@@ -56,11 +57,28 @@ export const PREVIEW_PAGES = [
   { slug: 'home', pagina: 'home', label: 'Home' },
   { slug: 'categoria', pagina: 'category', label: 'Categoria' },
   { slug: 'produto', pagina: 'product', label: 'Produto' },
+  { slug: 'lp', pagina: 'landing', label: 'Landing page' },
 ] as const;
 
 /** Slug de URL (`categoria`) → `pagina` interna (`category`). null se inválido. */
 export function slugToPagina(slug: string): string | null {
   return PREVIEW_PAGES.find(p => p.slug === slug)?.pagina ?? null;
+}
+
+/**
+ * A plataforma tem alguma LP no catálogo? Decide se "LPs" aparece no seletor de
+ * página. Derivado do LAYOUTS, não de uma lista: a próxima LP que declarar Tray
+ * liga a página para a Tray sem mexer aqui.
+ */
+export function plataformaTemLanding(platform: Platform | null): boolean {
+  if (!platform) return false;
+  return Object.values(LAYOUTS).some(secao =>
+    secao.items.some(
+      item =>
+        (item.pagina as readonly Pagina[]).includes('landing') &&
+        (item.platforms as readonly Platform[]).includes(platform)
+    )
+  );
 }
 
 /**

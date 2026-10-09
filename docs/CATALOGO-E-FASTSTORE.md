@@ -139,8 +139,12 @@ mesma proporção. Os logos de plataforma e da agência são SVG inline nos dois
 lados, com os mesmos paths (até 25/09 a origem os servia do CDN de uma loja).
 
 Fora da leva de propósito: **`WiddeScript06`** (injeta script de terceiro, não tem
-UI) e os **16 institucionais**, que exigem abrir o tipo de página `landingPage` em
-toda a cadeia.
+UI) e os **16 institucionais**, que exigiam abrir o tipo de página `landingPage` em
+toda a cadeia. Essa cadeia abriu em 09/10/2026 com a página **LPs** (`pagina:
+"landing"`, balde `landing` no config, `landing` no generator) — mas lá a LP entra
+INTEIRA num item só (`BlackFriday01`), e os institucionais são seções avulsas de
+uma página que o lojista compõe no CMS. Levá-los para o catálogo continua sendo
+decisão de produto, não falta de encanamento.
 
 Dez componentes não tinham slot equivalente e ganharam **seção própria** no
 painel: Ambientes, Newsletter, Compre por tamanho, Ajuda flutuante, Outras linhas,

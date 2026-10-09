@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
 import { PAGE_SINGLETON_SELECTIONS } from '@/utils/sectionRules';
 import { arrayMove } from '@dnd-kit/sortable';
 import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layoutData';
-import { belongsToPage } from '@/utils/previewRender';
+import { belongsToPage, plataformaTemLanding } from '@/utils/previewRender';
 import { captureAndDownloadScreenshot } from '@/utils/screenshotExport';
 import { sendLayoutConfigEmail } from '@/services/emailService';
 import { isLocalDelivery } from '@/utils/configDelivery';
@@ -619,6 +619,15 @@ export function useLayoutGenerator() {
     setEditorModeState(prev => modeForPlatform(prev, platform));
   }, [platform, hydrated]);
 
+  /* Plataforma sem LP no catálogo (Tray) não tem a página "LPs": quem estava
+     nela volta para a home, em vez de ficar num canvas que o seletor não lista. */
+  useEffect(() => {
+    if (!hydrated) return;
+    if (!plataformaTemLanding(platform)) {
+      setSelectedPage(prev => (prev === 'landing' ? 'home' : prev));
+    }
+  }, [platform, hydrated]);
+
   /* O logo do header do checkout é o MESMO que vai no export: reduzido uma vez
      aqui, e não no CheckoutFrame, para o preview mostrar os bytes que saem. */
   useEffect(() => {
@@ -1153,6 +1162,10 @@ export function useLayoutGenerator() {
         home: pageItems['home'] ?? [],
         category: pageItems['category'] ?? [],
         product: pageItems['product'] ?? [],
+        // A LP (página "LPs") entra inteira: o generator monta a seção no tema
+        // e o time cria a Landing Page no CMS com ela. Só sai quando existe,
+        // para o config de quem não usa LP continuar igual ao de antes.
+        ...(pageItems['landing']?.length ? { landing: pageItems['landing'] } : {}),
         overrides: overrideItems,
       },
     };
@@ -1352,9 +1365,13 @@ export function useLayoutGenerator() {
       });
       if (!res.ok) return null;
       const { id } = (await res.json()) as { id: string };
-      // No modo Checkout o link abre direto na etapa que está no canvas.
-      return editorMode === 'checkout' && platform === 'VTEX'
-        ? `${window.location.origin}/p/${id}/checkout/${checkout.etapa}`
+      // No modo Checkout o link abre direto na etapa que está no canvas; nas
+      // LPs, direto na LP.
+      if (editorMode === 'checkout' && platform === 'VTEX') {
+        return `${window.location.origin}/p/${id}/checkout/${checkout.etapa}`;
+      }
+      return selectedPage === 'landing'
+        ? `${window.location.origin}/p/${id}/lp`
         : `${window.location.origin}/p/${id}/home`;
     } catch (error) {
       console.error('Erro ao criar preview:', error);

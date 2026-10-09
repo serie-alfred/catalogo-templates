@@ -97,6 +97,7 @@ const PASTA = {
   home: 'Home',
   category: 'Category',
   product: 'Product',
+  landing: 'Landing',
 };
 
 /**
@@ -314,7 +315,7 @@ export async function conferirParidadeGlobalTemplates(r) {
 export function conferirFaststore(config, r, { checkoutEsperado } = {}) {
   const raiz = config.faststore;
   conferirCheckoutFaststore(raiz, r, checkoutEsperado);
-  const baldes = ['global', 'home', 'category', 'product', 'overrides'];
+  const baldes = ['global', 'home', 'category', 'product', 'landing', 'overrides'];
   const entradas = baldes.flatMap(b =>
     (raiz[b] ?? []).map(e => ({ ...e, balde: b }))
   );

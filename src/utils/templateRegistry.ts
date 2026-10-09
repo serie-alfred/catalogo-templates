@@ -173,6 +173,7 @@ import CategoryTitle06 from '@/components/templates/category/template_6/Category
 import CategoryDescription06 from '@/components/templates/category/template_6/CategoryDescription';
 import CategoryMain07 from '@/components/templates/category/template_7/CategoryMain';
 import CategoryMain06 from '@/components/templates/category/template_6/CategoryMain';
+import BlackFriday01 from '@/components/templates/landing/template_1/BlackFriday';
 
 export const TemplateRegistry: Record<
   string,
@@ -274,4 +275,5 @@ export const TemplateRegistry: Record<
   CategoryTitle06,
   CategoryMain06,
   CategoryMain07,
+  BlackFriday01,
 };

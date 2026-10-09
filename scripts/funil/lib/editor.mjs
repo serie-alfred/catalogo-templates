@@ -6,6 +6,7 @@ export const PAGINAS = {
   home: 'Homepage',
   category: 'Página de Categoria',
   product: 'Página de Produto',
+  landing: 'LPs',
 };
 
 export async function abrirBrowser({ argsExtra = [] } = {}) {
@@ -222,7 +223,7 @@ export async function irParaRail(page, rotulo, tentativas = 20) {
 /** O gatilho de página é o que traz o nome de uma das 4 — o outro listbox é o de plataforma. */
 const GATILHO_PAGINA =
   'const t=[...document.querySelectorAll(\'[aria-haspopup="listbox"]\')]' +
-  '.find(b=>/Homepage|Todas as páginas|Página de/.test(b.textContent));';
+  '.find(b=>/Homepage|Todas as páginas|Página de|LPs/.test(b.textContent));';
 
 export async function trocarPagina(page, chave) {
   const nome = PAGINAS[chave];
@@ -234,7 +235,7 @@ export async function trocarPagina(page, chave) {
     () =>
       document
         .querySelector('[role="listbox"][aria-label="Página"]')
-        ?.querySelectorAll('[role="option"]').length === 4,
+        ?.querySelectorAll('[role="option"]').length >= 4,
     { timeout: 15000 }
   );
   await page.evaluate(n => {

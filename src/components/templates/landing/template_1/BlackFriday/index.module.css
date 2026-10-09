@@ -1,0 +1,886 @@
+/* Espelha organisms/BlackFriday01 (faststore.starter): o SCSS compilado com o sass,
+   `@media (max-width: 960px)` → `@container bf (max-width: 960px)` (nomeado: a colagem
+   também é container, para o raio e a sombra em cqw, e um @container sem nome dentro
+   dela leria a largura dela). Mesmas vars de Nível 1, mesmos Níveis 3.
+   Gerado por `yarn lp:css` (scripts/lp/derivar-css.mjs) — mexa no SCSS de lá e rode.
+   O que é só do canvas está no fim, depois de "Só no catálogo", e é preservado. */
+
+.blackFriday01 {
+  container: bf / inline-size;
+  font-family: var(--blackfriday-font, 'Open Sans', sans-serif);
+  color: var(--blackfriday-card-text, #292929);
+}
+.blackFriday01 *,
+.blackFriday01 *::before,
+.blackFriday01 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.blackFriday01 :where(h1, h2, h3, p) {
+  margin: 0;
+  color: inherit;
+}
+.blackFriday01 img {
+  display: block;
+}
+
+.accent {
+  color: var(--blackfriday-accent, #f2994a);
+}
+
+.cover {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.cover,
+.cardLink,
+.shelfBannerLink,
+.aboutBannerLink {
+  text-decoration: none;
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 459px;
+  padding: 96px 96px 93px;
+  overflow: hidden;
+  background-color: #f1f2f4;
+  color: var(--blackfriday-hero-text, #ffffff);
+  font-family: var(--blackfriday-heading-font, 'Inter', sans-serif);
+}
+
+.heroMedia {
+  position: absolute;
+  inset: 0;
+}
+.heroMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.heroEyebrow {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.64px;
+  text-transform: uppercase;
+}
+
+.heroTitle {
+  font-size: 47px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.94px;
+  text-transform: uppercase;
+  white-space: pre-line;
+}
+
+.heroTitleMobile,
+.heroTitleMobileAuto {
+  display: none;
+}
+
+.heroText {
+  max-width: 422px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: pre-line;
+}
+
+/* ── Contador ─────────────────────────────────────────────────────────── */
+.countdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 72px;
+  background-color: var(--blackfriday-countdown-bg, #141414);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='410' height='410'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 409.6px 409.6px;
+  box-shadow: inset 0 -3px 24px -10px rgba(255, 255, 255, 0.25);
+  color: var(--blackfriday-countdown-text, #ffffff);
+  font-family: var(--blackfriday-heading-font, 'Inter', sans-serif);
+  text-transform: uppercase;
+}
+
+.countdownHead {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.countdownLabel {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 0.56px;
+}
+
+.countdownTitle {
+  font-size: 24px;
+  font-style: italic;
+  font-weight: 800;
+  line-height: 1.03;
+  letter-spacing: -0.48px;
+}
+
+.countdownBody {
+  display: flex;
+  align-items: stretch;
+  gap: 32px;
+}
+
+.countdownUnits {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.countdownUnit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  background-color: var(--blackfriday-countdown-box-bg, #292929);
+  line-height: 1.03;
+  white-space: nowrap;
+}
+
+.countdownValue {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.48px;
+}
+
+.countdownUnitLabel {
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: -0.28px;
+}
+
+.countdownRule {
+  flex: none;
+  width: 1px;
+  background-color: var(--blackfriday-countdown-box-bg, #292929);
+}
+
+.countdownNote {
+  align-self: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.56px;
+  text-transform: none;
+  white-space: pre-line;
+  color: var(--blackfriday-countdown-note, #dfdfe0);
+}
+
+/* ── Categorias ───────────────────────────────────────────────────────── */
+.categoryStrip {
+  display: flex;
+  gap: 16px;
+  padding: 24px 32px;
+  background-color: var(--blackfriday-categories-bg, #cccccc);
+}
+
+.category {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-width: 0;
+  height: 340px;
+  padding: 40px 32px;
+  overflow: hidden;
+  background-color: #f1f2f4;
+  text-decoration: none;
+  color: var(--blackfriday-category-text, #ffffff);
+}
+
+.categoryImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.categoryContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.categoryTitle {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: pre-line;
+}
+
+.categoryText {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  white-space: pre-line;
+}
+
+.categoryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 25px;
+  background-color: var(--blackfriday-category-button-bg, #ffffff);
+  color: var(--blackfriday-category-button-text, #141414);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.categoryButton svg {
+  display: block;
+  flex: none;
+}
+
+/* ── Vitrines ─────────────────────────────────────────────────────────── */
+.shelf {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--blackfriday-shelf-bg, #ffffff);
+  font-family: var(--blackfriday-font, 'Open Sans', sans-serif);
+}
+
+.shelfFull {
+  gap: 20px;
+  padding: 24px 32px;
+}
+
+.shelfBanner {
+  gap: 16px;
+  padding: 24px 32px 48px;
+}
+
+.shelfHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.shelfHeading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.shelfTitle {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--blackfriday-shelf-title, #000000);
+}
+
+.shelfSubtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--blackfriday-shelf-text, #525252);
+}
+
+.shelfViewAll {
+  flex: none;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--blackfriday-shelf-text, #525252);
+  text-decoration: underline;
+  text-underline-position: from-font;
+  white-space: nowrap;
+}
+
+.shelfRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.shelfCarousel {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.swiper {
+  width: 100%;
+}
+
+.slide {
+  height: auto;
+}
+
+.arrow {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  border: 0;
+  background-color: rgba(255, 255, 255, 0.64);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16);
+  color: #050505;
+  cursor: pointer;
+}
+.arrow:disabled {
+  cursor: default;
+}
+.arrow svg {
+  display: block;
+}
+
+.arrowPrev {
+  left: 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.arrowNext {
+  right: 0;
+  border-radius: 8px 0 0 8px;
+}
+
+.shelfFull .arrow {
+  top: 188px;
+}
+
+.shelfBanner .arrow {
+  top: 224.4px;
+}
+
+.shelfBannerLink {
+  display: block;
+  flex: none;
+  width: 477px;
+  height: 485px;
+}
+
+.shelfBannerMedia {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.shelfBannerMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Card */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardLink {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.cardMedia {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2/3;
+  background-color: #f1f2f4;
+}
+
+.cardImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardTags {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.cardTag,
+.cardOff {
+  padding: 4px 8px;
+  border-radius: 6px;
+  backdrop-filter: blur(2px);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cardTag {
+  background-color: var(--blackfriday-tag-bg, #292929);
+  color: var(--blackfriday-tag-text, #ffffff);
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.02));
+}
+
+.cardOff {
+  background-color: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+  color: var(--blackfriday-shelf-title, #000000);
+}
+
+.cardWish {
+  position: absolute;
+  top: 8px;
+  right: 7.92px;
+  z-index: 2;
+  display: flex;
+  padding: 6px;
+  border: 0;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(2px);
+  color: var(--blackfriday-card-text, #292929);
+  cursor: pointer;
+}
+.cardWish svg {
+  display: block;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.cardName {
+  display: -webkit-box;
+  height: 48px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--blackfriday-card-text, #292929);
+}
+
+.cardPrices {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.cardList {
+  font-size: 14px;
+  font-weight: 400;
+  color: color-mix(in srgb, var(--blackfriday-card-text, #292929) 62%, transparent);
+}
+
+.cardPrice {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--blackfriday-card-text, #292929);
+}
+
+.cardPix {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+  color: var(--blackfriday-shelf-text, #525252);
+}
+.cardPix strong {
+  font-weight: 700;
+}
+
+.cardInstallment {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+  color: color-mix(in srgb, var(--blackfriday-card-text, #292929) 62%, transparent);
+}
+
+/* ── Institucional ────────────────────────────────────────────────────── */
+.about {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 64px;
+  padding: 64px 125px;
+  overflow: hidden;
+  background-image: linear-gradient(to top, var(--blackfriday-about-bg-end, #141414), var(--blackfriday-about-bg-start, #292929));
+  color: var(--blackfriday-about-text, #dfdfe0);
+  font-family: var(--blackfriday-font, 'Open Sans', sans-serif);
+}
+
+.aboutGlow {
+  position: absolute;
+  top: 125.9px;
+  left: 175px;
+  width: 465px;
+  height: 465px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.02);
+  filter: blur(63.5px);
+  pointer-events: none;
+}
+
+.collageGlow {
+  display: none;
+}
+
+.aboutRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 64px;
+}
+
+.collage {
+  position: relative;
+  flex: none;
+  width: 543px;
+  aspect-ratio: 543/573;
+  container-type: inline-size;
+}
+
+.collageImg {
+  position: absolute;
+  object-fit: cover;
+  border-radius: 1.1049723757cqw;
+  box-shadow: 0 1.8416206262cqw 4.4198895028cqw -2.2099447514cqw rgba(255, 255, 255, 0.25);
+}
+
+.collageA {
+  top: 13.612565445%;
+  left: 0;
+  width: 55.6169429098%;
+  height: 72.7748691099%;
+}
+
+.collageB {
+  top: 0;
+  left: 58.5635359116%;
+  width: 32.5966850829%;
+  height: 42.757417103%;
+}
+
+.collageC {
+  top: 45.5497382199%;
+  left: 58.5635359116%;
+  width: 41.4364640884%;
+  height: 54.4502617801%;
+}
+
+.aboutText {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  min-width: 0;
+}
+
+.aboutEyebrow {
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: uppercase;
+  color: var(--blackfriday-about-eyebrow, #ffffff);
+}
+
+.aboutTitle {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.64px;
+  text-transform: uppercase;
+}
+
+.aboutBody {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.aboutBanners {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  height: 241px;
+}
+
+.aboutBannerLink {
+  display: block;
+  flex: 1 1 0;
+  min-width: 0;
+  background-color: #f1f2f4;
+}
+
+.aboutBanner {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.aboutBanner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────── */
+@container bf (max-width: 960px) {
+  .hero {
+    justify-content: flex-end;
+    min-height: 540px;
+    padding: 0 32px 48px;
+  }
+  .heroContent {
+    gap: 16px;
+    width: 100%;
+  }
+  .heroEyebrow {
+    font-size: 14px;
+    letter-spacing: 0.56px;
+  }
+  .heroTitle {
+    font-size: 28px;
+    letter-spacing: -0.56px;
+  }
+  .heroTitleDesktop {
+    display: none;
+  }
+  .heroTitleMobile {
+    display: inline;
+  }
+  .heroTitleMobileAuto {
+    display: inline;
+    white-space: normal;
+  }
+  .heroText {
+    max-width: none;
+    font-size: 14px;
+    white-space: normal;
+  }
+  .countdown {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    padding: 24px;
+  }
+  .countdownHead {
+    align-items: center;
+    gap: 8px;
+  }
+  .countdownBody {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .countdownUnits {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .countdownUnit {
+    flex: none;
+    padding: 12px;
+  }
+  .countdownUnit:nth-child(-n+2) {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .countdownRule {
+    width: 100%;
+    height: 1px;
+  }
+  .countdownNote {
+    max-width: 280px;
+    margin: 0 auto;
+    text-align: center;
+    white-space: normal;
+  }
+  .categoryStrip {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 16px;
+  }
+  .category {
+    height: 260px;
+    padding: 16px;
+  }
+  .categoryContent {
+    gap: 12px;
+  }
+  .categoryTitle {
+    font-size: 16px;
+  }
+  .categoryText {
+    font-size: 14px;
+  }
+  .categoryButton {
+    width: 100%;
+    padding: 14px 8px;
+    font-size: 14px;
+  }
+  .shelfFull {
+    gap: 16px;
+    padding: 24px 16px;
+  }
+  .shelfBanner {
+    gap: 16px;
+    padding: 16px;
+  }
+  .shelfHeading {
+    width: 266px;
+  }
+  .shelfRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .shelfCarousel {
+    margin-right: -16px;
+  }
+  .slide {
+    width: 240px;
+  }
+  .arrow {
+    display: none;
+  }
+  .shelfBannerLink {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+  .about {
+    gap: 24px;
+    padding: 40px 24px;
+  }
+  .aboutGlow {
+    display: none;
+  }
+  .aboutRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+  .collage {
+    width: 100%;
+  }
+  .collageGlow {
+    position: absolute;
+    inset: 10.99% 7.18% 7.85% 7.18%;
+    display: block;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.02);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+  .aboutText {
+    gap: 16px;
+  }
+  .aboutTitle {
+    font-size: 24px;
+    letter-spacing: -0.48px;
+  }
+  .aboutBanners {
+    flex-direction: column;
+    height: auto;
+  }
+  .aboutBannerLink {
+    flex: none;
+    height: 148px;
+  }
+}
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* O starter usa Swiper; aqui a faixa é flex com a mesma largura de card. */
+.track {
+  display: flex;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.track > .slide {
+  flex: 0 0 calc((100% - 4 * 16px) / 5);
+}
+
+.shelfBanner .track > .slide {
+  flex-basis: calc((100% - 2 * 16px) / 3);
+}
+
+/* <picture media> do starter → duas <img> trocadas pelo container. */
+.onlyMobile {
+  display: none !important;
+}
+
+@container bf (max-width: 960px) {
+  .track {
+    gap: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .track > .slide,
+  .shelfBanner .track > .slide {
+    flex: 0 0 240px;
+  }
+
+  .onlyDesktop {
+    display: none !important;
+  }
+
+  .onlyMobile {
+    display: block !important;
+  }
+}

@@ -9,7 +9,7 @@ em `src/data/layoutData.ts`. O campo `imageSource` diz de onde ela veio.
 | | itens | o que é |
 |---|---|---|
 | `design` | 56 | mockup entregue pelo designer (pasta *Banners E-temas*) |
-| `auto` | 34 | screenshot do componente real — **pendente de arte do designer** |
+| `auto` | 35 | screenshot do componente real — **pendente de arte do designer** |
 | sem imagem | 0 | cai no placeholder |
 
 ## Pendente do designer
@@ -36,6 +36,7 @@ Estes têm thumb automática. É a lista do que falta chegar do design:
 - **Depoimentos** — ClientReview06, ClientReview07
 - **Grade de produtos** — CategoryMain02, CategoryMain06, CategoryMain07
 - **Informações do produto** — ProductInfo03, ProductInfo04
+- **Landing pages** — BlackFriday01
 
 ## Arte do designer
 

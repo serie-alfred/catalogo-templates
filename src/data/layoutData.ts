@@ -1,6 +1,10 @@
 import type { Platform } from "@/types/platform";
 
-export type Pagina = "common" | "home" | "category" | "product";
+/**
+ * `landing` é a página "LPs" do seletor: a LP vem INTEIRA num item só (todas as
+ * seções da campanha), e o header/footer que aparecem nela são os `common` da loja.
+ */
+export type Pagina = "common" | "home" | "category" | "product" | "landing";
 
 /**
  * Variável de cor de fundo da marca utilizada pelo template.
@@ -159,6 +163,7 @@ export type Layouts = {
   productBanner: LayoutSection;
   categoryTabs: LayoutSection;
   categoryTitle: LayoutSection;
+  landingPage: LayoutSection;
 };
 
 export const LAYOUTS: Layouts = {
@@ -844,6 +849,36 @@ export const LAYOUTS: Layouts = {
     name: "Produtos Relacionados",
     items: [
       { id: "01", selection: "product-related", key: "rel01f6g7h8i", image: "productRelated/ProductRelated01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductRelated01", path: "organisms/ProductShowcase01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
+    ],
+  },
+  // LANDING — a LP inteira é UM item; header e footer vêm dos `common` da loja.
+  landingPage: {
+    name: "Landing pages",
+    items: [
+      { id: "01", selection: "landing-page", key: "lpbf01k7m2q9", image: "landingPage/BlackFriday01.webp", imageSource: "auto", mobile: "", title: "Black Friday", description: "LP completa de campanha: hero, contador, categorias, duas vitrines e bloco institucional. O header e o footer são os da loja", template: "1", pagina: ["landing"], component: "BlackFriday01", path: "organisms/BlackFriday01", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--blackfriday-heading-font", label: "Fonte dos títulos de campanha", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
+        { cssVar: "--blackfriday-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
+        { cssVar: "--blackfriday-accent", label: "Cor de destaque (Friday)", type: "color", default: "#f2994a", group: "Destaque" },
+        { cssVar: "--blackfriday-hero-text", label: "Texto do hero", type: "color", default: "#ffffff", group: "Hero" },
+        { cssVar: "--blackfriday-countdown-bg", label: "Fundo do contador", type: "color", default: "#141414", group: "Contador" },
+        { cssVar: "--blackfriday-countdown-box-bg", label: "Fundo das caixas e divisória", type: "color", default: "#292929", group: "Contador" },
+        { cssVar: "--blackfriday-countdown-text", label: "Texto do contador", type: "color", default: "#ffffff", group: "Contador" },
+        { cssVar: "--blackfriday-countdown-note", label: "Texto de apoio", type: "color", default: "#dfdfe0", group: "Contador" },
+        { cssVar: "--blackfriday-categories-bg", label: "Fundo da faixa de categorias", type: "color", default: "#cccccc", group: "Categorias" },
+        { cssVar: "--blackfriday-category-text", label: "Texto dos cards", type: "color", default: "#ffffff", group: "Categorias" },
+        { cssVar: "--blackfriday-category-button-bg", label: "Fundo do botão", type: "color", default: "#ffffff", group: "Categorias" },
+        { cssVar: "--blackfriday-category-button-text", label: "Texto do botão", type: "color", default: "#141414", group: "Categorias" },
+        { cssVar: "--blackfriday-shelf-bg", label: "Fundo das vitrines", type: "color", default: "#ffffff", group: "Vitrines" },
+        { cssVar: "--blackfriday-shelf-title", label: "Título e selo de desconto", type: "color", default: "#000000", group: "Vitrines" },
+        { cssVar: "--blackfriday-shelf-text", label: "Subtítulo, Ver todos e Pix", type: "color", default: "#525252", group: "Vitrines" },
+        { cssVar: "--blackfriday-card-text", label: "Nome e preço do produto", type: "color", default: "#292929", group: "Vitrines" },
+        { cssVar: "--blackfriday-tag-bg", label: "Fundo do selo (Novidade)", type: "color", default: "#292929", group: "Vitrines" },
+        { cssVar: "--blackfriday-tag-text", label: "Texto do selo (Novidade)", type: "color", default: "#ffffff", group: "Vitrines" },
+        { cssVar: "--blackfriday-about-bg-start", label: "Fundo institucional (topo)", type: "color", default: "#292929", group: "Institucional" },
+        { cssVar: "--blackfriday-about-bg-end", label: "Fundo institucional (base)", type: "color", default: "#141414", group: "Institucional" },
+        { cssVar: "--blackfriday-about-text", label: "Texto institucional", type: "color", default: "#dfdfe0", group: "Institucional" },
+        { cssVar: "--blackfriday-about-eyebrow", label: "Chamada (Black)", type: "color", default: "#ffffff", group: "Institucional" },
+      ] },
     ],
   },
 } as const;

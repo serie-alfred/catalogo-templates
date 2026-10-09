@@ -61,12 +61,12 @@ All state for the builder lives in [src/hooks/useLayoutGenerator.ts](src/hooks/u
 
 A template is a React component plus a catalog entry. Two files always need to change together:
 
-1. **Component** — add it under `src/components/templates/{common,home,category,product}/template_N/<Name>/`. The folder convention is `index.tsx` + `index.module.css`. Components receive `{ isMobile }` from [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx) — the single renderer for every surface. Templates may read **only** `logo` and `selections` from `useLayout()`: outside the editor the context is seeded by hand ([SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx)), so any other field is a default, not real state.
+1. **Component** — add it under `src/components/templates/{common,home,category,product,landing}/template_N/<Name>/`. The folder convention is `index.tsx` + `index.module.css`. Components receive `{ isMobile }` from [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx) — the single renderer for every surface. Templates may read **only** `logo` and `selections` from `useLayout()`: outside the editor the context is seeded by hand ([SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx)), so any other field is a default, not real state.
 2. **Registry** — import it in [src/utils/templateRegistry.ts](src/utils/templateRegistry.ts) and add it to the `TemplateRegistry` object. The string key must match the `component` field used in `LAYOUTS`. **If the registry entry is missing, `ThemeRenderer` renders a visible red marker naming the component** — it used to emit `<img src="/images/gerador/…">`, which with `image: ''` in all items was a mute 404 (os campos `image` já estão preenchidos hoje — ver **Thumbs do seletor** abaixo), so the mistake hid instead of showing.
-3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`Tray | Wake | VTEX`), and `component` (the `TemplateRegistry` key).
+3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product | landing`), `platforms` (`Tray | Wake | VTEX`), and `component` (the `TemplateRegistry` key).
 
 > **Os dois lados saem de sincronia com facilidade, e em silêncio.** Hoje eles estão casados:
-> **90 componentes no registry, 90 `LayoutItem`s ativos, zero órfãos dos dois lados** — e o
+> **91 componentes no registry, 91 `LayoutItem`s ativos, zero órfãos dos dois lados** — e o
 > `layoutData.ts` não tem mais nenhum item comentado. Foi assim que ficou depois que os 22 órfãos
 > (o tema **07 inteiro** incluído) viraram itens de verdade; antes, metade do catálogo estava
 > importada e invisível. Confira os dois sentidos antes de commitar:
@@ -94,7 +94,7 @@ A template is a React component plus a catalog entry. Two files always need to c
 
 Cada card do modal "Componentes de seções" mostra
 `public/images/gerador/<layoutKey>/<Component>.webp` — 744×401, que é 2× o slot
-(`.carouselImage` é `aspect-ratio: 334.667/180.333`). **Os 90 itens têm imagem**; o fallback
+(`.carouselImage` é `aspect-ratio: 334.667/180.333`). **Os 91 itens têm imagem**; o fallback
 `placehold.co` em [SelectSectionItem](src/components/gerador/SelectSectionItem/index.tsx) só
 sobrevive como rede.
 
@@ -103,7 +103,7 @@ sobrevive como rede.
 - `design` (56) — mockup entregue pelo designer: as pastas V1–V3 (famílias 1, 2 e 5) e o `Lote2`
   de 23/09/2026 (famílias 1, 3, 4, 5, 6 e 7). Os mockups **não são versionados** (~80 MB de JPG e
   PNG); `scripts/thumbs/mapa.json` guarda o pareamento e o caminho da origem.
-- `auto` (34) — screenshot do componente real, tirado por `scripts/thumbs/auto.mjs`. Vale como
+- `auto` (35) — screenshot do componente real, tirado por `scripts/thumbs/auto.mjs`. Vale como
   "ainda não veio do design". Não tenta imitar o estilo do mockup de propósito: um "quase igual"
   apagaria a distinção que este campo existe para manter.
 
@@ -116,7 +116,7 @@ onde o print era só placeholder, a arte inventa copy em inglês. Compare com o 
 
 `yarn thumbs` regera tudo (o estágio `auto` precisa de `yarn dev` de pé); depois de mexer num
 componente, `THUMBS_SO=<Component> yarn thumbs:auto` refotografa só ele — a rodada inteira regrava
-os 34 prints, quase todos com bytes diferentes e nada visível mudado. **Duas travas impedem
+os 35 prints, quase todos com bytes diferentes e nada visível mudado. **Duas travas impedem
 que uma rodada futura apague a arte do designer**: o componente estar em `mapa.json`, ou o item já
 estar marcado `imageSource: "design"`. O `aplicar.mjs` é idempotente e escreve o catálogo a partir
 do que existe **em disco** — apagar um `.webp` devolve o item ao placeholder sem editar TypeScript.
@@ -141,10 +141,10 @@ que é gerado — não edite à mão.
 
 ### Per-component variables (`variablesSchema`)
 
-A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **52 of the 90 active items declare one.** It is not a property of being VTEX-capable: `Header07`, `Footer07`, `Spot06/07` and `Showcase06/07` are VTEX and declare none — they were enabled from the registry orphans and nobody has authored their schemas yet. To count: `grep -c "variablesSchema:" src/data/layoutData.ts`. `Header01` has 8 vars: topbar/header/nav × bg+text, `--cart-text` and `--header-font`.
+A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **54 of the 91 active items declare one.** It is not a property of being VTEX-capable: `Header07`, `Footer07`, `Spot06/07` and `Showcase06/07` are VTEX and declare none — they were enabled from the registry orphans and nobody has authored their schemas yet. To count: `grep -c "variablesSchema:" src/data/layoutData.ts`. `Header01` has 8 vars: topbar/header/nav × bg+text, `--cart-text` and `--header-font`.
 
 - `ComponentVariable = { cssVar, label, type: "color" | "font", default, group?, inheritsLabel? }`. `cssVar` is the literal CSS custom-property name written verbatim into `config.json` (e.g. `--header-topbar-bg`); `default` is the value the downstream SCSS uses as its `var()` fallback; `group` buckets fields in the panel; `inheritsLabel` is the friendly name of the global token shown while the field is still unset.
-- **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) _is_ the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because 38 of the 90 active items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
+- **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) _is_ the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because 37 of the 91 active items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
 - **State:** `LayoutSelection.variables?: Record<cssVar, value>` in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`); persisted with `selections` under the `layoutSelections` localStorage key.
 - **Export:** `pickChangedVariables()` writes every schema key the user has set a value for, as a `variables` object on the entry — in both `buildConfigJson` (Tray/Wake) and `buildFaststoreConfigJson` (VTEX). It used to omit keys equal to the schema `default`, on the assumption that the downstream SCSS's `var()` fallback would land on that same default — but the real fallback is a 3-level chain (individual → global token → hardcoded default), and the *global token* in the middle isn't the schema default. A user picking white text that happens to match the default got the key omitted, the individual var never reached `:root`/the component, and the color silently became whatever the global token resolved to instead. Always emitting what was chosen is the only reading that can't regress this way.
 - Font values are stored as `'Family', sans-serif`; the panel parses the family out for `FontSelector` and re-wraps on change.
@@ -157,6 +157,29 @@ A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/lay
   Figma, not a preference.
 
 The downstream **template-generator** reads each entry's `variables` and injects them into the component's SCSS, which must consume them via the chained-fallback convention `var(--header-topbar-bg, var(--background-secundary-color, #122161))` (individual var → global token → hardcoded default). Keep `cssVar` names in sync with that SCSS.
+
+### A página "LPs" (`pagina: "landing"`)
+
+A quinta opção do seletor de página. Uma LP de campanha entra **inteira num item só**
+(`landingPage` → `BlackFriday01`, réplica em `templates/landing/template_1/`), e o header e o
+footer que aparecem em volta são os `common` da loja — é o `belongsToPage` de sempre. Regras:
+
+- **Só onde há LP no catálogo** (`plataformaTemLanding`, derivado do `LAYOUTS`): Wake e VTEX hoje.
+  Na Tray a opção some, e um efeito no hook devolve para a home quem estava nela.
+- **Sem breadcrumb** (`belongsToPage`, como na home) e **singleton** (`landing-page` em
+  `PAGE_SINGLETON_SELECTIONS`): escolher outra LP troca a que está lá.
+- **Export:** Tray/Wake saem com `wake.landing` sozinhos (o `reduce` por `pagina`); o VTEX ganhou o
+  balde `faststore.landing`, só quando há LP. Tray/Wake resolvem a origem em
+  `global-templates/Wake/Landing/template_<N>/<selection>`; o generator a monta como página custom
+  de hotsite (Wake) ou como seção no tema (FastStore, Landing Page no CMS).
+- **Preview:** `/p/{id}/lp`; o menu flutuante só lista "Landing page" quando o snapshot tem LP, e o
+  "Pré-visualizar" aberto nas LPs leva direto para ela.
+- **A réplica deriva do SCSS do starter** (compilado, `@media` → `@container bf`, nomeado porque a
+  colagem também é container). Ela troca o `<picture media>` por duas `<img>` alternadas pelo
+  container, por causa do palco de export. Mudou o SCSS de lá? `yarn lp:css` regera esta e a da Wake. O estágio
+  `2-fidelidade` (par `BlackFriday01`) compara os dois nó a nó, e o `2-landing` prova o fluxo.
+- As fontes do design (Inter 300–800 e Open Sans 400–800, com itálico) vêm de um `<link>` da
+  própria réplica, a mesma URL do starter: o `loadComponentFonts` só baixa 400/700.
 
 ### Selection rules in `toggleSelection`
 

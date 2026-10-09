@@ -270,7 +270,7 @@ await page.evaluate(() =>
     .find(
       b =>
         /Tray|Wake|VTEX/.test(b.textContent) &&
-        !/Homepage|Todas as páginas|Página de/.test(b.textContent)
+        !/Homepage|Todas as páginas|Página de|LPs/.test(b.textContent)
     )
     .click()
 );

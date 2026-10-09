@@ -134,6 +134,7 @@ export default function EditorTopbar({ className }: { className?: string }) {
           <SelectPage
             selectedPage={selectedPage}
             setSelectedPage={setSelectedPage}
+            platform={platform}
           />
         )}
 

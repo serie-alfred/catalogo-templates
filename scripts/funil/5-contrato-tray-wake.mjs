@@ -85,7 +85,7 @@ for (const plataforma of ['Tray', 'Wake']) {
 let alcancaveis = 0;
 let inalcancaveis = 0;
 for (const plataforma of ['Tray', 'Wake']) {
-  for (const secao of ['Common', 'Home', 'Category', 'Product']) {
+  for (const secao of ['Common', 'Home', 'Category', 'Product', 'Landing']) {
     const base = path.join(GLOBAL_TEMPLATES, plataforma, secao);
     if (!fs.existsSync(base)) continue;
     for (const tpl of fs.readdirSync(base)) {

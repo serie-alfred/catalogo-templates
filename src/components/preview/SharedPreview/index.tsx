@@ -66,6 +66,7 @@ export default function SharedPreview({
         id={id}
         activeSlug={activeSlug}
         temCheckout={snapshotTemCheckout(snapshot)}
+        temLanding={snapshot.selections.some(s => s.pagina === 'landing')}
       />
     </SeededLayoutProvider>
   );

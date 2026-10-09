@@ -43,6 +43,15 @@ import { itens } from './util.mjs';
  * tela que tiver alguma.
  */
 export const PARES = [
+  {
+    starter: 'BlackFriday01',
+    id: '01',
+    layoutKey: 'landingPage',
+    pagina: 'landing',
+    // O contador anda: os dois lados montam em instantes diferentes e o segundo
+    // muda. O papel continua comparado em estilo, só o texto fica livre.
+    textoLivre: ['bf-countdown-unit'],
+  },
   { starter: 'BenefitsStrip07', id: '07', layoutKey: 'ruler', pagina: 'home' },
   {
     starter: 'SocialProof07',
