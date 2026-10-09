@@ -12,7 +12,7 @@
     "thumbs": "node scripts/thumbs/design.mjs && node scripts/thumbs/auto.mjs && node scripts/thumbs/aplicar.mjs",
     "thumbs:auto": "node scripts/thumbs/auto.mjs && node scripts/thumbs/aplicar.mjs",
     "thumbs:aplicar": "node scripts/thumbs/aplicar.mjs",
-    "lp:css": "node scripts/lp/derivar-css.mjs",
+    "derivar:css": "node scripts/derivar-css.mjs",
     "alcance": "node scripts/funil/alcance.mjs"
   },
   "resolutions": {

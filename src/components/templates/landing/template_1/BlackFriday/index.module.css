@@ -2,13 +2,15 @@
    `@media (max-width: 960px)` → `@container bf (max-width: 960px)` (nomeado: a colagem
    também é container, para o raio e a sombra em cqw, e um @container sem nome dentro
    dela leria a largura dela). Mesmas vars de Nível 1, mesmos Níveis 3.
-   Gerado por `yarn lp:css` (scripts/lp/derivar-css.mjs) — mexa no SCSS de lá e rode.
+   Gerado por `yarn derivar:css` (scripts/derivar-css.mjs) — mexa no SCSS de lá e rode.
    O que é só do canvas está no fim, depois de "Só no catálogo", e é preservado. */
 
 .blackFriday01 {
   container: bf / inline-size;
   font-family: var(--blackfriday-font, 'Open Sans', sans-serif);
   color: var(--blackfriday-card-text, #292929);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 .blackFriday01 *,
 .blackFriday01 *::before,
@@ -48,7 +50,7 @@
   flex-direction: column;
   align-items: flex-start;
   min-height: 459px;
-  padding: 96px 96px 93px;
+  padding: 96px max(96px, (100% - 1280px) / 2 + 96px) 93px;
   overflow: hidden;
   background-color: #f1f2f4;
   color: var(--blackfriday-hero-text, #ffffff);
@@ -63,6 +65,10 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.heroMediaContain img {
+  object-fit: contain;
 }
 
 .heroContent {
@@ -109,7 +115,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 72px;
+  padding: 18px max(72px, (100% - 1280px) / 2 + 72px);
   background-color: var(--blackfriday-countdown-bg, #141414);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='410' height='410'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 409.6px 409.6px;
@@ -200,7 +206,7 @@
 .categoryStrip {
   display: flex;
   gap: 16px;
-  padding: 24px 32px;
+  padding: 24px max(32px, (100% - 1280px) / 2 + 32px);
   background-color: var(--blackfriday-categories-bg, #cccccc);
 }
 
@@ -277,12 +283,12 @@
 
 .shelfFull {
   gap: 20px;
-  padding: 24px 32px;
+  padding: 24px max(32px, (100% - 1280px) / 2 + 32px);
 }
 
 .shelfBanner {
   gap: 16px;
-  padding: 24px 32px 48px;
+  padding: 24px max(32px, (100% - 1280px) / 2 + 32px) 48px;
 }
 
 .shelfHead {
@@ -550,7 +556,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 64px;
-  padding: 64px 125px;
+  padding: 64px max(125px, (100% - 1280px) / 2 + 125px);
   overflow: hidden;
   background-image: linear-gradient(to top, var(--blackfriday-about-bg-end, #141414), var(--blackfriday-about-bg-start, #292929));
   color: var(--blackfriday-about-text, #dfdfe0);
@@ -560,7 +566,7 @@
 .aboutGlow {
   position: absolute;
   top: 125.9px;
-  left: 175px;
+  left: calc(max(0px, (100% - 1280px) / 2) + 175px);
   width: 465px;
   height: 465px;
   border-radius: 50%;
@@ -673,12 +679,204 @@
   object-fit: cover;
 }
 
+/* ── Régua de benefícios e newsletter ─────────────────────────────────── */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.benefits {
+  display: flex;
+  align-items: center;
+  padding: 32px 2.5%;
+  background-color: var(--blackfriday-benefits-bg, #ffffff);
+  box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--blackfriday-benefits-text, #141414) 7%, transparent);
+  color: var(--blackfriday-benefits-text, #141414);
+  font-family: var(--blackfriday-ui-font, 'Manrope', sans-serif);
+}
+
+.benefitsList {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.benefit {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.benefitTitle {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+}
+
+.benefitText {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.25px;
+  color: var(--blackfriday-benefits-subtext, #605e70);
+}
+
+.benefitsArrow {
+  display: none;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+.benefitsArrow svg {
+  display: block;
+}
+
+.newsletter {
+  display: flex;
+  align-items: stretch;
+  background-color: var(--blackfriday-newsletter-bg, #ffffff);
+  font-family: var(--blackfriday-ui-font, 'Manrope', sans-serif);
+}
+
+.newsletterPanel,
+.newsletterForm {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 32px;
+  min-width: 0;
+  padding: 72px 10.4167%;
+}
+
+.newsletterPanel {
+  background-color: var(--blackfriday-newsletter-panel, #f6f6fa);
+  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--blackfriday-newsletter-title, #0f0f0f) 7%, transparent);
+}
+
+.newsletterTitle {
+  width: 100%;
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
+  color: var(--blackfriday-newsletter-title, #0f0f0f);
+}
+
+.newsletterText {
+  width: 100%;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0.25px;
+  color: var(--blackfriday-newsletter-text, #525252);
+}
+
+.newsletterFormTitle {
+  width: 100%;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 1.28px;
+  color: var(--blackfriday-newsletter-title, #0f0f0f);
+}
+
+.newsletterFields {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  width: 100%;
+  margin: 0;
+}
+
+.newsletterField {
+  display: block;
+  width: 100%;
+}
+.newsletterField + .newsletterField {
+  margin-top: -24px;
+}
+
+.newsletterInput {
+  display: block;
+  width: 100%;
+  height: 62px;
+  margin: 0;
+  padding: 0 18px;
+  border: 1px solid color-mix(in srgb, var(--blackfriday-newsletter-title, #0f0f0f) 13%, transparent);
+  border-radius: 16px;
+  outline: none;
+  background: transparent;
+  color: var(--blackfriday-newsletter-title, #0f0f0f);
+  font: inherit;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.newsletterInput::placeholder {
+  color: color-mix(in srgb, var(--blackfriday-newsletter-title, #0f0f0f) 55%, transparent);
+  opacity: 1;
+}
+.newsletterInput:focus-visible {
+  border-color: var(--blackfriday-newsletter-title, #0f0f0f);
+}
+
+.newsletterButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 50.5px;
+  padding: 0 32px;
+  border: 0;
+  border-radius: 120px;
+  background-color: var(--blackfriday-newsletter-button-bg, #000000);
+  color: var(--blackfriday-newsletter-button-text, #ffffff);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.newsletterButton:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.newsletterFeedback {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--blackfriday-newsletter-title, #0f0f0f);
+}
+
 /* ── Mobile ───────────────────────────────────────────────────────────── */
 @container bf (max-width: 960px) {
   .hero {
     justify-content: flex-end;
     min-height: 540px;
     padding: 0 32px 48px;
+  }
+  .heroMediaContain img {
+    object-fit: cover;
   }
   .heroContent {
     gap: 16px;
@@ -836,6 +1034,51 @@
   .aboutBannerLink {
     flex: none;
     height: 148px;
+  }
+  .benefits {
+    gap: 0;
+    padding: 24px 16px;
+  }
+  .benefit {
+    display: none;
+  }
+  .benefitAtual {
+    display: flex;
+  }
+  .benefitText {
+    font-size: 10px;
+  }
+  .benefitsArrow {
+    display: block;
+  }
+  .newsletter {
+    flex-direction: column;
+  }
+  .newsletterPanel {
+    flex: none;
+    min-height: 344px;
+    padding: 72px 16px;
+    box-shadow: none;
+  }
+  .newsletterForm {
+    flex: none;
+    padding: 40px 16px;
+  }
+  .newsletterTitle {
+    font-size: 32px;
+    letter-spacing: 2.56px;
+  }
+  .newsletterText {
+    font-size: 14px;
+  }
+  .newsletterFormTitle {
+    font-size: 14px;
+    letter-spacing: 1.12px;
+  }
+  .newsletterButton {
+    height: 49px;
+    padding: 0 24px;
+    font-size: 12px;
   }
 }
 /* ── Só no catálogo ───────────────────────────────────────────────────── */

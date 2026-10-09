@@ -255,6 +255,17 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor de texto primária", previewNote: "Aparece com o mini-carrinho aberto." },
         { cssVar: "--header-body-font", label: "Fonte do menu e do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
+      { id: "08", selection: "header", key: "hdr08sra5t9w", image: "header/Header08.webp", imageSource: "auto", mobile: "", title: "Header Template 8", description: "Menu à esquerda, logo central, busca sublinhada e ícones de atendimento, conta e sacola", template: "8", pagina: ["common"], component: "Header08", path: "organisms/Header08", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        // Nível 1 direto ao valor do Figma, sem Nível 2: com o tema padrão do /gerador
+        // (primário #000) o header sairia preto, e o 1:1 com o design é requisito.
+        { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#ffffff", group: "Header" },
+        { cssVar: "--header-text", label: "Texto e ícones", type: "color", default: "#000000", group: "Header" },
+        { cssVar: "--header-rule", label: "Linha inferior", type: "color", default: "#efeff0", group: "Header" },
+        { cssVar: "--header-field-border", label: "Linha do campo de busca", type: "color", default: "#dfdfea", group: "Busca", previewNote: "Só na visão Desktop — alterne no topo do editor." },
+        { cssVar: "--header-accent", label: "Fundo do contador da sacola", type: "color", default: "#000000", group: "Sacola" },
+        { cssVar: "--header-accent-text", label: "Número do contador da sacola", type: "color", default: "#ffffff", group: "Sacola" },
+        { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Manrope', sans-serif", group: "Tipografia" },
+      ] },
     ],
   },
   spot: {
@@ -366,6 +377,14 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-input-bg", label: "Fundo do campo de e-mail", type: "color", default: "rgba(255, 255, 255, 0.07)", group: "Newsletter" },
         { cssVar: "--footer-title-font", label: "Fonte dos títulos", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--footer-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
+      { id: "08", selection: "footer", key: "ftr08sra2m6x", image: "footer/Footer08.webp", imageSource: "auto", mobile: "", title: "Footer Template 8", description: "Rodapé escuro: marca e texto, redes sociais, duas colunas, pagamentos, selos e linha legal", template: "8", pagina: ["common"], component: "Footer08", path: "organisms/Footer08", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        // Nível 1 direto ao valor do Figma (ver Header08). Os cinzas — títulos, divisórias —
+        // derivam do texto por color-mix, então seguem a cor escolhida aqui.
+        { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#000000", group: "Rodapé" },
+        { cssVar: "--footer-text", label: "Texto, ícones e linhas", type: "color", default: "#ffffff", group: "Rodapé" },
+        { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Manrope', sans-serif", group: "Tipografia" },
+        { cssVar: "--footer-legal-font", label: "Fonte da linha legal", type: "font", default: "'Red Hat Display', sans-serif", group: "Tipografia" },
       ] },
     ],
   },
@@ -855,7 +874,7 @@ export const LAYOUTS: Layouts = {
   landingPage: {
     name: "Landing pages",
     items: [
-      { id: "01", selection: "landing-page", key: "lpbf01k7m2q9", image: "landingPage/BlackFriday01.webp", imageSource: "auto", mobile: "", title: "Black Friday", description: "LP completa de campanha: hero, contador, categorias, duas vitrines e bloco institucional. O header e o footer são os da loja", template: "1", pagina: ["landing"], component: "BlackFriday01", path: "organisms/BlackFriday01", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "01", selection: "landing-page", key: "lpbf01k7m2q9", image: "landingPage/BlackFriday01.webp", imageSource: "auto", mobile: "", title: "Black Friday", description: "LP completa de campanha: hero, contador, categorias, duas vitrines, bloco institucional, régua de benefícios e newsletter. O header e o footer são os da loja", template: "1", pagina: ["landing"], component: "BlackFriday01", path: "organisms/BlackFriday01", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--blackfriday-heading-font", label: "Fonte dos títulos de campanha", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
         { cssVar: "--blackfriday-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
         { cssVar: "--blackfriday-accent", label: "Cor de destaque (Friday)", type: "color", default: "#f2994a", group: "Destaque" },
@@ -878,6 +897,16 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--blackfriday-about-bg-end", label: "Fundo institucional (base)", type: "color", default: "#141414", group: "Institucional" },
         { cssVar: "--blackfriday-about-text", label: "Texto institucional", type: "color", default: "#dfdfe0", group: "Institucional" },
         { cssVar: "--blackfriday-about-eyebrow", label: "Chamada (Black)", type: "color", default: "#ffffff", group: "Institucional" },
+        { cssVar: "--blackfriday-ui-font", label: "Fonte dos benefícios e da newsletter", type: "font", default: "'Manrope', sans-serif", group: "Tipografia" },
+        { cssVar: "--blackfriday-benefits-bg", label: "Fundo da régua", type: "color", default: "#ffffff", group: "Benefícios" },
+        { cssVar: "--blackfriday-benefits-text", label: "Título dos benefícios", type: "color", default: "#141414", group: "Benefícios" },
+        { cssVar: "--blackfriday-benefits-subtext", label: "Texto dos benefícios", type: "color", default: "#605e70", group: "Benefícios" },
+        { cssVar: "--blackfriday-newsletter-bg", label: "Fundo do formulário", type: "color", default: "#ffffff", group: "Newsletter" },
+        { cssVar: "--blackfriday-newsletter-panel", label: "Fundo do painel de texto", type: "color", default: "#f6f6fa", group: "Newsletter" },
+        { cssVar: "--blackfriday-newsletter-title", label: "Títulos e campos", type: "color", default: "#0f0f0f", group: "Newsletter" },
+        { cssVar: "--blackfriday-newsletter-text", label: "Texto do painel", type: "color", default: "#525252", group: "Newsletter" },
+        { cssVar: "--blackfriday-newsletter-button-bg", label: "Fundo do botão", type: "color", default: "#000000", group: "Newsletter" },
+        { cssVar: "--blackfriday-newsletter-button-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Newsletter" },
       ] },
     ],
   },

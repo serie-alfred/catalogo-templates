@@ -1,0 +1,352 @@
+/* Espelha organisms/Header08 (faststore.starter): o SCSS compilado com o sass,
+   `@media (max-width: 960px)` → `@container hd (max-width: 960px)`.
+   Gerado por `yarn derivar:css` (scripts/derivar-css.mjs) — mexa no SCSS de lá e rode.
+   O que é só do canvas está no fim, depois de "Só no catálogo", e é preservado. */
+
+.header08 {
+  container: hd / inline-size;
+  position: relative;
+  z-index: 10;
+  background-color: var(--header-bg, #ffffff);
+  box-shadow: inset 0 -1px 0 var(--header-rule, #efeff0);
+  color: var(--header-text, #000000);
+  font-family: var(--header-font, 'Manrope', sans-serif);
+  line-height: 1.15;
+  letter-spacing: 0.16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.header08 *,
+.header08 *::before,
+.header08 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.header08 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.header08 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.ico {
+  display: block;
+  line-height: 0;
+}
+.ico svg {
+  display: block;
+}
+
+/* ── Desktop ──────────────────────────────────────────────────────────── */
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  padding: 16px 2.5%;
+}
+
+.menu {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  height: 100%;
+}
+
+.menuEntry {
+  position: relative;
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  height: 48px;
+  padding: 12px 8px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.submenu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 2;
+  display: none;
+  min-width: 200px;
+  padding: 8px 0;
+  background-color: var(--header-bg, #ffffff);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+.menuEntry:hover .submenu, .menuEntry:focus-within .submenu {
+  display: block;
+}
+
+.submenuItem {
+  display: block;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+.submenuItem:hover {
+  text-decoration: underline;
+}
+
+.center {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: 100%;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+}
+.logo img {
+  display: block;
+  width: auto;
+  height: 32px;
+}
+
+.actions {
+  display: flex;
+  flex: 1 1 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
+  height: 100%;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin: 0;
+  padding: 12px 18px;
+  box-shadow: inset 0 -1px 0 var(--header-field-border, #dfdfea);
+}
+
+.searchInput {
+  width: 128px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--header-text, #000000);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  appearance: none;
+}
+.searchInput::placeholder {
+  color: color-mix(in srgb, var(--header-text, #000000) 44%, transparent);
+  opacity: 1;
+}
+.searchInput::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.searchSubmit,
+.iconButton,
+.menuButton,
+.searchButton,
+.drawerClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.searchSubmit {
+  padding: 0;
+}
+
+.iconButton {
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.bagBox {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  left: 9.17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16.67px;
+  height: 16.67px;
+  border-radius: 120px;
+  background-color: var(--header-accent, #000000);
+  color: var(--header-accent-text, #ffffff);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.chevron,
+.chevronOpen {
+  width: 20px;
+  height: 20px;
+}
+
+.chevronOpen {
+  transform: rotate(90deg);
+}
+
+.mbar,
+.msearch {
+  display: none;
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────── */
+@container hd (max-width: 960px) {
+  .bar {
+    display: none;
+  }
+  .mbar {
+    display: flex;
+    align-items: center;
+    height: 80px;
+    padding: 16px;
+  }
+  .mside {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    min-width: 0;
+  }
+  .msideEnd {
+    justify-content: flex-end;
+  }
+  .menuButton {
+    gap: 12px;
+    height: 48px;
+    padding: 0 8px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .searchButton {
+    padding: 12px 13px;
+  }
+  .msearch {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0;
+    padding: 12px 16px;
+    background-color: var(--header-bg, #ffffff);
+    box-shadow: inset 0 -1px 0 var(--header-rule, #efeff0);
+  }
+  .msearch .searchInput {
+    flex: 1 1 auto;
+    width: auto;
+  }
+}
+/* ── Gaveta (mobile) ──────────────────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.drawer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: min(320px, 85vw);
+  overflow-y: auto;
+  background-color: var(--header-bg, #ffffff);
+  color: var(--header-text, #000000);
+}
+
+.drawerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  padding: 16px;
+  box-shadow: inset 0 -1px 0 var(--header-rule, #efeff0);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.drawerClose {
+  width: 44px;
+  height: 44px;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.drawerItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 16px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+
+.drawerSub {
+  padding: 0 16px 8px 32px;
+}
+.drawerSub a {
+  display: block;
+  padding: 10px 0;
+  font-size: 14px;
+}
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* O canvas não navega nem abre gaveta: os links e botões são só desenho. */

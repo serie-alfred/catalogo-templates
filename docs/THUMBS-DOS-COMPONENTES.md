@@ -9,17 +9,17 @@ em `src/data/layoutData.ts`. O campo `imageSource` diz de onde ela veio.
 | | itens | o que é |
 |---|---|---|
 | `design` | 56 | mockup entregue pelo designer (pasta *Banners E-temas*) |
-| `auto` | 35 | screenshot do componente real — **pendente de arte do designer** |
+| `auto` | 37 | screenshot do componente real — **pendente de arte do designer** |
 | sem imagem | 0 | cai no placeholder |
 
 ## Pendente do designer
 
 Estes têm thumb automática. É a lista do que falta chegar do design:
 
-- **Header** — Header04, Header06, Header07
+- **Header** — Header04, Header06, Header07, Header08
 - **Card de Produto** — Spot02, Spot03, Spot04, Spot05, Spot07
 - **Breadcrumb** — Breadcrumb02
-- **Footer** — Footer04, Footer06, Footer07
+- **Footer** — Footer04, Footer06, Footer07, Footer08
 - **Área de Texto** — TextArea
 - **Carrossel de Categorias** — Categories07
 - **Banners** — BannerMain07

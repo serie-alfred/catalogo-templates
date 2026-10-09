@@ -1,0 +1,247 @@
+/* Espelha organisms/Footer08 (faststore.starter): o SCSS compilado com o sass,
+   `@media (max-width: 960px)` → `@container ft (max-width: 960px)`.
+   Gerado por `yarn derivar:css` (scripts/derivar-css.mjs) — mexa no SCSS de lá e rode.
+   O que é só do canvas está no fim, depois de "Só no catálogo", e é preservado. */
+
+.footer08 {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 64px 2.5%;
+  background-color: var(--footer-bg, #000000);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--footer-text, #ffffff) 8%, transparent);
+  color: var(--footer-text, #ffffff);
+  font-family: var(--footer-font, 'Manrope', sans-serif);
+  line-height: 1.15;
+  letter-spacing: 0.16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.footer08 *,
+.footer08 *::before,
+.footer08 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.footer08 :where(p, ul) {
+  margin: 0;
+  padding: 0;
+  color: inherit;
+}
+.footer08 :where(ul) {
+  list-style: none;
+}
+.footer08 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.footer08 img {
+  display: block;
+}
+
+.ico {
+  display: block;
+  line-height: 0;
+}
+.ico svg {
+  display: block;
+}
+
+.top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.brand {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 48px;
+  min-width: 358px;
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+.logo {
+  display: block;
+}
+.logo img {
+  width: auto;
+  height: 48px;
+}
+
+.text {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.15px;
+  white-space: pre-line;
+}
+
+.social {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 262px;
+}
+
+.heading {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 0.15px;
+  color: color-mix(in srgb, var(--footer-text, #ffffff) 48%, transparent);
+}
+
+.socialList {
+  display: flex;
+  gap: 16px;
+}
+
+.socialLink {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.columns {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 535px;
+  min-width: 358px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 179px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.link {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0.15px;
+  white-space: nowrap;
+}
+.link:hover {
+  text-decoration: underline;
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  row-gap: 32px;
+  padding-top: 16px;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--footer-text, #ffffff) 16%, transparent);
+}
+
+.payments,
+.seals {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 358px;
+}
+
+.payments {
+  flex: 1 1 0;
+}
+
+.subheading {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.15px;
+}
+
+.paymentList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.sealList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+}
+
+.seal {
+  height: 32px;
+  object-fit: contain;
+}
+
+.legal {
+  width: 100%;
+  font-family: var(--footer-legal-font, 'Red Hat Display', sans-serif);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.25px;
+  text-align: center;
+  white-space: pre-line;
+}
+
+@container ft (max-width: 960px) {
+  .footer08 {
+    padding: 40px 16px;
+  }
+  .top {
+    flex-direction: column;
+  }
+  .brand {
+    flex: none;
+    gap: 32px;
+    min-width: 0;
+  }
+  .text {
+    font-size: 14px;
+  }
+  .legal {
+    font-size: 10px;
+  }
+  .heading {
+    font-size: 12px;
+  }
+  .columns {
+    width: 100%;
+    min-width: 0;
+  }
+  .column {
+    width: 144px;
+  }
+  .link {
+    font-size: 16px;
+  }
+  .payments,
+  .seals {
+    min-width: 0;
+  }
+  .payments {
+    flex: 1 1 100%;
+  }
+}
+.footer08Box {
+  container: ft / inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

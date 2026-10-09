@@ -154,6 +154,8 @@ import BannerSide06 from '@/components/templates/home/template_6/BannerSide';
 
 import Header07 from '@/components/templates/common/template_7/Header';
 import Footer07 from '@/components/templates/common/template_7/Footer';
+import Header08 from '@/components/templates/common/template_8/Header';
+import Footer08 from '@/components/templates/common/template_8/Footer';
 import Spot07 from '@/components/templates/common/template_7/Spot';
 import Showcase07 from '@/components/templates/home/template_7/Showcase';
 import ClientReview07 from '@/components/templates/home/template_7/ClientReview';
@@ -256,6 +258,8 @@ export const TemplateRegistry: Record<
 
   Header07,
   Footer07,
+  Header08,
+  Footer08,
   Spot07,
   Showcase07,
   ClientReview07,

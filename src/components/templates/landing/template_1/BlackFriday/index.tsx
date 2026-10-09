@@ -6,7 +6,8 @@ import styles from './index.module.css';
 
 /**
  * Espelha `organisms/BlackFriday01` do faststore.starter — a LP de campanha
- * inteira (hero, contador, categorias, duas vitrines e bloco institucional) numa
+ * inteira (hero, contador, categorias, duas vitrines, bloco institucional, régua
+ * de benefícios e newsletter) numa
  * seção só, como o /gerador a entrega. Conteúdo = o `mock.ts` da origem, que é
  * o texto literal do Figma "Templates - Serie A" (7311:6357 / 7311:6207).
  *
@@ -22,7 +23,7 @@ const RETRATO = `${IMG}/ph-card.png`;
 
 // Fontes do design com os pesos e o itálico do Figma — a mesma URL do starter.
 const FONTES =
-  'https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,800;1,800&family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap';
+  'https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,800;1,800&family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,600&family=Manrope:wght@400;500;600;700&display=swap';
 
 // 2 dias, 14 h, 27 min e 36 s a partir da montagem: é o que o Figma mostra.
 const DURACAO = ((2 * 24 + 14) * 3600 + 27 * 60 + 36) * 1000;
@@ -79,6 +80,8 @@ const Heart = () => (
     />
   </svg>
 );
+
+const BENEFICIOS = [0, 1, 2, 3];
 
 const Chevron = ({ dir }: { dir: 'prev' | 'next' }) => (
   <svg aria-hidden="true" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -164,6 +167,59 @@ function Shelf({ variant }: { variant: 'full' | 'banner' }) {
   );
 }
 
+function Benefits() {
+  const [atual, setAtual] = useState(0);
+  const ir = (passo: number) => setAtual(i => (i + passo + BENEFICIOS.length) % BENEFICIOS.length);
+
+  return (
+    <section className={styles.benefits} data-role="bf-benefits" aria-label="Benefícios">
+      <button type="button" className={styles.benefitsArrow} aria-label="Benefício anterior" onClick={() => ir(-1)}>
+        <Chevron dir="prev" />
+      </button>
+      <ul className={styles.benefitsList}>
+        {BENEFICIOS.map(i => (
+          <li key={i} className={`${styles.benefit}${i === atual ? ` ${styles.benefitAtual}` : ''}`} data-role="bf-benefit">
+            <p className={styles.benefitTitle} data-role="bf-benefit-title">Frete Grátis</p>
+            <p className={styles.benefitText} data-role="bf-benefit-text">Bônus primeira compra</p>
+          </li>
+        ))}
+      </ul>
+      <button type="button" className={styles.benefitsArrow} aria-label="Próximo benefício" onClick={() => ir(1)}>
+        <Chevron dir="next" />
+      </button>
+    </section>
+  );
+}
+
+function Newsletter() {
+  return (
+    <section className={styles.newsletter} data-role="bf-newsletter">
+      <div className={styles.newsletterPanel}>
+        <h2 className={styles.newsletterTitle} data-role="bf-newsletter-title">Lorem ipsum dolor sit amet.</h2>
+        <p className={styles.newsletterText} data-role="bf-newsletter-text">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit maecenas volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit maecenas volutpat.
+        </p>
+      </div>
+      <div className={styles.newsletterForm}>
+        <p className={styles.newsletterFormTitle} data-role="bf-newsletter-form-title">Lorem ipsum dolor sit amet.</p>
+        <form className={styles.newsletterFields} onSubmit={e => e.preventDefault()}>
+          <label className={styles.newsletterField}>
+            <span className={styles.srOnly}>Lorem ipsum</span>
+            <input className={styles.newsletterInput} data-role="bf-newsletter-input" type="text" name="name" placeholder="Lorem ipsum" />
+          </label>
+          <label className={styles.newsletterField}>
+            <span className={styles.srOnly}>Lorem ipsum</span>
+            <input className={styles.newsletterInput} data-role="bf-newsletter-input" type="email" name="email" placeholder="Lorem ipsum" />
+          </label>
+          <button type="submit" className={styles.newsletterButton} data-role="bf-newsletter-button">
+            Veja Coleção
+          </button>
+        </form>
+      </div>
+    </section>
+  );
+}
+
 export default function BlackFriday() {
   const [fim] = useState(() => Date.now() + DURACAO);
   const [tempo, setTempo] = useState<Restante>(() => restante(fim));
@@ -178,8 +234,8 @@ export default function BlackFriday() {
       <link rel="stylesheet" href={FONTES} />
 
       <section className={styles.hero} data-role="bf-hero">
-        <span className={styles.heroMedia} data-role="bf-hero-img">
-          <img className={styles.onlyDesktop} src={`${IMG}/ph-hero-desktop.png`} alt="" width={1280} height={459} />
+        <span className={`${styles.heroMedia} ${styles.heroMediaContain}`} data-role="bf-hero-img">
+          <img className={styles.onlyDesktop} src={`${IMG}/ph-square.png`} alt="" width={1280} height={459} />
           <img className={styles.onlyMobile} src={RETRATO} alt="" width={390} height={540} />
         </span>
         <div className={styles.heroContent}>
@@ -262,6 +318,9 @@ export default function BlackFriday() {
           ))}
         </div>
       </section>
+
+      <Benefits />
+      <Newsletter />
     </div>
   );
 }

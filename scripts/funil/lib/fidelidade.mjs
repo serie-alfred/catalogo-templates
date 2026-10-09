@@ -138,6 +138,16 @@ export const PARES = [
     // na mesma proporção — imagem não tem texto próprio, então não entra aqui.
     textoLivre: ['copyright'],
   },
+  {
+    starter: 'Header08',
+    id: '08',
+    layoutKey: 'header',
+    pagina: 'common',
+    // O contador da sacola: na origem é o carrinho de exemplo (`mockCart`, 1
+    // item); na réplica, o "99" do Figma. Mesmo selo, número diferente.
+    textoLivre: ['hd-badge'],
+  },
+  { starter: 'Footer08', id: '08', layoutKey: 'footer', pagina: 'common' },
 ];
 
 /**
