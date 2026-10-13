@@ -1,0 +1,48 @@
+/* Mesma caixa do seletor de página (SelectPage): 40px, borda inset, raio 12. */
+.root {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 12px;
+  box-shadow: inset 0 0 0 1px var(--ed-gray-000);
+  border-radius: 12px;
+  background: var(--ed-bg-00);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ed-gray-800);
+}
+
+.root:focus-within {
+  box-shadow: inset 0 0 0 1px var(--ed-blue-ink);
+}
+
+.rotulo {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--ed-blue-100);
+  color: var(--ed-blue-ink);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.input {
+  width: 14ch;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+}
+
+.slug {
+  max-width: 16ch;
+  overflow: hidden;
+  font-weight: 500;
+  color: var(--ed-gray-400);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

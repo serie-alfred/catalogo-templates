@@ -23,6 +23,8 @@ export interface ThemeDoc {
   fonts: Record<string, string>;
   /** Papéis do checkout (nível 1). Opcional: entrada gravada antes dele vale. */
   checkout?: Record<string, string>;
+  /** A LP do modo LP (nome e seções). Opcional, como o checkout. */
+  lp?: { nome: string; selections: LayoutSelection[] };
 }
 
 /** Além disto, as entradas mais antigas são descartadas. */
@@ -34,7 +36,8 @@ const HISTORY_LIMIT = 50;
  */
 const COALESCE_MS = 250;
 
-const structureOf = (doc: ThemeDoc) => doc.selections.map(s => s.uid).join('|');
+const structureOf = (doc: ThemeDoc) =>
+  [...doc.selections, ...(doc.lp?.selections ?? [])].map(s => s.uid).join('|');
 
 /** Tipos de <input> que não são texto: arraste e clique seguem o prazo. */
 const NAO_TEXTO = new Set([

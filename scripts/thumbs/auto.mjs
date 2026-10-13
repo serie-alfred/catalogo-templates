@@ -31,7 +31,6 @@ const PAGENAME = {
   home: 'Homepage',
   category: 'Página de Categoria',
   product: 'Página de Produto',
-  landing: 'LPs',
 };
 // Overlays ancorados na viewport não ocupam fluxo: a caixa da seção tem altura 0.
 // Para esses a foto é do canvas inteiro, senão o clip seria degenerado.
@@ -219,7 +218,7 @@ function enquadramento(w, h) {
 async function trocarPagina(p, nome) {
   const TRIG =
     'const t=[...document.querySelectorAll(\'[aria-haspopup="listbox"]\')]' +
-    '.find(b=>/Homepage|Todas as páginas|Página de|LPs/.test(b.textContent));';
+    '.find(b=>/Homepage|Todas as páginas|Página de/.test(b.textContent));';
   await p.waitForFunction(new Function(`${TRIG}return !!t`), {
     timeout: 30000,
     polling: 250,
@@ -240,7 +239,7 @@ async function trocarPagina(p, nome) {
     await p.evaluate(new Function(`${TRIG}t?.click()`));
     await s(400);
   }
-  if (!abriu) throw new Error('o seletor de página não abriu (4 opções, ou 5 com LPs)');
+  if (!abriu) throw new Error('o seletor de página não abriu (4 opções)');
   await p.evaluate(n => {
     [
       ...document.querySelectorAll(

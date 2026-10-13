@@ -1,8 +1,15 @@
-import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import {
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+  type SetStateAction,
+} from 'react';
 import { PAGE_SINGLETON_SELECTIONS } from '@/utils/sectionRules';
 import { arrayMove } from '@dnd-kit/sortable';
 import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layoutData';
-import { belongsToPage, plataformaTemLanding } from '@/utils/previewRender';
+import { belongsToPage } from '@/utils/previewRender';
 import { captureAndDownloadScreenshot } from '@/utils/screenshotExport';
 import { sendLayoutConfigEmail } from '@/services/emailService';
 import { isLocalDelivery } from '@/utils/configDelivery';
@@ -16,6 +23,7 @@ import {
   sanitizePlatform,
   sanitizeSelections,
 } from '@/utils/platformCompat';
+import { lpInicial, sanitizeLp, slugDaLp, type LpState } from '@/utils/lp';
 import {
   CHECKOUT_PADRAO,
   blocoDoConfig,
@@ -38,11 +46,12 @@ export type RailTarget =
   | 'identidade';
 
 /**
- * O que o canvas mostra: a loja (as páginas montadas com seções) ou o checkout
- * nativo da VTEX com o nosso visual. `checkout` só existe com `platform ===
- * 'VTEX'` — ver `modeForPlatform` em platformCompat.ts.
+ * O que o canvas mostra: a loja (as páginas montadas com seções), o checkout
+ * nativo da VTEX com o nosso visual, ou uma LP avulsa (`lp`, ver utils/lp.ts).
+ * `checkout` só existe com `platform === 'VTEX'` e `lp` em Wake e VTEX — ver
+ * `modeForPlatform` em platformCompat.ts.
  */
-export type EditorMode = 'loja' | 'checkout';
+export type EditorMode = 'loja' | 'checkout' | 'lp';
 
 /**
  * Zoom do canvas. `fit` é o padrão: encolhe o frame o quanto for preciso para
@@ -133,7 +142,9 @@ export function useLayoutGenerator() {
   // Estado persistido inicia com o default de SSR; a leitura do localStorage
   // acontece num useEffect pós-mount (ver "Hidratação do estado persistido"),
   // para o 1º render do cliente bater com o servidor e evitar hydration mismatch.
-  const [selections, setSelections] = useState<LayoutSelection[]>([]);
+  const [lojaSelections, setLojaSelections] = useState<LayoutSelection[]>([]);
+  /** A LP do modo LP: documento à parte da loja (ver utils/lp.ts). */
+  const [lp, setLp] = useState<LpState>(lpInicial);
 
   const [platform, setPlatform] = useState<Platform | null>(null);
 
@@ -171,6 +182,32 @@ export function useLayoutGenerator() {
    */
   const [editorMode, setEditorModeState] = useState<EditorMode>('loja');
   const [checkout, setCheckout] = useState<CheckoutState>(CHECKOUT_PADRAO);
+
+  /**
+   * As seções ATIVAS: as da loja, ou as da LP no modo LP. Todo o resto do hook
+   * (adicionar, mover, duplicar, remover, variáveis, histórico do canvas) opera
+   * sobre este par, então o modo LP reusa o editor inteiro sem um ramo por ação.
+   * O setter lê o modo de um ref: callbacks antigos (useCallback com deps vazias)
+   * continuam escrevendo na lista do modo em que o usuário ESTÁ.
+   */
+  const emLp = editorMode === 'lp';
+  const selections = emLp ? lp.selections : lojaSelections;
+  const modoRef = useRef<EditorMode>(editorMode);
+  modoRef.current = editorMode;
+  const setSelections = useCallback(
+    (update: SetStateAction<LayoutSelection[]>) => {
+      if (modoRef.current === 'lp') {
+        setLp(prev => ({
+          ...prev,
+          selections:
+            typeof update === 'function' ? update(prev.selections) : update,
+        }));
+      } else {
+        setLojaSelections(update);
+      }
+    },
+    []
+  );
   /**
    * O logo como ele entra no header do checkout (≤ 280×64 em raster), com o
    * logo de onde saiu: a redução é assíncrona, e até ela voltar o header ainda
@@ -200,7 +237,9 @@ export function useLayoutGenerator() {
   /** Página aberta no canvas: "home" | "category" | "product". Vive aqui (e
    *  não na page) porque o canvas, o painel de seções, o iframe mobile e o
    *  palco de export todos precisam dela. */
-  const [selectedPage, setSelectedPage] = useState<string>('home');
+  const [paginaDaLoja, setSelectedPage] = useState<string>('home');
+  /** No modo LP a "página" é sempre a de miolo: as seções da LP são de home. */
+  const selectedPage = emLp ? 'home' : paginaDaLoja;
 
   /** Seção selecionada no canvas/painel. Transiente: não é persistida. */
   const [selectedUid, setSelectedUid] = useState<string | null>(null);
@@ -462,7 +501,7 @@ export function useLayoutGenerator() {
       // do catálogo (ou pela rota /gerador/import-log, que grava valor cru).
       const storedSelections = localStorage.getItem('layoutSelections');
       if (storedSelections) {
-        setSelections(sanitizeSelections(JSON.parse(storedSelections)));
+        setLojaSelections(sanitizeSelections(JSON.parse(storedSelections)));
       }
       const storedPlatform = sanitizePlatform(
         localStorage.getItem('layoutPlatform')
@@ -479,6 +518,12 @@ export function useLayoutGenerator() {
       // Try próprio: um `checkout` ilegível não pode abortar a hidratação do
       // logo/favicon abaixo — com `hydrated` ligado no finally, os saves
       // gravariam os defaults vazios por cima do que estava guardado.
+      try {
+        const storedLp = localStorage.getItem('lp');
+        if (storedLp) setLp(sanitizeLp(JSON.parse(storedLp)));
+      } catch (e) {
+        console.error('LP guardada ilegível, usando a inicial:', e);
+      }
       try {
         const storedCheckout = localStorage.getItem('checkout');
         if (storedCheckout)
@@ -603,10 +648,11 @@ export function useLayoutGenerator() {
     try {
       localStorage.setItem('checkout', JSON.stringify(checkout));
       localStorage.setItem('editorMode', editorMode);
+      localStorage.setItem('lp', JSON.stringify(lp));
     } catch (e) {
-      console.error('Erro ao salvar o checkout:', e);
+      console.error('Erro ao salvar o checkout/LP:', e);
     }
-  }, [checkout, editorMode, hydrated]);
+  }, [checkout, editorMode, lp, hydrated]);
 
   /* Qualquer caminho que tire a plataforma de VTEX tira o editor do checkout —
      não só o `changePlatform`: a hidratação e o import-log também escrevem
@@ -617,15 +663,6 @@ export function useLayoutGenerator() {
     // mesma fila, e este vem depois).
     if (!hydrated) return;
     setEditorModeState(prev => modeForPlatform(prev, platform));
-  }, [platform, hydrated]);
-
-  /* Plataforma sem LP no catálogo (Tray) não tem a página "LPs": quem estava
-     nela volta para a home, em vez de ficar num canvas que o seletor não lista. */
-  useEffect(() => {
-    if (!hydrated) return;
-    if (!plataformaTemLanding(platform)) {
-      setSelectedPage(prev => (prev === 'landing' ? 'home' : prev));
-    }
   }, [platform, hydrated]);
 
   /* O logo do header do checkout é o MESMO que vai no export: reduzido uma vez
@@ -640,17 +677,26 @@ export function useLayoutGenerator() {
     };
   }, [logo]);
 
-  /** Entra/sai do modo Checkout. Fora de VTEX o pedido de entrar é ignorado. */
+  /** Entra/sai do modo Checkout ou LP. Fora da plataforma certa o pedido de entrar é ignorado. */
   const setEditorMode = useCallback(
     (mode: EditorMode) => {
       const efetivo = modeForPlatform(mode, platform);
       setEditorModeState(efetivo);
-      // "Componentes" não existe no checkout: a estrutura é fixa.
+      // A seleção é de UM documento: a seção selecionada na loja não existe na LP.
+      setSelectedUid(null);
+      // "Componentes" não existe no checkout: a estrutura é fixa. Na LP é o
+      // destino natural — montar a página é escolher seções.
       if (efetivo === 'checkout')
         setRailTarget(prev => (prev === 'componentes' ? 'variaveis' : prev));
+      if (efetivo === 'lp') setRailTarget('componentes');
     },
     [platform]
   );
+
+  /** Nome da LP (o slug da URL deriva dele). */
+  const setLpNome = useCallback((nome: string) => {
+    setLp(prev => (prev.nome === nome ? prev : { ...prev, nome }));
+  }, []);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -750,7 +796,12 @@ export function useLayoutGenerator() {
   const changePlatform = (value: Platform) => {
     setShowPlatformError(false);
 
-    const { kept, lostTitles } = partitionByPlatform(selections, value);
+    const loja = partitionByPlatform(lojaSelections, value);
+    const daLp = partitionByPlatform(lp.selections, value);
+    const lostTitles = [
+      ...loja.lostTitles,
+      ...daLp.lostTitles.map(t => `${t} (na LP)`),
+    ];
 
     if (
       lostTitles.length > 0 &&
@@ -767,9 +818,15 @@ export function useLayoutGenerator() {
     // Checkout é só VTEX: sair de VTEX sai do modo (o efeito de `platform`
     // cobre também quem escreve a plataforma sem passar por aqui).
     setEditorModeState(prev => modeForPlatform(prev, value));
-    if (kept.length !== selections.length) {
-      const survivors = new Set(kept.map(s => s.uid));
-      setSelections(kept);
+    if (
+      loja.kept.length !== lojaSelections.length ||
+      daLp.kept.length !== lp.selections.length
+    ) {
+      const survivors = new Set(
+        [...loja.kept, ...daLp.kept].map(s => s.uid)
+      );
+      setLojaSelections(loja.kept);
+      setLp(prev => ({ ...prev, selections: daLp.kept }));
       // Não deixa o contorno do canvas nem o painel direito presos numa seção
       // que acabou de deixar de existir.
       setSelectedUid(prev => (prev && survivors.has(prev) ? prev : null));
@@ -916,12 +973,119 @@ export function useLayoutGenerator() {
     });
   };
 
+  /** As variáveis globais no formato Tray/Wake (loja e LP usam as mesmas). */
+  const variaveisTrayWake = () => ({
+    fontPrimary,
+    fontSecondary,
+    fontTertiary,
+    colorPrimary,
+    colorSecondary,
+    colorTertiary,
+    colorPrimaryBackground,
+    colorSecondaryBackground,
+    colorTertiaryBackground,
+    colorFooter,
+    colorFooterText,
+    colorPrimaryText,
+    colorSecondaryText,
+    colorPrimaryBackgroundSafe: colorSafeOnWhite(colorPrimaryBackground),
+  });
+
+  /** O nível 2 do VTEX (o mesmo do checkout e do tema da loja). */
+  const variaveisVtex = () =>
+    variaveisGlobais(
+      {
+        colorPrimary,
+        colorSecondary,
+        colorTertiary,
+        colorPrimaryBackground,
+        colorSecondaryBackground,
+        colorTertiaryBackground,
+        colorFooter,
+        colorFooterText,
+        colorPrimaryText,
+        colorSecondaryText,
+      },
+      { fontPrimary, fontSecondary, fontTertiary }
+    );
+
+  /**
+   * O config do modo LP: SÓ a LP (`tipo: "lp"`), sem tema de loja. As seções
+   * saem na ordem da página e cada entrada tem o formato de uma entrada de
+   * `home` — o generator as monta como monta a home. Contrato com o generator
+   * em produtos-template-generator (LandingProcessor / BuildPipeline).
+   */
+  const buildLpConfigJson = async (): Promise<Record<string, unknown> | null> => {
+    if (!platform) return null;
+    const landingPage = { slug: slugDaLp(lp.nome), nome: lp.nome.trim() };
+    const resolvidas = lp.selections
+      .map(sel => ({
+        sel,
+        found: LAYOUTS[sel.layoutKey]?.items.find(
+          i => i.id === sel.id && i.platforms.includes(platform)
+        ),
+      }))
+      .filter((r): r is { sel: LayoutSelection; found: LayoutItem } => !!r.found);
+
+    if (platform === 'VTEX') {
+      const config = {
+        platform: 'faststore',
+        tipo: 'lp',
+        faststore: {
+          landingPage,
+          landing: resolvidas
+            .filter(({ found }) => found.path && !found.override)
+            .map(({ found, sel }) => {
+              const variables = pickChangedVariables(found, sel);
+              return {
+                component: found.path as string,
+                title: found.component,
+                key: found.key,
+                ...(variables ? { variables } : {}),
+              };
+            }),
+          variables: variaveisVtex(),
+          assets: { logo: await reduzirLogo(logo), favicon, ogImage },
+        },
+      };
+      console.log(config);
+      return config;
+    }
+
+    const plat = platform.toLowerCase();
+    const config: Record<string, unknown> = {
+      platform: plat,
+      tipo: 'lp',
+      [plat]: {
+        landingPage,
+        landing: resolvidas.map(({ found, sel }) => {
+          const variables = pickChangedVariables(found, sel);
+          return {
+            template: found.template,
+            selection: found.selection,
+            title: found.title,
+            key: found.key,
+            pagina: found.pagina,
+            ...(variables ? { variables } : {}),
+          };
+        }),
+        variables: variaveisTrayWake(),
+        assets: { logo, favicon, ogImage },
+      },
+    };
+    if (plat === 'wake') config.wakeToken = wakeCustomValue;
+    console.log(config);
+    return config;
+  };
+
   /** Monta JSON de configuração com dados globais e por página */
   const buildConfigJson = async (): Promise<Record<
     string,
     unknown
   > | null> => {
     if (!platform) return null;
+
+    if (emLp) return buildLpConfigJson();
 
     if (platform === 'VTEX') {
       return buildFaststoreConfigJson();
@@ -979,22 +1143,7 @@ export function useLayoutGenerator() {
       platform: platform.toLowerCase(),
       [platform.toLowerCase()]: {
         global: globalItems,
-        variables: {
-          fontPrimary,
-          fontSecondary,
-          fontTertiary,
-          colorPrimary,
-          colorSecondary,
-          colorTertiary,
-          colorPrimaryBackground,
-          colorSecondaryBackground,
-          colorTertiaryBackground,
-          colorFooter,
-          colorFooterText,
-          colorPrimaryText,
-          colorSecondaryText,
-          colorPrimaryBackgroundSafe: colorSafeOnWhite(colorPrimaryBackground),
-        },
+        variables: variaveisTrayWake(),
         assets: {
           logo,
           favicon,
@@ -1087,21 +1236,7 @@ export function useLayoutGenerator() {
 
     // Nível 2 do checkout = as variáveis globais da loja. A MESMA função que o
     // preview do checkout usa, para as duas pontas não divergirem.
-    const variables = variaveisGlobais(
-      {
-        colorPrimary,
-        colorSecondary,
-        colorTertiary,
-        colorPrimaryBackground,
-        colorSecondaryBackground,
-        colorTertiaryBackground,
-        colorFooter,
-        colorFooterText,
-        colorPrimaryText,
-        colorSecondaryText,
-      },
-      { fontPrimary, fontSecondary, fontTertiary }
-    );
+    const variables = variaveisVtex();
 
     // O logo do tema VTEX só é usado no header do checkout (o do Header é
     // conteúdo de CMS): sai reduzido a ≤ 280×64 em raster, o mesmo que o
@@ -1162,10 +1297,6 @@ export function useLayoutGenerator() {
         home: pageItems['home'] ?? [],
         category: pageItems['category'] ?? [],
         product: pageItems['product'] ?? [],
-        // A LP (página "LPs") entra inteira: o generator monta a seção no tema
-        // e o time cria a Landing Page no CMS com ela. Só sai quando existe,
-        // para o config de quem não usa LP continuar igual ao de antes.
-        ...(pageItems['landing']?.length ? { landing: pageItems['landing'] } : {}),
         overrides: overrideItems,
       },
     };
@@ -1207,8 +1338,9 @@ export function useLayoutGenerator() {
         document.fonts.ready,
       ]);
 
-      await captureAndDownloadScreenshot(desktop, 'layout-desktop.png');
-      await captureAndDownloadScreenshot(mobile, 'layout-mobile.png');
+      const prefixo = emLp ? `lp-${slugDaLp(lp.nome)}` : 'layout';
+      await captureAndDownloadScreenshot(desktop, `${prefixo}-desktop.png`);
+      await captureAndDownloadScreenshot(mobile, `${prefixo}-mobile.png`);
     } catch (error) {
       console.error('Falha ao gerar as imagens do tema:', error);
       window.alert(
@@ -1228,7 +1360,7 @@ export function useLayoutGenerator() {
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = 'config.json';
+        link.download = emLp ? `config-lp-${slugDaLp(lp.nome)}.json` : 'config.json';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -1267,7 +1399,8 @@ export function useLayoutGenerator() {
    */
   const themeDoc = useMemo<ThemeDoc>(
     () => ({
-      selections,
+      selections: lojaSelections,
+      lp,
       colors: {
         colorPrimary,
         colorSecondary,
@@ -1287,7 +1420,8 @@ export function useLayoutGenerator() {
     }),
     [
       checkout.variables,
-      selections,
+      lojaSelections,
+      lp,
       colorPrimary,
       colorSecondary,
       colorTertiary,
@@ -1306,7 +1440,8 @@ export function useLayoutGenerator() {
 
   const applyThemeDoc = useCallback((doc: ThemeDoc) => {
     // O array vai inteiro e verbatim: a ordem é a que o arrayMove produziu.
-    setSelections(doc.selections);
+    setLojaSelections(doc.selections);
+    if (doc.lp) setLp(doc.lp);
     setColorPrimary(doc.colors.colorPrimary);
     setColorSecondary(doc.colors.colorSecondary);
     setColorTertiary(doc.colors.colorTertiary);
@@ -1331,7 +1466,11 @@ export function useLayoutGenerator() {
 
   const buildPreviewSnapshot = (): PreviewSnapshot => ({
     platform,
-    selections,
+    selections: lojaSelections,
+    // A LP vai junto quando o usuário está nela: o link abre em /p/{id}/lp.
+    ...(emLp
+      ? { lp: { nome: lp.nome, slug: slugDaLp(lp.nome), selections: lp.selections } }
+      : {}),
     colors: {
       colorPrimary,
       colorSecondary,
@@ -1365,12 +1504,12 @@ export function useLayoutGenerator() {
       });
       if (!res.ok) return null;
       const { id } = (await res.json()) as { id: string };
-      // No modo Checkout o link abre direto na etapa que está no canvas; nas
-      // LPs, direto na LP.
+      // No modo Checkout o link abre direto na etapa que está no canvas; no
+      // modo LP, direto na LP.
       if (editorMode === 'checkout' && platform === 'VTEX') {
         return `${window.location.origin}/p/${id}/checkout/${checkout.etapa}`;
       }
-      return selectedPage === 'landing'
+      return emLp
         ? `${window.location.origin}/p/${id}/lp`
         : `${window.location.origin}/p/${id}/home`;
     } catch (error) {
@@ -1389,11 +1528,11 @@ export function useLayoutGenerator() {
   useEffect(() => {
     if (!hydrated) return;
     try {
-      localStorage.setItem('layoutSelections', JSON.stringify(selections));
+      localStorage.setItem('layoutSelections', JSON.stringify(lojaSelections));
     } catch (error) {
       console.error('Erro ao salvar seleções no localStorage:', error);
     }
-  }, [selections, hydrated]);
+  }, [lojaSelections, hydrated]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -1461,6 +1600,8 @@ export function useLayoutGenerator() {
     setRailTarget,
     editorMode,
     setEditorMode,
+    lp,
+    setLpNome,
     checkout,
     setCheckoutVariable,
     resetCheckoutVariables,

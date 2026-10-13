@@ -1,0 +1,161 @@
+/* Espelha organisms/BannerMain08 (faststore.starter): o SCSS compilado com o sass,
+   `@media (max-width: 960px)` → `@container bm (max-width: 960px)`. Mesmas vars de
+   Nível 1, mesmos Níveis 3. Gerado por `yarn derivar:css` (scripts/derivar-css.mjs) —
+   mexa no SCSS de lá e rode. O que é só do canvas está no fim, depois de
+   "Só no catálogo", e é preservado. */
+
+.bannerMain08 {
+  font-family: var(--banner-main-font, 'Open Sans', sans-serif);
+  color: var(--banner-main-text, #ffffff);
+  line-height: 1.15;
+  letter-spacing: 0.16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bannerMain08 *,
+.bannerMain08 *::before,
+.bannerMain08 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.bannerMain08 :where(h1, h2, h3, p) {
+  margin: 0;
+  color: inherit;
+}
+.bannerMain08 img {
+  display: block;
+}
+
+.cover {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  text-decoration: none;
+}
+
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-height: 459px;
+  padding: 96px max(96px, (100% - 1280px) / 2 + 96px) 93px;
+  overflow: hidden;
+  background-color: #f1f2f4;
+  color: var(--banner-main-text, #ffffff);
+  font-family: var(--banner-main-title-font, 'Inter', sans-serif);
+}
+
+.heroMedia {
+  position: absolute;
+  inset: 0;
+}
+.heroMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.heroMediaContain img {
+  object-fit: contain;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+.heroEyebrow {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: 0.64px;
+  text-transform: uppercase;
+}
+
+.heroTitle {
+  font-size: 47px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.94px;
+  text-transform: uppercase;
+  white-space: pre-line;
+}
+
+.heroTitleMobile,
+.heroTitleMobileAuto {
+  display: none;
+}
+
+.heroText {
+  max-width: 422px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+  white-space: pre-line;
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────── */
+@container bm (max-width: 960px) {
+  .hero {
+    justify-content: flex-end;
+    min-height: 540px;
+    padding: 0 32px 48px;
+  }
+  .heroMediaContain img {
+    object-fit: cover;
+  }
+  .heroContent {
+    gap: 16px;
+    width: 100%;
+  }
+  .heroEyebrow {
+    font-size: 14px;
+    letter-spacing: 0.56px;
+  }
+  .heroTitle {
+    font-size: 28px;
+    letter-spacing: -0.56px;
+  }
+  .heroTitleDesktop {
+    display: none;
+  }
+  .heroTitleMobile {
+    display: inline;
+  }
+  .heroTitleMobileAuto {
+    display: inline;
+    white-space: normal;
+  }
+  .heroText {
+    max-width: none;
+    font-size: 14px;
+    white-space: normal;
+  }
+}
+.bannerMain08Box {
+  container: bm / inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* <picture media> do starter → duas <img> trocadas pelo container: o palco de
+   export renderiza o mobile num div de 375px DENTRO do documento do editor, e o
+   `media` leria a janela. */
+.onlyMobile {
+  display: none !important;
+}
+
+@container bm (max-width: 960px) {
+  .onlyDesktop {
+    display: none !important;
+  }
+
+  .onlyMobile {
+    display: block !important;
+  }
+}

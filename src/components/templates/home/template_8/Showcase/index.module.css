@@ -1,0 +1,400 @@
+/* Espelha molecules/ProductShelf08 (faststore.starter): o SCSS compilado com o sass,
+   `@media (max-width: 960px)` → `@container sh (max-width: 960px)`. Mesmas vars de
+   Nível 1, mesmos Níveis 3. Gerado por `yarn derivar:css` (scripts/derivar-css.mjs) —
+   mexa no SCSS de lá e rode. O que é só do canvas está no fim, depois de
+   "Só no catálogo", e é preservado. */
+
+.productShelf08 {
+  font-family: var(--showcase-font, 'Open Sans', sans-serif);
+  color: var(--showcase-card-text, #292929);
+  line-height: 1.15;
+  letter-spacing: 0.16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.productShelf08 *,
+.productShelf08 *::before,
+.productShelf08 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.productShelf08 :where(h1, h2, h3, p) {
+  margin: 0;
+  color: inherit;
+}
+.productShelf08 img {
+  display: block;
+}
+
+.cardLink,
+.shelfBannerLink {
+  text-decoration: none;
+}
+
+.shelf {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--showcase-bg, #ffffff);
+  font-family: var(--showcase-font, 'Open Sans', sans-serif);
+}
+
+.shelfFull {
+  gap: 20px;
+  padding: 24px max(32px, (100% - 1280px) / 2 + 32px);
+}
+
+.shelfBanner {
+  gap: 16px;
+  padding: 24px max(32px, (100% - 1280px) / 2 + 32px) 48px;
+}
+
+.shelfHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.shelfHeading {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.shelfTitle {
+  font-family: var(--showcase-title-font, 'Open Sans', sans-serif);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--showcase-title-color, #000000);
+}
+
+.shelfSubtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--showcase-text, #525252);
+}
+
+.shelfViewAll {
+  flex: none;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--showcase-text, #525252);
+  text-decoration: underline;
+  text-underline-position: from-font;
+  white-space: nowrap;
+}
+
+.shelfRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.shelfCarousel {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.swiper {
+  width: 100%;
+}
+
+.slide {
+  height: auto;
+}
+
+.arrow {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  border: 0;
+  background-color: rgba(255, 255, 255, 0.64);
+  backdrop-filter: blur(2px);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.16);
+  color: #050505;
+  cursor: pointer;
+}
+.arrow:disabled {
+  cursor: default;
+}
+.arrow svg {
+  display: block;
+}
+
+.arrowPrev {
+  left: 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.arrowNext {
+  right: 0;
+  border-radius: 8px 0 0 8px;
+}
+
+.shelfFull .arrow {
+  top: 188px;
+}
+
+.shelfBanner .arrow {
+  top: 224.4px;
+}
+
+.shelfBannerLink {
+  display: block;
+  flex: none;
+  width: 477px;
+  height: 485px;
+}
+
+.shelfBannerMedia {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.shelfBannerMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Card */
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardLink {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.cardMedia {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2/3;
+  background-color: #f1f2f4;
+}
+
+.cardImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cardTags {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.cardTag,
+.cardOff {
+  padding: 4px 8px;
+  border-radius: 6px;
+  backdrop-filter: blur(2px);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cardTag {
+  background-color: var(--showcase-tag-bg, #292929);
+  color: var(--showcase-tag-text, #ffffff);
+  filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.02));
+}
+
+.cardOff {
+  background-color: rgba(255, 255, 255, 0.32);
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+  color: var(--showcase-title-color, #000000);
+}
+
+.cardWish {
+  position: absolute;
+  top: 8px;
+  right: 7.92px;
+  z-index: 2;
+  display: flex;
+  padding: 6px;
+  border: 0;
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(2px);
+  color: var(--showcase-card-text, #292929);
+  cursor: pointer;
+}
+.cardWish svg {
+  display: block;
+}
+
+.cardInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.cardName {
+  display: -webkit-box;
+  height: 48px;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--showcase-card-text, #292929);
+}
+
+.cardPrices {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.cardList {
+  font-size: 14px;
+  font-weight: 400;
+  color: color-mix(
+    in srgb,
+    var(--showcase-card-text, #292929) 62%,
+    transparent
+  );
+}
+
+.cardPrice {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--showcase-card-text, #292929);
+}
+
+.cardPix {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+  color: var(--showcase-text, #525252);
+}
+.cardPix strong {
+  font-weight: 700;
+}
+
+.cardInstallment {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+  color: color-mix(
+    in srgb,
+    var(--showcase-card-text, #292929) 62%,
+    transparent
+  );
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────── */
+@container sh (max-width: 960px) {
+  .shelfFull {
+    gap: 16px;
+    padding: 24px 16px;
+  }
+  .shelfBanner {
+    gap: 16px;
+    padding: 16px;
+  }
+  .shelfHeading {
+    width: 266px;
+  }
+  .shelfRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .shelfCarousel {
+    margin-right: -16px;
+  }
+  .slide {
+    width: 240px;
+  }
+  .arrow {
+    display: none;
+  }
+  .shelfBannerLink {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+}
+.productShelf08Box {
+  container: sh / inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* O starter usa Swiper; aqui a faixa é flex com a mesma largura de card. */
+.track {
+  display: flex;
+  gap: 16px;
+  overflow: hidden;
+}
+
+.track > .slide {
+  flex: 0 0 calc((100% - 4 * 16px) / 5);
+}
+
+.shelfBanner .track > .slide {
+  flex-basis: calc((100% - 2 * 16px) / 3);
+}
+
+/* <picture media> do starter → duas <img> trocadas pelo container. */
+.onlyMobile {
+  display: none !important;
+}
+
+@container sh (max-width: 960px) {
+  .track {
+    gap: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .track > .slide,
+  .shelfBanner .track > .slide {
+    flex: 0 0 240px;
+  }
+
+  .onlyDesktop {
+    display: none !important;
+  }
+
+  .onlyMobile {
+    display: block !important;
+  }
+}

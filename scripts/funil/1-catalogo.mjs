@@ -283,7 +283,6 @@ const PASTA = {
   home: 'Home',
   category: 'Category',
   product: 'Product',
-  landing: 'Landing',
 };
 const semOrigem = [];
 let nTray = 0,

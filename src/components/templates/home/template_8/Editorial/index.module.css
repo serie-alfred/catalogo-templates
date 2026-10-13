@@ -1,0 +1,233 @@
+/* Espelha organisms/Editorial08 (faststore.starter): o SCSS compilado com o sass,
+   `@media (max-width: 960px)` → `@container ed (max-width: 960px)`. Mesmas vars de
+   Nível 1, mesmos Níveis 3. Gerado por `yarn derivar:css` (scripts/derivar-css.mjs) —
+   mexa no SCSS de lá e rode. O que é só do canvas está no fim, depois de
+   "Só no catálogo", e é preservado. */
+
+.editorial08 {
+  font-family: var(--editorial-font, 'Open Sans', sans-serif);
+  color: var(--editorial-body-color, #dfdfe0);
+  line-height: 1.15;
+  letter-spacing: 0.16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.editorial08 *,
+.editorial08 *::before,
+.editorial08 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.editorial08 :where(h1, h2, h3, p) {
+  margin: 0;
+  color: inherit;
+}
+.editorial08 img {
+  display: block;
+}
+
+.accent {
+  color: var(--editorial-accent, #f2994a);
+}
+
+.aboutBannerLink {
+  text-decoration: none;
+}
+
+.about {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 64px;
+  padding: 64px max(125px, (100% - 1280px) / 2 + 125px);
+  overflow: hidden;
+  background-image: linear-gradient(
+    to top,
+    var(--editorial-bg-end, #141414),
+    var(--editorial-bg-start, #292929)
+  );
+  color: var(--editorial-body-color, #dfdfe0);
+  font-family: var(--editorial-font, 'Open Sans', sans-serif);
+}
+
+.aboutGlow {
+  position: absolute;
+  top: 125.9px;
+  left: calc(max(0px, (100% - 1280px) / 2) + 175px);
+  width: 465px;
+  height: 465px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.02);
+  filter: blur(63.5px);
+  pointer-events: none;
+}
+
+.collageGlow {
+  display: none;
+}
+
+.aboutRow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 64px;
+}
+
+.collage {
+  position: relative;
+  flex: none;
+  width: 543px;
+  aspect-ratio: 543/573;
+  container-type: inline-size;
+}
+
+.collageImg {
+  position: absolute;
+  object-fit: cover;
+  border-radius: 1.1049723757cqw;
+  box-shadow: 0 1.8416206262cqw 4.4198895028cqw -2.2099447514cqw
+    rgba(255, 255, 255, 0.25);
+}
+
+.collageA {
+  top: 13.612565445%;
+  left: 0;
+  width: 55.6169429098%;
+  height: 72.7748691099%;
+}
+
+.collageB {
+  top: 0;
+  left: 58.5635359116%;
+  width: 32.5966850829%;
+  height: 42.757417103%;
+}
+
+.collageC {
+  top: 45.5497382199%;
+  left: 58.5635359116%;
+  width: 41.4364640884%;
+  height: 54.4502617801%;
+}
+
+.aboutText {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  min-width: 0;
+}
+
+.aboutEyebrow {
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 600;
+  line-height: normal;
+  text-transform: uppercase;
+  color: var(--editorial-title-color, #ffffff);
+}
+
+.aboutTitle {
+  font-family: var(--editorial-title-font, 'Open Sans', sans-serif);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.64px;
+  text-transform: uppercase;
+}
+
+.aboutBody {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.aboutBanners {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  height: 241px;
+}
+
+.aboutBannerLink {
+  display: block;
+  flex: 1 1 0;
+  min-width: 0;
+  background-color: #f1f2f4;
+}
+
+.aboutBanner {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.aboutBanner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────── */
+@container ed (max-width: 960px) {
+  .about {
+    gap: 24px;
+    padding: 40px 24px;
+  }
+  .aboutGlow {
+    display: none;
+  }
+  .aboutRow {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 24px;
+  }
+  .collage {
+    width: 100%;
+  }
+  .collageGlow {
+    position: absolute;
+    inset: 10.99% 7.18% 7.85% 7.18%;
+    display: block;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.02);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+  .aboutText {
+    gap: 16px;
+  }
+  .aboutTitle {
+    font-size: 24px;
+    letter-spacing: -0.48px;
+  }
+  .aboutBanners {
+    flex-direction: column;
+    height: auto;
+  }
+  .aboutBannerLink {
+    flex: none;
+    height: 148px;
+  }
+}
+.editorial08Box {
+  container: ed / inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* <picture media> do starter → duas <img> trocadas pelo container. */
+.onlyMobile {
+  display: none !important;
+}
+
+@container ed (max-width: 960px) {
+  .onlyDesktop {
+    display: none !important;
+  }
+
+  .onlyMobile {
+    display: block !important;
+  }
+}

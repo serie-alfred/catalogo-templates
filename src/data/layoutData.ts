@@ -1,10 +1,10 @@
 import type { Platform } from "@/types/platform";
 
 /**
- * `landing` é a página "LPs" do seletor: a LP vem INTEIRA num item só (todas as
- * seções da campanha), e o header/footer que aparecem nela são os `common` da loja.
+ * Não existe página "landing": uma LP é montada no MODO LP do editor, com as
+ * mesmas seções de miolo (`home`) da loja — ver src/utils/lp.ts.
  */
-export type Pagina = "common" | "home" | "category" | "product" | "landing";
+export type Pagina = "common" | "home" | "category" | "product";
 
 /**
  * Variável de cor de fundo da marca utilizada pelo template.
@@ -163,7 +163,8 @@ export type Layouts = {
   productBanner: LayoutSection;
   categoryTabs: LayoutSection;
   categoryTitle: LayoutSection;
-  landingPage: LayoutSection;
+  countdown: LayoutSection;
+  editorial: LayoutSection;
 };
 
 export const LAYOUTS: Layouts = {
@@ -426,6 +427,15 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--categories-font", label: "Fonte do título e dos rótulos", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--categories-body-font", label: "Fonte do link", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária", previewNote: "Só na visão Desktop — alterne no topo do editor." },
       ] },
+      { id: "08", selection: "categories", key: "cat08sra3m8q", image: "categories/Categories08.webp", imageSource: "auto", mobile: "", title: "Categorias Template 8", description: "Quatro cards de categoria com imagem, título, texto e botão", template: "8", pagina: ["home"], component: "Categories08", path: "molecules/Categories08", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        // Nível 1 direto ao valor do design (Figma "Templates - Serie A"), sem Nível 2.
+        { cssVar: "--categories-bg", label: "Fundo da faixa", type: "color", default: "#cccccc", group: "Categorias" },
+        { cssVar: "--categories-text", label: "Texto dos cards", type: "color", default: "#ffffff", group: "Categorias" },
+        { cssVar: "--categories-button-bg", label: "Fundo do botão", type: "color", default: "#ffffff", group: "Botão" },
+        { cssVar: "--categories-button-text", label: "Texto do botão", type: "color", default: "#141414", group: "Botão" },
+        { cssVar: "--categories-font", label: "Fonte dos títulos", type: "font", default: "\'Open Sans\', sans-serif", group: "Tipografia" },
+        { cssVar: "--categories-body-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
+      ] },
     ],
   },
   banner: {
@@ -442,6 +452,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--banner-main-cta-text", label: "Texto do botão principal", type: "color", default: "#2c2420", group: "Hero", inheritsLabel: "cor de texto primária" },
         { cssVar: "--banner-main-title-font", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--banner-main-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
+      { id: "08", selection: "banner-main", key: "ban08sra7k2p", image: "banner/BannerMain08.webp", imageSource: "auto", mobile: "", title: "Banner Template 8", description: "Banner de campanha com chamada, título e texto sobre a arte", template: "8", pagina: ["home"], component: "BannerMain08", path: "organisms/BannerMain08", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        // Nível 1 direto ao valor do design (Figma "Templates - Serie A"), sem Nível 2.
+        { cssVar: "--banner-main-text", label: "Texto sobre a arte", type: "color", default: "#ffffff", group: "Banner" },
+        { cssVar: "--banner-main-title-font", label: "Fonte do título", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
+        { cssVar: "--banner-main-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
       ] },
     ],
   },
@@ -461,6 +477,13 @@ export const LAYOUTS: Layouts = {
       { id: "02", selection: "ruler", key: "bnf0213jan45", image: "ruler/Ruler02.webp", imageSource: "design", mobile: "", title: "Regua de benefícios Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Ruler02", platforms: ['Tray', 'Wake'], backgroundVars: ["primary"] },
       { id: "04", selection: "ruler", key: "bnf04t5u6v7w", image: "ruler/Ruler04.webp", imageSource: "design", mobile: "", title: "Regua de benefícios Template 4", description: "Régua de benefícios em linha de ícones", template: "4", pagina: ["home"], component: "Ruler04", platforms: ['Tray'], backgroundVars: [] },
       { id: "05", selection: "ruler", key: "bnf05x8y9z0a", image: "ruler/Ruler05.webp", imageSource: "design", mobile: "", title: "Regua de benefícios Template 5", description: "Régua de benefícios em carrossel", template: "5", pagina: ["home"], component: "Ruler05", platforms: ['Tray'], backgroundVars: [] },
+      { id: "08", selection: "ruler", key: "bnf08sra9d5e", image: "ruler/Ruler08.webp", imageSource: "auto", mobile: "", title: "Régua Template 8", description: "Régua de benefícios em quatro colunas; no mobile, um por vez com setas", template: "8", pagina: ["home"], component: "Ruler08", path: "molecules/BenefitsStrip08", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        // Nível 1 direto ao valor do design (Figma "Templates - Serie A"), sem Nível 2.
+        { cssVar: "--benefits-bg", label: "Fundo da régua", type: "color", default: "#ffffff", group: "Régua" },
+        { cssVar: "--benefits-title", label: "Título dos benefícios", type: "color", default: "#141414", group: "Régua" },
+        { cssVar: "--benefits-text", label: "Texto dos benefícios", type: "color", default: "#605e70", group: "Régua" },
+        { cssVar: "--benefits-font", label: "Fonte da régua", type: "font", default: "'Manrope', sans-serif", group: "Tipografia" },
+      ] },
     ],
   },
   grid: {
@@ -487,6 +510,17 @@ export const LAYOUTS: Layouts = {
       { id: "06", selection: "banner-side", key: "bansd06f7g8h", image: "bannerSide/BannerSide06.webp", imageSource: "design", mobile: "", title: "Banner Side Template 6", description: "Par de banner-cards lado a lado: arte clicável, parágrafo e link \'Veja mais\'", template: "6", pagina: ["home"], component: "BannerSide06", path: "molecules/BannerSide06", platforms: ['VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--banner-side-text", label: "Cor do texto e do sublinhado", type: "color", default: "#212721", group: "Banner Side", inheritsLabel: "cor de texto primária" },
         { cssVar: "--banner-side-font", label: "Fonte do texto", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
+      { id: "08", selection: "banner-side", key: "bsd08sra6v3c", image: "bannerSide/ShelfBanner08.webp", imageSource: "auto", mobile: "", title: "Vitrine com banner Template 8", description: "Banner lateral ao lado de uma vitrine de produtos", template: "8", pagina: ["home"], component: "ShelfBanner08", path: "organisms/ProductShelfBanner08", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        // Nível 1 direto ao valor do design (Figma "Templates - Serie A"), sem Nível 2.
+        { cssVar: "--showcase-bg", label: "Fundo da vitrine", type: "color", default: "#ffffff", group: "Vitrine" },
+        { cssVar: "--showcase-title-color", label: "Título e selo de desconto", type: "color", default: "#000000", group: "Vitrine" },
+        { cssVar: "--showcase-text", label: "Subtítulo, Ver todos e Pix", type: "color", default: "#525252", group: "Vitrine" },
+        { cssVar: "--showcase-card-text", label: "Nome e preço do produto", type: "color", default: "#292929", group: "Card" },
+        { cssVar: "--showcase-tag-bg", label: "Fundo do selo (Novidade)", type: "color", default: "#292929", group: "Card" },
+        { cssVar: "--showcase-tag-text", label: "Texto do selo (Novidade)", type: "color", default: "#ffffff", group: "Card" },
+        { cssVar: "--showcase-title-font", label: "Fonte do título", type: "font", default: "\'Open Sans\', sans-serif", group: "Tipografia" },
+        { cssVar: "--showcase-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
       ] },
     ],
   },
@@ -520,6 +554,17 @@ export const LAYOUTS: Layouts = {
       ] },
       { id: "06", selection: "showcase", key: "vtr06frc4d5e", image: "showcase/Showcase06.webp", imageSource: "auto", mobile: "", title: "Vitrine Template 6", description: "Vitrine com título, subtítulo e carrossel", template: "6", pagina: ["home"], component: "Showcase06", path: "organisms/ProductShelfCustom06", platforms: ['Tray', 'VTEX'], backgroundVars: [] },
       { id: "07", selection: "showcase", key: "vtr07bru5q6r", image: "showcase/Showcase07.webp", imageSource: "design", mobile: "", title: "Vitrine Template 7", description: "Vitrine com título e link para a listagem completa", template: "7", pagina: ["home"], component: "Showcase07", path: "organisms/ProductShelfCustom07", platforms: ['VTEX'], backgroundVars: ["primary"] },
+      { id: "08", selection: "showcase", key: "vtr08sra4n1x", image: "showcase/Showcase08.webp", imageSource: "auto", mobile: "", title: "Vitrine Template 8", description: "Vitrine de produtos em carrossel com selo, desconto, Pix e parcelas", template: "8", pagina: ["home"], component: "Showcase08", path: "organisms/ProductShelfCustom08", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        // Nível 1 direto ao valor do design (Figma "Templates - Serie A"), sem Nível 2.
+        { cssVar: "--showcase-bg", label: "Fundo da vitrine", type: "color", default: "#ffffff", group: "Vitrine" },
+        { cssVar: "--showcase-title-color", label: "Título e selo de desconto", type: "color", default: "#000000", group: "Vitrine" },
+        { cssVar: "--showcase-text", label: "Subtítulo, Ver todos e Pix", type: "color", default: "#525252", group: "Vitrine" },
+        { cssVar: "--showcase-card-text", label: "Nome e preço do produto", type: "color", default: "#292929", group: "Card" },
+        { cssVar: "--showcase-tag-bg", label: "Fundo do selo (Novidade)", type: "color", default: "#292929", group: "Card" },
+        { cssVar: "--showcase-tag-text", label: "Texto do selo (Novidade)", type: "color", default: "#ffffff", group: "Card" },
+        { cssVar: "--showcase-title-font", label: "Fonte do título", type: "font", default: "\'Open Sans\', sans-serif", group: "Tipografia" },
+        { cssVar: "--showcase-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
+      ] },
     ],
   },
   bannerTriple: {
@@ -665,6 +710,16 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--newsletter-input-border", label: "Borda do campo", type: "color", default: "#d8c9b8", group: "Formulário" },
         { cssVar: "--newsletter-title-font", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--newsletter-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
+      { id: "08", selection: "newsletter", key: "nlt08sra2h7k", image: "newsletter/Newsletter08.webp", imageSource: "auto", mobile: "", title: "Newsletter Template 8", description: "Painel de texto e formulário de nome e e-mail lado a lado", template: "8", pagina: ["home"], component: "Newsletter08", path: "organisms/Newsletter08", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        // Nível 1 direto ao valor do design (Figma "Templates - Serie A"), sem Nível 2.
+        { cssVar: "--newsletter-bg", label: "Fundo do formulário", type: "color", default: "#ffffff", group: "Newsletter" },
+        { cssVar: "--newsletter-panel-bg", label: "Fundo do painel de texto", type: "color", default: "#f6f6fa", group: "Newsletter" },
+        { cssVar: "--newsletter-title-color", label: "Títulos e campos", type: "color", default: "#0f0f0f", group: "Newsletter" },
+        { cssVar: "--newsletter-desc-color", label: "Texto do painel", type: "color", default: "#525252", group: "Newsletter" },
+        { cssVar: "--newsletter-button-bg", label: "Fundo do botão", type: "color", default: "#000000", group: "Formulário" },
+        { cssVar: "--newsletter-button-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Formulário" },
+        { cssVar: "--newsletter-font", label: "Fonte da newsletter", type: "font", default: "'Manrope', sans-serif", group: "Tipografia" },
       ] },
     ],
   },
@@ -871,42 +926,33 @@ export const LAYOUTS: Layouts = {
     ],
   },
   // LANDING — a LP inteira é UM item; header e footer vêm dos `common` da loja.
-  landingPage: {
-    name: "Landing pages",
+  countdown: {
+    name: "Contador de ofertas",
     items: [
-      { id: "01", selection: "landing-page", key: "lpbf01k7m2q9", image: "landingPage/BlackFriday01.webp", imageSource: "auto", mobile: "", title: "Black Friday", description: "LP completa de campanha: hero, contador, categorias, duas vitrines, bloco institucional, régua de benefícios e newsletter. O header e o footer são os da loja", template: "1", pagina: ["landing"], component: "BlackFriday01", path: "organisms/BlackFriday01", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
-        { cssVar: "--blackfriday-heading-font", label: "Fonte dos títulos de campanha", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
-        { cssVar: "--blackfriday-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
-        { cssVar: "--blackfriday-accent", label: "Cor de destaque (Friday)", type: "color", default: "#f2994a", group: "Destaque" },
-        { cssVar: "--blackfriday-hero-text", label: "Texto do hero", type: "color", default: "#ffffff", group: "Hero" },
-        { cssVar: "--blackfriday-countdown-bg", label: "Fundo do contador", type: "color", default: "#141414", group: "Contador" },
-        { cssVar: "--blackfriday-countdown-box-bg", label: "Fundo das caixas e divisória", type: "color", default: "#292929", group: "Contador" },
-        { cssVar: "--blackfriday-countdown-text", label: "Texto do contador", type: "color", default: "#ffffff", group: "Contador" },
-        { cssVar: "--blackfriday-countdown-note", label: "Texto de apoio", type: "color", default: "#dfdfe0", group: "Contador" },
-        { cssVar: "--blackfriday-categories-bg", label: "Fundo da faixa de categorias", type: "color", default: "#cccccc", group: "Categorias" },
-        { cssVar: "--blackfriday-category-text", label: "Texto dos cards", type: "color", default: "#ffffff", group: "Categorias" },
-        { cssVar: "--blackfriday-category-button-bg", label: "Fundo do botão", type: "color", default: "#ffffff", group: "Categorias" },
-        { cssVar: "--blackfriday-category-button-text", label: "Texto do botão", type: "color", default: "#141414", group: "Categorias" },
-        { cssVar: "--blackfriday-shelf-bg", label: "Fundo das vitrines", type: "color", default: "#ffffff", group: "Vitrines" },
-        { cssVar: "--blackfriday-shelf-title", label: "Título e selo de desconto", type: "color", default: "#000000", group: "Vitrines" },
-        { cssVar: "--blackfriday-shelf-text", label: "Subtítulo, Ver todos e Pix", type: "color", default: "#525252", group: "Vitrines" },
-        { cssVar: "--blackfriday-card-text", label: "Nome e preço do produto", type: "color", default: "#292929", group: "Vitrines" },
-        { cssVar: "--blackfriday-tag-bg", label: "Fundo do selo (Novidade)", type: "color", default: "#292929", group: "Vitrines" },
-        { cssVar: "--blackfriday-tag-text", label: "Texto do selo (Novidade)", type: "color", default: "#ffffff", group: "Vitrines" },
-        { cssVar: "--blackfriday-about-bg-start", label: "Fundo institucional (topo)", type: "color", default: "#292929", group: "Institucional" },
-        { cssVar: "--blackfriday-about-bg-end", label: "Fundo institucional (base)", type: "color", default: "#141414", group: "Institucional" },
-        { cssVar: "--blackfriday-about-text", label: "Texto institucional", type: "color", default: "#dfdfe0", group: "Institucional" },
-        { cssVar: "--blackfriday-about-eyebrow", label: "Chamada (Black)", type: "color", default: "#ffffff", group: "Institucional" },
-        { cssVar: "--blackfriday-ui-font", label: "Fonte dos benefícios e da newsletter", type: "font", default: "'Manrope', sans-serif", group: "Tipografia" },
-        { cssVar: "--blackfriday-benefits-bg", label: "Fundo da régua", type: "color", default: "#ffffff", group: "Benefícios" },
-        { cssVar: "--blackfriday-benefits-text", label: "Título dos benefícios", type: "color", default: "#141414", group: "Benefícios" },
-        { cssVar: "--blackfriday-benefits-subtext", label: "Texto dos benefícios", type: "color", default: "#605e70", group: "Benefícios" },
-        { cssVar: "--blackfriday-newsletter-bg", label: "Fundo do formulário", type: "color", default: "#ffffff", group: "Newsletter" },
-        { cssVar: "--blackfriday-newsletter-panel", label: "Fundo do painel de texto", type: "color", default: "#f6f6fa", group: "Newsletter" },
-        { cssVar: "--blackfriday-newsletter-title", label: "Títulos e campos", type: "color", default: "#0f0f0f", group: "Newsletter" },
-        { cssVar: "--blackfriday-newsletter-text", label: "Texto do painel", type: "color", default: "#525252", group: "Newsletter" },
-        { cssVar: "--blackfriday-newsletter-button-bg", label: "Fundo do botão", type: "color", default: "#000000", group: "Newsletter" },
-        { cssVar: "--blackfriday-newsletter-button-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Newsletter" },
+      { id: "08", selection: "countdown", key: "cdn08sra5t2w", image: "countdown/Countdown08.webp", imageSource: "auto", mobile: "", title: "Contador Template 8", description: "Contagem regressiva até o fim da oferta, com chamada e texto de apoio", template: "8", pagina: ["home"], component: "Countdown08", path: "organisms/Countdown08", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        // Nível 1 direto ao valor do design (Figma "Templates - Serie A"), sem Nível 2.
+        { cssVar: "--countdown-bg", label: "Fundo do contador", type: "color", default: "#141414", group: "Contador" },
+        { cssVar: "--countdown-box-bg", label: "Fundo das caixas e divisória", type: "color", default: "#292929", group: "Contador" },
+        { cssVar: "--countdown-text", label: "Texto do contador", type: "color", default: "#ffffff", group: "Contador" },
+        { cssVar: "--countdown-note", label: "Texto de apoio", type: "color", default: "#dfdfe0", group: "Contador" },
+        { cssVar: "--countdown-accent", label: "Cor de destaque", type: "color", default: "#f2994a", group: "Contador" },
+        { cssVar: "--countdown-title-font", label: "Fonte do título", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
+        { cssVar: "--countdown-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
+      ] },
+    ],
+  },
+  editorial: {
+    name: "Bloco editorial",
+    items: [
+      { id: "08", selection: "editorial", key: "edt08sra8b4m", image: "editorial/Editorial08.webp", imageSource: "auto", mobile: "", title: "Editorial Template 8", description: "Colagem de três imagens com chamada, título e texto, e dois banners abaixo", template: "8", pagina: ["home"], component: "Editorial08", path: "organisms/Editorial08", platforms: ['Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        // Nível 1 direto ao valor do design (Figma "Templates - Serie A"), sem Nível 2.
+        { cssVar: "--editorial-bg-start", label: "Fundo (topo)", type: "color", default: "#292929", group: "Editorial" },
+        { cssVar: "--editorial-bg-end", label: "Fundo (base)", type: "color", default: "#141414", group: "Editorial" },
+        { cssVar: "--editorial-title-color", label: "Chamada e título", type: "color", default: "#ffffff", group: "Editorial" },
+        { cssVar: "--editorial-body-color", label: "Texto", type: "color", default: "#dfdfe0", group: "Editorial" },
+        { cssVar: "--editorial-accent", label: "Cor de destaque", type: "color", default: "#f2994a", group: "Editorial" },
+        { cssVar: "--editorial-title-font", label: "Fonte do título", type: "font", default: "\'Open Sans\', sans-serif", group: "Tipografia" },
+        { cssVar: "--editorial-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
       ] },
     ],
   },

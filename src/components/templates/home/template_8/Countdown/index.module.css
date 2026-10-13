@@ -1,0 +1,168 @@
+/* Espelha organisms/Countdown08 (faststore.starter): o SCSS compilado com o sass,
+   `@media (max-width: 960px)` → `@container cd (max-width: 960px)`. Mesmas vars de
+   Nível 1, mesmos Níveis 3. Gerado por `yarn derivar:css` (scripts/derivar-css.mjs) —
+   mexa no SCSS de lá e rode. O que é só do canvas está no fim, depois de
+   "Só no catálogo", e é preservado. */
+
+.countdown08 {
+  font-family: var(--countdown-font, 'Open Sans', sans-serif);
+  color: var(--countdown-text, #ffffff);
+  line-height: 1.15;
+  letter-spacing: 0.16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.countdown08 *,
+.countdown08 *::before,
+.countdown08 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.countdown08 :where(h1, h2, h3, p) {
+  margin: 0;
+  color: inherit;
+}
+.countdown08 img {
+  display: block;
+}
+
+.accent {
+  color: var(--countdown-accent, #f2994a);
+}
+
+.countdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px max(72px, (100% - 1280px) / 2 + 72px);
+  background-color: var(--countdown-bg, #141414);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='410' height='410'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 409.6px 409.6px;
+  box-shadow: inset 0 -3px 24px -10px rgba(255, 255, 255, 0.25);
+  color: var(--countdown-text, #ffffff);
+  font-family: var(--countdown-title-font, 'Inter', sans-serif);
+  text-transform: uppercase;
+}
+
+.countdownHead {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.countdownLabel {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: normal;
+  letter-spacing: 0.56px;
+}
+
+.countdownTitle {
+  font-size: 24px;
+  font-style: italic;
+  font-weight: 800;
+  line-height: 1.03;
+  letter-spacing: -0.48px;
+}
+
+.countdownBody {
+  display: flex;
+  align-items: stretch;
+  gap: 32px;
+}
+
+.countdownUnits {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.countdownUnit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  background-color: var(--countdown-box-bg, #292929);
+  line-height: 1.03;
+  white-space: nowrap;
+}
+
+.countdownValue {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.48px;
+}
+
+.countdownUnitLabel {
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: -0.28px;
+}
+
+.countdownRule {
+  flex: none;
+  width: 1px;
+  background-color: var(--countdown-box-bg, #292929);
+}
+
+.countdownNote {
+  align-self: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.56px;
+  text-transform: none;
+  white-space: pre-line;
+  color: var(--countdown-note, #dfdfe0);
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────── */
+@container cd (max-width: 960px) {
+  .countdown {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    padding: 24px;
+  }
+  .countdownHead {
+    align-items: center;
+    gap: 8px;
+  }
+  .countdownBody {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .countdownUnits {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .countdownUnit {
+    flex: none;
+    padding: 12px;
+  }
+  .countdownUnit:nth-child(-n + 2) {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .countdownRule {
+    width: 100%;
+    height: 1px;
+  }
+  .countdownNote {
+    max-width: 280px;
+    margin: 0 auto;
+    text-align: center;
+    white-space: normal;
+  }
+}
+.countdown08Box {
+  container: cd / inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

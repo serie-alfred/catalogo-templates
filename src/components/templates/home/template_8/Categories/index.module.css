@@ -1,0 +1,131 @@
+/* Espelha molecules/Categories08 (faststore.starter): o SCSS compilado com o sass,
+   `@media (max-width: 960px)` → `@container ct (max-width: 960px)`. Mesmas vars de
+   Nível 1, mesmos Níveis 3. Gerado por `yarn derivar:css` (scripts/derivar-css.mjs) —
+   mexa no SCSS de lá e rode. O que é só do canvas está no fim, depois de
+   "Só no catálogo", e é preservado. */
+
+.categories08 {
+  font-family: var(--categories-body-font, 'Open Sans', sans-serif);
+  color: var(--categories-text, #ffffff);
+  line-height: 1.15;
+  letter-spacing: 0.16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categories08 *,
+.categories08 *::before,
+.categories08 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.categories08 :where(h1, h2, h3, p) {
+  margin: 0;
+  color: inherit;
+}
+.categories08 img {
+  display: block;
+}
+
+.categoryStrip {
+  display: flex;
+  gap: 16px;
+  padding: 24px max(32px, (100% - 1280px) / 2 + 32px);
+  background-color: var(--categories-bg, #cccccc);
+}
+
+.category {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-width: 0;
+  height: 340px;
+  padding: 40px 32px;
+  overflow: hidden;
+  background-color: #f1f2f4;
+  text-decoration: none;
+  color: var(--categories-text, #ffffff);
+}
+
+.categoryImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.categoryContent {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.categoryTitle {
+  font-family: var(--categories-font, 'Open Sans', sans-serif);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: pre-line;
+}
+
+.categoryText {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.2;
+  white-space: pre-line;
+}
+
+.categoryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 25px;
+  background-color: var(--categories-button-bg, #ffffff);
+  color: var(--categories-button-text, #141414);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.categoryButton svg {
+  display: block;
+  flex: none;
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────── */
+@container ct (max-width: 960px) {
+  .categoryStrip {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    padding: 16px;
+  }
+  .category {
+    height: 260px;
+    padding: 16px;
+  }
+  .categoryContent {
+    gap: 12px;
+  }
+  .categoryTitle {
+    font-size: 16px;
+  }
+  .categoryText {
+    font-size: 14px;
+  }
+  .categoryButton {
+    width: 100%;
+    padding: 14px 8px;
+    font-size: 14px;
+  }
+}
+.categories08Box {
+  container: ct / inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

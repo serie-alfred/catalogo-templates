@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import { LayoutContext, type LayoutContextType } from '@/context/LayoutContext';
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import { CHECKOUT_PADRAO } from '@/utils/checkout';
+import { lpInicial } from '@/utils/lp';
 
 export interface LayoutSeed {
   logo?: string;
@@ -71,6 +72,9 @@ export default function SeededLayoutProvider({
         // usa o CheckoutFrame por props), mas o campo existe no hook.
         editorMode: 'loja',
         setEditorMode: noop,
+        // Modo LP: idem — o /p/{id}/lp renderiza as seções da LP como página.
+        lp: lpInicial(),
+        setLpNome: noop,
         checkout: CHECKOUT_PADRAO,
         setCheckoutVariable: noop,
         resetCheckoutVariables: noop,

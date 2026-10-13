@@ -1,10 +1,17 @@
 'use client';
 
 import React from 'react';
-import { Palette, SquarePen, Component, ShoppingCart } from 'lucide-react';
+import {
+  Palette,
+  SquarePen,
+  Component,
+  ShoppingCart,
+  Megaphone,
+} from 'lucide-react';
 
 import { useLayout } from '@/context/LayoutContext';
 import type { RailTarget } from '@/hooks/useLayoutGenerator';
+import { plataformaTemLp } from '@/utils/platformCompat';
 import { EtemasMark, TypeCase } from '@/assets/icons/editor';
 
 import styles from './index.module.css';
@@ -47,6 +54,8 @@ export default function EditorRail({ className }: { className?: string }) {
   const { railTarget, setRailTarget, platform, editorMode, setEditorMode } =
     useLayout();
   const noCheckout = editorMode === 'checkout';
+  const naLp = editorMode === 'lp';
+  const temLp = plataformaTemLp(platform);
   // No checkout a estrutura é fixa: não há seção para compor.
   const itens = noCheckout
     ? ITEMS.filter(i => i.target !== 'componentes')
@@ -78,7 +87,9 @@ export default function EditorRail({ className }: { className?: string }) {
           checkout-vtex é o checkout NATIVO da VTEX — e vem depois dos
           destinos, com um divisor: não é um painel, é o que o canvas mostra.
           `aria-pressed`, e não `aria-current`, que é dos destinos. */}
-      {platform === 'VTEX' && <span className={styles.divisor} aria-hidden />}
+      {(platform === 'VTEX' || temLp) && (
+        <span className={styles.divisor} aria-hidden />
+      )}
       {platform === 'VTEX' && (
         <button
           type="button"
@@ -90,6 +101,22 @@ export default function EditorRail({ className }: { className?: string }) {
           onClick={() => setEditorMode(noCheckout ? 'loja' : 'checkout')}
         >
           <ShoppingCart width={20} height={20} />
+        </button>
+      )}
+      {/* O modo LP: uma landing page avulsa, montada com qualquer seção de
+          miolo e exportada sozinha (utils/lp.ts). Wake e VTEX — onde o
+          generator sabe montar a LP. */}
+      {temLp && (
+        <button
+          type="button"
+          className={`${styles.item} ${styles.modo}`}
+          aria-label="Landing page"
+          title={naLp ? 'Voltar para a loja' : 'Criar uma landing page'}
+          aria-pressed={naLp}
+          data-editor-mode-lp=""
+          onClick={() => setEditorMode(naLp ? 'loja' : 'lp')}
+        >
+          <Megaphone width={20} height={20} />
         </button>
       )}
     </nav>

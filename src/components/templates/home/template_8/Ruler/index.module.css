@@ -1,0 +1,112 @@
+/* Espelha molecules/BenefitsStrip08 (faststore.starter): o SCSS compilado com o sass,
+   `@media (max-width: 960px)` → `@container bs (max-width: 960px)`. Mesmas vars de
+   Nível 1, mesmos Níveis 3. Gerado por `yarn derivar:css` (scripts/derivar-css.mjs) —
+   mexa no SCSS de lá e rode. O que é só do canvas está no fim, depois de
+   "Só no catálogo", e é preservado. */
+
+.benefitsStrip08 {
+  font-family: var(--benefits-font, 'Manrope', sans-serif);
+  color: var(--benefits-title, #141414);
+  line-height: 1.15;
+  letter-spacing: 0.16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.benefitsStrip08 *,
+.benefitsStrip08 *::before,
+.benefitsStrip08 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.benefitsStrip08 :where(h1, h2, h3, p) {
+  margin: 0;
+  color: inherit;
+}
+.benefitsStrip08 img {
+  display: block;
+}
+
+.benefits {
+  display: flex;
+  align-items: center;
+  padding: 32px 2.5%;
+  background-color: var(--benefits-bg, #ffffff);
+  box-shadow: inset 0 -1px 0
+    color-mix(in srgb, var(--benefits-title, #141414) 7%, transparent);
+  color: var(--benefits-title, #141414);
+  font-family: var(--benefits-font, 'Manrope', sans-serif);
+}
+
+.benefitsList {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.benefit {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.benefitTitle {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+}
+
+.benefitText {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.25px;
+  color: var(--benefits-text, #605e70);
+}
+
+.benefitsArrow {
+  display: none;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+}
+.benefitsArrow svg {
+  display: block;
+}
+
+/* ── Mobile ───────────────────────────────────────────────────────────── */
+@container bs (max-width: 960px) {
+  .benefits {
+    gap: 0;
+    padding: 24px 16px;
+  }
+  .benefit {
+    display: none;
+  }
+  .benefitAtual {
+    display: flex;
+  }
+  .benefitText {
+    font-size: 10px;
+  }
+  .benefitsArrow {
+    display: block;
+  }
+}
+.benefitsStrip08Box {
+  container: bs / inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

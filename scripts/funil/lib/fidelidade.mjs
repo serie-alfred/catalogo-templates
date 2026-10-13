@@ -43,15 +43,24 @@ import { itens } from './util.mjs';
  * tela que tiver alguma.
  */
 export const PARES = [
+  // Família 08 (o antigo BlackFriday01, dividido): seções de miolo que valem na
+  // home e no modo LP. Medidas na home.
+  { starter: 'BannerMain08', id: '08', layoutKey: 'banner', pagina: 'home' },
   {
-    starter: 'BlackFriday01',
-    id: '01',
-    layoutKey: 'landingPage',
-    pagina: 'landing',
+    starter: 'Countdown08',
+    id: '08',
+    layoutKey: 'countdown',
+    pagina: 'home',
     // O contador anda: os dois lados montam em instantes diferentes e o segundo
     // muda. O papel continua comparado em estilo, só o texto fica livre.
-    textoLivre: ['bf-countdown-unit'],
+    textoLivre: ['cd-unit'],
   },
+  { starter: 'Categories08', id: '08', layoutKey: 'categories', pagina: 'home' },
+  { starter: 'ProductShelfCustom08', id: '08', layoutKey: 'showcase', pagina: 'home' },
+  { starter: 'ProductShelfBanner08', id: '08', layoutKey: 'bannerSide', pagina: 'home' },
+  { starter: 'Editorial08', id: '08', layoutKey: 'editorial', pagina: 'home' },
+  { starter: 'BenefitsStrip08', id: '08', layoutKey: 'ruler', pagina: 'home' },
+  { starter: 'Newsletter08', id: '08', layoutKey: 'newsletter', pagina: 'home' },
   { starter: 'BenefitsStrip07', id: '07', layoutKey: 'ruler', pagina: 'home' },
   {
     starter: 'SocialProof07',

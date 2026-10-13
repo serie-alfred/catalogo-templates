@@ -81,7 +81,6 @@ const PAGENAME = {
   home: 'Homepage',
   category: 'Página de Categoria',
   product: 'Página de Produto',
-  landing: 'LPs',
 };
 const s = ms => new Promise(r => setTimeout(r, ms));
 const b = await puppeteer.launch({
@@ -135,7 +134,7 @@ for (const a of alvos) {
       // seletor de página. O de página é o que traz o nome de uma das 4 páginas.
       const TRIG =
         'const t=[...document.querySelectorAll(\'[aria-haspopup="listbox"]\')]' +
-        '.find(b=>/Homepage|Todas as p\u00e1ginas|P\u00e1gina de|LPs/.test(b.textContent));';
+        '.find(b=>/Homepage|Todas as p\u00e1ginas|P\u00e1gina de/.test(b.textContent));';
       // Clicar e VERIFICAR, insistindo — o gatilho existe no HTML antes de o React
       // hidratar, e clique em botão não hidratado não faz nada, em silêncio. Era
       // um `waitForFunction` de 15 s seco: quando estourava, a exceção derrubava o
@@ -160,7 +159,7 @@ for (const a of alvos) {
         return false;
       };
       if (!(await abriuLista()))
-        throw new Error('o seletor de página não abriu (4 opções, ou 5 com LPs)');
+        throw new Error('o seletor de página não abriu (4 opções)');
 
       await p.evaluate(nome => {
         [

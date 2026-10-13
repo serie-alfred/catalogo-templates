@@ -263,7 +263,6 @@ const NOME_DA_PAGINA = {
   home: 'Homepage',
   category: 'Página de Categoria',
   product: 'Página de Produto',
-  landing: 'LPs',
 };
 
 /**
@@ -280,7 +279,7 @@ async function trocarPagina(page, pagina) {
   if (!alvo || alvo === 'Homepage') return;
   const TRIG =
     "const t=[...document.querySelectorAll('[aria-haspopup=\"listbox\"]')]" +
-    '.find(b=>/Homepage|Todas as p\u00e1ginas|P\u00e1gina de|LPs/.test(b.textContent));';
+    '.find(b=>/Homepage|Todas as p\u00e1ginas|P\u00e1gina de/.test(b.textContent));';
   await page.waitForFunction(new Function(`${TRIG}return !!t`), {
     timeout: 30000,
     polling: 250,
@@ -304,7 +303,7 @@ async function trocarPagina(page, pagina) {
       .then(() => true)
       .catch(() => false);
   }
-  if (!abriu) throw new Error('o seletor de página não abriu (4 opções, ou 5 com LPs)');
+  if (!abriu) throw new Error('o seletor de página não abriu (4 opções)');
   await page.evaluate(nome => {
     [
       ...document.querySelectorAll(

@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useLayout } from '@/context/LayoutContext';
 import SelectPage from '../SelectPage';
 import SelectCheckoutStep from '../SelectCheckoutStep';
+import LpNameField from '../LpNameField';
 import ResponsiveToggle from '../ResponsiveToggle';
 import PreviewButton from '../PreviewButton';
 import ExportFeedbackModal from '../ExportFeedbackModal';
@@ -124,17 +125,19 @@ export default function EditorTopbar({ className }: { className?: string }) {
           </button>
         </div>
 
-        {/* No checkout o canvas mostra uma ETAPA, não uma página da loja. */}
+        {/* No checkout o canvas mostra uma ETAPA, não uma página da loja; no
+            modo LP, uma página só, e o que se edita aqui é o nome dela. */}
         {editorMode === 'checkout' ? (
           <SelectCheckoutStep
             etapa={checkout.etapa}
             setEtapa={setCheckoutEtapa}
           />
+        ) : editorMode === 'lp' ? (
+          <LpNameField />
         ) : (
           <SelectPage
             selectedPage={selectedPage}
             setSelectedPage={setSelectedPage}
-            platform={platform}
           />
         )}
 

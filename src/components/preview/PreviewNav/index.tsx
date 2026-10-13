@@ -13,8 +13,8 @@ interface PreviewNavProps {
   activeSlug: string;
   /** O snapshot tem checkout (tema VTEX): o menu ganha as etapas dele. */
   temCheckout?: boolean;
-  /** O snapshot tem LP: só então "Landing page" entra no menu. */
-  temLanding?: boolean;
+  /** O snapshot foi criado no modo LP: o menu ganha a LP, pelo nome dela. */
+  lp?: { nome: string };
 }
 
 /**
@@ -25,7 +25,7 @@ export default function PreviewNav({
   id,
   activeSlug,
   temCheckout = false,
-  temLanding = false,
+  lp,
 }: PreviewNavProps) {
   const [open, setOpen] = useState(false);
 
@@ -34,9 +34,7 @@ export default function PreviewNav({
       {open && (
         <nav className={styles.menu} aria-label="Navegação do preview">
           <span className={styles.menuTitle}>Ver página</span>
-          {PREVIEW_PAGES.filter(
-            page => page.pagina !== 'landing' || temLanding
-          ).map(page => (
+          {PREVIEW_PAGES.map(page => (
             <Link
               key={page.slug}
               href={`/p/${id}/${page.slug}`}
@@ -48,6 +46,20 @@ export default function PreviewNav({
               {page.label}
             </Link>
           ))}
+          {lp && (
+            <>
+              <span className={styles.menuTitle}>Landing page</span>
+              <Link
+                href={`/p/${id}/lp`}
+                className={`${styles.menuItem} ${
+                  activeSlug === 'lp' ? styles.active : ''
+                }`}
+                onClick={() => setOpen(false)}
+              >
+                {lp.nome}
+              </Link>
+            </>
+          )}
           {temCheckout && (
             <>
               <span className={styles.menuTitle}>Checkout</span>

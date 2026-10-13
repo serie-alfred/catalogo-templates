@@ -43,6 +43,15 @@ export interface PreviewSnapshot {
     version: string;
     variables: Record<string, string>;
   };
+  /**
+   * A LP do modo LP, quando o preview foi criado nele: abre em `/p/{id}/lp`.
+   * Documento à parte das páginas da loja (`selections`), como no editor.
+   */
+  lp?: {
+    nome: string;
+    slug: string;
+    selections: LayoutSelection[];
+  };
 }
 
 interface PreviewStore {

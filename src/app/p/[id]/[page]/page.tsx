@@ -10,11 +10,25 @@ interface PageProps {
 export default async function PreviewPage({ params }: PageProps) {
   const { id, page } = await params;
 
-  const pagina = slugToPagina(page);
-  if (!pagina) notFound();
-
   const snapshot = await getPreview(id);
   if (!snapshot) notFound();
+
+  // A LP do modo LP: as seções dela são de miolo (`home`) e vivem fora das
+  // páginas da loja — renderiza só elas, como o canvas do modo LP.
+  if (page === 'lp') {
+    if (!snapshot.lp?.selections?.length) notFound();
+    return (
+      <SharedPreview
+        snapshot={{ ...snapshot, selections: snapshot.lp.selections }}
+        pagina="home"
+        id={id}
+        activeSlug="lp"
+      />
+    );
+  }
+
+  const pagina = slugToPagina(page);
+  if (!pagina) notFound();
 
   return (
     <SharedPreview

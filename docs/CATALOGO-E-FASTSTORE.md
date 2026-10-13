@@ -140,11 +140,11 @@ lados, com os mesmos paths (até 25/09 a origem os servia do CDN de uma loja).
 
 Fora da leva de propósito: **`WiddeScript06`** (injeta script de terceiro, não tem
 UI) e os **16 institucionais**, que exigiam abrir o tipo de página `landingPage` em
-toda a cadeia. Essa cadeia abriu em 09/10/2026 com a página **LPs** (`pagina:
-"landing"`, balde `landing` no config, `landing` no generator) — mas lá a LP entra
-INTEIRA num item só (`BlackFriday01`), e os institucionais são seções avulsas de
-uma página que o lojista compõe no CMS. Levá-los para o catálogo continua sendo
-decisão de produto, não falta de encanamento.
+toda a cadeia. Essa cadeia abriu em 13/10/2026 com o **modo LP** do editor (config
+`tipo: "lp"` com o balde `landing`, montado pelo generator numa Landing Page do CMS):
+uma LP ali é feita de seções de miolo comuns, então um institucional entraria na LP
+como qualquer seção de home. Levá-los para o catálogo continua sendo decisão de
+produto, não falta de encanamento.
 
 Dez componentes não tinham slot equivalente e ganharam **seção própria** no
 painel: Ambientes, Newsletter, Compre por tamanho, Ajuda flutuante, Outras linhas,

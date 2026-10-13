@@ -156,6 +156,14 @@ import Header07 from '@/components/templates/common/template_7/Header';
 import Footer07 from '@/components/templates/common/template_7/Footer';
 import Header08 from '@/components/templates/common/template_8/Header';
 import Footer08 from '@/components/templates/common/template_8/Footer';
+import BannerMain08 from '@/components/templates/home/template_8/BannerMain';
+import Countdown08 from '@/components/templates/home/template_8/Countdown';
+import Categories08 from '@/components/templates/home/template_8/Categories';
+import Showcase08 from '@/components/templates/home/template_8/Showcase';
+import ShelfBanner08 from '@/components/templates/home/template_8/ShelfBanner';
+import Editorial08 from '@/components/templates/home/template_8/Editorial';
+import Ruler08 from '@/components/templates/home/template_8/Ruler';
+import Newsletter08 from '@/components/templates/home/template_8/Newsletter';
 import Spot07 from '@/components/templates/common/template_7/Spot';
 import Showcase07 from '@/components/templates/home/template_7/Showcase';
 import ClientReview07 from '@/components/templates/home/template_7/ClientReview';
@@ -175,7 +183,6 @@ import CategoryTitle06 from '@/components/templates/category/template_6/Category
 import CategoryDescription06 from '@/components/templates/category/template_6/CategoryDescription';
 import CategoryMain07 from '@/components/templates/category/template_7/CategoryMain';
 import CategoryMain06 from '@/components/templates/category/template_6/CategoryMain';
-import BlackFriday01 from '@/components/templates/landing/template_1/BlackFriday';
 
 export const TemplateRegistry: Record<
   string,
@@ -260,6 +267,14 @@ export const TemplateRegistry: Record<
   Footer07,
   Header08,
   Footer08,
+  BannerMain08,
+  Countdown08,
+  Categories08,
+  Showcase08,
+  ShelfBanner08,
+  Editorial08,
+  Ruler08,
+  Newsletter08,
   Spot07,
   Showcase07,
   ClientReview07,
@@ -279,5 +294,4 @@ export const TemplateRegistry: Record<
   CategoryTitle06,
   CategoryMain06,
   CategoryMain07,
-  BlackFriday01,
 };

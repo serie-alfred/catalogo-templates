@@ -97,7 +97,9 @@ const PASTA = {
   home: 'Home',
   category: 'Category',
   product: 'Product',
-  landing: 'Landing',
+  // A LP do modo LP (`tipo: "lp"`) é feita de seções de miolo: a origem delas é
+  // a mesma pasta da home.
+  landing: 'Home',
 };
 
 /**
@@ -314,7 +316,8 @@ export async function conferirParidadeGlobalTemplates(r) {
  */
 export function conferirFaststore(config, r, { checkoutEsperado } = {}) {
   const raiz = config.faststore;
-  conferirCheckoutFaststore(raiz, r, checkoutEsperado);
+  // O config do modo LP leva só a LP: o checkout é do tema da loja.
+  if (config.tipo !== 'lp') conferirCheckoutFaststore(raiz, r, checkoutEsperado);
   const baldes = ['global', 'home', 'category', 'product', 'landing', 'overrides'];
   const entradas = baldes.flatMap(b =>
     (raiz[b] ?? []).map(e => ({ ...e, balde: b }))
@@ -740,8 +743,12 @@ const PARES_IMPOSSIVEIS = new Set([
   '05×07',
   '06×07',
 ]);
-/** Vitrines sem `usesSpot`: a escolha de card do cliente não as alcança. */
-const SEM_SUBSTITUICAO = new Set(['07']);
+/**
+ * Vitrines sem `usesSpot`: a escolha de card do cliente não as alcança. A 08 é
+ * de propósito — o card dela é o do Figma "Templates - Serie A" (selo, desconto,
+ * Pix e parcela no layout da campanha), parte do núcleo `molecules/ProductShelf08`.
+ */
+const SEM_SUBSTITUICAO = new Set(['07', '08']);
 
 const igual = (a, b) => a.length === b.size && a.every(x => b.has(x));
 
@@ -798,7 +805,7 @@ export async function conferirParesCardVitrine(vtexPaths, r) {
     SEM_SUBSTITUICAO
   );
   r.ok(
-    `só a família 07 ignora a escolha de card (${ignoram.map(v => v.n).join(', ') || 'nenhuma'})`,
+    `só as famílias 07 e 08 ignoram a escolha de card (${ignoram.map(v => v.n).join(', ') || 'nenhuma'})`,
     ignoramEsperado,
     `esperado ${[...SEM_SUBSTITUICAO].join(', ')}, medido ${ignoram.map(v => v.n).join(', ')}`
   );

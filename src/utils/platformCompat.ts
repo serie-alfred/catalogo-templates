@@ -75,6 +75,14 @@ export function sanitizePlatform(value: string | null): Platform | null {
 }
 
 /**
+ * O modo LP só existe onde o generator sabe montar uma LP sozinha: Wake (página
+ * custom de hotsite) e VTEX (seções numa Landing Page do CMS). A Tray não tem.
+ */
+export function plataformaTemLp(platform: Platform | null): boolean {
+  return platform === 'Wake' || platform === 'VTEX';
+}
+
+/**
  * O modo Checkout só existe em VTEX: o checkout-vtex é o checkout NATIVO da
  * VTEX, e Tray/Wake não têm o que mostrar ali. Trocar de plataforma sai do modo
  * — e a hidratação passa pelo mesmo filtro, porque o `/gerador/import-log`
@@ -84,13 +92,17 @@ export function modeForPlatform(
   mode: EditorMode,
   platform: Platform | null
 ): EditorMode {
-  return mode === 'checkout' && platform !== 'VTEX' ? 'loja' : mode;
+  if (mode === 'checkout' && platform !== 'VTEX') return 'loja';
+  if (mode === 'lp' && !plataformaTemLp(platform)) return 'loja';
+  return mode;
 }
 
-/** `editorMode` lido do localStorage: só os dois valores, e só o que a plataforma aceita. */
+/** `editorMode` lido do localStorage: só os três valores, e só o que a plataforma aceita. */
 export function sanitizeEditorMode(
   value: string | null,
   platform: Platform | null
 ): EditorMode {
-  return modeForPlatform(value === 'checkout' ? 'checkout' : 'loja', platform);
+  const modo: EditorMode =
+    value === 'checkout' || value === 'lp' ? value : 'loja';
+  return modeForPlatform(modo, platform);
 }
