@@ -19,6 +19,7 @@ import { buildThemeStyle, contrastOn, colorSafeOnWhite } from '@/utils/themeStyl
 import {
   modeForPlatform,
   partitionByPlatform,
+  plataformaTemLp,
   sanitizeEditorMode,
   sanitizePlatform,
   sanitizeSelections,
@@ -797,7 +798,12 @@ export function useLayoutGenerator() {
     setShowPlatformError(false);
 
     const loja = partitionByPlatform(lojaSelections, value);
-    const daLp = partitionByPlatform(lp.selections, value);
+    // Plataforma sem modo LP (Tray) não toca na LP: ela fica guardada como está e
+    // volta inteira quando o usuário voltar para Wake/VTEX — perguntar por ela
+    // aqui seria um diálogo sobre algo que a Tray nem mostra.
+    const daLp = plataformaTemLp(value)
+      ? partitionByPlatform(lp.selections, value)
+      : { kept: lp.selections, lostTitles: [] as string[] };
     const lostTitles = [
       ...loja.lostTitles,
       ...daLp.lostTitles.map(t => `${t} (na LP)`),

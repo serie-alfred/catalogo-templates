@@ -460,7 +460,8 @@ const chrome = await p.evaluate(() => ({
 }));
 r.ok(
   'no checkout o rail tem Variáveis/Tipografia/Identidade (sem Componentes) e o alternador ligado',
-  JSON.stringify(chrome.rail) === JSON.stringify(['Variáveis globais', 'Tipografia', 'Identidade visual', 'Checkout']) &&
+  // O alternador do modo LP ("Landing page") também mora no rail em VTEX.
+  JSON.stringify(chrome.rail) === JSON.stringify(['Variáveis globais', 'Tipografia', 'Identidade visual', 'Checkout', 'Landing page']) &&
     chrome.pressed === 'true',
   JSON.stringify(chrome.rail)
 );
