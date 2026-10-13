@@ -267,16 +267,17 @@ export function conferirTrayWake(config, plataforma, r) {
  * QUAL `global-templates` as checagens de origem Tray/Wake leem — e se é o que o
  * generator clona.
  *
- * Os estágios 1 e 5 leem o checkout irmão, clone do GitHub
- * (`seriedesign/global-templates`); a trilha Tray/Wake do generator clona o
- * GitLab (`GLOBAL_COMPONENTS_REPO_URL`, lido do próprio generator). As duas só
- * são a mesma árvore se alguém empurrou para as duas: componente que só existe
- * no GitHub passa aqui com "origem existe" e some do tema da Tray sem erro.
+ * Os estágios 1 e 5 leem o checkout irmão; a trilha Tray/Wake do generator
+ * clona `GLOBAL_COMPONENTS_REPO_URL` (lido do próprio generator — desde 13/10/2026
+ * o mesmo `seriedesign/global-templates` do GitHub; antes era um GitLab que
+ * ficou 10 commits para trás). São a mesma árvore só se o checkout está
+ * empurrado: componente commitado aqui e não empurrado passa com "origem
+ * existe" e some do tema sem erro.
  *
- * Os dois remotos são privados. Com `credential.helper` vazio o `ls-remote`
- * responde 401 em ~2s em vez de travar no osxkeychain (ver README), então a
- * comparação roda onde houver acesso sem o keychain (GIT_ASKPASS, URL com
- * token) e, onde não houver, o estágio DIZ o que mediu em vez de calar.
+ * O remoto é privado. No github.com o helper é o do `gh` e responde na hora;
+ * qualquer outro host vai com `credential.helper` vazio, que dá 401 em ~2s em
+ * vez de travar no osxkeychain (ver README). Onde não houver acesso, o estágio
+ * DIZ o que mediu em vez de calar.
  */
 export async function conferirParidadeGlobalTemplates(r) {
   const { GLOBAL_COMPONENTS_REPO_URL: doGenerator } = await import(
@@ -287,7 +288,10 @@ export async function conferirParidadeGlobalTemplates(r) {
   const local = git(['-C', GLOBAL_TEMPLATES, 'rev-parse', 'HEAD']).stdout.trim();
   const origemLocal = git(['-C', GLOBAL_TEMPLATES, 'remote', 'get-url', 'origin'])
     .stdout.trim();
-  const remoto = git(['-c', 'credential.helper=', 'ls-remote', doGenerator, 'HEAD'], {
+  // Zerar o helper no github.com zeraria também o do `gh` (o vazio da linha de
+  // comando reinicia a lista inteira) e a paridade nunca seria verificada.
+  const semKeychain = /^https:\/\/github\.com\//.test(doGenerator) ? [] : ['-c', 'credential.helper='];
+  const remoto = git([...semKeychain, 'ls-remote', doGenerator, 'HEAD'], {
     ...process.env,
     GIT_TERMINAL_PROMPT: '0',
   });

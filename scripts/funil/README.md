@@ -104,10 +104,11 @@ data URL marcador. Três rodadas do generator:
 
 ## Por que Tray e Wake param na validação estática
 
-Não é escolha: `git ls-remote` do GitLab e do `git.fbits.net` **trava** dentro do
-`git-credential-osxkeychain` — só `github.com` tem helper aqui, via `gh`. Além
-disso o fluxo da Tray usa `start cmd /k` e `cd /d` (Windows), e o da Wake publica
-em loja real sem opt-in. O estágio 5 confere o contrato sem executar.
+Não é escolha: o fluxo da Tray usa `start cmd /k` e `cd /d` (Windows), e o da Wake
+clona o tema do `git.fbits.net` — que **trava** dentro do `git-credential-osxkeychain`;
+só `github.com` tem helper aqui, via `gh` — e publica em loja real sem opt-in. O tema-base
+da Tray e o `global-templates` vêm do GitHub desde 13/10/2026. O estágio 5 confere o
+contrato sem executar.
 
 ## Estágio 2c — as três features que os outros não tocam
 
@@ -285,12 +286,12 @@ do catálogo. Um `selection` com typo não dá erro em lugar nenhum: a seção
 simplesmente não existe no tema entregue. O estágio 1 é o único lugar onde isso
 aparece antes da loja.
 
-Com uma ressalva que os estágios 1 e 5 agora dizem em voz alta: eles leem o checkout
-irmão, que é clone do **GitHub**, e o generator clona o **GitLab**
-(`GLOBAL_COMPONENTS_REPO_URL`). Componente empurrado só para um dos dois passa aqui e some
-do tema. Os dois remotos são privados; com `credential.helper` vazio o `ls-remote` do
-GitLab responde 401 em ~2 s em vez de travar, então onde houver acesso sem o keychain o
-estágio compara os commits e reprova se divergirem, e onde não houver imprime o que leu
+Com uma ressalva que os estágios 1 e 5 dizem em voz alta: eles leem o checkout
+irmão, e o generator clona o remoto (`GLOBAL_COMPONENTS_REPO_URL`, o mesmo
+`seriedesign/global-templates` do GitHub desde 13/10/2026; até lá era um GitLab que ficou
+10 commits para trás). Componente commitado aqui e não empurrado passa e some do tema. O
+estágio compara o HEAD local com o do remoto (pelo helper do `gh`) e reprova se divergirem;
+onde o remoto não responder, imprime o que leu
 (`ℹ️ origem Tray/Wake conferida em … @ <commit>; … paridade não verificada`).
 
 No VTEX é o oposto: o `path` resolve contra `faststore.starter` pelo grafo de

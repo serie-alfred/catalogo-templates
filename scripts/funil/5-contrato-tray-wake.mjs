@@ -2,10 +2,10 @@
  * Estágio 5 — contrato Tray/Wake, estático.
  *
  * Executar o generator nessas duas trilhas é inviável desta máquina, e não por
- * escolha: o `git ls-remote` do GitLab (tema-base da Tray) e do git.fbits.net
- * (tema da Wake) TRAVA dentro do git-credential-osxkeychain — só github.com tem
- * helper configurado. Somado a isso, a Tray abre `start cmd /k` (Windows) e a
- * Wake publica conteúdo ativo numa loja real via API, sem flag de bypass.
+ * escolha: a Tray abre `start cmd /k` (Windows), e a Wake clona o tema do
+ * git.fbits.net, que TRAVA dentro do git-credential-osxkeychain, e publica
+ * conteúdo ativo numa loja real via API, sem flag de bypass. (O tema-base da
+ * Tray e o global-templates vêm do GitHub desde 13/10/2026 e clonam pelo `gh`.)
  *
  * O que dá para provar sem executar é o contrato: o caminho de origem, a
  * unicidade da key e os limites conhecidos de instância.
@@ -20,8 +20,8 @@ import {
 
 const r = relatorio('Estágio 5 — contrato Tray/Wake');
 
-// As origens abaixo são conferidas no clone local (GitHub); o generator clona o
-// GitLab. Diz qual árvore foi lida e compara as duas quando o GitLab responde.
+// As origens abaixo são conferidas no clone local; o generator clona o remoto.
+// Diz qual árvore foi lida e reprova se o local não for o que está empurrado.
 await conferirParidadeGlobalTemplates(r);
 
 for (const plataforma of ['Tray', 'Wake']) {

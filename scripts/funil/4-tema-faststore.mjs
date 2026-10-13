@@ -2,8 +2,8 @@
  * Estágio 4 — montar o tema FastStore de verdade.
  *
  * É a única perna do pipeline que dá para executar desta máquina: o clone do
- * GitHub autentica pelo `gh`, enquanto o GitLab (tema-base da Tray) e o
- * git.fbits.net (tema da Wake) travam no git-credential-osxkeychain.
+ * GitHub autentica pelo `gh`; a Tray abre `start cmd /k` (Windows) e o
+ * git.fbits.net (tema da Wake) trava no git-credential-osxkeychain.
  *
  * Roda com `--test` (dispensa o prompt da URL da loja), SEM `--push` (não cria
  * branch) e SEM `--sync` (não publica no Headless CMS da VTEX).

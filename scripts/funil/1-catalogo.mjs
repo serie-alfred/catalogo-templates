@@ -307,8 +307,8 @@ r.ok(
   semOrigem.length === 0,
   semOrigem.join(' | ')
 );
-// ...que é o clone do GitHub, não o do GitLab que o generator clona: diz qual
-// árvore foi lida e compara as duas quando o GitLab responde.
+// ...que é o clone local, não o remoto que o generator clona: diz qual árvore
+// foi lida e reprova se o local não for o que está empurrado.
 await conferirParidadeGlobalTemplates(r);
 
 // 7b. conteúdo hospedado no CDN de OUTRA loja.
