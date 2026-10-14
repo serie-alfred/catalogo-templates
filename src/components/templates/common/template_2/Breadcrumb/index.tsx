@@ -2,12 +2,12 @@ import styles from './index.module.css';
 
 export default function Breadcrumb() {
   return (
-    <div className={styles['breadcrumb']}>
+    <div className={styles['breadcrumb']} data-role="breadcrumb">
       <div className={`component__container`}>
         <ul className={styles.breadcrumb}>
-          <li className={styles['breadcrumb-item']}>
-            <a href="/">Home</a>
-            <i>
+          <li className={styles['breadcrumb-item']} data-role="breadcrumb-item">
+            <a href="/" data-role="breadcrumb-link">Home</a>
+            <i data-role="breadcrumb-sep">
               <svg
                 width="20"
                 height="21"
@@ -26,8 +26,8 @@ export default function Breadcrumb() {
             </i>
           </li>
 
-          <li className={styles['breadcrumb-item']}>
-            <a href="/categoria">Categoria</a>
+          <li className={styles['breadcrumb-item']} data-role="breadcrumb-item">
+            <a href="/categoria" data-role="breadcrumb-current">Categoria</a>
           </li>
         </ul>
       </div>

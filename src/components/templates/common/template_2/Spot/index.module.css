@@ -100,11 +100,11 @@
   padding: 0px 6px;
   height: 19px;
   width: max-content;
-  font-family: var(--font-family);
+  font-family: 'Noto Sans', sans-serif;
   font-weight: 800;
   font-size: 10px;
   text-transform: uppercase;
-  color: var(--color-white);
+  color: #fff;
   line-height: 1;
   letter-spacing: 0.24px;
 }
@@ -123,7 +123,7 @@
 }
 
 .spot .productWrapper .productContent .pContentTop .productStars span {
-  font-family: var(--font-family);
+  font-family: 'Noto Sans', sans-serif;
   font-weight: 400;
   font-size: 12px;
   color: #525252;
@@ -152,7 +152,7 @@
   font-family: var(--font-secundary);
   font-weight: 400;
   font-size: 14px;
-  color: var(--color-black);
+  color: #000;
   letter-spacing: 0.15px;
   padding: 0px;
   margin: 0px;
@@ -165,7 +165,7 @@
   font-family: var(--font-secundary);
   font-weight: 600;
   font-size: 18px;
-  color: var(--color-black);
+  color: #000;
   text-align: left;
 }
 
@@ -220,7 +220,7 @@
   .prices
   .price-before {
   margin-bottom: 6px;
-  color: var(--color-semi-black);
+  color: #6a6a6a;
 }
 
 .favoriteCard svg {
@@ -292,7 +292,7 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  color: var(--color-semi-black);
+  color: #6a6a6a;
   width: 100%;
   margin-top: 6px;
   text-align: left;
@@ -356,7 +356,7 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  color: var(--color-semi-black);
+  color: #6a6a6a;
 }
 
 .spot
@@ -397,7 +397,7 @@
   font-family: var(--font-secundary);
   font-size: 14px;
   font-weight: 400;
-  color: var(--color-black);
+  color: #000;
   text-align: left;
 }
 

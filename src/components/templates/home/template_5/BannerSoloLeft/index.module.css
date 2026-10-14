@@ -4,6 +4,10 @@
   justify-content: center;
   container-type: inline-size;
   width: 100%;
+  /* cor e fonte do tema, com o valor de antes como fallback — o
+     BannerSoloLeft05 do starter lê os mesmos papéis */
+  color: var(--text-primary-color, #000);
+  font-family: var(--font-primary, 'Noto Sans', sans-serif);
 }
 .homeCollection .collectionContent {
   padding: 15px;
@@ -24,7 +28,7 @@
   gap: 25px;
 }
 .homeCollection .collectionContent .gridImage .bannerImageText .bannerText h2 {
-  font-family: var(--font-family);
+  font-family: var(--font-primary, 'Noto Sans', sans-serif);
   font-size: 55px;
   font-weight: 700;
   line-height: 48px;
@@ -32,7 +36,7 @@
   text-transform: uppercase;
   width: 380px;
   line-height: 1.2;
-  color: #000;
+  color: var(--text-primary-color, #000);
 }
 @container (max-width: 768px) {
   .homeCollection .collectionContent .gridImage .bannerImageText .bannerText h2 {
@@ -41,7 +45,7 @@
   }
 }
 .homeCollection .collectionContent .gridImage .bannerImageText .bannerText span {
-  font-family: var(--font-family);
+  font-family: var(--font-primary, 'Noto Sans', sans-serif);
   font-size: 17px;
   font-weight: 400;
   letter-spacing: 0.25px;
@@ -55,9 +59,9 @@
   }
 }
 .homeCollection .collectionContent .gridImage .bannerImageText .bannerText a {
-  background-color: #000;
+  background-color: var(--background-primary-color, #000);
   border-radius: 120px;
-  color: #fff;
+  color: var(--text-color-base, #fff);
   justify-content: center;
   max-width: -moz-fit-content;
   max-width: fit-content;

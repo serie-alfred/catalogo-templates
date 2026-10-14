@@ -27,14 +27,14 @@ const Header = () => {
   };
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header} data-role="hd-root">
       {/* Header Top */}
-      <div className={styles.headerTop}>
+      <div className={styles.headerTop} data-role="hd-topbar">
         <div className={`${styles.topContainer} component__container`}>
           <div className={styles.topRow}>
             <div className={styles.topLogin}>
               <div className={styles.notLogged}>
-                <a href="/central">
+                <a href="/central" data-role="hd-welcome">
                   <svg
                     fill="none"
                     height="18"
@@ -75,6 +75,7 @@ const Header = () => {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Link do número de whatsapp da loja"
+                data-role="hd-top-whatsapp"
               >
                 Atendimento ao cliente:{' '}
                 {storeInfo.whatsapp.replace(
@@ -92,6 +93,7 @@ const Header = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Link para a página do youtube da loja"
+                    data-role="hd-social"
                   >
                     <svg
                       fill="none"
@@ -113,6 +115,7 @@ const Header = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Link para a página do instagram da loja"
+                    data-role="hd-social"
                   >
                     <svg
                       fill="none"
@@ -136,6 +139,7 @@ const Header = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Link para a página do twitter da loja"
+                    data-role="hd-social"
                   >
                     <svg
                       fill="none"
@@ -157,6 +161,7 @@ const Header = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Link para a página do linkedin da loja"
+                    data-role="hd-social"
                   >
                     <svg
                       fill="none"
@@ -180,6 +185,7 @@ const Header = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Link para a página do facebook da loja"
+                    data-role="hd-social"
                   >
                     <svg
                       fill="none"
@@ -201,11 +207,11 @@ const Header = () => {
         </div>
       </div>
       {/* Header Middle */}
-      <div className={styles.headerMiddle}>
+      <div className={styles.headerMiddle} data-role="hd-middle">
         <div className={`${styles.middleContainer} component__container`}>
           <div className={styles.middleRow}>
             <div className={styles.middleTabs}>
-              <div className={styles.tabsInner}>
+              <div className={styles.tabsInner} data-role="hd-menu-button">
                 <svg
                   fill="none"
                   height="24"
@@ -240,7 +246,7 @@ const Header = () => {
 
             <div className={styles.middleLogo}>
               <h1>
-                <a href="/" data-tray-tst="logotipo_loja">
+                <a href="/" data-tray-tst="logotipo_loja" data-role="hd-logo">
                   {storeInfo.logo ? (
                     <img
                       src={storeInfo.logo}
@@ -258,7 +264,7 @@ const Header = () => {
 
             <div className={styles.middleSearch}>
               <div className={styles.search}>
-                <form action="/busca" method="get">
+                <form action="/busca" method="get" data-role="hd-search">
                   <input type="hidden" name="loja" value="1" />
                   <div>
                     <input
@@ -267,6 +273,7 @@ const Header = () => {
                       placeholder="Buscar seu produto"
                       name="palavra_busca"
                       data-tray-tst="busca_palavra"
+                      data-role="hd-search-input"
                       required
                     />
                   </div>
@@ -274,6 +281,7 @@ const Header = () => {
                     className={styles.searchButton}
                     type="submit"
                     data-tray-tst="botao_buscar"
+                    data-role="hd-search-submit"
                     aria-label="Botão de buscar"
                   >
                     <svg
@@ -310,6 +318,7 @@ const Header = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Link do número de whatsapp da loja"
+                  data-role="hd-contact"
                 >
                   <svg
                     width="20"
@@ -351,7 +360,7 @@ const Header = () => {
 
               <div className={styles.configLogin}>
                 <div className={styles.notLogged}>
-                  <a href="/central">
+                  <a href="/central" data-role="hd-login">
                     <svg
                       fill="none"
                       height="24"
@@ -387,7 +396,7 @@ const Header = () => {
               </div>
 
               <div className={styles.configCart}>
-                <div className={styles.cartWrapper}>
+                <div className={styles.cartWrapper} data-role="hd-cart">
                   <svg
                     fill="none"
                     height="24"
@@ -412,8 +421,8 @@ const Header = () => {
                       strokeLinecap="round"
                     />
                   </svg>
-                  <span className={styles.cartTitle}>Carrinho</span>
-                  <span className={styles.cartNumber} data-cart="amount">
+                  <span className={styles.cartTitle} data-role="hd-cart-label">Carrinho</span>
+                  <span className={styles.cartNumber} data-cart="amount" data-role="hd-cart-count">
                     {cartInfo.amount}
                   </span>
                 </div>
@@ -424,15 +433,15 @@ const Header = () => {
       </div>
 
       {/* Header Bottom */}
-      <div className={styles.header__bottom}>
+      <div className={styles.header__bottom} data-role="hd-nav">
         <div className={`${styles.bottom__container} component__container`}>
           <div className={`${styles.bottom__row} component__row`}>
             <div className={styles.bottom__login}>
-              <a href="#">Entre ou Cadastre-se</a>
+              <a href="#" data-role="hd-drawer-login">Entre ou Cadastre-se</a>
             </div>
 
             <div className={styles.bottom__whatsapp}>
-              <a href="#" target="_blank" rel="noopener noreferrer">
+              <a href="#" target="_blank" rel="noopener noreferrer" data-role="hd-drawer-help">
                 Precisa de ajuda
               </a>
             </div>
@@ -443,7 +452,7 @@ const Header = () => {
                   <li
                     className={`${styles.t} ${styles.l1Item} ${styles.hasChild}`}
                   >
-                    <a href="#" className={styles.l1ItemLink}>
+                    <a href="#" className={styles.l1ItemLink} data-role="hd-menu-item">
                       Categoria 1
                       <svg
                         fill="none"
@@ -472,7 +481,7 @@ const Header = () => {
                             <li
                               className={`${styles.subItem} ${styles.hasChild}`}
                             >
-                              <a href="#" className={styles.l2ItemLink}>
+                              <a href="#" className={styles.l2ItemLink} data-role="hd-submenu-item">
                                 Submenu 1
                                 <svg
                                   fill="none"
@@ -498,6 +507,7 @@ const Header = () => {
                                   <a
                                     href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-de-agua-natural"
                                     className="l3-item-link"
+                                    data-role="hd-submenu-leaf"
                                   >
                                     Submenu 1.1
                                   </a>
@@ -506,6 +516,7 @@ const Header = () => {
                                   <a
                                     href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-de-agua-gelada"
                                     className="l3-item-link"
+                                    data-role="hd-submenu-leaf"
                                   >
                                     Submenu 1.2
                                   </a>
@@ -514,6 +525,7 @@ const Header = () => {
                                   <a
                                     href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-de-agua-quente"
                                     className="l3-item-link"
+                                    data-role="hd-submenu-leaf"
                                   >
                                     Submenu 1.3
                                   </a>
@@ -522,6 +534,7 @@ const Header = () => {
                                   <a
                                     href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-bacteriologico"
                                     className="l3-item-link"
+                                    data-role="hd-submenu-leaf"
                                   >
                                     Submenu 1.4
                                   </a>
@@ -530,6 +543,7 @@ const Header = () => {
                                   <a
                                     href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-alcalino-ionziado"
                                     className="l3-item-link"
+                                    data-role="hd-submenu-leaf"
                                   >
                                     Submenu 1.5
                                   </a>
@@ -538,6 +552,7 @@ const Header = () => {
                                   <a
                                     href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-com-ozonio"
                                     className="l3-item-link"
+                                    data-role="hd-submenu-leaf"
                                   >
                                     Submenu 1.6
                                   </a>
@@ -546,6 +561,7 @@ const Header = () => {
                                   <a
                                     href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/com-ultravioleta"
                                     className="l3-item-link"
+                                    data-role="hd-submenu-leaf"
                                   >
                                     Submenu 1.7
                                   </a>
@@ -561,6 +577,7 @@ const Header = () => {
                               <a
                                 href="https://parceiroseriedesign.commercesuite.com.br/filtros-de-agua"
                                 className="l2-item-link"
+                                data-role="hd-submenu-item"
                               >
                                 Submenu 2
                               </a>
@@ -574,6 +591,7 @@ const Header = () => {
                               <a
                                 href="https://parceiroseriedesign.commercesuite.com.br/osmose-e-reversa"
                                 className="l2-item-link"
+                                data-role="hd-submenu-item"
                               >
                                 Submenu 3
                               </a>
@@ -584,10 +602,10 @@ const Header = () => {
                     </div>
                   </li>
                   <li>
-                    <a href="#">Categoria 2</a>
+                    <a href="#" data-role="hd-menu-item">Categoria 2</a>
                   </li>
                   <li>
-                    <a href="#">Categoria 3</a>
+                    <a href="#" data-role="hd-menu-item">Categoria 3</a>
                   </li>
                 </ul>
               </nav>

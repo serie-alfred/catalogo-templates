@@ -3,7 +3,7 @@ import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
 import { LAYOUTS } from '@/data/layoutData';
 import { TemplateRegistry } from '@/utils/templateRegistry';
-import Spot from '@/components/templates/common/template_1/Spot';
+import Spot from '@/components/templates/common/template_2/Spot';
 
 const CategoryMain = () => {
   const [showFilters, setShowFilters] = useState(false);
@@ -14,29 +14,9 @@ const CategoryMain = () => {
   const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
 
   // Dados fixos para substituir as variáveis Twig
-  const products = [
-    { id: 1, name: 'Produto 1', price: 'R$ 99,90', image: '/img/produto1.jpg' },
-    {
-      id: 2,
-      name: 'Produto 2',
-      price: 'R$ 149,90',
-      image: '/img/produto2.jpg',
-    },
-    { id: 3, name: 'Produto 3', price: 'R$ 79,90', image: '/img/produto3.jpg' },
-    {
-      id: 4,
-      name: 'Produto 4',
-      price: 'R$ 199,90',
-      image: '/img/produto4.jpg',
-    },
-    {
-      id: 5,
-      name: 'Produto 5',
-      price: 'R$ 129,90',
-      image: '/img/produto5.jpg',
-    },
-    { id: 6, name: 'Produto 6', price: 'R$ 89,90', image: '/img/produto6.jpg' },
-  ];
+  // 12 produtos: um card por posição da grade (a página da categoria do starter
+  // mostra o mesmo número).
+  const products = Array.from({ length: 12 }, (_, i) => ({ id: i + 1 }));
 
   const brands = [
     { id: 1, name: 'Marca A', count: 12 },
@@ -83,15 +63,15 @@ const CategoryMain = () => {
 
   // Componente de paginação
   const Pagination = () => (
-    <div className={styles.pagination}>
+    <div className={styles.pagination} data-role="pagination">
       <div className={styles.paginateLinks}>
-        <a href="#" className={`${styles.pageLink} ${styles.pageCurrent}`}>
+        <a href="#" className={`${styles.pageLink} ${styles.pageCurrent}`} data-role="page-current">
           1
         </a>
-        <a href="#" className={styles.pageLink}>
+        <a href="#" className={styles.pageLink} data-role="page-link">
           2
         </a>
-        <a href="#" className={`${styles.pageLink} ${styles.pageNext}`}>
+        <a href="#" className={`${styles.pageLink} ${styles.pageNext}`} data-role="page-next">
           {'>'}
         </a>
       </div>
@@ -100,9 +80,9 @@ const CategoryMain = () => {
 
   // Componente de filtro
   const Filter = () => (
-    <div className={`${styles.filter} ${showFilters ? styles.filterOpen : ''}`}>
+    <div className={`${styles.filter} ${showFilters ? styles.filterOpen : ''}`} data-role="filter">
       <div className={styles.filterClose} onClick={() => setShowFilters(false)}>
-        <div className={styles.closeInner}>
+        <div className={styles.closeInner} data-role="filter-close">
           <svg
             fill="none"
             height="16"
@@ -135,14 +115,14 @@ const CategoryMain = () => {
         </div>
       </div>
 
-      <span className={styles.filterTitleForm}>Filtrar</span>
+      <span className={styles.filterTitleForm} data-role="filter-title">Filtrar</span>
 
       <form className={styles.filterForm} method="get">
         <input type="hidden" name="loja" value="1" />
 
         {categories.length > 0 && (
-          <div className={styles.filterBlock}>
-            <span className={styles.filterTitleActive}>
+          <div className={styles.filterBlock} data-role="filter-block">
+            <span className={styles.filterTitleActive} data-role="filter-block-title">
               Categorias
               <div className={styles.filterArrow}>
                 <svg
@@ -163,16 +143,16 @@ const CategoryMain = () => {
               </div>
             </span>
 
-            <ul className={styles.filterList}>
+            <ul className={styles.filterList} data-role="filter-list">
               {categories.map(category => (
-                <li key={category.id} className={styles.filterItem}>
-                  <div className={styles.fakeInput}></div>
+                <li key={category.id} className={styles.filterItem} data-role="filter-item">
+                  <div className={styles.fakeInput} data-role="filter-check"></div>
                   <label
                     className={styles.filterLabel}
                     htmlFor={`category-${category.id}`}
                   >
-                    <span className={styles.filterName}>{category.name}</span>
-                    <span className={styles.filterCount}>
+                    <span className={styles.filterName} data-role="filter-name">{category.name}</span>
+                    <span className={styles.filterCount} data-role="filter-count">
                       ({category.count})
                     </span>
                   </label>
@@ -183,8 +163,8 @@ const CategoryMain = () => {
         )}
 
         {prices.length > 0 && (
-          <div className={styles.filterBlock}>
-            <span className={styles.filterTitleActive}>
+          <div className={styles.filterBlock} data-role="filter-block">
+            <span className={styles.filterTitleActive} data-role="filter-block-title">
               Preço
               <div className={styles.filterArrow}>
                 <svg
@@ -205,16 +185,16 @@ const CategoryMain = () => {
               </div>
             </span>
 
-            <ul className={styles.filterList}>
+            <ul className={styles.filterList} data-role="filter-list">
               {prices.map((price, index) => (
-                <li key={index} className={styles.filterItem}>
-                  <div className={styles.fakeInput}></div>
+                <li key={index} className={styles.filterItem} data-role="filter-item">
+                  <div className={styles.fakeInput} data-role="filter-check"></div>
 
                   <label
                     className={styles.filterLabel}
                     htmlFor={`price-${index}`}
                   >
-                    <span className={styles.filterName}>
+                    <span className={styles.filterName} data-role="filter-name">
                       {index === 0
                         ? `Até R$ ${price.to}`
                         : index === prices.length - 1
@@ -229,8 +209,8 @@ const CategoryMain = () => {
         )}
 
         {availability.length > 0 && (
-          <div className={styles.filterBlock}>
-            <span className={styles.filterTitleActive}>
+          <div className={styles.filterBlock} data-role="filter-block">
+            <span className={styles.filterTitleActive} data-role="filter-block-title">
               Disponibilidade
               <div className={styles.filterArrow}>
                 <svg
@@ -251,17 +231,17 @@ const CategoryMain = () => {
               </div>
             </span>
 
-            <ul className={styles.filterList}>
+            <ul className={styles.filterList} data-role="filter-list">
               {availability.map((item, index) => (
-                <li key={index} className={styles.filterItem}>
-                  <div className={styles.fakeInput}></div>
+                <li key={index} className={styles.filterItem} data-role="filter-item">
+                  <div className={styles.fakeInput} data-role="filter-check"></div>
 
                   <label
                     className={styles.filterLabel}
                     htmlFor={`availability-${index}`}
                   >
-                    <span className={styles.filterName}>{item.name}</span>
-                    <span className={styles.filterCount}>({item.count})</span>
+                    <span className={styles.filterName} data-role="filter-name">{item.name}</span>
+                    <span className={styles.filterCount} data-role="filter-count">({item.count})</span>
                   </label>
                 </li>
               ))}
@@ -270,8 +250,8 @@ const CategoryMain = () => {
         )}
 
         {brands.length > 0 && (
-          <div className={styles.filterBlock}>
-            <span className={styles.filterTitleActive}>
+          <div className={styles.filterBlock} data-role="filter-block">
+            <span className={styles.filterTitleActive} data-role="filter-block-title">
               Marcas
               <div className={styles.filterArrow}>
                 <svg
@@ -292,17 +272,17 @@ const CategoryMain = () => {
               </div>
             </span>
 
-            <ul className={styles.filterList}>
+            <ul className={styles.filterList} data-role="filter-list">
               {brands.map(brand => (
-                <li key={brand.id} className={styles.filterItem}>
-                  <div className={styles.fakeInput}></div>
+                <li key={brand.id} className={styles.filterItem} data-role="filter-item">
+                  <div className={styles.fakeInput} data-role="filter-check"></div>
 
                   <label
                     className={styles.filterLabel}
                     htmlFor={`brand-${brand.id}`}
                   >
-                    <span className={styles.filterName}>{brand.name}</span>
-                    <span className={styles.filterCount}>({brand.count})</span>
+                    <span className={styles.filterName} data-role="filter-name">{brand.name}</span>
+                    <span className={styles.filterCount} data-role="filter-count">({brand.count})</span>
                   </label>
                 </li>
               ))}
@@ -312,8 +292,8 @@ const CategoryMain = () => {
 
         {properties.length > 0 &&
           properties.map(property => (
-            <div key={property.key} className={styles.filterBlock}>
-              <span className={styles.filterTitleActive}>
+            <div key={property.key} className={styles.filterBlock} data-role="filter-block">
+              <span className={styles.filterTitleActive} data-role="filter-block-title">
                 {property.key}
                 <div className={styles.filterArrow}>
                   <svg
@@ -334,17 +314,17 @@ const CategoryMain = () => {
                 </div>
               </span>
 
-              <ul className={styles.filterList}>
+              <ul className={styles.filterList} data-role="filter-list">
                 {property.values.map(value => (
-                  <li key={value.key} className={styles.filterItem}>
-                    <div className={styles.fakeInput}></div>
+                  <li key={value.key} className={styles.filterItem} data-role="filter-item">
+                    <div className={styles.fakeInput} data-role="filter-check"></div>
 
                     <label
                       className={styles.filterLabel}
                       htmlFor={`prop-${property.key}-${value.key}`}
                     >
-                      <span className={styles.filterName}>{value.key}</span>
-                      <span className={styles.filterCount}>
+                      <span className={styles.filterName} data-role="filter-name">{value.key}</span>
+                      <span className={styles.filterCount} data-role="filter-count">
                         ({value.count})
                       </span>
                     </label>
@@ -358,15 +338,16 @@ const CategoryMain = () => {
   );
 
   return (
-    <div className={styles.categoryMain}>
+    <div className={styles.categoryMain} data-role="cat-main">
       <div className={`component__container`}>
         {/* Botões de filtro e ordenação */}
-        <div className={styles.categoryButtons}>
+        <div className={styles.categoryButtons} data-role="buttons">
           <div className={styles.buttonsContainer}>
             <div className={styles.buttonsRow}>
               <div className={styles.buttonsWrapper}>
                 <span
                   className={styles.buttonsFilter}
+                  data-role="btn-filter"
                   onClick={() => setShowFilters(!showFilters)}
                 >
                   <svg
@@ -460,6 +441,7 @@ const CategoryMain = () => {
 
                 <span
                   className={styles.buttonsOrder}
+                  data-role="btn-order"
                   onClick={() => setShowSort(!showSort)}
                 >
                   <svg
@@ -545,9 +527,10 @@ const CategoryMain = () => {
 
               <div
                 className={`${styles.listOrderMobile} ${showSort ? styles.orderMobileOpen : ''}`}
+                data-role="order-mobile"
               >
                 <div className={styles.orderWrapper}>
-                  <div className={styles.orderTitle}>
+                  <div className={styles.orderTitle} data-role="order-title">
                     Ordenar por
                     <div
                       className={styles.orderClose}
@@ -584,31 +567,46 @@ const CategoryMain = () => {
                       </svg>
                     </div>
                   </div>
-                  <div className={styles.orderInner}></div>
+                  <div className={styles.orderInner} data-role="order-options">
+                    {[
+                      'Lançamentos',
+                      'Mais vendidos',
+                      'Menor preço',
+                      'Maior preço',
+                      'Maior desconto',
+                      'Nome, A a Z',
+                      'Nome, Z a A',
+                      'Relevância',
+                    ].map((label, i) => (
+                      <span key={label} className={i === 0 ? styles.active : undefined}>
+                        {label}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
 
               <div className={styles.listShowcase}>
                 <div className={styles.listWrapper}>
                   <div className={styles.listOrder}>
-                    <div className={styles.filterTotal}>
+                    <div className={styles.filterTotal} data-role="total">
                       <span>
                         Mostrando <b>12</b> de 14
                       </span>
                     </div>
 
-                    <div className={styles.listTotalMobile}>
+                    <div className={styles.listTotalMobile} data-role="total-mobile">
                       <input type="hidden" id="def_page_size" value="28" />
                       <span>
                         Mostrando <b>6</b> de 28
                       </span>
                     </div>
 
-                    <div className={styles.listFields}>
+                    <div className={styles.listFields} data-role="sort">
                       {/* Filtro de marcas */}
-                      <strong>Ordenar por:</strong>
+                      <strong data-role="sort-label">Ordenar por:</strong>
                       <div className={styles.brandFilter}>
-                        <select className={styles.brandSelect}>
+                        <select className={styles.brandSelect} data-role="sort-select">
                           <option value="">Lançamentos</option>
                         </select>
                       </div>
@@ -618,46 +616,35 @@ const CategoryMain = () => {
                   <div className={styles.listSpots}>
                     {products.length > 0 ? (
                       <div className={styles.showcaseCatalog}>
-                        <div className={styles.showcaseList}>
+                        <div className={styles.showcaseList} data-role="spots">
                           {products.map(product => (
-                            <div key={product.id} className={styles.listSpot}>
-                              {selectedSpots.length > 0
-                                ? selectedSpots.map(
-                                    (spot: { id: string; uid: string; variables?: Record<string, string> }) => {
-                                      const layoutItem =
-                                        LAYOUTS.spot.items.find(
-                                          it => it.id === spot.id
-                                        );
-                                      if (!layoutItem) return null;
-
-                                      const SpotComponent =
-                                        TemplateRegistry[layoutItem.component];
-
-                                      return SpotComponent ? (
-                                        [1, 2, 3, 4].map((_, index) => (
-                                          <div
-                                            key={`${spot?.uid}-${index}`}
-                                            style={spot.variables as React.CSSProperties}
-                                          >
-                                            <SpotComponent />
-                                          </div>
-                                        ))
-                                      ) : (
-                                        <></>
-                                      );
-                                    }
-                                  )
-                                : [1, 2, 3, 4].map((_, index) => (
-                                    <div key={index}>
-                                      <Spot />
-                                    </div>
-                                  ))}
+                            <div key={product.id} className={styles.listSpot} data-role="list-spot">
+                              {(() => {
+                                const spot = selectedSpots[0] as
+                                  | { id: string; uid: string; variables?: Record<string, string> }
+                                  | undefined;
+                                const layoutItem = spot
+                                  ? LAYOUTS.spot.items.find(it => it.id === spot.id)
+                                  : undefined;
+                                const SpotComponent = layoutItem
+                                  ? TemplateRegistry[layoutItem.component]
+                                  : undefined;
+                                return SpotComponent ? (
+                                  <div style={spot?.variables as React.CSSProperties}>
+                                    <SpotComponent />
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <Spot />
+                                  </div>
+                                );
+                              })()}
                             </div>
                           ))}
                         </div>
                       </div>
                     ) : (
-                      <p className={styles.productNotFound}>
+                      <p className={styles.productNotFound} data-role="empty">
                         Nenhum produto encontrado
                       </p>
                     )}

@@ -28,16 +28,16 @@ const rulerItems = [
 
 export default function Ruler() {
   return (
-    <div className={styles.homeRuler}>
+    <div className={styles.homeRuler} data-role="ruler">
       <div className={`${styles.rulerContainer} component__container`}>
         <div className={`swiper ${styles.rulerSwiper}`}>
           <div className={styles.swiper__wrapper}>
             {rulerItems.map((item, index) => (
-              <div className={styles.swiper__slide} key={index}>
+              <div className={styles.swiper__slide} key={index} data-role="ruler-item">
                 <div
                   className={`${styles.rulerItem} ${item.type ? styles[item.type] : ''}`}
                 >
-                  <div className={styles.itemIcon}>
+                  <div className={styles.itemIcon} data-role="ruler-icon">
                     {/* SVG fixo */}
                     <svg
                       width="44"
@@ -82,8 +82,8 @@ export default function Ruler() {
                   </div>
 
                   <div className={styles.itemText}>
-                    <span>
-                      <b>{item.title}</b>
+                    <span data-role="ruler-text">
+                      <b data-role="ruler-title">{item.title}</b>
                       {item.text}
                     </span>
                   </div>
@@ -93,7 +93,7 @@ export default function Ruler() {
           </div>
         </div>
 
-        <div className={styles.swiperRulerButtonPrev}>
+        <div className={styles.swiperRulerButtonPrev} data-role="ruler-prev">
           <svg
             fill="none"
             height="24"
@@ -111,7 +111,7 @@ export default function Ruler() {
           </svg>
         </div>
 
-        <div className={styles.swiperRulerButtonNext}>
+        <div className={styles.swiperRulerButtonNext} data-role="ruler-next">
           <svg
             fill="none"
             height="24"

@@ -4,11 +4,11 @@ import styles from './index.module.css';
 
 export default function RulerFooter() {
   return (
-    <section className={styles.rulerFooter}>
+    <section className={styles.rulerFooter} data-role="rl-root">
       <div className={`${styles.rulerContainer} component__container`}>
-        <div className={styles.rulerContent}>
+        <div className={styles.rulerContent} data-role="rl-item">
           <a href="#">
-            <img
+            <img data-role="rl-image"
               alt="Título 1"
               decoding="async"
               src="https://placehold.co/300x77"
@@ -19,9 +19,9 @@ export default function RulerFooter() {
           </a>
         </div>
 
-        <div className={styles.rulerContent}>
+        <div className={styles.rulerContent} data-role="rl-item">
           <a href="#">
-            <img
+            <img data-role="rl-image"
               alt="Título 2"
               decoding="async"
               height="50"
@@ -32,9 +32,9 @@ export default function RulerFooter() {
           </a>
         </div>
 
-        <div className={styles.rulerContent}>
+        <div className={styles.rulerContent} data-role="rl-item">
           <a href="#">
-            <img
+            <img data-role="rl-image"
               alt="Título 3"
               decoding="async"
               height="50"
@@ -45,9 +45,9 @@ export default function RulerFooter() {
           </a>
         </div>
 
-        <div className={styles.rulerContent}>
+        <div className={styles.rulerContent} data-role="rl-item">
           <a href="#">
-            <img
+            <img data-role="rl-image"
               alt="Título 4"
               decoding="async"
               height="50"
@@ -59,9 +59,9 @@ export default function RulerFooter() {
           </a>
         </div>
 
-        <div className={styles.rulerContent}>
+        <div className={styles.rulerContent} data-role="rl-item">
           <a href="#">
-            <img
+            <img data-role="rl-image"
               alt="Título 5"
               decoding="async"
               height="50"
@@ -73,9 +73,9 @@ export default function RulerFooter() {
           </a>
         </div>
 
-        <div className={styles.rulerContent}>
+        <div className={styles.rulerContent} data-role="rl-item">
           <a href="#">
-            <img
+            <img data-role="rl-image"
               alt="Título 6"
               decoding="async"
               height="50"

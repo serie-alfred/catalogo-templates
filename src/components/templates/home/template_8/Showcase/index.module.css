@@ -279,11 +279,7 @@
 .cardList {
   font-size: 14px;
   font-weight: 400;
-  color: color-mix(
-    in srgb,
-    var(--showcase-card-text, #292929) 62%,
-    transparent
-  );
+  color: color-mix(in srgb, var(--showcase-card-text, #292929) 62%, transparent);
 }
 
 .cardPrice {
@@ -308,11 +304,7 @@
   font-weight: 400;
   line-height: normal;
   white-space: nowrap;
-  color: color-mix(
-    in srgb,
-    var(--showcase-card-text, #292929) 62%,
-    transparent
-  );
+  color: color-mix(in srgb, var(--showcase-card-text, #292929) 62%, transparent);
 }
 
 /* ── Mobile ───────────────────────────────────────────────────────────── */

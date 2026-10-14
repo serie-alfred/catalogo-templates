@@ -41,26 +41,26 @@ export default function ClientReview() {
   );
 
   return (
-    <section className={styles.reviewContainer}>
-      <p className={styles.titleReview}>Depoimentos</p>
-      <span className={styles.subtitleReview}>O que dizem sobre nós</span>
+    <section className={styles.reviewContainer} data-role="cr-root">
+      <p className={styles.titleReview} data-role="cr-title">Depoimentos</p>
+      <span className={styles.subtitleReview} data-role="cr-subtitle">O que dizem sobre nós</span>
 
       <div className={`${styles.review} component__container`}>
         <div className={`${styles.swiper}`}>
           <div className={`${styles.swiper__wrapper}`}>
             {reviews.map((review, index) => (
               <div key={index} className={`${styles.swiper__slide}`}>
-                <div className={styles.reviewItem}>
-                  <img src={review.img} alt={`imagem de ${review.name}`} />
-                  <div className={styles.stars}>
+                <div className={styles.reviewItem} data-role="cr-item">
+                  <img src={review.img} alt={`imagem de ${review.name}`} data-role="cr-photo" />
+                  <div className={styles.stars} data-role="cr-stars">
                     <div className={styles.stars__inner}>
                       {[...Array(5)].map((_, i) => (
                         <StarIcon key={i} />
                       ))}
                     </div>
                   </div>
-                  <p className={styles.desc}>{review.desc}</p>
-                  <span className={styles.name}>{review.name}</span>
+                  <p className={styles.desc} data-role="cr-desc">{review.desc}</p>
+                  <span className={styles.name} data-role="cr-name">{review.name}</span>
                 </div>
               </div>
             ))}

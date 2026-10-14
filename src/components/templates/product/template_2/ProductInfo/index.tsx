@@ -46,16 +46,16 @@ const ProductInfo = () => {
   };
 
   return (
-    <div className={styles.product__info}>
+    <div className={styles.product__info} data-role="root">
       <div className={`${styles.info__container} component__container`}>
         <div className={styles.info__row}>
           {/* Seção Esquerda - Galeria de Imagens */}
           <div className={styles.info__left}>
             <div className={styles.info__position}>
               <div className={styles.info__image}>
-                <div className={styles.productGallery}>
+                <div className={styles.productGallery} data-role="gallery">
                   <div className={styles.conteudo}>
-                    <div className={styles.produtoImagemMiniaturas}>
+                    <div className={styles.produtoImagemMiniaturas} data-role="thumbs">
                       <div className={styles.miniaturasWrapper}>
                         <ul className={styles.miniaturasList}>
                           {product.images.map((image, index) => (
@@ -69,6 +69,7 @@ const ProductInfo = () => {
                                     src={image}
                                     title="Produto 2"
                                     alt="Produto 2"
+                                    data-role="thumb"
                                     className={`${index === 0 ? styles.selected : ""}`}
                                   />
                                 </a>
@@ -92,11 +93,12 @@ const ProductInfo = () => {
                             title="Produto 2"
                             alt="Produto 2"
                             className={styles.photo}
+                            data-role="main-image"
                           />
                         </a>
                       </div>
                     </div>
-                    <div className={`${styles.swiperPagination}`}>
+                    <div className={`${styles.swiperPagination}`} data-role="dots">
                       <span
                         className={`${styles.swiperPaginationBullet} ${styles.swiperPaginationBulletActive}`}
                       ></span>
@@ -130,16 +132,16 @@ const ProductInfo = () => {
 
           {/* Seção Direita - Informações do Produto */}
           <div className={styles.info__right}>
-            <div className={styles.info__content}>
+            <div className={styles.info__content} data-role="info">
               <div className={styles.content__positon}>
                 <div className={styles.content__inner}>
   
-                  <h1 className={styles.productName}>{product.name}</h1>
+                  <h1 className={styles.productName} data-role="title">{product.name}</h1>
                   <div className={styles.info__container_inf}>
-                    <span className={styles.content__sku}>
+                    <span className={styles.content__sku} data-role="sku">
                       SKU: <b>{product.sku}</b>
                     </span>
-                    <div className={styles.content__stars}>
+                    <div className={styles.content__stars} data-role="rating">
                       {[...Array(5)].map((_, i) => (
                         <svg key={i} height="12" viewBox="0 0 12 12" width="12">
                           <path
@@ -153,31 +155,31 @@ const ProductInfo = () => {
               
                  
 
-                  <div className={styles.content__productTag}>
-                    <div className={styles.tagFeatured}>
+                  <div className={styles.content__productTag} data-role="tags">
+                    <div className={styles.tagFeatured} data-role="tag-offer">
                       <span>OFERTA</span>
                     </div>
-                    <div className={styles.tagNew}>
+                    <div className={styles.tagNew} data-role="tag-new">
                       <span>Novo</span>
                     </div>
                   </div>
 
-                  <div className={styles.content__price}>
+                  <div className={styles.content__price} data-role="price-block">
                     <div className={styles.produtoPreco}>
                       <div className={styles.preco}>
                         <div className={styles.precoBefore}>
-                          <span className={styles.precoDe}>
+                          <span className={styles.precoDe} data-role="list-price">
                             R$<span>{product.price}</span>
                           </span>
-                          <span className={styles.precoDiscountFlag}>
+                          <span className={styles.precoDiscountFlag} data-role="discount">
                             <span>-13%</span>
                           </span>
                         </div>
 
-                        <span className={styles.precoPrincipal}>
+                        <span className={styles.precoPrincipal} data-role="price">
                           R$ <span>{product.price}</span>
                         </span>
-                        <div className={styles.infoPreco}>
+                        <div className={styles.infoPreco} data-role="installment">
                           <span className={styles.precoParc}>Em 10x</span>
                           <span className={styles.precoParc}> de </span>
                           <span className={styles.precoParc}>
@@ -189,29 +191,29 @@ const ProductInfo = () => {
                     </div>
 
                     <div className={styles.produtoFormasPagamento}>
-                      <a className={styles.showPaymentMethods}>
+                      <a className={styles.showPaymentMethods} data-role="payment-link">
                         Ver todas as formas de pagamentos
                       </a>
                     </div>
                   </div>
 
-                  <div className={styles.corVariacao}>
+                  <div className={styles.corVariacao} data-role="variations">
                     <div className={styles.menuVars}>
                       <div className={styles.textoVariacao}>
-                        <h2>Cores disponíveis</h2>
+                        <h2 data-role="colors-title">Cores disponíveis</h2>
                       </div>
                       <ul className={styles.listaCorVariacao}>
-                        <li className={`${styles.listaItem} ${styles.selected}`}>
+                        <li className={`${styles.listaItem} ${styles.selected}`} data-role="color-option">
                           <div className={styles.color}></div>
                         </li>
-                        <li className={`${styles.listaItem}`}>
+                        <li className={`${styles.listaItem}`} data-role="color-option">
                           <div className={`${styles.color} ${styles.red}`}></div>
                         </li>
                       </ul>
                     </div>
                     <div className={styles.menuVars}>
                       <div className={styles.textoVariacao}>
-                        <h2>Escolha Tamanho</h2>
+                        <h2 data-role="sizes-title">Escolha Tamanho</h2>
                       </div>
                       <ul className={styles.listaCorVariacao}>
                         {product.sizes.map(size => (
@@ -219,6 +221,7 @@ const ProductInfo = () => {
                             key={size}
                             className={`${selectedSize === size ? styles.selected : ''}`}
                             onClick={() => handleSizeSelect(size)}
+                            data-role="size-option"
                           >
                             <div className={styles.sizeOption}>{size}</div>
                           </li>
@@ -227,16 +230,17 @@ const ProductInfo = () => {
                     </div>
                   </div>
 
-                  <div className={styles.favoriteButton}>
+                  <div className={styles.favoriteButton} data-role="favorite">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
                     Adicionar aos Favoritos
                   </div>
 
-                  <div className={styles.productFormBox}>
-                    <div className={styles.quantidade}>
+                  <div className={styles.productFormBox} data-role="buy-box">
+                    <div className={styles.quantidade} data-role="quantity">
                       <label>
                         <span
                           className={styles.qtyMinus}
+                          data-role="qty-minus"
                           onClick={() => handleQuantityChange(-1)}
                         >
                           <svg
@@ -256,6 +260,7 @@ const ProductInfo = () => {
                         </span>
                         <span
                           className={styles.qtyPlus}
+                          data-role="qty-plus"
                           onClick={() => handleQuantityChange(1)}
                         >
                           <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -272,6 +277,7 @@ const ProductInfo = () => {
                           id="quant"
                           name="quant"
                           className={styles.quantityInput}
+                          data-role="qty-input"
                           type="text"
                           value={1}
                           readOnly
@@ -280,7 +286,7 @@ const ProductInfo = () => {
                     </div>
 
                     <div className={styles.buyButton}>
-                      <button className={styles.botaoComprar} type="button">
+                      <button className={styles.botaoComprar} type="button" data-role="buy-button">
                         <span className={styles.botaoCommerceImg}>
                         <svg fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                           <path d="M9 15L15.7078 14.4186C17.8066 14.2368 18.2778 13.76 18.5104 11.5831L19 7" stroke="white" strokeWidth="1.5" strokeLinecap="round"></path>
@@ -296,8 +302,8 @@ const ProductInfo = () => {
                     </div>
                   </div>
 
-                  <div className={styles.content__shipping}>
-                    <span className={styles.shipping__title}>
+                  <div className={styles.content__shipping} data-role="shipping">
+                    <span className={styles.shipping__title} data-role="shipping-title">
                     Calcule seu frete
                     </span>
 
@@ -306,12 +312,13 @@ const ProductInfo = () => {
                         <input
                           type="text"
                           className={styles.cepMask}
+                          data-role="cep-input"
                           value={formatCep(cep)}
                           onChange={handleCepChange}
                           placeholder="00000-000"
                         />
                       </label>
-                      <button className={styles.shipping__send} type="button">
+                      <button className={styles.shipping__send} type="button" data-role="shipping-submit">
                         Calcular
                       </button>
                     </form>
@@ -321,11 +328,12 @@ const ProductInfo = () => {
                       target="_blank"
                       rel="noopener noreferrer"
                       className={styles.noCep}
+                      data-role="no-cep"
                     >
                       Não sei meu CEP
                     </a>
 
-                    <div className={styles.shippingResults}></div>
+                    <div className={styles.shippingResults} data-role="shipping-results"></div>
                   </div>
                 </div>
               </div>

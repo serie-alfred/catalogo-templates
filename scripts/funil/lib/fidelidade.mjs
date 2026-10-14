@@ -157,6 +157,33 @@ export const PARES = [
     textoLivre: ['hd-badge'],
   },
   { starter: 'Footer08', id: '08', layoutKey: 'footer', pagina: 'common' },
+  // Portes de 13/10 ("portar todas as famílias"): seções que só existiam na Tray/Wake
+  // ganharam o lado VTEX no starter, com o markup e os data-role da réplica.
+  { starter: 'Header02', id: '02', layoutKey: 'header', pagina: 'common', textoLivre: ['hd-cart-count'] },
+  { starter: 'Footer02', id: '02', layoutKey: 'footer', pagina: 'common' },
+  { starter: 'BannerFull02', id: '02', layoutKey: 'bannerFull', pagina: 'home', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
+  { starter: 'BannerFullCategory02', id: '04', layoutKey: 'bannerFull', pagina: 'category', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
+  { starter: 'Ruler02', id: '02', layoutKey: 'ruler', pagina: 'home' },
+  { starter: 'BannerDuplo02', id: '02', layoutKey: 'bannerSide', pagina: 'home' },
+  { starter: 'BannerSide02', id: '03', layoutKey: 'bannerSide', pagina: 'home' },
+  { starter: 'ProductShelfCustom02', id: '02', layoutKey: 'showcase', pagina: 'home', textoLivre: ['spot-rating-count'] },
+  { starter: 'MainCategory02', id: '02', layoutKey: 'categoryMain', pagina: 'category', textoLivre: ['spot-rating-count'] },
+  { starter: 'ProductInfo02', id: '02', layoutKey: 'productInfo', pagina: 'product' },
+  { starter: 'MultiCategories04', id: '04', layoutKey: 'categories', pagina: 'home' },
+  { starter: 'Ruler04', id: '04', layoutKey: 'ruler', pagina: 'home', semPaleta: 'régua de selos em imagem: nenhum nó pinta cor ou fonte' },
+  { starter: 'BannerSolo04', id: '01', layoutKey: 'bannerSolo', pagina: 'home' },
+  { starter: 'SpecialOffers04', id: '01', layoutKey: 'specialOffers', pagina: 'home' },
+  { starter: 'HomeCombined04', id: '01', layoutKey: 'homeCombined', pagina: 'home' },
+  { starter: 'BannerFull05', id: '05', layoutKey: 'bannerFull', pagina: 'home', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
+  { starter: 'Ruler05', id: '05', layoutKey: 'ruler', pagina: 'home' },
+  { starter: 'BannerTriple05', id: '01', layoutKey: 'bannerTriple', pagina: 'home', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
+  { starter: 'BannerTripleSwiper05', id: '02', layoutKey: 'bannerTriple', pagina: 'home', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
+  { starter: 'BannerSoloLeft05', id: '01', layoutKey: 'bannerSideLeft', pagina: 'home' },
+  { starter: 'HomeCarousel06', id: '06', layoutKey: 'categories', pagina: 'home', semPaleta: 'fileira de fotos com nome: o texto herda da página nos dois lados, nenhum nó pinta cor ou fonte de tema' },
+  { starter: 'BannerTriple06', id: '03', layoutKey: 'bannerTriple', pagina: 'home', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
+  { starter: 'CategoryTriple06', id: '04', layoutKey: 'bannerTriple', pagina: 'home', semPaleta: 'artes de categoria só de imagem: nenhum nó pinta cor ou fonte' },
+  { starter: 'ClientReview06', id: '01', layoutKey: 'review', pagina: 'home', semPaleta: 'a réplica não pinta texto (herda da página) e os fundos são hex estruturais sem token de tema: nenhum nó pinta com o tema' },
+  { starter: 'BannerTop01', id: '01', layoutKey: 'bannerProduct', pagina: 'product', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
 ];
 
 /**

@@ -54,15 +54,15 @@ export default function HomeCarousel() {
   ];
 
   return (
-    <section className={styles.carouselContainer}>
+    <section className={styles.carouselContainer} data-role="hc-root">
       <div className="component__container">
         <div className={styles.swiper}>
           <div className={styles.swiperWrapper}>
             {categories.map((cat, index) => (
               <div key={index} className={styles.swiperSlide}>
-                <a href={cat.link} className={styles.rulerItem}>
-                  <img src={cat.img} alt={cat.title} />
-                  <span>{cat.title}</span>
+                <a href={cat.link} className={styles.rulerItem} data-role="hc-item">
+                  <img src={cat.img} alt={cat.title} data-role="hc-img" />
+                  <span data-role="hc-title">{cat.title}</span>
                 </a>
               </div>
             ))}

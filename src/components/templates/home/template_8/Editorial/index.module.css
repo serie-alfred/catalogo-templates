@@ -42,11 +42,7 @@
   gap: 64px;
   padding: 64px max(125px, (100% - 1280px) / 2 + 125px);
   overflow: hidden;
-  background-image: linear-gradient(
-    to top,
-    var(--editorial-bg-end, #141414),
-    var(--editorial-bg-start, #292929)
-  );
+  background-image: linear-gradient(to top, var(--editorial-bg-end, #141414), var(--editorial-bg-start, #292929));
   color: var(--editorial-body-color, #dfdfe0);
   font-family: var(--editorial-font, 'Open Sans', sans-serif);
 }
@@ -86,8 +82,7 @@
   position: absolute;
   object-fit: cover;
   border-radius: 1.1049723757cqw;
-  box-shadow: 0 1.8416206262cqw 4.4198895028cqw -2.2099447514cqw
-    rgba(255, 255, 255, 0.25);
+  box-shadow: 0 1.8416206262cqw 4.4198895028cqw -2.2099447514cqw rgba(255, 255, 255, 0.25);
 }
 
 .collageA {
@@ -131,6 +126,7 @@
 
 .aboutTitle {
   font-family: var(--editorial-title-font, 'Open Sans', sans-serif);
+  color: var(--editorial-title-color, #dfdfe0);
   font-size: 32px;
   font-weight: 800;
   line-height: 1.2;

@@ -8,12 +8,12 @@
   width: 100%;
 }
 .homeBIR .roomBrowserSection {
-  background-color: var(--wp--preset--color--palette-color-4,var(--theme-palette-color-4,#152420));
+  background-color: var(--background-primary-color, #152420);
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
-  color: #fff;
+  color: var(--text-color-base, #fff);
   padding: 50px;
   width: 100%;
   margin: 0 auto;
@@ -112,7 +112,7 @@
   background-color: #fff;
   border-radius: 10px;
   bottom: 25px;
-  color: #000;
+  color: var(--text-primary-color, #000);
   left: 25px;
   max-width: -moz-fit-content;
   max-width: fit-content;
@@ -151,7 +151,7 @@
   background-color: #fff;
   border-radius: 10px;
   bottom: 25px;
-  color: #000;
+  color: var(--text-primary-color, #000);
   left: 25px;
   max-width: -moz-fit-content;
   max-width: fit-content;
@@ -204,7 +204,7 @@
   background-color: #fff;
   border-radius: 10px;
   bottom: 25px;
-  color: #000;
+  color: var(--text-primary-color, #000);
   left: 25px;
   max-width: -moz-fit-content;
   max-width: fit-content;

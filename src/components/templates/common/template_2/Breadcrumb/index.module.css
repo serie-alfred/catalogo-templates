@@ -20,7 +20,7 @@ ul.breadcrumb {
 
 .breadcrumb li:last-of-type a,
 .breadcrumb li:last-of-type span {
-  color: var(--color-black);
+  color: #000;
 }
 
 .breadcrumb li a,
@@ -30,7 +30,7 @@ ul.breadcrumb {
   font-family: var(--font-primary);
   font-weight: 500;
   font-size: 14px;
-  color: var(--color-semi-black);
+  color: #6a6a6a;
   text-decoration: none;
 }
 

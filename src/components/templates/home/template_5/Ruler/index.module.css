@@ -5,6 +5,10 @@
   border-bottom: 1px solid #EFEFF0;
   width: 100%;
   container-type: inline-size;
+  /* cor e fonte do tema, com o valor de antes (o do shell) como fallback — o
+     Ruler05 do starter lê os mesmos papéis */
+  color: var(--text-primary-color, #000);
+  font-family: var(--font-secundary, 'Noto Sans', sans-serif);
 }
 .homeRuler .rulerContainer {
   max-width: 80% !important;

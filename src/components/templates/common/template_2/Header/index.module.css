@@ -197,7 +197,7 @@
   .search
   form
   .searchKey {
-  background-color: var(--color-white);
+  background-color: #fff;
   color: var(--text-color-base);
   font-family: var(--font-secundary);
   border: none;
@@ -250,7 +250,7 @@
   .search
   form
   .searchKey::-moz-placeholder {
-  color: var(--color-black);
+  color: #000;
 }
 
 .header
@@ -261,7 +261,7 @@
   .search
   form
   .searchKey::placeholder {
-  color: var(--color-black);
+  color: #000;
 }
 
 .header
@@ -358,7 +358,7 @@
   font-family: var(--font-secundary);
   font-size: 12px;
   font-weight: 500;
-  color: var(--color-black);
+  color: #000;
 }
 
 .header
@@ -376,7 +376,7 @@
   font-family: var(--font-secundary);
   font-size: 12px;
   font-weight: 400;
-  color: var(--color-black);
+  color: #000;
 }
 
 .header .headerMiddle .middleContainer .middleRow .middleConfig {
@@ -696,7 +696,7 @@
   left: 0px;
   top: 100%;
   z-index: 11;
-  background-color: var(--color-white);
+  background-color: #fff;
   min-width: max-content;
   height: auto;
   padding: 0px;
@@ -803,7 +803,7 @@
   font-family: var(--font-primary);
   font-weight: 400;
   font-size: 14px;
-  color: var(--color-black);
+  color: #000;
   text-decoration: none;
 }
 
@@ -844,7 +844,7 @@
   right: -100%;
   top: 0;
   width: 100%;
-  background-color: var(--color-white);
+  background-color: #fff;
   z-index: 1;
   padding: 7px 0px;
   min-width: 200px;
@@ -919,7 +919,7 @@
   width: 100%;
   height: 100%;
   z-index: 9999;
-  background-color: var(--color-black);
+  background-color: #000;
   display: none;
   cursor: pointer;
 }
@@ -999,7 +999,7 @@
 }
 
 .header .header__cart .cart__preview .preview-itens::-webkit-scrollbar-track {
-  background: var(--color-white);
+  background: #fff;
 }
 
 .header .header__cart .cart__preview .preview-itens::-webkit-scrollbar-thumb {
@@ -1633,7 +1633,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    font-family: var(--font-family);
+    font-family: 'Noto Sans', sans-serif;
     font-size: 14px;
     font-weight: 500;
     color: #0f0f0f;
@@ -1673,7 +1673,7 @@
     flex-wrap: wrap;
     align-items: center;
     line-height: 1;
-    font-family: var(--font-family);
+    font-family: 'Noto Sans', sans-serif;
     font-weight: 500;
     font-size: 14px;
     color: #000000;

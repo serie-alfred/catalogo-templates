@@ -56,8 +56,7 @@
 
 .newsletterPanel {
   background-color: var(--newsletter-panel-bg, #f6f6fa);
-  box-shadow: inset -1px 0 0
-    color-mix(in srgb, var(--newsletter-title-color, #0f0f0f) 7%, transparent);
+  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--newsletter-title-color, #0f0f0f) 7%, transparent);
 }
 
 .newsletterTitle {
@@ -111,8 +110,7 @@
   height: 62px;
   margin: 0;
   padding: 0 18px;
-  border: 1px solid
-    color-mix(in srgb, var(--newsletter-title-color, #0f0f0f) 13%, transparent);
+  border: 1px solid color-mix(in srgb, var(--newsletter-title-color, #0f0f0f) 13%, transparent);
   border-radius: 16px;
   outline: none;
   background: transparent;
@@ -122,11 +120,7 @@
   line-height: 1.5;
 }
 .newsletterInput::placeholder {
-  color: color-mix(
-    in srgb,
-    var(--newsletter-title-color, #0f0f0f) 55%,
-    transparent
-  );
+  color: color-mix(in srgb, var(--newsletter-title-color, #0f0f0f) 55%, transparent);
   opacity: 1;
 }
 .newsletterInput:focus-visible {

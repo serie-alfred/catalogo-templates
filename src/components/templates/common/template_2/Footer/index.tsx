@@ -119,14 +119,14 @@ const Footer = () => {
 
   return (
     <>
-      <footer className={styles.footer}>
+      <footer className={styles.footer} data-role="ft-root">
         {/* Footer Top */}
         <div className={styles.footerTop}>
           <div className={`component__container ${styles.topContainer}`}>
             <div className={styles.topRow}>
               <div className={styles.footerLeft}>
                 <div className={styles.middleLogo}>
-                  <a href="/" data-tray-tst="logotipo_loja">
+                  <a href="/" data-tray-tst="logotipo_loja" data-role="ft-logo">
                     {storeInfo.logo ? (
                       <img
                         src={storeInfo.logo}
@@ -146,7 +146,7 @@ const Footer = () => {
                   <div className={styles.newsletterContainer}>
                     <div className={styles.newsletterRow}>
                       <div className={styles.newsletter}>
-                        <div className={styles.newsletterTitle}>
+                        <div className={styles.newsletterTitle} data-role="ft-nl-title">
                           <span>
                             Lorem ipsum dolor sit amet consectetur. Quisque
                             massa vel quis.
@@ -161,6 +161,7 @@ const Footer = () => {
                           >
                             <input
                               className={styles.formItem}
+                              data-role="ft-nl-input"
                               type="email"
                               name="EMAIL"
                               required
@@ -171,6 +172,7 @@ const Footer = () => {
                               <div className={styles.mcEmbeddedSubscribe}>
                                 <input
                                   className={styles.inputButton}
+                                  data-role="ft-nl-button"
                                   type="submit"
                                   name="subscribe"
                                   value="Enviar"
@@ -216,24 +218,25 @@ const Footer = () => {
 
               <div className={styles.footerRight}>
                 <div className={styles.topMenu}>
-                  <span className={styles.menuTitle}>Institucional</span>
+                  <span className={styles.menuTitle} data-role="ft-heading">Institucional</span>
                   <ul className={styles.institucionalMenu}>
                     {institutionalPages.map((page, index) => (
                       <li key={index}>
-                        <a href={page.url}>{page.name}</a>
+                        <a href={page.url} data-role="ft-link">{page.name}</a>
                       </li>
                     ))}
                   </ul>
                 </div>
 
                 <div className={styles.topMenu}>
-                  <span className={styles.menuTitle}>Redes Sociais</span>
+                  <span className={styles.menuTitle} data-role="ft-heading">Redes Sociais</span>
                   <ul className={styles.menuSocial}>
                     <li>
                       <a
                         href={storeInfo.social.facebook}
                         target="_blank"
                         rel="noopener noreferrer"
+                        data-role="ft-social"
                         aria-label="Link para a página do facebook da loja"
                       >
                         <svg
@@ -255,6 +258,7 @@ const Footer = () => {
                         href={storeInfo.social.twitter}
                         target="_blank"
                         rel="noopener noreferrer"
+                        data-role="ft-social"
                         aria-label="Link para a página do X da loja"
                       >
                         <svg
@@ -276,6 +280,7 @@ const Footer = () => {
                         href={storeInfo.social.instagram}
                         target="_blank"
                         rel="noopener noreferrer"
+                        data-role="ft-social"
                         aria-label="Link para a página do instagram da loja"
                       >
                         <svg
@@ -299,6 +304,7 @@ const Footer = () => {
                         href={storeInfo.social.linkedin}
                         target="_blank"
                         rel="noopener noreferrer"
+                        data-role="ft-social"
                         aria-label="Link para a página do linkedin da loja"
                       >
                         <svg
@@ -322,6 +328,7 @@ const Footer = () => {
                         href={storeInfo.social.youtube}
                         target="_blank"
                         rel="noopener noreferrer"
+                        data-role="ft-social"
                         aria-label="Link para a página do youtube da loja"
                       >
                         <svg
@@ -349,10 +356,10 @@ const Footer = () => {
         <div className={styles.footerMiddle}>
           <div className={` component__container ${styles.middleContainer}`}>
             <div className={styles.topMenu}>
-              <span className={styles.menuTitle}>Pagamento</span>
+              <span className={styles.menuTitle} data-role="ft-heading">Pagamento</span>
               <ul className={styles.menuPayment}>
                 {paymentMethods.map((method, index) => (
-                  <li key={index}>
+                  <li key={index} data-role="ft-payment">
                     <img
                       src={method.image}
                       alt={`Bandeira de pagamento ${method.name}`}
@@ -364,10 +371,10 @@ const Footer = () => {
             </div>
 
             <div className={styles.topMenu}>
-              <span className={styles.menuTitle}>Segurança</span>
+              <span className={styles.menuTitle} data-role="ft-heading">Segurança</span>
               <ul className={styles.menuSeals}>
                 {securitySeals.map((seal, index) => (
-                  <li key={index}>
+                  <li key={index} data-role="ft-seal">
                     <a
                       href={seal.link}
                       target="_blank"
@@ -385,13 +392,14 @@ const Footer = () => {
             </div>
 
             <div className={styles.topMenu}>
-              <span className={styles.menuTitle}>Desenvolvido por:</span>
+              <span className={styles.menuTitle} data-role="ft-heading">Desenvolvido por:</span>
               <div className={styles.footerDev}>
                 <a
                   href="https://seriedesign.com.br/"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Link para a página da agência Seri.e Design"
+                  data-role="ft-dev"
                 >
                   <SerieDesignLogo />
                 </a>
@@ -404,7 +412,7 @@ const Footer = () => {
           <div className={`${styles.bottomContainer} component__container`}>
             <div className={styles.bottomRow}>
               <div className={styles.footerCopyright}>
-                <span>
+                <span data-role="ft-legal">
                   SUA LOJA LTDA - CNPJ: 00.000.000/0001-00
                   © Todos os direitos reservados. Os preços exibidos nessa loja
                   são fictícios e servem apenas para demonstração Tecnologia

@@ -5,7 +5,7 @@
    "Só no catálogo", e é preservado. */
 
 .bannerMain08 {
-  font-family: var(--banner-main-font, 'Open Sans', sans-serif);
+  font-family: var(--banner-main-font, 'Inter', sans-serif);
   color: var(--banner-main-text, #ffffff);
   line-height: 1.15;
   letter-spacing: 0.16px;
@@ -43,7 +43,7 @@
   overflow: hidden;
   background-color: #f1f2f4;
   color: var(--banner-main-text, #ffffff);
-  font-family: var(--banner-main-title-font, 'Inter', sans-serif);
+  font-family: var(--banner-main-font, 'Inter', sans-serif);
 }
 
 .heroMedia {
@@ -78,6 +78,7 @@
 }
 
 .heroTitle {
+  font-family: var(--banner-main-title-font, 'Inter', sans-serif);
   font-size: 47px;
   font-weight: 800;
   line-height: 1.2;

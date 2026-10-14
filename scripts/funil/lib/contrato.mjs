@@ -742,6 +742,7 @@ export function conferirImports(paths, r) {
  */
 const PARES_IMPOSSIVEIS = new Set([
   '01×07',
+  '02×07',
   '03×07',
   '04×07',
   '05×07',

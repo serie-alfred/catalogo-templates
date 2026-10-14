@@ -3,13 +3,14 @@ import styles from './index.module.css';
 
 export default function Spot() {
   return (
-    <div className={`${styles.product} ${styles.spot}`}>
+    <div className={`${styles.product} ${styles.spot}`} data-role="spot">
       <div className={styles.productWrapper}>
         {/* Imagem do Produto */}
         <div className={styles.productImage}>
           <a
             href="https://parceiroseriedesign.commercesuite.com.br/exclusivos/categoria-lorem/ipsum-dotsit/teste-5"
             data-tray-tst="vitrine_produto_link_imagem"
+            data-role="spot-image"
           >
             <img
               src="https://placehold.co/428"
@@ -30,14 +31,14 @@ export default function Spot() {
 
           {/* Tag de Novo */}
           <div className={styles.productTag}>
-            <div className={styles.tagNew}>
+            <div className={styles.tagNew} data-role="spot-tag">
               <span>Novo</span>
             </div>
           </div>
 
           {/* Botão Favorito */}
           <div className={styles.favoriteCard} data-id="111" data-type="card">
-            <span>
+            <span data-role="spot-favorite">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -54,7 +55,7 @@ export default function Spot() {
         <div className={styles.productContent}>
           {/* Estrelas */}
           <div className={styles.pContentTop}>
-            <div className={styles.productStars}>
+            <div className={styles.productStars} data-role="spot-stars">
               {[...Array(5)].map((_, i) => (
                 <svg
                   key={i}
@@ -82,13 +83,13 @@ export default function Spot() {
                   />
                 </svg>
               ))}
-              <span>(2)</span>
+              <span data-role="spot-rating-count">(2)</span>
             </div>
           </div>
 
           {/* Título */}
           <div className={styles.productTitle}>
-            <h3 itemProp="name">
+            <h3 itemProp="name" data-role="spot-name">
               <a href="https://parceiroseriedesign.commercesuite.com.br/exclusivos/categoria-lorem/ipsum-dotsit/teste-5">
                 Lorem ipsum dolor sit amet, elit consectetur adipiscing.
                 Fermentum, odio massa fermentum sociis. Varius vitae et
@@ -101,13 +102,13 @@ export default function Spot() {
           <div className={styles.productPriceWrapper}>
             <div className={styles.productPrice}>
               <div className={styles.prices}>
-                <div className={styles.priceNormal}>
+                <div className={styles.priceNormal} data-role="spot-price">
                   <span className={styles.currency} title="BRL">
                     R$
                   </span>
                   <span>700,00</span>
                 </div>
-                <div className={styles.productPayment}>
+                <div className={styles.productPayment} data-role="spot-installments">
                   <span>
                     ou <strong>10x</strong>
                   </span>
@@ -121,7 +122,7 @@ export default function Spot() {
 
           {/* Botão Comprar */}
           <div className={styles.productBuy}>
-            <a href="https://parceiroseriedesign.commercesuite.com.br/exclusivos/categoria-lorem/ipsum-dotsit/teste-5">
+            <a data-role="spot-buy" href="https://parceiroseriedesign.commercesuite.com.br/exclusivos/categoria-lorem/ipsum-dotsit/teste-5">
               Comprar
             </a>
           </div>

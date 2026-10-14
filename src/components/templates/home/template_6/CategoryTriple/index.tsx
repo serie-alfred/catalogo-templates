@@ -9,16 +9,16 @@ export default function CategoryCarousel() {
   ];
 
   return (
-    <section className={styles.categoryCarousel}>
+    <section className={styles.categoryCarousel} data-role="ctr-root">
       <div
         className={`${styles.componentContainerCarousel} component__container`}
       >
         <div className={styles.swiper}>
           <div className={styles.swiperWrapper}>
             {slides.map((src, index) => (
-              <div key={index} className={styles.swiperSlide}>
+              <div key={index} className={styles.swiperSlide} data-role="ctr-slide">
                 <div className={styles.rulerItem}>
-                  <img src={src} alt={`slide ${index + 1}`} />
+                  <img src={src} alt={`slide ${index + 1}`} data-role="ctr-img" />
                 </div>
               </div>
             ))}

@@ -5,6 +5,7 @@
   margin: 30px 0px;
   width: 100%;
   container-type: inline-size;
+  color: var(--text-primary-color, #000);
 }
 
 @container (max-width: 768px) {
@@ -61,7 +62,7 @@
   font-weight: 700;
   line-height: 1.25em;
   margin-bottom: 16px;
-  color: #000;
+  color: var(--text-primary-color, #000);
 }
 
 @container (max-width: 768px) {
@@ -104,7 +105,7 @@
 
 .contactExpert {
   font-size: 14px;
-  color: #42504b;
+  color: var(--text-primary-color, #42504b);
 }
 
 .avatars img {
@@ -113,10 +114,10 @@
 }
 
 .buttonWrapper a {
-  background-color: #345255;
+  background-color: var(--background-primary-color, #345255);
   border-radius: 50px;
   box-sizing: border-box;
-  color: #fff;
+  color: var(--text-color-base, #fff);
   font-size: 14px;
   padding: 19px 24px;
 }
@@ -129,7 +130,7 @@
 
 .columnImage {
   display: flex;
-  color: #fff;
+  color: var(--text-color-secundary, #fff);
   gap: 20px;
 }
 
@@ -215,7 +216,7 @@
 }
 
 .discount {
-  background-color: #2e4649;
+  background-color: var(--background-secundary-color, #2e4649);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -238,9 +239,9 @@
 
 .discount a {
   margin: 20px 0px;
-  background-color: #426268;
+  background-color: var(--background-primary-color, #426268);
   padding: 20px 30px;
   border-radius: 120px;
   font-size: 16px;
-  color: #fff;
+  color: var(--text-color-base, #fff);
 }

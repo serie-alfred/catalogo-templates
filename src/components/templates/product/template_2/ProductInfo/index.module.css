@@ -42,7 +42,7 @@
 
 
 .listaCorVariacao .listaItem .color {
-  background: var(--color-semi-black);
+  background: #6a6a6a;
   border-radius: 120px;
   height: 38px;
   max-height: unset;
@@ -273,7 +273,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__sku {
-  color: var(--color-semi-black);
+  color: #6a6a6a;
   display: block;
   font-size: 14px;
   font-weight: 400;
@@ -291,7 +291,7 @@
   font-family: var(--font-secundary);
   font-weight: 700;
   font-size: 24px;
-  color: var(--color-black);
+  color: #000;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars {
@@ -310,7 +310,7 @@
   font-family: var(--font-secundary);
   font-weight: 400;
   font-size: 12px;
-  color: var(--color-semi-black);
+  color: #6a6a6a;
   margin-top: 1px;
 }
 
@@ -415,7 +415,7 @@
   font-family: var(--font-secundary);
   font-weight: 700;
   font-size: 22px;
-  color: var(--color-black);
+  color: #000;
   line-height: 1;
   display: flex;
   flex-wrap: wrap;
@@ -430,7 +430,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoDe {
   font-family: var(--font-secundary);
   align-items: center;
-  color: var(--color-semi-black);
+  color: #6a6a6a;
   display: flex;
   flex-wrap: wrap;
   font-size: 14px;
@@ -462,7 +462,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .PrecoPrincipal {
   font-family: var(--font-primary);
-  color: var(--color-black);
+  color: #000;
   height: unset;
   margin: 0px;
   display: block;
@@ -481,7 +481,7 @@
 }
 
 .precoParc {
-  color: var(--color-semi-black);
+  color: #6a6a6a;
   display: inline-block;
   font-size: 14px;
   font-style: normal;
@@ -503,7 +503,7 @@
   font-family: var(--font-secundary);
   font-weight: 400;
   font-size: 14px;
-  color: var(--color-semi-black);
+  color: #6a6a6a;
   line-height: 22px;
   letter-spacing: 0.25px;
 }
@@ -663,7 +663,7 @@
   font-family: var(--font-secundary);
   font-weight: 500;
   font-size: 14px;
-  color: var(--color-semi-black);
+  color: #6a6a6a;
   text-decoration: underline;
   margin-top: 30px;
 }
@@ -674,7 +674,7 @@
   font-family: var(--font-secundary);
   font-weight: 700;
   font-size: 16px;
-  color: var(--color-black);
+  color: #000;
   margin-bottom: 15px !important;
 }
 
@@ -761,13 +761,13 @@
 }
 
 .listaCorVariacao li {
-  background-color: var(--color-white);
-  border: 1px solid var(--color-black);
+  background-color: #fff;
+  border: 1px solid #000;
   width: 62px;
   height: 57px;
   border-radius: 16px;
   font-family: var(--font-secundary);
-  color: var(--color-black);
+  color: #000;
   font-size: 16px;
   font-weight: 600;
   line-height: 1;
@@ -840,7 +840,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar .cor_variacao .lista_cor_variacao li div {
-  background-color: var(--color-white);
+  background-color: #fff;
   border: 1px solid #DFDFE0;
   width: 93px;
   height: 56px;
@@ -860,7 +860,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price #form_comprar .cor_variacao .lista_cor_variacao li .cor_selecionada {
   border: 1px solid transparent !important;
   box-shadow: unset !important;
-  background-color: var(--color-black);
+  background-color: #000;
   color: var(--text-color-secundary);
 }
 
@@ -1032,7 +1032,7 @@
   font-family: var(--font-secundary);
   font-weight: 700;
   font-size: 16px;
-  color: var(--color-black);
+  color: #000;
   margin-bottom: 25px;
 }
 
@@ -1109,7 +1109,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping a {
-  color: var(--color-semi-black);
+  color: #6a6a6a;
   display: inline-block;
   font-size: 12px;
   font-weight: 600;

@@ -58,7 +58,7 @@
   font-size: 42px;
   font-weight: 600;
   line-height: 1.2;
-  color: #27302d;
+  color: var(--text-primary-color, #27302d);
 }
 @container (max-width: 768px) {
   .collectionSoloContainer .collectionContent .bannerImageText .bannerText .containerBannerText h2 {
@@ -68,7 +68,7 @@
 .collectionSoloContainer .collectionContent .bannerImageText .bannerText .containerBannerText p {
   font-size: 16px;
   line-height: 1.3;
-  color: #42504b;
+  color: var(--text-primary-color, #42504b);
 }
 @container (max-width: 768px) {
   .collectionSoloContainer .collectionContent .bannerImageText .bannerText .containerBannerText p {
@@ -76,8 +76,8 @@
   }
 }
 .collectionSoloContainer .collectionContent .bannerImageText .bannerText .containerBannerText a {
-  background-color: #274c4f;
-  color: #fff;
+  background-color: var(--background-primary-color, #274c4f);
+  color: var(--text-color-base, #fff);
   width: 30%;
   display: flex;
   justify-content: center;

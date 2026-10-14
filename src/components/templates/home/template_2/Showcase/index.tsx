@@ -13,10 +13,10 @@ export default function Showcase() {
   // Filtra os spots selecionados
   const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
   return (
-    <div className={styles.homeShowcase}>
+    <div className={styles.homeShowcase} data-role="showcase">
       <div className={`${styles.showcaseContainer} component__container`}>
         <div className={styles.showcaseTitle}>
-          <h2>Vitrine de Ofertas</h2>
+          <h2 data-role="showcase-title">Vitrine de Ofertas</h2>
         </div>
 
         <div className={styles.showcaseWrapper}>
@@ -39,6 +39,7 @@ export default function Showcase() {
                           className={styles.swiper__slide}
                           style={spot.variables as React.CSSProperties}
                           data-tray-tst="vitrine_produto"
+                          data-role="showcase-slide"
                           itemScope
                           itemType="https://schema.org/SomeProducts"
                         >
@@ -54,6 +55,7 @@ export default function Showcase() {
                       key={`${index}`}
                       className={styles.swiper__slide}
                       data-tray-tst="vitrine_produto"
+                      data-role="showcase-slide"
                       itemScope
                       itemType="https://schema.org/SomeProducts"
                     >
@@ -63,7 +65,7 @@ export default function Showcase() {
             </div>
           </div>
 
-          <div className={`${styles.swiperShowcasePagination}`}>
+          <div className={`${styles.swiperShowcasePagination}`} data-role="showcase-pagination">
             <span
               className={`${styles.swiperPaginationBullet} ${styles.swiperPaginationBulletActive}`}
             ></span>
@@ -86,7 +88,7 @@ export default function Showcase() {
             ></span>
           </div>
 
-          <div className={styles.swiperShowcaseButtonPrev}>
+          <div className={styles.swiperShowcaseButtonPrev} data-role="showcase-prev">
             <svg
               fill="none"
               height="24"
@@ -104,7 +106,7 @@ export default function Showcase() {
             </svg>
           </div>
 
-          <div className={styles.swiperShowcaseButtonNext}>
+          <div className={styles.swiperShowcaseButtonNext} data-role="showcase-next">
             <svg
               fill="none"
               height="24"

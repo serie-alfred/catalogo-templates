@@ -88,9 +88,15 @@
 }
 
 
+.homeShowcase .showcaseContainer .showcaseWrapper .showcaseSwiper {
+  overflow: hidden;
+}
+
+/* Mobile: o 3º card fica ao lado, fora da tela (como o slide de um carrossel),
+   em vez de sumir — o que aparece na tela continua igual (dois cards de 254px). */
 .homeShowcase .swiper__wrapper {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   justify-content: center;
   align-items: center;
 }
@@ -119,7 +125,7 @@
   min-width: 254px;
 }
 
-.homeShowcase .swiper__wrapper .swiper__slide:nth-child(n+3) {
+.homeShowcase .swiper__wrapper .swiper__slide:nth-child(n+4) {
   display: none;
 }
 
