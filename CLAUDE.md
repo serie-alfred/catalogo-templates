@@ -161,7 +161,7 @@ The downstream **template-generator** reads each entry's `variables` and injects
 ### Modo LP (Wake e VTEX)
 
 Uma **área à parte**, como o modo Checkout: o rail ganha o alternador **Landing page**
-(`[data-editor-mode-lp]`, ícone de megafone) em Wake e VTEX — onde o generator sabe montar uma LP
+(`[data-editor-mode-lp]`, ícone `LandingPage` de `assets/icons/editor.tsx`) em Wake e VTEX — onde o generator sabe montar uma LP
 sozinha. Ali o usuário monta UMA landing page com **qualquer seção de miolo** do catálogo e exporta
 **só ela**. Não existe componente "de LP": a antiga LP-componente (`BlackFriday01`, `pagina:
 "landing"`) foi dividida nas seções da família 08 (`BannerMain08`, `Countdown08`, `Categories08`,

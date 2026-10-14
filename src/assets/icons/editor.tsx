@@ -423,3 +423,32 @@ export function CaretDownSm(props: IconProps) {
     </svg>
   );
 }
+
+// Modo LP do rail: tela com blocos de layout (arte entregue pelo design).
+export function LandingPage(props: IconProps) {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      focusable="false"
+      {...props}
+    >
+      <path
+        d="M20 3H4C2.89543 3 2 3.89543 2 5V15C2 16.1046 2.89543 17 4 17H20C21.1046 17 22 16.1046 22 15V5C22 3.89543 21.1046 3 20 3Z"
+        strokeWidth="1.5"
+      />
+      <path d="M8 21H16" strokeWidth="1.5" />
+      <path d="M12 17V21" strokeWidth="1.5" />
+      <path d="M18 5.375H6C5.58579 5.375 5.25 5.5802 5.25 5.83333V8.125C5.25 8.37813 5.58579 8.58333 6 8.58333H18C18.4142 8.58333 18.75 8.37813 18.75 8.125V5.83333C18.75 5.5802 18.4142 5.375 18 5.375Z" />
+      <path d="M11.25 10.4167H6C5.58579 10.4167 5.25 10.6219 5.25 10.875V13.1667C5.25 13.4198 5.58579 13.625 6 13.625H11.25C11.6642 13.625 12 13.4198 12 13.1667V10.875C12 10.6219 11.6642 10.4167 11.25 10.4167Z" />
+      <path d="M17.8059 10.4167H14.9749C14.4537 10.4167 14.0312 10.6219 14.0312 10.875V13.1667C14.0312 13.4198 14.4537 13.625 14.9749 13.625H17.8059C18.3271 13.625 18.7496 13.4198 18.7496 13.1667V10.875C18.7496 10.6219 18.3271 10.4167 17.8059 10.4167Z" />
+    </svg>
+  );
+}

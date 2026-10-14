@@ -6,13 +6,12 @@ import {
   SquarePen,
   Component,
   ShoppingCart,
-  Megaphone,
 } from 'lucide-react';
 
 import { useLayout } from '@/context/LayoutContext';
 import type { RailTarget } from '@/hooks/useLayoutGenerator';
 import { plataformaTemLp } from '@/utils/platformCompat';
-import { EtemasMark, TypeCase } from '@/assets/icons/editor';
+import { EtemasMark, LandingPage, TypeCase } from '@/assets/icons/editor';
 
 import styles from './index.module.css';
 
@@ -116,7 +115,7 @@ export default function EditorRail({ className }: { className?: string }) {
           data-editor-mode-lp=""
           onClick={() => setEditorMode(naLp ? 'loja' : 'lp')}
         >
-          <Megaphone width={20} height={20} />
+          <LandingPage width={20} height={20} />
         </button>
       )}
     </nav>
