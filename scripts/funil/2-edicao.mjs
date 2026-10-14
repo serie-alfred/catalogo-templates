@@ -289,8 +289,10 @@ await page.evaluate(() => {
 });
 await espera(1800);
 r.ok(
-  'Tray→VTEX descarta o incompatível e mantém o resto',
-  JSON.stringify(await selecoesSalvas(page)) === '["header:01"]',
+  // Desde 13/10 todo item do catálogo existe nas 3 plataformas: a troca não
+  // tem mais o que descartar.
+  'Tray→VTEX mantém tudo: todo item existe nas 3 plataformas',
+  JSON.stringify(await selecoesSalvas(page)) === '["review:01","header:01"]',
   await selecoesSalvas(page)
 );
 
