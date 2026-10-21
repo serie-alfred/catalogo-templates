@@ -756,8 +756,10 @@ const PARES_IMPOSSIVEIS = new Set([
  * `molecules/ProductShelf09`, que importa o `ProductCard09` — o `replaceAll` do
  * generator só roda nos arquivos do asset com `usesSpot`, e o import do card não
  * está no `ProductShelfCustom09`. (Os relacionados 09 são override e recebem a troca.)
+ * A 10 é o mesmo caso: `ProductShelfCustom10` embrulha `molecules/ProductShelf10`, que
+ * importa o `ProductCard10`, e nenhum manifest 10 declara `usesSpot`.
  */
-const SEM_SUBSTITUICAO = new Set(['07', '08', '09']);
+const SEM_SUBSTITUICAO = new Set(['07', '08', '09', '10']);
 
 const igual = (a, b) => a.length === b.size && a.every(x => b.has(x));
 

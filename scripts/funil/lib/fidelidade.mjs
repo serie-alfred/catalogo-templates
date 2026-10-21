@@ -43,6 +43,27 @@ import { itens } from './util.mjs';
  * tela que tiver alguma.
  */
 export const PARES = [
+  // Família 10 (Varejo). A marca em texto da origem é "SERIE//A" aqui (ver
+  // `textoLivre` acima); o rodapé 10 não tem marca. O contador anda, como na 09.
+  { starter: 'Header10', id: '10', layoutKey: 'header', pagina: 'common', textoLivre: ['hd-logo'] },
+  { starter: 'Footer10', id: '10', layoutKey: 'footer', pagina: 'common' },
+  { starter: 'BannerMain10', id: '10', layoutKey: 'banner', pagina: 'home' },
+  { starter: 'BenefitsStrip10', id: '10', layoutKey: 'ruler', pagina: 'home' },
+  { starter: 'Categories10', id: '10', layoutKey: 'categories', pagina: 'home' },
+  { starter: 'ProductShelfCustom10', id: '10', layoutKey: 'showcase', pagina: 'home' },
+  { starter: 'BannerGrid10', id: '10', layoutKey: 'grid', pagina: 'home' },
+  { starter: 'Countdown10', id: '10', layoutKey: 'countdown', pagina: 'home', textoLivre: ['cd-timer'] },
+  { starter: 'ProductShelfBanner10', id: '10', layoutKey: 'bannerSide', pagina: 'home' },
+  { starter: 'Editorial10', id: '10', layoutKey: 'editorial', pagina: 'home' },
+  { starter: 'ClientReview10', id: '10', layoutKey: 'review', pagina: 'home' },
+  { starter: 'Brands10', id: '10', layoutKey: 'brand', pagina: 'home' },
+  { starter: 'Newsletter10', id: '10', layoutKey: 'newsletter', pagina: 'home' },
+  { starter: 'CategoryTitle10', id: '10', layoutKey: 'categoryTitle', pagina: 'category' },
+  { starter: 'MainCategory10', id: '10', layoutKey: 'categoryMain', pagina: 'category' },
+  { starter: 'CategorySeoFaq10', id: '10', layoutKey: 'categoryDescription', pagina: 'category' },
+  { starter: 'ProductDetails10', id: '10', layoutKey: 'productInfo', pagina: 'product' },
+  { starter: 'ProductDescription10', id: '10', layoutKey: 'productDescription', pagina: 'product' },
+  { starter: 'ProductReviews10', id: '10', layoutKey: 'productReviews', pagina: 'product' },
   // Família 09 (Editorial). A marca em texto da origem ("Sua Marca") é "SERIE//A"
   // aqui (ver `textoLivre` acima); o contador anda, como na 08.
   { starter: 'Header09', id: '09', layoutKey: 'header', pagina: 'common', textoLivre: ['hd-logo'] },
