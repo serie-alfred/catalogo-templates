@@ -1,0 +1,300 @@
+/* Espelha molecules/ProductCard09 (faststore.starter, família 09): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productCard09Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productCard09 {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  color: var(--spot-text, var(--text-primary-color, #1d1b18));
+  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  line-height: 1.15;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.productCard09 *,
+.productCard09 *::before,
+.productCard09 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.productCard09 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.productCard09 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background-color: #e6ded2;
+}
+
+.mediaLink {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.img,
+.imgHover {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imgHover {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tags {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.tag {
+  padding: 4px;
+  background-color: color-mix(in srgb, #f7f4ef 85%, transparent);
+  color: var(--spot-tag-text, var(--background-primary-color, #9c4a2f));
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.favorite {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--spot-text, var(--text-primary-color, #1d1b18));
+}
+.favorite:disabled {
+  cursor: wait;
+}
+.favorite svg {
+  display: block;
+}
+
+.buy {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  height: 52px;
+  background-color: var(--spot-btn-bg, var(--background-primary-color, #1d1b18));
+  color: var(--spot-btn-text, var(--text-color-base, #f7f4ef));
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.buy:focus-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: color-mix(in srgb, #f7f4ef 62%, transparent);
+  pointer-events: none;
+}
+
+.veilTag {
+  padding: 10px 16px;
+  border: 1px solid var(--spot-text, var(--text-primary-color, #1d1b18));
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.name {
+  font-size: 14px;
+  line-height: 1.4;
+  text-underline-offset: 3px;
+}
+
+.prices {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  font-size: 14px;
+  line-height: normal;
+}
+
+.listPrice {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1d1b18)) 64%, transparent);
+  font-size: 12px;
+}
+
+.price {
+  color: var(--spot-price-color, var(--text-primary-color, #1d1b18));
+  font-weight: 600;
+}
+
+.priceOff {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1d1b18)) 64%, transparent);
+  font-size: 14px;
+  line-height: normal;
+}
+
+.installment {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1d1b18)) 64%, transparent);
+  font-size: 12px;
+  line-height: normal;
+}
+
+.notify {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--spot-tag-text, var(--background-primary-color, #9c4a2f));
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.notify .dsk {
+  white-space: pre;
+}
+
+@media (hover: hover) {
+  @container (min-width: 961px) {
+  .productCard09:hover .imgHover,
+  .productCard09:focus-within .imgHover {
+    opacity: 1;
+  }
+  .productCard09:hover .buy,
+  .productCard09:focus-within .buy {
+    opacity: 1;
+    transform: none;
+  }
+  .productCard09:hover .name,
+  .productCard09:focus-within .name {
+    text-decoration: underline;
+  }
+  }
+}
+@media (hover: none) {
+  @container (min-width: 961px) {
+  .buy {
+    opacity: 1;
+    transform: none;
+  }
+  }
+}
+@container (max-width: 960px) {
+  .productCard09 {
+    gap: 10px;
+  }
+  .favorite {
+    top: 0;
+    right: 0;
+  }
+  .favorite svg {
+    width: 18px;
+    height: 18px;
+  }
+  .tags {
+    top: 8px;
+    left: 8px;
+  }
+  .tag {
+    letter-spacing: 0.14em;
+  }
+  .buy {
+    display: none;
+  }
+  .veilTag {
+    padding: 8px 12px;
+    letter-spacing: 0.16em;
+  }
+  .name {
+    line-height: 1.35;
+  }
+  .soldOut .info {
+    gap: 2px;
+  }
+  .dsk {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .imgHover,
+  .buy {
+    transition: none;
+  }
+}
+
+.productCard09Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* O item "Spot" mostra os três estados do desenho `Spot09` (quadro de 1040 com
+   padding 40 e 3 colunas; no mobile, 375 com 2 colunas). No starter o card não tem
+   moldura própria: quem o põe em grade é a vitrine/PLP. */
+.spotStage {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 40px;
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: #f7f4ef;
+}
+
+@container (max-width: 960px) {
+  .spotStage {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    padding: 24px 16px 32px;
+  }
+}

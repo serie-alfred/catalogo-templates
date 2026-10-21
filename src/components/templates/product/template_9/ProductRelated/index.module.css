@@ -1,0 +1,178 @@
+/* Espelha sass/crossSellingShelf09.module.scss + organisms/ProductShowcase09 (faststore.starter, família 09): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.crossSellingShelf09Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+section.crossSellingShelf09 {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+  margin: 0;
+  padding: 40px max(clamp(16px, 3vw, 40px), (100% - 1280px) / 2 + clamp(16px, 3vw, 40px));
+  background-color: var(--showcase-bg, #f7f4ef);
+  color: var(--showcase-text, var(--text-primary-color, #1d1b18));
+  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+section.crossSellingShelf09.crossSellingShelf09.crossSellingShelf09 > h2 {
+  display: flex;
+  align-items: flex-end;
+  min-height: 44px;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0 104px 0 0;
+  color: var(--showcase-title-color, var(--text-primary-color, #1d1b18));
+  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: normal;
+  text-align: left;
+}
+section.crossSellingShelf09 [data-fs-product-shelf] {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+@container (max-width: 960px) {
+  section.crossSellingShelf09 {
+    gap: 20px;
+    padding: 32px 0;
+    overflow: hidden;
+  }
+  section.crossSellingShelf09.crossSellingShelf09.crossSellingShelf09 > h2 {
+    display: block;
+    min-height: 0;
+    padding: 0 16px;
+    font-size: 28px;
+  }
+}
+
+.productShowcase09 {
+  position: relative;
+  color: var(--showcase-text, var(--text-primary-color, #1d1b18));
+}
+.productShowcase09 *,
+.productShowcase09 *::before,
+.productShowcase09 *::after {
+  box-sizing: border-box;
+}
+.productShowcase09 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.productShowcase09 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.productShowcase09 [data-role=spot-discount],
+.productShowcase09 [data-role=spot-tag] {
+  color: var(--showcase-tag-text, var(--background-primary-color, #9c4a2f));
+}
+
+.arrows {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 28px);
+  display: flex;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+.arrow:disabled {
+  color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #1d1b18)) 64%, var(--showcase-bg, #f7f4ef));
+  cursor: default;
+}
+.arrow:focus-visible {
+  outline: 1px solid var(--showcase-text, var(--text-primary-color, #1d1b18));
+  outline-offset: -2px;
+}
+
+.rail {
+  display: grid;
+  grid-auto-columns: calc((100% - 72px) / 4);
+  grid-auto-flow: column;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.slide:nth-child(4n+1) [data-role=spot-image] {
+  background-color: #d2c3b0;
+}
+.slide:nth-child(4n+2) [data-role=spot-image] {
+  background-color: #e9e2d8;
+}
+.slide:nth-child(4n+3) [data-role=spot-image] {
+  background-color: #ded3c4;
+}
+.slide:nth-child(4n+4) [data-role=spot-image] {
+  background-color: #d8ccbc;
+}
+
+.progress {
+  display: none;
+}
+
+@container (max-width: 960px) {
+  .arrows {
+    display: none;
+  }
+  .rail {
+    grid-auto-columns: 210px;
+    gap: 12px;
+    padding: 0 16px;
+    scroll-padding: 0 16px;
+  }
+  .progress {
+    position: relative;
+    display: block;
+    height: 1px;
+    margin: 20px 16px 0;
+    background-color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #1d1b18)) 16%, var(--showcase-bg, #f7f4ef));
+  }
+  .progress span {
+    position: absolute;
+    top: 0;
+    height: 1px;
+    background-color: var(--showcase-text, var(--text-primary-color, #1d1b18));
+    transition: left 0.2s ease;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .progress span {
+    transition: none;
+  }
+}
+
+.crossSellingShelf09Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

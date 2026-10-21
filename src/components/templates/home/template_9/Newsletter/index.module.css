@@ -1,0 +1,205 @@
+/* Espelha organisms/Newsletter09 (faststore.starter, família 09): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.newsletter09Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.newsletter09 {
+  width: 100%;
+  background-color: var(--newsletter-bg, #f7f4ef);
+  color: var(--newsletter-title-color, var(--text-primary-color, #1d1b18));
+  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.newsletter09 *,
+.newsletter09 *::before,
+.newsletter09 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.newsletter09 :where(h2, p) {
+  margin: 0;
+}
+.newsletter09 :where(a) {
+  color: inherit;
+}
+.newsletter09 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.newsletter09 a:hover {
+  opacity: 0.7;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 64px clamp(16px, 3vw, 40px);
+  text-align: center;
+}
+
+.eyebrow {
+  color: var(--newsletter-desc-color, var(--text-primary-color, #5e574f));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-size: clamp(32px, 3.6vw, 48px);
+  font-weight: 300;
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+}
+.title em {
+  font-style: italic;
+}
+
+.text {
+  max-width: 480px;
+  color: var(--newsletter-desc-color, var(--text-primary-color, #5e574f));
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 16px 32px;
+  width: 100%;
+  max-width: 720px;
+  margin-top: 8px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--newsletter-title-color, var(--text-primary-color, #1d1b18));
+  text-align: left;
+}
+.field input {
+  width: 100%;
+  padding: 14px 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--newsletter-title-color, var(--text-primary-color, #1d1b18));
+  font: inherit;
+  font-size: 16px;
+}
+.field input::placeholder {
+  color: color-mix(in srgb, var(--newsletter-title-color, var(--text-primary-color, #1d1b18)) 64%, var(--newsletter-bg, #f7f4ef));
+  opacity: 1;
+}
+.field:focus-within {
+  border-bottom-width: 2px;
+  margin-bottom: -1px;
+}
+
+.fieldName {
+  flex: 1 1 200px;
+}
+
+.fieldEmail {
+  flex: 1.4 1 260px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.submit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  border-bottom: 1px solid var(--newsletter-title-color, var(--text-primary-color, #1d1b18));
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.submit:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.feedback {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.privacy {
+  color: var(--newsletter-desc-color, var(--text-primary-color, #5e574f));
+  font-size: 12px;
+}
+.privacy a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 18px;
+    padding: 48px 20px;
+  }
+  .title {
+    font-size: 32px;
+    line-height: 1.1;
+  }
+  .text {
+    max-width: none;
+    line-height: 1.55;
+  }
+  .form {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 12px;
+    margin-top: 6px;
+  }
+  .fieldName,
+  .fieldEmail {
+    flex: none;
+  }
+  .submit {
+    justify-content: center;
+    height: 52px;
+    margin-top: 10px;
+    border-bottom: 0;
+    background-color: var(--newsletter-title-color, var(--text-primary-color, #1d1b18));
+    color: var(--newsletter-bg, #f7f4ef);
+  }
+  .submit svg {
+    display: none;
+  }
+  .privacy {
+    line-height: 1.5;
+  }
+}
+
+.newsletter09Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

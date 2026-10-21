@@ -1,0 +1,368 @@
+/* Espelha organisms/CartSidebar09 (faststore.starter, família 09): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.cartSidebar09Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.cartSidebar09 {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  visibility: hidden;
+  pointer-events: none;
+  color: var(--cart-text, var(--text-primary-color, #1d1b18));
+  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  line-height: 1.15;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.cartSidebar09 *,
+.cartSidebar09 *::before,
+.cartSidebar09 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.cartSidebar09 :where(h2, p) {
+  margin: 0;
+  color: inherit;
+}
+.cartSidebar09 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cartSidebar09 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.cartSidebar09 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.cartSidebar09 img {
+  display: block;
+}
+.cartSidebar09.open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(29, 27, 24, 0.4);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.open .overlay {
+  opacity: 1;
+}
+
+.drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 440px;
+  max-width: 100%;
+  background-color: #f7f4ef;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+.open .drawer {
+  transform: none;
+}
+
+.head {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px;
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+}
+
+.title {
+  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-size: 28px;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.count {
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  font-size: 18px;
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+
+.list {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  padding: 0 28px;
+  overflow-y: auto;
+}
+
+.line {
+  display: flex;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+}
+
+.lineImage {
+  flex: none;
+  width: 88px;
+  height: 117px;
+  overflow: hidden;
+  background-color: #e6ded2;
+}
+.lineImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lineBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.lineHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.lineName {
+  min-width: 0;
+}
+
+.linePrice {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.lineVariation {
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.lineActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+}
+.qty button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+.qty button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.qtyValue {
+  width: 28px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.remove,
+.continue {
+  min-height: 44px;
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.remove {
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+}
+
+.footer {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: auto;
+  padding: 24px 28px 28px;
+  border-top: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+}
+
+.subtotal {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.subtotalLabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.subtotalValue {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.note {
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.checkout {
+  height: 56px;
+  margin-top: 6px;
+  background-color: var(--cart-button-bg, var(--background-primary-color, #1d1b18));
+  color: var(--cart-button-text, var(--text-color-base, #f7f4ef));
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-align: center;
+  text-transform: uppercase;
+}
+.checkout:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.continue {
+  display: flex;
+  align-items: center;
+  align-self: center;
+}
+
+.empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px 28px;
+  text-align: center;
+}
+
+.emptyText {
+  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1.3;
+}
+
+@container (max-width: 960px) {
+  .drawer {
+    width: 100%;
+  }
+  .head {
+    height: 64px;
+    padding: 0 8px 0 20px;
+  }
+  .title {
+    font-size: 26px;
+  }
+  .count {
+    font-size: 17px;
+  }
+  .list {
+    padding: 0 20px;
+  }
+  .line {
+    gap: 14px;
+    padding: 18px 0;
+  }
+  .lineImage {
+    width: 80px;
+    height: 107px;
+  }
+  .lineBody {
+    gap: 4px;
+  }
+  .lineHead {
+    display: contents;
+  }
+  .lineName {
+    order: 1;
+    font-size: 14px;
+    line-height: 1.35;
+  }
+  .lineVariation {
+    order: 2;
+  }
+  .linePrice {
+    order: 3;
+    font-size: 14px;
+  }
+  .lineActions {
+    order: 4;
+  }
+  .qtyValue {
+    width: 24px;
+  }
+  .footer {
+    gap: 10px;
+    padding: 18px 20px 24px;
+  }
+  .subtotalValue {
+    font-size: 19px;
+  }
+  .checkout {
+    height: 52px;
+    margin-top: 4px;
+  }
+  .dsk {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .drawer {
+    transition: none;
+  }
+}
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+/* Envelope das `@container` da gaveta. No starter ela vai por portal para o <body> e
+   as `@media` decidem; aqui ela fica junto do header (as vars do tema vêm do wrapper
+   acima), e uma camada `position: fixed` dentro de um container-type ficaria presa a
+   ele. Por isso o próprio envelope é a camada fixa do tamanho da tela: a gaveta mede a
+   largura da tela, como no starter, e o fixed dela casa com o dele. */
+.cartSidebar09Box {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  container-type: inline-size;
+  pointer-events: none;
+}

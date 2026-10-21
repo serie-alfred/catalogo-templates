@@ -1,0 +1,92 @@
+/* Espelha sass/breadcrumb09.module.scss (faststore.starter, família 09): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.breadcrumbSection09Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.breadcrumbSection09 [data-fs-breadcrumb] {
+  padding: 0;
+}
+
+.breadcrumb09 {
+  width: 100%;
+  background-color: var(--breadcrumb-bg, #f7f4ef);
+  color: var(--breadcrumb-text, var(--text-primary-color, #1d1b18));
+  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.breadcrumb09 *,
+.breadcrumb09 *::before,
+.breadcrumb09 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  max-width: 1280px;
+  min-height: 96px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 40px);
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.sep {
+  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #1d1b18)) 64%, var(--breadcrumb-bg, #f7f4ef));
+}
+
+.link {
+  display: inline-block;
+  padding: 14px 0;
+  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #1d1b18)) 64%, var(--breadcrumb-bg, #f7f4ef));
+  text-decoration: none;
+}
+.link:hover {
+  opacity: 0.7;
+}
+
+.current {
+  font-weight: 600;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    min-height: 0;
+    height: 56px;
+    padding: 0 16px;
+    overflow-x: auto;
+  }
+  .list {
+    flex-wrap: nowrap;
+    gap: 10px;
+    letter-spacing: 0.14em;
+    white-space: nowrap;
+  }
+  .link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0;
+  }
+}
+
+.breadcrumbSection09Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

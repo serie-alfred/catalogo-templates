@@ -183,6 +183,30 @@ import CategoryTitle06 from '@/components/templates/category/template_6/Category
 import CategoryDescription06 from '@/components/templates/category/template_6/CategoryDescription';
 import CategoryMain07 from '@/components/templates/category/template_7/CategoryMain';
 import CategoryMain06 from '@/components/templates/category/template_6/CategoryMain';
+import Header09 from '@/components/templates/common/template_9/Header';
+import Spot09 from '@/components/templates/common/template_9/Spot';
+import Breadcrumb09 from '@/components/templates/common/template_9/Breadcrumb';
+import Footer09 from '@/components/templates/common/template_9/Footer';
+import PopupNews09 from '@/components/templates/home/template_9/PopupNews';
+import HelpFloat09 from '@/components/templates/home/template_9/HelpFloat';
+import BannerMain09 from '@/components/templates/home/template_9/BannerMain';
+import Ruler09 from '@/components/templates/home/template_9/Ruler';
+import Categories09 from '@/components/templates/home/template_9/Categories';
+import Showcase09 from '@/components/templates/home/template_9/Showcase';
+import BannerGrid09 from '@/components/templates/home/template_9/BannerGrid';
+import Countdown09 from '@/components/templates/home/template_9/Countdown';
+import ShelfBanner09 from '@/components/templates/home/template_9/ShelfBanner';
+import Editorial09 from '@/components/templates/home/template_9/Editorial';
+import ClientReview09 from '@/components/templates/home/template_9/ClientReview';
+import Brand09 from '@/components/templates/home/template_9/Brand';
+import Newsletter09 from '@/components/templates/home/template_9/Newsletter';
+import CategoryTitle09 from '@/components/templates/category/template_9/CategoryTitle';
+import CategoryMain09 from '@/components/templates/category/template_9/CategoryMain';
+import CategoryDescription09 from '@/components/templates/category/template_9/CategoryDescription';
+import ProductInfo09 from '@/components/templates/product/template_9/ProductInfo';
+import ProductDescription09 from '@/components/templates/product/template_9/ProductDescription';
+import ProductReviews09 from '@/components/templates/product/template_9/ProductReviews';
+import ProductRelated09 from '@/components/templates/product/template_9/ProductRelated';
 
 export const TemplateRegistry: Record<
   string,
@@ -294,4 +318,28 @@ export const TemplateRegistry: Record<
   CategoryTitle06,
   CategoryMain06,
   CategoryMain07,
+  Header09,
+  Spot09,
+  Breadcrumb09,
+  Footer09,
+  PopupNews09,
+  HelpFloat09,
+  BannerMain09,
+  Ruler09,
+  Categories09,
+  Showcase09,
+  BannerGrid09,
+  Countdown09,
+  ShelfBanner09,
+  Editorial09,
+  ClientReview09,
+  Brand09,
+  Newsletter09,
+  CategoryTitle09,
+  CategoryMain09,
+  CategoryDescription09,
+  ProductInfo09,
+  ProductDescription09,
+  ProductReviews09,
+  ProductRelated09,
 };

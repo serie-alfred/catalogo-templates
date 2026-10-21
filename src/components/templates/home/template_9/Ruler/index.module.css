@@ -1,0 +1,136 @@
+/* Espelha molecules/BenefitsStrip09 (faststore.starter, família 09): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.benefitsStrip09Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.benefitsStrip09 {
+  width: 100%;
+  background-color: var(--ruler-bg, #f7f4ef);
+  color: var(--ruler-text, var(--text-primary-color, #1d1b18));
+  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.benefitsStrip09 *,
+.benefitsStrip09 *::before,
+.benefitsStrip09 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.benefitsStrip09 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.benefitsStrip09 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.benefitsStrip09 a:hover {
+  opacity: 0.7;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px clamp(16px, 3vw, 40px);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  border-top: 1px solid color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #1d1b18)) 16%, var(--ruler-bg, #f7f4ef));
+  border-bottom: 1px solid color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #1d1b18)) 16%, var(--ruler-bg, #f7f4ef));
+}
+
+.item {
+  display: flex;
+  padding: 28px;
+  border-left: 1px solid color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #1d1b18)) 16%, var(--ruler-bg, #f7f4ef));
+}
+.item:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+
+.item,
+.link {
+  align-items: center;
+  gap: 18px;
+}
+
+.link {
+  display: flex;
+}
+
+.icon {
+  flex: none;
+  width: 26px;
+  height: 26px;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.text {
+  color: color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #1d1b18)) 66%, var(--ruler-bg, #f7f4ef));
+  font-size: 13px;
+}
+
+@container (max-width: 960px) {
+  .benefitsStrip09 {
+    overflow: hidden;
+  }
+  .inner {
+    padding: 16px 0;
+  }
+  .list {
+    display: flex;
+    padding-left: 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 16px;
+  }
+  .list::-webkit-scrollbar {
+    display: none;
+  }
+  .item {
+    flex: 0 0 270px;
+    padding: 20px;
+    scroll-snap-align: start;
+  }
+  .item:first-child {
+    padding: 20px 20px 20px 0;
+  }
+  .item,
+  .link {
+    gap: 14px;
+  }
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
+  .title {
+    letter-spacing: 0.14em;
+  }
+}
+
+.benefitsStrip09Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

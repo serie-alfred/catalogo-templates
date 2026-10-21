@@ -267,6 +267,16 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-accent-text", label: "Número do contador da sacola", type: "color", default: "#ffffff", group: "Sacola" },
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Manrope', sans-serif", group: "Tipografia" },
       ] },
+      { id: "09", selection: "header", key: "hdr09edt7q2m", image: "header/Header09.webp", imageSource: "auto", mobile: "", title: "Header Template 9", description: "Régua de mensagens escura; busca à esquerda, marca ao centro, conta, favoritos e sacola à direita e a navegação de categorias centralizada. No mobile, menu, busca, marca e sacola", template: "9", pagina: ["common"], component: "Header09", path: "organisms/Header09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+        { cssVar: "--header-topbar-bg", label: "Fundo da régua de mensagens", type: "color", default: "#1d1b18", group: "Barra superior", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--header-topbar-text", label: "Texto da régua de mensagens", type: "color", default: "#f7f4ef", group: "Barra superior", inheritsLabel: "cor de texto secundária" },
+        { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#f7f4ef", group: "Header", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--header-text", label: "Texto e ícones", type: "color", default: "#1d1b18", group: "Header", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--header-accent", label: "Destaque (contador da sacola)", type: "color", default: "#9c4a2f", group: "Header", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#1d1b18", group: "Mini-carrinho", inheritsLabel: "cor de texto primária", previewNote: "Aparece com o mini-carrinho aberto." },
+        { cssVar: "--cart-button-bg", label: "Fundo do botão Finalizar compra", type: "color", default: "#1d1b18", group: "Mini-carrinho", inheritsLabel: "cor primária da marca", previewNote: "Aparece com o mini-carrinho aberto." },
+        { cssVar: "--cart-button-text", label: "Texto do botão Finalizar compra", type: "color", default: "#f7f4ef", group: "Mini-carrinho", inheritsLabel: "cor de texto primária", previewNote: "Aparece com o mini-carrinho aberto." },
+      ] },
     ],
   },
   spot: {
@@ -308,6 +318,13 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--font-primary", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--font-secundary", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
+      { id: "09", selection: "spot", key: "crdprd09ed4k", image: "spot/Spot09.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 9", description: "Foto 3:4 com coração e selo de desconto, \"Adicionar à sacola\" sobre a foto, nome, preço de/por e parcela; esgotado com véu e \"Avise-me\"", template: "9", pagina: ["common"], component: "Spot09", path: "molecules/ProductCard09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--spot-text", label: "Texto do card", type: "color", default: "#1d1b18", group: "Card", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--spot-price-color", label: "Preço", type: "color", default: "#1d1b18", group: "Card", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--spot-tag-text", label: "Selo de desconto", type: "color", default: "#9c4a2f", group: "Card", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--spot-btn-bg", label: "Fundo do botão Adicionar", type: "color", default: "#1d1b18", group: "Botão", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--spot-btn-text", label: "Texto do botão Adicionar", type: "color", default: "#f7f4ef", group: "Botão", inheritsLabel: "cor de texto primária" },
+      ] },
     ],
   },
   breadcrumb: {
@@ -318,6 +335,10 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--breadcrumb-font", label: "Fonte", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "02", selection: "breadcrumb", key: "bred02q7l4k5", image: "breadcrumb/Breadcrumb02.webp", imageSource: "auto", mobile: "", title: "Breadcrumb Template 2", description: "Breadcrumb com separador em chevron", template: "2", pagina: ["common"], component: "Breadcrumb02", path: "overrides/Breadcrumb02", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
+      { id: "09", selection: "breadcrumb", key: "bred09edt3n6", image: "breadcrumb/Breadcrumb09.webp", imageSource: "auto", mobile: "", title: "Breadcrumb Template 9", description: "Trilha em caixa-alta espaçada com barras: níveis anteriores apagados e o atual em destaque", template: "9", pagina: ["common"], component: "Breadcrumb09", path: "overrides/Breadcrumb09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--breadcrumb-bg", label: "Fundo da trilha", type: "color", default: "#f7f4ef", group: "Trilha" },
+        { cssVar: "--breadcrumb-text", label: "Texto da trilha", type: "color", default: "#1d1b18", group: "Trilha", inheritsLabel: "cor de texto primária" },
+      ] },
     ],
   },
   footer: {
@@ -387,6 +408,11 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Manrope', sans-serif", group: "Tipografia" },
         { cssVar: "--footer-legal-font", label: "Fonte da linha legal", type: "font", default: "'Red Hat Display', sans-serif", group: "Tipografia" },
       ] },
+      { id: "09", selection: "footer", key: "ftr09edt5w8r", image: "footer/Footer09.webp", imageSource: "auto", mobile: "", title: "Footer Template 9", description: "Colunas de links e atendimento, a marca gigante em serifa itálica, formas de pagamento em etiquetas de texto e a linha legal; colunas em acordeão no mobile", template: "9", pagina: ["common"], component: "Footer09", path: "organisms/Footer09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["footer"], variablesSchema: [
+        { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#f7f4ef", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
+        { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#1d1b18", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
+        { cssVar: "--footer-accent", label: "Destaque (marca e títulos)", type: "color", default: "#9c4a2f", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
+      ] },
     ],
   },
 
@@ -404,6 +430,10 @@ export const LAYOUTS: Layouts = {
     name: "Marcas",
     items: [
       { id: "01", selection: "brands", key: "mar01b3k7h2b", image: "brand/Brand01.webp", imageSource: "design", mobile: "", title: "Marcas Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Brand01", path: "molecules/Brands01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
+      { id: "09", selection: "brands", key: "mar09edt2g6y", image: "brand/Brand09.webp", imageSource: "auto", mobile: "", title: "Marcas Template 9", description: "Chamada com filete e \"Ver todas\"; as marcas numa grade entre filetes, em logo ou em texto num dos seis estilos tipográficos; duas colunas no mobile", template: "9", pagina: ["home"], component: "Brand09", path: "molecules/Brands09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--brands-bg", label: "Fundo da seção", type: "color", default: "#f7f4ef", group: "Marcas" },
+        { cssVar: "--brands-text", label: "Texto das marcas", type: "color", default: "#1d1b18", group: "Marcas", inheritsLabel: "cor de texto primária" },
+      ] },
     ],
   },
   textArea: {
@@ -436,6 +466,10 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--categories-font", label: "Fonte dos títulos", type: "font", default: "\'Open Sans\', sans-serif", group: "Tipografia" },
         { cssVar: "--categories-body-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
       ] },
+      { id: "09", selection: "categories", key: "cat09edt4s9b", image: "categories/Categories09.webp", imageSource: "auto", mobile: "", title: "Categorias Template 9", description: "Título com trecho em itálico, \"Ver todas\" e setas; cinco categorias por vez em foto 4:5 com o nome em itálico; no mobile, a lista rola de lado", template: "9", pagina: ["home"], component: "Categories09", path: "molecules/Categories09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--categories-title-color", label: "Título da seção", type: "color", default: "#1d1b18", group: "Categorias", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--categories-text", label: "Texto dos cards", type: "color", default: "#1d1b18", group: "Categorias", inheritsLabel: "cor de texto primária" },
+      ] },
     ],
   },
   banner: {
@@ -458,6 +492,10 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--banner-main-text", label: "Texto sobre a arte", type: "color", default: "#ffffff", group: "Banner" },
         { cssVar: "--banner-main-title-font", label: "Fonte do título", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
         { cssVar: "--banner-main-font", label: "Fonte do texto", type: "font", default: "\'Inter\', sans-serif", group: "Tipografia" },
+      ] },
+      { id: "09", selection: "banner-main", key: "ban09edt8h3k", image: "banner/BannerMain09.webp", imageSource: "auto", mobile: "", title: "Banner Template 9", description: "Texto à esquerda (chamada, título com trecho em itálico, texto e dois links) e a arte à direita, com contador 01 / 03, filetes de progresso e setas; no mobile, arte no topo", template: "9", pagina: ["home"], component: "BannerMain09", path: "organisms/BannerMain09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--banner-main-bg", label: "Fundo do banner", type: "color", default: "#f7f4ef", group: "Banner" },
+        { cssVar: "--banner-main-text", label: "Texto do banner", type: "color", default: "#1d1b18", group: "Banner", inheritsLabel: "cor de texto primária" },
       ] },
     ],
   },
@@ -484,6 +522,10 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--benefits-text", label: "Texto dos benefícios", type: "color", default: "#605e70", group: "Régua" },
         { cssVar: "--benefits-font", label: "Fonte da régua", type: "font", default: "'Manrope', sans-serif", group: "Tipografia" },
       ] },
+      { id: "09", selection: "ruler", key: "bnf09edt2v7p", image: "ruler/Ruler09.webp", imageSource: "auto", mobile: "", title: "Régua Template 9", description: "Quatro benefícios entre dois filetes, cada um com ícone de traço fino, título em caixa-alta e uma linha apagada; no mobile, a lista rola de lado", template: "9", pagina: ["home"], component: "Ruler09", path: "molecules/BenefitsStrip09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--ruler-bg", label: "Fundo da régua", type: "color", default: "#f7f4ef", group: "Régua" },
+        { cssVar: "--ruler-text", label: "Texto e ícones da régua", type: "color", default: "#1d1b18", group: "Régua", inheritsLabel: "cor de texto primária" },
+      ] },
     ],
   },
   grid: {
@@ -498,6 +540,10 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--banner-grid-card-title-color", label: "Cor do título do card", type: "color", default: "#ffffff", group: "Grid de banners", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--banner-grid-font", label: "Fonte do título", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--banner-grid-card-font", label: "Fonte do título do card", type: "font", default: "'League Spartan', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+      ] },
+      { id: "09", selection: "banner-grid", key: "grd09edt7m2x", image: "grid/BannerGrid09.webp", imageSource: "auto", mobile: "", title: "Grid de banners Template 9", description: "Chamada com filete e nota à direita; um banner grande à esquerda e dois empilhados à direita, cada um com título e \"Ver mais\"; os três em coluna no mobile", template: "9", pagina: ["home"], component: "BannerGrid09", path: "molecules/BannerGrid09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--banner-grid-title-color", label: "Título da seção", type: "color", default: "#1d1b18", group: "Grid", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--banner-grid-text", label: "Texto dos banners", type: "color", default: "#1d1b18", group: "Grid", inheritsLabel: "cor de texto primária" },
       ] },
     ],
   },
@@ -521,6 +567,13 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--showcase-tag-text", label: "Texto do selo (Novidade)", type: "color", default: "#ffffff", group: "Card" },
         { cssVar: "--showcase-title-font", label: "Fonte do título", type: "font", default: "\'Open Sans\', sans-serif", group: "Tipografia" },
         { cssVar: "--showcase-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
+      ] },
+      { id: "09", selection: "banner-side", key: "bsd09edt5r1n", image: "bannerSide/ShelfBanner09.webp", imageSource: "auto", mobile: "", title: "Vitrine com banner Template 9", description: "Arte à esquerda com o cartão \"Compre o look\" e, à direita, o título com setas e três cards por vez; no mobile, arte em cima e cards rolando de lado", template: "9", pagina: ["home"], component: "ShelfBanner09", path: "organisms/ProductShelfBanner09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--banner-side-bg", label: "Fundo do banner", type: "color", default: "#f7f4ef", group: "Banner" },
+        { cssVar: "--banner-side-text", label: "Texto do banner", type: "color", default: "#1d1b18", group: "Banner", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--showcase-bg", label: "Fundo da vitrine", type: "color", default: "#f7f4ef", group: "Vitrine" },
+        { cssVar: "--showcase-text", label: "Texto da vitrine", type: "color", default: "#1d1b18", group: "Vitrine", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--showcase-tag-text", label: "Selo de desconto", type: "color", default: "#9c4a2f", group: "Vitrine", inheritsLabel: "cor primária da marca" },
       ] },
     ],
   },
@@ -564,6 +617,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--showcase-tag-text", label: "Texto do selo (Novidade)", type: "color", default: "#ffffff", group: "Card" },
         { cssVar: "--showcase-title-font", label: "Fonte do título", type: "font", default: "\'Open Sans\', sans-serif", group: "Tipografia" },
         { cssVar: "--showcase-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
+      ] },
+      { id: "09", selection: "showcase", key: "vtr09edt1k5d", image: "showcase/Showcase09.webp", imageSource: "auto", mobile: "", title: "Vitrine Template 9", description: "Título com trecho em itálico, subtítulo, \"Ver tudo\" e setas; quatro cards por vez no desktop e carrossel com filete de progresso no mobile", template: "9", pagina: ["home"], component: "Showcase09", path: "organisms/ProductShelfCustom09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--showcase-bg", label: "Fundo da vitrine", type: "color", default: "#f7f4ef", group: "Vitrine" },
+        { cssVar: "--showcase-title-color", label: "Título da vitrine", type: "color", default: "#1d1b18", group: "Vitrine", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--showcase-text", label: "Texto da vitrine", type: "color", default: "#1d1b18", group: "Vitrine", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--showcase-tag-text", label: "Selo de desconto", type: "color", default: "#9c4a2f", group: "Vitrine", inheritsLabel: "cor primária da marca" },
       ] },
     ],
   },
@@ -632,6 +691,10 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--plp-title-font", label: "Fonte do título", type: "font", default: "'League Spartan', sans-serif", group: "Tipografia" },
         { cssVar: "--plp-font", label: "Fonte da contagem", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
+      { id: "09", selection: "category-title", key: "cattit09ed5h", image: "categoryTitle/CategoryTitle09.webp", imageSource: "auto", mobile: "", title: "Título da categoria Template 9", description: "Nome da categoria em serifa, a contagem de produtos e os chips de subcategoria em texto", template: "9", pagina: ["category"], component: "CategoryTitle09", path: "organisms/CategoryTitle09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--cat-title-bg", label: "Fundo do título", type: "color", default: "#f7f4ef", group: "Título" },
+        { cssVar: "--cat-title-text", label: "Texto do título", type: "color", default: "#1d1b18", group: "Título", inheritsLabel: "cor de texto primária" },
+      ] },
     ],
   },
 
@@ -665,6 +728,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--help-divider", label: "Divisória entre itens", type: "color", default: "#828282", group: "Ajuda flutuante" },
         { cssVar: "--help-font", label: "Fonte", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
+      { id: "09", selection: "help-float", key: "hlp09edt6c1v", image: "helpFloat/HelpFloat09.webp", imageSource: "auto", mobile: "", title: "Ajuda flutuante Template 9", description: "Botão \"Ajuda\" fixo no canto inferior direito que abre um painel com atalhos em link ou texto e a linha de horário", template: "9", pagina: ["home"], component: "HelpFloat09", path: "organisms/HelpFloatButton09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--help-bg", label: "Fundo do painel", type: "color", default: "#ffffff", group: "Painel" },
+        { cssVar: "--help-text", label: "Texto do painel", type: "color", default: "#1d1b18", group: "Painel", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--help-header-bg", label: "Fundo do botão e do topo do painel", type: "color", default: "#1d1b18", group: "Botão", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--help-header-text", label: "Texto do botão e do topo do painel", type: "color", default: "#f7f4ef", group: "Botão", inheritsLabel: "cor de texto primária" },
+      ] },
     ],
   },
   popupNews: {
@@ -679,6 +748,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--popup-button-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base", previewNote: "Só na visão Desktop: o popup não abre abaixo de 1024px (no tema real também não)." },
         { cssVar: "--popup-error-color", label: "Cor do aviso de erro", type: "color", default: "#b00020", group: "Formulário", previewNote: "Pinta a mensagem de erro do formulário; o preview não dispara esse estado." },
         { cssVar: "--popup-font", label: "Fonte do texto", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária", previewNote: "Só na visão Desktop: o popup não abre abaixo de 1024px (no tema real também não)." },
+      ] },
+      { id: "09", selection: "popup-news", key: "popnew09ed2x", image: "popupNews/PopupNews09.webp", imageSource: "auto", mobile: "", title: "Pop-up de newsletter Template 9", description: "Modal com a arte à esquerda, chamada, título com trecho em itálico, nome e e-mail e o botão cheio; no mobile, folha presa ao pé da tela com a arte no topo", template: "9", pagina: ["home"], component: "PopupNews09", path: "organisms/PopupNews09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--popup-bg", label: "Fundo do pop-up", type: "color", default: "#f7f4ef", group: "Pop-up" },
+        { cssVar: "--popup-text", label: "Texto do pop-up", type: "color", default: "#1d1b18", group: "Pop-up", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--popup-button-bg", label: "Fundo do botão", type: "color", default: "#1d1b18", group: "Botão", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--popup-button-text", label: "Texto do botão", type: "color", default: "#f7f4ef", group: "Botão", inheritsLabel: "cor de texto primária" },
       ] },
     ],
   },
@@ -721,6 +796,11 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--newsletter-button-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Formulário" },
         { cssVar: "--newsletter-font", label: "Fonte da newsletter", type: "font", default: "'Manrope', sans-serif", group: "Tipografia" },
       ] },
+      { id: "09", selection: "newsletter", key: "nlt09edt4d9f", image: "newsletter/Newsletter09.webp", imageSource: "auto", mobile: "", title: "Newsletter Template 9", description: "Chamada, título com trecho em itálico, texto, nome e e-mail sublinhados e \"Assinar\" (link sublinhado no desktop, botão cheio no mobile), com a linha da política de privacidade", template: "9", pagina: ["home"], component: "Newsletter09", path: "organisms/Newsletter09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--newsletter-bg", label: "Fundo da newsletter", type: "color", default: "#f7f4ef", group: "Newsletter" },
+        { cssVar: "--newsletter-title-color", label: "Título", type: "color", default: "#1d1b18", group: "Newsletter", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--newsletter-desc-color", label: "Texto de apoio", type: "color", default: "#5e574f", group: "Newsletter", inheritsLabel: "cor de texto primária" },
+      ] },
     ],
   },
 
@@ -752,6 +832,10 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--socialproof-accent", label: "Cor das estrelas", type: "color", default: "#b8976a", group: "Depoimentos", inheritsLabel: "cor primária da marca" },
         { cssVar: "--socialproof-title-font", label: "Fonte do número", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--socialproof-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
+      { id: "09", selection: "client-review", key: "rev09edt8t3c", image: "review/ClientReview09.webp", imageSource: "auto", mobile: "", title: "Depoimentos Template 9", description: "Um depoimento por vez em serifa itálica, com estrelas, nome · cidade e a peça comprada; setas e o contador 02 / 05 trocam o depoimento", template: "9", pagina: ["home"], component: "ClientReview09", path: "organisms/ClientReview09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--socialproof-bg", label: "Fundo da seção", type: "color", default: "#f7f4ef", group: "Depoimentos" },
+        { cssVar: "--socialproof-text", label: "Texto dos depoimentos", type: "color", default: "#1d1b18", group: "Depoimentos", inheritsLabel: "cor de texto primária" },
       ] },
     ],
   },
@@ -798,6 +882,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--plp-font-title", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--plp-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
+      { id: "09", selection: "category-main", key: "catmn09edt7k", image: "categoryMain/CategoryMain09.webp", imageSource: "auto", mobile: "", title: "Grade de produtos Template 9", description: "PLP com filtros na lateral (categoria, marca, tamanho, cor, preço), chips ativos, ordenação e grade de cards; no mobile, painel de filtros; inclui o estado vazio da busca", template: "9", pagina: ["category"], component: "CategoryMain09", path: "organisms/MainCategory09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--cat-main-text", label: "Texto da listagem", type: "color", default: "#1d1b18", group: "Listagem", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--cat-main-accent", label: "Destaque (filtros ativos)", type: "color", default: "#9c4a2f", group: "Listagem", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--filter-bg", label: "Fundo do painel de filtros", type: "color", default: "#ffffff", group: "Filtros", previewNote: "Só na visão Mobile, com o painel de filtros aberto." },
+        { cssVar: "--filter-text", label: "Texto do painel de filtros", type: "color", default: "#1d1b18", group: "Filtros", inheritsLabel: "cor de texto primária", previewNote: "Só na visão Mobile, com o painel de filtros aberto." },
+      ] },
     ],
   },
   categoryDescription: {
@@ -810,6 +900,10 @@ export const LAYOUTS: Layouts = {
       { id: "06", selection: "category-description", key: "catdes06frc3", image: "categoryDescription/CategoryDescription06.webp", imageSource: "design", mobile: "", title: "Descrição de categoria Template 6", description: "Texto editorial da categoria com corte \"saiba mais\" e acordeão de dúvidas frequentes", template: "6", pagina: ["category"], component: "CategoryDescription06", path: "organisms/CategorySeoFaq06", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--plp-text", label: "Cor do texto", type: "color", default: "#212721", group: "Texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--plp-font", label: "Fonte", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+      ] },
+      { id: "09", selection: "category-description", key: "catdes09ed3m", image: "categoryDescription/CategoryDescription09.webp", imageSource: "auto", mobile: "", title: "Descrição de categoria Template 9", description: "\"Sobre a categoria\" com o texto editorial ao lado e as perguntas frequentes em acordeão", template: "9", pagina: ["category"], component: "CategoryDescription09", path: "organisms/CategorySeoFaq09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--cat-desc-bg", label: "Fundo da seção", type: "color", default: "#f7f4ef", group: "Descrição" },
+        { cssVar: "--cat-desc-text", label: "Texto da seção", type: "color", default: "#1d1b18", group: "Descrição", inheritsLabel: "cor de texto primária" },
       ] },
     ],
   },
@@ -826,6 +920,10 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "product-description", key: "desc01t7u8v9w", image: "productDescription/ProductDescription01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductDescription01", path: "molecules/ProductDescription01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["tertiary"], variablesSchema: [
         { cssVar: "--prod-desc-text", label: "Cor do texto", type: "color", default: "#122161", group: "Texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-desc-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+      ] },
+      { id: "09", selection: "product-description", key: "desc09edt6w1", image: "productDescription/ProductDescription09.webp", imageSource: "auto", mobile: "", title: "Descrição do produto Template 9", description: "\"Sobre a peça\" com o texto da descrição e a ficha de especificações ao lado", template: "9", pagina: ["product"], component: "ProductDescription09", path: "molecules/ProductDescription09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--prod-desc-bg", label: "Fundo da seção", type: "color", default: "#f7f4ef", group: "Descrição" },
+        { cssVar: "--prod-desc-text", label: "Texto da seção", type: "color", default: "#1d1b18", group: "Descrição", inheritsLabel: "cor de texto primária" },
       ] },
     ],
   },
@@ -905,6 +1003,13 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--pdp-font-title", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--pdp-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
+      { id: "09", selection: "product-info", key: "info09edt2b8", image: "productInfo/ProductInfo09.webp", imageSource: "auto", mobile: "", title: "Detalhes do Produto Template 9", description: "Galeria em grade 2×2 (carrossel com filetes no mobile) e a coluna de compra: SKU, nota, preço, Pix e parcela, cor por miniatura, tamanho com esgotado riscado, quantidade, sacola, favoritar, frete por CEP e acordeões", template: "9", pagina: ["product"], component: "ProductInfo09", path: "organisms/ProductDetails09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--pdp-text", label: "Texto da PDP", type: "color", default: "#1d1b18", group: "PDP", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--pdp-accent", label: "Destaque (desconto e seleção)", type: "color", default: "#9c4a2f", group: "PDP", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--pdp-price-color", label: "Preço", type: "color", default: "#1d1b18", group: "PDP", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--pdp-button-bg", label: "Fundo do botão de compra", type: "color", default: "#1d1b18", group: "Botão", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--pdp-button-text", label: "Texto do botão de compra", type: "color", default: "#f7f4ef", group: "Botão", inheritsLabel: "cor de texto primária" },
+      ] },
     ],
   },
   productReviews: {
@@ -917,12 +1022,22 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-title-font", label: "Fonte do título", type: "font", default: "'Inter', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--prod-font", label: "Fonte", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária", previewNote: "Do widget Trustvox, que só existe na loja publicada." },
       ] },
+      { id: "09", selection: "product-reviews", key: "prodrev09edt", image: "productReviews/ProductReviews09.webp", imageSource: "auto", mobile: "", title: "Avaliações do produto Template 9", description: "Média em destaque com estrelas, distribuição de 1 a 5, \"Escrever avaliação\" e a lista de avaliações", template: "9", pagina: ["product"], component: "ProductReviews09", path: "organisms/ProductReviews09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--prod-reviews-text", label: "Texto das avaliações", type: "color", default: "#1d1b18", group: "Avaliações", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--prod-reviews-accent", label: "Estrelas e destaque", type: "color", default: "#9c4a2f", group: "Avaliações", inheritsLabel: "cor primária da marca" },
+      ] },
     ],
   },
   productRelated: {
     name: "Produtos Relacionados",
     items: [
       { id: "01", selection: "product-related", key: "rel01f6g7h8i", image: "productRelated/ProductRelated01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductRelated01", path: "organisms/ProductShowcase01", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [] },
+      { id: "09", selection: "product-related", key: "rel09edt4n7z", image: "productRelated/ProductRelated09.webp", imageSource: "auto", mobile: "", title: "Produtos relacionados Template 9", description: "\"Você também pode gostar\": título em serifa, setas na linha do título e quatro cards por vez; no mobile, cards rolando de lado com filete de progresso", template: "9", pagina: ["product"], override: true, component: "ProductRelated09", path: "overrides/CrossSellingShelf09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--showcase-bg", label: "Fundo da seção", type: "color", default: "#f7f4ef", group: "Relacionados" },
+        { cssVar: "--showcase-title-color", label: "Título", type: "color", default: "#1d1b18", group: "Relacionados", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--showcase-text", label: "Texto", type: "color", default: "#1d1b18", group: "Relacionados", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--showcase-tag-text", label: "Selo de desconto", type: "color", default: "#9c4a2f", group: "Relacionados", inheritsLabel: "cor primária da marca" },
+      ] },
     ],
   },
   // LANDING — a LP inteira é UM item; header e footer vêm dos `common` da loja.
@@ -939,6 +1054,11 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--countdown-title-font", label: "Fonte do título", type: "font", default: "'Inter', sans-serif", group: "Tipografia" },
         { cssVar: "--countdown-font", label: "Fonte do texto", type: "font", default: "\'Inter\', sans-serif", group: "Tipografia" },
       ] },
+      { id: "09", selection: "countdown", key: "cdn09edt3j8w", image: "countdown/Countdown09.webp", imageSource: "auto", mobile: "", title: "Contador Template 9", description: "Chamada no acento, título com trecho em itálico, texto, CTA e a contagem regressiva entre filetes, com a arte à direita; no mobile, arte no topo e contagem em grade de quatro", template: "9", pagina: ["home"], component: "Countdown09", path: "organisms/Countdown09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--countdown-bg", label: "Fundo do contador", type: "color", default: "#f7f4ef", group: "Contador" },
+        { cssVar: "--countdown-text", label: "Texto do contador", type: "color", default: "#1d1b18", group: "Contador", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--countdown-accent", label: "Destaque (chamada)", type: "color", default: "#9c4a2f", group: "Contador", inheritsLabel: "cor primária da marca" },
+      ] },
     ],
   },
   editorial: {
@@ -953,6 +1073,10 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--editorial-accent", label: "Cor de destaque", type: "color", default: "#f2994a", group: "Editorial" },
         { cssVar: "--editorial-title-font", label: "Fonte do título", type: "font", default: "\'Open Sans\', sans-serif", group: "Tipografia" },
         { cssVar: "--editorial-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
+      ] },
+      { id: "09", selection: "editorial", key: "edt09edt6p4q", image: "editorial/Editorial09.webp", imageSource: "auto", mobile: "", title: "Editorial Template 9", description: "Matéria em destaque com arte, chamada, título com trecho em itálico, texto com capitular e \"Ler matéria\"; abaixo de um filete, três matérias relacionadas com miniatura", template: "9", pagina: ["home"], component: "Editorial09", path: "organisms/Editorial09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--editorial-bg", label: "Fundo do editorial", type: "color", default: "#f7f4ef", group: "Editorial" },
+        { cssVar: "--editorial-text", label: "Texto do editorial", type: "color", default: "#1d1b18", group: "Editorial", inheritsLabel: "cor de texto primária" },
       ] },
     ],
   },

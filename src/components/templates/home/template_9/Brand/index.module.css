@@ -1,0 +1,191 @@
+/* Espelha molecules/Brands09 (faststore.starter, família 09): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.brands09Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.brands09 {
+  width: 100%;
+  background-color: var(--brands-bg, #f7f4ef);
+  color: var(--brands-text, var(--text-primary-color, #1d1b18));
+  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.brands09 *,
+.brands09 *::before,
+.brands09 *::after {
+  box-sizing: border-box;
+}
+.brands09 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.brands09 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.brands09 a:hover {
+  opacity: 0.7;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 36px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.eyebrow,
+.viewAll {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.eyebrowRule {
+  width: 32px;
+  height: 1px;
+  background-color: var(--brands-text, var(--text-primary-color, #1d1b18));
+}
+
+.viewAll {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+.viewAll span {
+  border-bottom: 1px solid var(--brands-text, var(--text-primary-color, #1d1b18));
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
+  border-top: 1px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #1d1b18)) 16%, var(--brands-bg, #f7f4ef));
+  border-bottom: 1px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #1d1b18)) 16%, var(--brands-bg, #f7f4ef));
+}
+
+.item + .item {
+  border-left: 1px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #1d1b18)) 16%, var(--brands-bg, #f7f4ef));
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 104px;
+  padding: 0 12px;
+  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-size: 22px;
+  text-align: center;
+}
+.brand img {
+  display: block;
+  max-width: 100%;
+  max-height: 56px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.caps {
+  font-size: 20px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.light {
+  font-weight: 300;
+}
+
+.sans {
+  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.italicLight {
+  font-style: italic;
+  font-weight: 300;
+}
+
+.spaced {
+  font-size: 20px;
+  letter-spacing: 0.1em;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 14px;
+    padding: 28px 16px;
+  }
+  .head {
+    gap: 12px;
+  }
+  .eyebrow {
+    gap: 12px;
+  }
+  .eyebrowRule {
+    width: 24px;
+  }
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-bottom: 0;
+  }
+  .item {
+    border-bottom: 1px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #1d1b18)) 16%, var(--brands-bg, #f7f4ef));
+  }
+  .item + .item {
+    border-left: 0;
+  }
+  .item:nth-child(2n) {
+    border-left: 1px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #1d1b18)) 16%, var(--brands-bg, #f7f4ef));
+  }
+  .brand {
+    height: 76px;
+    font-size: 19px;
+  }
+  .brand img {
+    max-height: 40px;
+  }
+  .caps {
+    font-size: 16px;
+  }
+  .sans {
+    font-size: 13px;
+  }
+  .spaced {
+    font-size: 17px;
+  }
+}
+
+.brands09Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
