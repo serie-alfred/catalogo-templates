@@ -1,0 +1,283 @@
+/* Espelha organisms/ClientReview10 (faststore.starter, família 10): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.clientReview10Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.clientReview10 {
+  width: 100%;
+  background-color: var(--socialproof-bg, #f2f4f7);
+  color: var(--socialproof-text, var(--text-primary-color, #101828));
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.clientReview10 *,
+.clientReview10 *::before,
+.clientReview10 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.clientReview10 :where(h2, p) {
+  margin: 0;
+}
+.clientReview10 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.clientReview10 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.clientReview10 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.clientReview10 svg,
+.clientReview10 img {
+  display: block;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 32px;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.title {
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.text {
+  color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 75%, #ffffff);
+  font-size: 15px;
+}
+
+.arrows {
+  display: flex;
+  gap: 8px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+  border-radius: 50%;
+  background-color: #ffffff;
+}
+.arrow:disabled {
+  cursor: default;
+}
+
+.list {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  display: flex;
+  flex: 0 0 calc((100% - 32px) / 3);
+  flex-direction: column;
+  gap: 12px;
+  padding: 22px;
+  border: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-radius: 12px;
+  background-color: #ffffff;
+  scroll-snap-align: start;
+}
+.card:nth-child(3n+1) .thumb {
+  background-color: #f3f4f6;
+}
+.card:nth-child(3n+2) .thumb {
+  background-color: #e7ecf3;
+}
+.card:nth-child(3n+3) .thumb {
+  background-color: #eef1f5;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+  color: var(--socialproof-accent, #b54708);
+}
+.stars svg {
+  width: 16px;
+  height: 16px;
+}
+
+.reviewTitle {
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.reviewText {
+  color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 75%, #ffffff);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+}
+
+.thumb {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  overflow: hidden;
+  border-radius: 8px;
+}
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.product {
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+a.product:hover {
+  text-decoration: underline;
+}
+
+.author {
+  color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 75%, #ffffff);
+  font-size: 12px;
+}
+
+.dots {
+  display: none;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 14px;
+    max-width: none;
+    padding: 24px 0;
+  }
+  .head {
+    padding: 0 16px;
+  }
+  .heading {
+    gap: 4px;
+  }
+  .title {
+    font-size: 22px;
+  }
+  .text {
+    font-size: 14px;
+  }
+  .arrows {
+    display: none;
+  }
+  .list {
+    gap: 12px;
+    padding: 0 16px;
+    scroll-padding: 0 16px;
+  }
+  .card {
+    flex: 0 0 300px;
+    gap: 10px;
+    padding: 18px;
+  }
+  .stars svg {
+    width: 15px;
+    height: 15px;
+  }
+  .reviewTitle {
+    font-size: 16px;
+  }
+  .reviewText {
+    line-height: 1.5;
+  }
+  .foot {
+    margin-top: 0;
+    padding-top: 10px;
+  }
+  .thumb {
+    width: 40px;
+    height: 40px;
+  }
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: #c8d0dc;
+    transition: width 0.2s ease;
+  }
+  .dotOn {
+    width: 20px;
+    background-color: var(--socialproof-text, var(--text-primary-color, #101828));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .clientReview10 * {
+    transition: none;
+  }
+}
+
+.clientReview10Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

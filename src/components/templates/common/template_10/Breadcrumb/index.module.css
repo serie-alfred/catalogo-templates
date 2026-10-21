@@ -1,0 +1,133 @@
+/* Espelha sass/breadcrumb10.module.scss (faststore.starter, família 10): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.breadcrumbSection10Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.breadcrumbSection10 [data-fs-breadcrumb] {
+  padding: 0;
+}
+
+.breadcrumb10 {
+  width: 100%;
+  background-color: #f2f4f7;
+  color: var(--breadcrumb-text, var(--text-primary-color, #101828));
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.breadcrumb10 *,
+.breadcrumb10 *::before,
+.breadcrumb10 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.breadcrumb10 svg {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  max-width: 1280px;
+  min-height: 96px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.nav {
+  max-width: 100%;
+  padding: 0 8px;
+  border: 1px solid color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+}
+
+.home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: var(--breadcrumb-link, var(--background-primary-color-safe, #1340d8));
+}
+
+.sep {
+  display: flex;
+  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #101828)) 45%, #ffffff);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 8px;
+  color: var(--breadcrumb-link, var(--background-primary-color-safe, #1340d8));
+  font-weight: 600;
+  text-decoration: none;
+}
+.link:hover {
+  text-decoration: underline;
+}
+
+.current {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #101828)) 5%, #ffffff);
+  font-weight: 700;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    min-height: 0;
+    height: 64px;
+    padding: 0 16px;
+  }
+  .nav {
+    padding: 0 4px;
+    overflow-x: auto;
+  }
+  .list {
+    flex-wrap: nowrap;
+    gap: 0;
+    font-size: 13px;
+    white-space: nowrap;
+  }
+  .home svg {
+    width: 17px;
+    height: 17px;
+  }
+  .sep svg {
+    width: 14px;
+    height: 14px;
+  }
+  .link {
+    padding: 0 6px;
+  }
+  .current {
+    height: 30px;
+    padding: 0 10px;
+  }
+}
+
+.breadcrumbSection10Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

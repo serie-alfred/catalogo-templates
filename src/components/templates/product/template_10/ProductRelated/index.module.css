@@ -1,0 +1,213 @@
+/* Espelha sass/crossSellingShelf10.module.scss + organisms/ProductShowcase10 (faststore.starter, família 10): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.crossSellingShelf10Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+section.crossSellingShelf10 {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin: 0;
+  padding: 32px max(24px, (100% - 1280px) / 2 + 24px);
+  background-color: var(--showcase-bg, #f2f4f7);
+  color: var(--text-primary-color, #101828);
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+section.crossSellingShelf10.crossSellingShelf10.crossSellingShelf10 > h2 {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0 108px 0 0;
+  color: var(--showcase-title-color, var(--text-primary-color, #101828));
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: normal;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+section.crossSellingShelf10 [data-fs-product-shelf] {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+@container (max-width: 960px) {
+  section.crossSellingShelf10 {
+    gap: 14px;
+    padding: 24px 0;
+    overflow: hidden;
+  }
+  section.crossSellingShelf10.crossSellingShelf10.crossSellingShelf10 > h2 {
+    display: block;
+    min-height: 0;
+    padding: 0 16px;
+    font-size: 22px;
+  }
+}
+
+.productShowcase10 {
+  position: relative;
+  color: var(--text-primary-color, #101828);
+}
+.productShowcase10 *,
+.productShowcase10 *::before,
+.productShowcase10 *::after {
+  box-sizing: border-box;
+}
+.productShowcase10 :where(ul.rail) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.productShowcase10 [data-role=spot-discount],
+.productShowcase10 [data-role=spot-tag] {
+  background-color: var(--showcase-tag-bg, var(--background-tertiary-color, #d92d20));
+  color: var(--showcase-tag-text, var(--text-tertiary-color, #ffffff));
+}
+.productShowcase10 [data-role=spot-buy] {
+  background-color: var(--showcase-accent, var(--background-primary-color, #1340d8));
+  color: var(--text-color-base, #ffffff);
+}
+
+.arrows {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 20px);
+  display: flex;
+  gap: 8px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  font: inherit;
+  cursor: pointer;
+}
+.arrow svg {
+  display: block;
+}
+.arrow:disabled {
+  cursor: default;
+}
+
+.arrowPrev {
+  border: 1px solid color-mix(in srgb, var(--text-primary-color, #101828) 20%, #ffffff);
+  background-color: #ffffff;
+  color: var(--text-primary-color, #101828);
+}
+
+.arrowNext {
+  background-color: var(--showcase-accent, var(--background-primary-color, #1340d8));
+  color: var(--text-color-base, #ffffff);
+}
+.arrowNext:disabled {
+  opacity: 0.4;
+}
+
+.rail {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  display: flex;
+  flex: 0 0 calc((100% - 64px) / 5);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.slide > * {
+  flex: 1;
+}
+.slide:nth-child(5n+1) [data-role=spot-image] {
+  background-color: #f3f4f6;
+}
+.slide:nth-child(5n+2) [data-role=spot-image] {
+  background-color: #e9eef6;
+}
+.slide:nth-child(5n+3) [data-role=spot-image] {
+  background-color: #edeff2;
+}
+.slide:nth-child(5n+4) [data-role=spot-image] {
+  background-color: #eef1f5;
+}
+.slide:nth-child(5n+5) [data-role=spot-image] {
+  background-color: #e5eaf1;
+}
+@container (min-width: 961px) {
+  .slide [data-role=spot-price] {
+    font-size: 22px;
+    letter-spacing: -0.01em;
+  }
+}
+
+.progress {
+  display: none;
+}
+
+@container (max-width: 960px) {
+  .arrows {
+    display: none;
+  }
+  .rail {
+    gap: 12px;
+    padding: 0 16px;
+    scroll-padding: 0 16px;
+  }
+  .slide {
+    flex: 0 0 196px;
+  }
+  .slide [data-role=spot-list-price] {
+    display: none;
+  }
+  .progress {
+    position: relative;
+    display: block;
+    height: 4px;
+    margin: 14px 16px 0;
+    overflow: hidden;
+    border-radius: 2px;
+    background-color: color-mix(in srgb, var(--text-primary-color, #101828) 20%, #ffffff);
+  }
+  .progress span {
+    position: absolute;
+    top: 0;
+    height: 4px;
+    border-radius: 2px;
+    background-color: var(--showcase-accent, var(--background-primary-color, #1340d8));
+    transition: left 0.2s ease;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .progress span {
+    transition: none;
+  }
+}
+
+.crossSellingShelf10Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

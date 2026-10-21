@@ -1,0 +1,225 @@
+/* Espelha organisms/CategorySeoFaq10 (faststore.starter, família 10): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categorySeoFaq10Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categorySeoFaq10 {
+  width: 100%;
+  background-color: #f2f4f7;
+  color: var(--cat-desc-text, var(--text-primary-color, #101828));
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categorySeoFaq10 *,
+.categorySeoFaq10 *::before,
+.categorySeoFaq10 *::after {
+  box-sizing: border-box;
+}
+.categorySeoFaq10 :where(h2, h3, p) {
+  margin: 0;
+}
+.categorySeoFaq10 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.categorySeoFaq10 svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.faqTitle {
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.faqGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+  align-items: start;
+  gap: 12px;
+}
+
+.faqCol {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faqItem {
+  border: 1px solid color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.faqItemOpen {
+  border: 2px solid var(--cat-desc-accent, var(--background-primary-color, #1340d8));
+}
+
+.faqHeading {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 60px;
+  padding: 18px 20px;
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+}
+.faqItemOpen .question {
+  font-weight: 800;
+}
+
+.sign {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 5%, #ffffff);
+}
+.faqItemOpen .sign {
+  background-color: var(--cat-desc-accent, var(--background-primary-color, #1340d8));
+  color: var(--text-color-base, #ffffff);
+}
+
+.answer {
+  padding: 0 20px 20px;
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 78%, #ffffff);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.answer :where(p) + :where(p) {
+  margin-top: 8px;
+}
+
+.faqHtml {
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 78%, #ffffff);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.about {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+  border: 1px solid color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.aboutTitle {
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.text {
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 78%, #ffffff);
+  font-size: 15px;
+  line-height: 1.65;
+}
+.text :where(p) + :where(p) {
+  margin-top: 10px;
+}
+
+.textClamped {
+  max-height: 50px;
+  overflow: hidden;
+}
+
+.more {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  font-size: 15px;
+  font-weight: 800;
+}
+.about .more {
+  color: var(--cat-desc-accent, var(--background-primary-color, #1340d8));
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 12px;
+    padding: 28px 16px;
+  }
+  .faqTitle {
+    margin-bottom: 4px;
+    font-size: 21px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .question {
+    gap: 12px;
+    min-height: 56px;
+    padding: 14px 16px;
+    font-size: 15px;
+  }
+  .sign {
+    width: 30px;
+    height: 30px;
+  }
+  .sign svg {
+    width: 14px;
+    height: 14px;
+  }
+  .answer {
+    padding: 0 16px 16px;
+    font-size: 14px;
+  }
+  .about {
+    gap: 8px;
+    margin-top: 8px;
+    padding: 18px 16px 8px;
+  }
+  .aboutTitle {
+    font-size: 17px;
+  }
+  .text {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .textClamped {
+    max-height: 68px;
+  }
+}
+
+.categorySeoFaq10Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

@@ -1,0 +1,165 @@
+/* Espelha molecules/BenefitsStrip10 (faststore.starter, família 10): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.benefitsStrip10Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.benefitsStrip10 {
+  width: 100%;
+  background-color: var(--ruler-bg, #f2f4f7);
+  color: var(--ruler-text, var(--text-primary-color, #101828));
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.benefitsStrip10 *,
+.benefitsStrip10 *::before,
+.benefitsStrip10 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.benefitsStrip10 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.benefitsStrip10 svg {
+  display: block;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 12px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  border: 1px solid color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-radius: 12px;
+  background-color: #ffffff;
+}
+
+.link {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: inherit;
+  min-height: 44px;
+}
+.link:hover .title {
+  text-decoration: underline;
+}
+
+.icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--ruler-icon, var(--background-primary-color, #1340d8)) 10%, #ffffff);
+  color: var(--ruler-icon, var(--background-primary-color, #1340d8));
+}
+.icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.text {
+  color: color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #101828)) 72%, #ffffff);
+  font-size: 13px;
+}
+
+.dots {
+  display: none;
+}
+
+@container (max-width: 960px) {
+  .benefitsStrip10 {
+    padding: 16px 0;
+  }
+  .list {
+    display: flex;
+    gap: 10px;
+    max-width: none;
+    margin: 0;
+    padding: 0 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 16px;
+    scrollbar-width: none;
+  }
+  .list::-webkit-scrollbar {
+    display: none;
+  }
+  .item {
+    flex: 0 0 248px;
+    gap: 12px;
+    padding: 14px 16px;
+    scroll-snap-align: start;
+  }
+  .icon {
+    width: 44px;
+    height: 44px;
+  }
+  .icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  .title {
+    font-size: 15px;
+  }
+  .text {
+    font-size: 12px;
+  }
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding-top: 12px;
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: #c8d0dc;
+    transition: width 0.2s ease;
+  }
+  .dotOn {
+    width: 20px;
+    background-color: var(--ruler-icon, var(--background-primary-color, #1340d8));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .benefitsStrip10 * {
+    transition: none;
+  }
+}
+
+.benefitsStrip10Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

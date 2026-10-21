@@ -1,0 +1,309 @@
+/* Espelha organisms/PopupNews10 (faststore.starter, família 10): o SCSS compilado com o sass,
+   com o @media mantido (overlay fixo na viewport).
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.popupNews10 {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--popup-text, var(--text-primary-color, #101828));
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.popupNews10 *,
+.popupNews10 *::before,
+.popupNews10 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.popupNews10 :where(h2, p) {
+  margin: 0;
+  color: inherit;
+}
+.popupNews10 :where(a) {
+  color: inherit;
+}
+.popupNews10 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.popupNews10 svg,
+.popupNews10 img {
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(16, 24, 40, 0.6);
+}
+
+.dialog {
+  position: relative;
+  width: 560px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 32px);
+  overflow: hidden auto;
+  border-radius: 20px;
+  background-color: var(--popup-bg, #ffffff);
+  outline: none;
+}
+
+.handle {
+  display: none;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: rgba(16, 24, 40, 0.08) !important;
+  color: var(--text-color-secundary, #101828) !important;
+}
+
+.media img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1120/400;
+  object-fit: cover;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 36px 40px 28px;
+  background-color: var(--popup-accent, var(--background-secundary-color, #ffcf24));
+  color: var(--text-color-secundary, #101828);
+}
+
+.eyebrow {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.subtitle {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px 40px 32px;
+}
+
+.coupon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 2px dashed var(--popup-button-bg, var(--background-primary-color, #1340d8));
+  border-radius: 12px;
+  background-color: color-mix(in srgb, var(--popup-button-bg, var(--background-primary-color, #1340d8)) 6%, var(--popup-bg, #ffffff));
+}
+
+.couponMain {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.couponLabel,
+.couponHint {
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #101828)) 74%, var(--popup-bg, #ffffff));
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.couponHint {
+  max-width: 116px;
+  text-align: right;
+}
+
+.couponCode {
+  color: var(--popup-button-bg, var(--background-primary-color, #1340d8));
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.text {
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #101828)) 80%, var(--popup-bg, #ffffff));
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.input {
+  height: 52px;
+  padding: 0 14px;
+  border: 1px solid color-mix(in srgb, var(--popup-text, var(--text-primary-color, #101828)) 20%, var(--popup-bg, #ffffff));
+  border-radius: 10px;
+  background-color: var(--popup-bg, #ffffff);
+  color: var(--popup-text, var(--text-primary-color, #101828));
+  font: inherit;
+  font-size: 15px;
+  font-weight: 400;
+}
+.input::placeholder {
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #101828)) 52%, var(--popup-bg, #ffffff));
+  opacity: 1;
+}
+.input:focus-visible {
+  outline: 2px solid var(--popup-button-bg, var(--background-primary-color, #1340d8));
+  outline-offset: 1px;
+}
+
+.submit {
+  height: 56px;
+  border-radius: 10px !important;
+  background-color: var(--popup-button-bg, var(--background-primary-color, #1340d8)) !important;
+  color: var(--popup-button-text, var(--text-color-base, #ffffff)) !important;
+  font-size: 17px !important;
+  font-weight: 800 !important;
+}
+.submit:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+
+.privacy {
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #101828)) 74%, var(--popup-bg, #ffffff));
+  font-size: 12px;
+}
+
+.feedback {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.dismiss {
+  align-self: center;
+  min-height: 44px;
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #101828)) 74%, var(--popup-bg, #ffffff)) !important;
+  font-size: 14px !important;
+  text-decoration: underline;
+}
+@media (max-width: 960px) {
+  .popupNews10 {
+    align-items: flex-end;
+  }
+  .dialog {
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100dvh - 24px);
+    border-radius: 20px 20px 0 0;
+  }
+  .handle {
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    z-index: 2;
+    display: block;
+    width: 40px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: rgba(16, 24, 40, 0.25);
+    transform: translateX(-50%);
+  }
+  .close {
+    top: 10px;
+    right: 10px;
+  }
+  .close svg {
+    width: 18px;
+    height: 18px;
+  }
+  .media img {
+    aspect-ratio: 750/300;
+  }
+  .hero {
+    gap: 2px;
+    padding: 24px 20px 18px;
+  }
+  .eyebrow {
+    font-size: 12px;
+  }
+  .title {
+    font-size: 36px;
+    letter-spacing: -0.02em;
+  }
+  .subtitle {
+    font-size: 14px;
+  }
+  .body {
+    gap: 12px;
+    padding: 18px 20px 20px;
+  }
+  .coupon {
+    gap: 10px;
+    padding: 10px 14px;
+  }
+  .couponCode {
+    font-size: 20px;
+  }
+  .text {
+    display: none;
+  }
+  .form {
+    gap: 10px;
+  }
+  .input {
+    height: 50px;
+  }
+  .submit {
+    height: 52px;
+    font-size: 16px !important;
+  }
+}
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+/* O link da política fica sublinhado no starter pelo estilo padrão do navegador; o
+   globals.css do catálogo zera o `text-decoration` de todo <a>, então ele volta aqui. */
+.popupNews10 .privacy a {
+  text-decoration: underline;
+}

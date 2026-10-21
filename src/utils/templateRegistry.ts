@@ -207,6 +207,30 @@ import ProductInfo09 from '@/components/templates/product/template_9/ProductInfo
 import ProductDescription09 from '@/components/templates/product/template_9/ProductDescription';
 import ProductReviews09 from '@/components/templates/product/template_9/ProductReviews';
 import ProductRelated09 from '@/components/templates/product/template_9/ProductRelated';
+import Header10 from '@/components/templates/common/template_10/Header';
+import Spot10 from '@/components/templates/common/template_10/Spot';
+import Breadcrumb10 from '@/components/templates/common/template_10/Breadcrumb';
+import Footer10 from '@/components/templates/common/template_10/Footer';
+import PopupNews10 from '@/components/templates/home/template_10/PopupNews';
+import HelpFloat10 from '@/components/templates/home/template_10/HelpFloat';
+import BannerMain10 from '@/components/templates/home/template_10/BannerMain';
+import Ruler10 from '@/components/templates/home/template_10/Ruler';
+import Categories10 from '@/components/templates/home/template_10/Categories';
+import Showcase10 from '@/components/templates/home/template_10/Showcase';
+import BannerGrid10 from '@/components/templates/home/template_10/BannerGrid';
+import Countdown10 from '@/components/templates/home/template_10/Countdown';
+import ShelfBanner10 from '@/components/templates/home/template_10/ShelfBanner';
+import Editorial10 from '@/components/templates/home/template_10/Editorial';
+import ClientReview10 from '@/components/templates/home/template_10/ClientReview';
+import Brand10 from '@/components/templates/home/template_10/Brand';
+import Newsletter10 from '@/components/templates/home/template_10/Newsletter';
+import CategoryTitle10 from '@/components/templates/category/template_10/CategoryTitle';
+import CategoryMain10 from '@/components/templates/category/template_10/CategoryMain';
+import CategoryDescription10 from '@/components/templates/category/template_10/CategoryDescription';
+import ProductInfo10 from '@/components/templates/product/template_10/ProductInfo';
+import ProductDescription10 from '@/components/templates/product/template_10/ProductDescription';
+import ProductReviews10 from '@/components/templates/product/template_10/ProductReviews';
+import ProductRelated10 from '@/components/templates/product/template_10/ProductRelated';
 
 export const TemplateRegistry: Record<
   string,
@@ -342,4 +366,28 @@ export const TemplateRegistry: Record<
   ProductDescription09,
   ProductReviews09,
   ProductRelated09,
+  Header10,
+  Spot10,
+  Breadcrumb10,
+  Footer10,
+  PopupNews10,
+  HelpFloat10,
+  BannerMain10,
+  Ruler10,
+  Categories10,
+  Showcase10,
+  BannerGrid10,
+  Countdown10,
+  ShelfBanner10,
+  Editorial10,
+  ClientReview10,
+  Brand10,
+  Newsletter10,
+  CategoryTitle10,
+  CategoryMain10,
+  CategoryDescription10,
+  ProductInfo10,
+  ProductDescription10,
+  ProductReviews10,
+  ProductRelated10,
 };

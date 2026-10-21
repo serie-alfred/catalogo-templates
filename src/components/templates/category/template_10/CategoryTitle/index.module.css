@@ -1,0 +1,146 @@
+/* Espelha organisms/CategoryTitle10 (faststore.starter, família 10): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categoryTitle10Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categoryTitle10 {
+  width: 100%;
+  background-color: #f2f4f7;
+  color: var(--cat-title-text, var(--text-color-base, #ffffff));
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categoryTitle10 *,
+.categoryTitle10 *::before,
+.categoryTitle10 *::after {
+  box-sizing: border-box;
+}
+.categoryTitle10 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.categoryTitle10 a:hover {
+  text-decoration: underline;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 36px 40px;
+  border-radius: 16px;
+  background-color: var(--cat-title-bg, var(--background-primary-color, #1340d8));
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 52px;
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.count {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--cat-title-bg, var(--background-primary-color, #1340d8)) 78%, #000000);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--cat-title-bg, var(--background-primary-color, #1340d8)) 78%, #000000);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.chipActive {
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+.chipQty {
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    padding: 16px;
+  }
+  .card {
+    gap: 14px;
+    padding: 22px 0 22px 20px;
+    overflow: hidden;
+  }
+  .head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding-right: 20px;
+  }
+  .title {
+    font-size: 34px;
+    letter-spacing: -0.02em;
+  }
+  .count {
+    height: 28px;
+    padding: 0 10px;
+    font-size: 13px;
+  }
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-right: 20px;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+  .chip {
+    flex: none;
+    padding: 0 16px;
+  }
+  .chipQty {
+    display: none;
+  }
+}
+
+.categoryTitle10Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

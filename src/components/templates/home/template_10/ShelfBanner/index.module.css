@@ -1,0 +1,388 @@
+/* Espelha molecules/ProductShelf10 (faststore.starter, família 10): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productShelf10Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productShelf10 {
+  width: 100%;
+  background-color: var(--showcase-bg, #f2f4f7);
+  color: var(--text-primary-color, #101828);
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.productShelf10 *,
+.productShelf10 *::before,
+.productShelf10 *::after {
+  box-sizing: border-box;
+}
+.productShelf10 :where(h2) {
+  margin: 0;
+}
+.productShelf10 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.productShelf10 :where(.head a, .head button, .banner) {
+  color: inherit;
+  text-decoration: none;
+}
+.productShelf10 :where(.head button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+.productShelf10 :where(.head svg, .banner svg, .banner img) {
+  display: block;
+}
+.productShelf10 [data-role=spot-discount],
+.productShelf10 [data-role=spot-tag] {
+  background-color: var(--showcase-tag-bg, var(--background-tertiary-color, #d92d20));
+  color: var(--showcase-tag-text, var(--text-tertiary-color, #ffffff));
+}
+.productShelf10 [data-role=spot-buy] {
+  background-color: var(--showcase-accent, var(--background-primary-color, #1340d8));
+  color: var(--text-color-base, #ffffff);
+}
+.productShelf10 [data-role=spot-rating] > span:nth-child(2) > span + span {
+  display: none;
+}
+
+.variantBanner {
+  background-color: #f2f4f7;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 16px;
+}
+
+.title {
+  color: var(--showcase-title-color, var(--text-primary-color, #101828));
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.viewAll {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 44px;
+  padding: 0 8px;
+  color: var(--showcase-accent, var(--background-primary-color, #1340d8));
+  font-size: 15px;
+  font-weight: 700;
+}
+.viewAll:hover {
+  text-decoration: underline;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+.arrow:disabled {
+  cursor: default;
+}
+
+.arrowPrev {
+  border: 1px solid color-mix(in srgb, var(--text-primary-color, #101828) 20%, #ffffff);
+  background-color: #ffffff;
+}
+
+.arrowNext {
+  background-color: var(--showcase-accent, var(--background-primary-color, #1340d8));
+  color: var(--text-color-base, #ffffff);
+}
+.arrowNext:disabled {
+  opacity: 0.4;
+}
+
+.rail {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  display: flex;
+  flex: 0 0 calc((100% - 64px) / 5);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.slide > * {
+  flex: 1;
+}
+.slide:nth-child(5n+1) [data-role=spot-image] {
+  background-color: #eef1f5;
+}
+.slide:nth-child(5n+2) [data-role=spot-image] {
+  background-color: #e7ecf3;
+}
+.slide:nth-child(5n+3) [data-role=spot-image] {
+  background-color: #f3f4f6;
+}
+.slide:nth-child(5n+4) [data-role=spot-image] {
+  background-color: #e9eef6;
+}
+.slide:nth-child(5n+5) [data-role=spot-image] {
+  background-color: #edeff2;
+}
+@container (min-width: 961px) {
+  .slide [data-role=spot-price] {
+    font-size: 22px;
+    letter-spacing: -0.01em;
+  }
+}
+
+.progress {
+  display: none;
+}
+
+.variantBanner .inner {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.variantBanner .slide {
+  flex-basis: calc((100% - 48px) / 4);
+}
+
+.side {
+  display: flex;
+  flex: 4 1 700px;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.banner {
+  position: relative;
+  display: flex;
+  flex: 1 1 260px;
+  flex-direction: column;
+  max-width: 100%;
+  min-height: 560px;
+  padding: 32px;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: var(--banner-side-bg, var(--background-secundary-color, #1340d8));
+  color: var(--banner-side-text, var(--text-color-secundary, #ffffff));
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+}
+.banner:hover .bannerTitle {
+  text-decoration: underline;
+}
+
+.bannerCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.bannerArt {
+  position: absolute;
+  right: 32px;
+  bottom: 32px;
+  left: 32px;
+  height: 42%;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: color-mix(in srgb, var(--banner-side-bg, var(--background-secundary-color, #1340d8)) 70%, #ffffff);
+}
+.bannerArt picture,
+.bannerArt img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bannerEyebrow {
+  align-self: flex-start;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background-color: var(--banner-side-text, var(--text-color-secundary, #ffffff));
+  color: var(--banner-side-bg, var(--background-secundary-color, #1340d8));
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.bannerTitle {
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.bannerText {
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.bannerCta {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 22px;
+  border-radius: 10px;
+  background-color: var(--banner-side-text, var(--text-color-secundary, #ffffff));
+  color: var(--banner-side-bg, var(--background-secundary-color, #1340d8));
+  font-size: 15px;
+  font-weight: 800;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 14px;
+    max-width: none;
+    padding: 24px 0;
+  }
+  .head {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 0 16px;
+  }
+  .title {
+    font-size: 22px;
+  }
+  .actions {
+    margin-left: 0;
+  }
+  .viewAll {
+    gap: 2px;
+    padding: 0;
+    font-size: 14px;
+  }
+  .viewAll svg {
+    width: 16px;
+    height: 16px;
+  }
+  .arrow {
+    display: none;
+  }
+  .rail {
+    gap: 12px;
+    padding: 0 16px;
+    scroll-padding: 0 16px;
+  }
+  .slide,
+  .variantBanner .slide {
+    flex: 0 0 196px;
+  }
+  .progress {
+    position: relative;
+    display: block;
+    height: 4px;
+    margin: 4px 16px 0;
+    overflow: hidden;
+    border-radius: 2px;
+    background-color: color-mix(in srgb, var(--text-primary-color, #101828) 20%, #ffffff);
+  }
+  .progress span {
+    position: absolute;
+    top: 0;
+    height: 4px;
+    border-radius: 2px;
+    background-color: var(--showcase-accent, var(--background-primary-color, #1340d8));
+    transition: left 0.2s ease;
+  }
+  .variantBanner .inner {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 16px;
+  }
+  .side {
+    flex: none;
+    gap: 16px;
+  }
+  .variantBanner .progress {
+    margin-top: 0;
+  }
+  .banner {
+    flex: none;
+    min-height: 0;
+    margin: 0 16px;
+    padding: 0;
+  }
+  .bannerArt {
+    position: relative;
+    inset: auto;
+    order: -1;
+    height: 150px;
+    border-radius: 0;
+  }
+  .bannerCopy {
+    gap: 10px;
+    padding: 18px 20px 20px;
+  }
+  .bannerEyebrow {
+    padding: 4px 9px;
+    font-size: 11px;
+  }
+  .bannerTitle {
+    font-size: 26px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .bannerText {
+    font-size: 14px;
+  }
+  .bannerCta {
+    align-self: stretch;
+    justify-content: center;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .productShelf10 * {
+    transition: none;
+  }
+}
+
+.productShelf10Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

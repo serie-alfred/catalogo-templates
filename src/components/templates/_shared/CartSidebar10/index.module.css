@@ -1,0 +1,366 @@
+/* Espelha organisms/CartSidebar10 (faststore.starter, família 10): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.cartSidebar10Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.cartSidebar10 {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  visibility: hidden;
+  pointer-events: none;
+  color: var(--cart-text, var(--text-primary-color, #101828));
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.cartSidebar10 *,
+.cartSidebar10 *::before,
+.cartSidebar10 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.cartSidebar10 :where(h2, p) {
+  margin: 0;
+  color: inherit;
+}
+.cartSidebar10 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cartSidebar10 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.cartSidebar10 :where(a:hover) {
+  text-decoration: underline;
+}
+.cartSidebar10 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.cartSidebar10 img,
+.cartSidebar10 svg {
+  display: block;
+  flex: none;
+}
+.cartSidebar10.open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(16, 24, 40, 0.55);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.open .overlay {
+  opacity: 1;
+}
+
+.drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 460px;
+  max-width: 100%;
+  background-color: #ffffff;
+  box-shadow: -1px 0 3px rgba(16, 24, 40, 0.08);
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+.open .drawer {
+  transform: none;
+}
+
+.head {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 16px 24px;
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 5%, #ffffff);
+}
+
+.list {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+  padding: 4px 24px;
+  overflow-y: auto;
+}
+
+.line {
+  display: flex;
+  gap: 12px;
+  padding: 16px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+}
+
+.lineImage {
+  flex-shrink: 0;
+  width: 88px;
+  height: 88px;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #eef1f5;
+}
+.lineImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.lineBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.lineHead {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.lineName {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.remove {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: -10px -10px 0 0;
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+}
+
+.lineVariation {
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  font-size: 12px;
+}
+
+.lineActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  height: 46px;
+  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+  border-radius: 8px;
+}
+.qty button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 100%;
+}
+.qty button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.qtyValue {
+  width: 24px;
+  font-size: 14px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.linePrice {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.footer {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 24px 20px;
+  border-top: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  background-color: #ffffff;
+}
+
+.subtotal {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.subtotalLabel {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.subtotalValue {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.note {
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  font-size: 13px;
+}
+
+.checkout {
+  height: 56px;
+  border-radius: 10px;
+  background-color: var(--cart-button-bg, var(--background-primary-color, #1340d8));
+  color: var(--cart-button-text, var(--text-color-base, #ffffff));
+  font-size: 17px;
+  font-weight: 800;
+}
+.checkout:disabled {
+  opacity: 0.7;
+}
+
+.continue {
+  height: 48px;
+  border: 2px solid var(--cart-button-bg, var(--background-primary-color, #1340d8));
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: var(--cart-button-bg, var(--background-primary-color, #1340d8));
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+}
+
+.emptyText {
+  font-size: 16px;
+  font-weight: 700;
+  text-align: center;
+}
+@container (max-width: 960px) {
+  .drawer {
+    width: 100%;
+    box-shadow: none;
+  }
+  .head {
+    padding: 8px 8px 8px 16px;
+  }
+  .title {
+    gap: 8px;
+    font-size: 18px;
+  }
+  .title svg {
+    width: 20px;
+    height: 20px;
+  }
+  .close {
+    width: 48px;
+    height: 48px;
+  }
+  .list {
+    padding: 0 16px;
+  }
+  .line {
+    padding: 14px 0;
+  }
+  .lineImage {
+    width: 80px;
+    height: 80px;
+  }
+  .lineHead {
+    gap: 4px;
+  }
+  .qtyValue {
+    width: 22px;
+  }
+  .linePrice {
+    font-size: 15px;
+  }
+  .footer {
+    gap: 10px;
+    padding: 14px 16px 16px;
+    box-shadow: 0 -4px 12px rgba(16, 24, 40, 0.06);
+  }
+  .subtotalLabel {
+    font-size: 15px;
+  }
+  .subtotalValue {
+    font-size: 20px;
+  }
+  .note {
+    font-size: 12px;
+  }
+  .checkout {
+    height: 54px;
+    font-size: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .drawer {
+    transition: none;
+  }
+}
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+/* Envelope das `@container` da gaveta. No starter ela vai por portal para o <body> e
+   as `@media` decidem; aqui ela fica junto do header (as vars do tema vêm do wrapper
+   acima), e uma camada `position: fixed` dentro de um container-type ficaria presa a
+   ele. Por isso o próprio envelope é a camada fixa do tamanho da tela: a gaveta mede a
+   largura da tela, como no starter, e o fixed dela casa com o dele. */
+.cartSidebar10Box {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  container-type: inline-size;
+  pointer-events: none;
+}

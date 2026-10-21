@@ -1,0 +1,228 @@
+/* Espelha organisms/Countdown10 (faststore.starter, família 10): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.countdown10Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.countdown10 {
+  width: 100%;
+  background-color: #f2f4f7;
+  color: var(--countdown-text, var(--text-color-secundary, #101828));
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.countdown10 *,
+.countdown10 *::before,
+.countdown10 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.countdown10 :where(h2, p) {
+  margin: 0;
+  color: inherit;
+}
+.countdown10 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.countdown10 svg,
+.countdown10 img {
+  display: block;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: var(--countdown-bg, var(--background-secundary-color, #ffcf24));
+}
+
+.body {
+  display: flex;
+  flex: 1 1 520px;
+  flex-direction: column;
+  gap: 16px;
+  padding: 32px 40px;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bolt {
+  width: 32px;
+  height: 32px;
+  flex: none;
+}
+
+.title {
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.text {
+  max-width: 460px;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.timer {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 72px;
+  border-radius: 10px;
+  background-color: var(--countdown-text, var(--text-color-secundary, #101828));
+  color: var(--countdown-bg, var(--background-secundary-color, #ffcf24));
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 36px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.unitLabel {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.sep {
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 72px;
+}
+
+.cta {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 28px;
+  border-radius: 12px;
+  background-color: var(--countdown-accent, var(--background-primary-color, #1340d8));
+  color: var(--text-color-base, #ffffff);
+  font-size: 16px;
+  font-weight: 800;
+}
+.cta:hover {
+  text-decoration: underline;
+}
+
+.media {
+  position: relative;
+  flex: 1 1 420px;
+  min-height: 280px;
+  overflow: hidden;
+  background-color: color-mix(in srgb, var(--countdown-text, var(--text-color-secundary, #101828)) 10%, var(--countdown-bg, var(--background-secundary-color, #ffcf24)));
+}
+.media picture,
+.media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    max-width: none;
+    padding: 16px;
+  }
+  .box {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  .media {
+    flex: none;
+    order: -1;
+    height: 170px;
+    min-height: 0;
+  }
+  .body {
+    flex: none;
+    gap: 14px;
+    padding: 20px;
+  }
+  .head {
+    gap: 8px;
+  }
+  .bolt {
+    width: 26px;
+    height: 26px;
+  }
+  .title {
+    font-size: 28px;
+    letter-spacing: -0.02em;
+  }
+  .text {
+    max-width: none;
+    font-size: 15px;
+  }
+  .timer {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .sep {
+    display: none;
+  }
+  .unit {
+    gap: 4px;
+  }
+  .value {
+    width: 100%;
+    height: 60px;
+    font-size: 28px;
+  }
+  .cta {
+    align-self: stretch;
+    justify-content: center;
+  }
+}
+
+.countdown10Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

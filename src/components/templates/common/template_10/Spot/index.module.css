@@ -1,0 +1,457 @@
+/* Espelha molecules/ProductCard10 (faststore.starter, família 10): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productCard10Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productCard10 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: var(--spot-text, var(--text-primary-color, #101828));
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.productCard10 *,
+.productCard10 *::before,
+.productCard10 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.productCard10 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.productCard10 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.productCard10 svg {
+  display: block;
+  flex: none;
+}
+@media (hover: hover) {
+  @container (min-width: 961px) {
+  .productCard10:not(.soldOut):hover {
+    border-color: var(--spot-btn-bg, var(--background-primary-color, #1340d8));
+    box-shadow: 0 0 0 1px var(--spot-btn-bg, var(--background-primary-color, #1340d8)), 0 1px 3px rgba(16, 24, 40, 0.08);
+  }
+  .productCard10:not(.soldOut):hover .name {
+    text-decoration: underline;
+  }
+  .productCard10:not(.soldOut):hover .buy {
+    background-color: color-mix(in srgb, var(--spot-btn-bg, var(--background-primary-color, #1340d8)) 78%, #000000);
+  }
+  .productCard10:not(.soldOut):hover .buyRest {
+    display: none;
+  }
+  .productCard10:not(.soldOut):hover .buyHover {
+    display: flex;
+  }
+  .productCard10:not(.soldOut):hover .dots {
+    display: flex;
+  }
+  .productCard10:not(.soldOut):hover .imgHover {
+    opacity: 1;
+  }
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.media {
+  position: relative;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #eef1f5;
+}
+
+.mediaLink {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.img,
+.imgHover {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.imgHover {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tags {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.tag {
+  padding: 4px 8px;
+  border-radius: 999px;
+  background-color: var(--spot-tag-bg, var(--background-tertiary-color, #d92d20));
+  color: var(--spot-tag-text, var(--text-tertiary-color, #ffffff));
+  font-size: 12px;
+  font-weight: 800;
+  line-height: normal;
+}
+
+.tagOut {
+  background-color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.favorite {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+}
+.favorite:disabled {
+  cursor: default;
+}
+
+.favoriteOn {
+  color: var(--spot-tag-bg, var(--background-tertiary-color, #d92d20));
+}
+
+.dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  display: none;
+  gap: 6px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.dot {
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: #c8d0dc;
+}
+
+.dotOn {
+  background-color: var(--spot-btn-bg, var(--background-primary-color, #1340d8));
+}
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: #b54708;
+}
+
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.ratingText {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 4px;
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  font-size: 12px;
+}
+
+.ratingValue {
+  color: var(--spot-text, var(--text-primary-color, #101828));
+  font-weight: 700;
+}
+
+.name {
+  display: block;
+  height: 40px;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.prices {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.listPrice {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  font-size: 13px;
+  text-decoration: line-through;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.pix {
+  color: #067647;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.installment {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  font-size: 13px;
+}
+.buy {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  border-radius: 10px;
+  background-color: var(--spot-btn-bg, var(--background-primary-color, #1340d8));
+  color: var(--spot-btn-text, var(--text-color-base, #ffffff));
+  font-size: 15px;
+  font-weight: 700;
+  transition: background-color 0.15s ease;
+}
+.buy:focus-visible {
+  outline: 2px solid var(--spot-btn-bg, var(--background-primary-color, #1340d8));
+  outline-offset: 2px;
+}
+
+.buyHover {
+  display: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.outInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-height: 84px;
+}
+
+.outTitle {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.outText {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  font-size: 13px;
+}
+
+.notify {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  border: 2px solid var(--spot-btn-bg, var(--background-primary-color, #1340d8));
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: var(--spot-btn-bg, var(--background-primary-color, #1340d8));
+  font-size: 15px;
+  font-weight: 700;
+}
+.notify:hover {
+  text-decoration: underline;
+}
+
+.soldOut .name {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+}
+@container (max-width: 960px) {
+  .productCard10 {
+    gap: 6px;
+    padding: 10px;
+  }
+  .dsk {
+    display: none !important;
+  }
+  .tags {
+    top: 8px;
+    left: 8px;
+  }
+  .tag {
+    padding: 3px 7px;
+  }
+  .favorite {
+    top: 0;
+    right: 0;
+  }
+  .favorite svg {
+    width: 20px;
+    height: 20px;
+  }
+  .rating {
+    gap: 4px;
+  }
+  .rating svg {
+    width: 13px;
+    height: 13px;
+  }
+  .ratingText {
+    margin-left: 0;
+  }
+  .name {
+    height: 36px;
+    font-size: 13px;
+    line-height: 18px;
+  }
+  .listPrice,
+  .pix,
+  .installment {
+    font-size: 12px;
+  }
+  .price {
+    font-size: 19px;
+  }
+  .buy {
+    height: 44px;
+    font-size: 14px;
+  }
+  .outInfo {
+    gap: 2px;
+    min-height: 76px;
+  }
+  .outTitle {
+    font-size: 15px;
+  }
+  .outText {
+    font-size: 12px;
+  }
+  .notify {
+    gap: 6px;
+    height: 44px;
+    font-size: 14px;
+  }
+  .notify svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .productCard10,
+  .imgHover,
+  .buy {
+    transition: none;
+  }
+}
+
+.productCard10Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* O item "Spot" mostra o quadro do desenho `Spot10`, como o palco do starter
+   (`DevFidelityStage/Comum10Stage`): Padrão, Hover e Esgotado lado a lado num quadro de
+   1040 com os rótulos do canvas; no mobile, 375 com 2 colunas e sem a coluna Hover.
+   No starter o card não tem moldura própria: quem o põe em grade é a vitrine/PLP. */
+.spotStage {
+  width: 100%;
+  background-color: #f2f4f7;
+  font-family: 'Archivo', system-ui, sans-serif;
+}
+
+.spotGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  align-items: start;
+  box-sizing: border-box;
+  width: 1040px;
+  max-width: 100%;
+  min-height: 640px;
+  padding: 28px 32px;
+}
+
+.spotCol {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.spotLabel {
+  color: #475467;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+/* A coluna "Hover" fixa o estado de hover do card (o mesmo bloco `:hover` do SCSS),
+   porque no canvas ninguém passa o mouse. */
+.spotHoverCol .productCard10 {
+  border-color: var(--spot-btn-bg, var(--background-primary-color, #1340d8));
+  box-shadow: 0 0 0 1px var(--spot-btn-bg, var(--background-primary-color, #1340d8)), 0 1px 3px rgba(16, 24, 40, 0.08);
+}
+.spotHoverCol .name {
+  text-decoration: underline;
+}
+.spotHoverCol .buy {
+  background-color: color-mix(in srgb, var(--spot-btn-bg, var(--background-primary-color, #1340d8)) 78%, #000000);
+}
+.spotHoverCol .buyRest {
+  display: none;
+}
+.spotHoverCol .buyHover {
+  display: flex;
+}
+
+@container (max-width: 960px) {
+  .spotGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: 375px;
+    min-height: 0;
+    padding: 20px 16px 24px;
+  }
+  .spotCol {
+    gap: 8px;
+  }
+  .spotHoverCol {
+    display: none;
+  }
+}

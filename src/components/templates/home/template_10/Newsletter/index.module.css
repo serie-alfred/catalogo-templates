@@ -1,0 +1,248 @@
+/* Espelha organisms/Newsletter10 (faststore.starter, família 10): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.newsletter10Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.newsletter10 {
+  width: 100%;
+  background-color: var(--newsletter-bg, var(--background-secundary-color, #1340d8));
+  color: var(--newsletter-desc-color, var(--text-color-secundary, #ffffff));
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.newsletter10 *,
+.newsletter10 *::before,
+.newsletter10 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.newsletter10 :where(h2, p) {
+  margin: 0;
+}
+.newsletter10 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.newsletter10 :where(a):hover {
+  text-decoration: underline;
+}
+.newsletter10 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.newsletter10 svg {
+  display: block;
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 32px 56px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 64px 24px;
+}
+
+.intro {
+  display: flex;
+  flex: 1 1 420px;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: var(--newsletter-bg, var(--background-secundary-color, #1340d8));
+}
+.icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.title {
+  color: var(--newsletter-title-color, var(--text-color-secundary, #ffffff));
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.highlight {
+  padding: 0 6px;
+  border-radius: 6px;
+  background-color: var(--newsletter-button-bg, var(--background-tertiary-color, #ffcf24));
+  color: var(--newsletter-button-text, var(--text-tertiary-color, #101828));
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.text {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.form {
+  display: flex;
+  flex: 1 1 520px;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.field input {
+  box-sizing: content-box;
+  height: 52px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 10px;
+  background-color: #ffffff;
+  color: var(--text-primary-color, #101828);
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+}
+.field input::placeholder {
+  color: color-mix(in srgb, var(--text-primary-color, #101828) 55%, #ffffff);
+}
+.field input:focus-visible {
+  outline: 2px solid var(--newsletter-button-bg, var(--background-tertiary-color, #ffcf24));
+  outline-offset: 2px;
+}
+
+.fieldName {
+  flex: 1 1 180px;
+}
+
+.fieldEmail {
+  flex: 1.4 1 220px;
+}
+
+.submit {
+  align-self: flex-end;
+  height: 52px;
+  padding: 0 24px;
+  border-radius: 10px;
+  background-color: var(--newsletter-button-bg, var(--background-tertiary-color, #ffcf24));
+  color: var(--newsletter-button-text, var(--text-tertiary-color, #101828));
+  font-size: 16px;
+  font-weight: 800;
+}
+.submit:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+.submit:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.feedback {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.privacy {
+  font-size: 13px;
+}
+.privacy a {
+  text-decoration: underline;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 18px;
+    max-width: none;
+    padding: 36px 20px;
+  }
+  .intro {
+    flex: none;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .icon {
+    width: 52px;
+    height: 52px;
+  }
+  .icon svg {
+    width: 26px;
+    height: 26px;
+  }
+  .copy {
+    gap: 18px;
+  }
+  .title {
+    font-size: 26px;
+    line-height: 1.12;
+  }
+  .text {
+    font-size: 15px;
+  }
+  .form {
+    flex: none;
+    gap: 12px;
+  }
+  .row {
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+  .fieldName,
+  .fieldEmail {
+    flex: none;
+  }
+  .field input {
+    height: 50px;
+    padding: 0 14px;
+  }
+  .submit {
+    align-self: stretch;
+  }
+  .privacy {
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}
+
+.newsletter10Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

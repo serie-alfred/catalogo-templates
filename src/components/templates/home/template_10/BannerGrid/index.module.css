@@ -1,0 +1,327 @@
+/* Espelha molecules/BannerGrid10 (faststore.starter, família 10): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.bannerGrid10Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.bannerGrid10 {
+  width: 100%;
+  background-color: #f2f4f7;
+  color: var(--banner-grid-text, var(--text-primary-color, #101828));
+  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bannerGrid10 *,
+.bannerGrid10 *::before,
+.bannerGrid10 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.bannerGrid10 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.bannerGrid10 svg,
+.bannerGrid10 img {
+  display: block;
+}
+.bannerGrid10 picture,
+.bannerGrid10 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.main {
+  position: relative;
+  display: flex;
+  flex: 2 1 540px;
+  flex-direction: column;
+  min-height: 616px;
+  padding: 48px;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: var(--banner-grid-accent, var(--background-primary-color, #1340d8));
+  color: var(--text-color-base, #ffffff);
+}
+.main:hover .mainTitle {
+  text-decoration: underline;
+}
+
+.mainCopy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mainEyebrow {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.mainTitle {
+  max-width: 440px;
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 44px;
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.mainPrice {
+  align-self: flex-start;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background-color: var(--banner-grid-highlight, var(--background-tertiary-color, #ffcf24));
+  color: var(--text-tertiary-color, #101828);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.mainCta {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 8px;
+  height: 52px;
+  margin-top: 8px;
+  padding: 0 24px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: var(--banner-grid-text, var(--text-primary-color, #101828));
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.mainArt {
+  position: absolute;
+  right: 32px;
+  bottom: 32px;
+  width: 56%;
+  height: 52%;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: color-mix(in srgb, var(--banner-grid-accent, var(--background-primary-color, #1340d8)) 70%, #ffffff);
+}
+
+.grid {
+  display: grid;
+  flex: 2 1 540px;
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+  gap: 16px;
+}
+
+.tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 300px;
+  padding: 28px;
+  overflow: hidden;
+  border-radius: 16px;
+  color: var(--banner-grid-text, var(--text-primary-color, #101828));
+}
+.tile:hover .tileTitle {
+  text-decoration: underline;
+}
+
+.tileArt {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 44%;
+  height: 50%;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.tileEyebrow {
+  position: relative;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tileTitle {
+  position: relative;
+  max-width: 220px;
+  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.tilePrice {
+  position: relative;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.tileCta {
+  position: absolute;
+  bottom: 28px;
+  left: 28px;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 10px;
+  background-color: var(--banner-grid-accent, var(--background-primary-color, #1340d8));
+  color: var(--text-color-base, #ffffff);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.toneHighlight {
+  background-color: var(--banner-grid-highlight, var(--background-tertiary-color, #ffcf24));
+  color: var(--text-tertiary-color, #101828);
+}
+.toneHighlight .tileArt {
+  background-color: rgba(16, 24, 40, 0.08);
+}
+.toneHighlight .tileCta {
+  background-color: var(--banner-grid-text, var(--text-primary-color, #101828));
+  color: #ffffff;
+}
+
+.toneNeutral {
+  background-color: color-mix(in srgb, var(--banner-grid-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+}
+.toneNeutral .tileArt {
+  background-color: #f2f4f7;
+}
+
+.toneTint {
+  background-color: color-mix(in srgb, var(--banner-grid-accent, var(--background-primary-color, #1340d8)) 12%, #ffffff);
+}
+.toneTint .tileArt {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.toneOutline {
+  border: 1px solid color-mix(in srgb, var(--banner-grid-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  background-color: #ffffff;
+}
+.toneOutline .tileEyebrow {
+  color: var(--banner-grid-accent, var(--background-primary-color, #1340d8));
+}
+.toneOutline .tileTitle {
+  color: var(--banner-grid-title-color, var(--text-primary-color, #101828));
+}
+.toneOutline .tileArt {
+  background-color: #eef1f5;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 12px;
+    max-width: none;
+    padding: 16px;
+  }
+  .main {
+    flex: none;
+    min-height: 0;
+    padding: 0;
+  }
+  .mainArt {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    order: -1;
+    width: auto;
+    height: 200px;
+    border-radius: 0;
+  }
+  .mainCopy {
+    gap: 10px;
+    padding: 20px;
+  }
+  .mainEyebrow {
+    font-size: 12px;
+  }
+  .mainTitle {
+    max-width: none;
+    font-size: 28px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+  .mainPrice {
+    padding: 5px 10px;
+    font-size: 15px;
+  }
+  .mainCta {
+    align-self: stretch;
+    justify-content: center;
+    height: 48px;
+    margin-top: 0;
+    font-size: 15px;
+  }
+  .grid {
+    flex: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .tile {
+    gap: 6px;
+    min-height: 190px;
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .tileArt {
+    right: 12px;
+    bottom: 12px;
+    width: 40%;
+    height: 40%;
+  }
+  .artDeskOnly {
+    display: none;
+  }
+  .tileEyebrow {
+    font-size: 11px;
+  }
+  .tileTitle {
+    max-width: none;
+    font-size: 18px;
+    line-height: 1.1;
+    letter-spacing: normal;
+  }
+  .tilePrice {
+    font-size: 13px;
+  }
+  .tileCta {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    align-self: flex-start;
+    margin-top: auto;
+    padding: 0 14px;
+    font-size: 13px;
+  }
+}
+
+.bannerGrid10Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
