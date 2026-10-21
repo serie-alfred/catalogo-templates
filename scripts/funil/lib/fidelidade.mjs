@@ -28,7 +28,9 @@ import { itens } from './util.mjs';
  * Esses nós são casados por papel + ordem (não por texto) e têm a GEOMETRIA
  * dispensada — largura de texto diferente é a consequência esperada de texto
  * diferente. O que continua valendo: eles existem nos dois lados, na mesma
- * quantidade, e as propriedades de CSS que o nó possui batem.
+ * quantidade, e as propriedades de CSS que o nó possui batem. Antes de medir, o
+ * estágio põe na origem o texto que o clone mostra (`igualarLivres`), para o
+ * texto diferente não empurrar os vizinhos (coluna `auto`, irmão `flex: 1`).
  */
 /**
  * `paletaDeUmLado`: chaves da leitura de paleta que só existem de um lado e

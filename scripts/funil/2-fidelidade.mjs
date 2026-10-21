@@ -194,7 +194,13 @@ const normalizar = paleta => {
     // (regra 3), eram 48 reprovações `16px → 13.3333px` em botão sem texto
     // próprio. Mesma regra, mesma especificidade da do starter.
     'button, input, select, textarea { line-height: normal;' +
-    ' font-family: inherit; font-size: 100%; padding: 0; }';
+    ' font-family: inherit; font-size: 100%; padding: 0; }' +
+    // Nona: o shell do starter traz o normalize `table { border-color: inherit }`
+    // e o catálogo não. A tabela de frete do ProductDetails10 (borda 0, nada
+    // pinta) herdava a cor do filete do pai de um lado e ficava no
+    // `currentColor` do outro: "só a réplica estabelece" `borderColor`, com os
+    // dois lados idênticos na tela.
+    'table { border-color: inherit; }';
   document.head.appendChild(st);
   // Regra de autor com `!important` em `*`, não inline no <html>/<body>: o
   // starter declara os tokens em `body.theme`, mas o catálogo os declara num
@@ -206,6 +212,51 @@ const normalizar = paleta => {
   tokens.textContent = `*, *::before, *::after {${ 
     Object.entries(paleta).map(([k, v]) => `${k}: ${v} !important;`).join('')  }}`;
   document.head.appendChild(tokens);
+};
+
+/**
+ * Texto livre igual dos dois lados, antes de medir. A geometria do próprio nó
+ * livre já é dispensada, mas o texto diferente empurra o resto: a coluna `auto`
+ * do grid que o contém (Header09: "Sua Marca" × "SERIE//A" mudava o
+ * `gridTemplateColumns` do `hd-bar`) e o vizinho `flex: 1` (Header10: a busca
+ * ganhava 35px). O clone mede primeiro e entrega os textos dele
+ * (`textosLivres`); a origem os recebe no lugar dos seus (`igualarLivres`), nó
+ * de texto por nó de texto, na ordem. Assim as caixas vizinhas voltam a valer
+ * asserção em vez de ganhar dispensa, e o clone não é tocado. Só o texto do
+ * próprio nó e dos filhos sem `data-role`: um papel aninhado mede o dele.
+ */
+const textosLivres = papeis => {
+  const out = {};
+  for (const r of papeis)
+    out[r] = [...document.querySelectorAll(`[data-role="${r}"]`)].map(el => {
+      const lista = [];
+      const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      for (let t = w.nextNode(); t; t = w.nextNode())
+        if (t.textContent.trim() && t.parentElement?.closest('[data-role]') === el)
+          lista.push(t.textContent);
+      return lista;
+    });
+  return out;
+};
+
+// Elemento por elemento, na ordem. Mesmo número de nós de texto: um a um (a
+// marca do Header10 é selo + nome, dois `<span>`). Número diferente — o JSX
+// `({total})` da origem são 3 nós e o da réplica, 1 —: o texto todo no primeiro
+// nó e os outros vazios.
+const igualarLivres = textos => {
+  for (const [r, porEl] of Object.entries(textos)) {
+    [...document.querySelectorAll(`[data-role="${r}"]`)].forEach((el, i) => {
+      const alvo = porEl[i];
+      if (!alvo) return;
+      const nos = [];
+      const w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      for (let t = w.nextNode(); t; t = w.nextNode())
+        if (t.textContent.trim() && t.parentElement?.closest('[data-role]') === el) nos.push(t);
+      if (!nos.length) return;
+      if (nos.length === alvo.length) nos.forEach((t, j) => (t.textContent = alvo[j]));
+      else nos.forEach((t, j) => (t.textContent = j ? '' : alvo.join('')));
+    });
+  }
 };
 
 const medir = props => {
@@ -402,7 +453,7 @@ async function esperarConteudo(page, timeout = 90000) {
   }
 }
 
-async function medirStarter(browser, comp, largura, altura, paleta) {
+async function medirStarter(browser, comp, largura, altura, paleta, textos = {}) {
   const p = await browser.newPage();
   try {
     await p.setViewport({ width: largura, height: altura, deviceScaleFactor: 1 });
@@ -414,6 +465,7 @@ async function medirStarter(browser, comp, largura, altura, paleta) {
     await esperarImagens(p);
     await p.evaluate(normalizar, paleta);
     await s(200);
+    await p.evaluate(igualarLivres, textos);
     const nos = await p.evaluate(medir, PROPS);
     // Depois do repouso, sempre: o `:hover` emulado reescreve as folhas.
     const mapas = await medirPaleta(p, '[data-fidelity-stage]', paleta);
@@ -483,12 +535,13 @@ async function medirCatalogo(browser, par, mobile, paleta) {
       await esperarImagens(f);
       await f.evaluate(normalizar, paleta);
       await s(200);
+      const textos = await f.evaluate(textosLivres, par.textoLivre ?? []);
       const nos = await f.evaluate(medir, PROPS);
       // A altura do scrollport vai junto porque a origem precisa medir DENTRO
       // dela — ver o comentário do laço.
       const altura = await f.evaluate(() => window.innerHeight);
       const mapas = await medirPaleta(f, '[data-section-uid]', paleta);
-      return { nos, altura, mapas };
+      return { nos, altura, mapas, textos };
     });
   } finally {
     await p.close();
@@ -618,10 +671,10 @@ try {
         // janela da origem para 2400). Medir os dois na mesma altura faz o
         // grampo acontecer no mesmo lugar — sem dispensar asserção nenhuma.
         const paleta = { ...PALETA, ...paletaNivel1(par, LAYOUTS) };
-        const { nos: clone, altura, mapas: mapasC } =
+        const { nos: clone, altura, mapas: mapasC, textos } =
           await medirCatalogo(browser, par, mobile, paleta);
         const { nos: origem, mapas: mapasO } =
-          await medirStarter(browser, par.starter, largura, altura, paleta);
+          await medirStarter(browser, par.starter, largura, altura, paleta, textos);
         const n = comparar(origem, clone, rotulo, falhas, par.textoLivre);
         total += n;
         const np = compararPaleta(mapasO, mapasC, rotulo, falhasPaleta, paleta, {
