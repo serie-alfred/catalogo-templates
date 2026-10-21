@@ -9,43 +9,43 @@ em `src/data/layoutData.ts`. O campo `imageSource` diz de onde ela veio.
 | | itens | o que é |
 |---|---|---|
 | `design` | 56 | mockup entregue pelo designer (pasta *Banners E-temas*) |
-| `auto` | 68 | screenshot do componente real — **pendente de arte do designer** |
+| `auto` | 92 | screenshot do componente real — **pendente de arte do designer** |
 | sem imagem | 0 | cai no placeholder |
 
 ## Pendente do designer
 
 Estes têm thumb automática. É a lista do que falta chegar do design:
 
-- **Header** — Header04, Header06, Header07, Header08, Header09
-- **Card de Produto** — Spot02, Spot03, Spot04, Spot05, Spot07, Spot09
-- **Breadcrumb** — Breadcrumb02, Breadcrumb09
-- **Footer** — Footer04, Footer06, Footer07, Footer08, Footer09
-- **Marcas** — Brand09
+- **Header** — Header04, Header06, Header07, Header08, Header09, Header10
+- **Card de Produto** — Spot02, Spot03, Spot04, Spot05, Spot07, Spot09, Spot10
+- **Breadcrumb** — Breadcrumb02, Breadcrumb09, Breadcrumb10
+- **Footer** — Footer04, Footer06, Footer07, Footer08, Footer09, Footer10
+- **Marcas** — Brand09, Brand10
 - **Área de Texto** — TextArea
-- **Carrossel de Categorias** — Categories07, Categories08, Categories09
-- **Banners** — BannerMain07, BannerMain08, BannerMain09
-- **Regua de benefícios** — Ruler08, Ruler09
-- **Grid de banners** — BannerGrid06, BannerGrid09
-- **Banner Side** — ShelfBanner08, ShelfBanner09
-- **Vitrines** — Showcase03, Showcase04, Showcase06, Showcase08, Showcase09
+- **Carrossel de Categorias** — Categories07, Categories08, Categories09, Categories10
+- **Banners** — BannerMain07, BannerMain08, BannerMain09, BannerMain10
+- **Regua de benefícios** — Ruler08, Ruler09, Ruler10
+- **Grid de banners** — BannerGrid06, BannerGrid09, BannerGrid10
+- **Banner Side** — ShelfBanner08, ShelfBanner09, ShelfBanner10
+- **Vitrines** — Showcase03, Showcase04, Showcase06, Showcase08, Showcase09, Showcase10
 - **Banner Triplo** — CategoryTriple06
 - **Banner com texto** — BannerSoloLeft07
 - **Abas de categoria** — CategoryTabs06
-- **Título da categoria** — CategoryTitle09
-- **Ajuda flutuante** — HelpFloat06, HelpFloat09
-- **Pop-up de newsletter** — PopupNews06, PopupNews09
+- **Título da categoria** — CategoryTitle09, CategoryTitle10
+- **Ajuda flutuante** — HelpFloat06, HelpFloat09, HelpFloat10
+- **Pop-up de newsletter** — PopupNews06, PopupNews09, PopupNews10
 - **Compre por tamanho** — BuySize06
-- **Newsletter** — Newsletter07, Newsletter08, Newsletter09
+- **Newsletter** — Newsletter07, Newsletter08, Newsletter09, Newsletter10
 - **Ambientes** — ShopByRoom07
-- **Depoimentos** — ClientReview06, ClientReview07, ClientReview09
-- **Grade de produtos** — CategoryMain02, CategoryMain06, CategoryMain07, CategoryMain09
-- **Descrição de categoria** — CategoryDescription09
-- **descrição** — ProductDescription09
-- **Informações do produto** — ProductInfo03, ProductInfo04, ProductInfo09
-- **Avaliações do produto** — ProductReviews09
-- **Produtos Relacionados** — ProductRelated09
-- **Contador de ofertas** — Countdown08, Countdown09
-- **Bloco editorial** — Editorial08, Editorial09
+- **Depoimentos** — ClientReview06, ClientReview07, ClientReview09, ClientReview10
+- **Grade de produtos** — CategoryMain02, CategoryMain06, CategoryMain07, CategoryMain09, CategoryMain10
+- **Descrição de categoria** — CategoryDescription09, CategoryDescription10
+- **descrição** — ProductDescription09, ProductDescription10
+- **Informações do produto** — ProductInfo03, ProductInfo04, ProductInfo09, ProductInfo10
+- **Avaliações do produto** — ProductReviews09, ProductReviews10
+- **Produtos Relacionados** — ProductRelated09, ProductRelated10
+- **Contador de ofertas** — Countdown08, Countdown09, Countdown10
+- **Bloco editorial** — Editorial08, Editorial09, Editorial10
 
 ## Arte do designer
 
