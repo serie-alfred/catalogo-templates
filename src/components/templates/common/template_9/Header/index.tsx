@@ -215,7 +215,7 @@ export default function Header09() {
 
   const marca = (
     <a className={styles.logo} href="/" aria-label="Página inicial" data-role="hd-logo">
-      {logo ? <img src={logo} alt="Logo" height={34} /> : <span>SERIE//A</span>}
+      {logo ? <img src={logo} alt="Logo" height={34} /> : 'SERIE//A'}
     </a>
   );
 
