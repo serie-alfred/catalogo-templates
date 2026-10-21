@@ -162,7 +162,7 @@ export default function Footer09() {
           </div>
 
           <a className={styles.brand} href={brandUrl} aria-label="Página inicial" data-role="ft-brand">
-            {logo ? <img src={logo} alt="Logo" /> : <span>SERIE//A</span>}
+            {logo ? <img src={logo} alt="Logo" /> : 'SERIE//A'}
           </a>
         </div>
 
