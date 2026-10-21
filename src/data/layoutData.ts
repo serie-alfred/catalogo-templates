@@ -729,7 +729,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--help-font", label: "Fonte", type: "font", default: "'Jost', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "09", selection: "help-float", key: "hlp09edt6c1v", image: "helpFloat/HelpFloat09.webp", imageSource: "auto", mobile: "", title: "Ajuda flutuante Template 9", description: "Botão \"Ajuda\" fixo no canto inferior direito que abre um painel com atalhos em link ou texto e a linha de horário", template: "9", pagina: ["home"], component: "HelpFloat09", path: "organisms/HelpFloatButton09", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
-        { cssVar: "--help-bg", label: "Fundo do painel", type: "color", default: "#ffffff", group: "Painel" },
+        { cssVar: "--help-bg", label: "Fundo do painel", type: "color", default: "#ffffff", group: "Painel", previewNote: "Aparece com o painel de ajuda aberto." },
         { cssVar: "--help-text", label: "Texto do painel", type: "color", default: "#1d1b18", group: "Painel", inheritsLabel: "cor de texto primária" },
         { cssVar: "--help-header-bg", label: "Fundo do botão e do topo do painel", type: "color", default: "#1d1b18", group: "Botão", inheritsLabel: "cor primária da marca" },
         { cssVar: "--help-header-text", label: "Texto do botão e do topo do painel", type: "color", default: "#f7f4ef", group: "Botão", inheritsLabel: "cor de texto primária" },
