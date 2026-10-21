@@ -15,8 +15,8 @@ import styles from './index.module.css';
  *    componente, e o <body> ficaria sem elas (mesmo motivo do CartSidebar06). Quem
  *    dá o container das `@container` é o envelope `.cartSidebar09Box` (fixo, do
  *    tamanho da tela; ver "Só no catálogo" do CSS).
- *  - Sem carrinho real: dois itens de exemplo (os do desenho); + / −, remover e o
- *    estado vazio funcionam só para o usuário ver o comportamento.
+ *  - Sem carrinho real: o item de exemplo do `mockCart` do starter; + / −, remover e
+ *    o estado vazio funcionam só para o usuário ver o comportamento.
  *  - Sem trava de scroll do <body>: no canvas ela travaria o editor.
  */
 
@@ -35,20 +35,16 @@ type ItemCarrinho09 = {
   variations: Record<string, string>;
 };
 
+// O mesmo item do `mockCart` global do starter (`utils/mockCart`), que é o que a gaveta
+// de lá mostra no palco: assim o contador, o "Sacola (n)" e o subtotal batem com a origem.
+// A foto fica de fora (a URL da origem é de CDN de loja); vale o fundo do `.lineImage`.
 const ITENS_09: ItemCarrinho09[] = [
   {
-    id: 'vestido-midi-linho-areia',
-    name: 'Vestido Midi Linho Areia',
-    price: 489,
+    id: 'mock-cart-item-4077-281G',
+    name: 'Sapato Masculino Preto Liverpool',
+    price: 287.92,
     quantity: 1,
-    variations: { Cor: 'Areia', 'Tam.': 'M' },
-  },
-  {
-    id: 'saia-plissada-midi-caramelo',
-    name: 'Saia Plissada Midi Caramelo',
-    price: 359,
-    quantity: 1,
-    variations: { Cor: 'Caramelo', 'Tam.': 'P' },
+    variations: { Cor: 'Preto', Tamanho: '41' },
   },
 ];
 
