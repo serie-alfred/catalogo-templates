@@ -113,7 +113,7 @@ export default function CartSidebar09({ open, onClose, onTotalChange }: CartSide
           aria-modal="true"
           aria-labelledby="cart09-titulo"
           aria-hidden={!open}
-          {...(!open ? ({ inert: '' } as Record<string, string>) : {})}
+          {...(!open ? ({ inert: true } as Record<string, boolean>) : {})}
         >
           <div className={styles.head}>
             <h2 id="cart09-titulo" className={styles.title} data-role="cart-title">
