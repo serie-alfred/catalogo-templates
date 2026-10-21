@@ -752,8 +752,12 @@ const PARES_IMPOSSIVEIS = new Set([
  * Vitrines sem `usesSpot`: a escolha de card do cliente não as alcança. A 08 é
  * de propósito — o card dela é o do Figma "Templates - Serie A" (selo, desconto,
  * Pix e parcela no layout da campanha), parte do núcleo `molecules/ProductShelf08`.
+ * A 09 segue o mesmo desenho: a vitrine é um invólucro do núcleo
+ * `molecules/ProductShelf09`, que importa o `ProductCard09` — o `replaceAll` do
+ * generator só roda nos arquivos do asset com `usesSpot`, e o import do card não
+ * está no `ProductShelfCustom09`. (Os relacionados 09 são override e recebem a troca.)
  */
-const SEM_SUBSTITUICAO = new Set(['07', '08']);
+const SEM_SUBSTITUICAO = new Set(['07', '08', '09']);
 
 const igual = (a, b) => a.length === b.size && a.every(x => b.has(x));
 
@@ -810,7 +814,7 @@ export async function conferirParesCardVitrine(vtexPaths, r) {
     SEM_SUBSTITUICAO
   );
   r.ok(
-    `só as famílias 07 e 08 ignoram a escolha de card (${ignoram.map(v => v.n).join(', ') || 'nenhuma'})`,
+    `só as famílias ${[...SEM_SUBSTITUICAO].join(', ')} ignoram a escolha de card (${ignoram.map(v => v.n).join(', ') || 'nenhuma'})`,
     ignoramEsperado,
     `esperado ${[...SEM_SUBSTITUICAO].join(', ')}, medido ${ignoram.map(v => v.n).join(', ')}`
   );

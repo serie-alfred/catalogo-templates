@@ -43,6 +43,27 @@ import { itens } from './util.mjs';
  * tela que tiver alguma.
  */
 export const PARES = [
+  // Família 09 (Editorial). A marca em texto da origem ("Sua Marca") é "SERIE//A"
+  // aqui (ver `textoLivre` acima); o contador anda, como na 08.
+  { starter: 'Header09', id: '09', layoutKey: 'header', pagina: 'common', textoLivre: ['hd-logo'] },
+  { starter: 'Footer09', id: '09', layoutKey: 'footer', pagina: 'common', textoLivre: ['ft-brand'] },
+  { starter: 'BannerMain09', id: '09', layoutKey: 'banner', pagina: 'home' },
+  { starter: 'BenefitsStrip09', id: '09', layoutKey: 'ruler', pagina: 'home' },
+  { starter: 'Categories09', id: '09', layoutKey: 'categories', pagina: 'home' },
+  { starter: 'ProductShelfCustom09', id: '09', layoutKey: 'showcase', pagina: 'home' },
+  { starter: 'BannerGrid09', id: '09', layoutKey: 'grid', pagina: 'home' },
+  { starter: 'Countdown09', id: '09', layoutKey: 'countdown', pagina: 'home', textoLivre: ['cd-timer'] },
+  { starter: 'ProductShelfBanner09', id: '09', layoutKey: 'bannerSide', pagina: 'home' },
+  { starter: 'Editorial09', id: '09', layoutKey: 'editorial', pagina: 'home' },
+  { starter: 'ClientReview09', id: '09', layoutKey: 'review', pagina: 'home' },
+  { starter: 'Brands09', id: '09', layoutKey: 'brand', pagina: 'home' },
+  { starter: 'Newsletter09', id: '09', layoutKey: 'newsletter', pagina: 'home' },
+  { starter: 'CategoryTitle09', id: '09', layoutKey: 'categoryTitle', pagina: 'category' },
+  { starter: 'MainCategory09', id: '09', layoutKey: 'categoryMain', pagina: 'category' },
+  { starter: 'CategorySeoFaq09', id: '09', layoutKey: 'categoryDescription', pagina: 'category' },
+  { starter: 'ProductDetails09', id: '09', layoutKey: 'productInfo', pagina: 'product' },
+  { starter: 'ProductDescription09', id: '09', layoutKey: 'productDescription', pagina: 'product' },
+  { starter: 'ProductReviews09', id: '09', layoutKey: 'productReviews', pagina: 'product' },
   // Família 08 (o antigo BlackFriday01, dividido): seções de miolo que valem na
   // home e no modo LP. Medidas na home.
   { starter: 'BannerMain08', id: '08', layoutKey: 'banner', pagina: 'home' },
