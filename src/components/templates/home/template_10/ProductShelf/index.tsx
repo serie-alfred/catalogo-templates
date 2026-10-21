@@ -19,8 +19,7 @@ import {
  * Produtos = o mock.ts do núcleo de lá, com as notas do desenho (sem foto: vale o
  * placeholder). Sempre o ProductCard10: as vitrines 10 do starter não trocam o card
  * pelo spot escolhido (sem `usesSpot`), então a réplica também não troca.
- * Divergência deliberada: o starter interpola `style.variantFull`, que não existe no
- * SCSS (sai `undefined` no class); aqui a variante `full` não leva classe extra.
+ * A variante `full` não leva classe extra, como no starter (só a `banner` tem regra).
  */
 
 type Estilos = Record<string, string>;

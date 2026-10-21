@@ -10,8 +10,8 @@ import styles from './index.module.css';
  * também não tem — vale o fundo de placeholder da caixa 1:1.
  *
  * `ProductCard10` é exportado para as vitrines, a PLP e os relacionados da 10, que no
- * starter entregam o node VTEX ao mesmo card. Divergência deliberada: o `ratingCount`
- * do starter não tem regra no SCSS, então aqui fica só o `data-role`.
+ * starter entregam o node VTEX ao mesmo card. A contagem de avaliações leva só o
+ * `data-role`, como no starter (a cor apagada vem do `ratingText`).
  */
 
 export const FONTES_10 =
