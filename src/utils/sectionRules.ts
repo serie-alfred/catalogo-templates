@@ -27,6 +27,12 @@ export const COMMON_SINGLETON_SELECTIONS: ReadonlySet<string> = new Set([
  * `showcase` fica de fora de propósito: ele também é singleton, mas com semântica
  * própria — substitui TODAS as ocorrências (`map`), não só a primeira, porque uma
  * vitrine pode aparecer mais de uma vez na mesma página.
+ *
+ * `product-related` é singleton por causa da VTEX: os relacionados são override da
+ * seção nativa `CrossSellingShelf` (o 01 auto-injeta `overrides/CrossSellingShelf01`,
+ * o 09 é `overrides/CrossSellingShelf09`), e os dois achatam para o MESMO
+ * `overrides/CrossSellingShelf.tsx` no tema — o VALIDATE do generator reprova o
+ * config com dois. A seção nativa é uma só por PDP, então a escolha também.
  */
 export const PAGE_SINGLETON_SELECTIONS: ReadonlySet<string> = new Set([
   'category-main',
@@ -34,6 +40,7 @@ export const PAGE_SINGLETON_SELECTIONS: ReadonlySet<string> = new Set([
   'category-banner',
   'product-info',
   'product-description',
+  'product-related',
   'banner-main',
   'banner-top',
 ]);
