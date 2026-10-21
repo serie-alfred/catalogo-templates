@@ -55,10 +55,6 @@
   display: none;
 }
 
-.variantBanner {
-  background-color: #f2f4f7;
-}
-
 .inner {
   display: flex;
   flex-direction: column;
