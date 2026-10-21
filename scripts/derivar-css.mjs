@@ -267,8 +267,10 @@ for (const arq of [
   // Peça feita de mais de um componente do starter (vitrine + card, PDP = galeria +
   // info): `"partes": [{ starter, raiz, prefixo }, …]`, compiladas na ordem e
   // concatenadas em cada destino. A âncora do destino é a raiz da PRIMEIRA parte.
+  // `scss` (opcional): folha fora da pasta do componente, relativa a src/ do starter
+  // — os overrides de seção nativa (ex.: Breadcrumb09) a mantêm em src/sass/.
   const pecas = d.partes ?? [
-    { starter: d.starter, raiz: d.raiz, prefixo: d.prefixo },
+    { starter: d.starter, raiz: d.raiz, prefixo: d.prefixo, scss: d.scss },
   ];
   let css;
   try {
@@ -276,7 +278,7 @@ for (const arq of [
       .map(pc => {
         const base = aspas(
           sass
-            .compile(`${STARTER}/${pc.starter}/style.module.scss`, {
+            .compile(pc.scss ? `${STARTER}/../${pc.scss}` : `${STARTER}/${pc.starter}/style.module.scss`, {
               style: 'expanded',
             })
             .css.replace(/^@charset "UTF-8";\n/, '')
