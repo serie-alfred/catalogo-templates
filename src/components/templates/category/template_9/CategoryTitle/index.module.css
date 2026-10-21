@@ -52,6 +52,9 @@
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.08em;
+  position: relative;
+  top: -0.5em;
+  line-height: 0;
   vertical-align: top;
   color: color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #1d1b18)) 64%, var(--cat-title-bg, #f7f4ef));
 }
