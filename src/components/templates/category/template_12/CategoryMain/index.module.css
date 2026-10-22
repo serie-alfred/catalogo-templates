@@ -60,8 +60,8 @@
   padding-top: 4px;
 }
 .mainCategory12 [data-role=spot-buy] {
-  background-color: var(--cat-main-accent, var(--background-primary-color, #7a2e5f)) !important;
-  color: var(--text-color-base, #ffffff) !important;
+  background-color: var(--cat-main-accent, var(--spot-btn-bg, var(--background-primary-color, #7a2e5f))) !important;
+  color: var(--spot-btn-text, var(--text-color-base, #ffffff)) !important;
 }
 .mainCategory12 [data-role=spot-rating] svg {
   color: var(--cat-main-accent, var(--background-primary-color, #7a2e5f));
@@ -652,6 +652,15 @@
   }
   .grid [data-role=spot] > :last-child > :last-child {
     padding-top: 2px;
+  }
+  .grid [data-role=spot-rating-count] {
+    display: none;
+  }
+  .grid [data-role=spot-list-price]:has(+ [data-role=spot-price]) {
+    display: block !important;
+  }
+  .grid [data-role=spot-list-price]:not(:has(+ [data-role=spot-price])) {
+    display: none !important;
   }
   .results {
     gap: 0;

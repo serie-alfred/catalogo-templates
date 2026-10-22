@@ -44,12 +44,12 @@
 }
 .productShelf12 [data-role=spot-discount],
 .productShelf12 [data-role=spot-tag] {
-  background-color: var(--showcase-tag-bg, var(--background-tertiary-color, #dce6da));
-  color: var(--showcase-tag-text, var(--text-tertiary-color, #3b1f33));
+  background-color: var(--showcase-tag-bg, var(--spot-tag-bg, var(--background-tertiary-color, #dce6da)));
+  color: var(--showcase-tag-text, var(--spot-tag-text, var(--text-tertiary-color, #3b1f33)));
 }
 .productShelf12 [data-role=spot-buy] {
-  background-color: var(--showcase-accent, var(--background-primary-color, #7a2e5f)) !important;
-  color: var(--text-color-base, #ffffff) !important;
+  background-color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #7a2e5f))) !important;
+  color: var(--spot-btn-text, var(--text-color-base, #ffffff)) !important;
 }
 .productShelf12 [data-role=spot-rating] svg {
   color: var(--showcase-accent, var(--background-primary-color, #7a2e5f));
@@ -308,6 +308,12 @@
 @container (max-width: 960px) {
   .productShelf12 {
     padding: 40px 0;
+  }
+  .productShelf12 [data-role=spot-list-price]:has(+ [data-role=spot-price]) {
+    display: block !important;
+  }
+  .productShelf12 [data-role=spot-list-price]:not(:has(+ [data-role=spot-price])) {
+    display: none !important;
   }
   .inner {
     gap: 20px;

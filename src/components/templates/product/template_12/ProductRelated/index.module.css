@@ -76,12 +76,12 @@ section.crossSellingShelf12 [data-fs-product-shelf] {
 }
 .productShowcase12 [data-role=spot-discount],
 .productShowcase12 [data-role=spot-tag] {
-  background-color: var(--showcase-tag-bg, var(--background-tertiary-color, #dce6da));
-  color: var(--showcase-tag-text, var(--text-tertiary-color, #3b1f33));
+  background-color: var(--showcase-tag-bg, var(--spot-tag-bg, var(--background-tertiary-color, #dce6da)));
+  color: var(--showcase-tag-text, var(--spot-tag-text, var(--text-tertiary-color, #3b1f33)));
 }
 .productShowcase12 [data-role=spot-buy] {
-  background-color: var(--showcase-accent, var(--background-primary-color, #7a2e5f)) !important;
-  color: var(--text-color-base, #ffffff) !important;
+  background-color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #7a2e5f))) !important;
+  color: var(--spot-btn-text, var(--text-color-base, #ffffff)) !important;
 }
 .productShowcase12 [data-role=spot-rating] svg {
   color: var(--showcase-accent, var(--background-primary-color, #7a2e5f));
@@ -193,6 +193,12 @@ section.crossSellingShelf12 [data-fs-product-shelf] {
 @container (max-width: 960px) {
   .arrows {
     display: none;
+  }
+  .productShowcase12 [data-role=spot-list-price]:has(+ [data-role=spot-price]) {
+    display: block !important;
+  }
+  .productShowcase12 [data-role=spot-list-price]:not(:has(+ [data-role=spot-price])) {
+    display: none !important;
   }
   .rail {
     gap: 12px;

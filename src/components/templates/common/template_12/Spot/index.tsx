@@ -220,7 +220,7 @@ export function ProductCard12({
             </span>
             <span aria-hidden="true">
               {notaTexto}
-              {total > 0 && ` (${total.toLocaleString('pt-BR')})`}
+              {total > 0 && <span data-role="spot-rating-count">{` (${total.toLocaleString('pt-BR')})`}</span>}
             </span>
           </div>
         )}
