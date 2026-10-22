@@ -8,8 +8,7 @@ import styles from './index.module.css';
  * Espelha `molecules/Categories12` do faststore.starter (família 12, Suave; desenho
  * `Categories12` / `Categories12-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`
  * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá
- * (sem foto: vale o pastel da posição). `styles.name` não tem regra no SCSS de origem
- * (o nome herda do `.label`); fica como lá.
+ * (sem foto: vale o pastel da posição).
  */
 interface Categories12Category {
   name?: string;
@@ -83,7 +82,7 @@ export default function Categories12() {
                     </span>
                   </span>
                   <span className={styles.label}>
-                    {c.name && <span className={styles.name}>{c.name}</span>}
+                    {c.name && <span>{c.name}</span>}
                     {c.badge && (
                       <span className={styles.badge}>{c.badge}</span>
                     )}

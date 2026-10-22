@@ -165,7 +165,7 @@ export default function ProductShelf12({
   return (
     <div className={style.productShelf12Box}>
       <section
-        className={[style.productShelf12, variant === 'banner' ? style.variantBanner : style.variantFull]
+        className={[style.productShelf12, variant === 'banner' ? style.variantBanner : '']
           .filter(Boolean)
           .join(' ')}
         aria-label={listName || undefined}

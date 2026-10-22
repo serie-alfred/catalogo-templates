@@ -232,7 +232,7 @@ export default function CategoryDescription12() {
                           onClick={() => setFaqAberta(on ? null : i)}
                           data-role="cd-question"
                         >
-                          <span className={styles.qText}>{p.q}</span>
+                          <span>{p.q}</span>
                           <span className={styles.sign} aria-hidden="true">
                             <Ico size={16} w={2}>
                               <path d={on ? 'M5 12h14' : 'M12 5v14M5 12h14'} />

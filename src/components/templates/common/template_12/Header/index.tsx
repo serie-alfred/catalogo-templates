@@ -238,7 +238,7 @@ export default function Header12() {
   return (
     <>
       <div className={styles.header12Box}>
-        <header className={`${styles.header12}${gaveta ? ` ${styles.menuOpen}` : ''}`} data-role="hd-root">
+        <header className={styles.header12} data-role="hd-root">
           <link rel="stylesheet" href={FONTES_12} />
 
           {topbarText && (
@@ -257,7 +257,7 @@ export default function Header12() {
           <div className={styles.bar} data-role="hd-bar">
             <button
               type="button"
-              className={`${styles.round} ${styles.menuButton} ${styles.mob}`}
+              className={`${styles.round} ${styles.mob}`}
               aria-label={gaveta ? 'Fechar menu' : 'Abrir menu'}
               aria-expanded={gaveta}
               aria-controls="hd12-menu"

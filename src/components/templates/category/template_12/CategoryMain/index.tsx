@@ -798,10 +798,7 @@ export default function CategoryMain12() {
                         </span>
                       </button>
                       {on && (
-                        <div
-                          id={`${uid}-acc-${f.key}`}
-                          className={styles.accBody}
-                        >
+                        <div id={`${uid}-acc-${f.key}`}>
                           {body(f, `${uid}-m-${f.key}`)}
                         </div>
                       )}
