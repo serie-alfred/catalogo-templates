@@ -214,9 +214,12 @@ inteira na loja. Some no checkout e na LP.
   contrato (regra no comentário do bloco); família sem entrada (01–08) mantém paleta e fontes, e a 13
   só troca as fontes (o SCSS dela não herda a marca). Com seções já escolhidas pede `confirm`, que
   diz o que muda. Vai para "Componentes" na home; dali cada peça se troca como antes.
-- **Conflito conhecido:** um token de Nível 2 serve a vários papéis do desenho (na 09,
-  `--background-primary-color` é fundo do header #F7F4EF, botão #1D1B18 e acento #9C4A2F). Fica o dos
-  papéis de fundo, então o header da 09 e o meio do header da 10 saem na cor de marca, não na do desenho.
+- **Nível 1 onde o Nível 2 não basta** (`NIVEL1_DAS_FAMILIAS`): um token de Nível 2 serve a vários
+  papéis do desenho (na 09, `--background-primary-color` é fundo do header #F7F4EF, botão #1D1B18 e
+  acento #9C4A2F). O mapa, também gerado, compara cada var de cor do `variablesSchema` (hex do desenho =
+  `default`) com o que a cadeia `var(--n1, var(--token, …))` da réplica resolve no tema da família e guarda
+  só as que divergem; aplicar põe esses valores em `variables` das seções (mesmo render, mesmo undo). O
+  painel da direita os mostra como cor própria, com "Restaurar padrão", e o export os leva por componente.
 - **Funil:** `2-templates`.
 
 ### Selection rules in `toggleSelection`
