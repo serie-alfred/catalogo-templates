@@ -1,0 +1,313 @@
+/* Espelha organisms/BannerMain12 (faststore.starter, família 12): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.bannerMain12Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.bannerMain12 {
+  width: 100%;
+  padding: 24px 0 28px;
+  background-color: #fbf6f3;
+  color: var(--banner-main-text, var(--text-primary-color, #3b1f33));
+  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bannerMain12 *,
+.bannerMain12 *::before,
+.bannerMain12 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.bannerMain12 :where(h2, p) {
+  margin: 0;
+}
+.bannerMain12 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.bannerMain12 :where(a):hover {
+  opacity: 0.8;
+}
+.bannerMain12 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.bannerMain12 svg,
+.bannerMain12 img {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: content-box;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 40px);
+}
+
+.slide {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+  align-items: center;
+  gap: 40px;
+  min-height: 540px;
+  padding: clamp(28px, 4vw, 56px) clamp(24px, 5vw, 72px);
+  border-radius: 32px;
+  background-color: var(--banner-main-bg, var(--background-secundary-color, #f4dcd6));
+  color: var(--banner-main-text, var(--text-color-secundary, #3b1f33));
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 22px;
+  max-width: 520px;
+}
+
+.eyebrow {
+  padding: 8px 16px;
+  border-radius: 999px;
+  background-color: #ffffff;
+  color: var(--banner-main-text, var(--text-primary-color, #3b1f33));
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.title {
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.text {
+  color: color-mix(in srgb, var(--banner-main-text, var(--text-color-secundary, #3b1f33)) 82%, var(--banner-main-bg, var(--background-secundary-color, #f4dcd6)));
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+
+.cta {
+  padding: 16px 28px;
+  border-radius: 999px;
+  background-color: var(--banner-main-button-bg, var(--background-primary-color, #7a2e5f));
+  color: var(--banner-main-button-text, var(--text-color-base, #ffffff));
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.link {
+  padding: 12px 4px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.media {
+  position: relative;
+  justify-self: center;
+  width: min(460px, 100%);
+}
+
+.arch {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4/5;
+  border-radius: 999px 999px 28px 28px;
+  background-color: #e6dff0;
+}
+.arch picture,
+.arch img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card {
+  position: absolute;
+  bottom: 56px;
+  left: -32px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 268px;
+  padding: 10px 10px 10px 18px;
+  border-radius: 22px;
+  background-color: #ffffff;
+  color: var(--banner-main-text, var(--text-primary-color, #3b1f33));
+}
+.card:focus-visible {
+  outline: 2px solid var(--banner-main-button-bg, var(--background-primary-color, #7a2e5f));
+  outline-offset: 2px;
+}
+
+.cardCopy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cardTitle {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.cardText {
+  color: color-mix(in srgb, var(--banner-main-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  font-size: 13px;
+}
+
+.cardArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--banner-main-button-bg, var(--background-primary-color, #7a2e5f));
+  color: var(--banner-main-button-text, var(--text-color-base, #ffffff));
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.dotBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+.dotBtn:focus-visible {
+  outline: 2px solid var(--banner-main-button-bg, var(--background-primary-color, #7a2e5f));
+  outline-offset: -6px;
+  border-radius: 999px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--banner-main-text, var(--text-primary-color, #3b1f33)) 30%, #fbf6f3);
+  transition: width 0.2s ease;
+}
+
+.dotOn {
+  width: 32px;
+  background-color: var(--banner-main-button-bg, var(--background-primary-color, #7a2e5f));
+}
+
+@container (max-width: 960px) {
+  .bannerMain12 {
+    padding: 16px 0 20px;
+  }
+  .inner {
+    gap: 12px;
+    padding: 0 16px;
+  }
+  .slide {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+    min-height: 0;
+    padding: 16px 16px 24px;
+    border-radius: 28px;
+  }
+  .media {
+    order: -1;
+    width: 100%;
+  }
+  .arch {
+    aspect-ratio: auto;
+    height: 300px;
+    border-radius: 999px 999px 24px 24px;
+  }
+  .card {
+    display: none;
+  }
+  .copy {
+    gap: 14px;
+    max-width: none;
+    padding: 0 4px;
+  }
+  .eyebrow {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+  .title {
+    font-size: 34px;
+    line-height: 1.08;
+    letter-spacing: normal;
+  }
+  .text {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  .actions {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    align-self: stretch;
+  }
+  .cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 52px;
+    padding: 0;
+  }
+  .link {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    min-height: 44px;
+    padding: 0;
+    font-size: 15px;
+  }
+  .dots {
+    gap: 2px;
+  }
+  .dotOn {
+    width: 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bannerMain12 * {
+    transition: none !important;
+  }
+}
+
+.bannerMain12Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

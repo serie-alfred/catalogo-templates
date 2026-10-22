@@ -1,0 +1,302 @@
+/* Espelha molecules/ProductDescription12 (faststore.starter, família 12): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productDescription12Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productDescription12 {
+  width: 100%;
+  padding: 56px 0;
+  background-color: #fbf6f3;
+  color: var(--prod-desc-text, var(--text-primary-color, #3b1f33));
+  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.productDescription12 *,
+.productDescription12 *::before,
+.productDescription12 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.productDescription12 :where(h2, h3, h4, p, ol, ul) {
+  margin: 0;
+}
+.productDescription12 :where(ol, ul) {
+  padding: 0;
+  list-style: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  box-sizing: content-box !important;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 40px);
+}
+
+.intro {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+  align-items: start;
+  gap: 20px 56px;
+}
+
+.title {
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: clamp(28px, 3vw, 38px);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.html {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 16px;
+  line-height: 1.65;
+}
+.html > * {
+  margin: 0;
+}
+.html > p ~ p {
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+}
+.html ul,
+.html ol {
+  padding-left: 20px;
+}
+.html ul {
+  list-style: disc;
+}
+.html ol {
+  list-style: decimal;
+}
+.html a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.html img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 22px;
+}
+
+.sectionTitle {
+  margin-top: 8px !important;
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 28px;
+  border-radius: 28px;
+}
+
+.toneRose {
+  background-color: #f4dcd6;
+}
+
+.toneLilac {
+  background-color: #e6dff0;
+}
+
+.toneSage {
+  background-color: #dce6da;
+}
+
+.cardTitle {
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.cardText {
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.boxes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+  gap: 20px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 28px 32px;
+  border: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border-radius: 28px;
+  background-color: #ffffff;
+}
+
+.boxTitle {
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.stepNum {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--prod-desc-accent, var(--background-primary-color, #7a2e5f));
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.stepText {
+  padding-top: 7px;
+}
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(140px, 100%), 1fr));
+  gap: 12px;
+}
+
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px;
+  border-radius: 22px;
+  background-color: #fbf6f3;
+}
+
+.resultValue {
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: 32px;
+  line-height: 1;
+}
+
+.resultText {
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.note {
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  font-size: 12px;
+}
+
+@container (max-width: 960px) {
+  .productDescription12 {
+    padding: 32px 0;
+  }
+  .inner {
+    gap: 20px;
+    padding: 0 16px;
+  }
+  .title {
+    font-size: 28px;
+  }
+  .html {
+    gap: 12px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .sectionTitle {
+    font-size: 22px;
+  }
+  .cards {
+    gap: 10px;
+  }
+  .card {
+    gap: 6px;
+    padding: 20px;
+    border-radius: 22px;
+  }
+  .cardTitle {
+    font-size: 20px;
+  }
+  .cardText {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .box {
+    gap: 14px;
+    padding: 22px 20px;
+    border-radius: 24px;
+  }
+  .boxTitle {
+    font-size: 22px;
+  }
+  .steps {
+    gap: 12px;
+  }
+  .step {
+    gap: 12px;
+    font-size: 14px;
+  }
+  .stepNum {
+    width: 32px;
+    height: 32px;
+  }
+  .stepText {
+    padding-top: 6px;
+  }
+  .results {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+  .result {
+    gap: 4px;
+    padding: 12px 10px;
+    border-radius: 18px;
+  }
+  .resultValue {
+    font-size: 24px;
+  }
+  .resultText {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+}
+
+.productDescription12Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

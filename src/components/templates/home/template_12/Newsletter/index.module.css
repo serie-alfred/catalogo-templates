@@ -1,0 +1,241 @@
+/* Espelha organisms/Newsletter12 (faststore.starter, família 12): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.newsletter12Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.newsletter12 {
+  width: 100%;
+  padding: 36px 0;
+  background-color: #fbf6f3;
+  color: var(--newsletter-title-color, var(--text-color-secundary, #3b1f33));
+  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.newsletter12 *,
+.newsletter12 *::before,
+.newsletter12 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.newsletter12 :where(h2, p) {
+  margin: 0;
+}
+.newsletter12 :where(a) {
+  color: inherit;
+}
+.newsletter12 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.newsletter12 img {
+  display: block;
+}
+
+.inner {
+  box-sizing: content-box;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 40px);
+}
+
+.panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 32px 48px;
+  padding: 32px clamp(24px, 4vw, 48px);
+  border-radius: 32px;
+  background-color: var(--newsletter-panel-bg, var(--background-secundary-color, #f4dcd6));
+}
+
+.art {
+  position: relative;
+  flex-shrink: 0;
+  width: 240px;
+  height: 270px;
+  overflow: hidden;
+  border-radius: 999px 999px 24px 24px;
+  background-color: #e6dff0;
+}
+.art picture,
+.art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.form {
+  display: flex;
+  flex: 1 1 520px;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title {
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: clamp(26px, 2.6vw, 34px);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.text {
+  color: color-mix(in srgb, var(--newsletter-title-color, var(--text-color-secundary, #3b1f33)) 82%, var(--newsletter-panel-bg, var(--background-secundary-color, #f4dcd6)));
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.input {
+  width: 100%;
+  height: 54px;
+  padding: 0 20px;
+  border: 1px solid color-mix(in srgb, var(--newsletter-title-color, var(--text-primary-color, #3b1f33)) 18%, #ffffff);
+  border-radius: 999px;
+  background-color: #ffffff;
+  color: var(--newsletter-title-color, var(--text-primary-color, #3b1f33));
+  font: inherit;
+  font-size: 15px;
+  font-weight: 400;
+  outline: none;
+}
+.input::placeholder {
+  color: color-mix(in srgb, var(--newsletter-title-color, var(--text-primary-color, #3b1f33)) 52%, #ffffff);
+  opacity: 1;
+}
+.input:focus-visible {
+  border-color: var(--newsletter-button-bg, var(--background-primary-color, #7a2e5f));
+  box-shadow: 0 0 0 2px var(--newsletter-button-bg, var(--background-primary-color, #7a2e5f));
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+}
+
+.submit {
+  height: 52px;
+  padding: 0 28px;
+  border-radius: 999px;
+  background-color: var(--newsletter-button-bg, var(--background-primary-color, #7a2e5f));
+  color: var(--newsletter-button-text, var(--text-color-base, #ffffff));
+  font-size: 15px;
+  font-weight: 700;
+}
+.submit:hover {
+  opacity: 0.9;
+}
+.submit:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+.submit:focus-visible {
+  outline: 2px solid var(--newsletter-button-bg, var(--background-primary-color, #7a2e5f));
+  outline-offset: 2px;
+}
+
+.privacy {
+  color: color-mix(in srgb, var(--newsletter-title-color, var(--text-color-secundary, #3b1f33)) 82%, var(--newsletter-panel-bg, var(--background-secundary-color, #f4dcd6)));
+  font-size: 13px;
+}
+.privacy a {
+  text-decoration: underline;
+}
+
+.feedback {
+  flex-basis: 100%;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@container (max-width: 960px) {
+  .newsletter12 {
+    padding: 24px 0;
+  }
+  .inner {
+    padding: 0 16px;
+  }
+  .panel {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 14px;
+    padding: 24px 20px;
+    border-radius: 28px;
+  }
+  .form,
+  .fields,
+  .actions {
+    display: contents;
+  }
+  .art {
+    align-self: center;
+    width: 150px;
+    height: 170px;
+    border-radius: 999px 999px 22px 22px;
+  }
+  .head {
+    gap: 6px;
+    text-align: center;
+  }
+  .title {
+    font-size: 26px;
+  }
+  .text {
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .input {
+    font-size: 16px;
+  }
+  .submit {
+    width: 100%;
+    padding: 0;
+    font-size: 16px;
+  }
+  .privacy {
+    font-size: 12px;
+    line-height: 1.45;
+    text-align: center;
+  }
+  .feedback {
+    text-align: center;
+  }
+}
+
+.newsletter12Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

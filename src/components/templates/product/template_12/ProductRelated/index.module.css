@@ -1,0 +1,227 @@
+/* Espelha sass/crossSellingShelf12.module.scss + organisms/ProductShowcase12 (faststore.starter, família 12): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.crossSellingShelf12Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+section.crossSellingShelf12 {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  margin: 0;
+  padding: 48px max(clamp(16px, 3vw, 40px), (100% - 1280px) / 2);
+  background-color: var(--showcase-bg, #fbf6f3);
+  color: var(--showcase-text, var(--text-primary-color, #3b1f33));
+  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+section.crossSellingShelf12.crossSellingShelf12.crossSellingShelf12 > h2 {
+  display: flex;
+  align-items: flex-end;
+  min-height: 48px;
+  box-sizing: border-box;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0 112px 0 0;
+  color: var(--showcase-text, var(--text-primary-color, #3b1f33));
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: clamp(26px, 2.8vw, 36px);
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: normal;
+  text-align: left;
+}
+section.crossSellingShelf12 [data-fs-product-shelf] {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+@container (max-width: 960px) {
+  section.crossSellingShelf12 {
+    gap: 18px;
+    padding: 36px 0;
+    overflow: hidden;
+  }
+  section.crossSellingShelf12.crossSellingShelf12.crossSellingShelf12 > h2 {
+    display: block;
+    min-height: 0;
+    padding: 0 16px;
+    font-size: 26px;
+  }
+}
+
+.productShowcase12 {
+  position: relative;
+  color: var(--showcase-text, var(--text-primary-color, #3b1f33));
+}
+.productShowcase12 *,
+.productShowcase12 *::before,
+.productShowcase12 *::after {
+  box-sizing: border-box;
+}
+.productShowcase12 :where(ul.rail) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.productShowcase12 :where(.arrow svg) {
+  display: block;
+  flex: none;
+}
+.productShowcase12 [data-role=spot-discount],
+.productShowcase12 [data-role=spot-tag] {
+  background-color: var(--showcase-tag-bg, var(--background-tertiary-color, #dce6da));
+  color: var(--showcase-tag-text, var(--text-tertiary-color, #3b1f33));
+}
+.productShowcase12 [data-role=spot-buy] {
+  background-color: var(--showcase-accent, var(--background-primary-color, #7a2e5f)) !important;
+  color: var(--text-color-base, #ffffff) !important;
+}
+.productShowcase12 [data-role=spot-rating] svg {
+  color: var(--showcase-accent, var(--background-primary-color, #7a2e5f));
+}
+.productShowcase12 [data-role=spot-list-price] {
+  font-size: 12px;
+  line-height: 16px;
+}
+.productShowcase12 [data-role=spot] {
+  height: 100%;
+}
+.productShowcase12 [data-role=spot] > :last-child {
+  flex: 1;
+}
+.productShowcase12 [data-role=spot] > :last-child > :last-child {
+  margin-top: auto;
+  padding-top: 4px;
+}
+@media (hover: hover) {
+  @container (min-width: 961px) {
+  .productShowcase12 [data-role=spot]:hover {
+    border-color: var(--showcase-accent, var(--background-primary-color, #7a2e5f));
+  }
+  }
+}
+
+.arrows {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 24px);
+  display: flex;
+  gap: 8px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  font: inherit;
+  cursor: pointer;
+}
+.arrow:disabled {
+  cursor: default;
+}
+.arrow:focus-visible {
+  outline: 2px solid var(--showcase-text, var(--text-primary-color, #3b1f33));
+  outline-offset: 2px;
+}
+
+.arrowPrev {
+  border: 1px solid color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  background-color: #ffffff;
+  color: var(--showcase-text, var(--text-primary-color, #3b1f33));
+}
+
+.arrowNext {
+  border: 0;
+  background-color: var(--showcase-accent, var(--background-primary-color, #7a2e5f));
+  color: var(--text-color-base, #ffffff);
+}
+
+.rail {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  display: flex;
+  flex: 0 0 calc((100% - 60px) / 4);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.slide > * {
+  flex: 1;
+}
+.slide:nth-child(4n+1) [data-role=spot-image] {
+  background-color: #f1e6d8;
+}
+.slide:nth-child(4n+2) [data-role=spot-image] {
+  background-color: #dce6da;
+}
+.slide:nth-child(4n+3) [data-role=spot-image] {
+  background-color: #e6dff0;
+}
+.slide:nth-child(4n+4) [data-role=spot-image] {
+  background-color: #eed3d8;
+}
+
+@container (min-width: 961px) and (max-width: 1199px) {
+  .slide {
+    flex-basis: calc((100% - 40px) / 3);
+  }
+}
+.progress {
+  display: none;
+}
+
+@container (max-width: 960px) {
+  .arrows {
+    display: none;
+  }
+  .rail {
+    gap: 12px;
+    padding: 0 16px;
+    scroll-padding: 0 16px;
+  }
+  .slide {
+    flex: 0 0 208px;
+  }
+  .progress {
+    position: relative;
+    display: block;
+    height: 4px;
+    margin: 18px 16px 0;
+    overflow: hidden;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  }
+  .progress span {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-radius: 999px;
+    background-color: var(--showcase-text, var(--text-primary-color, #3b1f33));
+  }
+}
+
+.crossSellingShelf12Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

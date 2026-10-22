@@ -1,0 +1,284 @@
+/* Espelha organisms/CategorySeoFaq12 (faststore.starter, família 12): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categorySeoFaq12Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categorySeoFaq12 {
+  width: 100%;
+  padding: 48px 0;
+  background-color: #fbf6f3;
+  color: var(--cat-desc-text, var(--text-primary-color, #3b1f33));
+  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categorySeoFaq12 *,
+.categorySeoFaq12 *::before,
+.categorySeoFaq12 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.categorySeoFaq12 :where(h2, h3, p) {
+  margin: 0;
+}
+.categorySeoFaq12 :where(a) {
+  color: inherit;
+}
+.categorySeoFaq12 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  cursor: pointer;
+}
+.categorySeoFaq12 svg {
+  display: block;
+  flex: none;
+}
+
+.box {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(460px, 100%), 1fr));
+  align-items: start;
+  gap: 24px 40px;
+  box-sizing: content-box;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 40px);
+}
+.about {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: clamp(24px, 3vw, 40px);
+  border-radius: 28px;
+  background-color: var(--cat-desc-bg, var(--background-secundary-color, #f4dcd6));
+  color: var(--cat-desc-text, var(--text-color-secundary, #3b1f33));
+}
+
+.eyebrow {
+  align-self: flex-start;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background-color: #ffffff;
+  color: var(--cat-desc-text, var(--text-primary-color, #3b1f33));
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.aboutTitle {
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: clamp(26px, 2.6vw, 32px);
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.text {
+  font-size: 16px;
+  line-height: 1.65;
+}
+.text > * {
+  margin: 0;
+}
+.text > * + * {
+  margin-top: 16px;
+}
+.text a {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.guide,
+.more {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.guide:hover,
+.more:hover {
+  opacity: 0.8;
+}
+
+.guide {
+  padding: 10px 0;
+}
+
+.more {
+  display: none;
+  min-height: 44px;
+}
+.faq {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faqTitle {
+  margin-bottom: 6px;
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: clamp(24px, 2.4vw, 28px);
+  font-weight: 400;
+  line-height: normal;
+}
+
+.faqItem {
+  padding: 0 24px;
+  border: 1px solid color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border-radius: 24px;
+  background-color: #ffffff;
+}
+
+.faqHeading {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 64px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+}
+
+.sign {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #fbf6f3;
+}
+
+.faqOpen .sign {
+  background-color: var(--cat-desc-accent, var(--background-primary-color, #7a2e5f));
+  color: var(--text-color-base, #ffffff);
+}
+
+.answer {
+  margin: 0 0 22px;
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.answer[hidden] {
+  display: none;
+}
+.answer > * {
+  margin: 0;
+}
+.answer > * + * {
+  margin-top: 12px;
+}
+
+.faqHtml {
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sign {
+    transition: background-color 0.2s ease;
+  }
+}
+@container (max-width: 960px) {
+  .categorySeoFaq12 {
+    padding: 32px 0;
+  }
+  .box {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 0 16px;
+  }
+  .about {
+    gap: 14px;
+    padding: 24px 20px;
+    border-radius: 24px;
+  }
+  .eyebrow {
+    padding: 5px 12px;
+    font-size: 12px;
+  }
+  .aboutTitle {
+    font-size: 26px;
+  }
+  .text {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .text > * + * {
+    margin-top: 14px;
+  }
+  .textClamped > * + * {
+    display: none;
+  }
+  .textClamped > :first-child {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 9;
+  }
+  .aboutClamped .guide {
+    display: none;
+  }
+  .guide {
+    padding: 0;
+    min-height: 44px;
+  }
+  .more {
+    display: flex;
+  }
+  .faq {
+    gap: 10px;
+  }
+  .faqTitle {
+    margin-bottom: 4px;
+    font-size: 24px;
+  }
+  .faqItem {
+    padding: 0 18px;
+    border-radius: 22px;
+  }
+  .question {
+    gap: 12px;
+    min-height: 60px;
+    font-size: 15px;
+  }
+  .sign {
+    width: 32px;
+    height: 32px;
+  }
+  .sign svg {
+    width: 14px;
+    height: 14px;
+  }
+  .answer {
+    margin-bottom: 18px;
+    font-size: 14px;
+  }
+}
+
+.categorySeoFaq12Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

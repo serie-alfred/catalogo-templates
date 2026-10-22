@@ -1,0 +1,364 @@
+/* Espelha organisms/Footer12 (faststore.starter, família 12): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.footer12Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.footer12 {
+  width: 100%;
+  padding-top: 24px;
+  background-color: #fbf6f3;
+  color: var(--footer-text, var(--text-color-footer, #3b1f33));
+  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.footer12 *,
+.footer12 *::before,
+.footer12 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.footer12 :where(h2, p, address) {
+  margin: 0;
+  font-style: normal;
+}
+.footer12 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.footer12 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.footer12 :where(a:hover) {
+  opacity: 0.75;
+}
+.footer12 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.footer12 svg {
+  display: block;
+  flex: none;
+}
+
+.mob {
+  display: none !important;
+}
+
+.panel {
+  padding: 56px clamp(16px, 3vw, 40px) 28px;
+  border-radius: 40px 40px 0 0;
+  background-color: var(--footer-bg, var(--background-footer, #f4dcd6));
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+  gap: 32px 40px;
+}
+
+.blocks {
+  display: contents;
+}
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 240px;
+}
+
+.logo {
+  align-self: flex-start;
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: 32px;
+  line-height: 1;
+}
+.logo img {
+  display: block;
+  width: auto;
+  height: 40px;
+}
+
+.about {
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #3b1f33)) 80%, var(--footer-bg, var(--background-footer, #f4dcd6)));
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.socials {
+  display: flex;
+  gap: 8px;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: var(--footer-text, var(--text-primary-color, #3b1f33));
+}
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.columnTitle {
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 15px;
+  line-height: normal;
+}
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contactNote {
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #3b1f33)) 80%, var(--footer-bg, var(--background-footer, #f4dcd6)));
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.contactLine {
+  font-size: 15px;
+  line-height: normal;
+}
+
+.whats {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 10px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background-color: var(--footer-button-bg, var(--background-primary-color, #7a2e5f));
+  color: var(--footer-button-text, var(--text-color-base, #ffffff)) !important;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 20px;
+}
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #3b1f33)) 18%, var(--footer-bg, var(--background-footer, #f4dcd6)));
+}
+
+.payments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.payment {
+  padding: 8px 14px;
+  border-radius: 999px;
+  background-color: #ffffff;
+  color: var(--footer-text, var(--text-primary-color, #3b1f33));
+}
+
+.seals {
+  display: flex;
+  gap: 8px;
+}
+
+.seal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 96px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: color-mix(in srgb, var(--footer-text, var(--text-primary-color, #3b1f33)) 80%, #ffffff);
+  font-size: 11px;
+  font-weight: 700;
+}
+.seal img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.sealEmpty {
+  border: 1px dashed color-mix(in srgb, var(--footer-text, var(--text-color-footer, #3b1f33)) 18%, var(--footer-bg, var(--background-footer, #f4dcd6)));
+}
+
+.legal {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #3b1f33)) 80%, var(--footer-bg, var(--background-footer, #f4dcd6)));
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.legalLinks {
+  display: flex;
+  gap: 20px;
+}
+@container (max-width: 960px) {
+  .dsk {
+    display: none !important;
+  }
+  .mob {
+    display: flex !important;
+  }
+  .footer12 {
+    padding-top: 16px;
+  }
+  .panel {
+    padding: 36px 16px 24px;
+    border-radius: 32px 32px 0 0;
+  }
+  .inner,
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .brand {
+    gap: 14px;
+    min-width: 0;
+  }
+  .logo {
+    font-size: 28px;
+  }
+  .about {
+    line-height: 1.5;
+  }
+  .blocks {
+    display: flex;
+    flex-direction: column;
+    padding: 4px 16px;
+    border-radius: 24px;
+    background-color: #ffffff;
+    color: var(--footer-text, var(--text-primary-color, #3b1f33));
+  }
+  .column {
+    gap: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #3b1f33)) 18%, var(--footer-bg, var(--background-footer, #f4dcd6)));
+  }
+  .column:last-child {
+    border-bottom: 0;
+  }
+  .accordion {
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 52px;
+    font-family: var(--font-primary, "Young Serif", Georgia, serif) !important;
+    font-size: 17px !important;
+    text-align: left;
+  }
+  .column:not(:last-child) .accordion[aria-expanded=false] {
+    min-height: 51px;
+  }
+  .columnBody {
+    display: none;
+  }
+  .columnOpen {
+    display: block;
+    padding-bottom: 14px;
+  }
+  .links {
+    gap: 0;
+  }
+  .links a {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+  }
+  .contact {
+    gap: 4px;
+  }
+  .contactNote {
+    color: color-mix(in srgb, var(--footer-text, var(--text-primary-color, #3b1f33)) 80%, #ffffff);
+  }
+  .contactLine {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+  }
+  .whatsWide {
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    height: 52px;
+    border-radius: 999px;
+    background-color: var(--footer-button-bg, var(--background-primary-color, #7a2e5f));
+    color: var(--footer-button-text, var(--text-color-base, #ffffff)) !important;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  .bottom {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 24px;
+    padding-top: 0;
+    border-top: 0;
+  }
+  .legal {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 10px;
+    padding-top: 18px;
+    border-top: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #3b1f33)) 18%, var(--footer-bg, var(--background-footer, #f4dcd6)));
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  .legalLinks {
+    gap: 16px;
+  }
+  .legalLinks a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
+.footer12Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

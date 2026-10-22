@@ -1,0 +1,302 @@
+/* Espelha organisms/Editorial12 (faststore.starter, família 12): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.editorial12Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.editorial12 {
+  width: 100%;
+  padding: 56px 0;
+  background-color: var(--editorial-bg, #fbf6f3);
+  color: var(--editorial-text, var(--text-primary-color, #3b1f33));
+  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.editorial12 *,
+.editorial12 *::before,
+.editorial12 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.editorial12 :where(h2, h3, p) {
+  margin: 0;
+}
+.editorial12 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.editorial12 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.editorial12 svg,
+.editorial12 img {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  box-sizing: content-box;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.eyebrow {
+  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.text {
+  max-width: 560px;
+  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  font-size: 16px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border: 1px solid color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border-radius: 28px;
+  background-color: #ffffff;
+}
+
+.stepHead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--editorial-accent, var(--background-primary-color, #7a2e5f));
+  color: var(--text-color-base, #ffffff);
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: 20px;
+}
+
+.stepTitle {
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.art {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  border-radius: 999px 999px 20px 20px;
+  background-color: #f3ddd6;
+}
+.art picture,
+.art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.step:nth-child(3n+2) .art {
+  background-color: #e6dff0;
+}
+
+.step:nth-child(3n+3) .art {
+  background-color: #dce6da;
+}
+
+.stepText {
+  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 8px 8px 18px;
+  border-radius: 999px;
+  background-color: var(--editorial-bg, #fbf6f3);
+  font-size: 14px;
+  font-weight: 700;
+}
+.link:hover {
+  opacity: 0.85;
+}
+.link:focus-visible {
+  outline: 2px solid var(--editorial-accent, var(--background-primary-color, #7a2e5f));
+  outline-offset: 2px;
+}
+
+.linkArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ffffff;
+}
+
+.dots {
+  display: none;
+}
+
+.dotBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+.dotBtn:focus-visible {
+  outline: 2px solid var(--editorial-accent, var(--background-primary-color, #7a2e5f));
+  outline-offset: -6px;
+  border-radius: 999px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #3b1f33)) 30%, var(--editorial-bg, #fbf6f3));
+  transition: width 0.2s ease;
+}
+
+.dotOn {
+  width: 24px;
+  background-color: var(--editorial-accent, var(--background-primary-color, #7a2e5f));
+}
+
+@container (max-width: 960px) {
+  .editorial12 {
+    padding: 40px 0;
+  }
+  .inner {
+    gap: 24px;
+    padding: 0;
+  }
+  .head {
+    gap: 8px;
+    padding: 0 16px;
+  }
+  .eyebrow {
+    font-size: 12px;
+  }
+  .title {
+    font-size: 28px;
+  }
+  .text {
+    max-width: none;
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .steps {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding: 0 16px;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 16px;
+    scrollbar-width: none;
+  }
+  .steps::-webkit-scrollbar {
+    display: none;
+  }
+  .step {
+    flex: 0 0 290px;
+    gap: 12px;
+    padding: 16px;
+    border-radius: 24px;
+    scroll-snap-align: start;
+  }
+  .stepHead {
+    gap: 10px;
+  }
+  .num {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  .stepTitle {
+    font-size: 22px;
+  }
+  .art {
+    height: 180px;
+    border-radius: 999px 999px 18px 18px;
+  }
+  .stepText {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .link {
+    padding: 4px 4px 4px 16px;
+  }
+  .linkArrow {
+    width: 44px;
+    height: 44px;
+  }
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .editorial12 * {
+    transition: none !important;
+  }
+}
+
+.editorial12Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

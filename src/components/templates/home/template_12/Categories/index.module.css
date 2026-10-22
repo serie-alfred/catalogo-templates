@@ -1,0 +1,213 @@
+/* Espelha molecules/Categories12 (faststore.starter, família 12): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categories12Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categories12 {
+  width: 100%;
+  padding: 64px 0;
+  background-color: #fbf6f3;
+  color: var(--categories-text, var(--text-primary-color, #3b1f33));
+  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categories12 *,
+.categories12 *::before,
+.categories12 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.categories12 :where(h2, p) {
+  margin: 0;
+}
+.categories12 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.categories12 :where(a):hover {
+  opacity: 0.8;
+}
+.categories12 img {
+  display: block;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  box-sizing: content-box;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.title {
+  color: var(--categories-title-color, var(--text-primary-color, #3b1f33));
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+.subtitle {
+  color: color-mix(in srgb, var(--categories-text, var(--text-primary-color, #3b1f33)) 72%, #fbf6f3);
+  font-size: 16px;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 28px 32px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 144px;
+}
+.link:focus-visible {
+  outline: 2px solid var(--categories-accent, var(--background-primary-color, #7a2e5f));
+  outline-offset: 4px;
+  border-radius: 16px;
+}
+
+.ring {
+  display: flex;
+  width: 132px;
+  height: 132px;
+  padding: 5px;
+  border: 3px solid color-mix(in srgb, var(--categories-text, var(--text-primary-color, #3b1f33)) 14%, #fbf6f3);
+  border-radius: 50%;
+}
+
+.ringOn {
+  border-color: var(--categories-accent, var(--background-primary-color, #7a2e5f));
+}
+
+.thumb {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background-color: #f3ddd6;
+}
+.thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item:nth-child(6n+2) .thumb {
+  background-color: #dce6da;
+}
+
+.item:nth-child(6n+3) .thumb {
+  background-color: #eed3d8;
+}
+
+.item:nth-child(6n+4) .thumb {
+  background-color: #e6dff0;
+}
+
+.item:nth-child(6n+5) .thumb {
+  background-color: #f1e6d8;
+}
+
+.item:nth-child(6n+6) .thumb {
+  background-color: #d8eae4;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background-color: var(--categories-accent, var(--background-primary-color, #7a2e5f));
+  color: var(--text-color-base, #ffffff);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+@container (max-width: 960px) {
+  .categories12 {
+    padding: 40px 0;
+  }
+  .inner {
+    align-items: stretch;
+    gap: 24px;
+    padding: 0;
+  }
+  .head {
+    gap: 8px;
+    padding: 0 16px;
+  }
+  .title {
+    font-size: 28px;
+  }
+  .subtitle {
+    font-size: 15px;
+    line-height: 1.45;
+  }
+  .list {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 0 16px;
+    scrollbar-width: none;
+  }
+  .list::-webkit-scrollbar {
+    display: none;
+  }
+  .item {
+    flex: none;
+  }
+  .link {
+    gap: 8px;
+    width: 92px;
+  }
+  .ring {
+    width: 88px;
+    height: 88px;
+    padding: 4px;
+  }
+  .label {
+    flex-direction: column;
+    gap: 8px;
+    font-size: 13px;
+    text-align: center;
+  }
+}
+
+.categories12Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

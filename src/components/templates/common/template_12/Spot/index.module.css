@@ -1,0 +1,439 @@
+/* Espelha molecules/ProductCard12 (faststore.starter, família 12): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productCard12Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productCard12 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid color-mix(in srgb, var(--spot-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border-radius: 24px;
+  background-color: #ffffff;
+  color: var(--spot-text, var(--text-primary-color, #3b1f33));
+  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: border-color 0.15s ease;
+}
+.productCard12 *,
+.productCard12 *::before,
+.productCard12 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.productCard12 :where(h3) {
+  margin: 0;
+}
+.productCard12 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.productCard12 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.productCard12 svg {
+  display: block;
+  flex: none;
+}
+@media (hover: hover) {
+  @container (min-width: 961px) {
+  .productCard12:not(.soldOut):hover {
+    border-color: var(--spot-btn-bg, var(--background-primary-color, #7a2e5f));
+  }
+  .productCard12:not(.soldOut):hover .buy {
+    width: auto;
+    padding: 0 18px;
+    gap: 8px;
+  }
+  .productCard12:not(.soldOut):hover .buyLabel {
+    display: inline;
+  }
+  .productCard12:not(.soldOut):hover .plus {
+    width: 18px;
+    height: 18px;
+  }
+  .productCard12:not(.soldOut):hover .imgHover {
+    opacity: 1;
+  }
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.mob {
+  display: none !important;
+}
+.media {
+  position: relative;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: 20px;
+  background-color: #f1e6d8;
+}
+
+.mediaLink {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.img,
+.imgHover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imgHover {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tags {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.tag {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background-color: var(--spot-tag-bg, var(--background-tertiary-color, #dce6da));
+  color: var(--spot-tag-text, var(--text-tertiary-color, #3b1f33));
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+}
+
+.outTag {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 8px 16px;
+  border-radius: 999px;
+  background-color: #ffffff;
+  color: var(--spot-text, var(--text-primary-color, #3b1f33));
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 18px;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.favorite {
+  position: absolute !important;
+  top: 8px;
+  right: 8px;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50% !important;
+  background-color: #ffffff !important;
+  color: var(--spot-text, var(--text-primary-color, #3b1f33)) !important;
+}
+.favorite[aria-pressed=true] {
+  color: var(--spot-btn-bg, var(--background-primary-color, #7a2e5f)) !important;
+}
+.favorite:disabled {
+  cursor: default;
+}
+
+.favoriteIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 6px 6px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.stars {
+  display: flex;
+  color: var(--spot-btn-bg, var(--background-primary-color, #7a2e5f));
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+.name a:hover {
+  text-decoration: underline;
+}
+
+.row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.prices {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.listPrice {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  font-size: 13px;
+  line-height: 18px;
+  text-decoration: line-through;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 25px;
+}
+
+.priceOut {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+}
+
+.installment {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.buy {
+  display: flex !important;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px !important;
+  background-color: var(--spot-btn-bg, var(--background-primary-color, #7a2e5f)) !important;
+  color: var(--spot-btn-text, var(--text-color-base, #ffffff)) !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  white-space: nowrap;
+}
+.buy:focus-visible {
+  width: auto;
+  padding: 0 18px !important;
+  gap: 8px;
+  outline: 2px solid var(--spot-text, var(--text-primary-color, #3b1f33));
+  outline-offset: 2px;
+}
+.buy:focus-visible .buyLabel {
+  display: inline;
+}
+
+.buyLabel {
+  display: none;
+}
+
+.notify {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 8px;
+  height: 51px;
+  padding: 0 18px;
+  border: 1.5px solid var(--spot-text, var(--text-primary-color, #3b1f33));
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.notify:hover {
+  background-color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #3b1f33)) 6%, #ffffff);
+}
+
+@container (max-width: 960px) {
+  .productCard12 {
+    gap: 10px;
+    padding: 8px;
+    border-radius: 20px;
+  }
+  .dsk {
+    display: none !important;
+  }
+  .mob {
+    display: block !important;
+  }
+  .media {
+    border-radius: 16px;
+  }
+  .tags {
+    top: 8px;
+    left: 8px;
+  }
+  .tag {
+    padding: 4px 10px;
+  }
+  .outTag {
+    padding: 6px 12px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .favorite {
+    top: 2px;
+    right: 2px;
+    background-color: transparent !important;
+  }
+  .favoriteIcon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: #ffffff;
+  }
+  .info {
+    gap: 4px;
+    padding: 0 4px 4px;
+  }
+  .rating {
+    gap: 4px;
+  }
+  .name {
+    font-size: 14px;
+  }
+  .listPrice {
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .row {
+    gap: 6px;
+    margin-top: 0;
+  }
+  .price {
+    font-size: 16px;
+    line-height: 22px;
+  }
+  .buy {
+    width: 44px;
+    height: 44px;
+  }
+  .soldOut .row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .notify {
+    justify-content: center;
+    gap: 6px;
+    height: 47px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .productCard12,
+  .imgHover {
+    transition: none;
+  }
+}
+
+.productCard12Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+/* O quadro do desenho `Spot12` (palco do starter, `Comum12Stage.module.scss`): o creme da
+   família, as colunas do canvas e os rótulos de estado. */
+.spotStage {
+  width: 100%;
+  background-color: #fbf6f3;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  line-height: normal;
+  letter-spacing: normal;
+}
+.spotGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  align-items: start;
+  box-sizing: border-box;
+  width: 1040px;
+  min-height: 640px;
+  padding: 48px 40px;
+}
+.spotCol {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.spotLabel {
+  color: color-mix(in srgb, #3b1f33 72%, #ffffff);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+/* A coluna "Hover" pinta o estado de hover do card (lá, o comparador passa o mouse). */
+.spotHoverCol .productCard12 {
+  border-color: var(--spot-btn-bg, var(--background-primary-color, #7a2e5f));
+}
+.spotHoverCol .buy {
+  width: auto;
+  padding: 0 18px;
+  gap: 8px;
+}
+.spotHoverCol .buyLabel {
+  display: inline;
+}
+.spotHoverCol .plus {
+  width: 18px;
+  height: 18px;
+}
+@container (max-width: 960px) {
+  .spotGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: 375px;
+    min-height: 0;
+    padding: 24px 16px 32px;
+  }
+  .spotCol {
+    gap: 10px;
+  }
+  .spotHoverCol {
+    display: none;
+  }
+}

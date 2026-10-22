@@ -1,0 +1,290 @@
+/* Espelha organisms/PopupNews12 (faststore.starter, família 12): o SCSS compilado com o sass,
+   com o @media mantido (overlay fixo na viewport).
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.popupNews12 {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  color: var(--popup-text, var(--text-primary-color, #3b1f33));
+  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.popupNews12 *,
+.popupNews12 *::before,
+.popupNews12 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.popupNews12 :where(h2, p) {
+  margin: 0;
+}
+.popupNews12 :where(a) {
+  color: inherit;
+}
+.popupNews12 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.popupNews12 svg {
+  display: block;
+  flex: none;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(59, 31, 51, 0.45);
+}
+
+.dialog {
+  position: relative;
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  width: 880px;
+  max-width: 100%;
+  height: 600px;
+  max-height: calc(100vh - 32px);
+  overflow: hidden;
+  border-radius: 32px;
+  outline: none;
+  background-color: var(--popup-bg, #ffffff);
+}
+.media {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 40px 32px 0;
+  background-color: #f4dcd6;
+}
+
+.arch {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 440px;
+  overflow: hidden;
+  border-radius: 999px 999px 0 0;
+  background-color: #e6dff0;
+}
+.arch picture,
+.arch img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.arch img {
+  object-fit: cover;
+}
+.side {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+  padding: 52px 44px 36px;
+  overflow-y: auto;
+}
+
+.handle {
+  display: none;
+}
+
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.eyebrow {
+  padding: 6px 14px;
+  border-radius: 999px;
+  background-color: #dce6da;
+  color: #3b1f33;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.close {
+  position: absolute !important;
+  top: 16px;
+  right: 16px;
+  display: flex !important;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50% !important;
+  background-color: #fbf6f3 !important;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.title {
+  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 1.12;
+}
+
+.text {
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 19px;
+}
+
+.input {
+  height: 54px;
+  padding: 0 20px;
+  border: 1px solid color-mix(in srgb, var(--popup-text, var(--text-primary-color, #3b1f33)) 14%, #ffffff);
+  border-radius: 999px;
+  outline: none;
+  background-color: #ffffff;
+  color: var(--popup-text, var(--text-primary-color, #3b1f33));
+  font: inherit;
+  font-size: 15px;
+  font-weight: 400;
+}
+.input::placeholder {
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #3b1f33)) 52%, #ffffff);
+  opacity: 1;
+}
+.input:focus-visible {
+  border-color: var(--popup-text, var(--text-primary-color, #3b1f33));
+}
+
+.submit {
+  height: 54px;
+  margin-top: 4px !important;
+  border-radius: 999px !important;
+  background-color: var(--popup-button-bg, var(--background-primary-color, #7a2e5f)) !important;
+  color: var(--popup-button-text, var(--text-color-base, #ffffff)) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+}
+.submit:disabled {
+  opacity: 0.6;
+}
+
+.feedback {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dismiss {
+  min-height: 44px;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+
+.privacy {
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  font-size: 12px;
+  line-height: 16px;
+}
+.privacy a {
+  text-decoration: underline;
+}
+@media (max-width: 960px) {
+  .popupNews12 {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .dialog {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    max-height: 100dvh;
+    border-radius: 28px 28px 0 0;
+  }
+  .media {
+    display: none;
+  }
+  .mediaMobile {
+    display: block;
+    padding: 0;
+    background: none;
+  }
+  .mediaMobile .arch {
+    height: 160px;
+    border-radius: 0;
+  }
+  .side {
+    gap: 14px;
+    padding: 12px 20px 28px;
+  }
+  .handle {
+    display: block;
+    align-self: center;
+    width: 40px;
+    height: 4px;
+    border-radius: 999px;
+    background-color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #3b1f33)) 14%, #ffffff);
+  }
+  .eyebrow {
+    margin-top: 8px;
+  }
+  .close {
+    position: static !important;
+  }
+  .form {
+    gap: 14px;
+  }
+  .title {
+    font-size: 28px;
+  }
+  .input {
+    font-size: 16px;
+  }
+  .foot {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .dismiss {
+    padding: 0 12px !important;
+  }
+  .privacy {
+    text-align: center;
+  }
+}
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
