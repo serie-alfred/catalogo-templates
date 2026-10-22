@@ -67,7 +67,6 @@ export default function Breadcrumb11() {
                   >
                     {ultimo ? (
                       <span
-                        className={styles.current}
                         aria-current="page"
                         data-role="breadcrumb-current"
                       >

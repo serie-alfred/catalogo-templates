@@ -9,7 +9,6 @@ import styles from './index.module.css';
  * `BannerGrid11` / `BannerGrid11-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`
  * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá
  * (sem arte: vale o placeholder do CSS). O manifesto entra depois do 1º banner.
- * `manifestoCell` não tem regra no SCSS de lá (só marca a célula), então não existe no CSS.
  */
 interface BannerGrid11Banner {
   title?: string;

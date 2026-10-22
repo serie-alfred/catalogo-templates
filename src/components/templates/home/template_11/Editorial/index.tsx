@@ -8,8 +8,8 @@ import styles from './index.module.css';
  * Espelha `organisms/Editorial11` do faststore.starter (família 11, Grade; desenho
  * `Editorial11` / `Editorial11-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`
  * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá
- * (sem arte: vale o placeholder do CSS). `list` não tem regra no SCSS de lá, então
- * `styles.list` não existe e o `<ol>` sai sem classe.
+ * (sem arte: vale o placeholder do CSS). o `<ol>` sai sem classe, como lá
+ * (o `:where(ol)` da raiz zera a lista).
  */
 interface Editorial11Post {
   date?: string;
@@ -215,7 +215,7 @@ export default function Editorial11() {
             </article>
           )}
           {posts.length > 0 && (
-            <ol className={styles.list}>
+            <ol>
               {posts.map((p, i) => (
                 <li key={i} className={styles.item}>
                   <a

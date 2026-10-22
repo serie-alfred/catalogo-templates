@@ -340,7 +340,7 @@ export default function ProductReviews11() {
           )}
 
           {reviews.length > 0 && (
-            <div ref={listRef} className={styles.list} data-role="rv-list">
+            <div ref={listRef} data-role="rv-list">
               <div className={styles.tableHead} aria-hidden="true">
                 <span>{L.dateLabel}</span>
                 <span>{L.customerLabel}</span>

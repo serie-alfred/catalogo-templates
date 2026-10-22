@@ -78,12 +78,10 @@ export default function HelpFloat11() {
   }, [aberto]);
 
   const nome = title || 'Ajuda';
-  // `.open` não tem regra no SCSS da 11 (só marca o estado); sem ela no CSS, fica de fora.
-  const classeAberto = aberto && styles.open ? ` ${styles.open}` : '';
 
   return (
     <div
-      className={`${styles.helpFloatButton11}${classeAberto}`}
+      className={styles.helpFloatButton11}
       data-role="hf-root"
     >
       <link rel="stylesheet" href={FONTES_11} />

@@ -205,7 +205,7 @@ export default function Header11() {
       {temSugestao && (
         <div className={styles.suggestions} data-role="hd-suggestions">
           {termos.length > 0 && (
-            <ul className={styles.suggestTerms}>
+            <ul>
               {termos.slice(0, 5).map(t => (
                 <li key={t}>
                   <button
@@ -376,7 +376,7 @@ export default function Header11() {
               data-role="hd-drawer"
             >
               {busca(styles.drawerSearch, 'menu')}
-              <ul className={styles.drawerList}>
+              <ul>
                 {menu.map((item, i) => (
                   <li key={i}>
                     {item.children?.length ? (

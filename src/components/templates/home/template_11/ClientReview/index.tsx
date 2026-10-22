@@ -8,8 +8,8 @@ import styles from './index.module.css';
  * Espelha `organisms/ClientReview11` do faststore.starter (família 11, Grade; desenho
  * `ClientReview11` / `ClientReview11-mobile`). Mesmo markup, mesmas classes, mesmos
  * `data-role` e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o
- * mock.ts de lá (sem miniatura da peça: vale o placeholder do CSS). `productName` não tem
- * regra no SCSS de lá, então o span sai sem classe.
+ * mock.ts de lá (sem miniatura da peça: vale o placeholder do CSS). o nome da peça sai sem
+ * classe, como lá (não tem regra no desenho).
  */
 interface ClientReview11Review {
   text?: string;
@@ -217,7 +217,7 @@ export default function ClientReview11() {
                                 {r.productRef}
                               </span>
                             )}
-                            <span className={styles.productName}>
+                            <span>
                               {r.productName}
                             </span>
                           </span>
