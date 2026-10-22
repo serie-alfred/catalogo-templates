@@ -18,7 +18,11 @@
  *  7. aplicar traz a cara da família: as cores autorais e as fontes globais de
  *     `TEMA_DAS_FAMILIAS` (as derivadas, recalculadas pelo contraste), no canvas
  *     e no export; o undo as restaura junto com as peças; família sem tema
- *     (Template 01) mantém a paleta.
+ *     (Template 01) mantém a paleta;
+ *  8. onde o Nível 2 não acerta o desenho, a peça ganha Nível 1 próprio
+ *     (`NIVEL1_DAS_FAMILIAS`): as `variables` entram SÓ nas seções do mapa, o
+ *     header pinta a cor do desenho, o painel da direita mostra e restaura, o
+ *     undo/redo as leva junto, e o export as carrega por componente.
  *
  * Fotos em FUNIL_FOTOS (padrão `.funil/por-template/`).
  */
@@ -176,6 +180,26 @@ const TEMA = (() => {
   }
   return out;
 })();
+/** O mapa família → componente → vars de Nível 1, lido do mesmo arquivo. */
+const NIVEL1 = (() => {
+  const ts = fs.readFileSync(path.resolve(new URL('../../src/utils/templatesCompletos.ts', import.meta.url).pathname), 'utf8');
+  const ini = ts.indexOf('export const NIVEL1_DAS_FAMILIAS');
+  const bloco = ts.slice(ini, ts.indexOf('\n};', ini));
+  const out = {};
+  for (const [, fam, corpo] of bloco.matchAll(/\n {2}'(\d+)': \{([\s\S]*?)\n {2}\},/g))
+    for (const [, comp, vars] of corpo.matchAll(/\n {4}(\w+): \{([\s\S]*?)\n {4}\},/g))
+      (out[fam] ??= {})[comp] = Object.fromEntries([...vars.matchAll(/'(--[\w-]+)': '([^']+)'/g)].map(m => [m[1], m[2]]));
+  return out;
+})();
+const componenteDe = Object.fromEntries(TODOS.map(i => [`${i.layoutKey}:${i.id}`, i.component]));
+/** Diferenças entre as variables gravadas por seção e o mapa da família. */
+const difNivel1 = (gravadas, t) =>
+  gravadas.flatMap(s => {
+    const comp = componenteDe[`${s.layoutKey}:${s.id}`];
+    const esp = NIVEL1[t]?.[comp] ?? null;
+    const tem = s.variables && Object.keys(s.variables).length ? s.variables : null;
+    return JSON.stringify(tem) === JSON.stringify(esp) ? [] : [`${comp}: ${JSON.stringify(tem)} ≠ ${JSON.stringify(esp)}`];
+  });
 const contraste = hex => {
   const h = hex.replace('#', '').replace(/^(.)(.)(.)$/, '$1$1$2$2$3$3');
   const y = (parseInt(h.slice(0, 2), 16) * 299 + parseInt(h.slice(2, 4), 16) * 587 + parseInt(h.slice(4, 6), 16) * 114) / 1000;
@@ -268,6 +292,45 @@ for (const plat of ['VTEX', 'Wake', 'Tray']) {
   aplicadas['9'] = await gravadas(page);
   temasAplicados['9'] = await temaGravado(page);
   {
+    const d1 = difNivel1(aplicadas['9'], '9');
+    const n = Object.keys(NIVEL1['9'] ?? {}).length;
+    r.ok(`VTEX 09: Nível 1 próprio só nas ${n} peças do mapa, com os valores do mapa`, n > 0 && d1.length === 0, d1.slice(0, 4).join(' | '));
+    await page
+      .waitForFunction(
+        () => {
+          const d = document.querySelector('iframe')?.contentDocument;
+          const h = d?.querySelector('[data-selection="header"]');
+          return !!h && [...h.querySelectorAll('*')].some(e => d.defaultView.getComputedStyle(e).backgroundColor === 'rgb(247, 244, 239)');
+        },
+        { timeout: 20000, polling: 300 }
+      )
+      .catch(() => {});
+    const hdr = await page.evaluate(() => {
+      const d = document.querySelector('iframe')?.contentDocument;
+      const h = d?.querySelector('[data-selection="header"]');
+      if (!h) return null;
+      const cs = d.defaultView.getComputedStyle(h);
+      return {
+        var: cs.getPropertyValue('--header-bg').trim().toLowerCase(),
+        creme: [...h.querySelectorAll('*')].some(e => d.defaultView.getComputedStyle(e).backgroundColor === 'rgb(247, 244, 239)'),
+      };
+    });
+    r.ok('VTEX 09: o header pinta o creme do desenho (#f7f4ef), não a cor de marca', hdr?.var === '#f7f4ef' && hdr?.creme, JSON.stringify(hdr));
+    const botao = await page.evaluate(() => {
+      const d = document.querySelector('iframe')?.contentDocument;
+      const b = [...(d?.querySelectorAll('[data-selection="popup-news"] button') ?? [])].find(x => /CADASTRAR/i.test(x.textContent));
+      return b ? { bg: d.defaultView.getComputedStyle(b).backgroundColor, cor: d.defaultView.getComputedStyle(b).color } : null;
+    });
+    r.ok('VTEX 09: o botão do pop-up é o do desenho (fundo #1d1b18, texto #f7f4ef)', botao?.bg === 'rgb(29, 27, 24)' && botao?.cor === 'rgb(247, 244, 239)', JSON.stringify(botao));
+    await page.evaluate(() => document.querySelector('iframe').contentDocument.querySelector('[data-selection="header"]').click());
+    await espera(1200);
+    const painel = await page.evaluate(() => {
+      const p = document.querySelector('[aria-label="Editar variáveis do componente"]');
+      return p ? { texto: (p.textContent + ' ' + [...p.querySelectorAll('input')].map(i => i.value).join(' ')).toLowerCase(), restaurar: [...p.querySelectorAll('button')].some(b => /Restaurar padrão/.test(b.textContent)) } : null;
+    });
+    r.ok('VTEX 09: o painel da direita mostra a cor própria do header (f7f4ef) e o "Restaurar padrão"', !!painel?.restaurar && painel.texto.includes('f7f4ef'), painel?.texto.slice(-200));
+  }
+  {
     const g = await temaGravado(page);
     const dif = difTema(g, '9');
     r.ok('VTEX: a 09 traz a paleta e as fontes do desenho (autorais, derivadas pelo contraste, Fraunces + Figtree)', dif.length === 0, dif.join(' | ') || JSON.stringify(g.fonts));
@@ -330,8 +393,8 @@ for (const plat of ['VTEX', 'Wake', 'Tray']) {
   await espera(1200);
   const confirmou = dialogos.find(d => d.tipo === 'confirm');
   r.ok(
-    'VTEX: com seções escolhidas, escolher a 10 pede confirmação (nome, contagem, e que a paleta e as fontes mudam)',
-    !!confirmou && /10 · Varejo/.test(confirmou.msg) && /substituídas/.test(confirmou.msg) && /paleta e as fontes/.test(confirmou.msg) && /Archivo/.test(confirmou.msg),
+    'VTEX: com seções escolhidas, escolher a 10 pede confirmação (nome, contagem, paleta e fontes, seções com cor própria)',
+    !!confirmou && /10 · Varejo/.test(confirmou.msg) && /substituídas/.test(confirmou.msg) && /paleta e as fontes/.test(confirmou.msg) && /Archivo/.test(confirmou.msg) && /ganham cor própria/.test(confirmou.msg),
     confirmou?.msg
   );
   r.ok('VTEX: cancelar a confirmação não muda nenhuma seção', (await salvas(page)).sort().join() === antes);
@@ -344,6 +407,14 @@ for (const plat of ['VTEX', 'Wake', 'Tray']) {
   const tema10 = await temaGravado(page);
   temasAplicados['10'] = tema10;
   r.ok('VTEX: aceitar traz a paleta e as fontes da 10 (Archivo)', difTema(tema10, '10').length === 0, difTema(tema10, '10').join(' | '));
+  r.ok('VTEX 10: Nível 1 próprio só nas peças do mapa da 10', difNivel1(aplicadas['10'], '10').length === 0, difNivel1(aplicadas['10'], '10').slice(0, 4).join(' | '));
+  await espera(1500);
+  const hdr10 = await page.evaluate(() => {
+    const d = document.querySelector('iframe')?.contentDocument;
+    const h = d?.querySelector('[data-selection="header"]');
+    return h ? [...h.querySelectorAll('*')].some(e => d.defaultView.getComputedStyle(e).backgroundColor === 'rgb(255, 255, 255)') : null;
+  });
+  r.ok('VTEX 10: a faixa do meio do header é branca, como o desenho', hdr10 === true);
   const s10 = (await salvas(page)).sort();
   r.ok('VTEX: aceitar troca a loja inteira pela 10', s10.join() === chaves('10', 'VTEX').join(), s10.join());
   // O undo desfaz a aplicação inteira num passo, e o redo a refaz.
@@ -353,9 +424,12 @@ for (const plat of ['VTEX', 'Wake', 'Tray']) {
   {
     const g = await temaGravado(page);
     r.ok('VTEX: o mesmo undo restaura a paleta e as fontes de antes (as da 09)', JSON.stringify(g) === JSON.stringify(temaAntes), JSON.stringify(g.fonts));
+    const vol = await gravadas(page);
+    r.ok('VTEX: o mesmo undo devolve o Nível 1 da 09 (o header trocado pelo 01 fica sem)', difNivel1(vol.filter(x => x.layoutKey !== 'header'), '9').length === 0 && !vol.find(x => x.layoutKey === 'header')?.variables, difNivel1(vol, '9').slice(0, 3).join(' | '));
   }
   await clicarDeVerdade(page, 'button[aria-label="Avançar"]');
   await espera(1200);
+  r.ok('VTEX: refazer devolve o Nível 1 da 10', difNivel1(await gravadas(page), '10').length === 0);
   r.ok('VTEX: refazer devolve a 10, peças, paleta e fontes', (await salvas(page)).sort().join() === s10.join() && JSON.stringify(await temaGravado(page)) === JSON.stringify(tema10));
   for (const [pg, nome] of [['home', 'home'], ['category', 'categoria'], ['product', 'produto']]) {
     if (pg !== 'home') await trocarPagina(page, pg);
@@ -378,6 +452,8 @@ for (const plat of ['VTEX', 'Wake', 'Tray']) {
     const titulos = ['global', 'home', 'category', 'product', 'overrides'].flatMap(k => (fs10[k] ?? []).map(e => e.title)).sort();
     const esp = daFamilia('10', 'VTEX').map(i => i.component).sort();
     r.ok('VTEX: o config sai com as peças da família 10, todas', titulos.join() === esp.join(), titulos.join());
+    const porComp = Object.fromEntries(['global', 'home', 'category', 'product', 'overrides'].flatMap(k => (fs10[k] ?? []).filter(e => e.variables).map(e => [e.title, e.variables])));
+    r.ok('VTEX: o export carrega as variables de Nível 1 por componente, iguais ao mapa da 10', JSON.stringify(Object.keys(porComp).sort()) === JSON.stringify(Object.keys(NIVEL1['10']).sort()) && Object.entries(NIVEL1['10']).every(([c, v]) => JSON.stringify(porComp[c]) === JSON.stringify(v)), Object.keys(porComp).join());
     const dv = difVariaveis(fs10.variables, '10');
     r.ok('VTEX: faststore.variables leva as cores e as fontes da 10', dv.length === 0, dv.join(' | '));
     conferirFaststore(cfg, r);
@@ -410,6 +486,8 @@ for (const [plat, t] of [['Wake', '9'], ['Tray', '10']]) {
       entradas.length === daFamilia(t, plat).length && entradas.every(e => e.template === t),
       `${entradas.length} entradas: ${[...new Set(entradas.map(e => e.template))].join()}`
     );
+    const comVars = entradas.filter(e => e.variables).length;
+    r.ok(`${plat}: o export carrega o Nível 1 das ${Object.keys(NIVEL1[t] ?? {}).length} peças do mapa da ${t.padStart(2, '0')}`, comVars === Object.keys(NIVEL1[t] ?? {}).length, `${comVars} entradas com variables`);
     const dv = difVariaveis(raiz.variables, t);
     r.ok(`${plat}: ${plat.toLowerCase()}.variables leva as cores e as fontes da ${t.padStart(2, '0')}`, dv.length === 0, dv.join(' | '));
     conferirTrayWake(cfg, plat, r);
@@ -463,6 +541,15 @@ for (const t of ['9', '10']) {
     await page.waitForSelector('[data-section-uid]', { timeout: 30000 }).catch(() => {});
     await espera(1500);
     await page.screenshot({ path: path.join(FOTOS, `pagina-${t.padStart(2, '0')}-${slug}.png`), fullPage: true });
+    if (slug === 'home') {
+      // Peças avulsas para comparar com os desenhos (o pop-up fechado antes).
+      await page.evaluate(() => [...document.querySelectorAll('button, a')].find(b => /Agora não/i.test(b.textContent))?.click());
+      await espera(800);
+      for (const sel of ['header', 'banner-main', 'showcase', 'newsletter', 'countdown']) {
+        const el = await page.$(`[data-selection="${sel}"]`);
+        if (el) await el.screenshot({ path: path.join(FOTOS, `peca-${t.padStart(2, '0')}-${sel}.png`) }).catch(() => {});
+      }
+    }
   }
   await page.close();
 }
