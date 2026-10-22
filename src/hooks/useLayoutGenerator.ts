@@ -851,23 +851,54 @@ export function useLayoutGenerator() {
 
   /**
    * "Por template": troca TODAS as seções da loja pela família inteira, em todas
-   * as páginas, e leva o usuário para "Componentes" na home — dali ele troca
-   * qualquer peça como antes. Com seções já escolhidas pede confirmação (o undo
-   * desfaz, mas o usuário pode não saber disso). Cores, fontes e variáveis
-   * globais não mudam. Devolve false se o usuário cancelou.
+   * as páginas, e aplica a cara dela — a paleta e as fontes globais do desenho
+   * (`t.tema`, utils/templatesCompletos.ts). Tudo no mesmo render: o histórico
+   * vê UMA mudança estrutural, então um undo desfaz peças, cores e fontes juntas.
+   * As três cores derivadas são recalculadas aqui mesmo (e não pelo efeito de
+   * contraste, que viria num render seguinte e abriria outra entrada).
+   * Com seções já escolhidas pede confirmação. Leva para "Componentes" na home.
+   * Devolve false se o usuário cancelou.
    */
   const aplicarTemplate = (t: TemplateCompleto): boolean => {
+    const cores = t.tema?.colors ?? {};
+    const fontes = t.tema?.fonts;
+    const oQueMuda =
+      Object.keys(cores).length && fontes
+        ? `A paleta e as fontes globais passam a ser as do template (${fontes.fontPrimary}` +
+          `${fontes.fontSecondary !== fontes.fontPrimary ? ` + ${fontes.fontSecondary}` : ''}).`
+        : fontes
+          ? `As fontes globais passam a ser as do template (${fontes.fontPrimary}` +
+            `${fontes.fontSecondary !== fontes.fontPrimary ? ` + ${fontes.fontSecondary}` : ''}); as cores não mudam.`
+          : 'Cores e fontes não mudam.';
     if (
       lojaSelections.length > 0 &&
       !window.confirm(
         `Aplicar o template ${t.nome}?\n\nAs ${lojaSelections.length} seções ` +
           `escolhidas hoje serão substituídas pelas ${t.itens.length} peças do ` +
-          `template, em todas as páginas. Cores e fontes não mudam.`
+          `template, em todas as páginas. ${oQueMuda}\n\nDá para desfazer com Voltar.`
       )
     ) {
       return false;
     }
     setLojaSelections(selecoesDoTemplate(t));
+    if (cores.colorPrimary) setColorPrimary(cores.colorPrimary);
+    if (cores.colorSecondary) setColorSecondary(cores.colorSecondary);
+    if (cores.colorFooter) setColorFooter(cores.colorFooter);
+    if (cores.colorFooterText) setColorFooterText(cores.colorFooterText);
+    const bg1 = cores.colorPrimaryBackground ?? colorPrimaryBackground;
+    const bg2 = cores.colorSecondaryBackground ?? colorSecondaryBackground;
+    const bg3 = cores.colorTertiaryBackground ?? colorTertiaryBackground;
+    setColorPrimaryBackground(bg1);
+    setColorSecondaryBackground(bg2);
+    setColorTertiaryBackground(bg3);
+    setColorPrimaryText(contrastOn(bg1));
+    setColorSecondaryText(contrastOn(bg2));
+    setColorTertiary(contrastOn(bg3));
+    if (fontes) {
+      setFontPrimary(fontes.fontPrimary);
+      setFontSecondary(fontes.fontSecondary);
+      setFontTertiary(fontes.fontTertiary);
+    }
     setSelectedUid(null);
     setSelectedPage('home');
     setRailTarget('componentes');

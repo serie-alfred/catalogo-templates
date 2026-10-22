@@ -47,8 +47,8 @@ export default function PanelTemplates() {
     <div className={styles.wrap} data-templates-lista="">
       <p className={styles.hint}>
         Um template preenche todas as páginas (home, categoria e produto) com as
-        peças de uma mesma família. Depois é só ajustar cores e fontes, ou
-        trocar qualquer peça em Componentes.
+        peças de uma mesma família, com a paleta e as fontes do desenho. Depois
+        é só ajustar cores e fontes, ou trocar qualquer peça em Componentes.
       </p>
 
       {templates.length === 0 && (
@@ -80,7 +80,23 @@ export default function PanelTemplates() {
                   ))}
                 </span>
                 <span className={styles.info}>
-                  <span className={styles.nome}>{t.nome}</span>
+                  <span className={styles.nome}>
+                    {t.nome}
+                    {t.tema?.colors && (
+                      <span className={styles.paleta} aria-hidden>
+                        {[
+                          t.tema.colors.colorPrimaryBackground,
+                          t.tema.colors.colorSecondaryBackground,
+                          t.tema.colors.colorTertiaryBackground,
+                          t.tema.colors.colorPrimary,
+                        ]
+                          .filter(Boolean)
+                          .map((c, i) => (
+                            <span key={i} style={{ background: c }} />
+                          ))}
+                      </span>
+                    )}
+                  </span>
                   <span className={styles.pecas}>
                     {ativo ? 'Em uso · ' : ''}
                     {t.itens.length} peças
