@@ -9,43 +9,43 @@ em `src/data/layoutData.ts`. O campo `imageSource` diz de onde ela veio.
 | | itens | o que é |
 |---|---|---|
 | `design` | 56 | mockup entregue pelo designer (pasta *Banners E-temas*) |
-| `auto` | 92 | screenshot do componente real — **pendente de arte do designer** |
+| `auto` | 116 | screenshot do componente real — **pendente de arte do designer** |
 | sem imagem | 0 | cai no placeholder |
 
 ## Pendente do designer
 
 Estes têm thumb automática. É a lista do que falta chegar do design:
 
-- **Header** — Header04, Header06, Header07, Header08, Header09, Header10
-- **Card de Produto** — Spot02, Spot03, Spot04, Spot05, Spot07, Spot09, Spot10
-- **Breadcrumb** — Breadcrumb02, Breadcrumb09, Breadcrumb10
-- **Footer** — Footer04, Footer06, Footer07, Footer08, Footer09, Footer10
-- **Marcas** — Brand09, Brand10
+- **Header** — Header04, Header06, Header07, Header08, Header09, Header10, Header11
+- **Card de Produto** — Spot02, Spot03, Spot04, Spot05, Spot07, Spot09, Spot10, Spot11
+- **Breadcrumb** — Breadcrumb02, Breadcrumb09, Breadcrumb10, Breadcrumb11
+- **Footer** — Footer04, Footer06, Footer07, Footer08, Footer09, Footer10, Footer11
+- **Marcas** — Brand09, Brand10, Brand11
 - **Área de Texto** — TextArea
-- **Carrossel de Categorias** — Categories07, Categories08, Categories09, Categories10
-- **Banners** — BannerMain07, BannerMain08, BannerMain09, BannerMain10
-- **Regua de benefícios** — Ruler08, Ruler09, Ruler10
-- **Grid de banners** — BannerGrid06, BannerGrid09, BannerGrid10
-- **Banner Side** — ShelfBanner08, ShelfBanner09, ShelfBanner10
-- **Vitrines** — Showcase03, Showcase04, Showcase06, Showcase08, Showcase09, Showcase10
+- **Carrossel de Categorias** — Categories07, Categories08, Categories09, Categories10, Categories11
+- **Banners** — BannerMain07, BannerMain08, BannerMain09, BannerMain10, BannerMain11
+- **Regua de benefícios** — Ruler08, Ruler09, Ruler10, Ruler11
+- **Grid de banners** — BannerGrid06, BannerGrid09, BannerGrid10, BannerGrid11
+- **Banner Side** — ShelfBanner08, ShelfBanner09, ShelfBanner10, ShelfBanner11
+- **Vitrines** — Showcase03, Showcase04, Showcase06, Showcase08, Showcase09, Showcase10, Showcase11
 - **Banner Triplo** — CategoryTriple06
 - **Banner com texto** — BannerSoloLeft07
 - **Abas de categoria** — CategoryTabs06
-- **Título da categoria** — CategoryTitle09, CategoryTitle10
-- **Ajuda flutuante** — HelpFloat06, HelpFloat09, HelpFloat10
-- **Pop-up de newsletter** — PopupNews06, PopupNews09, PopupNews10
+- **Título da categoria** — CategoryTitle09, CategoryTitle10, CategoryTitle11
+- **Ajuda flutuante** — HelpFloat06, HelpFloat09, HelpFloat10, HelpFloat11
+- **Pop-up de newsletter** — PopupNews06, PopupNews09, PopupNews10, PopupNews11
 - **Compre por tamanho** — BuySize06
-- **Newsletter** — Newsletter07, Newsletter08, Newsletter09, Newsletter10
+- **Newsletter** — Newsletter07, Newsletter08, Newsletter09, Newsletter10, Newsletter11
 - **Ambientes** — ShopByRoom07
-- **Depoimentos** — ClientReview06, ClientReview07, ClientReview09, ClientReview10
-- **Grade de produtos** — CategoryMain02, CategoryMain06, CategoryMain07, CategoryMain09, CategoryMain10
-- **Descrição de categoria** — CategoryDescription09, CategoryDescription10
-- **descrição** — ProductDescription09, ProductDescription10
-- **Informações do produto** — ProductInfo03, ProductInfo04, ProductInfo09, ProductInfo10
-- **Avaliações do produto** — ProductReviews09, ProductReviews10
-- **Produtos Relacionados** — ProductRelated09, ProductRelated10
-- **Contador de ofertas** — Countdown08, Countdown09, Countdown10
-- **Bloco editorial** — Editorial08, Editorial09, Editorial10
+- **Depoimentos** — ClientReview06, ClientReview07, ClientReview09, ClientReview10, ClientReview11
+- **Grade de produtos** — CategoryMain02, CategoryMain06, CategoryMain07, CategoryMain09, CategoryMain10, CategoryMain11
+- **Descrição de categoria** — CategoryDescription09, CategoryDescription10, CategoryDescription11
+- **descrição** — ProductDescription09, ProductDescription10, ProductDescription11
+- **Informações do produto** — ProductInfo03, ProductInfo04, ProductInfo09, ProductInfo10, ProductInfo11
+- **Avaliações do produto** — ProductReviews09, ProductReviews10, ProductReviews11
+- **Produtos Relacionados** — ProductRelated09, ProductRelated10, ProductRelated11
+- **Contador de ofertas** — Countdown08, Countdown09, Countdown10, Countdown11
+- **Bloco editorial** — Editorial08, Editorial09, Editorial10, Editorial11
 
 ## Arte do designer
 
