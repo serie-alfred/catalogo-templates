@@ -294,6 +294,35 @@ export const NIVEL1_DAS_FAMILIAS: Record<
       '--countdown-text': '#101828',
     },
   },
+  '11': {
+    Header11: {
+      '--header-bg': '#ffffff',
+      '--header-text': '#0a0a0a',
+      '--header-accent': '#ff4f00',
+      '--header-accent-text': '#0a0a0a',
+    },
+    Spot11: {
+      '--spot-btn-bg': '#ff4f00',
+      '--spot-btn-text': '#0a0a0a',
+    },
+    BannerMain11: {
+      '--banner-main-accent': '#ff4f00',
+    },
+    BannerGrid11: {
+      '--banner-grid-accent': '#ff4f00',
+      '--banner-grid-accent-text': '#0a0a0a',
+    },
+    CategoryMain11: {
+      '--cat-main-accent': '#ff4f00',
+    },
+    ProductInfo11: {
+      '--pdp-accent': '#ff4f00',
+    },
+    Countdown11: {
+      '--countdown-accent': '#ff4f00',
+      '--countdown-accent-text': '#0a0a0a',
+    },
+  },
 };
 
 export type TemplateCompleto = {
