@@ -183,8 +183,16 @@
   outline-offset: -4px;
 }
 
-.thumbOn {
-  box-shadow: inset 0 -3px 0 var(--pdp-accent, var(--background-tertiary-color, #ff4f00));
+/* O filete do desenho num pseudo-elemento: a sombra interna ficava sob a <img> absoluta. */
+.thumbOn::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background-color: var(--pdp-accent, var(--background-tertiary-color, #ff4f00));
+  pointer-events: none;
 }
 
 .thumbNum {
