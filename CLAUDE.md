@@ -194,6 +194,24 @@ sozinha. Ali o usuário monta UMA landing page com **qualquer seção de miolo**
   num envelope `.<raiz>Box`, que a réplica renderiza: uma `@container` não estiliza o próprio
   container.
 
+### Por template (rail)
+
+O quinto destino do rail, **Por template** (`[data-rail-target="templates"]`, depois dos quatro do
+Figma para não mexer nas coordenadas do `2-geometria`), lista as **famílias completas** e aplica uma
+inteira na loja. Some no checkout e na LP.
+
+- **Derivado, não à mão** ([src/utils/templatesCompletos.ts](src/utils/templatesCompletos.ts)): uma
+  família (`template`) é completa quando cobre, na plataforma, `SLOTS_OBRIGATORIOS` — os singletons
+  comuns de `sectionRules` (header, footer, breadcrumb, spot), `banner-main` e `showcase` na home,
+  `category-main` e `product-info`. Família incompleta não aparece. Família nova (11, 12, 13) entra
+  sozinha quando cobrir os slots. Nome: `09 · Editorial` … `13 · Noturno`; as demais, `Template NN`
+  (nada de nome de cliente: o repo é público).
+- **Aplicar** (`aplicarTemplate` no hook): troca TODAS as seções da loja pelas da família, uma por
+  item, na ordem `ORDEM` (a da home segue o mapa do desenho das famílias 09–13; pop-up e ajuda
+  flutuante por último). Com seções já escolhidas pede `confirm`. Cores e fontes não mudam. Vai para
+  "Componentes" na home; dali cada peça se troca como antes, e o undo desfaz a aplicação.
+- **Funil:** `2-templates`.
+
 ### Selection rules in `toggleSelection`
 
 `useLayoutGenerator.toggleSelection` is not a simple add — it enforces per-`selection` semantics that you must preserve when adding new selection types:
