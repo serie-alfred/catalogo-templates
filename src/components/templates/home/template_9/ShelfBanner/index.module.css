@@ -42,7 +42,7 @@
 }
 .productShelf09 [data-role=spot-discount],
 .productShelf09 [data-role=spot-tag] {
-  color: var(--showcase-tag-text, var(--background-primary-color, #9c4a2f));
+  color: var(--showcase-tag-text, var(--spot-tag-text, var(--background-primary-color, #9c4a2f)));
 }
 
 .inner {

@@ -71,12 +71,12 @@ section.crossSellingShelf10 [data-fs-product-shelf] {
 }
 .productShowcase10 [data-role=spot-discount],
 .productShowcase10 [data-role=spot-tag] {
-  background-color: var(--showcase-tag-bg, var(--background-tertiary-color, #d92d20));
-  color: var(--showcase-tag-text, var(--text-tertiary-color, #ffffff));
+  background-color: var(--showcase-tag-bg, var(--spot-tag-bg, var(--background-tertiary-color, #d92d20)));
+  color: var(--showcase-tag-text, var(--spot-tag-text, var(--text-tertiary-color, #ffffff)));
 }
 .productShowcase10 [data-role=spot-buy] {
-  background-color: var(--showcase-accent, var(--background-primary-color, #1340d8));
-  color: var(--text-color-base, #ffffff);
+  background-color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #1340d8)));
+  color: var(--spot-btn-text, var(--text-color-base, #ffffff));
 }
 
 .arrows {

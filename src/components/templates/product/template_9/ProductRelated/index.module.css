@@ -80,7 +80,7 @@ section.crossSellingShelf09 [data-fs-product-shelf] {
 }
 .productShowcase09 [data-role=spot-discount],
 .productShowcase09 [data-role=spot-tag] {
-  color: var(--showcase-tag-text, var(--background-primary-color, #9c4a2f));
+  color: var(--showcase-tag-text, var(--spot-tag-text, var(--background-primary-color, #9c4a2f)));
 }
 
 .arrows {

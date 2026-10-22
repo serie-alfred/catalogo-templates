@@ -46,8 +46,8 @@
   flex-shrink: 0;
 }
 .mainCategory10 [data-role=spot-buy] {
-  background-color: var(--cat-main-accent, var(--background-primary-color, #1340d8));
-  color: var(--text-color-base, #ffffff);
+  background-color: var(--cat-main-accent, var(--spot-btn-bg, var(--background-primary-color, #1340d8)));
+  color: var(--spot-btn-text, var(--text-color-base, #ffffff));
 }
 .mainCategory10 [data-role=spot-rating] > span:nth-child(2) > span + span {
   display: none;
