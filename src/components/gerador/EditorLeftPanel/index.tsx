@@ -7,6 +7,7 @@ import PanelComponents from './PanelComponents';
 import PanelTypography from './PanelTypography';
 import PanelGlobalColors from './PanelGlobalColors';
 import PanelBrandAssets from './PanelBrandAssets';
+import PanelTemplates from './PanelTemplates';
 import PlatformSelect from '../PlatformSelect';
 
 import styles from './index.module.css';
@@ -14,6 +15,7 @@ import styles from './index.module.css';
 /** O que cada destino quer dizer para o checkout, que não tem seções. */
 const DICA_DO_CHECKOUT: Record<string, string> = {
   componentes: '',
+  templates: '',
   variaveis:
     'No checkout, estas cores são o nível 2: todo papel sem valor próprio (painel da direita) herda daqui.',
   tipografia:
@@ -49,9 +51,17 @@ export default function EditorLeftPanel({
   // No checkout não há "Componentes" (a estrutura é fixa): o rail o esconde, e
   // um `railTarget` que ainda aponte para lá cai em "Variáveis".
   const noCheckout = editorMode === 'checkout';
+  const naLp = editorMode === 'lp';
+  // "Por template" monta a loja: no checkout e na LP o rail o esconde, e um
+  // `railTarget` que ainda aponte para lá cai no destino natural do modo.
   const destino =
-    noCheckout && railTarget === 'componentes' ? 'variaveis' : railTarget;
+    noCheckout && (railTarget === 'componentes' || railTarget === 'templates')
+      ? 'variaveis'
+      : naLp && railTarget === 'templates'
+        ? 'componentes'
+        : railTarget;
   const isComponentes = destino === 'componentes';
+  const isTemplates = destino === 'templates';
 
   return (
     <aside
@@ -69,7 +79,7 @@ export default function EditorLeftPanel({
             o modo Checkout não teria como trocar de plataforma — e trocar SAI
             do modo (checkout é só VTEX, `modeForPlatform`). Aprovado no gate0
             #27 do checkout-vtex. */}
-        {(isComponentes || noCheckout) && (
+        {(isComponentes || isTemplates || noCheckout) && (
           <PlatformSelect
             value={platform}
             showError={showPlatformError}
@@ -86,6 +96,8 @@ export default function EditorLeftPanel({
         )}
 
         {isComponentes && <PanelComponents />}
+
+        {isTemplates && <PanelTemplates />}
 
         {destino === 'variaveis' && <PanelGlobalColors />}
 

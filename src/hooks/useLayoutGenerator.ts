@@ -26,6 +26,10 @@ import {
 } from '@/utils/platformCompat';
 import { lpInicial, sanitizeLp, slugDaLp, type LpState } from '@/utils/lp';
 import {
+  selecoesDoTemplate,
+  type TemplateCompleto,
+} from '@/utils/templatesCompletos';
+import {
   CHECKOUT_PADRAO,
   blocoDoConfig,
   carregarBase,
@@ -39,8 +43,10 @@ import {
 // type-only: não puxa o módulo server-only para o bundle do cliente.
 import type { PreviewSnapshot } from '@/lib/previewStore';
 
-/** Os quatro destinos do rail de navegação do editor, na ordem do Figma. */
+/** Os destinos do rail de navegação do editor: os quatro do Figma e o
+ *  "Por template" (escolher uma família inteira, utils/templatesCompletos.ts). */
 export type RailTarget =
+  | 'templates'
   | 'componentes'
   | 'variaveis'
   | 'tipografia'
@@ -843,6 +849,31 @@ export function useLayoutGenerator() {
     }
   };
 
+  /**
+   * "Por template": troca TODAS as seções da loja pela família inteira, em todas
+   * as páginas, e leva o usuário para "Componentes" na home — dali ele troca
+   * qualquer peça como antes. Com seções já escolhidas pede confirmação (o undo
+   * desfaz, mas o usuário pode não saber disso). Cores, fontes e variáveis
+   * globais não mudam. Devolve false se o usuário cancelou.
+   */
+  const aplicarTemplate = (t: TemplateCompleto): boolean => {
+    if (
+      lojaSelections.length > 0 &&
+      !window.confirm(
+        `Aplicar o template ${t.nome}?\n\nAs ${lojaSelections.length} seções ` +
+          `escolhidas hoje serão substituídas pelas ${t.itens.length} peças do ` +
+          `template, em todas as páginas. Cores e fontes não mudam.`
+      )
+    ) {
+      return false;
+    }
+    setLojaSelections(selecoesDoTemplate(t));
+    setSelectedUid(null);
+    setSelectedPage('home');
+    setRailTarget('componentes');
+    return true;
+  };
+
   const toggleSelection = (
     id: string,
     layoutKey: LayoutKey,
@@ -1596,6 +1627,7 @@ export function useLayoutGenerator() {
     toggleMobileView,
     changePlatform,
     toggleSelection,
+    aplicarTemplate,
     exportLayout,
     exportFeedback,
     dismissExportFeedback,

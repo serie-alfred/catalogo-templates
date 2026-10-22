@@ -5,6 +5,7 @@ import {
   Palette,
   SquarePen,
   Component,
+  LayoutTemplate,
   ShoppingCart,
 } from 'lucide-react';
 
@@ -47,6 +48,13 @@ const ITEMS: { target: RailTarget; label: string; icon: React.ReactNode }[] = [
     label: 'Identidade visual',
     icon: <Component width={20} height={20} />,
   },
+  // Depois dos quatro do Figma, para não mexer nas coordenadas que o estágio
+  // 2-geometria mede. Escolhe uma família inteira (utils/templatesCompletos.ts).
+  {
+    target: 'templates',
+    label: 'Por template',
+    icon: <LayoutTemplate width={20} height={20} />,
+  },
 ];
 
 export default function EditorRail({ className }: { className?: string }) {
@@ -55,10 +63,13 @@ export default function EditorRail({ className }: { className?: string }) {
   const noCheckout = editorMode === 'checkout';
   const naLp = editorMode === 'lp';
   const temLp = plataformaTemLp(platform);
-  // No checkout a estrutura é fixa: não há seção para compor.
-  const itens = noCheckout
-    ? ITEMS.filter(i => i.target !== 'componentes')
-    : ITEMS;
+  // No checkout a estrutura é fixa: não há seção para compor. "Por template"
+  // monta a LOJA inteira, então some no checkout e na LP.
+  const itens = ITEMS.filter(
+    i =>
+      !(noCheckout && i.target === 'componentes') &&
+      !((noCheckout || naLp) && i.target === 'templates')
+  );
 
   return (
     <nav
@@ -76,6 +87,7 @@ export default function EditorRail({ className }: { className?: string }) {
           aria-label={label}
           title={label}
           aria-current={railTarget === target ? 'page' : undefined}
+          data-rail-target={target}
           onClick={() => setRailTarget(target)}
         >
           {icon}

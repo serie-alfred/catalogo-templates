@@ -1,0 +1,99 @@
+/* Mesmo vocabulário dos cards do seletor de seções (SelectSectionItem): borda
+   bg-02, sombra de card, raio 12, contorno azul no selecionado. Nada de
+   transform aqui: o painel esquerdo não pode virar containing block (ver o
+   CLAUDE.md, "Nothing in the left panel may have transform"). */
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.hint {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ed-gray-500);
+}
+
+.vazio {
+  padding: 16px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid var(--ed-bg-02);
+  border-radius: 12px;
+  background: var(--ed-bg-00);
+  box-shadow: var(--ed-shadow-card);
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  transition: box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.ativo {
+  outline: 2px solid var(--ed-blue-600);
+  outline-offset: -2px;
+}
+
+/* Mosaico 2×2 na proporção das thumbs (744×401): header, banner principal,
+   vitrine e footer da família. */
+.mosaico {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2px;
+  background: var(--ed-bg-02);
+}
+
+.mosaico img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 744 / 401;
+  object-fit: cover;
+  background: var(--ed-bg-01);
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+}
+
+.ativo .info {
+  background: var(--ed-blue-50);
+}
+
+.nome {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ed-gray-800);
+}
+
+.pecas {
+  font-size: 12px;
+  color: var(--ed-gray-400);
+  white-space: nowrap;
+}
