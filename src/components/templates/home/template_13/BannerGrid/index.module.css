@@ -1,0 +1,172 @@
+/* Espelha molecules/BannerGrid13 (faststore.starter, família 13): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.bannerGrid13Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.bannerGrid13 {
+  width: 100%;
+  background-color: var(--banner-grid-bg, #0d0d0d);
+  color: var(--banner-grid-text, #f4f4f0);
+  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bannerGrid13 *,
+.bannerGrid13 *::before,
+.bannerGrid13 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.bannerGrid13 :where(ul) {
+  margin: 0;
+  list-style: none;
+}
+.bannerGrid13 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.bannerGrid13 :where(a):hover {
+  opacity: 0.85;
+}
+.bannerGrid13 :where(a):focus-visible {
+  outline: 2px solid var(--banner-grid-accent, #c8ff2e);
+  outline-offset: 2px;
+}
+.bannerGrid13 svg,
+.bannerGrid13 img {
+  display: block;
+  flex: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  align-items: start;
+  gap: 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px clamp(16px, 3vw, 40px);
+}
+
+.item {
+  display: flex;
+}
+.item:nth-child(3n+1) .card {
+  background-color: #1e1e1e;
+}
+.item:nth-child(3n+2) .card {
+  background-color: #262626;
+}
+.item:nth-child(3n+3) .card {
+  background-color: #222222;
+}
+
+@container (min-width: 961px) {
+  .item:nth-child(3n+2) {
+    margin-top: 80px;
+  }
+}
+.card {
+  position: relative;
+  display: block;
+  flex: 1;
+  min-height: 560px;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.art {
+  position: absolute;
+  inset: 0;
+}
+.art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.copy {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.eyebrow {
+  color: var(--banner-grid-accent, #c8ff2e);
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.title {
+  color: var(--banner-grid-title-color, #f4f4f0);
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 72px;
+  font-weight: 800;
+  line-height: 0.85;
+  text-transform: uppercase;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.arrow {
+  width: 18px;
+  height: 18px;
+}
+
+@container (max-width: 960px) {
+  .grid {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 32px 16px;
+  }
+  .card {
+    height: 360px;
+    min-height: 0;
+  }
+  .copy {
+    right: 18px;
+    bottom: 18px;
+    left: 18px;
+    gap: 8px;
+  }
+  .eyebrow {
+    font-size: 16px;
+  }
+  .title {
+    font-size: 56px;
+  }
+  .cta {
+    min-height: 32px;
+    font-size: 17px;
+  }
+  .arrow {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.bannerGrid13Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

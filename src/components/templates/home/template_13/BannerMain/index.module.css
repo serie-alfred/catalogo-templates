@@ -1,0 +1,304 @@
+/* Espelha organisms/BannerMain13 (faststore.starter, família 13): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.bannerMain13Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.bannerMain13 {
+  position: relative;
+  width: 100%;
+  min-height: 680px;
+  overflow: hidden;
+  background-color: var(--banner-main-bg, #0d0d0d);
+  color: var(--banner-main-text, #f4f4f0);
+  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bannerMain13 *,
+.bannerMain13 *::before,
+.bannerMain13 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.bannerMain13 :where(h2, p) {
+  margin: 0;
+}
+.bannerMain13 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.bannerMain13 :where(a):hover {
+  opacity: 0.85;
+}
+.bannerMain13 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.bannerMain13 :where(a, button):focus-visible {
+  outline: 2px solid var(--banner-main-button-bg, #c8ff2e);
+  outline-offset: 2px;
+}
+.bannerMain13 svg,
+.bannerMain13 img {
+  display: block;
+  flex: none;
+}
+
+.art {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 36%;
+  display: block;
+  background-color: #1e1e1e;
+}
+.art picture,
+.art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  max-width: 1280px;
+  min-height: 680px;
+  margin: 0 auto;
+  padding: 56px clamp(16px, 3vw, 40px) 40px;
+  pointer-events: none;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 760px;
+  pointer-events: auto;
+}
+
+.eyebrow {
+  align-self: flex-start;
+  padding: 6px 10px;
+  background-color: var(--banner-main-button-bg, #c8ff2e);
+  color: var(--banner-main-button-text, #0d0d0d);
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: clamp(96px, 13vw, 196px);
+  font-weight: 800;
+  line-height: 0.82;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.accent {
+  color: var(--banner-main-button-bg, #c8ff2e);
+}
+
+.text {
+  max-width: 420px;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cta,
+.secondary {
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cta {
+  gap: 10px;
+  height: 52px;
+  background-color: var(--banner-main-button-bg, #c8ff2e);
+  color: var(--banner-main-button-text, #0d0d0d);
+}
+
+.secondary {
+  height: 54px;
+  border: 1px solid var(--banner-main-text, #f4f4f0);
+  background-color: var(--banner-main-bg, #0d0d0d);
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  pointer-events: auto;
+}
+
+.counter {
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.counterTotal {
+  color: color-mix(in srgb, var(--banner-main-text, #f4f4f0) 64%, var(--banner-main-bg, #0d0d0d));
+}
+
+.segments {
+  display: flex;
+  gap: 6px;
+  width: 240px;
+}
+
+.segmentBtn {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  height: 44px;
+  margin: -20px 0;
+}
+
+.segment {
+  display: block;
+  width: 100%;
+  height: 3px;
+  background-color: color-mix(in srgb, var(--banner-main-text, #f4f4f0) 16%, var(--banner-main-bg, #0d0d0d));
+}
+
+.segmentOn {
+  background-color: var(--banner-main-button-bg, #c8ff2e);
+}
+
+.arrows {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.prev,
+.next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.prev {
+  width: 52px;
+  height: 52px;
+  border: 1px solid var(--banner-main-text, #f4f4f0);
+  background-color: var(--banner-main-bg, #0d0d0d);
+}
+
+.next {
+  width: 52px;
+  height: 52px;
+  background-color: var(--banner-main-button-bg, #c8ff2e);
+  color: var(--banner-main-button-text, #0d0d0d);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bannerMain13 * {
+    transition: none !important;
+  }
+}
+@container (max-width: 960px) {
+  .bannerMain13 {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: visible;
+  }
+  .art {
+    position: relative;
+    inset: auto;
+    height: 340px;
+  }
+  .inner {
+    position: static;
+    gap: 14px;
+    min-height: 0;
+    padding: 20px 16px 28px;
+  }
+  .copy {
+    gap: 14px;
+    max-width: none;
+  }
+  .eyebrow {
+    position: absolute;
+    top: 14px;
+    left: 16px;
+    padding: 5px 8px;
+    font-size: 13px;
+  }
+  .title {
+    font-size: 96px;
+    letter-spacing: normal;
+  }
+  .text {
+    max-width: none;
+    font-size: 16px;
+  }
+  .actions {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .cta,
+  .secondary {
+    justify-content: center;
+  }
+  .secondary {
+    background-color: transparent;
+  }
+  .nav {
+    flex-wrap: nowrap;
+    gap: 14px;
+    margin-top: 8px;
+  }
+  .counter {
+    font-size: 20px;
+    letter-spacing: normal;
+  }
+  .segments {
+    flex: 1;
+    width: auto;
+  }
+  .arrows {
+    display: none;
+  }
+}
+
+.bannerMain13Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

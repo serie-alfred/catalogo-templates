@@ -1,0 +1,201 @@
+/* Espelha organisms/HelpFloatButton13 (faststore.starter, família 13): o SCSS compilado com o sass,
+   com o @media mantido (overlay fixo na viewport).
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.helpFloatButton13 {
+  color: var(--help-text, #f4f4f0);
+  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.helpFloatButton13 *,
+.helpFloatButton13 *::before,
+.helpFloatButton13 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.helpFloatButton13 :where(h2) {
+  margin: 0;
+}
+.helpFloatButton13 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.helpFloatButton13 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.helpFloatButton13 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.helpFloatButton13 :where(a, button):focus-visible {
+  outline: 2px solid var(--help-header-bg, #c8ff2e);
+  outline-offset: -2px;
+}
+.helpFloatButton13 svg {
+  display: block;
+  flex: none;
+}
+
+.toggle {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background-color: var(--help-header-bg, #c8ff2e);
+  color: var(--help-header-text, #0d0d0d);
+}
+.toggle:hover {
+  opacity: 0.9;
+}
+.toggle:focus-visible {
+  outline: 2px solid var(--help-text, #f4f4f0);
+  outline-offset: 2px;
+}
+
+.backdrop {
+  display: none;
+}
+
+.panel {
+  position: fixed;
+  right: 24px;
+  bottom: 100px;
+  z-index: 1500;
+  width: 340px;
+  border: 1px solid color-mix(in srgb, var(--help-text, #f4f4f0) 16%, var(--help-bg, #171717));
+  background-color: var(--help-bg, #171717);
+  color: var(--help-text, #f4f4f0);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--help-text, #f4f4f0) 16%, var(--help-bg, #171717));
+}
+
+.headText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.schedule {
+  color: color-mix(in srgb, var(--help-text, #f4f4f0) 64%, var(--help-bg, #171717));
+  font-size: 13px;
+}
+
+.close {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid color-mix(in srgb, var(--help-text, #f4f4f0) 16%, var(--help-bg, #171717));
+}
+
+.list {
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.list li:not(:last-child) .item:not(.highlight) {
+  min-height: 57px;
+  border-bottom: 1px solid color-mix(in srgb, var(--help-text, #f4f4f0) 16%, var(--help-bg, #171717));
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 0 20px;
+}
+
+a.item:hover {
+  opacity: 0.8;
+}
+
+.label {
+  flex: 1;
+}
+
+.highlight {
+  background-color: var(--help-header-bg, #c8ff2e);
+  color: var(--help-header-text, #0d0d0d);
+}
+
+@media (max-width: 960px) {
+  .toggle {
+    right: 16px;
+    bottom: 16px;
+    width: 60px;
+    height: 60px;
+  }
+  .question {
+    width: 28px;
+    height: 28px;
+  }
+  .open .backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1400;
+    display: block;
+    background-color: rgba(0, 0, 0, 0.55);
+  }
+  .panel {
+    right: 16px;
+    bottom: 96px;
+    left: 16px;
+    width: auto;
+  }
+  .head {
+    padding: 16px 12px 14px 16px;
+  }
+  .title {
+    font-size: 28px;
+  }
+  .close {
+    width: 44px;
+    height: 44px;
+    border: 0;
+  }
+  .list {
+    font-size: 17px;
+  }
+  .item {
+    padding: 0 16px;
+  }
+  .helpFloatButton13 .arrow {
+    display: none;
+  }
+}
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

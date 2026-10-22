@@ -1,0 +1,310 @@
+/* Espelha organisms/Editorial13 (faststore.starter, família 13): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.editorial13Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.editorial13 {
+  width: 100%;
+  background-color: var(--editorial-bg, #0d0d0d);
+  color: var(--editorial-text, #f4f4f0);
+  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.editorial13 *,
+.editorial13 *::before,
+.editorial13 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.editorial13 :where(h2) {
+  margin: 0;
+}
+.editorial13 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.editorial13 :where(a):hover {
+  opacity: 0.85;
+}
+.editorial13 :where(a):focus-visible {
+  outline: 2px solid var(--editorial-accent, #c8ff2e);
+  outline-offset: 2px;
+}
+.editorial13 svg,
+.editorial13 img {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.title {
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 96px;
+  font-weight: 800;
+  line-height: 0.8;
+  text-transform: uppercase;
+}
+
+.viewAll {
+  padding-top: 10px;
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.viewAll span {
+  display: block;
+  padding-bottom: 4px;
+  border-bottom: 2px solid var(--editorial-accent, #c8ff2e);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr));
+  gap: 16px;
+}
+
+.feature {
+  position: relative;
+  display: block;
+  grid-column: span 2;
+  min-height: 540px;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.featureArt,
+.storyArt {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 2px;
+}
+.featureArt picture,
+.featureArt img,
+.storyArt picture,
+.storyArt img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featureArt {
+  position: absolute;
+  inset: 0;
+  background-color: #1e1e1e;
+}
+
+.featureCopy {
+  position: absolute;
+  right: 28px;
+  bottom: 28px;
+  left: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.featureEyebrow,
+.storyEyebrow {
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.featureEyebrow {
+  color: var(--editorial-accent, #c8ff2e);
+  font-size: 15px;
+}
+
+.featureTitle {
+  max-width: 640px;
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.featureLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.arrow {
+  width: 18px;
+  height: 18px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.story {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 12px;
+}
+.story + .story {
+  padding-top: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--editorial-text, #f4f4f0) 16%, var(--editorial-bg, #0d0d0d));
+}
+.story:nth-child(2n+1) .storyArt {
+  background-color: #2b2b2b;
+}
+.story:nth-child(2n+2) .storyArt {
+  background-color: #222222;
+}
+
+.storyArt {
+  flex: 1;
+  min-height: 170px;
+}
+
+.storyCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.storyEyebrow {
+  color: color-mix(in srgb, var(--editorial-text, #f4f4f0) 64%, var(--editorial-bg, #0d0d0d));
+  font-size: 14px;
+}
+
+.storyTitle {
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 20px;
+    padding: 32px 16px;
+  }
+  .head {
+    flex-wrap: nowrap;
+    gap: 12px;
+  }
+  .title {
+    font-size: 64px;
+  }
+  .title {
+    flex: none;
+  }
+  .viewAll {
+    display: flex;
+    flex: 0 1 auto;
+    align-items: flex-end;
+    justify-content: flex-end;
+    min-width: 0;
+    min-height: 44px;
+    padding-top: 0;
+    font-size: 16px;
+    text-align: right;
+  }
+  .viewAll span {
+    padding-bottom: 2px;
+  }
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .feature {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0;
+    overflow: visible;
+  }
+  .featureArt {
+    position: relative;
+    inset: auto;
+    height: 260px;
+  }
+  .featureCopy {
+    position: static;
+  }
+  .featureEyebrow {
+    font-size: 14px;
+  }
+  .featureTitle {
+    max-width: none;
+    font-size: 36px;
+  }
+  .featureLink {
+    min-height: 32px;
+    font-size: 17px;
+  }
+  .arrow {
+    width: 16px;
+    height: 16px;
+  }
+  .list {
+    gap: 20px;
+  }
+  .story {
+    flex-direction: row;
+    gap: 14px;
+    padding-top: 16px;
+    border-top: 1px solid color-mix(in srgb, var(--editorial-text, #f4f4f0) 16%, var(--editorial-bg, #0d0d0d));
+  }
+  .storyArt {
+    flex: none;
+    width: 128px;
+    height: 128px;
+    min-height: 0;
+  }
+  .storyCopy {
+    gap: 8px;
+  }
+  .storyEyebrow {
+    font-size: 13px;
+  }
+  .storyTitle {
+    font-size: 22px;
+  }
+}
+
+.editorial13Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

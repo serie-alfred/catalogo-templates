@@ -1,0 +1,221 @@
+/* Espelha molecules/Categories13 (faststore.starter, família 13): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categories13Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categories13 {
+  width: 100%;
+  background-color: var(--categories-bg, #0d0d0d);
+  color: var(--categories-text, #f4f4f0);
+  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categories13 *,
+.categories13 *::before,
+.categories13 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.categories13 :where(h2) {
+  margin: 0;
+}
+.categories13 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.categories13 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.categories13 :where(a):hover {
+  opacity: 0.85;
+}
+.categories13 :where(a):focus-visible {
+  outline: 2px solid var(--categories-accent, #c8ff2e);
+  outline-offset: 2px;
+}
+.categories13 svg,
+.categories13 img {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.title {
+  color: var(--categories-title-color, #f4f4f0);
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 52px;
+  font-weight: 800;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.viewAll {
+  padding-top: 10px;
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.viewAll span {
+  display: block;
+  padding-bottom: 4px;
+  border-bottom: 2px solid var(--categories-accent, #c8ff2e);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 12px;
+}
+
+.item {
+  display: flex;
+}
+.item:nth-child(4n+1) .card {
+  background-color: #1e1e1e;
+}
+.item:nth-child(4n+2) .card {
+  background-color: #262626;
+}
+.item:nth-child(4n+3) .card {
+  background-color: #2b2b2b;
+}
+.item:nth-child(4n+4) .card {
+  background-color: #222222;
+}
+
+.card {
+  position: relative;
+  display: block;
+  flex: 1;
+  min-height: 320px;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.name {
+  position: absolute;
+  bottom: 16px;
+  left: 20px;
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 56px;
+  font-weight: 800;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.arrow {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background-color: var(--categories-accent, #c8ff2e);
+  color: var(--categories-bg, #0d0d0d);
+}
+.arrow svg {
+  width: 22px;
+  height: 22px;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 18px;
+    padding: 32px 0;
+  }
+  .head {
+    flex-wrap: nowrap;
+    gap: 12px;
+    padding: 0 16px;
+  }
+  .title {
+    font-size: 36px;
+  }
+  .viewAll {
+    display: flex;
+    flex: none;
+    align-items: flex-end;
+    min-height: 44px;
+    padding-top: 0;
+    font-size: 16px;
+  }
+  .viewAll span {
+    padding-bottom: 2px;
+  }
+  .list {
+    display: flex;
+    gap: 10px;
+    padding: 0 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 16px;
+    scrollbar-width: none;
+  }
+  .list::-webkit-scrollbar {
+    display: none;
+  }
+  .item {
+    flex: none;
+    scroll-snap-align: start;
+  }
+  .card {
+    width: 250px;
+    height: 300px;
+    min-height: 0;
+  }
+  .name {
+    bottom: 12px;
+    left: 14px;
+    font-size: 42px;
+  }
+  .arrow {
+    right: 12px;
+    bottom: 12px;
+    width: 44px;
+    height: 44px;
+  }
+  .arrow svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.categories13Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

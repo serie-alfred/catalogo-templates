@@ -1,0 +1,164 @@
+/* Espelha organisms/CategoryTitle13 (faststore.starter, família 13): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categoryTitle13Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categoryTitle13 {
+  width: 100%;
+  border-bottom: 1px solid color-mix(in srgb, var(--cat-title-text, #f4f4f0) 16%, var(--cat-title-bg, #0d0d0d));
+  background-color: var(--cat-title-bg, #0d0d0d);
+  color: var(--cat-title-text, #f4f4f0);
+  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categoryTitle13 *,
+.categoryTitle13 *::before,
+.categoryTitle13 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.categoryTitle13 :where(h1, p) {
+  margin: 0;
+}
+.categoryTitle13 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.categoryTitle13 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.categoryTitle13 :where(a):hover {
+  opacity: 0.85;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px clamp(16px, 3vw, 40px) 44px;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 20px;
+}
+
+.title {
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: clamp(96px, 12vw, 168px);
+  font-weight: 800;
+  line-height: 0.78;
+  text-transform: uppercase;
+}
+
+.count {
+  padding-bottom: 6px;
+  color: var(--cat-title-accent, #c8ff2e);
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chips {
+  margin-top: 8px;
+}
+
+.chipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 46px;
+  padding: 0 18px;
+  border: 1px solid var(--cat-title-text, #f4f4f0);
+}
+.chip:focus-visible {
+  outline: 2px solid var(--cat-title-accent, #c8ff2e);
+  outline-offset: 2px;
+}
+
+.chipQty {
+  color: color-mix(in srgb, var(--cat-title-text, #f4f4f0) 64%, var(--cat-title-bg, #0d0d0d));
+  font-weight: 700;
+}
+
+.chipActive {
+  border-color: var(--cat-title-accent, #c8ff2e);
+  background-color: var(--cat-title-accent, #c8ff2e);
+  color: var(--cat-title-bg, #0d0d0d);
+}
+.chipActive .chipQty {
+  color: inherit;
+}
+
+@container (max-width: 960px) {
+  .categoryTitle13 {
+    overflow: hidden;
+  }
+  .inner {
+    gap: 14px;
+    padding: 28px 0 24px;
+  }
+  .head {
+    flex-wrap: nowrap;
+    gap: 12px;
+    padding: 0 16px;
+  }
+  .title {
+    font-size: 88px;
+  }
+  .count {
+    padding-bottom: 4px;
+    font-size: 16px;
+  }
+  .chips {
+    margin-top: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+  .chipList {
+    flex-wrap: nowrap;
+    width: max-content;
+    padding: 0 16px;
+    font-size: 16px;
+    white-space: nowrap;
+  }
+  .chipItem {
+    flex: none;
+  }
+  .chip {
+    gap: 6px;
+    padding: 0 14px;
+  }
+}
+
+.categoryTitle13Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

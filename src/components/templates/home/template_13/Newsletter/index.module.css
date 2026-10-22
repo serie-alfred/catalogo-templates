@@ -1,0 +1,193 @@
+/* Espelha organisms/Newsletter13 (faststore.starter, família 13): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.newsletter13Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.newsletter13 {
+  width: 100%;
+  background-color: var(--newsletter-bg, #c8ff2e);
+  color: var(--newsletter-title-color, #0d0d0d);
+  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.newsletter13 *,
+.newsletter13 *::before,
+.newsletter13 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.newsletter13 :where(h2, p) {
+  margin: 0;
+}
+.newsletter13 :where(a) {
+  color: inherit;
+}
+.newsletter13 :where(a, button, input):focus-visible {
+  outline: 2px solid var(--newsletter-title-color, #0d0d0d);
+  outline-offset: 2px;
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px 56px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 56px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex: 1 1 520px;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.title {
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: clamp(72px, 9vw, 136px);
+  font-weight: 800;
+  line-height: 0.82;
+  text-transform: uppercase;
+}
+
+.text {
+  max-width: 460px;
+  color: var(--newsletter-desc-color, #0d0d0d);
+  font-size: 19px;
+  line-height: 1.45;
+}
+
+.form {
+  display: flex;
+  flex: 0 1 460px;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.input {
+  width: 100%;
+  height: 52px;
+  margin: 0;
+  padding: 0 16px;
+  border: 2px solid var(--newsletter-title-color, #0d0d0d);
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: var(--newsletter-title-color, #0d0d0d);
+  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+  appearance: none;
+}
+.input::placeholder {
+  color: color-mix(in srgb, var(--newsletter-title-color, #0d0d0d) 64%, var(--newsletter-bg, #c8ff2e));
+  opacity: 1;
+}
+.input:focus-visible {
+  outline: 2px solid var(--newsletter-title-color, #0d0d0d);
+  outline-offset: 2px;
+}
+
+.submit {
+  height: 56px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: var(--newsletter-button-bg, #0d0d0d);
+  color: var(--newsletter-button-text, #c8ff2e);
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.submit:disabled {
+  opacity: 0.7;
+  cursor: default;
+}
+.submit:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.privacy {
+  color: var(--newsletter-desc-color, #0d0d0d);
+  font-size: 14px;
+  line-height: 1.45;
+}
+.privacy a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.feedback {
+  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 16px;
+    padding: 40px 16px;
+  }
+  .head {
+    flex: none;
+    gap: 16px;
+  }
+  .title {
+    font-size: 72px;
+  }
+  .text {
+    max-width: none;
+    font-size: 16px;
+  }
+  .form {
+    flex: none;
+    margin-top: 4px;
+  }
+  .field {
+    font-size: 14px;
+  }
+  .input {
+    padding: 0 14px;
+    font-size: 16px;
+  }
+  .submit {
+    font-size: 20px;
+  }
+  .privacy {
+    font-size: 13px;
+  }
+}
+
+.newsletter13Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

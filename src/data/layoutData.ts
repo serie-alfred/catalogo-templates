@@ -308,6 +308,16 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cart-button-bg", label: "Fundo do botão Finalizar compra", type: "color", default: "#7a2e5f", group: "Mini-carrinho", inheritsLabel: "cor primária da marca", previewNote: "Aparece com o mini-carrinho aberto." },
         { cssVar: "--cart-button-text", label: "Texto do botão Finalizar compra", type: "color", default: "#ffffff", group: "Mini-carrinho", inheritsLabel: "cor de texto base", previewNote: "Aparece com o mini-carrinho aberto." },
       ] },
+      { id: "13", selection: "header", key: "hdr13ntr4k2p", image: "header/Header13.webp", imageSource: "auto", mobile: "", title: "Header Template 13", description: "Fita verde com as mensagens em condensada maiúscula separadas por asteriscos; embaixo, a barra preta com a marca (a barra em verde), o menu em condensada (o item com marcador ganha o sublinhado verde e o destaque sai em verde), busca, favoritos, conta e a \"Bag (N)\" no bloco verde. No mobile, menu, marca, busca e \"(N)\"; o menu abre a tela inteira com a lista grande e, no pé, conta, favoritos e ajuda", template: "13", pagina: ["common"], component: "Header13", path: "organisms/Header13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--header-bg", label: "Fundo da barra", type: "color", default: "#0d0d0d", group: "Header" },
+        { cssVar: "--header-text", label: "Texto e ícones", type: "color", default: "#f4f4f0", group: "Header" },
+        { cssVar: "--header-accent", label: "Destaque (bag, marcador e item em destaque)", type: "color", default: "#c8ff2e", group: "Destaque" },
+        { cssVar: "--header-topbar-bg", label: "Fundo da fita", type: "color", default: "#c8ff2e", group: "Fita" },
+        { cssVar: "--header-topbar-text", label: "Texto da fita", type: "color", default: "#0d0d0d", group: "Fita" },
+        { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#f4f4f0", group: "Mini-carrinho", previewNote: "Aparece com o mini-carrinho aberto." },
+        { cssVar: "--cart-button-bg", label: "Fundo do botão Finalizar compra", type: "color", default: "#c8ff2e", group: "Mini-carrinho", previewNote: "Aparece com o mini-carrinho aberto." },
+        { cssVar: "--cart-button-text", label: "Texto do botão Finalizar compra", type: "color", default: "#0d0d0d", group: "Mini-carrinho", previewNote: "Aparece com o mini-carrinho aberto." },
+      ] },
     ],
   },
   spot: {
@@ -377,6 +387,13 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--spot-btn-bg", label: "Fundo do botão Adicionar (e estrelas)", type: "color", default: "#7a2e5f", group: "Botão", inheritsLabel: "cor primária da marca" },
         { cssVar: "--spot-btn-text", label: "Texto do botão Adicionar", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base" },
       ] },
+      { id: "13", selection: "spot", key: "crdprd13nt6w", image: "spot/Spot13.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 13", description: "Sem caixa: a foto 4:5 em grafite com o rótulo verde da vitrine e o coração solto no canto; o nome em condensada maiúscula, o preço grande e a parcela apagada. No hover a foto clareia, ganha o contorno verde e a barra \"Comprar\" sobe no pé dela. Esgotado com o carimbo entre filetes no centro da foto e \"Me avise\" com borda; no mobile, \"Comprar\" vira o botão largo abaixo do preço", template: "13", pagina: ["common"], component: "Spot13", path: "molecules/ProductCard13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--spot-text", label: "Texto do card", type: "color", default: "#f4f4f0", group: "Card" },
+        { cssVar: "--spot-tag-bg", label: "Fundo do rótulo", type: "color", default: "#c8ff2e", group: "Rótulo" },
+        { cssVar: "--spot-tag-text", label: "Texto do rótulo", type: "color", default: "#0d0d0d", group: "Rótulo" },
+        { cssVar: "--spot-btn-bg", label: "Fundo do botão Comprar", type: "color", default: "#c8ff2e", group: "Botão" },
+        { cssVar: "--spot-btn-text", label: "Texto do botão Comprar", type: "color", default: "#0d0d0d", group: "Botão" },
+      ] },
     ],
   },
   breadcrumb: {
@@ -401,6 +418,11 @@ export const LAYOUTS: Layouts = {
       { id: "12", selection: "breadcrumb", key: "bred12suv7d4", image: "breadcrumb/Breadcrumb12.webp", imageSource: "auto", mobile: "", title: "Breadcrumb Template 12", description: "Pílula branca com filete: \"Início\" com a casinha, os níveis separados por pontos rosados e o nível atual numa pílula rosada; à direita, \"Voltar\". No mobile, só a casinha, a trilha numa linha e sem o \"Voltar\"", template: "12", pagina: ["common"], component: "Breadcrumb12", path: "overrides/Breadcrumb12", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["secondary"], variablesSchema: [
         { cssVar: "--breadcrumb-text", label: "Texto da trilha", type: "color", default: "#3b1f33", group: "Trilha", inheritsLabel: "cor de texto primária" },
         { cssVar: "--breadcrumb-accent", label: "Pontos e pílula do nível atual", type: "color", default: "#f4dcd6", group: "Trilha", inheritsLabel: "cor secundária da marca" },
+      ] },
+      { id: "13", selection: "breadcrumb", key: "bred13ntr8c5", image: "breadcrumb/Breadcrumb13.webp", imageSource: "auto", mobile: "", title: "Breadcrumb Template 13", description: "Faixa preta com filete embaixo e a trilha em condensada maiúscula: \"Início\" e os níveis apagados, separados pela \"/\" verde, e o nível atual em texto cheio sublinhado de verde; no mobile, uma linha só que rola de lado", template: "13", pagina: ["common"], component: "Breadcrumb13", path: "overrides/Breadcrumb13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--breadcrumb-bg", label: "Fundo da trilha", type: "color", default: "#0d0d0d", group: "Trilha" },
+        { cssVar: "--breadcrumb-text", label: "Texto da trilha", type: "color", default: "#f4f4f0", group: "Trilha" },
+        { cssVar: "--breadcrumb-accent", label: "Separadores", type: "color", default: "#c8ff2e", group: "Trilha" },
       ] },
     ],
   },
@@ -495,6 +517,11 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-button-bg", label: "Fundo do botão WhatsApp", type: "color", default: "#7a2e5f", group: "Botão", inheritsLabel: "cor primária da marca" },
         { cssVar: "--footer-button-text", label: "Texto do botão WhatsApp", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base" },
       ] },
+      { id: "13", selection: "footer", key: "ftr13ntr3q7m", image: "footer/Footer13.webp", imageSource: "auto", mobile: "", title: "Footer Template 13", description: "No topo, as redes em letras gigantes de condensada com a seta em verde, uma por coluna entre filetes; abaixo, a marca com o texto da loja, as colunas de links com título em verde e o atendimento; no pé, as formas de pagamento em etiquetas com filete e o copyright. No mobile, as redes em grade 2 × 2 e as colunas em acordeão", template: "13", pagina: ["common"], component: "Footer13", path: "organisms/Footer13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#0d0d0d", group: "Rodapé" },
+        { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#f4f4f0", group: "Rodapé" },
+        { cssVar: "--footer-accent", label: "Destaque (setas e títulos)", type: "color", default: "#c8ff2e", group: "Rodapé" },
+      ] },
     ],
   },
 
@@ -528,6 +555,11 @@ export const LAYOUTS: Layouts = {
       { id: "12", selection: "brands", key: "mar12suv6g9p", image: "brand/Brand12.webp", imageSource: "auto", mobile: "", title: "Marcas Template 12", description: "Título em serifa e as marcas em pílulas brancas com filete, em logo ou no nome em grafias diferentes; no mobile, pílulas rolando de lado", template: "12", pagina: ["home"], component: "Brand12", path: "molecules/Brands12", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--brands-bg", label: "Fundo da seção", type: "color", default: "#fbf6f3", group: "Marcas" },
         { cssVar: "--brands-text", label: "Texto das marcas", type: "color", default: "#3b1f33", group: "Marcas", inheritsLabel: "cor de texto primária" },
+      ] },
+      { id: "13", selection: "brands", key: "mar13ntr9a5c", image: "brand/Brand13.webp", imageSource: "auto", mobile: "", title: "Marcas Template 13", description: "Cabeça em linha com o título em condensada e \"Ver todas\" sublinhado em verde; as marcas numa grade de células com filete, o nome em condensada maiúscula ou o logo, seis por linha (duas no mobile); no hover a célula enche de verde", template: "13", pagina: ["home"], component: "Brand13", path: "molecules/Brands13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--brands-bg", label: "Fundo da seção", type: "color", default: "#0d0d0d", group: "Marcas" },
+        { cssVar: "--brands-text", label: "Texto das marcas", type: "color", default: "#f4f4f0", group: "Marcas" },
+        { cssVar: "--brands-accent", label: "Destaque (link e hover)", type: "color", default: "#c8ff2e", group: "Marcas" },
       ] },
     ],
   },
@@ -580,6 +612,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--categories-text", label: "Nomes das categorias", type: "color", default: "#3b1f33", group: "Categorias", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-accent", label: "Destaque (anel e selo)", type: "color", default: "#7a2e5f", group: "Categorias", inheritsLabel: "cor primária da marca" },
       ] },
+      { id: "13", selection: "categories", key: "cat13ntr5n3j", image: "categories/Categories13.webp", imageSource: "auto", mobile: "", title: "Categorias Template 13", description: "Cabeça em linha com o título em condensada e \"Ver tudo\" sublinhado em verde; as categorias em blocos grafite altos com o nome gigante no canto e o quadrado verde com a seta; quatro por linha e, no mobile, os blocos rolando de lado", template: "13", pagina: ["home"], component: "Categories13", path: "molecules/Categories13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--categories-bg", label: "Fundo da seção", type: "color", default: "#0d0d0d", group: "Categorias" },
+        { cssVar: "--categories-title-color", label: "Título da seção", type: "color", default: "#f4f4f0", group: "Categorias" },
+        { cssVar: "--categories-text", label: "Nomes das categorias", type: "color", default: "#f4f4f0", group: "Categorias" },
+        { cssVar: "--categories-accent", label: "Destaque (link e seta)", type: "color", default: "#c8ff2e", group: "Categorias" },
+      ] },
     ],
   },
   banner: {
@@ -626,6 +664,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--banner-main-button-bg", label: "Fundo do botão", type: "color", default: "#7a2e5f", group: "Botão", inheritsLabel: "cor primária da marca" },
         { cssVar: "--banner-main-button-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base" },
       ] },
+      { id: "13", selection: "banner-main", key: "ban13ntr9p4s", image: "banner/BannerMain13.webp", imageSource: "auto", mobile: "", title: "Banner Template 13", description: "A arte ocupa a direita sobre o preto; à esquerda o selo verde, o título gigante em condensada com a palavra de destaque em verde, o texto, o CTA verde com seta e o botão com filete; no pé, o contador \"1/3\", a régua de segmentos e as setas. No mobile, a arte no topo com o selo, os dois botões largos e o contador com a régua", template: "13", pagina: ["home"], component: "BannerMain13", path: "organisms/BannerMain13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--banner-main-bg", label: "Fundo do banner", type: "color", default: "#0d0d0d", group: "Banner" },
+        { cssVar: "--banner-main-text", label: "Texto do banner", type: "color", default: "#f4f4f0", group: "Banner" },
+        { cssVar: "--banner-main-button-bg", label: "Fundo do botão (e destaque)", type: "color", default: "#c8ff2e", group: "Botão" },
+        { cssVar: "--banner-main-button-text", label: "Texto do botão", type: "color", default: "#0d0d0d", group: "Botão" },
+      ] },
     ],
   },
   ruler: {
@@ -670,6 +714,11 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--ruler-text", label: "Texto da régua", type: "color", default: "#3b1f33", group: "Régua", inheritsLabel: "cor de texto primária" },
         { cssVar: "--ruler-icon", label: "Ícones", type: "color", default: "#3b1f33", group: "Régua", inheritsLabel: "cor de texto primária" },
       ] },
+      { id: "13", selection: "ruler", key: "bnf13ntr1h8z", image: "ruler/Ruler13.webp", imageSource: "auto", mobile: "", title: "Régua Template 13", description: "Faixa preta entre filetes com os benefícios em condensada maiúscula, cada um com o ícone de traço, separados pelo asterisco verde; no mobile, uma linha só que rola de lado", template: "13", pagina: ["home"], component: "Ruler13", path: "molecules/BenefitsStrip13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--ruler-bg", label: "Fundo da régua", type: "color", default: "#0d0d0d", group: "Régua" },
+        { cssVar: "--ruler-text", label: "Texto da régua", type: "color", default: "#f4f4f0", group: "Régua" },
+        { cssVar: "--ruler-icon", label: "Ícones e asteriscos", type: "color", default: "#c8ff2e", group: "Régua" },
+      ] },
     ],
   },
   grid: {
@@ -705,6 +754,12 @@ export const LAYOUTS: Layouts = {
       { id: "12", selection: "banner-grid", key: "grd12suv8c4m", image: "grid/BannerGrid12.webp", imageSource: "auto", mobile: "", title: "Grid de banners Template 12", description: "Três cartões pastel lado a lado (o do meio mais alto), cada um com chamada em caixa alta, título em serifa, texto, CTA em pílula branca e a arte num arco no pé; no mobile, os cartões empilham", template: "12", pagina: ["home"], component: "BannerGrid12", path: "molecules/BannerGrid12", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--banner-grid-title-color", label: "Títulos", type: "color", default: "#3b1f33", group: "Grid", inheritsLabel: "cor de texto primária" },
         { cssVar: "--banner-grid-text", label: "Texto dos cartões", type: "color", default: "#3b1f33", group: "Grid", inheritsLabel: "cor de texto primária" },
+      ] },
+      { id: "13", selection: "banner-grid", key: "grd13ntr2x6f", image: "grid/BannerGrid13.webp", imageSource: "auto", mobile: "", title: "Grid de banners Template 13", description: "Três banners altos em grafite lado a lado, o do meio deslocado para baixo, cada um com o número em verde, o título gigante em condensada e \"Comprar →\" no pé; no mobile, os três empilhados", template: "13", pagina: ["home"], component: "BannerGrid13", path: "molecules/BannerGrid13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--banner-grid-bg", label: "Fundo da seção", type: "color", default: "#0d0d0d", group: "Grid" },
+        { cssVar: "--banner-grid-title-color", label: "Títulos", type: "color", default: "#f4f4f0", group: "Grid" },
+        { cssVar: "--banner-grid-text", label: "Texto dos banners", type: "color", default: "#f4f4f0", group: "Grid" },
+        { cssVar: "--banner-grid-accent", label: "Destaque (números)", type: "color", default: "#c8ff2e", group: "Grid" },
       ] },
     ],
   },
@@ -760,6 +815,14 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--showcase-accent", label: "Destaque (botão do card, estrelas)", type: "color", default: "#7a2e5f", group: "Vitrine", inheritsLabel: "cor primária da marca" },
         { cssVar: "--showcase-tag-bg", label: "Fundo do selo de desconto", type: "color", default: "#dce6da", group: "Vitrine", inheritsLabel: "cor terciária da marca", previewNote: "Aparece em produto com desconto; os três cards de exemplo ao lado do banner não têm." },
         { cssVar: "--showcase-tag-text", label: "Texto do selo de desconto", type: "color", default: "#3b1f33", group: "Vitrine", inheritsLabel: "cor terciária de contraste da marca", previewNote: "Aparece em produto com desconto; os três cards de exemplo ao lado do banner não têm." },
+      ] },
+      { id: "13", selection: "banner-side", key: "bsd13ntr8m3t", image: "bannerSide/ShelfBanner13.webp", imageSource: "auto", mobile: "", title: "Vitrine com banner Template 13", description: "O título e as setas em cima; uma faixa que sangra até a borda direita com o banner grafite (selo verde, título gigante, texto e CTA sobre a arte) e os cards depois dele; régua de posição embaixo. No mobile, o banner sozinho em cima e os cards rolando de lado", template: "13", pagina: ["home"], component: "ShelfBanner13", path: "organisms/ProductShelfBanner13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--banner-side-text", label: "Texto do banner", type: "color", default: "#f4f4f0", group: "Banner" },
+        { cssVar: "--showcase-bg", label: "Fundo da vitrine", type: "color", default: "#0d0d0d", group: "Vitrine" },
+        { cssVar: "--showcase-text", label: "Texto da vitrine", type: "color", default: "#f4f4f0", group: "Vitrine" },
+        { cssVar: "--showcase-title-color", label: "Título", type: "color", default: "#f4f4f0", group: "Vitrine" },
+        { cssVar: "--showcase-accent", label: "Destaque (link, régua e seta)", type: "color", default: "#c8ff2e", group: "Vitrine" },
+        { cssVar: "--showcase-tag-bg", label: "Fundo do selo do banner", type: "color", default: "#c8ff2e", group: "Vitrine" },
       ] },
     ],
   },
@@ -828,6 +891,13 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--showcase-accent", label: "Destaque (botão do card, estrelas)", type: "color", default: "#7a2e5f", group: "Vitrine", inheritsLabel: "cor primária da marca" },
         { cssVar: "--showcase-tag-bg", label: "Fundo do selo de desconto", type: "color", default: "#dce6da", group: "Vitrine", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--showcase-tag-text", label: "Texto do selo de desconto", type: "color", default: "#3b1f33", group: "Vitrine", inheritsLabel: "cor terciária de contraste da marca" },
+      ] },
+      { id: "13", selection: "showcase", key: "vtr13ntr7g2b", image: "showcase/Showcase13.webp", imageSource: "auto", mobile: "", title: "Vitrine Template 13", description: "Cabeça em linha com o título gigante em condensada, \"Ver todos\" sublinhado em verde e as setas quadradas; quatro cards por vez com o rótulo fixo verde; no mobile, os cards rolam de lado com a régua de posição embaixo", template: "13", pagina: ["home"], component: "Showcase13", path: "organisms/ProductShelfCustom13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--showcase-bg", label: "Fundo da vitrine", type: "color", default: "#0d0d0d", group: "Vitrine" },
+        { cssVar: "--showcase-text", label: "Texto da vitrine", type: "color", default: "#f4f4f0", group: "Vitrine" },
+        { cssVar: "--showcase-title-color", label: "Título", type: "color", default: "#f4f4f0", group: "Vitrine" },
+        { cssVar: "--showcase-accent", label: "Destaque (link, régua e seta)", type: "color", default: "#c8ff2e", group: "Vitrine" },
+        { cssVar: "--showcase-tag-bg", label: "Fundo do rótulo dos cards", type: "color", default: "#c8ff2e", group: "Vitrine" },
       ] },
     ],
   },
@@ -911,6 +981,11 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cat-title-text", label: "Texto do título e dos chips", type: "color", default: "#3b1f33", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--cat-title-accent", label: "Chip ativo", type: "color", default: "#7a2e5f", group: "Título", inheritsLabel: "cor primária da marca" },
       ] },
+      { id: "13", selection: "category-title", key: "cattit13nt4u", image: "categoryTitle/CategoryTitle13.webp", imageSource: "auto", mobile: "", title: "Título da categoria Template 13", description: "O nome da categoria enorme em condensada maiúscula, a contagem em verde ao pé dele e os chips de subcategoria com borda, cada um com a quantidade apagada; no mobile, os chips numa linha que rola de lado", template: "13", pagina: ["category"], component: "CategoryTitle13", path: "organisms/CategoryTitle13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--cat-title-bg", label: "Fundo do título", type: "color", default: "#0d0d0d", group: "Título" },
+        { cssVar: "--cat-title-text", label: "Texto do título e dos chips", type: "color", default: "#f4f4f0", group: "Título" },
+        { cssVar: "--cat-title-accent", label: "Destaque (contagem)", type: "color", default: "#c8ff2e", group: "Título" },
+      ] },
     ],
   },
 
@@ -968,6 +1043,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--help-header-bg", label: "Fundo do botão e da cabeça do painel", type: "color", default: "#7a2e5f", group: "Botão", inheritsLabel: "cor primária da marca" },
         { cssVar: "--help-header-text", label: "Texto do botão e da cabeça do painel", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base" },
       ] },
+      { id: "13", selection: "help-float", key: "hlp13ntr6y1d", image: "helpFloat/HelpFloat13.webp", imageSource: "auto", mobile: "", title: "Ajuda flutuante Template 13", description: "Quadrado verde fixo no canto inferior direito com o \"?\"; aberto, sobe o painel grafite com filete, o título em condensada, o horário e o fechar quadrado, e os atalhos em condensada maiúscula com ícone e seta, o destaque no bloco verde. No mobile, o painel ocupa a largura e a página escurece por trás", template: "13", pagina: ["home"], component: "HelpFloat13", path: "organisms/HelpFloatButton13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--help-bg", label: "Fundo do painel", type: "color", default: "#171717", group: "Painel", previewNote: "Aparece com o painel aberto." },
+        { cssVar: "--help-text", label: "Texto do painel", type: "color", default: "#f4f4f0", group: "Painel", previewNote: "Aparece com o painel aberto." },
+        { cssVar: "--help-header-bg", label: "Fundo do botão e do destaque", type: "color", default: "#c8ff2e", group: "Botão" },
+        { cssVar: "--help-header-text", label: "Texto do botão e do destaque", type: "color", default: "#0d0d0d", group: "Botão" },
+      ] },
     ],
   },
   popupNews: {
@@ -1007,6 +1088,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--popup-text", label: "Texto do pop-up", type: "color", default: "#3b1f33", group: "Pop-up", inheritsLabel: "cor de texto primária" },
         { cssVar: "--popup-button-bg", label: "Fundo do botão", type: "color", default: "#7a2e5f", group: "Botão", inheritsLabel: "cor primária da marca" },
         { cssVar: "--popup-button-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base" },
+      ] },
+      { id: "13", selection: "popup-news", key: "popnew13nt2v", image: "popupNews/PopupNews13.webp", imageSource: "auto", mobile: "", title: "Pop-up de newsletter Template 13", description: "Modal preto com filete: a arte numa coluna à esquerda e, à direita, o selo verde, o título gigante em condensada, o texto, nome e e-mail em caixas de filete claro, \"Quero entrar\" no verde, a política e \"Agora não\". No mobile, folha presa ao pé com o filete verde em cima", template: "13", pagina: ["home"], component: "PopupNews13", path: "organisms/PopupNews13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--popup-bg", label: "Fundo do pop-up", type: "color", default: "#0d0d0d", group: "Pop-up" },
+        { cssVar: "--popup-text", label: "Texto do pop-up", type: "color", default: "#f4f4f0", group: "Pop-up" },
+        { cssVar: "--popup-button-bg", label: "Fundo do botão", type: "color", default: "#c8ff2e", group: "Botão" },
+        { cssVar: "--popup-button-text", label: "Texto do botão", type: "color", default: "#0d0d0d", group: "Botão" },
       ] },
     ],
   },
@@ -1074,6 +1161,13 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--newsletter-button-bg", label: "Fundo do botão", type: "color", default: "#7a2e5f", group: "Botão", inheritsLabel: "cor primária da marca" },
         { cssVar: "--newsletter-button-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base" },
       ] },
+      { id: "13", selection: "newsletter", key: "nlt13ntr1e7q", image: "newsletter/Newsletter13.webp", imageSource: "auto", mobile: "", title: "Newsletter Template 13", description: "Faixa verde em toda a largura: à esquerda o título gigante em condensada e o texto; à direita nome e e-mail com rótulo e caixa de borda preta, o botão preto \"Entrar\" com o texto verde e a política; no mobile, tudo numa coluna", template: "13", pagina: ["home"], component: "Newsletter13", path: "organisms/Newsletter13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--newsletter-bg", label: "Fundo da faixa", type: "color", default: "#c8ff2e", group: "Newsletter" },
+        { cssVar: "--newsletter-title-color", label: "Título", type: "color", default: "#0d0d0d", group: "Newsletter" },
+        { cssVar: "--newsletter-desc-color", label: "Texto e rótulos", type: "color", default: "#0d0d0d", group: "Newsletter" },
+        { cssVar: "--newsletter-button-bg", label: "Fundo do botão", type: "color", default: "#0d0d0d", group: "Botão" },
+        { cssVar: "--newsletter-button-text", label: "Texto do botão", type: "color", default: "#c8ff2e", group: "Botão" },
+      ] },
     ],
   },
 
@@ -1124,6 +1218,11 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--socialproof-bg", label: "Fundo da seção", type: "color", default: "#fbf6f3", group: "Depoimentos" },
         { cssVar: "--socialproof-text", label: "Texto dos depoimentos", type: "color", default: "#3b1f33", group: "Depoimentos", inheritsLabel: "cor de texto primária" },
         { cssVar: "--socialproof-accent", label: "Destaque (estrelas e seta)", type: "color", default: "#7a2e5f", group: "Depoimentos", inheritsLabel: "cor primária da marca" },
+      ] },
+      { id: "13", selection: "client-review", key: "rev13ntr3d8h", image: "review/ClientReview13.webp", imageSource: "auto", mobile: "", title: "Depoimentos Template 13", description: "Cabeça em linha com o título gigante e as setas quadradas com filete; três depoimentos por vez em cartões grafite com filete: estrelas verdes, o texto e, depois de um filete, a foto quadrada, o perfil com a cidade e o produto citado. No mobile, os cartões rolam de lado com a régua de traços", template: "13", pagina: ["home"], component: "ClientReview13", path: "organisms/ClientReview13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--socialproof-bg", label: "Fundo da seção", type: "color", default: "#0d0d0d", group: "Depoimentos" },
+        { cssVar: "--socialproof-text", label: "Texto dos depoimentos", type: "color", default: "#f4f4f0", group: "Depoimentos" },
+        { cssVar: "--socialproof-accent", label: "Destaque (estrelas e régua)", type: "color", default: "#c8ff2e", group: "Depoimentos" },
       ] },
     ],
   },
@@ -1197,6 +1296,11 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--filter-text", label: "Texto do painel de filtros", type: "color", default: "#3b1f33", group: "Filtros", inheritsLabel: "cor de texto primária" },
         { cssVar: "--filter-accent", label: "Destaque do painel de filtros", type: "color", default: "#7a2e5f", group: "Filtros", inheritsLabel: "cor primária da marca" },
       ] },
+      { id: "13", selection: "category-main", key: "catmn13ntr2y", image: "categoryMain/CategoryMain13.webp", imageSource: "auto", mobile: "", title: "Grade de produtos Template 13", description: "PLP no escuro com \"Ocultar filtros\", a contagem, \"Ordenar\" e a densidade; os chips ativos e \"Limpar tudo\"; a coluna de filtros entre filetes com as facetas abertas, a grade de cards com preço \"de\" e \"-N%\", e \"Ver mais\" com a barra. No mobile, \"Filtrar\" e \"Ordenar\" em duas metades e o painel de filtros de tela cheia em acordeão; inclui o estado vazio da busca", template: "13", pagina: ["category"], component: "CategoryMain13", path: "organisms/MainCategory13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--cat-main-bg", label: "Fundo da listagem", type: "color", default: "#0d0d0d", group: "Listagem" },
+        { cssVar: "--cat-main-text", label: "Texto da listagem e dos filtros", type: "color", default: "#f4f4f0", group: "Listagem" },
+        { cssVar: "--cat-main-accent", label: "Destaque (filtros marcados, barra e botões)", type: "color", default: "#c8ff2e", group: "Listagem" },
+      ] },
     ],
   },
   categoryDescription: {
@@ -1226,6 +1330,11 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cat-desc-bg", label: "Fundo do cartão do guia", type: "color", default: "#f4dcd6", group: "Descrição", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--cat-desc-text", label: "Texto da seção", type: "color", default: "#3b1f33", group: "Descrição", inheritsLabel: "cor de texto primária" },
         { cssVar: "--cat-desc-accent", label: "Destaque (pergunta aberta)", type: "color", default: "#7a2e5f", group: "Descrição", inheritsLabel: "cor primária da marca" },
+      ] },
+      { id: "13", selection: "category-description", key: "catdes13nt9o", image: "categoryDescription/CategoryDescription13.webp", imageSource: "auto", mobile: "", title: "Descrição de categoria Template 13", description: "Duas colunas no escuro: o texto da categoria com o título grande em condensada e \"Ler mais\" sublinhado em verde, e as perguntas frequentes em acordeão entre filetes; no mobile, empilha", template: "13", pagina: ["category"], component: "CategoryDescription13", path: "organisms/CategorySeoFaq13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--cat-desc-bg", label: "Fundo da seção", type: "color", default: "#0d0d0d", group: "Descrição" },
+        { cssVar: "--cat-desc-text", label: "Texto da seção", type: "color", default: "#f4f4f0", group: "Descrição" },
+        { cssVar: "--cat-desc-accent", label: "Destaque (link e pergunta aberta)", type: "color", default: "#c8ff2e", group: "Descrição" },
       ] },
     ],
   },
@@ -1257,6 +1366,11 @@ export const LAYOUTS: Layouts = {
       { id: "12", selection: "product-description", key: "desc12suv9b4", image: "productDescription/ProductDescription12.webp", imageSource: "auto", mobile: "", title: "Descrição do produto Template 12", description: "\"Sobre o produto\" em serifa com a descrição ao lado; os ativos em três cartões pastel e dois cartões brancos: \"Como usar\" com os passos no círculo vinho e \"Resultados\" com os números em serifa; no mobile, tudo empilhado", template: "12", pagina: ["product"], component: "ProductDescription12", path: "molecules/ProductDescription12", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--prod-desc-text", label: "Texto da seção", type: "color", default: "#3b1f33", group: "Descrição", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-desc-accent", label: "Destaque (passos)", type: "color", default: "#7a2e5f", group: "Descrição", inheritsLabel: "cor primária da marca" },
+      ] },
+      { id: "13", selection: "product-description", key: "desc13ntr7k1", image: "productDescription/ProductDescription13.webp", imageSource: "auto", mobile: "", title: "Descrição do produto Template 13", description: "O título enorme em condensada com a descrição ao lado; as tecnologias em cartões numerados com o número em verde; a ficha técnica em linhas entre filetes e a imagem da descrição ao lado; no mobile, tudo empilhado", template: "13", pagina: ["product"], component: "ProductDescription13", path: "molecules/ProductDescription13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--prod-desc-bg", label: "Fundo da seção", type: "color", default: "#0d0d0d", group: "Descrição" },
+        { cssVar: "--prod-desc-text", label: "Texto da seção", type: "color", default: "#f4f4f0", group: "Descrição" },
+        { cssVar: "--prod-desc-accent", label: "Destaque (números)", type: "color", default: "#c8ff2e", group: "Descrição" },
       ] },
     ],
   },
@@ -1364,6 +1478,13 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--pdp-button-bg", label: "Fundo do botão de compra", type: "color", default: "#7a2e5f", group: "Botão", inheritsLabel: "cor primária da marca" },
         { cssVar: "--pdp-button-text", label: "Texto do botão de compra", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base" },
       ] },
+      { id: "13", selection: "product-info", key: "info13ntr5l8", image: "productInfo/ProductInfo13.webp", imageSource: "auto", mobile: "", title: "Detalhes do Produto Template 13", description: "No escuro: a trilha, a foto 1:1 grafite com o contador e as setas quadradas, e as miniaturas (a atual com o contorno verde); à direita o rótulo, o nome enorme em condensada, a nota e o código, o preço e a parcela, a cor por miniatura, o tamanho em grade com o esgotado riscado, \"Adicionar à bag\" com o coração quadrado, o frete e as abas. No mobile, a foto ocupa a largura, as abas viram acordeões e a compra fica na barra presa ao rodapé", template: "13", pagina: ["product"], component: "ProductInfo13", path: "organisms/ProductDetails13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--pdp-bg", label: "Fundo da PDP", type: "color", default: "#0d0d0d", group: "PDP" },
+        { cssVar: "--pdp-text", label: "Texto da PDP", type: "color", default: "#f4f4f0", group: "PDP" },
+        { cssVar: "--pdp-accent", label: "Destaque (miniatura, estrelas e seta)", type: "color", default: "#c8ff2e", group: "PDP" },
+        { cssVar: "--pdp-button-bg", label: "Fundo do botão de compra", type: "color", default: "#c8ff2e", group: "Botão" },
+        { cssVar: "--pdp-button-text", label: "Texto do botão de compra", type: "color", default: "#0d0d0d", group: "Botão" },
+      ] },
     ],
   },
   productReviews: {
@@ -1391,6 +1512,11 @@ export const LAYOUTS: Layouts = {
       { id: "12", selection: "product-reviews", key: "prodrev12suv", image: "productReviews/ProductReviews12.webp", imageSource: "auto", mobile: "", title: "Avaliações do produto Template 12", description: "\"Avaliações\" em serifa e \"Escrever avaliação\" em pílula; o cartão do resumo com a média grande, as estrelas e as barras de 5 a 1; a lista em cartões brancos com o avatar pastel, nome, data, estrelas, título e texto, e \"Ver mais avaliações\"", template: "12", pagina: ["product"], component: "ProductReviews12", path: "organisms/ProductReviews12", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--prod-reviews-text", label: "Texto das avaliações", type: "color", default: "#3b1f33", group: "Avaliações", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-reviews-accent", label: "Destaque (estrelas e barras)", type: "color", default: "#7a2e5f", group: "Avaliações", inheritsLabel: "cor primária da marca" },
+      ] },
+      { id: "13", selection: "product-reviews", key: "prodrev13ntr", image: "productReviews/ProductReviews13.webp", imageSource: "auto", mobile: "", title: "Avaliações do produto Template 13", description: "O título enorme em condensada; à esquerda a média gigante com as estrelas verdes e a contagem, as barras de 5 a 1 e \"Escrever avaliação\" com filete; à direita a lista entre filetes com estrelas, data, título em condensada, texto e autor, e a paginação em quadrados com a atual em verde; no mobile, tudo empilhado", template: "13", pagina: ["product"], component: "ProductReviews13", path: "organisms/ProductReviews13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--prod-reviews-bg", label: "Fundo da seção", type: "color", default: "#0d0d0d", group: "Avaliações" },
+        { cssVar: "--prod-reviews-text", label: "Texto das avaliações", type: "color", default: "#f4f4f0", group: "Avaliações" },
+        { cssVar: "--prod-reviews-accent", label: "Destaque (estrelas, barras e página atual)", type: "color", default: "#c8ff2e", group: "Avaliações" },
       ] },
     ],
   },
@@ -1422,6 +1548,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--showcase-accent", label: "Destaque (botão do card, estrelas)", type: "color", default: "#7a2e5f", group: "Relacionados", inheritsLabel: "cor primária da marca" },
         { cssVar: "--showcase-tag-bg", label: "Fundo do selo de desconto", type: "color", default: "#dce6da", group: "Relacionados", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--showcase-tag-text", label: "Texto do selo de desconto", type: "color", default: "#3b1f33", group: "Relacionados", inheritsLabel: "cor terciária de contraste da marca" },
+      ] },
+      { id: "13", selection: "product-related", key: "rel13ntr3w9v", image: "productRelated/ProductRelated13.webp", imageSource: "auto", mobile: "", title: "Produtos relacionados Template 13", description: "O título gigante em condensada e as duas setas quadradas à direita; quatro cards por vez e, no mobile, os cards rolando de lado com a régua verde de posição", template: "13", pagina: ["product"], override: true, component: "ProductRelated13", path: "overrides/CrossSellingShelf13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--showcase-bg", label: "Fundo da seção", type: "color", default: "#0d0d0d", group: "Relacionados" },
+        { cssVar: "--showcase-text", label: "Texto da seção", type: "color", default: "#f4f4f0", group: "Relacionados" },
+        { cssVar: "--showcase-title-color", label: "Título", type: "color", default: "#f4f4f0", group: "Relacionados" },
+        { cssVar: "--showcase-accent", label: "Destaque (régua e seta)", type: "color", default: "#c8ff2e", group: "Relacionados" },
       ] },
     ],
   },
@@ -1460,6 +1592,11 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--countdown-text", label: "Texto do contador", type: "color", default: "#3b1f33", group: "Contador", inheritsLabel: "cor de texto primária" },
         { cssVar: "--countdown-accent", label: "Destaque (números e CTA)", type: "color", default: "#7a2e5f", group: "Contador", inheritsLabel: "cor primária da marca" },
       ] },
+      { id: "13", selection: "countdown", key: "cdn13ntr4r9k", image: "countdown/Countdown13.webp", imageSource: "auto", mobile: "", title: "Contador Template 13", description: "Faixa entre filetes com a arte vertical à esquerda; no meio, a chamada em verde e a contagem em números gigantes de condensada separados por dois-pontos (os segundos em verde); à direita, o título do destaque, o texto e o CTA verde. No mobile, a arte no topo, a contagem em quatro caixas com filete e o CTA largo", template: "13", pagina: ["home"], component: "Countdown13", path: "organisms/Countdown13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--countdown-bg", label: "Fundo do contador", type: "color", default: "#0d0d0d", group: "Contador" },
+        { cssVar: "--countdown-text", label: "Texto do contador", type: "color", default: "#f4f4f0", group: "Contador" },
+        { cssVar: "--countdown-accent", label: "Destaque (chamada, segundos e CTA)", type: "color", default: "#c8ff2e", group: "Contador" },
+      ] },
     ],
   },
   editorial: {
@@ -1493,6 +1630,11 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--editorial-bg", label: "Fundo do editorial", type: "color", default: "#fbf6f3", group: "Editorial" },
         { cssVar: "--editorial-text", label: "Texto do editorial", type: "color", default: "#3b1f33", group: "Editorial", inheritsLabel: "cor de texto primária" },
         { cssVar: "--editorial-accent", label: "Destaque (número do passo)", type: "color", default: "#7a2e5f", group: "Editorial", inheritsLabel: "cor primária da marca" },
+      ] },
+      { id: "13", selection: "editorial", key: "edt13ntr6s1w", image: "editorial/Editorial13.webp", imageSource: "auto", mobile: "", title: "Editorial Template 13", description: "Cabeça em linha com o título gigante e \"Ver todas as matérias\" sublinhado em verde; a matéria de destaque ocupa duas colunas com a chamada verde, o título e \"Ler matéria →\" sobre a arte, e as demais empilham na terceira coluna entre filetes. No mobile, o destaque com a arte em cima e as demais em linha com a miniatura quadrada", template: "13", pagina: ["home"], component: "Editorial13", path: "organisms/Editorial13", platforms: ['Tray', 'Wake', 'VTEX'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--editorial-bg", label: "Fundo do editorial", type: "color", default: "#0d0d0d", group: "Editorial" },
+        { cssVar: "--editorial-text", label: "Texto do editorial", type: "color", default: "#f4f4f0", group: "Editorial" },
+        { cssVar: "--editorial-accent", label: "Destaque (chamada e link)", type: "color", default: "#c8ff2e", group: "Editorial" },
       ] },
     ],
   },

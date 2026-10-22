@@ -204,6 +204,8 @@ export const TEMA_DAS_FAMILIAS: Record<string, TemaDaFamilia> = {
  * das cadeias `var(--<n1>, var(--<token>, #hex))` do CSS das réplicas com o token
  * avaliado em `TEMA_DAS_FAMILIAS` (derivadas pelo contraste). Só entra o que
  * diverge — ou cujo token o tema não define. Chave: o `component` do item.
+ * A 13 não tem entrada, e o script confirma: o SCSS dela não tem Nível 2 de cor
+ * (`var(--<n1>, #hex)`), então toda var já cai no hex do desenho sem ajuda.
  */
 export const NIVEL1_DAS_FAMILIAS: Record<
   string,

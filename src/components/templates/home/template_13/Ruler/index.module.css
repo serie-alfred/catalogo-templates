@@ -1,0 +1,121 @@
+/* Espelha molecules/BenefitsStrip13 (faststore.starter, família 13): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.benefitsStrip13Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.benefitsStrip13 {
+  width: 100%;
+  border-top: 1px solid color-mix(in srgb, var(--ruler-text, #f4f4f0) 16%, var(--ruler-bg, #0d0d0d));
+  border-bottom: 1px solid color-mix(in srgb, var(--ruler-text, #f4f4f0) 16%, var(--ruler-bg, #0d0d0d));
+  background-color: var(--ruler-bg, #0d0d0d);
+  color: var(--ruler-text, #f4f4f0);
+  font-family: var(--font-primary, "Barlow Condensed", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.benefitsStrip13 *,
+.benefitsStrip13 *::before,
+.benefitsStrip13 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.benefitsStrip13 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.benefitsStrip13 :where(a):hover {
+  opacity: 0.85;
+}
+.benefitsStrip13 :where(a):focus-visible {
+  outline: 2px solid var(--ruler-icon, #c8ff2e);
+  outline-offset: 2px;
+}
+.benefitsStrip13 svg {
+  display: block;
+  flex: none;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px 28px;
+  max-width: 1280px;
+  min-height: 120px;
+  margin: 0 auto;
+  padding: 24px clamp(16px, 3vw, 40px);
+  list-style: none;
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.item,
+.sep {
+  display: flex;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icon {
+  width: 28px;
+  height: 28px;
+}
+
+.sep {
+  color: var(--ruler-icon, #c8ff2e);
+}
+
+.star {
+  width: 22px;
+  height: 22px;
+}
+
+@container (max-width: 960px) {
+  .list {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 16px;
+    height: 72px;
+    min-height: 0;
+    padding: 0 16px;
+    overflow-x: auto;
+    font-size: 22px;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .list::-webkit-scrollbar {
+    display: none;
+  }
+  .item,
+  .sep {
+    flex: none;
+  }
+  .row {
+    gap: 10px;
+  }
+  .icon {
+    width: 22px;
+    height: 22px;
+  }
+  .star {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.benefitsStrip13Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
