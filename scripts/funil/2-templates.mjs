@@ -14,7 +14,11 @@
  *  5. com seções já escolhidas, escolher a 10 pede confirmação; cancelar não muda
  *     nada, aceitar troca tudo;
  *  6. o export sai só com a família e passa no contrato do generator (VTEX, Wake
- *     e Tray).
+ *     e Tray);
+ *  7. aplicar traz a cara da família: as cores autorais e as fontes globais de
+ *     `TEMA_DAS_FAMILIAS` (as derivadas, recalculadas pelo contraste), no canvas
+ *     e no export; o undo as restaura junto com as peças; família sem tema
+ *     (Template 01) mantém a paleta.
  *
  * Fotos em FUNIL_FOTOS (padrão `.funil/por-template/`).
  */
@@ -159,11 +163,61 @@ async function aba(browser) {
   return { page, erros, dialogos, resposta };
 }
 
+/** O mapa família → tema, lido do próprio templatesCompletos.ts (bloco gerado). */
+const TEMA = (() => {
+  const ts = fs.readFileSync(path.resolve(new URL('../../src/utils/templatesCompletos.ts', import.meta.url).pathname), 'utf8');
+  const bloco = ts.slice(ts.indexOf('export const TEMA_DAS_FAMILIAS'), ts.indexOf('\n};', ts.indexOf('export const TEMA_DAS_FAMILIAS')));
+  const out = {};
+  for (const parte of bloco.split(/\n {2}'?(\d+)'?: \{/).slice(1).reduce((acc, x, i, arr) => (i % 2 === 0 ? [...acc, [x, arr[i + 1]]] : acc), [])) {
+    const [fam, corpo] = parte;
+    const colors = Object.fromEntries([...corpo.matchAll(/(color\w+): '(#[0-9a-f]+)'/g)].map(m => [m[1], m[2]]));
+    const f = corpo.match(/fontPrimary: '([^']+)',\s*fontSecondary: '([^']+)',\s*fontTertiary: '([^']+)'/);
+    out[fam] = { colors, fonts: f ? { fontPrimary: f[1], fontSecondary: f[2], fontTertiary: f[3] } : null };
+  }
+  return out;
+})();
+const contraste = hex => {
+  const h = hex.replace('#', '').replace(/^(.)(.)(.)$/, '$1$1$2$2$3$3');
+  const y = (parseInt(h.slice(0, 2), 16) * 299 + parseInt(h.slice(2, 4), 16) * 587 + parseInt(h.slice(4, 6), 16) * 114) / 1000;
+  return y >= 128 ? '#000000' : '#ffffff';
+};
+const temaGravado = page =>
+  page.evaluate(() => ({ colors: JSON.parse(localStorage.getItem('colors') ?? '{}'), fonts: JSON.parse(localStorage.getItem('fonts') ?? '{}') }));
+/** O tema gravado bate com o da família (autorais + derivadas + fontes)? Devolve as diferenças. */
+function difTema(g, t) {
+  const tema = TEMA[t];
+  const dif = [];
+  for (const [k, v] of Object.entries(tema.colors)) if ((g.colors[k] ?? '').toLowerCase() !== v) dif.push(`${k}=${g.colors[k]}≠${v}`);
+  const der = { colorPrimaryText: 'colorPrimaryBackground', colorSecondaryText: 'colorSecondaryBackground', colorTertiary: 'colorTertiaryBackground' };
+  for (const [k, bg] of Object.entries(der)) if (g.colors[bg] && (g.colors[k] ?? '').toLowerCase() !== contraste(g.colors[bg])) dif.push(`${k} não é o contraste de ${bg}`);
+  if (tema.fonts) for (const [k, v] of Object.entries(tema.fonts)) if (g.fonts[k] !== v) dif.push(`${k}=${g.fonts[k]}≠${v}`);
+  return dif;
+}
+/** As variáveis globais do config (mesmas chaves nos dois formatos) batem com o tema? */
+function difVariaveis(vars, t) {
+  const tema = TEMA[t];
+  const dif = [];
+  for (const [k, v] of Object.entries(tema.colors)) if ((vars?.[k] ?? '').toLowerCase() !== v) dif.push(`${k}=${vars?.[k]}≠${v}`);
+  if (tema.fonts) for (const [k, v] of Object.entries(tema.fonts)) if (vars?.[k] !== v) dif.push(`${k}=${vars?.[k]}≠${v}`);
+  return dif;
+}
+/** Os tokens que o canvas de fato recebeu, lidos numa seção do iframe. */
+const tokensNoCanvas = page =>
+  page.evaluate(() => {
+    const d = document.querySelector('iframe')?.contentDocument;
+    const el = d?.querySelector('[data-section-uid]');
+    if (!el) return null;
+    const cs = d.defaultView.getComputedStyle(el);
+    const v = n => cs.getPropertyValue(n).trim().toLowerCase();
+    return { bg1: v('--background-primary-color'), texto: v('--text-primary-color'), fonte1: v('--font-primary'), fonte2: v('--font-secundary') };
+  });
+
 const reais = erros => erros.filter(e => !/Failed to load resource|favicon|net::ERR|Download the React DevTools/.test(e));
 
 const browser = await abrirBrowser();
 /** As seções que o editor gravou ao aplicar cada template — as fotos do /p usam ELAS (a ordem real). */
 const aplicadas = {};
+const temasAplicados = {};
 const gravadas = page => page.evaluate(() => JSON.parse(localStorage.getItem('layoutSelections') ?? '[]'));
 
 // ── 1. a lista nas três plataformas ─────────────────────────────────────────
@@ -212,6 +266,25 @@ for (const plat of ['VTEX', 'Wake', 'Tray']) {
   await espera(1500);
   r.ok('VTEX: escolher a 09 com a loja vazia não pede confirmação', dialogos.length === 0, JSON.stringify(dialogos));
   aplicadas['9'] = await gravadas(page);
+  temasAplicados['9'] = await temaGravado(page);
+  {
+    const g = await temaGravado(page);
+    const dif = difTema(g, '9');
+    r.ok('VTEX: a 09 traz a paleta e as fontes do desenho (autorais, derivadas pelo contraste, Fraunces + Figtree)', dif.length === 0, dif.join(' | ') || JSON.stringify(g.fonts));
+    await page
+      .waitForFunction(
+        bg => (document.querySelector('iframe')?.contentDocument?.querySelector('[data-section-uid]') && getComputedStyle(document.querySelector('iframe').contentDocument.querySelector('[data-section-uid]')).getPropertyValue('--background-primary-color').trim().toLowerCase() === bg),
+        { timeout: 20000, polling: 300 },
+        TEMA['9'].colors.colorPrimaryBackground
+      )
+      .catch(() => {});
+    const tk = await tokensNoCanvas(page);
+    r.ok(
+      'VTEX 09: o canvas recebe os tokens da família (fundo de marca, texto, fontes)',
+      tk?.bg1 === TEMA['9'].colors.colorPrimaryBackground && tk?.texto === TEMA['9'].colors.colorPrimary && /fraunces/.test(tk?.fonte1 ?? '') && /figtree/.test(tk?.fonte2 ?? ''),
+      JSON.stringify(tk)
+    );
+  }
   const s9 = (await salvas(page)).sort();
   r.ok('VTEX: a 09 preenche todo slot da família, e só ela', s9.join() === chaves('9', 'VTEX').join(), s9.join());
   const destino = await page.evaluate(
@@ -252,29 +325,38 @@ for (const plat of ['VTEX', 'Wake', 'Tray']) {
   await abrirPainel(page);
   resposta.valor = false;
   const antes = (await salvas(page)).sort().join();
+  const temaAntes = await temaGravado(page);
   await clicarDeVerdade(page, '[data-templates-lista] [data-template="10"]');
   await espera(1200);
   const confirmou = dialogos.find(d => d.tipo === 'confirm');
   r.ok(
-    'VTEX: com seções escolhidas, escolher a 10 pede confirmação (nome do template e contagem)',
-    !!confirmou && /10 · Varejo/.test(confirmou.msg) && /substituídas/.test(confirmou.msg),
+    'VTEX: com seções escolhidas, escolher a 10 pede confirmação (nome, contagem, e que a paleta e as fontes mudam)',
+    !!confirmou && /10 · Varejo/.test(confirmou.msg) && /substituídas/.test(confirmou.msg) && /paleta e as fontes/.test(confirmou.msg) && /Archivo/.test(confirmou.msg),
     confirmou?.msg
   );
   r.ok('VTEX: cancelar a confirmação não muda nenhuma seção', (await salvas(page)).sort().join() === antes);
+  r.ok('VTEX: cancelar não muda a paleta nem as fontes', JSON.stringify(await temaGravado(page)) === JSON.stringify(temaAntes));
   resposta.valor = true;
   await clicarDeVerdade(page, '[data-templates-lista] [data-template="10"]');
   await page.waitForFunction(() => JSON.parse(localStorage.getItem('layoutSelections') ?? '[]').every(s => /^10$/.test(s.id)), { timeout: 20000 }).catch(() => {});
   await espera(1200);
   aplicadas['10'] = await gravadas(page);
+  const tema10 = await temaGravado(page);
+  temasAplicados['10'] = tema10;
+  r.ok('VTEX: aceitar traz a paleta e as fontes da 10 (Archivo)', difTema(tema10, '10').length === 0, difTema(tema10, '10').join(' | '));
   const s10 = (await salvas(page)).sort();
   r.ok('VTEX: aceitar troca a loja inteira pela 10', s10.join() === chaves('10', 'VTEX').join(), s10.join());
   // O undo desfaz a aplicação inteira num passo, e o redo a refaz.
   await clicarDeVerdade(page, 'button[aria-label="Voltar"]');
   await espera(1200);
   r.ok('VTEX: Voltar (undo) desfaz a aplicação da 10 num passo só', (await salvas(page)).sort().join() === antes, (await salvas(page)).join());
+  {
+    const g = await temaGravado(page);
+    r.ok('VTEX: o mesmo undo restaura a paleta e as fontes de antes (as da 09)', JSON.stringify(g) === JSON.stringify(temaAntes), JSON.stringify(g.fonts));
+  }
   await clicarDeVerdade(page, 'button[aria-label="Avançar"]');
   await espera(1200);
-  r.ok('VTEX: refazer devolve a 10', (await salvas(page)).sort().join() === s10.join());
+  r.ok('VTEX: refazer devolve a 10, peças, paleta e fontes', (await salvas(page)).sort().join() === s10.join() && JSON.stringify(await temaGravado(page)) === JSON.stringify(tema10));
   for (const [pg, nome] of [['home', 'home'], ['category', 'categoria'], ['product', 'produto']]) {
     if (pg !== 'home') await trocarPagina(page, pg);
     const c = await esperarCanvas(page, noCanvas('10', 'VTEX', pg));
@@ -296,6 +378,8 @@ for (const plat of ['VTEX', 'Wake', 'Tray']) {
     const titulos = ['global', 'home', 'category', 'product', 'overrides'].flatMap(k => (fs10[k] ?? []).map(e => e.title)).sort();
     const esp = daFamilia('10', 'VTEX').map(i => i.component).sort();
     r.ok('VTEX: o config sai com as peças da família 10, todas', titulos.join() === esp.join(), titulos.join());
+    const dv = difVariaveis(fs10.variables, '10');
+    r.ok('VTEX: faststore.variables leva as cores e as fontes da 10', dv.length === 0, dv.join(' | '));
     conferirFaststore(cfg, r);
   }
 
@@ -326,7 +410,22 @@ for (const [plat, t] of [['Wake', '9'], ['Tray', '10']]) {
       entradas.length === daFamilia(t, plat).length && entradas.every(e => e.template === t),
       `${entradas.length} entradas: ${[...new Set(entradas.map(e => e.template))].join()}`
     );
+    const dv = difVariaveis(raiz.variables, t);
+    r.ok(`${plat}: ${plat.toLowerCase()}.variables leva as cores e as fontes da ${t.padStart(2, '0')}`, dv.length === 0, dv.join(' | '));
     conferirTrayWake(cfg, plat, r);
+  }
+  if (plat === 'Tray') {
+    // Família sem tema (Template 01): as peças trocam, a paleta e as fontes ficam.
+    const antes01 = await temaGravado(page);
+    const msgs = [];
+    page.on('dialog', d => msgs.push(d.message()));
+    await abrirPainel(page);
+    await clicarDeVerdade(page, '[data-templates-lista] [data-template="1"]');
+    await page.waitForFunction(() => JSON.parse(localStorage.getItem('layoutSelections') ?? '[]').every(s => s.id === '01'), { timeout: 20000 }).catch(() => {});
+    await espera(1200);
+    const s01 = (await salvas(page)).sort();
+    r.ok('Tray: Template 01 troca as peças e avisa que cores e fontes não mudam', s01.join() === chaves('1', 'Tray').join() && msgs.some(m => /Cores e fontes não mudam/.test(m)), msgs.join(' / '));
+    r.ok('Tray: Template 01 (sem tema) mantém a paleta e as fontes', JSON.stringify(await temaGravado(page)) === JSON.stringify(antes01));
   }
   r.ok(`${plat}: sem erro de console/página`, reais(erros).length === 0, reais(erros).slice(0, 4).join(' | '));
   await page.close();
@@ -339,21 +438,21 @@ for (const t of ['9', '10']) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 900 });
   await page.goto(`${BASE_URL}/gerador`, { waitUntil: 'domcontentloaded', timeout: 90000 });
-  const id = await page.evaluate(async s => {
+  const id = await page.evaluate(async (s, tema) => {
     const res = await fetch('/gerador/api/preview', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         platform: 'VTEX',
         selections: s,
-        colors: { colorPrimary: '#1a1a1a', colorSecondary: '#ffffff', colorTertiary: '#fff', colorPrimaryBackground: '#000', colorSecondaryBackground: '#dd1838', colorTertiaryBackground: '#000', colorFooter: '#1A051C', colorFooterText: '#94A3B8', colorPrimaryText: '#fff', colorSecondaryText: '#51ff00' },
-        fonts: { fontPrimary: 'Roboto', fontSecondary: 'Roboto', fontTertiary: 'Roboto' },
+        colors: tema.colors,
+        fonts: tema.fonts,
         logo: '',
         favicon: '',
       }),
     });
     return res.ok ? (await res.json()).id : null;
-  }, sel);
+  }, sel, temasAplicados[t]);
   if (!id) {
     r.ok(`/p da ${t}: o preview foi criado`, false);
     await page.close();
