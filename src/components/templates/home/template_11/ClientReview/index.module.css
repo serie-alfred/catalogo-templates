@@ -1,0 +1,259 @@
+/* Espelha organisms/ClientReview11 (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.clientReview11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.clientReview11 {
+  width: 100%;
+  padding: 40px 0;
+  background-color: var(--socialproof-bg, #ffffff);
+  color: var(--socialproof-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.clientReview11 *,
+.clientReview11 *::before,
+.clientReview11 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.clientReview11 :where(h2, figure, blockquote) {
+  margin: 0;
+}
+.clientReview11 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.clientReview11 :where(a):hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.clientReview11 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.clientReview11 svg,
+.clientReview11 img {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.head {
+  display: flex;
+  align-items: stretch;
+  min-height: 58px;
+  border: 1px solid var(--socialproof-text, var(--text-primary-color, #0a0a0a));
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px;
+  border-right: 1px solid var(--socialproof-text, var(--text-primary-color, #0a0a0a));
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.number {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  border-left: 1px solid var(--socialproof-text, var(--text-primary-color, #0a0a0a));
+}
+.arrow:disabled {
+  cursor: default;
+}
+.arrow:focus-visible {
+  outline: 2px solid var(--socialproof-text, var(--text-primary-color, #0a0a0a));
+  outline-offset: -4px;
+}
+
+.rail {
+  display: flex;
+  border-left: 1px solid var(--socialproof-text, var(--text-primary-color, #0a0a0a));
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.review {
+  display: flex;
+  flex: 0 0 33.3333333333%;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+  min-height: 360px;
+  padding: 28px 24px 24px;
+  border-right: 1px solid var(--socialproof-text, var(--text-primary-color, #0a0a0a));
+  border-bottom: 1px solid var(--socialproof-text, var(--text-primary-color, #0a0a0a));
+  scroll-snap-align: start;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stars {
+  display: flex;
+  gap: 3px;
+  color: var(--socialproof-accent, var(--background-primary-color, #0a0a0a));
+}
+
+.star {
+  width: 16px;
+  height: 16px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.score {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 12px;
+}
+
+.quote {
+  flex: 1;
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-top: 16px;
+  border-top: 1px solid var(--socialproof-text, var(--text-primary-color, #0a0a0a));
+}
+
+.author {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.product {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+}
+
+.thumb {
+  flex: none;
+  width: 46px;
+  height: 46px;
+  overflow: hidden;
+  border: 1px solid var(--socialproof-text, var(--text-primary-color, #0a0a0a));
+  background-color: #ededed;
+}
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.productCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.productRef {
+  color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #0a0a0a)) 62%, var(--socialproof-bg, #ffffff));
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+}
+
+@container (max-width: 960px) {
+  .clientReview11 {
+    padding: 24px 0;
+    overflow: hidden;
+  }
+  .head {
+    align-items: center;
+    min-height: 54px;
+    padding: 0 16px;
+    border-right: 0;
+    border-left: 0;
+  }
+  .title {
+    gap: 10px;
+    padding: 0;
+    border-right: 0;
+  }
+  .arrow {
+    display: none;
+  }
+  .rail {
+    margin-left: 16px;
+  }
+  .review {
+    flex: 0 0 290px;
+    gap: 18px;
+    min-height: 0;
+    padding: 20px 16px;
+  }
+  .star {
+    width: 14px;
+    height: 14px;
+  }
+  .quote {
+    flex: none;
+    font-size: 18px;
+  }
+  .caption {
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 14px;
+  }
+}
+
+.clientReview11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

@@ -1,0 +1,170 @@
+/* Espelha molecules/Brands11 (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.brands11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.brands11 {
+  width: 100%;
+  padding: 24px 0;
+  background-color: var(--brands-bg, #ffffff);
+  color: var(--brands-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.brands11 *,
+.brands11 *::before,
+.brands11 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.brands11 :where(h2) {
+  margin: 0;
+}
+.brands11 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.brands11 :where(a):hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.brands11 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.brands11 svg,
+.brands11 img {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.head {
+  display: flex;
+  align-items: stretch;
+  min-height: 50px;
+  border: 1px solid var(--brands-text, var(--text-primary-color, #0a0a0a));
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px;
+  border-right: 1px solid var(--brands-text, var(--text-primary-color, #0a0a0a));
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.number {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.viewAll {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px;
+  border-left: 1px solid var(--brands-text, var(--text-primary-color, #0a0a0a));
+  font-size: 14px;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  border-left: 1px solid var(--brands-text, var(--text-primary-color, #0a0a0a));
+}
+
+.item {
+  border-right: 1px solid var(--brands-text, var(--text-primary-color, #0a0a0a));
+  border-bottom: 1px solid var(--brands-text, var(--text-primary-color, #0a0a0a));
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 120px;
+  padding: 18px 20px;
+}
+.brand:focus-visible {
+  outline: 2px solid var(--brands-text, var(--text-primary-color, #0a0a0a));
+  outline-offset: -4px;
+}
+
+.name {
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.logo {
+  width: auto;
+  max-width: 100%;
+  height: 32px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.arrow {
+  width: 16px;
+  height: 16px;
+}
+
+@container (max-width: 960px) {
+  .brands11 {
+    padding: 20px 0;
+  }
+  .head {
+    border-right: 0;
+    border-left: 0;
+  }
+  .title {
+    gap: 10px;
+    padding: 0 16px;
+  }
+  .viewAll {
+    gap: 8px;
+    padding: 0 16px;
+  }
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-left: 0;
+  }
+  .item:nth-child(2n) {
+    border-right: 0;
+  }
+  .brand {
+    min-height: 88px;
+    padding: 14px 16px;
+  }
+  .name {
+    font-size: 17px;
+  }
+  .arrow {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+.brands11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

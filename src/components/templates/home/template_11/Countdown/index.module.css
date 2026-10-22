@@ -1,0 +1,256 @@
+/* Espelha organisms/Countdown11 (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.countdown11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.countdown11 {
+  width: 100%;
+  padding: 40px 0;
+  background-color: var(--countdown-bg, #ffffff);
+  color: var(--countdown-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.countdown11 *,
+.countdown11 *::before,
+.countdown11 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.countdown11 :where(p) {
+  margin: 0;
+  color: inherit;
+}
+.countdown11 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.countdown11 svg,
+.countdown11 img {
+  display: block;
+  flex: none;
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  max-width: 1280px;
+  min-height: 280px;
+  margin: 0 auto;
+  border: 1px solid var(--countdown-text, var(--text-primary-color, #0a0a0a));
+}
+
+.media {
+  position: relative;
+  flex: 1 1 240px;
+  order: 3;
+  min-height: 280px;
+  overflow: hidden;
+  border-right: 1px solid var(--countdown-text, var(--text-primary-color, #0a0a0a));
+  background-color: #e2e2e2;
+}
+.media picture,
+.media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.copy {
+  display: flex;
+  flex: 1 1 320px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+  order: 1;
+  padding: 28px 24px;
+  border-right: 1px solid var(--countdown-text, var(--text-primary-color, #0a0a0a));
+}
+
+.eyebrow {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.timerLabel {
+  color: color-mix(in srgb, var(--countdown-text, var(--text-primary-color, #0a0a0a)) 62%, var(--countdown-bg, #ffffff));
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.timer {
+  position: relative;
+  flex: 2 1 520px;
+  order: 2;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.units {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  height: 100%;
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 24px 20px;
+  border-right: 1px solid var(--countdown-text, var(--text-primary-color, #0a0a0a));
+}
+
+.value {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 88px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.unitLabel {
+  color: color-mix(in srgb, var(--countdown-text, var(--text-primary-color, #0a0a0a)) 62%, var(--countdown-bg, #ffffff));
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cta {
+  display: flex;
+  flex: 0 1 240px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  order: 4;
+  min-height: 120px;
+  padding: 24px;
+  background-color: var(--countdown-accent, var(--background-primary-color, #ff4f00));
+  color: var(--countdown-accent-text, var(--text-color-base, #0a0a0a));
+}
+.cta:hover .ctaLabel {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.cta:focus-visible {
+  outline: 2px solid var(--countdown-text, var(--text-primary-color, #0a0a0a));
+  outline-offset: -4px;
+}
+
+.ctaIcon {
+  width: 28px;
+  height: 28px;
+}
+
+.ctaCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ctaLabel {
+  font-size: 24px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.ctaCaption {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+}
+
+@container (max-width: 960px) {
+  .countdown11 {
+    padding: 24px 0;
+  }
+  .box {
+    display: block;
+    min-height: 0;
+    border-right: 0;
+    border-left: 0;
+  }
+  .media {
+    min-height: 0;
+    height: 250px;
+    border-right: 0;
+    border-bottom: 1px solid var(--countdown-text, var(--text-primary-color, #0a0a0a));
+  }
+  .copy {
+    justify-content: flex-start;
+    gap: 14px;
+    padding: 20px 16px;
+    border-right: 0;
+    border-bottom: 1px solid var(--countdown-text, var(--text-primary-color, #0a0a0a));
+  }
+  .title {
+    font-size: 24px;
+    line-height: 1.12;
+  }
+  .units {
+    height: auto;
+    border-bottom: 1px solid var(--countdown-text, var(--text-primary-color, #0a0a0a));
+  }
+  .unit {
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 16px 10px;
+  }
+  .unit:last-child {
+    border-right: 0;
+  }
+  .value {
+    font-size: 40px;
+  }
+  .cta {
+    flex-direction: row-reverse;
+    align-items: center;
+    height: 64px;
+    min-height: 0;
+    padding: 0 16px;
+  }
+  .ctaIcon {
+    width: 22px;
+    height: 22px;
+  }
+  .ctaLabel {
+    font-size: 18px;
+    letter-spacing: normal;
+  }
+  .ctaCaption {
+    display: none;
+  }
+}
+
+.countdown11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

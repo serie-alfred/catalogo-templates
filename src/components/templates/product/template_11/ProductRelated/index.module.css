@@ -1,0 +1,192 @@
+/* Espelha sass/crossSellingShelf11.module.scss + organisms/ProductShowcase11 (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.crossSellingShelf11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+section.crossSellingShelf11 {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  margin: 0;
+  padding: 40px max(0px, (100% - 1280px) / 2);
+  background-color: var(--showcase-bg, #ffffff);
+  color: var(--showcase-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+section.crossSellingShelf11.crossSellingShelf11.crossSellingShelf11 > h2 {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: auto;
+  max-width: none;
+  min-height: 74px;
+  margin: 0;
+  padding: 0 0 0 24px;
+  border: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+  color: var(--showcase-title-color, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+section.crossSellingShelf11.crossSellingShelf11.crossSellingShelf11 > h2::after {
+  content: "";
+  flex: 1;
+  align-self: stretch;
+  margin-left: 24px;
+  border-left: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+}
+section.crossSellingShelf11 [data-fs-product-shelf] {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+@container (max-width: 960px) {
+  section.crossSellingShelf11 {
+    padding: 24px 0;
+    overflow: hidden;
+  }
+  section.crossSellingShelf11.crossSellingShelf11.crossSellingShelf11 > h2 {
+    min-height: 58px;
+    padding: 0 16px;
+    border-right: 0;
+    border-left: 0;
+    font-size: 22px;
+  }
+  section.crossSellingShelf11.crossSellingShelf11.crossSellingShelf11 > h2::after {
+    display: none;
+  }
+}
+
+.productShowcase11 {
+  position: relative;
+  color: var(--showcase-text, var(--text-primary-color, #0a0a0a));
+}
+.productShowcase11 *,
+.productShowcase11 *::before,
+.productShowcase11 *::after {
+  box-sizing: border-box;
+}
+.productShowcase11 :where(ul.rail) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.productShowcase11 svg {
+  display: block;
+  flex: none;
+}
+
+.arrows {
+  position: absolute;
+  right: 1px;
+  bottom: calc(100% + 1px);
+  display: flex;
+  height: 72px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+  background: var(--showcase-bg, #ffffff);
+  color: inherit;
+  cursor: pointer;
+}
+.arrow:disabled {
+  cursor: default;
+}
+.arrow:focus-visible {
+  outline: 2px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+  outline-offset: -4px;
+}
+
+.rail {
+  display: flex;
+  border-left: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  display: flex;
+  flex: 0 0 25%;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.slide > * {
+  flex: 1;
+}
+
+@container (min-width: 961px) and (max-width: 1199px) {
+  .rail .slide {
+    flex-basis: 33.3333333333%;
+  }
+}
+.progress {
+  display: none;
+}
+
+@container (max-width: 960px) {
+  .arrows {
+    display: none;
+  }
+  .rail {
+    margin-left: 16px;
+  }
+  .slide {
+    flex: 0 0 217px;
+  }
+  .progress {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 16px 0;
+  }
+  .progressNum {
+    font-family: var(--font-secundary, "Geist Mono", monospace);
+    font-size: 11px;
+  }
+  .progressTrack {
+    position: relative;
+    flex: 1;
+    height: 1px;
+    background-color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0a0a0a)) 18%, var(--showcase-bg, #ffffff));
+  }
+  .progressTrack span {
+    position: absolute;
+    top: -1px;
+    height: 3px;
+    background-color: var(--showcase-text, var(--text-primary-color, #0a0a0a));
+    transition: left 0.2s ease;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .progressTrack span {
+    transition: none;
+  }
+}
+
+.crossSellingShelf11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

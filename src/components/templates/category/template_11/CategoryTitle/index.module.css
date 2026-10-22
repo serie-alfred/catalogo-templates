@@ -1,0 +1,159 @@
+/* Espelha organisms/CategoryTitle11 (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categoryTitle11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categoryTitle11 {
+  width: 100%;
+  padding: 48px 0 40px;
+  background-color: #ffffff;
+  color: var(--cat-title-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categoryTitle11 *,
+.categoryTitle11 *::before,
+.categoryTitle11 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.categoryTitle11 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.categoryTitle11 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.categoryTitle11 :where(a):hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.head {
+  padding: 0 24px 36px;
+}
+
+.title {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin: 0;
+  font-size: 112px;
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+}
+
+.count {
+  padding-top: 10px;
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.chips {
+  border: 1px solid var(--cat-title-text, var(--text-primary-color, #0a0a0a));
+}
+
+.chipList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+}
+
+.chipItem {
+  border-right: 1px solid var(--cat-title-text, var(--text-primary-color, #0a0a0a));
+}
+.chipItem:last-child {
+  border-right: 0;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 64px;
+  padding: 0 20px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.chipQty {
+  color: color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.chipActive {
+  background-color: var(--cat-title-text, var(--text-primary-color, #0a0a0a));
+  color: #ffffff;
+}
+.chipActive:hover {
+  text-decoration: none;
+}
+.chipActive .chipQty {
+  color: inherit;
+}
+
+@container (max-width: 960px) {
+  .categoryTitle11 {
+    padding: 28px 0 24px;
+    overflow: hidden;
+  }
+  .head {
+    padding: 0 16px 22px;
+  }
+  .title {
+    gap: 8px;
+    font-size: 52px;
+    line-height: 0.95;
+  }
+  .count {
+    padding-top: 6px;
+    font-size: 12px;
+  }
+  .chips {
+    border-right: 0;
+    border-left: 0;
+  }
+  .chipList {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .chipList::-webkit-scrollbar {
+    display: none;
+  }
+  .chipItem {
+    flex: none;
+  }
+  .chip {
+    justify-content: flex-start;
+    gap: 10px;
+    min-height: 0;
+    height: 52px;
+    padding: 0 16px;
+    font-size: 14px;
+  }
+}
+
+.categoryTitle11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

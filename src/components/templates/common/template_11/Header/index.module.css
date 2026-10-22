@@ -1,0 +1,426 @@
+/* Espelha organisms/Header11 (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.header11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.header11 {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  border-bottom: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+  background-color: var(--header-bg, var(--background-primary-color, #ffffff));
+  color: var(--header-text, var(--text-color-base, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.header11 *,
+.header11 *::before,
+.header11 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.header11 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.header11 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.header11 :where(a:hover) {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.header11 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.header11 svg {
+  display: block;
+  flex: none;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.mob {
+  display: none !important;
+}
+
+.ordinal {
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #0a0a0a)) 62%, var(--header-bg, var(--background-primary-color, #ffffff)));
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 10px;
+}
+.topbar {
+  border-bottom: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+  background-color: var(--header-topbar-bg, var(--background-secundary-color, #ffffff));
+  color: var(--header-text, var(--text-color-base, #0a0a0a));
+}
+
+.topbarInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1280px;
+  min-height: 32px;
+  margin: 0 auto;
+  padding: 0 20px;
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.bar {
+  display: flex;
+  align-items: stretch;
+  max-width: 1280px;
+  min-height: 72px;
+  margin: 0 auto;
+  border-right: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+  border-left: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+}
+
+.logo {
+  display: flex;
+  flex: none;
+  align-items: center;
+  padding: 0 28px;
+  border-right: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+.logo:hover {
+  text-decoration: none !important;
+}
+.logo img {
+  display: block;
+  width: auto;
+  height: 32px;
+}
+
+.logoSup {
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.nav {
+  display: flex;
+}
+
+.navList {
+  display: flex;
+}
+
+.navEntry {
+  position: relative;
+  display: flex;
+}
+.navEntry:hover .submenu, .navEntry:focus-within .submenu {
+  display: block;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  border-right: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+  font-size: 14px;
+  white-space: nowrap;
+}
+.navItem[aria-current=page] {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.submenu {
+  position: absolute;
+  top: 100%;
+  left: -1px;
+  z-index: 30;
+  display: none;
+  min-width: calc(100% + 2px);
+  border: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+  background-color: var(--header-bg, var(--background-primary-color, #ffffff));
+}
+.submenu li + li {
+  border-top: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+}
+
+.submenuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 20px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.search {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  border-right: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+}
+
+.searchField {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 0 20px;
+}
+
+.searchIcon {
+  display: flex;
+}
+
+.searchInput {
+  width: 100%;
+  min-width: 0;
+  padding: 1px 2px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--header-text, var(--text-color-base, #0a0a0a));
+  font: inherit;
+  font-size: 14px;
+}
+.searchInput::placeholder {
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #0a0a0a)) 55%, var(--header-bg, var(--background-primary-color, #ffffff)));
+  opacity: 1;
+}
+.searchInput::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.searchField:focus-within {
+  outline: 2px solid var(--header-text, var(--text-color-base, #0a0a0a));
+  outline-offset: -4px;
+}
+
+.suggestions {
+  position: absolute;
+  top: 100%;
+  right: -1px;
+  left: -1px;
+  z-index: 40;
+  border: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+  background-color: var(--header-bg, var(--background-primary-color, #ffffff));
+  color: var(--header-text, var(--text-color-base, #0a0a0a));
+  font-size: 14px;
+}
+
+.suggestProducts {
+  border-top: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+}
+.suggestProducts:first-child {
+  border-top: 0;
+}
+
+.suggestTerm,
+.suggestProduct {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 20px;
+  text-align: left;
+}
+
+.suggestTerm:hover,
+.suggestProduct:hover {
+  background-color: color-mix(in srgb, var(--header-text, var(--text-color-base, #0a0a0a)) 6%, var(--header-bg, var(--background-primary-color, #ffffff)));
+  text-decoration: none;
+}
+
+.cell {
+  display: flex;
+  flex: none;
+  align-items: center;
+  padding: 0 20px;
+  border-right: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.cart {
+  display: flex !important;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px !important;
+  background-color: var(--header-accent, var(--background-tertiary-color, #ff4f00)) !important;
+  color: var(--header-accent-text, var(--text-tertiary-color, #0a0a0a)) !important;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cartCount {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+}
+
+.drawer {
+  display: none;
+}
+@container (max-width: 960px) {
+  .dsk {
+    display: none !important;
+  }
+  .mob {
+    display: flex !important;
+  }
+  .topbarInner {
+    justify-content: center;
+    padding: 0 16px;
+  }
+  .bar {
+    max-width: none;
+    height: 60px;
+    min-height: 0;
+    border-right: 0;
+    border-left: 0;
+  }
+  .menuButton {
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    border-right: 1px solid var(--header-text, var(--text-color-base, #0a0a0a)) !important;
+  }
+  .menuOpen .menuButton {
+    background-color: var(--header-text, var(--text-color-base, #0a0a0a)) !important;
+    color: var(--header-bg, var(--background-primary-color, #ffffff)) !important;
+  }
+  .logo {
+    flex: 1;
+    min-width: 0;
+    padding: 0 16px;
+    border-right: 0;
+    font-size: 18px;
+  }
+  .logoSup {
+    font-size: 9px;
+  }
+  .cart {
+    gap: 6px;
+    padding: 0 16px !important;
+    border-left: 1px solid var(--header-text, var(--text-color-base, #0a0a0a)) !important;
+  }
+  .drawer {
+    position: absolute;
+    top: calc(100% + 1px);
+    right: 0;
+    left: 0;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    height: calc(100dvh - 94px);
+    overflow-y: auto;
+    background-color: var(--header-bg, var(--background-primary-color, #ffffff));
+  }
+  .drawerSearch {
+    position: relative;
+    display: flex;
+    flex: none;
+    height: 57px;
+    border-bottom: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+  }
+  .drawerSearch .searchField {
+    padding: 0 16px;
+  }
+  .drawerSearch .searchInput {
+    font-size: 16px;
+  }
+  .drawerItem {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    height: 65px;
+    padding: 0 16px !important;
+    border-bottom: 1px solid var(--header-text, var(--text-color-base, #0a0a0a)) !important;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    text-align: left;
+  }
+  .drawerItem:hover {
+    text-decoration: none;
+  }
+  .drawerItem .ordinal {
+    font-size: 11px;
+    letter-spacing: normal;
+  }
+  .drawerLabel {
+    flex: 1;
+  }
+  .chevron {
+    display: flex;
+    transition: transform 0.15s ease;
+  }
+  .chevronOpen {
+    transform: rotate(90deg);
+  }
+  .drawerSub {
+    border-bottom: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+  }
+  .drawerSub a {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 16px 0 46px;
+    font-size: 16px;
+  }
+  .drawerFoot {
+    display: grid;
+    flex: none;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin-top: auto;
+    border-top: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+  }
+  .drawerLink {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 60px;
+    padding: 0 16px;
+    font-size: 15px;
+  }
+  .drawerLink:first-child {
+    border-right: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chevron {
+    transition: none;
+  }
+}
+
+.header11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

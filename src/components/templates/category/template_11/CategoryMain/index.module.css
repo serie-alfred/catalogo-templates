@@ -1,0 +1,782 @@
+/* Espelha organisms/MainCategory11 (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.mainCategory11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.mainCategory11 {
+  width: 100%;
+  background-color: #ffffff;
+  color: var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.mainCategory11 *,
+.mainCategory11 *::before,
+.mainCategory11 *::after {
+  box-sizing: border-box;
+}
+.mainCategory11 :where(h1, h2, p) {
+  margin: 0;
+}
+.mainCategory11 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.mainCategory11 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.mainCategory11 :where(a):hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.mainCategory11 :where(button, input, select) {
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+.mainCategory11 :where(button) {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.mainCategory11 svg {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  min-height: 57px;
+  border: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  border-top: 0;
+}
+
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 22px;
+  border-right: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  background-color: var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.sortBtn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 22px;
+  border-right: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  font-size: 14px;
+  cursor: pointer;
+}
+.sortBtn:focus-within {
+  outline: 2px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  outline-offset: -4px;
+}
+
+.sortLabel {
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.sortSelect {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  appearance: none;
+}
+
+.density {
+  display: flex;
+}
+
+.densityBtn {
+  width: 56px;
+  border-right: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 12px;
+}
+.densityBtn[aria-pressed=true] {
+  box-shadow: inset 0 -3px 0 var(--cat-main-accent, var(--background-primary-color, #ff4f00));
+}
+
+.barFill {
+  flex: 1;
+}
+
+.count {
+  display: flex;
+  align-items: center;
+  padding: 0 22px;
+  border-left: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 12px;
+}
+.active {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 24px;
+  border: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  border-top: 0;
+}
+
+.activeNone {
+  display: none;
+}
+
+.mCount {
+  display: none;
+  flex: none;
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+}
+
+.chip {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  font-size: 13px;
+}
+.chip:hover {
+  background-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 6%, #ffffff);
+}
+
+.clearLink {
+  padding: 0 8px;
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  text-decoration: underline;
+  text-transform: uppercase;
+  text-underline-offset: 3px;
+}
+
+.clearMob {
+  display: none;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  border-left: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+}
+
+.grid2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gridItem {
+  display: flex;
+  min-width: 0;
+}
+.gridItem > * {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.more {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  min-height: 65px;
+  border: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  border-top: 0;
+}
+
+.progressText {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 12px;
+}
+
+.progress {
+  position: relative;
+  display: inline-block;
+  width: 160px;
+  height: 2px;
+  background-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 18%, #ffffff);
+}
+.progress > span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+}
+
+.moreBtn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 28px;
+  background-color: var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+}
+.moreBtn:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+.innerEmpty {
+  padding: 64px 0;
+}
+
+.empty {
+  border: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+}
+
+.active + .empty {
+  border-top: 0;
+}
+
+.emptyHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 57px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.emptyBody {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.emptyText {
+  display: flex;
+  flex: 2 1 560px;
+  flex-direction: column;
+  gap: 16px;
+  padding: 40px 24px;
+  border-right: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+}
+
+.emptyTitle {
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+
+.emptyDesc {
+  max-width: 560px;
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.emptyActions {
+  display: flex;
+  flex: 1 1 320px;
+  flex-direction: column;
+}
+
+.emptyLink {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 104px;
+  padding: 0 24px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.emptyPrimary {
+  border-bottom: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  background-color: var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  color: #ffffff;
+}
+.overlay {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 45%, transparent);
+}
+
+.panel {
+  position: fixed;
+  z-index: 1001;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: min(420px, 100%);
+  border-left: 1px solid var(--filter-text, var(--text-primary-color, #0a0a0a));
+  background-color: var(--filter-bg, #ffffff);
+  color: var(--filter-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  line-height: normal;
+}
+
+.panelHead {
+  display: flex;
+  flex: none;
+  align-items: stretch;
+  min-height: 65px;
+  border-bottom: 1px solid var(--filter-text, var(--text-primary-color, #0a0a0a));
+}
+
+.panelTitle {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 12px;
+  padding: 0 22px;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.panelCount {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.panelClose {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  border-left: 1px solid var(--filter-text, var(--text-primary-color, #0a0a0a));
+}
+
+.panelBody {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.facet {
+  border-bottom: 1px solid var(--filter-text, var(--text-primary-color, #0a0a0a));
+}
+
+.facetHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 22px;
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-align: left;
+  text-transform: uppercase;
+}
+.facetHead[aria-expanded=false] {
+  min-height: 51px;
+}
+
+.facetEnd {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.facetSum {
+  color: color-mix(in srgb, var(--filter-text, var(--text-primary-color, #0a0a0a)) 62%, var(--filter-bg, #ffffff));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.facetBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 22px 18px;
+  font-size: 14px;
+}
+
+.facetBodyPrice {
+  display: block;
+  padding-bottom: 22px;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 36px;
+  cursor: pointer;
+}
+.check input {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--filter-text, var(--text-primary-color, #0a0a0a));
+}
+
+.checkName {
+  flex: 1;
+}
+
+.checkQty {
+  color: color-mix(in srgb, var(--filter-text, var(--text-primary-color, #0a0a0a)) 62%, var(--filter-bg, #ffffff));
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+}
+
+.range {
+  position: relative;
+  height: 18px;
+  margin: 4px 8px 18px;
+}
+.range input {
+  position: absolute;
+  top: 0;
+  left: -9px;
+  width: calc(100% + 18px);
+  height: 18px;
+  margin: 0;
+  background: none;
+  pointer-events: none;
+  appearance: none;
+}
+.range input::-webkit-slider-runnable-track {
+  height: 18px;
+  background: none;
+}
+.range input::-moz-range-track {
+  height: 18px;
+  background: none;
+}
+.range input::-webkit-slider-thumb {
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--filter-text, var(--text-primary-color, #0a0a0a));
+  border-radius: 0;
+  background-color: var(--filter-bg, #ffffff);
+  cursor: pointer;
+  pointer-events: auto;
+  appearance: none;
+}
+.range input::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--filter-text, var(--text-primary-color, #0a0a0a));
+  border-radius: 0;
+  background-color: var(--filter-bg, #ffffff);
+  cursor: pointer;
+  pointer-events: auto;
+}
+.range input:focus-visible {
+  outline: none;
+}
+.range input:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--filter-text, var(--text-primary-color, #0a0a0a));
+  outline-offset: 2px;
+}
+
+.rangeTrack,
+.rangeFill {
+  position: absolute;
+  top: 8px;
+  height: 2px;
+}
+
+.rangeTrack {
+  right: 0;
+  left: 0;
+  background-color: color-mix(in srgb, var(--filter-text, var(--text-primary-color, #0a0a0a)) 18%, var(--filter-bg, #ffffff));
+}
+
+.rangeFill {
+  right: calc((1 - var(--hi, 1)) * 100%);
+  left: calc(var(--lo, 0) * 100%);
+  background-color: var(--filter-text, var(--text-primary-color, #0a0a0a));
+}
+
+.priceRow {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.priceField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+.priceField input {
+  width: 100%;
+  height: 46px;
+  padding: 0 12px;
+  border: 1px solid var(--filter-text, var(--text-primary-color, #0a0a0a));
+  border-radius: 0;
+  background: transparent;
+  color: var(--filter-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-size: 14px;
+  text-transform: none;
+}
+
+.panelFoot {
+  display: grid;
+  flex: none;
+  grid-template-columns: 1fr 2fr;
+  min-height: 65px;
+  border-top: 1px solid var(--filter-text, var(--text-primary-color, #0a0a0a));
+}
+
+.panelClear {
+  border-right: 1px solid var(--filter-text, var(--text-primary-color, #0a0a0a));
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.panelApply {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background-color: var(--filter-accent, var(--background-primary-color, #0a0a0a));
+  color: var(--filter-bg, #ffffff);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .chip,
+  .moreBtn {
+    transition: background-color 0.15s ease, opacity 0.15s ease;
+  }
+}
+@container (max-width: 960px) {
+  .bar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: 0;
+    height: 54px;
+    border-top: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+    border-right: 0;
+    border-left: 0;
+  }
+  .filterBtn,
+  .sortBtn {
+    justify-content: center;
+    gap: 8px;
+    padding: 0;
+  }
+  .sortBtn {
+    border-right: 0;
+  }
+  .sortLabel {
+    color: inherit;
+    font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+    font-size: 14px;
+    text-transform: none;
+  }
+  .sortName,
+  .density,
+  .barFill,
+  .count {
+    display: none;
+  }
+  .active,
+  .activeNone {
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 10px 16px;
+    overflow-x: auto;
+    border-right: 0;
+    border-left: 0;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .active::-webkit-scrollbar,
+  .activeNone::-webkit-scrollbar {
+    display: none;
+  }
+  .mCount {
+    display: inline;
+  }
+  .chip {
+    gap: 8px;
+    padding: 0 10px;
+  }
+  .chipPrefix,
+  .clearDesk {
+    display: none;
+  }
+  .clearMob {
+    display: inline;
+  }
+  .clearLink {
+    flex: none;
+    padding: 0 4px;
+  }
+  .grid,
+  .grid2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-left: 0;
+  }
+  .grid article[data-role=spot] > [data-role=spot-buy] {
+    display: none;
+  }
+  .more {
+    flex-direction: column;
+    gap: 14px;
+    min-height: 0;
+    padding: 20px 16px 28px;
+    border: 0;
+  }
+  .progressText {
+    gap: 12px;
+    padding: 0;
+  }
+  .progress {
+    flex: 1;
+    width: auto;
+  }
+  .moreBtn {
+    justify-content: center;
+    height: 56px;
+    padding: 0;
+  }
+  .innerEmpty {
+    padding: 32px 0;
+  }
+  .empty {
+    border-right: 0;
+    border-left: 0;
+  }
+  .emptyHead {
+    min-height: 0;
+    height: 49px;
+    padding: 0 16px;
+    font-size: 11px;
+  }
+  .emptyBody {
+    flex-direction: column;
+  }
+  .emptyText {
+    flex: none;
+    gap: 14px;
+    padding: 28px 16px;
+    border-right: 0;
+    border-bottom: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
+  }
+  .emptyTitle {
+    font-size: 34px;
+    line-height: 1.02;
+  }
+  .emptyDesc {
+    font-size: 15px;
+  }
+  .emptyActions {
+    flex: none;
+  }
+  .emptyLink {
+    flex: none;
+    min-height: 0;
+    height: 64px;
+    padding: 0 16px;
+    font-size: 16px;
+  }
+  .emptyLink svg {
+    width: 18px;
+    height: 18px;
+  }
+  .emptyPrimary {
+    height: 65px;
+  }
+  .panel {
+    left: 0;
+    width: 100%;
+    border-left: 0;
+  }
+  .panelHead {
+    min-height: 0;
+    height: 61px;
+  }
+  .panelTitle {
+    gap: 10px;
+    padding: 0 16px;
+  }
+  .panelClose {
+    width: 60px;
+  }
+  .facetHead {
+    min-height: 56px;
+    padding: 0 16px;
+    font-size: 12px;
+  }
+  .facetHead[aria-expanded=false] {
+    min-height: 55px;
+  }
+  .facetBody {
+    gap: 0;
+    padding: 0 16px 16px;
+    font-size: 16px;
+  }
+  .check {
+    min-height: 44px;
+  }
+  .check input {
+    width: 20px;
+    height: 20px;
+  }
+  .checkQty {
+    font-size: 12px;
+  }
+  .panelFoot {
+    min-height: 0;
+    height: 65px;
+  }
+}
+
+.mainCategory11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

@@ -1,0 +1,363 @@
+/* Espelha molecules/ProductShelf11 (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productShelf11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productShelf11 {
+  width: 100%;
+  padding: 40px 0;
+  background-color: var(--showcase-bg, #ffffff);
+  color: var(--showcase-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.productShelf11 *,
+.productShelf11 *::before,
+.productShelf11 *::after {
+  box-sizing: border-box;
+}
+.productShelf11 :where(h2, p) {
+  margin: 0;
+  color: inherit;
+}
+.productShelf11 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.productShelf11 :where(a):hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.productShelf11 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.productShelf11 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.productShelf11 svg,
+.productShelf11 img {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.head {
+  display: flex;
+  align-items: stretch;
+  min-height: 74px;
+  border: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+}
+
+.variantFull .head {
+  flex-wrap: wrap;
+}
+
+.variantBanner .head {
+  min-height: 66px;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 24px;
+  border-right: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+  color: var(--showcase-title-color, var(--text-primary-color, #0a0a0a));
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.variantBanner .title {
+  gap: 12px;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+}
+
+.number {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.subtitle {
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0a0a0a)) 62%, var(--showcase-bg, #ffffff));
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 12px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.viewAll {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px;
+  border-left: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+  font-size: 14px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  border-left: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+}
+.arrow:disabled {
+  cursor: default;
+}
+.arrow:focus-visible {
+  outline: 2px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+  outline-offset: -4px;
+}
+
+.rail {
+  display: flex;
+  border-left: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  display: flex;
+  flex: 0 0 25%;
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.slide > * {
+  flex: 1;
+}
+
+@container (min-width: 961px) and (max-width: 1199px) {
+  .rail .slide {
+    flex-basis: 33.3333333333%;
+  }
+}
+.progress {
+  display: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  grid-auto-rows: minmax(300px, auto);
+  border-left: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+}
+
+.cards {
+  display: contents;
+}
+.cards .slide {
+  flex: none;
+}
+
+.banner {
+  display: flex;
+  flex-direction: column;
+  grid-row: span 2;
+  grid-column: span 2;
+  border-right: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+  border-bottom: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+}
+
+.bannerArt {
+  position: relative;
+  display: block;
+  flex: 1;
+  min-height: 300px;
+  overflow: hidden;
+  background-color: #e6e6e6;
+}
+.bannerArt picture,
+.bannerArt img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bannerEyebrow {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  color: #333333;
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+}
+
+.bannerCopy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+  padding: 20px 24px;
+  border-top: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+  background-color: var(--banner-side-bg, #ffffff);
+  color: var(--banner-side-text, var(--text-primary-color, #0a0a0a));
+}
+
+.bannerTitle {
+  flex: 1 1 260px;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.bannerCta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 52px;
+  padding: 0 22px;
+  background-color: var(--banner-side-text, var(--text-primary-color, #0a0a0a));
+  color: var(--banner-side-bg, #ffffff);
+  font-size: 15px;
+  font-weight: 500;
+}
+.bannerCta:hover {
+  text-decoration: none;
+}
+
+@container (max-width: 960px) {
+  .productShelf11 {
+    padding: 24px 0;
+    overflow: hidden;
+  }
+  .head,
+  .variantBanner .head {
+    flex-wrap: nowrap;
+    min-height: 58px;
+    border-right: 0;
+    border-left: 0;
+  }
+  .title {
+    gap: 10px;
+    padding: 0 16px;
+    font-size: 22px;
+  }
+  .variantBanner .title {
+    gap: 10px;
+    font-size: 20px;
+  }
+  .subtitle,
+  .arrow {
+    display: none;
+  }
+  .viewAll {
+    gap: 8px;
+    padding: 0 16px;
+  }
+  .rail,
+  .cards {
+    display: flex;
+    margin-left: 16px;
+    border-left: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .rail::-webkit-scrollbar,
+  .cards::-webkit-scrollbar {
+    display: none;
+  }
+  .progress {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 16px 0;
+  }
+  .progressNum {
+    font-family: var(--font-secundary, "Geist Mono", monospace);
+    font-size: 11px;
+  }
+  .progressTrack {
+    position: relative;
+    flex: 1;
+    height: 1px;
+    background-color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0a0a0a)) 18%, var(--showcase-bg, #ffffff));
+  }
+  .progressTrack span {
+    position: absolute;
+    top: -1px;
+    height: 3px;
+    background-color: var(--showcase-text, var(--text-primary-color, #0a0a0a));
+    transition: left 0.2s ease;
+  }
+  .slide,
+  .cards .slide {
+    flex: 0 0 217px;
+  }
+  .grid {
+    display: block;
+    border-left: 0;
+  }
+  .banner {
+    border-right: 0;
+    border-bottom: 0;
+  }
+  .bannerArt {
+    flex: none;
+    min-height: 0;
+    height: 375px;
+  }
+  .bannerEyebrow {
+    top: 12px;
+    left: 12px;
+  }
+  .bannerCopy {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 14px;
+    padding: 18px 16px;
+    border-bottom: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
+  }
+  .bannerTitle {
+    flex: none;
+    font-size: 22px;
+  }
+  .bannerCta {
+    justify-content: space-between;
+    padding: 0 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .progressTrack span {
+    transition: none;
+  }
+}
+
+.productShelf11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

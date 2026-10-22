@@ -1,0 +1,402 @@
+/* Espelha molecules/ProductCard11 (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productCard11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productCard11 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a));
+  background-color: #ffffff;
+  color: var(--spot-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.productCard11 *,
+.productCard11 *::before,
+.productCard11 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.productCard11 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.productCard11 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.productCard11 svg {
+  display: block;
+  flex: none;
+}
+.productCard11.inGrid {
+  border-width: 0 1px 1px 0;
+}
+@media (hover: hover) {
+  @container (min-width: 961px) {
+  .productCard11:not(.soldOut):hover .name {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .productCard11:not(.soldOut):hover .buyOverlay {
+    display: flex;
+  }
+  .productCard11:not(.soldOut):hover .imgHover {
+    opacity: 1;
+  }
+  }
+}
+.top {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  height: 45px;
+  padding-left: 14px;
+  border-bottom: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a));
+}
+
+.ref {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+}
+
+.favorite {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-left: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a)) !important;
+}
+.favorite:disabled {
+  cursor: default;
+}
+.media {
+  position: relative;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  background-color: #ededed;
+}
+
+.mediaLink {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.img,
+.imgHover {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imgHover {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 6px 10px;
+  background-color: var(--spot-tag-bg, var(--background-tertiary-color, #0a0a0a));
+  color: var(--text-tertiary-color, #ffffff);
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.info {
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  border-top: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a));
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.name {
+  min-width: 0;
+  font-weight: 500;
+}
+.name:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.price {
+  flex: none;
+  color: var(--spot-price-color, var(--text-primary-color, #0a0a0a));
+  white-space: nowrap;
+}
+
+.priceOut {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+}
+
+.installment {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+}
+
+.reserve {
+  display: none;
+}
+.buy {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a)) !important;
+  background-color: var(--spot-btn-bg, var(--background-primary-color, #ff4f00)) !important;
+  color: var(--spot-btn-text, var(--text-color-base, #0a0a0a)) !important;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.buyMain {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.buyOverlay {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  display: none;
+  justify-content: space-between;
+  height: 48px;
+  padding: 0 14px !important;
+}
+.buyOverlay:focus-visible {
+  display: flex;
+}
+
+.productCard11:focus-within .buyOverlay {
+  display: flex;
+}
+
+.buyBar {
+  display: none;
+}
+
+.notify {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.notifyBox {
+  flex: none;
+  height: 46px;
+  border: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a));
+}
+
+.notifyBar {
+  display: none;
+}
+
+@media (hover: none) {
+  @container (min-width: 961px) {
+  .buyOverlay {
+    display: flex;
+  }
+  }
+}
+@container (max-width: 960px) {
+  .top {
+    padding-left: 10px;
+  }
+  .info {
+    gap: 6px;
+    padding: 10px;
+  }
+  .row {
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+    line-height: normal;
+  }
+  .name {
+    line-height: 1.3;
+  }
+  .tag {
+    padding: 6px 8px;
+  }
+  .reserve {
+    display: block;
+  }
+  .buyOverlay,
+  .productCard11:focus-within .buyOverlay,
+  .notifyBox {
+    display: none;
+  }
+  .buyBar {
+    display: flex;
+    flex: none;
+    justify-content: center;
+    gap: 6px;
+    height: 44px;
+  }
+  .buyBar .buyMain {
+    gap: 6px;
+  }
+  .buyBar .buyArrow {
+    display: none;
+  }
+  .notifyBar {
+    display: flex;
+    flex: none;
+    gap: 6px;
+    height: 45px;
+    border-top: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a));
+  }
+}
+.layoutQuick .media {
+  flex: 1 0 auto;
+  min-height: 180px;
+  aspect-ratio: auto;
+}
+.layoutQuick .info {
+  flex: none;
+  gap: 6px;
+  padding: 12px 14px;
+}
+.layoutQuick .row {
+  font-size: 14px;
+}
+
+@container (max-width: 960px) {
+  .layoutShelf .top,
+  .layoutQuick .top {
+    padding-left: 12px;
+  }
+  .layoutShelf .info,
+  .layoutQuick .info {
+    padding: 12px;
+  }
+  .layoutQuick .media {
+    flex: none;
+    min-height: 0;
+    aspect-ratio: 1/1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .imgHover {
+    transition: none;
+  }
+}
+
+.productCard11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* O item "Spot" mostra o quadro do desenho `Spot11`, como o palco do starter
+   (`DevFidelityStage/Comum11Stage`): [A] Padrão, [B] Hover e [C] Esgotado num quadro de
+   1040 com os rótulos do canvas; no mobile, 375 com 2 colunas, sem a coluna Hover.
+   No starter o card não baixa fonte (quem baixa é a lista que o usa): o quadro baixa. */
+.spotStage {
+  width: 100%;
+  background-color: #ffffff;
+  font-family: 'Geist', system-ui, sans-serif;
+  line-height: normal;
+  letter-spacing: normal;
+}
+
+.spotGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+  box-sizing: border-box;
+  width: 1040px;
+  max-width: 100%;
+  min-height: 640px;
+  padding: 40px 32px;
+}
+
+.spotCol {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.spotLabel {
+  color: color-mix(in srgb, #0a0a0a 62%, #ffffff);
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.spotMob {
+  display: none;
+}
+
+/* A coluna "Hover" fixa o estado de hover do card (o mesmo bloco `:hover` do SCSS),
+   porque no canvas ninguém passa o mouse. */
+.spotHoverCol .name {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.spotHoverCol .buyOverlay {
+  display: flex;
+}
+.spotHoverCol .imgHover {
+  opacity: 1;
+}
+
+@container (max-width: 960px) {
+  .spotGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    width: 375px;
+    min-height: 0;
+    padding: 24px 16px 32px;
+  }
+  .spotCol {
+    gap: 8px;
+  }
+  .spotHoverCol {
+    display: none;
+  }
+  .spotDsk {
+    display: none;
+  }
+  .spotMob {
+    display: inline;
+  }
+}

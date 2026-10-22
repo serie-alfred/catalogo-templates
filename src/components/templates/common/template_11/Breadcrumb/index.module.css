@@ -1,0 +1,123 @@
+/* Espelha sass/breadcrumb11.module.scss (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.breadcrumbSection11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.breadcrumbSection11 [data-fs-breadcrumb] {
+  padding: 0;
+}
+
+.breadcrumb11 {
+  width: 100%;
+  padding: 20px 0;
+  background-color: #ffffff;
+  color: var(--breadcrumb-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.breadcrumb11 *,
+.breadcrumb11 *::before,
+.breadcrumb11 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.breadcrumb11 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.breadcrumb11 :where(a):hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.breadcrumb11 svg {
+  display: block;
+  flex: none;
+}
+
+.nav {
+  display: flex;
+  align-items: stretch;
+  max-width: 1280px;
+  min-height: 56px;
+  margin: 0 auto;
+  border: 1px solid var(--breadcrumb-text, var(--text-primary-color, #0a0a0a));
+}
+
+.back {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  padding: 0 22px;
+  border-right: 1px solid var(--breadcrumb-text, var(--text-primary-color, #0a0a0a));
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.list {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  min-width: 0;
+  margin: 0;
+  padding: 0 22px;
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  list-style: none;
+  text-transform: uppercase;
+}
+
+.item {
+  display: flex;
+  gap: 10px;
+}
+
+.link,
+.sep {
+  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+}
+
+@container (max-width: 960px) {
+  .breadcrumb11 {
+    padding: 6px 0;
+  }
+  .nav {
+    height: 54px;
+    min-height: 0;
+    border-right: 0;
+    border-left: 0;
+  }
+  .back {
+    justify-content: center;
+    width: 53px;
+    padding: 0;
+  }
+  .backLabel {
+    display: none;
+  }
+  .list {
+    flex-wrap: nowrap;
+    gap: 8px;
+    padding: 0 16px;
+    overflow-x: auto;
+    font-size: 11px;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .item {
+    gap: 8px;
+  }
+}
+
+.breadcrumbSection11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

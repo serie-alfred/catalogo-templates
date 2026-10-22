@@ -1,0 +1,217 @@
+/* Espelha organisms/CategorySeoFaq11 (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categorySeoFaq11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categorySeoFaq11 {
+  width: 100%;
+  padding: 64px 0;
+  background-color: #ffffff;
+  color: var(--cat-desc-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categorySeoFaq11 *,
+.categorySeoFaq11 *::before,
+.categorySeoFaq11 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.categorySeoFaq11 :where(h2, h3, p) {
+  margin: 0;
+}
+.categorySeoFaq11 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.categorySeoFaq11 svg {
+  display: block;
+  flex: none;
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  max-width: 1280px;
+  margin: 0 auto;
+  border: 1px solid var(--cat-desc-text, var(--text-primary-color, #0a0a0a));
+}
+
+.about {
+  display: flex;
+  flex: 1 1 480px;
+  flex-direction: column;
+  gap: 18px;
+  padding: 32px 24px;
+  border-right: 1px solid var(--cat-desc-text, var(--text-primary-color, #0a0a0a));
+}
+
+.eyebrow,
+.faqHead {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.aboutTitle {
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.text {
+  max-width: 560px;
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.text :where(p) + :where(p) {
+  margin-top: 18px;
+}
+
+.textClamped {
+  max-height: 138px;
+  overflow: hidden;
+}
+
+.more {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 1px 6px;
+  border-bottom: 1px solid var(--cat-desc-accent, var(--background-primary-color, #0a0a0a));
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.faq {
+  display: flex;
+  flex: 1 1 480px;
+  flex-direction: column;
+}
+
+.faqHead {
+  display: flex;
+  align-items: center;
+  min-height: 57px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--cat-desc-text, var(--text-primary-color, #0a0a0a));
+}
+
+.faqItem {
+  border-bottom: 1px solid var(--cat-desc-text, var(--text-primary-color, #0a0a0a));
+}
+.faqItem:last-child {
+  border-bottom: 0;
+}
+
+.faqHeading {
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  min-height: 64px;
+  padding: 0 24px;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.faqItem:not(:last-child) .question[aria-expanded=false] {
+  min-height: 63px;
+}
+
+.num {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+}
+
+.qText {
+  flex: 1;
+}
+
+.answer {
+  padding: 0 24px 22px 56px;
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  font-size: 15px;
+  line-height: 1.6;
+}
+.answer :where(p) + :where(p) {
+  margin-top: 10px;
+}
+
+.faqHtml {
+  padding: 22px 24px;
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@container (max-width: 960px) {
+  .categorySeoFaq11 {
+    padding: 32px 0;
+  }
+  .box {
+    flex-direction: column;
+    border-right: 0;
+    border-left: 0;
+  }
+  .about {
+    flex: none;
+    gap: 14px;
+    padding: 24px 16px;
+    border-right: 0;
+    border-bottom: 1px solid var(--cat-desc-text, var(--text-primary-color, #0a0a0a));
+  }
+  .aboutTitle {
+    font-size: 26px;
+    line-height: 1.12;
+  }
+  .text {
+    max-width: none;
+  }
+  .textClamped {
+    max-height: 96px;
+  }
+  .faq {
+    flex: none;
+  }
+  .faqHead {
+    min-height: 0;
+    height: 53px;
+    padding: 0 16px;
+  }
+  .question {
+    gap: 12px;
+    padding: 12px 16px;
+  }
+  .answer {
+    padding: 0 16px 20px 44px;
+  }
+}
+
+.categorySeoFaq11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

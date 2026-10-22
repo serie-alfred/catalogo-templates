@@ -1,0 +1,241 @@
+/* Espelha molecules/BannerGrid11 (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.bannerGrid11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.bannerGrid11 {
+  width: 100%;
+  padding: 56px 0;
+  background-color: var(--banner-grid-bg, #ffffff);
+  color: var(--banner-grid-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bannerGrid11 *,
+.bannerGrid11 *::before,
+.bannerGrid11 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.bannerGrid11 :where(h2, p) {
+  margin: 0;
+  color: inherit;
+}
+.bannerGrid11 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.bannerGrid11 :where(a):hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.bannerGrid11 svg,
+.bannerGrid11 img {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.head {
+  display: flex;
+  align-items: stretch;
+  min-height: 58px;
+  border: 1px solid var(--banner-grid-text, var(--text-primary-color, #0a0a0a));
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px;
+  border-right: 1px solid var(--banner-grid-text, var(--text-primary-color, #0a0a0a));
+  color: var(--banner-grid-title-color, var(--text-primary-color, #0a0a0a));
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.number {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.viewAll {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px;
+  border-left: 1px solid var(--banner-grid-text, var(--text-primary-color, #0a0a0a));
+  font-size: 14px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr));
+  border-left: 1px solid var(--banner-grid-text, var(--text-primary-color, #0a0a0a));
+}
+
+.cell {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--banner-grid-text, var(--text-primary-color, #0a0a0a));
+  border-bottom: 1px solid var(--banner-grid-text, var(--text-primary-color, #0a0a0a));
+}
+
+a.cell:hover {
+  text-decoration: none;
+}
+a.cell:hover .footTitle {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.art {
+  position: relative;
+  display: block;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  background-color: #e6e6e6;
+}
+.art picture,
+.art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 73px;
+  padding: 0 20px;
+  border-top: 1px solid var(--banner-grid-text, var(--text-primary-color, #0a0a0a));
+}
+
+.footCopy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footTitle {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.footCaption {
+  color: color-mix(in srgb, var(--banner-grid-text, var(--text-primary-color, #0a0a0a)) 62%, var(--banner-grid-bg, #ffffff));
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+}
+
+.manifesto {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  aspect-ratio: 1/1;
+  padding: 32px;
+  background-color: var(--banner-grid-accent, var(--background-primary-color, #ff4f00));
+  color: var(--banner-grid-accent-text, var(--text-color-base, #0a0a0a));
+}
+
+.eyebrow {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.quote {
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 10px;
+  min-height: 45px;
+  border-bottom: 1px solid currentColor;
+  font-size: 15px;
+  font-weight: 500;
+}
+.link:hover {
+  text-decoration: none;
+}
+
+@container (max-width: 960px) {
+  .bannerGrid11 {
+    padding: 32px 0;
+  }
+  .head {
+    min-height: 54px;
+    border-right: 0;
+    border-left: 0;
+  }
+  .title {
+    gap: 10px;
+    padding: 0 16px;
+  }
+  .viewAll {
+    gap: 8px;
+    padding: 0 16px;
+  }
+  .grid {
+    display: block;
+    border-left: 0;
+  }
+  .cell {
+    border-right: 0;
+  }
+  .art {
+    aspect-ratio: auto;
+    height: 281px;
+  }
+  .foot {
+    gap: 12px;
+    min-height: 65px;
+    padding: 0 16px;
+  }
+  .footTitle {
+    font-size: 17px;
+  }
+  .manifesto {
+    justify-content: flex-start;
+    gap: 20px;
+    aspect-ratio: auto;
+    padding: 24px 16px;
+  }
+  .quote {
+    font-size: 30px;
+  }
+  .manifestoFoot {
+    display: none;
+  }
+}
+
+.bannerGrid11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

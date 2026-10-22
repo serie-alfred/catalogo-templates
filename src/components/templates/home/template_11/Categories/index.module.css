@@ -1,0 +1,235 @@
+/* Espelha molecules/Categories11 (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categories11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categories11 {
+  width: 100%;
+  padding: 24px 0;
+  background-color: var(--categories-bg, #ffffff);
+  color: var(--categories-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categories11 *,
+.categories11 *::before,
+.categories11 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.categories11 :where(h2) {
+  margin: 0;
+}
+.categories11 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.categories11 :where(a):hover {
+  text-decoration: underline;
+  text-underline-offset: 6px;
+}
+.categories11 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.categories11 svg,
+.categories11 img {
+  display: block;
+  flex: none;
+}
+
+.box {
+  max-width: 1280px;
+  margin: 0 auto;
+  border: 1px solid var(--categories-text, var(--text-primary-color, #0a0a0a));
+}
+
+.head {
+  display: flex;
+  align-items: stretch;
+  min-height: 57px;
+  border-bottom: 1px solid var(--categories-text, var(--text-primary-color, #0a0a0a));
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 24px;
+  border-right: 1px solid var(--categories-text, var(--text-primary-color, #0a0a0a));
+  color: var(--categories-title-color, var(--text-primary-color, #0a0a0a));
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.number {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.viewAll {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 24px;
+  border-left: 1px solid var(--categories-text, var(--text-primary-color, #0a0a0a));
+  font-size: 14px;
+}
+
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.list {
+  display: flex;
+  flex: 1 1 560px;
+  flex-direction: column;
+}
+.list li:last-child .row {
+  min-height: 72px;
+  border-bottom: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 73px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--categories-text, var(--text-primary-color, #0a0a0a));
+}
+.row:hover {
+  text-decoration: none;
+}
+.row:focus-visible {
+  outline: 2px solid var(--categories-text, var(--text-primary-color, #0a0a0a));
+  outline-offset: -4px;
+}
+
+.rowOn {
+  background-color: var(--categories-text, var(--text-primary-color, #0a0a0a));
+  color: var(--categories-bg, #ffffff);
+}
+.rowOn .num {
+  color: inherit;
+}
+.rowOn:focus-visible {
+  outline-color: var(--categories-bg, #ffffff);
+}
+
+.num {
+  color: color-mix(in srgb, var(--categories-text, var(--text-primary-color, #0a0a0a)) 62%, var(--categories-bg, #ffffff));
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+}
+
+.name {
+  flex: 1;
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.thumb {
+  display: none;
+}
+
+.panel {
+  position: relative;
+  flex: 1 1 440px;
+  min-height: 360px;
+  overflow: hidden;
+  border-left: 1px solid var(--categories-text, var(--text-primary-color, #0a0a0a));
+  background-color: #d9d9d9;
+}
+.panel img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.panelLabel {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  color: #2e2e2e;
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+}
+
+@container (max-width: 960px) {
+  .categories11 {
+    padding: 20px 0;
+  }
+  .box {
+    border-right: 0;
+    border-left: 0;
+  }
+  .head {
+    min-height: 53px;
+  }
+  .title {
+    gap: 10px;
+    padding: 0 16px;
+  }
+  .viewAll {
+    gap: 8px;
+    padding: 0 16px;
+  }
+  .list {
+    flex: 1 1 100%;
+  }
+  .row,
+  .rowOn {
+    gap: 14px;
+    min-height: 73px;
+    padding: 0 0 0 16px;
+    background-color: transparent;
+    color: inherit;
+  }
+  .row .num,
+  .rowOn .num {
+    color: color-mix(in srgb, var(--categories-text, var(--text-primary-color, #0a0a0a)) 62%, var(--categories-bg, #ffffff));
+  }
+  .name {
+    font-size: 24px;
+  }
+  .arrow,
+  .panel {
+    display: none;
+  }
+  .thumb {
+    display: block;
+    flex: none;
+    align-self: stretch;
+    width: 73px;
+    overflow: hidden;
+    border-left: 1px solid var(--categories-text, var(--text-primary-color, #0a0a0a));
+    background-color: #d9d9d9;
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.categories11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

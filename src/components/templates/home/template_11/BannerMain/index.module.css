@@ -1,0 +1,286 @@
+/* Espelha organisms/BannerMain11 (faststore.starter, família 11): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.bannerMain11Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.bannerMain11 {
+  width: 100%;
+  border-top: 1px solid var(--banner-main-text, var(--text-primary-color, #0a0a0a));
+  border-bottom: 1px solid var(--banner-main-text, var(--text-primary-color, #0a0a0a));
+  background-color: var(--banner-main-bg, #ffffff);
+  color: var(--banner-main-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bannerMain11 *,
+.bannerMain11 *::before,
+.bannerMain11 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.bannerMain11 :where(h2, p) {
+  margin: 0;
+  color: inherit;
+}
+.bannerMain11 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.bannerMain11 :where(a):hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.bannerMain11 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.bannerMain11 svg,
+.bannerMain11 img {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  border-right: 1px solid var(--banner-main-text, var(--text-primary-color, #0a0a0a));
+  border-left: 1px solid var(--banner-main-text, var(--text-primary-color, #0a0a0a));
+}
+
+.slide {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.media {
+  position: relative;
+  flex: 2 1 600px;
+  min-height: 560px;
+  overflow: hidden;
+  background-color: #e2e2e2;
+}
+.media picture,
+.media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.counter {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  color: #3a3a3a;
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+}
+
+.copy {
+  display: flex;
+  flex: 1 1 340px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 36px 32px 32px;
+  border-left: 1px solid var(--banner-main-text, var(--text-primary-color, #0a0a0a));
+}
+
+.eyebrow {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title {
+  font-size: 56px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.text {
+  max-width: 360px;
+  color: color-mix(in srgb, var(--banner-main-text, var(--text-primary-color, #0a0a0a)) 62%, var(--banner-main-bg, #ffffff));
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 12px;
+  height: 52px;
+  padding: 0 22px;
+  background-color: var(--banner-main-button-bg, var(--background-primary-color, #0a0a0a));
+  color: var(--banner-main-button-text, var(--text-color-base, #ffffff));
+  font-size: 15px;
+  font-weight: 500;
+}
+.cta:hover {
+  text-decoration: none;
+}
+
+.note {
+  color: color-mix(in srgb, var(--banner-main-text, var(--text-primary-color, #0a0a0a)) 62%, var(--banner-main-bg, #ffffff));
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.nav {
+  display: flex;
+  align-items: stretch;
+  min-height: 65px;
+  border-top: 1px solid var(--banner-main-text, var(--text-primary-color, #0a0a0a));
+}
+
+.tabs {
+  display: flex;
+  flex: 1;
+}
+
+.tab {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px;
+  border-right: 1px solid var(--banner-main-text, var(--text-primary-color, #0a0a0a));
+  color: color-mix(in srgb, var(--banner-main-text, var(--text-primary-color, #0a0a0a)) 62%, var(--banner-main-bg, #ffffff));
+  font-size: 14px;
+  text-align: left;
+}
+.tab:focus-visible {
+  outline: 2px solid var(--banner-main-text, var(--text-primary-color, #0a0a0a));
+  outline-offset: -4px;
+}
+
+.tabOn {
+  box-shadow: inset 0 3px 0 var(--banner-main-accent, var(--background-primary-color, #ff4f00));
+  color: var(--banner-main-text, var(--text-primary-color, #0a0a0a));
+  font-weight: 500;
+}
+
+.tabNum {
+  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  border-right: 1px solid var(--banner-main-text, var(--text-primary-color, #0a0a0a));
+}
+.arrow:last-child {
+  border-right: 0;
+}
+.arrow:focus-visible {
+  outline: 2px solid var(--banner-main-text, var(--text-primary-color, #0a0a0a));
+  outline-offset: -4px;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    border-right: 0;
+    border-left: 0;
+  }
+  .media {
+    flex: 1 1 100%;
+    min-height: 0;
+    height: 469px;
+  }
+  .counter {
+    top: 12px;
+    left: 12px;
+  }
+  .copy {
+    flex: 1 1 100%;
+    justify-content: flex-start;
+    gap: 16px;
+    padding: 24px 16px 28px;
+    border-top: 1px solid var(--banner-main-text, var(--text-primary-color, #0a0a0a));
+    border-left: 0;
+  }
+  .eyebrow {
+    font-size: 11px;
+  }
+  .body {
+    gap: 16px;
+  }
+  .title {
+    font-size: 36px;
+    line-height: 1.02;
+  }
+  .text {
+    max-width: none;
+    font-size: 15px;
+  }
+  .cta {
+    align-self: stretch;
+    justify-content: space-between;
+    padding: 0 18px;
+  }
+  .note {
+    display: none;
+  }
+  .nav {
+    min-height: 53px;
+  }
+  .tabs {
+    display: grid;
+    grid-auto-columns: minmax(0, 1fr);
+    grid-auto-flow: column;
+  }
+  .tab {
+    justify-content: center;
+    padding: 0;
+  }
+  .tab:last-child {
+    border-right: 0;
+  }
+  .tabOn {
+    font-weight: 400;
+  }
+  .tabNum {
+    font-size: 12px;
+  }
+  .tabLabel,
+  .arrow {
+    display: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bannerMain11 * {
+    transition: none !important;
+  }
+}
+
+.bannerMain11Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
