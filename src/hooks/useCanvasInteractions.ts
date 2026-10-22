@@ -151,7 +151,37 @@ export function useCanvasInteractions(
       duplicateBadge.hidden = NON_DUPLICABLE_SELECTIONS.has(selection);
       actions.hidden = false;
       positionActions();
+      esconderSobreOverlay();
     };
+
+    /* Gaveta, minicart e menu do tema são `fixed` DENTRO da seção. Abertos, cobrem
+       o canto em que os badges ficam — e o "x" de fechar costuma morar exatamente
+       ali: medido no minicart do Header09 a 375px, o clique no "x" caía em
+       "Remover seção". Com um `fixed` do tema sob os badges, eles somem
+       (visibility, para a caixa continuar medível) até o overlay fechar. */
+    const temFixedAte = (el: Element, ate: Element) => {
+      for (let n: Element | null = el; n && n !== ate; n = n.parentElement) {
+        if (doc.defaultView?.getComputedStyle(n).position === 'fixed') return true;
+      }
+      return false;
+    };
+    const esconderSobreOverlay = () => {
+      if (!selected || actions.hidden) return;
+      actions.style.visibility = 'hidden';
+      const r = actions.getBoundingClientRect();
+      const coberto = [
+        [r.left + 4, r.top + 4],
+        [r.right - 4, r.bottom - 4],
+      ].some(([x, y]) => {
+        const el = doc.elementFromPoint(x, y);
+        return !!el && !!selected?.contains(el) && temFixedAte(el, selected);
+      });
+      actions.style.visibility = coberto ? 'hidden' : '';
+    };
+    // O overlay abre/fecha por estado do template (clique, Esc, fim da transição):
+    // confere de novo depois que o React pintar.
+    const reconferir = () =>
+      requestAnimationFrame(() => requestAnimationFrame(esconderSobreOverlay));
 
     // `data-selected` é escrito pelo React ao re-renderizar o ThemeRenderer,
     // fora do alcance deste efeito — daí observar em vez de reagir a eventos.
@@ -265,7 +295,11 @@ export function useCanvasInteractions(
     const reposition = () => {
       positionLabel();
       positionActions();
+      esconderSobreOverlay();
     };
+    doc.addEventListener('click', reconferir);
+    doc.addEventListener('keydown', reconferir);
+    doc.addEventListener('transitionend', reconferir, capture);
     doc.addEventListener('scroll', reposition, {
       capture: true,
       passive: true,
@@ -280,6 +314,9 @@ export function useCanvasInteractions(
       root.removeEventListener('submit', onSubmit, capture);
       root.removeEventListener('dragstart', onDragStart, capture);
       doc.removeEventListener('scroll', reposition, { capture: true });
+      doc.removeEventListener('click', reconferir);
+      doc.removeEventListener('keydown', reconferir);
+      doc.removeEventListener('transitionend', reconferir, capture);
       doc.defaultView?.removeEventListener('resize', reposition);
       selectionObserver.disconnect();
       hovered?.removeAttribute('data-hovered');
