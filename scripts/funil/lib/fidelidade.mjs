@@ -45,6 +45,27 @@ import { itens } from './util.mjs';
  * tela que tiver alguma.
  */
 export const PARES = [
+  // Família 12 (Suave). A marca em texto da origem é "SERIE//A" aqui (ver `textoLivre`
+  // acima), no header e no rodapé. O contador anda, como na 09/10/11.
+  { starter: 'Header12', id: '12', layoutKey: 'header', pagina: 'common', textoLivre: ['hd-logo'] },
+  { starter: 'Footer12', id: '12', layoutKey: 'footer', pagina: 'common', textoLivre: ['ft-logo'] },
+  { starter: 'BannerMain12', id: '12', layoutKey: 'banner', pagina: 'home' },
+  { starter: 'BenefitsStrip12', id: '12', layoutKey: 'ruler', pagina: 'home' },
+  { starter: 'Categories12', id: '12', layoutKey: 'categories', pagina: 'home' },
+  { starter: 'ProductShelfCustom12', id: '12', layoutKey: 'showcase', pagina: 'home' },
+  { starter: 'BannerGrid12', id: '12', layoutKey: 'grid', pagina: 'home' },
+  { starter: 'Countdown12', id: '12', layoutKey: 'countdown', pagina: 'home', textoLivre: ['cd-timer'] },
+  { starter: 'ProductShelfBanner12', id: '12', layoutKey: 'bannerSide', pagina: 'home' },
+  { starter: 'Editorial12', id: '12', layoutKey: 'editorial', pagina: 'home' },
+  { starter: 'ClientReview12', id: '12', layoutKey: 'review', pagina: 'home' },
+  { starter: 'Brands12', id: '12', layoutKey: 'brand', pagina: 'home' },
+  { starter: 'Newsletter12', id: '12', layoutKey: 'newsletter', pagina: 'home' },
+  { starter: 'CategoryTitle12', id: '12', layoutKey: 'categoryTitle', pagina: 'category' },
+  { starter: 'MainCategory12', id: '12', layoutKey: 'categoryMain', pagina: 'category' },
+  { starter: 'CategorySeoFaq12', id: '12', layoutKey: 'categoryDescription', pagina: 'category' },
+  { starter: 'ProductDetails12', id: '12', layoutKey: 'productInfo', pagina: 'product' },
+  { starter: 'ProductDescription12', id: '12', layoutKey: 'productDescription', pagina: 'product' },
+  { starter: 'ProductReviews12', id: '12', layoutKey: 'productReviews', pagina: 'product' },
   // Família 11 (Grade). A marca em texto da origem ("SUA MARCA") é "SERIE//A" aqui
   // (ver `textoLivre` acima), no header e no rodapé. O contador anda, como na 09/10.
   { starter: 'Header11', id: '11', layoutKey: 'header', pagina: 'common', textoLivre: ['hd-logo'] },
