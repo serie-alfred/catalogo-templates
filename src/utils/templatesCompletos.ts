@@ -191,6 +191,111 @@ export const TEMA_DAS_FAMILIAS: Record<string, TemaDaFamilia> = {
   },
 };
 
+/**
+ * As variáveis de NÍVEL 1 que a peça precisa para bater com o desenho DEPOIS do
+ * tema da família: onde o token de Nível 2 serve a vários papéis do desenho (na
+ * 09, `--background-primary-color` é o fundo do header, o botão e o acento), um
+ * valor só não acerta todos. Aplicadas como `variables` da seção — o painel da
+ * direita as mostra como cor própria, com o reset de sempre — e exportadas por
+ * componente, como qualquer escolha do usuário.
+ *
+ * GERADO (script do kit das famílias, fora do repo): para cada var de cor do
+ * `variablesSchema`, o hex do desenho é o `default`; o valor que ela resolve sai
+ * das cadeias `var(--<n1>, var(--<token>, #hex))` do CSS das réplicas com o token
+ * avaliado em `TEMA_DAS_FAMILIAS` (derivadas pelo contraste). Só entra o que
+ * diverge — ou cujo token o tema não define. Chave: o `component` do item.
+ */
+export const NIVEL1_DAS_FAMILIAS: Record<
+  string,
+  Record<string, Record<string, string>>
+> = {
+  '9': {
+    Header09: {
+      '--header-topbar-text': '#f7f4ef',
+      '--header-bg': '#f7f4ef',
+      '--header-text': '#1d1b18',
+      '--header-accent': '#9c4a2f',
+    },
+    Spot09: {
+      '--spot-tag-text': '#9c4a2f',
+      '--spot-btn-text': '#f7f4ef',
+    },
+    Footer09: {
+      '--footer-accent': '#9c4a2f',
+    },
+    ShelfBanner09: {
+      '--showcase-tag-text': '#9c4a2f',
+    },
+    Showcase09: {
+      '--showcase-tag-text': '#9c4a2f',
+    },
+    HelpFloat09: {
+      '--help-header-text': '#f7f4ef',
+    },
+    PopupNews09: {
+      '--popup-button-text': '#f7f4ef',
+    },
+    Newsletter09: {
+      '--newsletter-desc-color': '#5e574f',
+    },
+    CategoryMain09: {
+      '--cat-main-accent': '#9c4a2f',
+    },
+    ProductInfo09: {
+      '--pdp-accent': '#9c4a2f',
+      '--pdp-button-text': '#f7f4ef',
+    },
+    ProductReviews09: {
+      '--prod-reviews-accent': '#9c4a2f',
+    },
+    ProductRelated09: {
+      '--showcase-tag-text': '#9c4a2f',
+    },
+    Countdown09: {
+      '--countdown-accent': '#9c4a2f',
+    },
+  },
+  '10': {
+    Header10: {
+      '--header-bg': '#ffffff',
+      '--header-text': '#101828',
+      '--header-accent-text': '#101828',
+    },
+    Spot10: {
+      '--spot-tag-bg': '#d92d20',
+      '--spot-tag-text': '#ffffff',
+    },
+    Footer10: {
+      '--footer-legal-text': '#475467',
+    },
+    BannerMain10: {
+      '--banner-main-button-text': '#101828',
+    },
+    ShelfBanner10: {
+      '--showcase-tag-bg': '#d92d20',
+      '--showcase-tag-text': '#ffffff',
+    },
+    Showcase10: {
+      '--showcase-tag-bg': '#d92d20',
+      '--showcase-tag-text': '#ffffff',
+    },
+    PopupNews10: {
+      '--popup-accent': '#ffcf24',
+    },
+    Newsletter10: {
+      '--newsletter-button-text': '#101828',
+    },
+    ProductRelated10: {
+      '--showcase-tag-bg': '#d92d20',
+      '--showcase-tag-text': '#ffffff',
+    },
+    Countdown10: {
+      '--countdown-bg': '#ffcf24',
+      '--countdown-text': '#101828',
+    },
+  },
+};
+
 export type TemplateCompleto = {
   /** Valor de `template` no catálogo ("9"). */
   template: string;
@@ -202,6 +307,8 @@ export type TemplateCompleto = {
   previa: string[];
   /** Paleta e fontes globais do desenho, quando a família tem. */
   tema?: TemaDaFamilia;
+  /** Quantas peças ganham variáveis de Nível 1 próprias (NIVEL1_DAS_FAMILIAS). */
+  comCorPropria: number;
 };
 
 function pad(template: string) {
@@ -275,6 +382,9 @@ export function templatesCompletos(
         nome: nomeDoTemplate(template),
         itens,
         tema: TEMA_DAS_FAMILIAS[template],
+        comCorPropria: itens.filter(
+          ({ item }) => NIVEL1_DAS_FAMILIAS[template]?.[item.component]
+        ).length,
         previa: ['header', 'banner-main', 'showcase', 'footer']
           .map(thumb)
           .filter(Boolean),
@@ -284,10 +394,15 @@ export function templatesCompletos(
 
 /** As seções da loja com a família inteira, em todas as páginas. */
 export function selecoesDoTemplate(t: TemplateCompleto): LayoutSelection[] {
-  return t.itens.map(({ layoutKey, item }) => ({
-    uid: crypto.randomUUID(),
-    id: item.id,
-    layoutKey,
-    pagina: item.pagina[0],
-  }));
+  return t.itens.map(({ layoutKey, item }) => {
+    const variables = NIVEL1_DAS_FAMILIAS[t.template]?.[item.component];
+    return {
+      uid: crypto.randomUUID(),
+      id: item.id,
+      layoutKey,
+      pagina: item.pagina[0],
+      // Cópia: o objeto do mapa não pode virar estado mutável de uma seção.
+      ...(variables ? { variables: { ...variables } } : {}),
+    };
+  });
 }

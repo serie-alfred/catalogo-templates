@@ -870,12 +870,16 @@ export function useLayoutGenerator() {
           ? `As fontes globais passam a ser as do template (${fontes.fontPrimary}` +
             `${fontes.fontSecondary !== fontes.fontPrimary ? ` + ${fontes.fontSecondary}` : ''}); as cores não mudam.`
           : 'Cores e fontes não mudam.';
+    const proprias = t.comCorPropria
+      ? ` ${t.comCorPropria} seções ganham cor própria para ficar como o desenho ` +
+        `(o painel da direita mostra e volta à cor global).`
+      : '';
     if (
       lojaSelections.length > 0 &&
       !window.confirm(
         `Aplicar o template ${t.nome}?\n\nAs ${lojaSelections.length} seções ` +
           `escolhidas hoje serão substituídas pelas ${t.itens.length} peças do ` +
-          `template, em todas as páginas. ${oQueMuda}\n\nDá para desfazer com Voltar.`
+          `template, em todas as páginas. ${oQueMuda}${proprias}\n\nDá para desfazer com Voltar.`
       )
     ) {
       return false;
