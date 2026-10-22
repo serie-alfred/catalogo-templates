@@ -208,8 +208,15 @@ inteira na loja. Some no checkout e na LP.
   (nada de nome de cliente: o repo é público).
 - **Aplicar** (`aplicarTemplate` no hook): troca TODAS as seções da loja pelas da família, uma por
   item, na ordem `ORDEM` (a da home segue o mapa do desenho das famílias 09–13; pop-up e ajuda
-  flutuante por último). Com seções já escolhidas pede `confirm`. Cores e fontes não mudam. Vai para
-  "Componentes" na home; dali cada peça se troca como antes, e o undo desfaz a aplicação.
+  flutuante por último), e traz a **cara** da família: `TEMA_DAS_FAMILIAS` (cores autorais de
+  Nível 2 e fontes do desenho; as 3 derivadas recalculadas no mesmo render). Tudo num render só, então
+  é UM passo de undo. O mapa é **gerado** a partir dos `_bases/<Comp>NN/notas.md` do starter e do
+  contrato (regra no comentário do bloco); família sem entrada (01–08) mantém paleta e fontes, e a 13
+  só troca as fontes (o SCSS dela não herda a marca). Com seções já escolhidas pede `confirm`, que
+  diz o que muda. Vai para "Componentes" na home; dali cada peça se troca como antes.
+- **Conflito conhecido:** um token de Nível 2 serve a vários papéis do desenho (na 09,
+  `--background-primary-color` é fundo do header #F7F4EF, botão #1D1B18 e acento #9C4A2F). Fica o dos
+  papéis de fundo, então o header da 09 e o meio do header da 10 saem na cor de marca, não na do desenho.
 - **Funil:** `2-templates`.
 
 ### Selection rules in `toggleSelection`
