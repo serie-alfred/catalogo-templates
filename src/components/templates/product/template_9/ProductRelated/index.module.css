@@ -69,7 +69,7 @@ section.crossSellingShelf09 [data-fs-product-shelf] {
   padding: 0;
   list-style: none;
 }
-.productShowcase09 :where(button) {
+.productShowcase09 :where(button:not([data-role^=spot])) {
   margin: 0;
   padding: 0;
   border: 0;
