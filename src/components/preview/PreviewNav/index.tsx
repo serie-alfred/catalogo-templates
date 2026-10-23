@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { PREVIEW_PAGES } from '@/utils/previewRender';
 import { CHECKOUT_ETAPAS } from '@/utils/checkout';
+import PreviewLive from '../PreviewLive';
 import styles from './index.module.css';
 
 interface PreviewNavProps {
@@ -15,22 +16,30 @@ interface PreviewNavProps {
   temCheckout?: boolean;
   /** O snapshot foi criado no modo LP: o menu ganha a LP, pelo nome dela. */
   lp?: { nome: string };
+  /** Revisão do snapshot renderizado: o PreviewLive atualiza quando ela muda. */
+  rev?: number;
 }
 
 /**
  * Balão flutuante no canto direito. Ao clicar, abre um menu para navegar entre
  * as páginas do preview (Home / Categoria / Produto).
+ *
+ * No canto oposto, o "Editar": volta ao editor com ESTE tema
+ * (`/gerador?preview={id}`), e a aba do editor passa a atualizar este mesmo
+ * link. O /gerador pede login; o preview continua público.
  */
 export default function PreviewNav({
   id,
   activeSlug,
   temCheckout = false,
   lp,
+  rev = 0,
 }: PreviewNavProps) {
   const [open, setOpen] = useState(false);
 
   return (
     <div className={styles.wrapper}>
+      <PreviewLive id={id} rev={rev} />
       {open && (
         <nav className={styles.menu} aria-label="Navegação do preview">
           <span className={styles.menuTitle}>Ver página</span>
@@ -79,6 +88,28 @@ export default function PreviewNav({
           )}
         </nav>
       )}
+
+      {/* `<a>` comum, não `<Link>`: o editor é outro root layout, e a
+          navegação entre root layouts recarrega a página de qualquer jeito. */}
+      <a
+        href={`/gerador?preview=${id}${
+          activeSlug.startsWith('checkout/') ? '&modo=checkout' : ''
+        }`}
+        className={styles.edit}
+        data-preview-editar=""
+        title="Abrir este tema no editor"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+          <path
+            d="M4 20h4L19 9l-4-4L4 16v4zM14 6l4 4"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        Editar
+      </a>
 
       <button
         type="button"

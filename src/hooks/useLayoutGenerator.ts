@@ -42,7 +42,9 @@ import {
 } from '@/utils/checkout';
 // type-only: não puxa o módulo server-only para o bundle do cliente.
 import type { PreviewSnapshot } from '@/lib/previewStore';
+import type { EstadoDoEditor } from '@/types/estadoEditor';
 import { estadoDaAba } from '@/utils/editorStorage';
+import { avisarPreviewAtualizado } from '@/utils/previewAoVivo';
 
 /** Os destinos do rail de navegação do editor: os quatro do Figma e o
  *  "Por template" (escolher uma família inteira, utils/templatesCompletos.ts). */
@@ -51,7 +53,14 @@ export type RailTarget =
   | 'componentes'
   | 'variaveis'
   | 'tipografia'
-  | 'identidade';
+  | 'identidade'
+  | 'salvos';
+
+/** O tema do histórico em que esta aba salva (ver PanelSavedThemes). */
+export interface TemaAtual {
+  id: string;
+  nome: string;
+}
 
 /**
  * O que o canvas mostra: a loja (as páginas montadas com seções), o checkout
@@ -180,6 +189,25 @@ export function useLayoutGenerator() {
    *  mostra. Substitui o par `activeTab`/`isOpen` da antiga dock inferior: o
    *  painel agora está SEMPRE aberto, então não existe estado "fechado". */
   const [railTarget, setRailTarget] = useState<RailTarget>('componentes');
+
+  /**
+   * Vínculos da aba, persistidos com o trabalho dela (`editorStorage`):
+   * - `temaAtual`: o tema do histórico em que "Salvar versão" grava;
+   * - `previewAtual`: o id do preview que esta aba mantém atualizado. Nasce no
+   *   "Pré-visualizar" ou no "Editar" do /p, e a partir daí cada edição regrava
+   *   o MESMO id (ver o efeito "Preview ao vivo").
+   */
+  const [temaAtual, setTemaAtual] = useState<TemaAtual | null>(null);
+  const [previewAtual, setPreviewAtual] = useState<string | null>(null);
+
+  /**
+   * Estado vazio do canvas: a aba nova abre sem layout e convida a escolher um
+   * template ou a começar do zero. "Começar do zero" liga isto (transiente) e
+   * o convite some até a aba recarregar vazia de novo.
+   */
+  const [inicioEscolhido, setInicioEscolhido] = useState(false);
+  /** Carregando um tema de fora (o "Editar" do /p): o convite espera. */
+  const [carregandoExterno, setCarregandoExterno] = useState(false);
 
   /**
    * Modo do editor e o estado do checkout. O modo é persistido (`editorMode`)
@@ -543,6 +571,18 @@ export function useLayoutGenerator() {
       setFavicon(estadoDaAba.get('favicon') || '');
       setOgImage(estadoDaAba.get('ogImage') || '');
       setWakeCustomValue(estadoDaAba.get('wakeToken') || '');
+      try {
+        const tema = JSON.parse(estadoDaAba.get('temaAtual') ?? 'null');
+        if (
+          tema &&
+          typeof tema.id === 'string' &&
+          typeof tema.nome === 'string'
+        )
+          setTemaAtual({ id: tema.id, nome: tema.nome });
+      } catch {
+        /* vínculo ilegível: a aba só não sabe em que tema salva */
+      }
+      setPreviewAtual(estadoDaAba.get('previewAtual') || null);
       setLeftCollapsed(localStorage.getItem('panelLeftCollapsed') === '1');
       setRightCollapsed(localStorage.getItem('panelRightCollapsed') === '1');
       const zoom = localStorage.getItem('canvasZoom');
@@ -723,10 +763,14 @@ export function useLayoutGenerator() {
     try {
       // Trabalho da aba: o token é da loja do cliente, não do navegador.
       estadoDaAba.set('wakeToken', wakeCustomValue);
+      if (temaAtual) estadoDaAba.set('temaAtual', JSON.stringify(temaAtual));
+      else estadoDaAba.remove('temaAtual');
+      if (previewAtual) estadoDaAba.set('previewAtual', previewAtual);
+      else estadoDaAba.remove('previewAtual');
     } catch (e) {
       console.error('Erro ao salvar os vínculos da aba:', e);
     }
-  }, [wakeCustomValue, hydrated]);
+  }, [wakeCustomValue, temaAtual, previewAtual, hydrated]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -1574,31 +1618,235 @@ export function useLayoutGenerator() {
     ...(platform === 'VTEX' ? { checkout: blocoDoConfig(checkout) } : {}),
   });
 
+  /** A URL do preview `id` na vista que o editor mostra agora. */
+  const urlDoPreview = (id: string) => {
+    // No modo Checkout o link abre direto na etapa que está no canvas; no
+    // modo LP, direto na LP.
+    if (editorMode === 'checkout' && platform === 'VTEX') {
+      return `${window.location.origin}/p/${id}/checkout/${checkout.etapa}`;
+    }
+    return emLp
+      ? `${window.location.origin}/p/${id}/lp`
+      : `${window.location.origin}/p/${id}/home`;
+  };
+
+  /** O último corpo que o preview ao vivo recebeu: evita regravar o mesmo. */
+  const previewEnviado = useRef<string | null>(null);
+
   /**
    * Persiste o tema atual no servidor e retorna a URL compartilhável da home do
    * preview (`/p/{id}/home`). Retorna null em caso de falha.
+   *
+   * Se a aba já tem um preview (`previewAtual`), regrava o MESMO id: o link que
+   * já foi mandado ao cliente continua valendo e mostra o tema de agora.
    */
   const createPreview = async (): Promise<string | null> => {
     try {
+      const corpo = JSON.stringify(buildPreviewSnapshot());
+      if (previewAtual) {
+        const res = await fetch(`/gerador/api/preview/${previewAtual}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: corpo,
+        });
+        if (res.ok) {
+          const { rev } = (await res.json()) as { rev: number };
+          previewEnviado.current = corpo;
+          avisarPreviewAtualizado(previewAtual, rev);
+          return urlDoPreview(previewAtual);
+        }
+        // Falhou regravando: cai para um preview novo, que é o que o botão promete.
+      }
       const res = await fetch('/gerador/api/preview', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(buildPreviewSnapshot()),
+        body: corpo,
       });
       if (!res.ok) return null;
       const { id } = (await res.json()) as { id: string };
-      // No modo Checkout o link abre direto na etapa que está no canvas; no
-      // modo LP, direto na LP.
-      if (editorMode === 'checkout' && platform === 'VTEX') {
-        return `${window.location.origin}/p/${id}/checkout/${checkout.etapa}`;
-      }
-      return emLp
-        ? `${window.location.origin}/p/${id}/lp`
-        : `${window.location.origin}/p/${id}/home`;
+      previewEnviado.current = corpo;
+      setPreviewAtual(id);
+      return urlDoPreview(id);
     } catch (error) {
       console.error('Erro ao criar preview:', error);
       return null;
     }
+  };
+
+  /**
+   * O tema inteiro da aba, no formato do histórico (`EstadoDoEditor`): o
+   * snapshot do preview + a LP sempre + o modo + o token da Wake.
+   */
+  const estadoAtual = (): EstadoDoEditor => ({
+    ...buildPreviewSnapshot(),
+    lp: { nome: lp.nome, selections: lp.selections },
+    editorMode,
+    wakeToken: wakeCustomValue,
+  });
+
+  /**
+   * Troca o tema da aba por um de fora: um snapshot de preview (o "Editar" do
+   * /p) ou um tema salvo do histórico. Passa pelos MESMOS filtros da
+   * hidratação, porque o catálogo pode ter mudado desde a gravação. Tudo no
+   * mesmo render: é UM passo de desfazer.
+   */
+  const carregarEstado = useCallback(
+    (
+      doc: EstadoDoEditor,
+      /** O histórico reabre sem fechar o painel dele (para ver outra versão). */
+      opcoes: { manterPainel?: boolean } = {}
+    ) => {
+      const plat = sanitizePlatform(doc.platform ?? null);
+      setPlatform(plat);
+      setLojaSelections(sanitizeSelections(doc.selections));
+      if (doc.lp) setLp(sanitizeLp(doc.lp));
+      const c: Partial<PreviewSnapshot['colors']> = doc.colors ?? {};
+      setColorPrimary(c.colorPrimary || '#1a1a1a');
+      setColorSecondary(c.colorSecondary || '#ffffff');
+      setColorPrimaryBackground(c.colorPrimaryBackground || '#000');
+      setColorSecondaryBackground(c.colorSecondaryBackground || '#dd1838');
+      setColorTertiaryBackground(c.colorTertiaryBackground || '#000');
+      setColorFooter(c.colorFooter || '#1A051C');
+      setColorFooterText(c.colorFooterText || '#94A3B8');
+      // As três derivadas saem dos fundos, no mesmo render (como no "Por template").
+      setColorPrimaryText(contrastOn(c.colorPrimaryBackground || '#000'));
+      setColorSecondaryText(
+        contrastOn(c.colorSecondaryBackground || '#dd1838')
+      );
+      setColorTertiary(contrastOn(c.colorTertiaryBackground || '#000'));
+      const f: Partial<PreviewSnapshot['fonts']> = doc.fonts ?? {};
+      setFontPrimary(f.fontPrimary || 'Roboto');
+      setFontSecondary(f.fontSecondary || 'Poppins');
+      setFontTertiary(f.fontTertiary || 'Open Sans');
+      setLogo(typeof doc.logo === 'string' ? doc.logo : '');
+      setFavicon(typeof doc.favicon === 'string' ? doc.favicon : '');
+      setOgImage(typeof doc.ogImage === 'string' ? doc.ogImage : '');
+      setCheckout(prev =>
+        sanitizeCheckout({
+          model: doc.checkout?.model ?? prev.model,
+          variables: doc.checkout?.variables ?? {},
+          etapa: prev.etapa,
+        })
+      );
+      if (typeof doc.wakeToken === 'string') setWakeCustomValue(doc.wakeToken);
+      // O snapshot do preview não diz o modo: ele só leva a LP quando nasceu nela.
+      const modo = sanitizeEditorMode(
+        doc.editorMode ?? (doc.lp ? 'lp' : 'loja'),
+        plat
+      );
+      setEditorModeState(modo);
+      if (!opcoes.manterPainel)
+        setRailTarget(modo === 'checkout' ? 'variaveis' : 'componentes');
+      setSelectedUid(null);
+      setSelectedPage('home');
+      setInicioEscolhido(true);
+    },
+    []
+  );
+
+  /**
+   * "Editar" do /p: `/gerador?preview=<id>` abre o tema daquele preview nesta
+   * aba e a vincula a ele — dali em diante as edições atualizam o mesmo link.
+   * O parâmetro sai da URL depois, para um recarregar não reabrir por cima do
+   * que foi editado.
+   */
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('preview');
+    if (!id) return;
+    setCarregandoExterno(true);
+    fetch(`/api/preview/${encodeURIComponent(id)}`, { cache: 'no-store' })
+      .then(res => (res.ok ? (res.json() as Promise<PreviewSnapshot>) : null))
+      .then(snapshot => {
+        if (!snapshot) {
+          window.alert(
+            'Este preview não existe mais (o link expira 3 dias depois da última edição). O editor abre com o que esta aba já tinha.'
+          );
+          return;
+        }
+        // Do checkout do /p, o editor abre no modo Checkout.
+        carregarEstado(
+          params.get('modo') === 'checkout'
+            ? { ...snapshot, editorMode: 'checkout' }
+            : snapshot
+        );
+        setTemaAtual(null);
+        setPreviewAtual(id);
+      })
+      .catch(error => console.error('Erro ao abrir o preview:', error))
+      .finally(() => {
+        setCarregandoExterno(false);
+        params.delete('preview');
+        params.delete('modo');
+        const resto = params.toString();
+        window.history.replaceState(
+          null,
+          '',
+          `${window.location.pathname}${resto ? `?${resto}` : ''}`
+        );
+      });
+  }, [carregarEstado]);
+
+  /**
+   * Preview ao vivo. Com um preview vinculado, toda edição do tema regrava o
+   * mesmo id (debounce de 1,2 s: um arraste de cor é uma gravação, não cem) e
+   * avisa as abas do /p abertas neste navegador por BroadcastChannel. As de
+   * outros navegadores percebem pela revisão, num polling leve (PreviewLive).
+   */
+  const snapshotRef = useRef(buildPreviewSnapshot);
+  snapshotRef.current = buildPreviewSnapshot;
+  useEffect(() => {
+    if (!hydrated || !previewAtual) return;
+    const timer = window.setTimeout(async () => {
+      const corpo = JSON.stringify(snapshotRef.current());
+      if (corpo === previewEnviado.current) return;
+      try {
+        const res = await fetch(`/gerador/api/preview/${previewAtual}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: corpo,
+        });
+        if (!res.ok) return;
+        previewEnviado.current = corpo;
+        const { rev } = (await res.json()) as { rev: number };
+        avisarPreviewAtualizado(previewAtual, rev);
+      } catch (error) {
+        console.error('Erro ao atualizar o preview:', error);
+      }
+    }, 1200);
+    return () => window.clearTimeout(timer);
+  }, [
+    hydrated,
+    previewAtual,
+    themeDoc,
+    platform,
+    logo,
+    favicon,
+    ogImage,
+    editorMode,
+    checkout.model,
+  ]);
+
+  /** "Começar do zero" já foi escolhido, ou a aba já tem seções: sem convite. */
+  useEffect(() => {
+    if (lojaSelections.length > 0) setInicioEscolhido(true);
+  }, [lojaSelections.length]);
+
+  /** O convite do canvas vazio (EmptyCanvas). */
+  const mostrarInicio =
+    hydrated &&
+    !carregandoExterno &&
+    editorMode === 'loja' &&
+    lojaSelections.length === 0 &&
+    !inicioEscolhido;
+
+  /** Os dois botões do convite. */
+  const comecarPorTemplate = () => {
+    setRailTarget('templates');
+  };
+  const comecarDoZero = () => {
+    setInicioEscolhido(true);
+    setRailTarget('componentes');
   };
 
   useEffect(() => {
@@ -1678,6 +1926,15 @@ export function useLayoutGenerator() {
     exportFeedback,
     dismissExportFeedback,
     createPreview,
+    previewAtual,
+    setPreviewAtual,
+    temaAtual,
+    setTemaAtual,
+    estadoAtual,
+    carregarEstado,
+    mostrarInicio,
+    comecarPorTemplate,
+    comecarDoZero,
     setItemVariable,
     resetItemVariables,
     railTarget,

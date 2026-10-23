@@ -67,6 +67,7 @@ export default function SharedPreview({
         activeSlug={activeSlug}
         temCheckout={snapshotTemCheckout(snapshot)}
         lp={snapshot.lp ? { nome: snapshot.lp.nome } : undefined}
+        rev={snapshot.rev}
       />
     </SeededLayoutProvider>
   );

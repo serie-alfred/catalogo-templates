@@ -52,6 +52,12 @@ export interface PreviewSnapshot {
     slug: string;
     selections: LayoutSelection[];
   };
+  /**
+   * Revisão do snapshot (ms da última gravação). O editor regrava o MESMO id a
+   * cada edição (ver `updatePreview`) e o /p aberto compara este número para
+   * saber se precisa se atualizar. Opcional: snapshot antigo não tem.
+   */
+  rev?: number;
 }
 
 interface PreviewStore {
@@ -195,8 +201,28 @@ function generateId(): string {
 /** Persiste um snapshot e retorna o ID gerado. */
 export async function savePreview(snapshot: PreviewSnapshot): Promise<string> {
   const id = generateId();
-  await getStore().save(id, snapshot);
+  await getStore().save(id, { ...snapshot, rev: Date.now() });
   return id;
+}
+
+/** O formato de um id gerado aqui: barra caminho e chave arbitrária no KV. */
+export function idDePreviewValido(id: string): boolean {
+  return /^[A-Za-z0-9]{10}$/.test(id);
+}
+
+/**
+ * Regrava o snapshot de um id que já existe — é como o preview acompanha a
+ * edição. Grava com TTL renovado (o link vive 3 dias desde a ÚLTIMA edição) e
+ * devolve a revisão nova. Um id que expirou volta a existir: quem chama está
+ * logado e o id é dele.
+ */
+export async function updatePreview(
+  id: string,
+  snapshot: PreviewSnapshot
+): Promise<number> {
+  const rev = Date.now();
+  await getStore().save(id, { ...snapshot, rev });
+  return rev;
 }
 
 /** Recupera um snapshot pelo ID, ou null se inexistente/expirado. */

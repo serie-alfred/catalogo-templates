@@ -87,3 +87,38 @@
   background: #0a0a0a;
   color: #fff;
 }
+
+/* "Editar" no canto ESQUERDO, longe do balão: o canto direito já é disputado
+   pelo balão e pelos flutuantes do próprio tema (ajuda, WhatsApp). */
+.edit {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 9999;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: #0a0a0a;
+  color: #fff;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  transition:
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+.edit:hover {
+  transform: scale(1.04);
+  background: #222;
+}

@@ -74,7 +74,12 @@ export default function SharedCheckout({
           logoPendente={logo.de !== snapshot.logo}
         />
       )}
-      <PreviewNav id={id} activeSlug={`checkout/${etapa}`} temCheckout />
+      <PreviewNav
+        id={id}
+        activeSlug={`checkout/${etapa}`}
+        temCheckout
+        rev={snapshot.rev}
+      />
     </div>
   );
 }
