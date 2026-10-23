@@ -6,6 +6,7 @@ import { useLayout } from '@/context/LayoutContext';
 import { useCanvasZoom } from '@/hooks/useCanvasZoom';
 
 import CanvasZoom from '../CanvasZoom';
+import EmptyCanvas from '../EmptyCanvas';
 import PreviewFrame from '../PreviewFrame';
 import EditorCheckoutFrame from '../CheckoutFrame/EditorCheckoutFrame';
 
@@ -57,6 +58,7 @@ export default function EditorCanvas({ className }: { className?: string }) {
         <PreviewFrame caixa={caixa} />
       )}
       <CanvasZoom escala={caixa.escala} />
+      <EmptyCanvas />
     </main>
   );
 }
