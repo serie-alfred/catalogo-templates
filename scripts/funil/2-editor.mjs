@@ -37,7 +37,8 @@ await p.goto(`${BASE_URL}/gerador`, {
   timeout: 120000,
 });
 await p.evaluate(x => {
-  for (const [k, v] of Object.entries(x)) localStorage.setItem(k, v);
+  // Preferência de tela no localStorage; o trabalho, por aba (utils/editorStorage.ts).
+  for (const [k, v] of Object.entries(x)) (['panelLeftCollapsed', 'panelRightCollapsed', 'canvasZoom'].includes(k) ? localStorage : sessionStorage).setItem(k, v);
 }, SEED);
 await p.goto(`${BASE_URL}/gerador`, {
   waitUntil: 'networkidle2',
@@ -415,7 +416,7 @@ await p.evaluate(() => {
   };
 });
 const secAntes = await q(
-  () => JSON.parse(localStorage.getItem('layoutSelections')).length
+  () => JSON.parse(sessionStorage.getItem('layoutSelections')).length
 );
 await q(() =>
   document.querySelector('button[class*="card"][aria-haspopup]').click()
@@ -428,8 +429,8 @@ await q(() =>
 );
 await s(1200);
 const trocou = await q(() => ({
-  plat: localStorage.getItem('layoutPlatform'),
-  sec: JSON.parse(localStorage.getItem('layoutSelections')).length,
+  plat: sessionStorage.getItem('layoutPlatform'),
+  sec: JSON.parse(sessionStorage.getItem('layoutSelections')).length,
   confirms: window.__confirms.length,
 }));
 ok(
@@ -493,7 +494,8 @@ p2.on('request', req => {
   req.continue();
 });
 await p2.evaluateOnNewDocument(seed => {
-  for (const [k, v] of Object.entries(seed)) localStorage.setItem(k, v);
+  // Preferência de tela no localStorage; o trabalho, por aba (utils/editorStorage.ts).
+  for (const [k, v] of Object.entries(seed)) (['panelLeftCollapsed', 'panelRightCollapsed', 'canvasZoom'].includes(k) ? localStorage : sessionStorage).setItem(k, v);
 }, SEED);
 await p2.goto(`${BASE_URL}/gerador`, { waitUntil: 'networkidle2' });
 await p2.waitForSelector('.ed-shell');

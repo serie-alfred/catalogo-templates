@@ -139,7 +139,7 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
   );
 
   const seed = coerente ? coerenteFor(plataforma) : seedFor(plataforma);
-  // Papéis do checkout no localStorage em TODAS as plataformas: em VTEX eles têm
+  // Papéis do checkout no sessionStorage em TODAS as plataformas: em VTEX eles têm
   // de chegar ao `faststore.checkout.variables`; em Tray/Wake não podem vazar.
   const CHECKOUT_SEMEADO = {
     '--checkout-accent': '#ffeb3b',
@@ -152,10 +152,11 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
   await p.evaluate(
     (pl, sel, tok, ck) => {
       localStorage.clear();
-      localStorage.setItem('layoutPlatform', pl);
-      localStorage.setItem('layoutSelections', sel);
-      if (tok) localStorage.setItem('wakeToken', tok);
-      localStorage.setItem('checkout', ck);
+      sessionStorage.clear();
+      sessionStorage.setItem('layoutPlatform', pl);
+      sessionStorage.setItem('layoutSelections', sel);
+      if (tok) sessionStorage.setItem('wakeToken', tok);
+      sessionStorage.setItem('checkout', ck);
     },
     plataforma,
     JSON.stringify(seed),
@@ -176,7 +177,7 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
   // :5503 não é este catálogo (outro checkout na porta, HMR atrasado, alguém
   // editando o arquivo no meio da rodada). Até 24/09 isto só era impresso.
   const hidratadas = await p.evaluate(() =>
-    JSON.parse(localStorage.getItem('layoutSelections') ?? '[]').map(
+    JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').map(
       s => `${s.layoutKey}/${s.id}@${s.pagina}`
     )
   );
@@ -212,7 +213,7 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
   });
   // O botão é `disabled={exporting || !platform}`, e clicar em botão desabilitado
   // não faz NADA — sem erro, sem blob, sem sinal. Se o clique chegar antes de o
-  // `platform` hidratar do localStorage, o estágio ficava 120s esperando um export
+  // `platform` hidratar do sessionStorage, o estágio ficava 120s esperando um export
   // que nunca começou. Esperar ele habilitar é a diferença entre medir o produto e
   // medir a corrida.
   await p.waitForFunction(

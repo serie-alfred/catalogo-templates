@@ -482,8 +482,9 @@ async function medirCatalogo(browser, par, mobile, paleta) {
     await p.evaluate(
       (id, layoutKey, pagina) => {
         localStorage.clear();
-        localStorage.setItem('layoutPlatform', 'VTEX');
-        localStorage.setItem('layoutSelections',
+        sessionStorage.clear();
+        sessionStorage.setItem('layoutPlatform', 'VTEX');
+        sessionStorage.setItem('layoutSelections',
           JSON.stringify([{ uid: 'u-fid', id, layoutKey, pagina }]));
         localStorage.setItem('panelLeftCollapsed', '1');
         localStorage.setItem('panelRightCollapsed', '1');

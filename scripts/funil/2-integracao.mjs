@@ -9,7 +9,7 @@
  * 1. cor global chega ao config.json
  * 2. variável POR COMPONENTE chega ao config.json — o "elo frágil" do CLAUDE.md
  * 3. o preview compartilhável leva cores e fontes, nas três páginas
- * 4. o trabalho sobrevive a um reload (o editor não tem "salvar": é o localStorage)
+ * 4. o trabalho sobrevive a um reload (o trabalho da aba mora no sessionStorage)
  */
 import { writeFileSync } from 'node:fs';
 import path from 'node:path';
@@ -184,12 +184,12 @@ for (const entrada of entradas) {
   await espera(700);
 }
 const gravados = await page.evaluate(() => ({
-  logo: (localStorage.getItem('logo') ?? '').slice(0, 15),
-  favicon: (localStorage.getItem('favicon') ?? '').slice(0, 15),
-  ogImage: (localStorage.getItem('ogImage') ?? '').slice(0, 15),
+  logo: (sessionStorage.getItem('logo') ?? '').slice(0, 15),
+  favicon: (sessionStorage.getItem('favicon') ?? '').slice(0, 15),
+  ogImage: (sessionStorage.getItem('ogImage') ?? '').slice(0, 15),
 }));
 r.ok(
-  'os 3 assets viram data URL no localStorage',
+  'os 3 assets viram data URL no armazenamento da aba',
   Object.values(gravados).every(v => v.startsWith('data:image/')),
   JSON.stringify(gravados)
 );
@@ -203,7 +203,7 @@ await (await page.$$('input[type="file"]'))[0].uploadFile(GORDO);
 await espera(900);
 const recusa = await page.evaluate(() => ({
   alertas: window.__alertas ?? [],
-  logoIntacto: (localStorage.getItem('logo') ?? '').startsWith('data:image/'),
+  logoIntacto: (sessionStorage.getItem('logo') ?? '').startsWith('data:image/'),
 }));
 r.ok(
   'arquivo acima de 2MB é recusado, avisa, e não substitui o que já estava',
@@ -396,7 +396,7 @@ await page
 await abrirNoRail('Variáveis globais', SEL_COR);
 await espera(1200);
 const depois = await page.evaluate(() => ({
-  selecoes: JSON.parse(localStorage.getItem('layoutSelections') ?? '[]').length,
+  selecoes: JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').length,
   secoes:
     document
       .querySelector('iframe')
@@ -416,10 +416,40 @@ r.ok(
   `veio ${depois.cor}`
 );
 
+// ── 5. …mas não vaza para outra aba ─────────────────────────────────────────
+// O trabalho é por aba (src/utils/editorStorage.ts): uma página nova do mesmo
+// navegador abre vazia, com o convite do canvas, e não mexe no que a primeira
+// tem. Era o defeito do localStorage: a segunda guia herdava o layout e as duas
+// passavam a gravar nas mesmas chaves.
+const { page: outra, erros: errosOutra } = await novaAba(browser);
+await outra.goto(`${BASE_URL}/gerador`, { waitUntil: 'networkidle2' });
+await outra.waitForSelector('.ed-shell');
+const vazia = await outra
+  .waitForSelector('[data-canvas-vazio]', { timeout: 20000 })
+  .then(() => true)
+  .catch(() => false);
+const naOutra = await outra.evaluate(() =>
+  JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').length
+);
+r.ok(
+  'aba nova nasce vazia, com o convite do canvas',
+  vazia && naOutra === 0,
+  `convite: ${vazia}, ${naOutra} seções na aba nova`
+);
+await outra.close();
+const aindaNaPrimeira = await page.evaluate(() =>
+  JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').length
+);
+r.ok(
+  'a aba nova não mexe na primeira',
+  aindaNaPrimeira === selecoes.length,
+  `${aindaNaPrimeira} seções na primeira`
+);
+
 r.ok(
   'editor sem erro de página',
-  erros.length === 0,
-  erros.slice(0, 2).join(' | ')
+  erros.length === 0 && errosOutra.length === 0,
+  [...erros, ...errosOutra].slice(0, 2).join(' | ')
 );
 
 await browser.close();

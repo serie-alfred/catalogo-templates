@@ -127,12 +127,14 @@ p.on('dialog', d => dialogos.push(d.message().slice(0, 160)));
 // nunca para os Downloads de quem roda.
 await (await p.createCDPSession()).send('Page.setDownloadBehavior', { behavior: 'allow', downloadPath: DIR });
 
-/** localStorage limpo + as chaves dadas + reload. */
+/** Armazenamento limpo + as chaves dadas + reload (trabalho no sessionStorage). */
 async function semear(chaves) {
   await p.goto(`${BASE_URL}/gerador`, { waitUntil: 'domcontentloaded', timeout: 120000 });
   await p.evaluate(kv => {
     localStorage.clear();
-    for (const [k, v] of Object.entries(kv)) localStorage.setItem(k, v);
+    sessionStorage.clear();
+    // Preferência de tela no localStorage; o trabalho, por aba (utils/editorStorage.ts).
+    for (const [k, v] of Object.entries(kv)) (['panelLeftCollapsed', 'panelRightCollapsed', 'canvasZoom'].includes(k) ? localStorage : sessionStorage).setItem(k, v);
   }, chaves);
   await p.goto(`${BASE_URL}/gerador`, { waitUntil: 'domcontentloaded', timeout: 120000 });
   await p.waitForSelector('.ed-shell', { timeout: 120000 });
@@ -150,7 +152,7 @@ async function esperarHidratar() {
   await p.waitForFunction(
     () => {
       const shell = document.querySelector('.ed-shell');
-      return !!shell && Object.keys(shell).some(k => k.startsWith('__reactProps$')) && localStorage.getItem('fonts') !== null;
+      return !!shell && Object.keys(shell).some(k => k.startsWith('__reactProps$')) && sessionStorage.getItem('fonts') !== null;
     },
     { timeout: 90000, polling: 200 }
   );
@@ -436,7 +438,7 @@ await semear({ layoutPlatform: 'Wake', layoutSelections: '[]', editorMode: 'chec
 const wake = await p.evaluate(sel => ({
   toggle: !!document.querySelector('[data-editor-mode-toggle]'),
   frame: !!document.querySelector(sel),
-  modo: localStorage.getItem('editorMode'),
+  modo: sessionStorage.getItem('editorMode'),
 }), FRAME);
 r.ok('Wake: sem o alternador de Checkout no rail', !wake.toggle);
 r.ok(
@@ -520,14 +522,14 @@ async function escolherPlataforma(nome) {
 const escolheuTray = await escolherPlataforma('Tray');
 const naTray = await p
   .waitForFunction(
-    sel => !document.querySelector(sel) && !document.querySelector('[data-editor-mode-toggle]') && localStorage.getItem('layoutPlatform') === 'Tray',
+    sel => !document.querySelector(sel) && !document.querySelector('[data-editor-mode-toggle]') && sessionStorage.getItem('layoutPlatform') === 'Tray',
     { timeout: 30000 },
     FRAME
   )
   .then(() => true)
   .catch(() => false);
 const estadoTray = await p.evaluate(() => ({
-  modo: localStorage.getItem('editorMode'),
+  modo: sessionStorage.getItem('editorMode'),
   loja: !!document.querySelector('iframe[src^="/gerador/frame"]'),
   rail: [...document.querySelectorAll('nav[aria-label="Seções do editor"] button')].map(x => x.getAttribute('aria-label')),
   etapa: document.querySelector('header[class*="topbar"] button[aria-haspopup="listbox"]')?.textContent.trim() ?? null,
@@ -541,12 +543,12 @@ r.ok(
 await irParaRail(p, 'Componentes');
 const escolheuVtex = await escolherPlataforma('VTEX');
 const voltouVtex = await p
-  .waitForFunction(() => !!document.querySelector('[data-editor-mode-toggle]') && localStorage.getItem('layoutPlatform') === 'VTEX', { timeout: 30000 })
+  .waitForFunction(() => !!document.querySelector('[data-editor-mode-toggle]') && sessionStorage.getItem('layoutPlatform') === 'VTEX', { timeout: 30000 })
   .then(() => true)
   .catch(() => false);
 const estadoVtex = await p.evaluate(sel => ({
   frame: !!document.querySelector(sel),
-  modo: localStorage.getItem('editorMode'),
+  modo: sessionStorage.getItem('editorMode'),
   pressed: document.querySelector('[data-editor-mode-toggle]')?.getAttribute('aria-pressed'),
 }), FRAME);
 r.ok(
@@ -569,7 +571,7 @@ r.ok(
   digitouPrimaria.aberto === true && digitouLimpo('#7b1fa2', digitouPrimaria),
   JSON.stringify(digitouPrimaria.valores)
 );
-const guardado = await p.evaluate(() => JSON.parse(localStorage.getItem('colors') ?? '{}').colorPrimaryBackground);
+const guardado = await p.evaluate(() => JSON.parse(sessionStorage.getItem('colors') ?? '{}').colorPrimaryBackground);
 r.ok('ColorPicker: o estado guarda o hex digitado, não o do seletor', guardado === '#7b1fa2', guardado);
 await digitarCor('aside[aria-label="Painel de edição"]', 'Defina a cor base do texto', '#2e7d32');
 const depois = await lerSondas();
@@ -819,10 +821,10 @@ for (const papel of PAINEL) {
 }
 // O editor inteiro no modo Checkout: rail, seletor de etapa, painel de papéis.
 await p.screenshot({ path: path.join(DIR, 'editor-checkout.png') });
-const estadoCk = await p.evaluate(() => JSON.parse(localStorage.getItem('checkout') ?? '{}'));
+const estadoCk = await p.evaluate(() => JSON.parse(sessionStorage.getItem('checkout') ?? '{}'));
 /** Os mesmos papéis e valores, sem ordem: a do objeto é a da 1ª edição de cada papel (o gate0 #23 mexe no fundo do header antes da volta pelos papéis). */
 const mesmosPapeis = (a, b) => JSON.stringify(Object.entries(a ?? {}).sort()) === JSON.stringify(Object.entries(b ?? {}).sort());
-r.ok('os papéis ficam no localStorage próprio (`checkout`)', mesmosPapeis(estadoCk.variables, escolhidos), JSON.stringify(estadoCk.variables));
+r.ok('os papéis ficam na chave própria da aba (`checkout`)', mesmosPapeis(estadoCk.variables, escolhidos), JSON.stringify(estadoCk.variables));
 
 // ── 4. pesos 300–700 ────────────────────────────────────────────────────────
 const pesos = await p.evaluate(async sel => {
@@ -858,7 +860,7 @@ const logoGrande = await p.evaluate(() => {
   x.fillText('LOJA', 150, 150);
   return c.toDataURL('image/png');
 });
-await p.evaluate(l => localStorage.setItem('logo', l), logoGrande);
+await p.evaluate(l => sessionStorage.setItem('logo', l), logoGrande);
 await p.reload({ waitUntil: 'domcontentloaded', timeout: 120000 });
 await p.waitForSelector('.ed-shell', { timeout: 120000 });
 await esperarHidratar();
@@ -875,7 +877,7 @@ r.ok(
 await injetarSondas();
 const recarregado = await lerSondas();
 r.ok(
-  'reload: os papéis voltam do localStorage e pintam de novo',
+  'reload: os papéis voltam do sessionStorage e pintam de novo',
   PAINEL.every(x => (x.type === 'font' ? /Poppins/.test(recarregado[x.cssVar]) : recarregado[x.cssVar] === rgb(escolhidos[x.cssVar]))),
   JSON.stringify(recarregado).slice(0, 200)
 );
@@ -1026,9 +1028,9 @@ for (const [vp, botao] of [
 // ── 9. equivalência 0 px ────────────────────────────────────────────────────
 const lerEstado = () =>
   p.evaluate(sel => ({
-    colors: JSON.parse(localStorage.getItem('colors') ?? '{}'),
-    fonts: JSON.parse(localStorage.getItem('fonts') ?? '{}'),
-    checkout: JSON.parse(localStorage.getItem('checkout') ?? '{}'),
+    colors: JSON.parse(sessionStorage.getItem('colors') ?? '{}'),
+    fonts: JSON.parse(sessionStorage.getItem('fonts') ?? '{}'),
+    checkout: JSON.parse(sessionStorage.getItem('checkout') ?? '{}'),
     tokens: document.querySelector(sel).contentDocument.getElementById('ck-tokens').textContent,
     logo: document.querySelector(sel).contentDocument.querySelector('.etm-header__logo-img').getAttribute('src'),
   }), FRAME);
@@ -1086,15 +1088,15 @@ for (const [etapa, vp, mobile] of [
     localStorage.setItem('canvasZoom', '1');
     localStorage.setItem('panelLeftCollapsed', '1');
     localStorage.setItem('panelRightCollapsed', '1');
-    const ck = JSON.parse(localStorage.getItem('checkout'));
+    const ck = JSON.parse(sessionStorage.getItem('checkout'));
     ck.etapa = et;
-    localStorage.setItem('checkout', JSON.stringify(ck));
-    localStorage.setItem('editorMode', 'checkout');
+    sessionStorage.setItem('checkout', JSON.stringify(ck));
+    sessionStorage.setItem('editorMode', 'checkout');
   }, etapa);
   await p.reload({ waitUntil: 'domcontentloaded', timeout: 120000 });
   await p.waitForSelector('.ed-shell', { timeout: 120000 });
   await esperarHidratar();
-  // Depois de um reload o `fonts` já está no localStorage, então o
+  // Depois de um reload o `fonts` já está no sessionStorage, então o
   // esperarHidratar volta na hora — antes do React. O iframe do checkout só
   // existe DEPOIS da hidratação (o `editorMode` nasce 'loja'), e o clique no
   // Mobile insiste até o `aria-pressed` mudar: clique em botão não hidratado
@@ -1278,7 +1280,7 @@ if (cfg) {
  * com `aviso` esperado, espera por ele.
  */
 async function comLogo(valor, aviso = null) {
-  await p.evaluate(l => localStorage.setItem('logo', l), valor);
+  await p.evaluate(l => sessionStorage.setItem('logo', l), valor);
   await p.reload({ waitUntil: 'domcontentloaded', timeout: 120000 });
   await p.waitForSelector('.ed-shell', { timeout: 120000 });
   await esperarHidratar();
@@ -1321,7 +1323,7 @@ r.ok(
   comInvalido.aviso === 'logo-invalido' && comInvalido.src === logoEx && !!cfgInvalido,
   JSON.stringify({ ...comInvalido, src: comInvalido.src.slice(0, 40) })
 );
-await p.evaluate(l => localStorage.setItem('logo', l), logoGrande);
+await p.evaluate(l => sessionStorage.setItem('logo', l), logoGrande);
 r.ok('nenhum alerta do compose do checkout no export', !dialogos.some(d => /checkout/i.test(d)), dialogos.join(' | '));
 
 // ── 11. /p/{id}/checkout/{etapa} ────────────────────────────────────────────

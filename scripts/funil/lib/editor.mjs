@@ -31,7 +31,7 @@ export async function novaAba(browser) {
   return { page, erros };
 }
 
-/** Semeia o localStorage e recarrega — o estado do editor mora lá. */
+/** Semeia o sessionStorage (o trabalho é por aba) e recarrega. */
 export async function semear(page, { plataforma, selecoes = [], token = '' }) {
   await page.goto(`${BASE_URL}/gerador`, {
     waitUntil: 'domcontentloaded',
@@ -40,11 +40,12 @@ export async function semear(page, { plataforma, selecoes = [], token = '' }) {
   await page.evaluate(
     (p, s, t) => {
       localStorage.clear();
-      localStorage.setItem('layoutPlatform', p);
-      localStorage.setItem('layoutSelections', s);
+      sessionStorage.clear();
+      sessionStorage.setItem('layoutPlatform', p);
+      sessionStorage.setItem('layoutSelections', s);
       localStorage.setItem('panelLeftCollapsed', '0');
       localStorage.setItem('panelRightCollapsed', '0');
-      if (t) localStorage.setItem('wakeToken', t);
+      if (t) sessionStorage.setItem('wakeToken', t);
     },
     plataforma,
     JSON.stringify(selecoes),
@@ -259,7 +260,7 @@ export async function trocarPagina(page, chave) {
 
 export const selecoesSalvas = page =>
   page.evaluate(() =>
-    JSON.parse(localStorage.getItem('layoutSelections')).map(
+    JSON.parse(sessionStorage.getItem('layoutSelections')).map(
       s => `${s.layoutKey}:${s.id}`
     )
   );

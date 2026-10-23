@@ -112,8 +112,9 @@ for (const a of alvos) {
     await p.evaluate(
       (plat, sel) => {
         localStorage.clear();
-        localStorage.setItem('layoutPlatform', plat);
-        localStorage.setItem('layoutSelections', sel);
+        sessionStorage.clear();
+        sessionStorage.setItem('layoutPlatform', plat);
+        sessionStorage.setItem('layoutSelections', sel);
         localStorage.setItem('panelLeftCollapsed', '0');
         localStorage.setItem('panelRightCollapsed', '0');
       },

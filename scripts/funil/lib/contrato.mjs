@@ -254,7 +254,7 @@ export function conferirTrayWake(config, plataforma, r) {
   if (plataforma === 'Wake')
     r.ok('Wake: wakeToken presente', !!config.wakeToken);
   // O checkout-vtex é o checkout NATIVO da VTEX: não existe em Tray/Wake, nem
-  // quando o localStorage traz papéis de checkout de uma sessão VTEX anterior.
+  // quando o armazenamento traz papéis de checkout de uma sessão VTEX anterior.
   r.ok(
     `${plataforma}: sem checkout no config (é só VTEX)`,
     !raiz.checkout && !config.faststore,

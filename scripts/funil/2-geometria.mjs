@@ -259,7 +259,8 @@ await page.goto(`${BASE_URL}/gerador`, {
   timeout: 120000,
 });
 await page.evaluate(s => {
-  for (const [k, v] of Object.entries(s)) localStorage.setItem(k, v);
+  // Preferência de tela no localStorage; o trabalho, por aba (utils/editorStorage.ts).
+  for (const [k, v] of Object.entries(s)) (['panelLeftCollapsed', 'panelRightCollapsed', 'canvasZoom'].includes(k) ? localStorage : sessionStorage).setItem(k, v);
 }, SEED);
 await page.goto(`${BASE_URL}/gerador`, {
   waitUntil: 'networkidle2',

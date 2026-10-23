@@ -1,4 +1,4 @@
-// Ferramenta de DEV: lê ~/Downloads/log.txt e reidrata o tema no localStorage.
+// Ferramenta de DEV: lê ~/Downloads/log.txt e reidrata o tema no sessionStorage (o trabalho é por aba, ver utils/editorStorage.ts).
 // Vive dentro do route group (editor) porque toda página precisa de um root layout —
 // solta em gerador/ ela quebrava `next build` inteiro.
 // force-dynamic: lê o filesystem a cada request, então nunca pode ser pré-renderizada.
@@ -56,12 +56,12 @@ export default function ImportLogPage() {
 
   const script = `
     try {
-      localStorage.setItem('layoutSelections', ${JSON.stringify(JSON.stringify(selections || []))});
-      ${platform ? `localStorage.setItem('layoutPlatform', ${JSON.stringify(platform)});` : ''}
-      ${colors ? `localStorage.setItem('colors', ${JSON.stringify(JSON.stringify(colors))});` : ''}
-      ${fonts ? `localStorage.setItem('fonts', ${JSON.stringify(JSON.stringify(fonts))});` : ''}
-      ${logo ? `localStorage.setItem('logo', ${JSON.stringify(logo)});` : `localStorage.removeItem('logo');`}
-      ${favicon ? `localStorage.setItem('favicon', ${JSON.stringify(favicon)});` : `localStorage.removeItem('favicon');`}
+      sessionStorage.setItem('layoutSelections', ${JSON.stringify(JSON.stringify(selections || []))});
+      ${platform ? `sessionStorage.setItem('layoutPlatform', ${JSON.stringify(platform)});` : ''}
+      ${colors ? `sessionStorage.setItem('colors', ${JSON.stringify(JSON.stringify(colors))});` : ''}
+      ${fonts ? `sessionStorage.setItem('fonts', ${JSON.stringify(JSON.stringify(fonts))});` : ''}
+      ${logo ? `sessionStorage.setItem('logo', ${JSON.stringify(logo)});` : `sessionStorage.removeItem('logo');`}
+      ${favicon ? `sessionStorage.setItem('favicon', ${JSON.stringify(favicon)});` : `sessionStorage.removeItem('favicon');`}
       window.location.href = '/gerador';
     } catch (e) {
       document.body.innerText = 'Erro ao importar: ' + e;

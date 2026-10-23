@@ -530,7 +530,7 @@ await page.waitForSelector('.ed-shell', { timeout: 60000 });
 await page
   .waitForFunction(
     n =>
-      (JSON.parse(localStorage.getItem('layoutSelections') ?? '[]').length ??
+      (JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').length ??
         0) === n,
     { timeout: 30000, polling: 250 },
     ordemDepois.length
@@ -603,7 +603,7 @@ if (abriuWake) {
   await espera(700);
   r.ok(
     'o token persiste no onChange, antes de qualquer botão',
-    (await page.evaluate(() => localStorage.getItem('wakeToken'))) ===
+    (await page.evaluate(() => sessionStorage.getItem('wakeToken'))) ===
       'TOKEN-DIGITADO-NO-POPUP'
   );
 

@@ -42,6 +42,7 @@ import {
 } from '@/utils/checkout';
 // type-only: não puxa o módulo server-only para o bundle do cliente.
 import type { PreviewSnapshot } from '@/lib/previewStore';
+import { estadoDaAba } from '@/utils/editorStorage';
 
 /** Os destinos do rail de navegação do editor: os quatro do Figma e o
  *  "Por template" (escolher uma família inteira, utils/templatesCompletos.ts). */
@@ -440,7 +441,7 @@ export function useLayoutGenerator() {
   useEffect(() => {
     if (!hydrated) return;
     try {
-      localStorage.setItem(
+      estadoDaAba.set(
         'colors',
         JSON.stringify({
           colorPrimary,
@@ -475,7 +476,7 @@ export function useLayoutGenerator() {
   // Carregar do localStorage
   useEffect(() => {
     try {
-      const storedColors = localStorage.getItem('colors');
+      const storedColors = estadoDaAba.get('colors');
       if (storedColors) {
         const parsed = JSON.parse(storedColors);
         setColorPrimary(parsed.colorPrimary || '#1a1a1a');
@@ -506,16 +507,16 @@ export function useLayoutGenerator() {
     try {
       // Validados: o localStorage pode ter sido escrito por uma versão antiga
       // do catálogo (ou pela rota /gerador/import-log, que grava valor cru).
-      const storedSelections = localStorage.getItem('layoutSelections');
+      const storedSelections = estadoDaAba.get('layoutSelections');
       if (storedSelections) {
         setLojaSelections(sanitizeSelections(JSON.parse(storedSelections)));
       }
       const storedPlatform = sanitizePlatform(
-        localStorage.getItem('layoutPlatform')
+        estadoDaAba.get('layoutPlatform')
       );
       setPlatform(storedPlatform);
       const storedMode = sanitizeEditorMode(
-        localStorage.getItem('editorMode'),
+        estadoDaAba.get('editorMode'),
         storedPlatform
       );
       setEditorModeState(storedMode);
@@ -526,22 +527,22 @@ export function useLayoutGenerator() {
       // logo/favicon abaixo — com `hydrated` ligado no finally, os saves
       // gravariam os defaults vazios por cima do que estava guardado.
       try {
-        const storedLp = localStorage.getItem('lp');
+        const storedLp = estadoDaAba.get('lp');
         if (storedLp) setLp(sanitizeLp(JSON.parse(storedLp)));
       } catch (e) {
         console.error('LP guardada ilegível, usando a inicial:', e);
       }
       try {
-        const storedCheckout = localStorage.getItem('checkout');
+        const storedCheckout = estadoDaAba.get('checkout');
         if (storedCheckout)
           setCheckout(sanitizeCheckout(JSON.parse(storedCheckout)));
       } catch (e) {
         console.error('Checkout guardado ilegível, usando o padrão:', e);
       }
-      setLogo(localStorage.getItem('logo') || '');
-      setFavicon(localStorage.getItem('favicon') || '');
-      setOgImage(localStorage.getItem('ogImage') || '');
-      setWakeCustomValue(localStorage.getItem('wakeToken') || '');
+      setLogo(estadoDaAba.get('logo') || '');
+      setFavicon(estadoDaAba.get('favicon') || '');
+      setOgImage(estadoDaAba.get('ogImage') || '');
+      setWakeCustomValue(estadoDaAba.get('wakeToken') || '');
       setLeftCollapsed(localStorage.getItem('panelLeftCollapsed') === '1');
       setRightCollapsed(localStorage.getItem('panelRightCollapsed') === '1');
       const zoom = localStorage.getItem('canvasZoom');
@@ -611,7 +612,7 @@ export function useLayoutGenerator() {
   useEffect(() => {
     if (!hydrated) return;
     try {
-      localStorage.setItem(
+      estadoDaAba.set(
         'fonts',
         JSON.stringify({
           fontPrimary,
@@ -628,9 +629,9 @@ export function useLayoutGenerator() {
     if (!hydrated) return;
     try {
       if (logo) {
-        localStorage.setItem('logo', logo);
+        estadoDaAba.set('logo', logo);
       } else {
-        localStorage.removeItem('logo');
+        estadoDaAba.remove('logo');
       }
     } catch (e) {
       console.error('Erro ao salvar logo:', e);
@@ -641,9 +642,9 @@ export function useLayoutGenerator() {
     if (!hydrated) return;
     try {
       if (favicon) {
-        localStorage.setItem('favicon', favicon);
+        estadoDaAba.set('favicon', favicon);
       } else {
-        localStorage.removeItem('favicon');
+        estadoDaAba.remove('favicon');
       }
     } catch (e) {
       console.error('Erro ao salvar favicon:', e);
@@ -653,9 +654,9 @@ export function useLayoutGenerator() {
   useEffect(() => {
     if (!hydrated) return;
     try {
-      localStorage.setItem('checkout', JSON.stringify(checkout));
-      localStorage.setItem('editorMode', editorMode);
-      localStorage.setItem('lp', JSON.stringify(lp));
+      estadoDaAba.set('checkout', JSON.stringify(checkout));
+      estadoDaAba.set('editorMode', editorMode);
+      estadoDaAba.set('lp', JSON.stringify(lp));
     } catch (e) {
       console.error('Erro ao salvar o checkout/LP:', e);
     }
@@ -708,22 +709,32 @@ export function useLayoutGenerator() {
   useEffect(() => {
     if (!hydrated) return;
     try {
+      // Preferência de tela: vale para todas as abas (localStorage).
       localStorage.setItem('panelLeftCollapsed', leftCollapsed ? '1' : '0');
       localStorage.setItem('panelRightCollapsed', rightCollapsed ? '1' : '0');
-      localStorage.setItem('wakeToken', wakeCustomValue);
       localStorage.setItem('canvasZoom', zoomMode);
     } catch (e) {
       console.error('Erro ao salvar estado dos painéis:', e);
     }
-  }, [leftCollapsed, rightCollapsed, wakeCustomValue, zoomMode, hydrated]);
+  }, [leftCollapsed, rightCollapsed, zoomMode, hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      // Trabalho da aba: o token é da loja do cliente, não do navegador.
+      estadoDaAba.set('wakeToken', wakeCustomValue);
+    } catch (e) {
+      console.error('Erro ao salvar os vínculos da aba:', e);
+    }
+  }, [wakeCustomValue, hydrated]);
 
   useEffect(() => {
     if (!hydrated) return;
     try {
       if (ogImage) {
-        localStorage.setItem('ogImage', ogImage);
+        estadoDaAba.set('ogImage', ogImage);
       } else {
-        localStorage.removeItem('ogImage');
+        estadoDaAba.remove('ogImage');
       }
     } catch (e) {
       console.error('Erro ao salvar imagem de compartilhamento:', e);
@@ -732,7 +743,7 @@ export function useLayoutGenerator() {
 
   useEffect(() => {
     try {
-      const storedFonts = localStorage.getItem('fonts');
+      const storedFonts = estadoDaAba.get('fonts');
       if (storedFonts) {
         const parsed = JSON.parse(storedFonts);
         setFontPrimary(parsed.fontPrimary || 'Roboto');
@@ -1600,7 +1611,7 @@ export function useLayoutGenerator() {
   useEffect(() => {
     if (!hydrated) return;
     try {
-      localStorage.setItem('layoutSelections', JSON.stringify(lojaSelections));
+      estadoDaAba.set('layoutSelections', JSON.stringify(lojaSelections));
     } catch (error) {
       console.error('Erro ao salvar seleções no localStorage:', error);
     }
@@ -1609,7 +1620,7 @@ export function useLayoutGenerator() {
   useEffect(() => {
     if (!hydrated) return;
     try {
-      if (platform) localStorage.setItem('layoutPlatform', platform);
+      if (platform) estadoDaAba.set('layoutPlatform', platform);
     } catch (error) {
       console.error('Erro ao salvar plataforma no localStorage:', error);
     }

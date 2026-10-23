@@ -97,7 +97,7 @@ async function exportar(page) {
 for (const plataforma of ['VTEX', 'Wake']) {
   const { page, erros } = await novaAba(browser);
   await semear(page, { plataforma, selecoes: comuns, token: plataforma === 'Wake' ? 'TOKEN-DE-TESTE' : '' });
-  await page.evaluate(() => localStorage.removeItem('lp'));
+  await page.evaluate(() => sessionStorage.removeItem('lp'));
   await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.ed-shell', { timeout: 60000 });
   await esperarCanvas(page, "s.includes('header')");
@@ -124,7 +124,7 @@ for (const plataforma of ['VTEX', 'Wake']) {
   );
 
   // a loja não mudou
-  const loja = await page.evaluate(() => JSON.parse(localStorage.getItem('layoutSelections')).map(s => `${s.layoutKey}:${s.id}`));
+  const loja = await page.evaluate(() => JSON.parse(sessionStorage.getItem('layoutSelections')).map(s => `${s.layoutKey}:${s.id}`));
   r.ok(`${plataforma}: as seções da loja continuam as mesmas`, loja.join() === 'header:01,footer:01,banner:01', loja.join());
 
   // o nome vira slug
@@ -152,10 +152,10 @@ for (const plataforma of ['VTEX', 'Wake']) {
 
   // seção de miolo que não é da família 08 entra na LP, e a variável pinta o canvas
   await page.evaluate(() => {
-    const lp = JSON.parse(localStorage.getItem('lp'));
+    const lp = JSON.parse(sessionStorage.getItem('lp'));
     lp.selections.push({ uid: 'u-lp-bannerFull-01', id: '01', layoutKey: 'bannerFull', pagina: 'home' });
     for (const s of lp.selections) if (s.layoutKey === 'countdown') s.variables = { '--countdown-accent': '#ff0000' };
-    localStorage.setItem('lp', JSON.stringify(lp));
+    sessionStorage.setItem('lp', JSON.stringify(lp));
   });
   await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.ed-shell', { timeout: 60000 });
@@ -210,9 +210,9 @@ for (const plataforma of ['VTEX', 'Wake']) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        platform: localStorage.getItem('layoutPlatform'),
-        selections: JSON.parse(localStorage.getItem('layoutSelections')),
-        lp: { ...JSON.parse(localStorage.getItem('lp')), slug: 'natal-magico-2026' },
+        platform: sessionStorage.getItem('layoutPlatform'),
+        selections: JSON.parse(sessionStorage.getItem('layoutSelections')),
+        lp: { ...JSON.parse(sessionStorage.getItem('lp')), slug: 'natal-magico-2026' },
         colors: { colorPrimary: '#1a1a1a', colorSecondary: '#ffffff', colorTertiary: '#fff', colorPrimaryBackground: '#000', colorSecondaryBackground: '#dd1838', colorTertiaryBackground: '#000', colorFooter: '#1A051C', colorFooterText: '#94A3B8', colorPrimaryText: '#fff', colorSecondaryText: '#51ff00' },
         fonts: { fontPrimary: 'Roboto', fontSecondary: 'Roboto', fontTertiary: 'Roboto' },
         logo: '',

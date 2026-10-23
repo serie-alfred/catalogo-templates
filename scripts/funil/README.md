@@ -36,7 +36,7 @@ e o `yarn dev` de pé para os estágios 2 e 3. Saídas em `.funil/` (ignorada).
 | `2-zoom` | o preview "Desktop" é desktop: viewport lógica de 1440 em qualquer tela, escala, controle de zoom e **clique de mouse real** dentro do frame escalado | dev server |
 | `2-usabilidade` | todo controle é achável, alcançável e faz alguma coisa: varredura de alcance, as 10 cores globais, o `FontSelector` no caminho feliz, `ScrollArea`, o `Fechar` do modal, a fonte das superfícies portalizadas e o `DesktopOnlyNotice` | dev server |
 | `2-integracao` | a escolha do cliente **chega ao config**: cor global → `config.json` → as 3 páginas do preview → sobrevive ao reload | dev server |
-| `3-export` | toda seleção semeada hidrata (o app servido é este catálogo); o botão "Baixar" entrega os três configs; cada um resolve o contrato da sua plataforma — em VTEX, `faststore.checkout` com o modelo, o SHA vendorizado e os papéis semeados, e o compose do config exportado (`optionsFromConfig` + o lib do SHA, o que o generator roda) sai com os placeholders do rodapé no footer e no README (o texto de exemplo é só do preview, gate0 #26); em Tray/Wake, nenhum checkout mesmo com papéis no localStorage —; os dois PNGs saem | dev server |
+| `3-export` | toda seleção semeada hidrata (o app servido é este catálogo); o botão "Baixar" entrega os três configs; cada um resolve o contrato da sua plataforma — em VTEX, `faststore.checkout` com o modelo, o SHA vendorizado e os papéis semeados, e o compose do config exportado (`optionsFromConfig` + o lib do SHA, o que o generator roda) sai com os placeholders do rodapé no footer e no README (o texto de exemplo é só do preview, gate0 #26); em Tray/Wake, nenhum checkout mesmo com papéis semeados na aba —; os dois PNGs saem | dev server |
 | `4-tema-faststore` | o generator monta o tema de verdade e **ele compila** (`yarn build`) — a única perna do pipeline executável desta máquina. As travas de dado de exemplo (`MOCK_ENABLED`, `DevFidelityStage`) são conferidas no tema entregue, e arquivo ausente reprova (`FUNIL_TEMA_BUILD=0` pula o build — execução parcial). **Checkout VTEX:** papel desconhecido e, com `faststore.checkout` no config, checkout-vtex que não clona (`clone-falhou`, gate0 #25) fazem a VALIDATE abortar sem escrever; no positivo, `checkout/` com exatamente 5 arquivos, `@import` primeiro, nível 1 marcador no `:root`, logo no header, zero `{{ETC_`, README com placeholders e pre-flight, e **os bytes = o compose do lib vendorizado no catálogo** para o mesmo config | estágio 3 · `gh` autenticado · `CHECKOUT_VTEX_REPO` (ou o irmão `../checkout-vtex` com commit) · minutos |
 | `5-contrato-tray-wake` | contrato estático de Tray e Wake: pasta de origem, `instanceCount`, dedupe `key::arquivo`, nenhum caminho com espaço — no clone local de `global-templates` (ver abaixo) | estágio 3 |
 
@@ -135,8 +135,16 @@ cliente escolhe a paleta, o tema é montado "com sucesso" e chega com outra cor.
 
 Ele fecha o circuito: digita a cor, exporta, confere no `config.json`, abre o
 preview compartilhável nas três páginas e procura a cor no HTML servido, e por fim
-recarrega o editor para ver se o trabalho sobreviveu — o `/gerador` não tem
-"salvar", o localStorage é o único lugar onde o tema vive entre sessões.
+recarrega o editor para ver se o trabalho sobreviveu — o trabalho da aba vive no
+`sessionStorage` (`src/utils/editorStorage.ts`): sobrevive ao recarregar da MESMA aba
+e nasce vazio numa aba nova; entre sessões, quem guarda é o histórico ("Temas salvos").
+
+**Semeando o editor de fora:** as chaves do trabalho (`CHAVES_DA_ABA` em
+`editorStorage.ts`: `layoutSelections`, `layoutPlatform`, `colors`, `fonts`, `logo`,
+`favicon`, `ogImage`, `editorMode`, `checkout`, `lp`, `wakeToken`…) vão no
+`sessionStorage` da página; as preferências de tela (`panelLeftCollapsed`,
+`panelRightCollapsed`, `canvasZoom`) continuam no `localStorage`. Uma página nova do
+puppeteer é uma aba nova: semeie e recarregue NELA.
 
 A perna **editor → config** da *variável por componente* não é exercitada aqui: o
 painel de propriedades não expõe um seletor estável para dirigi-la. A perna

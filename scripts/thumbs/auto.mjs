@@ -2,7 +2,7 @@
  * Thumbs automáticas: fotografa o componente REAL, para os itens que o designer
  * ainda não desenhou.
  *
- * É o mesmo arnês do `scripts/funil/2-render.mjs` (semeia o localStorage com UMA
+ * É o mesmo arnês do `scripts/funil/2-render.mjs` (semeia o sessionStorage com UMA
  * seção, abre o /gerador, troca a página, espera a seção pintar), com duas
  * diferenças: fotografa só o retângulo da seção dentro do <iframe> em vez da tela
  * inteira do editor, e escreve em `public/images/gerador/` em vez do `.funil/`
@@ -99,8 +99,9 @@ for (const a of alvos) {
     await p.evaluate(
       (plat, sel) => {
         localStorage.clear();
-        localStorage.setItem('layoutPlatform', plat);
-        localStorage.setItem('layoutSelections', sel);
+        sessionStorage.clear();
+        sessionStorage.setItem('layoutPlatform', plat);
+        sessionStorage.setItem('layoutSelections', sel);
         localStorage.setItem('panelLeftCollapsed', '1');
         localStorage.setItem('panelRightCollapsed', '1');
       },

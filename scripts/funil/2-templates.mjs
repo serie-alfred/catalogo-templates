@@ -97,7 +97,7 @@ async function esperarCanvas(page, alvo) {
 }
 
 const salvas = page =>
-  page.evaluate(() => JSON.parse(localStorage.getItem('layoutSelections') ?? '[]').map(s => `${s.layoutKey}:${s.id}`));
+  page.evaluate(() => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').map(s => `${s.layoutKey}:${s.id}`));
 const chaves = (t, plat) => daFamilia(t, plat).map(i => `${i.layoutKey}:${i.id}`).sort();
 
 async function abrirPainel(page) {
@@ -206,7 +206,7 @@ const contraste = hex => {
   return y >= 128 ? '#000000' : '#ffffff';
 };
 const temaGravado = page =>
-  page.evaluate(() => ({ colors: JSON.parse(localStorage.getItem('colors') ?? '{}'), fonts: JSON.parse(localStorage.getItem('fonts') ?? '{}') }));
+  page.evaluate(() => ({ colors: JSON.parse(sessionStorage.getItem('colors') ?? '{}'), fonts: JSON.parse(sessionStorage.getItem('fonts') ?? '{}') }));
 /** O tema gravado bate com o da família (autorais + derivadas + fontes)? Devolve as diferenças. */
 function difTema(g, t) {
   const tema = TEMA[t];
@@ -242,7 +242,7 @@ const browser = await abrirBrowser();
 /** As seções que o editor gravou ao aplicar cada template — as fotos do /p usam ELAS (a ordem real). */
 const aplicadas = {};
 const temasAplicados = {};
-const gravadas = page => page.evaluate(() => JSON.parse(localStorage.getItem('layoutSelections') ?? '[]'));
+const gravadas = page => page.evaluate(() => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]'));
 
 // ── 1. a lista nas três plataformas ─────────────────────────────────────────
 for (const plat of ['VTEX', 'Wake', 'Tray']) {
@@ -286,7 +286,7 @@ for (const plat of ['VTEX', 'Wake', 'Tray']) {
   await abrirPainel(page);
 
   await clicarDeVerdade(page, '[data-templates-lista] [data-template="9"]');
-  await page.waitForFunction(n => JSON.parse(localStorage.getItem('layoutSelections') ?? '[]').length === n, { timeout: 20000 }, daFamilia('9', 'VTEX').length).catch(() => {});
+  await page.waitForFunction(n => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').length === n, { timeout: 20000 }, daFamilia('9', 'VTEX').length).catch(() => {});
   await espera(1500);
   r.ok('VTEX: escolher a 09 com a loja vazia não pede confirmação', dialogos.length === 0, JSON.stringify(dialogos));
   aplicadas['9'] = await gravadas(page);
@@ -401,7 +401,7 @@ for (const plat of ['VTEX', 'Wake', 'Tray']) {
   r.ok('VTEX: cancelar não muda a paleta nem as fontes', JSON.stringify(await temaGravado(page)) === JSON.stringify(temaAntes));
   resposta.valor = true;
   await clicarDeVerdade(page, '[data-templates-lista] [data-template="10"]');
-  await page.waitForFunction(() => JSON.parse(localStorage.getItem('layoutSelections') ?? '[]').every(s => /^10$/.test(s.id)), { timeout: 20000 }).catch(() => {});
+  await page.waitForFunction(() => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').every(s => /^10$/.test(s.id)), { timeout: 20000 }).catch(() => {});
   await espera(1200);
   aplicadas['10'] = await gravadas(page);
   const tema10 = await temaGravado(page);
@@ -469,7 +469,7 @@ for (const [plat, t] of [['Wake', '9'], ['Tray', '10']]) {
   await semear(page, { plataforma: plat, token: plat === 'Wake' ? 'TOKEN-DE-TESTE' : '' });
   await abrirPainel(page);
   await clicarDeVerdade(page, `[data-templates-lista] [data-template="${t}"]`);
-  await page.waitForFunction(n => JSON.parse(localStorage.getItem('layoutSelections') ?? '[]').length === n, { timeout: 20000 }, daFamilia(t, plat).length).catch(() => {});
+  await page.waitForFunction(n => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').length === n, { timeout: 20000 }, daFamilia(t, plat).length).catch(() => {});
   const s = (await salvas(page)).sort();
   r.ok(`${plat}: a ${t.padStart(2, '0')} preenche todo slot da família`, s.join() === chaves(t, plat).join(), s.join());
   const c = await esperarCanvas(page, noCanvas(t, plat, 'home'));
@@ -499,7 +499,7 @@ for (const [plat, t] of [['Wake', '9'], ['Tray', '10']]) {
     page.on('dialog', d => msgs.push(d.message()));
     await abrirPainel(page);
     await clicarDeVerdade(page, '[data-templates-lista] [data-template="1"]');
-    await page.waitForFunction(() => JSON.parse(localStorage.getItem('layoutSelections') ?? '[]').every(s => s.id === '01'), { timeout: 20000 }).catch(() => {});
+    await page.waitForFunction(() => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').every(s => s.id === '01'), { timeout: 20000 }).catch(() => {});
     await espera(1200);
     const s01 = (await salvas(page)).sort();
     r.ok('Tray: Template 01 troca as peças e avisa que cores e fontes não mudam', s01.join() === chaves('1', 'Tray').join() && msgs.some(m => /Cores e fontes não mudam/.test(m)), msgs.join(' / '));
