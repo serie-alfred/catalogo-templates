@@ -34,6 +34,23 @@ There is no test runner. Verification is `yarn funil` — the stages in [scripts
 - `GOOGLE_FONTS_API_KEY` — used by [src/app/gerador/api/fonts/route.ts](src/app/gerador/api/fonts/route.ts) to proxy the Google Fonts list.
 - `KV_REST_API_URL`, `KV_REST_API_TOKEN` — Vercel KV, used by [src/lib/previewStore.ts](src/lib/previewStore.ts) for the shareable preview. Without `KV_REST_API_URL` the store falls back to `.preview-store/` on disk (dev only).
 - `CRON_SECRET` — optional; when set, [/api/keep-alive](src/app/api/keep-alive/route.ts) requires `Authorization: Bearer <CRON_SECRET>` from the Vercel cron.
+- `ETEMAS_LOGIN_USER`, `ETEMAS_LOGIN_PASSWORD`, `ETEMAS_SESSION_SECRET` — o login da agência (ver **Login** abaixo). O segredo precisa de 32+ caracteres. **Em produção, sem as três o /gerador fica FECHADO** — cadastre antes de publicar.
+
+#### O que cadastrar na Vercel (Settings → Environment Variables, Production)
+
+Só os nomes; os valores ficam com o time e **nunca** entram no repo (ele é público):
+
+| Variável | Para quê | Obrigatória |
+| --- | --- | --- |
+| `ETEMAS_LOGIN_USER` | usuário da conta única da agência | sim — sem ela o editor fecha |
+| `ETEMAS_LOGIN_PASSWORD` | senha dessa conta (trocar invalida as sessões abertas) | sim |
+| `ETEMAS_SESSION_SECRET` | assina o cookie de sessão; 32+ caracteres aleatórios (ex.: `openssl rand -base64 48`) | sim |
+| `KV_REST_API_URL` + `KV_REST_API_TOKEN` (ou `UPSTASH_REDIS_REST_URL` + `_TOKEN`) | preview, histórico de temas e o limite de tentativas do login | já cadastradas |
+| `GOOGLE_FONTS_API_KEY` | catálogo do Google Fonts no seletor | já cadastrada |
+| `CRON_SECRET` | fecha o `/api/keep-alive` para quem não é o cron | recomendada |
+
+Depois de cadastrar, faça um novo deploy (variável nova não chega a um deploy antigo). Para conferir sem
+o painel: `/login` em produção diz "Acesso fechado" e lista os NOMES do que falta, nunca os valores.
 
 ## Architecture
 
@@ -145,7 +162,7 @@ A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/lay
 
 - `ComponentVariable = { cssVar, label, type: "color" | "font", default, group?, inheritsLabel? }`. `cssVar` is the literal CSS custom-property name written verbatim into `config.json` (e.g. `--header-topbar-bg`); `default` is the value the downstream SCSS uses as its `var()` fallback; `group` buckets fields in the panel; `inheritsLabel` is the friendly name of the global token shown while the field is still unset.
 - **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) _is_ the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because 37 of the 100 active items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
-- **State:** `LayoutSelection.variables?: Record<cssVar, value>` in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`); persisted with `selections` under the `layoutSelections` localStorage key.
+- **State:** `LayoutSelection.variables?: Record<cssVar, value>` in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`); persisted with `selections` under the `layoutSelections` key of the tab's `sessionStorage`.
 - **Export:** `pickChangedVariables()` writes every schema key the user has set a value for, as a `variables` object on the entry — in both `buildConfigJson` (Tray/Wake) and `buildFaststoreConfigJson` (VTEX). It used to omit keys equal to the schema `default`, on the assumption that the downstream SCSS's `var()` fallback would land on that same default — but the real fallback is a 3-level chain (individual → global token → hardcoded default), and the *global token* in the middle isn't the schema default. A user picking white text that happens to match the default got the key omitted, the individual var never reached `:root`/the component, and the color silently became whatever the global token resolved to instead. Always emitting what was chosen is the only reading that can't regress this way.
 - Font values are stored as `'Family', sans-serif`; the panel parses the family out for `FontSelector` and re-wraps on change.
 - **`FontSelector` never writes to `:root`.** It only loads the face into the current document (the
@@ -170,7 +187,7 @@ sozinha. Ali o usuário monta UMA landing page com **qualquer seção de miolo**
 `../.lp-contrato.md`.
 
 - **Estado** ([src/utils/lp.ts](src/utils/lp.ts)): `editorMode: 'lp'` e `lp = { nome, selections }`,
-  documento à parte das seções da loja (localStorage `lp`, sanitizado por `sanitizeLp`). O hook expõe
+  documento à parte das seções da loja (chave `lp` da aba, sanitizado por `sanitizeLp`). O hook expõe
   as seções ATIVAS — as da loja ou as da LP — como `selections`/`setSelections`, então adicionar,
   mover, duplicar, remover e as variáveis funcionam sem um ramo por ação; o setter lê o modo de um
   ref. `selectedPage` vale `home` no modo LP. O histórico (`ThemeDoc.lp`) cobre as duas.
@@ -364,12 +381,44 @@ Note the typo `--background-secundary-color` (and `--text-color-secundary`, `--f
 
 ### Persistence
 
-Selections, platform, colors, fonts and the three assets are mirrored to `localStorage` under keys
+**O trabalho é por aba** ([src/utils/editorStorage.ts](src/utils/editorStorage.ts), `estadoDaAba`):
+selections, platform, colors, fonts and the three assets go to **`sessionStorage`** under keys
 `layoutSelections`, `layoutPlatform`, `colors`, `fonts`, `logo`, `favicon`, `ogImage` — and the
 checkout/LP modes under `editorMode` (`loja|checkout|lp`), `checkout` (`{ model, variables, etapa }`)
-and `lp` (`{ nome, selections }`), read back through `sanitizeEditorMode`/`sanitizeCheckout`/`sanitizeLp`. The hook
+and `lp` (`{ nome, selections }`), read back through `sanitizeEditorMode`/`sanitizeCheckout`/`sanitizeLp`;
+plus `wakeToken` and the tab's two links, `temaAtual` (the saved theme it saves into) and
+`previewAtual` (the preview it keeps up to date). The full list is `CHAVES_DA_ABA`. The hook
 hydrates in a post-mount effect (not in `useState` initializers), gated by `hydrated` so the save
 effects don't overwrite storage with defaults first.
+
+It used to be `localStorage`, which is ONE for every tab of the origin: a second tab inherited the
+first one's layout and both wrote the same keys. `sessionStorage` survives a reload of the same tab
+and starts empty in a new one. Screen preferences (`panelLeftCollapsed`, `panelRightCollapsed`,
+`canvasZoom`) stay in `localStorage`. The first tab opened after the change migrates whatever is
+still in the old keys (`migrarEstadoAntigo`) and deletes them. The browser's own "Duplicate tab"
+copies `sessionStorage` — that copy then goes its own way. **Anything that seeds the editor from
+outside (the funil, `scripts/thumbs/auto.mjs`, `/gerador/import-log`) writes `sessionStorage` in the
+same tab and reloads.** Between sessions, the theme lives in the history ("Temas salvos", below).
+
+### Empty editor
+
+A new tab opens **without a layout**: with the store empty (loja mode only — the LP has its starting
+composition and the checkout a fixed structure), [EmptyCanvas](src/components/gerador/EmptyCanvas/index.tsx)
+covers the canvas cell with "Comece seu tema" and two buttons, `[data-inicio="template"]` (opens
+"Por template") and `[data-inicio="zero"]` (goes to "Componentes"). It sits over the iframe, which
+stays mounted (no new handshake), and disappears with the first section or "Começar do zero"
+(`mostrarInicio` / `comecarDoZero` in the hook).
+
+### Font selector
+
+[FontSelector](src/components/gerador/FontSelector/index.tsx) opens the list on click/focus, without
+typing: system fonts first ([fontCatalog.ts](src/utils/fontCatalog.ts), `FONTES_DO_SISTEMA` — they
+never get a Google `<link>`, `loadGoogleFont` skips them), then Google Fonts by popularity (first 120,
+the rest by typing). Typing filters; arrows + Enter pick; Enter with nothing highlighted applies the
+typed name (the path when the catalog is down — the `role="status"` warning stays). The Google list
+is fetched **once per page** (`carregarFontesGoogle`, a module-level promise — the editor mounts up to
+four selectors), and `/gerador/api/fonts` caches Google's answer for a day (`revalidate`) and tells
+the browser `private, max-age=86400`.
 
 **Hydration validates.** `layoutSelections` and `layoutPlatform` go through `sanitizeSelections` /
 `sanitizePlatform` ([platformCompat.ts](src/utils/platformCompat.ts)) — the catalog may have changed
@@ -413,9 +462,76 @@ Alongside export, the topbar has a **Pré-visualizar** button ([PreviewButton](s
 - **Snapshot**: `useLayoutGenerator.buildPreviewSnapshot()` serializes `{ platform, selections, colors, fonts, logo, favicon, ogImage }` (`PreviewSnapshot` in [src/lib/previewStore.ts](src/lib/previewStore.ts); `ogImage` is optional so older snapshots stay valid); `createPreview()` POSTs it to `/gerador/api/preview` and returns `${origin}/p/{id}/home`.
 - **Storage is hybrid** ([previewStore.ts](src/lib/previewStore.ts)): a `fileStore` writes `.preview-store/{id}.json` in dev (zero config, gitignored) and a `kvStore` uses `@vercel/kv` in prod. `getStore()` picks KV when `KV_REST_API_URL` is set. The module is `server-only`; the client hook imports only the **type** (`import type`), so it never bundles it.
 - **Rendering reuse**: the page-filter + priority-sort rules live in [src/utils/previewRender.ts](src/utils/previewRender.ts) (`selectionsForPage`, `getPriorityOrder`, `belongsToPage`, `slugToPagina`/`PREVIEW_PAGES`), and `ThemeRenderer` is now literally the same component the editor uses — the two views can't diverge because there is only one.
-- **Theme outside the gerador**: [SharedPreview](src/components/preview/SharedPreview/index.tsx) applies the theme vars inline on a wrapper (`buildThemeStyle` in [themeStyle.ts](src/utils/themeStyle.ts), shared with the mobile iframe) plus the Google-font `<link>`s, and wraps children in [SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx) with `{ logo, selections }` from the snapshot. The preview must NOT run `useLayoutGenerator` (it would hydrate the author's localStorage). The `p` route group has its own `layout.tsx` importing `templates.css` + `globals.css` + `storefront.css` + `preview.css` (no chrome do editor, no `LayoutProvider`).
+- **Theme outside the gerador**: [SharedPreview](src/components/preview/SharedPreview/index.tsx) applies the theme vars inline on a wrapper (`buildThemeStyle` in [themeStyle.ts](src/utils/themeStyle.ts), shared with the mobile iframe) plus the Google-font `<link>`s, and wraps children in [SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx) with `{ logo, selections }` from the snapshot. The preview must NOT run `useLayoutGenerator` (it would hydrate the author's stored state). The `p` route group has its own `layout.tsx` importing `templates.css` + `globals.css` + `storefront.css` + `preview.css` (no chrome do editor, no `LayoutProvider`).
 - **Shared storefront CSS**: [storefront.css](src/styles/storefront.css) holds the two rules that must hold on all three surfaces (`.preview-sticky-header` and the `.preview-template .component__container` 1200px clamp). Document-level rules stay split on purpose — `preview.css` for `/p`, `(frame)/frame.css` for the iframe — because their `color-scheme: light !important` / `background: #fff !important` would repaint the editor's own chrome.
 - **Prod requires** a Vercel KV database and env vars `KV_REST_API_URL` / `KV_REST_API_TOKEN`.
+- **"Editar" and the live preview** ([previewAoVivo.ts](src/utils/previewAoVivo.ts), the decision is
+  documented there). `PreviewNav` has a fixed `[data-preview-editar]` (bottom-left) linking to
+  `/gerador?preview={id}` (`&modo=checkout` from a checkout page): the hook fetches the snapshot from
+  the PUBLIC `GET /api/preview/{id}`, loads it with `carregarEstado` (same sanitizers as hydration; one
+  undo step), links the tab to that id (`previewAtual`) and strips the param from the URL. From then
+  on — and also after "Pré-visualizar", which re-saves the SAME id when the tab already has one — every
+  edit re-saves the snapshot under the same id, debounced 1.2 s (`PUT /gerador/api/preview/{id}`,
+  `updatePreview`, TTL renewed: the link lives 3 days after the LAST edit). The open `/p` refreshes
+  (`router.refresh()`, [PreviewLive](src/components/preview/PreviewLive/index.tsx)) by two paths:
+  BroadcastChannel `etemas-preview` from the editor in the same browser (instant), and polling
+  `GET /api/preview/{id}?rev=1` every 5 s while the tab is visible (other browsers). The snapshot
+  carries `rev` (ms of the last save). No WebSocket/SSE: serverless doesn't keep connections and the
+  KV is already the single source. Opening a saved theme unlinks the preview (the link belonged to the
+  previous theme). `/p/{id}` alone redirects to `/p/{id}/home`. The link stays public.
+
+### Saved themes (history)
+
+Rail destination **"Temas salvos"** (`[data-rail-target="salvos"]`, after "Por template", in every
+mode) → [PanelSavedThemes](src/components/gerador/EditorLeftPanel/PanelSavedThemes/index.tsx). ONE
+history for the agency (single account, behind the login). Saving sends `estadoAtual()` — the
+`EstadoDoEditor` ([types/estadoEditor.ts](src/types/estadoEditor.ts)): the preview snapshot + the LP
+always + `editorMode` + `wakeToken`. First save creates the theme, the next ones append versions
+(`temaAtual` links the tab); "Salvar como novo" forks. The list shows platform, date of the last version
+and the version count; "Abrir" loads the last version (or one picked under "Versões") with
+`carregarEstado` — one undo step, the panel stays open — and "Apagar" deletes the theme and every
+version.
+
+- **Storage** ([src/lib/temasStore.ts](src/lib/temasStore.ts)) on the same KV as the preview:
+  sorted set `temas` (id → updatedAt), summary `tema:{id}`, each version in its own key
+  `tema:{id}:v:{n}` (the state carries data-URL assets of up to 2 MB; one document with every version
+  would outgrow Upstash's per-request limit). No TTL. More than 50 versions drops the oldest.
+- **API** (behind the login): `GET/POST /gerador/api/temas`, `GET (?versao=n)/POST/DELETE
+  /gerador/api/temas/{id}`. Without a database in production: 503 naming the variables.
+- **Dev without KV**: [src/lib/kv.ts](src/lib/kv.ts) is a small KV interface (`get/mget/set/del/incr/
+  zadd/zrem/zrevAll`) whose dev implementation is a JSON file at `.preview-store/kv.json` (gitignored,
+  same folder as the dev previews), with the same semantics — so local tests run the production logic;
+  only the primitive changes.
+
+### Login
+
+One agency account. [src/lib/auth.ts](src/lib/auth.ts) (Web Crypto only: it runs in the Edge
+middleware and in the Node routes) + [src/middleware.ts](src/middleware.ts) (`matcher: /gerador`,
+`/gerador/:path*`).
+
+- **Protected**: everything under `/gerador` — editor, the canvas iframe (`/gerador/frame-mobile`),
+  `/gerador/import-log` and all `/gerador/api/*` (create/re-save preview, history, send-email, fonts).
+  Pages redirect to `/login?next=<path+query>` (so "Editar" from a preview survives the login); APIs
+  answer 401 JSON.
+- **Public on purpose**: `/` (home), `/p/...`, `GET /api/preview/{id}`, `/api/keep-alive` (cron),
+  `/login`, `/api/auth/*`, and **files of `public/` under `/gerador/`** (checkout fixtures,
+  `familia08/`, `footer08/` — the `/p` loads them): the rule is "last segment has an extension"; no
+  app route has a dot.
+- **Session**: cookie `etemas_sessao` = `<exp>.<HMAC-SHA256(secret, v1|user|exp|sha256(password))>`,
+  httpOnly, `sameSite: lax`, `secure` in production, 7 days. Changing user, password or secret
+  invalidates every open session — no session list in the database.
+- **Login** (`POST /api/auth/login`, native form, works without JS): user AND password are always both
+  compared, in constant time over their SHA-256 (`credenciaisConferem`); 10 failures per IP in 15 min
+  block (counter `login-falhas:<ip>` in the KV; without a database the login works without the limit);
+  `next` only accepts a path of this origin (`destinoSeguro` rejects `//host` and `/\host`). **Logout**:
+  `POST /api/auth/logout` (the rail's "Sair", at its foot).
+- **Modes** (`modoAuth`): `ligado` (the three vars, secret ≥ 32 chars); **`fechado`** — production
+  without them: nobody gets in, pages go to `/login`, which says "Acesso fechado" and lists the missing
+  NAMES, APIs answer 503; **`desligado-dev`** — development without them: no login, a warning in the
+  terminal (once) and an icon at the foot of the rail (`[data-login-desligado]`, from
+  `GET /api/auth/estado`, read at runtime because `/gerador` is prerendered). That's how `yarn dev` and
+  the funil run. To test the login locally, put the three vars in `.env.development.local` (ignored by
+  git; `.env.local` is TRACKED in this repo — never put credentials there).
 
 ### Modo Checkout (VTEX)
 
