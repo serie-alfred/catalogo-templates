@@ -1,4 +1,5 @@
 import { LAYOUTS, type LayoutSection } from '@/data/layoutData';
+import { ehFonteDoSistema } from './fontCatalog';
 
 /** Os pesos que a loja baixa desde sempre (os templates só usam regular e bold). */
 const PESOS_PADRAO = [400, 700];
@@ -34,7 +35,10 @@ export function loadGoogleFont(
   doc: Document = document,
   pesos: readonly number[] = PESOS_PADRAO
 ) {
+  // Sem família, fora do Google ou do sistema (Arial, Georgia…): o Google não
+  // serve, e o <link> só renderia um 400 no console.
   if (!ehFonteDoGoogle(family)) return;
+  if (ehFonteDoSistema(family)) return;
 
   const lista = [...new Set(pesos)].sort((a, b) => a - b);
   const padrao = lista.join(';') === PESOS_PADRAO.join(';');
