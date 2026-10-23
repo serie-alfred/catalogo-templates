@@ -430,6 +430,30 @@ const esperarImagens = f =>
     )
     .catch(() => 0);
 
+/**
+ * Espera as FONTES do documento medido depois de a paleta trocar a família.
+ *
+ * A paleta põe `--font-primary` em Poppins, e a face 700 (que serve o peso 800)
+ * só começa a baixar nessa troca: no iframe do canvas ela leva ~200ms. Um sono
+ * fixo de 200ms mediu com a fonte de fallback sob carga — 23/10, 39 divergências
+ * no ProductDetails13 mobile (pdp-counter/pdp-badge, 30/28 → 23px). O reflow
+ * forçado faz o navegador descobrir as faces novas antes do `fonts.ready`; sem
+ * ele o `ready` pode resolver antes de o download começar. Teto de 10s, como
+ * o das imagens: o portão prefere medir a travar. Devolve quantas faces ainda
+ * estavam baixando (-1 se o contexto morreu).
+ */
+const esperarFontes = alvo =>
+  alvo
+    .evaluate(async () => {
+      void document.body.offsetHeight;
+      await Promise.race([
+        document.fonts.ready,
+        new Promise(r => setTimeout(r, 10000)),
+      ]);
+      return [...document.fonts].filter(f => f.status === 'loading').length;
+    })
+    .catch(() => -1);
+
 async function esperarConteudo(page, timeout = 90000) {
   const inicio = Date.now();
   for (;;) {
@@ -464,8 +488,10 @@ async function medirStarter(browser, comp, largura, altura, paleta, textos = {})
     await s(1500);
     await esperarImagens(p);
     await p.evaluate(normalizar, paleta);
+    await esperarFontes(p);
     await s(200);
     await p.evaluate(igualarLivres, textos);
+    await esperarFontes(p);
     const nos = await p.evaluate(medir, PROPS);
     // Depois do repouso, sempre: o `:hover` emulado reescreve as folhas.
     const mapas = await medirPaleta(p, '[data-fidelity-stage]', paleta);
@@ -535,6 +561,7 @@ async function medirCatalogo(browser, par, mobile, paleta) {
     return await noFrame(p, async f => {
       await esperarImagens(f);
       await f.evaluate(normalizar, paleta);
+      await esperarFontes(f);
       await s(200);
       const textos = await f.evaluate(textosLivres, par.textoLivre ?? []);
       const nos = await f.evaluate(medir, PROPS);
