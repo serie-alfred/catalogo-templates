@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Palette,
   SquarePen,
@@ -8,6 +8,8 @@ import {
   LayoutTemplate,
   ShoppingCart,
   History,
+  LogOut,
+  ShieldOff,
 } from 'lucide-react';
 
 import { useLayout } from '@/context/LayoutContext';
@@ -72,6 +74,17 @@ export default function EditorRail({ className }: { className?: string }) {
   const temLp = plataformaTemLp(platform);
   // No checkout a estrutura é fixa: não há seção para compor. "Por template"
   // monta a LOJA inteira, então some no checkout e na LP.
+  /* O modo do login vem do servidor em runtime (ver /api/auth/estado). Com o
+     login ligado, o pé do rail tem o "Sair"; em desenvolvimento sem as
+     variáveis, um aviso de que o login está desligado. */
+  const [modoLogin, setModoLogin] = useState<string | null>(null);
+  useEffect(() => {
+    fetch('/api/auth/estado', { cache: 'no-store' })
+      .then(res => (res.ok ? res.json() : null))
+      .then(data => setModoLogin(data?.modo ?? null))
+      .catch(() => setModoLogin(null));
+  }, []);
+
   const itens = ITEMS.filter(
     i =>
       !(noCheckout && i.target === 'componentes') &&
@@ -138,6 +151,32 @@ export default function EditorRail({ className }: { className?: string }) {
         </button>
       )}
 
+      {/* No PÉ do rail (margin-top: auto): longe dos destinos e das
+          coordenadas que o 2-geometria mede. */}
+      {modoLogin === 'ligado' && (
+        <form method="post" action="/api/auth/logout" className={styles.pe}>
+          <button
+            type="submit"
+            className={styles.item}
+            aria-label="Sair"
+            title="Sair do editor"
+            data-logout=""
+          >
+            <LogOut width={20} height={20} />
+          </button>
+        </form>
+      )}
+      {modoLogin === 'desligado-dev' && (
+        <span
+          className={`${styles.pe} ${styles.aviso}`}
+          role="status"
+          aria-label="Login desligado"
+          title="Login desligado: desenvolvimento sem ETEMAS_LOGIN_USER, ETEMAS_LOGIN_PASSWORD e ETEMAS_SESSION_SECRET. Em produção, sem elas, o acesso fica fechado."
+          data-login-desligado=""
+        >
+          <ShieldOff width={20} height={20} />
+        </span>
+      )}
     </nav>
   );
 }

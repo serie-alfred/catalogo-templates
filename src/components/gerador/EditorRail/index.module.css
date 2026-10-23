@@ -68,3 +68,14 @@
 .modo[aria-pressed='true'] {
   color: var(--ed-blue-600);
 }
+
+/* Pé do rail: "Sair" (login ligado) ou o aviso de login desligado (dev). */
+.pe {
+  display: flex;
+  margin-top: auto;
+}
+
+.aviso {
+  color: #b54708;
+  cursor: help;
+}
