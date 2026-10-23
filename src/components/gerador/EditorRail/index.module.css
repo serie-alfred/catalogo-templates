@@ -69,10 +69,13 @@
   color: var(--ed-blue-600);
 }
 
-/* Pé do rail: "Sair" (login ligado) ou o aviso de login desligado (dev). */
+/* Pé do rail: "Sair" (login ligado) ou o aviso de login desligado (dev).
+   A folga de baixo deixa o ícone acima do indicador do Next, que em dev mora
+   no canto inferior esquerdo (mudá-lo de canto cobriria o balão do /p). */
 .pe {
   display: flex;
   margin-top: auto;
+  margin-bottom: 44px;
 }
 
 .aviso {
