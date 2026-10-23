@@ -7,7 +7,7 @@
   width: 100%;
   background-color: #f7f4ef;
   color: var(--pdp-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-family: var(--pdp-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -126,7 +126,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 38px;
   font-weight: 300;
   line-height: 1.08;

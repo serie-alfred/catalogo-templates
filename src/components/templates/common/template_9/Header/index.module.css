@@ -9,7 +9,7 @@
   width: 100%;
   background-color: var(--header-bg, var(--background-primary-color, #f7f4ef));
   color: var(--header-text, var(--text-color-base, #1d1b18));
-  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-family: var(--header-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   line-height: 1.15;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -186,7 +186,7 @@
 .logo {
   display: flex;
   align-items: center;
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--header-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 34px;
   font-style: italic;
   font-weight: 400;

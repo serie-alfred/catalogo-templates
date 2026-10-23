@@ -7,7 +7,7 @@
   width: 100%;
   background-color: #f7f4ef;
   color: var(--prod-reviews-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-family: var(--prod-reviews-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -82,7 +82,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 34px;
   font-weight: 300;
 }
@@ -100,7 +100,7 @@
 }
 
 .averageValue {
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 72px;
   font-weight: 300;
   line-height: 0.9;
@@ -285,7 +285,7 @@
 }
 
 .reviewTitle {
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 20px;
   font-weight: 400;
 }

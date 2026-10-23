@@ -7,7 +7,7 @@
   width: 100%;
   background-color: var(--editorial-bg, #f7f4ef);
   color: var(--editorial-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-family: var(--editorial-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -95,7 +95,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--editorial-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 40px;
   font-weight: 300;
   line-height: 1.08;
@@ -114,7 +114,7 @@
   float: left;
   padding: 6px 10px 0 0;
   color: var(--editorial-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--editorial-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 62px;
   line-height: 0.82;
 }
@@ -185,7 +185,7 @@
 }
 
 .postTitle {
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--editorial-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 20px;
   line-height: 1.2;
 }

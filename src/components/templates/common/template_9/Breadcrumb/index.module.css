@@ -11,7 +11,7 @@
   width: 100%;
   background-color: var(--breadcrumb-bg, #f7f4ef);
   color: var(--breadcrumb-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-family: var(--breadcrumb-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   line-height: 1.4;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

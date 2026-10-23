@@ -7,7 +7,7 @@
   width: 100%;
   background-color: var(--showcase-bg, #f7f4ef);
   color: var(--showcase-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-family: var(--showcase-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -73,7 +73,7 @@
 
 .title {
   color: var(--showcase-title-color, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 36px;
   font-weight: 300;
   line-height: 1.1;
@@ -243,7 +243,7 @@
 }
 
 .bannerTitle {
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 34px;
   font-weight: 300;
   line-height: 1.05;

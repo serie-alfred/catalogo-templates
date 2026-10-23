@@ -7,7 +7,7 @@
   width: 100%;
   background-color: #f7f4ef;
   color: var(--banner-grid-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-family: var(--banner-grid-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -125,7 +125,7 @@
 
 .title {
   color: var(--banner-grid-title-color, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 22px;
   font-weight: 300;
 }

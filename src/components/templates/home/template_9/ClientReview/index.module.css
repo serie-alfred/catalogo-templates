@@ -7,7 +7,7 @@
   width: 100%;
   background-color: var(--socialproof-bg, #f7f4ef);
   color: var(--socialproof-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-family: var(--socialproof-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -75,7 +75,7 @@
 }
 
 .quote {
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--socialproof-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: clamp(26px, 3vw, 38px);
   font-style: italic;
   font-weight: 300;
@@ -135,7 +135,7 @@
 }
 
 .count {
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--socialproof-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 15px;
 }
 

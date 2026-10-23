@@ -7,7 +7,7 @@
   width: 100%;
   background-color: var(--countdown-bg, #f7f4ef);
   color: var(--countdown-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-family: var(--countdown-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -67,7 +67,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--countdown-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 48px;
   font-weight: 300;
   line-height: 1.02;
@@ -125,7 +125,7 @@
 }
 
 .value {
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--countdown-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 64px;
   font-weight: 300;
   line-height: 1;

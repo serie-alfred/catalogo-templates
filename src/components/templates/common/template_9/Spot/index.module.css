@@ -9,7 +9,7 @@
   gap: 12px;
   min-width: 0;
   color: var(--spot-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-family: var(--spot-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   line-height: 1.15;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

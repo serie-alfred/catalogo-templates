@@ -7,7 +7,7 @@
   width: 100%;
   background-color: #f7f4ef;
   color: var(--cat-main-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -358,7 +358,7 @@
 
 .emptyTitle {
   max-width: 760px;
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-weight: 300;
   font-size: clamp(34px, 4vw, 52px);
   line-height: 1.1;
@@ -414,7 +414,7 @@
   flex-direction: column;
   background-color: var(--filter-bg, #ffffff);
   color: var(--filter-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
 }
 
 .panelHead {
@@ -429,7 +429,7 @@
 
 .panelTitle {
   margin: 0;
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-weight: 300;
   font-size: 26px;
 }
