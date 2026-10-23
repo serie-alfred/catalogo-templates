@@ -4,6 +4,18 @@ import { LAYOUTS, type LayoutSection } from '@/data/layoutData';
 const PESOS_PADRAO = [400, 700];
 
 /**
+ * Famílias que aparecem como padrão no `variablesSchema` e NÃO estão no Google Fonts: fontes
+ * comerciais, licenciadas e servidas pela própria loja. Pedidas ao Google, voltam 400 e deixam
+ * um erro no console (era o vermelho do 2-render nas seções 06). O preview delas cai no fallback
+ * do CSS, como já caía.
+ */
+const FORA_DO_GOOGLE = new Set(['Fabriga']);
+
+/** A família vai para a URL do Google Fonts? */
+export const ehFonteDoGoogle = (family: string) =>
+  !!family && !FORA_DO_GOOGLE.has(family.trim());
+
+/**
  * Injeta o <link> de uma fonte do Google, idempotente por família (e pesos).
  *
  * O parâmetro `doc` existe porque o iframe da visão mobile é OUTRO documento:
@@ -22,7 +34,7 @@ export function loadGoogleFont(
   doc: Document = document,
   pesos: readonly number[] = PESOS_PADRAO
 ) {
-  if (!family) return;
+  if (!ehFonteDoGoogle(family)) return;
 
   const lista = [...new Set(pesos)].sort((a, b) => a - b);
   const padrao = lista.join(';') === PESOS_PADRAO.join(';');
