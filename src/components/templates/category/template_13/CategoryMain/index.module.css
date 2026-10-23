@@ -7,7 +7,7 @@
   width: 100%;
   background-color: var(--cat-main-bg, #0d0d0d);
   color: var(--cat-main-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -66,7 +66,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 12px 16px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -136,7 +136,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -197,7 +197,7 @@
 .facetTitle {
   width: 100%;
   padding: 0 0 14px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 19px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -257,7 +257,7 @@
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 17px;
   font-weight: 700;
 }
@@ -335,7 +335,7 @@
 
 .progressText {
   color: color-mix(in srgb, var(--cat-main-text, #f4f4f0) 64%, var(--cat-main-bg, #0d0d0d));
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -361,7 +361,7 @@
   height: 52px;
   padding: 0 40px;
   border: 1px solid var(--cat-main-text, #f4f4f0);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 19px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -398,7 +398,7 @@
 }
 
 .panelTitle {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 30px;
   font-weight: 800;
   line-height: 1;
@@ -437,7 +437,7 @@
   width: 100%;
   min-height: 60px;
   text-align: left;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 20px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -462,7 +462,7 @@
   gap: 8px;
   padding: 12px 16px 20px;
   border-top: 1px solid color-mix(in srgb, var(--cat-main-text, #f4f4f0) 16%, var(--cat-main-bg, #0d0d0d));
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -499,7 +499,7 @@
 .emptyEyebrow {
   align-self: flex-start;
   color: var(--cat-main-accent, #c8ff2e);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -508,7 +508,7 @@
 
 .emptyTitle {
   max-width: 980px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: clamp(56px, 6vw, 96px);
   font-weight: 800;
   line-height: 0.86;
@@ -527,7 +527,7 @@
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 8px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 19px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -564,7 +564,7 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     border-bottom: 1px solid color-mix(in srgb, var(--cat-main-text, #f4f4f0) 16%, var(--cat-main-bg, #0d0d0d));
-    font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+    font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
     font-size: 17px;
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -592,7 +592,7 @@
     overflow-x: auto;
     scrollbar-width: none;
     white-space: nowrap;
-    font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+    font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
     font-size: 15px;
     font-weight: 800;
     letter-spacing: 0.08em;
@@ -613,7 +613,7 @@
     display: block;
     padding: 12px 16px 0;
     color: color-mix(in srgb, var(--cat-main-text, #f4f4f0) 64%, var(--cat-main-bg, #0d0d0d));
-    font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+    font-family: var(--cat-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
     font-size: 15px;
     font-weight: 700;
     letter-spacing: 0.1em;

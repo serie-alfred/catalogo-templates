@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: center;
   color: var(--popup-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--popup-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -111,7 +111,7 @@
   padding: 5px 9px;
   background-color: var(--popup-button-bg, #c8ff2e);
   color: var(--popup-button-text, #0d0d0d);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--popup-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -119,7 +119,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--popup-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 52px;
   font-weight: 800;
   line-height: 0.88;
@@ -167,7 +167,7 @@
   margin-top: 4px;
   background-color: var(--popup-button-bg, #c8ff2e);
   color: var(--popup-button-text, #0d0d0d);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--popup-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 20px;
   font-weight: 800;
   letter-spacing: 0.1em;

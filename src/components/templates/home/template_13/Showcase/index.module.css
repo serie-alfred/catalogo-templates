@@ -7,7 +7,7 @@
   width: 100%;
   background-color: var(--showcase-bg, #0d0d0d);
   color: var(--showcase-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--showcase-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -54,7 +54,7 @@
 
 .title {
   color: var(--showcase-title-color, #f4f4f0);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -62,7 +62,7 @@
 .viewAll {
   margin-right: 16px;
   padding-top: 10px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -299,7 +299,7 @@
   padding: 5px 8px;
   background-color: var(--showcase-accent, #c8ff2e);
   color: var(--showcase-bg, #0d0d0d);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -307,7 +307,7 @@
 }
 
 .bannerTitle {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 60px;
   font-weight: 800;
   line-height: 0.86;
@@ -329,7 +329,7 @@
   padding: 0 20px;
   background-color: var(--showcase-accent, #c8ff2e);
   color: var(--showcase-bg, #0d0d0d);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.08em;

@@ -8,7 +8,7 @@
   border-top: 1px solid color-mix(in srgb, var(--footer-text, #f4f4f0) 16%, var(--footer-bg, #0d0d0d));
   background-color: var(--footer-bg, #0d0d0d);
   color: var(--footer-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--footer-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -80,7 +80,7 @@
   justify-content: space-between;
   gap: 12px;
   padding: 22px clamp(16px, 3vw, 40px);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--footer-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 52px;
   font-weight: 800;
   line-height: 1;
@@ -114,7 +114,7 @@
 
 .logo {
   align-self: flex-start;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--footer-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 34px;
   font-weight: 800;
   line-height: 1;
@@ -142,7 +142,7 @@
 
 .columnTitle {
   color: var(--footer-accent, #c8ff2e);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--footer-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -191,7 +191,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--footer-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -272,7 +272,7 @@
     justify-content: space-between;
     width: 100%;
     min-height: 56px;
-    font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+    font-family: var(--footer-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
     font-size: 20px;
     font-weight: 800;
     letter-spacing: 0.06em;

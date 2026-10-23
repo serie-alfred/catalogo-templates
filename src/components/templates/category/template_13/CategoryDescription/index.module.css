@@ -8,7 +8,7 @@
   border-top: 1px solid color-mix(in srgb, var(--cat-desc-text, #f4f4f0) 16%, var(--cat-desc-bg, #0d0d0d));
   background-color: var(--cat-desc-bg, #0d0d0d);
   color: var(--cat-desc-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--cat-desc-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -59,7 +59,7 @@
 }
 
 .aboutTitle {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 56px;
   font-weight: 800;
   line-height: 0.88;
@@ -88,7 +88,7 @@
   display: flex;
   align-self: flex-start;
   padding-top: 10px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -116,7 +116,7 @@
 .faqTitle {
   margin-bottom: 12px;
   color: var(--cat-desc-accent, #c8ff2e);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 22px;
   font-weight: 800;
   letter-spacing: 0.1em;

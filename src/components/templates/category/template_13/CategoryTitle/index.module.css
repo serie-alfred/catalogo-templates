@@ -8,7 +8,7 @@
   border-bottom: 1px solid color-mix(in srgb, var(--cat-title-text, #f4f4f0) 16%, var(--cat-title-bg, #0d0d0d));
   background-color: var(--cat-title-bg, #0d0d0d);
   color: var(--cat-title-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--cat-title-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -54,7 +54,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-title-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: clamp(96px, 12vw, 168px);
   font-weight: 800;
   line-height: 0.78;
@@ -64,7 +64,7 @@
 .count {
   padding-bottom: 6px;
   color: var(--cat-title-accent, #c8ff2e);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-title-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 22px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -79,7 +79,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--cat-title-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.08em;

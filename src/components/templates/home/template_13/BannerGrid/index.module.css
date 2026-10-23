@@ -7,7 +7,7 @@
   width: 100%;
   background-color: var(--banner-grid-bg, #0d0d0d);
   color: var(--banner-grid-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--banner-grid-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -100,7 +100,7 @@
 
 .eyebrow {
   color: var(--banner-grid-accent, #c8ff2e);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -108,7 +108,7 @@
 
 .title {
   color: var(--banner-grid-title-color, #f4f4f0);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 72px;
   font-weight: 800;
   line-height: 0.85;
@@ -119,7 +119,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.08em;

@@ -7,7 +7,7 @@
   width: 100%;
   background-color: var(--prod-desc-bg, #0d0d0d);
   color: var(--prod-desc-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--prod-desc-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -42,7 +42,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 96px;
   font-weight: 800;
   line-height: 0.8;
@@ -84,7 +84,7 @@
 
 .cardNum {
   color: var(--prod-desc-accent, #c8ff2e);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 96px;
   font-weight: 800;
   line-height: 0.8;
@@ -98,7 +98,7 @@
 }
 
 .cardTitle {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 34px;
   font-weight: 800;
   line-height: 0.9;
@@ -134,7 +134,7 @@
   border-bottom: 1px solid color-mix(in srgb, var(--prod-desc-text, #f4f4f0) 16%, var(--prod-desc-bg, #0d0d0d));
 }
 .spec dt {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;

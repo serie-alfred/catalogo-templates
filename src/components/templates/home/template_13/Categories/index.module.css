@@ -7,7 +7,7 @@
   width: 100%;
   background-color: var(--categories-bg, #0d0d0d);
   color: var(--categories-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--categories-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -64,7 +64,7 @@
 
 .title {
   color: var(--categories-title-color, #f4f4f0);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--categories-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 52px;
   font-weight: 800;
   line-height: 0.9;
@@ -73,7 +73,7 @@
 
 .viewAll {
   padding-top: 10px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--categories-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -128,7 +128,7 @@
   position: absolute;
   bottom: 16px;
   left: 20px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--categories-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 56px;
   font-weight: 800;
   line-height: 0.9;

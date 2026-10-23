@@ -10,7 +10,7 @@
   gap: 14px;
   min-width: 0;
   color: var(--spot-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--spot-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -101,7 +101,7 @@
   padding: 5px 8px;
   background-color: var(--spot-tag-bg, #c8ff2e);
   color: var(--spot-tag-text, #0d0d0d);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--spot-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 13px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -118,7 +118,7 @@
   border-top: 2px solid color-mix(in srgb, var(--spot-text, #f4f4f0) 64%, #0d0d0d);
   border-bottom: 2px solid color-mix(in srgb, var(--spot-text, #f4f4f0) 64%, #0d0d0d);
   color: color-mix(in srgb, var(--spot-text, #f4f4f0) 64%, #0d0d0d);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--spot-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 44px;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -160,7 +160,7 @@
   height: 52px;
   background-color: var(--spot-btn-bg, #c8ff2e);
   color: var(--spot-btn-text, #0d0d0d);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--spot-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -181,7 +181,7 @@
 }
 
 .name {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--spot-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 21px;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -194,7 +194,7 @@
 
 .price {
   margin-top: 4px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--spot-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 26px;
   font-weight: 800;
   line-height: 1;
@@ -245,7 +245,7 @@
   gap: 8px;
   height: 50px;
   border: 1px solid var(--spot-text, #f4f4f0);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--spot-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -264,7 +264,7 @@
   height: 44px;
   background-color: var(--spot-btn-bg, #c8ff2e);
   color: var(--spot-btn-text, #0d0d0d);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--spot-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 16px;
   font-weight: 800;
   letter-spacing: 0.08em;

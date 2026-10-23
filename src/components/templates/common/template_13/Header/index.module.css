@@ -9,7 +9,7 @@
   width: 100%;
   background-color: var(--header-bg, #0d0d0d);
   color: var(--header-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--header-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -82,7 +82,7 @@
 
 .tape {
   padding: 0 22px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--header-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -103,7 +103,7 @@
 }
 
 .logo {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--header-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 32px;
   font-weight: 800;
   letter-spacing: 0.01em;
@@ -130,7 +130,7 @@
 .navList {
   display: flex;
   gap: 6px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--header-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 19px;
   font-weight: 700;
   letter-spacing: 0.05em;
@@ -166,7 +166,7 @@
   padding: 8px 0;
   border: 1px solid color-mix(in srgb, var(--header-text, #f4f4f0) 16%, var(--header-bg, #0d0d0d));
   background-color: var(--header-bg, #0d0d0d);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--header-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-size: 15px;
   font-weight: 500;
   letter-spacing: normal;
@@ -205,7 +205,7 @@
   border-radius: 2px;
   background-color: var(--header-accent, #c8ff2e);
   color: var(--header-bg, #0d0d0d);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--header-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.05em;
@@ -391,7 +391,7 @@
     padding: 8px 16px 0;
   }
   .drawerList {
-    font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+    font-family: var(--header-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
     font-size: 30px;
     font-weight: 800;
     letter-spacing: 0.02em;
@@ -421,7 +421,7 @@
   }
   .drawerSub {
     padding: 0 0 12px;
-    font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+    font-family: var(--header-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
     font-size: 16px;
     font-weight: 500;
     letter-spacing: normal;

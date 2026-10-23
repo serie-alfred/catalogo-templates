@@ -12,7 +12,7 @@
   border-bottom: 1px solid color-mix(in srgb, var(--breadcrumb-text, #f4f4f0) 16%, var(--breadcrumb-bg, #0d0d0d));
   background-color: var(--breadcrumb-bg, #0d0d0d);
   color: var(--breadcrumb-text, #f4f4f0);
-  font-family: var(--font-primary, "Barlow Condensed", system-ui, sans-serif);
+  font-family: var(--breadcrumb-title-font, var(--font-primary, 'Barlow Condensed', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;

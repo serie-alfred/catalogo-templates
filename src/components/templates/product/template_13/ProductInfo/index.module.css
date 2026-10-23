@@ -8,7 +8,7 @@
   width: 100%;
   background-color: var(--pdp-bg, #0d0d0d);
   color: var(--pdp-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--pdp-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-size: 16px;
   font-weight: 400;
   line-height: normal;
@@ -75,7 +75,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -140,7 +140,7 @@
   position: absolute;
   top: 16px;
   left: 16px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 22px;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -243,7 +243,7 @@
   padding: 5px 9px;
   background-color: var(--pdp-accent, #c8ff2e);
   color: var(--pdp-bg, #0d0d0d);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -251,7 +251,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 64px;
   font-weight: 800;
   line-height: 0.86;
@@ -301,7 +301,7 @@
 }
 
 .price {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 44px;
   font-weight: 800;
   line-height: 1;
@@ -325,7 +325,7 @@
 }
 
 .legend {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -380,7 +380,7 @@
   align-items: center;
   gap: 6px;
   min-height: 44px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif) !important;
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif)) !important;
   font-size: 15px !important;
   font-weight: 700 !important;
   letter-spacing: 0.08em;
@@ -398,7 +398,7 @@
 .size {
   height: 52px;
   border: 1px solid color-mix(in srgb, var(--pdp-text, #f4f4f0) 16%, var(--pdp-bg, #0d0d0d)) !important;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif) !important;
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif)) !important;
   font-size: 19px !important;
   font-weight: 700 !important;
 }
@@ -450,7 +450,7 @@
   height: 56px;
   background-color: var(--pdp-button-bg, #c8ff2e) !important;
   color: var(--pdp-button-text, #0d0d0d) !important;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif) !important;
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif)) !important;
   font-size: 21px !important;
   font-weight: 800 !important;
   letter-spacing: 0.1em;
@@ -486,7 +486,7 @@
 
 .qtyValue {
   min-width: 24px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 19px;
   font-weight: 800;
   text-align: center;
@@ -500,7 +500,7 @@
 }
 
 .notifyTitle {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 17px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -538,7 +538,7 @@
   outline: none;
   background: transparent;
   color: var(--pdp-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif) !important;
+  font-family: var(--pdp-font, var(--font-secundary, 'Barlow', system-ui, sans-serif)) !important;
   font-size: 16px;
 }
 .input::placeholder {
@@ -553,7 +553,7 @@
   height: 48px;
   background-color: var(--pdp-button-bg, #c8ff2e) !important;
   color: var(--pdp-button-text, #0d0d0d) !important;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif) !important;
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif)) !important;
   font-size: 17px !important;
   font-weight: 800 !important;
   letter-spacing: 0.08em;
@@ -590,7 +590,7 @@
   height: 48px;
   padding: 0 20px !important;
   border: 1px solid var(--pdp-text, #f4f4f0) !important;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif) !important;
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif)) !important;
   font-size: 17px !important;
   font-weight: 800 !important;
   letter-spacing: 0.08em;
@@ -638,7 +638,7 @@
   margin-bottom: -1px !important;
   padding: 0 16px !important;
   color: color-mix(in srgb, var(--pdp-text, #f4f4f0) 64%, var(--pdp-bg, #0d0d0d)) !important;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif) !important;
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif)) !important;
   font-size: 17px !important;
   font-weight: 800 !important;
 }
@@ -714,7 +714,7 @@
   gap: 12px;
   padding: 8px 8px 8px 20px;
   border-bottom: 1px solid color-mix(in srgb, var(--pdp-text, #f4f4f0) 16%, var(--pdp-bg, #0d0d0d));
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 20px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -920,7 +920,7 @@
     flex-direction: column;
   }
   .mobilePriceValue {
-    font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+    font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
     font-size: 24px;
     font-weight: 800;
     line-height: 1;

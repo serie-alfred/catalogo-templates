@@ -5,7 +5,7 @@
 
 .helpFloatButton13 {
   color: var(--help-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--help-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -98,7 +98,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--help-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 32px;
   font-weight: 800;
   line-height: 1;
@@ -121,7 +121,7 @@
 }
 
 .list {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--help-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
   letter-spacing: 0.06em;

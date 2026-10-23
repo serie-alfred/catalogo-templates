@@ -10,7 +10,7 @@
   overflow: hidden;
   background-color: var(--banner-main-bg, #0d0d0d);
   color: var(--banner-main-text, #f4f4f0);
-  font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
+  font-family: var(--banner-main-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -96,7 +96,7 @@
   padding: 6px 10px;
   background-color: var(--banner-main-button-bg, #c8ff2e);
   color: var(--banner-main-button-text, #0d0d0d);
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--banner-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -104,7 +104,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--banner-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: clamp(96px, 13vw, 196px);
   font-weight: 800;
   line-height: 0.82;
@@ -133,7 +133,7 @@
   display: flex;
   align-items: center;
   padding: 0 24px;
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--banner-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 19px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -162,7 +162,7 @@
 }
 
 .counter {
-  font-family: var(--font-primary, "Barlow Condensed", sans-serif);
+  font-family: var(--banner-main-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 22px;
   font-weight: 800;
   letter-spacing: 0.04em;
