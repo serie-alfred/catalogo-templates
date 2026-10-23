@@ -17,10 +17,16 @@ import styles from './index.module.css';
  * especificações do CMS, cor por miniatura e Armazenamento com as duas opções em
  * estoque.
  *
+ * O ramo esgotado é o de lá: a opção sem estoque sai riscada (`pdp-axis-out`), a nota
+ * "<opções> esgotado. Avise-me quando chegar" abre o formulário (`pdp-notify`), e com
+ * a opção da página sem estoque o "de", o %, as parcelas, o Pix e a quantidade somem e
+ * o botão de compra vira "Avise-me". O mock de lá tem tudo em estoque; para ver o
+ * esgotado no canvas, ponha valores em `ESGOTADOS`.
+ *
  * Sai: `usePDP`, `useBuyButton`, `useWishList`, a nota do Reviews and Ratings, a
- * simulação de frete e o analytics. Ficam de fora, porque com o mock do starter
- * nunca renderizam: o guia de medidas (o produto não tem a especificação), a nota
- * de esgotado e o formulário "Avise-me" (as duas opções estão em estoque).
+ * simulação de frete, a mutation do "Avise-me" (o envio dá sucesso local, como no
+ * palco de lá) e o analytics. Fica de fora, porque com o mock do starter nunca
+ * renderiza: o guia de medidas (o produto não tem a especificação).
  */
 
 const BRL = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -63,6 +69,13 @@ const COLORS = [
 ];
 const AXIS_NAME = 'Armazenamento';
 const AXIS_OPTIONS = ['128 GB', '256 GB'];
+/** Armazenamentos sem estoque (o `offer(false)` do mock de lá, que não tem nenhum). */
+const ESGOTADOS: string[] = [];
+const AXIS = AXIS_OPTIONS.map((value, i) => ({
+  value,
+  available: !ESGOTADOS.includes(value),
+  sku: i === 0 ? SKU : `000000${i}`,
+}));
 
 const HIGHLIGHTS = [
   { name: 'Tela', value: '6,7"' },
@@ -82,8 +95,15 @@ const MOCK = {
   ratingCountLabel: 'avaliações',
   installmentsLinkLabel: 'ver parcelamento',
   pixText: 'à vista, com aprovação na hora',
+  soldOutText: 'esgotado.',
+  notifyLabel: 'Avise-me quando chegar',
+  notifyNamePlaceholder: 'Seu nome',
+  notifyEmailPlaceholder: 'Seu e-mail',
+  notifySubmitLabel: 'Avisar',
+  notifySuccess: 'Pronto. Avisamos por e-mail quando o produto voltar.',
   buyLabel: 'Adicionar ao carrinho',
   mobileBuyLabel: 'Adicionar',
+  soldOutButtonLabel: 'Avise-me quando chegar',
   shippingLabel: 'Calcular frete e prazo',
   cepPlaceholder: '00000-000',
   cepButtonLabel: 'Calcular',
@@ -140,7 +160,12 @@ const TRUST: Array<{ text: string; icon: React.ReactNode }> = [
 
 export default function ProductInfo10() {
   const uid = useId();
-  const [selAxis, setSelAxis] = useState(AXIS_OPTIONS[0]);
+  const [selAxis, setSelAxis] = useState<string | null>(null);
+  const [notifyOpen, setNotifyOpen] = useState(false);
+  const [notifyTarget, setNotifyTarget] = useState<string | null>(null);
+  const [notifyName, setNotifyName] = useState('');
+  const [notifyEmail, setNotifyEmail] = useState('');
+  const [notifyOk, setNotifyOk] = useState(false);
   const [qty, setQty] = useState(1);
   const [slide, setSlide] = useState(0);
   const [allThumbs, setAllThumbs] = useState(false);
@@ -159,18 +184,56 @@ export default function ProductInfo10() {
     if (el) el.scrollTo({ left: i * el.clientWidth, behavior: 'auto' });
   };
 
+  /* ── variação: a opção da página (a 1ª) se tiver estoque, senão a 1ª com estoque ── */
+  const defaultAxis =
+    (AXIS.find(o => o.value === AXIS_OPTIONS[0])?.available ? AXIS_OPTIONS[0] : undefined) ??
+    AXIS.find(o => o.available)?.value ??
+    null;
+  const activeAxis = selAxis ?? defaultAxis;
+  const selected = activeAxis ? AXIS.find(o => o.value === activeAxis) : undefined;
+  const soldOutOptions = AXIS.filter(o => !o.available);
+  const inStock = !!selected?.available;
+  const sku = selected?.sku ?? SKU;
+  const discount = inStock && LIST > PRICE ? DISCOUNT : 0;
+  const best = inStock ? BEST : null;
+  const pixValue = inStock ? PIX : null;
+
+  /* ── avise-me: o envio dá sucesso local, como no palco de lá ── */
+  const notifyFor = notifyTarget ?? (inStock ? soldOutOptions[0]?.value : activeAxis) ?? null;
+  const openNotify = (value?: string | null) => {
+    setNotifyTarget(value ?? null);
+    setNotifyOpen(true);
+    setNotifyOk(false);
+  };
+  const onNotify = (e: React.FormEvent) => {
+    e.preventDefault();
+    setNotifyOk(true);
+  };
+
   const showPlus = IMAGES.length > THUMBS + 1 && !allThumbs;
   const thumbs = showPlus ? IMAGES.slice(0, THUMBS) : IMAGES;
-  const code10 = `${MOCK.codeLabel} ${SKU}`;
+  const code10 = sku ? `${MOCK.codeLabel ? `${MOCK.codeLabel} ` : ''}${sku}` : '';
   const avgText = RATING.average.toFixed(1).replace('.', ',');
   const activeColorLabel = COLORS.find(c => c.active)?.label ?? '';
 
-  const buyButton = (extra: string, label?: string) => (
-    <button type="button" className={`${styles.buy} ${extra}`} data-role="pdp-buy">
-      {svg(20, CART, { strokeWidth: 2 })}
-      {label || MOCK.buyLabel}
-    </button>
-  );
+  const buyButton = (extra: string, label?: string) =>
+    inStock ? (
+      <button type="button" className={`${styles.buy} ${extra}`} data-role="pdp-buy">
+        {svg(20, CART, { strokeWidth: 2 })}
+        {label || MOCK.buyLabel}
+      </button>
+    ) : (
+      <button
+        type="button"
+        className={`${styles.buy} ${extra}`}
+        onClick={() => openNotify(activeAxis)}
+        aria-expanded={notifyOpen}
+        aria-controls={`${uid}-notify`}
+        data-role="pdp-buy"
+      >
+        {MOCK.soldOutButtonLabel || MOCK.notifyLabel}
+      </button>
+    );
 
   const highlightList = (extra: string) => (
     <ul className={`${styles.highlights} ${extra}`} data-role="pdp-highlights">
@@ -233,9 +296,11 @@ export default function ProductInfo10() {
                     </div>
                   ))}
                 </div>
-                <span className={styles.photoTag} data-role="pdp-discount">
-                  -{DISCOUNT}%
-                </span>
+                {discount > 0 && (
+                  <span className={styles.photoTag} data-role="pdp-discount">
+                    -{discount}%
+                  </span>
+                )}
                 <button
                   type="button"
                   className={`${styles.fav}${isFav ? ` ${styles.favOn}` : ''}`}
@@ -296,36 +361,40 @@ export default function ProductInfo10() {
             </div>
 
             <div className={styles.prices} data-role="pdp-prices">
-              <div className={styles.listRow}>
-                <s className={styles.listPrice} data-role="pdp-list-price">
-                  de {money(LIST)}
-                </s>
-                <span className={styles.tag}>-{DISCOUNT}%</span>
-              </div>
+              {LIST > PRICE && inStock && (
+                <div className={styles.listRow}>
+                  <s className={styles.listPrice} data-role="pdp-list-price">
+                    de {money(LIST)}
+                  </s>
+                  {discount > 0 && <span className={styles.tag}>-{discount}%</span>}
+                </div>
+              )}
               <span className={styles.price} data-role="pdp-price">
                 {money(PRICE)}
               </span>
-              <p className={styles.installment} data-role="pdp-installment">
-                ou{' '}
-                <strong>
-                  {BEST.installmentNumber}x de {money(BEST.installmentValue)}
-                </strong>{' '}
-                {BEST.installmentInterest === 0 ? 'sem juros' : 'com juros'}
-                <span className={styles.onlyDesktop}>
-                  {' · '}
-                  <button
-                    type="button"
-                    className={styles.inlineLink}
-                    onClick={() => setPlansOpen(o => !o)}
-                    aria-expanded={plansOpen}
-                    aria-controls={`${uid}-plans`}
-                    data-role="pdp-installments-link"
-                  >
-                    {MOCK.installmentsLinkLabel}
-                  </button>
-                </span>
-              </p>
-              {plansOpen && (
+              {best && best.installmentNumber > 1 && (
+                <p className={styles.installment} data-role="pdp-installment">
+                  ou{' '}
+                  <strong>
+                    {best.installmentNumber}x de {money(best.installmentValue)}
+                  </strong>{' '}
+                  {best.installmentInterest === 0 ? 'sem juros' : 'com juros'}
+                  <span className={styles.onlyDesktop}>
+                    {' · '}
+                    <button
+                      type="button"
+                      className={styles.inlineLink}
+                      onClick={() => setPlansOpen(o => !o)}
+                      aria-expanded={plansOpen}
+                      aria-controls={`${uid}-plans`}
+                      data-role="pdp-installments-link"
+                    >
+                      {MOCK.installmentsLinkLabel}
+                    </button>
+                  </span>
+                </p>
+              )}
+              {plansOpen && best && (
                 <ul id={`${uid}-plans`} className={styles.plans} data-role="pdp-installments">
                   {PLANS.map(p => (
                     <li key={p.installmentNumber}>
@@ -339,19 +408,21 @@ export default function ProductInfo10() {
                   ))}
                 </ul>
               )}
-              <div className={styles.pix} data-role="pdp-pix">
-                {svg(
-                  26,
-                  <>
-                    <path d="M12 3 21 12 12 21 3 12z" />
-                    <path d="m8.5 12 3.5-3.5 3.5 3.5-3.5 3.5z" />
-                  </>
-                )}
-                <span className={styles.pixCopy}>
-                  <strong className={styles.pixValue}>{money(PIX)} no Pix</strong>
-                  <span className={styles.pixText}>{MOCK.pixText}</span>
-                </span>
-              </div>
+              {pixValue !== null && (
+                <div className={styles.pix} data-role="pdp-pix">
+                  {svg(
+                    26,
+                    <>
+                      <path d="M12 3 21 12 12 21 3 12z" />
+                      <path d="m8.5 12 3.5-3.5 3.5 3.5-3.5 3.5z" />
+                    </>
+                  )}
+                  <span className={styles.pixCopy}>
+                    <strong className={styles.pixValue}>{money(pixValue)} no Pix</strong>
+                    <span className={styles.pixText}>{MOCK.pixText}</span>
+                  </span>
+                </div>
+              )}
             </div>
 
             <div className={styles.group} data-role="pdp-colors">
@@ -383,38 +454,135 @@ export default function ProductInfo10() {
                 </strong>
               </div>
               <div className={styles.axisRow} role="group" aria-labelledby={`${uid}-axis`}>
-                {AXIS_OPTIONS.map(v => (
-                  <button
-                    key={v}
-                    type="button"
-                    className={`${styles.axisChip}${v === selAxis ? ` ${styles.chipOn}` : ''}`}
-                    aria-pressed={v === selAxis}
-                    onClick={() => setSelAxis(v)}
-                    data-role="pdp-axis-option"
-                  >
-                    {v}
-                  </button>
-                ))}
+                {AXIS.map(o =>
+                  o.available ? (
+                    <button
+                      key={o.value}
+                      type="button"
+                      className={`${styles.axisChip}${o.value === activeAxis ? ` ${styles.chipOn}` : ''}`}
+                      aria-pressed={o.value === activeAxis}
+                      onClick={() => {
+                        setSelAxis(o.value);
+                        setNotifyOpen(false);
+                      }}
+                      data-role="pdp-axis-option"
+                    >
+                      {o.value}
+                    </button>
+                  ) : (
+                    <button
+                      key={o.value}
+                      type="button"
+                      className={`${styles.axisChip} ${styles.axisOut}`}
+                      aria-label={`${o.value}, esgotado`}
+                      disabled
+                      data-role="pdp-axis-out"
+                    >
+                      {o.value}
+                    </button>
+                  )
+                )}
               </div>
+              {/* Bloco comum (não flex): o espaço entre o texto e o link não some. */}
+              {soldOutOptions.length > 0 && inStock && (
+                <p className={styles.soldNote} data-role="pdp-sold-out-note">
+                  {soldOutOptions.map(o => o.value).join(', ')} {MOCK.soldOutText}{' '}
+                  <button
+                    type="button"
+                    className={styles.inlineLink}
+                    onClick={() => openNotify(soldOutOptions.length === 1 ? soldOutOptions[0].value : null)}
+                    aria-expanded={notifyOpen}
+                    aria-controls={`${uid}-notify`}
+                    data-role="pdp-notify-link"
+                  >
+                    {MOCK.notifyLabel}
+                  </button>
+                </p>
+              )}
             </div>
+
+            {(notifyOpen || !inStock) && (
+              <form id={`${uid}-notify`} className={styles.notify} onSubmit={onNotify} data-role="pdp-notify">
+                {notifyOk ? (
+                  <p className={styles.notifyOk} role="status">
+                    {MOCK.notifySuccess}
+                  </p>
+                ) : (
+                  <>
+                    <p className={styles.notifyTitle}>
+                      {MOCK.notifyLabel}
+                      {notifyFor ? ` · ${notifyFor}` : ''}
+                    </p>
+                    {inStock && soldOutOptions.length > 1 && (
+                      <div className={styles.axisRow} role="group" aria-label={AXIS_NAME}>
+                        {soldOutOptions.map(o => (
+                          <button
+                            key={o.value}
+                            type="button"
+                            className={`${styles.axisChip} ${styles.axisChipSmall}${o.value === notifyFor ? ` ${styles.chipOn}` : ''}`}
+                            aria-pressed={o.value === notifyFor}
+                            onClick={() => setNotifyTarget(o.value)}
+                          >
+                            {o.value}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    <div className={styles.fieldRow}>
+                      <label className={styles.field}>
+                        <span className={styles.srOnly}>{MOCK.notifyNamePlaceholder}</span>
+                        <input
+                          type="text"
+                          autoComplete="name"
+                          required
+                          placeholder={MOCK.notifyNamePlaceholder}
+                          value={notifyName}
+                          onChange={e => setNotifyName(e.target.value)}
+                        />
+                      </label>
+                      <label className={styles.field}>
+                        <span className={styles.srOnly}>{MOCK.notifyEmailPlaceholder}</span>
+                        <input
+                          type="email"
+                          autoComplete="email"
+                          required
+                          placeholder={MOCK.notifyEmailPlaceholder}
+                          value={notifyEmail}
+                          onChange={e => setNotifyEmail(e.target.value)}
+                        />
+                      </label>
+                      <button type="submit" className={styles.darkBtn}>
+                        {MOCK.notifySubmitLabel}
+                      </button>
+                    </div>
+                  </>
+                )}
+              </form>
+            )}
 
             {highlightList(styles.onlyMobile)}
 
             <div className={`${styles.buyRow} ${styles.onlyDesktop}`} data-role="pdp-buy-row">
-              <div className={styles.qty} role="group" aria-label="Quantidade">
-                <button
-                  type="button"
-                  onClick={() => setQty(q => Math.max(1, q - 1))}
-                  aria-label="Diminuir quantidade"
-                  disabled={qty <= 1}
-                >
-                  {svg(18, <path d="M5 12h14" />, { strokeWidth: 2 })}
-                </button>
-                <span aria-live="polite">{qty}</span>
-                <button type="button" onClick={() => setQty(q => Math.min(99, q + 1))} aria-label="Aumentar quantidade">
-                  {svg(18, <path d="M12 5v14M5 12h14" />, { strokeWidth: 2 })}
-                </button>
-              </div>
+              {inStock && (
+                <div className={styles.qty} role="group" aria-label="Quantidade">
+                  <button
+                    type="button"
+                    onClick={() => setQty(q => Math.max(1, q - 1))}
+                    aria-label="Diminuir quantidade"
+                    disabled={qty <= 1}
+                  >
+                    {svg(18, <path d="M5 12h14" />, { strokeWidth: 2 })}
+                  </button>
+                  <span aria-live="polite">{qty}</span>
+                  <button
+                    type="button"
+                    onClick={() => setQty(q => Math.min(99, q + 1))}
+                    aria-label="Aumentar quantidade"
+                  >
+                    {svg(18, <path d="M12 5v14M5 12h14" />, { strokeWidth: 2 })}
+                  </button>
+                </div>
+              )}
               {buyButton('')}
             </div>
 
@@ -471,7 +639,7 @@ export default function ProductInfo10() {
         <div className={styles.mobileBar} data-role="pdp-mobile-bar">
           <span className={styles.mobilePrice}>
             <strong className={styles.mobilePriceValue}>{money(PRICE)}</strong>
-            <span className={styles.mobilePix}>{money(PIX)} no Pix</span>
+            {pixValue !== null && <span className={styles.mobilePix}>{money(pixValue)} no Pix</span>}
           </span>
           {buyButton(styles.buyMobile, MOCK.mobileBuyLabel)}
         </div>
