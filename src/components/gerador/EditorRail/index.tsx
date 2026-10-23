@@ -7,6 +7,7 @@ import {
   Component,
   LayoutTemplate,
   ShoppingCart,
+  History,
 } from 'lucide-react';
 
 import { useLayout } from '@/context/LayoutContext';
@@ -54,6 +55,12 @@ const ITEMS: { target: RailTarget; label: string; icon: React.ReactNode }[] = [
     target: 'templates',
     label: 'Por template',
     icon: <LayoutTemplate width={20} height={20} />,
+  },
+  // O histórico da agência (PanelSavedThemes): vale em todos os modos.
+  {
+    target: 'salvos',
+    label: 'Temas salvos',
+    icon: <History width={20} height={20} />,
   },
 ];
 
@@ -130,6 +137,7 @@ export default function EditorRail({ className }: { className?: string }) {
           <LandingPage width={20} height={20} />
         </button>
       )}
+
     </nav>
   );
 }

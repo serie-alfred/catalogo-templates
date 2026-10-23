@@ -8,6 +8,7 @@ import PanelTypography from './PanelTypography';
 import PanelGlobalColors from './PanelGlobalColors';
 import PanelBrandAssets from './PanelBrandAssets';
 import PanelTemplates from './PanelTemplates';
+import PanelSavedThemes from './PanelSavedThemes';
 import PlatformSelect from '../PlatformSelect';
 
 import styles from './index.module.css';
@@ -22,6 +23,8 @@ const DICA_DO_CHECKOUT: Record<string, string> = {
     'A fonte dos títulos vale no checkout enquanto o papel "Fonte" ficar sem valor. O checkout baixa os pesos 300 a 700.',
   identidade:
     'O logo vai no header do checkout, reduzido a até 280 × 64 px (SVG e URL https passam como estão).',
+  salvos:
+    'O histórico guarda o tema inteiro desta aba: loja, landing page e checkout.',
 };
 
 /**
@@ -104,6 +107,8 @@ export default function EditorLeftPanel({
         {destino === 'tipografia' && <PanelTypography />}
 
         {destino === 'identidade' && <PanelBrandAssets />}
+
+        {destino === 'salvos' && <PanelSavedThemes />}
       </div>
     </aside>
   );
