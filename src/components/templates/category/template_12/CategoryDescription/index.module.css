@@ -8,7 +8,7 @@
   padding: 48px 0;
   background-color: #fbf6f3;
   color: var(--cat-desc-text, var(--text-primary-color, #3b1f33));
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--cat-desc-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -73,7 +73,7 @@
 }
 
 .aboutTitle {
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: clamp(26px, 2.6vw, 32px);
   font-weight: 400;
   line-height: 1.15;
@@ -127,7 +127,7 @@
 
 .faqTitle {
   margin-bottom: 6px;
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: clamp(24px, 2.4vw, 28px);
   font-weight: 400;
   line-height: normal;

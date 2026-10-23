@@ -8,7 +8,7 @@
   padding: 44px 0;
   background-color: var(--brands-bg, #fbf6f3);
   color: var(--brands-text, var(--text-primary-color, #3b1f33));
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--brands-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -41,7 +41,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--brands-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: clamp(24px, 2.4vw, 30px);
   font-weight: 400;
 }
@@ -68,7 +68,7 @@
   border: 1px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
   border-radius: 999px;
   background-color: #ffffff;
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--brands-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 20px;
 }
 .pill:hover {
@@ -88,7 +88,7 @@
 }
 
 .item:nth-child(5n+2) .pill {
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--brands-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -100,13 +100,13 @@
 }
 
 .item:nth-child(5n+4) .pill {
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--brands-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-size: 19px;
   font-weight: 400;
 }
 
 .item:nth-child(5n+5) .pill {
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--brands-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.08em;

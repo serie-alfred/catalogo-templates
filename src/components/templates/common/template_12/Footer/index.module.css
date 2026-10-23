@@ -8,7 +8,7 @@
   padding-top: 24px;
   background-color: #fbf6f3;
   color: var(--footer-text, var(--text-color-footer, #3b1f33));
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--footer-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -86,7 +86,7 @@
 
 .logo {
   align-self: flex-start;
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--footer-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 32px;
   line-height: 1;
 }
@@ -124,7 +124,7 @@
 }
 
 .columnTitle {
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--footer-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 18px;
   font-weight: 400;
   line-height: normal;
@@ -286,7 +286,7 @@
     justify-content: space-between;
     width: 100%;
     min-height: 52px;
-    font-family: var(--font-primary, "Young Serif", Georgia, serif) !important;
+    font-family: var(--footer-title-font, var(--font-primary, 'Young Serif', Georgia, serif)) !important;
     font-size: 17px !important;
     text-align: left;
   }

@@ -12,7 +12,7 @@
   padding: 20px 0;
   background-color: #fbf6f3;
   color: var(--breadcrumb-text, var(--text-primary-color, #3b1f33));
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--breadcrumb-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;

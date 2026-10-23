@@ -14,7 +14,7 @@
   border-radius: 24px;
   background-color: #ffffff;
   color: var(--spot-text, var(--text-primary-color, #3b1f33));
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--spot-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;

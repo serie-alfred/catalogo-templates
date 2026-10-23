@@ -12,7 +12,7 @@
   justify-content: center;
   padding: 16px;
   color: var(--popup-text, var(--text-primary-color, #3b1f33));
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--popup-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -141,7 +141,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--popup-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 34px;
   font-weight: 400;
   line-height: 1.12;

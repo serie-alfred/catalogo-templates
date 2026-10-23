@@ -10,7 +10,7 @@
   padding-bottom: 12px;
   background-color: var(--header-bg, #fbf6f3);
   color: var(--header-text, var(--text-primary-color, #3b1f33));
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--header-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -98,7 +98,7 @@
 
 .logo {
   flex: none;
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--header-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 26px;
   font-weight: 400;
   line-height: 1;

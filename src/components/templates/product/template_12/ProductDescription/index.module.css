@@ -8,7 +8,7 @@
   padding: 56px 0;
   background-color: #fbf6f3;
   color: var(--prod-desc-text, var(--text-primary-color, #3b1f33));
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--prod-desc-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-size: 16px;
   font-weight: 400;
   line-height: normal;
@@ -48,7 +48,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: clamp(28px, 3vw, 38px);
   font-weight: 400;
   line-height: 1.1;
@@ -91,7 +91,7 @@
 
 .sectionTitle {
   margin-top: 8px !important;
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 24px;
   font-weight: 400;
   line-height: normal;
@@ -124,7 +124,7 @@
 }
 
 .cardTitle {
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 22px;
   font-weight: 400;
   line-height: normal;
@@ -152,7 +152,7 @@
 }
 
 .boxTitle {
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 24px;
   font-weight: 400;
   line-height: normal;
@@ -205,7 +205,7 @@
 }
 
 .resultValue {
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 32px;
   line-height: 1;
 }

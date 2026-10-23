@@ -5,7 +5,7 @@
 
 .helpFloatButton12 {
   color: var(--help-text, var(--text-primary-color, #3b1f33));
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--help-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -95,7 +95,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--help-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 20px;
   font-weight: 400;
 }

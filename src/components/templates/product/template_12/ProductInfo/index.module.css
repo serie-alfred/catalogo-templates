@@ -9,7 +9,7 @@
   padding: 24px 0 56px;
   background-color: #fbf6f3;
   color: var(--pdp-text, var(--text-primary-color, #3b1f33));
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--pdp-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-size: 16px;
   font-weight: 400;
   line-height: normal;
@@ -215,7 +215,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: clamp(30px, 3vw, 40px);
   font-weight: 400;
   line-height: 1.1;
@@ -616,7 +616,7 @@
   border-radius: 28px;
   background-color: #ffffff;
   color: var(--pdp-text, var(--text-primary-color, #3b1f33));
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--pdp-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
 }
 
 .dialogHead {
@@ -625,7 +625,7 @@
   justify-content: space-between;
   gap: 12px;
   padding: 12px 12px 12px 24px;
-  font-family: var(--font-primary, "Young Serif", Georgia, serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 20px;
 }
 .dialogHead strong {

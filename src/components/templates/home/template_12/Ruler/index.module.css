@@ -8,7 +8,7 @@
   padding: 40px 0;
   background-color: var(--ruler-bg, #fbf6f3);
   color: var(--ruler-text, var(--text-primary-color, #3b1f33));
-  font-family: var(--font-secundary, "Nunito Sans", system-ui, sans-serif);
+  font-family: var(--ruler-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
