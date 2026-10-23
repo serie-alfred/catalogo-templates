@@ -7,7 +7,7 @@
   width: 100%;
   background-color: var(--newsletter-bg, var(--background-secundary-color, #1340d8));
   color: var(--newsletter-desc-color, var(--text-color-secundary, #ffffff));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--newsletter-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -84,7 +84,7 @@
 
 .title {
   color: var(--newsletter-title-color, var(--text-color-secundary, #ffffff));
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--newsletter-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 32px;
   font-weight: 800;
   line-height: 1.08;

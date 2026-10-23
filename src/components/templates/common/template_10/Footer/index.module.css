@@ -7,7 +7,7 @@
   width: 100%;
   background-color: var(--footer-bg, var(--background-footer, #ffffff));
   color: var(--footer-text, var(--text-color-footer, #101828));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--footer-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -93,7 +93,7 @@
 }
 
 .serviceTitle {
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--footer-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 15px;
   font-weight: 800;
 }
@@ -119,7 +119,7 @@
 
 .title,
 .appTitle {
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--footer-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 15px;
   font-weight: 800;
 }

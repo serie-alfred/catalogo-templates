@@ -7,7 +7,7 @@
   width: 100%;
   background-color: var(--showcase-bg, #f2f4f7);
   color: var(--text-primary-color, #101828);
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--showcase-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -73,7 +73,7 @@
 
 .title {
   color: var(--showcase-title-color, var(--text-primary-color, #101828));
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 28px;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -201,7 +201,7 @@
   border-radius: 16px;
   background-color: var(--banner-side-bg, var(--background-secundary-color, #1340d8));
   color: var(--banner-side-text, var(--text-color-secundary, #ffffff));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--showcase-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
 }
 .banner:hover .bannerTitle {
   text-decoration: underline;
@@ -243,7 +243,7 @@
 }
 
 .bannerTitle {
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 36px;
   font-weight: 800;
   line-height: 1.02;

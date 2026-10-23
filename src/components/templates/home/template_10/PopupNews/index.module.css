@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: center;
   color: var(--popup-text, var(--text-primary-color, #101828));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--popup-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -104,7 +104,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--popup-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 52px;
   font-weight: 800;
   line-height: 1;

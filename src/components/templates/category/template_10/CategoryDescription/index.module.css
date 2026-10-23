@@ -7,7 +7,7 @@
   width: 100%;
   background-color: #f2f4f7;
   color: var(--cat-desc-text, var(--text-primary-color, #101828));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cat-desc-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-size: 16px;
   font-weight: 400;
   line-height: normal;
@@ -47,7 +47,7 @@
 }
 
 .faqTitle {
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -89,7 +89,7 @@
   width: 100%;
   min-height: 60px;
   padding: 18px 20px;
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 16px;
   font-weight: 700;
   text-align: left;
@@ -140,7 +140,7 @@
 }
 
 .aboutTitle {
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 18px;
   font-weight: 800;
 }

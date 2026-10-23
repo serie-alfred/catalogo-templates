@@ -9,7 +9,7 @@
   width: 100%;
   background-color: var(--header-bg, var(--background-primary-color, #ffffff));
   color: var(--header-text, var(--text-color-base, #101828));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--header-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -125,13 +125,13 @@
   border-radius: 10px;
   background-color: var(--header-nav-bg, var(--background-secundary-color, #1340d8));
   color: var(--header-nav-text, var(--text-color-secundary, #ffffff));
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--header-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 20px;
   font-weight: 800;
 }
 
 .logoName {
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--header-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 22px;
   font-weight: 800;
   letter-spacing: -0.02em;

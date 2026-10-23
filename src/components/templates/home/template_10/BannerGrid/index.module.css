@@ -7,7 +7,7 @@
   width: 100%;
   background-color: #f2f4f7;
   color: var(--banner-grid-text, var(--text-primary-color, #101828));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--banner-grid-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -77,7 +77,7 @@
 
 .mainTitle {
   max-width: 440px;
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 44px;
   font-weight: 800;
   line-height: 1.02;
@@ -163,7 +163,7 @@
 .tileTitle {
   position: relative;
   max-width: 220px;
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 26px;
   font-weight: 800;
   line-height: 1.05;

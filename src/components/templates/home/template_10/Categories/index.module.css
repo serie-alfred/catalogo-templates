@@ -7,7 +7,7 @@
   width: 100%;
   background-color: #f2f4f7;
   color: var(--categories-text, var(--text-primary-color, #101828));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--categories-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -65,7 +65,7 @@
 
 .title {
   color: var(--categories-title-color, var(--text-primary-color, #101828));
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--categories-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 28px;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -181,7 +181,7 @@
   display: flex;
   align-items: center;
   min-height: 36px;
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--categories-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 14px;
   font-weight: 700;
   line-height: 1.25;

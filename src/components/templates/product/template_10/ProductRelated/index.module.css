@@ -12,7 +12,7 @@ section.crossSellingShelf10 {
   padding: 32px max(24px, (100% - 1280px) / 2 + 24px);
   background-color: var(--showcase-bg, #f2f4f7);
   color: var(--text-primary-color, #101828);
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--showcase-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -28,7 +28,7 @@ section.crossSellingShelf10.crossSellingShelf10.crossSellingShelf10 > h2 {
   margin: 0;
   padding: 0 108px 0 0;
   color: var(--showcase-title-color, var(--text-primary-color, #101828));
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 26px;
   font-weight: 800;
   line-height: normal;

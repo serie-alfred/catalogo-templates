@@ -7,7 +7,7 @@
   width: 100%;
   background-color: #f2f4f7;
   color: var(--prod-reviews-text, var(--text-primary-color, #101828));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--prod-reviews-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -61,7 +61,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--prod-reviews-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -92,7 +92,7 @@
 }
 
 .averageValue {
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--prod-reviews-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 56px;
   font-weight: 800;
   line-height: 1;

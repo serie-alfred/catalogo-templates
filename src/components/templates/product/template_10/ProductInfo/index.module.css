@@ -7,7 +7,7 @@
   width: 100%;
   background-color: #f2f4f7;
   color: var(--pdp-text, var(--text-primary-color, #101828));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--pdp-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -248,7 +248,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 26px;
   font-weight: 800;
   line-height: 1.2;
@@ -309,7 +309,7 @@
 
 .price {
   color: var(--pdp-price-color, var(--text-primary-color, #101828));
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 42px;
   font-weight: 800;
   line-height: 1;

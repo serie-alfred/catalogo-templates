@@ -7,7 +7,7 @@
   width: 100%;
   background-color: #f2f4f7;
   color: var(--cat-main-text, var(--text-primary-color, #101828));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-size: 16px;
   font-weight: 400;
   line-height: normal;
@@ -238,7 +238,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 17px;
   font-weight: 800;
 }
@@ -282,7 +282,7 @@
 
 .facetTitle,
 .facetTitleBtn {
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 15px;
   font-weight: 800;
 }
@@ -627,7 +627,7 @@
 
 .emptyTitle {
   max-width: 720px;
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 30px;
   line-height: 1.15;
   font-weight: 800;
@@ -682,7 +682,7 @@
   flex-direction: column;
   background-color: var(--filter-bg, #ffffff);
   color: var(--filter-text, var(--text-primary-color, #101828));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   overflow: hidden;
 }
 
@@ -699,7 +699,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 18px;
   font-weight: 800;
 }
@@ -764,7 +764,7 @@
   gap: 12px;
   width: 100%;
   min-height: 55px;
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 16px;
   font-weight: 800;
   text-align: left;
@@ -780,7 +780,7 @@
 .accSum {
   overflow: hidden;
   color: var(--filter-accent, var(--background-primary-color, #1340d8));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-size: 13px;
   font-weight: 600;
   text-overflow: ellipsis;

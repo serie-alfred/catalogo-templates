@@ -7,7 +7,7 @@
   width: 100%;
   background-color: #f2f4f7;
   color: var(--countdown-text, var(--text-color-secundary, #101828));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--countdown-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -78,7 +78,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--countdown-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 36px;
   font-weight: 800;
   line-height: 1;
@@ -113,7 +113,7 @@
   border-radius: 10px;
   background-color: var(--countdown-text, var(--text-color-secundary, #101828));
   color: var(--countdown-bg, var(--background-secundary-color, #ffcf24));
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--countdown-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 36px;
   font-weight: 800;
   font-variant-numeric: tabular-nums;
