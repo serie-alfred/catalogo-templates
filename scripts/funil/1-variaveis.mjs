@@ -65,6 +65,10 @@
  *     (inclusive o `scopedVariables` do manifest), como a checagem 12 conta
  *     com o `SubstitutionChecker`. Disputa entre itens da MESMA chave de
  *     layout (dois headers, duas PDPs) só é listada: eles não coexistem.
+ *     E o nome que sobe ao `:root` não pode ser lido pelo fecho de um item de
+ *     OUTRA chave: em 23/10/2026 as `--shelf-*` da MainCategory06 iam ao
+ *     `:root` (quem as lê é o ProductCard06, fora da pasta) e pintavam os cards
+ *     das vitrines 06 da home, que leem os mesmos nomes sem declarar os seus.
  *
  * O que ele NÃO prova: que a declaração injetada ALCANÇA o nó que consome. O
  * `cssVariableInjector` do generator escreve só no primeiro seletor de topo do
@@ -801,6 +805,44 @@ r.ok(
   'checagem 5 rodou (alguma var vai ao :root, como o --cart-* dos headers)',
   noRoot.size > 0
 );
+
+// 5 — o que vai ao :root também pinta quem lê o mesmo nome em seção de OUTRA chave, sem
+// declarar o seu. Em 23/10/2026 a MainCategory06 mandava as --shelf-* ao :root porque quem lê
+// é o ProductCard06, e o mesmo card vive nas vitrines da home: a escolha da PLP pintava os cards
+// de lá. Mesma chave não coexiste, e quem manda o nome também não conta.
+const fonteDoFecho = new Map();
+for (const item of comPath) {
+  if (!manifests.has(item.path) || fonteDoFecho.has(item.path)) continue;
+  fonteDoFecho.set(item.path, scssDoFecho(item.path).map(f => fs.readFileSync(f, 'utf8')).join('\n'));
+}
+// Vazamentos já conhecidos, sem conserto nesta rodada: listados, não reprovados. Cada um
+// reprova de novo quando deixa de existir (remova a entrada).
+const VAZAMENTOS_CONHECIDOS = {
+  '--prod-info-text':
+    'ProductInfo04 → o ShippingSimulator06 do minicart do Header06 (o mesmo simulador da PDP 06)',
+  '--prod-accent-color':
+    'ProductInfo06 → o ShippingSimulator06 do minicart do Header06 (o mesmo simulador da PDP 06)',
+};
+const vazamentosVistos = new Set();
+for (const [nome, secoes] of [...noRoot].sort()) {
+  const chaves = new Set(secoes.map(s => s.chave));
+  const leitores = comPath.filter(
+    i => !chaves.has(i.layoutKey) && fonteDoFecho.get(i.path)?.includes(`var(${nome}`)
+  );
+  const detalhe = `${secoes.map(s => s.component).join(', ')} → ${leitores.map(i => `${i.component} (${i.layoutKey})`).join(', ')}`;
+  if (leitores.length && VAZAMENTOS_CONHECIDOS[nome]) {
+    vazamentosVistos.add(nome);
+    console.log(`  ⏳ ${nome} vai ao :root e pinta outra chave (${detalhe}) — ${VAZAMENTOS_CONHECIDOS[nome]}`);
+    continue;
+  }
+  r.ok(`${nome}: o :root não pinta seção de outra chave`, leitores.length === 0, detalhe);
+}
+for (const nome of Object.keys(VAZAMENTOS_CONHECIDOS))
+  r.ok(
+    `vazamento conhecido ${nome} ainda existe`,
+    vazamentosVistos.has(nome),
+    'o nome não pinta mais outra chave pelo :root — remova a entrada'
+  );
 
 for (const nome of Object.keys(PENDENTES))
   r.ok(
