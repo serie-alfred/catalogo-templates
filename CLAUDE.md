@@ -165,6 +165,14 @@ A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/lay
 - **State:** `LayoutSelection.variables?: Record<cssVar, value>` in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`); persisted with `selections` under the `layoutSelections` key of the tab's `sessionStorage`.
 - **Export:** `pickChangedVariables()` writes every schema key the user has set a value for, as a `variables` object on the entry — in both `buildConfigJson` (Tray/Wake) and `buildFaststoreConfigJson` (VTEX). It used to omit keys equal to the schema `default`, on the assumption that the downstream SCSS's `var()` fallback would land on that same default — but the real fallback is a 3-level chain (individual → global token → hardcoded default), and the *global token* in the middle isn't the schema default. A user picking white text that happens to match the default got the key omitted, the individual var never reached `:root`/the component, and the color silently became whatever the global token resolved to instead. Always emitting what was chosen is the only reading that can't regress this way.
 - Font values are stored as `'Family', sans-serif`; the panel parses the family out for `FontSelector` and re-wraps on change.
+- **Fontes das famílias 09 a 13 (23/10/2026):** os 120 itens têm a fonte no grupo "Tipografia". O nome
+  segue a herança do SCSS do starter: `--<secao>-title-font` herda a fonte primária e `--<secao>-font` a
+  secundária (o CategoryTitle fica `--cat-title-title-font`). Item com uma cadeia só tem uma variável só
+  (`--spot-font` do Spot09). Na 11 a primária é o corpo e a secundária são números e rótulos, e os rótulos
+  dizem isso. Vitrine, vitrine com banner e relacionados usam `--showcase-*`. O `default` é o Nível 3 do
+  desenho com aspas simples: as réplicas derivadas normalizam as aspas só nas cadeias `--*-font`, porque o
+  1-variaveis compara byte a byte. O "Por template" não grava fonte por seção: o tema da família já põe a
+  fonte do desenho na primária e na secundária, e a cadeia cai nela.
 - **`FontSelector` never writes to `:root`.** It only loads the face into the current document (the
   one `ExportStage` photographs). Writing there was wrong twice over: the global tokens already come
   from the hook, and per-component `cssVar`s are _not_ unique per instance — setting one Showcase's
