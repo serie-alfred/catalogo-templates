@@ -9,7 +9,7 @@
   border-bottom: 1px solid var(--banner-main-text, var(--text-primary-color, #0a0a0a));
   background-color: var(--banner-main-bg, #ffffff);
   color: var(--banner-main-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--banner-main-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -83,7 +83,7 @@
   top: 16px;
   left: 16px;
   color: #3a3a3a;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--banner-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -98,7 +98,7 @@
 }
 
 .eyebrow {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--banner-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -142,7 +142,7 @@
 
 .note {
   color: color-mix(in srgb, var(--banner-main-text, var(--text-primary-color, #0a0a0a)) 62%, var(--banner-main-bg, #ffffff));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--banner-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -183,7 +183,7 @@
 }
 
 .tabNum {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--banner-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   font-weight: 400;
 }

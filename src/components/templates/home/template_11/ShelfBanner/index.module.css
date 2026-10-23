@@ -8,7 +8,7 @@
   padding: 40px 0;
   background-color: var(--showcase-bg, #ffffff);
   color: var(--showcase-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -91,7 +91,7 @@
 }
 
 .number {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--showcase-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   font-weight: 400;
   letter-spacing: 0;
@@ -102,7 +102,7 @@
   align-items: center;
   padding: 0 24px;
   color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0a0a0a)) 62%, var(--showcase-bg, #ffffff));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--showcase-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
 }
 
@@ -209,7 +209,7 @@
   top: 16px;
   left: 16px;
   color: #333333;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--showcase-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -296,7 +296,7 @@
     padding: 16px 16px 0;
   }
   .progressNum {
-    font-family: var(--font-secundary, "Geist Mono", monospace);
+    font-family: var(--showcase-font, var(--font-secundary, 'Geist Mono', monospace));
     font-size: 11px;
   }
   .progressTrack {

@@ -12,7 +12,7 @@ section.crossSellingShelf11 {
   padding: 40px max(0px, (100% - 1280px) / 2);
   background-color: var(--showcase-bg, #ffffff);
   color: var(--showcase-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -30,7 +30,7 @@ section.crossSellingShelf11.crossSellingShelf11.crossSellingShelf11 > h2 {
   padding: 0 0 0 24px;
   border: 1px solid var(--showcase-text, var(--text-primary-color, #0a0a0a));
   color: var(--showcase-title-color, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-size: 28px;
   font-weight: 500;
   line-height: normal;
@@ -162,7 +162,7 @@ section.crossSellingShelf11 [data-fs-product-shelf] {
     padding: 16px 16px 0;
   }
   .progressNum {
-    font-family: var(--font-secundary, "Geist Mono", monospace);
+    font-family: var(--showcase-font, var(--font-secundary, 'Geist Mono', monospace));
     font-size: 11px;
   }
   .progressTrack {

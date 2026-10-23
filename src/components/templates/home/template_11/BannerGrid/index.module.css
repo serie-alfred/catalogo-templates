@@ -8,7 +8,7 @@
   padding: 56px 0;
   background-color: var(--banner-grid-bg, #ffffff);
   color: var(--banner-grid-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -63,7 +63,7 @@
 }
 
 .number {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--banner-grid-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   font-weight: 400;
 }
@@ -142,7 +142,7 @@ a.cell:hover .footTitle {
 
 .footCaption {
   color: color-mix(in srgb, var(--banner-grid-text, var(--text-primary-color, #0a0a0a)) 62%, var(--banner-grid-bg, #ffffff));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--banner-grid-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -157,7 +157,7 @@ a.cell:hover .footTitle {
 }
 
 .eyebrow {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--banner-grid-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;

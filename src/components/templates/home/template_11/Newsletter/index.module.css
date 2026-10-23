@@ -8,7 +8,7 @@
   padding: 56px 0;
   background-color: var(--newsletter-bg, #ffffff);
   color: var(--newsletter-title-color, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--newsletter-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -64,7 +64,7 @@
 }
 
 .eyebrow {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--newsletter-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -79,7 +79,7 @@
 
 .note {
   color: color-mix(in srgb, var(--newsletter-title-color, var(--text-primary-color, #0a0a0a)) 62%, var(--newsletter-bg, #ffffff));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--newsletter-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
 }
 
@@ -124,7 +124,7 @@
 }
 
 .label {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--newsletter-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;

@@ -12,7 +12,7 @@
   padding: 20px 0;
   background-color: #ffffff;
   color: var(--breadcrumb-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--breadcrumb-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -67,7 +67,7 @@
   min-width: 0;
   margin: 0;
   padding: 0 22px;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--breadcrumb-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
   letter-spacing: 0.04em;
   list-style: none;

@@ -8,7 +8,7 @@
   padding: 64px 0;
   background-color: #ffffff;
   color: var(--cat-desc-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-size: 16px;
   font-weight: 400;
   line-height: normal;
@@ -59,7 +59,7 @@
 
 .eyebrow,
 .faqHead {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cat-desc-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -142,7 +142,7 @@
 }
 
 .num {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cat-desc-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 

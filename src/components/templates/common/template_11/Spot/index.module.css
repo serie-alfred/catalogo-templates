@@ -11,7 +11,7 @@
   border: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a));
   background-color: #ffffff;
   color: var(--spot-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--spot-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -68,7 +68,7 @@
 }
 
 .ref {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--spot-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -118,7 +118,7 @@
   padding: 6px 10px;
   background-color: var(--spot-tag-bg, var(--background-tertiary-color, #0a0a0a));
   color: var(--text-tertiary-color, #ffffff);
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--spot-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -161,7 +161,7 @@
 
 .installment {
   color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--spot-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 

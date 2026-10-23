@@ -7,7 +7,7 @@
   width: 100%;
   background-color: #ffffff;
   color: var(--cat-main-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -94,7 +94,7 @@
 
 .sortLabel {
   color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   text-transform: uppercase;
 }
@@ -116,7 +116,7 @@
 .densityBtn {
   width: 56px;
   border-right: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
 }
 .densityBtn[aria-pressed=true] {
@@ -132,7 +132,7 @@
   align-items: center;
   padding: 0 22px;
   border-left: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
 }
 .active {
@@ -152,7 +152,7 @@
 .mCount {
   display: none;
   flex: none;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -172,7 +172,7 @@
 
 .clearLink {
   padding: 0 8px;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   text-decoration: underline;
   text-transform: uppercase;
@@ -215,7 +215,7 @@
   align-items: center;
   gap: 16px;
   padding: 0 24px;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
 }
 
@@ -268,7 +268,7 @@
   min-height: 57px;
   padding: 0 24px;
   border-bottom: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -345,7 +345,7 @@
   border-left: 1px solid var(--filter-text, var(--text-primary-color, #0a0a0a));
   background-color: var(--filter-bg, #ffffff);
   color: var(--filter-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   line-height: normal;
 }
 
@@ -369,7 +369,7 @@
 }
 
 .panelCount {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
   font-weight: 400;
   letter-spacing: 0;
@@ -400,7 +400,7 @@
   width: 100%;
   min-height: 52px;
   padding: 0 22px;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-align: left;
@@ -418,7 +418,7 @@
 
 .facetSum {
   color: color-mix(in srgb, var(--filter-text, var(--text-primary-color, #0a0a0a)) 62%, var(--filter-bg, #ffffff));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-size: 13px;
   letter-spacing: 0;
   text-transform: none;
@@ -458,7 +458,7 @@
 
 .checkQty {
   color: color-mix(in srgb, var(--filter-text, var(--text-primary-color, #0a0a0a)) 62%, var(--filter-bg, #ffffff));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -543,7 +543,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cat-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   text-transform: uppercase;
 }
@@ -555,7 +555,7 @@
   border-radius: 0;
   background: transparent;
   color: var(--filter-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--cat-main-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-size: 14px;
   text-transform: none;
 }
@@ -612,7 +612,7 @@
   }
   .sortLabel {
     color: inherit;
-    font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+    font-family: var(--cat-main-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
     font-size: 14px;
     text-transform: none;
   }

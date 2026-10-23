@@ -8,7 +8,7 @@
   width: 100%;
   background-color: #ffffff;
   color: var(--pdp-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-size: 16px;
   font-weight: 400;
   line-height: normal;
@@ -79,7 +79,7 @@
   align-items: stretch;
   min-height: 49px;
   border-bottom: 1px solid var(--pdp-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -148,7 +148,7 @@
   top: 16px;
   left: 16px;
   color: #333333;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -199,7 +199,7 @@
   position: absolute;
   top: 8px;
   left: 8px;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 10px;
 }
 
@@ -223,7 +223,7 @@
 
 .meta {
   color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -251,13 +251,13 @@
 }
 
 .installment {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
 }
 
 .pix {
   color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
 }
 
@@ -278,7 +278,7 @@
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -345,7 +345,7 @@
 }
 
 .inlineLink {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-decoration: underline;
@@ -393,7 +393,7 @@
   width: 44px;
   border-right: 1px solid var(--pdp-text, var(--text-primary-color, #0a0a0a));
   border-left: 1px solid var(--pdp-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 14px;
 }
 
@@ -437,7 +437,7 @@
 }
 
 .notifyTitle {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -495,7 +495,7 @@
 
 .error {
   color: var(--pdp-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
 }
 .specs {
@@ -514,7 +514,7 @@
 .specRow dt {
   padding: 12px 28px;
   color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   text-transform: uppercase;
 }
@@ -529,7 +529,7 @@
 }
 
 .shippingLabel {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -577,7 +577,7 @@
 .cepHelp {
   align-self: flex-start;
   color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -607,12 +607,12 @@
 
 .shipEta {
   color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
 .shipPrice {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
 }
 .trust {
@@ -651,7 +651,7 @@
 
 .trustText {
   color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -678,7 +678,7 @@
   border: 1px solid var(--pdp-text, var(--text-primary-color, #0a0a0a));
   background-color: #ffffff;
   color: var(--pdp-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--pdp-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
 }
 
 .dialogHead {
@@ -872,7 +872,7 @@
   }
   .mobileInstallment {
     color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
-    font-family: var(--font-secundary, "Geist Mono", monospace);
+    font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
     font-size: 11px;
   }
   .buyMobile {

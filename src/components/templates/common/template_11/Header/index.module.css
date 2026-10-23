@@ -10,7 +10,7 @@
   border-bottom: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
   background-color: var(--header-bg, var(--background-primary-color, #ffffff));
   color: var(--header-text, var(--text-color-base, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--header-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -64,7 +64,7 @@
 
 .ordinal {
   color: color-mix(in srgb, var(--header-text, var(--text-color-base, #0a0a0a)) 62%, var(--header-bg, var(--background-primary-color, #ffffff)));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--header-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 10px;
 }
 .topbar {
@@ -82,7 +82,7 @@
   min-height: 32px;
   margin: 0 auto;
   padding: 0 20px;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--header-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -280,7 +280,7 @@
 }
 
 .cartCount {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--header-font, var(--font-secundary, 'Geist Mono', monospace));
 }
 
 .drawer {

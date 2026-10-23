@@ -8,7 +8,7 @@
   padding: 28px 0;
   background-color: var(--ruler-bg, #ffffff);
   color: var(--ruler-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--ruler-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -58,7 +58,7 @@
 
 .num {
   padding-top: 3px;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--ruler-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -76,7 +76,7 @@
 
 .text {
   color: color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #0a0a0a)) 62%, var(--ruler-bg, #ffffff));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--ruler-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 

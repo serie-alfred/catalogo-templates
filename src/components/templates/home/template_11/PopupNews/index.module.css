@@ -11,7 +11,7 @@
   align-items: center;
   justify-content: center;
   color: var(--popup-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--popup-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -99,7 +99,7 @@
   flex: 1;
   align-items: center;
   padding: 0 24px;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--popup-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -145,7 +145,7 @@
 }
 
 .label {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--popup-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -159,7 +159,7 @@
   outline: none;
   background: transparent;
   color: var(--popup-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--popup-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-size: 15px;
 }
 .input::placeholder {
@@ -193,7 +193,7 @@
   justify-content: space-between;
   gap: 16px;
   color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #0a0a0a)) 62%, var(--popup-bg, #ffffff));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--popup-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -205,7 +205,7 @@
 }
 
 .feedback {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--popup-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
   text-transform: uppercase;
 }
@@ -289,7 +289,7 @@
   }
   .dismiss {
     color: var(--popup-text, var(--text-primary-color, #0a0a0a));
-    font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+    font-family: var(--popup-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
     font-size: 14px;
   }
 }

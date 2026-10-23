@@ -8,7 +8,7 @@
   border-top: 1px solid var(--footer-text, var(--text-color-footer, #0a0a0a));
   background-color: var(--footer-bg, var(--background-footer, #ffffff));
   color: var(--footer-text, var(--text-color-footer, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--footer-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -72,7 +72,7 @@
 
 .ordinal {
   color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #0a0a0a)) 62%, var(--footer-bg, var(--background-footer, #ffffff)));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--footer-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 .brandRow {
@@ -125,7 +125,7 @@
   align-items: center;
   padding: 0 24px;
   color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #0a0a0a)) 62%, var(--footer-bg, var(--background-footer, #ffffff)));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--footer-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -150,7 +150,7 @@
 }
 
 .columnTitle {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--footer-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -182,7 +182,7 @@
 
 .contactNote {
   color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #0a0a0a)) 62%, var(--footer-bg, var(--background-footer, #ffffff)));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--footer-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
 }
 
@@ -266,7 +266,7 @@
 }
 
 .feedback {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--footer-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
   text-transform: uppercase;
 }
@@ -275,7 +275,7 @@
   flex-wrap: wrap;
   align-items: stretch;
   min-height: 64px;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--footer-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -385,7 +385,7 @@
     width: 100%;
     height: 56px;
     padding: 0 16px !important;
-    font-family: var(--font-secundary, "Geist Mono", monospace);
+    font-family: var(--footer-font, var(--font-secundary, 'Geist Mono', monospace));
     font-size: 12px;
     letter-spacing: 0.06em;
     text-transform: uppercase;

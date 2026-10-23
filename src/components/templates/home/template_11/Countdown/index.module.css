@@ -8,7 +8,7 @@
   padding: 40px 0;
   background-color: var(--countdown-bg, #ffffff);
   color: var(--countdown-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--countdown-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -75,7 +75,7 @@
 }
 
 .eyebrow {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--countdown-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -90,7 +90,7 @@
 
 .timerLabel {
   color: color-mix(in srgb, var(--countdown-text, var(--text-primary-color, #0a0a0a)) 62%, var(--countdown-bg, #ffffff));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--countdown-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -129,7 +129,7 @@
 }
 
 .value {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--countdown-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 88px;
   font-weight: 500;
   line-height: 1;
@@ -138,7 +138,7 @@
 
 .unitLabel {
   color: color-mix(in srgb, var(--countdown-text, var(--text-primary-color, #0a0a0a)) 62%, var(--countdown-bg, #ffffff));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--countdown-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -183,7 +183,7 @@
 }
 
 .ctaCaption {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--countdown-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 

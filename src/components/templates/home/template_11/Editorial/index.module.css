@@ -8,7 +8,7 @@
   padding: 40px 0;
   background-color: var(--editorial-bg, #ffffff);
   color: var(--editorial-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--editorial-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -70,7 +70,7 @@
 }
 
 .number {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--editorial-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   font-weight: 400;
 }
@@ -125,7 +125,7 @@
 .meta {
   display: flex;
   justify-content: space-between;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--editorial-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -189,7 +189,7 @@
   flex: none;
   width: 96px;
   color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #0a0a0a)) 62%, var(--editorial-bg, #ffffff));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--editorial-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
 }
 
@@ -203,7 +203,7 @@
 .postMeta {
   display: none;
   color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #0a0a0a)) 62%, var(--editorial-bg, #ffffff));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--editorial-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -215,7 +215,7 @@
 
 .postTag {
   width: 120px;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--editorial-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   text-transform: uppercase;
 }

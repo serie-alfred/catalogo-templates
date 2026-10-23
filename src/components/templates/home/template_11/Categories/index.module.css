@@ -8,7 +8,7 @@
   padding: 24px 0;
   background-color: var(--categories-bg, #ffffff);
   color: var(--categories-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--categories-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
   letter-spacing: normal;
@@ -68,7 +68,7 @@
 }
 
 .number {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--categories-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   font-weight: 400;
 }
@@ -131,7 +131,7 @@
 
 .num {
   color: color-mix(in srgb, var(--categories-text, var(--text-primary-color, #0a0a0a)) 62%, var(--categories-bg, #ffffff));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--categories-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -167,7 +167,7 @@
   top: 16px;
   left: 16px;
   color: #2e2e2e;
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--categories-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
