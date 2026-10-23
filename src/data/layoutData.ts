@@ -822,7 +822,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--showcase-text", label: "Texto da vitrine", type: "color", default: "#f4f4f0", group: "Vitrine" },
         { cssVar: "--showcase-title-color", label: "Título", type: "color", default: "#f4f4f0", group: "Vitrine" },
         { cssVar: "--showcase-accent", label: "Destaque (link, régua e seta)", type: "color", default: "#c8ff2e", group: "Vitrine" },
-        { cssVar: "--showcase-tag-bg", label: "Fundo do rótulo dos cards", type: "color", default: "#c8ff2e", group: "Vitrine" },
+        { cssVar: "--showcase-tag-bg", label: "Fundo do rótulo dos cards", type: "color", default: "#c8ff2e", group: "Vitrine", previewNote: "Aparece quando a vitrine tem rótulo nos cards; os cards de exemplo ao lado do banner não têm." },
       ] },
     ],
   },

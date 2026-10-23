@@ -47,8 +47,28 @@ import { itens } from './util.mjs';
 export const PARES = [
   // Família 13 (Noturno). A marca em texto da origem ("Sua/Marca") é "SERIE//A" aqui
   // (ver `textoLivre` acima), no header e no rodapé. O contador anda, como na 09 a 12.
-  { starter: 'Header13', id: '13', layoutKey: 'header', pagina: 'common', textoLivre: ['hd-logo'] },
-  { starter: 'Footer13', id: '13', layoutKey: 'footer', pagina: 'common', textoLivre: ['ft-logo'] },
+  {
+    starter: 'Header13',
+    id: '13',
+    layoutKey: 'header',
+    pagina: 'common',
+    textoLivre: ['hd-logo'],
+    paletaDeUmLado: {
+      '.slash':
+        'a barra da marca: a origem escreve "Sua/Marca" (3 nós de texto) e a réplica "SERIE//A" (4); com contagens diferentes o `igualarLivres` põe o texto todo no 1º nó e esvazia o `<span>` da barra da origem, que deixa de ser lido. Os dois lados têm o nó com a mesma regra (`var(--header-accent, #c8ff2e)`).',
+    },
+  },
+  {
+    starter: 'Footer13',
+    id: '13',
+    layoutKey: 'footer',
+    pagina: 'common',
+    textoLivre: ['ft-logo'],
+    paletaDeUmLado: {
+      '.slash':
+        'a barra da marca: a origem escreve "Sua/Marca" (3 nós de texto) e a réplica "SERIE//A" (4); com contagens diferentes o `igualarLivres` põe o texto todo no 1º nó e esvazia o `<span>` da barra da origem, que deixa de ser lido. Os dois lados têm o nó com a mesma regra (`var(--footer-accent, #c8ff2e)`).',
+    },
+  },
   { starter: 'BannerMain13', id: '13', layoutKey: 'banner', pagina: 'home' },
   { starter: 'BenefitsStrip13', id: '13', layoutKey: 'ruler', pagina: 'home' },
   { starter: 'Categories13', id: '13', layoutKey: 'categories', pagina: 'home' },
