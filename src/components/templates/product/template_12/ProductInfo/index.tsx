@@ -16,12 +16,19 @@ import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
  * vantagens, o frete por CEP (as opções de exemplo depois do "Calcular") e os 3 acordeões
  * (o 1º aberto; Ingredientes e Benefícios vêm das especificações do produto).
  *
+ * O ramo esgotado é o de lá: o tamanho sem estoque sai riscado (`pdp-axis-out`), a nota
+ * "<opções> esgotado. Avise-me quando chegar" abre o formulário (`pdp-notify`), e sem
+ * tamanho em estoque as parcelas, a quantidade e o preço da barra do mobile somem, o
+ * botão de compra (coluna e barra) vira "Avise-me" e o formulário abre. `PALCO_ESGOTADO`
+ * faz o papel do `stageSoldOut` do palco (`ProductDetails12Esgotado`): ligado, o canvas
+ * mostra esse estado.
+ *
  * Sai: `usePDP`, `useBuyButton`, `useWishList` (o coração só alterna no estado local), a
- * nota do Reviews and Ratings, a simulação de frete, o "Avise-me" e o analytics. Ficam de
- * fora, porque com o mock do starter nunca renderizam: a variação de cor (o produto só tem
- * Tamanho), o guia de medidas e o diálogo dele (sem a especificação), a nota de esgotado,
- * o formulário "Avise-me" e o botão de esgotado (os dois tamanhos têm estoque), o "Não sei
- * meu CEP" (sem rótulo no mock) e a linha do Pix.
+ * nota do Reviews and Ratings, a simulação de frete, a mutation do "Avise-me" (o envio dá
+ * sucesso local, como no palco de lá) e o analytics. Ficam de fora, porque com o mock do
+ * starter nunca renderizam: a variação de cor (o produto só tem Tamanho), o guia de
+ * medidas e o diálogo dele (sem a especificação), o "Não sei meu CEP" (sem rótulo no mock)
+ * e a linha do Pix.
  */
 
 const BRL = new Intl.NumberFormat('pt-BR', {
@@ -68,8 +75,15 @@ const L = {
   homeLabel: 'Início',
   codeLabel: 'Cód.',
   ratingCountLabel: 'avaliações',
+  soldOutText: 'esgotado.',
+  notifyLabel: 'Avise-me quando chegar',
+  notifyNamePlaceholder: 'Seu nome',
+  notifyEmailPlaceholder: 'Seu e-mail',
+  notifySubmitLabel: 'Avisar',
+  notifySuccess: 'Pronto! Avisamos por e-mail quando o produto voltar.',
   buyLabel: 'Adicionar à sacola',
   mobileBuyLabel: 'Adicionar à sacola',
+  soldOutButtonLabel: 'Avise-me quando chegar',
   favoriteLabel: 'Favoritar',
   shippingLabel: 'Calcular frete',
   cepPlaceholder: '00000-000',
@@ -112,11 +126,17 @@ const IMAGES = ['#F3DDD6', '#E6DFF0', '#F1E6D8', '#DCE6DA'].map((hex, i) => ({
   url: block(hex, 800) + `#${i}`,
   alternateName: `Sérum Vitamina C 10% — foto ${i + 1}`,
 }));
+/** O papel do `stageSoldOut` do palco: ligado, o canvas mostra o estado esgotado. */
+const PALCO_ESGOTADO = false;
 const AXIS_NAME = 'Tamanho';
-const AXIS = [
-  { value: '30 ml', sku: '[0000000]' },
-  { value: '50 ml', sku: '[0000001]' },
-];
+const SIZES = ['30 ml', '50 ml'];
+/** Tamanhos sem estoque (o `produto(esgotados)` do mock de lá; o palco esgota todos). */
+const ESGOTADOS: string[] = PALCO_ESGOTADO ? SIZES : [];
+const AXIS = SIZES.map((value, i) => ({
+  value,
+  available: !ESGOTADOS.includes(value),
+  sku: `[000000${i}]`,
+}));
 const SHIPPING = [
   { id: 'normal', friendlyName: 'Normal', price: 1490, estimate: '5bd' },
   { id: 'expressa', friendlyName: 'Expressa', price: 2990, estimate: '2bd' },
@@ -211,7 +231,13 @@ const Stars = ({ avg, className }: { avg: number; className: string }) => (
 
 export default function ProductInfo12() {
   const uid = useId();
-  const [selAxis, setSelAxis] = useState(AXIS[0].value);
+  const [selAxis, setSelAxis] = useState<string | null>(null);
+  const [notifyOpen, setNotifyOpen] = useState(false);
+  const [notifyTarget, setNotifyTarget] = useState<string | null>(null);
+  const [notifyName, setNotifyName] = useState('');
+  const [notifyEmail, setNotifyEmail] = useState('');
+  const [notifyOk, setNotifyOk] = useState(false);
+  const notifyRef = useRef<HTMLFormElement>(null);
   const [qty, setQty] = useState(1);
   const [slide, setSlide] = useState(0);
   const [openAcc, setOpenAcc] = useState<number[]>([0]);
@@ -224,9 +250,17 @@ export default function ProductInfo12() {
   const crumbs = CRUMBS;
   const price = PRICE;
   const listPrice = LIST_PRICE;
-  const best = BEST;
-  const activeAxis = selAxis;
-  const sku = AXIS.find(o => o.value === activeAxis)?.sku ?? AXIS[0].sku;
+  /* ── variação: a opção da página (a 1ª) se tiver estoque, senão a 1ª com estoque ── */
+  const defaultAxis =
+    (AXIS[0].available ? AXIS[0].value : undefined) ??
+    AXIS.find(o => o.available)?.value ??
+    AXIS[0].value;
+  const activeAxis = selAxis ?? defaultAxis;
+  const selected = AXIS.find(o => o.value === activeAxis);
+  const soldOutOptions = AXIS.filter(o => !o.available);
+  const inStock = !!selected?.available;
+  const best = inStock ? BEST : null;
+  const sku = selected?.sku ?? AXIS[0].sku;
   const ratingAvg = RATING.average;
   const ratingCount = RATING.totalCount;
   const shippingRows = cepSent ? SHIPPING : [];
@@ -249,16 +283,49 @@ export default function ProductInfo12() {
     setCepSent(true);
   };
 
-  const buyButton = (extra: string, label?: string, mobile = false) => (
-    <button
-      type="button"
-      className={`${styles.buy} ${extra}`}
-      data-role="pdp-buy"
-    >
-      {svg(mobile ? 18 : 20, BAG)}
-      <span>{label || L.buyLabel}</span>
-    </button>
-  );
+  /* ── avise-me: o envio dá sucesso local, como no palco de lá ── */
+  const notifyFor =
+    notifyTarget ?? (inStock ? soldOutOptions[0]?.value : activeAxis) ?? null;
+  const openNotify = (value?: string | null, focus = false) => {
+    setNotifyTarget(value ?? null);
+    setNotifyOpen(true);
+    setNotifyOk(false);
+    if (focus) {
+      window.setTimeout(() => {
+        const el = notifyRef.current;
+        el?.scrollIntoView({ block: 'center' });
+        el?.querySelector('input')?.focus();
+      }, 0);
+    }
+  };
+  const onNotify = (e: React.FormEvent) => {
+    e.preventDefault();
+    setNotifyOk(true);
+  };
+  const showNotify = notifyOpen || !inStock;
+
+  const buyButton = (extra: string, label?: string, mobile = false) =>
+    inStock ? (
+      <button
+        type="button"
+        className={`${styles.buy} ${extra}`}
+        data-role="pdp-buy"
+      >
+        {svg(mobile ? 18 : 20, BAG)}
+        <span>{label || L.buyLabel}</span>
+      </button>
+    ) : (
+      <button
+        type="button"
+        className={`${styles.buy} ${extra}`}
+        onClick={() => openNotify(activeAxis, mobile)}
+        aria-expanded={showNotify}
+        aria-controls={`${uid}-notify`}
+        data-role="pdp-buy"
+      >
+        <span>{L.soldOutButtonLabel || L.notifyLabel}</span>
+      </button>
+    );
 
   return (
     <div className={styles.productDetails12Box}>
@@ -432,13 +499,16 @@ export default function ProductInfo12() {
                 <span className={styles.price} data-role="pdp-price">
                   {money(price)}
                 </span>
-                <span
-                  className={styles.installment}
-                  data-role="pdp-installment"
-                >
-                  ou {best.installmentNumber}x de {money(best.installmentValue)}{' '}
-                  {best.installmentInterest === 0 ? 'sem juros' : 'com juros'}
-                </span>
+                {best && best.installmentNumber > 1 && (
+                  <span
+                    className={styles.installment}
+                    data-role="pdp-installment"
+                  >
+                    ou {best.installmentNumber}x de{' '}
+                    {money(best.installmentValue)}{' '}
+                    {best.installmentInterest === 0 ? 'sem juros' : 'com juros'}
+                  </span>
+                )}
               </div>
 
               <div className={styles.group} data-role="pdp-axis">
@@ -453,49 +523,165 @@ export default function ProductInfo12() {
                   role="group"
                   aria-labelledby={`${uid}-axis`}
                 >
-                  {AXIS.map(o => (
-                    <button
-                      key={o.value}
-                      type="button"
-                      className={`${styles.option}${o.value === activeAxis ? ` ${styles.optionOn}` : ''}`}
-                      aria-pressed={o.value === activeAxis}
-                      onClick={() => setSelAxis(o.value)}
-                      data-role="pdp-axis-option"
-                    >
-                      {o.value}
-                    </button>
-                  ))}
+                  {AXIS.map(o =>
+                    o.available ? (
+                      <button
+                        key={o.value}
+                        type="button"
+                        className={`${styles.option}${o.value === activeAxis ? ` ${styles.optionOn}` : ''}`}
+                        aria-pressed={o.value === activeAxis}
+                        onClick={() => {
+                          setSelAxis(o.value);
+                          setNotifyOpen(false);
+                        }}
+                        data-role="pdp-axis-option"
+                      >
+                        {o.value}
+                      </button>
+                    ) : (
+                      <button
+                        key={o.value}
+                        type="button"
+                        className={`${styles.option} ${styles.optionOut}${o.value === activeAxis ? ` ${styles.optionOn}` : ''}`}
+                        aria-label={`${o.value}, esgotado`}
+                        disabled
+                        data-role="pdp-axis-out"
+                      >
+                        {o.value}
+                      </button>
+                    )
+                  )}
                 </div>
+                {/* Bloco comum (não flex): o espaço entre o texto e o link não some. */}
+                {soldOutOptions.length > 0 && inStock && (
+                  <p className={styles.soldNote} data-role="pdp-sold-out-note">
+                    {soldOutOptions.map(o => o.value).join(', ')}{' '}
+                    {L.soldOutText}{' '}
+                    <button
+                      type="button"
+                      className={styles.inlineLink}
+                      onClick={() =>
+                        openNotify(
+                          soldOutOptions.length === 1
+                            ? soldOutOptions[0].value
+                            : null
+                        )
+                      }
+                      aria-expanded={notifyOpen}
+                      aria-controls={`${uid}-notify`}
+                      data-role="pdp-notify-link"
+                    >
+                      {L.notifyLabel}
+                    </button>
+                  </p>
+                )}
               </div>
 
               {/* ── quantidade + compra (desktop) ── */}
               <div className={styles.buyRow} data-role="pdp-buy-row">
-                <div
-                  className={styles.qty}
-                  role="group"
-                  aria-label="Quantidade"
-                >
-                  <button
-                    type="button"
-                    onClick={() => setQty(q => Math.max(1, q - 1))}
-                    aria-label="Diminuir quantidade"
-                    disabled={qty <= 1}
+                {inStock && (
+                  <div
+                    className={styles.qty}
+                    role="group"
+                    aria-label="Quantidade"
                   >
-                    {svg(16, MINUS, { strokeWidth: 2 })}
-                  </button>
-                  <span className={styles.qtyValue} aria-live="polite">
-                    {qty}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setQty(q => Math.min(99, q + 1))}
-                    aria-label="Aumentar quantidade"
-                  >
-                    {svg(16, PLUS, { strokeWidth: 2 })}
-                  </button>
-                </div>
+                    <button
+                      type="button"
+                      onClick={() => setQty(q => Math.max(1, q - 1))}
+                      aria-label="Diminuir quantidade"
+                      disabled={qty <= 1}
+                    >
+                      {svg(16, MINUS, { strokeWidth: 2 })}
+                    </button>
+                    <span className={styles.qtyValue} aria-live="polite">
+                      {qty}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setQty(q => Math.min(99, q + 1))}
+                      aria-label="Aumentar quantidade"
+                    >
+                      {svg(16, PLUS, { strokeWidth: 2 })}
+                    </button>
+                  </div>
+                )}
                 {buyButton(styles.buyDesktop)}
               </div>
+
+              {showNotify && (
+                <form
+                  id={`${uid}-notify`}
+                  ref={notifyRef}
+                  className={styles.notify}
+                  onSubmit={onNotify}
+                  data-role="pdp-notify"
+                >
+                  {notifyOk ? (
+                    <p className={styles.notifyOk} role="status">
+                      {L.notifySuccess}
+                    </p>
+                  ) : (
+                    <>
+                      <p className={styles.notifyTitle}>
+                        {L.notifyLabel}
+                        {notifyFor ? ` · ${notifyFor}` : ''}
+                      </p>
+                      {inStock && soldOutOptions.length > 1 && (
+                        <div
+                          className={styles.options}
+                          role="group"
+                          aria-label={AXIS_NAME}
+                        >
+                          {soldOutOptions.map(o => (
+                            <button
+                              key={o.value}
+                              type="button"
+                              className={`${styles.option}${o.value === notifyFor ? ` ${styles.optionOn}` : ''}`}
+                              aria-pressed={o.value === notifyFor}
+                              onClick={() => setNotifyTarget(o.value)}
+                            >
+                              {o.value}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                      <div className={styles.notifyFields}>
+                        <label className={styles.field}>
+                          <span className={styles.srOnly}>
+                            {L.notifyNamePlaceholder}
+                          </span>
+                          <input
+                            className={styles.input}
+                            type="text"
+                            autoComplete="name"
+                            required
+                            placeholder={L.notifyNamePlaceholder}
+                            value={notifyName}
+                            onChange={e => setNotifyName(e.target.value)}
+                          />
+                        </label>
+                        <label className={styles.field}>
+                          <span className={styles.srOnly}>
+                            {L.notifyEmailPlaceholder}
+                          </span>
+                          <input
+                            className={styles.input}
+                            type="email"
+                            autoComplete="email"
+                            required
+                            placeholder={L.notifyEmailPlaceholder}
+                            value={notifyEmail}
+                            onChange={e => setNotifyEmail(e.target.value)}
+                          />
+                        </label>
+                        <button type="submit" className={styles.notifySubmit}>
+                          {L.notifySubmitLabel}
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </form>
+              )}
 
               <ul className={styles.perks} data-role="pdp-perks">
                 {PERKS.map((p, i) => (
@@ -589,12 +775,18 @@ export default function ProductInfo12() {
 
         {/* ── barra de compra do mobile: o botão de compra do mobile (gruda no rodapé) ── */}
         <div className={styles.mobileBar} data-role="pdp-mobile-bar">
-          <span className={styles.mobilePrice}>
-            <strong className={styles.mobilePriceValue}>{money(price)}</strong>
-            <span className={styles.mobileInstallment}>
-              {best.installmentNumber}x de {money(best.installmentValue)}
+          {inStock && (
+            <span className={styles.mobilePrice}>
+              <strong className={styles.mobilePriceValue}>
+                {money(price)}
+              </strong>
+              {best && best.installmentNumber > 1 && (
+                <span className={styles.mobileInstallment}>
+                  {best.installmentNumber}x de {money(best.installmentValue)}
+                </span>
+              )}
             </span>
-          </span>
+          )}
           {buyButton(styles.buyMobile, L.mobileBuyLabel, true)}
         </div>
       </section>
