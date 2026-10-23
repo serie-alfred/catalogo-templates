@@ -42,8 +42,8 @@
   flex: none;
 }
 .productShelf13 [data-role=spot-tag] {
-  background-color: var(--showcase-tag-bg, #c8ff2e);
-  color: var(--showcase-bg, #0d0d0d);
+  background-color: var(--showcase-tag-bg, var(--spot-tag-bg, #c8ff2e));
+  color: var(--spot-tag-text, var(--showcase-bg, #0d0d0d));
 }
 .productShelf13 [data-role=spot] h3 {
   font-size: 20px;
