@@ -7,7 +7,7 @@
  * não aparece em lugar nenhum: o campo existe no painel, mexe no preview e não
  * chega à loja.
  *
- * Confere quatro coisas por item de catálogo com `path` (origem VTEX):
+ * Confere cinco coisas por item de catálogo com `path` (origem VTEX):
  *
  *  1. toda `cssVar` do schema é consumida como Nível 1 pelo CSS da réplica;
  *  2. o `default` do schema é o Nível 3 da réplica, byte a byte (é contra ele
@@ -55,6 +55,17 @@
  * padrão. Uma regra morta ao lado de uma viva que lê a mesma var não reprova —
  * vira a linha ℹ️ do item.
  *
+ *  5. a injeção do generator tem onde cair: a pasta do `path` tem SCSS com
+ *     seletor de topo (o override, a folha do `dependencies.scss`), e o que
+ *     sobe ao `:root` do tema não disputa nome com outra seção. O `:root` é um
+ *     só: em 22/10/2026 a Vitrine e a Vitrine com banner das famílias 09 a 13
+ *     não tinham SCSS na pasta (o visual mora no núcleo `molecules/ProductShelfNN`),
+ *     mandavam as mesmas `--showcase-*` ao `:root`, e a última no config
+ *     pintava as duas. Conta com o próprio `cssVariableInjector` do generator
+ *     (inclusive o `scopedVariables` do manifest), como a checagem 12 conta
+ *     com o `SubstitutionChecker`. Disputa entre itens da MESMA chave de
+ *     layout (dois headers, duas PDPs) só é listada: eles não coexistem.
+ *
  * O que ele NÃO prova: que a declaração injetada ALCANÇA o nó que consome. O
  * `cssVariableInjector` do generator escreve só no primeiro seletor de topo do
  * SCSS primário e nos de topo terminados em `Portal`, e sobe para o `:root` só
@@ -74,10 +85,13 @@ import { pathToFileURL } from 'node:url';
 // node_modules do starter.
 import * as sass from 'sass';
 import postcss from 'postcss';
-import { lerLayouts, itens, relatorio, RAIZ, FASTSTORE_STARTER } from './lib/util.mjs';
+import { lerLayouts, itens, relatorio, RAIZ, FASTSTORE_STARTER, GENERATOR } from './lib/util.mjs';
 import { lerManifests, fechoCompleto } from './lib/contrato.mjs';
 
 const r = relatorio('estágio 1v · variáveis por componente');
+const injetor = await import(
+  pathToFileURL(path.join(GENERATOR, 'src/utils/cssVariableInjector.js')).href
+);
 
 /**
  * `var(--X, <resto>)` com o fecho de parênteses casado.
@@ -638,6 +652,8 @@ r.ok(
 );
 
 let semSchema = 0;
+/** nome da var → seções que a mandam ao :root do tema (checagem 5). */
+const noRoot = new Map();
 let noStarter = 0;
 let soPorFolhaGlobal = 0;
 for (const item of comPath) {
@@ -732,6 +748,36 @@ for (const item of comPath) {
       `${detalhe} — fecho de ${item.path}`
     );
   }
+
+  // 5 — onde o generator injeta: raiz da pasta (ou a folha do override), e o que sobe ao :root
+  const m = manifests.get(item.path);
+  const valores = Object.fromEntries(schema.map(v => [v.cssVar, '#000000']));
+  if (m.type === 'override') {
+    const [folha] = m.dependencies?.scss ?? [];
+    const arqFolha = folha && path.join(FASTSTORE_STARTER, 'src/sass', `${folha}.module.scss`);
+    r.ok(
+      `${item.component}: o override tem folha com seletor para as variáveis`,
+      !!arqFolha && fs.existsSync(arqFolha) &&
+        injetor.injectIntoScssContent(fs.readFileSync(arqFolha, 'utf8'), valores) !== null,
+      arqFolha ?? 'sem dependencies.scss'
+    );
+  } else {
+    const daPasta = arquivosEm(m._dir, /\.scss$/);
+    const primario = injetor.pickPrimaryScss(daPasta, path.basename(m._dir));
+    r.ok(
+      `${item.component}: a pasta de ${item.path} tem SCSS com raiz para as variáveis`,
+      !!primario && injetor.injectIntoScssContent(fs.readFileSync(primario, 'utf8'), valores) !== null,
+      primario ? path.relative(FASTSTORE_STARTER, primario) : 'sem SCSS na pasta: tudo iria ao :root do tema'
+    );
+    const globais = await injetor.findVariablesNeedingGlobalScope(m._dir, valores, m.themeImports ?? [], {
+      scoped: m.scopedVariables === true && !!primario,
+    });
+    for (const nome of Object.keys(globais)) {
+      if (!noRoot.has(nome)) noRoot.set(nome, []);
+      noRoot.get(nome).push({ component: item.component, chave: item.layoutKey });
+    }
+  }
+
   if (mortasDoItem.size) {
     const classes = [...new Set([...mortasDoItem.values()].flatMap(m => m.falta))];
     console.log(
@@ -741,6 +787,20 @@ for (const item of comPath) {
     );
   }
 }
+
+// 5 — o :root é um só: nome mandado por seções de chaves diferentes (que coexistem) se atropela
+for (const [nome, secoes] of [...noRoot].sort()) {
+  const chaves = new Set(secoes.map(s => s.chave));
+  const lista = secoes.map(s => `${s.component} (${s.chave})`).join(', ');
+  if (chaves.size > 1)
+    r.ok(`${nome}: uma seção só manda ao :root do tema`, false, lista);
+  else if (secoes.length > 1)
+    console.log(`  ℹ️  ${nome} vai ao :root por ${lista}: mesma chave, não coexistem`);
+}
+r.ok(
+  'checagem 5 rodou (alguma var vai ao :root, como o --cart-* dos headers)',
+  noRoot.size > 0
+);
 
 for (const nome of Object.keys(PENDENTES))
   r.ok(
