@@ -86,10 +86,18 @@
   transition: opacity 0.2s ease;
 }
 
-.tag {
+.tags {
   position: absolute;
   top: 12px;
   left: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  pointer-events: none;
+}
+
+.tag {
   padding: 5px 8px;
   background-color: var(--spot-tag-bg, #c8ff2e);
   color: var(--spot-tag-text, #0d0d0d);
@@ -286,9 +294,11 @@
   .buyWide.mob {
     display: block !important;
   }
-  .tag {
+  .tags {
     top: 8px;
     left: 8px;
+  }
+  .tag {
     padding: 4px 6px;
     font-size: 12px;
   }

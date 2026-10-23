@@ -367,7 +367,7 @@
   .productShelf13 [data-role=spot-installments] span {
     display: inline !important;
   }
-  .productShelf13 [data-role=spot-tag] {
+  .productShelf13 [data-role=spot-tags] {
     top: 10px;
     left: 10px;
   }

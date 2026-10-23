@@ -102,7 +102,7 @@ export type ProductCard13Props = {
   /** Rótulo fixo do CMS da vitrine (igual em todos os cards). Vazio esconde. */
   badge?: string;
   showWishlist?: boolean;
-  /** Preço "de" riscado + "-N%" sobre a foto quando há desconto. Só a PLP liga. */
+  /** Preço "de" riscado + "-N%" sobre a foto quando há desconto. Só a PLP liga. Com `badge`, os dois empilham. */
   showListPrice?: boolean;
   buyLabel?: string;
   soldOutLabel?: string;
@@ -147,16 +147,20 @@ export function ProductCard13({
         </a>
 
         {inStock ? (
-          badge ? (
-            <span className={styles.tag} data-role="spot-tag">
-              {badge}
-            </span>
-          ) : (
-            discount > 0 && (
-              <span className={styles.tag} data-role="spot-discount">
-                -{discount}%
-              </span>
-            )
+          // Selo e desconto juntos: empilham no canto, o "-N%" no topo e o rótulo logo abaixo.
+          (badge || discount > 0) && (
+            <div className={styles.tags} data-role="spot-tags">
+              {discount > 0 && (
+                <span className={styles.tag} data-role="spot-discount">
+                  -{discount}%
+                </span>
+              )}
+              {badge && (
+                <span className={styles.tag} data-role="spot-tag">
+                  {badge}
+                </span>
+              )}
+            </div>
           )
         ) : (
           <span className={styles.outTag} data-role="spot-out-of-stock">
