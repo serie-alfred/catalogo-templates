@@ -16,6 +16,7 @@
 }
 
 .bannerSide h2 {
+  font-family: var(--banner-duplo-title-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   margin-bottom: 40px;
   font-size: 28px;
   font-weight: 700;

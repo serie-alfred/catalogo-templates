@@ -1,4 +1,5 @@
 ul.breadcrumb {
+  font-family: var(--breadcrumb-font, var(--font-primary, sans-serif));
   display: flex;
   align-items: center;
   margin: 0px;
@@ -27,7 +28,7 @@ ul.breadcrumb {
 .breadcrumb li span {
   display: inline-block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--breadcrumb-font, var(--font-primary, sans-serif));
   font-weight: 500;
   font-size: 14px;
   color: #6a6a6a;

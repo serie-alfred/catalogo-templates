@@ -200,7 +200,7 @@
 .footer .footerTop .topContainer .topRow .footerRight .topMenu .menuTitle {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--footer-title-font, var(--font-primary, 'Roboto', sans-serif));
   font-weight: 500;
   font-size: 18px;
   color: var(--text-color-footer);
@@ -380,7 +380,7 @@
 .footer .footerTop .topContainer .topRow .footerRight .topMenu ul li a {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--footer-title-font, var(--font-primary, 'Roboto', sans-serif));
   font-weight: 400;
   font-size: 14px;
   color: var(--text-color-footer);
@@ -427,7 +427,7 @@
 .footer .footerMiddle .middleContainer .topMenu .menuTitle {
   color: var(--text-color-footer);
   display: block;
-  font-family: var(--font-primary);
+  font-family: var(--footer-title-font, var(--font-primary, 'Roboto', sans-serif));
   font-size: 18px;
   font-weight: 400;
   line-height: 1;
@@ -484,7 +484,7 @@
 .footer .footerBottom .bottomContainer .bottomRow .footerCopyright span {
   display: block;
   line-height: 1;
-  font-family: 'Noto Sans', sans-serif;
+  font-family: var(--footer-font, 'Noto Sans', sans-serif);
   font-weight: 400;
   font-size: 12px;
   color: var(--text-color-footer);

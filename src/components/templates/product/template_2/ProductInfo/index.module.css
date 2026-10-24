@@ -288,7 +288,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner h1 {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 700;
   font-size: 24px;
   color: #000;
@@ -307,7 +307,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars span {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 400;
   font-size: 12px;
   color: #6a6a6a;
@@ -412,7 +412,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoPrincipal,
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoPrincipal span {
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 700;
   font-size: 22px;
   color: #000;
@@ -428,7 +428,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoDe {
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   align-items: center;
   color: #6a6a6a;
   display: flex;
@@ -500,7 +500,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .infoPreco span,
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .infoPreco strong {
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 400;
   font-size: 14px;
   color: #6a6a6a;
@@ -660,7 +660,7 @@
 .showPaymentMethods {
   display: inline-block;
   content: 'Ver mais formas de pagamento';
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 500;
   font-size: 14px;
   color: #6a6a6a;
@@ -671,7 +671,7 @@
 .textoVariacao h2 {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 700;
   font-size: 16px;
   color: #000;
@@ -766,7 +766,7 @@
   width: 62px;
   height: 57px;
   border-radius: 16px;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   color: #000;
   font-size: 16px;
   font-weight: 600;
@@ -1010,7 +1010,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__message span {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 400;
   font-size: 16px;
   color: var(--background-secundary-color);
@@ -1029,7 +1029,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__title {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 700;
   font-size: 16px;
   color: #000;

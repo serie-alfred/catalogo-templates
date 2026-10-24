@@ -1,4 +1,5 @@
 .spot {
+  font-family: var(--spot-font, var(--font-secundary, sans-serif));
   border: none;
   display: block;
   margin: 0px;
@@ -149,7 +150,7 @@
   display: -webkit-box;
   overflow: hidden;
   line-height: 21px;
-  font-family: var(--font-secundary);
+  font-family: var(--spot-font, var(--font-secundary, sans-serif));
   font-weight: 400;
   font-size: 14px;
   color: #000;
@@ -162,7 +163,7 @@
   display: block;
   text-decoration: none;
   line-height: 21px;
-  font-family: var(--font-secundary);
+  font-family: var(--spot-font, var(--font-secundary, sans-serif));
   font-weight: 600;
   font-size: 18px;
   color: #000;
@@ -199,7 +200,7 @@
   .productPrice
   .prices
   .priceNormal {
-  font-family: var(--font-secundary);
+  font-family: var(--spot-font, var(--font-secundary, sans-serif));
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
@@ -288,7 +289,7 @@
   .productPrice
   .prices
   .productPayment {
-  font-family: var(--font-secundary);
+  font-family: var(--spot-font, var(--font-secundary, sans-serif));
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
@@ -352,7 +353,7 @@
   .prices
   .productPayment
   b {
-  font-family: var(--font-secundary);
+  font-family: var(--spot-font, var(--font-secundary, sans-serif));
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
@@ -394,7 +395,7 @@
   .out-of-stock {
   display: block;
   line-height: 1;
-  font-family: var(--font-secundary);
+  font-family: var(--spot-font, var(--font-secundary, sans-serif));
   font-size: 14px;
   font-weight: 400;
   color: #000;
@@ -412,7 +413,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-secundary);
+  font-family: var(--spot-font, var(--font-secundary, sans-serif));
   font-weight: 700;
   font-size: 14px;
   color: var(--text-color-base);

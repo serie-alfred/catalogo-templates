@@ -40,7 +40,7 @@
   align-items: center;
   width: max-content;
   color: var(--text-tertiary-color);
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 500;
   font-size: 14px;
   text-decoration: none;
@@ -66,7 +66,7 @@
   align-items: center;
   justify-content: center;
   color: var(--text-tertiary-color);
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 500;
   font-size: 14px;
   text-decoration: none;
@@ -199,7 +199,7 @@
   .searchKey {
   background-color: #fff;
   color: var(--text-color-base);
-  font-family: var(--font-secundary);
+  font-family: var(--header-body-font, var(--font-secundary, 'Poppins', Arial, Helvetica, sans-serif));
   border: none;
   border-radius: 120px;
   font-size: 16px;
@@ -355,7 +355,7 @@
   .suggestion
   .suggestion-products
   strong {
-  font-family: var(--font-secundary);
+  font-family: var(--header-body-font, var(--font-secundary, 'Poppins', Arial, Helvetica, sans-serif));
   font-size: 12px;
   font-weight: 500;
   color: #000;
@@ -373,7 +373,7 @@
   .suggestion-product
   .suggestion-desc
   span {
-  font-family: var(--font-secundary);
+  font-family: var(--header-body-font, var(--font-secundary, 'Poppins', Arial, Helvetica, sans-serif));
   font-size: 12px;
   font-weight: 400;
   color: #000;
@@ -403,7 +403,7 @@
   flex-wrap: wrap;
   align-items: center;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 500;
   font-size: 14px;
   color: var(--text-color-base);
@@ -524,7 +524,7 @@
   .cartTitle {
   display: inline-block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 500;
   font-size: 14px;
   color: var(--text-color-base);
@@ -546,7 +546,7 @@
   justify-content: center;
   background-color: var(--background-secundary-color);
   border-radius: 100%;
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 700;
   font-size: 12px;
   color: var(--text-color-secundary);
@@ -648,7 +648,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 500;
   font-size: 14px;
   color: var(--text-color-secundary);
@@ -800,7 +800,7 @@
   align-items: center;
   line-height: 1;
   padding: 8px 15px;
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 400;
   font-size: 14px;
   color: #000;
@@ -904,7 +904,7 @@
   a {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 400;
   font-size: 14px;
   color: var(text-back);
@@ -951,7 +951,7 @@
 
 .header .header__cart .cart__preview .preview__title {
   background-color: transparent;
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-size: 22px;
   font-weight: 700;
   color: var(--text-color-base);
@@ -972,7 +972,7 @@
 }
 
 .header .header__cart .cart__preview .empty {
-  font-family: var(--font-secundary);
+  font-family: var(--header-body-font, var(--font-secundary, 'Poppins', Arial, Helvetica, sans-serif));
   font-size: 16px;
   font-weight: 700;
   color: var(--text-color-base);
@@ -1066,7 +1066,7 @@
   .item-info
   .item-title
   a {
-  font-family: var(--font-secundary);
+  font-family: var(--header-body-font, var(--font-secundary, 'Poppins', Arial, Helvetica, sans-serif));
   font-size: 14px;
   font-weight: 500;
   color: var(--text-color-base);
@@ -1109,7 +1109,7 @@
   height: auto;
   border: none;
   border-radius: 0px;
-  font-family: var(--font-secundary);
+  font-family: var(--header-body-font, var(--font-secundary, 'Poppins', Arial, Helvetica, sans-serif));
   font-weight: 700;
   font-size: 10px;
   color: var(--text-color-secundary);
@@ -1124,7 +1124,7 @@
   .item-info
   .item-p-unit {
   width: 100%;
-  font-family: var(--font-secundary);
+  font-family: var(--header-body-font, var(--font-secundary, 'Poppins', Arial, Helvetica, sans-serif));
   font-size: 18px;
   font-weight: 700;
   color: var(--text-color-base);
@@ -1166,7 +1166,7 @@
 }
 
 .header .header__cart .cart__preview .preview__total .total span {
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-size: 24px;
   font-weight: 700;
   color: var(--text-color-base);
@@ -1179,7 +1179,7 @@
   font-weight: 700;
   font-size: 24px;
   color: var(--text-color-base);
-  font-family: var(--font-primary);
+  font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   width: calc(100% - 59px);
   display: block;
   text-align: right;
@@ -1207,7 +1207,7 @@
   align-items: center;
   justify-content: center;
   text-decoration: none;
-  font-family: var(--font-secundary);
+  font-family: var(--header-body-font, var(--font-secundary, 'Poppins', Arial, Helvetica, sans-serif));
   font-size: 16px;
   font-weight: 800;
   color: var(--text-color-secundary);

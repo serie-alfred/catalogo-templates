@@ -63,7 +63,7 @@
   font-weight: 600;
   max-width: 535px;
   margin-bottom: unset;
-    font-family: var(--font-primary);
+    font-family: var(--banner-side-title-font, var(--font-primary, sans-serif));
     color: var(--text-tertiary-color) !important;
   
 }
@@ -74,7 +74,7 @@
   max-width: 535px;
   line-height: 1.5;
   display: flex;
-  font-family: var(--font-secundary);
+  font-family: var(--banner-side-font, var(--font-secundary, sans-serif));
   color: var(--text-tertiary-color);
 }
 
