@@ -173,6 +173,16 @@ A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/lay
   desenho com aspas simples: as réplicas derivadas normalizam as aspas só nas cadeias `--*-font`, porque o
   1-variaveis compara byte a byte. O "Por template" não grava fonte por seção: o tema da família já põe a
   fonte do desenho na primária e na secundária, e a cadeia cai nela.
+- **Fontes das famílias antigas (01 a 07, 24/10/2026):** todo item com texto tem fonte no grupo
+  "Tipografia". Os nomes são os que o starter já lia, com o prefixo das cores da seção
+  (`--header-font`/`--header-body-font` do Header02, `--shelf-*` das peças 06 e da vitrine 07); a
+  réplica passou a ler o mesmo Nível 1, nas mesmas regras. Seção que não declarava fonte nenhuma
+  (família 04, TextArea, carrossel e depoimentos 06) lê `var(--<secao>-font, inherit)` na raiz:
+  sem valor, o texto herda a fonte da loja, como antes, e o `default` do schema é `inherit`, sem
+  `inheritsLabel`. Default sem família entre aspas simples (`sans-serif`, `inherit`) não é
+  carregado do Google (`loadComponentFonts`). Ficaram sem fonte os 15 itens só de imagem e o
+  `ProductRelated01`, cujo `path` (`organisms/ProductShowcase01`) é só o carrossel: o título é do
+  CrossSellingShelf nativo e os cards são do Spot01.
 - **`FontSelector` never writes to `:root`.** It only loads the face into the current document (the
   one `ExportStage` photographs). Writing there was wrong twice over: the global tokens already come
   from the hook, and per-component `cssVar`s are _not_ unique per instance — setting one Showcase's
