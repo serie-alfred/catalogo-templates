@@ -816,13 +816,10 @@ for (const item of comPath) {
   fonteDoFecho.set(item.path, scssDoFecho(item.path).map(f => fs.readFileSync(f, 'utf8')).join('\n'));
 }
 // Vazamentos já conhecidos, sem conserto nesta rodada: listados, não reprovados. Cada um
-// reprova de novo quando deixa de existir (remova a entrada).
-const VAZAMENTOS_CONHECIDOS = {
-  '--prod-info-text':
-    'ProductInfo04 → o ShippingSimulator06 do minicart do Header06 (o mesmo simulador da PDP 06)',
-  '--prod-accent-color':
-    'ProductInfo06 → o ShippingSimulator06 do minicart do Header06 (o mesmo simulador da PDP 06)',
-};
+// reprova de novo quando deixa de existir (remova a entrada). Os dois de 23/10/2026, o
+// `--prod-info-text` do ProductInfo04 e o `--prod-accent-color` do ProductInfo06, pintavam o
+// ShippingSimulator06 do minicart do Header06: as duas PDPs declaram `scopedVariables` desde então.
+const VAZAMENTOS_CONHECIDOS = {};
 const vazamentosVistos = new Set();
 for (const [nome, secoes] of [...noRoot].sort()) {
   const chaves = new Set(secoes.map(s => s.chave));
