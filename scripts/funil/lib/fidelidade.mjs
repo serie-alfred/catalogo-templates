@@ -290,11 +290,34 @@ export const PARES = [
   { starter: 'Footer02', id: '02', layoutKey: 'footer', pagina: 'common' },
   { starter: 'BannerFull02', id: '02', layoutKey: 'bannerFull', pagina: 'home', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
   { starter: 'BannerFullCategory02', id: '04', layoutKey: 'bannerFull', pagina: 'category', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
-  { starter: 'Ruler02', id: '02', layoutKey: 'ruler', pagina: 'home' },
+  {
+    starter: 'Ruler02',
+    id: '02',
+    layoutKey: 'ruler',
+    pagina: 'home',
+    paletaDeUmLado: {
+      '.rulerContainer::before':
+        'o clearfix do .component__container global da réplica (templates.css): `content: " "`, sem texto visível, herda a fonte da raiz desde que ela lê --ruler-font.',
+      '.rulerContainer::after': 'o mesmo clearfix, do outro lado do container.',
+    },
+  },
   { starter: 'BannerDuplo02', id: '02', layoutKey: 'bannerSide', pagina: 'home' },
   { starter: 'BannerSide02', id: '03', layoutKey: 'bannerSide', pagina: 'home' },
   { starter: 'ProductShelfCustom02', id: '02', layoutKey: 'showcase', pagina: 'home', textoLivre: ['spot-rating-count'] },
-  { starter: 'MainCategory02', id: '02', layoutKey: 'categoryMain', pagina: 'category', textoLivre: ['spot-rating-count'] },
+  {
+    starter: 'MainCategory02',
+    id: '02',
+    layoutKey: 'categoryMain',
+    pagina: 'category',
+    textoLivre: ['spot-rating-count'],
+    paletaDeUmLado: {
+      '.filterInput':
+        'o checkbox do filtro na origem: campo sem texto, que herda a fonte da raiz (--cat-main-font); a réplica desenha o filtro sem <input>.',
+      '@cat-main>div::before':
+        'o clearfix do .component__container global da réplica (templates.css): `content: " "`, sem texto visível, herda a fonte da raiz.',
+      '@cat-main>div::after': 'o mesmo clearfix, do outro lado do container.',
+    },
+  },
   { starter: 'ProductInfo02', id: '02', layoutKey: 'productInfo', pagina: 'product' },
   { starter: 'MultiCategories04', id: '04', layoutKey: 'categories', pagina: 'home' },
   { starter: 'Ruler04', id: '04', layoutKey: 'ruler', pagina: 'home', semPaleta: 'régua de selos em imagem: nenhum nó pinta cor ou fonte' },
@@ -306,10 +329,30 @@ export const PARES = [
   { starter: 'BannerTriple05', id: '01', layoutKey: 'bannerTriple', pagina: 'home', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
   { starter: 'BannerTripleSwiper05', id: '02', layoutKey: 'bannerTriple', pagina: 'home', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
   { starter: 'BannerSoloLeft05', id: '01', layoutKey: 'bannerSideLeft', pagina: 'home' },
-  { starter: 'HomeCarousel06', id: '06', layoutKey: 'categories', pagina: 'home', semPaleta: 'fileira de fotos com nome: o texto herda da página nos dois lados, nenhum nó pinta cor ou fonte de tema' },
+  {
+    starter: 'HomeCarousel06',
+    id: '06',
+    layoutKey: 'categories',
+    pagina: 'home',
+    paletaDeUmLado: {
+      '@hc-root>div::before':
+        'o clearfix do .component__container global da réplica (templates.css): `content: " "`, sem texto visível, herda a fonte da raiz desde que ela lê --home-carousel-font.',
+      '@hc-root>div::after': 'o mesmo clearfix, do outro lado do container.',
+    },
+  },
   { starter: 'BannerTriple06', id: '03', layoutKey: 'bannerTriple', pagina: 'home', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
   { starter: 'CategoryTriple06', id: '04', layoutKey: 'bannerTriple', pagina: 'home', semPaleta: 'artes de categoria só de imagem: nenhum nó pinta cor ou fonte' },
-  { starter: 'ClientReview06', id: '01', layoutKey: 'review', pagina: 'home', semPaleta: 'a réplica não pinta texto (herda da página) e os fundos são hex estruturais sem token de tema: nenhum nó pinta com o tema' },
+  {
+    starter: 'ClientReview06',
+    id: '01',
+    layoutKey: 'review',
+    pagina: 'home',
+    paletaDeUmLado: {
+      '.review::before':
+        'o clearfix do .component__container global da réplica (templates.css): `content: " "`, sem texto visível, herda a fonte da raiz desde que ela lê --review-font.',
+      '.review::after': 'o mesmo clearfix, do outro lado do container.',
+    },
+  },
   { starter: 'BannerTop01', id: '01', layoutKey: 'bannerProduct', pagina: 'product', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
 ];
 
