@@ -48,7 +48,7 @@
 .item__text span {
   display: block;
   line-height: 1;
-  font-family: Arial, sans-serif;
+  font-family: var(--ruler-font, Arial, sans-serif);
   font-weight: 400;
   font-size: 14px;
   color: var(--ruler-text, var(--text-color-secundary, #ffffff));
