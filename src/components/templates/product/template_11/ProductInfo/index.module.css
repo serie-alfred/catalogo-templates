@@ -183,9 +183,8 @@
   outline-offset: -4px;
 }
 
-/* O filete do desenho num pseudo-elemento: a sombra interna ficava sob a <img> absoluta. */
 .thumbOn::after {
-  content: '';
+  content: "";
   position: absolute;
   right: 0;
   bottom: 0;
