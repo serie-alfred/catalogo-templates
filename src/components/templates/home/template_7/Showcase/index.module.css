@@ -15,7 +15,7 @@
 .home__showcase .showcase__container .showcase__title h2 {
   display: block;
   line-height: 1;
-  font-family: var(--font-primary);
+  font-family: var(--shelf-title-font, var(--font-primary, 'Cormorant Garamond', serif));
   font-weight: 600;
   font-size: 20px;
   color: var(--text-primary-color);
@@ -27,6 +27,7 @@
 }
 
 .showcase__title a {
+  font-family: var(--shelf-font, var(--font-secundary, 'DM Sans', sans-serif));
   text-decoration: underline;
   font-weight: 500;
   color: var(--text-primary-color);
