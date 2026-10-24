@@ -1,4 +1,5 @@
 .homeCombined {
+  font-family: var(--home-combined-font, inherit);
   display: flex;
   justify-content: center;
   align-items: center;

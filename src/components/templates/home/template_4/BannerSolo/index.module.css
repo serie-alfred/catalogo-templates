@@ -1,4 +1,5 @@
 .collectionSoloContainer {
+  font-family: var(--banner-solo-font, inherit);
   display: flex;
   justify-content: center;
   align-items: center;
