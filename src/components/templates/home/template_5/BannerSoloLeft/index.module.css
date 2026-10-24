@@ -7,7 +7,7 @@
   /* cor e fonte do tema, com o valor de antes como fallback — o
      BannerSoloLeft05 do starter lê os mesmos papéis */
   color: var(--text-primary-color, #000);
-  font-family: var(--font-primary, 'Noto Sans', sans-serif);
+  font-family: var(--banner-side-font, var(--font-primary, 'Roboto', Arial, sans-serif));
 }
 .homeCollection .collectionContent {
   padding: 15px;
@@ -28,7 +28,7 @@
   gap: 25px;
 }
 .homeCollection .collectionContent .gridImage .bannerImageText .bannerText h2 {
-  font-family: var(--font-primary, 'Noto Sans', sans-serif);
+  font-family: var(--banner-side-font, var(--font-primary, 'Roboto', Arial, sans-serif));
   font-size: 55px;
   font-weight: 700;
   line-height: 48px;
@@ -45,7 +45,7 @@
   }
 }
 .homeCollection .collectionContent .gridImage .bannerImageText .bannerText span {
-  font-family: var(--font-primary, 'Noto Sans', sans-serif);
+  font-family: var(--banner-side-font, var(--font-primary, 'Roboto', Arial, sans-serif));
   font-size: 17px;
   font-weight: 400;
   letter-spacing: 0.25px;
