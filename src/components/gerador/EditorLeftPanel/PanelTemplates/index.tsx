@@ -18,7 +18,7 @@ const BASE = '/images/gerador/';
  * trocável.
  */
 export default function PanelTemplates() {
-  const { platform, selections, aplicarTemplate } = useLayout();
+  const { platform, selections, aplicarTemplate, comecarDoZero } = useLayout();
   const templates = useMemo(() => templatesCompletos(platform), [platform]);
 
   // O template "em uso": toda seção da loja é da família, e nenhuma peça falta.
@@ -107,6 +107,23 @@ export default function PanelTemplates() {
           );
         })}
       </ul>
+
+      {/* A aba nova já entra com um template (ENTRADA_PADRAO): esta é a porta
+          para a loja vazia, peça por peça. Pede confirmação e vale um Voltar. */}
+      <div className={styles.zero}>
+        <button
+          type="button"
+          className={styles.zeroBotao}
+          onClick={comecarDoZero}
+          data-templates-zero=""
+        >
+          Começar do zero
+        </button>
+        <p className={styles.hint}>
+          Tira todas as seções da loja para montar peça por peça. Cores e fontes
+          ficam.
+        </p>
+      </div>
     </div>
   );
 }

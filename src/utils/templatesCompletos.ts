@@ -466,3 +466,30 @@ export function selecoesDoTemplate(t: TemplateCompleto): LayoutSelection[] {
     };
   });
 }
+
+/**
+ * Com o que uma aba NOVA do /gerador abre: a plataforma e o template completo
+ * aplicados de saída, para o editor não começar numa tela vazia. Trocar aqui
+ * muda a entrada de todo mundo; `template` aceita "09" ou "9".
+ *
+ * Só vale para a aba que começa sem nada (ver `abaSemTrabalho` em
+ * utils/editorStorage.ts e a hidratação em useLayoutGenerator): recarregar, o
+ * "Editar" do /p e um tema reaberto do histórico nunca passam por aqui.
+ */
+export const ENTRADA_PADRAO: { platform: Platform; template: string } = {
+  platform: 'VTEX',
+  template: '09', // 09 · Editorial
+};
+
+/**
+ * O template de `ENTRADA_PADRAO`, se ele for completo na plataforma. Se deixar
+ * de ser (catálogo mudou), null: o editor abre vazio, com o convite do canvas.
+ */
+export function templatePadrao(): TemplateCompleto | null {
+  const alvo = Number(ENTRADA_PADRAO.template);
+  return (
+    templatesCompletos(ENTRADA_PADRAO.platform).find(
+      t => Number(t.template) === alvo
+    ) ?? null
+  );
+}

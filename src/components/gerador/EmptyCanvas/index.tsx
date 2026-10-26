@@ -8,8 +8,11 @@ import { useLayout } from '@/context/LayoutContext';
 import styles from './index.module.css';
 
 /**
- * O convite da aba nova: o editor NÃO abre com layout montado. Com a loja
- * vazia (e só no modo loja — a LP tem a composição inicial dela, e o checkout
+ * O convite da loja vazia. A aba NOVA não passa por aqui: ela entra com o
+ * template padrão (`ENTRADA_PADRAO`, utils/templatesCompletos.ts). O convite
+ * aparece quando a loja está vazia por escolha — a aba que começou do zero, ou
+ * tirou todas as seções, e recarregou; ou quando o template padrão deixou de
+ * ser completo. Com a loja vazia (e só no modo loja — a LP tem a composição inicial dela, e o checkout
  * tem estrutura fixa), o canvas mostra duas portas de entrada: "Por template"
  * (uma família inteira, com paleta e fontes) ou começar do zero em
  * "Componentes".
@@ -40,7 +43,7 @@ export default function EmptyCanvas() {
             ? platform
               ? 'Escolha um template no painel à esquerda: ele preenche home, categoria e produto com as peças de uma família, já com a paleta e as fontes do desenho.'
               : 'Escolha a plataforma no painel à esquerda para ver os templates completos.'
-            : 'O editor abre vazio. Parta de um template pronto, com todas as páginas montadas, ou monte a loja peça por peça.'}
+            : 'A loja está vazia. Parta de um template pronto, com todas as páginas montadas, ou monte a loja peça por peça.'}
         </p>
         <div className={styles.actions}>
           <button

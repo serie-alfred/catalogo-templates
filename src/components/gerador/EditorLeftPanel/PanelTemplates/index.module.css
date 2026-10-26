@@ -116,3 +116,31 @@
   color: var(--ed-gray-400);
   white-space: nowrap;
 }
+
+/* "Começar do zero": ação secundária, no pé da lista — o botão neutro do
+   editor (contorno bg-02), para não competir com os cards. */
+.zero {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid var(--ed-bg-02);
+}
+
+.zeroBotao {
+  align-self: flex-start;
+  margin-top: 12px;
+  padding: 8px 14px;
+  border: 1px solid var(--ed-bg-02);
+  border-radius: 8px;
+  background: var(--ed-bg-00);
+  color: var(--ed-gray-800);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.zeroBotao:hover {
+  border-color: var(--ed-gray-500);
+}

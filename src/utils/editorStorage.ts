@@ -86,6 +86,23 @@ export const estadoDaAba = {
 };
 
 /**
+ * A aba ainda não tem trabalho nenhum: nenhuma chave de `CHAVES_DA_ABA` no
+ * sessionStorage (depois da migração do formato antigo, que pode trazer um).
+ * É o que decide se o editor entra com o template padrão: qualquer aba que já
+ * hidratou uma vez grava as chaves dela — inclusive a que trocou de plataforma
+ * ou de template, ou começou do zero —, então recarregar nunca reaplica nada.
+ * Sem sessionStorage (bloqueado), toda carga é uma aba nova: true.
+ */
+export function abaSemTrabalho(): boolean {
+  estadoDaAba.get('layoutSelections'); // dispara a migração antes de olhar
+  try {
+    return CHAVES_DA_ABA.every(k => sessionStorage.getItem(k) === null);
+  } catch {
+    return true;
+  }
+}
+
+/**
  * Traz para a aba o trabalho que ainda estiver no `localStorage` (formato de
  * antes) — só se a aba ainda não tem nada seu. Devolve true se trouxe.
  */

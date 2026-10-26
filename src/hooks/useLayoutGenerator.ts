@@ -26,7 +26,9 @@ import {
 } from '@/utils/platformCompat';
 import { lpInicial, sanitizeLp, slugDaLp, type LpState } from '@/utils/lp';
 import {
+  ENTRADA_PADRAO,
   selecoesDoTemplate,
+  templatePadrao,
   type TemplateCompleto,
 } from '@/utils/templatesCompletos';
 import {
@@ -43,7 +45,7 @@ import {
 // type-only: não puxa o módulo server-only para o bundle do cliente.
 import type { PreviewSnapshot } from '@/lib/previewStore';
 import type { EstadoDoEditor } from '@/types/estadoEditor';
-import { estadoDaAba } from '@/utils/editorStorage';
+import { abaSemTrabalho, estadoDaAba } from '@/utils/editorStorage';
 import { avisarPreviewAtualizado } from '@/utils/previewAoVivo';
 
 /** Os destinos do rail de navegação do editor: os quatro do Figma e o
@@ -528,10 +530,82 @@ export function useLayoutGenerator() {
     }
   }, []);
 
+  /**
+   * Põe uma família inteira na loja e a cara dela (paleta e fontes do desenho,
+   * `t.tema`), sem perguntar nada: quem pergunta é o `aplicarTemplate`. Tudo no
+   * mesmo render, para o histórico ver UMA mudança. As três cores derivadas são
+   * recalculadas aqui mesmo (e não pelo efeito de contraste, que viria num
+   * render seguinte e abriria outra entrada). `fundos` são os fundos de agora,
+   * que ficam quando a família não define o seu.
+   */
+  const vestirTemplate = useCallback(
+    (
+      t: TemplateCompleto,
+      fundos: { primary: string; secondary: string; tertiary: string }
+    ) => {
+      const cores = t.tema?.colors ?? {};
+      const fontes = t.tema?.fonts;
+      setLojaSelections(selecoesDoTemplate(t));
+      if (cores.colorPrimary) setColorPrimary(cores.colorPrimary);
+      if (cores.colorSecondary) setColorSecondary(cores.colorSecondary);
+      if (cores.colorFooter) setColorFooter(cores.colorFooter);
+      if (cores.colorFooterText) setColorFooterText(cores.colorFooterText);
+      const bg1 = cores.colorPrimaryBackground ?? fundos.primary;
+      const bg2 = cores.colorSecondaryBackground ?? fundos.secondary;
+      const bg3 = cores.colorTertiaryBackground ?? fundos.tertiary;
+      setColorPrimaryBackground(bg1);
+      setColorSecondaryBackground(bg2);
+      setColorTertiaryBackground(bg3);
+      setColorPrimaryText(contrastOn(bg1));
+      setColorSecondaryText(contrastOn(bg2));
+      setColorTertiary(contrastOn(bg3));
+      if (fontes) {
+        setFontPrimary(fontes.fontPrimary);
+        setFontSecondary(fontes.fontSecondary);
+        setFontTertiary(fontes.fontTertiary);
+      }
+      setSelectedUid(null);
+      setSelectedPage('home');
+      setRailTarget('componentes');
+    },
+    []
+  );
+
+  /**
+   * A entrada padrão (`ENTRADA_PADRAO`): plataforma + template completo, como o
+   * "Por template" aplica, mas sem `confirm` (não há nada a perder). Só a aba
+   * que começa sem nada chega aqui. Devolve false se o template padrão deixou
+   * de ser completo — aí a aba fica vazia, com o convite do canvas.
+   */
+  const entrarComOPadrao = useCallback((): boolean => {
+    const t = templatePadrao();
+    if (!t) return false;
+    setPlatform(ENTRADA_PADRAO.platform);
+    // Os fundos iniciais dos `useState` acima: a aba ainda não tem outros.
+    vestirTemplate(t, {
+      primary: '#000',
+      secondary: '#dd1838',
+      tertiary: '#000',
+    });
+    return true;
+  }, [vestirTemplate]);
+
+  /** A aba começou sem trabalho nenhum (medido na hidratação, antes de gravar). */
+  const abaNovaRef = useRef(false);
+
   // Hidratação do estado persistido (selections/platform/logo/favicon) — só
   // após o mount, para o 1º render do cliente bater com o SSR. `hydrated`
   // libera os efeitos de save abaixo (que senão gravariam os defaults vazios).
+  //
+  // Aba sem trabalho e sem tema chegando pela URL (o `?preview=` do "Editar")
+  // entra com o template padrão AQUI, no mesmo render que liga `hydrated`: o
+  // convite do canvas nunca chega a pintar, e o histórico de desfazer nasce
+  // com o template como ponto de partida — não há "Voltar" para a tela vazia.
   useEffect(() => {
+    abaNovaRef.current = abaSemTrabalho();
+    const temaPelaUrl = new URLSearchParams(window.location.search).has(
+      'preview'
+    );
     try {
       // Validados: o localStorage pode ter sido escrito por uma versão antiga
       // do catálogo (ou pela rota /gerador/import-log, que grava valor cru).
@@ -588,12 +662,13 @@ export function useLayoutGenerator() {
       const zoom = localStorage.getItem('canvasZoom');
       if (zoom && (ZOOM_MODES as readonly string[]).includes(zoom))
         setZoomMode(zoom as ZoomMode);
+      if (abaNovaRef.current && !temaPelaUrl) entrarComOPadrao();
     } catch (e) {
       console.error('Erro ao carregar estado do layout:', e);
     } finally {
       setHydrated(true);
     }
-  }, []);
+  }, [entrarComOPadrao]);
 
   useEffect(() => {
     setColorPrimaryText(contrastOn(colorPrimaryBackground));
@@ -889,9 +964,7 @@ export function useLayoutGenerator() {
       loja.kept.length !== lojaSelections.length ||
       daLp.kept.length !== lp.selections.length
     ) {
-      const survivors = new Set(
-        [...loja.kept, ...daLp.kept].map(s => s.uid)
-      );
+      const survivors = new Set([...loja.kept, ...daLp.kept].map(s => s.uid));
       setLojaSelections(loja.kept);
       setLp(prev => ({ ...prev, selections: daLp.kept }));
       // Não deixa o contorno do canvas nem o painel direito presos numa seção
@@ -907,11 +980,9 @@ export function useLayoutGenerator() {
   /**
    * "Por template": troca TODAS as seções da loja pela família inteira, em todas
    * as páginas, e aplica a cara dela — a paleta e as fontes globais do desenho
-   * (`t.tema`, utils/templatesCompletos.ts). Tudo no mesmo render: o histórico
-   * vê UMA mudança estrutural, então um undo desfaz peças, cores e fontes juntas.
-   * As três cores derivadas são recalculadas aqui mesmo (e não pelo efeito de
-   * contraste, que viria num render seguinte e abriria outra entrada).
-   * Com seções já escolhidas pede confirmação. Leva para "Componentes" na home.
+   * (`t.tema`, utils/templatesCompletos.ts), via `vestirTemplate`. Tudo no mesmo
+   * render: o histórico vê UMA mudança estrutural, então um undo desfaz peças,
+   * cores e fontes juntas. Com seções já escolhidas pede confirmação. Leva para "Componentes" na home.
    * Devolve false se o usuário cancelou.
    */
   const aplicarTemplate = (t: TemplateCompleto): boolean => {
@@ -939,28 +1010,11 @@ export function useLayoutGenerator() {
     ) {
       return false;
     }
-    setLojaSelections(selecoesDoTemplate(t));
-    if (cores.colorPrimary) setColorPrimary(cores.colorPrimary);
-    if (cores.colorSecondary) setColorSecondary(cores.colorSecondary);
-    if (cores.colorFooter) setColorFooter(cores.colorFooter);
-    if (cores.colorFooterText) setColorFooterText(cores.colorFooterText);
-    const bg1 = cores.colorPrimaryBackground ?? colorPrimaryBackground;
-    const bg2 = cores.colorSecondaryBackground ?? colorSecondaryBackground;
-    const bg3 = cores.colorTertiaryBackground ?? colorTertiaryBackground;
-    setColorPrimaryBackground(bg1);
-    setColorSecondaryBackground(bg2);
-    setColorTertiaryBackground(bg3);
-    setColorPrimaryText(contrastOn(bg1));
-    setColorSecondaryText(contrastOn(bg2));
-    setColorTertiary(contrastOn(bg3));
-    if (fontes) {
-      setFontPrimary(fontes.fontPrimary);
-      setFontSecondary(fontes.fontSecondary);
-      setFontTertiary(fontes.fontTertiary);
-    }
-    setSelectedUid(null);
-    setSelectedPage('home');
-    setRailTarget('componentes');
+    vestirTemplate(t, {
+      primary: colorPrimaryBackground,
+      secondary: colorSecondaryBackground,
+      tertiary: colorTertiaryBackground,
+    });
     return true;
   };
 
@@ -1142,7 +1196,10 @@ export function useLayoutGenerator() {
    * `home` — o generator as monta como monta a home. Contrato com o generator
    * em produtos-template-generator (LandingProcessor / BuildPipeline).
    */
-  const buildLpConfigJson = async (): Promise<Record<string, unknown> | null> => {
+  const buildLpConfigJson = async (): Promise<Record<
+    string,
+    unknown
+  > | null> => {
     if (!platform) return null;
     const landingPage = { slug: slugDaLp(lp.nome), nome: lp.nome.trim() };
     const resolvidas = lp.selections
@@ -1152,7 +1209,9 @@ export function useLayoutGenerator() {
           i => i.id === sel.id && i.platforms.includes(platform)
         ),
       }))
-      .filter((r): r is { sel: LayoutSelection; found: LayoutItem } => !!r.found);
+      .filter(
+        (r): r is { sel: LayoutSelection; found: LayoutItem } => !!r.found
+      );
 
     if (platform === 'VTEX') {
       const config = {
@@ -1206,10 +1265,7 @@ export function useLayoutGenerator() {
   };
 
   /** Monta JSON de configuração com dados globais e por página */
-  const buildConfigJson = async (): Promise<Record<
-    string,
-    unknown
-  > | null> => {
+  const buildConfigJson = async (): Promise<Record<string, unknown> | null> => {
     if (!platform) return null;
 
     if (emLp) return buildLpConfigJson();
@@ -1487,7 +1543,9 @@ export function useLayoutGenerator() {
         const url = URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.download = emLp ? `config-lp-${slugDaLp(lp.nome)}.json` : 'config.json';
+        link.download = emLp
+          ? `config-lp-${slugDaLp(lp.nome)}.json`
+          : 'config.json';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -1596,7 +1654,13 @@ export function useLayoutGenerator() {
     selections: lojaSelections,
     // A LP vai junto quando o usuário está nela: o link abre em /p/{id}/lp.
     ...(emLp
-      ? { lp: { nome: lp.nome, slug: slugDaLp(lp.nome), selections: lp.selections } }
+      ? {
+          lp: {
+            nome: lp.nome,
+            slug: slugDaLp(lp.nome),
+            selections: lp.selections,
+          },
+        }
       : {}),
     colors: {
       colorPrimary,
@@ -1759,8 +1823,15 @@ export function useLayoutGenerator() {
       .then(res => (res.ok ? (res.json() as Promise<PreviewSnapshot>) : null))
       .then(snapshot => {
         if (!snapshot) {
+          // Aba nova: não há "o que ela já tinha" — abre com o template padrão,
+          // como abriria sem o link.
+          const padrao = abaNovaRef.current && entrarComOPadrao();
           window.alert(
-            'Este preview não existe mais (o link expira 3 dias depois da última edição). O editor abre com o que esta aba já tinha.'
+            `Este preview não existe mais (o link expira 3 dias depois da última edição). ${
+              padrao
+                ? 'O editor abre com o template padrão.'
+                : 'O editor abre com o que esta aba já tinha.'
+            }`
           );
           return;
         }
@@ -1785,7 +1856,7 @@ export function useLayoutGenerator() {
           `${window.location.pathname}${resto ? `?${resto}` : ''}`
         );
       });
-  }, [carregarEstado]);
+  }, [carregarEstado, entrarComOPadrao]);
 
   /**
    * Preview ao vivo. Com um preview vinculado, toda edição do tema regrava o
@@ -1844,9 +1915,30 @@ export function useLayoutGenerator() {
   const comecarPorTemplate = () => {
     setRailTarget('templates');
   };
-  const comecarDoZero = () => {
+  /**
+   * "Começar do zero": o do convite (loja já vazia) e o do painel "Por
+   * template", que tira todas as seções da loja — com confirmação, porque aí há
+   * o que perder, e num passo só de desfazer. Cores e fontes ficam. O convite
+   * não volta nesta carga (`inicioEscolhido`); recarregar a aba vazia o mostra.
+   */
+  const comecarDoZero = (): boolean => {
+    if (
+      lojaSelections.length > 0 &&
+      !window.confirm(
+        `Começar do zero?\n\nAs ${lojaSelections.length} seções da loja saem, ` +
+          `em todas as páginas. Cores e fontes ficam como estão.\n\nDá para desfazer com Voltar.`
+      )
+    ) {
+      return false;
+    }
+    if (lojaSelections.length > 0) {
+      setLojaSelections([]);
+      setSelectedUid(null);
+      setSelectedPage('home');
+    }
     setInicioEscolhido(true);
     setRailTarget('componentes');
+    return true;
   };
 
   useEffect(() => {
