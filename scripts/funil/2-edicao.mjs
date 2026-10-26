@@ -226,14 +226,16 @@ r.ok(
 );
 
 // ── painel direito e lista ────────────────────────────────────────────────────
+// A seção precisa ser uma SEM `variablesSchema`. Era o review 01, até ele ganhar
+// "Fonte da seção" (2a0518e); o BannerSide01 é só imagem e segue sem variável.
 await semear(page, {
   plataforma: 'Tray',
-  selecoes: [sel('01', 'review', 'home')],
+  selecoes: [sel('01', 'bannerSide', 'home')],
 });
 await page.evaluate(() =>
   document
     .querySelector('iframe')
-    .contentDocument.querySelector('[data-selection="client-review"]')
+    .contentDocument.querySelector('[data-selection="banner-side"]')
     .click()
 );
 await espera(1100);
