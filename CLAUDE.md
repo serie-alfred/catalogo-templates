@@ -255,7 +255,10 @@ inteira na loja. Some no checkout e na LP.
   `default`) com o que a cadeia `var(--n1, var(--token, …))` da réplica resolve no tema da família e guarda
   só as que divergem; aplicar põe esses valores em `variables` das seções (mesmo render, mesmo undo). O
   painel da direita os mostra como cor própria, com "Restaurar padrão", e o export os leva por componente.
-- **Funil:** `2-templates`.
+- **Entrada padrão:** uma aba nova entra com `ENTRADA_PADRAO` aplicado pelo mesmo `vestirTemplate`,
+  sem `confirm` (ver "Entrada: a aba nova já vem com um template"). No pé do painel, **Começar do
+  zero** esvazia a loja.
+- **Funil:** `2-templates` (inclui a entrada padrão e o "Começar do zero").
 
 ### Selection rules in `toggleSelection`
 
@@ -411,21 +414,54 @@ effects don't overwrite storage with defaults first.
 
 It used to be `localStorage`, which is ONE for every tab of the origin: a second tab inherited the
 first one's layout and both wrote the same keys. `sessionStorage` survives a reload of the same tab
-and starts empty in a new one. Screen preferences (`panelLeftCollapsed`, `panelRightCollapsed`,
+and starts empty in a new one (which then enters with the default template, below). Screen preferences (`panelLeftCollapsed`, `panelRightCollapsed`,
 `canvasZoom`) stay in `localStorage`. The first tab opened after the change migrates whatever is
 still in the old keys (`migrarEstadoAntigo`) and deletes them. The browser's own "Duplicate tab"
 copies `sessionStorage` — that copy then goes its own way. **Anything that seeds the editor from
 outside (the funil, `scripts/thumbs/auto.mjs`, `/gerador/import-log`) writes `sessionStorage` in the
 same tab and reloads.** Between sessions, the theme lives in the history ("Temas salvos", below).
 
+### Entrada: a aba nova já vem com um template
+
+A tab that starts **without any work** enters with **`ENTRADA_PADRAO`**
+([templatesCompletos.ts](src/utils/templatesCompletos.ts): today **VTEX + `09 · Editorial`**; change
+it there, `template` accepts `"09"` or `"9"`). The hook applies it inside the hydration effect, in the
+**same render that turns `hydrated` on**, through the same `vestirTemplate` the "Por template" uses
+(pieces, palette, fonts, Nível 1 per section) but **without the `confirm`** — nothing to lose. So the
+empty-canvas invite never paints, not even for a frame, and the undo history is born with the template
+as its baseline: there is no "Voltar" back to an empty screen.
+
+"Without any work" is `abaSemTrabalho()` ([editorStorage.ts](src/utils/editorStorage.ts)): no key of
+`CHAVES_DA_ABA` in the tab's `sessionStorage` (after the old-`localStorage` migration), **and** no
+`?preview=` in the URL. Every hydrated tab writes its keys, so the default is never re-applied:
+
+| Entry | What happens |
+| --- | --- |
+| new tab, `/gerador` | `ENTRADA_PADRAO` applied, no dialog, "Voltar" disabled |
+| reload of a tab with work | whatever the tab had (the keys exist) |
+| tab that switched platform/template or emptied the store, then reloads | what it had — an empty store stays empty and shows the invite |
+| "Editar" from `/p` (`/gerador?preview=<id>`) | the preview's theme (the param skips the default) |
+| …with an expired/unknown id, in a new tab | alert, then `ENTRADA_PADRAO` ("abre com o template padrão") |
+| "Temas salvos" → Abrir | the saved theme (`carregarEstado`; the tab already had state) |
+| `/gerador/import-log`, funil and `thumbs/auto.mjs` seeds | what they wrote (any key counts as work) |
+| second tab | its own default; the first tab is untouched (`sessionStorage` is per tab) |
+
+If `ENTRADA_PADRAO` stops being a complete template, `templatePadrao()` returns null and the tab opens
+empty, with the invite below.
+
 ### Empty editor
 
-A new tab opens **without a layout**: with the store empty (loja mode only — the LP has its starting
-composition and the checkout a fixed structure), [EmptyCanvas](src/components/gerador/EmptyCanvas/index.tsx)
-covers the canvas cell with "Comece seu tema" and two buttons, `[data-inicio="template"]` (opens
-"Por template") and `[data-inicio="zero"]` (goes to "Componentes"). It sits over the iframe, which
-stays mounted (no new handshake), and disappears with the first section or "Começar do zero"
-(`mostrarInicio` / `comecarDoZero` in the hook).
+With the store empty (loja mode only — the LP has its starting composition and the checkout a fixed
+structure), [EmptyCanvas](src/components/gerador/EmptyCanvas/index.tsx) covers the canvas cell with
+"Comece seu tema" and two buttons, `[data-inicio="template"]` (opens "Por template") and
+`[data-inicio="zero"]` (goes to "Componentes"). A new tab no longer gets here (see above): it shows when
+the store is empty **by choice** and the tab reloads, or when the default template is gone. It sits over
+the iframe, which stays mounted (no new handshake), and disappears with the first section or "Começar
+do zero" (`mostrarInicio` / `comecarDoZero` in the hook).
+
+**Começar do zero** also lives at the foot of "Por template" (`[data-templates-zero]`): with sections
+in the store it asks `confirm` and empties the store on every page (colors and fonts stay) — one undo
+step — and goes to "Componentes" without the invite; reloading that empty tab shows the invite.
 
 ### Font selector
 
