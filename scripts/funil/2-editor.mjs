@@ -38,6 +38,9 @@ await p.goto(`${BASE_URL}/gerador`, {
 });
 await p.evaluate(x => {
   // Preferência de tela no localStorage; o trabalho, por aba (utils/editorStorage.ts).
+  // Aba limpa antes: o 1º goto já hidratou (a aba nova entra com o template
+  // padrão) e as cores/fontes dele ficariam por baixo do seed.
+  sessionStorage.clear();
   for (const [k, v] of Object.entries(x)) (['panelLeftCollapsed', 'panelRightCollapsed', 'canvasZoom'].includes(k) ? localStorage : sessionStorage).setItem(k, v);
 }, SEED);
 await p.goto(`${BASE_URL}/gerador`, {

@@ -11,10 +11,10 @@
  * 3. o preview compartilhável leva cores e fontes, nas três páginas
  * 4. o trabalho sobrevive a um reload (o trabalho da aba mora no sessionStorage)
  */
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { relatorio, espera, BASE_URL, SAIDA } from './lib/util.mjs';
+import { relatorio, espera, BASE_URL, SAIDA, itens } from './lib/util.mjs';
 import { abrirBrowser, novaAba, semear } from './lib/editor.mjs';
 
 const r = relatorio('Estágio 2e — a escolha do cliente chega ao config');
@@ -418,23 +418,48 @@ r.ok(
 
 // ── 5. …mas não vaza para outra aba ─────────────────────────────────────────
 // O trabalho é por aba (src/utils/editorStorage.ts): uma página nova do mesmo
-// navegador abre vazia, com o convite do canvas, e não mexe no que a primeira
-// tem. Era o defeito do localStorage: a segunda guia herdava o layout e as duas
-// passavam a gravar nas mesmas chaves.
+// navegador NÃO herda o que a primeira tem, e não mexe nela. Era o defeito do
+// localStorage: a segunda guia herdava o layout e as duas passavam a gravar nas
+// mesmas chaves. A aba nova entra com o template padrão (`ENTRADA_PADRAO`,
+// templatesCompletos.ts) — nunca com as 3 seções desta — e sem pintar o convite
+// do canvas vazio em momento nenhum (sentinela desde antes do 1º script).
+const ENTRADA = (() => {
+  const ts = readFileSync(path.resolve(new URL('../../src/utils/templatesCompletos.ts', import.meta.url).pathname), 'utf8');
+  const m = ts.match(/export const ENTRADA_PADRAO[\s\S]*?platform: '(\w+)',\s*template: '(\d+)'/);
+  return m ? { plataforma: m[1], template: String(Number(m[2])) } : null;
+})();
+const familiaPadrao = new Set(
+  itens()
+    .filter(i => i.template === ENTRADA?.template && i.platforms.includes(ENTRADA?.plataforma))
+    .map(i => `${i.layoutKey}:${i.id}`)
+);
 const { page: outra, erros: errosOutra } = await novaAba(browser);
+await outra.evaluateOnNewDocument(() => {
+  window.__convite = false;
+  new MutationObserver(() => {
+    if (document.querySelector('[data-canvas-vazio]')) window.__convite = true;
+  }).observe(document, { childList: true, subtree: true });
+});
 await outra.goto(`${BASE_URL}/gerador`, { waitUntil: 'networkidle2' });
 await outra.waitForSelector('.ed-shell');
-const vazia = await outra
-  .waitForSelector('[data-canvas-vazio]', { timeout: 20000 })
-  .then(() => true)
-  .catch(() => false);
-const naOutra = await outra.evaluate(() =>
-  JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').length
-);
+await outra
+  .waitForFunction(() => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').length > 0, { timeout: 30000, polling: 200 })
+  .catch(() => {});
+const naOutra = await outra.evaluate(() => ({
+  plataforma: sessionStorage.getItem('layoutPlatform'),
+  secoes: JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').map(s => `${s.layoutKey}:${s.id}`),
+  uids: JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').map(s => s.uid),
+  convite: window.__convite,
+}));
 r.ok(
-  'aba nova nasce vazia, com o convite do canvas',
-  vazia && naOutra === 0,
-  `convite: ${vazia}, ${naOutra} seções na aba nova`
+  'aba nova não herda a primeira: entra com o template padrão, sem passar pelo convite',
+  !!ENTRADA &&
+    naOutra.plataforma === ENTRADA.plataforma &&
+    naOutra.secoes.length > 0 &&
+    naOutra.secoes.every(k => familiaPadrao.has(k)) &&
+    !naOutra.uids.some(u => selecoes.some(s => s.uid === u)) &&
+    !naOutra.convite,
+  JSON.stringify({ ...naOutra, uids: undefined, secoes: naOutra.secoes.length, ENTRADA })
 );
 await outra.close();
 const aindaNaPrimeira = await page.evaluate(() =>

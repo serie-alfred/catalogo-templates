@@ -23,6 +23,10 @@
  *     (`NIVEL1_DAS_FAMILIAS`): as `variables` entram SÓ nas seções do mapa, o
  *     header pinta a cor do desenho, o painel da direita mostra e restaura, o
  *     undo/redo as leva junto, e o export as carrega por componente.
+ *  9. a aba NOVA entra com `ENTRADA_PADRAO` (plataforma + template), aplicado
+ *     como aqui, sem confirm, sem pintar o convite e sem "Voltar" para a tela
+ *     vazia; recarregar não reaplica; o "Começar do zero" do painel esvazia e a
+ *     loja vazia recarregada mostra o convite.
  *
  * Fotos em FUNIL_FOTOS (padrão `.funil/por-template/`).
  */
@@ -506,6 +510,100 @@ for (const [plat, t] of [['Wake', '9'], ['Tray', '10']]) {
     r.ok('Tray: Template 01 (sem tema) mantém a paleta e as fontes', JSON.stringify(await temaGravado(page)) === JSON.stringify(antes01));
   }
   r.ok(`${plat}: sem erro de console/página`, reais(erros).length === 0, reais(erros).slice(0, 4).join(' | '));
+  await page.close();
+}
+
+// ── 9. a aba nova entra com o template padrão ───────────────────────────────
+// `ENTRADA_PADRAO` (templatesCompletos.ts), lido do fonte: a aba SEM trabalho no
+// sessionStorage entra com aquela plataforma e aquele template, aplicados como o
+// "Por template" aplica (peças, paleta, fontes, Nível 1), sem confirm, sem pintar
+// o convite em momento nenhum e sem "Voltar" para a tela vazia. Recarregar não
+// reaplica. O "Começar do zero" do painel esvazia (confirm + um undo) e a loja
+// vazia recarregada mostra o convite, que continua levando ao template.
+{
+  const ts = fs.readFileSync(path.resolve(new URL('../../src/utils/templatesCompletos.ts', import.meta.url).pathname), 'utf8');
+  const m = ts.match(/export const ENTRADA_PADRAO[\s\S]*?platform: '(\w+)',\s*template: '(\d+)'/);
+  const PLAT = m?.[1];
+  const T = m ? String(Number(m[2])) : null;
+  r.ok('ENTRADA_PADRAO legível no fonte (plataforma + template completo nela)', !!PLAT && !!T && completa(T, PLAT), `${PLAT} ${T}`);
+  const { page, erros, dialogos, resposta } = await aba(browser);
+  // Sentinela desde antes do 1º script: o convite não pode aparecer NEM por um frame.
+  await page.evaluateOnNewDocument(() => {
+    window.__convite = false;
+    new MutationObserver(() => {
+      if (document.querySelector('[data-canvas-vazio]')) window.__convite = true;
+    }).observe(document, { childList: true, subtree: true });
+  });
+  await page.goto(`${BASE_URL}/gerador`, { waitUntil: 'domcontentloaded', timeout: 90000 });
+  await page.waitForSelector('.ed-shell', { timeout: 60000 });
+  await page.waitForFunction(n => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').length === n, { timeout: 60000, polling: 100 }, daFamilia(T, PLAT).length).catch(() => {});
+  const vistoCanvas = await esperarCanvas(page, noCanvas(T, PLAT, 'home'));
+  await espera(1000);
+  const entrada = await gravadas(page);
+  const est = await page.evaluate(() => ({
+    plat: sessionStorage.getItem('layoutPlatform'),
+    convite: window.__convite || !!document.querySelector('[data-canvas-vazio]'),
+    voltar: document.querySelector('button[aria-label="Voltar"]')?.disabled ?? null,
+  }));
+  r.ok(`aba nova: plataforma ${PLAT}`, est.plat === PLAT, est.plat);
+  r.ok(`aba nova: todas as peças da ${T} (e só elas)`, (await salvas(page)).sort().join() === chaves(T, PLAT).join(), (await salvas(page)).join());
+  r.ok('aba nova: o canvas da home pinta a família', vistoCanvas.sort().join() === noCanvas(T, PLAT, 'home').join(), vistoCanvas.join());
+  if (TEMA[T]) {
+    const dif = difTema(await temaGravado(page), T);
+    r.ok(`aba nova: paleta e fontes da ${T}`, dif.length === 0, dif.join(' | '));
+  }
+  const d1 = difNivel1(entrada, T);
+  r.ok(`aba nova: Nível 1 próprio igual ao mapa da ${T}`, d1.length === 0, d1.slice(0, 4).join(' | '));
+  r.ok('aba nova: nenhum confirm/alert', dialogos.length === 0, JSON.stringify(dialogos));
+  r.ok('aba nova: o convite "Comece seu tema" nunca pintou', !est.convite);
+  r.ok('aba nova: "Voltar" desabilitado (não leva à tela vazia)', est.voltar === true, String(est.voltar));
+  await abrirPainel(page);
+  r.ok(`aba nova: o card da ${T} está "Em uso"`, (await cartoes(page)).find(c => c.t === T)?.pressionado === true);
+  await foto(page, 'entrada-padrao');
+
+  // Recarregar mantém (mesmos uid: nada foi reaplicado).
+  await page.reload({ waitUntil: 'domcontentloaded', timeout: 90000 });
+  await page.waitForSelector('.ed-shell', { timeout: 60000 });
+  await esperarCanvas(page, noCanvas(T, PLAT, 'home'));
+  await espera(1000);
+  const recarregada = await gravadas(page);
+  r.ok('recarregar não reaplica o padrão (mesmas seções, mesmos uid)', recarregada.map(s => s.uid).join() === entrada.map(s => s.uid).join());
+
+  // "Começar do zero" no painel: confirm (há o que perder), esvazia, um undo.
+  await abrirPainel(page);
+  dialogos.length = 0;
+  resposta.valor = false;
+  await clicarDeVerdade(page, '[data-templates-zero]');
+  await espera(800);
+  r.ok('"Começar do zero" com a loja montada pede confirmação; cancelar não muda nada', dialogos.some(d => d.tipo === 'confirm' && /Começar do zero/.test(d.msg)) && (await gravadas(page)).length === entrada.length);
+  resposta.valor = true;
+  await clicarDeVerdade(page, '[data-templates-zero]');
+  await page.waitForFunction(() => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').length === 0, { timeout: 20000 }).catch(() => {});
+  await espera(800);
+  const zerado = await page.evaluate(() => ({
+    n: JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').length,
+    convite: !!document.querySelector('[data-canvas-vazio]'),
+    rail: document.querySelector('nav[aria-label="Seções do editor"] button[aria-current]')?.getAttribute('aria-label') ?? null,
+  }));
+  r.ok('aceitar esvazia a loja e vai para Componentes, sem convite nesta carga', zerado.n === 0 && !zerado.convite && zerado.rail === 'Componentes', JSON.stringify(zerado));
+  await clicarDeVerdade(page, 'button[aria-label="Voltar"]');
+  await espera(800);
+  r.ok('um "Voltar" devolve a família inteira', (await gravadas(page)).length === entrada.length);
+  await clicarDeVerdade(page, 'button[aria-label="Avançar"]');
+  await espera(800);
+  // Loja vazia recarregada: o padrão NÃO volta e o convite aparece (EmptyCanvas vivo).
+  await page.reload({ waitUntil: 'domcontentloaded', timeout: 90000 });
+  await page.waitForSelector('.ed-shell', { timeout: 60000 });
+  const conviteVoltou = await page.waitForSelector('[data-canvas-vazio]', { timeout: 30000 }).then(() => true).catch(() => false);
+  r.ok('loja vazia recarregada: sem o padrão, com o convite', conviteVoltou && (await gravadas(page)).length === 0);
+  await foto(page, 'vazia-recarregada-convite');
+  dialogos.length = 0;
+  await clicarDeVerdade(page, '[data-inicio="template"]');
+  await page.waitForSelector(`[data-templates-lista] [data-template="${T}"]`, { timeout: 30000 });
+  await clicarDeVerdade(page, `[data-templates-lista] [data-template="${T}"]`);
+  await page.waitForFunction(n => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').length === n, { timeout: 20000 }, daFamilia(T, PLAT).length).catch(() => {});
+  r.ok('o convite segue levando ao template (sem confirm, loja vazia)', (await gravadas(page)).length === daFamilia(T, PLAT).length && dialogos.length === 0, JSON.stringify(dialogos));
+  r.ok('entrada padrão: sem erro de console/página', reais(erros).length === 0, reais(erros).slice(0, 4).join(' | '));
   await page.close();
 }
 
