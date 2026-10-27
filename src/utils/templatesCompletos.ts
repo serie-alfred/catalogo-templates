@@ -6,6 +6,8 @@ import {
 } from '@/data/layoutData';
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import type { Platform } from '@/types/platform';
+import type { FrameColors, FrameFonts } from '@/types/frameMessage';
+import { contrastOn } from './themeStyle';
 import {
   COMMON_SINGLETON_SELECTIONS,
   NON_DUPLICABLE_SELECTIONS,
@@ -450,6 +452,29 @@ export function templatesCompletos(
           .filter(Boolean),
       };
     });
+}
+
+/**
+ * A paleta e as fontes com que a família fica, partindo de `base`: a mesma
+ * regra do `vestirTemplate` do editor — a família sobrepõe só o que define, e as
+ * três cores de texto sobre fundo saem do contraste com o fundo resultante. A
+ * vitrine `/templates` passa `TEMA_INICIAL`, que é com o que uma aba nova do
+ * editor aplica a família; o estágio `2-vitrine` do funil compara os dois.
+ */
+export function temaDoTemplate(
+  t: TemplateCompleto,
+  base: { colors: FrameColors; fonts: FrameFonts }
+): { colors: FrameColors; fonts: FrameFonts } {
+  const cores = { ...base.colors, ...t.tema?.colors };
+  return {
+    colors: {
+      ...cores,
+      colorPrimaryText: contrastOn(cores.colorPrimaryBackground),
+      colorSecondaryText: contrastOn(cores.colorSecondaryBackground),
+      colorTertiary: contrastOn(cores.colorTertiaryBackground),
+    },
+    fonts: t.tema?.fonts ?? base.fonts,
+  };
 }
 
 /** As seções da loja com a família inteira, em todas as páginas. */

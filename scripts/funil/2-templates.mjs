@@ -32,7 +32,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
-import { relatorio, espera, BASE_URL, SAIDA, itens } from './lib/util.mjs';
+import { relatorio, espera, BASE_URL, SAIDA, RAIZ, itens } from './lib/util.mjs';
 import {
   abrirBrowser,
   semear,
@@ -173,7 +173,7 @@ async function aba(browser) {
 
 /** O mapa família → tema, lido do próprio templatesCompletos.ts (bloco gerado). */
 const TEMA = (() => {
-  const ts = fs.readFileSync(path.resolve(new URL('../../src/utils/templatesCompletos.ts', import.meta.url).pathname), 'utf8');
+  const ts = fs.readFileSync(path.join(RAIZ, 'src/utils/templatesCompletos.ts'), 'utf8');
   const bloco = ts.slice(ts.indexOf('export const TEMA_DAS_FAMILIAS'), ts.indexOf('\n};', ts.indexOf('export const TEMA_DAS_FAMILIAS')));
   const out = {};
   for (const parte of bloco.split(/\n {2}'?(\d+)'?: \{/).slice(1).reduce((acc, x, i, arr) => (i % 2 === 0 ? [...acc, [x, arr[i + 1]]] : acc), [])) {
@@ -186,7 +186,7 @@ const TEMA = (() => {
 })();
 /** O mapa família → componente → vars de Nível 1, lido do mesmo arquivo. */
 const NIVEL1 = (() => {
-  const ts = fs.readFileSync(path.resolve(new URL('../../src/utils/templatesCompletos.ts', import.meta.url).pathname), 'utf8');
+  const ts = fs.readFileSync(path.join(RAIZ, 'src/utils/templatesCompletos.ts'), 'utf8');
   const ini = ts.indexOf('export const NIVEL1_DAS_FAMILIAS');
   const bloco = ts.slice(ini, ts.indexOf('\n};', ini));
   const out = {};
@@ -521,7 +521,7 @@ for (const [plat, t] of [['Wake', '9'], ['Tray', '10']]) {
 // reaplica. O "Começar do zero" do painel esvazia (confirm + um undo) e a loja
 // vazia recarregada mostra o convite, que continua levando ao template.
 {
-  const ts = fs.readFileSync(path.resolve(new URL('../../src/utils/templatesCompletos.ts', import.meta.url).pathname), 'utf8');
+  const ts = fs.readFileSync(path.join(RAIZ, 'src/utils/templatesCompletos.ts'), 'utf8');
   const m = ts.match(/export const ENTRADA_PADRAO[\s\S]*?platform: '(\w+)',\s*template: '(\d+)'/);
   const PLAT = m?.[1];
   const T = m ? String(Number(m[2])) : null;

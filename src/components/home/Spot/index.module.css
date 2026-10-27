@@ -14,9 +14,13 @@ and (max-width: 1650px){
 @media(max-width: 1020px){
 }
 
+/* O card inteiro é o link (index.tsx). */
 .productSpot{
+  display: block;
   width: 24%;
   position: relative;
+  color: inherit;
+  text-decoration: none;
 }
 
 @media (max-width: 768px){
@@ -51,101 +55,40 @@ and (max-width: 1650px){
   color: #fff;
 }
 
+/* O sinal de "clicável" fica na imagem: sobe um pouco e ganha contorno. O foco
+   de teclado usa o mesmo lugar, com `box-shadow` — o globals.css zera o
+   `outline` de todo `:focus` com !important. */
+.containerImg{
+  display: block;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.productSpot:hover .containerImg{
+  transform: translateY(-4px);
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);
+}
+
+.productSpot:focus-visible .containerImg{
+  box-shadow: 0 0 0 3px #0096fe;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .containerImg{
+      transition: none;
+  }
+  .productSpot:hover .containerImg{
+      transform: none;
+  }
+}
+
+/* Bloco: inline, a imagem deixa a folga da linha embaixo, e o contorno do
+   hover a abraçaria junto. */
 .containerImg img{
+  display: block;
   width: 100%;
   height: auto;
-}
-
-.productSpot:hover .containerButtonsHover{
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.containerButtonsHover {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
-  position: absolute;
-  top: 22%;
-  left: 50%;
-  transform: translate(-50%, 50%);
-  width: 100%;
-  height: 134px;
-  border-radius: 8px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 20%, rgba(0, 0, 0, 0.5) 40%,  rgba(0, 0, 0, 0.3) 60%, rgba(0, 0, 0, 0.2) 80%, rgba(0, 0, 0, 0) 100%);
-}
-
-@media only screen
-and (min-width: 1023px)
-and (max-width: 1650px){
-  .containerButtonsHover{
-      top: calc(6% - 2px);
-  }
-  
-}
-
-@media (max-width: 768px){
-  .containerButtonsHover{
-      top: unset;
-      left: unset;
-      transform: unset;
-      opacity: 1;
-      position: unset;
-      background: unset;
-      height: 60px;
-      
-  }
-}
-
-.spotButtons{
-  position: relative;
-  top: 60px;
-  width: 100%;
-  padding: 0px 15px;
-  color: #fff;
-}
-
-.spotButtons p{
-  font-size: 12px;
-  margin-bottom: 5px;
-}
-
-@media (max-width: 768px){
-  .spotButtons{
-      top: 10px;
-      padding: 0px;
-  }
-  .spotButtons p{
-      display: none;
-  }
-}
-
-.buttons {
-  display: flex;
-  gap: 8px;
-  color: #fff;
-}
-
-/* `a`, não `button`: o Spot renderiza um <a> (index.tsx:31) — com o seletor em
-   `button` esta regra nunca aplicava, e o card saía sem fundo nem padding. As duas
-   irmãs (Catalog, ThemeReleases) já usavam `a`. */
-.buttons a {
-  text-decoration: underline;
-  background-color: rgb(203 203 203 / 28%);
-  border-radius: 8px;
-  padding: 8px 12px;
-  border: none;
-  cursor: pointer;
-}
-
-.buttonContainer{
-  gap: 6px;
-  padding: 10px 10px;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  border-radius: 8px;
 }
 
 @media only screen

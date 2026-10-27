@@ -15,7 +15,12 @@ import { sendLayoutConfigEmail } from '@/services/emailService';
 import { isLocalDelivery } from '@/utils/configDelivery';
 import type { Platform } from '@/types/platform';
 import { useThemeHistory, type ThemeDoc } from './useThemeHistory';
-import { buildThemeStyle, contrastOn, colorSafeOnWhite } from '@/utils/themeStyle';
+import {
+  buildThemeStyle,
+  contrastOn,
+  colorSafeOnWhite,
+  TEMA_INICIAL,
+} from '@/utils/themeStyle';
 import {
   modeForPlatform,
   partitionByPlatform,
@@ -423,9 +428,13 @@ export function useLayoutGenerator() {
     });
   };
 
-  const [fontPrimary, setFontPrimary] = useState('Roboto');
-  const [fontSecondary, setFontSecondary] = useState('Poppins');
-  const [fontTertiary, setFontTertiary] = useState('Open Sans');
+  const [fontPrimary, setFontPrimary] = useState(TEMA_INICIAL.fonts.fontPrimary);
+  const [fontSecondary, setFontSecondary] = useState(
+    TEMA_INICIAL.fonts.fontSecondary
+  );
+  const [fontTertiary, setFontTertiary] = useState(
+    TEMA_INICIAL.fonts.fontTertiary
+  );
 
   const [logo, setLogo] = useState<string>('');
   const logoCheckout = logoReduzido.valor;
@@ -439,18 +448,28 @@ export function useLayoutGenerator() {
    *  hydration mismatch) e impede que os efeitos de save sobrescrevam o
    *  localStorage com os defaults antes do load rodar. */
   const [hydrated, setHydrated] = useState(false);
-  const [colorPrimary, setColorPrimary] = useState('#1a1a1a');
-  const [colorSecondary, setColorSecondary] = useState('#ffffff');
-  const [colorTertiary, setColorTertiary] = useState('#fff');
-  const [colorPrimaryBackground, setColorPrimaryBackground] = useState('#000');
-  const [colorSecondaryBackground, setColorSecondaryBackground] =
-    useState('#dd1838');
-  const [colorTertiaryBackground, setColorTertiaryBackground] =
-    useState('#000');
-  const [colorFooter, setColorFooter] = useState('#1A051C');
-  const [colorFooterText, setColorFooterText] = useState('#94A3B8');
-  const [colorPrimaryText, setColorPrimaryText] = useState('#fff');
-  const [colorSecondaryText, setColorSecondaryText] = useState('#51ff00');
+  // Os iniciais moram em TEMA_INICIAL: a vitrine /templates parte deles também.
+  const cor0 = TEMA_INICIAL.colors;
+  const [colorPrimary, setColorPrimary] = useState(cor0.colorPrimary);
+  const [colorSecondary, setColorSecondary] = useState(cor0.colorSecondary);
+  const [colorTertiary, setColorTertiary] = useState(cor0.colorTertiary);
+  const [colorPrimaryBackground, setColorPrimaryBackground] = useState(
+    cor0.colorPrimaryBackground
+  );
+  const [colorSecondaryBackground, setColorSecondaryBackground] = useState(
+    cor0.colorSecondaryBackground
+  );
+  const [colorTertiaryBackground, setColorTertiaryBackground] = useState(
+    cor0.colorTertiaryBackground
+  );
+  const [colorFooter, setColorFooter] = useState(cor0.colorFooter);
+  const [colorFooterText, setColorFooterText] = useState(cor0.colorFooterText);
+  const [colorPrimaryText, setColorPrimaryText] = useState(
+    cor0.colorPrimaryText
+  );
+  const [colorSecondaryText, setColorSecondaryText] = useState(
+    cor0.colorSecondaryText
+  );
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -583,9 +602,9 @@ export function useLayoutGenerator() {
     setPlatform(ENTRADA_PADRAO.platform);
     // Os fundos iniciais dos `useState` acima: a aba ainda não tem outros.
     vestirTemplate(t, {
-      primary: '#000',
-      secondary: '#dd1838',
-      tertiary: '#000',
+      primary: TEMA_INICIAL.colors.colorPrimaryBackground,
+      secondary: TEMA_INICIAL.colors.colorSecondaryBackground,
+      tertiary: TEMA_INICIAL.colors.colorTertiaryBackground,
     });
     return true;
   }, [vestirTemplate]);

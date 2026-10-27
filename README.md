@@ -53,15 +53,16 @@ Sem `KV_REST_API_URL`, o preview compartilhável grava em `.preview-store/` no d
 
 ---
 
-## As três superfícies
+## As superfícies
 
-O mesmo tema é renderizado em três lugares, **pelo mesmo componente**
+O mesmo tema é renderizado em quatro lugares, **pelo mesmo componente**
 ([`ThemeRenderer`](src/components/preview/ThemeRenderer/index.tsx)) — por isso não divergem:
 
 | Superfície | URL | O que é |
 | --- | --- | --- |
 | **Editor** | `/gerador` | o canvas, dentro de um `<iframe>`, com o dock de seções à esquerda |
 | **Preview compartilhável** | `/p/{id}/{home\|categoria\|produto}` | link que o cliente abre e navega como um site |
+| **Vitrine de templates** | `/templates/{NN}/{home\|categoria\|produto}` | os templates completos da home, só para ver (sem editor, sem login) |
 | **Export stage** | — | montado sob demanda para o `html2canvas` gerar os PNGs |
 
 O canvas ser um iframe é a decisão que sustenta o resto: os headers têm mini-cart e drawers
@@ -100,11 +101,12 @@ src/
 │   ├── gerador/(frame)/        documento do iframe — /gerador/frame-mobile
 │   ├── gerador/api/            fonts · preview · send-email
 │   ├── p/[id]/[page]/          preview compartilhável
+│   ├── templates/              vitrine pública dos templates completos
 │   └── api/keep-alive/         ping do KV
 ├── components/
 │   ├── templates/              os componentes do catálogo (por página e template_N)
 │   ├── gerador/                UI do editor (EditorRail, EditorLeftPanel, SectionsPanel, PreviewFrame…)
-│   ├── preview/                ThemeRenderer, SharedPreview, SeededLayoutProvider
+│   ├── preview/                ThemeRenderer, SeededStorefront, SharedPreview, TemplateViewer
 │   └── common/                 header/footer do site
 ├── data/layoutData.ts          o que o usuário pode escolher — fonte de verdade
 ├── utils/templateRegistry.ts   nome → componente
@@ -121,7 +123,8 @@ está em [docs/THUMBS-DOS-COMPONENTES.md](docs/THUMBS-DOS-COMPONENTES.md), que �
 copie para cá, que foi assim que a versão anterior desta seção envelheceu.
 
 `yarn thumbs` regera tudo (`yarn thumbs:auto` pula a etapa que depende dos mockups, que não são
-versionados). O estágio 1 do funil reprova thumb faltando, `imageSource` ausente, caminho fora da
+versionados), inclusive as fotos dos templates completos que a home mostra
+(`public/images/templates/<NN>.webp`, `yarn thumbs:templates`). O estágio 1 do funil reprova thumb faltando, `imageSource` ausente, caminho fora da
 regra e arquivo órfão — a partir de 15/09/2026, quando os 90 cards deixaram de ser o mesmo
 quadrado cinza do `placehold.co`.
 

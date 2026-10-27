@@ -17,7 +17,7 @@ interface SelectPageProps {
  * aparece como seção — `belongsToPage` só o exibe ali (utils/previewRender.ts).
  * Tirá-la do menu tornaria o card inalcançável.
  */
-const PAGES = [
+export const PAGES = [
   { key: 'common', name: 'Todas as páginas' },
   { key: 'home', name: 'Homepage' },
   { key: 'category', name: 'Página de Categoria' },

@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 export const RAIZ = path.resolve(fileURLToPath(import.meta.url), '../../../..');
 /** A pasta e-temas agrega os 4 repos lado a lado; o funil cruza os quatro. */
@@ -50,7 +50,8 @@ export function findChrome() {
  */
 export function lerLayouts() {
   const script =
-    `import {LAYOUTS} from ${JSON.stringify(path.join(RAIZ, 'src/data/layoutData.ts'))};` +
+    // URL, não caminho: no Windows o ESM recusa `C:\…` ("Received protocol 'c:'").
+    `import {LAYOUTS} from ${JSON.stringify(pathToFileURL(path.join(RAIZ, 'src/data/layoutData.ts')).href)};` +
     `process.stdout.write(JSON.stringify(LAYOUTS));`;
   const out = execFileSync(
     process.execPath,

@@ -1,6 +1,32 @@
 import type React from 'react';
 import type { FrameColors, FrameFonts } from '@/types/frameMessage';
 
+/**
+ * O tema com que o editor nasce: os valores iniciais do `useLayoutGenerator`.
+ * Um template completo só define o que o desenho dele pede (`TEMA_DAS_FAMILIAS`);
+ * o resto continua daqui — no editor, numa aba nova; na vitrine `/templates`,
+ * sempre. Os dois lados lendo a mesma constante é o que os mantém iguais.
+ */
+export const TEMA_INICIAL: { colors: FrameColors; fonts: FrameFonts } = {
+  colors: {
+    colorPrimary: '#1a1a1a',
+    colorSecondary: '#ffffff',
+    colorTertiary: '#fff',
+    colorPrimaryBackground: '#000',
+    colorSecondaryBackground: '#dd1838',
+    colorTertiaryBackground: '#000',
+    colorFooter: '#1A051C',
+    colorFooterText: '#94A3B8',
+    colorPrimaryText: '#fff',
+    colorSecondaryText: '#51ff00',
+  },
+  fonts: {
+    fontPrimary: 'Roboto',
+    fontSecondary: 'Poppins',
+    fontTertiary: 'Open Sans',
+  },
+};
+
 /** Aceita #abc e #aabbcc; devolve sempre 6 dígitos. */
 function normalizeHex(hexColor: string): string {
   const hex = hexColor.replace('#', '');

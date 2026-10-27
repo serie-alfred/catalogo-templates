@@ -22,7 +22,9 @@ export default function CatalogSwiper({ items }: Props) {
     <Swiper
       modules={[Navigation, Pagination]}
       spaceBetween={20}
-      loop
+      // O loop precisa de duas telas de slides (2 × 4 no desktop); com menos,
+      // o Swiper avisa e o carrossel trava na ponta.
+      loop={items.length >= 8}
       breakpoints={{
         0: {
           slidesPerView: 1.3,

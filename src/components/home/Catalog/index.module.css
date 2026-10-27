@@ -6,6 +6,9 @@
     align-items: center;
     margin-bottom: 60px;
     padding: 0px 20px;
+    /* O "Templates" da vitrine volta para `/#templates`: sem a folga, o título
+       da seção para embaixo do header fixo (20 de topo + 78 de altura). */
+    scroll-margin-top: 120px;
 }
 
 @media (max-width: 768px){

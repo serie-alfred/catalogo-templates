@@ -58,7 +58,7 @@ Next.js 15 App Router, React 19, TypeScript strict, CSS Modules + a few globals 
 
 ### Two route groups, two purposes
 
-- `(home)` — public marketing/showcase page ([src/app/(home)/page.tsx](<src/app/(home)/page.tsx>)). Uses Geist font via `next/font`, loads only `globals.css`.
+- `(home)` — public marketing/showcase page ([src/app/(home)/page.tsx](<src/app/(home)/page.tsx>)). Uses Geist font via `next/font`, loads only `globals.css`. Its template cards come from the catalog and open the public viewer under `src/app/templates/` (see **Vitrine pública de templates**).
 - `gerador` — the interactive layout-builder tool. Split into two route groups, each with its **own root layout**: `(editor)` ([src/app/gerador/(editor)/page.tsx](<src/app/gerador/(editor)/page.tsx>), URL `/gerador`) loads `templates.css` + `globals.css` + `storefront.css` + `editor-canvas.css` + `editor-tokens.css` (in that order — the dark-mode lock in the last one has to win) and wraps children in `LayoutProvider`; `(frame)` (URL `/gerador/frame-mobile`) is the isolated document rendered inside the preview iframe. Route handlers under `src/app/gerador/api/**` sit outside both groups (they need no layout).
   - **`next/font` is for the CHROME only.** Inter is loaded in the editor layout as `inter.variable` and applied on `.ed-shell`. It must never go on `<body>`: `ExportStage` mounts `ThemeRenderer` in this same document and no template declares its own `font-family`, so the generated class (0,1,0) would beat `body { font-family: var(--font-family) }` (0,0,1) and silently change the typography of the exported PNGs. The **theme** fonts stay runtime-selectable, as before.
 
@@ -131,7 +131,8 @@ texto de mock que só existe num lugar — `'Produto de Exemplo'` e `'10,71'` s�
 onde o print era só placeholder, a arte inventa copy em inglês. Compare com o componente **atual**
 (`yarn dev`), não com o print do pedido: nome e conteúdo mudam entre o pedido e a entrega.
 
-`yarn thumbs` regera tudo (o estágio `auto` precisa de `yarn dev` de pé); depois de mexer num
+`yarn thumbs` regera tudo, inclusive as thumbs dos templates completos da home (`thumbs:templates`,
+ver **Vitrine pública de templates**); os estágios `auto` e `templates` precisam de `yarn dev` de pé. Depois de mexer num
 componente, `THUMBS_SO=<Component> yarn thumbs:auto` refotografa só ele — a rodada inteira regrava
 os 44 prints, quase todos com bytes diferentes e nada visível mudado. **Duas travas impedem
 que uma rodada futura apague a arte do designer**: o componente estar em `mapa.json`, ou o item já
@@ -259,6 +260,33 @@ inteira na loja. Some no checkout e na LP.
   sem `confirm` (ver "Entrada: a aba nova já vem com um template"). No pé do painel, **Começar do
   zero** esvazia a loja.
 - **Funil:** `2-templates` (inclui a entrada padrão e o "Começar do zero").
+
+### Vitrine pública de templates (`/templates`)
+
+Os mesmos templates completos, **para ver, sem editar**, no site público. A home lista as famílias
+(as duas faixas: "Novos" com os `NOVIDADES` mais recentes, e a grade com busca, `#templates`) e
+cada card leva a `/templates/<NN>/<home|categoria|produto>`: uma barra com o seletor de página e o
+Desktop/Mobile — os **mesmos** componentes da topbar do editor (`Dropdown`, `ResponsiveToggle`) — e
+a loja num `<iframe>` (`…/frame`), pelo mesmo motivo do canvas: os drawers `fixed` com `100vh`.
+
+- **Derivado, sem estado** ([src/utils/vitrineTemplates.ts](src/utils/vitrineTemplates.ts)):
+  `templatesCompletos` na plataforma da `ENTRADA_PADRAO` (as famílias completas têm as mesmas peças
+  nas três). `lojaDoTemplate` = `selecoesDoTemplate` (com Nível 1) + `temaDoTemplate(t,
+  TEMA_INICIAL)`, a regra do `vestirTemplate` como função pura. `TEMA_INICIAL`
+  ([themeStyle.ts](src/utils/themeStyle.ts)) são os `useState` iniciais do hook, lidos pelos dois
+  lados — por isso a vitrine mostra o que uma aba nova do editor mostra. Nada vai para o KV: o
+  frame é estático (`generateStaticParams`), ao contrário do `/p/{id}`, que expira.
+- **Só olha:** sem "Editar", sem link para o `/gerador`, sem chrome de seleção. O frame trava link
+  e submit (captura, só `preventDefault`): os `href` de mock dos templates (`/`, `/<produto>/p`,
+  domínios de exemplo) carregariam outra coisa dentro da moldura.
+- **Rotas:** root layout próprio em `src/app/templates/` (o Inter só como variável, aplicado na
+  barra `.ed-shell`); `?vista=mobile` é lido no servidor e o alternador atualiza a URL com
+  `history.replaceState` (a moldura troca por CSS, a loja não recarrega). Família incompleta ou
+  página inválida dão 404. Fora do `matcher` do login.
+- **Thumbs:** `public/images/templates/<NN>.webp` (800×608, 2× o card), foto da home montada por
+  `yarn thumbs:templates` (precisa do `yarn dev`; `TEMPLATES_SO=09` refotografa uma). Família nova
+  sem thumb cai na imagem genérica (a home confere o disco no build) — e o `2-vitrine` reprova.
+- **Funil:** `2-vitrine` (inclui a paridade com o canvas de uma aba nova do editor).
 
 ### Selection rules in `toggleSelection`
 
@@ -516,7 +544,7 @@ Alongside export, the topbar has a **Pré-visualizar** button ([PreviewButton](s
 - **Snapshot**: `useLayoutGenerator.buildPreviewSnapshot()` serializes `{ platform, selections, colors, fonts, logo, favicon, ogImage }` (`PreviewSnapshot` in [src/lib/previewStore.ts](src/lib/previewStore.ts); `ogImage` is optional so older snapshots stay valid); `createPreview()` POSTs it to `/gerador/api/preview` and returns `${origin}/p/{id}/home`.
 - **Storage is hybrid** ([previewStore.ts](src/lib/previewStore.ts)): a `fileStore` writes `.preview-store/{id}.json` in dev (zero config, gitignored) and a `kvStore` uses `@vercel/kv` in prod. `getStore()` picks KV when `KV_REST_API_URL` is set. The module is `server-only`; the client hook imports only the **type** (`import type`), so it never bundles it.
 - **Rendering reuse**: the page-filter + priority-sort rules live in [src/utils/previewRender.ts](src/utils/previewRender.ts) (`selectionsForPage`, `getPriorityOrder`, `belongsToPage`, `slugToPagina`/`PREVIEW_PAGES`), and `ThemeRenderer` is now literally the same component the editor uses — the two views can't diverge because there is only one.
-- **Theme outside the gerador**: [SharedPreview](src/components/preview/SharedPreview/index.tsx) applies the theme vars inline on a wrapper (`buildThemeStyle` in [themeStyle.ts](src/utils/themeStyle.ts), shared with the mobile iframe) plus the Google-font `<link>`s, and wraps children in [SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx) with `{ logo, selections }` from the snapshot. The preview must NOT run `useLayoutGenerator` (it would hydrate the author's stored state). The `p` route group has its own `layout.tsx` importing `templates.css` + `globals.css` + `storefront.css` + `preview.css` (no chrome do editor, no `LayoutProvider`).
+- **Theme outside the gerador**: [SharedPreview](src/components/preview/SharedPreview/index.tsx) renders [SeededStorefront](src/components/preview/SeededStorefront/index.tsx) (shared with the `/templates` viewer), which applies the theme vars inline on a wrapper (`buildThemeStyle` in [themeStyle.ts](src/utils/themeStyle.ts), shared with the mobile iframe) plus the Google-font `<link>`s, and wraps children in [SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx) with `{ logo, selections }` from the snapshot. The preview must NOT run `useLayoutGenerator` (it would hydrate the author's stored state). The `p` route group has its own `layout.tsx` importing `templates.css` + `globals.css` + `storefront.css` + `preview.css` (no chrome do editor, no `LayoutProvider`).
 - **Shared storefront CSS**: [storefront.css](src/styles/storefront.css) holds the two rules that must hold on all three surfaces (`.preview-sticky-header` and the `.preview-template .component__container` 1200px clamp). Document-level rules stay split on purpose — `preview.css` for `/p`, `(frame)/frame.css` for the iframe — because their `color-scheme: light !important` / `background: #fff !important` would repaint the editor's own chrome.
 - **Prod requires** a Vercel KV database and env vars `KV_REST_API_URL` / `KV_REST_API_TOKEN`.
 - **"Editar" and the live preview** ([previewAoVivo.ts](src/utils/previewAoVivo.ts), the decision is

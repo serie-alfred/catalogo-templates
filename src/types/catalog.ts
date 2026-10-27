@@ -3,6 +3,6 @@ export type CatalogItem = {
   title: string;
   subtitle: string;
   image: string;
-  desktopLink: string;
-  mobileLink: string;
+  /** Para onde o card leva: a vitrine do template. */
+  link: string;
 };

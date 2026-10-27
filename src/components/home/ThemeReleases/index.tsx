@@ -1,24 +1,22 @@
 import React from 'react';
 
-import { catalogMock } from '@/mocks/catalogMock';
 import type { CatalogItem } from '@/types/catalog';
 import CatalogSwiper from '../CatalogSwiper';
 
 import styles from './index.module.css';
 
-export default function ThemeReleases() {
-  const catalog: CatalogItem[] = catalogMock[0]?.novidade || [];
-
+/** Os templates mais recentes (a home passa os `NOVIDADES` primeiros). */
+export default function ThemeReleases({ items }: { items: CatalogItem[] }) {
   return (
-    <div className={styles.newsContainer}>
+    <div className={styles.newsContainer} data-home-novos="">
       <div className={styles.container}>
         <div className={styles.containerTitle}>
           <h3 className={styles.title}>Novos</h3>
-          <span>Porem ipsum dolor sit amet, consectetur adipiscing elit.</span>
+          <span>Os templates completos mais recentes do catálogo.</span>
         </div>
 
         <div className={styles.containerSpots}>
-          <CatalogSwiper items={catalog} />
+          <CatalogSwiper items={items} />
         </div>
       </div>
     </div>

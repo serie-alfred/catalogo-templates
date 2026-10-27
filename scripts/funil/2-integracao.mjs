@@ -14,7 +14,7 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 
-import { relatorio, espera, BASE_URL, SAIDA, itens } from './lib/util.mjs';
+import { relatorio, espera, BASE_URL, SAIDA, RAIZ, itens } from './lib/util.mjs';
 import { abrirBrowser, novaAba, semear } from './lib/editor.mjs';
 
 const r = relatorio('Estágio 2e — a escolha do cliente chega ao config');
@@ -424,7 +424,7 @@ r.ok(
 // templatesCompletos.ts) — nunca com as 3 seções desta — e sem pintar o convite
 // do canvas vazio em momento nenhum (sentinela desde antes do 1º script).
 const ENTRADA = (() => {
-  const ts = readFileSync(path.resolve(new URL('../../src/utils/templatesCompletos.ts', import.meta.url).pathname), 'utf8');
+  const ts = readFileSync(path.join(RAIZ, 'src/utils/templatesCompletos.ts'), 'utf8');
   const m = ts.match(/export const ENTRADA_PADRAO[\s\S]*?platform: '(\w+)',\s*template: '(\d+)'/);
   return m ? { plataforma: m[1], template: String(Number(m[2])) } : null;
 })();
