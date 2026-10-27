@@ -37,6 +37,11 @@ and (max-width: 1650px){
     gap: 7px;
     color: #fff;
 }
+/* O tamanho padrão de um <h3>, que era a tag deste título: virou <h2> pela
+   ordem dos títulos da página, sem mudar de tamanho. */
+.infoTitle h2{
+    font-size: 1.17em;
+}
 .infoTitle span{
     font-weight: 400;
     color: #b9b0b0;

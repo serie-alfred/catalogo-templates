@@ -97,13 +97,15 @@ const ICONE: Record<Exclude<HelpFloatButton13Icon, 'none'>, React.ReactNode> = {
   whatsapp: svg(20, <path d="M4 20l1.3-4A8 8 0 1 1 8 19z" />, '2'),
 };
 
+// O ponto do "?" é um traço de 0,01: com a ponta padrão do SVG (`butt`) ele não
+// desenha nada, e o ícone aparecia sem o ponto.
 const Pergunta = () =>
   svg(
     30,
-    <>
+    <g strokeLinecap="round">
       <path d="M9 9a3 3 0 1 1 4.2 2.7c-.8.4-1.2 1-1.2 1.8v.8" />
       <path d="M12 18v.01" />
-    </>,
+    </g>,
     '2.4',
     styles.question
   );

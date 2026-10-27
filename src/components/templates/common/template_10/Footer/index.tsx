@@ -89,15 +89,17 @@ const svg = (w: number, sw: string, children: React.ReactNode) => (
   </svg>
 );
 
+// Os pontos do "?" e do "i" do LinkedIn são traços de 0,01: com a ponta padrão
+// do SVG (`butt`) não desenham nada. Por isso a ponta redonda nesses dois.
 const ICONE_SERVICO: Record<Footer10ServiceIcon, React.ReactNode> = {
   help: svg(
     22,
     '1.8',
-    <>
+    <g strokeLinecap="round">
       <circle cx="12" cy="12" r="9" />
       <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14" />
       <path d="M12 17h.01" />
-    </>
+    </g>
   ),
   whatsapp: svg(22, '1.8', <path d="M4 20l1.3-4A8 8 0 1 1 8 19z" />),
   email: svg(
@@ -148,7 +150,10 @@ const ICONE_REDE: Record<Footer10Social, React.ReactNode> = {
     '1.8',
     <>
       <rect x="3" y="3" width="18" height="18" rx="3" />
-      <path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7" />
+      <path
+        d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"
+        strokeLinecap="round"
+      />
     </>
   ),
 };

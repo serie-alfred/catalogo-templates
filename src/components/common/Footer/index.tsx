@@ -62,16 +62,16 @@ export default function Footer() {
           <div className={styles.footerEsq}>
             <div className={styles.containerTitle}>
               <h2>Que tal lançar sua loja dos sonhos em órbita?</h2>
-              <h3>
+              <p>
                 Compartilhe os desafios da sua empresa com nossa tripulação de
                 especialistas que iremos te ajudar!
-              </h3>
+              </p>
             </div>
             <div className={styles.containerSubTitle}>
-              <h4>
+              <p>
                 Cadastre-se para ter a oportunidades de fazer parte da nossa
                 tripulação<span>.</span>
-              </h4>
+              </p>
               <a href="#">
                 Saiba mais
                 {icons.KnowMorearrowIcon}
@@ -232,7 +232,7 @@ export default function Footer() {
       <div className={styles.footerBottomContainer}>
         <div className={styles.footerBottom}>
           <div className={styles.copyright}>
-            <p>© 2025 E-TEMAS - Empresa P4C Group</p>
+            <p>© 2026 E-TEMAS - Empresa P4C Group</p>
             <a href="#">Política de Privacidade</a>
           </div>
           <div className={styles.bottomflags}>

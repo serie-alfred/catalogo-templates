@@ -38,7 +38,7 @@ export default function CatalogSpots({ items }: { items: CatalogItem[] }) {
     >
       <div className={styles.container}>
         <div className={styles.infoTitle}>
-          <h3>Descubra diversos templates</h3>
+          <h2>Descubra diversos templates</h2>
           <span>
             Cada template monta a loja inteira: home, categoria e produto.
             Clique para visualizar.

@@ -52,7 +52,7 @@ and (max-width: 1650px){
     text-transform: uppercase;
 
 }
-.containerTitle h3{
+.containerTitle p{
     max-width: 400px;
     font-weight: 500;
     font-size: 22px;
@@ -63,13 +63,13 @@ and (max-width: 1650px){
     color: #fff;
 }
 
-.containerSubTitle h4{
+.containerSubTitle p{
     max-width: 380px;
     font-weight: 600;
     font-size: 22px;
     margin-bottom: 45px;
 }
-.containerSubTitle h4 span{
+.containerSubTitle p span{
     color: var(--color-blue);
 }
 
@@ -89,10 +89,10 @@ and (max-width: 1650px){
     .containerTitle h2{
         font-size: 30px;
     }
-    .containerTitle h3{
+    .containerTitle p{
         font-size: 17px;
     }
-    .containerSubTitle h4{
+    .containerSubTitle p{
         font-size: 17px;
     }
 }
@@ -310,9 +310,39 @@ and (max-width: 1650px){
     gap: 10px;
 }
 
+/* O único link da barra de baixo. Em repouso acompanha o texto do copyright e
+   só o sublinhado diz que é link; no hover e no foco ganha o azul do site. O
+   anel do foco precisa do !important: o globals.css zera `outline` e
+   `box-shadow` de todo `:focus` com !important, e este seletor é mais
+   específico. */
 .copyright a{
-    color: var(--color-blue);
+    color: inherit;
     text-decoration: underline;
+    text-decoration-color: rgba(17, 17, 17, 0.3);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+    border-radius: 2px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.copyright a:hover{
+    color: var(--color-blue);
+    text-decoration-color: currentColor;
+}
+
+.copyright a:focus-visible{
+    color: var(--color-blue);
+    text-decoration-color: currentColor;
+    box-shadow: 0 0 0 2px var(--background-white), 0 0 0 4px var(--color-blue) !important;
+}
+
+/* No desktop o copyright e o link dividem a linha: um filete os separa. No
+   celular eles empilham (ver o @media de 768px acima) e o filete sairia solto. */
+@media (min-width: 769px){
+    .copyright p{
+        padding-right: 10px;
+        border-right: 1px solid rgba(17, 17, 17, 0.2);
+    }
 }
 
 .bottomSelos{

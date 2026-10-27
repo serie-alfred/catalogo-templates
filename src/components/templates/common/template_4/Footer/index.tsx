@@ -56,7 +56,7 @@ const data = {
   ],
   newsletterPlaceholder: 'seu@email.com',
   newsletterButtonLabel: 'Entrar',
-  copyright: '© 2025 MANU Moda Masculina Ltda. Todos os direitos reservados.',
+  copyright: '© 2026 MANU Moda Masculina Ltda. Todos os direitos reservados.',
   legalLinks: [
     { name: 'Política de Privacidade', url: '#' },
     { name: 'Termos de Uso', url: '#' },
@@ -98,7 +98,11 @@ const PinterestIcon = () => (
 );
 
 const socialIconFor = (label: string) =>
-  label.trim().toLowerCase() === 'pinterest' ? <PinterestIcon /> : <InstagramIcon />;
+  label.trim().toLowerCase() === 'pinterest' ? (
+    <PinterestIcon />
+  ) : (
+    <InstagramIcon />
+  );
 
 export default function Footer04() {
   const { logo } = useLayout();
@@ -113,7 +117,10 @@ export default function Footer04() {
     <footer className={styles.footer04}>
       <div className={styles.inner}>
         <div className={styles.mobileNewsletter}>
-          <form className={styles.mobileNlForm} onSubmit={e => e.preventDefault()}>
+          <form
+            className={styles.mobileNlForm}
+            onSubmit={e => e.preventDefault()}
+          >
             <input
               className={styles.fieldLine}
               type="email"

@@ -37,8 +37,11 @@ and (max-width: 1650px){
     margin-bottom: 30px;
 }
 
+/* O tamanho padrão de um <h3>, que era a tag deste título: virou <h2> pela
+   ordem dos títulos da página, sem mudar de tamanho. */
 .title{
     color: #fff;
+    font-size: 1.17em;
 }
 
 .containerTitle span{

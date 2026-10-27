@@ -11,7 +11,7 @@ export default function ThemeReleases({ items }: { items: CatalogItem[] }) {
     <div className={styles.newsContainer} data-home-novos="">
       <div className={styles.container}>
         <div className={styles.containerTitle}>
-          <h3 className={styles.title}>Novos</h3>
+          <h2 className={styles.title}>Novos</h2>
           <span>Os templates completos mais recentes do catálogo.</span>
         </div>
 

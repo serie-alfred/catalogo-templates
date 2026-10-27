@@ -11,18 +11,11 @@
     position: relative;
 }
 
-.desktopOnly{
-    display: none;
-}
+/* Uma imagem só, a do `<picture>` (index.tsx). Bloco no desktop e inline no
+   celular, como eram as duas imagens que ela substituiu. */
 @media only screen and (min-width: 1023px){
-    .desktopOnly{
+    .bannerimg{
         display: block;
-    }
-}
-
-@media only screen and (min-width: 1023px){
-    .mobileOnly{
-        display: none;
     }
 }
 
@@ -57,7 +50,7 @@ and (max-width: 1650px){
     transform: translate(10%, 50%);
     color: #fff;
 }
-.textBanner h2{
+.textBanner h1{
     font-size: 55px;
 }
 
@@ -69,7 +62,7 @@ and (max-width: 1650px){
         max-width: 500px;
         padding-left: 40px;
     }
-    .textBanner h2{
+    .textBanner h1{
         font-size: 42px;
     }
 }
@@ -83,7 +76,7 @@ and (max-width: 1650px){
     .bannerimg{
         margin-top: 0px;
     }
-    .textBanner h2{
+    .textBanner h1{
         font-size: 25px;
     }
 

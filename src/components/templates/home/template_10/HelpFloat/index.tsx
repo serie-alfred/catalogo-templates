@@ -102,15 +102,17 @@ const Relogio = () =>
     </>
   );
 const Fechar = () => svg(26, '2.2', <path d="M6 6l12 12M18 6 6 18" />);
+// O ponto do "?" é um traço de 0,01: com a ponta padrão do SVG (`butt`) ele não
+// desenha nada, e o ícone aparecia sem o ponto.
 const Ajuda = () =>
   svg(
     30,
     '1.8',
-    <>
+    <g strokeLinecap="round">
       <circle cx="12" cy="12" r="9" />
       <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.5V14" />
       <path d="M12 17h.01" />
-    </>
+    </g>
   );
 
 export default function HelpFloatButton10() {

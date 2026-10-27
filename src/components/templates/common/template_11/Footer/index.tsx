@@ -193,7 +193,11 @@ const ICONE_REDE: Record<Footer11Social, React.ReactNode> = {
     22,
     <>
       <rect x="3" y="3" width="18" height="18" rx="3" />
-      <path d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7" />
+      {/* O ponto do "i" é um traço de 0,01: sem a ponta redonda não desenha nada. */}
+      <path
+        d="M8 10v7M8 7v.01M12 17v-4a2 2 0 0 1 4 0v4M12 10v7"
+        strokeLinecap="round"
+      />
     </>
   ),
 };

@@ -216,6 +216,27 @@ for (const a of alvos) {
         foraDoRegistry:
           el.querySelector('[data-registry-missing]')?.getAttribute('data-registry-missing') ??
           null,
+        // Ponto de ícone desenhado como traço de comprimento ~0 (`M12 17h.01`) só
+        // aparece com ponta redonda ou quadrada; com a padrão do SVG (`butt`) não
+        // pinta nada. Assim o "?" das ajudas 10 e 13 e do rodapé 10 ficou sem o
+        // ponto até 27/10, e nenhum outro estágio olha o desenho de um ícone.
+        // Cada sub-caminho absoluto é medido sozinho: o do ponto costuma vir no
+        // meio de um `d` comprido (o "i" do LinkedIn).
+        pontosInvisiveis: [...el.querySelectorAll('svg path')].flatMap(path => {
+          const cs = d.defaultView.getComputedStyle(path);
+          if (cs.stroke === 'none' || cs.strokeLinecap !== 'butt') return [];
+          return (path.getAttribute('d') ?? '')
+            .split(/(?=M)/)
+            .filter(sub => {
+              const t = d.createElementNS('http://www.w3.org/2000/svg', 'path');
+              t.setAttribute('d', sub);
+              path.ownerSVGElement.appendChild(t);
+              const curto = t.getTotalLength() < 0.1;
+              t.remove();
+              return curto;
+            })
+            .map(sub => sub.trim());
+        }),
       };
     }, a.selection);
 
@@ -228,6 +249,8 @@ for (const a of alvos) {
     const ehOverlay = OVERLAYS.has(a.selection);
     if (!m.erro && m.foraDoRegistry)
       m.erro = `marcador [data-registry-missing]: ${m.foraDoRegistry} não está no TemplateRegistry`;
+    if (!m.erro && m.pontosInvisiveis.length)
+      m.erro = `ponto de ícone invisível (traço ~0 com stroke-linecap butt): ${[...new Set(m.pontosInvisiveis)].join(', ')}`;
     const passou =
       !m.erro &&
       m.nSec === 1 &&
