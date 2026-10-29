@@ -1,0 +1,233 @@
+/* Espelha organisms/Newsletter15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.newsletter15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.newsletter15 {
+  width: 100%;
+  background-color: var(--newsletter-bg, #efe8db);
+  color: var(--newsletter-title-color, var(--text-primary-color, #1a1714));
+  font-family: var(--newsletter-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.newsletter15 *,
+.newsletter15 *::before,
+.newsletter15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.newsletter15 :where(h2, p) {
+  margin: 0;
+}
+.newsletter15 :where(a) {
+  color: inherit;
+}
+.newsletter15 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+.eyebrow,
+.field,
+.submit {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 112px clamp(16px, 3vw, 40px);
+  text-align: center;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: 640px;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rule {
+  width: 32px;
+  height: 1px;
+  background-color: var(--newsletter-button-bg, var(--background-primary-color, #1a1714));
+}
+
+.title {
+  font-family: var(--newsletter-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+.title em {
+  font-style: italic;
+}
+
+.text {
+  color: var(--newsletter-desc-color, var(--text-primary-color, #4a433c));
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 20px 28px;
+  width: 100%;
+  max-width: 860px;
+  text-align: left;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--newsletter-desc-color, var(--text-primary-color, #4a433c));
+}
+.field input {
+  width: 100%;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--newsletter-title-color, var(--text-primary-color, #1a1714));
+  border-radius: 0;
+  background: transparent;
+  color: var(--newsletter-title-color, var(--text-primary-color, #1a1714));
+  font: 400 15px var(--newsletter-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  letter-spacing: 0;
+  text-transform: none;
+  outline: none;
+}
+.field input::placeholder {
+  color: color-mix(in srgb, var(--newsletter-desc-color, var(--text-primary-color, #4a433c)) 66%, var(--newsletter-bg, #efe8db));
+  opacity: 1;
+}
+.field input:focus-visible {
+  border-bottom-width: 2px;
+}
+
+.fieldName {
+  flex: 1 1 220px;
+}
+
+.fieldEmail {
+  flex: 1 1 260px;
+}
+
+.submit {
+  flex: none;
+  height: 52px;
+  padding: 0 40px;
+  background-color: var(--newsletter-button-bg, var(--background-primary-color, #1a1714));
+  color: var(--newsletter-button-text, var(--text-color-base, #faf8f4));
+}
+.submit:hover {
+  opacity: 0.88;
+}
+.submit:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+.submit:focus-visible {
+  outline: 1px solid var(--newsletter-title-color, var(--text-primary-color, #1a1714));
+  outline-offset: 3px;
+}
+
+.feedback {
+  flex: 1 1 100%;
+  color: var(--newsletter-title-color, var(--text-primary-color, #1a1714));
+  font-size: 15px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.privacy {
+  flex: 1 1 100%;
+  margin-top: 4px;
+  color: var(--newsletter-desc-color, var(--text-primary-color, #4a433c));
+  font-size: 12px;
+  text-align: center;
+}
+.privacy a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    align-items: stretch;
+    gap: 32px;
+    padding: 64px 24px;
+  }
+  .head {
+    gap: 12px;
+    max-width: none;
+  }
+  .eyebrow {
+    gap: 12px;
+  }
+  .rule {
+    width: 24px;
+  }
+  .title {
+    font-size: 38px;
+  }
+  .text {
+    line-height: 1.65;
+  }
+  .form {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 20px;
+  }
+  .field {
+    gap: 6px;
+  }
+  .field input {
+    font-size: 16px;
+  }
+  .fieldName,
+  .fieldEmail,
+  .submit,
+  .privacy,
+  .feedback {
+    flex: none;
+  }
+  .submit {
+    margin-top: 4px;
+    padding: 0;
+  }
+  .privacy {
+    margin-top: 0;
+    line-height: 1.5;
+  }
+}
+
+.newsletter15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

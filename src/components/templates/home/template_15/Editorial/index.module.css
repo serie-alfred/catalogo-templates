@@ -1,0 +1,282 @@
+/* Espelha organisms/Editorial15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.editorial15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.editorial15 {
+  width: 100%;
+  background-color: var(--editorial-bg, #faf8f4);
+  color: var(--editorial-text, var(--text-primary-color, #1a1714));
+  font-family: var(--editorial-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.editorial15 *,
+.editorial15 *::before,
+.editorial15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.editorial15 :where(h2) {
+  margin: 0;
+}
+.editorial15 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.editorial15 a:hover {
+  opacity: 0.8;
+}
+.editorial15 a:focus-visible {
+  outline: 1px solid var(--editorial-accent, var(--background-primary-color, #7a5f1c));
+  outline-offset: 3px;
+}
+.editorial15 picture,
+.editorial15 img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.editorial15 img {
+  object-fit: cover;
+}
+
+.mob {
+  display: none !important;
+}
+
+.eyebrow,
+.viewAll,
+.readMore {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  color: var(--editorial-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 104px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--editorial-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.title {
+  font-family: var(--editorial-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+.title em {
+  font-style: italic;
+}
+
+.viewAll {
+  display: flex;
+  align-items: center;
+  min-height: 45px;
+  border-bottom: 1px solid var(--editorial-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 48px 56px;
+}
+
+.featured {
+  display: flex;
+  flex: 7 1 520px;
+  flex-direction: column;
+  gap: 26px;
+  min-width: 0;
+}
+
+.featuredMedia {
+  display: block;
+  aspect-ratio: 4/3;
+  overflow: hidden;
+  background-color: #dcd3c4;
+}
+
+.featuredCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 600px;
+}
+
+.featuredTitle {
+  font-family: var(--editorial-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 40px;
+  line-height: 1.1;
+}
+
+.featuredText {
+  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #1a1714)) 66%, var(--editorial-bg, #faf8f4));
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.readMore {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 10px;
+  min-height: 45px;
+  border-bottom: 1px solid var(--editorial-text, var(--text-primary-color, #1a1714));
+}
+.readMore svg {
+  display: block;
+  flex: none;
+}
+
+.list {
+  display: flex;
+  flex: 5 1 360px;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.story {
+  display: flex;
+  gap: 24px;
+  padding: 32px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #1a1714)) 14%, var(--editorial-bg, #faf8f4));
+}
+.story:first-child {
+  padding-top: 0;
+}
+
+.thumb {
+  display: block;
+  flex: none;
+  width: 168px;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  background-color: #e6dfd2;
+}
+
+.story:nth-child(even) .thumb {
+  background-color: #e9e3d8;
+}
+
+.storyCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 4px;
+}
+
+.storyTitle {
+  font-family: var(--editorial-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 27px;
+  line-height: 1.15;
+}
+
+.storyText {
+  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #1a1714)) 66%, var(--editorial-bg, #faf8f4));
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+@container (max-width: 960px) {
+  .dsk {
+    display: none !important;
+  }
+  .mob {
+    display: flex !important;
+  }
+  .inner {
+    gap: 28px;
+    padding: 64px 16px;
+  }
+  .head {
+    padding-bottom: 18px;
+  }
+  .heading {
+    gap: 10px;
+  }
+  .title {
+    font-size: 38px;
+  }
+  .viewAll {
+    align-self: center;
+  }
+  .body {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 28px;
+  }
+  .featured,
+  .list {
+    flex: none;
+  }
+  .featured,
+  .featuredCopy {
+    gap: 16px;
+  }
+  .featuredCopy {
+    max-width: none;
+  }
+  .featuredTitle {
+    font-size: 29px;
+    line-height: 1.12;
+  }
+  .featuredText,
+  .storyText {
+    display: none;
+  }
+  .list {
+    border-top: 1px solid color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #1a1714)) 14%, var(--editorial-bg, #faf8f4));
+  }
+  .story,
+  .story:first-child {
+    gap: 16px;
+    padding: 20px 0;
+  }
+  .thumb {
+    width: 96px;
+  }
+  .storyCopy {
+    gap: 8px;
+    padding-top: 0;
+  }
+  .storyEyebrow {
+    font-size: 10px;
+  }
+  .storyTitle {
+    font-size: 21px;
+  }
+}
+
+.editorial15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

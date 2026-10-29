@@ -1,0 +1,472 @@
+/* Espelha organisms/Header15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.header15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.header15 {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  background-color: var(--header-bg, var(--background-primary-color, #faf8f4));
+  color: var(--header-text, var(--text-color-base, #1a1714));
+  font-family: var(--header-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.header15 *,
+.header15 *::before,
+.header15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.header15 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.header15 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.header15 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.header15 svg {
+  display: block;
+  flex: none;
+}
+.header15 a:hover,
+.header15 button:hover {
+  opacity: 0.8;
+}
+.header15 :where(a, button, input):focus-visible {
+  outline: 1px solid var(--header-accent, var(--text-color-base, #7a5f1c));
+  outline-offset: 2px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.mob {
+  display: none !important;
+}
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 34px;
+  padding: 0 16px;
+  background-color: var(--header-topbar-bg, var(--background-secundary-color, #1a1714));
+  color: var(--header-topbar-text, var(--text-color-secundary, #faf8f4));
+  text-align: center;
+}
+
+.topbarText,
+.topbarSep {
+  font-family: var(--header-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  max-width: 1280px;
+  min-height: 92px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 40px);
+}
+
+.barStart {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.barEnd {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  min-width: 0;
+}
+
+.iconButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+
+.search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 280px;
+  min-height: 44px;
+  margin: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1714)) 14%, var(--header-bg, var(--background-primary-color, #faf8f4)));
+}
+
+.searchSubmit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchInput {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--header-text, var(--text-color-base, #1a1714));
+  font-size: 13px;
+  appearance: none;
+}
+.searchInput::placeholder {
+  color: color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1714)) 66%, var(--header-bg, var(--background-primary-color, #faf8f4)));
+  opacity: 1;
+}
+.searchInput::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+.suggestions {
+  position: absolute;
+  top: calc(100% + 1px);
+  left: 0;
+  z-index: 20;
+  width: max(100%, 320px);
+  padding: 8px 0;
+  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1714)) 14%, var(--header-bg, var(--background-primary-color, #faf8f4)));
+  background-color: var(--header-bg, var(--background-primary-color, #faf8f4));
+  box-shadow: 0 12px 32px rgba(26, 23, 20, 0.12);
+  font-size: 14px;
+}
+
+.suggestTerms {
+  display: block;
+}
+
+.suggestProducts {
+  border-top: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1714)) 14%, var(--header-bg, var(--background-primary-color, #faf8f4)));
+}
+.suggestProducts:first-child {
+  border-top: 0;
+}
+
+.suggestTerm,
+.suggestProduct {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 16px;
+  text-align: left;
+}
+.suggestTerm:hover, .suggestTerm:focus-visible,
+.suggestProduct:hover,
+.suggestProduct:focus-visible {
+  background-color: color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1714)) 14%, var(--header-bg, var(--background-primary-color, #faf8f4)));
+}
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.logo img {
+  display: block;
+  width: auto;
+  height: 34px;
+}
+
+.logoText {
+  padding-left: 0.3em;
+  font-family: var(--header-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 34px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.logoRule {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fio {
+  display: block;
+  width: 28px;
+  height: 1px;
+  background-color: var(--header-accent, var(--text-color-base, #7a5f1c));
+}
+
+.tagline {
+  font-family: var(--header-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--header-accent, var(--text-color-base, #7a5f1c));
+}
+.cart {
+  color: inherit;
+}
+
+.cartBadge {
+  position: absolute;
+  top: 5px;
+  right: 3px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  background-color: var(--header-accent, var(--text-color-base, #7a5f1c));
+  color: var(--header-bg, var(--background-primary-color, #faf8f4));
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 17px;
+  text-align: center;
+}
+.nav {
+  border-top: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1714)) 14%, var(--header-bg, var(--background-primary-color, #faf8f4)));
+  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1714)) 14%, var(--header-bg, var(--background-primary-color, #faf8f4)));
+}
+
+.navList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.navEntry {
+  position: relative;
+}
+
+.navItem {
+  font-family: var(--header-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 22px;
+  font-weight: 500;
+}
+
+.marked {
+  box-shadow: inset 0 -1px 0 var(--header-accent, var(--text-color-base, #7a5f1c));
+}
+
+.accent {
+  color: var(--header-accent, var(--text-color-base, #7a5f1c));
+}
+
+.submenu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  z-index: 20;
+  display: none;
+  min-width: 220px;
+  padding: 8px 0;
+  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1714)) 14%, var(--header-bg, var(--background-primary-color, #faf8f4)));
+  background-color: var(--header-bg, var(--background-primary-color, #faf8f4));
+  transform: translateX(-50%);
+  box-shadow: 0 12px 32px rgba(26, 23, 20, 0.12);
+}
+.navEntry:hover .submenu, .navEntry:focus-within .submenu {
+  display: block;
+}
+
+.submenuItem {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 22px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.msearch,
+.drawer {
+  display: none;
+}
+@container (max-width: 960px) {
+  .dsk,
+  .nav {
+    display: none !important;
+  }
+  .mob {
+    display: flex !important;
+  }
+  .topbar {
+    height: 32px;
+    min-height: 0;
+    padding: 0 12px;
+  }
+  .topbarText {
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    white-space: nowrap;
+  }
+  .bar {
+    grid-template-columns: 92px 1fr 92px;
+    gap: 0;
+    max-width: none;
+    height: 68px;
+    min-height: 0;
+    padding: 0 4px;
+    border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1714)) 14%, var(--header-bg, var(--background-primary-color, #faf8f4)));
+  }
+  .barEnd {
+    gap: 0;
+  }
+  .logo {
+    gap: 5px;
+  }
+  .logo img {
+    height: 23px;
+  }
+  .logoText {
+    padding-left: 0.26em;
+    font-size: 23px;
+    letter-spacing: 0.26em;
+  }
+  .fio {
+    width: 40px;
+  }
+  .msearch {
+    display: block;
+    padding: 4px 16px 12px;
+    border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1714)) 14%, var(--header-bg, var(--background-primary-color, #faf8f4)));
+  }
+  .msearch .search,
+  .msearch .suggestions {
+    width: 100%;
+  }
+  .drawer {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    height: calc(100dvh - 100px);
+    padding: 12px 24px 0;
+    overflow-y: auto;
+    background-color: var(--header-bg, var(--background-primary-color, #faf8f4));
+  }
+  .drawerList {
+    display: flex;
+    flex-direction: column;
+  }
+  .drawerEntry {
+    border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #1a1714)) 14%, var(--header-bg, var(--background-primary-color, #faf8f4)));
+  }
+  .drawerItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 62px;
+    text-align: left;
+  }
+  .drawerLabel {
+    font-family: var(--header-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+    font-size: 30px;
+    line-height: 1;
+  }
+  .accent .drawerLabel {
+    font-style: italic;
+  }
+  .chevron,
+  .chevronOpen {
+    display: block;
+  }
+  .chevron svg,
+  .chevronOpen svg {
+    transition: transform 0.2s ease;
+  }
+  .chevronOpen svg {
+    transform: rotate(90deg);
+  }
+  .drawerSub {
+    padding: 0 0 12px 4px;
+    font-size: 14px;
+  }
+  .drawerSub a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+  }
+  .drawerFoot {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: auto;
+    padding: 20px 0 28px;
+    font-size: 14px;
+  }
+  .drawerTitle {
+    font-family: var(--header-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    padding-bottom: 8px;
+    color: var(--header-accent, var(--text-color-base, #7a5f1c));
+  }
+  .drawerLink {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 46px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chevron svg,
+  .chevronOpen svg {
+    transition: none;
+  }
+}
+
+.header15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

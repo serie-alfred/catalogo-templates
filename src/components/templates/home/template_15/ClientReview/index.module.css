@@ -1,0 +1,223 @@
+/* Espelha organisms/ClientReview15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.clientReview15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.clientReview15 {
+  width: 100%;
+  background-color: var(--socialproof-bg, #efe8db);
+  color: var(--socialproof-text, var(--text-primary-color, #1a1714));
+  font-family: var(--socialproof-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.clientReview15 *,
+.clientReview15 *::before,
+.clientReview15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.clientReview15 :where(h2, p) {
+  margin: 0;
+}
+.clientReview15 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.clientReview15 svg {
+  display: block;
+  flex: none;
+}
+
+.eyebrow,
+.author {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  color: var(--socialproof-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 104px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--socialproof-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+.title em {
+  font-style: italic;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding: 8px 40px;
+  border-left: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #1a1714)) 16%, var(--socialproof-bg, #efe8db));
+  text-align: center;
+}
+
+.stars {
+  display: flex;
+  gap: 4px;
+  color: var(--socialproof-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.quote {
+  font-family: var(--socialproof-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 24px;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.rule {
+  width: 32px;
+  height: 1px;
+  background-color: var(--socialproof-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.person {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.product {
+  color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #1a1714)) 70%, var(--socialproof-bg, #efe8db));
+  font-size: 13px;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #1a1714)) 16%, var(--socialproof-bg, #efe8db)) !important;
+}
+.arrow:hover {
+  opacity: 0.8;
+}
+.arrow:focus-visible {
+  outline: 1px solid var(--socialproof-accent, var(--background-primary-color, #7a5f1c));
+  outline-offset: 3px;
+}
+
+.arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+.arrowNext {
+  border-color: var(--socialproof-text, var(--text-primary-color, #1a1714)) !important;
+}
+
+.count {
+  display: none;
+  font-family: var(--socialproof-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 18px;
+  font-style: italic;
+}
+
+.muted {
+  color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #1a1714)) 70%, var(--socialproof-bg, #efe8db));
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    align-items: center;
+    gap: 32px;
+    padding: 64px 24px;
+    text-align: center;
+  }
+  .head {
+    gap: 10px;
+  }
+  .title {
+    font-size: 36px;
+  }
+  .grid {
+    display: block;
+  }
+  .card {
+    gap: 18px;
+    padding: 0;
+    border-left: 0;
+  }
+  .card + .card {
+    display: none;
+  }
+  .quote {
+    font-size: 23px;
+  }
+  .nav {
+    gap: 16px;
+  }
+  .arrow {
+    width: 44px;
+    height: 44px;
+  }
+  .arrow svg {
+    width: 16px;
+    height: 16px;
+  }
+  .count {
+    display: block;
+  }
+}
+
+.clientReview15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

@@ -1,0 +1,188 @@
+/* Espelha organisms/HelpFloatButton15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   com o @media mantido (overlay fixo na viewport).
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.helpFloatButton15 {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1500;
+  color: var(--help-text, var(--text-primary-color, #1a1714));
+  font-family: var(--help-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.helpFloatButton15 *,
+.helpFloatButton15 *::before,
+.helpFloatButton15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.helpFloatButton15 :where(h2) {
+  margin: 0;
+}
+.helpFloatButton15 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.helpFloatButton15 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.helpFloatButton15 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.helpFloatButton15 :where(a, button):focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 2px;
+}
+.helpFloatButton15 svg {
+  display: block;
+  flex: none;
+}
+
+.overlay {
+  display: none;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background-color: var(--help-header-bg, var(--background-primary-color, #1a1714));
+  color: var(--help-header-text, var(--text-color-base, #faf8f4));
+}
+.toggle:hover {
+  opacity: 0.9;
+}
+
+.panel {
+  position: absolute;
+  right: 0;
+  bottom: 80px;
+  width: 340px;
+  background-color: var(--help-bg, #faf8f4);
+  box-shadow: 0 18px 40px rgba(26, 23, 20, 0.16);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22px 16px 18px 24px;
+  background-color: var(--help-header-bg, var(--background-primary-color, #1a1714));
+  color: var(--help-header-text, var(--text-color-base, #faf8f4));
+}
+
+.headText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.title {
+  font-family: var(--help-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.subtitle {
+  font-size: 12px;
+  opacity: 0.86;
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+.close:hover {
+  opacity: 0.8;
+}
+
+.list {
+  padding: 4px 24px 8px;
+  font-size: 14px;
+}
+
+.entry + .entry {
+  border-top: 1px solid color-mix(in srgb, var(--help-text, var(--text-primary-color, #1a1714)) 14%, var(--help-bg, #faf8f4));
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 56px;
+}
+.item:is(a):hover {
+  opacity: 0.75;
+}
+
+.itemText {
+  flex: 1;
+}
+
+@media (max-width: 960px) {
+  .helpFloatButton15 {
+    right: 16px;
+    bottom: 16px;
+  }
+  .toggleOpen {
+    display: none;
+  }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    display: block;
+    background-color: rgba(26, 23, 20, 0.45);
+  }
+  .panel {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    max-height: 100dvh;
+    overflow-y: auto;
+    box-shadow: none;
+  }
+  .head {
+    padding: 22px 8px 18px 24px;
+  }
+  .close {
+    width: 48px;
+    height: 48px;
+  }
+  .close .closeIcon {
+    width: 20px;
+    height: 20px;
+  }
+  .list {
+    padding: 4px 24px 28px;
+    font-size: 15px;
+  }
+  .item {
+    min-height: 60px;
+  }
+  .item .itemIcon {
+    width: 19px;
+    height: 19px;
+  }
+}
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

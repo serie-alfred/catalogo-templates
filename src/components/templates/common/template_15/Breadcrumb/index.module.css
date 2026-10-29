@@ -1,0 +1,99 @@
+/* Espelha sass/breadcrumb15.module.scss (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.breadcrumbSection15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.breadcrumbSection15 [data-fs-breadcrumb] {
+  padding: 0;
+}
+
+.breadcrumb15 {
+  width: 100%;
+  background-color: var(--breadcrumb-bg, #faf8f4);
+  color: var(--breadcrumb-text, var(--text-primary-color, #1a1714));
+  font-family: var(--breadcrumb-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.breadcrumb15 *,
+.breadcrumb15 *::before,
+.breadcrumb15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+
+.inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 clamp(16px, 3vw, 40px);
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.sep {
+  width: 18px;
+  height: 1px;
+  background-color: var(--breadcrumb-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #1a1714)) 66%, var(--breadcrumb-bg, #faf8f4));
+  text-decoration: none;
+}
+.link:hover {
+  opacity: 0.8;
+}
+.link:focus-visible {
+  outline: 1px solid var(--breadcrumb-accent, var(--background-primary-color, #7a5f1c));
+  outline-offset: 2px;
+}
+
+.current {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    padding: 0 16px;
+    overflow-x: auto;
+  }
+  .list {
+    flex-wrap: nowrap;
+    gap: 10px;
+    min-height: 52px;
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    white-space: nowrap;
+  }
+  .sep {
+    flex: none;
+    width: 14px;
+  }
+}
+
+.breadcrumbSection15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

@@ -1,0 +1,414 @@
+/* Espelha organisms/CartSidebar15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.cartSidebar15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.cartSidebar15 {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  visibility: hidden;
+  pointer-events: none;
+  color: var(--cart-text, var(--text-primary-color, #1a1714));
+  font-family: var(--font-secundary, "Manrope", system-ui, sans-serif);
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.cartSidebar15 *,
+.cartSidebar15 *::before,
+.cartSidebar15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.cartSidebar15 :where(h2, p) {
+  margin: 0;
+  color: inherit;
+}
+.cartSidebar15 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cartSidebar15 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.cartSidebar15 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.cartSidebar15 :where(a, button):focus-visible {
+  outline: 1px solid var(--cart-text, var(--text-primary-color, #1a1714));
+  outline-offset: 2px;
+}
+.cartSidebar15 img {
+  display: block;
+}
+.cartSidebar15 svg {
+  display: block;
+  flex: none;
+}
+.cartSidebar15.open {
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(26, 23, 20, 0.5);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.open .overlay {
+  opacity: 1;
+}
+
+.drawer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  width: 460px;
+  max-width: 100%;
+  background-color: #faf8f4;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+.open .drawer {
+  transform: none;
+}
+.head {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 32px 24px;
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, #faf8f4);
+}
+
+.headText {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.count {
+  font-family: var(--font-secundary, "Manrope", system-ui, sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+}
+
+.title {
+  font-family: var(--font-primary, "Cormorant Garamond", Georgia, serif);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, #faf8f4);
+}
+.close:hover {
+  opacity: 0.8;
+}
+.list {
+  flex: 1;
+  padding: 0 32px;
+  overflow: auto;
+}
+
+.line {
+  display: flex;
+  gap: 20px;
+  padding: 28px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, #faf8f4);
+}
+
+.lineImage {
+  flex: none;
+  width: 104px;
+  height: 130px;
+  overflow: hidden;
+  background-color: #e6dfd2;
+}
+.lineImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lineBody {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.lineBrand {
+  font-family: var(--font-secundary, "Manrope", system-ui, sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  font-size: 10px;
+}
+
+.lineName {
+  font-family: var(--font-primary, "Cormorant Garamond", Georgia, serif);
+  font-size: 22px;
+  line-height: 1.15;
+}
+.lineName:is(a):hover {
+  opacity: 0.8;
+}
+
+.lineVariation {
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  font-size: 12px;
+}
+
+.lineActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, #faf8f4);
+}
+.qty button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+.qty button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.qtyValue {
+  width: 24px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.linePrice {
+  font-size: 15px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.remove {
+  align-self: flex-start;
+  min-height: 32px;
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  font-size: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.remove:hover {
+  opacity: 0.8;
+}
+.footer {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 32px 28px;
+  border-top: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, #faf8f4);
+  background-color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 5%, #faf8f4);
+}
+
+.subtotal {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.subtotalLabel {
+  font-family: var(--font-secundary, "Manrope", system-ui, sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.subtotalValue {
+  font-family: var(--font-primary, "Cormorant Garamond", Georgia, serif);
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.note {
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  font-size: 12px;
+}
+
+.checkout {
+  font-family: var(--font-secundary, "Manrope", system-ui, sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  height: 56px;
+  margin-top: 10px;
+  background-color: var(--cart-button-bg, var(--background-primary-color, #1a1714));
+  color: var(--cart-button-text, var(--text-color-base, #faf8f4));
+}
+.checkout:hover {
+  opacity: 0.9;
+}
+.checkout:disabled {
+  cursor: wait;
+}
+
+.continue {
+  font-family: var(--font-secundary, "Manrope", system-ui, sans-serif);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  height: 50px;
+  border: 1px solid var(--cart-text, var(--text-primary-color, #1a1714));
+}
+.continue:hover {
+  opacity: 0.8;
+}
+.empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 32px;
+  text-align: center;
+}
+.empty .continue {
+  align-self: stretch;
+}
+
+.emptyText {
+  font-family: var(--font-primary, "Cormorant Garamond", Georgia, serif);
+  font-size: 26px;
+  line-height: 1.2;
+}
+@container (max-width: 960px) {
+  .drawer {
+    width: 100%;
+  }
+  .head {
+    padding: 16px 8px 16px 20px;
+  }
+  .headText {
+    gap: 4px;
+  }
+  .count {
+    font-size: 10px;
+  }
+  .title {
+    font-size: 30px;
+  }
+  .close {
+    width: 48px;
+    height: 48px;
+    border: 0;
+  }
+  .close .closeIcon {
+    width: 20px;
+    height: 20px;
+  }
+  .list {
+    padding: 0 20px;
+  }
+  .line {
+    gap: 14px;
+    padding: 20px 0;
+  }
+  .lineImage {
+    width: 88px;
+    height: 110px;
+  }
+  .lineBody {
+    gap: 5px;
+  }
+  .dsk {
+    display: none;
+  }
+  .lineName {
+    font-size: 19px;
+  }
+  .lineActions {
+    gap: 6px;
+  }
+  .qtyValue {
+    width: 20px;
+  }
+  .linePrice {
+    font-size: 14px;
+  }
+  .footer {
+    gap: 8px;
+    padding: 18px 20px 22px;
+  }
+  .subtotalValue {
+    font-size: 27px;
+  }
+  .checkout {
+    height: 54px;
+    margin-top: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .drawer {
+    transition: none;
+  }
+}
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+/* Envelope das `@container` da gaveta. No starter ela vai por portal para o <body> e
+   as `@media` decidem; aqui ela fica junto do header (as vars do tema vêm do wrapper
+   acima), e uma camada `position: fixed` dentro de um container-type ficaria presa a
+   ele. Por isso o próprio envelope é a camada fixa do tamanho da tela. */
+.cartSidebar15Box {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  container-type: inline-size;
+  pointer-events: none;
+}

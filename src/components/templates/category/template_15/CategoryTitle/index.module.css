@@ -1,0 +1,166 @@
+/* Espelha organisms/CategoryTitle15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categoryTitle15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categoryTitle15 {
+  width: 100%;
+  background-color: var(--cat-title-bg, #faf8f4);
+  color: var(--cat-title-text, var(--text-primary-color, #1a1714));
+  font-family: var(--cat-title-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categoryTitle15 *,
+.categoryTitle15 *::before,
+.categoryTitle15 *::after {
+  box-sizing: border-box;
+}
+.categoryTitle15 :where(h1, p) {
+  margin: 0;
+}
+.categoryTitle15 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.categoryTitle15 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.categoryTitle15 :where(a):hover {
+  opacity: 0.72;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 80px clamp(16px, 3vw, 40px) 56px;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--cat-title-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--cat-title-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.title {
+  font-family: var(--cat-title-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 76px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+.count {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rule {
+  width: 32px;
+  height: 1px;
+  background-color: var(--cat-title-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.countText {
+  font-family: var(--cat-title-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #1a1714)) 66%, var(--cat-title-bg, #faf8f4));
+}
+
+.chips {
+  margin-top: 20px;
+}
+
+.chipList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 20px;
+  border: 1px solid color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #1a1714)) 16%, var(--cat-title-bg, #faf8f4));
+  font-size: 13px;
+}
+.chip:focus-visible {
+  outline: 1px solid var(--cat-title-accent, var(--background-primary-color, #7a5f1c));
+  outline-offset: 2px;
+}
+
+.chipQty {
+  color: color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #1a1714)) 66%, var(--cat-title-bg, #faf8f4));
+}
+
+.chipActive {
+  border-color: var(--cat-title-accent, var(--background-primary-color, #7a5f1c));
+}
+
+@container (max-width: 960px) {
+  .categoryTitle15 {
+    overflow: hidden;
+  }
+  .inner {
+    gap: 10px;
+    padding: 40px 0 28px;
+  }
+  .title {
+    font-size: 50px;
+  }
+  .count {
+    gap: 12px;
+  }
+  .rule {
+    width: 24px;
+  }
+  .chips {
+    align-self: stretch;
+    margin-top: 14px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+  .chipList {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    width: max-content;
+    padding: 0 16px;
+    white-space: nowrap;
+  }
+  .chipItem {
+    flex: none;
+  }
+  .chip {
+    gap: 6px;
+    padding: 0 16px;
+  }
+}
+
+.categoryTitle15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

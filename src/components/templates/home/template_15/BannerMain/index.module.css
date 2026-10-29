@@ -1,0 +1,298 @@
+/* Espelha organisms/BannerMain15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.bannerMain15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.bannerMain15 {
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--banner-main-bg, var(--background-primary-color, #1a1714));
+  color: var(--banner-main-text, var(--text-color-base, #faf8f4));
+  font-family: var(--banner-main-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bannerMain15 *,
+.bannerMain15 *::before,
+.bannerMain15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.bannerMain15 :where(h2, p) {
+  margin: 0;
+  color: inherit;
+}
+.bannerMain15 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.bannerMain15 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.bannerMain15 svg {
+  display: block;
+  flex: none;
+}
+.bannerMain15 a:hover {
+  opacity: 0.8;
+}
+.bannerMain15 :where(a, button):focus-visible {
+  outline: 1px solid var(--banner-main-accent, #c9a961);
+  outline-offset: 3px;
+}
+
+.eyebrow,
+.primary,
+.secondary {
+  font-family: var(--banner-main-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 48px 72px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 104px clamp(16px, 3vw, 40px);
+}
+
+.content {
+  display: flex;
+  flex: 1 1 380px;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rule {
+  width: 40px;
+  height: 1px;
+  background-color: var(--banner-main-accent, #c9a961);
+}
+
+.title {
+  font-family: var(--banner-main-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 76px;
+  font-weight: 400;
+  line-height: 0.98;
+}
+.title em {
+  font-style: italic;
+}
+
+.text {
+  max-width: 420px;
+  color: color-mix(in srgb, var(--banner-main-text, var(--text-color-base, #faf8f4)) 74%, var(--banner-main-bg, var(--background-primary-color, #1a1714)));
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.primary,
+.secondary {
+  display: flex;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 32px;
+}
+
+.primary {
+  background-color: var(--banner-main-button-bg, var(--text-color-base, #faf8f4));
+  color: var(--banner-main-button-text, var(--background-primary-color, #1a1714));
+}
+
+.secondary {
+  min-height: 54px;
+  border: 1px solid color-mix(in srgb, var(--banner-main-text, var(--text-color-base, #faf8f4)) 26%, var(--banner-main-bg, var(--background-primary-color, #1a1714)));
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 56px;
+}
+
+.count {
+  font-family: var(--banner-main-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 20px;
+  font-style: italic;
+}
+
+.muted {
+  color: color-mix(in srgb, var(--banner-main-text, var(--text-color-base, #faf8f4)) 74%, var(--banner-main-bg, var(--background-primary-color, #1a1714)));
+}
+
+.bars {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+}
+.bar span {
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: color-mix(in srgb, var(--banner-main-text, var(--text-color-base, #faf8f4)) 26%, var(--banner-main-bg, var(--background-primary-color, #1a1714)));
+}
+
+.barOn {
+  width: 48px;
+}
+.barOn span {
+  background-color: var(--banner-main-accent, #c9a961);
+}
+
+.arrows {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid color-mix(in srgb, var(--banner-main-text, var(--text-color-base, #faf8f4)) 26%, var(--banner-main-bg, var(--background-primary-color, #1a1714))) !important;
+}
+
+.media {
+  position: relative;
+  display: block;
+  flex: 1 1 560px;
+  min-width: 0;
+  aspect-ratio: 4/3;
+  background-color: #2e2823;
+  outline: 1px solid var(--banner-main-accent, #c9a961);
+  outline-offset: 14px;
+}
+.media:hover {
+  opacity: 1 !important;
+}
+.media picture,
+.media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.media img {
+  object-fit: cover;
+}
+
+.navMob {
+  display: none;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+  }
+  .media {
+    order: -1;
+    flex: none;
+    height: 440px;
+    aspect-ratio: auto;
+    outline: 0;
+    border-bottom: 1px solid var(--banner-main-accent, #c9a961);
+  }
+  .content {
+    flex: none;
+    padding: 40px 24px 0;
+  }
+  .copy {
+    gap: 20px;
+  }
+  .eyebrow {
+    gap: 12px;
+  }
+  .rule {
+    width: 32px;
+  }
+  .title {
+    font-size: 46px;
+    line-height: 1;
+  }
+  .text {
+    max-width: none;
+    font-size: 15px;
+    line-height: 1.65;
+  }
+  .ctas {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .primary,
+  .secondary {
+    justify-content: center;
+    padding: 0;
+  }
+  .nav {
+    display: none;
+  }
+  .navMob {
+    display: flex;
+    justify-content: center;
+    padding: 32px 24px 44px;
+  }
+  .bar {
+    width: 20px;
+  }
+  .barOn {
+    width: 40px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bannerMain15 * {
+    transition: none !important;
+  }
+}
+
+.bannerMain15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

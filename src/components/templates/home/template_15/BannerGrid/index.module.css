@@ -1,0 +1,211 @@
+/* Espelha molecules/BannerGrid15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.bannerGrid15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.bannerGrid15 {
+  width: 100%;
+  background-color: var(--banner-grid-bg, #faf8f4);
+  color: var(--banner-grid-text, var(--text-primary-color, #1a1714));
+  font-family: var(--banner-grid-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bannerGrid15 *,
+.bannerGrid15 *::before,
+.bannerGrid15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.bannerGrid15 :where(h2) {
+  margin: 0;
+}
+.bannerGrid15 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.bannerGrid15 a:hover {
+  opacity: 0.8;
+}
+.bannerGrid15 a:focus-visible {
+  outline: 1px solid var(--banner-grid-accent, var(--background-primary-color, #7a5f1c));
+  outline-offset: 3px;
+}
+
+.eyebrow,
+.cta {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  color: var(--banner-grid-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 104px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.title,
+.cardTitle {
+  color: var(--banner-grid-title-color, var(--text-primary-color, #1a1714));
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-weight: 400;
+}
+.title em,
+.cardTitle em {
+  font-style: italic;
+}
+
+.title {
+  font-size: 52px;
+  line-height: 1.05;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.side {
+  display: flex;
+  flex: 5 1 360px;
+  flex-direction: column;
+  gap: 40px;
+  min-width: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.cardMain {
+  flex: 7 1 520px;
+  gap: 22px;
+  min-width: 0;
+}
+
+.media {
+  display: block;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background-color: #dcd3c4;
+}
+.media picture,
+.media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.media img {
+  object-fit: cover;
+}
+
+.cardMain .media {
+  aspect-ratio: 1/1;
+  background-color: #e6dfd2;
+}
+
+.side .card:nth-child(even) .media {
+  background-color: #e9e3d8;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardMain .copy {
+  gap: 10px;
+}
+
+.cardTitle {
+  font-size: 30px;
+  line-height: 1.1;
+}
+
+.cardMain .cardTitle {
+  font-size: 36px;
+}
+
+.cta {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  min-height: 37px;
+  border-bottom: 1px solid var(--banner-grid-accent, var(--background-primary-color, #7a5f1c));
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 36px;
+    padding: 64px 16px;
+  }
+  .head {
+    gap: 10px;
+  }
+  .title {
+    font-size: 36px;
+  }
+  .grid,
+  .side {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 36px;
+  }
+  .side,
+  .cardMain {
+    flex: none;
+  }
+  .card,
+  .cardMain {
+    gap: 16px;
+  }
+  .media {
+    aspect-ratio: 4/3;
+  }
+  .cardMain .media {
+    aspect-ratio: 4/5;
+  }
+  .copy,
+  .cardMain .copy {
+    gap: 8px;
+  }
+  .cardTitle {
+    font-size: 26px;
+  }
+  .cardMain .cardTitle {
+    font-size: 28px;
+  }
+  .cta {
+    min-height: 45px;
+  }
+}
+
+.bannerGrid15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

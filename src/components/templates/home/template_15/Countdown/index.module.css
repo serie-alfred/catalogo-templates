@@ -1,0 +1,215 @@
+/* Espelha organisms/Countdown15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.countdown15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.countdown15 {
+  width: 100%;
+  background-color: var(--countdown-bg, #efe8db);
+  color: var(--countdown-text, var(--text-primary-color, #1a1714));
+  font-family: var(--countdown-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.countdown15 *,
+.countdown15 *::before,
+.countdown15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.countdown15 :where(h2, p) {
+  margin: 0;
+}
+.countdown15 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.countdown15 a:hover {
+  opacity: 0.8;
+}
+.countdown15 a:focus-visible {
+  outline: 1px solid var(--countdown-accent, var(--background-primary-color, #7a5f1c));
+  outline-offset: 3px;
+}
+
+.eyebrow,
+.unitLabel,
+.cta {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 48px 88px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 104px clamp(16px, 3vw, 40px);
+}
+
+.media {
+  display: block;
+  flex: 1 1 420px;
+  min-width: 0;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  background-color: #dcd3c4;
+}
+.media:hover {
+  opacity: 1 !important;
+}
+.media picture,
+.media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.media img {
+  object-fit: cover;
+}
+
+.body {
+  display: flex;
+  flex: 1 1 460px;
+  flex-direction: column;
+  gap: 28px;
+  min-width: 0;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--countdown-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.rule {
+  width: 40px;
+  height: 1px;
+  background-color: var(--countdown-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.title {
+  font-family: var(--countdown-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+.title em {
+  font-style: italic;
+}
+
+.timer {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--countdown-accent, var(--background-primary-color, #7a5f1c));
+  border-bottom: 1px solid var(--countdown-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 22px 0;
+}
+.unit + .unit {
+  border-left: 1px solid color-mix(in srgb, var(--countdown-text, var(--text-primary-color, #1a1714)) 16%, var(--countdown-bg, #efe8db));
+}
+.unit:last-child .value {
+  font-style: italic;
+}
+
+.value {
+  font-family: var(--countdown-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 64px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.text {
+  max-width: 460px;
+  color: color-mix(in srgb, var(--countdown-text, var(--text-primary-color, #1a1714)) 70%, var(--countdown-bg, #efe8db));
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.cta {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  min-height: 54px;
+  padding: 0 32px;
+  border: 1px solid var(--countdown-text, var(--text-primary-color, #1a1714));
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 0;
+    padding: 0;
+  }
+  .media {
+    flex: none;
+    height: 300px;
+    aspect-ratio: auto;
+  }
+  .body {
+    flex: none;
+    gap: 22px;
+    padding: 44px 16px 56px;
+  }
+  .eyebrow {
+    gap: 12px;
+  }
+  .rule {
+    width: 32px;
+  }
+  .title {
+    font-size: 36px;
+  }
+  .unit {
+    gap: 4px;
+    padding: 16px 0;
+  }
+  .value {
+    font-size: 42px;
+  }
+  .unitLabel {
+    font-size: 10px;
+  }
+  .text {
+    max-width: none;
+    line-height: 1.65;
+  }
+  .cta {
+    align-self: stretch;
+    justify-content: center;
+    padding: 0;
+  }
+}
+
+.countdown15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

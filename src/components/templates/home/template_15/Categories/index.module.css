@@ -1,0 +1,189 @@
+/* Espelha molecules/Categories15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categories15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categories15 {
+  width: 100%;
+  background-color: var(--categories-bg, #faf8f4);
+  color: var(--categories-text, var(--text-primary-color, #1a1714));
+  font-family: var(--categories-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categories15 *,
+.categories15 *::before,
+.categories15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.categories15 :where(h2) {
+  margin: 0;
+}
+.categories15 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.categories15 a:hover {
+  opacity: 0.8;
+}
+.categories15 a:focus-visible {
+  outline: 1px solid var(--categories-accent, var(--background-primary-color, #7a5f1c));
+  outline-offset: 3px;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 104px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.eyebrow,
+.more {
+  color: var(--categories-accent, var(--background-primary-color, #7a5f1c));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.title {
+  color: var(--categories-title-color, var(--text-primary-color, #1a1714));
+  font-family: var(--categories-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+.title em {
+  font-style: italic;
+}
+
+.headRule {
+  width: 56px;
+  height: 1px;
+  margin-top: 6px;
+  background-color: var(--categories-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  min-width: 0;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.media {
+  display: block;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background-color: #e6dfd2;
+}
+.media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item:nth-child(4n+2) .media {
+  background-color: #dcd3c4;
+}
+
+.item:nth-child(4n+3) .media {
+  background-color: #e9e3d8;
+}
+
+.item:nth-child(4n+4) .media {
+  background-color: #d9cfbf;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid color-mix(in srgb, var(--categories-text, var(--text-primary-color, #1a1714)) 14%, var(--categories-bg, #faf8f4));
+}
+
+.name {
+  font-family: var(--categories-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 28px;
+  line-height: 1.1;
+}
+
+.arrow {
+  display: none;
+  flex: none;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 32px;
+    padding: 64px 16px;
+  }
+  .head {
+    gap: 10px;
+  }
+  .title {
+    font-size: 36px;
+  }
+  .headRule {
+    width: 40px;
+    margin-top: 4px;
+  }
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px 12px;
+  }
+  .card {
+    gap: 10px;
+  }
+  .row {
+    align-items: center;
+    gap: 8px;
+    min-height: 39px;
+    padding-bottom: 6px;
+  }
+  .name {
+    font-size: 23px;
+  }
+  .more {
+    display: none;
+  }
+  .arrow {
+    display: block;
+  }
+}
+
+.categories15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

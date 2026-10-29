@@ -1,0 +1,435 @@
+/* Espelha molecules/ProductCard15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productCard15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productCard15 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+  color: var(--spot-text, var(--text-primary-color, #1a1714));
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.productCard15 *,
+.productCard15 *::before,
+.productCard15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.productCard15 :where(h3) {
+  margin: 0;
+  font-weight: 400;
+}
+.productCard15 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.productCard15 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.productCard15 svg {
+  display: block;
+  flex: none;
+}
+@container (min-width: 961px) {
+  .productCard15:not(.soldOut):hover .media, .productCard15:not(.soldOut):focus-within .media {
+    background-color: #d6ccbb;
+    box-shadow: inset 0 0 0 1px var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+  }
+  .productCard15:not(.soldOut):hover .buy, .productCard15:not(.soldOut):focus-within .buy {
+    opacity: 1;
+    transform: none;
+  }
+  .productCard15:not(.soldOut):hover .name a, .productCard15:not(.soldOut):focus-within .name a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
+  }
+  .productCard15:not(.soldOut):hover .imgHover {
+    opacity: 1;
+  }
+}
+
+.mob {
+  display: none !important;
+}
+.media {
+  position: relative;
+  aspect-ratio: 4/5;
+  overflow: hidden;
+  background-color: #e6dfd2;
+}
+
+.mediaLink {
+  position: absolute;
+  inset: 0;
+}
+
+.img,
+.imgHover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imgHover {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tag {
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 6px 10px;
+  background-color: var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+  color: var(--spot-tag-text, var(--text-color-base, #faf8f4));
+  font-size: 10.5px;
+  pointer-events: none;
+}
+
+.outTag {
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 12px 18px;
+  border-top: 1px solid var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+  border-bottom: 1px solid var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+  background-color: #faf8f4;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.favorite {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+.favorite:hover {
+  opacity: 0.8;
+}
+.favorite:disabled {
+  cursor: wait;
+}
+.favorite[aria-pressed=true] {
+  color: var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+}
+.favorite:focus-visible {
+  outline: 1px solid var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+  outline-offset: -4px;
+}
+
+.buy {
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  left: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 50px;
+  background-color: var(--spot-btn-bg, var(--background-primary-color, #1a1714));
+  color: var(--spot-btn-text, var(--text-color-base, #faf8f4));
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.buy:focus-visible {
+  outline: 1px solid var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+  outline-offset: 3px;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  text-align: center;
+}
+
+.brand {
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+}
+
+.name {
+  font-family: var(--spot-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 24px;
+  line-height: 1.15;
+}
+.name a:hover {
+  opacity: 0.8;
+}
+
+.price {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.priceRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.listPrice {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  font-size: 12px;
+  text-decoration: line-through;
+}
+
+.discount {
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+  letter-spacing: 0.1em;
+}
+
+.installment {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  font-size: 12px;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.soldOut .media {
+  background-color: #eae5dc;
+}
+.soldOut .brand,
+.soldOut .name,
+.soldOut .price {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+}
+.soldOut .price {
+  letter-spacing: normal;
+}
+
+.notify {
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 50px;
+  margin-top: 8px;
+  border: 1px solid var(--spot-text, var(--text-primary-color, #1a1714));
+  white-space: nowrap;
+}
+.notify:hover {
+  opacity: 0.8;
+}
+.notify:focus-visible {
+  outline: 1px solid var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+  outline-offset: 3px;
+}
+
+.buyWide {
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  height: 44px;
+  background-color: var(--spot-btn-bg, var(--background-primary-color, #1a1714));
+  color: var(--spot-btn-text, var(--text-color-base, #faf8f4));
+}
+.buyWide:focus-visible {
+  outline: 1px solid var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imgHover,
+  .buy {
+    transition: none;
+  }
+}
+@container (max-width: 960px) {
+  .productCard15 {
+    gap: 12px;
+  }
+  .dsk {
+    display: none !important;
+  }
+  .mob {
+    display: revert !important;
+  }
+  .buyWide.mob {
+    display: block !important;
+  }
+  .tag {
+    top: 8px;
+    left: 8px;
+    padding: 4px 7px;
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+  }
+  .outTag {
+    padding: 8px 12px;
+    font-size: 10px;
+  }
+  .favorite {
+    top: 0;
+    right: 0;
+  }
+  .favorite .heart {
+    width: 17px;
+    height: 17px;
+  }
+  .info {
+    align-items: stretch;
+    gap: 5px;
+    text-align: left;
+  }
+  .brand {
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+  }
+  .name {
+    font-size: 19px;
+  }
+  .price {
+    font-size: 13px;
+    letter-spacing: normal;
+  }
+  .priceRow {
+    justify-content: flex-start;
+    gap: 6px;
+  }
+  .notify {
+    gap: 8px;
+    height: 46px;
+    margin-top: 7px;
+  }
+  .notify .bell {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+.productCard15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+/* O quadro do desenho `Spot15` (palco do starter, `Comum15Stage.module.scss`): o creme da
+   família, as colunas do canvas e os rótulos de estado. */
+.spotStage {
+  width: 100%;
+  background-color: #faf8f4;
+  font-family: 'Manrope', system-ui, sans-serif;
+  line-height: normal;
+  letter-spacing: normal;
+}
+.spotGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  align-items: start;
+  box-sizing: border-box;
+  width: 1040px;
+  min-height: 720px;
+  padding: 40px;
+}
+.spotCol {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.spotLabel {
+  color: color-mix(in srgb, #1a1714 66%, #faf8f4);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+/* A coluna "Hover" pinta o estado de hover do card (lá, o comparador passa o mouse). */
+.spotHoverCol .media {
+  background-color: #d6ccbb;
+  box-shadow: inset 0 0 0 1px var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+}
+.spotHoverCol .buy {
+  opacity: 1;
+  transform: none;
+}
+.spotHoverCol .name a {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 5px;
+}
+@container (max-width: 960px) {
+  .spotGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: 375px;
+    min-height: 0;
+    padding: 24px 16px 32px;
+  }
+  .spotCol {
+    gap: 10px;
+  }
+  .spotLabel {
+    font-size: 10px;
+  }
+  .spotHoverCol {
+    display: none;
+  }
+}
