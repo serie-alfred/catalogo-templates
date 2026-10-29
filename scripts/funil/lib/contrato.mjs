@@ -764,8 +764,10 @@ const PARES_IMPOSSIVEIS = new Set([
  * `ProductCard12`), e nenhum manifest 12 declara `usesSpot`.
  * A 13 idem: `ProductShelfCustom13` embrulha `molecules/ProductShelf13` (que importa o
  * `ProductCard13`), e nenhum manifest 13 declara `usesSpot`.
+ * A 16 idem: `ProductShelfCustom16` embrulha `molecules/ProductShelf16` (que importa o
+ * `ProductCard16`), e nenhum manifest 16 declara `usesSpot`.
  */
-const SEM_SUBSTITUICAO = new Set(['07', '08', '09', '10', '11', '12', '13']);
+const SEM_SUBSTITUICAO = new Set(['07', '08', '09', '10', '11', '12', '13', '16']);
 
 const igual = (a, b) => a.length === b.size && a.every(x => b.has(x));
 

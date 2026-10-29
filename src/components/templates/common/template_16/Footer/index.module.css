@@ -1,0 +1,319 @@
+/* Espelha organisms/Footer16 (faststore.starter, família 16): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.footer16Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.footer16 {
+  width: 100%;
+  background-color: var(--footer-bg, var(--background-footer, #2a2350));
+  color: var(--footer-text, var(--text-color-footer, #fffbf2));
+  font-family: var(--footer-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.footer16 *,
+.footer16 *::before,
+.footer16 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.footer16 :where(h2, p) {
+  margin: 0;
+}
+.footer16 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.footer16 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.footer16 :where(a:hover) {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.footer16 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.footer16 :where(a, button):focus-visible {
+  outline: 2px solid var(--footer-accent, var(--background-secundary-color, #ffc93c));
+  outline-offset: 2px;
+}
+.footer16 img,
+.footer16 svg {
+  display: block;
+  flex: none;
+}
+
+.mob {
+  display: none !important;
+}
+
+.wave {
+  width: 100%;
+  height: 32px;
+  fill: #fffbf2;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 40px 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px clamp(16px, 3vw, 40px);
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.logo {
+  display: flex;
+  align-items: flex-start;
+  align-self: flex-start;
+  gap: 3px;
+  font-family: var(--footer-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+}
+.logo:hover {
+  text-decoration: none !important;
+}
+.logo img {
+  width: auto;
+  max-width: 200px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.logoDot {
+  width: 12px;
+  height: 12px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background-color: var(--footer-accent, var(--background-secundary-color, #ffc93c));
+}
+
+.about {
+  max-width: 260px;
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #fffbf2)) 76%, var(--footer-bg, var(--background-footer, #2a2350)));
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.socials {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px !important;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--footer-text, var(--text-color-footer, #fffbf2));
+  border-radius: 50%;
+  transition: transform 0.15s ease;
+}
+.social:hover {
+  transform: scale(1.06);
+}
+
+.blocks {
+  display: contents;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.columnTitle {
+  margin-bottom: 4px !important;
+  color: var(--footer-accent, var(--background-secundary-color, #ffc93c));
+  font-family: var(--footer-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contactPair {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contactLine {
+  color: inherit;
+}
+
+.muted {
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #fffbf2)) 76%, var(--footer-bg, var(--background-footer, #2a2350)));
+}
+
+.contactSep {
+  white-space: pre;
+}
+.bottom {
+  border-top: 2px dashed color-mix(in srgb, var(--footer-text, var(--text-color-footer, #fffbf2)) 22%, var(--footer-bg, var(--background-footer, #2a2350)));
+}
+
+.bottomInner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px clamp(16px, 3vw, 40px) 24px;
+}
+
+.payments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.payment {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #fffbf2)) 12%, var(--footer-bg, var(--background-footer, #2a2350)));
+}
+
+.legal {
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #fffbf2)) 76%, var(--footer-bg, var(--background-footer, #2a2350)));
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social {
+    transition: none;
+  }
+  .social:hover {
+    transform: none;
+  }
+}
+@container (max-width: 960px) {
+  .dsk {
+    display: none !important;
+  }
+  .mob {
+    display: revert !important;
+  }
+  .wave {
+    height: 20px;
+  }
+  .wave.mob {
+    display: block !important;
+  }
+  .grid {
+    display: block;
+    padding: 0;
+  }
+  .brand {
+    gap: 14px;
+    padding: 28px 16px 8px;
+  }
+  .logo {
+    font-size: 30px;
+  }
+  .logoDot {
+    width: 11px;
+    height: 11px;
+  }
+  .about {
+    max-width: none;
+  }
+  .socials {
+    margin-top: 0 !important;
+  }
+  .blocks {
+    display: block;
+    padding: 16px 16px 0;
+  }
+  .column {
+    gap: 0;
+    border-bottom: 2px dashed color-mix(in srgb, var(--footer-text, var(--text-color-footer, #fffbf2)) 22%, var(--footer-bg, var(--background-footer, #2a2350)));
+  }
+  .accordion {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 54px;
+    color: var(--footer-accent, var(--background-secundary-color, #ffc93c)) !important;
+    font-family: var(--footer-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif)) !important;
+    font-size: 19px !important;
+    font-weight: 600 !important;
+    text-align: left;
+  }
+  .links {
+    display: none;
+  }
+  .columnOpen {
+    padding-bottom: 14px;
+  }
+  .columnOpen .accordion {
+    min-height: 52px;
+  }
+  .columnOpen .links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 12px;
+  }
+  .columnOpen .links a {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+  }
+  .contact {
+    gap: 6px;
+    padding: 18px 0;
+  }
+  .contactPair {
+    display: block;
+  }
+  .bottom {
+    border-top: 0;
+  }
+  .bottomInner {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px 16px 28px;
+  }
+  .legal {
+    font-size: 12px;
+  }
+}
+
+.footer16Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

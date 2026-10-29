@@ -1,0 +1,261 @@
+/* Espelha organisms/CategorySeoFaq16 (faststore.starter, família 16): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categorySeoFaq16Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categorySeoFaq16 {
+  width: 100%;
+  background-color: var(--cat-desc-bg, #fffbf2);
+  color: var(--cat-desc-text, var(--text-primary-color, #2a2350));
+  font-family: var(--cat-desc-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categorySeoFaq16 *,
+.categorySeoFaq16 *::before,
+.categorySeoFaq16 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.categorySeoFaq16 :where(h2, h3, p) {
+  margin: 0;
+}
+.categorySeoFaq16 :where(a) {
+  color: inherit;
+}
+.categorySeoFaq16 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.box {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 40px 64px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 56px clamp(16px, 3vw, 40px) 64px;
+}
+
+.about {
+  display: flex;
+  flex: 1 1 420px;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.aboutTitle {
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 17px;
+  line-height: 1.65;
+}
+.text > * {
+  margin: 0;
+}
+.text :where(a) {
+  color: var(--cat-desc-accent, var(--background-primary-color, #5b4bdb));
+  font-weight: 800;
+}
+.text :where(ul, ol) {
+  padding-left: 1.2em;
+}
+
+.textClamped > :nth-child(n+3) {
+  display: none;
+}
+
+.more {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--cat-desc-accent, var(--background-primary-color, #5b4bdb));
+  font-size: 16px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+.more:hover {
+  opacity: 0.85;
+}
+.more:focus-visible {
+  outline: 3px solid var(--cat-desc-accent, var(--background-primary-color, #5b4bdb));
+  outline-offset: 2px;
+}
+
+.faq {
+  display: flex;
+  flex: 1 1 480px;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.faqTitle {
+  margin: 0 0 6px;
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 24px;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.faqItem {
+  padding: 0 20px;
+  border: 2px solid color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #2a2350)) 18%, var(--cat-desc-bg, #fffbf2));
+  border-radius: 24px;
+  background-color: #ffffff;
+}
+
+.faqOpen {
+  padding-bottom: 18px;
+  border-color: var(--cat-desc-text, var(--text-primary-color, #2a2350));
+}
+
+.faqHeading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 60px;
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 18px;
+  font-weight: 600;
+  text-align: left;
+}
+.question:focus-visible {
+  outline: 3px solid var(--cat-desc-accent, var(--background-primary-color, #5b4bdb));
+  outline-offset: 2px;
+}
+
+.sign {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--cat-desc-text, var(--text-primary-color, #2a2350));
+  border-radius: 50%;
+}
+.faqOpen .sign {
+  border: 0;
+  background-color: var(--cat-desc-accent, var(--background-primary-color, #5b4bdb));
+  color: var(--text-color-base, #ffffff);
+}
+
+.answer {
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #2a2350)) 72%, #ffffff);
+  font-size: 16px;
+  line-height: 1.6;
+}
+.answer > * {
+  margin: 0;
+}
+.answer > * + * {
+  margin-top: 10px;
+}
+
+.faqHtml {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+@container (min-width: 961px) {
+  .moreNoDesk {
+    display: none;
+  }
+}
+@container (max-width: 960px) {
+  .box {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 14px;
+    padding: 36px 16px 40px;
+  }
+  .about,
+  .faq {
+    flex: none;
+    gap: 14px;
+  }
+  .aboutTitle {
+    font-size: 27px;
+    line-height: 1.12;
+  }
+  .text {
+    gap: 14px;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+  .textClamped > :nth-child(n+2) {
+    display: none;
+  }
+  .more {
+    font-size: 15px;
+    text-underline-offset: 4px;
+  }
+  .moreNoMob {
+    display: none;
+  }
+  .faqTitle {
+    margin: 10px 0 2px;
+    font-size: 21px;
+  }
+  .faqItem {
+    padding: 0 16px;
+    border-radius: 20px;
+  }
+  .faqOpen {
+    padding-bottom: 16px;
+  }
+  .question {
+    gap: 10px;
+    font-size: 17px;
+  }
+  .sign {
+    width: 32px;
+    height: 32px;
+  }
+  .sign svg {
+    width: 14px;
+    height: 14px;
+  }
+  .answer {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+}
+
+.categorySeoFaq16Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

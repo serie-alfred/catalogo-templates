@@ -46,6 +46,7 @@ const NOMES: Record<string, string> = {
   '11': 'Grade',
   '12': 'Suave',
   '13': 'Noturno',
+  '16': 'Infantil',
 };
 
 /**
@@ -189,6 +190,21 @@ export const TEMA_DAS_FAMILIAS: Record<string, TemaDaFamilia> = {
       fontPrimary: 'Barlow Condensed',
       fontSecondary: 'Barlow',
       fontTertiary: 'Barlow',
+    },
+  },
+  '16': {
+    colors: {
+      colorFooter: '#2a2350', // --background-footer: #2A2350×1 [só papéis de fundo: #2A2350×1]
+      colorFooterText: '#fffbf2', // --text-color-footer: #FFFBF2×1
+      colorPrimary: '#2a2350', // --text-primary-color: #2A2350×22
+      colorPrimaryBackground: '#5b4bdb', // --background-primary-color: #5B4BDB×23 [só papéis de fundo: #5B4BDB×8]
+      colorSecondaryBackground: '#ffc93c', // --background-secundary-color: #FFC93C×6 #22B8A7×1 [só papéis de fundo: #FFC93C×4 #22B8A7×1]
+      colorTertiaryBackground: '#ff6f61', // --background-tertiary-color: #FF6F61×4 #FFC93C×2 #22B8A7×1 [só papéis de fundo: #FF6F61×2 #FFC93C×1]
+    },
+    fonts: {
+      fontPrimary: 'Fredoka',
+      fontSecondary: 'Nunito',
+      fontTertiary: 'Nunito',
     },
   },
 };
@@ -354,6 +370,53 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     },
     ProductRelated12: {
       '--showcase-tag-text': '#3b1f33',
+    },
+  },
+  '16': {
+    Header16: {
+      '--header-text': '#2a2350',
+      '--header-topbar-text': '#2a2350',
+    },
+    Spot16: {
+      '--spot-tag-bg': '#ffc93c',
+      '--spot-tag-text': '#2a2350',
+    },
+    Breadcrumb16: {
+      '--breadcrumb-bg': '#fffbf2',
+    },
+    BannerMain16: {
+      '--banner-main-text': '#2a2350',
+    },
+    Ruler16: {
+      '--ruler-bg': '#22b8a7',
+      '--ruler-text': '#2a2350',
+    },
+    ShelfBanner16: {
+      '--banner-side-text': '#2a2350',
+      '--showcase-tag-bg': '#ffc93c',
+    },
+    Showcase16: {
+      '--showcase-tag-bg': '#ffc93c',
+    },
+    CategoryTitle16: {
+      '--cat-title-text': '#2a2350',
+    },
+    PopupNews16: {
+      '--popup-text': '#2a2350',
+    },
+    Newsletter16: {
+      '--newsletter-button-text': '#2a2350',
+    },
+    ProductDescription16: {
+      '--prod-desc-text': '#2a2350',
+      '--prod-desc-accent': '#22b8a7',
+    },
+    ProductInfo16: {
+      '--pdp-text': '#2a2350',
+      '--pdp-accent': '#ffc93c',
+    },
+    Countdown16: {
+      '--countdown-accent-text': '#2a2350',
     },
   },
 };

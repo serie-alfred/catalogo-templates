@@ -1,0 +1,456 @@
+/* Espelha organisms/ProductReviews16 (faststore.starter, família 16): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productReviews16Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productReviews16 {
+  width: 100%;
+  background-color: var(--prod-reviews-bg, #fffbf2);
+  color: var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  font-family: var(--prod-reviews-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.productReviews16 *,
+.productReviews16 *::before,
+.productReviews16 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.productReviews16 :where(h2, h3, p, ul, fieldset) {
+  margin: 0;
+}
+.productReviews16 :where(ul) {
+  padding: 0;
+  list-style: none;
+}
+.productReviews16 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.productReviews16 :where(button, input, textarea):focus-visible {
+  outline: 3px solid var(--prod-reviews-accent, var(--background-primary-color, #5b4bdb));
+  outline-offset: 3px;
+}
+.productReviews16 svg {
+  display: block;
+  flex: none;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 56px clamp(16px, 3vw, 40px) 64px;
+}
+
+.title {
+  font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.08;
+}
+
+.widgetHost {
+  min-height: 200px;
+}
+
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 32px 40px;
+}
+.summary {
+  display: flex;
+  flex: 0 0 340px;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 100%;
+  padding: 28px;
+  border: 2px solid var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  border-radius: 28px;
+  background-color: #ffffff;
+  box-shadow: 0 6px 0 var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+}
+
+.average {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.avgValue {
+  font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.avgSide {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.starsBig,
+.starsSmall {
+  display: flex;
+  gap: 2px;
+  color: var(--prod-reviews-accent, var(--background-primary-color, #5b4bdb));
+}
+
+.starsBig svg {
+  width: 20px;
+  height: 20px;
+}
+
+.starsSmall svg {
+  width: 17px;
+  height: 17px;
+}
+
+.avgCount {
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #2a2350)) 70%, #ffffff);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.dist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.distItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.distLabel {
+  width: 12px;
+}
+
+.bar {
+  position: relative;
+  flex: 1;
+  height: 14px;
+  overflow: hidden;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #2a2350)) 9%, #ffffff);
+}
+
+.barFill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 999px;
+  background-color: var(--prod-reviews-accent, var(--background-primary-color, #5b4bdb));
+}
+
+.empty {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.write {
+  height: 54px;
+  border: 2px solid var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  border-radius: 999px;
+  background-color: var(--prod-reviews-accent, var(--background-primary-color, #5b4bdb));
+  color: var(--text-color-base, #ffffff);
+  box-shadow: 0 4px 0 var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 18px;
+  font-weight: 600;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.summary .write:hover {
+  box-shadow: 0 2px 0 var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  transform: translateY(2px);
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.rate {
+  padding: 0;
+  border: 0;
+}
+
+.label {
+  display: block;
+  margin-bottom: 6px;
+  padding: 0;
+  font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.rateStars {
+  display: flex;
+  gap: 2px;
+  color: var(--prod-reviews-accent, var(--background-primary-color, #5b4bdb));
+}
+
+.rateStar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+}
+.rateStar input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.rateStar:focus-within {
+  border-radius: 50%;
+  outline: 3px solid var(--prod-reviews-accent, var(--background-primary-color, #5b4bdb));
+}
+
+.field {
+  display: block;
+}
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 12px 18px;
+  border: 2px solid var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  border-radius: 24px;
+  outline: none;
+  background-color: #ffffff;
+  color: var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  font-family: var(--prod-reviews-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
+  font-size: 16px;
+}
+.field input {
+  height: 50px;
+  border-radius: 999px;
+}
+.field textarea {
+  resize: vertical;
+}
+
+.formOk,
+.formError {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.submit {
+  height: 52px;
+  border: 2px solid var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  border-radius: 999px;
+  background-color: var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  color: var(--prod-reviews-bg, #fffbf2);
+  font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 17px;
+  font-weight: 600;
+}
+.submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.list {
+  display: flex;
+  flex: 1 1 520px;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px 24px;
+  border: 2px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #2a2350)) 18%, var(--prod-reviews-bg, #fffbf2));
+  border-radius: 24px;
+  background-color: #ffffff;
+}
+
+.reviewTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.date {
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #2a2350)) 70%, #ffffff);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.author {
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #2a2350)) 70%, #ffffff);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.reviewTitle {
+  font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.reviewText {
+  font-size: 16px;
+  line-height: 1.6;
+}
+.pager {
+  display: flex;
+  gap: 8px;
+  font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.pagerBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border: 2px solid var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  border-radius: 50%;
+  background-color: #ffffff;
+}
+
+.pagerOn {
+  border-color: var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  background-color: var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  color: var(--prod-reviews-bg, #fffbf2);
+}
+
+.more {
+  height: 50px;
+  border: 2px solid var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  border-radius: 999px;
+  background-color: #ffffff;
+  font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 17px;
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .write {
+    transition: none;
+  }
+  .summary .write:hover {
+    transform: none;
+  }
+}
+@container (max-width: 960px) {
+  .inner {
+    gap: 18px;
+    padding: 36px 16px 40px;
+  }
+  .title {
+    font-size: 28px;
+    line-height: 1.1;
+  }
+  .body {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 18px;
+  }
+  .summary {
+    flex: none;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 24px;
+    box-shadow: 0 5px 0 var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  }
+  .average {
+    gap: 14px;
+  }
+  .avgValue {
+    font-size: 52px;
+  }
+  .starsBig svg {
+    width: 18px;
+    height: 18px;
+  }
+  .avgCount {
+    font-size: 13px;
+  }
+  .dist {
+    gap: 8px;
+    font-size: 13px;
+  }
+  .distLabel {
+    width: 10px;
+  }
+  .bar {
+    height: 12px;
+  }
+  .write {
+    height: 52px;
+    font-size: 17px;
+  }
+  .list {
+    flex: none;
+    gap: 18px;
+  }
+  .review {
+    gap: 8px;
+    padding: 18px;
+    border-radius: 20px;
+  }
+  .starsSmall svg {
+    width: 15px;
+    height: 15px;
+  }
+  .date,
+  .author {
+    font-size: 12px;
+  }
+  .reviewTitle {
+    font-size: 18px;
+  }
+  .reviewText {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+  .pager {
+    display: none;
+  }
+}
+
+.productReviews16Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

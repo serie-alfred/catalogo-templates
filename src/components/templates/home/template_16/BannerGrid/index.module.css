@@ -1,0 +1,211 @@
+/* Espelha molecules/BannerGrid16 (faststore.starter, família 16): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.bannerGrid16Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.bannerGrid16 {
+  width: 100%;
+  background-color: var(--banner-grid-bg, #fffbf2);
+  color: var(--banner-grid-text, var(--text-primary-color, #2a2350));
+  font-family: var(--banner-grid-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bannerGrid16 *,
+.bannerGrid16 *::before,
+.bannerGrid16 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.bannerGrid16 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.bannerGrid16 img,
+.bannerGrid16 svg {
+  display: block;
+  flex: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px clamp(16px, 3vw, 40px);
+}
+
+.banner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 460px;
+  padding: 18px;
+  border: 2px solid var(--banner-grid-text, var(--text-primary-color, #2a2350));
+  border-radius: 28px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.banner:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 0 var(--banner-grid-text, var(--text-primary-color, #2a2350));
+}
+.banner:focus-visible {
+  outline: 3px solid var(--banner-grid-accent, var(--background-primary-color, #5b4bdb));
+  outline-offset: 3px;
+}
+
+.tom0 {
+  background-color: #f3e6c4;
+}
+.tom0 .bubble {
+  background-color: #ffc93c;
+}
+
+.tom1 {
+  background-color: #f4ddd7;
+}
+.tom1 .bubble {
+  background-color: #ff6f61;
+}
+
+.tom2 {
+  background-color: #d8eeea;
+}
+.tom2 .bubble {
+  background-color: #22b8a7;
+}
+
+.art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 26px;
+}
+.art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bubble {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  padding: 0 6px;
+  border: 2px solid var(--banner-grid-text, var(--text-primary-color, #2a2350));
+  border-radius: 50%;
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.05;
+  text-align: center;
+  transform: rotate(-10deg);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 18px 20px;
+  border: 2px solid var(--banner-grid-text, var(--text-primary-color, #2a2350));
+  border-radius: 22px;
+  background-color: #ffffff;
+}
+
+.title {
+  color: var(--banner-grid-title-color, var(--text-primary-color, #2a2350));
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.text {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--banner-grid-accent, var(--background-primary-color, #5b4bdb));
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.arrow {
+  width: 18px;
+  height: 18px;
+}
+
+@container (max-width: 960px) {
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 32px 16px;
+  }
+  .banner {
+    min-height: 340px;
+    padding: 12px;
+    border-radius: 24px;
+  }
+  .art {
+    border-radius: 22px;
+  }
+  .bubble {
+    top: 12px;
+    left: 12px;
+    width: 64px;
+    height: 64px;
+    font-size: 12px;
+  }
+  .card {
+    gap: 6px;
+    padding: 14px 16px;
+    border-radius: 18px;
+  }
+  .title {
+    font-size: 24px;
+    line-height: 1.1;
+  }
+  .text {
+    display: none;
+  }
+  .cta {
+    min-height: 28px;
+    font-size: 16px;
+  }
+  .arrow {
+    width: 17px;
+    height: 17px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .banner {
+    transition: none;
+  }
+  .banner:hover {
+    transform: none;
+  }
+}
+
+.bannerGrid16Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
