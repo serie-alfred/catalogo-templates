@@ -46,6 +46,7 @@ const NOMES: Record<string, string> = {
   '11': 'Grade',
   '12': 'Suave',
   '13': 'Noturno',
+  '15': 'Luxo',
 };
 
 /**
@@ -189,6 +190,20 @@ export const TEMA_DAS_FAMILIAS: Record<string, TemaDaFamilia> = {
       fontPrimary: 'Barlow Condensed',
       fontSecondary: 'Barlow',
       fontTertiary: 'Barlow',
+    },
+  },
+  '15': {
+    colors: {
+      colorFooter: '#1a1714', // --background-footer: #1A1714×1 [só papéis de fundo: #1A1714×1]
+      colorFooterText: '#faf8f4', // --text-color-footer: #FAF8F4×1 #C9A961×1 [fora da paleta do contrato: #C9A961]
+      colorPrimary: '#1a1714', // --text-primary-color: #1A1714×27 #4A433C×1 [fora da paleta do contrato: #4A433C]
+      colorPrimaryBackground: '#1a1714', // --background-primary-color: #7A5F1C×19 #1A1714×7 #FAF8F4×1 [só papéis de fundo: #7A5F1C×2 #1A1714×6 #FAF8F4×1]
+      colorSecondaryBackground: '#1a1714', // --background-secundary-color: #1A1714×1 [só papéis de fundo: #1A1714×1]
+    },
+    fonts: {
+      fontPrimary: 'Cormorant Garamond',
+      fontSecondary: 'Manrope',
+      fontTertiary: 'Manrope',
     },
   },
 };
@@ -354,6 +369,92 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     },
     ProductRelated12: {
       '--showcase-tag-text': '#3b1f33',
+    },
+  },
+  '15': {
+    Header15: {
+      '--header-bg': '#faf8f4',
+      '--header-text': '#1a1714',
+      '--header-accent': '#7a5f1c',
+      '--header-topbar-text': '#faf8f4',
+    },
+    Spot15: {
+      '--spot-tag-bg': '#7a5f1c',
+      '--spot-tag-text': '#faf8f4',
+      '--spot-btn-text': '#faf8f4',
+    },
+    Breadcrumb15: {
+      '--breadcrumb-accent': '#7a5f1c',
+    },
+    Footer15: {
+      '--footer-accent': '#c9a961',
+    },
+    Brand15: {
+      '--brands-accent': '#7a5f1c',
+    },
+    Categories15: {
+      '--categories-accent': '#7a5f1c',
+    },
+    BannerMain15: {
+      '--banner-main-text': '#faf8f4',
+      '--banner-main-button-bg': '#faf8f4',
+    },
+    Ruler15: {
+      '--ruler-icon': '#7a5f1c',
+    },
+    BannerGrid15: {
+      '--banner-grid-accent': '#7a5f1c',
+    },
+    ShelfBanner15: {
+      '--banner-side-text': '#faf8f4',
+      '--showcase-accent': '#7a5f1c',
+      '--showcase-tag-bg': '#7a5f1c',
+    },
+    Showcase15: {
+      '--showcase-accent': '#7a5f1c',
+      '--showcase-tag-bg': '#7a5f1c',
+    },
+    CategoryTitle15: {
+      '--cat-title-accent': '#7a5f1c',
+    },
+    HelpFloat15: {
+      '--help-header-text': '#faf8f4',
+    },
+    PopupNews15: {
+      '--popup-button-bg': '#7a5f1c',
+      '--popup-button-text': '#faf8f4',
+    },
+    Newsletter15: {
+      '--newsletter-desc-color': '#4a433c',
+      '--newsletter-button-text': '#faf8f4',
+    },
+    ClientReview15: {
+      '--socialproof-accent': '#7a5f1c',
+    },
+    CategoryMain15: {
+      '--cat-main-accent': '#7a5f1c',
+    },
+    CategoryDescription15: {
+      '--cat-desc-accent': '#7a5f1c',
+    },
+    ProductDescription15: {
+      '--prod-desc-accent': '#7a5f1c',
+    },
+    ProductInfo15: {
+      '--pdp-accent': '#7a5f1c',
+      '--pdp-button-text': '#faf8f4',
+    },
+    ProductReviews15: {
+      '--prod-reviews-accent': '#7a5f1c',
+    },
+    ProductRelated15: {
+      '--showcase-accent': '#7a5f1c',
+    },
+    Countdown15: {
+      '--countdown-accent': '#7a5f1c',
+    },
+    Editorial15: {
+      '--editorial-accent': '#7a5f1c',
     },
   },
 };
