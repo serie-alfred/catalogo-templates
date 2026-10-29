@@ -1,0 +1,198 @@
+/* Espelha molecules/ProductDescription14 (faststore.starter, família 14): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productDescription14Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productDescription14 {
+  width: 100%;
+  background-color: var(--prod-desc-bg, #f1f4f8);
+  color: var(--prod-desc-text, var(--text-primary-color, #0b1b33));
+  font-family: var(--prod-desc-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.productDescription14 *,
+.productDescription14 *::before,
+.productDescription14 *::after {
+  box-sizing: border-box;
+}
+.productDescription14 :where(h2, h3, p, dl, dd, figure) {
+  margin: 0;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 72px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.title {
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 48px;
+  font-style: italic;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.92;
+}
+
+.intro {
+  max-width: 720px;
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #0b1b33)) 72%, var(--prod-desc-bg, #f1f4f8));
+  font-size: 17px;
+  line-height: 1.65;
+}
+.intro > * {
+  margin: 0;
+}
+.intro > * + * {
+  margin-top: 12px;
+}
+.intro a {
+  color: var(--prod-desc-text, var(--text-primary-color, #0b1b33));
+  text-decoration: underline;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 3px solid var(--prod-desc-text, var(--text-primary-color, #0b1b33));
+}
+
+.cardNum {
+  color: var(--prod-desc-accent, var(--background-primary-color, #e4002b));
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 56px;
+  font-style: italic;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.9;
+}
+
+.cardTitle {
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.cardText {
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #0b1b33)) 72%, var(--prod-desc-bg, #f1f4f8));
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.bottom {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+  align-items: start;
+  gap: 40px;
+}
+
+.bottomSolo {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.specsBox {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.specsTitle {
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.specs {
+  display: flex;
+  flex-direction: column;
+}
+
+.spec {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #0b1b33)) 16%, var(--prod-desc-bg, #f1f4f8));
+  font-size: 15px;
+}
+.spec dt {
+  font-weight: 600;
+}
+.spec dd {
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #0b1b33)) 72%, var(--prod-desc-bg, #f1f4f8));
+  text-align: right;
+}
+
+.figure {
+  aspect-ratio: 2/1;
+  overflow: hidden;
+  background-color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #0b1b33)) 12%, var(--prod-desc-bg, #f1f4f8));
+}
+.figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 24px;
+    padding: 40px 16px;
+  }
+  .head {
+    gap: 12px;
+  }
+  .title {
+    font-size: 32px;
+  }
+  .intro {
+    font-size: 15px;
+  }
+  .cards,
+  .bottom {
+    display: contents;
+  }
+  .cardNum {
+    font-size: 44px;
+  }
+  .cardTitle,
+  .specsTitle {
+    font-size: 20px;
+  }
+  .figure {
+    aspect-ratio: auto;
+    height: 172px;
+  }
+}
+
+.productDescription14Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

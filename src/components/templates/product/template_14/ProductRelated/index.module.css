@@ -1,0 +1,197 @@
+/* Espelha sass/crossSellingShelf14.module.scss + organisms/ProductShowcase14 (faststore.starter, família 14): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.crossSellingShelf14Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+section.crossSellingShelf14 {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 64px max(clamp(16px, 3vw, 40px), (100% - 1280px) / 2 + clamp(16px, 3vw, 40px));
+  background-color: var(--showcase-bg, #ffffff);
+  color: var(--showcase-text, var(--text-primary-color, #0b1b33));
+  font-family: var(--showcase-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+section.crossSellingShelf14.crossSellingShelf14.crossSellingShelf14 > h2 {
+  display: flex;
+  align-items: flex-end;
+  box-sizing: border-box;
+  width: auto;
+  min-height: 48px;
+  max-width: none;
+  margin: 0;
+  padding: 0 120px 0 0;
+  color: var(--showcase-title-color, var(--text-primary-color, #0b1b33));
+  font-family: var(--showcase-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 48px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-align: left;
+  text-transform: uppercase;
+}
+section.crossSellingShelf14 [data-fs-product-shelf] {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+@container (max-width: 960px) {
+  section.crossSellingShelf14 {
+    gap: 20px;
+    padding: 40px 0;
+    overflow: hidden;
+  }
+  section.crossSellingShelf14.crossSellingShelf14.crossSellingShelf14 > h2 {
+    display: block;
+    min-height: 0;
+    padding: 0 16px;
+    font-size: 28px;
+  }
+}
+
+.productShowcase14 {
+  position: relative;
+  color: var(--showcase-text, var(--text-primary-color, #0b1b33));
+}
+.productShowcase14 *,
+.productShowcase14 *::before,
+.productShowcase14 *::after {
+  box-sizing: border-box;
+}
+.productShowcase14 :where(ul.rail) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.productShowcase14 :where(.prev, .next) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+.productShowcase14 :where(.arrows svg) {
+  display: block;
+  flex: none;
+}
+.productShowcase14 [data-role=spot] {
+  background-color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0b1b33)) 6%, var(--showcase-bg, #ffffff));
+}
+.productShowcase14 [data-role=spot-discount] {
+  background-color: var(--showcase-accent, var(--background-primary-color, #e4002b));
+  color: var(--showcase-bg, #ffffff);
+}
+
+.arrows {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 32px);
+  display: flex;
+  gap: 8px;
+}
+
+.prev,
+.next {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+}
+.prev:disabled,
+.next:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.prev:focus-visible,
+.next:focus-visible {
+  outline: 2px solid var(--showcase-accent, var(--background-primary-color, #e4002b));
+  outline-offset: -4px;
+}
+
+.prev {
+  border: 2px solid var(--showcase-text, var(--text-primary-color, #0b1b33));
+  color: var(--showcase-text, var(--text-primary-color, #0b1b33));
+}
+
+.next {
+  background-color: var(--showcase-text, var(--text-primary-color, #0b1b33));
+  color: var(--showcase-bg, #ffffff);
+}
+
+.rail {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  flex: 0 0 calc((100% - 60px) / 4);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.slide:nth-child(4n+1) [data-role=spot-image] {
+  background-color: #e4e9f0;
+}
+.slide:nth-child(4n+2) [data-role=spot-image] {
+  background-color: #cfd8e3;
+}
+.slide:nth-child(4n+3) [data-role=spot-image] {
+  background-color: #e6ebf1;
+}
+.slide:nth-child(4n+4) [data-role=spot-image] {
+  background-color: #e8ecf2;
+}
+
+@container (min-width: 961px) and (max-width: 1199px) {
+  .slide {
+    flex-basis: calc((100% - 40px) / 3);
+  }
+}
+@container (max-width: 960px) {
+  .arrows {
+    display: none;
+  }
+  .rail {
+    display: grid;
+    grid-auto-columns: 160px;
+    grid-auto-flow: column;
+    gap: 10px;
+    padding: 0 16px;
+    scroll-padding: 0 16px;
+  }
+  .slide {
+    display: block;
+  }
+  .productShowcase14 [data-role=spot-pix] {
+    display: block !important;
+  }
+  .productShowcase14 [data-role=spot-buy] {
+    display: none !important;
+  }
+}
+
+.crossSellingShelf14Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

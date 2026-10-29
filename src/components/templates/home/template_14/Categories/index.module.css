@@ -1,0 +1,236 @@
+/* Espelha molecules/Categories14 (faststore.starter, família 14): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categories14Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categories14 {
+  width: 100%;
+  background-color: var(--categories-bg, #ffffff);
+  color: var(--categories-text, var(--text-primary-color, #0b1b33));
+  font-family: var(--categories-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categories14 *,
+.categories14 *::before,
+.categories14 *::after {
+  box-sizing: border-box;
+}
+.categories14 :where(h2) {
+  margin: 0;
+}
+.categories14 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.categories14 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.categories14 :where(a):hover {
+  opacity: 0.85;
+}
+.categories14 :where(a):focus-visible {
+  outline: 2px solid var(--categories-accent, var(--background-primary-color, #e4002b));
+  outline-offset: 2px;
+}
+.categories14 svg,
+.categories14 img {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 64px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.title {
+  color: var(--categories-title-color, var(--text-primary-color, #0b1b33));
+  font-family: var(--categories-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 48px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.viewAll {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-family: var(--categories-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: var(--categories-accent, var(--background-primary-color, #e4002b));
+  text-decoration-thickness: 3px;
+  text-underline-offset: 6px;
+}
+
+.viewAllIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.item {
+  display: block;
+  min-width: 0;
+}
+
+.card {
+  position: relative;
+  display: block;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background-color: #d6dee8;
+}
+
+.item:nth-child(6n+2) .card {
+  background-color: #e1e7ef;
+}
+
+.item:nth-child(6n+3) .card {
+  background-color: #cfd8e3;
+}
+
+.item:nth-child(6n+4) .card {
+  background-color: #dce3ec;
+}
+
+.item:nth-child(6n+5) .card {
+  background-color: #e6ebf1;
+}
+
+.item:nth-child(6n) .card {
+  background-color: #d3dbe6;
+}
+
+.img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.num {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  color: color-mix(in srgb, var(--categories-text, var(--text-primary-color, #0b1b33)) 22%, var(--categories-bg, #ffffff));
+  font-family: var(--categories-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 56px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.name {
+  position: absolute;
+  bottom: 18px;
+  left: 0;
+  padding: 8px 28px 8px 16px;
+  background-color: var(--categories-text, var(--text-primary-color, #0b1b33));
+  color: var(--categories-bg, #ffffff);
+  font-family: var(--categories-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 900;
+  text-transform: uppercase;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+}
+
+.arrow {
+  position: absolute;
+  right: 12px;
+  bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--categories-accent, var(--background-primary-color, #e4002b));
+  color: var(--categories-bg, #ffffff);
+}
+.arrow svg {
+  width: 18px;
+  height: 18px;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 20px;
+    padding: 40px 0;
+  }
+  .head {
+    padding: 0 16px;
+  }
+  .title {
+    font-size: 28px;
+  }
+  .viewAll {
+    font-size: 14px;
+  }
+  .viewAllIcon {
+    width: 16px;
+    height: 16px;
+  }
+  .list {
+    display: flex;
+    gap: 10px;
+    padding: 0 16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .list::-webkit-scrollbar {
+    display: none;
+  }
+  .item {
+    flex: none;
+    width: 148px;
+  }
+  .num {
+    font-size: 40px;
+  }
+  .name {
+    bottom: 12px;
+    padding: 6px 20px 6px 12px;
+    font-size: 17px;
+  }
+  .arrow {
+    display: none;
+  }
+}
+
+.categories14Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

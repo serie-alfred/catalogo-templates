@@ -1,0 +1,299 @@
+/* Espelha organisms/Footer14 (faststore.starter, família 14): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.footer14Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.footer14 {
+  width: 100%;
+  background-color: var(--footer-bg, var(--background-footer, #0b1b33));
+  color: var(--footer-text, var(--text-color-footer, #ffffff));
+  font-family: var(--footer-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.footer14 *,
+.footer14 *::before,
+.footer14 *::after {
+  box-sizing: border-box;
+}
+.footer14 :where(h2, p) {
+  margin: 0;
+}
+.footer14 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.footer14 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.footer14 :where(a:hover) {
+  opacity: 0.85;
+}
+.footer14 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.footer14 :where(a, button):focus-visible {
+  outline: 2px solid var(--footer-accent, var(--text-color-footer, #d9f99d));
+  outline-offset: 2px;
+}
+.footer14 svg {
+  display: block;
+  flex: none;
+}
+
+.mob {
+  display: none !important;
+}
+
+.stripe {
+  height: 6px;
+  background-color: var(--footer-accent, var(--text-color-footer, #d9f99d));
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)) minmax(0, 1.2fr);
+  gap: 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 56px clamp(16px, 3vw, 40px) 44px;
+}
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 5px;
+  font-family: var(--footer-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 30px;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.logo img {
+  display: block;
+  width: auto;
+  height: 30px;
+}
+
+.slash {
+  display: inline-block;
+  width: 10px;
+  height: 23px;
+  background-color: var(--footer-accent, var(--text-color-footer, #d9f99d));
+  transform: skewX(-18deg);
+}
+
+.about {
+  max-width: 300px;
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 74%, var(--footer-bg, var(--background-footer, #0b1b33)));
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.socials {
+  display: flex;
+  gap: 8px;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: var(--footer-accent, var(--text-color-footer, #d9f99d));
+  color: var(--footer-bg, var(--background-footer, #0b1b33));
+  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+.columns {
+  display: contents;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 14px;
+}
+
+.columnTitle,
+.contactTitle {
+  font-family: var(--footer-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 800;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.columnTitle {
+  margin-bottom: 10px;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.links a {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 74%, var(--footer-bg, var(--background-footer, #0b1b33)));
+}
+.contact {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 74%, var(--footer-bg, var(--background-footer, #0b1b33)));
+  font-size: 14px;
+  font-style: normal;
+}
+
+.contactTitle {
+  margin-bottom: 2px;
+  color: var(--footer-text, var(--text-color-footer, #ffffff));
+}
+
+.contactLink {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.bottomWrap {
+  border-top: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 18%, var(--footer-bg, var(--background-footer, #0b1b33)));
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 22px clamp(16px, 3vw, 40px) 28px;
+}
+
+.payments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.payment {
+  display: flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 12px;
+  border: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 18%, var(--footer-bg, var(--background-footer, #0b1b33)));
+}
+
+.legal {
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 74%, var(--footer-bg, var(--background-footer, #0b1b33)));
+  font-size: 12px;
+}
+@container (max-width: 960px) {
+  .dsk {
+    display: none !important;
+  }
+  .mob {
+    display: flex !important;
+  }
+  .grid {
+    display: block;
+    padding: 0;
+  }
+  .brand {
+    gap: 16px;
+    padding: 32px 16px 8px;
+  }
+  .logo {
+    font-size: 26px;
+  }
+  .logo img {
+    height: 26px;
+  }
+  .slash {
+    width: 8px;
+    height: 20px;
+  }
+  .about {
+    max-width: none;
+  }
+  .columns {
+    display: block;
+    padding: 16px 16px 0;
+  }
+  .column {
+    gap: 0;
+  }
+  .accordion {
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 56px;
+    border-bottom: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 18%, var(--footer-bg, var(--background-footer, #0b1b33)));
+    font-family: var(--footer-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+    font-size: 18px;
+    font-style: italic;
+    font-weight: 800;
+    text-align: left;
+    text-transform: uppercase;
+  }
+  .links {
+    display: none;
+    padding: 8px 0 12px;
+  }
+  .linksOpen {
+    display: flex;
+  }
+  .links a {
+    min-height: 44px;
+  }
+  .contact {
+    padding: 24px 16px;
+  }
+  .contactTitle {
+    margin-bottom: 0;
+    font-size: 18px;
+  }
+  .bottom {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    padding: 20px 16px 32px;
+  }
+  .legal {
+    line-height: 1.6;
+  }
+}
+
+.footer14Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

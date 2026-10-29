@@ -1,0 +1,91 @@
+/* Espelha sass/breadcrumb14.module.scss (faststore.starter, família 14): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.breadcrumbSection14Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.breadcrumbSection14 [data-fs-breadcrumb] {
+  padding: 0;
+}
+
+.breadcrumb14 {
+  width: 100%;
+  background-color: var(--breadcrumb-bg, #ffffff);
+  color: var(--breadcrumb-text, var(--text-primary-color, #0b1b33));
+  font-family: var(--breadcrumb-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.breadcrumb14 *,
+.breadcrumb14 *::before,
+.breadcrumb14 *::after {
+  box-sizing: border-box;
+}
+.breadcrumb14 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.breadcrumb14 :where(a:hover) {
+  opacity: 0.85;
+}
+.breadcrumb14 :where(a):focus-visible {
+  outline: 2px solid var(--breadcrumb-accent, var(--background-primary-color, #e4002b));
+  outline-offset: 2px;
+}
+.breadcrumb14 :where(ol) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 10px clamp(16px, 3vw, 40px);
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.link,
+.current {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.link {
+  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #0b1b33)) 70%, var(--breadcrumb-bg, #ffffff));
+}
+
+.sep {
+  width: 6px;
+  height: 14px;
+  background-color: var(--breadcrumb-accent, var(--background-primary-color, #e4002b));
+  transform: skewX(-18deg);
+}
+
+@container (max-width: 960px) {
+  .nav {
+    padding: 6px 16px;
+  }
+  .list {
+    gap: 8px;
+    font-size: 13px;
+  }
+}
+
+.breadcrumbSection14Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

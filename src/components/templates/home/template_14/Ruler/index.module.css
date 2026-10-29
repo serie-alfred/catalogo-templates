@@ -1,0 +1,132 @@
+/* Espelha molecules/BenefitsStrip14 (faststore.starter, família 14): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.benefitsStrip14Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.benefitsStrip14 {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 72px;
+  overflow: hidden;
+  background-color: var(--ruler-bg, #d9f99d);
+  color: var(--ruler-text, var(--text-primary-color, #0b1b33));
+  font-family: var(--ruler-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.benefitsStrip14 *,
+.benefitsStrip14 *::before,
+.benefitsStrip14 *::after {
+  box-sizing: border-box;
+}
+.benefitsStrip14 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.benefitsStrip14 :where(a):hover {
+  opacity: 0.85;
+}
+.benefitsStrip14 :where(a):focus-visible {
+  outline: 2px solid var(--ruler-text, var(--text-primary-color, #0b1b33));
+  outline-offset: 2px;
+}
+.benefitsStrip14 svg {
+  display: block;
+  flex: none;
+}
+
+@keyframes corre14 {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.tape {
+  display: flex;
+  font-family: var(--ruler-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 21px;
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  animation: corre14 34s linear infinite;
+}
+
+.list {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 40px;
+  margin: 0;
+  padding: 0 0 0 40px;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.icon {
+  display: flex;
+  color: var(--ruler-icon, var(--background-primary-color, #e4002b));
+}
+.icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.sep {
+  width: 8px;
+  height: 22px;
+  margin-left: 28px;
+  background-color: var(--ruler-text, var(--text-primary-color, #0b1b33));
+  transform: skewX(-18deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tape {
+    animation: none;
+  }
+}
+@container (max-width: 960px) {
+  .benefitsStrip14 {
+    height: 56px;
+  }
+  .tape {
+    font-size: 16px;
+  }
+  .list {
+    gap: 24px;
+    padding-left: 24px;
+  }
+  .row {
+    gap: 8px;
+  }
+  .icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  .sep {
+    width: 6px;
+    height: 16px;
+    margin-left: 16px;
+  }
+}
+
+.benefitsStrip14Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

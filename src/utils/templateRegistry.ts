@@ -303,6 +303,30 @@ import ProductInfo13 from '@/components/templates/product/template_13/ProductInf
 import ProductDescription13 from '@/components/templates/product/template_13/ProductDescription';
 import ProductReviews13 from '@/components/templates/product/template_13/ProductReviews';
 import ProductRelated13 from '@/components/templates/product/template_13/ProductRelated';
+import Header14 from '@/components/templates/common/template_14/Header';
+import Spot14 from '@/components/templates/common/template_14/Spot';
+import Breadcrumb14 from '@/components/templates/common/template_14/Breadcrumb';
+import Footer14 from '@/components/templates/common/template_14/Footer';
+import PopupNews14 from '@/components/templates/home/template_14/PopupNews';
+import HelpFloat14 from '@/components/templates/home/template_14/HelpFloat';
+import BannerMain14 from '@/components/templates/home/template_14/BannerMain';
+import Ruler14 from '@/components/templates/home/template_14/Ruler';
+import Categories14 from '@/components/templates/home/template_14/Categories';
+import Showcase14 from '@/components/templates/home/template_14/Showcase';
+import BannerGrid14 from '@/components/templates/home/template_14/BannerGrid';
+import Countdown14 from '@/components/templates/home/template_14/Countdown';
+import ShelfBanner14 from '@/components/templates/home/template_14/ShelfBanner';
+import Editorial14 from '@/components/templates/home/template_14/Editorial';
+import ClientReview14 from '@/components/templates/home/template_14/ClientReview';
+import Brand14 from '@/components/templates/home/template_14/Brand';
+import Newsletter14 from '@/components/templates/home/template_14/Newsletter';
+import CategoryTitle14 from '@/components/templates/category/template_14/CategoryTitle';
+import CategoryMain14 from '@/components/templates/category/template_14/CategoryMain';
+import CategoryDescription14 from '@/components/templates/category/template_14/CategoryDescription';
+import ProductInfo14 from '@/components/templates/product/template_14/ProductInfo';
+import ProductDescription14 from '@/components/templates/product/template_14/ProductDescription';
+import ProductReviews14 from '@/components/templates/product/template_14/ProductReviews';
+import ProductRelated14 from '@/components/templates/product/template_14/ProductRelated';
 
 export const TemplateRegistry: Record<
   string,
@@ -534,4 +558,28 @@ export const TemplateRegistry: Record<
   ProductDescription13,
   ProductReviews13,
   ProductRelated13,
+  Header14,
+  Spot14,
+  Breadcrumb14,
+  Footer14,
+  PopupNews14,
+  HelpFloat14,
+  BannerMain14,
+  Ruler14,
+  Categories14,
+  Showcase14,
+  BannerGrid14,
+  Countdown14,
+  ShelfBanner14,
+  Editorial14,
+  ClientReview14,
+  Brand14,
+  Newsletter14,
+  CategoryTitle14,
+  CategoryMain14,
+  CategoryDescription14,
+  ProductInfo14,
+  ProductDescription14,
+  ProductReviews14,
+  ProductRelated14,
 };

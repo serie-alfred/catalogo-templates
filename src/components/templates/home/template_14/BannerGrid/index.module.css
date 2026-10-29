@@ -1,0 +1,177 @@
+/* Espelha molecules/BannerGrid14 (faststore.starter, família 14): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.bannerGrid14Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.bannerGrid14 {
+  width: 100%;
+  background-color: var(--banner-grid-bg, #ffffff);
+  font-family: var(--banner-grid-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bannerGrid14 *,
+.bannerGrid14 *::before,
+.bannerGrid14 *::after {
+  box-sizing: border-box;
+}
+.bannerGrid14 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.bannerGrid14 :where(a):hover {
+  opacity: 0.85;
+}
+.bannerGrid14 :where(a):focus-visible {
+  outline: 2px solid var(--banner-grid-accent, var(--background-primary-color, #e4002b));
+  outline-offset: 2px;
+}
+.bannerGrid14 svg,
+.bannerGrid14 img {
+  display: block;
+  flex: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  grid-template-rows: 300px 300px;
+  gap: 16px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px clamp(16px, 3vw, 40px);
+}
+
+.card {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background-color: color-mix(in srgb, var(--banner-grid-highlight, var(--background-secundary-color, #0b1b33)) 10%, var(--banner-grid-bg, #ffffff));
+}
+.card:nth-child(3) {
+  background-color: color-mix(in srgb, var(--banner-grid-highlight, var(--background-secundary-color, #0b1b33)) 22%, var(--banner-grid-bg, #ffffff));
+}
+
+.big {
+  grid-row: span 2;
+  background-color: color-mix(in srgb, var(--banner-grid-highlight, var(--background-secundary-color, #0b1b33)) 16%, var(--banner-grid-bg, #ffffff));
+}
+.big .plate {
+  max-width: 460px;
+}
+.big .title {
+  font-size: 60px;
+}
+
+.art {
+  position: absolute;
+  inset: 0;
+}
+.art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.plate {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  box-sizing: content-box;
+  max-width: 360px;
+  margin-bottom: 28px;
+  padding: 22px 48px 24px 28px;
+  background-color: var(--banner-grid-highlight, var(--background-secundary-color, #0b1b33));
+  color: var(--banner-grid-text, var(--text-color-secundary, #ffffff));
+  clip-path: polygon(0 0, 100% 0, calc(100% - 28px) 100%, 0 100%);
+}
+
+.eyebrow {
+  color: color-mix(in srgb, var(--banner-grid-text, var(--text-color-secundary, #ffffff)) 82%, var(--banner-grid-highlight, var(--background-secundary-color, #0b1b33)));
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 36px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 0.9;
+  text-transform: uppercase;
+}
+
+.text {
+  color: color-mix(in srgb, var(--banner-grid-text, var(--text-color-secundary, #ffffff)) 82%, var(--banner-grid-highlight, var(--background-secundary-color, #0b1b33)));
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 48px;
+  margin-top: 6px;
+  padding: 0 24px;
+  background-color: var(--banner-grid-accent, var(--background-primary-color, #e4002b));
+  color: var(--banner-grid-accent-text, var(--text-color-base, #ffffff));
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+
+@container (max-width: 960px) {
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px 16px;
+  }
+  .card {
+    height: 260px;
+  }
+  .big {
+    height: 420px;
+  }
+  .big .plate {
+    max-width: 300px;
+  }
+  .big .title {
+    font-size: 40px;
+  }
+  .plate {
+    gap: 8px;
+    max-width: 280px;
+    margin-bottom: 16px;
+    padding: 16px 32px 18px 16px;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 18px) 100%, 0 100%);
+  }
+  .title {
+    font-size: 30px;
+  }
+  .text {
+    font-size: 14px;
+  }
+  .cta {
+    height: 44px;
+    font-size: 16px;
+  }
+}
+
+.bannerGrid14Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
