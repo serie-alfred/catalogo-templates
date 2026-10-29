@@ -1,0 +1,449 @@
+/* Espelha molecules/ProductShelf15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productShelf15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productShelf15 {
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--showcase-bg, #faf8f4);
+  color: var(--showcase-text, var(--text-primary-color, #1a1714));
+  font-family: var(--showcase-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.productShelf15 *,
+.productShelf15 *::before,
+.productShelf15 *::after {
+  box-sizing: border-box;
+}
+.productShelf15 :where(.head, .banner) :where(h2, p) {
+  margin: 0;
+}
+.productShelf15 :where(.head a, .banner, .viewAllMob) {
+  color: inherit;
+  text-decoration: none;
+}
+.productShelf15 :where(.arrow) {
+  margin: 0;
+  padding: 0;
+  background: none;
+  font: inherit;
+  cursor: pointer;
+}
+.productShelf15 :where(.rail) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.productShelf15 :where(.arrow svg, .banner svg) {
+  display: block;
+  flex: none;
+}
+.productShelf15 [data-role=spot-tag] {
+  top: 16px;
+  left: 16px;
+  background-color: var(--showcase-tag-bg, var(--spot-tag-bg, var(--background-primary-color, #7a5f1c)));
+}
+.productShelf15 [data-role=spot-favorite] {
+  top: 6px;
+  right: 6px;
+}
+.productShelf15 [data-role=spot-brand] {
+  color: var(--showcase-accent, var(--background-primary-color, #7a5f1c));
+}
+.productShelf15 [data-role=spot] h3 {
+  font-size: 25px;
+}
+
+.eyebrow,
+.viewAll,
+.viewAllMob,
+.bannerEyebrow,
+.bannerCta {
+  font-family: var(--showcase-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 104px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.eyebrow {
+  color: var(--showcase-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.title {
+  color: var(--showcase-title-color, var(--text-primary-color, #1a1714));
+  font-family: var(--showcase-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+.title em {
+  font-style: italic;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.viewAll,
+.viewAllMob {
+  display: flex;
+  align-items: center;
+  min-height: 45px;
+  border-bottom: 1px solid var(--showcase-accent, var(--background-primary-color, #7a5f1c));
+}
+.viewAll:hover,
+.viewAllMob:hover {
+  opacity: 0.8;
+}
+.viewAll:focus-visible,
+.viewAllMob:focus-visible {
+  outline: 1px solid var(--showcase-accent, var(--background-primary-color, #7a5f1c));
+  outline-offset: 3px;
+}
+
+.viewAll {
+  margin-right: 16px;
+}
+
+.viewAllMob {
+  display: none;
+}
+
+.arrows {
+  display: flex;
+  gap: 8px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--showcase-text, var(--text-primary-color, #1a1714));
+  color: var(--showcase-text, var(--text-primary-color, #1a1714));
+}
+.arrow:disabled {
+  border-color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #1a1714)) 14%, var(--showcase-bg, #faf8f4));
+  cursor: default;
+}
+.arrow:not(:disabled):hover {
+  opacity: 0.8;
+}
+.arrow:focus-visible {
+  outline: 1px solid var(--showcase-accent, var(--background-primary-color, #7a5f1c));
+  outline-offset: 3px;
+}
+
+.rail {
+  display: flex;
+  flex: 1 1 auto;
+  gap: 32px;
+  min-width: 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  display: flex;
+  flex: 0 0 calc((100% - 64px) / 3);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.slide > * {
+  flex: 1;
+}
+
+.progressWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.progress {
+  position: relative;
+  width: 240px;
+  height: 1px;
+  background-color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #1a1714)) 14%, var(--showcase-bg, #faf8f4));
+}
+.progress span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: var(--showcase-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.row {
+  display: flex;
+  align-items: stretch;
+}
+
+.banner {
+  position: relative;
+  display: flex;
+  flex: 0 0 calc((100% - 96px) * 1.35 / 4.35);
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+  min-height: 524px;
+  margin-right: 32px;
+  padding: 32px;
+  overflow: hidden;
+  background-color: #2e2823;
+  color: var(--banner-side-text, var(--text-color-base, #faf8f4));
+  outline: 1px solid var(--showcase-accent, var(--background-primary-color, #7a5f1c));
+  outline-offset: -12px;
+}
+.banner > :not(.bannerArt) {
+  position: relative;
+}
+.banner:hover {
+  opacity: 0.92;
+}
+.banner:focus-visible {
+  outline-width: 2px;
+}
+
+.bannerArt {
+  position: absolute;
+  inset: 0;
+}
+.bannerArt img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bannerTitle {
+  font-family: var(--showcase-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 36px;
+  line-height: 1.08;
+}
+.bannerTitle em {
+  font-style: italic;
+}
+
+.bannerText {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.88;
+}
+
+.bannerCta {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 10px;
+  min-height: 45px;
+  border-bottom: 1px solid var(--banner-side-text, var(--text-color-base, #faf8f4));
+}
+
+.variantBanner [data-role=spot] {
+  gap: 18px;
+}
+.variantBanner [data-role=spot] > :nth-child(2) {
+  align-items: stretch;
+  gap: 7px;
+  text-align: left;
+}
+.variantBanner [data-role=spot-favorite] {
+  top: 4px;
+  right: 4px;
+}
+.variantBanner [data-role=spot-favorite] svg {
+  width: 18px;
+  height: 18px;
+}
+.variantBanner [data-role=spot-brand] {
+  font-size: 10.5px;
+}
+.variantBanner [data-role=spot] h3 {
+  font-size: 22px;
+}
+.variantBanner [data-role=spot-price] {
+  letter-spacing: normal;
+}
+.variantBanner [data-role=spot] > :nth-child(2) > span:not([data-role]) {
+  justify-content: flex-start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .productShelf15 * {
+    scroll-behavior: auto;
+  }
+}
+@container (max-width: 960px) {
+  .inner {
+    gap: 28px;
+    padding: 64px 0;
+  }
+  .head {
+    justify-content: center;
+    padding: 0 16px;
+  }
+  .heading {
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+  }
+  .title {
+    font-size: 36px;
+  }
+  .tools {
+    display: none;
+  }
+  .rail {
+    gap: 14px;
+    padding: 0 16px;
+    scroll-padding: 0 16px;
+  }
+  .slide {
+    flex: 0 0 236px;
+  }
+  .progress {
+    width: 160px;
+  }
+  .viewAllMob {
+    display: flex;
+    align-self: center;
+  }
+  .productShelf15 [data-role=spot] {
+    gap: 14px;
+  }
+  .productShelf15 [data-role=spot] > :nth-child(2) {
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+  }
+  .productShelf15 [data-role=spot] > :nth-child(2) > span:not([data-role]) {
+    justify-content: center;
+  }
+  .productShelf15 [data-role=spot] > button[data-role=spot-buy] {
+    display: none !important;
+  }
+  .productShelf15 [data-role=spot-tag] {
+    top: 12px;
+    left: 12px;
+    padding: 5px 8px;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+  }
+  .productShelf15 [data-role=spot-favorite] {
+    top: 2px;
+    right: 2px;
+  }
+  .productShelf15 [data-role=spot-favorite] svg {
+    width: 18px;
+    height: 18px;
+  }
+  .productShelf15 [data-role=spot-brand] {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+  }
+  .productShelf15 [data-role=spot] h3 {
+    font-size: 21px;
+  }
+  .productShelf15 [data-role=spot-price] {
+    font-size: 14px;
+  }
+  .productShelf15 [data-role=spot-installments] span {
+    display: inline !important;
+  }
+  .row {
+    flex-direction: column;
+    gap: 28px;
+  }
+  .banner {
+    flex: none;
+    height: 496px;
+    min-height: 0;
+    margin: 0 16px;
+    padding: 28px 24px;
+    gap: 12px;
+    outline-offset: -10px;
+  }
+  .bannerTitle {
+    font-size: 30px;
+  }
+  .bannerText {
+    display: none;
+  }
+  .variantBanner .rail {
+    gap: 12px;
+  }
+  .variantBanner .slide {
+    flex-basis: 168px;
+  }
+  .variantBanner [data-role=spot] {
+    gap: 12px;
+  }
+  .variantBanner [data-role=spot] > :nth-child(2) {
+    align-items: stretch;
+    gap: 5px;
+    text-align: left;
+  }
+  .variantBanner [data-role=spot] > :nth-child(2) > span:not([data-role]) {
+    justify-content: flex-start;
+  }
+  .variantBanner [data-role=spot-favorite] {
+    top: 0;
+    right: 0;
+  }
+  .variantBanner [data-role=spot-favorite] svg {
+    width: 17px;
+    height: 17px;
+  }
+  .variantBanner [data-role=spot-brand] {
+    letter-spacing: 0.16em;
+  }
+  .variantBanner [data-role=spot] h3 {
+    font-size: 19px;
+  }
+  .variantBanner [data-role=spot-price] {
+    font-size: 13px;
+  }
+  .variantBanner [data-role=spot-installments] span {
+    display: none !important;
+  }
+}
+
+.productShelf15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

@@ -1,0 +1,280 @@
+/* Espelha organisms/PopupNews15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   com o @media mantido (overlay fixo na viewport).
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.popupNews15 {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--popup-text, var(--text-primary-color, #1a1714));
+  font-family: var(--popup-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.popupNews15 *,
+.popupNews15 *::before,
+.popupNews15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.popupNews15 :where(h2, p) {
+  margin: 0;
+}
+.popupNews15 :where(a) {
+  color: inherit;
+}
+.popupNews15 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.popupNews15 :where(a, button):focus-visible {
+  outline: 1px solid var(--popup-button-bg, var(--background-primary-color, #7a5f1c));
+  outline-offset: 2px;
+}
+.popupNews15 svg {
+  display: block;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(26, 23, 20, 0.55);
+}
+
+.dialog {
+  position: relative;
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  width: 920px;
+  max-width: calc(100vw - 32px);
+  min-height: 600px;
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  background-color: var(--popup-bg, #faf8f4);
+  outline: none;
+}
+
+.media {
+  position: relative;
+  overflow: hidden;
+  background-color: #dcd3c4;
+}
+.media picture,
+.media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.media img {
+  position: absolute;
+  inset: 0;
+  object-fit: cover;
+}
+
+.close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+.close:hover {
+  opacity: 0.8;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 64px 56px 40px;
+  outline: 1px solid var(--popup-button-bg, var(--background-primary-color, #7a5f1c));
+  outline-offset: -14px;
+}
+
+.eyebrow {
+  font-family: var(--popup-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--popup-button-bg, var(--background-primary-color, #7a5f1c));
+}
+
+.title {
+  font-family: var(--popup-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 42px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+.title em {
+  font-style: italic;
+}
+
+.text {
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #1a1714)) 68%, var(--popup-bg, #faf8f4));
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin: 6px 0 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-family: var(--popup-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #1a1714)) 68%, var(--popup-bg, #faf8f4));
+}
+
+.input {
+  width: 100%;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--popup-text, var(--text-primary-color, #1a1714));
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: var(--popup-text, var(--text-primary-color, #1a1714));
+  font-family: var(--popup-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 15px;
+  font-weight: 400;
+  appearance: none;
+}
+.input::placeholder {
+  color: inherit;
+  opacity: 0.6;
+}
+.input:focus-visible {
+  border-bottom-color: var(--popup-button-bg, var(--background-primary-color, #7a5f1c));
+  box-shadow: inset 0 -1px 0 var(--popup-button-bg, var(--background-primary-color, #7a5f1c));
+}
+
+.submit {
+  font-family: var(--popup-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  height: 52px;
+  margin-top: 6px;
+  background-color: var(--popup-button-bg, var(--background-primary-color, #7a5f1c));
+  color: var(--popup-button-text, var(--text-color-base, #faf8f4));
+}
+.submit:hover {
+  opacity: 0.9;
+}
+.submit:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.privacy {
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #1a1714)) 68%, var(--popup-bg, #faf8f4));
+  font-size: 12px;
+}
+.privacy a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dismiss {
+  align-self: center;
+  min-height: 44px;
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.dismiss:hover {
+  opacity: 0.8;
+}
+
+.feedback {
+  font-size: 14px;
+  line-height: 1.5;
+}
+@media (max-width: 960px) {
+  .popupNews15 {
+    align-items: flex-end;
+  }
+  .dialog {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: none;
+    min-height: 0;
+    max-height: 100dvh;
+  }
+  .media {
+    flex: none;
+    height: 170px;
+  }
+  .close {
+    top: 8px;
+    right: 8px;
+    background-color: var(--popup-bg, #faf8f4);
+  }
+  .panel {
+    gap: 12px;
+    padding: 28px 24px 20px;
+    outline: 0;
+  }
+  .title {
+    font-size: 32px;
+  }
+  .text {
+    line-height: 1.6;
+  }
+  .form {
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .field {
+    gap: 2px;
+  }
+  .input {
+    font-size: 16px;
+  }
+  .privacy {
+    font-size: 11.5px;
+    line-height: 1.5;
+  }
+}
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

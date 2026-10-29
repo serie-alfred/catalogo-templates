@@ -1,0 +1,164 @@
+/* Espelha molecules/Brands15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.brands15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.brands15 {
+  width: 100%;
+  background-color: var(--brands-bg, #faf8f4);
+  color: var(--brands-text, var(--text-primary-color, #1a1714));
+  font-family: var(--brands-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.brands15 *,
+.brands15 *::before,
+.brands15 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.brands15 :where(h2) {
+  margin: 0;
+}
+.brands15 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.brands15 a:hover {
+  opacity: 0.8;
+}
+.brands15 a:focus-visible {
+  outline: 1px solid var(--brands-accent, var(--background-primary-color, #7a5f1c));
+  outline-offset: -4px;
+}
+
+.eyebrow,
+.viewAll {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  color: var(--brands-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 44px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 96px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.title {
+  font-family: var(--brands-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+.title em {
+  font-style: italic;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--brands-accent, var(--background-primary-color, #7a5f1c));
+  border-bottom: 1px solid var(--brands-accent, var(--background-primary-color, #7a5f1c));
+  list-style: none;
+}
+
+.cell + .cell {
+  border-left: 1px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #1a1714)) 14%, var(--brands-bg, #faf8f4));
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 104px;
+  font-family: var(--brands-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 26px;
+  font-style: italic;
+}
+.link img {
+  display: block;
+  max-width: 70%;
+  max-height: 48px;
+  object-fit: contain;
+}
+
+.cell:nth-child(even) .link {
+  font-size: 22px;
+  font-style: normal;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.viewAll {
+  display: flex;
+  align-items: center;
+  min-height: 45px;
+  border-bottom: 1px solid var(--brands-accent, var(--background-primary-color, #7a5f1c));
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 28px;
+    padding: 64px 16px;
+  }
+  .head {
+    gap: 10px;
+  }
+  .title {
+    font-size: 32px;
+  }
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cell {
+    border-bottom: 1px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #1a1714)) 14%, var(--brands-bg, #faf8f4));
+  }
+  .cell + .cell {
+    border-left: 0;
+  }
+  .cell:nth-child(odd) {
+    border-right: 1px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #1a1714)) 14%, var(--brands-bg, #faf8f4));
+  }
+  .cell:nth-child(odd):nth-last-child(-n+2),
+  .cell:nth-child(odd):nth-last-child(-n+2) ~ .cell {
+    border-bottom: 0;
+  }
+  .link {
+    min-height: 76px;
+    font-size: 22px;
+  }
+  .cell:nth-child(even) .link {
+    font-size: 17px;
+    letter-spacing: 0.2em;
+  }
+}
+
+.brands15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

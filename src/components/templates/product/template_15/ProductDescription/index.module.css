@@ -1,0 +1,235 @@
+/* Espelha molecules/ProductDescription15 (faststore.starter, família 15): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productDescription15Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productDescription15 {
+  width: 100%;
+  background-color: var(--prod-desc-bg, #faf8f4);
+  color: var(--prod-desc-text, var(--text-primary-color, #1a1714));
+  font-family: var(--prod-desc-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.productDescription15 *,
+.productDescription15 *::before,
+.productDescription15 *::after {
+  box-sizing: border-box;
+}
+.productDescription15 :where(h2, h3, p, dl, dd, figure) {
+  margin: 0;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 104px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.eyebrow {
+  font-family: var(--prod-desc-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--prod-desc-accent, var(--background-primary-color, #7a5f1c));
+}
+
+.title {
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+.title em {
+  font-style: italic;
+}
+
+.intro {
+  max-width: 620px;
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #1a1714)) 66%, var(--prod-desc-bg, #faf8f4));
+  font-size: 15px;
+  line-height: 1.75;
+}
+.intro p {
+  margin: 0;
+}
+.intro p + p {
+  margin-top: 0.8em;
+}
+
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  border-top: 1px solid var(--prod-desc-accent, var(--background-primary-color, #7a5f1c));
+  border-bottom: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #1a1714)) 14%, var(--prod-desc-bg, #faf8f4));
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 36px;
+}
+.feature:first-child {
+  padding-left: 0;
+}
+.feature:last-child {
+  padding-right: 0;
+}
+.feature + .feature {
+  border-left: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #1a1714)) 14%, var(--prod-desc-bg, #faf8f4));
+}
+
+.numeral {
+  color: var(--prod-desc-accent, var(--background-primary-color, #7a5f1c));
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 40px;
+  font-style: italic;
+  line-height: 1;
+}
+
+.featureBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.featureTitle {
+  font-family: var(--prod-desc-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-size: 26px;
+  font-weight: 500;
+}
+
+.featureText {
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #1a1714)) 66%, var(--prod-desc-bg, #faf8f4));
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 48px 72px;
+}
+
+.specs {
+  display: flex;
+  flex: 1 1 380px;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.spec {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #1a1714)) 14%, var(--prod-desc-bg, #faf8f4));
+}
+.spec dt {
+  font-family: var(--prod-desc-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+.spec dd {
+  text-align: right;
+}
+
+.figure {
+  flex: 1 1 520px;
+  min-width: 0;
+  aspect-ratio: 2/1;
+  background-color: #e6dfd2;
+}
+.figure img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 40px;
+    padding: 64px 20px;
+  }
+  .head {
+    gap: 12px;
+  }
+  .title {
+    font-size: 36px;
+  }
+  .intro {
+    max-width: none;
+    line-height: 1.7;
+  }
+  .features {
+    display: flex;
+    flex-direction: column;
+    border-bottom: 0;
+  }
+  .feature {
+    flex-direction: row;
+    gap: 18px;
+    padding: 24px 0 !important;
+    border-bottom: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #1a1714)) 14%, var(--prod-desc-bg, #faf8f4));
+  }
+  .feature + .feature {
+    border-left: 0;
+  }
+  .numeral {
+    flex: none;
+    width: 36px;
+    font-size: 32px;
+  }
+  .featureBody {
+    gap: 8px;
+  }
+  .featureTitle {
+    font-size: 23px;
+  }
+  .featureText {
+    line-height: 1.7;
+  }
+  .bottom {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 40px;
+  }
+  .specs {
+    flex: none;
+  }
+  .spec {
+    gap: 12px;
+    padding: 14px 0;
+  }
+  .figure {
+    flex: none;
+    width: 100%;
+  }
+}
+
+.productDescription15Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
