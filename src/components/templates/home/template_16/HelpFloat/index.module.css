@@ -1,0 +1,206 @@
+/* Espelha organisms/HelpFloatButton16 (faststore.starter, família 16): o SCSS compilado com o sass,
+   com o @media mantido (overlay fixo na viewport).
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.helpFloatButton16 {
+  color: var(--help-text, var(--text-primary-color, #2a2350));
+  font-family: var(--help-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.helpFloatButton16 *,
+.helpFloatButton16 *::before,
+.helpFloatButton16 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.helpFloatButton16 :where(h2) {
+  margin: 0;
+}
+.helpFloatButton16 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.helpFloatButton16 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.helpFloatButton16 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.helpFloatButton16 :where(a, button):focus-visible {
+  outline: 2px solid var(--help-header-bg, var(--background-primary-color, #5b4bdb));
+  outline-offset: 2px;
+}
+.helpFloatButton16 svg {
+  display: block;
+  flex: none;
+}
+
+.veil {
+  display: none;
+}
+
+.toggle {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1500;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border: 2px solid var(--help-text, var(--text-primary-color, #2a2350)) !important;
+  border-radius: 50% !important;
+  background-color: var(--help-header-bg, var(--background-primary-color, #5b4bdb)) !important;
+  box-shadow: 0 4px 0 var(--help-text, var(--text-primary-color, #2a2350));
+  color: var(--help-header-text, var(--text-color-base, #ffffff)) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.toggle:hover {
+  box-shadow: 0 2px 0 var(--help-text, var(--text-primary-color, #2a2350));
+  transform: translateY(2px);
+}
+
+.panel {
+  position: fixed;
+  right: 24px;
+  bottom: 104px;
+  z-index: 1500;
+  width: 340px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100vh - 128px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 2px solid var(--help-text, var(--text-primary-color, #2a2350));
+  border-radius: 28px;
+  background-color: var(--help-bg, #ffffff);
+  box-shadow: 0 6px 0 var(--help-text, var(--text-primary-color, #2a2350));
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 16px 18px 20px;
+  background-color: var(--help-header-bg, var(--background-primary-color, #5b4bdb));
+  color: var(--help-header-text, var(--text-color-base, #ffffff));
+}
+
+.headText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  font-family: var(--help-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.schedule {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.close {
+  display: flex !important;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--help-header-text, var(--text-color-base, #ffffff)) !important;
+  border-radius: 50% !important;
+  color: var(--help-header-text, var(--text-color-base, #ffffff)) !important;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px !important;
+  font-family: var(--help-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0 12px;
+  border-radius: 18px;
+  background-color: color-mix(in srgb, var(--help-text, var(--text-primary-color, #2a2350)) 6%, var(--help-bg, #ffffff));
+}
+
+a.item:hover .label {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.label {
+  flex: 1;
+}
+
+.highlight {
+  min-height: 56px;
+  border: 2px solid var(--help-text, var(--text-primary-color, #2a2350));
+  background-color: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle {
+    transition: none;
+  }
+  .toggle:hover {
+    transform: none;
+  }
+}
+@media (max-width: 960px) {
+  .open .veil {
+    position: fixed;
+    inset: 0;
+    z-index: 1499;
+    display: block;
+    background-color: rgba(42, 35, 80, 0.45);
+  }
+  .toggle {
+    right: 16px;
+    bottom: 16px;
+    width: 60px;
+    height: 60px;
+  }
+  .toggleIcon {
+    width: 26px;
+    height: 26px;
+  }
+  .panel {
+    right: 12px;
+    bottom: 96px;
+    left: 12px;
+    width: auto;
+    max-width: none;
+  }
+  .head {
+    padding: 16px 14px 16px 18px;
+  }
+  .title {
+    font-size: 24px;
+  }
+}
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

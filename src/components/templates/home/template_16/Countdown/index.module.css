@@ -1,0 +1,260 @@
+/* Espelha organisms/Countdown16 (faststore.starter, família 16): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.countdown16Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.countdown16 {
+  width: 100%;
+  background-color: var(--countdown-bg, var(--background-primary-color, #5b4bdb));
+  color: var(--countdown-text, var(--text-color-base, #ffffff));
+  font-family: var(--countdown-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.countdown16 *,
+.countdown16 *::before,
+.countdown16 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.countdown16 :where(h2, p) {
+  margin: 0;
+}
+.countdown16 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.countdown16 :where(a):focus-visible {
+  outline: 3px solid var(--countdown-accent, var(--background-secundary-color, #ffc93c));
+  outline-offset: 3px;
+}
+.countdown16 img,
+.countdown16 svg {
+  display: block;
+  flex: none;
+}
+
+.wave {
+  display: block;
+  width: 100%;
+  height: 32px;
+  fill: #fffbf2;
+}
+
+.mob {
+  display: none !important;
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 32px 40px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 24px clamp(16px, 3vw, 40px) 32px;
+}
+
+.art {
+  position: relative;
+  display: block;
+  flex: 0 0 260px;
+  max-width: 100%;
+  height: 284px;
+  overflow: hidden;
+  border: 2px solid var(--countdown-text, var(--text-color-base, #ffffff));
+  border-radius: 28px;
+  background-color: #e9e4f7;
+  transform: rotate(-2deg);
+}
+.art picture,
+.art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lead {
+  display: flex;
+  flex: 1 1 480px;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.title {
+  font-family: var(--countdown-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.timer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-family: var(--countdown-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+}
+
+.unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 104px;
+  height: 104px;
+  border: 2px solid var(--countdown-accent-text, var(--text-color-secundary, #2a2350));
+  border-radius: 28px;
+  background-color: var(--countdown-accent, var(--background-secundary-color, #ffc93c));
+  color: var(--countdown-accent-text, var(--text-color-secundary, #2a2350));
+  box-shadow: 0 5px 0 var(--countdown-accent-text, var(--text-color-secundary, #2a2350));
+  font-size: 56px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.valueLast {
+  background-color: var(--countdown-text, var(--text-color-base, #ffffff));
+  color: var(--countdown-bg, var(--background-primary-color, #5b4bdb));
+}
+
+.unitLabel {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.side {
+  display: flex;
+  flex: 0 1 300px;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.text {
+  color: color-mix(in srgb, var(--countdown-text, var(--text-color-base, #ffffff)) 90%, var(--countdown-bg, var(--background-primary-color, #5b4bdb)));
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 10px;
+  height: 60px;
+  padding: 0 28px;
+  border: 2px solid var(--countdown-accent-text, var(--text-color-secundary, #2a2350));
+  border-radius: 999px;
+  background-color: var(--countdown-accent, var(--background-secundary-color, #ffc93c));
+  color: var(--countdown-accent-text, var(--text-color-secundary, #2a2350));
+  box-shadow: 0 4px 0 var(--countdown-accent-text, var(--text-color-secundary, #2a2350));
+  font-family: var(--countdown-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 19px;
+  font-weight: 600;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.cta:hover {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--countdown-accent-text, var(--text-color-secundary, #2a2350));
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+@container (max-width: 960px) {
+  .dsk {
+    display: none !important;
+  }
+  .mob {
+    display: block !important;
+  }
+  .wave {
+    height: 20px;
+  }
+  .inner {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 18px;
+    padding: 20px 16px 28px;
+  }
+  .art {
+    flex: none;
+    height: 204px;
+    border-radius: 24px;
+    transform: none;
+  }
+  .lead {
+    display: contents;
+  }
+  .title {
+    font-size: 28px;
+    line-height: 1.12;
+  }
+  .timer {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .unit {
+    gap: 6px;
+  }
+  .value {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+    border-radius: 20px;
+    box-shadow: 0 4px 0 var(--countdown-accent-text, var(--text-color-secundary, #2a2350));
+    font-size: 36px;
+  }
+  .unitLabel {
+    font-size: 14px;
+  }
+  .side {
+    display: contents;
+  }
+  .text {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .cta {
+    justify-content: center;
+    align-self: stretch;
+    height: 58px;
+    padding: 0;
+    font-size: 18px;
+  }
+  .ctaArrow {
+    display: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cta {
+    transition: none;
+  }
+  .cta:hover {
+    transform: none;
+  }
+}
+
+.countdown16Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

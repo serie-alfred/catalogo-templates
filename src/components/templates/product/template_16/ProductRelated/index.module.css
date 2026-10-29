@@ -1,0 +1,200 @@
+/* Espelha sass/crossSellingShelf16.module.scss + organisms/ProductShowcase16 (faststore.starter, família 16): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.crossSellingShelf16Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+section.crossSellingShelf16 {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+  margin: 0;
+  padding: 48px max(clamp(16px, 3vw, 40px), (100% - 1280px) / 2 + clamp(16px, 3vw, 40px)) 64px;
+  background-color: var(--showcase-bg, #fffbf2);
+  color: var(--showcase-text, var(--text-primary-color, #2a2350));
+  font-family: var(--showcase-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+section.crossSellingShelf16.crossSellingShelf16.crossSellingShelf16 > h2 {
+  display: flex;
+  align-items: flex-end;
+  min-height: 52px;
+  box-sizing: border-box;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0 140px 0 0;
+  color: var(--showcase-title-color, var(--text-primary-color, #2a2350));
+  font-family: var(--showcase-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+}
+section.crossSellingShelf16 [data-fs-product-shelf] {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+@container (max-width: 960px) {
+  section.crossSellingShelf16 {
+    gap: 18px;
+    padding: 32px 0 36px;
+    overflow: hidden;
+  }
+  section.crossSellingShelf16.crossSellingShelf16.crossSellingShelf16 > h2 {
+    display: block;
+    min-height: 0;
+    padding: 0 16px;
+    font-size: 27px;
+    line-height: 1.1;
+  }
+}
+
+.productShowcase16 {
+  position: relative;
+  color: var(--showcase-text, var(--text-primary-color, #2a2350));
+}
+.productShowcase16 *,
+.productShowcase16 *::before,
+.productShowcase16 *::after {
+  box-sizing: border-box;
+}
+.productShowcase16 :where(ul.rail) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.productShowcase16 :where(.arrow) {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+.productShowcase16 :where(.arrow svg) {
+  display: block;
+  flex: none;
+}
+.productShowcase16 [data-role=spot] {
+  height: 100%;
+}
+.productShowcase16 [data-role=spot] > :nth-child(2) {
+  flex: 1;
+}
+.productShowcase16 [data-role=spot-price] {
+  margin-top: auto;
+  font-size: 25px;
+}
+.productShowcase16 [data-role=spot-buy] {
+  height: 48px;
+}
+.productShowcase16 [data-role=spot-buy] svg {
+  display: none;
+}
+
+.arrows {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 28px);
+  display: flex;
+  gap: 12px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border: 2px solid var(--showcase-text, var(--text-primary-color, #2a2350));
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: var(--showcase-text, var(--text-primary-color, #2a2350));
+  box-shadow: 0 4px 0 var(--showcase-text, var(--text-primary-color, #2a2350));
+}
+.arrow:disabled {
+  cursor: default;
+}
+.arrow:focus-visible {
+  outline: 3px solid var(--showcase-accent, var(--background-primary-color, #5b4bdb));
+  outline-offset: 3px;
+}
+
+.arrowNext {
+  background-color: var(--showcase-accent, var(--background-primary-color, #5b4bdb));
+  color: var(--showcase-bg, #fffbf2);
+}
+
+.rail {
+  display: flex;
+  gap: 20px;
+  margin: -8px 0 -14px;
+  padding: 8px 0 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  display: flex;
+  flex: 0 0 calc((100% - 60px) / 4);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.slide > * {
+  flex: 1;
+}
+.slide:nth-child(4n+1) [data-role=spot-image] {
+  background-color: #f4e4dc;
+}
+.slide:nth-child(4n+2) [data-role=spot-image] {
+  background-color: #e2ede9;
+}
+.slide:nth-child(4n+3) [data-role=spot-image] {
+  background-color: #dcedea;
+}
+.slide:nth-child(4n+4) [data-role=spot-image] {
+  background-color: #e8e3f3;
+}
+
+@container (min-width: 961px) and (max-width: 1199px) {
+  .slide {
+    flex-basis: calc((100% - 40px) / 3);
+  }
+}
+@container (max-width: 960px) {
+  .productShowcase16 [data-role=spot-price] {
+    font-size: 21px;
+  }
+  .productShowcase16 [data-role=spot-buy] {
+    height: 44px;
+  }
+  .arrows {
+    display: none;
+  }
+  .rail {
+    gap: 12px;
+    margin: -8px 0 -8px;
+    padding: 8px 16px 14px;
+    scroll-padding: 0 16px;
+  }
+  .slide {
+    flex: 0 0 168px;
+  }
+}
+
+.crossSellingShelf16Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

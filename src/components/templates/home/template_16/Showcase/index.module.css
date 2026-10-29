@@ -1,0 +1,392 @@
+/* Espelha molecules/ProductShelf16 (faststore.starter, família 16): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productShelf16Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productShelf16 {
+  width: 100%;
+  background-color: var(--showcase-bg, #fffbf2);
+  color: var(--showcase-text, var(--text-primary-color, #2a2350));
+  font-family: var(--showcase-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.productShelf16 *,
+.productShelf16 *::before,
+.productShelf16 *::after {
+  box-sizing: border-box;
+}
+.productShelf16 :where(.head, .banner) :where(h2, h3, p) {
+  margin: 0;
+}
+.productShelf16 :where(.head a, .banner) {
+  color: inherit;
+  text-decoration: none;
+}
+.productShelf16 :where(.arrow) {
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+}
+.productShelf16 :where(.rail) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.productShelf16 :where(.head svg, .arrow svg, .banner svg, .banner img) {
+  display: block;
+  flex: none;
+}
+.productShelf16 [data-role=spot-tag] {
+  width: 58px;
+  height: 58px;
+  background-color: var(--showcase-tag-bg, var(--spot-tag-bg, var(--background-tertiary-color, #ffc93c)));
+}
+.productShelf16 [data-role=spot] {
+  height: 100%;
+}
+.productShelf16 [data-role=spot] > :nth-child(2) {
+  flex: 1;
+}
+.productShelf16 [data-role=spot-price] {
+  margin-top: auto;
+  font-size: 25px;
+}
+.productShelf16 [data-role=spot-buy] {
+  height: 48px;
+}
+.productShelf16 [data-role=spot-buy] svg {
+  display: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px clamp(16px, 3vw, 40px) 56px;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.headCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.title {
+  color: var(--showcase-title-color, var(--text-primary-color, #2a2350));
+  font-family: var(--showcase-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 44px;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.subtitle {
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.tools {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+}
+
+.viewAll {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  margin-right: 8px;
+  color: var(--showcase-accent, var(--background-primary-color, #5b4bdb));
+  font-size: 16px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+.head .viewAll:hover {
+  opacity: 0.85;
+}
+.viewAll:focus-visible {
+  outline: 3px solid var(--showcase-accent, var(--background-primary-color, #5b4bdb));
+  outline-offset: 3px;
+}
+
+.arrows {
+  display: flex;
+  gap: 12px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border: 2px solid var(--showcase-text, var(--text-primary-color, #2a2350));
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: var(--showcase-text, var(--text-primary-color, #2a2350));
+  box-shadow: 0 4px 0 var(--showcase-text, var(--text-primary-color, #2a2350));
+}
+.arrow:disabled {
+  cursor: default;
+}
+.arrow:focus-visible {
+  outline: 3px solid var(--showcase-accent, var(--background-primary-color, #5b4bdb));
+  outline-offset: 3px;
+}
+
+.arrowNext {
+  background-color: var(--showcase-accent, var(--background-primary-color, #5b4bdb));
+  color: var(--showcase-bg, #fffbf2);
+}
+
+.body {
+  display: flex;
+  gap: 20px;
+}
+
+.rail {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  min-width: 0;
+  margin: -8px 0 -14px;
+  padding: 8px 0 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  display: flex;
+  flex: 0 0 calc((100% - 60px) / 4);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.slide > * {
+  flex: 1;
+}
+
+.variantBanner .slide {
+  flex-basis: calc((100% - 40px) / 3);
+}
+
+@container (min-width: 961px) and (max-width: 1199px) {
+  .slide {
+    flex-basis: calc((100% - 40px) / 3);
+  }
+  .variantBanner .slide {
+    flex-basis: calc((100% - 20px) / 2);
+  }
+}
+.banner {
+  position: relative;
+  display: flex;
+  flex: 0 0 calc((100% - 60px) / 4);
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 14px;
+  min-height: 480px;
+  padding: 24px;
+  border: 2px solid var(--showcase-text, var(--text-primary-color, #2a2350));
+  border-radius: 24px;
+  background-color: var(--banner-side-bg, var(--background-tertiary-color, #ff6f61));
+  color: var(--banner-side-text, var(--text-tertiary-color, #2a2350));
+}
+.banner:hover .bannerCta {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--banner-side-text, var(--text-tertiary-color, #2a2350));
+}
+.banner:focus-visible {
+  outline: 3px solid var(--showcase-accent, var(--background-primary-color, #5b4bdb));
+  outline-offset: 3px;
+}
+
+.bannerArt {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  left: 16px;
+  display: block;
+  height: 200px;
+  overflow: hidden;
+  border-radius: 18px;
+  background-color: #f8d3cc;
+}
+.bannerArt img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bannerTitle {
+  font-family: var(--showcase-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.08;
+}
+
+.bannerText {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.bannerCta {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  height: 52px;
+  padding: 0 22px;
+  border: 2px solid var(--banner-side-text, var(--text-tertiary-color, #2a2350));
+  border-radius: 999px;
+  background-color: #ffffff;
+  color: var(--banner-side-text, var(--text-primary-color, #2a2350));
+  box-shadow: 0 4px 0 var(--banner-side-text, var(--text-tertiary-color, #2a2350));
+  font-family: var(--showcase-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 17px;
+  font-weight: 600;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dots {
+  display: none;
+  justify-content: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--showcase-text, var(--text-primary-color, #2a2350));
+  border-radius: 50%;
+}
+
+.dotOn {
+  width: 28px;
+  border: 0;
+  border-radius: 999px;
+  background-color: var(--showcase-text, var(--text-primary-color, #2a2350));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bannerCta {
+    transition: none;
+  }
+  .banner:hover .bannerCta {
+    transform: none;
+  }
+}
+@container (max-width: 960px) {
+  .inner {
+    gap: 18px;
+    padding: 32px 0;
+  }
+  .variantBanner .inner {
+    gap: 16px;
+  }
+  .head {
+    flex-wrap: nowrap;
+    gap: 12px;
+    padding: 0 16px;
+  }
+  .title {
+    font-size: 28px;
+    line-height: 1.1;
+  }
+  .subtitle,
+  .arrows {
+    display: none;
+  }
+  .viewAll {
+    flex: none;
+    margin-right: 0;
+    font-size: 15px;
+    text-underline-offset: 4px;
+  }
+  .body {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .rail {
+    gap: 12px;
+    margin: -8px 0 -8px;
+    padding: 8px 16px 14px;
+    scroll-padding: 0 16px;
+  }
+  .slide,
+  .variantBanner .slide {
+    flex: 0 0 168px;
+  }
+  .banner {
+    flex: none;
+    gap: 10px;
+    min-height: 380px;
+    margin: 0 16px;
+    padding: 18px;
+  }
+  .bannerArt {
+    top: 12px;
+    right: 12px;
+    left: 12px;
+    height: 170px;
+    border-radius: 16px;
+  }
+  .bannerTitle {
+    font-size: 26px;
+    line-height: 1.1;
+  }
+  .bannerText {
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .bannerCta {
+    height: 50px;
+    padding: 0 20px;
+    box-shadow: 0 3px 0 var(--banner-side-text, var(--text-tertiary-color, #2a2350));
+    font-size: 16px;
+  }
+  .ctaArrow {
+    display: none;
+  }
+  .productShelf16 [data-role=spot-tag] {
+    width: 46px;
+    height: 46px;
+  }
+  .productShelf16 [data-role=spot-price] {
+    font-size: 21px;
+  }
+  .productShelf16 [data-role=spot-buy] {
+    height: 44px;
+  }
+  .dots {
+    display: flex;
+  }
+}
+
+.productShelf16Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

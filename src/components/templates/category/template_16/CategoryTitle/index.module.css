@@ -1,0 +1,189 @@
+/* Espelha organisms/CategoryTitle16 (faststore.starter, família 16): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categoryTitle16Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categoryTitle16 {
+  width: 100%;
+  background-color: var(--cat-title-bg, var(--background-secundary-color, #ffc93c));
+  color: var(--cat-title-text, var(--text-color-secundary, #2a2350));
+  font-family: var(--cat-title-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categoryTitle16 *,
+.categoryTitle16 *::before,
+.categoryTitle16 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.categoryTitle16 :where(h1, p) {
+  margin: 0;
+}
+.categoryTitle16 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.categoryTitle16 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.categoryTitle16 :where(a):hover {
+  opacity: 0.85;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px clamp(16px, 3vw, 40px) 20px;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.title {
+  font-family: var(--cat-title-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.count {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background-color: var(--cat-title-accent, var(--background-primary-color, #5b4bdb));
+  color: var(--text-color-base, #ffffff);
+  font-size: 15px;
+  font-weight: 800;
+  transform: rotate(-4deg);
+}
+
+.chipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-family: var(--cat-title-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.chipItem {
+  display: flex;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 50px;
+  padding: 0 20px;
+  border: 2px solid var(--cat-title-text, var(--text-primary-color, #2a2350));
+  border-radius: 999px;
+  background-color: #ffffff;
+  color: var(--cat-title-text, var(--text-primary-color, #2a2350));
+}
+.chip:focus-visible {
+  outline: 3px solid var(--cat-title-accent, var(--background-primary-color, #5b4bdb));
+  outline-offset: 2px;
+}
+
+.chipQty {
+  color: color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #2a2350)) 70%, #ffffff);
+  font-family: var(--cat-title-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.chipActive {
+  background-color: var(--cat-title-accent, var(--background-primary-color, #5b4bdb));
+  color: var(--text-color-base, #ffffff);
+}
+.chipActive .chipQty {
+  color: inherit;
+}
+
+.wave {
+  display: block;
+  width: 100%;
+  height: 32px;
+  fill: #fffbf2;
+}
+
+.waveMob {
+  display: none;
+}
+
+@container (max-width: 960px) {
+  .categoryTitle16 {
+    overflow: hidden;
+  }
+  .inner {
+    gap: 14px;
+    padding: 24px 0 14px;
+  }
+  .head {
+    gap: 10px;
+    padding: 0 16px;
+  }
+  .title {
+    font-size: 40px;
+  }
+  .count {
+    height: 30px;
+    padding: 0 12px;
+    font-size: 13px;
+  }
+  .chips {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+  .chipList {
+    flex-wrap: nowrap;
+    gap: 8px;
+    width: max-content;
+    padding: 0 16px;
+    font-size: 16px;
+    white-space: nowrap;
+  }
+  .chipItem {
+    flex: none;
+  }
+  .chip {
+    gap: 6px;
+    height: 44px;
+    padding: 0 16px;
+  }
+  .chipQty {
+    font-size: 13px;
+  }
+  .waveDesk {
+    display: none;
+  }
+  .waveMob {
+    display: block;
+    height: 20px;
+  }
+}
+
+.categoryTitle16Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
