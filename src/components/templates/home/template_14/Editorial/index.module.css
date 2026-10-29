@@ -1,0 +1,329 @@
+/* Espelha organisms/Editorial14 (faststore.starter, família 14): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.editorial14Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.editorial14 {
+  width: 100%;
+  background-color: var(--editorial-bg, #f1f4f8);
+  color: var(--editorial-text, var(--text-primary-color, #0b1b33));
+  font-family: var(--editorial-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.editorial14 *,
+.editorial14 *::before,
+.editorial14 *::after {
+  box-sizing: border-box;
+}
+.editorial14 :where(h2) {
+  margin: 0;
+}
+.editorial14 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.editorial14 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.editorial14 :where(a):hover {
+  opacity: 0.85;
+}
+.editorial14 :where(a):focus-visible {
+  outline: 2px solid var(--editorial-accent, var(--background-primary-color, #e4002b));
+  outline-offset: 2px;
+}
+.editorial14 svg,
+.editorial14 img {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 72px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.title {
+  color: var(--editorial-text, var(--text-primary-color, #0b1b33));
+  font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 48px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.viewAll,
+.link {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-decoration-color: var(--editorial-accent, var(--background-primary-color, #e4002b));
+  text-decoration-thickness: 3px;
+  text-underline-offset: 6px;
+}
+
+.viewAll {
+  font-size: 16px;
+}
+
+.viewAllIcon {
+  width: 16px;
+  height: 16px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 32px;
+}
+
+.img {
+  position: absolute;
+  inset: 0;
+}
+.img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featured {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.featuredArt {
+  position: relative;
+  display: block;
+  aspect-ratio: 2/1;
+  overflow: hidden;
+  background-color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #0b1b33)) 14%, var(--editorial-bg, #f1f4f8));
+}
+
+.plate {
+  position: absolute;
+  bottom: 28px;
+  left: 0;
+  padding: 10px 40px 12px 24px;
+  background-color: var(--editorial-text, var(--text-primary-color, #0b1b33));
+  color: var(--editorial-bg, #f1f4f8);
+  font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 64px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 0.9;
+  text-transform: uppercase;
+  clip-path: polygon(0 0, 100% 0, calc(100% - 22px) 100%, 0 100%);
+}
+
+.plateText {
+  display: block;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.tick {
+  width: 6px;
+  height: 14px;
+  background-color: var(--editorial-accent, var(--background-primary-color, #e4002b));
+  transform: skewX(-18deg);
+}
+
+.featuredTitle {
+  font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 36px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.text {
+  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #0b1b33)) 72%, var(--editorial-bg, #f1f4f8));
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.link {
+  align-self: flex-start;
+  font-size: 17px;
+}
+
+.linkIcon {
+  width: 18px;
+  height: 18px;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.story {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.storyArt {
+  position: relative;
+  display: block;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+  background-color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #0b1b33)) 9%, var(--editorial-bg, #f1f4f8));
+}
+
+.sideItem:nth-child(even) .storyArt {
+  background-color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #0b1b33)) 14%, var(--editorial-bg, #f1f4f8));
+}
+
+.num {
+  position: absolute;
+  top: 8px;
+  left: 14px;
+  color: var(--editorial-accent, var(--background-primary-color, #e4002b));
+  font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 64px;
+  font-style: italic;
+  font-weight: 900;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.storyBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.storyTitle {
+  font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 20px;
+    padding: 40px 16px;
+  }
+  .title {
+    font-size: 28px;
+  }
+  .viewAll {
+    font-size: 14px;
+  }
+  .grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .featured {
+    gap: 10px;
+  }
+  .featuredArt {
+    height: 220px;
+    aspect-ratio: auto;
+  }
+  .plate {
+    bottom: 16px;
+    padding: 8px 28px 8px 16px;
+    font-size: 44px;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 100%, 0 100%);
+  }
+  .plateText {
+    font-size: 15px;
+    line-height: 1.3;
+  }
+  .featuredTitle {
+    font-size: 28px;
+  }
+  .text {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .link {
+    font-size: 16px;
+  }
+  .linkIcon {
+    width: 16px;
+    height: 16px;
+  }
+  .side {
+    gap: 20px;
+  }
+  .story {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #0b1b33)) 14%, var(--editorial-bg, #f1f4f8));
+  }
+  .storyArt {
+    flex: none;
+    width: 104px;
+    height: 104px;
+    aspect-ratio: auto;
+  }
+  .num {
+    top: 4px;
+    left: 8px;
+    font-size: 36px;
+  }
+  .storyBody {
+    gap: 8px;
+  }
+  .storyTitle {
+    font-size: 18px;
+    line-height: 1.1;
+  }
+}
+
+.editorial14Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

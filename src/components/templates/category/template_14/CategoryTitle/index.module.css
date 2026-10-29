@@ -1,0 +1,196 @@
+/* Espelha organisms/CategoryTitle14 (faststore.starter, família 14): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categoryTitle14Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categoryTitle14 {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: var(--cat-title-bg, var(--background-secundary-color, #0b1b33));
+  color: var(--cat-title-text, var(--text-color-secundary, #ffffff));
+  font-family: var(--cat-title-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categoryTitle14 *,
+.categoryTitle14 *::before,
+.categoryTitle14 *::after {
+  box-sizing: border-box;
+}
+.categoryTitle14 :where(h1, p) {
+  margin: 0;
+}
+.categoryTitle14 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.categoryTitle14 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.categoryTitle14 :where(a):hover {
+  opacity: 0.85;
+}
+
+.watermark {
+  position: absolute;
+  top: 50%;
+  right: -40px;
+  transform: translateY(-50%);
+  color: transparent;
+  -webkit-text-stroke: 2px color-mix(in srgb, var(--cat-title-text, var(--text-color-secundary, #ffffff)) 16%, var(--cat-title-bg, var(--background-secundary-color, #0b1b33)));
+  white-space: nowrap;
+  line-height: 1;
+  pointer-events: none;
+  font-family: var(--cat-title-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 260px;
+  font-style: italic;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.stripe {
+  position: absolute;
+  top: -10px;
+  right: 34%;
+  bottom: -10px;
+  width: 14px;
+  background-color: var(--cat-title-accent, var(--background-tertiary-color, #d9f99d));
+  transform: skewX(-16deg);
+  pointer-events: none;
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 52px clamp(16px, 3vw, 40px) 48px;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+}
+
+.title {
+  line-height: 0.9;
+  letter-spacing: -0.015em;
+  font-family: var(--cat-title-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 96px;
+  font-style: italic;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.count {
+  padding: 5px 16px;
+  background-color: var(--cat-title-accent, var(--background-tertiary-color, #d9f99d));
+  color: var(--cat-title-bg, var(--background-secundary-color, #0b1b33));
+  clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+  font-family: var(--cat-title-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 16px;
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.chipList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chipItem {
+  flex: none;
+}
+
+.chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 48px;
+  padding: 0 22px;
+  background-color: color-mix(in srgb, var(--cat-title-text, var(--text-color-secundary, #ffffff)) 10%, var(--cat-title-bg, var(--background-secundary-color, #0b1b33)));
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  font-family: var(--cat-title-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+.chip:focus-visible {
+  outline: 2px solid var(--cat-title-accent, var(--background-tertiary-color, #d9f99d));
+  outline-offset: -4px;
+}
+
+.chipQty {
+  color: color-mix(in srgb, var(--cat-title-text, var(--text-color-secundary, #ffffff)) 80%, var(--cat-title-bg, var(--background-secundary-color, #0b1b33)));
+  font-family: var(--cat-title-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  text-transform: none;
+}
+
+.chipActive {
+  background-color: var(--cat-title-accent, var(--background-tertiary-color, #d9f99d));
+  color: var(--cat-title-bg, var(--background-secundary-color, #0b1b33));
+}
+.chipActive .chipQty {
+  color: inherit;
+}
+
+@container (max-width: 960px) {
+  .watermark,
+  .stripe {
+    display: none;
+  }
+  .inner {
+    gap: 18px;
+    padding: 28px 0;
+  }
+  .head {
+    gap: 12px;
+    padding: 0 16px;
+  }
+  .title {
+    font-size: 56px;
+  }
+  .count {
+    font-size: 14px;
+  }
+  .chips {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+  .chipList {
+    flex-wrap: nowrap;
+    width: max-content;
+    padding: 0 16px;
+    white-space: nowrap;
+  }
+  .chip {
+    height: 44px;
+    padding: 0 18px;
+    font-size: 15px;
+  }
+}
+
+.categoryTitle14Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

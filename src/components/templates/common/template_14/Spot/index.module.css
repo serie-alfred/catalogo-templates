@@ -1,0 +1,454 @@
+/* Espelha molecules/ProductCard14 (faststore.starter, família 14): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productCard14Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productCard14 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background-color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0b1b33)) 6%, #ffffff);
+  color: var(--spot-text, var(--text-primary-color, #0b1b33));
+  font-family: var(--spot-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.productCard14 *,
+.productCard14 *::before,
+.productCard14 *::after {
+  box-sizing: border-box;
+}
+.productCard14 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.productCard14 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.productCard14 svg {
+  display: block;
+  flex: none;
+}
+@container (min-width: 961px) {
+  .productCard14:not(.soldOut):hover, .productCard14:not(.soldOut):focus-within {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(11, 27, 51, 0.16);
+  }
+  .productCard14:not(.soldOut):hover .media, .productCard14:not(.soldOut):focus-within .media {
+    background-color: #cdd6e2;
+  }
+  .productCard14:not(.soldOut):hover .buy, .productCard14:not(.soldOut):focus-within .buy {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+  .productCard14:not(.soldOut):hover .imgHover {
+    opacity: 1;
+  }
+}
+
+.mob {
+  display: none !important;
+}
+.media {
+  position: relative;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  background-color: #dce3ec;
+}
+
+.mediaLink {
+  position: absolute;
+  inset: 0;
+}
+
+.img,
+.imgHover {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imgHover {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tags {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  pointer-events: none;
+}
+
+.tag,
+.discount {
+  font-family: var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+  clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
+}
+
+.tag {
+  padding: 4px 12px;
+  background-color: var(--spot-tag-bg, var(--background-tertiary-color, #d9f99d));
+  color: var(--spot-tag-text, var(--text-tertiary-color, #0b1b33));
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.discount {
+  padding: 3px 12px;
+  background-color: var(--spot-btn-bg, var(--background-primary-color, #e4002b));
+  color: var(--spot-btn-text, var(--text-color-base, #ffffff));
+  font-size: 14px;
+}
+
+.outTag {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  transform: translateY(-50%);
+  padding: 6px 0;
+  background-color: var(--spot-text, var(--text-primary-color, #0b1b33));
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0b1b33)) 6%, #ffffff);
+  font-family: var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 24px;
+  font-style: italic;
+  font-weight: 900;
+  text-align: center;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.favorite {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+}
+.favorite:hover {
+  opacity: 0.85;
+}
+.favorite[aria-pressed=true] {
+  color: var(--spot-btn-bg, var(--background-primary-color, #e4002b));
+}
+.favorite:focus-visible {
+  outline: 2px solid var(--spot-btn-bg, var(--background-primary-color, #e4002b));
+  outline-offset: -2px;
+}
+
+.buy {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 48px;
+  background-color: var(--spot-btn-bg, var(--background-primary-color, #e4002b));
+  color: var(--spot-btn-text, var(--text-color-base, #ffffff));
+  font-family: var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.buy:focus-visible {
+  outline: 2px solid var(--spot-text, var(--text-primary-color, #0b1b33));
+  outline-offset: -4px;
+}
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  padding: 14px 16px 18px;
+}
+
+.brand {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0b1b33)) 70%, #ffffff);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.name:hover {
+  opacity: 0.85;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0b1b33)) 70%, #ffffff);
+  font-size: 12px;
+}
+
+.stars {
+  display: flex;
+  gap: 1px;
+  color: var(--spot-text, var(--text-primary-color, #0b1b33));
+}
+
+.prices {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 6px;
+}
+
+.listPrice {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0b1b33)) 70%, #ffffff);
+  font-size: 13px;
+  text-decoration: line-through;
+}
+
+.price {
+  color: var(--spot-price-color, var(--text-primary-color, #0b1b33));
+  font-family: var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-size: 24px;
+  font-style: italic;
+  font-weight: 800;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.installment {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0b1b33)) 70%, #ffffff);
+  font-size: 13px;
+}
+
+.pix {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+.soldOut .media {
+  background-color: #e1e7ef;
+}
+
+.notify,
+.buyWide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-family: var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
+  font-style: italic;
+  font-weight: 800;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.notify {
+  height: 48px;
+  border: 2px solid var(--spot-text, var(--text-primary-color, #0b1b33));
+  font-size: 16px;
+}
+.notify:hover {
+  opacity: 0.85;
+}
+.notify:focus-visible {
+  outline: 2px solid var(--spot-btn-bg, var(--background-primary-color, #e4002b));
+  outline-offset: 2px;
+}
+
+.buyWide {
+  height: 44px;
+  background-color: var(--spot-btn-bg, var(--background-primary-color, #e4002b));
+  color: var(--spot-btn-text, var(--text-color-base, #ffffff));
+  font-size: 15px;
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+}
+.buyWide:focus-visible {
+  outline: 2px solid var(--spot-text, var(--text-primary-color, #0b1b33));
+  outline-offset: -4px;
+}
+
+.buyWideIcon {
+  width: 16px;
+  height: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .productCard14,
+  .imgHover,
+  .buy {
+    transition: none;
+  }
+}
+@container (max-width: 960px) {
+  .dsk {
+    display: none !important;
+  }
+  .mob {
+    display: flex !important;
+  }
+  .tags {
+    top: 8px;
+    left: 8px;
+  }
+  .tag {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+  .discount {
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+  .favorite {
+    top: 0;
+    right: 0;
+  }
+  .favorite .heart {
+    width: 18px;
+    height: 18px;
+  }
+  .outTag {
+    font-size: 18px;
+  }
+  .info {
+    gap: 3px;
+    padding: 10px 10px 14px;
+  }
+  .brand {
+    font-size: 11px;
+  }
+  .name {
+    font-size: 13px;
+  }
+  .star {
+    width: 11px;
+    height: 11px;
+  }
+  .prices {
+    margin-top: 4px;
+  }
+  .listPrice,
+  .installment {
+    font-size: 12px;
+  }
+  .price {
+    font-size: 20px;
+  }
+  .notify {
+    font-size: 14px;
+  }
+}
+
+.productCard14Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
+/* O quadro do desenho `Spot14` (palco do starter, `Comum14Stage.module.scss`): o branco da
+   família, as colunas do canvas e os rótulos de estado. A coluna "Hover" força o estado de
+   hover do card pelos data-role, como o palco de lá. */
+.spotStage {
+  width: 100%;
+  background-color: #ffffff;
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: normal;
+  letter-spacing: normal;
+}
+.spotGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 32px;
+  align-items: start;
+  box-sizing: border-box;
+  width: 1040px;
+  min-height: 640px;
+  padding: 40px;
+}
+.spotCol {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.spotLabel {
+  color: color-mix(in srgb, #0b1b33 70%, #ffffff);
+  font-family: 'Saira', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+@container (min-width: 961px) {
+  .spotHoverCol [data-role='spot'] {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(11, 27, 51, 0.16);
+  }
+  .spotHoverCol [data-role='spot-image'] {
+    background-color: #cdd6e2;
+  }
+  .spotHoverCol [data-role='spot-buy'] {
+    opacity: 1;
+    transform: none;
+  }
+}
+@container (max-width: 960px) {
+  .spotGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    width: 375px;
+    min-height: 0;
+    padding: 24px 16px 32px;
+  }
+  .spotCol {
+    gap: 10px;
+  }
+  .spotLabel {
+    font-size: 12px;
+  }
+  .spotHoverCol {
+    display: none;
+  }
+}
