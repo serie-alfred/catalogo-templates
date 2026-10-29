@@ -139,7 +139,7 @@ const talvezLink = (
   );
 
 const MOCK: Footer16Props = {
-  brandName: 'sua marca',
+  brandName: 'SERIE//A',
   aboutText:
     'Brinquedos, roupinhas e livros escolhidos com carinho para cada fase da infância.',
   socials: [

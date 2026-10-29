@@ -79,7 +79,7 @@ const MOCK: Header16Props = {
     { text: 'Até 6x sem juros', icon: 'card' },
     { text: 'Primeira troca grátis', icon: 'exchange' },
   ],
-  brandName: 'sua marca',
+  brandName: 'SERIE//A',
   menu: [
     {
       label: 'Brinquedos',
