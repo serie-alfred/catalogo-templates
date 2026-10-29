@@ -38,7 +38,7 @@ export const SLOTS_OBRIGATORIOS: Record<Pagina, readonly string[]> = {
   product: ['product-info'],
 };
 
-/** Nome das famílias 09 a 13 (`.familias-contrato.md`). As anteriores ficam
+/** Nome das famílias 09 a 14 (`.familias-contrato.md`). As anteriores ficam
  *  com nome neutro — o repo é público, e o sufixo de algumas é um cliente. */
 const NOMES: Record<string, string> = {
   '9': 'Editorial',
@@ -46,6 +46,7 @@ const NOMES: Record<string, string> = {
   '11': 'Grade',
   '12': 'Suave',
   '13': 'Noturno',
+  '14': 'Esportiva',
 };
 
 /**
@@ -189,6 +190,21 @@ export const TEMA_DAS_FAMILIAS: Record<string, TemaDaFamilia> = {
       fontPrimary: 'Barlow Condensed',
       fontSecondary: 'Barlow',
       fontTertiary: 'Barlow',
+    },
+  },
+  '14': {
+    colors: {
+      colorFooter: '#0b1b33', // --background-footer: #0B1B33×1 [só papéis de fundo: #0B1B33×1]
+      colorFooterText: '#ffffff', // --text-color-footer: #FFFFFF×1 #D9F99D×1
+      colorPrimary: '#0b1b33', // --text-primary-color: #0B1B33×25
+      colorPrimaryBackground: '#e4002b', // --background-primary-color: #E4002B×22 #0B1B33×1 [só papéis de fundo: #E4002B×6 #0B1B33×1]
+      colorSecondaryBackground: '#0b1b33', // --background-secundary-color: #0B1B33×8 #D9F99D×1 [só papéis de fundo: #0B1B33×6]
+      colorTertiaryBackground: '#d9f99d', // --background-tertiary-color: #D9F99D×2 [só papéis de fundo: #D9F99D×1]
+    },
+    fonts: {
+      fontPrimary: 'Saira',
+      fontSecondary: 'Inter',
+      fontTertiary: 'Inter',
     },
   },
 };
@@ -354,6 +370,30 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     },
     ProductRelated12: {
       '--showcase-tag-text': '#3b1f33',
+    },
+  },
+  '14': {
+    Spot14: {
+      '--spot-tag-text': '#0b1b33',
+    },
+    Footer14: {
+      '--footer-accent': '#d9f99d',
+    },
+    BannerMain14: {
+      '--banner-main-accent': '#d9f99d',
+    },
+    Showcase14: {
+      '--showcase-tag-bg': '#d9f99d',
+      '--showcase-tag-text': '#0b1b33',
+    },
+    HelpFloat14: {
+      '--help-header-bg': '#0b1b33',
+    },
+    PopupNews14: {
+      '--popup-accent': '#d9f99d',
+    },
+    Countdown14: {
+      '--countdown-accent': '#d9f99d',
     },
   },
 };
