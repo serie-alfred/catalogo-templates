@@ -24,10 +24,10 @@ export default function Header() {
         </Link>
       </div>
       <div className={styles.callUs}>
-        <Link href="/">
+        <a href="/#contato" aria-label="Fale conosco">
           <p>Fale conosco</p>
           {icons.TalkToUsArrowIcon}
-        </Link>
+        </a>
       </div>
     </header>
   );

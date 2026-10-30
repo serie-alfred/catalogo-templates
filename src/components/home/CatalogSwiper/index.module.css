@@ -1,3 +1,15 @@
 .spotFullWidth {
   width: 100% !important;
 }
+/* Espaço para as bolinhas abaixo dos cards (o Swiper as põe em absolute). */
+.swiper {
+  padding-bottom: 40px !important;
+}
+
+/* Setas só no desktop: no celular o gesto já é arrastar. */
+@media (max-width: 1023px) {
+  .swiper :global(.swiper-button-prev),
+  .swiper :global(.swiper-button-next) {
+    display: none;
+  }
+}

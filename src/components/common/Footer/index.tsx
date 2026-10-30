@@ -57,19 +57,19 @@ export default function Footer() {
 
   return (
     <footer>
-      <div className={styles.footerTopContainer}>
+      <div className={styles.footerTopContainer} id="contato">
         <div className={styles.footerTop}>
           <div className={styles.footerEsq}>
             <div className={styles.containerTitle}>
               <h2>Que tal lançar sua loja dos sonhos em órbita?</h2>
               <p>
                 Compartilhe os desafios da sua empresa com nossa tripulação de
-                especialistas que iremos te ajudar!
+                especialistas, que vai te ajudar!
               </p>
             </div>
             <div className={styles.containerSubTitle}>
               <p>
-                Cadastre-se para ter a oportunidades de fazer parte da nossa
+                Cadastre-se para ter a oportunidade de fazer parte da nossa
                 tripulação<span>.</span>
               </p>
               <a href="#">
@@ -113,8 +113,9 @@ export default function Footer() {
                     Selecione
                   </option>
                   <option value="varejo">Varejo</option>
-                  <option value="alimentacao">Construção</option>
-                  <option value="servicos">Moda</option>
+                  <option value="construcao">Construção</option>
+                  <option value="moda">Moda</option>
+                  <option value="outro">Outro</option>
                 </select>
               </div>
               <div className={styles.inputItem}>
@@ -154,7 +155,7 @@ export default function Footer() {
               <input
                 id="email"
                 className={styles.inputBox}
-                placeholder="seuemail@serie.com.br"
+                placeholder="voce@empresa.com.br"
               ></input>
             </div>
             <div className={styles.containerInput}>

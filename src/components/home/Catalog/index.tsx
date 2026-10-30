@@ -48,8 +48,9 @@ export default function CatalogSpots({ items }: { items: CatalogItem[] }) {
         <div className={styles.search}>
           <div className={styles.searchInputContainer}>
             <input
-              type="text"
+              type="search"
               name="search"
+              aria-label="Buscar template"
               id="search"
               placeholder="Buscar modelo..."
               value={search}
@@ -65,6 +66,15 @@ export default function CatalogSpots({ items }: { items: CatalogItem[] }) {
             <Spot key={item.id} item={item} />
           ))}
         </div>
+
+        {filteredCatalog.length === 0 && (
+          <div className={styles.vazio} role="status">
+            <p>Nenhum template para “{search}”.</p>
+            <button type="button" onClick={() => setSearch('')}>
+              Limpar busca
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

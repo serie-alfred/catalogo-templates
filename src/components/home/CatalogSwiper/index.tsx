@@ -21,7 +21,12 @@ export default function CatalogSwiper({ items }: Props) {
   return (
     <Swiper
       modules={[Navigation, Pagination]}
+      navigation
+      className={styles.swiper}
       spaceBetween={20}
+      // Setas no desktop e bolinhas nos dois: sem elas, o slide que sobra só
+      // aparecia arrastando, e nada dizia que dava para arrastar.
+      pagination={{ clickable: true }}
       // O loop precisa de duas telas de slides (2 × 4 no desktop); com menos,
       // o Swiper avisa e o carrossel trava na ponta.
       loop={items.length >= 8}
