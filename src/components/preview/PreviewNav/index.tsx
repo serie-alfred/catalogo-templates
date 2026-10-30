@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PREVIEW_PAGES } from '@/utils/previewRender';
 import { CHECKOUT_ETAPAS } from '@/utils/checkout';
@@ -27,6 +27,11 @@ interface PreviewNavProps {
  * No canto oposto, o "Editar": volta ao editor com ESTE tema
  * (`/gerador?preview={id}`), e a aba do editor passa a atualizar este mesmo
  * link. O /gerador pede login; o preview continua público.
+ *
+ * O "Editar" só aparece com `?editar=1` na URL: o link copiado vai ao cliente
+ * para validação e não leva o parâmetro; o "Abrir preview" do editor leva. A
+ * navegação entre páginas repassa o parâmetro. Esconder é só cosmético: o
+ * /gerador continua atrás do login.
  */
 export default function PreviewNav({
   id,
@@ -36,6 +41,14 @@ export default function PreviewNav({
   rev = 0,
 }: PreviewNavProps) {
   const [open, setOpen] = useState(false);
+  // Lido depois da montagem: `useSearchParams` pediria um Suspense nas páginas.
+  const [editavel, setEditavel] = useState(false);
+  useEffect(() => {
+    setEditavel(
+      new URLSearchParams(window.location.search).get('editar') === '1'
+    );
+  }, []);
+  const qs = editavel ? '?editar=1' : '';
 
   return (
     <div className={styles.wrapper}>
@@ -46,7 +59,7 @@ export default function PreviewNav({
           {PREVIEW_PAGES.map(page => (
             <Link
               key={page.slug}
-              href={`/p/${id}/${page.slug}`}
+              href={`/p/${id}/${page.slug}${qs}`}
               className={`${styles.menuItem} ${
                 page.slug === activeSlug ? styles.active : ''
               }`}
@@ -59,7 +72,7 @@ export default function PreviewNav({
             <>
               <span className={styles.menuTitle}>Landing page</span>
               <Link
-                href={`/p/${id}/lp`}
+                href={`/p/${id}/lp${qs}`}
                 className={`${styles.menuItem} ${
                   activeSlug === 'lp' ? styles.active : ''
                 }`}
@@ -75,7 +88,7 @@ export default function PreviewNav({
               {CHECKOUT_ETAPAS.map(etapa => (
                 <Link
                   key={etapa.id}
-                  href={`/p/${id}/checkout/${etapa.id}`}
+                  href={`/p/${id}/checkout/${etapa.id}${qs}`}
                   className={`${styles.menuItem} ${
                     `checkout/${etapa.id}` === activeSlug ? styles.active : ''
                   }`}
@@ -91,25 +104,33 @@ export default function PreviewNav({
 
       {/* `<a>` comum, não `<Link>`: o editor é outro root layout, e a
           navegação entre root layouts recarrega a página de qualquer jeito. */}
-      <a
-        href={`/gerador?preview=${id}${
-          activeSlug.startsWith('checkout/') ? '&modo=checkout' : ''
-        }`}
-        className={styles.edit}
-        data-preview-editar=""
-        title="Abrir este tema no editor"
-      >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
-          <path
-            d="M4 20h4L19 9l-4-4L4 16v4zM14 6l4 4"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        Editar
-      </a>
+      {editavel && (
+        <a
+          href={`/gerador?preview=${id}${
+            activeSlug.startsWith('checkout/') ? '&modo=checkout' : ''
+          }`}
+          className={styles.edit}
+          data-preview-editar=""
+          title="Abrir este tema no editor"
+        >
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden
+          >
+            <path
+              d="M4 20h4L19 9l-4-4L4 16v4zM14 6l4 4"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          Editar
+        </a>
+      )}
 
       <button
         type="button"

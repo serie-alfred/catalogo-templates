@@ -9,7 +9,8 @@ import styles from './index.module.css';
 
 /**
  * "Pré-visualizar": grava o tema atual no servidor e devolve uma URL curta
- * (/p/{id}), exibida num modal com copiar e abrir.
+ * (/p/{id}), exibida num modal com copiar e abrir. O copiar leva o link limpo
+ * (vai ao cliente, sem "Editar"); o abrir leva `?editar=1` (é a agência).
  *
  * Vive no cabeçalho do painel direito. A gravação passa pela rede, então o
  * botão mostra que está ocupado — antes ele só ficava `disabled`, sem sinal
@@ -117,7 +118,7 @@ export default function PreviewButton() {
 
                   <a
                     className={styles.openLink}
-                    href={url ?? '#'}
+                    href={url ? `${url}?editar=1` : '#'}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
