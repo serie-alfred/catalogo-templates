@@ -1,0 +1,42 @@
+.page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 140px 16px 80px;
+  font-family: var(--font-family);
+  color: var(--foreground);
+  line-height: 1.6;
+}
+
+.page h1 {
+  font-size: 36px;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.page h2 {
+  font-size: 22px;
+  margin: 32px 0 8px;
+}
+
+.page p,
+.page li {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.page ul {
+  padding-left: 20px;
+}
+
+.atualizado {
+  color: var(--grey-55, #8a8a8a);
+}
+
+/* Marca o que o time precisa preencher e o jurídico validar. */
+.preencher {
+  background: #fff3c4;
+  color: #5a4500;
+  padding: 0 4px;
+  border-radius: 4px;
+  font-weight: 600;
+}

@@ -363,3 +363,50 @@ and (max-width: 1650px){
     width: 30px;
     height: 30px;
 }
+/* Formulário de contato: isca, aceite e retorno do envio. */
+.isca {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.aceite {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+  line-height: 1.4;
+  color: #b8b8b8;
+}
+
+.aceite input {
+  margin-top: 3px;
+  flex: none;
+}
+
+.aceite a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.btnAction:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.statusOk,
+.statusErro {
+  min-height: 1.4em;
+  margin: 0;
+  font-size: 15px;
+}
+
+.statusOk {
+  color: #7ee2a8;
+}
+
+.statusErro {
+  color: #ff8a8a;
+}
