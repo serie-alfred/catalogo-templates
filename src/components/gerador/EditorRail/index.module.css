@@ -15,8 +15,12 @@
   background: var(--ed-bg-00);
 }
 
+/* O E da marca (Logo sem o nome), com 21px de altura como o símbolo antigo:
+   a pilha de ícones abaixo não se mexe. */
 .mark {
   flex-shrink: 0;
+  display: flex;
+  color: var(--ed-gray-900);
 }
 
 .item {

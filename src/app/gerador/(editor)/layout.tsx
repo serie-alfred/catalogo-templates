@@ -5,6 +5,8 @@ import '../../../styles/globals.css';
 import '../../../styles/storefront.css';
 // DEPOIS de globals.css: a trava de dark mode precisa vencer por ordem.
 import '../../../styles/editor-tokens.css';
+// Só para o Logo do rail (o acento do banner do E): tokens com prefixo.
+import '../../../styles/marca.css';
 import { LayoutProvider } from '@/context/LayoutContext';
 
 /**

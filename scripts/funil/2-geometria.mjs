@@ -109,7 +109,9 @@ const DIVERGENCIAS_CONSCIENTES = [
 const DESVIOS_DO_REDESIGN = {
   // ── rail — 75.404→56 ──
   rail: { w: -19.4 },
-  'rail.logo': { h: -2.98, w: -3.4, x: -8, y: -8 },
+  // O símbolo virou o E da marca em 03/11/2026 (Logo sem o nome, 21 de altura
+  // para a pilha de ícones não andar): 22,5 × 21, centrado no rail de 56.
+  'rail.logo': { h: -3, w: -4.9, x: -7.25, y: -8 },
   'rail.item1': { x: -9.7, y: -22.98 },
   'rail.item2': { x: -9.7, y: -34.98 },
   'rail.item3': { x: -9.7, y: -46.98 },
@@ -419,7 +421,7 @@ const RAIL = 'nav[aria-label="Seções do editor"]';
 const ASIDE = 'aside[aria-label="Painel de edição"]';
 
 await cmp('rail', RAIL, noL('Frame 30'));
-await cmp('rail.logo', `${RAIL} > svg`, noL('Frame 30 > Group 1'));
+await cmp('rail.logo', `${RAIL} > :first-child`, noL('Frame 30 > Group 1'));
 for (const [i, nome] of [
   'Edição',
   'lucide/palette',

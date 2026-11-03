@@ -15,7 +15,8 @@ import {
 import { useLayout } from '@/context/LayoutContext';
 import type { RailTarget } from '@/hooks/useLayoutGenerator';
 import { plataformaTemLp } from '@/utils/platformCompat';
-import { EtemasMark, LandingPage, TypeCase } from '@/assets/icons/editor';
+import Logo from '@/components/common/Logo';
+import { LandingPage, TypeCase } from '@/assets/icons/editor';
 
 import styles from './index.module.css';
 
@@ -97,7 +98,9 @@ export default function EditorRail({ className }: { className?: string }) {
       aria-label="Seções do editor"
       data-deselect-zone
     >
-      <EtemasMark className={styles.mark} width={24} height={21.02} />
+      <span className={styles.mark}>
+        <Logo tamanho={21} nome={false} />
+      </span>
 
       {itens.map(({ target, label, icon }) => (
         <button

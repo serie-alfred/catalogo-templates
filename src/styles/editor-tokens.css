@@ -29,12 +29,16 @@
   --ed-bg-01: #f5f5f5;
   --ed-bg-02: #efeff0;
 
-  /* Azul da marca */
-  --ed-blue-50: #f2fcff;
-  --ed-blue-100: #e6f9ff;
-  --ed-blue-600: #007ee6;
-  --ed-blue-800: #004799;
-  --ed-blue-ink: #004f99; /* texto sobre --ed-blue-100 */
+  /* Acento da marca. Era o azul do Figma até 03/11/2026, quando o editor
+     ganhou as cores do site (o escuro #17130c e o ouro do Luxo, marca.css); os
+     nomes `--ed-blue-*` ficaram porque 21 arquivos os leem. O contorno de
+     seleção DENTRO do canvas continua azul (editor-canvas.css): ele precisa
+     aparecer sobre qualquer loja, inclusive as de header escuro. */
+  --ed-blue-50: #faf7f0;
+  --ed-blue-100: #f3ecdc;
+  --ed-blue-600: #17130c;
+  --ed-blue-800: #3b3226;
+  --ed-blue-ink: #5f4a1c; /* texto sobre --ed-blue-100 */
 
   /* Dois vermelhos, e a divisão é de propósito:
      --ed-red   é o vermelho DO FIGMA, para traço, ícone e rótulo de afordância
@@ -45,7 +49,7 @@
   --ed-red: #eb5757;
   --ed-danger: #b42318;
 
-  --ed-grad-active: linear-gradient(98.735deg, #0096fe 2.4148%, #0078cc 100%);
+  --ed-grad-active: linear-gradient(98.735deg, #2e271d 2.4148%, #17130c 100%);
   --ed-shadow-card: 0 2px 4px 0 rgba(0, 0, 0, 0.08);
 
   /* Tipografia do chrome. A família vem do next/font em (editor)/layout.tsx.
