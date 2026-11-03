@@ -1,12 +1,17 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { getKv } from '@/lib/kv';
-import { SEGMENTOS, FAIXAS_COLABORADORES } from '@/utils/contato';
+import {
+  SEGMENTOS,
+  FAIXAS_COLABORADORES,
+  PLATAFORMAS,
+  PREFERENCIAS,
+} from '@/utils/contato';
 
 export const dynamic = 'force-dynamic';
 
 /**
- * O formulário "Iniciar lançamento" do rodapé da home. Pública por natureza:
+ * O formulário do comercial, no rodapé do site. Pública por natureza:
  * fica fora do `/gerador/api`, que pede login. Usa o mesmo Nodemailer e as
  * mesmas `SMTP_*`/`CONTACT_EMAIL` do envio de tema.
  *
@@ -26,6 +31,8 @@ const LIMITES = {
   telefone: 30,
   email: 160,
   desafio: 3000,
+  loja: 200,
+  template: 60,
 } as const;
 
 function ipDe(request: Request): string {
@@ -60,7 +67,16 @@ export async function POST(request: Request) {
   const empresa = texto(corpo.empresa, LIMITES.empresa);
   const telefone = texto(corpo.telefone, LIMITES.telefone);
   const email = texto(corpo.email, LIMITES.email);
-  const desafio = texto(corpo.desafio, LIMITES.desafio);
+  // Opcionais: vazio vira null; longo demais reprova.
+  const opcional = (v: unknown, max: number) =>
+    v === undefined || v === null || (typeof v === 'string' && !v.trim())
+      ? { ok: true, valor: null }
+      : { ok: texto(v, max) !== null, valor: texto(v, max) };
+  const desafio = opcional(corpo.desafio, LIMITES.desafio);
+  const loja = opcional(corpo.loja, LIMITES.loja);
+  const template = opcional(corpo.template, LIMITES.template);
+  const plataforma = PLATAFORMAS.find(p => p.valor === corpo.plataforma);
+  const preferencia = PREFERENCIAS.find(p => p.valor === corpo.preferencia);
   const segmento = SEGMENTOS.find(s => s.valor === corpo.segmento);
   const colaboradores = FAIXAS_COLABORADORES.find(
     f => f === corpo.colaboradores
@@ -72,7 +88,11 @@ export async function POST(request: Request) {
     !colaboradores && 'colaboradores',
     (!telefone || telefone.replace(/\D/g, '').length < 10) && 'telefone',
     (!email || !EMAIL.test(email)) && 'email',
-    !desafio && 'desafio',
+    !desafio.ok && 'desafio',
+    !loja.ok && 'loja',
+    !template.ok && 'template',
+    !plataforma && 'plataforma',
+    !preferencia && 'preferencia',
     corpo.aceite !== true && 'aceite',
   ].filter(Boolean);
   if (invalidos.length) {
@@ -107,17 +127,22 @@ export async function POST(request: Request) {
       // O remetente precisa ser a conta autenticada acima.
       from: `"E-temas · Contato" <${process.env.SMTP_USER}>`,
       to: process.env.CONTACT_EMAIL,
-      subject: 'Novo contato pelo site E-temas',
+      subject: `Novo contato pelo site E-temas · prefere ${preferencia!.rotulo}`,
       text: [
+        `Prefere ser contatado por: ${preferencia!.rotulo}`,
+        '',
         `Nome: ${nome}`,
         `Empresa: ${empresa}`,
-        `Segmento: ${segmento!.rotulo}`,
-        `Colaboradores: ${colaboradores}`,
         `Telefone: ${telefone}`,
         `E-mail: ${email}`,
+        `Plataforma: ${plataforma!.rotulo}`,
+        `Loja: ${loja.valor ?? '(não informou)'}`,
+        `Template de interesse: ${template.valor ?? 'ainda não sabe'}`,
+        `Segmento: ${segmento!.rotulo}`,
+        `Colaboradores: ${colaboradores}`,
         '',
-        'Desafio:',
-        desafio,
+        'Mensagem:',
+        desafio.valor ?? '(sem mensagem)',
         '',
         'Aceitou a Política de Privacidade.',
       ].join('\n'),

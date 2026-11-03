@@ -15,3 +15,16 @@ export const FAIXAS_COLABORADORES = [
   '51-100',
   '100+',
 ] as const;
+
+export const PLATAFORMAS = [
+  { valor: 'vtex', rotulo: 'VTEX FastStore' },
+  { valor: 'wake', rotulo: 'Wake' },
+  { valor: 'tray', rotulo: 'Tray' },
+  { valor: 'outra', rotulo: 'Outra ou ainda não tenho' },
+] as const;
+
+/** Como o visitante prefere que o comercial responda. */
+export const PREFERENCIAS = [
+  { valor: 'whatsapp', rotulo: 'WhatsApp' },
+  { valor: 'email', rotulo: 'E-mail' },
+] as const;
