@@ -24,10 +24,13 @@ export default function SharedCheckout({
   snapshot,
   etapa,
   id,
+  podeEditar,
 }: {
   snapshot: PreviewSnapshot;
   etapa: CheckoutEtapa;
   id: string;
+  /** Quem vê está logado no editor: o balão ganha o "Editar". */
+  podeEditar: boolean;
 }) {
   const [mobile, setMobile] = useState<boolean | null>(null);
   // A redução é assíncrona: até voltar, o frame não se declara pronto.
@@ -79,6 +82,7 @@ export default function SharedCheckout({
         activeSlug={`checkout/${etapa}`}
         temCheckout
         rev={snapshot.rev}
+        podeEditar={podeEditar}
       />
     </div>
   );

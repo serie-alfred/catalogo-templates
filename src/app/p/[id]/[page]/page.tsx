@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getPreview } from '@/lib/previewStore';
+import { podeAbrirOEditor } from '@/lib/sessaoDoEditor';
 import { slugToPagina } from '@/utils/previewRender';
 import SharedPreview from '@/components/preview/SharedPreview';
 
@@ -12,6 +13,7 @@ export default async function PreviewPage({ params }: PageProps) {
 
   const snapshot = await getPreview(id);
   if (!snapshot) notFound();
+  const podeEditar = await podeAbrirOEditor();
 
   // A LP do modo LP: as seções dela são de miolo (`home`) e vivem fora das
   // páginas da loja — renderiza só elas, como o canvas do modo LP.
@@ -23,6 +25,7 @@ export default async function PreviewPage({ params }: PageProps) {
         pagina="home"
         id={id}
         activeSlug="lp"
+        podeEditar={podeEditar}
       />
     );
   }
@@ -36,6 +39,7 @@ export default async function PreviewPage({ params }: PageProps) {
       pagina={pagina}
       id={id}
       activeSlug={page}
+      podeEditar={podeEditar}
     />
   );
 }

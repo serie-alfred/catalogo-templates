@@ -13,6 +13,8 @@ interface SharedPreviewProps {
   /** ID do preview e slug da URL atual (para o balão de navegação). */
   id: string;
   activeSlug: string;
+  /** Quem vê está logado no editor: o balão ganha o "Editar". */
+  podeEditar: boolean;
 }
 
 export default function SharedPreview({
@@ -20,6 +22,7 @@ export default function SharedPreview({
   pagina,
   id,
   activeSlug,
+  podeEditar,
 }: SharedPreviewProps) {
   // Favicon do tema. As fontes ficam com o SeededStorefront.
   useEffect(() => {
@@ -48,6 +51,7 @@ export default function SharedPreview({
         temCheckout={snapshotTemCheckout(snapshot)}
         lp={snapshot.lp ? { nome: snapshot.lp.nome } : undefined}
         rev={snapshot.rev}
+        podeEditar={podeEditar}
       />
     </>
   );

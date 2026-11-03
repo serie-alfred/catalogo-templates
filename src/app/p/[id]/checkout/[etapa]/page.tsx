@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getPreview } from '@/lib/previewStore';
+import { podeAbrirOEditor } from '@/lib/sessaoDoEditor';
 import {
   CHECKOUT_ETAPAS,
   snapshotTemCheckout,
@@ -34,6 +35,7 @@ export default async function CheckoutPreviewPage({ params }: PageProps) {
       snapshot={snapshot}
       etapa={etapa as CheckoutEtapa}
       id={id}
+      podeEditar={await podeAbrirOEditor()}
     />
   );
 }

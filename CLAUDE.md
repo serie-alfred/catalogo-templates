@@ -600,7 +600,10 @@ Alongside export, the topbar has a **Pré-visualizar** button ([PreviewButton](s
 - **Prod requires** a Vercel KV database and env vars `KV_REST_API_URL` / `KV_REST_API_TOKEN`.
 - **"Editar" and the live preview** ([previewAoVivo.ts](src/utils/previewAoVivo.ts), the decision is
   documented there). `PreviewNav` has a fixed `[data-preview-editar]` (bottom-left) linking to
-  `/gerador?preview={id}` (`&modo=checkout` from a checkout page): the hook fetches the snapshot from
+  `/gerador?preview={id}` (`&modo=checkout` from a checkout page). **It only exists for whoever could
+  open the editor right now** ([sessaoDoEditor.ts](src/lib/sessaoDoEditor.ts): valid session cookie,
+  or the login switched off in dev): the server decides and never sends it to the client the link goes
+  to. Until 03/11/2026 `?editar=1` in the URL was enough; it no longer does anything. The hook fetches the snapshot from
   the PUBLIC `GET /api/preview/{id}`, loads it with `carregarEstado` (same sanitizers as hydration; one
   undo step), links the tab to that id (`previewAtual`) and strips the param from the URL. From then
   on — and also after "Pré-visualizar", which re-saves the SAME id when the tab already has one — every

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { PREVIEW_PAGES } from '@/utils/previewRender';
 import { CHECKOUT_ETAPAS } from '@/utils/checkout';
@@ -19,6 +19,8 @@ interface PreviewNavProps {
   lp?: { nome: string };
   /** Revisão do snapshot renderizado: o PreviewLive atualiza quando ela muda. */
   rev?: number;
+  /** Quem vê está logado no editor (decidido no servidor, lib/sessaoDoEditor). */
+  podeEditar?: boolean;
 }
 
 /**
@@ -29,10 +31,9 @@ interface PreviewNavProps {
  * (`/gerador?preview={id}`), e a aba do editor passa a atualizar este mesmo
  * link. O /gerador pede login; o preview continua público.
  *
- * O "Editar" só aparece com `?editar=1` na URL: o link copiado vai ao cliente
- * para validação e não leva o parâmetro; o "Abrir preview" do editor leva. A
- * navegação entre páginas repassa o parâmetro. Esconder é só cosmético: o
- * /gerador continua atrás do login.
+ * O "Editar" só existe para quem está logado no /gerador: o servidor confere a
+ * sessão e nem manda o botão para o resto. O link vai ao cliente para
+ * validação, e ele nunca o vê. (Até 03/11/2026 bastava `?editar=1` na URL.)
  */
 export default function PreviewNav({
   id,
@@ -40,16 +41,9 @@ export default function PreviewNav({
   temCheckout = false,
   lp,
   rev = 0,
+  podeEditar = false,
 }: PreviewNavProps) {
   const [open, setOpen] = useState(false);
-  // Lido depois da montagem: `useSearchParams` pediria um Suspense nas páginas.
-  const [editavel, setEditavel] = useState(false);
-  useEffect(() => {
-    setEditavel(
-      new URLSearchParams(window.location.search).get('editar') === '1'
-    );
-  }, []);
-  const qs = editavel ? '?editar=1' : '';
 
   return (
     <div className={styles.wrapper}>
@@ -64,7 +58,7 @@ export default function PreviewNav({
           {PREVIEW_PAGES.map(page => (
             <Link
               key={page.slug}
-              href={`/p/${id}/${page.slug}${qs}`}
+              href={`/p/${id}/${page.slug}$`}
               className={`${styles.menuItem} ${
                 page.slug === activeSlug ? styles.active : ''
               }`}
@@ -77,7 +71,7 @@ export default function PreviewNav({
             <>
               <span className={styles.menuTitle}>Landing page</span>
               <Link
-                href={`/p/${id}/lp${qs}`}
+                href={`/p/${id}/lp$`}
                 className={`${styles.menuItem} ${
                   activeSlug === 'lp' ? styles.active : ''
                 }`}
@@ -93,7 +87,7 @@ export default function PreviewNav({
               {CHECKOUT_ETAPAS.map(etapa => (
                 <Link
                   key={etapa.id}
-                  href={`/p/${id}/checkout/${etapa.id}${qs}`}
+                  href={`/p/${id}/checkout/${etapa.id}$`}
                   className={`${styles.menuItem} ${
                     `checkout/${etapa.id}` === activeSlug ? styles.active : ''
                   }`}
@@ -109,7 +103,7 @@ export default function PreviewNav({
 
       {/* `<a>` comum, não `<Link>`: o editor é outro root layout, e a
           navegação entre root layouts recarrega a página de qualquer jeito. */}
-      {editavel && (
+      {podeEditar && (
         <a
           href={`/gerador?preview=${id}${
             activeSlug.startsWith('checkout/') ? '&modo=checkout' : ''

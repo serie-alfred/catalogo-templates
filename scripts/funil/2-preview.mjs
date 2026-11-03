@@ -169,39 +169,31 @@ if (link) {
   );
   r.ok('o preview tem altura', medida.altura > 300, `${medida.altura}px`);
 
-  // O link copiado vai ao cliente: sem `?editar=1` não há "Editar"; com ele, há
-  // (é o que o "Abrir preview" do editor usa), e a navegação repassa o parâmetro.
-  const editarSem = await aba.$('[data-preview-editar]');
-  r.ok('o link do cliente não mostra o "Editar"', !editarSem);
-  await aba.goto(`${link}?editar=1`, {
-    waitUntil: 'networkidle2',
-    timeout: 60000,
-  });
-  const comParam = await aba
-    .waitForSelector('[data-preview-editar]', { timeout: 10000 })
-    .then(() => aba.click('[aria-label="Navegar entre as páginas"]'))
-    .then(() =>
-      aba.evaluate(() => ({
-        href: document
-          .querySelector('[data-preview-editar]')
-          .getAttribute('href'),
-        nav: [...document.querySelectorAll('a[href^="/p/"]')].map(a =>
-          a.getAttribute('href')
-        ),
-      }))
-    )
-    .catch(() => null);
-  r.ok(
-    'com ?editar=1 o "Editar" aparece e leva ao editor',
-    /^\/gerador\?preview=/.test(comParam?.href ?? ''),
-    String(comParam?.href)
-  );
-  r.ok(
-    'a navegação repassa ?editar=1',
-    (comParam?.nav ?? []).length > 0 &&
-      comParam.nav.every(h => h.endsWith('?editar=1')),
-    (comParam?.nav ?? []).join(' ')
-  );
+  // O "Editar" é de quem entraria no /gerador agora (lib/sessaoDoEditor),
+  // decidido no servidor: o cliente, com o mesmo link, nunca o recebe — nem com
+  // `?editar=1`, o parâmetro que bastava para abri-lo até 03/11/2026.
+  const { modo } = await fetch(`${BASE_URL}/api/auth/estado`)
+    .then(x => x.json())
+    .catch(() => ({}));
+  const hrefDoEditar = () =>
+    aba
+      .$eval('[data-preview-editar]', a => a.getAttribute('href'))
+      .catch(() => null);
+  if (modo === 'ligado') {
+    // O navegador do funil não tem sessão: é o cliente.
+    r.ok('sem sessão do editor, o link não mostra o "Editar"', !(await hrefDoEditar()));
+    await aba.goto(`${link}?editar=1`, { waitUntil: 'networkidle2', timeout: 60000 });
+    r.ok('?editar=1 não abre o "Editar" sem sessão', !(await hrefDoEditar()));
+  } else {
+    // Login desligado (dev sem as variáveis): o editor é aberto a todos, e o
+    // "Editar" também — sem parâmetro nenhum.
+    const href = await hrefDoEditar();
+    r.ok(
+      `com o editor aberto (login ${modo}), o "Editar" aparece e leva ao editor`,
+      /^\/gerador\?preview=/.test(href ?? ''),
+      String(href)
+    );
+  }
   r.ok(
     'preview sem erro de página',
     errosPreview.length === 0,
