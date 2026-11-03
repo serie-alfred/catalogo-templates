@@ -87,20 +87,35 @@ export default function ComoFunciona() {
     >
       <div className={styles.palco}>
         <div className={styles.texto}>
-          <h2 id="como-titulo" className={styles.titulo}>
-            Da escolha à loja no ar.
-          </h2>
+          <div className={styles.cabeca}>
+            <h2 id="como-titulo" className={styles.titulo}>
+              Da escolha à loja no ar.
+            </h2>
+            <span className={styles.contador} aria-hidden>
+              Passo {passo + 1} de {PASSOS.length}
+            </span>
+          </div>
           <ol className={styles.passos}>
             {PASSOS.map((p, i) => (
               <li
                 key={p.titulo}
                 className={styles.passo}
                 aria-current={i === passo ? 'step' : undefined}
+                style={
+                  {
+                    // Quanto do passo já foi rolado: cheio nos anteriores,
+                    // enchendo no atual, vazio nos próximos.
+                    '--feito': i < passo ? 1 : i === passo ? dentroDoPasso : 0,
+                  } as React.CSSProperties
+                }
               >
                 <span className={styles.numero}>{i + 1}</span>
                 <span className={styles.passoTexto}>
                   <span className={styles.passoTitulo}>{p.titulo}</span>
                   <span className={styles.passoDescricao}>{p.texto}</span>
+                  <span className={styles.progresso} aria-hidden>
+                    <span />
+                  </span>
                 </span>
               </li>
             ))}

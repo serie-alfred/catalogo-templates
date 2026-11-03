@@ -144,7 +144,9 @@
 .leque {
   display: flex;
   align-items: flex-end;
-  height: 196px;
+  /* 156 do card + 30 do ativo erguido + o hover e a escala: o leque rola na
+     horizontal no celular, então corta o que passar do topo — a folga é essa. */
+  height: 244px;
   margin-left: -28px;
   padding-left: 36px;
   overflow-x: auto;
@@ -202,6 +204,13 @@
   box-shadow: 0 36px 60px -18px rgba(0, 0, 0, 0.75);
   filter: brightness(1.04);
   z-index: 30 !important;
+}
+
+/* O ativo já está erguido: no hover só respira, sem subir mais. */
+.amostra[aria-pressed='true']:hover {
+  --a-escala: 1.08;
+  transform: translateY(calc(var(--a-sobe) - 4px)) rotate(0deg)
+    scale(var(--a-escala));
 }
 
 .amostra:active {

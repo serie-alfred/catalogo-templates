@@ -1,7 +1,8 @@
-/* 4 passos × ~70vh de rolagem cada, mais a altura do palco preso. */
+/* 4 passos × 110vh de rolagem cada, mais a altura do palco preso: numa
+   rolagem normal cada passo fica tempo bastante na tela para ser lido. */
 .secao {
   position: relative;
-  height: calc(100vh + 280vh);
+  height: calc(100vh + 440vh);
 }
 
 .palco {
@@ -25,6 +26,19 @@
   display: flex;
   flex-direction: column;
   gap: 40px;
+}
+
+.cabeca {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contador {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--site-tinta-3);
+  font-variant-numeric: tabular-nums;
 }
 
 .titulo {
@@ -100,6 +114,28 @@
   font-size: 16px;
   line-height: 1.55;
   color: var(--site-tinta-2);
+}
+
+/* A barra do passo enche com a rolagem (`--feito`, de 0 a 1). */
+.progresso {
+  display: block;
+  width: min(400px, 100%);
+  height: 3px;
+  margin-top: 6px;
+  border-radius: 3px;
+  background: rgba(243, 240, 234, 0.12);
+  overflow: hidden;
+}
+
+.progresso > span {
+  display: block;
+  height: 100%;
+  background: var(--p-acento);
+  transform-origin: left;
+  transform: scaleX(var(--feito, 0));
+  transition:
+    transform 0.25s linear,
+    background-color 1.2s var(--site-ease-troca);
 }
 
 /* ── a loja do lado direito ───────────────────────────────────────────── */
@@ -297,6 +333,11 @@
 @media (max-width: 900px) {
   .secao {
     height: auto;
+  }
+  /* No celular os passos são uma lista comum, sem cena presa: nada a medir. */
+  .progresso,
+  .contador {
+    display: none;
   }
   .palco {
     position: static;
