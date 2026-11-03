@@ -6,6 +6,12 @@ import {
   FAIXAS_COLABORADORES,
   PLATAFORMAS,
   PREFERENCIAS,
+  erroDaLoja,
+  erroDoEmail,
+  erroDoNome,
+  erroDoTelefone,
+  mascararTelefone,
+  normalizarLoja,
 } from '@/utils/contato';
 
 export const dynamic = 'force-dynamic';
@@ -23,7 +29,6 @@ export const dynamic = 'force-dynamic';
  */
 const MAX_POR_IP = 5;
 const JANELA_SEGUNDOS = 60 * 60;
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const LIMITES = {
   nome: 120,
@@ -82,14 +87,15 @@ export async function POST(request: Request) {
     f => f === corpo.colaboradores
   );
   const invalidos = [
-    !nome && 'nome',
-    !empresa && 'empresa',
+    (!nome || erroDoNome(nome, '')) && 'nome',
+    (!empresa || erroDoNome(empresa, '')) && 'empresa',
     !segmento && 'segmento',
     !colaboradores && 'colaboradores',
-    (!telefone || telefone.replace(/\D/g, '').length < 10) && 'telefone',
-    (!email || !EMAIL.test(email)) && 'email',
+    (!telefone || erroDoTelefone(telefone, String(corpo.preferencia))) &&
+      'telefone',
+    (!email || erroDoEmail(email)) && 'email',
     !desafio.ok && 'desafio',
-    !loja.ok && 'loja',
+    (!loja.ok || (loja.valor && erroDaLoja(loja.valor))) && 'loja',
     !template.ok && 'template',
     !plataforma && 'plataforma',
     !preferencia && 'preferencia',
@@ -133,10 +139,10 @@ export async function POST(request: Request) {
         '',
         `Nome: ${nome}`,
         `Empresa: ${empresa}`,
-        `Telefone: ${telefone}`,
+        `Telefone: ${mascararTelefone(telefone!)}`,
         `E-mail: ${email}`,
         `Plataforma: ${plataforma!.rotulo}`,
-        `Loja: ${loja.valor ?? '(não informou)'}`,
+        `Loja: ${loja.valor ? normalizarLoja(loja.valor) : '(não informou)'}`,
         `Template de interesse: ${template.valor ?? 'ainda não sabe'}`,
         `Segmento: ${segmento!.rotulo}`,
         `Colaboradores: ${colaboradores}`,
