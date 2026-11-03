@@ -4,6 +4,7 @@ import type { Metadata, Viewport } from 'next';
 import { Analytics } from '@vercel/analytics/next';
 
 import MotionRoot from '@/components/motion/MotionRoot';
+import { SCRIPT_DA_INTRO } from '@/components/home/Intro';
 import Rastreamento from '@/components/site/Rastreamento';
 
 import { variaveisDasFontes } from './fonts';
@@ -45,7 +46,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" data-tier="medio">
+    // O script da intro marca o <html> antes da hidratação: o atributo a mais
+    // é esperado, daí o suppressHydrationWarning.
+    <html lang="pt-BR" data-tier="alto" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_DA_INTRO }} />
+      </head>
       <body className={`site ${variaveisDasFontes}`} suppressHydrationWarning>
         {children}
         <MotionRoot />

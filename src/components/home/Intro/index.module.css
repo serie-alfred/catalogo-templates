@@ -1,0 +1,204 @@
+/*
+ * A camada só existe com `<html data-intro="rodando">` (o script do <head>).
+ * Linha do tempo, ~2,7 s: E se monta (0–0,9 s) → banner troca de cor pelos 8
+ * templates (0,6–1,9 s) → nome e frase sobem (0,7–1,3 s) → a camada sobe e
+ * revela a home (2,0–2,7 s). No fim o atributo vira "fim" e ela some.
+ */
+.intro {
+  display: none;
+}
+
+:global(:root[data-intro='rodando']) .intro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #17130c;
+  color: var(--site-tinta);
+  animation: sai 0.7s var(--site-ease-troca) 2s both;
+}
+
+@keyframes sai {
+  to {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+.palco {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  animation: recua 0.7s var(--site-ease-troca) 2s both;
+}
+
+@keyframes recua {
+  to {
+    transform: translateY(-60px) scale(0.92);
+    opacity: 0;
+  }
+}
+
+/* ── a marca, grande ──────────────────────────────────────────────────── */
+
+.marca {
+  --u: 4px;
+  display: flex;
+  gap: calc(3 * var(--u));
+  width: calc(30 * var(--u));
+  height: calc(28 * var(--u));
+}
+
+@keyframes monta {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes ergue {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+.espinha {
+  width: calc(6 * var(--u));
+  background: currentColor;
+  transform-origin: bottom;
+  animation: ergue 0.5s var(--site-ease-troca) 0.1s both;
+}
+
+.secoes {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: calc(3 * var(--u));
+}
+
+.header {
+  height: calc(6 * var(--u));
+  background: currentColor;
+  transform-origin: left;
+  animation: monta 0.5s var(--site-ease-troca) 0.3s both;
+}
+
+.banner {
+  height: calc(10 * var(--u));
+  overflow: hidden;
+}
+
+@keyframes cores {
+  0% {
+    background-color: var(--c0);
+  }
+  12.5% {
+    background-color: var(--c1);
+  }
+  25% {
+    background-color: var(--c2);
+  }
+  37.5% {
+    background-color: var(--c3);
+  }
+  50% {
+    background-color: var(--c4);
+  }
+  62.5% {
+    background-color: var(--c5);
+  }
+  75% {
+    background-color: var(--c6);
+  }
+  87.5% {
+    background-color: var(--c7);
+  }
+  100% {
+    background-color: var(--c0);
+  }
+}
+
+.modulo {
+  display: block;
+  height: 100%;
+  background-color: var(--c0);
+  transform-origin: left;
+  animation:
+    monta 0.5s var(--site-ease-troca) 0.45s both,
+    cores 1.3s steps(1, end) 0.6s both;
+}
+
+.vitrine {
+  height: calc(7 * var(--u));
+  display: flex;
+  gap: calc(2 * var(--u));
+}
+
+.vitrine span {
+  flex: 1;
+  background: currentColor;
+  transform-origin: bottom;
+  animation: ergue 0.4s var(--site-ease-mola) both;
+}
+
+.vitrine span:nth-child(1) {
+  animation-delay: 0.6s;
+}
+.vitrine span:nth-child(2) {
+  animation-delay: 0.7s;
+}
+.vitrine span:nth-child(3) {
+  animation-delay: 0.8s;
+}
+
+/* ── nome e frase ─────────────────────────────────────────────────────── */
+
+@keyframes sobe {
+  from {
+    transform: translateY(110%);
+  }
+}
+
+.nome,
+.frase {
+  display: block;
+  overflow: hidden;
+}
+
+.nome > span,
+.frase > span {
+  display: block;
+  animation: sobe 0.8s var(--site-ease-troca) both;
+}
+
+.nome > span {
+  font-family: var(--f-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(48px, 8vw, 96px);
+  letter-spacing: -0.05em;
+  line-height: 1;
+  animation-delay: 0.7s;
+}
+
+.frase > span {
+  font-size: 16px;
+  color: var(--site-tinta-2);
+  animation-delay: 0.95s;
+}
+
+.pular {
+  position: absolute;
+  right: var(--site-margem);
+  bottom: var(--site-margem);
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 10px;
+  border: 1px solid rgba(243, 240, 234, 0.3);
+  background: transparent;
+  color: var(--site-tinta);
+  font:
+    600 14px var(--f-texto),
+    sans-serif;
+  cursor: pointer;
+}

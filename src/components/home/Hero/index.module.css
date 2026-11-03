@@ -350,13 +350,7 @@
   transform: none;
 }
 
-/* Faixas: a média para o que gira e flutua; a baixa tira a órbita. */
-:global(:root[data-tier='medio']) .orbita,
-:global(:root[data-tier='medio']) .orbitaContra,
-:global(:root[data-tier='medio']) .lojaFlutua {
-  animation-play-state: paused;
-}
-
+/* Faixa baixa: sem órbita. (Alta e média giram; a média só perde o granulado.) */
 :global(:root[data-tier='baixo']) .orbita {
   display: none;
 }
@@ -376,4 +370,10 @@
   .loja {
     transform: perspective(1800px) rotateX(6deg) rotateY(-8deg);
   }
+}
+
+/* Enquanto a intro da primeira visita roda, a entrada do hero espera por ela. */
+:global(:root[data-intro='rodando']) .hero,
+:global(:root[data-intro='rodando']) .hero * {
+  animation-play-state: paused;
 }

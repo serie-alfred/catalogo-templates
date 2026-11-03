@@ -7,6 +7,7 @@ import Footer from '@/components/common/Footer';
 
 import Provador, { type Provado } from '@/components/home/Provador';
 import Hero from '@/components/home/Hero';
+import Intro from '@/components/home/Intro';
 import ComoFunciona from '@/components/home/ComoFunciona';
 import Arara from '@/components/home/Arara';
 import QuemFaz from '@/components/home/QuemFaz';
@@ -76,6 +77,7 @@ export default function Home() {
 
   return (
     <Provador provaveis={provaveis}>
+      <Intro />
       <Header />
       <main>
         <Hero novos={templates.slice(0, NOVIDADES)} whatsapp={whatsapp} />

@@ -39,7 +39,12 @@ export default function Hero({
     });
     if (raiz.current) obs.observe(raiz.current);
     const id = setInterval(() => {
-      if (visivel && document.visibilityState === 'visible') avancar();
+      if (
+        visivel &&
+        document.visibilityState === 'visible' &&
+        document.documentElement.dataset.intro !== 'rodando'
+      )
+        avancar();
     }, TROCA_MS);
     return () => {
       clearInterval(id);

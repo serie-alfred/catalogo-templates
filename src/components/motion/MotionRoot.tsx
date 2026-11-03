@@ -5,9 +5,11 @@ import Lenis from 'lenis';
 
 import {
   aplicarTier,
+  depoisDoCarregamento,
   medirQuadros,
   pior,
   tierDeclarado,
+  tierForcado,
   type Tier,
 } from '@/lib/motion/tier';
 
@@ -43,14 +45,22 @@ export default function MotionRoot() {
     ligarLenis();
 
     let vivo = true;
-    medirQuadros().then(medido => {
+    const medir = async () => {
+      if (tierForcado()) return;
+      await depoisDoCarregamento();
+      // A intro da primeira visita também pesa: mede depois dela.
+      while (vivo && document.documentElement.dataset.intro === 'rodando') {
+        await new Promise(r => setTimeout(r, 300));
+      }
+      const medido = vivo ? await medirQuadros() : null;
       if (!vivo) return;
       const novo = pior(tier, medido);
       if (novo === tier) return;
       tier = novo;
       aplicarTier(tier);
       if (tier === 'baixo') desligarLenis();
-    });
+    };
+    medir();
 
     const reduzir = matchMedia('(prefers-reduced-motion: reduce)');
     const aoMudar = () => {

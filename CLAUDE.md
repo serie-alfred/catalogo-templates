@@ -277,8 +277,15 @@ O conceito: o visitante **prova** um template e a página inteira veste a cara d
   `Arara` (`[data-home-catalogo]`, `#templates`), `QuemFaz` (texto que acende com `animation-timeline: view()`)
   e o rodapé com o contato. Os ganchos do `2-vitrine` continuam os mesmos.
 - **Movimento por faixa** ([src/lib/motion/tier.ts](src/lib/motion/tier.ts) + `MotionRoot`): `<html data-tier>`
-  `alto | medio | baixo` pelo que o navegador declara e por uma amostra de quadros (medir só rebaixa);
-  movimento reduzido é sempre `baixo`; `?tier=` força. Fora do `baixo` liga o Lenis.
+  `alto | medio | baixo`. O declarado só acha o aparelho claramente fraco (GPU por software, 2 núcleos,
+  2 GB) — `hardwareConcurrency` vem capado em 4 em vários navegadores, e a regra antiga "≤ 4 núcleos =
+  médio" parou a órbita de máquina boa em produção. O resto vem da mediana de 60 quadros medida DEPOIS
+  do `load` e da intro (medir só rebaixa). `medio` só perde o granulado; `baixo` perde órbita e Lenis.
+  Movimento reduzido é sempre `baixo`; `?tier=` força.
+- **Intro** ([src/components/home/Intro](src/components/home/Intro/index.tsx)): só na home, na primeira
+  visita e sem movimento reduzido. Um script no `<head>` marca `<html data-intro="rodando">` antes da
+  primeira pintura (e já grava `etemas-intro-vista`); enquanto isso a entrada do hero fica pausada. O
+  React encerra em 2,7 s (ou no "Pular"/Esc) e o próprio script encerra em 3,5 s se o React não chegar.
 - **`overflow-x: hidden` do `globals.css` quebra `sticky`:** em html E body, o body vira um contêiner de
   rolagem que nunca rola e todo `sticky` gruda nele. O `site.css` troca por `clip` só no site.
 - **Comercial:** todo "Falar com o comercial" é o `LinkComercial` → `/api/comercial`, rodízio grudado
