@@ -87,6 +87,10 @@ export default function Arara({
           })}
         </div>
       </div>
+      {/* Quanto da arara já passou: enche com a rolagem lateral (CSS, sem JS). */}
+      <div className={styles.andamento} aria-hidden>
+        <span />
+      </div>
     </section>
   );
 }

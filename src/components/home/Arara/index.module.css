@@ -51,9 +51,11 @@
     transform 0.4s var(--site-ease-mola);
 }
 
-.seta:hover {
-  background: rgba(243, 240, 234, 0.1);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .seta:hover {
+    background: rgba(243, 240, 234, 0.1);
+    transform: translateY(-2px);
+  }
 }
 
 @media (hover: none) {
@@ -124,9 +126,15 @@
   }
 }
 
-.card:hover {
-  transform: translateY(-16px) rotate(-1.5deg) scale(1.02);
-  box-shadow: 0 44px 80px -30px rgba(0, 0, 0, 0.8);
+@media (hover: hover) {
+  .card:hover {
+    transform: translateY(-16px) rotate(-1.5deg) scale(1.02);
+    box-shadow: 0 44px 80px -30px rgba(0, 0, 0, 0.8);
+  }
+
+  .card:hover .foto img {
+    transform: scale(1.06);
+  }
 }
 
 .card:active {
@@ -174,10 +182,6 @@
   transition: transform 1.2s cubic-bezier(0.2, 0.7, 0.1, 1);
 }
 
-.card:hover .foto img {
-  transform: scale(1.06);
-}
-
 .rodape {
   display: flex;
   justify-content: space-between;
@@ -193,4 +197,81 @@
 .ver {
   font-weight: 600;
   white-space: nowrap;
+}
+
+/* ── andamento: a barra que enche com a rolagem lateral ───────────────── */
+
+.andamento {
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .secao {
+    timeline-scope: --arara;
+  }
+
+  .trilho {
+    scroll-timeline: --arara x;
+  }
+
+  .andamento {
+    display: block;
+    max-width: calc(var(--site-largura) - 2 * var(--site-margem));
+    height: 3px;
+    margin: 0 auto;
+    margin-inline: max(
+      var(--site-margem),
+      calc((100% - var(--site-largura)) / 2 + var(--site-margem))
+    );
+    border-radius: 3px;
+    background: rgba(243, 240, 234, 0.12);
+    overflow: hidden;
+  }
+
+  @keyframes enche {
+    from {
+      transform: scaleX(0.08);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  .andamento > span {
+    display: block;
+    height: 100%;
+    background: var(--p-acento);
+    transform-origin: left;
+    animation: enche linear both;
+    animation-timeline: --arara;
+    transition: background-color 1.2s var(--site-ease-troca);
+  }
+}
+
+/* No celular o card deixa o próximo à vista: é o que diz que a arara rola. */
+@media (max-width: 720px) {
+  .secao {
+    padding: 72px 0 56px;
+  }
+  .topo {
+    margin-bottom: 16px;
+  }
+  .fila {
+    gap: 14px;
+    padding-bottom: 28px;
+  }
+  .card {
+    flex-basis: 76vw;
+    gap: 16px;
+    padding: 16px;
+    border-radius: 14px;
+  }
+  .nomeTexto {
+    font-size: 34px;
+  }
+  .rodape {
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    font-size: 13px;
+  }
 }
