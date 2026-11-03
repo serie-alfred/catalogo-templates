@@ -143,6 +143,13 @@
   gap: 8px;
 }
 
+/* A `legend` não é item do flex do fieldset: o `gap` não chega nela, e sem a
+   margem as opções subiam 8px em relação ao select ao lado. */
+.preferencia legend {
+  padding: 0;
+  margin-bottom: 8px;
+}
+
 .opcoes {
   display: flex;
   gap: 8px;
