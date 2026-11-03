@@ -3,6 +3,10 @@ import '../../styles/templates.css';
 import '../../styles/globals.css';
 import '../../styles/storefront.css';
 import '../../styles/preview.css';
+// Só para o balão de navegação (PreviewNav): tokens com prefixo, que a loja
+// não lê, e as fontes do site como variável — nunca no <body>, que é da loja.
+import '../../styles/marca.css';
+import { variaveisDaMarca } from '../(home)/fonts';
 
 export const metadata = {
   title: 'Preview do tema',
@@ -21,7 +25,7 @@ export default function PreviewLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={variaveisDaMarca}>
       <body suppressHydrationWarning>{children}</body>
     </html>
   );

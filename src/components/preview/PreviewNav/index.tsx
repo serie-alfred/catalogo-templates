@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { PREVIEW_PAGES } from '@/utils/previewRender';
 import { CHECKOUT_ETAPAS } from '@/utils/checkout';
+import Logo from '@/components/common/Logo';
 import PreviewLive from '../PreviewLive';
 import styles from './index.module.css';
 
@@ -55,6 +56,10 @@ export default function PreviewNav({
       <PreviewLive id={id} rev={rev} />
       {open && (
         <nav className={styles.menu} aria-label="Navegação do preview">
+          <span className={styles.menuMarca}>
+            <Logo tamanho={14} />
+            <span>Preview do tema</span>
+          </span>
           <span className={styles.menuTitle}>Ver página</span>
           {PREVIEW_PAGES.map(page => (
             <Link

@@ -1,4 +1,11 @@
+/*
+ * O balão e o "Editar" vivem DENTRO da loja do cliente: só nomes com prefixo
+ * (marca.css) e a fonte do site pela variável, nunca pelo <body>. Escuro da
+ * marca, para não se confundir com nenhum botão da loja.
+ */
 .wrapper {
+  --pn-fundo: #17130c;
+  --pn-linha: rgba(243, 240, 234, 0.12);
   position: fixed;
   right: 24px;
   bottom: 24px;
@@ -8,89 +15,132 @@
   align-items: flex-end;
   gap: 12px;
   font-family:
+    var(--f-texto),
     system-ui,
     -apple-system,
     'Segoe UI',
-    Roboto,
     sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 .bubble {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  border: none;
+  border: 0;
   cursor: pointer;
-  background: #0a0a0a;
-  color: #fff;
+  background: var(--pn-fundo);
+  color: var(--site-tinta, #f3f0ea);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  box-shadow:
+    0 0 0 1px var(--pn-linha),
+    0 14px 30px -10px rgba(0, 0, 0, 0.55);
   transition:
-    transform 0.15s ease,
-    background 0.15s ease;
+    transform 0.4s var(--site-ease-mola, ease),
+    box-shadow 0.3s ease;
 }
 
 .bubble:hover {
-  transform: scale(1.06);
-  background: #222;
+  transform: translateY(-2px) scale(1.04);
+}
+
+.bubble:active {
+  transform: scale(0.94);
+  transition-duration: 0.12s;
+}
+
+.bubble svg {
+  animation: gira 0.35s var(--site-ease-saida, ease);
+}
+
+@keyframes gira {
+  from {
+    transform: rotate(-90deg);
+    opacity: 0;
+  }
 }
 
 .menu {
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  padding: 10px;
-  min-width: 180px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  animation: pop 0.12s ease-out;
+  gap: 2px;
+  min-width: 220px;
+  padding: 8px;
+  border-radius: 18px;
+  background: var(--pn-fundo);
+  color: var(--site-tinta, #f3f0ea);
+  box-shadow:
+    0 0 0 1px var(--pn-linha),
+    0 24px 50px -16px rgba(0, 0, 0, 0.6);
+  transform-origin: bottom right;
+  animation: abre 0.32s var(--site-ease-mola, ease-out);
 }
 
-@keyframes pop {
+@keyframes abre {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(10px) scale(0.94);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+}
+
+.menuMarca {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 4px;
+  padding: 8px 10px 12px;
+  border-bottom: 1px solid var(--pn-linha);
+  font-size: 12px;
+  color: var(--site-tinta-3, rgba(243, 240, 234, 0.64));
 }
 
 .menuTitle {
+  padding: 10px 10px 4px;
   font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: #999;
-  padding: 6px 10px 2px;
+  color: var(--site-tinta-3, rgba(243, 240, 234, 0.64));
 }
 
 .menuItem {
   display: block;
   padding: 10px 12px;
-  border-radius: 8px;
-  color: #1a1a1a;
+  border-radius: 10px;
+  color: var(--site-tinta, #f3f0ea);
   text-decoration: none;
   font-size: 15px;
   font-weight: 500;
-  transition: background 0.12s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.3s var(--site-ease-mola, ease);
 }
 
 .menuItem:hover {
-  background: #f2f2f2;
+  background: rgba(243, 240, 234, 0.08);
+  transform: translateX(2px);
 }
 
 .menuItem.active {
-  background: #0a0a0a;
-  color: #fff;
+  background: var(--site-tinta, #f3f0ea);
+  color: var(--pn-fundo);
+  font-weight: 600;
+}
+
+.menuItem:focus-visible,
+.bubble:focus-visible,
+.edit:focus-visible {
+  outline: 2px solid var(--site-tinta, #f3f0ea);
+  outline-offset: 3px;
 }
 
 /* "Editar" no canto ESQUERDO, longe do balão: o canto direito já é disputado
    pelo balão e pelos flutuantes do próprio tema (ajuda, WhatsApp). */
 .edit {
+  --pn-fundo: #17130c;
   position: fixed;
   left: 24px;
   bottom: 24px;
@@ -101,24 +151,30 @@
   height: 48px;
   padding: 0 20px;
   border-radius: 999px;
-  background: #0a0a0a;
-  color: #fff;
+  background: var(--pn-fundo);
+  color: var(--site-tinta, #f3f0ea);
   font-family:
+    var(--f-texto),
     system-ui,
     -apple-system,
     'Segoe UI',
-    Roboto,
     sans-serif;
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-  transition:
-    transform 0.15s ease,
-    background 0.15s ease;
+  box-shadow:
+    0 0 0 1px rgba(243, 240, 234, 0.12),
+    0 14px 30px -10px rgba(0, 0, 0, 0.55);
+  transition: transform 0.4s var(--site-ease-mola, ease);
 }
 
 .edit:hover {
-  transform: scale(1.04);
-  background: #222;
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu,
+  .bubble svg {
+    animation: none;
+  }
 }
