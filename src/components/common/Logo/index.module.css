@@ -2,7 +2,7 @@
   --u: calc(var(--logo-h) / 28);
   display: inline-flex;
   align-items: center;
-  gap: calc(12 * var(--u));
+  gap: calc(11 * var(--u));
   color: inherit;
 }
 
@@ -39,7 +39,6 @@
   display: block;
   height: 100%;
   background: var(--p-acento);
-  transition: background-color 1.2s var(--site-ease-troca);
 }
 
 .vitrine {
@@ -53,38 +52,70 @@
   background: currentColor;
 }
 
+/* ── o nome: "e.temas" do logo antigo ─────────────────────────────────── */
+
+/* Proporção do viewBox de logo-etemas-nome.svg: 700 × 167. */
 .nome {
-  display: inline-flex;
-  align-items: center;
-  font-family: var(--f-display), sans-serif;
-  font-weight: 800;
-  font-size: calc(25 * var(--u));
-  letter-spacing: -0.045em;
-  line-height: 1;
+  position: relative;
+  display: block;
+  height: calc(27 * var(--u));
+  aspect-ratio: 700 / 167;
 }
 
-.hifen {
-  width: calc(9 * var(--u));
-  height: calc(9 * var(--u));
-  margin: calc(3 * var(--u)) calc(3 * var(--u)) 0;
+.letras {
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  -webkit-mask: url('/logo-etemas-nome.svg') center / contain no-repeat;
+  mask: url('/logo-etemas-nome.svg') center / contain no-repeat;
+}
+
+/* O ponto do antigo, no mesmo lugar (centro em 104,5 × 143,5 do viewBox,
+   33 de diâmetro): o corte do "e" e do "t" já faz o respiro em volta. */
+.ponto {
+  position: absolute;
+  left: 14.93%;
+  top: 85.93%;
+  width: 4.71%;
+  aspect-ratio: 1;
+  border-radius: 50%;
   background: var(--p-acento);
-  transition: background-color 1.2s var(--site-ease-troca);
+  transform: translate(-50%, -50%);
 }
 
-@keyframes troca {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  45% {
-    transform: translateX(-115%);
-  }
-  55% {
-    transform: translateX(115%);
-  }
+/* ── troca de cor e hover ─────────────────────────────────────────────────
+   Tudo por transição, nada de keyframe: quando o cursor sai no meio, a marca
+   volta suave em vez de saltar para o começo. */
+.modulo,
+.ponto {
+  transition:
+    background-color 1.2s var(--site-ease-troca),
+    transform 0.6s var(--site-ease-mola-forte);
+}
+
+.vitrine span {
+  transition: transform 0.5s var(--site-ease-mola-forte);
+}
+
+.vitrine span:nth-child(2) {
+  transition-delay: 0.05s;
+}
+
+.vitrine span:nth-child(3) {
+  transition-delay: 0.1s;
 }
 
 a:hover > .logo .modulo,
 a:focus-visible > .logo .modulo {
-  animation: troca 0.9s var(--site-ease-troca);
+  transform: translateX(22%);
+}
+
+a:hover > .logo .vitrine span,
+a:focus-visible > .logo .vitrine span {
+  transform: translateY(-35%);
+}
+
+a:hover > .logo .ponto,
+a:focus-visible > .logo .ponto {
+  transform: translate(-50%, -50%) scale(1.45);
 }

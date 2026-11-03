@@ -30,7 +30,8 @@ const ACENTOS = [
 
 /**
  * A intro da primeira visita, ~2,7 s: o E da marca se monta com as seções de
- * uma loja, o módulo do banner troca de cor passando pelos templates, o nome
+ * uma loja, o módulo do banner e o ponto do "e.temas" trocam de cor passando
+ * pelos templates, o nome
  * sobe e a camada sai de cena revelando a home. "Pular" e Esc encerram na hora.
  */
 export default function Intro() {
@@ -84,7 +85,24 @@ export default function Intro() {
           </span>
         </span>
         <span className={styles.nome}>
-          <span>e-temas</span>
+          <span className={styles.nomeLogo}>
+            <span className={styles.letras} />
+            <span
+              className={styles.ponto}
+              style={
+                {
+                  '--c0': ACENTOS[0],
+                  '--c1': ACENTOS[1],
+                  '--c2': ACENTOS[2],
+                  '--c3': ACENTOS[3],
+                  '--c4': ACENTOS[4],
+                  '--c5': ACENTOS[5],
+                  '--c6': ACENTOS[6],
+                  '--c7': ACENTOS[7],
+                } as React.CSSProperties
+              }
+            />
+          </span>
         </span>
         <span className={styles.frase}>
           <span>Templates prontos para VTEX FastStore, Wake e Tray</span>

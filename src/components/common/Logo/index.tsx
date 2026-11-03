@@ -3,10 +3,12 @@ import React from 'react';
 import styles from './index.module.css';
 
 /**
- * A marca: um E montado com as seções de uma loja — header, banner e uma
- * vitrine de três produtos. O banner é o módulo que troca: tem a cor do
- * template provado (`--p-acento`) e sai e volta no hover. O mesmo bloco vira
- * o hífen do nome.
+ * A marca. O símbolo é um E montado com as seções de uma loja — header,
+ * banner e uma vitrine de três produtos —, com o banner na cor do template
+ * provado (`--p-acento`). O nome é o "e.temas" do logo antigo, que fica: as
+ * letras vêm de `public/logo-etemas-nome.svg` (os traços originais, sem o
+ * símbolo de camadas) como máscara pintada com a cor do texto, e o ponto é um
+ * círculo à parte, na mesma cor do banner — troca junto com o site.
  */
 export default function Logo({ tamanho = 28 }: { tamanho?: number }) {
   return (
@@ -28,10 +30,11 @@ export default function Logo({ tamanho = 28 }: { tamanho?: number }) {
           </span>
         </span>
       </span>
-      <span className={styles.nome}>
-        e<span className={styles.hifen} aria-hidden />
-        <span className="siteSr">-</span>temas
+      <span className={styles.nome} aria-hidden>
+        <span className={styles.letras} />
+        <span className={styles.ponto} />
       </span>
+      <span className="siteSr">e-temas</span>
     </span>
   );
 }

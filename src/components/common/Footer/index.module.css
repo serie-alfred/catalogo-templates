@@ -263,6 +263,9 @@
 .baseLogo {
   color: inherit;
   text-decoration: none;
+  /* Na amostra o acento pode ser a própria cor do fundo (Suave): aqui a
+     marca fica de uma cor só, a do texto. */
+  --p-acento: var(--f-txt);
 }
 
 .baseLinks {
