@@ -8,6 +8,7 @@ import styles from './page.module.css';
 
 export const metadata: Metadata = {
   title: 'Política de Privacidade · E-temas',
+  alternates: { canonical: '/privacidade' },
 };
 
 /**
@@ -39,8 +40,12 @@ export default function Privacidade() {
         <h2>1. Quais dados coletamos</h2>
         <p>
           Pelo formulário de contato: nome, empresa, segmento, número de
-          colaboradores, telefone, e-mail e a descrição do seu desafio. Também
-          registramos o endereço IP do envio, por segurança e para evitar abuso.
+          colaboradores, telefone, e-mail, plataforma e endereço da loja, o
+          template de interesse, como você prefere ser contatado e a mensagem,
+          se escrever uma. Também registramos o endereço IP do envio, por
+          segurança e para evitar abuso. Quem clica em “Falar com o comercial”
+          recebe um cookie que lembra, por 30 dias, qual pessoa do time está
+          atendendo.
         </p>
 
         <h2>2. Para que usamos</h2>
@@ -85,8 +90,11 @@ export default function Privacidade() {
 
         <h2>7. Cookies</h2>
         <p>
-          <P>DESCREVER OS COOKIES E FERRAMENTAS DE ANÁLISE EM USO, SE HOUVER</P>
-          .
+          O site mede visitas com o Vercel Analytics, que não usa cookies.
+          Ferramentas de análise e de anúncios (Google Tag Manager, Google
+          Analytics e Meta Pixel) só são carregadas se você aceitar no aviso de
+          cookies; dá para mudar a escolha em “Preferências de cookies”, no
+          rodapé. <P>VALIDAR ESTE TRECHO COM O JURÍDICO</P>.
         </p>
 
         <h2>8. Mudanças nesta política</h2>

@@ -1,0 +1,60 @@
+.banner {
+  position: fixed;
+  left: var(--site-margem);
+  bottom: var(--site-margem);
+  z-index: 60;
+  width: min(380px, calc(100vw - 2 * var(--site-margem)));
+  padding: 20px;
+  border-radius: 14px;
+  background: var(--site-tinta);
+  color: var(--site-escuro);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.titulo {
+  margin: 0;
+  font-family: var(--f-display), sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: -0.02em;
+}
+
+.texto {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #3b3832;
+}
+
+.acoes {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 4px;
+}
+
+.primario,
+.secundario {
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 10px;
+  font:
+    600 15px var(--f-texto),
+    sans-serif;
+  cursor: pointer;
+}
+
+.primario {
+  border: 0;
+  background: var(--site-escuro);
+  color: var(--site-tinta);
+}
+
+.secundario {
+  border: 1px solid rgba(20, 18, 16, 0.25);
+  background: transparent;
+  color: var(--site-escuro);
+}
