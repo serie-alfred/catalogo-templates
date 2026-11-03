@@ -176,16 +176,67 @@
   color: var(--a-texto);
   box-shadow: 0 16px 30px -14px rgba(0, 0, 0, 0.65);
   transform-origin: 50% 120%;
-  transform: translateY(var(--a-sobe)) rotate(var(--a-giro));
+  --a-escala: 1;
+  transform: translateY(var(--a-sobe)) rotate(var(--a-giro))
+    scale(var(--a-escala));
   transition:
-    transform 0.6s var(--site-ease-mola),
-    box-shadow 0.6s;
-  animation: abreLeque 0.9s var(--site-ease-saida) var(--a-atraso) both;
+    transform 0.75s var(--site-ease-mola-forte),
+    box-shadow 0.5s ease,
+    filter 0.4s ease;
+  /* `backwards`, não `both`: com o preenchimento para a frente a animação de
+     entrada continua dona do `transform` e engole a transição — o card pula de
+     lugar na troca e no hover em vez de deslizar. */
+  animation: abreLeque 0.9s var(--site-ease-saida) var(--a-atraso) backwards;
 }
 
+.amostra[aria-pressed='true'] {
+  --a-escala: 1.06;
+  box-shadow: 0 34px 60px -20px rgba(0, 0, 0, 0.75);
+}
+
+/* O vizinho abre espaço e o card sob o cursor endireita e sobe. */
 .amostra:hover {
-  transform: translateY(calc(var(--a-sobe) - 10px)) rotate(var(--a-giro));
-  box-shadow: 0 30px 50px -18px rgba(0, 0, 0, 0.7);
+  --a-escala: 1.05;
+  transform: translateY(calc(var(--a-sobe) - 18px))
+    rotate(calc(var(--a-giro) * 0.35)) scale(var(--a-escala));
+  box-shadow: 0 36px 60px -18px rgba(0, 0, 0, 0.75);
+  filter: brightness(1.04);
+  z-index: 30 !important;
+}
+
+.amostra:active {
+  --a-escala: 0.96;
+  transition-duration: 0.15s;
+}
+
+@keyframes pulo {
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+  35% {
+    transform: scale(1.28) rotate(-8deg);
+  }
+  65% {
+    transform: scale(0.94) rotate(3deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+
+/* Cada vez que um card vira o provado, o "Aa" dele dá um pulo. */
+.amostra[aria-pressed='true'] .amostraAa {
+  animation: pulo 0.7s var(--site-ease-saida);
+}
+
+.amostraAa {
+  display: inline-block;
+  transform-origin: 20% 80%;
+  transition: transform 0.6s var(--site-ease-mola-forte);
+}
+
+.amostra:hover .amostraAa {
+  transform: scale(1.12) rotate(-4deg);
 }
 
 .amostraAa,
@@ -268,7 +319,7 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 22px 40px -14px rgba(0, 0, 0, 0.85);
-  animation: entraOrbita 0.9s var(--site-ease-saida) both;
+  animation: entraOrbita 0.9s var(--site-ease-saida) backwards;
 }
 
 .orbitaCard img {
