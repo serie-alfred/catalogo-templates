@@ -26,6 +26,10 @@ export default function ContactForm({ templates }: { templates: string[] }) {
   const [estado, setEstado] = useState<Estado>('parado');
   const [mensagem, setMensagem] = useState('');
   const provado = provador?.atual.visual.nome ?? '';
+  // Segue o template provado até o visitante escolher um no select.
+  const [templateEscolhido, setTemplateEscolhido] = useState<string | null>(
+    null
+  );
 
   const enviar = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,6 +65,7 @@ export default function ContactForm({ templates }: { templates: string[] }) {
           preferencia: String(dados.get('preferencia') ?? ''),
         });
         form.reset();
+        setTemplateEscolhido(null);
         setEstado('ok');
         setMensagem(
           'Recebemos seu contato. O comercial vai falar com você em breve, do jeito que você escolheu.'
@@ -130,7 +135,7 @@ export default function ContactForm({ templates }: { templates: string[] }) {
           type="tel"
           autoComplete="tel"
           placeholder="(11) 99999-9999"
-          pattern="[\d\s()+\-]{10,30}"
+          pattern="[\d\s\(\)+\-]{10,30}"
           title="Telefone com DDD"
           required
         />
@@ -164,8 +169,8 @@ export default function ContactForm({ templates }: { templates: string[] }) {
         <select
           id="ct-template"
           name="template"
-          key={provado}
-          defaultValue={provado}
+          value={templateEscolhido ?? provado}
+          onChange={e => setTemplateEscolhido(e.target.value)}
         >
           <option value="">Ainda não sei</option>
           {templates.map(t => (

@@ -42,7 +42,7 @@ export default function LinkComercial({
     <a
       href={href}
       target="_blank"
-      rel="noopener noreferrer"
+      rel="nofollow noopener noreferrer"
       className={className}
       aria-label={ariaLabel}
       data-comercial={origem}

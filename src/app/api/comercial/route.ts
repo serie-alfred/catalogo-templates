@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextResponse, type NextRequest } from 'next/server';
 import { getKv } from '@/lib/kv';
 import { comerciais, mensagemInicial } from '@/lib/comercial';
 
@@ -17,20 +17,16 @@ const COOKIE = 'etemas_comercial';
 const TRINTA_DIAS = 60 * 60 * 24 * 30;
 const DEZ_ANOS = 60 * 60 * 24 * 365 * 10;
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   const url = new URL(request.url);
   const lista = comerciais();
   if (!lista.length) {
     return NextResponse.redirect(new URL('/#contato', url), 302);
   }
 
-  const doCookie = request.headers
-    .get('cookie')
-    ?.split(';')
-    .map(c => c.trim())
-    .find(c => c.startsWith(`${COOKIE}=`))
-    ?.slice(COOKIE.length + 1);
-  const nomeGuardado = doCookie ? decodeURIComponent(doCookie) : null;
+  // O Next codifica e decodifica o valor do cookie sozinho: nome com espaço
+  // ou acento ("Ana Paula", "João") volta igual.
+  const nomeGuardado = request.cookies.get(COOKIE)?.value ?? null;
 
   let escolhido = lista.find(c => c.nome === nomeGuardado);
   if (!escolhido) {
@@ -47,7 +43,7 @@ export async function GET(request: Request) {
   const texto = mensagemInicial(url.searchParams.get('template'));
   const destino = `https://wa.me/${escolhido.numero}?text=${encodeURIComponent(texto)}`;
   const resposta = NextResponse.redirect(destino, 302);
-  resposta.cookies.set(COOKIE, encodeURIComponent(escolhido.nome), {
+  resposta.cookies.set(COOKIE, escolhido.nome, {
     maxAge: TRINTA_DIAS,
     httpOnly: true,
     sameSite: 'lax',

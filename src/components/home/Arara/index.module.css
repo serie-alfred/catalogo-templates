@@ -24,6 +24,44 @@
   letter-spacing: -0.05em;
 }
 
+.lateral {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.setas {
+  display: flex;
+  gap: 8px;
+}
+
+.seta {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  border: 1px solid rgba(243, 240, 234, 0.24);
+  background: transparent;
+  color: var(--site-tinta);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    transform 0.4s var(--site-ease-mola);
+}
+
+.seta:hover {
+  background: rgba(243, 240, 234, 0.1);
+  transform: translateY(-2px);
+}
+
+@media (hover: none) {
+  .setas {
+    display: none;
+  }
+}
+
 .dica {
   margin: 0;
   font-size: 15px;
@@ -35,6 +73,11 @@
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   overscroll-behavior-x: contain;
+  /* O encaixe respeita a margem da fila, senão o 1º card cola na borda. */
+  scroll-padding-inline: max(
+    var(--site-margem),
+    calc((100vw - var(--site-largura)) / 2 + var(--site-margem))
+  );
 }
 
 .fila {

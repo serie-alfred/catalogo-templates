@@ -6,15 +6,20 @@
   opacity: 0;
   transform: translateY(24px) scale(0.9);
   pointer-events: none;
+  /* visibility tira o link escondido da ordem de Tab; o atraso deixa o fade sair. */
+  visibility: hidden;
   transition:
     opacity 0.4s,
-    transform 0.6s var(--site-ease-mola);
+    transform 0.6s var(--site-ease-mola),
+    visibility 0s linear 0.6s;
 }
 
 .flutuante[data-visivel] {
   opacity: 1;
   transform: none;
   pointer-events: auto;
+  visibility: visible;
+  transition-delay: 0s;
 }
 
 .botao {

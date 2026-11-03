@@ -26,7 +26,9 @@ export default function MotionRoot() {
     let raf = 0;
     const ligarLenis = () => {
       if (lenis || tier === 'baixo') return;
-      lenis = new Lenis({ lerp: 0.11, anchors: true });
+      // allowNestedScroll: a arara rola na horizontal; sem isso o Lenis
+      // engole o gesto de trackpad e rola a página.
+      lenis = new Lenis({ lerp: 0.11, anchors: true, allowNestedScroll: true });
       const loop = (t: number) => {
         lenis?.raf(t);
         raf = requestAnimationFrame(loop);

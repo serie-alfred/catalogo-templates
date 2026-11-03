@@ -15,7 +15,9 @@ import type { MetadataRoute } from 'next';
  */
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: '*', allow: '/' },
+    // `/api/` fora: robô seguindo o "Falar com o comercial" avançaria o
+    // rodízio do WhatsApp (api/comercial) sem ninguém do outro lado.
+    rules: { userAgent: '*', allow: '/', disallow: '/api/' },
     sitemap: 'https://www.e-temas.com.br/sitemap.xml',
   };
 }

@@ -3,6 +3,7 @@ import Image from 'next/image';
 
 import { VISUAL_NEUTRO, type TemplateDoProvador } from '@/utils/provador';
 
+import Setas from './Setas';
 import styles from './index.module.css';
 
 /**
@@ -29,11 +30,14 @@ export default function Arara({
           <br />
           na arara.
         </h2>
-        <p className={styles.dica}>
-          Arraste para o lado. Cada um abre a loja por dentro.
-        </p>
+        <div className={styles.lateral}>
+          <p className={styles.dica}>
+            Role para o lado. Cada um abre a loja por dentro.
+          </p>
+          <Setas trilho="arara-trilho" />
+        </div>
       </div>
-      <div className={styles.trilho} data-home-catalogo="">
+      <div id="arara-trilho" className={styles.trilho} data-home-catalogo="">
         <div className={styles.fila}>
           {templates.map(t => {
             const v = t.visual ?? VISUAL_NEUTRO;

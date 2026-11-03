@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Script from 'next/script';
 
 import {
@@ -31,10 +31,22 @@ export default function Rastreamento() {
     'lendo'
   );
 
+  const lerConsentimentoAnterior = useRef<Consentimento | null>(null);
+
   useEffect(() => {
-    setEscolha(lerConsentimento());
-    const aoMudar = (e: Event) =>
-      setEscolha((e as CustomEvent<Consentimento | null>).detail);
+    lerConsentimentoAnterior.current = lerConsentimento();
+    setEscolha(lerConsentimentoAnterior.current);
+    const aoMudar = (e: Event) => {
+      const nova = (e as CustomEvent<Consentimento | null>).detail;
+      // GTM, GA4 e Pixel já executados não descarregam: quem retira o aceite
+      // recarrega a página, e ela volta sem eles.
+      if (lerConsentimentoAnterior.current === 'aceito' && nova !== 'aceito') {
+        location.reload();
+        return;
+      }
+      lerConsentimentoAnterior.current = nova;
+      setEscolha(nova);
+    };
     window.addEventListener(EVENTO_CONSENTIMENTO, aoMudar);
     return () => window.removeEventListener(EVENTO_CONSENTIMENTO, aoMudar);
   }, []);
