@@ -36,21 +36,38 @@ const PLATAFORMAS = ['VTEX FastStore', 'Wake', 'Tray'];
  * (`sticky`); o quanto ela já rolou escolhe o passo. A loja é a do template
  * provado no hero, e cada passo mexe nela — ganha a marca, as plataformas, o
  * endereço e o carimbo "No ar".
+ *
+ * No celular (≤ 900px) não cabe o palco inteiro preso: só a loja fica presa no
+ * alto, e os passos rolam por baixo dela. O passo é o que cruza a linha a 60%
+ * da área que a loja deixa livre embaixo — é onde o olho está.
  */
 export default function ComoFunciona() {
   const { atual } = useProvador()!;
   const secao = useRef<HTMLElement>(null);
+  const lista = useRef<HTMLOListElement>(null);
+  const demo = useRef<HTMLDivElement>(null);
   const [progresso, setProgresso] = useState(0);
 
   useEffect(() => {
     let raf = 0;
+    const celular = window.matchMedia('(max-width: 900px)');
     const medir = () => {
       raf = 0;
       const el = secao.current;
       if (!el) return;
-      const r = el.getBoundingClientRect();
-      const curso = r.height - window.innerHeight;
-      const p = curso > 0 ? Math.max(0, Math.min(1, -r.top / curso)) : 0;
+      let p = 0;
+      if (celular.matches && lista.current && demo.current) {
+        const r = lista.current.getBoundingClientRect();
+        const livre = Math.max(0, demo.current.getBoundingClientRect().bottom);
+        // 60% da área livre: com passos de 30vh, o título do passo ainda está
+        // à vista (abaixo da loja) quando o próximo assume.
+        const linha = livre + (window.innerHeight - livre) * 0.6;
+        p = Math.max(0, Math.min(1, (linha - r.top) / r.height));
+      } else {
+        const r = el.getBoundingClientRect();
+        const curso = r.height - window.innerHeight;
+        p = curso > 0 ? Math.max(0, Math.min(1, -r.top / curso)) : 0;
+      }
       setProgresso(anterior => (Math.abs(anterior - p) > 0.002 ? p : anterior));
     };
     const aoRolar = () => {
@@ -95,7 +112,7 @@ export default function ComoFunciona() {
               Passo {passo + 1} de {PASSOS.length}
             </span>
           </div>
-          <ol className={styles.passos}>
+          <ol className={styles.passos} ref={lista}>
             {PASSOS.map((p, i) => (
               <li
                 key={p.titulo}
@@ -122,7 +139,7 @@ export default function ComoFunciona() {
           </ol>
         </div>
 
-        <div className={styles.demo}>
+        <div className={styles.demo} ref={demo}>
           <div className={styles.abas} aria-hidden>
             {PLATAFORMAS.map((nome, i) => (
               <span

@@ -330,28 +330,103 @@
   border-radius: 6px;
 }
 
+/* No celular só a loja fica presa (logo abaixo do header), e os passos rolam
+   por baixo dela; o componente lê o passo no meio da área livre abaixo dela.
+   Cada passo ganha altura para ficar na tela tempo bastante de ser lido. */
 @media (max-width: 900px) {
   .secao {
     height: auto;
   }
-  /* No celular os passos são uma lista comum, sem cena presa: nada a medir. */
-  .progresso,
-  .contador {
-    display: none;
-  }
   .palco {
     position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex-wrap: nowrap;
     height: auto;
     min-height: 0;
-    padding-top: 72px;
-    gap: 40px;
+    padding-top: 56px;
+    padding-bottom: 40px;
+    gap: 20px;
   }
+  /* O texto se desmonta: o título fica no topo, a lista vai para baixo da
+     loja presa. */
+  .texto {
+    display: contents;
+  }
+  .cabeca {
+    order: 0;
+  }
+  .demo {
+    order: 1;
+    /* A base de 520px do desktop viraria altura na coluna. */
+    flex: none;
+    position: sticky;
+    top: 68px;
+    z-index: 2;
+    gap: 10px;
+    margin: 0 calc(-1 * var(--site-margem));
+    padding: 12px var(--site-margem) 18px;
+    background: linear-gradient(
+      to bottom,
+      var(--p-fundo) 82%,
+      color-mix(in srgb, var(--p-fundo) 0%, transparent)
+    );
+  }
+  /* Os quatro passos com a mesma altura: o componente divide a lista em
+     quartos. A folga do fim é margem, que a medida da lista não conta. */
+  .passos {
+    order: 2;
+    gap: 0;
+    margin-bottom: 12vh;
+  }
+  /* Baixo o bastante para o texto do passo nunca sumir inteiro sob a loja
+     antes de o próximo assumir. */
   .passo {
-    opacity: 1;
+    min-height: 30vh;
+    padding-top: 8px;
+  }
+
+  .passoTitulo {
+    font-size: 23px;
+  }
+  .contador {
+    font-size: 13px;
+  }
+  .janela {
+    width: min(100%, 300px);
     transform: none;
   }
+  .secao[data-passo] .janela {
+    transform: none;
+  }
+  /* As abas aparecem desde o começo, sem empurrar a loja quando surgem. */
+  .abas {
+    padding: 4px;
+  }
+  .aba {
+    padding: 7px 12px;
+    font-size: 13px;
+  }
   .kit {
-    left: 12px;
-    bottom: -24px;
+    left: auto;
+    right: 4px;
+    bottom: 10px;
+    width: 150px;
+    padding: 12px;
+  }
+  .kitNome {
+    margin: 4px 0 8px;
+    font-size: 20px;
+  }
+  .kitCores span {
+    width: 26px;
+    height: 26px;
+  }
+  .carimbo {
+    top: 48px;
+    right: 14px;
+    padding: 8px 12px;
+    font-size: 18px;
   }
 }
