@@ -114,8 +114,10 @@
     color 1.2s var(--site-ease-troca);
 }
 
-.principal:hover {
-  transform: translateY(-3px);
+@media (hover: hover) {
+  .principal:hover {
+    transform: translateY(-3px);
+  }
 }
 
 .secundario {
@@ -196,21 +198,24 @@
   box-shadow: 0 34px 60px -20px rgba(0, 0, 0, 0.75);
 }
 
-/* O vizinho abre espaço e o card sob o cursor endireita e sobe. */
-.amostra:hover {
-  --a-escala: 1.05;
-  transform: translateY(calc(var(--a-sobe) - 18px))
-    rotate(calc(var(--a-giro) * 0.35)) scale(var(--a-escala));
-  box-shadow: 0 36px 60px -18px rgba(0, 0, 0, 0.75);
-  filter: brightness(1.04);
-  z-index: 30 !important;
-}
+/* O vizinho abre espaço e o card sob o cursor endireita e sobe. Só com
+   mouse: no toque o :hover gruda no card tocado até o próximo toque. */
+@media (hover: hover) {
+  .amostra:hover {
+    --a-escala: 1.05;
+    transform: translateY(calc(var(--a-sobe) - 18px))
+      rotate(calc(var(--a-giro) * 0.35)) scale(var(--a-escala));
+    box-shadow: 0 36px 60px -18px rgba(0, 0, 0, 0.75);
+    filter: brightness(1.04);
+    z-index: 30 !important;
+  }
 
-/* O ativo já está erguido: no hover só respira, sem subir mais. */
-.amostra[aria-pressed='true']:hover {
-  --a-escala: 1.08;
-  transform: translateY(calc(var(--a-sobe) - 4px)) rotate(0deg)
-    scale(var(--a-escala));
+  /* O ativo já está erguido: no hover só respira, sem subir mais. */
+  .amostra[aria-pressed='true']:hover {
+    --a-escala: 1.08;
+    transform: translateY(calc(var(--a-sobe) - 4px)) rotate(0deg)
+      scale(var(--a-escala));
+  }
 }
 
 .amostra:active {
@@ -244,8 +249,10 @@
   transition: transform 0.6s var(--site-ease-mola-forte);
 }
 
-.amostra:hover .amostraAa {
-  transform: scale(1.12) rotate(-4deg);
+@media (hover: hover) {
+  .amostra:hover .amostraAa {
+    transform: scale(1.12) rotate(-4deg);
+  }
 }
 
 .amostraAa,
@@ -415,20 +422,63 @@
   display: none;
 }
 
+/* No celular o provador vem antes de tudo: título, uma linha de texto, o
+   leque (é ele que veste a página) e só então os botões e a loja. */
 @media (max-width: 900px) {
   .hero {
     min-height: 0;
-    padding-top: 24px;
+    padding-top: 20px;
+    padding-bottom: 8px;
+    gap: 8px;
+  }
+  .texto {
+    gap: 20px;
+  }
+  .titulo {
+    font-size: clamp(46px, 13.4vw, 64px);
+  }
+  .lead {
+    order: 1;
+    font-size: 17px;
+  }
+  .provar {
+    order: 2;
+    gap: 6px;
+    padding-top: 0;
+  }
+  .acoes {
+    order: 3;
+    gap: 8px 20px;
+  }
+  .principal {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+  /* 132 do card + 30 do ativo erguido + a escala, como no desktop. */
+  .leque {
+    height: 196px;
+    margin-right: calc(-1 * var(--site-margem));
+    scroll-snap-type: x proximity;
+  }
+  .amostra {
+    flex-basis: 88px;
+    height: 132px;
+    margin-left: -26px;
+    padding: 12px 10px;
+    scroll-snap-align: center;
+  }
+  .amostraAa {
+    font-size: 28px;
+  }
+  .amostraNome {
+    font-size: 15px;
   }
   .orbita {
     display: none;
   }
   .palco {
     height: auto;
-    padding: 8px 0 40px;
-  }
-  .loja {
-    transform: perspective(1800px) rotateX(6deg) rotateY(-8deg);
+    padding: 12px 0 24px;
   }
 }
 
