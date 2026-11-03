@@ -105,7 +105,7 @@ export default function EditorRail({ className }: { className?: string }) {
           type="button"
           className={styles.item}
           aria-label={label}
-          title={label}
+          data-tip={label}
           aria-current={railTarget === target ? 'page' : undefined}
           data-rail-target={target}
           onClick={() => setRailTarget(target)}
@@ -126,7 +126,7 @@ export default function EditorRail({ className }: { className?: string }) {
           type="button"
           className={`${styles.item} ${styles.modo}`}
           aria-label="Checkout"
-          title={noCheckout ? 'Voltar para a loja' : 'Editar o checkout'}
+          data-tip={noCheckout ? 'Voltar para a loja' : 'Editar o checkout'}
           aria-pressed={noCheckout}
           data-editor-mode-toggle=""
           onClick={() => setEditorMode(noCheckout ? 'loja' : 'checkout')}
@@ -142,7 +142,7 @@ export default function EditorRail({ className }: { className?: string }) {
           type="button"
           className={`${styles.item} ${styles.modo}`}
           aria-label="Landing page"
-          title={naLp ? 'Voltar para a loja' : 'Criar uma landing page'}
+          data-tip={naLp ? 'Voltar para a loja' : 'Criar uma landing page'}
           aria-pressed={naLp}
           data-editor-mode-lp=""
           onClick={() => setEditorMode(naLp ? 'loja' : 'lp')}
@@ -159,7 +159,7 @@ export default function EditorRail({ className }: { className?: string }) {
             type="submit"
             className={styles.item}
             aria-label="Sair"
-            title="Sair do editor"
+            data-tip="Sair do editor"
             data-logout=""
           >
             <LogOut width={20} height={20} />

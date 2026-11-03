@@ -82,3 +82,32 @@
   color: #b54708;
   cursor: help;
 }
+
+/* Tooltip instantâneo: o rail não tem versão aberta com os nomes, e o `title`
+   nativo demora quase um segundo. `::before` porque o `::after` já é o alvo
+   ampliado; absoluto, não mexe na geometria que o 2-geometria mede. */
+.item[data-tip]::before {
+  content: attr(data-tip);
+  position: absolute;
+  left: calc(100% + 18px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: var(--ed-gray-900);
+  color: var(--ed-bg-00);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.item[data-tip]:hover::before,
+.item[data-tip]:focus-visible::before {
+  opacity: 1;
+  visibility: visible;
+}
