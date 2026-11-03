@@ -1,0 +1,40 @@
+/*
+ * Tokens da marca E-temas: tinta, escuro, curvas e o acento. Lidos pelo site
+ * (home e /privacidade), pela vitrine /templates, pelo balão do /p e pelo
+ * /login, e pelo componente Logo.
+ *
+ * O /p e o frame da vitrine são o documento da LOJA do cliente: por isso só
+ * nomes com prefixo (`--site-`, `--p-`), que nenhum template lê.
+ *
+ * `--p-*` são do template provado na home (utils/provador.ts); os valores
+ * daqui são o de fora dela, onde ninguém provou nada.
+ */
+:root {
+  --site-tinta: #f3f0ea;
+  --site-tinta-2: rgba(243, 240, 234, 0.78);
+  --site-tinta-3: rgba(243, 240, 234, 0.64);
+  --site-escuro: #141210;
+  --site-ease-troca: cubic-bezier(0.6, 0, 0.2, 1);
+  --site-ease-mola: cubic-bezier(0.34, 1.4, 0.5, 1);
+  --site-ease-mola-forte: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --site-ease-saida: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --site-largura: 1360px;
+  --site-margem: clamp(20px, 3vw, 40px);
+
+  --p-fundo: #17130c;
+  --p-acento: #c9a961;
+  --p-texto-acento: #17130c;
+  --p-amostra: #1a1714;
+  --p-texto-amostra: #e6cf98;
+}
+
+/* Só para leitor de tela (o nome por extenso do Logo, a legenda da preferência
+   do formulário). */
+.siteSr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

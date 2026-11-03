@@ -11,6 +11,7 @@ import { variaveisDasFontes } from './fonts';
 
 import 'lenis/dist/lenis.css';
 import '../../styles/globals.css';
+import '../../styles/marca.css';
 import '../../styles/site.css';
 
 const DESCRICAO =

@@ -10,7 +10,14 @@ import styles from './index.module.css';
  * símbolo de camadas) como máscara pintada com a cor do texto, e o ponto é um
  * círculo à parte, na mesma cor do banner — troca junto com o site.
  */
-export default function Logo({ tamanho = 28 }: { tamanho?: number }) {
+export default function Logo({
+  tamanho = 28,
+  nome = true,
+}: {
+  tamanho?: number;
+  /** false: só o E (o rail do editor, o carregando da vitrine). */
+  nome?: boolean;
+}) {
   return (
     <span
       className={styles.logo}
@@ -30,10 +37,12 @@ export default function Logo({ tamanho = 28 }: { tamanho?: number }) {
           </span>
         </span>
       </span>
-      <span className={styles.nome} aria-hidden>
-        <span className={styles.letras} />
-        <span className={styles.ponto} />
-      </span>
+      {nome && (
+        <span className={styles.nome} aria-hidden>
+          <span className={styles.letras} />
+          <span className={styles.ponto} />
+        </span>
+      )}
       <span className="siteSr">e-temas</span>
     </span>
   );

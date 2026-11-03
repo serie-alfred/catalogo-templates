@@ -103,3 +103,6 @@ export const variaveisDasFontes = [
 ]
   .map(f => f.variable)
   .join(' ');
+
+/** Só as duas do site, para as superfícies fora da home (vitrine, /p, login). */
+export const variaveisDaMarca = `${display.variable} ${texto.variable}`;

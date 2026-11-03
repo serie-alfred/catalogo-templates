@@ -1,29 +1,9 @@
 /*
- * O site público (home e /privacidade): tokens, fonte do corpo e as travas de
+ * O site público (home e /privacidade): fonte do corpo e as travas de
  * movimento por faixa (`<html data-tier>`, lib/motion/tier.ts). Só o layout de
- * `(home)` importa este arquivo — o gerador, o /p e a vitrine têm os seus.
- *
- * `--p-*` são do template provado (utils/provador.ts); os valores daqui são o
- * de fora da home, onde ninguém provou nada.
+ * `(home)` importa este arquivo. Os tokens da marca moram em `marca.css`,
+ * lido também pela vitrine, pelo /p e pelo login.
  */
-:root {
-  --site-tinta: #f3f0ea;
-  --site-tinta-2: rgba(243, 240, 234, 0.78);
-  --site-tinta-3: rgba(243, 240, 234, 0.64);
-  --site-escuro: #141210;
-  --site-ease-troca: cubic-bezier(0.6, 0, 0.2, 1);
-  --site-ease-mola: cubic-bezier(0.34, 1.4, 0.5, 1);
-  --site-ease-mola-forte: cubic-bezier(0.34, 1.56, 0.64, 1);
-  --site-ease-saida: cubic-bezier(0.2, 0.8, 0.2, 1);
-  --site-largura: 1360px;
-  --site-margem: clamp(20px, 3vw, 40px);
-
-  --p-fundo: #17130c;
-  --p-acento: #c9a961;
-  --p-texto-acento: #17130c;
-  --p-amostra: #1a1714;
-  --p-texto-amostra: #e6cf98;
-}
 
 /*
  * globals.css põe `overflow-x: hidden` em html E body, e isso faz do body um
@@ -73,15 +53,6 @@ body.site {
   opacity: 0.06;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-}
-
-.siteSr {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
 
 @media (prefers-reduced-motion: reduce) {

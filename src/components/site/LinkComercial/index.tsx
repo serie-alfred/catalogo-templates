@@ -16,16 +16,19 @@ export default function LinkComercial({
   origem,
   className,
   children,
+  template: templateFixo,
   'aria-label': ariaLabel,
 }: {
   whatsapp: boolean;
   origem: string;
+  /** Fora da home não há template provado: a vitrine diz qual é. */
+  template?: string;
   className?: string;
   children: React.ReactNode;
   'aria-label'?: string;
 }) {
   const provador = useProvador();
-  const template = provador?.atual.visual.nome;
+  const template = templateFixo ?? provador?.atual.visual.nome;
 
   if (!whatsapp) {
     return (
