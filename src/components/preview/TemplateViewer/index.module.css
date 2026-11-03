@@ -2,37 +2,81 @@
    nunca do conteúdo: um iframe de altura automática faria o `100vh` dos drawers
    resolver contra a página inteira (o mesmo cuidado do canvas do editor).
    `minmax(0, 1fr)`, e não `1fr`, pelo mesmo motivo de lá: o iframe é elemento
-   substituído e estouraria a trilha. */
+   substituído e estouraria a trilha.
+
+   As cores são as do site: `--p-*` do template (no `style` do componente) e a
+   tinta da marca (marca.css). O seletor de página e o Desktop/Mobile são os
+   componentes do editor: em vez de reescrevê-los, os tokens `--ed-` que eles
+   leem são trocados aqui, só dentro da vitrine. */
 .shell {
+  --v-linha: rgba(243, 240, 234, 0.12);
+  --v-superficie: color-mix(in srgb, var(--site-tinta) 7%, var(--p-fundo));
+
+  --ed-bg-00: var(--v-superficie);
+  --ed-bg-01: rgba(243, 240, 234, 0.07);
+  --ed-gray-000: var(--v-linha);
+  --ed-gray-400: var(--site-tinta-3);
+  --ed-gray-800: var(--site-tinta);
+  --ed-blue-50: rgba(243, 240, 234, 0.06);
+  --ed-blue-100: color-mix(in srgb, var(--p-acento) 22%, transparent);
+  --ed-blue-ink: var(--site-tinta);
+  --ed-grad-active: linear-gradient(var(--site-tinta), var(--site-tinta));
+  --ed-shadow-card: 0 18px 40px -12px rgba(0, 0, 0, 0.6);
+  --ed-font: var(--f-texto), system-ui, sans-serif;
+
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
   height: 100dvh;
   font-family: var(--ed-font);
-  color: var(--ed-gray-800);
-  background: var(--ed-bg-00);
+  color: var(--site-tinta);
+  background: var(--p-fundo);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.6s ease;
 }
 
-/* As três colunas da topbar do editor: identidade, seletor de página no meio,
-   Desktop/Mobile à direita. A barra fica acima do palco (z-index) porque o menu
-   do seletor desce sobre o iframe. */
+/* O Desktop/Mobile ativo é creme: o texto dele é o fundo (o componente usa
+   `--ed-bg-00` para o texto do ativo, que aqui é a superfície escura). */
+.shell [role='group'][aria-label='Visão do preview'] [aria-pressed='true'] {
+  color: var(--p-fundo);
+}
+
+/* Identidade à esquerda, seletor de página no meio, Desktop/Mobile e o
+   comercial à direita. A barra fica acima do palco (z-index) porque o menu do
+   seletor desce sobre o iframe. */
 .topbar {
   position: relative;
   z-index: 2;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  grid-template-areas: 'identidade pagina acoes';
   align-items: center;
   gap: 16px;
-  min-height: var(--ed-topbar-h);
+  min-height: 68px;
   padding: 12px 24px;
-  box-shadow: inset 0 -1px 0 var(--ed-gray-000);
-  background: var(--ed-bg-00);
+  box-sizing: border-box;
+  box-shadow: inset 0 -1px 0 var(--v-linha);
+  background: var(--p-fundo);
 }
 
 .identidade {
+  grid-area: identidade;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   min-width: 0;
+}
+
+.marca {
+  display: inline-flex;
+  flex-shrink: 0;
+  color: var(--site-tinta);
+}
+
+.divisor {
+  flex-shrink: 0;
+  width: 1px;
+  height: 24px;
+  background: var(--v-linha);
 }
 
 .voltar {
@@ -41,27 +85,56 @@
   align-items: center;
   gap: 4px;
   height: 40px;
-  padding: 8px 14px 8px 8px;
-  box-shadow: inset 0 0 0 1px var(--ed-gray-000);
+  padding: 0 14px 0 8px;
   border-radius: 12px;
-  background: var(--ed-bg-00);
+  box-shadow: inset 0 0 0 1px var(--v-linha);
+  color: var(--site-tinta);
   font-size: 14px;
   font-weight: 600;
-  color: var(--ed-gray-800);
   text-decoration: none;
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.voltar svg {
+  transition: transform 0.35s var(--site-ease-mola);
 }
 
 .voltar:hover {
-  background: var(--ed-bg-01);
+  background: rgba(243, 240, 234, 0.07);
+  box-shadow: inset 0 0 0 1px rgba(243, 240, 234, 0.24);
+}
+
+.voltar:hover svg {
+  transform: translateX(-3px);
 }
 
 .nome {
+  display: flex;
+  align-items: baseline;
   min-width: 0;
   overflow: hidden;
+  white-space: nowrap;
+}
+
+.numero {
+  flex-shrink: 0;
+  /* O espaço do fim faz parte do nome ("09 · Editorial"): não colapsa. */
+  white-space: pre;
   font-size: 14px;
   font-weight: 600;
-  white-space: nowrap;
+  color: var(--site-tinta-3);
+}
+
+.nomeTexto {
+  min-width: 0;
+  overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: var(--site-tinta);
 }
 
 /* A paleta do desenho, como no card do "Por template". */
@@ -75,66 +148,179 @@
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+  box-shadow: inset 0 0 0 1px rgba(243, 240, 234, 0.25);
 }
 
-.vista {
+.pagina {
+  grid-area: pagina;
+}
+
+.acoes {
+  grid-area: acoes;
   justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-/* O fundo do canvas do editor: grade de 16px a 2%. */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 18px;
+  border-radius: 12px;
+  background: var(--p-acento);
+  color: var(--p-texto-acento);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform 0.4s var(--site-ease-mola),
+    box-shadow 0.3s ease;
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px -12px var(--p-acento);
+}
+
+.cta:active {
+  transform: scale(0.97);
+  transition-duration: 0.12s;
+}
+
+/* ── o palco ──────────────────────────────────────────────────────────── */
+
+/* Grade de 24px a 4% da tinta sobre o fundo do template. */
 .palco {
+  position: relative;
   display: flex;
   justify-content: center;
   min-height: 0;
   overflow: hidden;
-  background-color: #fafafa;
+  background-color: color-mix(in srgb, black 18%, var(--p-fundo));
   background-image:
-    linear-gradient(to right, rgba(20, 20, 20, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(20, 20, 20, 0.02) 1px, transparent 1px);
-  background-size: 16px 16px;
+    linear-gradient(to right, rgba(243, 240, 234, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(243, 240, 234, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* O E da marca pulsando atrás da loja enquanto ela não chega. */
+@keyframes respira {
+  50% {
+    opacity: 0.35;
+    transform: scale(0.94);
+  }
+}
+
+.carregando {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--site-tinta);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.palco[data-carregando] .carregando {
+  opacity: 1;
+  transition-delay: 0.15s;
+}
+
+.palco[data-carregando] .carregando > span {
+  animation: respira 1.4s ease-in-out infinite;
 }
 
 .desktop,
 .mobile {
+  position: relative;
   display: block;
   border: 0;
   background: #fff;
+  transition:
+    opacity 0.5s ease,
+    transform 0.6s var(--site-ease-saida),
+    width 0.55s var(--site-ease-troca),
+    height 0.55s var(--site-ease-troca),
+    margin 0.55s var(--site-ease-troca),
+    border-radius 0.55s var(--site-ease-troca),
+    box-shadow 0.55s ease;
+}
+
+.palco[data-carregando] .desktop,
+.palco[data-carregando] .mobile {
+  opacity: 0;
+  transform: translateY(12px);
 }
 
 /* A loja rente à barra, na largura da janela. */
 .desktop {
   width: 100%;
   height: 100%;
+  margin-top: 0;
+  border-radius: 0;
 }
 
-/* Viewport de celular de verdade, como a visão mobile do editor. */
+/* Viewport de celular de verdade, com moldura de aparelho. */
 .mobile {
   width: 375px;
-  height: calc(100% - 48px);
-  margin-top: 24px;
-  border-radius: 16px;
+  height: calc(100% - 64px);
+  margin-top: 32px;
+  border-radius: 28px;
   box-shadow:
-    0 0 0 1px var(--ed-gray-000),
-    0 8px 24px rgba(0, 0, 0, 0.08);
+    0 0 0 8px #0b0a08,
+    0 0 0 9px rgba(243, 240, 234, 0.14),
+    0 40px 90px -20px rgba(0, 0, 0, 0.75);
 }
 
-/* No celular a janela já é a viewport da loja: sem alternador, sem moldura. */
+@media (prefers-reduced-motion: reduce) {
+  .desktop,
+  .mobile,
+  .carregando > span {
+    transition: none;
+    animation: none !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .ctaLongo,
+  .paleta {
+    display: none;
+  }
+}
+
+/* No celular a janela já é a viewport da loja: sem alternador, sem moldura, e
+   a barra em duas linhas — identidade e comercial em cima, página embaixo. */
 @media (max-width: 720px) {
   .topbar {
     grid-template-columns: minmax(0, 1fr) auto;
-    padding: 12px 16px;
+    grid-template-areas:
+      'identidade acoes'
+      'pagina pagina';
+    gap: 10px 12px;
+    padding: 10px 16px;
   }
 
-  /* Só a seta: o nome do template precisa do espaço. */
+  .marca,
+  .divisor,
   .vista,
-  .paleta,
   .voltarTexto {
     display: none;
   }
 
   .voltar {
     padding-right: 8px;
+  }
+
+  .nomeTexto {
+    font-size: 18px;
+  }
+
+  .pagina > * {
+    width: 100%;
   }
 
   .mobile {

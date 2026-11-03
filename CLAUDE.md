@@ -298,6 +298,11 @@ O conceito: o visitante **prova** um template e a página inteira veste a cara d
   nenhum ID o banner nem aparece. Os eventos (`cta_ver_templates`, `trocar_template_hero`,
   `abrir_template`, `clique_whatsapp`, `enviar_formulario` + `generate_lead`) vão sempre para o
   `dataLayer` e para o Vercel Analytics. Seção do servidor rastreia clique com `data-rastrear`.
+- **A marca fora da home:** os tokens (`--site-*`, `--p-*`) e o `.siteSr` moram em
+  `src/styles/marca.css`, lido também pela vitrine, pelo `/p` (só o balão), pelo `/login` e pelo
+  rail do `/gerador`; as fontes, por `variaveisDaMarca` de `(home)/fonts.ts`, sempre como variável
+  no `<html>` — nunca no `<body>`, que no `/p` e no frame é da loja. O editor ganhou as cores da marca
+  pelos tokens `--ed-blue-*` (os nomes ficaram); o contorno de seleção do canvas continua azul.
 - **Busca:** a home e a `/privacidade` são as únicas páginas indexáveis (`sitemap.ts`); o resto mantém
   o `noindex` no próprio layout.
 
@@ -319,8 +324,14 @@ a loja num `<iframe>` (`…/frame`), pelo mesmo motivo do canvas: os drawers `fi
 - **Só olha:** sem "Editar", sem link para o `/gerador`, sem chrome de seleção. O frame trava link
   e submit (captura, só `preventDefault`): os `href` de mock dos templates (`/`, `/<produto>/p`,
   domínios de exemplo) carregariam outra coisa dentro da moldura.
-- **Rotas:** root layout próprio em `src/app/templates/` (o Inter só como variável, aplicado na
-  barra `.ed-shell`); `?vista=mobile` é lido no servidor e o alternador atualiza a URL com
+- **A cara do site (03/11/2026):** a barra veste o template como a home (`--p-*` de
+  `VISUAL_DOS_TEMPLATES`, a fonte dele no nome) e tem o "Quero este template" (`LinkComercial` com o
+  template na mensagem). O `Dropdown` e o `ResponsiveToggle` são os do editor: em vez de reescrevê-los,
+  o CSS da vitrine troca os tokens `--ed-` que eles leem. A loja só aparece quando o documento do
+  frame está montado (pergunta ao `contentDocument`, com teto de 5 s); até lá, o E da marca pulsa.
+  `Rastreamento` e `Analytics` ficam na página da barra, não no layout, que também é o do frame.
+- **Rotas:** root layout próprio em `src/app/templates/` (as fontes do site só como variável,
+  aplicadas na barra); `?vista=mobile` é lido no servidor e o alternador atualiza a URL com
   `history.replaceState` (a moldura troca por CSS, a loja não recarrega). Família incompleta ou
   página inválida dão 404. Fora do `matcher` do login.
 - **Thumbs:** `public/images/templates/<NN>.webp` (800×608, 2× o card), foto da home montada por

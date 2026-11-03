@@ -1,6 +1,10 @@
 import { notFound } from 'next/navigation';
+import { Analytics } from '@vercel/analytics/next';
+import Rastreamento from '@/components/site/Rastreamento';
 import TemplateViewer from '@/components/preview/TemplateViewer';
+import { comerciais } from '@/lib/comercial';
 import { slugToPagina } from '@/utils/previewRender';
+import { VISUAL_DOS_TEMPLATES } from '@/utils/provador';
 import { templateDoSlug } from '@/utils/vitrineTemplates';
 
 interface PageProps {
@@ -34,23 +38,31 @@ export default async function TemplatePage({
 
   const c = t.tema?.colors;
   return (
-    <TemplateViewer
-      slug={familia}
-      nome={t.nome}
-      // Sem repetidas: na 09 três tokens têm a mesma cor, e três bolinhas
-      // iguais na barra parecem um menu "•••".
-      paleta={[
-        ...new Set(
-          [
-            c?.colorPrimaryBackground,
-            c?.colorSecondaryBackground,
-            c?.colorTertiaryBackground,
-            c?.colorPrimary,
-          ].filter((x): x is string => !!x)
-        ),
-      ]}
-      pagina={pagina}
-      mobileInicial={vista === 'mobile'}
-    />
+    <>
+      <TemplateViewer
+        slug={familia}
+        nome={t.nome}
+        // Sem repetidas: na 09 três tokens têm a mesma cor, e três bolinhas
+        // iguais na barra parecem um menu "•••".
+        paleta={[
+          ...new Set(
+            [
+              c?.colorPrimaryBackground,
+              c?.colorSecondaryBackground,
+              c?.colorTertiaryBackground,
+              c?.colorPrimary,
+            ].filter((x): x is string => !!x)
+          ),
+        ]}
+        pagina={pagina}
+        mobileInicial={vista === 'mobile'}
+        // A barra veste a cara que o template tem na home (utils/provador.ts).
+        visual={VISUAL_DOS_TEMPLATES[t.template] ?? null}
+        whatsapp={comerciais().length > 0}
+      />
+      {/* Aqui, e não no layout: o layout também é o do frame da loja. */}
+      <Rastreamento />
+      <Analytics />
+    </>
   );
 }

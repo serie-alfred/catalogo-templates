@@ -1,5 +1,4 @@
 import React from 'react';
-import { Inter } from 'next/font/google';
 import '../../styles/templates.css';
 import '../../styles/globals.css';
 import '../../styles/storefront.css';
@@ -8,22 +7,18 @@ import '../../styles/preview.css';
 // A barra da vitrine reusa o seletor de página e o Desktop/Mobile do editor,
 // que leem os tokens `--ed-`. DEPOIS de globals.css, como no editor.
 import '../../styles/editor-tokens.css';
+import '../../styles/marca.css';
+import { variaveisDasFontes } from '../(home)/fonts';
 
 /**
  * Root layout da vitrine de templates: a barra (`/templates/<NN>/<página>`) e o
  * documento da loja que ela embute (`…/frame`). Os dois são públicos — a regra
  * do middleware só fecha o `/gerador`.
  *
- * O Inter vai só como custom property, aplicada na barra (`.ed-shell`): no
- * `<body>` ele venceria a fonte do tema dentro do frame — o mesmo cuidado do
- * layout do editor.
+ * As fontes do site (e as dos nomes dos templates) vão só como custom
+ * properties, aplicadas na barra: no `<body>` elas venceriam a fonte do tema
+ * dentro do frame — o mesmo cuidado do layout do editor com o Inter.
  */
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-});
-
 export const metadata = {
   title: 'Templates · E-temas',
   description: 'Templates completos de e-commerce do E-temas, para visualizar.',
@@ -41,7 +36,7 @@ export default function TemplatesLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR" className={inter.variable}>
+    <html lang="pt-BR" className={variaveisDasFontes}>
       <body suppressHydrationWarning>{children}</body>
     </html>
   );
