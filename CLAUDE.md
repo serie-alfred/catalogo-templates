@@ -58,7 +58,7 @@ Next.js 15 App Router, React 19, TypeScript strict, CSS Modules + a few globals 
 
 ### Two route groups, two purposes
 
-- `(home)` — public marketing/showcase page ([src/app/(home)/page.tsx](<src/app/(home)/page.tsx>)). Uses Geist font via `next/font`, loads only `globals.css`. Its template cards come from the catalog and open the public viewer under `src/app/templates/` (see **Vitrine pública de templates**).
+- `(home)` — public marketing page ([src/app/(home)/page.tsx](<src/app/(home)/page.tsx>)), the "Provador" (see **Site público** below). Fonts via `next/font` in `(home)/fonts.ts`, loads `globals.css` + `site.css`. Its template cards come from the catalog and open the public viewer under `src/app/templates/` (see **Vitrine pública de templates**).
 - `gerador` — the interactive layout-builder tool. Split into two route groups, each with its **own root layout**: `(editor)` ([src/app/gerador/(editor)/page.tsx](<src/app/gerador/(editor)/page.tsx>), URL `/gerador`) loads `templates.css` + `globals.css` + `storefront.css` + `editor-canvas.css` + `editor-tokens.css` (in that order — the dark-mode lock in the last one has to win) and wraps children in `LayoutProvider`; `(frame)` (URL `/gerador/frame-mobile`) is the isolated document rendered inside the preview iframe. Route handlers under `src/app/gerador/api/**` sit outside both groups (they need no layout).
   - **`next/font` is for the CHROME only.** Inter is loaded in the editor layout as `inter.variable` and applied on `.ed-shell`. It must never go on `<body>`: `ExportStage` mounts `ThemeRenderer` in this same document and no template declares its own `font-family`, so the generated class (0,1,0) would beat `body { font-family: var(--font-family) }` (0,0,1) and silently change the typography of the exported PNGs. The **theme** fonts stay runtime-selectable, as before.
 
@@ -261,10 +261,43 @@ inteira na loja. Some no checkout e na LP.
   zero** esvazia a loja.
 - **Funil:** `2-templates` (inclui a entrada padrão e o "Começar do zero").
 
+### Site público: a home "Provador" (03/11/2026)
+
+A home vende os templates sem preço (o preço é sempre do comercial) e **nunca** leva ao `/gerador`.
+O conceito: o visitante **prova** um template e a página inteira veste a cara dele.
+
+- **Provador** ([src/components/home/Provador](src/components/home/Provador/index.tsx)): contexto client com
+  o template provado; põe `--p-fundo`, `--p-acento`, `--p-amostra`… no envelope, e header, seções e rodapé
+  leem as variáveis — ninguém recebe o estado por prop. A cara de cada família é direção de arte do SITE,
+  não o tema da loja: [src/utils/provador.ts](src/utils/provador.ts) (`VISUAL_DOS_TEMPLATES`; família sem
+  entrada, como a 01, fica só na arara). Família nova entra no leque quando ganhar entrada ali e em
+  `ORDEM_DO_LEQUE` da `page.tsx`, e a fonte dela em `(home)/fonts.ts`.
+- **Seções:** `Hero` (título que rola para o nome do template, leque de amostras, loja inclinada e a
+  órbita `[data-home-novos]`), `ComoFunciona` (palco `sticky`, o progresso da rolagem escolhe o passo),
+  `Arara` (`[data-home-catalogo]`, `#templates`), `QuemFaz` (texto que acende com `animation-timeline: view()`)
+  e o rodapé com o contato. Os ganchos do `2-vitrine` continuam os mesmos.
+- **Movimento por faixa** ([src/lib/motion/tier.ts](src/lib/motion/tier.ts) + `MotionRoot`): `<html data-tier>`
+  `alto | medio | baixo` pelo que o navegador declara e por uma amostra de quadros (medir só rebaixa);
+  movimento reduzido é sempre `baixo`; `?tier=` força. Fora do `baixo` liga o Lenis.
+- **`overflow-x: hidden` do `globals.css` quebra `sticky`:** em html E body, o body vira um contêiner de
+  rolagem que nunca rola e todo `sticky` gruda nele. O `site.css` troca por `clip` só no site.
+- **Comercial:** todo "Falar com o comercial" é o `LinkComercial` → `/api/comercial`, rodízio grudado
+  (o próximo da fila pelo contador `comercial:rodizio` do KV, e cookie `etemas_comercial` de 30 dias) para
+  o `wa.me` com o template provado na mensagem. A lista é `COMERCIAIS` na Vercel — **nunca** no código,
+  o repo é público. Sem ela, os botões levam ao formulário. O formulário (`/api/contato`) vai para a
+  caixa central com a preferência (e-mail/WhatsApp) no assunto.
+- **Rastreamento** ([src/lib/tracking](src/lib/tracking/index.ts)): GTM, GA4 e Pixel por
+  `NEXT_PUBLIC_GTM_ID` / `_GA4_ID` / `_META_PIXEL_ID`, carregados só depois do "Aceitar" do banner; sem
+  nenhum ID o banner nem aparece. Os eventos (`cta_ver_templates`, `trocar_template_hero`,
+  `abrir_template`, `clique_whatsapp`, `enviar_formulario` + `generate_lead`) vão sempre para o
+  `dataLayer` e para o Vercel Analytics. Seção do servidor rastreia clique com `data-rastrear`.
+- **Busca:** a home e a `/privacidade` são as únicas páginas indexáveis (`sitemap.ts`); o resto mantém
+  o `noindex` no próprio layout.
+
 ### Vitrine pública de templates (`/templates`)
 
 Os mesmos templates completos, **para ver, sem editar**, no site público. A home lista as famílias
-(as duas faixas: "Novos" com os `NOVIDADES` mais recentes, e a grade com busca, `#templates`) e
+(a órbita do hero com os `NOVIDADES` mais recentes, `[data-home-novos]`, e a arara, `#templates`) e
 cada card leva a `/templates/<NN>/<home|categoria|produto>`: uma barra com o seletor de página e o
 Desktop/Mobile — os **mesmos** componentes da topbar do editor (`Dropdown`, `ResponsiveToggle`) — e
 a loja num `<iframe>` (`…/frame`), pelo mesmo motivo do canvas: os drawers `fixed` com `100vh`.
