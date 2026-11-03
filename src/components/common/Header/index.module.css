@@ -57,17 +57,25 @@
   transition: transform 0.4s var(--site-ease-mola);
 }
 
-.cta:hover {
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .cta:hover {
+    transform: translateY(-2px);
+  }
 }
 
+/* No celular o header é o logo e o menu (MenuCelular): os links e o comercial
+   moram na folha, e o botão flutuante cobre o comercial no resto da página. */
 @media (max-width: 820px) {
-  .links {
+  .nav {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .links,
+  .cta {
     display: none;
   }
-  .cta {
-    min-height: 44px;
-    padding: 0 14px;
-    font-size: 14px;
+  /* Com a folha aberta o header fica opaco: ela continua o fundo dele. */
+  .header:has([data-aberto]) {
+    background: var(--p-fundo);
   }
 }

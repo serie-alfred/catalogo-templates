@@ -5,6 +5,8 @@ import Logo from '@/components/common/Logo';
 import LinkComercial from '@/components/site/LinkComercial';
 import { comerciais } from '@/lib/comercial';
 
+import MenuCelular from './MenuCelular';
+
 import styles from './index.module.css';
 
 export default function Header() {
@@ -31,6 +33,7 @@ export default function Header() {
         >
           Falar com o comercial
         </LinkComercial>
+        <MenuCelular whatsapp={whatsapp} />
       </nav>
     </header>
   );
