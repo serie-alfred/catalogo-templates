@@ -1,42 +1,179 @@
+/* A política no visual do site: título grande na fonte de display, índice
+   preso à esquerda no desktop, texto em coluna de leitura. */
 .page {
-  max-width: 760px;
+  max-width: var(--site-largura);
   margin: 0 auto;
-  padding: 140px 16px 80px;
-  font-family: var(--font-family);
-  color: var(--foreground);
-  line-height: 1.6;
+  padding: 140px var(--site-margem) 120px;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 720px);
+  grid-template-areas:
+    'topo topo'
+    'indice texto';
+  gap: 56px 80px;
+  color: var(--site-tinta);
 }
 
-.page h1 {
-  font-size: 36px;
-  line-height: 1.2;
-  margin-bottom: 8px;
+.topo {
+  grid-area: topo;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(243, 240, 234, 0.12);
 }
 
-.page h2 {
-  font-size: 22px;
-  margin: 32px 0 8px;
+.sobretitulo {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--p-acento);
 }
 
-.page p,
-.page li {
-  font-size: 16px;
-  margin-bottom: 12px;
-}
-
-.page ul {
-  padding-left: 20px;
+.topo h1 {
+  margin: 0;
+  font-family: var(--f-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(48px, 7vw, 104px);
+  line-height: 0.9;
+  letter-spacing: -0.055em;
 }
 
 .atualizado {
-  color: var(--grey-55, #8a8a8a);
+  margin: 0;
+  font-size: 15px;
+  color: var(--site-tinta-3);
+}
+
+.indice {
+  grid-area: indice;
+  position: sticky;
+  top: 112px;
+  align-self: start;
+}
+
+.indiceTitulo {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--site-tinta-3);
+}
+
+.indice ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: item;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.indice li {
+  counter-increment: item;
+}
+
+.indice a {
+  display: flex;
+  gap: 10px;
+  padding: 7px 10px;
+  margin-left: -10px;
+  border-radius: 8px;
+  color: var(--site-tinta-2);
+  font-size: 14px;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.indice a::before {
+  content: counter(item, decimal-leading-zero);
+  color: var(--site-tinta-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.indice a:hover {
+  background: rgba(243, 240, 234, 0.06);
+  color: var(--site-tinta);
+}
+
+.texto {
+  grid-area: texto;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--site-tinta-2);
+}
+
+.texto h2 {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin: 56px 0 14px;
+  scroll-margin-top: 110px;
+  font-family: var(--f-display), sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  color: var(--site-tinta);
+}
+
+.texto > h2:first-of-type {
+  margin-top: 40px;
+}
+
+.num {
+  font-family: var(--f-texto), sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--p-acento);
+}
+
+.texto p,
+.texto li {
+  margin: 0 0 14px;
+}
+
+.texto ul {
+  margin: 0 0 14px;
+  padding-left: 20px;
+}
+
+.texto li::marker {
+  color: var(--p-acento);
 }
 
 /* Marca o que o time precisa preencher e o jurídico validar. */
 .preencher {
-  background: #fff3c4;
-  color: #5a4500;
-  padding: 0 4px;
-  border-radius: 4px;
+  padding: 1px 6px;
+  border-radius: 5px;
+  background: rgba(255, 214, 102, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 214, 102, 0.4);
+  color: #ffd666;
+  font-size: 0.92em;
   font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .page {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'topo'
+      'indice'
+      'texto';
+    gap: 32px;
+    padding-top: 112px;
+  }
+
+  .indice {
+    position: static;
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: rgba(243, 240, 234, 0.04);
+  }
 }
