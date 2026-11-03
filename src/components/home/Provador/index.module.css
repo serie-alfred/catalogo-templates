@@ -1,0 +1,8 @@
+.envelope {
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--p-fundo);
+  color: var(--site-tinta);
+  overflow-x: clip;
+  transition: background-color 1.2s var(--site-ease-troca);
+}

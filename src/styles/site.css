@@ -1,0 +1,101 @@
+/*
+ * O site público (home e /privacidade): tokens, fonte do corpo e as travas de
+ * movimento por faixa (`<html data-tier>`, lib/motion/tier.ts). Só o layout de
+ * `(home)` importa este arquivo — o gerador, o /p e a vitrine têm os seus.
+ *
+ * `--p-*` são do template provado (utils/provador.ts); os valores daqui são o
+ * de fora da home, onde ninguém provou nada.
+ */
+:root {
+  --site-tinta: #f3f0ea;
+  --site-tinta-2: rgba(243, 240, 234, 0.78);
+  --site-tinta-3: rgba(243, 240, 234, 0.64);
+  --site-escuro: #141210;
+  --site-ease-troca: cubic-bezier(0.6, 0, 0.2, 1);
+  --site-ease-mola: cubic-bezier(0.34, 1.4, 0.5, 1);
+  --site-ease-saida: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --site-largura: 1360px;
+  --site-margem: clamp(20px, 3vw, 40px);
+
+  --p-fundo: #17130c;
+  --p-acento: #c9a961;
+  --p-texto-acento: #17130c;
+  --p-amostra: #1a1714;
+  --p-texto-amostra: #e6cf98;
+}
+
+/*
+ * globals.css põe `overflow-x: hidden` em html E body, e isso faz do body um
+ * contêiner de rolagem que nunca rola: todo `position: sticky` da página (o
+ * header, o palco do "Como funciona") passa a grudar nele e some. `clip`
+ * corta o vazamento lateral do mesmo jeito sem criar contêiner.
+ */
+html:has(> body.site),
+body.site {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.site {
+  margin: 0;
+  background-color: var(--p-fundo);
+  color: var(--site-tinta);
+  font-family: var(--f-texto), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 1.2s var(--site-ease-troca);
+}
+
+.site a {
+  color: inherit;
+}
+
+.site h1,
+.site h2,
+.site h3 {
+  text-wrap: balance;
+}
+
+/* globals.css apaga o foco com !important; aqui ele volta, só no site. */
+.site :focus-visible {
+  outline: 2px solid var(--site-tinta) !important;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+/* Granulado: só na faixa alta, por cima de tudo e sem pegar clique. */
+:root[data-tier='alto'] .site::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+.siteSr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site *,
+  .site *::before,
+  .site *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:root[data-tier='baixo'] .site *,
+:root[data-tier='baixo'] .site *::before,
+:root[data-tier='baixo'] .site *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+}

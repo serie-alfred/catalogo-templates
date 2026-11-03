@@ -1,0 +1,90 @@
+.logo {
+  --u: calc(var(--logo-h) / 28);
+  display: inline-flex;
+  align-items: center;
+  gap: calc(12 * var(--u));
+  color: inherit;
+}
+
+.marca {
+  display: flex;
+  gap: calc(3 * var(--u));
+  width: calc(30 * var(--u));
+  height: var(--logo-h);
+}
+
+.espinha {
+  width: calc(6 * var(--u));
+  background: currentColor;
+}
+
+.secoes {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: calc(3 * var(--u));
+}
+
+.header {
+  height: calc(6 * var(--u));
+  background: currentColor;
+}
+
+.banner {
+  height: calc(10 * var(--u));
+  overflow: hidden;
+}
+
+.modulo {
+  display: block;
+  height: 100%;
+  background: var(--p-acento);
+  transition: background-color 1.2s var(--site-ease-troca);
+}
+
+.vitrine {
+  height: calc(7 * var(--u));
+  display: flex;
+  gap: calc(2 * var(--u));
+}
+
+.vitrine span {
+  flex: 1;
+  background: currentColor;
+}
+
+.nome {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--f-display), sans-serif;
+  font-weight: 800;
+  font-size: calc(25 * var(--u));
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.hifen {
+  width: calc(9 * var(--u));
+  height: calc(9 * var(--u));
+  margin: calc(3 * var(--u)) calc(3 * var(--u)) 0;
+  background: var(--p-acento);
+  transition: background-color 1.2s var(--site-ease-troca);
+}
+
+@keyframes troca {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  45% {
+    transform: translateX(-115%);
+  }
+  55% {
+    transform: translateX(115%);
+  }
+}
+
+a:hover > .logo .modulo,
+a:focus-visible > .logo .modulo {
+  animation: troca 0.9s var(--site-ease-troca);
+}

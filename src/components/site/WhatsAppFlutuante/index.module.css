@@ -1,0 +1,41 @@
+.flutuante {
+  position: fixed;
+  right: var(--site-margem);
+  bottom: var(--site-margem);
+  z-index: 50;
+  opacity: 0;
+  transform: translateY(24px) scale(0.9);
+  pointer-events: none;
+  transition:
+    opacity 0.4s,
+    transform 0.6s var(--site-ease-mola);
+}
+
+.flutuante[data-visivel] {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.botao {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 0 22px 0 18px;
+  border-radius: 999px;
+  background: var(--p-acento);
+  color: var(--p-texto-acento) !important;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.7);
+  transition:
+    background-color 1.2s var(--site-ease-troca),
+    color 1.2s var(--site-ease-troca),
+    transform 0.4s var(--site-ease-mola);
+}
+
+.botao:hover {
+  transform: translateY(-3px);
+}

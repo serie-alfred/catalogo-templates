@@ -1,0 +1,316 @@
+/* 4 passos × ~70vh de rolagem cada, mais a altura do palco preso. */
+.secao {
+  position: relative;
+  height: calc(100vh + 280vh);
+}
+
+.palco {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  min-height: 620px;
+  max-width: var(--site-largura);
+  margin: 0 auto;
+  padding: 96px var(--site-margem) 32px;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 64px;
+  align-items: center;
+}
+
+.texto {
+  flex: 1 1 380px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.titulo {
+  margin: 0;
+  font-family: var(--f-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(40px, 4vw, 54px);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.passos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.passo {
+  display: flex;
+  gap: 20px;
+  opacity: 0.32;
+  transform: translateX(-8px);
+  transition:
+    opacity 0.6s,
+    transform 0.8s var(--site-ease-saida);
+}
+
+.passo[aria-current] {
+  opacity: 1;
+  transform: none;
+}
+
+.numero {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 15px;
+  background: rgba(243, 240, 234, 0.1);
+  color: var(--site-tinta-2);
+  transition:
+    background-color 0.6s,
+    color 0.6s;
+}
+
+.passo[aria-current] .numero {
+  background: var(--p-acento);
+  color: var(--p-texto-acento);
+}
+
+.passoTexto {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.passoTitulo {
+  font-family: var(--f-display), sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  letter-spacing: -0.03em;
+}
+
+.passoDescricao {
+  max-width: 400px;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--site-tinta-2);
+}
+
+/* ── a loja do lado direito ───────────────────────────────────────────── */
+
+.demo {
+  flex: 1.3 1 520px;
+  min-width: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.abas {
+  display: flex;
+  gap: 6px;
+  padding: 5px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.secao[data-passo='2'] .abas,
+.secao[data-passo='3'] .abas {
+  opacity: 1;
+}
+
+.aba {
+  padding: 9px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--site-tinta-2);
+  transition:
+    background-color 0.5s,
+    color 0.5s;
+}
+
+.aba[data-ativa] {
+  background: var(--site-tinta);
+  color: var(--site-escuro);
+}
+
+.janela {
+  position: relative;
+  width: min(100%, 640px);
+  border-radius: 14px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 60px 110px -30px rgba(0, 0, 0, 0.85);
+  transform: perspective(1800px) rotateY(-10deg) rotateX(4deg);
+  transition: transform 1.2s var(--site-ease-troca);
+}
+
+.secao[data-passo='1'] .janela {
+  transform: perspective(1800px) rotateY(6deg) rotateX(4deg);
+}
+.secao[data-passo='2'] .janela {
+  transform: perspective(1800px) rotateY(-4deg) rotateX(4deg);
+}
+.secao[data-passo='3'] .janela {
+  transform: perspective(1800px) rotateX(2deg);
+}
+
+.barra {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 34px;
+  background: #ece9e2;
+  color: #4a463e;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+@keyframes digita {
+  from {
+    max-width: 0;
+  }
+  to {
+    max-width: 12em;
+  }
+}
+
+.digita {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  vertical-align: bottom;
+  animation: digita 1.4s steps(14) both;
+}
+
+.tela {
+  position: relative;
+  aspect-ratio: 800 / 608;
+}
+
+@keyframes aparece {
+  from {
+    opacity: 0;
+    transform: scale(1.04);
+  }
+}
+
+.telaImg {
+  object-fit: cover;
+  object-position: top;
+  animation: aparece 0.8s var(--site-ease-saida) both;
+  transition: filter 1s ease;
+}
+
+/* "A sua marca": mesma loja, outra paleta — o filtro é a demonstração. */
+.secao:not([data-passo='0']) .telaImg {
+  filter: hue-rotate(150deg) saturate(1.25);
+}
+
+@keyframes carimba {
+  from {
+    opacity: 0;
+    transform: rotate(-24deg) scale(1.8);
+  }
+}
+
+.carimbo {
+  position: absolute;
+  right: 26px;
+  top: 64px;
+  padding: 12px 18px;
+  border: 3px solid var(--site-escuro);
+  border-radius: 8px;
+  background: var(--site-tinta);
+  color: var(--site-escuro);
+  font-family: var(--f-display), sans-serif;
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: -0.03em;
+  transform: rotate(-10deg);
+  animation: carimba 0.7s var(--site-ease-mola) 0.9s both;
+}
+
+.kit {
+  position: absolute;
+  left: -10px;
+  bottom: 30px;
+  z-index: 3;
+  width: 230px;
+  padding: 18px;
+  border-radius: 12px;
+  background: var(--site-tinta);
+  color: var(--site-escuro);
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.7);
+  opacity: 0;
+  transform: translateX(-60px) rotate(-4deg);
+  transition:
+    transform 1s var(--site-ease-troca),
+    opacity 0.6s;
+}
+
+.secao[data-passo='1'] .kit {
+  opacity: 1;
+  transform: rotate(-4deg);
+}
+
+.kitRotulo {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6b665c;
+}
+
+.kitNome {
+  display: block;
+  margin: 8px 0 14px;
+  font-family: var(--f-editorial), serif;
+  font-weight: 600;
+  font-size: 30px;
+  letter-spacing: -0.02em;
+}
+
+.kitCores {
+  display: flex;
+  gap: 6px;
+}
+
+.kitCores span {
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+}
+
+@media (max-width: 900px) {
+  .secao {
+    height: auto;
+  }
+  .palco {
+    position: static;
+    height: auto;
+    min-height: 0;
+    padding-top: 72px;
+    gap: 40px;
+  }
+  .passo {
+    opacity: 1;
+    transform: none;
+  }
+  .kit {
+    left: 12px;
+    bottom: -24px;
+  }
+}

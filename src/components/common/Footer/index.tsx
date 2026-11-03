@@ -1,50 +1,87 @@
 import React from 'react';
+import Link from 'next/link';
+
+import Logo from '@/components/common/Logo';
+import LinkComercial from '@/components/site/LinkComercial';
+import PreferenciasDeCookies from '@/components/site/PreferenciasDeCookies';
+import { comerciais } from '@/lib/comercial';
+import { templatesDaVitrine } from '@/utils/vitrineTemplates';
+import { VISUAL_DOS_TEMPLATES } from '@/utils/provador';
 
 import ContactForm from './ContactForm';
 
 import styles from './index.module.css';
 
 /*
- * Sem selos: os PNGs eram do tamanho exato em que apareciam (borravam em tela
- * de alta densidade) e não há versão oficial em vetor que possa morar neste
- * repo público. Sem links para páginas que não existem: "Quem somos", "Seja
- * parceiro", "Trabalhe conosco" e "Saiba mais" voltam quando houver conteúdo.
+ * O fechamento do site: o convite final, os dois canais do comercial
+ * (WhatsApp pelo rodízio e o formulário, que vai para a caixa central) e a
+ * linha de baixo. Veste a amostra do template provado na home (`--p-amostra`).
  */
 export default function Footer() {
+  const whatsapp = comerciais().length > 0;
+  const templates = templatesDaVitrine()
+    .map(t => VISUAL_DOS_TEMPLATES[t.template]?.nome)
+    .filter((n): n is string => Boolean(n));
+
   return (
-    <footer>
-      <div className={styles.footerTopContainer} id="contato">
-        <div className={styles.footerTop}>
-          <div className={styles.footerEsq}>
-            <div className={styles.containerTitle}>
-              <h2>Que tal lançar sua loja dos sonhos em órbita?</h2>
-              <p>
-                Compartilhe os desafios da sua empresa com nossa tripulação de
-                especialistas, que vai te ajudar!
-              </p>
-            </div>
-          </div>
-          <ContactForm />
+    <footer className={styles.footer}>
+      <section
+        id="contato"
+        className={styles.contato}
+        aria-labelledby="contato-titulo"
+      >
+        <div className={styles.convite}>
+          <h2 id="contato-titulo" className={styles.titulo}>
+            Gostou de algum?
+          </h2>
+          <p className={styles.texto}>
+            O comercial te ajuda a escolher o template e fala com você pelo
+            WhatsApp ou por e-mail, como preferir.
+          </p>
+          {whatsapp && (
+            <LinkComercial whatsapp origem="rodape" className={styles.botao}>
+              Chamar no WhatsApp
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                aria-hidden
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </LinkComercial>
+          )}
+          <ul className={styles.atendimento}>
+            <li>
+              <a href="tel:+551141158384">+55 11 4115-8384</a>
+            </li>
+            <li>
+              <a href="mailto:comercial@e-temas.com.br">
+                comercial@e-temas.com.br
+              </a>
+            </li>
+          </ul>
         </div>
-      </div>
-      <div className={styles.footerMiddleContainer}>
-        <div className={styles.footerMiddle}>
-          <div className={styles.menu}>
-            <span className={styles.menuTitle}>Atendimento</span>
-            <ul className={styles.menuContainer}>
-              <li>+55 11 4115-8384</li>
-              <li>comercial@e-temas.com.br</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div className={styles.footerBottomContainer}>
-        <div className={styles.footerBottom}>
-          <div className={styles.copyright}>
-            <p>© 2026 E-TEMAS - Empresa P4C Group</p>
-            <a href="/privacidade">Política de Privacidade</a>
-          </div>
-        </div>
+        <ContactForm templates={templates} />
+      </section>
+
+      <div className={styles.base}>
+        <Link
+          href="/"
+          aria-label="e-temas, página inicial"
+          className={styles.baseLogo}
+        >
+          <Logo tamanho={22} />
+        </Link>
+        <span>VTEX FastStore · Wake · Tray</span>
+        <span>© 2026 E-TEMAS · Empresa P4C Group</span>
+        <span className={styles.baseLinks}>
+          <a href="/privacidade">Política de Privacidade</a>
+          <PreferenciasDeCookies />
+        </span>
       </div>
     </footer>
   );

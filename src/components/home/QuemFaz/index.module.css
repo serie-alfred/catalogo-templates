@@ -1,0 +1,70 @@
+.secao {
+  max-width: var(--site-largura);
+  margin: 0 auto;
+  padding: 120px var(--site-margem) 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  scroll-margin-top: 72px;
+}
+
+.rotulo {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--site-tinta-3);
+}
+
+.manifesto {
+  margin: 0;
+  max-width: 1160px;
+  font-family: var(--f-display), sans-serif;
+  font-weight: 600;
+  font-size: clamp(32px, 4.2vw, 60px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+@keyframes acende {
+  from {
+    opacity: 0.16;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .palavra {
+    animation: acende linear both;
+    animation-timeline: view();
+  }
+}
+
+.fatos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  font-size: 17px;
+  color: var(--site-tinta-2);
+}
+
+.fatos li + li::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin: 0 18px 2px -18px;
+  background: var(--p-acento);
+  transition: background-color 1.2s var(--site-ease-troca);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .palavra {
+    animation: none !important;
+    opacity: 1;
+  }
+}

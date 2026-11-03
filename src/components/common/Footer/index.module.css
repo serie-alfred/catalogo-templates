@@ -1,369 +1,186 @@
-.footerTopContainer{
-    background-color: #0A0A0B;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 40px 20px;
-
+/*
+ * O rodapé veste a amostra do template provado: fundo `--p-amostra`, texto
+ * `--p-texto-amostra`. Bordas e campos derivam do texto com color-mix, para
+ * funcionar tanto na amostra clara (Grade, Suave) quanto na escura (Luxo).
+ */
+.footer {
+  --f-txt: var(--p-texto-amostra);
+  background: var(--p-amostra);
+  color: var(--f-txt);
+  transition:
+    background-color 1.2s var(--site-ease-troca),
+    color 1.2s var(--site-ease-troca);
 }
 
-.footerTop{
-    max-width: 1500px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+.contato {
+  max-width: var(--site-largura);
+  margin: 0 auto;
+  padding: 120px var(--site-margem) 72px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 56px 72px;
+  scroll-margin-top: 72px;
 }
 
-@media (max-width: 768px){
-    .footerTop{
-        flex-direction: column;
-    }
-    .footerTopContainer{
-        border-bottom: 1px solid #FFFFFF14
-    }
-}
-@media only screen
-and (min-width: 1023px)
-and (max-width: 1650px){
-    .footerTop{
-        max-width: 1180px;
-    }
+.convite {
+  flex: 1 1 380px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
 }
 
-
-/* PARTE ESQUERDA */
-.footerEsq{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.titulo {
+  margin: 0;
+  font-family: var(--f-display), sans-serif;
+  font-weight: 800;
+  font-size: clamp(60px, 7.6vw, 116px);
+  line-height: 0.86;
+  letter-spacing: -0.055em;
 }
 
-.containerTitle{
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-    color: #fff;
+.texto {
+  margin: 0;
+  max-width: 420px;
+  font-size: 18px;
+  line-height: 1.55;
 }
 
-.containerTitle h2{
-    max-width: 550px;
-    font-weight: 900;
-    font-size: 48px;
-    text-transform: uppercase;
-
-}
-.containerTitle p{
-    max-width: 400px;
-    font-weight: 500;
-    font-size: 22px;
-}
-
-.containerSubTitle{
-    margin-top: 60px;
-    color: #fff;
+.botao {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 64px;
+  padding: 0 32px;
+  border-radius: 14px;
+  background: var(--f-txt);
+  color: var(--p-amostra) !important;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px;
+  transition: transform 0.4s var(--site-ease-mola);
 }
 
-.containerSubTitle p{
-    max-width: 380px;
-    font-weight: 600;
-    font-size: 22px;
-    margin-bottom: 45px;
-}
-.containerSubTitle p span{
-    color: var(--color-blue);
+.botao:hover {
+  transform: translateY(-3px);
 }
 
-.containerSubTitle a{
-    border: 1px solid #fff;
-    border-radius: 120px;
-    padding: 7px 20px;
-}
-.containerSubTitle svg{
-    margin-left: 10px;
-}
-
-@media (max-width: 768px){
-    .footerEsq{
-        margin-bottom: 35px;
-    }
-    .containerTitle h2{
-        font-size: 30px;
-    }
-    .containerTitle p{
-        font-size: 17px;
-    }
-    .containerSubTitle p{
-        font-size: 17px;
-    }
+.atendimento {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 16px;
 }
 
-/* PARTE DIREITA */
-.blue{
-    color: var(--color-blue);
+.atendimento a {
+  text-underline-offset: 4px;
 }
 
-.btnAction{
-    background-color: #fff;
-    height: 60px;
-    color: #000;
-    border: none;
-    font-weight: 700;
-    font-size: 20px;
-    border-radius: 700px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    cursor: pointer;
-}
-.btnAction:hover{
-    border-radius: 120px;
-    background: radial-gradient(86.02% 87.23% at 12.77% 50%, rgba(255, 255, 255, 0) 77.85%, rgba(255, 255, 255, 0.24) 95.19%), radial-gradient(141.42% 141.42% at 100% 0%, #F2994A 18.16%, #B50060 64.43%, #47175E 100%);
-    background-blend-mode: soft-light, normal, normal;
-    box-shadow: 0px 0px 32px 0px rgba(246, 182, 46, 0.08), 0px 0px 24px 0px rgba(181, 0, 96, 0.32);
-    color: #FFF;
-}
-.btnAction svg{
-    position: absolute;
-    right: 20px;
-    border-radius: 120px;    
+/* ── formulário ───────────────────────────────────────────────────────── */
+
+.form {
+  flex: 1.3 1 520px;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+  gap: 18px 16px;
+  align-content: start;
 }
 
-.footerDir{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.largo {
+  grid-column: 1 / -1;
 }
 
-.containerInput{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.titleInput{
-    font-weight: 400;
-    font-size: 16px;
-    color: #fff;
+.campo label,
+.preferencia legend {
+  font-size: 14px;
+  font-weight: 600;
 }
 
-.duploInputContainer{
-    display: flex;
-    gap: 15px;
-}
-.inputBoxDuplo{
-    background: #1A1A1A52;
-    border: 0.5px solid #FFFFFF29;
-    height: 40px;
-    backdrop-filter: blur(16px);
-    box-shadow: 0px 16px 64px 0px #00000029;
-    border-radius: 8px;
-    width: 100%;
-    padding-left: 20px;
-    color: #cccccc85;
-}
-.inputBoxDuplo option{
-    color: #fff;
+.campo input,
+.campo select,
+.campo textarea {
+  min-height: 48px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--f-txt) 28%, transparent);
+  background: color-mix(in srgb, var(--f-txt) 6%, transparent);
+  color: inherit;
+  font:
+    400 16px var(--f-texto),
+    sans-serif;
+  box-sizing: border-box;
+  width: 100%;
 }
 
-.inputItem{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.campo select option {
+  color: #141210;
 }
 
-.inputBox{
-    background: #1A1A1A52;
-    border: 0.5px solid #FFFFFF29;
-    height: 40px;
-    backdrop-filter: blur(16px);
-    box-shadow: 0px 16px 64px 0px #00000029;
-    border-radius: 8px;
-    width: 476px;
-    padding-left: 20px;
+.campo input::placeholder,
+.campo textarea::placeholder {
+  color: color-mix(in srgb, var(--f-txt) 50%, transparent);
 }
 
-.bigBox{
-    height: 200px;
-    vertical-align: top;
-    padding-top: 20px;
-}
-.bigBox::placeholder {
-    font-family: var(--font-family);
+.campo textarea {
+  resize: vertical;
 }
 
-.containerInput textarea{
-    resize: none;
+.preferencia {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-@media (max-width: 768px){
-    .footerTop{
-        flex-direction: column;
-        padding: 0px 20px;
-    }
-    .inputBox{
-        width: 100%;
-    }
+.opcoes {
+  display: flex;
+  gap: 8px;
 }
 
-/* PARTE DO FOOTER MEIO */
-
-.footerMiddleContainer{
-    background-color: #0A0A0B;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding: 40px 20px;
+.opcao {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--f-txt) 28%, transparent);
+  cursor: pointer;
+  font-weight: 600;
 }
 
-.footerMiddle{
-    max-width: 1500px;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+.opcao input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
 }
 
-@media only screen
-and (min-width: 1023px)
-and (max-width: 1650px){
-    .footerMiddle{
-        max-width: 1180px;
-    }
+.opcao:has(input:checked) {
+  background: var(--f-txt);
+  color: var(--p-amostra);
+  border-color: var(--f-txt);
 }
 
-.menu{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.opcao:has(input:focus-visible) {
+  outline: 2px solid var(--f-txt);
+  outline-offset: 3px;
 }
 
-.menu span{
-    font-weight: 700;
-    font-size: 24px;
-    line-height: 38px;
-    letter-spacing: 0%;
-    color: #fff;
-}
-
-.menuContainer li{
-    list-style-type: none;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 30px;
-    color: #fff;
-}
-
-/* PARTE CLARA DE BAIXO  */
-
-.footerBottomContainer{
-    background-color: var(--background-white);
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-}
-
-.footerBottom{
-    max-width: 1500px;
-    width: 100%;
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-}
-@media only screen
-and (min-width: 1023px)
-and (max-width: 1650px){
-    .footerBottom{
-        max-width: 1180px;
-    }
-}
-@media (max-width: 768px){
-    .footerBottom{
-        flex-direction: column;
-        gap: 20px;
-    }
-    .copyright{
-        flex-direction: column;
-        align-items: center;
-        gap: 5px !important;
-        margin-bottom: 30px;
-    }
-
-    .bottomSelos{
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-bottom: 30px;
-    }
-    .footerMiddle{
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
-    }
-}
-
-.copyright{
-    color: #111111;
-    display: flex;
-    font-size: 14px;
-    font-weight: 400;
-    gap: 10px;
-}
-
-/* O único link da barra de baixo. Em repouso acompanha o texto do copyright e
-   só o sublinhado diz que é link; no hover e no foco ganha o azul do site. O
-   anel do foco precisa do !important: o globals.css zera `outline` e
-   `box-shadow` de todo `:focus` com !important, e este seletor é mais
-   específico. */
-.copyright a{
-    color: inherit;
-    text-decoration: underline;
-    text-decoration-color: rgba(17, 17, 17, 0.3);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 4px;
-    border-radius: 2px;
-    transition: color 0.2s ease, text-decoration-color 0.2s ease;
-}
-
-.copyright a:hover{
-    color: var(--color-blue);
-    text-decoration-color: currentColor;
-}
-
-.copyright a:focus-visible{
-    color: var(--color-blue);
-    text-decoration-color: currentColor;
-    box-shadow: 0 0 0 2px var(--background-white), 0 0 0 4px var(--color-blue) !important;
-}
-
-/* No desktop o copyright e o link dividem a linha: um filete os separa. No
-   celular eles empilham (ver o @media de 768px acima) e o filete sairia solto. */
-@media (min-width: 769px){
-    .copyright p{
-        padding-right: 10px;
-        border-right: 1px solid rgba(17, 17, 17, 0.2);
-    }
-}
-
-.bottomSelos{
-    display: flex;
-    gap: 20px;
-    align-items: center;
-}
-.bottomSelos img{
-    width: 35%;
-    height: 30px;
-}
-
-.bottomSelosSocial{
-    display: flex;
-    gap: 10px;
-}
-.bottomSelosSocial img{
-    width: 30px;
-    height: 30px;
-}
-/* Formulário de contato: isca, aceite e retorno do envio. */
 .isca {
   position: absolute;
   left: -9999px;
@@ -374,39 +191,81 @@ and (max-width: 1650px){
 
 .aceite {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   align-items: flex-start;
   font-size: 14px;
-  line-height: 1.4;
-  color: #b8b8b8;
+  line-height: 1.5;
 }
 
 .aceite input {
-  margin-top: 3px;
-  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  accent-color: var(--f-txt);
+  flex: 0 0 auto;
 }
 
-.aceite a {
-  color: #fff;
-  text-decoration: underline;
+.envio {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
 }
 
-.btnAction:disabled {
+.enviar {
+  min-height: 56px;
+  padding: 0 28px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--f-txt);
+  color: var(--p-amostra);
+  font:
+    600 17px var(--f-texto),
+    sans-serif;
+  cursor: pointer;
+  transition: transform 0.4s var(--site-ease-mola);
+}
+
+.enviar:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.enviar:disabled {
   opacity: 0.6;
   cursor: progress;
 }
 
 .statusOk,
 .statusErro {
-  min-height: 1.4em;
   margin: 0;
   font-size: 15px;
 }
 
-.statusOk {
-  color: #7ee2a8;
+.statusErro {
+  font-weight: 600;
 }
 
-.statusErro {
-  color: #ff8a8a;
+/* ── linha de baixo ───────────────────────────────────────────────────── */
+
+.base {
+  max-width: var(--site-largura);
+  margin: 0 auto;
+  padding: 28px var(--site-margem) 40px;
+  border-top: 1px solid color-mix(in srgb, var(--f-txt) 20%, transparent);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 32px;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.baseLogo {
+  color: inherit;
+  text-decoration: none;
+}
+
+.baseLinks {
+  display: flex;
+  gap: 20px;
 }
