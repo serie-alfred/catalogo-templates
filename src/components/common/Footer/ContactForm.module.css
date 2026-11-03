@@ -459,10 +459,12 @@
     box-shadow 0.3s ease;
 }
 
-.enviar:hover:not([data-enviando]) {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 28px -14px
-    color-mix(in srgb, var(--f-txt) 70%, transparent);
+@media (hover: hover) {
+  .enviar:hover:not([data-enviando]) {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 28px -14px
+      color-mix(in srgb, var(--f-txt) 70%, transparent);
+  }
 }
 
 .enviar:active:not([data-enviando]) {
@@ -626,4 +628,14 @@
 .denovo:hover {
   background: var(--f-txt);
   color: var(--f-fundo);
+}
+
+@media (max-width: 720px) {
+  .enviar,
+  .denovo {
+    width: 100%;
+  }
+  .confirmacao {
+    padding: 28px 22px;
+  }
 }

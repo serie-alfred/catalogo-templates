@@ -66,8 +66,10 @@
   transition: transform 0.4s var(--site-ease-mola);
 }
 
-.botao:hover {
-  transform: translateY(-3px);
+@media (hover: hover) {
+  .botao:hover {
+    transform: translateY(-3px);
+  }
 }
 
 .atendimento {
@@ -81,6 +83,9 @@
 }
 
 .atendimento a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
   text-underline-offset: 4px;
 }
 
@@ -110,4 +115,43 @@
 .baseLinks {
   display: flex;
   gap: 20px;
+}
+
+/* No celular: menos ar em cima, os botões na largura da tela, alvos de toque
+   de 44px e a linha de baixo empilhada. */
+@media (max-width: 720px) {
+  .contato {
+    padding-top: 64px;
+    padding-bottom: 48px;
+    gap: 40px;
+  }
+  .titulo {
+    font-size: clamp(52px, 15vw, 72px);
+  }
+  .texto {
+    font-size: 17px;
+  }
+  .botao {
+    align-self: stretch;
+    justify-content: center;
+  }
+  .atendimento a {
+    min-height: 44px;
+  }
+  .base {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding-bottom: calc(40px + env(safe-area-inset-bottom));
+  }
+  .baseLinks {
+    flex-wrap: wrap;
+    gap: 4px 20px;
+  }
+  .baseLinks a,
+  .baseLinks button {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }

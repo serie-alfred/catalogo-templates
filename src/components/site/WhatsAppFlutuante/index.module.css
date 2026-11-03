@@ -41,6 +41,21 @@
     transform 0.4s var(--site-ease-mola);
 }
 
-.botao:hover {
-  transform: translateY(-3px);
+@media (hover: hover) {
+  .botao:hover {
+    transform: translateY(-3px);
+  }
+}
+
+/* No celular, menor e acima da barra do sistema (iPhone sem botão). */
+@media (max-width: 720px) {
+  .flutuante {
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+  }
+  .botao {
+    min-height: 50px;
+    padding: 0 18px 0 15px;
+    font-size: 14px;
+  }
 }
