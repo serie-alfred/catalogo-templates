@@ -15,7 +15,7 @@ import styles from './index.module.css';
 /*
  * O fechamento do site: o convite final, os dois canais do comercial
  * (WhatsApp pelo rodízio e o formulário, que vai para a caixa central) e a
- * linha de baixo. Veste a amostra do template provado na home (`--p-amostra`).
+ * linha de baixo. Sempre claro: não veste o template provado.
  */
 export default function Footer() {
   const whatsapp = comerciais().length > 0;

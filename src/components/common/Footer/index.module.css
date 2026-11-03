@@ -1,15 +1,13 @@
 /*
- * O rodapé veste a amostra do template provado: fundo `--p-amostra`, texto
- * `--p-texto-amostra`. Bordas e campos derivam do texto com color-mix, para
- * funcionar tanto na amostra clara (Grade, Suave) quanto na escura (Luxo).
+ * O rodapé NÃO veste o template provado: com algumas amostras (Luxo, Noturno)
+ * o formulário ficava ilegível. Fica sempre claro, na amostra do Grade.
+ * Bordas e campos derivam do texto com color-mix.
  */
 .footer {
-  --f-txt: var(--p-texto-amostra);
-  background: var(--p-amostra);
+  --f-txt: #0a0a0a;
+  --f-fundo: #ffffff;
+  background: var(--f-fundo);
   color: var(--f-txt);
-  transition:
-    background-color 1.2s var(--site-ease-troca),
-    color 1.2s var(--site-ease-troca);
 }
 
 .contato {
@@ -55,7 +53,7 @@
   padding: 0 32px;
   border-radius: 14px;
   background: var(--f-txt);
-  color: var(--p-amostra) !important;
+  color: var(--f-fundo) !important;
   text-decoration: none;
   font-weight: 600;
   font-size: 18px;
@@ -172,7 +170,7 @@
 
 .opcao:has(input:checked) {
   background: var(--f-txt);
-  color: var(--p-amostra);
+  color: var(--f-fundo);
   border-color: var(--f-txt);
 }
 
@@ -218,7 +216,7 @@
   border: 0;
   border-radius: 12px;
   background: var(--f-txt);
-  color: var(--p-amostra);
+  color: var(--f-fundo);
   font:
     600 17px var(--f-texto),
     sans-serif;
@@ -263,8 +261,8 @@
 .baseLogo {
   color: inherit;
   text-decoration: none;
-  /* Na amostra o acento pode ser a própria cor do fundo (Suave): aqui a
-     marca fica de uma cor só, a do texto. */
+  /* A marca do rodapé fica de uma cor só, a do texto: um acento claro (Suave)
+     sumiria no branco. */
   --p-acento: var(--f-txt);
 }
 
