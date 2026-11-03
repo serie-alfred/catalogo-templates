@@ -315,7 +315,7 @@ a loja num `<iframe>` (`…/frame`), pelo mesmo motivo do canvas: os drawers `fi
   TEMA_INICIAL)`, a regra do `vestirTemplate` como função pura. `TEMA_INICIAL`
   ([themeStyle.ts](src/utils/themeStyle.ts)) são os `useState` iniciais do hook, lidos pelos dois
   lados — por isso a vitrine mostra o que uma aba nova do editor mostra. Nada vai para o KV: o
-  frame é estático (`generateStaticParams`), ao contrário do `/p/{id}`, que expira.
+  frame é estático (`generateStaticParams`), ao contrário do `/p/{id}`, que lê o KV.
 - **Só olha:** sem "Editar", sem link para o `/gerador`, sem chrome de seleção. O frame trava link
   e submit (captura, só `preventDefault`): os `href` de mock dos templates (`/`, `/<produto>/p`,
   domínios de exemplo) carregariam outra coisa dentro da moldura.
@@ -594,7 +594,7 @@ Alongside export, the topbar has a **Pré-visualizar** button ([PreviewButton](s
   undo step), links the tab to that id (`previewAtual`) and strips the param from the URL. From then
   on — and also after "Pré-visualizar", which re-saves the SAME id when the tab already has one — every
   edit re-saves the snapshot under the same id, debounced 1.2 s (`PUT /gerador/api/preview/{id}`,
-  `updatePreview`, TTL renewed: the link lives 3 days after the LAST edit). The open `/p` refreshes
+  `updatePreview`). **Previews never expire** (since 03/11/2026: the link is what goes to the client, and a 3-day TTL killed a sold theme's link); `getPreview` reads with `GETEX PERSIST`, so a key saved with the old TTL turns permanent on its first read. The open `/p` refreshes
   (`router.refresh()`, [PreviewLive](src/components/preview/PreviewLive/index.tsx)) by two paths:
   BroadcastChannel `etemas-preview` from the editor in the same browser (instant), and polling
   `GET /api/preview/{id}?rev=1` every 5 s while the tab is visible (other browsers). The snapshot

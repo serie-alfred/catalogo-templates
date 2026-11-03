@@ -428,7 +428,9 @@ export function useLayoutGenerator() {
     });
   };
 
-  const [fontPrimary, setFontPrimary] = useState(TEMA_INICIAL.fonts.fontPrimary);
+  const [fontPrimary, setFontPrimary] = useState(
+    TEMA_INICIAL.fonts.fontPrimary
+  );
   const [fontSecondary, setFontSecondary] = useState(
     TEMA_INICIAL.fonts.fontSecondary
   );
@@ -1846,7 +1848,7 @@ export function useLayoutGenerator() {
           // como abriria sem o link.
           const padrao = abaNovaRef.current && entrarComOPadrao();
           window.alert(
-            `Este preview não existe mais (o link expira 3 dias depois da última edição). ${
+            `Este preview não existe mais. ${
               padrao
                 ? 'O editor abre com o template padrão.'
                 : 'O editor abre com o que esta aba já tinha.'

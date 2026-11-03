@@ -71,9 +71,6 @@ interface PreviewStore {
   ping(): Promise<void>;
 }
 
-// TTL do preview em produção (KV): 3 dias.
-const PREVIEW_TTL_SECONDS = 60 * 60 * 24 * 3;
-
 // Prefixo das chaves no KV, para não colidir com outros usos do banco.
 const KV_PREFIX = 'preview:';
 
@@ -146,12 +143,25 @@ const kvStore: PreviewStore = {
   async save(id, snapshot) {
     const { createClient } = await import('@vercel/kv');
     const kv = createClient(kvCredentials()!);
-    await kv.set(`${KV_PREFIX}${id}`, snapshot, { ex: PREVIEW_TTL_SECONDS });
+    // Sem prazo: o preview é o link que vai para o cliente, e um tema vendido
+    // não pode sumir. (Até 03/11/2026 expirava 3 dias depois da última edição.)
+    await kv.set(`${KV_PREFIX}${id}`, snapshot);
   },
   async get(id) {
     const { createClient } = await import('@vercel/kv');
     const kv = createClient(kvCredentials()!);
-    return (await kv.get<PreviewSnapshot>(`${KV_PREFIX}${id}`)) ?? null;
+    // GETEX PERSIST: o preview gravado antes de 03/11/2026 ainda tem o prazo
+    // de 3 dias; a primeira leitura o torna permanente, no mesmo comando. Se o
+    // banco recusar o comando, lê do jeito de antes: o link não pode cair.
+    const chave = `${KV_PREFIX}${id}`;
+    try {
+      return (
+        (await kv.getex<PreviewSnapshot>(chave, { persist: true })) ?? null
+      );
+    } catch (error) {
+      console.error('GETEX recusado, lendo com GET:', error);
+      return (await kv.get<PreviewSnapshot>(chave)) ?? null;
+    }
   },
   async ping() {
     const { createClient } = await import('@vercel/kv');
@@ -212,9 +222,8 @@ export function idDePreviewValido(id: string): boolean {
 
 /**
  * Regrava o snapshot de um id que já existe — é como o preview acompanha a
- * edição. Grava com TTL renovado (o link vive 3 dias desde a ÚLTIMA edição) e
- * devolve a revisão nova. Um id que expirou volta a existir: quem chama está
- * logado e o id é dele.
+ * edição. Grava sem prazo e devolve a revisão nova. Um id que expirou (com o
+ * prazo antigo) volta a existir: quem chama está logado e o id é dele.
  */
 export async function updatePreview(
   id: string,

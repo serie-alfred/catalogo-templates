@@ -126,7 +126,8 @@ export default function PreviewButton() {
                   </a>
 
                   <p className={styles.expiryNote}>
-                    <Clock size={14} /> Este link expira em 3 dias.
+                    <Clock size={14} /> Este link não expira e acompanha as
+                    próximas edições.
                   </p>
                 </>
               )}

@@ -16,7 +16,7 @@ import { TEMA_INICIAL } from './themeStyle';
  * (`templatesCompletos`), então família nova aparece aqui sozinha.
  *
  * Nada é guardado: a loja é DERIVADA do catálogo a cada build, ao contrário do
- * `/p/{id}`, que lê um snapshot do KV com validade de 3 dias.
+ * `/p/{id}`, que lê um snapshot do KV.
  */
 
 /**
