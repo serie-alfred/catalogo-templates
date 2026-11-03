@@ -7,7 +7,7 @@ import {
   sessaoValida,
   variaveisFaltando,
 } from '@/lib/auth';
-import { EtemasMark } from '@/assets/icons/editor';
+import Logo from '@/components/common/Logo';
 
 import styles from './index.module.css';
 
@@ -40,9 +40,8 @@ export default async function LoginPage({
     <main className={styles.page}>
       <div className={styles.card}>
         <div className={styles.brand}>
-          <EtemasMark width={27.4} height={24} />
-          <span className={styles.brandName}>E-temas</span>
-          <span className={styles.badge}>Editor de Temas</span>
+          <Logo tamanho={24} />
+          <span className={styles.badge}>Editor de temas</span>
         </div>
 
         {modo === 'fechado' ? (

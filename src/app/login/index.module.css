@@ -1,53 +1,79 @@
-/* Visual do editor (tokens --ed-*): card branco com sombra de card, campos de
-   44px raio 12, botão azul do "Pré-visualizar". */
+/* A porta do editor com a cara do site: escuro da marca, o acento (ouro do
+   Luxo, `--p-acento` de marca.css) num brilho atrás do cartão, campos e botão
+   como os do formulário do rodapé, em versão escura. */
 .page {
+  --l-linha: rgba(243, 240, 234, 0.14);
+  --l-campo: rgba(243, 240, 234, 0.05);
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 100dvh;
   padding: 24px;
   box-sizing: border-box;
-  font-family: var(--ed-font);
-  color: var(--ed-gray-800);
-  background-color: #fafafa;
-  background-image:
-    linear-gradient(to right, rgba(20, 20, 20, 0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(20, 20, 20, 0.02) 1px, transparent 1px);
-  background-size: 16px 16px;
+  overflow: hidden;
+  font-family: var(--f-texto), system-ui, sans-serif;
+  color: var(--site-tinta);
+  background: #17130c;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* O brilho do acento e a grade de 24px, como o palco da vitrine. */
+.page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      60% 50% at 50% 38%,
+      color-mix(in srgb, var(--p-acento) 22%, transparent),
+      transparent 70%
+    ),
+    linear-gradient(to right, rgba(243, 240, 234, 0.035) 1px, transparent 1px) 0
+      0 / 24px 24px,
+    linear-gradient(to bottom, rgba(243, 240, 234, 0.035) 1px, transparent 1px)
+      0 0 / 24px 24px;
+  pointer-events: none;
+}
+
+@keyframes chega {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
 }
 
 .card {
+  position: relative;
   width: 100%;
-  max-width: 380px;
-  padding: 32px;
+  max-width: 400px;
+  padding: 36px;
   box-sizing: border-box;
-  border-radius: 16px;
-  background: var(--ed-bg-00);
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--site-tinta) 5%, #17130c);
   box-shadow:
-    inset 0 0 0 1px var(--ed-bg-02),
-    var(--ed-shadow-card);
+    0 0 0 1px var(--l-linha),
+    0 40px 90px -30px rgba(0, 0, 0, 0.8);
+  animation: chega 0.7s var(--site-ease-saida) backwards;
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 24px;
-}
-
-.brandName {
-  font-size: 16px;
-  font-weight: 700;
+  margin-bottom: 32px;
+  color: var(--site-tinta);
 }
 
 .badge {
   margin-left: auto;
-  padding: 4px 6px;
-  border-radius: 4px;
-  background: var(--ed-blue-100);
-  color: var(--ed-blue-ink);
+  padding: 5px 9px;
+  border-radius: 999px;
+  box-shadow: inset 0 0 0 1px var(--l-linha);
+  color: var(--site-tinta-3);
   font-size: 11px;
   font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 .form,
@@ -59,79 +85,128 @@
 
 .title {
   margin: 0;
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--ed-gray-900);
+  font-family: var(--f-display), sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--site-tinta);
 }
 
 .text {
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.5;
-  color: var(--ed-gray-600);
+  margin: 0 0 8px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--site-tinta-2);
 }
 
 .label {
-  margin-top: 4px;
+  margin-top: 6px;
   font-size: 14px;
   font-weight: 600;
-  color: var(--ed-gray-600);
+  color: var(--site-tinta-2);
 }
 
 .input {
-  height: 44px;
-  padding: 12px 16px;
+  height: 52px;
+  padding: 0 16px;
   box-sizing: border-box;
-  box-shadow: inset 0 0 0 1px var(--ed-bg-02);
-  border: 0;
+  border: 1px solid var(--l-linha);
   border-radius: 12px;
-  background: var(--ed-bg-00);
+  background: var(--l-campo);
   font-family: inherit;
-  font-size: 14px;
-  color: var(--ed-gray-800);
+  font-size: 16px;
+  color: var(--site-tinta);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.3s ease,
+    background-color 0.25s ease;
 }
 
-.input:focus-visible,
-.primary:focus-visible {
-  outline: 2px solid var(--ed-blue-600);
-  outline-offset: 2px;
+.input:hover {
+  border-color: rgba(243, 240, 234, 0.3);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--site-tinta);
+  background: rgba(243, 240, 234, 0.08);
+  box-shadow: 0 0 0 4px rgba(243, 240, 234, 0.1);
+}
+
+/* O preenchimento automático pinta de amarelo-claro: a sombra cobre. */
+.input:-webkit-autofill {
+  -webkit-text-fill-color: var(--site-tinta);
+  box-shadow: inset 0 0 0 40px #26221c;
+  caret-color: var(--site-tinta);
 }
 
 .primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 44px;
-  margin-top: 8px;
-  padding: 10px 18px;
+  height: 54px;
+  margin-top: 14px;
+  padding: 0 20px;
   border: 0;
   border-radius: 12px;
-  background: var(--ed-blue-600);
-  color: var(--ed-bg-00);
+  background: var(--site-tinta);
+  color: #17130c;
   font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   text-decoration: none;
   cursor: pointer;
+  transition:
+    transform 0.4s var(--site-ease-mola),
+    box-shadow 0.3s ease;
+}
+
+.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -14px rgba(243, 240, 234, 0.45);
+}
+
+.primary:active {
+  transform: scale(0.98);
+  transition-duration: 0.12s;
+}
+
+.primary:focus-visible {
+  outline: 2px solid var(--site-tinta);
+  outline-offset: 3px;
+}
+
+@keyframes treme {
+  20%,
+  60% {
+    transform: translateX(-5px);
+  }
+  40%,
+  80% {
+    transform: translateX(5px);
+  }
 }
 
 .erro {
   margin: 0;
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: #fdecea;
-  color: var(--ed-danger);
-  font-size: 13px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(196, 43, 28, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(255, 120, 100, 0.3);
+  color: #ffb4a6;
+  font-size: 14px;
   font-weight: 600;
+  animation: treme 0.42s ease 0.3s;
 }
 
 .ok {
   margin: 0;
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: var(--ed-blue-50);
-  color: var(--ed-blue-ink);
-  font-size: 13px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(243, 240, 234, 0.07);
+  color: var(--site-tinta-2);
+  font-size: 14px;
   font-weight: 600;
 }
 
@@ -140,8 +215,17 @@
   padding-left: 18px;
   font-size: 13px;
   line-height: 1.8;
+  color: var(--site-tinta-2);
 }
 
 .vars code {
   font-size: 12px;
+  color: var(--site-tinta);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card,
+  .erro {
+    animation: none;
+  }
 }
