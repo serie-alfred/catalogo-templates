@@ -181,8 +181,14 @@ if (link) {
       .catch(() => null);
   if (modo === 'ligado') {
     // O navegador do funil não tem sessão: é o cliente.
-    r.ok('sem sessão do editor, o link não mostra o "Editar"', !(await hrefDoEditar()));
-    await aba.goto(`${link}?editar=1`, { waitUntil: 'networkidle2', timeout: 60000 });
+    r.ok(
+      'sem sessão do editor, o link não mostra o "Editar"',
+      !(await hrefDoEditar())
+    );
+    await aba.goto(`${link}?editar=1`, {
+      waitUntil: 'networkidle2',
+      timeout: 60000,
+    });
     r.ok('?editar=1 não abre o "Editar" sem sessão', !(await hrefDoEditar()));
   } else {
     // Login desligado (dev sem as variáveis): o editor é aberto a todos, e o
@@ -194,6 +200,42 @@ if (link) {
       String(href)
     );
   }
+  // Os links do menu do balão: cada um é uma rota do preview e abre. Em
+  // 03/11/2026 um `$` sobrou no fim de todos (`…/checkout/carrinho$`) e o
+  // estágio não viu, porque só olhava o "Editar".
+  const menu = await aba
+    .click('[aria-label="Navegar entre as páginas"]')
+    .then(() =>
+      aba.waitForSelector('nav[aria-label="Navegação do preview"] a', {
+        timeout: 10000,
+      })
+    )
+    .then(() =>
+      aba.$$eval('nav[aria-label="Navegação do preview"] a', as =>
+        as.map(a => a.getAttribute('href'))
+      )
+    )
+    .catch(() => []);
+  const ROTA =
+    /^\/p\/[A-Za-z0-9]{10}\/(home|categoria|produto|lp|checkout\/[a-z-]+)$/;
+  const tortos = menu.filter(h => !ROTA.test(h ?? ''));
+  r.ok(
+    `os ${menu.length} links do menu do balão são rotas do preview`,
+    menu.length >= 3 && tortos.length === 0,
+    tortos.join(' ') || menu.join(' ')
+  );
+  const quebrados = [];
+  for (const h of menu) {
+    const st = await fetch(`${BASE_URL}${h}`)
+      .then(x => x.status)
+      .catch(() => 0);
+    if (st !== 200) quebrados.push(`${h} → ${st}`);
+  }
+  r.ok(
+    'todos os links do menu abrem (HTTP 200)',
+    menu.length > 0 && quebrados.length === 0,
+    quebrados.join(' | ')
+  );
   r.ok(
     'preview sem erro de página',
     errosPreview.length === 0,

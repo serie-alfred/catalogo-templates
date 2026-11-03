@@ -58,7 +58,7 @@ export default function PreviewNav({
           {PREVIEW_PAGES.map(page => (
             <Link
               key={page.slug}
-              href={`/p/${id}/${page.slug}$`}
+              href={`/p/${id}/${page.slug}`}
               className={`${styles.menuItem} ${
                 page.slug === activeSlug ? styles.active : ''
               }`}
@@ -71,7 +71,7 @@ export default function PreviewNav({
             <>
               <span className={styles.menuTitle}>Landing page</span>
               <Link
-                href={`/p/${id}/lp$`}
+                href={`/p/${id}/lp`}
                 className={`${styles.menuItem} ${
                   activeSlug === 'lp' ? styles.active : ''
                 }`}
@@ -87,7 +87,7 @@ export default function PreviewNav({
               {CHECKOUT_ETAPAS.map(etapa => (
                 <Link
                   key={etapa.id}
-                  href={`/p/${id}/checkout/${etapa.id}$`}
+                  href={`/p/${id}/checkout/${etapa.id}`}
                   className={`${styles.menuItem} ${
                     `checkout/${etapa.id}` === activeSlug ? styles.active : ''
                   }`}
