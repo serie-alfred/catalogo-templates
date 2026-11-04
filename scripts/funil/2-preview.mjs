@@ -9,7 +9,7 @@
  * renderiza SEM o editor e sem postMessage. E o import-log é rota pública.
  */
 import { relatorio, espera, BASE_URL } from './lib/util.mjs';
-import { abrirBrowser, novaAba, semear } from './lib/editor.mjs';
+import { abrirBrowser, novaAba, semear, clicarDeVerdade } from './lib/editor.mjs';
 
 const r = relatorio('Estágio 2c — mobile, preview compartilhável e import-log');
 const browser = await abrirBrowser();
@@ -203,13 +203,28 @@ if (link) {
   // Os links do menu do balão: cada um é uma rota do preview e abre. Em
   // 03/11/2026 um `$` sobrou no fim de todos (`…/checkout/carrinho$`) e o
   // estágio não viu, porque só olhava o "Editar".
+  // O clique antes da hidratação some em silêncio (sob carga o /p hidrata
+  // segundos depois do networkidle2; um clique só deixava o menu vazio): clica
+  // até o `aria-expanded` virar "true", como o 2-checkout.
+  const BALAO = '[aria-label="Navegar entre as páginas"]';
+  for (let k = 0; k < 30; k++) {
+    const aberto = await aba
+      .$eval(BALAO, b => b.getAttribute('aria-expanded'))
+      .catch(() => null);
+    if (aberto === 'true') break;
+    await clicarDeVerdade(aba, BALAO, 1).catch(() => {});
+    await aba
+      .waitForFunction(
+        s => document.querySelector(s)?.getAttribute('aria-expanded') === 'true',
+        { timeout: 2000, polling: 100 },
+        BALAO
+      )
+      .catch(() => {});
+  }
   const menu = await aba
-    .click('[aria-label="Navegar entre as páginas"]')
-    .then(() =>
-      aba.waitForSelector('nav[aria-label="Navegação do preview"] a', {
-        timeout: 10000,
-      })
-    )
+    .waitForSelector('nav[aria-label="Navegação do preview"] a', {
+      timeout: 10000,
+    })
     .then(() =>
       aba.$$eval('nav[aria-label="Navegação do preview"] a', as =>
         as.map(a => a.getAttribute('href'))
