@@ -73,30 +73,6 @@
   margin: 0 auto;
   padding: 0 clamp(16px, 3vw, 40px);
 }
-.crumbs {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
-  font-size: 14px;
-}
-.crumbs ol {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-}
-
-.crumbCurrent {
-  color: var(--pdp-text, var(--text-primary-color, #3b1f33));
-  font-weight: 700;
-}
-
-.crumbProduct,
-.crumbProductSep {
-  display: list-item;
-}
-
-.crumbParent {
-  color: inherit;
-}
 
 .main {
   display: flex;
@@ -655,23 +631,6 @@
   .inner {
     gap: 18px;
     padding: 14px 16px 24px;
-  }
-  .crumbs {
-    overflow: hidden;
-    font-size: 13px;
-  }
-  .crumbs ol {
-    flex-wrap: nowrap;
-    gap: 8px;
-    white-space: nowrap;
-  }
-  .crumbProduct,
-  .crumbProductSep {
-    display: none;
-  }
-  .crumbParent {
-    color: var(--pdp-text, var(--text-primary-color, #3b1f33));
-    font-weight: 700;
   }
   .main {
     flex-direction: column;

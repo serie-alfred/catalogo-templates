@@ -7,14 +7,16 @@ import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
 
 /**
  * Espelha `organisms/ProductDetails12` do faststore.starter (família 12, Suave; desenho
- * `ProductInfo12` / `-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as
- * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o `mock.ts` de lá,
- * já resolvido como o starter resolve: a trilha Início · Skincare · Séruns · produto, as
- * 4 fotos de uma cor só (os blocos em data URI do mock) com miniaturas e pontos, a marca,
- * "Cód. [0000000]" (o SKU do 30 ml), a nota 4,9 com 1.240 avaliações, 3x sem juros (sem
- * Pix: o plano do mock não tem a entrada Pix), o Tamanho em pílulas (30 ml ativo), as 2
- * vantagens, o frete por CEP (as opções de exemplo depois do "Calcular") e os 3 acordeões
- * (o 1º aberto; Ingredientes e Benefícios vêm das especificações do produto).
+ * `ProductInfo12` / `-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as mesmas vars
+ * de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o `mock.ts` de lá, já resolvido como o
+ * starter resolve: as 4 fotos de uma cor só (os blocos em data URI do mock) com miniaturas e
+ * pontos, a marca, "Cód. [0000000]" (o SKU do 30 ml), a nota 4,9 com 1.240 avaliações, 3x sem
+ * juros (sem Pix: o plano do mock não tem a entrada Pix), o Tamanho em pílulas (30 ml ativo), as
+ * 2 vantagens, o frete por CEP (as opções de exemplo depois do "Calcular") e os 3 acordeões (o 1º
+ * aberto; Ingredientes e Benefícios vêm das especificações do produto).
+ *
+ * Sem trilha: a da página de produto é a da breadcrumb comum (Breadcrumb12), que as três
+ * plataformas já põem na PDP. Decisão do usuário em 04/11/2026, para não duplicar.
  *
  * O ramo esgotado é o de lá: o tamanho sem estoque sai riscado (`pdp-axis-out`), a nota
  * "<opções> esgotado. Avise-me quando chegar" abre o formulário (`pdp-notify`), e sem
@@ -72,7 +74,6 @@ const block = (hex: string, size: number) =>
 
 /* ── rótulos (o mock.ts de lá) ── */
 const L = {
-  homeLabel: 'Início',
   codeLabel: 'Cód.',
   ratingCountLabel: 'avaliações',
   soldOutText: 'esgotado.',
@@ -117,11 +118,6 @@ const BEST = {
   installmentInterest: 0,
 };
 const RATING = { average: 4.9, totalCount: 1240 };
-const CRUMBS = [
-  { item: '#', name: 'Skincare' },
-  { item: '#', name: 'Séruns' },
-  { item: '#', name: 'Sérum Vitamina C 10%' },
-];
 const IMAGES = ['#F3DDD6', '#E6DFF0', '#F1E6D8', '#DCE6DA'].map((hex, i) => ({
   url: block(hex, 800) + `#${i}`,
   alternateName: `Sérum Vitamina C 10% — foto ${i + 1}`,
@@ -247,7 +243,6 @@ export default function ProductInfo12() {
   const railRef = useRef<HTMLDivElement>(null);
 
   const images = IMAGES;
-  const crumbs = CRUMBS;
   const price = PRICE;
   const listPrice = LIST_PRICE;
   /* ── variação: a opção da página (a 1ª) se tiver estoque, senão a 1ª com estoque ── */
@@ -336,54 +331,6 @@ export default function ProductInfo12() {
       >
         <link rel="stylesheet" href={FONTES_12} />
         <div className={styles.inner}>
-          {/* ── trilha nativa (Início · categorias · produto) ── */}
-          <nav
-            className={styles.crumbs}
-            aria-label="Você está em"
-            data-role="pdp-breadcrumb"
-          >
-            <ol>
-              <li>
-                <a href="#">{L.homeLabel}</a>
-              </li>
-              {crumbs.map((c, i) => {
-                const last = i === crumbs.length - 1;
-                return (
-                  <React.Fragment key={`${c.name}-${i}`}>
-                    <li
-                      className={
-                        last && crumbs.length > 1
-                          ? styles.crumbProductSep
-                          : undefined
-                      }
-                      aria-hidden="true"
-                    >
-                      ·
-                    </li>
-                    {last ? (
-                      <li
-                        className={`${styles.crumbCurrent}${crumbs.length > 1 ? ` ${styles.crumbProduct}` : ''}`}
-                        aria-current="page"
-                      >
-                        {c.name}
-                      </li>
-                    ) : (
-                      <li
-                        className={
-                          i === crumbs.length - 2
-                            ? styles.crumbParent
-                            : undefined
-                        }
-                      >
-                        <a href={c.item}>{c.name}</a>
-                      </li>
-                    )}
-                  </React.Fragment>
-                );
-              })}
-            </ol>
-          </nav>
-
           <div className={styles.main}>
             {/* ── galeria (sem zoom, sem vídeo) ── */}
             <div className={styles.gallery} data-role="pdp-gallery">

@@ -72,38 +72,6 @@
   padding: 16px clamp(16px, 3vw, 40px) 56px;
 }
 
-.crumbs ol {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  padding: 0;
-  list-style: none;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-.crumbs ol li {
-  display: flex;
-}
-.crumbs ol a {
-  display: flex;
-  align-items: center;
-  min-height: 44px;
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0b1b33)) 70%, var(--pdp-bg, #ffffff));
-}
-.crumbs ol a[aria-current=page] {
-  color: var(--pdp-text, var(--text-primary-color, #0b1b33));
-}
-
-.crumbSep {
-  width: 6px;
-  height: 14px;
-  background-color: var(--pdp-accent, var(--background-primary-color, #e4002b));
-  transform: skewX(-18deg);
-}
-
 .main {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 480px);
@@ -751,15 +719,6 @@
   .inner {
     gap: 0;
     padding: 0;
-  }
-  .crumbs ol {
-    gap: 8px;
-    padding: 4px 16px;
-    font-size: 12px;
-  }
-  .crumbSep {
-    width: 5px;
-    height: 12px;
   }
   .main {
     display: flex;

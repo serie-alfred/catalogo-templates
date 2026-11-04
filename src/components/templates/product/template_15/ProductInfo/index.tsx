@@ -7,16 +7,18 @@ import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
 
 /**
  * Espelha `organisms/ProductDetails15` do faststore.starter (família 15, Luxo; desenho
- * `ProductInfo15` / `-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as mesmas
- * vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o `mock.ts` de lá, já resolvido
- * como o starter resolve: a trilha Início — Joias — Anéis, as 5 fotos em tons de areia (os
- * blocos em data URI do mock) com miniaturas, contador "1 / 5" e setas, a marca, a nota 4,9
- * com 128 avaliações, "Ref. [0000004]" (o SKU do aro 14), o preço com 10x sem juros e o Pix,
- * a Cor do ouro por miniatura (Amarelo ativa), o Aro em grade com o 12 e o 18 riscados e o 14
- * escolhido, o "Guia de medidas" (a especificação do produto, com o diálogo), "O aro 12 ou 18
- * esgotou? Avise-me" (abre o formulário), quantidade + coração, "Adicionar à sacola", o frete
- * por CEP (as opções de exemplo depois do "Calcular") e os acordeões (o primeiro aberto;
- * "Detalhes da peça" vem da especificação do produto).
+ * `ProductInfo15` / `-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as mesmas vars
+ * de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o `mock.ts` de lá, já resolvido como o
+ * starter resolve: as 5 fotos em tons de areia (os blocos em data URI do mock) com miniaturas,
+ * contador "1 / 5" e setas, a marca, a nota 4,9 com 128 avaliações, "Ref. [0000004]" (o SKU do
+ * aro 14), o preço com 10x sem juros e o Pix, a Cor do ouro por miniatura (Amarelo ativa), o Aro
+ * em grade com o 12 e o 18 riscados e o 14 escolhido, o "Guia de medidas" (a especificação do
+ * produto, com o diálogo), "O aro 12 ou 18 esgotou? Avise-me" (abre o formulário), quantidade +
+ * coração, "Adicionar à sacola", o frete por CEP (as opções de exemplo depois do "Calcular") e os
+ * acordeões (o primeiro aberto; "Detalhes da peça" vem da especificação do produto).
+ *
+ * Sem trilha: a da página de produto é a da breadcrumb comum (Breadcrumb15), que as três
+ * plataformas já põem na PDP. Decisão do usuário em 04/11/2026, para não duplicar.
  *
  * Sai: `usePDP`, `useBuyButton` ("Adicionar à sacola" não faz nada), `useWishList` (o coração
  * só alterna no estado local), a nota do Reviews and Ratings, a simulação de frete, a mutation
@@ -29,7 +31,6 @@ const block = (hex: string, w: number, h: number) =>
     `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect width="${w}" height="${h}" fill="${hex}"/></svg>`
   )}`;
 
-const HOME_LABEL = 'Início';
 const CODE_LABEL = 'Ref.';
 const RATING_COUNT_LABEL = 'avaliações';
 const SIZE_GUIDE_LABEL = 'Guia de medidas';
@@ -74,10 +75,6 @@ const SHIP_OPTIONS = [
 
 const BRAND = 'Sua Marca Joias';
 const PRODUCT_NAME = 'Anel Solitário Ouro 18k';
-const CRUMBS = [
-  { item: '/joias/', name: 'Joias' },
-  { item: '/joias/aneis/', name: 'Anéis' },
-];
 const IMAGES = ['#E6DFD2', '#DCD3C4', '#E9E3D8', '#D9CFBF', '#E3DACB'].map((hex, i) => ({
   url: block(hex, 800, 1000) + `#${i}`,
   alternateName: `${PRODUCT_NAME} — foto ${i + 1}`,
@@ -246,23 +243,6 @@ export default function ProductInfo15() {
       <section className={styles.productDetails15} aria-label={PRODUCT_NAME} data-role="pdp-root">
         <link rel="stylesheet" href={FONTES_15} />
         <div className={styles.inner}>
-          {/* ── trilha nativa (Início — categorias), fios dourados entre os itens ── */}
-          <nav className={styles.crumbs} aria-label="Trilha de navegação" data-role="pdp-breadcrumb">
-            <ol>
-              <li>
-                <a href="#">{HOME_LABEL}</a>
-              </li>
-              {CRUMBS.map((c, i) => (
-                <React.Fragment key={`${c.item}-${i}`}>
-                  <li className={styles.crumbSep} aria-hidden="true" />
-                  <li>
-                    <a href="#">{c.name}</a>
-                  </li>
-                </React.Fragment>
-              ))}
-            </ol>
-          </nav>
-
           <div className={styles.main}>
             {/* ── galeria (sem zoom, sem vídeo): miniaturas à esquerda da foto 4:5 ── */}
             <div className={styles.gallery} data-role="pdp-gallery">

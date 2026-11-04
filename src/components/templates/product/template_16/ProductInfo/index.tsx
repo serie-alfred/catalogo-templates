@@ -6,11 +6,15 @@ import styles from './index.module.css';
 
 /**
  * Espelha `organisms/ProductDetails16` do faststore.starter (família 16, Infantil; desenho
- * `ProductInfo16`): a trilha; a foto 1:1 arredondada com o contador, o coração, as setas redondas e
- * as miniaturas; à direita a marca, o nome em Fredoka, a nota e o código, o selo amarelo da faixa
+ * `ProductInfo16`): a foto 1:1 arredondada com o contador, o coração, as setas redondas e as
+ * miniaturas; à direita a marca, o nome em Fredoka, a nota e o código, o selo amarelo da faixa
  * etária, o preço "de" com o -N%, o preço, a parcela e o Pix, a cor em bolinhas, o tamanho em
  * pílulas com o esgotado riscado e o Avise-me, quantidade + "Adicionar à sacola" + coração, o
- * frete por CEP e os acordeões. Mesmo markup, classes e `data-role`; o CSS é derivado do SCSS de lá.
+ * frete por CEP e os acordeões. Mesmo markup, classes e `data-role`; o CSS é derivado do SCSS de
+ * lá.
+ *
+ * Sem trilha: a da página de produto é a da breadcrumb comum (Breadcrumb16), que as três
+ * plataformas já põem na PDP. Decisão do usuário em 04/11/2026, para não duplicar.
  *
  * Lá tudo vem do produto da PDP (usePDP), do Reviews and Ratings e do orderForm; aqui é o exemplo
  * do mock.ts de lá, já resolvido (as fotos são os blocos pastel do mock, SVG inline sem rede).
@@ -28,7 +32,6 @@ const BRL = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFr
 const money = (n: number) => `R$ ${BRL.format(n)}`;
 
 const L = {
-  homeLabel: 'Início',
   counterOfLabel: 'de',
   codeLabel: 'Cód.',
   ratingCountLabel: 'avaliações',
@@ -48,10 +51,6 @@ const L = {
 };
 const PRODUCT_NAME = 'Pijama Algodão Estrelinhas';
 const BRAND = 'Sua Marca';
-const CRUMBS = [
-  { item: '/roupas/', name: 'Roupas' },
-  { item: '/roupas/pijamas/', name: 'Pijamas' },
-];
 const IMAGES = ['#E8E3F3', '#DEDAEE', '#EFE7D8', '#E2EDE9', '#F4E4DC'].map((hex, i) => ({
   url: block(hex, 800) + `#${i}`,
   alternateName: `${PRODUCT_NAME} — foto ${i + 1}`,
@@ -197,26 +196,6 @@ export default function ProductInfo16() {
       <section className={styles.productDetails16} aria-label={PRODUCT_NAME} data-role="pdp-root">
         <link rel="stylesheet" href={FONTES} />
         <div className={styles.inner}>
-          <nav className={styles.crumbs} aria-label="Trilha de navegação" data-role="pdp-breadcrumb">
-            <ol>
-              <li>
-                <a href="#">{L.homeLabel}</a>
-              </li>
-              {CRUMBS.map((c, i) => (
-                <React.Fragment key={c.item}>
-                  <li className={styles.crumbSep} aria-hidden="true">
-                    ›
-                  </li>
-                  <li>
-                    <a href="#" aria-current={i === CRUMBS.length - 1 ? 'page' : undefined}>
-                      {c.name}
-                    </a>
-                  </li>
-                </React.Fragment>
-              ))}
-            </ol>
-          </nav>
-
           <div className={styles.main}>
             <div className={styles.gallery} data-role="pdp-gallery">
               <div className={styles.stage}>

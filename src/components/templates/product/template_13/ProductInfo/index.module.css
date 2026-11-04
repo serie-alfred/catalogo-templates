@@ -71,23 +71,6 @@
   margin: 0 auto;
   padding: 24px clamp(16px, 3vw, 40px) 48px;
 }
-.crumbs ol {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.crumbs ol a {
-  color: color-mix(in srgb, var(--pdp-text, #f4f4f0) 64%, var(--pdp-bg, #0d0d0d));
-}
-
-.crumbSep {
-  color: var(--pdp-accent, #c8ff2e);
-}
 
 .main {
   display: flex;
@@ -740,9 +723,6 @@
   .inner {
     gap: 0;
     padding: 0;
-  }
-  .crumbs {
-    display: none;
   }
   .main {
     flex-direction: column;

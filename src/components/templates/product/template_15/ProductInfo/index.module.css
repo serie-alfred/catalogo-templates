@@ -77,32 +77,6 @@
   padding: 16px clamp(16px, 3vw, 40px) 104px;
 }
 
-.crumbs ol {
-  font-family: var(--pdp-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
-  min-height: 44px;
-  font-weight: 500;
-}
-.crumbs ol a {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1a1714)) 66%, var(--pdp-bg, #faf8f4));
-}
-.crumbs ol a:hover {
-  opacity: 0.8;
-}
-
-.crumbSep {
-  width: 16px;
-  height: 1px;
-  background-color: var(--pdp-accent, var(--background-primary-color, #7a5f1c));
-}
-
 .main {
   display: flex;
   flex-wrap: wrap;
@@ -711,9 +685,6 @@
   .inner {
     gap: 0;
     padding: 0;
-  }
-  .crumbs {
-    display: none;
   }
   .main {
     flex-direction: column;

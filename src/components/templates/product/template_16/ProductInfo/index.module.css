@@ -72,24 +72,6 @@
   margin: 0 auto;
   padding: 16px clamp(16px, 3vw, 40px) 64px;
 }
-.crumbs ol {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #2a2350)) 72%, var(--pdp-bg, #fffbf2));
-  font-size: 14px;
-  font-weight: 700;
-}
-.crumbs ol a {
-  display: flex;
-  align-items: center;
-  min-height: 44px;
-}
-.crumbs ol a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
 
 .main {
   display: flex;
@@ -799,7 +781,6 @@
     gap: 0;
     padding: 0 0 40px;
   }
-  .crumbs,
   .arrows,
   .favSide {
     display: none;

@@ -7,16 +7,19 @@ import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
 
 /**
  * Espelha `organisms/ProductDetails14` do faststore.starter (família 14, Esportiva; desenho
- * `ProductInfo14` / `-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as mesmas
- * vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o `mock.ts` de lá, já resolvido
- * como o starter resolve: a trilha Início / Corrida / Tênis Velox Run 3, as 4 fotos de uma cor
- * só (os blocos em data URI do mock) em grade 2 × 2 com o "-22%" (no mobile, o trilho com o
- * contador e a régua), "Sua Marca · Corrida", a nota 4,8 com 212 avaliações, "Cód.
- * [SKU-0003]" (o SKU do 41), o "de" riscado com o "-22%", 10x sem juros e o Pix, as 3 cores por
- * miniatura (Marinho/Vermelho ativa), o Tamanho (BR) com o 38 e o 44 riscados e o 41 escolhido,
- * a tabela de medidas aberta (a especificação do produto), "Seu número esgotou? Avise-me" (abre o
- * formulário), quantidade + "Favoritar", o botão de compra, o frete por CEP com as opções de
- * exemplo, os 3 destaques e os acordeões Detalhes (aberto, da especificação) · Entrega · Trocas.
+ * `ProductInfo14` / `-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as mesmas vars
+ * de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o `mock.ts` de lá, já resolvido como o
+ * starter resolve: as 4 fotos de uma cor só (os blocos em data URI do mock) em grade 2 × 2 com o
+ * "-22%" (no mobile, o trilho com o contador e a régua), "Sua Marca · Corrida", a nota 4,8 com
+ * 212 avaliações, "Cód. [SKU-0003]" (o SKU do 41), o "de" riscado com o "-22%", 10x sem juros e o
+ * Pix, as 3 cores por miniatura (Marinho/Vermelho ativa), o Tamanho (BR) com o 38 e o 44 riscados
+ * e o 41 escolhido, a tabela de medidas aberta (a especificação do produto), "Seu número esgotou?
+ * Avise-me" (abre o formulário), quantidade + "Favoritar", o botão de compra, o frete por CEP com
+ * as opções de exemplo, os 3 destaques e os acordeões Detalhes (aberto, da especificação) ·
+ * Entrega · Trocas.
+ *
+ * Sem trilha: a da página de produto é a da breadcrumb comum (Breadcrumb14), que as três
+ * plataformas já põem na PDP. Decisão do usuário em 04/11/2026, para não duplicar.
  *
  * Sai: `usePDP`, `useBuyButton` (o botão não faz nada), `useWishList` (o "Favoritar" só alterna
  * no estado local), a nota do Reviews and Ratings, a simulação de frete (o "Calcular" não
@@ -51,7 +54,6 @@ const formatPostalCode = (v: string) => {
 
 /* ── o mock.ts de lá, resolvido ── */
 const L = {
-  homeLabel: 'Início',
   codeLabel: 'Cód.',
   ratingCountLabel: 'avaliações',
   sizeGuideLabel: 'Tabela de medidas',
@@ -76,10 +78,6 @@ const block = (hex: string, w: number, h = w) =>
 
 const PRODUCT_NAME = 'Tênis Velox Run 3';
 const BRAND_LINE = 'Sua Marca · Corrida';
-const TRAIL = [
-  { item: '/corrida/', name: 'Corrida' },
-  { item: '/tenis-velox-run-3-marinho-vermelho-1014/p', name: 'Tênis Velox Run 3' },
-];
 const IMAGES = ['#DCE3EC', '#D3DBE6', '#E4E9F0', '#CFD8E3'].map((hex, i) => ({
   url: block(hex, 800) + `#${i}`,
   alternateName: `Tênis Velox Run 3, foto ${i + 1} de 4`,
@@ -230,28 +228,6 @@ export default function ProductInfo14() {
       <section className={styles.productDetails14} aria-label={PRODUCT_NAME} data-role="pdp-root">
         <link rel="stylesheet" href={FONTES_14} />
         <div className={styles.inner}>
-          {/* ── trilha nativa (Início / categorias / produto) ── */}
-          <nav className={styles.crumbs} aria-label="Trilha de navegação" data-role="pdp-breadcrumb">
-            <ol>
-              <li>
-                <a href="#">{L.homeLabel}</a>
-              </li>
-              {TRAIL.map((c, i) => {
-                const last = i === TRAIL.length - 1;
-                return (
-                  <React.Fragment key={`${c.item}-${i}`}>
-                    <li className={styles.crumbSep} aria-hidden="true" />
-                    <li>
-                      <a href="#" aria-current={last ? 'page' : undefined}>
-                        {c.name}
-                      </a>
-                    </li>
-                  </React.Fragment>
-                );
-              })}
-            </ol>
-          </nav>
-
           <div className={styles.main}>
             {/* ── galeria (sem zoom, sem vídeo): grade 2 × 2 no desktop, trilho no mobile ── */}
             <div className={styles.gallery} data-role="pdp-gallery">

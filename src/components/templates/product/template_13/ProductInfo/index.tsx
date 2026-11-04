@@ -7,17 +7,19 @@ import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
 
 /**
  * Espelha `organisms/ProductDetails13` do faststore.starter (família 13, Noturno; desenho
- * `ProductInfo13` / `-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as mesmas
- * vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o `mock.ts` de lá, já resolvido
- * como o starter resolve: a trilha Início / Tênis / Corrida, as 6 fotos de uma cor só (os
- * blocos em data URI do mock) com contador, setas e miniaturas, o rótulo "Drop 07", a nota 4,8
- * com 312 avaliações, "Cód. [0000004]" (o SKU do 41), 6x sem juros (sem Pix: o plano do mock
- * não tem a entrada Pix), as 3 cores por miniatura (Preto/Lima ativa), o Tamanho (BR) em grade
- * com o 38 e o 44 riscados e o 41 escolhido, a "Tabela de medidas" (a especificação do
- * produto, com o diálogo), "Seu número esgotou? Me avise quando chegar" (abre o formulário),
- * "Adicionar à bag" + o coração, o frete por CEP (as opções de exemplo depois do "Calcular") e
- * as abas Detalhes · Entrega · Trocas (Detalhes vem da especificação do produto). Mobile: a
- * barra de compra presa ao rodapé.
+ * `ProductInfo13` / `-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as mesmas vars
+ * de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o `mock.ts` de lá, já resolvido como o
+ * starter resolve: as 6 fotos de uma cor só (os blocos em data URI do mock) com contador, setas e
+ * miniaturas, o rótulo "Drop 07", a nota 4,8 com 312 avaliações, "Cód. [0000004]" (o SKU do 41),
+ * 6x sem juros (sem Pix: o plano do mock não tem a entrada Pix), as 3 cores por miniatura
+ * (Preto/Lima ativa), o Tamanho (BR) em grade com o 38 e o 44 riscados e o 41 escolhido, a
+ * "Tabela de medidas" (a especificação do produto, com o diálogo), "Seu número esgotou? Me avise
+ * quando chegar" (abre o formulário), "Adicionar à bag" + o coração, o frete por CEP (as opções
+ * de exemplo depois do "Calcular") e as abas Detalhes · Entrega · Trocas (Detalhes vem da
+ * especificação do produto). Mobile: a barra de compra presa ao rodapé.
+ *
+ * Sem trilha: a da página de produto é a da breadcrumb comum (Breadcrumb13), que as três
+ * plataformas já põem na PDP. Decisão do usuário em 04/11/2026, para não duplicar.
  *
  * Sai: `usePDP`, `useBuyButton` ("Adicionar à bag" não faz nada), `useWishList` (o coração só
  * alterna no estado local), a nota do Reviews and Ratings, a simulação de frete, a mutation do
@@ -59,7 +61,6 @@ const block = (hex: string, w: number, h = w) =>
 
 /* ── rótulos (o mock.ts de lá) ── */
 const L = {
-  homeLabel: 'Início',
   badge: 'Drop 07',
   codeLabel: 'Cód.',
   ratingCountLabel: 'avaliações',
@@ -86,10 +87,6 @@ const PRICE = 699.9;
 const LIST_PRICE = 699.9;
 const BEST = { installmentNumber: 6, installmentValue: 116.65, installmentInterest: 0 };
 const RATING = { average: 4.8, totalCount: 312 };
-const CRUMBS = [
-  { item: '#', name: 'Tênis' },
-  { item: '#', name: 'Corrida' },
-];
 const IMAGES = ['#1E1E1E', '#262626', '#2B2B2B', '#222222', '#303030', '#1A1A1A'].map((hex, i) => ({
   url: block(hex, 800) + `#${i}`,
   alternateName: `Tênis Runner V2 Preto/Lima — foto ${i + 1}`,
@@ -297,25 +294,6 @@ export default function ProductInfo13() {
       <section className={styles.productDetails13} aria-label={PRODUCT_NAME} data-role="pdp-root">
         <link rel="stylesheet" href={FONTES_13} />
         <div className={styles.inner}>
-          {/* ── trilha nativa (Início / categorias) ── */}
-          <nav className={styles.crumbs} aria-label="Trilha de navegação" data-role="pdp-breadcrumb">
-            <ol>
-              <li>
-                <a href="#">{L.homeLabel}</a>
-              </li>
-              {CRUMBS.map((c, i) => (
-                <React.Fragment key={`${c.name}-${i}`}>
-                  <li className={styles.crumbSep} aria-hidden="true">
-                    /
-                  </li>
-                  <li>
-                    <a href={c.item}>{c.name}</a>
-                  </li>
-                </React.Fragment>
-              ))}
-            </ol>
-          </nav>
-
           <div className={styles.main}>
             {/* ── galeria (sem zoom, sem vídeo) ── */}
             <div className={styles.gallery} data-role="pdp-gallery">
