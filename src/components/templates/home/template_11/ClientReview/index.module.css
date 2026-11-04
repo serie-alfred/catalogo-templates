@@ -95,6 +95,7 @@
 }
 
 .rail {
+  position: relative;
   display: flex;
   border-left: 1px solid var(--socialproof-text, var(--text-primary-color, #0a0a0a));
   overflow-x: auto;
