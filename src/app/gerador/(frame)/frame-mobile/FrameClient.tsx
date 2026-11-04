@@ -26,6 +26,7 @@ interface Content {
   selections: LayoutSelection[];
   pagina: string;
   logo: string;
+  footerLogo: string;
   isMobile: boolean;
 }
 
@@ -98,6 +99,7 @@ export default function FrameClient() {
             selections: data.selections,
             pagina: data.pagina,
             logo: data.logo,
+            footerLogo: data.footerLogo,
             isMobile: data.isMobile,
           });
           break;
@@ -204,9 +206,10 @@ export default function FrameClient() {
   const seed = useMemo(
     () => ({
       logo: content?.logo ?? '',
+      footerLogo: content?.footerLogo ?? '',
       selections: content?.selections ?? [],
     }),
-    [content?.logo, content?.selections]
+    [content?.logo, content?.footerLogo, content?.selections]
   );
 
   if (!content) return null;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
 
@@ -200,7 +200,7 @@ const MOCK: Footer16Props = {
 };
 
 export default function Footer16() {
-  const { logo: logoEnviado } = useLayout();
+  const logoEnviado = useLogoDoRodape();
   const logo = logoEnviado || undefined;
   const {
     logoAlt,

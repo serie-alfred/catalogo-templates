@@ -442,6 +442,9 @@ export function useLayoutGenerator() {
   const logoCheckout = logoReduzido.valor;
   const logoCheckoutPendente = logoReduzido.de !== logo;
   const [favicon, setFavicon] = useState<string>('');
+  /** Logo para fundo escuro, lido pelos rodapés (`useLogoDoRodape`). Vazio:
+   *  eles usam o `logo`. O header continua com o `logo`. */
+  const [footerLogo, setFooterLogo] = useState<string>('');
   /** Imagem de compartilhamento (og:image) do preview. Data URL, como as outras. */
   const [ogImage, setOgImage] = useState<string>('');
 
@@ -663,6 +666,7 @@ export function useLayoutGenerator() {
         console.error('Checkout guardado ilegível, usando o padrão:', e);
       }
       setLogo(estadoDaAba.get('logo') || '');
+      setFooterLogo(estadoDaAba.get('footerLogo') || '');
       setFavicon(estadoDaAba.get('favicon') || '');
       setOgImage(estadoDaAba.get('ogImage') || '');
       setWakeCustomValue(estadoDaAba.get('wakeToken') || '');
@@ -773,6 +777,19 @@ export function useLayoutGenerator() {
       console.error('Erro ao salvar logo:', e);
     }
   }, [logo, hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      if (footerLogo) {
+        estadoDaAba.set('footerLogo', footerLogo);
+      } else {
+        estadoDaAba.remove('footerLogo');
+      }
+    } catch (e) {
+      console.error('Erro ao salvar logo do rodapé:', e);
+    }
+  }, [footerLogo, hydrated]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -1252,7 +1269,12 @@ export function useLayoutGenerator() {
               };
             }),
           variables: variaveisVtex(),
-          assets: { logo: await reduzirLogo(logo), favicon, ogImage },
+          assets: {
+            logo: await reduzirLogo(logo),
+            footerLogo,
+            favicon,
+            ogImage,
+          },
         },
       };
       console.log(config);
@@ -1277,7 +1299,7 @@ export function useLayoutGenerator() {
           };
         }),
         variables: variaveisTrayWake(),
-        assets: { logo, favicon, ogImage },
+        assets: { logo, footerLogo, favicon, ogImage },
       },
     };
     if (plat === 'wake') config.wakeToken = wakeCustomValue;
@@ -1350,6 +1372,7 @@ export function useLayoutGenerator() {
         variables: variaveisTrayWake(),
         assets: {
           logo,
+          footerLogo,
           favicon,
           ogImage,
         },
@@ -1491,6 +1514,8 @@ export function useLayoutGenerator() {
         // conhece, então incluir não quebra quem já consome o arquivo.
         assets: {
           logo: logoDoTema,
+          // O checkout só tem header: o logo do rodapé fica no tema da loja.
+          footerLogo,
           favicon,
           ogImage,
         },
@@ -1697,6 +1722,7 @@ export function useLayoutGenerator() {
     },
     fonts: { fontPrimary, fontSecondary, fontTertiary },
     logo,
+    footerLogo,
     favicon,
     ogImage,
     // Opcional no tipo: snapshots de antes do checkout continuam válidos.
@@ -1804,6 +1830,7 @@ export function useLayoutGenerator() {
       setFontSecondary(f.fontSecondary || 'Poppins');
       setFontTertiary(f.fontTertiary || 'Open Sans');
       setLogo(typeof doc.logo === 'string' ? doc.logo : '');
+      setFooterLogo(typeof doc.footerLogo === 'string' ? doc.footerLogo : '');
       setFavicon(typeof doc.favicon === 'string' ? doc.favicon : '');
       setOgImage(typeof doc.ogImage === 'string' ? doc.ogImage : '');
       setCheckout(prev =>
@@ -1913,6 +1940,7 @@ export function useLayoutGenerator() {
     themeDoc,
     platform,
     logo,
+    footerLogo,
     favicon,
     ogImage,
     editorMode,
@@ -2004,6 +2032,8 @@ export function useLayoutGenerator() {
     setFontTertiary,
     logo,
     setLogo,
+    footerLogo,
+    setFooterLogo,
     favicon,
     setFavicon,
     ogImage,
