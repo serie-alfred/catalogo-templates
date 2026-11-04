@@ -85,3 +85,11 @@ img {
   width: 100%;
   max-width: 100%;
 }
+
+/* O logo que o usuário envia fica fora do `max-width: 100%` acima, que o FastStore
+   não tem. Com ele, o <img> vira "comprimível": a largura mínima dele num flex cai a
+   0, e o link do logo some quando a barra aperta (o Header14 no desktop: 0×30 px).
+   `[data-role]` é o contrato das réplicas 08 em diante; a largura vem da altura. */
+:where([data-role='hd-logo'], [data-role='ft-logo']) img {
+  max-width: none;
+}
