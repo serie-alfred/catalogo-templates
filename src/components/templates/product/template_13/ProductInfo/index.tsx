@@ -106,7 +106,10 @@ const SIZES = ['37', '38', '39', '40', '41', '42', '43', '44'];
 const ESGOTADOS = ['38', '44'];
 const AXIS = SIZES.map((value, i) => ({ value, available: !ESGOTADOS.includes(value), sku: `[000000${i}]` }));
 const AXIS_FROM_URL = '41';
-const GUIDE_URL = block('#F4F4F0', 1200, 800);
+// Guia de medidas de exemplo: a mesma tabela desenhada do mock.ts de lá.
+const GUIDE_URL = `data:image/svg+xml;utf8,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="#F4F4F0"/><rect width="1200" height="89" fill="#C8FF2E"/><rect y="88" width="1200" height="2" fill="#D6D6D2"/><rect y="177" width="1200" height="2" fill="#D6D6D2"/><rect y="266" width="1200" height="2" fill="#D6D6D2"/><rect y="355" width="1200" height="2" fill="#D6D6D2"/><rect y="443" width="1200" height="2" fill="#D6D6D2"/><rect y="532" width="1200" height="2" fill="#D6D6D2"/><rect y="621" width="1200" height="2" fill="#D6D6D2"/><rect y="710" width="1200" height="2" fill="#D6D6D2"/><g font-family="sans-serif" font-size="30" fill="#0D0D0D" text-anchor="middle"><text x="200" y="55" font-weight="700">Tamanho (BR)</text><text x="600" y="55" font-weight="700">Pé (cm)</text><text x="1000" y="55" font-weight="700">EUA</text><text x="200" y="144">37</text><text x="600" y="144">24,0</text><text x="1000" y="144">5,5</text><text x="200" y="233">38</text><text x="600" y="233">24,7</text><text x="1000" y="233">6</text><text x="200" y="322">39</text><text x="600" y="322">25,3</text><text x="1000" y="322">7</text><text x="200" y="410">40</text><text x="600" y="410">26,0</text><text x="1000" y="410">7,5</text><text x="200" y="499">41</text><text x="600" y="499">26,7</text><text x="1000" y="499">8,5</text><text x="200" y="588">42</text><text x="600" y="588">27,3</text><text x="1000" y="588">9</text><text x="200" y="677">43</text><text x="600" y="677">28,0</text><text x="1000" y="677">10</text><text x="200" y="766">44</text><text x="600" y="766">28,7</text><text x="1000" y="766">10,5</text></g></svg>'
+)}`;
 const ACCORDIONS = [
   {
     title: 'Detalhes',

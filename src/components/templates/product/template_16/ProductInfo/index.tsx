@@ -15,7 +15,7 @@ import styles from './index.module.css';
  * Lá tudo vem do produto da PDP (usePDP), do Reviews and Ratings e do orderForm; aqui é o exemplo
  * do mock.ts de lá, já resolvido (as fotos são os blocos pastel do mock, SVG inline sem rede).
  * Compra, favorito, Avise-me e CEP não chamam nada: só alternam estado local. O guia de medidas
- * abre o mesmo diálogo com a imagem branca de exemplo.
+ * abre o mesmo diálogo com a tabela de exemplo.
  */
 const FONTES =
   'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap';
@@ -91,7 +91,10 @@ const ACCORDIONS = [
     lines: ['Enviamos para todo o Brasil; o prazo aparece no cálculo de frete.', 'A primeira troca é grátis em até 30 dias.'],
   },
 ];
-const GUIDE_URL = block('#FFFFFF', 1200, 800);
+// Guia de medidas de exemplo: a mesma tabela desenhada do mock.ts de lá.
+const GUIDE_URL = `data:image/svg+xml;utf8,${encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="#FFFFFF"/><rect width="1200" height="133" fill="#E8E3F3"/><rect y="132" width="1200" height="2" fill="#E3DEF0"/><rect y="266" width="1200" height="2" fill="#E3DEF0"/><rect y="399" width="1200" height="2" fill="#E3DEF0"/><rect y="532" width="1200" height="2" fill="#E3DEF0"/><rect y="666" width="1200" height="2" fill="#E3DEF0"/><g font-family="sans-serif" font-size="30" fill="#2A2350" text-anchor="middle"><text x="120" y="77" font-weight="700">Tamanho</text><text x="360" y="77" font-weight="700">Idade</text><text x="600" y="77" font-weight="700">Altura (cm)</text><text x="840" y="77" font-weight="700">Busto (cm)</text><text x="1080" y="77" font-weight="700">Cintura (cm)</text><text x="120" y="210">2</text><text x="360" y="210">2 anos</text><text x="600" y="210">86–92</text><text x="840" y="210">52</text><text x="1080" y="210">50</text><text x="120" y="344">4</text><text x="360" y="344">4 anos</text><text x="600" y="344">98–104</text><text x="840" y="344">56</text><text x="1080" y="344">52</text><text x="120" y="477">6</text><text x="360" y="477">6 anos</text><text x="600" y="477">110–116</text><text x="840" y="477">60</text><text x="1080" y="477">54</text><text x="120" y="610">8</text><text x="360" y="610">8 anos</text><text x="600" y="610">122–128</text><text x="840" y="610">64</text><text x="1080" y="610">57</text><text x="120" y="744">10</text><text x="360" y="744">10 anos</text><text x="600" y="744">134–140</text><text x="840" y="744">68</text><text x="1080" y="744">60</text></g></svg>'
+)}`;
 
 const svg = (size: number, body: React.ReactNode, extra: Record<string, unknown> = {}) => (
   <svg
