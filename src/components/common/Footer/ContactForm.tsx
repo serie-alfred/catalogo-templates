@@ -106,7 +106,9 @@ function errosDe(v: Valores): Partial<Record<Campo, string>> {
 /**
  * O formulário do comercial. Valida campo a campo no navegador, com as mesmas
  * regras da rota `/api/contato` (`utils/contato.ts`), que valida de novo e
- * manda para a caixa central com a preferência de contato no assunto.
+ * manda para a caixa central com a preferência de contato no assunto. Como as
+ * regras são as mesmas, o 400 da rota só vem de quem chamou a API por fora: a
+ * resposta é a mensagem geral, sem marcar campo.
  *
  * - O aviso aparece quando o visitante sai do campo, nunca enquanto digita
  *   pela primeira vez; depois disso some assim que o valor fica certo.
@@ -128,11 +130,6 @@ export default function ContactForm({ templates }: { templates: string[] }) {
   const [estado, setEstado] = useState<Estado>('parado');
   const [mensagem, setMensagem] = useState('');
   const [enviado, setEnviado] = useState<Valores | null>(null);
-  // Reprovados pelo servidor e ainda não mexidos: a regra local pode ser
-  // mais branda que a dele.
-  const [doServidor, setDoServidor] = useState<Partial<Record<Campo, true>>>(
-    {}
-  );
   const [tremer, setTremer] = useState(0);
   // Barrado aqui, antes de ir ao servidor: o aviso de baixo conta os campos
   // que faltam AO VIVO e some quando o último fica certo.
@@ -142,9 +139,7 @@ export default function ContactForm({ templates }: { templates: string[] }) {
 
   const erros = errosDe(valores);
   const avisoDe = (c: Campo): string | null =>
-    tocados[c]
-      ? (erros[c] ?? (doServidor[c] ? 'Confira este campo.' : null))
-      : null;
+    tocados[c] ? (erros[c] ?? null) : null;
   const template = templateEscolhido ?? provado;
   const faltam = Object.keys(erros).length;
   const status =
@@ -165,12 +160,6 @@ export default function ContactForm({ templates }: { templates: string[] }) {
 
   const mudar = <C extends Campo>(campo: C, valor: Valores[C]) => {
     setValores(v => ({ ...v, [campo]: valor }));
-    if (doServidor[campo])
-      setDoServidor(d => {
-        const resto = { ...d };
-        delete resto[campo];
-        return resto;
-      });
   };
 
   const tocar = (campo: Campo) => setTocados(t => ({ ...t, [campo]: true }));
@@ -237,26 +226,11 @@ export default function ContactForm({ templates }: { templates: string[] }) {
         return;
       }
       setEstado('erro');
-      if (res.status === 400) {
-        const corpo = (await res.json().catch(() => null)) as {
-          campos?: string[];
-        } | null;
-        const campos = (corpo?.campos ?? []).filter((c): c is Campo =>
-          ORDEM.includes(c as Campo)
-        );
-        setDoServidor(Object.fromEntries(campos.map(c => [c, true])));
-        setTocados(t => ({
-          ...t,
-          ...Object.fromEntries(campos.map(c => [c, true])),
-        }));
-        setTremer(n => n + 1);
-        focarPrimeiroErro(campos);
-      }
       setMensagem(
         res.status === 429
           ? 'Muitos envios seguidos. Tente de novo mais tarde.'
           : res.status === 400
-            ? 'Confira os campos marcados e tente de novo.'
+            ? 'Confira os dados e tente de novo.'
             : 'Não conseguimos enviar agora. Tente de novo em instantes.'
       );
     } catch {
