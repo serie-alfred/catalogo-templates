@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useLayout } from '@/context/LayoutContext';
+
 import { ICO_LOGO, ICO_PAGAMENTO, ICO_SOCIAL } from './icons';
 import styles from './index.module.css';
 
@@ -8,6 +10,7 @@ import styles from './index.module.css';
  * A" (Figma 7316:17345 / 7316:17390). Mesmo markup, classes, `data-role` e vars de
  * Nível 1. A régua de benefícios e a newsletter do Figma são blocos da LP
  * BlackFriday01. A linha legal leva placeholders (no Figma é a de outra empresa).
+ * Logo: o que o usuário enviou no /gerador; sem ele, a marca do modelo (asterisco).
  */
 
 const FONTES =
@@ -79,6 +82,7 @@ const Svg = ({
 );
 
 export default function Footer08() {
+  const { logo } = useLayout();
   // O envelope é o container das regras mobile: a raiz também tem regra mobile, e
   // uma @container não estiliza o próprio container.
   return (
@@ -94,7 +98,11 @@ export default function Footer08() {
                 aria-label="Página inicial"
                 data-role="ft-logo"
               >
-                <Svg svg={ICO_LOGO} className={styles.ico} />
+                {logo ? (
+                  <img src={logo} alt="" height={48} loading="lazy" />
+                ) : (
+                  <Svg svg={ICO_LOGO} className={styles.ico} />
+                )}
               </a>
               <p className={styles.text} data-role="ft-text">
                 {
