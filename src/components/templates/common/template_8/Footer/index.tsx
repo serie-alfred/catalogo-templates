@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import { ICO_LOGO, ICO_PAGAMENTO, ICO_SOCIAL } from './icons';
 import styles from './index.module.css';
@@ -82,7 +82,7 @@ const Svg = ({
 );
 
 export default function Footer08() {
-  const { logo } = useLayout();
+  const logo = useLogoDoRodape();
   // O envelope é o container das regras mobile: a raiz também tem regra mobile, e
   // uma @container não estiliza o próprio container.
   return (

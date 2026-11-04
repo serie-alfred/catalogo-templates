@@ -589,9 +589,9 @@ Both config shapes carry `assets` (logo, footerLogo, favicon, ogImage). The fast
 redesign, so VTEX exports were silently dropping the brand assets.
 
 **Logo do rodapé** (`footerLogo`, 04/11/2026): o segundo card de "Identidade visual", para header
-claro + rodapé escuro (ou o contrário). Os rodapés que mostram o logo enviado (famílias 02–05, 07,
-09, 11–16) leem `useLogoDoRodape()`; vazio, vale o `logo`, então config, preview e tema salvo de
-antes do campo continuam iguais. 01, 06, 08 e 10 não mostram o logo do usuário. O header e o
+claro + rodapé escuro (ou o contrário). Os rodapés que mostram o logo enviado (famílias 02–05,
+07–09, 11–16) leem `useLogoDoRodape()`; vazio, vale o `logo`, então config, preview e tema salvo de
+antes do campo continuam iguais. 01, 06 e 10 não mostram o logo do usuário. O header e o
 checkout continuam com o `logo`. Vai no snapshot (opcional), na mensagem `content` do iframe e em
 `assets.footerLogo` das três trilhas e da LP, sem redução (só o checkout reduz). No generator: Tray
 e Wake gravam `logo-rodape.png` ao lado do `logo.png` e avisam que nenhum footer o lê ainda; na
