@@ -1,5 +1,5 @@
 /**
- * Estágio 5 — contrato Tray/Wake, estático.
+ * Estágio 5 — contrato Tray/Wake (e Nuvemshop, com a flag), estático.
  *
  * Executar o generator nessas duas trilhas é inviável desta máquina, e não por
  * escolha: a Tray abre `start cmd /k` (Windows), e a Wake clona o tema do
@@ -9,14 +9,20 @@
  *
  * O que dá para provar sem executar é o contrato: o caminho de origem, a
  * unicidade da key e os limites conhecidos de instância.
+ *
+ * A Nuvemshop entra com NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP=1, a mesma flag que a
+ * põe no /gerador e no estágio 3 (que grava o config dela). Regra própria: o
+ * config não carrega credencial nenhuma (`conferirNuvemshop`).
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { GLOBAL_TEMPLATES, SAIDA, relatorio } from './lib/util.mjs';
 import {
   conferirTrayWake,
+  conferirNuvemshop,
   conferirParidadeGlobalTemplates,
 } from './lib/contrato.mjs';
+import { NUVEMSHOP_LIGADA } from '../../src/types/platform.ts';
 
 const r = relatorio('Estágio 5 — contrato Tray/Wake');
 
@@ -24,14 +30,19 @@ const r = relatorio('Estágio 5 — contrato Tray/Wake');
 // Diz qual árvore foi lida e reprova se o local não for o que está empurrado.
 await conferirParidadeGlobalTemplates(r);
 
-for (const plataforma of ['Tray', 'Wake']) {
+const PLATAFORMAS = ['Tray', 'Wake', ...(NUVEMSHOP_LIGADA ? ['Nuvemshop'] : [])];
+
+for (const plataforma of PLATAFORMAS) {
   const arquivo = `${SAIDA}/config-${plataforma}.json`;
   if (!fs.existsSync(arquivo)) {
     r.ok(`${plataforma}: config disponível`, false, 'rode o estágio 3 antes');
     continue;
   }
   const config = JSON.parse(fs.readFileSync(arquivo, 'utf8'));
-  const entradas = conferirTrayWake(config, plataforma, r);
+  const entradas =
+    plataforma === 'Nuvemshop'
+      ? conferirNuvemshop(config, r)
+      : conferirTrayWake(config, plataforma, r);
 
   // Nenhuma pasta com espaço pode aparecer num caminho resolvido: o generator
   // monta `template_${N}` literalmente, então "template 4" é invisível para ele.
@@ -56,16 +67,20 @@ for (const plataforma of ['Tray', 'Wake']) {
     }
     return m;
   };
+  //
+  // A Nuvemshop não tem esse limite: cada instância é uma entrada de `sections`
+  // no JSON da página, com os próprios settings (contrato da Nuvemshop, §2.1 C).
   const foraDaHome = [
     ...conta(e => `${e.balde}::template_${e.template}/${e.selection}`),
   ]
     .filter(([k, n]) => n > 1 && !k.startsWith('home::'))
     .map(([k, n]) => `${k} ×${n}`);
-  r.ok(
-    `${plataforma}: nenhuma origem repetida fora da Home`,
-    foraDaHome.length === 0,
-    foraDaHome.join(', ')
-  );
+  if (plataforma !== 'Nuvemshop')
+    r.ok(
+      `${plataforma}: nenhuma origem repetida fora da Home`,
+      foraDaHome.length === 0,
+      foraDaHome.join(', ')
+    );
 
   // Vários MODELOS no mesmo slot é outra coisa: são pastas distintas. Não
   // quebra, mas um config assim não é alcançável pela UI — o `toggleSelection`
@@ -84,7 +99,7 @@ for (const plataforma of ['Tray', 'Wake']) {
 // O universo endereçável, para a cobertura não virar surpresa.
 let alcancaveis = 0;
 let inalcancaveis = 0;
-for (const plataforma of ['Tray', 'Wake']) {
+for (const plataforma of PLATAFORMAS) {
   for (const secao of ['Common', 'Home', 'Category', 'Product', 'Landing']) {
     const base = path.join(GLOBAL_TEMPLATES, plataforma, secao);
     if (!fs.existsSync(base)) continue;
