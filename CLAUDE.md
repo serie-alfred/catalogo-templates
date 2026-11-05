@@ -228,7 +228,10 @@ sozinha. Ali o usuário monta UMA landing page com **qualquer seção de miolo**
   `home.scss` de cada seção Wake (`global-templates/Wake/Home/template_8/<selection>/`), como faz
   com o `Header08`/`Footer08`. Quando a raiz da peça tem regra mobile, o script põe o container
   num envelope `.<raiz>Box`, que a réplica renderiza: uma `@container` não estiliza o próprio
-  container.
+  container. Os portes com `derivar.json` no `global-templates` (Tray, Wake e Nuvemshop) também
+  saem dele; na Nuvemshop o destino é CSS puro (`css/<selection>-<NN>.css`). Para derivar de um
+  checkout que não é o irmão (worktree, clone na ponta do origin), use
+  `DERIVAR_STARTER=<raiz do starter>` e `DERIVAR_GLOBAL_TEMPLATES=<raiz do global-templates>`.
 
 ### Por template (rail)
 
