@@ -128,10 +128,13 @@ const coerenteFor = plataforma => {
   return out;
 };
 
-// A Nuvemshop entra só com a flag, e por último: o palco de export dela sai vazio
-// enquanto nenhum item a declara, e os PNGs conferidos no fim são os primeiros.
+// A Nuvemshop entra só com a flag. Enquanto nenhum item a declara, o palco de
+// export dela sai vazio, e os PNGs vão para uma pasta própria: o Chrome
+// SOBRESCREVE arquivo de mesmo nome, e os PNGs em branco dela tomariam o lugar
+// dos que a conferência do fim lê (medido em 05/11: 1 kB e 0 kB).
 const PLATAFORMAS = ['Tray', 'Wake', 'VTEX', 'VTEX-coerente'];
 if (NUVEMSHOP_LIGADA) PLATAFORMAS.push('Nuvemshop');
+const DL_NUVEMSHOP = `${DL}/nuvemshop`;
 
 for (const plat of PLATAFORMAS) {
   const coerente = plat.endsWith('-coerente');
@@ -141,7 +144,7 @@ for (const plat of PLATAFORMAS) {
   const cdp = await p.createCDPSession();
   await cdp.send('Page.setDownloadBehavior', {
     behavior: 'allow',
-    downloadPath: DL,
+    downloadPath: plataforma === 'Nuvemshop' ? DL_NUVEMSHOP : DL,
   });
   p.on('dialog', async d => {
     log(`   [dialog ${plat}] ${d.message().slice(0, 90)}`);
