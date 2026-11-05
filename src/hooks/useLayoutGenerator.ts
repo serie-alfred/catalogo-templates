@@ -1357,6 +1357,11 @@ export function useLayoutGenerator() {
       },
     };
 
+    // Só a Wake leva credencial no config. A Nuvemshop sai por este mesmo ramo
+    // (`{ platform: 'nuvemshop', nuvemshop: {…} }`) e NUNCA ganha um equivalente
+    // do `wakeToken`: o generator autentica pelo alias da CLI ou por variável de
+    // ambiente do CI (contrato da Nuvemshop, decisão 3). O `3-export` reprova
+    // qualquer campo de credencial no config dela.
     if (platform.toLowerCase() === 'wake') {
       (config as Record<string, unknown>).wakeToken = wakeCustomValue;
     }
