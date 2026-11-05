@@ -26,7 +26,7 @@ Rodar `/from-faststore <Nome>` já implica, por padrão, sem o dev pedir:
    deliberada, e o portão precisa saber disso.
 8. **Logo nunca fixo.** Se o componente migrado (Header/Footer) tem logo da marca de origem (SVG inline, `<img>` com src fixo, wordmark hardcoded), **NÃO** traga esse logo para o preview. Troque por logo dinâmico via `useLayout()`, com fallback de texto fixo `"SERIE//A"` — exatamente o esquema de `Header01`/`Header03`/`Header04` (passo 3).
 
-Decisões que **continuam exigindo o dev** (pergunte, não invente): zona temável com valor cru/token interno (passo 1, "quando PARAR"); `selection`/`pagina` quando o nome não casa a tabela (passo 2); `platforms` além de `'VTEX'`.
+Decisões que **continuam exigindo o dev** (pergunte, não invente): zona temável com valor cru/token interno (passo 1, "quando PARAR"); `selection`/`pagina` quando o nome não casa a tabela (passo 2); `platforms` além de `'VTEX'` — `'Tray'`, `'Wake'` e `'Nuvemshop'` (passo 6).
 
 ## 0.5. O componente RENDERIZA no palco? (antes de qualquer linha de código)
 
@@ -208,7 +208,13 @@ Para cada match, monte um `ComponentVariable` (`{ cssVar, label, type, default, 
    - `id`: o número livre do slot (`"03"`); `template`: o número (`"3"`); `selection`/`pagina`: do passo 2 (ambos do **passo 2**, não do sufixo FastStore).
    - `key`: **12 chars único** — gere e cheque colisão (`grep "key:" src/data/layoutData.ts`).
    - `component`: a chave do registry (`"ProductInfo03"`).
-   - `platforms`: inclua `'VTEX'` (pergunte se também `'Tray'`/`'Wake'`).
+   - `platforms`: inclua `'VTEX'` e **pergunte** se também `'Tray'`, `'Wake'` e `'Nuvemshop'`.
+     Cada uma só entra se o porte daquele item existir em
+     `../global-templates/<Tray|Wake|Nuvemshop>/<Common|Home|Category|Product>/template_<N>/<selection>/`
+     — o `1-catalogo` reprova item que declara a plataforma sem a pasta. Na Nuvemshop o porte é a
+     pasta do contrato dela (`../.nuvemshop-contrato.md`, §2.1 D: `sections/<selection>-<NN>.tpl`,
+     CSS, traduções); marcar o item não basta para o usuário ver, porque a plataforma só aparece no
+     `/gerador` com `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP=1` (desligada em produção até a fase 6).
    - `path`: do `manifest.id` do componente migrado (organism quando for bloco colocável, ex.: `"organisms/ProductDetails02"`) — **obrigatório p/ VTEX**; sem ele o `buildFaststoreConfigJson` descarta a entrada. Pode diferir do `component`.
    - `backgroundVars`: no **caminho A**, derive dos tokens de fundo herdados (`--background-footer`→`"footer"`, `--background-primary-color`→`"primary"`, `--background-secundary-color`→`"secondary"`, `--background-tertiary-color`→`"tertiary"`). No **caminho B** (fiel, sem herança), `[]`.
    - `image`/`imageSource`: **não preencha à mão.** Deixe `image: ""` e, depois de registrar,
