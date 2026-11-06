@@ -315,6 +315,127 @@ for (const plat of PLATAFORMAS) {
   await p.close();
 }
 
+// O modo LP na Nuvemshop (fase 7 do contrato dela): com a flag, uma LP feita
+// das seções de miolo da 09, na ordem da página e com uma cópia de cor própria,
+// exportada SOZINHA. A aba também tem loja, checkout e um `wakeToken` de outra
+// sessão: nada disso pode ir no config da LP. O config fica em
+// `config-Nuvemshop-lp.json`, que o `4-tema-nuvemshop` monta e o `5-contrato` lê.
+if (NUVEMSHOP_LIGADA) {
+  const LP_NOME = 'Black Friday Nuvem';
+  const LP_SLUG = 'black-friday-nuvem';
+  const miolo = [];
+  for (const [layoutKey, sec] of Object.entries(L))
+    for (const it of sec.items)
+      if (it.platforms.includes('Nuvemshop') && it.pagina.includes('home'))
+        miolo.push({ it, sel: { uid: `lp-${layoutKey}-${it.id}`, id: it.id, layoutKey, pagina: 'home' } });
+  // A cópia: o primeiro item com cor no schema entra duas vezes, cada uma com a
+  // sua cor. Na Nuvemshop cada instância tem os próprios settings (§2.1 C).
+  const comCor = miolo.find(m => m.it.variablesSchema?.some(v => v.type === 'color'));
+  if (comCor) {
+    const v = comCor.it.variablesSchema.find(x => x.type === 'color');
+    comCor.sel.variables = { [v.cssVar]: '#0e0f01' };
+    miolo.splice(miolo.indexOf(comCor) + 1, 0, {
+      it: comCor.it,
+      sel: { ...comCor.sel, uid: `${comCor.sel.uid}-copia`, variables: { [v.cssVar]: '#0e0f02' } },
+    });
+  }
+  const esperado = miolo.map(m => `${m.it.template}/${m.it.selection}`);
+  const p = await b.newPage();
+  const cdp = await p.createCDPSession();
+  await cdp.send('Page.setDownloadBehavior', { behavior: 'allow', downloadPath: DL_NUVEMSHOP });
+  p.on('dialog', async d => {
+    log(`   [dialog Nuvemshop-lp] ${d.message().slice(0, 90)}`);
+    await d.dismiss();
+  });
+  await p.goto(`${BASE_URL}/gerador`, { waitUntil: 'domcontentloaded', timeout: 90000 });
+  await p.evaluate(
+    (loja, lp) => {
+      localStorage.clear();
+      sessionStorage.clear();
+      sessionStorage.setItem('layoutPlatform', 'Nuvemshop');
+      sessionStorage.setItem('layoutSelections', loja);
+      sessionStorage.setItem('wakeToken', 'TOKEN-DE-TESTE');
+      sessionStorage.setItem('checkout', JSON.stringify({ model: 'Checkout01', variables: { '--checkout-accent': '#ffeb3b' }, etapa: 'carrinho' }));
+      sessionStorage.setItem('editorMode', 'lp');
+      sessionStorage.setItem('lp', lp);
+    },
+    JSON.stringify(coerenteFor('Nuvemshop')),
+    JSON.stringify({ nome: LP_NOME, selections: miolo.map(m => m.sel) })
+  );
+  await p.goto(`${BASE_URL}/gerador`, { waitUntil: 'domcontentloaded', timeout: 90000 });
+  await p.waitForSelector('.ed-shell', { timeout: 60000 });
+  const emLp = await p
+    .waitForFunction(() => document.querySelector('[data-editor-mode-lp]')?.getAttribute('aria-pressed') === 'true', {
+      timeout: 60000,
+      polling: 250,
+    })
+    .then(
+      () => true,
+      () => false
+    );
+  r.ok(
+    `Nuvemshop: o modo LP existe e a aba semeada abre nele (${miolo.length} seções de miolo da 09)`,
+    emLp && miolo.length > 0,
+    emLp ? 'nenhum item de miolo declara a Nuvemshop' : 'o rail não tem o alternador de LP pressionado — plataformaTemLp inclui a Nuvemshop com a flag?'
+  );
+  let cfg = null;
+  if (emLp) {
+    await p.evaluate(() => {
+      window.__cfg = null;
+      const orig = URL.createObjectURL.bind(URL);
+      URL.createObjectURL = bl => {
+        if (bl && bl.type === 'application/json') bl.text().then(t => (window.__cfg = JSON.parse(t)));
+        return orig(bl);
+      };
+    });
+    await p
+      .waitForFunction(
+        () => {
+          const x = [...document.querySelectorAll('button')].find(y => y.textContent.trim().startsWith('Baixar'));
+          return !!x && !x.disabled;
+        },
+        { timeout: 60000, polling: 250 }
+      )
+      .catch(() => {});
+    await p.evaluate(() => [...document.querySelectorAll('button')].find(x => x.textContent.trim().startsWith('Baixar'))?.click());
+    for (let i = 0; i < 40 && !cfg; i++) {
+      await s(3000);
+      cfg = await p.evaluate(() => window.__cfg).catch(() => null);
+    }
+  }
+  if (r.ok('Nuvemshop-lp: o "Baixar" do modo LP entrega o config', !!cfg)) {
+    writeFileSync(`${SAIDA}/config-Nuvemshop-lp.json`, JSON.stringify(cfg, null, 2));
+    const raiz = cfg.nuvemshop ?? {};
+    r.ok(
+      `Nuvemshop-lp: platform "nuvemshop", tipo "lp" e landingPage { slug: "${LP_SLUG}", nome }`,
+      cfg.platform === 'nuvemshop' && cfg.tipo === 'lp' && raiz.landingPage?.slug === LP_SLUG && raiz.landingPage?.nome === LP_NOME,
+      JSON.stringify({ platform: cfg.platform, tipo: cfg.tipo, landingPage: raiz.landingPage })
+    );
+    r.ok(
+      'Nuvemshop-lp: sem tema de loja no config (global/home/category/product/checkout)',
+      !['global', 'home', 'category', 'product', 'checkout'].some(k => k in raiz),
+      Object.keys(raiz).join(', ')
+    );
+    const veio = (raiz.landing ?? []).map(e => `${e.template}/${e.selection}`);
+    r.ok(
+      `Nuvemshop-lp: nuvemshop.landing traz as ${esperado.length} seções na ordem da página`,
+      JSON.stringify(veio) === JSON.stringify(esperado),
+      `veio: ${veio.join(', ')}`
+    );
+    if (comCor) {
+      const i = miolo.findIndex(m => m === comCor);
+      const [a, c] = [raiz.landing?.[i]?.variables, raiz.landing?.[i + 1]?.variables];
+      r.ok(
+        'Nuvemshop-lp: a cópia leva a própria cor (variável por cópia)',
+        Object.values(a ?? {})[0] === '#0e0f01' && Object.values(c ?? {})[0] === '#0e0f02',
+        JSON.stringify([a, c])
+      );
+    }
+    conferirNuvemshop(cfg, r);
+  }
+  await p.close();
+}
+
 // O seletor e a hidratação contra a flag, nos dois sentidos. Desligada (o
 // padrão, e o que vai para produção): uma aba que guardou `Nuvemshop` volta sem
 // plataforma e o seletor não a oferece. Ligada: volta com ela e o seletor a
