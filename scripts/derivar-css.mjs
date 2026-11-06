@@ -11,13 +11,18 @@
  * "Só na Wake") são preservados. Sem o global-templates ao lado, regera só o catálogo.
  *
  *   yarn derivar:css
+ *
+ * As duas origens são os irmãos `../faststore.starter` e `../global-templates`. Um
+ * checkout em outro lugar (um worktree, ou um clone na ponta do origin) entra por
+ * `DERIVAR_STARTER` e `DERIVAR_GLOBAL_TEMPLATES`, a raiz de cada repo.
  */
 import fs from 'node:fs';
 import * as sass from 'sass';
 import postcss from 'postcss';
 
-const STARTER = '../faststore.starter/src/components';
-const WAKE = '../global-templates/Wake';
+const STARTER = `${process.env.DERIVAR_STARTER || '../faststore.starter'}/src/components`;
+const GT = process.env.DERIVAR_GLOBAL_TEMPLATES || '../global-templates';
+const WAKE = `${GT}/Wake`;
 const T8 = 'src/components/templates/home/template_8';
 const W8 = `${WAKE}/Home/template_8`;
 const PECAS = [
@@ -195,8 +200,8 @@ for (const p of PECAS) {
 }
 
 /**
- * Portes declarados no global-templates: toda pasta de componente Tray/Wake que
- * nasceu de um componente do starter traz um `derivar.json`
+ * Portes declarados no global-templates: toda pasta de componente Tray/Wake/Nuvemshop
+ * que nasceu de um componente do starter traz um `derivar.json`
  *
  *   { "starter": "organisms/Header04", "raiz": "header04", "prefixo": "hd04",
  *     "destinos": ["common.scss"] }
@@ -204,8 +209,10 @@ for (const p of PECAS) {
  * (destinos relativos à própria pasta). Cada destino recebe o SCSS do starter
  * compilado com as classes prefixadas — a raiz vira `.<prefixo>`, o resto
  * `.<prefixo>-<classe>` — entre o cabeçalho do arquivo e o trecho "Só na
- * Tray"/"Só na Wake", que são preservados. É como a família 08 já era derivada,
- * sem precisar de uma linha em PECAS por porte.
+ * Tray"/"Só na Wake"/"Só na Nuvemshop", que são preservados. É como a família 08
+ * já era derivada, sem precisar de uma linha em PECAS por porte. Na Nuvemshop o
+ * destino é CSS puro (`css/<selection>-<NN>.css`, que o `theme-src/` do tema empacota),
+ * então o trecho "Só na Nuvemshop" também tem de ser CSS, sem aninhamento de SCSS.
  */
 /**
  * A parte gerada de um porte começa num marcador fixo e vai até o trecho "Só na
@@ -260,7 +267,8 @@ function acharDerivar(dir, achados = []) {
 let pulados = 0;
 for (const arq of [
   ...acharDerivar(WAKE),
-  ...acharDerivar('../global-templates/Tray'),
+  ...acharDerivar(`${GT}/Tray`),
+  ...acharDerivar(`${GT}/Nuvemshop`),
 ]) {
   const pasta = arq.slice(0, arq.lastIndexOf('/'));
   const d = JSON.parse(fs.readFileSync(arq, 'utf8'));
