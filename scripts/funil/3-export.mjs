@@ -323,10 +323,12 @@ for (const plat of PLATAFORMAS) {
 if (NUVEMSHOP_LIGADA) {
   const LP_NOME = 'Black Friday Nuvem';
   const LP_SLUG = 'black-friday-nuvem';
+  // Uma família só: um template comporta 25 seções, e cada família tem ~13 de miolo.
   const miolo = [];
+  let familiaDaLp = null;
   for (const [layoutKey, sec] of Object.entries(L))
     for (const it of sec.items)
-      if (it.platforms.includes('Nuvemshop') && it.pagina.includes('home'))
+      if (it.platforms.includes('Nuvemshop') && it.pagina.includes('home') && (familiaDaLp ??= it.template) === it.template)
         miolo.push({ it, sel: { uid: `lp-${layoutKey}-${it.id}`, id: it.id, layoutKey, pagina: 'home' } });
   // A cópia: o primeiro item com cor no schema entra duas vezes, cada uma com a
   // sua cor. Na Nuvemshop cada instância tem os próprios settings (§2.1 C).
@@ -374,7 +376,7 @@ if (NUVEMSHOP_LIGADA) {
       () => false
     );
   r.ok(
-    `Nuvemshop: o modo LP existe e a aba semeada abre nele (${miolo.length} seções de miolo da 09)`,
+    `Nuvemshop: o modo LP existe e a aba semeada abre nele (${miolo.length} seções de miolo da família ${familiaDaLp})`,
     emLp && miolo.length > 0,
     emLp ? 'nenhum item de miolo declara a Nuvemshop' : 'o rail não tem o alternador de LP pressionado — plataformaTemLp inclui a Nuvemshop com a flag?'
   );

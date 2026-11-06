@@ -592,7 +592,11 @@ if (familia) {
 // alternativo de página de conteúdo) com as seções na ordem, e NÃO toca no que
 // é da loja: tokens globais, home, as outras páginas e os grupos de layout.
 const EXPORTADO_LP = path.join(SAIDA, 'config-Nuvemshop-lp.json');
-const miolo = marcados.filter(i => i.pagina.includes('home'));
+// Uma família só (a primeira marcada): um template comporta 25 seções.
+const familiaDaLp = marcados.find(i => i.pagina.includes('home'))?.template;
+const miolo = marcados.filter(
+  i => i.pagina.includes('home') && i.template === familiaDaLp
+);
 /** Valor que o setting guarda: a família, quando o /gerador mandou a pilha. */
 const noSetting = v => String(v).match(/^\s*['"]([^'"]+)['"]/)?.[1] ?? v;
 if (
