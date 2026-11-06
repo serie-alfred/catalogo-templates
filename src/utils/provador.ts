@@ -26,6 +26,18 @@ export type VisualDoTemplate = {
 };
 
 export const VISUAL_DOS_TEMPLATES: Record<string, VisualDoTemplate> = {
+  '17': {
+    nome: 'Pet',
+    // Bricolage Grotesque 800 é a fonte de títulos da 17 e também a do site.
+    fonte: 'var(--f-display)',
+    peso: 800,
+    estilo: 'normal',
+    fundo: '#0a1f25',
+    acento: '#ffa24c',
+    textoNoAcento: '#0e2f38',
+    amostra: '#0e6b73',
+    textoNaAmostra: '#ffffff',
+  },
   '15': {
     nome: 'Luxo',
     fonte: 'var(--f-luxo)',

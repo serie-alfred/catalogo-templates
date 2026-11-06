@@ -32,7 +32,7 @@ const SEM_THUMB = '/images/home/spot/default-template-image.png';
 
 /** O provador vem antes da 01 (sem nome nem desenho) e da ordem do catálogo:
  *  abre com o Luxo, que veste o site mais diferente do resto. */
-const ORDEM_DO_LEQUE = ['15', '16', '14', '13', '12', '11', '10', '9'];
+const ORDEM_DO_LEQUE = ['15', '17', '16', '14', '13', '12', '11', '10', '9'];
 
 /**
  * Os templates completos (utils/vitrineTemplates.ts), já como o provador os
