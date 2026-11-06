@@ -1,0 +1,145 @@
+/* Espelha molecules/BannerGrid17 (faststore.starter, família 17): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.bannerGrid17Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.bannerGrid17 {
+  width: 100%;
+  background-color: var(--banner-grid-bg, #ffffff);
+  color: var(--banner-grid-text, var(--text-primary-color, #0e2f38));
+  font-family: var(--banner-grid-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.bannerGrid17 *,
+.bannerGrid17 *::before,
+.bannerGrid17 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.bannerGrid17 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.bannerGrid17 :where(a):focus-visible {
+  outline: 2px solid var(--banner-grid-accent, var(--background-primary-color, #0e6b73));
+  outline-offset: 3px;
+}
+.bannerGrid17 svg,
+.bannerGrid17 img {
+  display: block;
+  flex: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 48px clamp(16px, 3vw, 40px) 56px;
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  min-width: 0;
+}
+
+.card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 18px;
+  padding: 20px 20px 28px;
+  border-radius: 16px;
+  background-color: color-mix(in srgb, var(--banner-grid-accent, var(--background-primary-color, #0e6b73)) 9%, var(--banner-grid-bg, #ffffff));
+}
+.card:hover {
+  opacity: 0.9;
+}
+
+.art {
+  display: block;
+  height: 300px;
+  overflow: hidden;
+  border-radius: 56% 44% 52% 48%/48% 56% 44% 52%;
+  background-color: #c9d4d0;
+}
+.art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item:nth-child(3n+2) .art {
+  border-radius: 44% 56% 48% 52%/56% 44% 56% 44%;
+  background-color: #d9cebd;
+}
+
+.item:nth-child(3n+3) .art {
+  border-radius: 52% 48% 60% 40%/44% 52% 48% 56%;
+  background-color: #ccd2c4;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 8px;
+}
+
+.eyebrow {
+  color: var(--banner-grid-accent, var(--background-primary-color, #0e6b73));
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.title {
+  color: var(--banner-grid-title-color, var(--text-primary-color, #0e2f38));
+  font-family: var(--banner-grid-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--banner-grid-accent, var(--background-primary-color, #0e6b73));
+  font-size: 15px;
+  font-weight: 700;
+}
+
+@container (max-width: 960px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    padding: 28px 16px 32px;
+  }
+  .card {
+    gap: 14px;
+    padding: 14px 14px 20px;
+  }
+  .art {
+    height: 180px;
+  }
+  .copy {
+    padding: 0 4px;
+  }
+  .title {
+    font-size: 24px;
+  }
+}
+
+.bannerGrid17Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

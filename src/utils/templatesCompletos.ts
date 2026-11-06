@@ -49,6 +49,7 @@ const NOMES: Record<string, string> = {
   '14': 'Esportiva',
   '15': 'Luxo',
   '16': 'Infantil',
+  '17': 'Pet',
 };
 
 /**
@@ -236,6 +237,21 @@ export const TEMA_DAS_FAMILIAS: Record<string, TemaDaFamilia> = {
       fontPrimary: 'Fredoka',
       fontSecondary: 'Nunito',
       fontTertiary: 'Nunito',
+    },
+  },
+  '17': {
+    colors: {
+      colorFooter: '#0e2f38', // --background-footer: #0E2F38×3 [só papéis de fundo: #0E2F38×3]
+      colorFooterText: '#ffffff', // --text-color-footer: #FFFFFF×3
+      colorPrimary: '#0e2f38', // --text-primary-color: #0E2F38×28
+      colorPrimaryBackground: '#0e6b73', // --background-primary-color: #0E6B73×23 [só papéis de fundo: #0E6B73×7]
+      colorSecondaryBackground: '#0e6b73', // --background-secundary-color: #FFA24C×1 #0E6B73×1 [só papéis de fundo: #0E6B73×1]
+      colorTertiaryBackground: '#ffa24c', // --background-tertiary-color: #FFA24C×8 [só papéis de fundo: #FFA24C×4]
+    },
+    fonts: {
+      fontPrimary: 'Bricolage Grotesque',
+      fontSecondary: 'DM Sans',
+      fontTertiary: 'DM Sans',
     },
   },
 };
@@ -558,6 +574,47 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     },
     Countdown16: {
       '--countdown-accent-text': '#2a2350',
+    },
+  },
+  '17': {
+    Header17: {
+      '--header-text': '#0e2f38',
+    },
+    Spot17: {
+      '--spot-tag-text': '#0e2f38',
+    },
+    Footer17: {
+      '--footer-bg': '#0e2f38',
+      '--footer-accent': '#ffa24c',
+    },
+    BannerMain17: {
+      '--banner-main-text': '#0e2f38',
+    },
+    ShelfBanner17: {
+      '--showcase-text': '#0e2f38',
+      '--showcase-tag-bg': '#ffa24c',
+    },
+    Showcase17: {
+      '--showcase-text': '#0e2f38',
+      '--showcase-tag-bg': '#ffa24c',
+    },
+    PopupNews17: {
+      '--popup-text': '#0e2f38',
+    },
+    Newsletter17: {
+      '--newsletter-button-text': '#0e2f38',
+    },
+    CategoryMain17: {
+      '--cat-main-text': '#0e2f38',
+    },
+    ProductInfo17: {
+      '--pdp-text': '#0e2f38',
+    },
+    ProductRelated17: {
+      '--showcase-text': '#0e2f38',
+    },
+    Countdown17: {
+      '--countdown-accent-text': '#0e2f38',
     },
   },
 };

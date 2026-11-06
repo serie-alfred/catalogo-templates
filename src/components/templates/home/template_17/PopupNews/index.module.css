@@ -1,0 +1,273 @@
+/* Espelha organisms/PopupNews17 (faststore.starter, família 17): o SCSS compilado com o sass,
+   com o @media mantido (overlay fixo na viewport).
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.popupNews17 {
+  position: fixed;
+  inset: 0;
+  z-index: 2500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  color: var(--popup-text, var(--text-primary-color, #0e2f38));
+  font-family: var(--popup-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.popupNews17 *,
+.popupNews17 *::before,
+.popupNews17 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.popupNews17 :where(h2, p) {
+  margin: 0;
+  color: inherit;
+}
+.popupNews17 :where(a) {
+  color: inherit;
+}
+.popupNews17 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.popupNews17 :where(a, button, input):focus-visible {
+  outline: 2px solid var(--popup-button-bg, var(--background-primary-color, #0e6b73));
+  outline-offset: 2px;
+}
+.popupNews17 img,
+.popupNews17 svg {
+  display: block;
+  flex: none;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #0e2f38)) 58%, transparent);
+}
+
+.dialog {
+  position: relative;
+  display: flex;
+  width: 840px;
+  max-width: 100%;
+  min-height: 520px;
+  max-height: calc(100vh - 48px);
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: var(--popup-bg, #ffffff);
+  outline: none;
+}
+.media {
+  position: relative;
+  display: flex;
+  flex: 0 0 340px;
+  align-items: center;
+  justify-content: center;
+  background-color: color-mix(in srgb, var(--popup-button-bg, var(--background-primary-color, #0e6b73)) 9%, var(--popup-bg, #ffffff));
+}
+.media picture,
+.media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder {
+  width: 260px;
+  height: 300px;
+  border-radius: 56% 44% 52% 48%/48% 56% 44% 52%;
+  background-color: #cbd5d1;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px !important;
+  background-color: color-mix(in srgb, var(--popup-button-bg, var(--background-primary-color, #0e6b73)) 9%, var(--popup-bg, #ffffff)) !important;
+}
+.close:hover {
+  opacity: 0.85;
+}
+.side {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 48px 44px 32px;
+  overflow-y: auto;
+}
+
+.eyebrow {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background-color: var(--popup-accent, var(--background-tertiary-color, #ffa24c));
+  color: var(--popup-text, var(--text-tertiary-color, #0e2f38));
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.title {
+  padding-right: 36px;
+  font-family: var(--popup-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.text {
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #0e2f38)) 72%, var(--popup-bg, #ffffff));
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.input {
+  width: 100%;
+  height: 48px;
+  margin: 0;
+  padding: 0 18px;
+  border: 1.5px solid color-mix(in srgb, var(--popup-text, var(--text-primary-color, #0e2f38)) 55%, var(--popup-bg, #ffffff));
+  border-radius: 999px;
+  outline: none;
+  background-color: var(--popup-bg, #ffffff);
+  color: var(--popup-text, var(--text-primary-color, #0e2f38));
+  font-family: var(--popup-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif));
+  font-size: 16px;
+  appearance: none;
+}
+.input::placeholder {
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #0e2f38)) 72%, transparent);
+  opacity: 1;
+}
+.input:focus {
+  border-color: var(--popup-button-bg, var(--background-primary-color, #0e6b73));
+}
+
+.submit {
+  height: 52px;
+  margin-top: 4px !important;
+  border-radius: 999px !important;
+  background-color: var(--popup-button-bg, var(--background-primary-color, #0e6b73)) !important;
+  color: var(--popup-button-text, var(--text-color-base, #ffffff)) !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+}
+.submit:hover {
+  opacity: 0.9;
+}
+.submit:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.feedback {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.privacy {
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #0e2f38)) 72%, var(--popup-bg, #ffffff));
+  font-size: 12px;
+  line-height: 1.45;
+}
+.privacy a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.dismiss {
+  align-self: center;
+  min-height: 44px;
+  padding: 0 12px !important;
+  color: color-mix(in srgb, var(--popup-text, var(--text-primary-color, #0e2f38)) 72%, var(--popup-bg, #ffffff)) !important;
+  font-size: 14px !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 960px) {
+  .popupNews17 {
+    align-items: flex-end;
+    padding: 0;
+  }
+  .dialog {
+    flex-direction: column;
+    width: 100%;
+    min-height: 0;
+    max-height: 100%;
+    border-radius: 16px 16px 0 0;
+  }
+  .media {
+    flex: 0 0 150px;
+  }
+  .placeholder {
+    width: 190px;
+    height: 124px;
+  }
+  .close {
+    right: 10px;
+    background-color: var(--popup-bg, #ffffff) !important;
+  }
+  .side {
+    gap: 10px;
+    padding: 22px 16px 16px;
+  }
+  .title {
+    padding-right: 0;
+    font-size: 28px;
+    line-height: 1.08;
+  }
+  .text {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .form {
+    gap: 10px;
+    margin-top: 0;
+  }
+  .input {
+    padding: 0 16px;
+  }
+}
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

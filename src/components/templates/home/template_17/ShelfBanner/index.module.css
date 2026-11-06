@@ -1,0 +1,408 @@
+/* Espelha molecules/ProductShelf17 (faststore.starter, família 17): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.productShelf17Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.productShelf17 {
+  width: 100%;
+  background-color: var(--showcase-bg, #ffffff);
+  color: var(--showcase-text, var(--text-primary-color, #0e2f38));
+  font-family: var(--showcase-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.productShelf17 *,
+.productShelf17 *::before,
+.productShelf17 *::after {
+  box-sizing: border-box;
+}
+.productShelf17 :where(.head) :where(h2, p) {
+  margin: 0;
+}
+.productShelf17 :where(.head a, .banner) {
+  color: inherit;
+  text-decoration: none;
+}
+.productShelf17 :where(.arrow) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.productShelf17 :where(.rail) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.productShelf17 :where(.head svg, .banner svg, .banner img) {
+  display: block;
+  flex: none;
+}
+.productShelf17 [data-role=spot] {
+  height: 100%;
+  background-color: color-mix(in srgb, var(--showcase-accent, var(--background-primary-color, #0e6b73)) 9%, var(--showcase-bg, #ffffff));
+  color: var(--showcase-text, var(--text-primary-color, #0e2f38));
+}
+.productShelf17 [data-role=spot] > :nth-child(2) {
+  flex: 1;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  align-items: baseline;
+  column-gap: 8px;
+}
+.productShelf17 [data-role=spot] > :nth-child(2) > * {
+  flex: 0 0 100%;
+}
+.productShelf17 [data-role=spot] > :nth-child(2) > [data-role=spot-list-price],
+.productShelf17 [data-role=spot] > :nth-child(2) > [data-role=spot-price] {
+  flex: 0 0 auto;
+  margin-top: 4px;
+}
+.productShelf17 [data-role=spot] h3 {
+  display: -webkit-box;
+  min-height: 2.7em;
+  overflow: hidden;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.productShelf17 [data-role=spot-tags] {
+  top: 8px;
+  left: 8px;
+}
+.productShelf17 [data-role=spot-discount],
+.productShelf17 [data-role=spot-tag] {
+  background-color: var(--showcase-tag-bg, var(--spot-tag-bg, var(--background-tertiary-color, #ffa24c)));
+  color: var(--showcase-text, var(--spot-tag-text, var(--text-tertiary-color, #0e2f38)));
+}
+.productShelf17 [data-role=spot-brand],
+.productShelf17 [data-role=spot-list-price],
+.productShelf17 [data-role=spot-pix],
+.productShelf17 [data-role=spot-rating-count] {
+  color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0e2f38)) 72%, var(--showcase-bg, #ffffff));
+}
+.productShelf17 [data-role=spot-rating] {
+  color: var(--showcase-accent, var(--background-primary-color, #0e6b73));
+}
+.productShelf17 [data-role=spot-rating] svg {
+  width: 13px;
+  height: 13px;
+}
+.productShelf17 [data-role=spot-price] {
+  color: var(--showcase-text, var(--text-primary-color, #0e2f38));
+  font-size: 22px;
+  line-height: 1.15;
+}
+.productShelf17 [data-role=spot-buy] {
+  border-color: var(--showcase-accent, var(--background-primary-color, #0e6b73)) !important;
+  color: var(--showcase-accent, var(--background-primary-color, #0e6b73));
+}
+.productShelf17 .rail [data-role=spot]:hover [data-role=spot-buy],
+.productShelf17 .rail [data-role=spot]:focus-within [data-role=spot-buy] {
+  background-color: var(--showcase-accent, var(--background-primary-color, #0e6b73));
+  color: var(--showcase-bg, #ffffff);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 56px clamp(16px, 3vw, 40px) 64px;
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.variantBanner .head {
+  flex-wrap: nowrap;
+}
+
+.headCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.title {
+  color: var(--showcase-title-color, var(--text-primary-color, #0e2f38));
+  font-family: var(--showcase-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.variantBanner .title {
+  color: var(--showcase-text, var(--text-primary-color, #0e2f38));
+}
+
+.subtitle {
+  color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0e2f38)) 72%, var(--showcase-bg, #ffffff));
+  font-size: 16px;
+}
+
+.tools {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.viewAll {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 8px;
+  color: var(--showcase-accent, var(--background-primary-color, #0e6b73));
+  font-size: 15px;
+  font-weight: 700;
+}
+.head .viewAll:hover {
+  opacity: 0.88;
+}
+.viewAll:focus-visible {
+  outline: 2px solid var(--showcase-accent, var(--background-primary-color, #0e6b73));
+  outline-offset: 3px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0e2f38)) 14%, var(--showcase-bg, #ffffff));
+  border-radius: 999px;
+}
+.arrow:disabled {
+  cursor: default;
+}
+.arrow:focus-visible {
+  outline: 2px solid var(--showcase-accent, var(--background-primary-color, #0e6b73));
+  outline-offset: 3px;
+}
+
+.arrowNext {
+  border: 0;
+  background-color: var(--showcase-accent, var(--background-primary-color, #0e6b73));
+  color: var(--showcase-bg, #ffffff);
+}
+
+.body {
+  display: flex;
+  gap: 20px;
+}
+
+.rail {
+  position: relative;
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  min-width: 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.slide {
+  display: flex;
+  flex: 0 0 calc((100% - 60px) / 4);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.slide > * {
+  flex: 1;
+}
+
+.variantBanner .slide {
+  flex-basis: calc((100% - 40px) / 3);
+}
+
+@container (min-width: 961px) and (max-width: 1199px) {
+  .slide {
+    flex-basis: calc((100% - 40px) / 3);
+  }
+  .variantBanner .slide {
+    flex-basis: calc((100% - 20px) / 2);
+  }
+}
+.banner {
+  position: relative;
+  display: flex;
+  flex: 0 0 calc((100% - 60px) * 1.25 / 4.25);
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  overflow: hidden;
+  padding: 28px 28px 32px;
+  border-radius: 16px;
+  background-color: var(--banner-side-bg, var(--background-footer, #0e2f38));
+  color: var(--banner-side-text, var(--text-color-footer, #ffffff));
+}
+.banner:hover {
+  opacity: 0.94;
+}
+.banner:focus-visible {
+  outline: 2px solid var(--showcase-accent, var(--background-primary-color, #0e6b73));
+  outline-offset: 3px;
+}
+
+.bannerArt {
+  display: block;
+  height: 260px;
+  overflow: hidden;
+  border-radius: 60% 40% 46% 54%/52% 46% 54% 48%;
+  background-color: #3c5a61;
+}
+.bannerArt img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bannerEyebrow {
+  color: color-mix(in srgb, var(--banner-side-text, var(--text-color-footer, #ffffff)) 80%, var(--banner-side-bg, var(--background-footer, #0e2f38)));
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.bannerTitle {
+  font-family: var(--showcase-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+.bannerText {
+  color: color-mix(in srgb, var(--banner-side-text, var(--text-color-footer, #ffffff)) 80%, var(--banner-side-bg, var(--background-footer, #0e2f38)));
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.bannerCta {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  height: 48px;
+  margin-top: auto;
+  padding: 0 22px;
+  border-radius: 999px;
+  background-color: var(--banner-side-text, var(--text-color-footer, #ffffff));
+  color: var(--banner-side-bg, var(--background-footer, #0e2f38));
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.dots {
+  display: none;
+  justify-content: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0e2f38)) 14%, var(--showcase-bg, #ffffff));
+}
+
+.dotOn {
+  width: 24px;
+  background-color: var(--showcase-accent, var(--background-primary-color, #0e6b73));
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 18px;
+    padding: 36px 0 32px;
+  }
+  .head {
+    flex-wrap: nowrap;
+    gap: 12px;
+    padding: 0 16px;
+  }
+  .title {
+    font-size: 28px;
+    line-height: 1.08;
+  }
+  .subtitle,
+  .arrow {
+    display: none;
+  }
+  .viewAll {
+    padding: 0;
+    font-size: 14px;
+  }
+  .body {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .rail {
+    gap: 12px;
+    padding: 0 16px;
+    scroll-padding: 0 16px;
+  }
+  .slide,
+  .variantBanner .slide {
+    flex: 0 0 164px;
+  }
+  .banner {
+    flex: none;
+    margin: 0 16px;
+    padding: 20px 18px 22px;
+  }
+  .bannerArt {
+    height: 190px;
+  }
+  .bannerTitle {
+    font-size: 26px;
+  }
+  .bannerText {
+    font-size: 14px;
+  }
+  .bannerCta {
+    margin-top: 4px;
+  }
+  .dots {
+    display: flex;
+  }
+  .productShelf17 [data-role=spot] > :nth-child(2) > [data-role=spot-list-price],
+  .productShelf17 [data-role=spot] > :nth-child(2) > [data-role=spot-price] {
+    margin-top: 2px;
+  }
+  .productShelf17 [data-role=spot] > :nth-child(2) > [data-role=spot-list-price] + [data-role=spot-price] {
+    margin-top: -3px;
+  }
+  .productShelf17 [data-role=spot-price] {
+    font-size: 20px;
+  }
+  .productShelf17 [data-role=spot-buy] {
+    background-color: var(--showcase-accent, var(--background-primary-color, #0e6b73));
+    color: var(--showcase-bg, #ffffff);
+  }
+}
+
+.productShelf17Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

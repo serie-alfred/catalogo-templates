@@ -1,0 +1,256 @@
+/* Espelha organisms/CategorySeoFaq17 (faststore.starter, família 17): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.categorySeoFaq17Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.categorySeoFaq17 {
+  width: 100%;
+  background-color: var(--cat-desc-bg, #ffffff);
+  color: var(--cat-desc-text, var(--text-primary-color, #0e2f38));
+  font-family: var(--cat-desc-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.categorySeoFaq17 *,
+.categorySeoFaq17 *::before,
+.categorySeoFaq17 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.categorySeoFaq17 :where(h2, h3, p) {
+  margin: 0;
+}
+.categorySeoFaq17 :where(a) {
+  color: inherit;
+}
+.categorySeoFaq17 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.categorySeoFaq17 svg {
+  display: block;
+  flex: none;
+}
+
+.box {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 48px 64px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 64px clamp(16px, 3vw, 40px);
+}
+
+.about {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--cat-desc-accent, var(--background-primary-color, #0e6b73));
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.aboutTitle {
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
+  font-size: 40px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #0e2f38)) 74%, var(--cat-desc-bg, #ffffff));
+  font-size: 16px;
+  line-height: 1.65;
+}
+.text > * {
+  margin: 0;
+}
+.text :where(a) {
+  color: var(--cat-desc-accent, var(--background-primary-color, #0e6b73));
+  font-weight: 700;
+}
+.text :where(ul, ol) {
+  padding-left: 1.2em;
+}
+
+.textClamped > :nth-child(n+3) {
+  display: none;
+}
+
+.more {
+  display: flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--cat-desc-accent, var(--background-primary-color, #0e6b73));
+  font-size: 15px;
+  font-weight: 700;
+}
+.more:hover {
+  opacity: 0.88;
+}
+.more:focus-visible {
+  outline: 2px solid var(--cat-desc-accent, var(--background-primary-color, #0e6b73));
+  outline-offset: 2px;
+}
+
+.faq {
+  min-width: 0;
+  padding: 8px 28px 16px;
+  border-radius: 16px;
+  background-color: color-mix(in srgb, var(--cat-desc-accent, var(--background-primary-color, #0e6b73)) 9%, var(--cat-desc-bg, #ffffff));
+}
+
+.faqTitle {
+  padding: 20px 0 8px;
+  font-family: var(--cat-desc-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.faqList {
+  display: flex;
+  flex-direction: column;
+}
+
+.faqItem {
+  border-bottom: 1px solid color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #0e2f38)) 14%, var(--cat-desc-bg, #ffffff));
+}
+
+.faqHeading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  min-height: 60px;
+  font-size: 16px;
+  font-weight: 700;
+  text-align: left;
+}
+.question:focus-visible {
+  outline: 2px solid var(--cat-desc-accent, var(--background-primary-color, #0e6b73));
+  outline-offset: 2px;
+}
+
+.sign {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  background-color: var(--cat-desc-bg, #ffffff);
+}
+.faqOpen .sign {
+  background-color: var(--cat-desc-accent, var(--background-primary-color, #0e6b73));
+  color: var(--text-color-base, #ffffff);
+}
+
+.answer {
+  padding: 0 48px 18px 0;
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #0e2f38)) 74%, var(--cat-desc-bg, #ffffff));
+  font-size: 15px;
+  line-height: 1.6;
+}
+.answer > * {
+  margin: 0;
+}
+.answer > * + * {
+  margin-top: 10px;
+}
+
+.faqHtml {
+  padding-bottom: 8px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@container (min-width: 961px) {
+  .moreNoDesk {
+    display: none;
+  }
+}
+@container (max-width: 960px) {
+  .box {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 28px;
+    padding: 40px 16px;
+  }
+  .about {
+    gap: 14px;
+  }
+  .eyebrow {
+    font-size: 13px;
+  }
+  .eyebrow svg {
+    width: 16px;
+    height: 16px;
+  }
+  .aboutTitle {
+    font-size: 28px;
+    line-height: 1.1;
+  }
+  .text {
+    gap: 14px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .textClamped > :nth-child(n+2) {
+    display: none;
+  }
+  .moreNoMob {
+    display: none;
+  }
+  .faq {
+    padding: 4px 16px 12px;
+  }
+  .faqTitle {
+    padding: 16px 0 6px;
+    font-size: 20px;
+  }
+  .question {
+    min-height: 56px;
+    font-size: 15px;
+  }
+  .answer {
+    font-size: 14px;
+  }
+}
+
+.categorySeoFaq17Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

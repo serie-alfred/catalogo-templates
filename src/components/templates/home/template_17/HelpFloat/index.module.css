@@ -1,0 +1,223 @@
+/* Espelha organisms/HelpFloatButton17 (faststore.starter, família 17): o SCSS compilado com o sass,
+   com o @media mantido (overlay fixo na viewport).
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.helpFloatButton17 {
+  color: var(--help-text, var(--text-primary-color, #0e2f38));
+  font-family: var(--help-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif));
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.helpFloatButton17 *,
+.helpFloatButton17 *::before,
+.helpFloatButton17 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.helpFloatButton17 :where(h2) {
+  margin: 0;
+  color: inherit;
+}
+.helpFloatButton17 :where(ul) {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.helpFloatButton17 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.helpFloatButton17 :where(button) {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.helpFloatButton17 :where(a, button):focus-visible {
+  outline: 2px solid var(--help-header-bg, var(--background-primary-color, #0e6b73));
+  outline-offset: 2px;
+}
+.helpFloatButton17 svg {
+  display: block;
+  flex: none;
+}
+
+.veil {
+  display: none;
+}
+.toggle {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1500;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 999px !important;
+  background-color: var(--help-header-bg, var(--background-primary-color, #0e6b73)) !important;
+  box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--help-text, var(--text-primary-color, #0e2f38)) 50%, transparent);
+  color: var(--help-header-text, var(--text-color-base, #ffffff)) !important;
+  transition: transform 0.15s ease;
+}
+.toggle:hover {
+  transform: translateY(-2px);
+}
+.panel {
+  position: fixed;
+  right: 24px;
+  bottom: 104px;
+  z-index: 1500;
+  width: 344px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 128px);
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-radius: 16px;
+  background-color: var(--help-bg, #ffffff);
+  box-shadow: 0 18px 40px -16px color-mix(in srgb, var(--help-text, var(--text-primary-color, #0e2f38)) 50%, transparent);
+}
+
+.head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 14px 18px 22px;
+  background-color: var(--help-header-bg, var(--background-primary-color, #0e6b73));
+  color: var(--help-header-text, var(--text-color-base, #ffffff));
+}
+
+.headText {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-family: var(--help-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.schedule {
+  font-size: 13px;
+}
+
+.close {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+}
+.close:hover {
+  opacity: 0.85;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px !important;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 52px;
+  padding: 0 12px;
+  border-radius: 12px;
+}
+
+a.item:hover {
+  background-color: color-mix(in srgb, var(--help-header-bg, var(--background-primary-color, #0e6b73)) 9%, var(--help-bg, #ffffff));
+}
+
+.itemIcon {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--help-header-bg, var(--background-primary-color, #0e6b73)) 9%, var(--help-bg, #ffffff));
+}
+
+.label {
+  flex: 1;
+}
+
+.foot {
+  padding: 4px 16px 16px;
+}
+
+.cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: content-box !important;
+  height: 48px;
+  border: 1.5px solid var(--help-header-bg, var(--background-primary-color, #0e6b73));
+  border-radius: 999px;
+  color: var(--help-header-bg, var(--background-primary-color, #0e6b73));
+  font-size: 15px;
+  font-weight: 700;
+}
+.cta:hover {
+  background-color: color-mix(in srgb, var(--help-header-bg, var(--background-primary-color, #0e6b73)) 9%, var(--help-bg, #ffffff));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle {
+    transition: none;
+  }
+  .toggle:hover {
+    transform: none;
+  }
+}
+@media (max-width: 960px) {
+  .open .veil {
+    position: fixed;
+    inset: 0;
+    z-index: 1499;
+    display: block;
+    background-color: color-mix(in srgb, var(--help-text, var(--text-primary-color, #0e2f38)) 45%, transparent);
+  }
+  .toggle {
+    right: 16px;
+    bottom: 16px;
+    width: 60px;
+    height: 60px;
+  }
+  .panel {
+    right: 16px;
+    bottom: 92px;
+    left: 16px;
+    width: auto;
+    max-width: none;
+  }
+  .head {
+    padding: 18px 10px 16px 18px;
+  }
+  .title {
+    font-size: 22px;
+  }
+}
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

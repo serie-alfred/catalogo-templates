@@ -1,0 +1,162 @@
+/* Espelha molecules/BenefitsStrip17 (faststore.starter, família 17): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.benefitsStrip17Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.benefitsStrip17 {
+  width: 100%;
+  border-bottom: 1px solid color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #0e2f38)) 12%, var(--ruler-bg, #ffffff));
+  background-color: var(--ruler-bg, #ffffff);
+  color: var(--ruler-text, var(--text-primary-color, #0e2f38));
+  font-family: var(--ruler-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.benefitsStrip17 *,
+.benefitsStrip17 *::before,
+.benefitsStrip17 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.benefitsStrip17 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.benefitsStrip17 :where(a):hover {
+  opacity: 0.9;
+}
+.benefitsStrip17 :where(a):focus-visible {
+  outline: 2px solid var(--ruler-icon, var(--background-primary-color, #0e6b73));
+  outline-offset: 3px;
+}
+.benefitsStrip17 svg {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  max-width: 1280px;
+  min-height: 112px;
+  margin: 0 auto;
+  padding: 24px clamp(16px, 3vw, 40px);
+}
+
+.paw {
+  width: 26px;
+  height: 26px;
+  color: var(--ruler-icon, var(--background-primary-color, #0e6b73));
+}
+
+.list {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  min-width: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.badge {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background-color: color-mix(in srgb, var(--ruler-icon, var(--background-primary-color, #0e6b73)) 9%, var(--ruler-bg, #ffffff));
+  color: var(--ruler-icon, var(--background-primary-color, #0e6b73));
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+}
+
+.copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.title {
+  font-family: var(--ruler-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.text {
+  color: color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #0e2f38)) 72%, var(--ruler-bg, #ffffff));
+  font-size: 13px;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 20px;
+    height: 76px;
+    min-height: 0;
+    padding: 0 16px;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+  }
+  .inner::-webkit-scrollbar {
+    display: none;
+  }
+  .paw {
+    width: 22px;
+    height: 22px;
+  }
+  .list {
+    display: flex;
+    flex: none;
+    gap: 20px;
+  }
+  .item {
+    flex: none;
+  }
+  .row {
+    gap: 10px;
+  }
+  .badge {
+    width: 40px;
+    height: 40px;
+  }
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+  .title {
+    font-size: 15px;
+  }
+  .text {
+    display: none;
+  }
+}
+
+.benefitsStrip17Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */

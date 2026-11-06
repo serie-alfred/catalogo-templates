@@ -9,43 +9,43 @@ em `src/data/layoutData.ts`. O campo `imageSource` diz de onde ela veio.
 | | itens | o que é |
 |---|---|---|
 | `design` | 56 | mockup entregue pelo designer (pasta *Banners E-temas*) |
-| `auto` | 188 | screenshot do componente real — **pendente de arte do designer** |
+| `auto` | 260 | screenshot do componente real — **pendente de arte do designer** |
 | sem imagem | 0 | cai no placeholder |
 
 ## Pendente do designer
 
 Estes têm thumb automática. É a lista do que falta chegar do design:
 
-- **Header** — Header04, Header06, Header07, Header08, Header09, Header10, Header11, Header12, Header13, Header14, Header15, Header16
-- **Card de Produto** — Spot02, Spot03, Spot04, Spot05, Spot07, Spot09, Spot10, Spot11, Spot12, Spot13, Spot14, Spot15, Spot16
-- **Breadcrumb** — Breadcrumb02, Breadcrumb09, Breadcrumb10, Breadcrumb11, Breadcrumb12, Breadcrumb13, Breadcrumb14, Breadcrumb15, Breadcrumb16
-- **Footer** — Footer04, Footer06, Footer07, Footer08, Footer09, Footer10, Footer11, Footer12, Footer13, Footer14, Footer15, Footer16
-- **Marcas** — Brand09, Brand10, Brand11, Brand12, Brand13, Brand14, Brand15, Brand16
+- **Header** — Header04, Header06, Header07, Header08, Header09, Header10, Header11, Header12, Header13, Header14, Header15, Header16, Header17
+- **Card de Produto** — Spot02, Spot03, Spot04, Spot05, Spot07, Spot09, Spot10, Spot11, Spot12, Spot13, Spot14, Spot15, Spot16, Spot17
+- **Breadcrumb** — Breadcrumb02, Breadcrumb09, Breadcrumb10, Breadcrumb11, Breadcrumb12, Breadcrumb13, Breadcrumb14, Breadcrumb15, Breadcrumb16, Breadcrumb17
+- **Footer** — Footer04, Footer06, Footer07, Footer08, Footer09, Footer10, Footer11, Footer12, Footer13, Footer14, Footer15, Footer16, Footer17
+- **Marcas** — Brand09, Brand10, Brand11, Brand12, Brand13, Brand14, Brand15, Brand16, Brand17
 - **Área de Texto** — TextArea
-- **Carrossel de Categorias** — Categories07, Categories08, Categories09, Categories10, Categories11, Categories12, Categories13, Categories14, Categories15, Categories16
-- **Banners** — BannerMain07, BannerMain08, BannerMain09, BannerMain10, BannerMain11, BannerMain12, BannerMain13, BannerMain14, BannerMain15, BannerMain16
-- **Regua de benefícios** — Ruler08, Ruler09, Ruler10, Ruler11, Ruler12, Ruler13, Ruler14, Ruler15, Ruler16
-- **Grid de banners** — BannerGrid06, BannerGrid09, BannerGrid10, BannerGrid11, BannerGrid12, BannerGrid13, BannerGrid14, BannerGrid15, BannerGrid16
-- **Banner Side** — ShelfBanner08, ShelfBanner09, ShelfBanner10, ShelfBanner11, ShelfBanner12, ShelfBanner13, ShelfBanner14, ShelfBanner15, ShelfBanner16
-- **Vitrines** — Showcase03, Showcase04, Showcase06, Showcase08, Showcase09, Showcase10, Showcase11, Showcase12, Showcase13, Showcase14, Showcase15, Showcase16
+- **Carrossel de Categorias** — Categories07, Categories08, Categories09, Categories10, Categories11, Categories12, Categories13, Categories14, Categories15, Categories16, Categories17
+- **Banners** — BannerMain07, BannerMain08, BannerMain09, BannerMain10, BannerMain11, BannerMain12, BannerMain13, BannerMain14, BannerMain15, BannerMain16, BannerMain17
+- **Regua de benefícios** — Ruler08, Ruler09, Ruler10, Ruler11, Ruler12, Ruler13, Ruler14, Ruler15, Ruler16, Ruler17
+- **Grid de banners** — BannerGrid06, BannerGrid09, BannerGrid10, BannerGrid11, BannerGrid12, BannerGrid13, BannerGrid14, BannerGrid15, BannerGrid16, BannerGrid17
+- **Banner Side** — ShelfBanner08, ShelfBanner09, ShelfBanner10, ShelfBanner11, ShelfBanner12, ShelfBanner13, ShelfBanner14, ShelfBanner15, ShelfBanner16, ShelfBanner17
+- **Vitrines** — Showcase03, Showcase04, Showcase06, Showcase08, Showcase09, Showcase10, Showcase11, Showcase12, Showcase13, Showcase14, Showcase15, Showcase16, Showcase17
 - **Banner Triplo** — CategoryTriple06
 - **Banner com texto** — BannerSoloLeft07
 - **Abas de categoria** — CategoryTabs06
-- **Título da categoria** — CategoryTitle09, CategoryTitle10, CategoryTitle11, CategoryTitle12, CategoryTitle13, CategoryTitle14, CategoryTitle15, CategoryTitle16
-- **Ajuda flutuante** — HelpFloat06, HelpFloat09, HelpFloat10, HelpFloat11, HelpFloat12, HelpFloat13, HelpFloat14, HelpFloat15, HelpFloat16
-- **Pop-up de newsletter** — PopupNews06, PopupNews09, PopupNews10, PopupNews11, PopupNews12, PopupNews13, PopupNews14, PopupNews15, PopupNews16
+- **Título da categoria** — CategoryTitle09, CategoryTitle10, CategoryTitle11, CategoryTitle12, CategoryTitle13, CategoryTitle14, CategoryTitle15, CategoryTitle16, CategoryTitle17
+- **Ajuda flutuante** — HelpFloat06, HelpFloat09, HelpFloat10, HelpFloat11, HelpFloat12, HelpFloat13, HelpFloat14, HelpFloat15, HelpFloat16, HelpFloat17
+- **Pop-up de newsletter** — PopupNews06, PopupNews09, PopupNews10, PopupNews11, PopupNews12, PopupNews13, PopupNews14, PopupNews15, PopupNews16, PopupNews17
 - **Compre por tamanho** — BuySize06
-- **Newsletter** — Newsletter07, Newsletter08, Newsletter09, Newsletter10, Newsletter11, Newsletter12, Newsletter13, Newsletter14, Newsletter15, Newsletter16
+- **Newsletter** — Newsletter07, Newsletter08, Newsletter09, Newsletter10, Newsletter11, Newsletter12, Newsletter13, Newsletter14, Newsletter15, Newsletter16, Newsletter17
 - **Ambientes** — ShopByRoom07
-- **Depoimentos** — ClientReview06, ClientReview07, ClientReview09, ClientReview10, ClientReview11, ClientReview12, ClientReview13, ClientReview14, ClientReview15, ClientReview16
-- **Grade de produtos** — CategoryMain02, CategoryMain06, CategoryMain07, CategoryMain09, CategoryMain10, CategoryMain11, CategoryMain12, CategoryMain13, CategoryMain14, CategoryMain15, CategoryMain16
-- **Descrição de categoria** — CategoryDescription09, CategoryDescription10, CategoryDescription11, CategoryDescription12, CategoryDescription13, CategoryDescription14, CategoryDescription15, CategoryDescription16
-- **descrição** — ProductDescription09, ProductDescription10, ProductDescription11, ProductDescription12, ProductDescription13, ProductDescription14, ProductDescription15, ProductDescription16
-- **Informações do produto** — ProductInfo03, ProductInfo04, ProductInfo09, ProductInfo10, ProductInfo11, ProductInfo12, ProductInfo13, ProductInfo14, ProductInfo15, ProductInfo16
-- **Avaliações do produto** — ProductReviews09, ProductReviews10, ProductReviews11, ProductReviews12, ProductReviews13, ProductReviews14, ProductReviews15, ProductReviews16
-- **Produtos Relacionados** — ProductRelated09, ProductRelated10, ProductRelated11, ProductRelated12, ProductRelated13, ProductRelated14, ProductRelated15, ProductRelated16
-- **Contador de ofertas** — Countdown08, Countdown09, Countdown10, Countdown11, Countdown12, Countdown13, Countdown14, Countdown15, Countdown16
-- **Bloco editorial** — Editorial08, Editorial09, Editorial10, Editorial11, Editorial12, Editorial13, Editorial14, Editorial15, Editorial16
+- **Depoimentos** — ClientReview06, ClientReview07, ClientReview09, ClientReview10, ClientReview11, ClientReview12, ClientReview13, ClientReview14, ClientReview15, ClientReview16, ClientReview17
+- **Grade de produtos** — CategoryMain02, CategoryMain06, CategoryMain07, CategoryMain09, CategoryMain10, CategoryMain11, CategoryMain12, CategoryMain13, CategoryMain14, CategoryMain15, CategoryMain16, CategoryMain17
+- **Descrição de categoria** — CategoryDescription09, CategoryDescription10, CategoryDescription11, CategoryDescription12, CategoryDescription13, CategoryDescription14, CategoryDescription15, CategoryDescription16, CategoryDescription17
+- **descrição** — ProductDescription09, ProductDescription10, ProductDescription11, ProductDescription12, ProductDescription13, ProductDescription14, ProductDescription15, ProductDescription16, ProductDescription17
+- **Informações do produto** — ProductInfo03, ProductInfo04, ProductInfo09, ProductInfo10, ProductInfo11, ProductInfo12, ProductInfo13, ProductInfo14, ProductInfo15, ProductInfo16, ProductInfo17
+- **Avaliações do produto** — ProductReviews09, ProductReviews10, ProductReviews11, ProductReviews12, ProductReviews13, ProductReviews14, ProductReviews15, ProductReviews16, ProductReviews17
+- **Produtos Relacionados** — ProductRelated09, ProductRelated10, ProductRelated11, ProductRelated12, ProductRelated13, ProductRelated14, ProductRelated15, ProductRelated16, ProductRelated17
+- **Contador de ofertas** — Countdown08, Countdown09, Countdown10, Countdown11, Countdown12, Countdown13, Countdown14, Countdown15, Countdown16, Countdown17
+- **Bloco editorial** — Editorial08, Editorial09, Editorial10, Editorial11, Editorial12, Editorial13, Editorial14, Editorial15, Editorial16, Editorial17
 
 ## Arte do designer
 

@@ -1,0 +1,327 @@
+/* Espelha organisms/Editorial17 (faststore.starter, família 17): o SCSS compilado com o sass,
+   `@media (max/min-width)` → `@container`, consultando o envelope `.editorial17Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. Derivado — mexa no SCSS de lá e derive de
+   novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
+
+.editorial17 {
+  width: 100%;
+  background-color: var(--editorial-bg, #eaf4f3);
+  color: var(--editorial-text, var(--text-primary-color, #0e2f38));
+  font-family: var(--editorial-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif));
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.editorial17 *,
+.editorial17 *::before,
+.editorial17 *::after {
+  box-sizing: border-box;
+  font-family: inherit;
+}
+.editorial17 :where(h2) {
+  margin: 0;
+}
+.editorial17 :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.editorial17 :where(a):hover {
+  opacity: 0.9;
+}
+.editorial17 :where(a):focus-visible {
+  outline: 2px solid var(--editorial-accent, var(--background-primary-color, #0e6b73));
+  outline-offset: 3px;
+}
+.editorial17 svg,
+.editorial17 img {
+  display: block;
+  flex: none;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 64px clamp(16px, 3vw, 40px);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.headCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--editorial-accent, var(--background-primary-color, #0e6b73));
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.paw {
+  width: 18px;
+  height: 18px;
+}
+
+.title {
+  font-family: var(--editorial-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.viewAll {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--editorial-accent, var(--background-primary-color, #0e6b73));
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 20px;
+}
+
+.tag {
+  color: var(--editorial-accent, var(--background-primary-color, #0e6b73));
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: color-mix(in srgb, var(--editorial-bg, #eaf4f3) 30%, #ffffff);
+}
+
+.featureArt {
+  display: block;
+  height: 340px;
+  background-color: #cfc6b6;
+}
+.featureArt img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.featureCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px 28px 28px;
+}
+
+.featureTitle {
+  font-family: var(--editorial-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.featureText {
+  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #0e2f38)) 74%, var(--editorial-bg, #eaf4f3));
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.read {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  color: var(--editorial-accent, var(--background-primary-color, #0e6b73));
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.story {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px;
+  border-radius: 16px;
+  background-color: color-mix(in srgb, var(--editorial-bg, #eaf4f3) 30%, #ffffff);
+}
+
+.thumb {
+  display: block;
+  flex: none;
+  width: 150px;
+  aspect-ratio: 1/1;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: #c9d4d0;
+}
+.thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.story:nth-child(2n) .thumb {
+  background-color: #d9cebd;
+}
+
+.storyCopy {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.storyTitle {
+  font-family: var(--editorial-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.meta {
+  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #0e2f38)) 74%, var(--editorial-bg, #eaf4f3));
+  font-size: 13px;
+}
+
+.help {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px 28px;
+  border-radius: 16px;
+  background-color: var(--editorial-accent, var(--background-primary-color, #0e6b73));
+  color: color-mix(in srgb, var(--editorial-bg, #eaf4f3) 30%, #ffffff);
+}
+
+.helpTitle {
+  font-family: var(--editorial-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.helpText {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.helpLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.viewAllMob {
+  display: none;
+}
+
+@container (max-width: 960px) {
+  .inner {
+    gap: 18px;
+    padding: 40px 16px 36px;
+  }
+  .eyebrow {
+    font-size: 13px;
+  }
+  .paw {
+    width: 16px;
+    height: 16px;
+  }
+  .title {
+    font-size: 28px;
+    line-height: 1.08;
+  }
+  .viewAll,
+  .help {
+    display: none;
+  }
+  .grid,
+  .side {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .featureArt {
+    height: 220px;
+  }
+  .featureCopy {
+    gap: 8px;
+    padding: 18px 16px 20px;
+  }
+  .tag {
+    font-size: 12px;
+  }
+  .featureTitle {
+    font-size: 22px;
+    line-height: 1.12;
+  }
+  .featureText {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .read {
+    min-height: 44px;
+    margin-top: 0;
+  }
+  .story {
+    gap: 14px;
+    padding: 12px;
+  }
+  .thumb {
+    width: 96px;
+  }
+  .storyTitle {
+    font-size: 17px;
+  }
+  .viewAllMob {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    border: 1.5px solid var(--editorial-text, var(--text-primary-color, #0e2f38));
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+}
+
+.editorial17Box {
+  container-type: inline-size;
+}
+
+/* ── Só no catálogo ───────────────────────────────────────────────────── */
