@@ -72,8 +72,8 @@ export interface TemaAtual {
 /**
  * O que o canvas mostra: a loja (as páginas montadas com seções), o checkout
  * nativo da VTEX com o nosso visual, ou uma LP avulsa (`lp`, ver utils/lp.ts).
- * `checkout` só existe com `platform === 'VTEX'` e `lp` em Wake e VTEX — ver
- * `modeForPlatform` em platformCompat.ts.
+ * `checkout` só existe com `platform === 'VTEX'` e `lp` em Wake, VTEX e
+ * Nuvemshop (com a flag) — ver `modeForPlatform` em platformCompat.ts.
  */
 export type EditorMode = 'loja' | 'checkout' | 'lp';
 
@@ -957,7 +957,8 @@ export function useLayoutGenerator() {
     const loja = partitionByPlatform(lojaSelections, value);
     // Plataforma sem modo LP (Tray) não toca na LP: ela fica guardada como está e
     // volta inteira quando o usuário voltar para Wake/VTEX — perguntar por ela
-    // aqui seria um diálogo sobre algo que a Tray nem mostra.
+    // aqui seria um diálogo sobre algo que a Tray nem mostra. A Nuvemshop tem LP,
+    // mas não tem a família 08 da LP inicial: a troca pergunta por essas seções.
     const daLp = plataformaTemLp(value)
       ? partitionByPlatform(lp.selections, value)
       : { kept: lp.selections, lostTitles: [] as string[] };
