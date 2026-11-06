@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
 
@@ -210,7 +210,7 @@ const Sinal = ({ aberto }: { aberto: boolean }) =>
 const ordinal = (i: number) => String(i + 1).padStart(2, '0');
 
 export default function Footer11() {
-  const { logo } = useLayout();
+  const logo = useLogoDoRodape();
   const {
     brandName,
     brandSup,

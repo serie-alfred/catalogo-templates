@@ -1,9 +1,9 @@
 import styles from './index.module.css';
 import { SerieDesignLogo } from '@/assets/icons/serie-design-logo';
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 const Footer = () => {
-  const { logo } = useLayout();
+  const logo = useLogoDoRodape();
   // Dados fixos para substituir as variáveis Twig
   const storeInfo = {
     name: 'Paulibrás',

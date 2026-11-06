@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
 
@@ -173,7 +173,7 @@ function Marca({ nome }: { nome: string }) {
 }
 
 export default function Footer13() {
-  const { logo } = useLayout();
+  const logo = useLogoDoRodape();
   const {
     logoAlt,
     brandName,

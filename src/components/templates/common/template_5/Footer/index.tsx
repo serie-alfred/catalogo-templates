@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 
 import styles from './index.module.css';
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 // Preview estático do Footer05 (SÉRIE//A) — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Footer05 (gerado via /from-faststore).
@@ -102,7 +102,7 @@ function Wordmark({ name }: { name: string }) {
 }
 
 export default function Footer05() {
-  const { logo } = useLayout();
+  const logo = useLogoDoRodape();
   const [open, setOpen] = useState<string[]>([]);
   const toggle = (key: string) =>
     setOpen(prev =>

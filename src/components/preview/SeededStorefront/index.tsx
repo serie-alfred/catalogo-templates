@@ -13,6 +13,8 @@ interface SeededStorefrontProps {
   colors: FrameColors;
   fonts: FrameFonts;
   logo: string;
+  /** Logo dos rodapés; sem ele, eles mostram o `logo`. */
+  footerLogo?: string;
   /** Página interna a renderizar: "home" | "category" | "product". */
   pagina: string;
   isMobile?: boolean;
@@ -29,12 +31,16 @@ export default function SeededStorefront({
   colors,
   fonts,
   logo,
+  footerLogo = '',
   pagina,
   isMobile = false,
 }: SeededStorefrontProps) {
-  // Contexto semeado — os templates leem `logo` e `selections` daqui (via
-  // useLayout), sem depender do estado local do editor.
-  const seed = useMemo(() => ({ logo, selections }), [logo, selections]);
+  // Contexto semeado — os templates leem `logo`, `footerLogo` e `selections`
+  // daqui (via useLayout), sem depender do estado local do editor.
+  const seed = useMemo(
+    () => ({ logo, footerLogo, selections }),
+    [logo, footerLogo, selections]
+  );
 
   const themeStyle = useMemo(
     () => buildThemeStyle(colors, fonts),

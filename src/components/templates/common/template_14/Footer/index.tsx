@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
 
@@ -157,7 +157,7 @@ function Marca({ nome }: { nome: string }) {
 }
 
 export default function Footer14() {
-  const { logo } = useLayout();
+  const logo = useLogoDoRodape();
   const { brandName, aboutText, socials, columns, contactTitle, contactLines, payments, copyright } = MOCK;
 
   const [aberto, setAberto] = useState<number | null>(null);

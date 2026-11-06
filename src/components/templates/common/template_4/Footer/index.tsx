@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 
 import styles from './index.module.css';
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 // Preview estático do Footer04 (MANU) — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Footer04 (gerado via /from-faststore).
@@ -105,7 +105,7 @@ const socialIconFor = (label: string) =>
   );
 
 export default function Footer04() {
-  const { logo } = useLayout();
+  const logo = useLogoDoRodape();
   const addressLines = data.address.split('\n');
   const [openCols, setOpenCols] = useState<number[]>([]);
   const toggleCol = (i: number) =>
