@@ -10,7 +10,8 @@ inexistente, tema que só quebra na loja.
 yarn funil                # tudo, para no primeiro erro
 yarn funil 1              # só o estágio 1
 yarn funil 2-edicao       # um estágio específico
-yarn funil 4              # só o tema FastStore (minutos)
+yarn funil 4-tema-faststore   # só o tema FastStore (minutos)
+yarn funil 4-tema-nuvemshop   # só o tema Nuvemshop (minutos; pede NUVEMSHOP_VALIDADOR)
 yarn alcance              # diagnóstico avulso, não é estágio (ver abaixo)
 ```
 
@@ -39,6 +40,7 @@ e o `yarn dev` de pé para os estágios 2 e 3. Saídas em `.funil/` (ignorada).
 | `2-integracao` | a escolha do cliente **chega ao config**: cor global → `config.json` → as 3 páginas do preview → sobrevive ao reload → não passa para uma aba nova (que entra com o template padrão) | dev server |
 | `3-export` | toda seleção semeada hidrata (o app servido é este catálogo); o botão "Baixar" entrega os três configs; cada um resolve o contrato da sua plataforma — em VTEX, `faststore.checkout` com o modelo, o SHA vendorizado e os papéis semeados, e o compose do config exportado (`optionsFromConfig` + o lib do SHA, o que o generator roda) sai com os placeholders do rodapé no footer e no README (o texto de exemplo é só do preview, gate0 #26); em Tray/Wake, nenhum checkout mesmo com papéis semeados na aba —; os dois PNGs saem. **Nuvemshop** (`NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP=1` no funil **e** no dev): entra no laço, e o config dela não leva credencial nenhuma, nem com um `wakeToken` esquecido na aba (detector com autoteste), e traz as 14 chaves do painel "Marca". Com ou sem a flag, uma aba que guardou `Nuvemshop` é aberta e o seletor e o "Baixar" têm de seguir a flag: desligada, a hidratação a recusa; ligada, aceita. Flag diferente no funil e no dev reprova aí | dev server |
 | `4-tema-faststore` | o generator monta o tema de verdade e **ele compila** (`yarn build`) — a única perna do pipeline executável desta máquina. As travas de dado de exemplo (`MOCK_ENABLED`, `DevFidelityStage`) são conferidas no tema entregue, e arquivo ausente reprova (`FUNIL_TEMA_BUILD=0` pula o build — execução parcial). **Checkout VTEX:** papel desconhecido e, com `faststore.checkout` no config, checkout-vtex que não clona (`clone-falhou`, gate0 #25) fazem a VALIDATE abortar sem escrever; no positivo, `checkout/` com exatamente 5 arquivos, `@import` primeiro, nível 1 marcador no `:root`, logo no header, zero `{{ETC_`, README com placeholders e pre-flight, e **os bytes = o compose do lib vendorizado no catálogo** para o mesmo config | estágio 3 · `gh` autenticado · `CHECKOUT_VTEX_REPO` (ou o irmão `../checkout-vtex` com commit) · minutos |
+| `4-tema-nuvemshop` | o generator monta o tema **Nuvemshop** (`--local`: sem `--push`, sem `--deploy`, nada sai daqui) para **cada item que declara a Nuvemshop** e para a família inteira, e cada tema montado passa no validador com **0 erros**. Item a item, com marcadores de Nível 1 em toda variável do `variablesSchema`: cada um chega aos `settings` da instância (`templates/**`) ou, sem setting na seção, ao CSS do componente. A família inteira é o config que o estágio 3 exportou quando a flag está ligada (a perna /gerador → tema), senão o montado do catálogo; o `theme-src/` dela compila e o bundle traz a classe-raiz e as variáveis de cada CSS de seção e o `data-<raiz>-pronto` de cada JS. Controle negativo: um `{% schema %}` quebrado numa cópia do tema tem de reprovar. Sem validador, **reprova** (ver abaixo); `FUNIL_TEMA_BUILD=0` pula o build e `FUNIL_NUVEMSHOP_SO=banner-main,…` restringe o laço item a item (execuções parciais: a completa recusa as duas) | `NUVEMSHOP_VALIDADOR` · o generator irmão com a trilha `nuvemshop` · `gh` (o tema-base é privado) · com a flag, o estágio 3 · minutos |
 | `5-contrato-tray-wake` | contrato estático de Tray e Wake (e da Nuvemshop, com a flag): pasta de origem, `instanceCount`, dedupe `key::arquivo`, nenhum caminho com espaço — no clone local de `global-templates` (ver abaixo). Na Nuvemshop, cópia com `variables` próprias e origem repetida fora da Home não reprovam (cada instância leva os seus settings no JSON da página), e o config não pode ter credencial | estágio 3 |
 
 ## Estágio 4 — o que ele monta, e por que cruzado
@@ -104,6 +106,36 @@ data URL marcador. Três rodadas do generator:
    **equivalência com o /gerador** — `composeCheckout` do `src/lib/checkout/` sobre a base de
    `public/gerador/checkout/`, com `optionsFromConfig` do mesmo config, dá os mesmos bytes nos 5
    arquivos. O `1-checkout` prova vendorizado == SHA; isto prova generator == SHA.
+
+## Estágio 4 — a Nuvemshop, sem a loja
+
+A Nuvemshop não tem localhost: o Twig só roda na plataforma. Mas o tema por seções valida offline,
+então este estágio vai além do que a Tray e a Wake têm (ver abaixo): roda o generator de verdade e
+valida o tema que ele escreveu. O que **não** prova é o que só o preview na loja mostra (o dialeto
+Twig da plataforma, o editor, os dados) — a lista está no contrato da Nuvemshop, §2.1 H.
+
+**O validador.** O `nuvemshop theme check` da CLI não serve aqui: ele pede à API da loja que valide os
+arquivos que diferem do tema remoto, com `--theme-id` (ou o `.nuvem`) e token. O que valida offline é o
+`validate-theme.mjs` da skill `seriea-nuvemshop-migration`, de um plugin privado — este repo é público e
+não o vendoriza. O estágio o acha por **`NUVEMSHOP_VALIDADOR=<caminho do validate-theme.mjs>`**, imprime
+o sha256 do arquivo, e o `funil.mjs` grava a variável no `resultado.json`. Sem ela o estágio **reprova**:
+um funil endurecido contra falso verde não pode passar sem validar. Ele nunca passa `--cli` ao validador
+(isso seria o `theme check` contra a loja).
+
+**Por que um tema por item, e não só a família inteira.** Cada item sozinho prova que a pasta dele se
+basta (o spot entra como dependência, o breadcrumb vai com a PLP da família, que é onde o generator o
+põe) e isola a falha: um item quebrado é a falha DELE, não do lote. A família inteira prova o que só
+aparece junto: tradução da mesma chave com dois textos, arquivo disputado por duas pastas, o limite de
+25 seções por template, e o bundle.
+
+**De onde o generator clona.** Do default dele (GitHub, `main`), ou de `NUVEMSHOP_THEME_BASE_REPO`/
+`_BRANCH` e `GLOBAL_COMPONENTS_REPO`/`_BRANCH` — todas em `DESVIAM` no `funil.mjs`. Com
+`GLOBAL_COMPONENTS_BRANCH`, a paridade dos estágios 1 e 5 compara o checkout irmão com AQUELA branch,
+que é o que as três trilhas clonam. O estágio confere que o `global-templates` clonado é o commit que o
+estágio 1 leu, e que todas as rodadas montaram sobre os mesmos commits. O generator irmão é recurso
+exclusivo (`tema-base-nuvemshop/` e `repo-temp/` são reclonados a cada rodada); o `config.json`
+versionado dele não é tocado — o config vai por `GENERATOR_CONFIG`. Configs e logs em
+`.funil/nuvemshop/`.
 
 ## Por que Tray e Wake param na validação estática
 
