@@ -1645,7 +1645,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--help-header-text", label: "Texto do botão e da cabeça", type: "color", default: "#ffffff", group: "Ajuda", inheritsLabel: "cor de texto base" },
         { cssVar: "--help-bg", label: "Fundo do painel", type: "color", default: "#ffffff", group: "Painel", previewNote: "Aparece com o painel aberto." },
         { cssVar: "--help-text", label: "Texto do painel", type: "color", default: "#0e2f38", group: "Painel", inheritsLabel: "cor de texto primária", previewNote: "Aparece com o painel aberto." },
-        { cssVar: "--help-title-font", label: "Fonte dos títulos", type: "font", default: "'Bricolage Grotesque', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--help-title-font", label: "Fonte dos títulos", type: "font", default: "'Bricolage Grotesque', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária", previewNote: "Aparece com o painel aberto." },
         { cssVar: "--help-font", label: "Fonte do texto", type: "font", default: "'DM Sans', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
     ],
