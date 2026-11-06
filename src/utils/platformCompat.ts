@@ -86,7 +86,7 @@ export function sanitizePlatform(value: string | null): Platform | null {
  * até lá o generator não monta LP por seções da Nuvemshop.
  */
 export function plataformaTemLp(platform: Platform | null): boolean {
-  return platform === 'Wake' || platform === 'VTEX';
+  return platform === 'Wake' || platform === 'Wake 2.0' || platform === 'VTEX';
 }
 
 /**

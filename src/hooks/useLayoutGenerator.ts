@@ -132,6 +132,10 @@ async function waitForImages(root: HTMLElement) {
  * (mantém o config enxuto — chave omitida = usa o default do `var()` no SCSS).
  * Retorna `undefined` quando não há nenhuma alteração relevante.
  */
+/** Chave da trilha no config: a Wake 2.0 sai como `wake`. */
+const trilhaDe = (platform: Platform) =>
+  platform === 'Wake 2.0' ? 'wake' : platform.toLowerCase();
+
 function pickChangedVariables(
   found: LayoutItem,
   selection: LayoutSelection
@@ -1010,7 +1014,7 @@ export function useLayoutGenerator() {
       setSelectedUid(prev => (prev && survivors.has(prev) ? prev : null));
     }
 
-    if (value === 'Wake') {
+    if (value === 'Wake' || value === 'Wake 2.0') {
       setShowWakePopup(true);
     }
   };
@@ -1281,11 +1285,12 @@ export function useLayoutGenerator() {
       return config;
     }
 
-    const plat = platform.toLowerCase();
+    const plat = trilhaDe(platform);
     const config: Record<string, unknown> = {
       platform: plat,
       tipo: 'lp',
       [plat]: {
+        ...(platform === 'Wake 2.0' ? { designStudio: true } : {}),
         landingPage,
         landing: resolvidas.map(({ found, sel }) => {
           const variables = pickChangedVariables(found, sel);
@@ -1366,8 +1371,9 @@ export function useLayoutGenerator() {
       }, {});
 
     const config: Record<string, unknown> = {
-      platform: platform.toLowerCase(),
-      [platform.toLowerCase()]: {
+      platform: trilhaDe(platform),
+      [trilhaDe(platform)]: {
+        ...(platform === 'Wake 2.0' ? { designStudio: true } : {}),
         global: globalItems,
         variables: variaveisTrayWake(),
         assets: {
@@ -1385,7 +1391,7 @@ export function useLayoutGenerator() {
     // do `wakeToken`: o generator autentica pelo alias da CLI ou por variável de
     // ambiente do CI (contrato da Nuvemshop, decisão 3). O `3-export` reprova
     // qualquer campo de credencial no config dela.
-    if (platform.toLowerCase() === 'wake') {
+    if (trilhaDe(platform) === 'wake') {
       (config as Record<string, unknown>).wakeToken = wakeCustomValue;
     }
 
