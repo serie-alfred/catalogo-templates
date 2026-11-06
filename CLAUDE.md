@@ -195,10 +195,11 @@ A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/lay
 
 The downstream **template-generator** reads each entry's `variables` and injects them into the component's SCSS, which must consume them via the chained-fallback convention `var(--header-topbar-bg, var(--background-secundary-color, #122161))` (individual var → global token → hardcoded default). Keep `cssVar` names in sync with that SCSS.
 
-### Modo LP (Wake e VTEX)
+### Modo LP (Wake, VTEX e Nuvemshop)
 
 Uma **área à parte**, como o modo Checkout: o rail ganha o alternador **Landing page**
-(`[data-editor-mode-lp]`, ícone `LandingPage` de `assets/icons/editor.tsx`) em Wake e VTEX — onde o generator sabe montar uma LP
+(`[data-editor-mode-lp]`, ícone `LandingPage` de `assets/icons/editor.tsx`) em Wake e VTEX — e na
+Nuvemshop, com a flag dela — onde o generator sabe montar uma LP
 sozinha. Ali o usuário monta UMA landing page com **qualquer seção de miolo** do catálogo e exporta
 **só ela**. Não existe componente "de LP": a antiga LP-componente (`BlackFriday01`, `pagina:
 "landing"`) foi dividida nas seções da família 08 (`BannerMain08`, `Countdown08`, `Categories08`,
@@ -593,8 +594,14 @@ todo consumidor de `platforms` (`isItemAvailable`, `templatesCompletos`, `dispon
   salvo ou o `/gerador/import-log` com `Nuvemshop` voltam sem plataforma. O tipo `Platform` tem a
   Nuvemshop sempre (tipo não depende de env). Por ser `NEXT_PUBLIC_*`, o valor entra no **build**:
   trocar na Vercel pede deploy novo.
-- **Sem LP e sem checkout:** `plataformaTemLp` e `modeForPlatform` não a incluem. A LP é a fase 7
-  (`page.<slug>.json`); o checkout da Nuvemshop é da plataforma (o tema só pinta as cores).
+- **LP sim, checkout não:** `plataformaTemLp` a inclui (fase 7, só com a flag) e `modeForPlatform`
+  não a leva ao checkout, que na Nuvemshop é da plataforma (o tema só pinta as cores). A LP sai como
+  `{ platform: "nuvemshop", tipo: "lp", nuvemshop: { landingPage, landing, variables, assets } }`,
+  sem credencial, e o generator a escreve como o modelo alternativo de página de conteúdo
+  `templates/pages/page.<slug>.json`. **Quem liga o modelo a uma página é o lojista, no admin**
+  (Páginas → a página → menu "Modelo", com o layout publicado): isso não fica no tema. A LP inicial
+  (Black Friday, família 08) não tem porte na Nuvemshop: trocar uma aba para ela pergunta pelas 8
+  seções da LP, e a LP começa vazia ali até a 08 ser portada.
 - **Export:** o ramo genérico do `buildConfigJson` (o de Tray/Wake) já sai como
   `{ platform: "nuvemshop", nuvemshop: { global, variables, assets, home, … } }`, com as 14 globais
   que o generator traduz para o painel "Marca" (`sa_*`, §2.1 A). **Nenhuma credencial**: não existe
