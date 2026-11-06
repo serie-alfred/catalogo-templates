@@ -386,15 +386,21 @@ export function conferirNuvemshop(config, r) {
  * empurrado: componente commitado aqui e não empurrado passa com "origem
  * existe" e some do tema sem erro.
  *
+ * Com `GLOBAL_COMPONENTS_BRANCH`, as três trilhas do generator clonam AQUELA
+ * branch (Tray, Wake e Nuvemshop leem a mesma constante), então é contra ela que
+ * o checkout local tem de bater — é como se confere um porte ainda não mesclado.
+ * Sem a variável, o HEAD do remoto, como sempre.
+ *
  * O remoto é privado. No github.com o helper é o do `gh` e responde na hora;
  * qualquer outro host vai com `credential.helper` vazio, que dá 401 em ~2s em
  * vez de travar no osxkeychain (ver README). Onde não houver acesso, o estágio
  * DIZ o que mediu em vez de calar.
  */
 export async function conferirParidadeGlobalTemplates(r) {
-  const { GLOBAL_COMPONENTS_REPO_URL: doGenerator } = await import(
-    pathToFileURL(path.join(GENERATOR, 'src/constants/config.js')).href
-  );
+  const { GLOBAL_COMPONENTS_REPO_URL: doGenerator, GLOBAL_COMPONENTS_REPO_BRANCH: branch } =
+    await import(pathToFileURL(path.join(GENERATOR, 'src/constants/config.js')).href);
+  const ref = branch ? `refs/heads/${branch}` : 'HEAD';
+  const alvo = branch ? `${doGenerator} @ ${branch}` : doGenerator;
   const git = (args, env = process.env) =>
     spawnSync('git', args, { encoding: 'utf8', timeout: 20000, env });
   const local = git(['-C', GLOBAL_TEMPLATES, 'rev-parse', 'HEAD']).stdout.trim();
@@ -403,16 +409,16 @@ export async function conferirParidadeGlobalTemplates(r) {
   // Zerar o helper no github.com zeraria também o do `gh` (o vazio da linha de
   // comando reinicia a lista inteira) e a paridade nunca seria verificada.
   const semKeychain = /^https:\/\/github\.com\//.test(doGenerator) ? [] : ['-c', 'credential.helper='];
-  const remoto = git([...semKeychain, 'ls-remote', doGenerator, 'HEAD'], {
+  const remoto = git([...semKeychain, 'ls-remote', doGenerator, ref], {
     ...process.env,
     GIT_TERMINAL_PROMPT: '0',
   });
   const cabeca = remoto.status === 0 ? remoto.stdout.split(/\s/)[0] : '';
   if (cabeca) {
     r.ok(
-      `global-templates lido (${local.slice(0, 7)}) é o commit que o generator clona`,
+      `global-templates lido (${local.slice(0, 7)}) é o commit que o generator clona${branch ? ` (branch ${branch})` : ''}`,
       cabeca === local,
-      `${doGenerator} está em ${cabeca.slice(0, 7)} — as origens Tray/Wake foram conferidas em outra árvore`
+      `${alvo} está em ${cabeca.slice(0, 7)} — as origens Tray/Wake/Nuvemshop foram conferidas em outra árvore`
     );
     return;
   }
@@ -422,7 +428,7 @@ export async function conferirParidadeGlobalTemplates(r) {
       `exit ${remoto.status ?? remoto.signal}`);
   console.log(
     `  ℹ️  origem Tray/Wake conferida em ${origemLocal || GLOBAL_TEMPLATES} @ ${local.slice(0, 7)};` +
-      ` o generator clona ${doGenerator}, que não respondeu daqui (${motivo}) — paridade não verificada`
+      ` o generator clona ${alvo}, que não respondeu daqui (${motivo}) — paridade não verificada`
   );
 }
 

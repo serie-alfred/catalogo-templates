@@ -576,10 +576,13 @@ it shows in the left panel header, otherwise there would be no way to switch pla
 
 A 5ª plataforma, **tema por seções com fork** (Ipanema), no `config.json` como
 `platform: "nuvemshop"`. O contrato com os outros repos é `../.nuvemshop-contrato.md` (§2.1
-convenções, §4 o que muda aqui, §7 as fases). Hoje **nenhum item a declara**: o `platforms` de cada
-item ganha `'Nuvemshop'` só quando o porte dele existir em
+convenções, §4 o que muda aqui, §7 as fases). Hoje **a família 09 inteira (24 itens) a declara**, e
+só ela: o `platforms` de cada item ganha `'Nuvemshop'` só quando o porte dele existir em
 `global-templates/Nuvemshop/<Página>/template_<N>/<selection>/` — o `1-catalogo` reprova o item que
-declarar sem a pasta, com ou sem a flag.
+declarar sem a pasta, com ou sem a flag. Com a flag desligada, marcar um item não muda nada visível:
+todo consumidor de `platforms` (`isItemAvailable`, `templatesCompletos`, `disponivelNaLp`,
+`partitionByPlatform`, o export) pergunta por UMA plataforma, e a hidratação só deixa chegar as de
+`PLATFORMS`. Com ela ligada, a 09 aparece no modal e como "09 · Editorial" em "Por template".
 
 - **A flag** ([types/platform.ts](src/types/platform.ts)): `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP=1`
   inclui a Nuvemshop em `PLATFORMS`, a lista que o `PlatformSelect` mostra e que a hidratação
@@ -604,6 +607,11 @@ declarar sem a pasta, com ou sem a flag.
   `3-export` prova o contrário: a aba que guardou `Nuvemshop` volta sem plataforma e o seletor não a
   oferece. Flag diferente no funil e no dev reprova ali. Rodada com a flag ligada não vale como
   evidência de produção (`DESVIAM` no `funil.mjs`).
+- **`4-tema-nuvemshop`** (com ou sem a flag): o generator irmão monta um tema por item marcado e um
+  com a família inteira (`--local`, nada sai daqui), e o `validate-theme.mjs` da skill
+  `seriea-nuvemshop-migration` valida cada um — o caminho dele vem de `NUVEMSHOP_VALIDADOR`, e sem
+  ela o estágio reprova. O `nuvemshop theme check` não serve: valida contra o tema remoto da loja,
+  com login. Ver o README do funil.
 
 ### Export flow
 
