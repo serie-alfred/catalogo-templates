@@ -177,7 +177,7 @@ writeFileSync(GORDO, Buffer.alloc(2.2 * 1024 * 1024, 1));
 
 await abrirNoRail('Identidade visual', 'input[type="file"]');
 const entradas = await page.$$('input[type="file"]');
-r.ok('os 3 slots de asset existem', entradas.length === 3, entradas.length);
+r.ok('os 4 slots de asset existem (logo, logo do rodapé, favicon, OG)', entradas.length === 4, entradas.length);
 
 for (const entrada of entradas) {
   await entrada.uploadFile(PNG_1x1);
@@ -185,11 +185,12 @@ for (const entrada of entradas) {
 }
 const gravados = await page.evaluate(() => ({
   logo: (sessionStorage.getItem('logo') ?? '').slice(0, 15),
+  footerLogo: (sessionStorage.getItem('footerLogo') ?? '').slice(0, 15),
   favicon: (sessionStorage.getItem('favicon') ?? '').slice(0, 15),
   ogImage: (sessionStorage.getItem('ogImage') ?? '').slice(0, 15),
 }));
 r.ok(
-  'os 3 assets viram data URL no armazenamento da aba',
+  'os 4 assets viram data URL no armazenamento da aba',
   Object.values(gravados).every(v => v.startsWith('data:image/')),
   JSON.stringify(gravados)
 );
@@ -256,8 +257,8 @@ r.ok('o export entrega o config', Boolean(cfg));
 if (cfg) {
   const assets = cfg.faststore?.assets ?? {};
   r.ok(
-    'os 3 assets chegam ao config.json COM VALOR',
-    ['logo', 'favicon', 'ogImage'].every(k =>
+    'os 4 assets chegam ao config.json COM VALOR',
+    ['logo', 'footerLogo', 'favicon', 'ogImage'].every(k =>
       String(assets[k] ?? '').startsWith('data:image/')
     ),
     JSON.stringify(
