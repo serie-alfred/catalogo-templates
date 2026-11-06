@@ -199,8 +199,20 @@ export function autotesteCopias(r) {
  * template_<N>/<selection>/` (contrato da Nuvemshop, §2.1 D).
  */
 export function conferirTrayWake(config, plataforma, r) {
+  // 'Wake 2.0' é a trilha `wake` com `designStudio: true`; origem, token e
+  // contrato são os da Wake.
+  const wake2 = plataforma === 'Wake 2.0';
+  if (wake2) plataforma = 'Wake';
   const raiz = config[plataforma.toLowerCase()];
   const entradas = [];
+  if (plataforma === 'Wake')
+    r.ok(
+      wake2
+        ? 'Wake 2.0: wake.designStudio === true'
+        : 'Wake: sem a chave designStudio (config igual ao de sempre)',
+      wake2 ? raiz.designStudio === true : !('designStudio' in raiz),
+      JSON.stringify(raiz.designStudio)
+    );
   for (const [balde, dir] of Object.entries(PASTA)) {
     for (const e of raiz[balde] ?? []) entradas.push({ ...e, balde, dir });
   }
@@ -1380,4 +1392,81 @@ export async function conferirRegistroDeResolvers(r) {
     falhas.join(' | ')
   );
   return falhas;
+}
+
+/**
+ * Wake 2.0 / Design Studio: todo `<sel>.schema.json` de `Wake/<Seção>/template_<N>/<sel>/`
+ * é o bloco que o lojista edita, e o HTML da pasta tem de lê-lo. Estático, sem rede.
+ * `raiz` existe para o autoteste apontar uma cópia temporária; o normal é o
+ * global-templates local.
+ */
+const TIPOS_DS = new Set([
+  'text',
+  'number',
+  'url',
+  'image_picker',
+  'color',
+  'select',
+  'checkbox',
+  'hotsite_products',
+  'product_list',
+]);
+
+export function conferirSchemasDesignStudio(r, raiz = GLOBAL_TEMPLATES) {
+  const base = path.join(raiz, 'Wake');
+  const erros = [];
+  let n = 0;
+  for (const secao of fs.existsSync(base) ? fs.readdirSync(base) : []) {
+    const dirSecao = path.join(base, secao);
+    if (!fs.statSync(dirSecao).isDirectory()) continue;
+    for (const tpl of fs.readdirSync(dirSecao)) {
+      const m = /^template_(\d+)$/.exec(tpl);
+      if (!m) continue;
+      for (const sel of fs.readdirSync(path.join(dirSecao, tpl))) {
+        const dir = path.join(dirSecao, tpl, sel);
+        const arq = path.join(dir, `${sel}.schema.json`);
+        if (!fs.existsSync(arq)) continue;
+        n++;
+        const id = `${secao}/${tpl}/${sel}`;
+        let s;
+        try {
+          s = JSON.parse(fs.readFileSync(arq, 'utf8'));
+        } catch (e) {
+          erros.push(`${id}: JSON inválido (${e.message.slice(0, 60)})`);
+          continue;
+        }
+        const tipo = `${sel.replace(/-/g, '_')}_${m[1].padStart(2, '0')}`;
+        if (s.type !== tipo) erros.push(`${id}: type "${s.type}" ≠ "${tipo}"`);
+        const html = fs
+          .readdirSync(dir)
+          .filter(f => f.endsWith('.html'))
+          .map(f => fs.readFileSync(path.join(dir, f), 'utf8'))
+          .join('\n');
+        if (!/block_data\s*\?\?\s*\{\}/.test(html))
+          erros.push(`${id}: o HTML não tem "block_data ?? {}"`);
+        for (const st of s.settings ?? []) {
+          const nome = st?.name;
+          for (const k of ['label', 'name', 'type'])
+            if (!st?.[k]) erros.push(`${id}: setting sem ${k} (${nome ?? '?'})`);
+          if (st?.type && !TIPOS_DS.has(st.type))
+            erros.push(`${id}: ${nome}: type "${st.type}" não é do Design Studio`);
+          if (st?.type === 'select' && !(st.options?.length > 0))
+            erros.push(`${id}: ${nome}: select sem options`);
+          if (!nome) continue;
+          const direto = new RegExp(`\\.${nome}\\b`).test(html);
+          const p = /^(.+?)_(\d+)_(.+)$/.exec(nome);
+          const dividido =
+            !!p && html.includes(`"${p[1]}"`) && html.includes(`"${p[3]}"`);
+          if (!direto && !dividido)
+            erros.push(`${id}: o HTML não lê "${nome}"`);
+        }
+      }
+    }
+  }
+  r.ok(
+    `Design Studio: ${n} schema(s) da Wake válidos e lidos pelo HTML`,
+    erros.length === 0,
+    erros.slice(0, 8).join(' | ') + (erros.length > 8 ? ` (+${erros.length - 8})` : '')
+  );
+  return n;
 }

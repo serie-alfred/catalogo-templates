@@ -12,7 +12,7 @@ import { NON_DUPLICABLE_SELECTIONS } from '../../src/utils/sectionRules.ts';
 // A MESMA constante que o app lê, mas com o env DESTE processo: o funil e o
 // `next dev` têm de subir com a mesma NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP, e o
 // bloco "seletor e hidratação" no fim reprova quando não sobem.
-import { NUVEMSHOP_LIGADA } from '../../src/types/platform.ts';
+import { NUVEMSHOP_LIGADA, WAKE2_LIGADA } from '../../src/types/platform.ts';
 import {
   conferirTrayWake,
   conferirFaststore,
@@ -134,6 +134,7 @@ const coerenteFor = plataforma => {
 // dos que a conferência do fim lê (medido em 05/11: 1 kB e 0 kB).
 const PLATAFORMAS = ['Tray', 'Wake', 'VTEX', 'VTEX-coerente'];
 if (NUVEMSHOP_LIGADA) PLATAFORMAS.push('Nuvemshop');
+if (WAKE2_LIGADA) PLATAFORMAS.push('Wake 2.0');
 const DL_NUVEMSHOP = `${DL}/nuvemshop`;
 
 for (const plat of PLATAFORMAS) {
@@ -182,7 +183,7 @@ for (const plat of PLATAFORMAS) {
     JSON.stringify(seed),
     // Na Nuvemshop, o token que sobrou de uma sessão Wake na mesma aba: é ele
     // que daria credencial ao config se o export o carregasse.
-    plataforma === 'Wake' || plataforma === 'Nuvemshop' ? 'TOKEN-DE-TESTE' : '',
+    plataforma === 'Wake' || plataforma === 'Wake 2.0' || plataforma === 'Nuvemshop' ? 'TOKEN-DE-TESTE' : '',
     JSON.stringify({ model: 'Checkout01', variables: CHECKOUT_SEMEADO, etapa: 'carrinho' })
   );
   await p.goto(`${BASE_URL}/gerador`, {
@@ -301,7 +302,7 @@ for (const plat of PLATAFORMAS) {
       JSON.stringify(config, null, 2)
     );
     const esperado =
-      plataforma === 'VTEX' ? 'faststore' : plataforma.toLowerCase();
+      plataforma === 'VTEX' ? 'faststore' : plataforma === 'Wake 2.0' ? 'wake' : plataforma.toLowerCase();
     r.ok(
       `${plat}: platform === "${esperado}"`,
       config.platform === esperado,

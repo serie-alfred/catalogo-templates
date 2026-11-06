@@ -42,6 +42,7 @@ import {
   adicionarPeloModal,
 } from './lib/editor.mjs';
 import { conferirFaststore, conferirTrayWake } from './lib/contrato.mjs';
+import { WAKE2_LIGADA } from '../../src/types/platform.ts';
 
 const r = relatorio('Estágio 2t — Por template (família inteira)');
 const FOTOS = process.env.FUNIL_FOTOS ?? path.join(SAIDA, 'por-template');
@@ -468,9 +469,10 @@ for (const plat of ['VTEX', 'Wake', 'Tray']) {
 }
 
 // ── 6. Wake (09) e Tray (10): o export passa no contrato ───────────────────
-for (const [plat, t] of [['Wake', '9'], ['Tray', '10']]) {
+for (const [plat, t] of [['Wake', '9'], ['Tray', '10'], ...(WAKE2_LIGADA ? [['Wake 2.0', '10'], ['Wake 2.0', '17']] : [])]) {
+  const trilha = plat === 'Wake 2.0' ? 'wake' : plat.toLowerCase();
   const { page, erros } = await aba(browser);
-  await semear(page, { plataforma: plat, token: plat === 'Wake' ? 'TOKEN-DE-TESTE' : '' });
+  await semear(page, { plataforma: plat, token: trilha === 'wake' ? 'TOKEN-DE-TESTE' : '' });
   await abrirPainel(page);
   await clicarDeVerdade(page, `[data-templates-lista] [data-template="${t}"]`);
   await page.waitForFunction(n => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]').length === n, { timeout: 20000 }, daFamilia(t, plat).length).catch(() => {});
@@ -478,12 +480,12 @@ for (const [plat, t] of [['Wake', '9'], ['Tray', '10']]) {
   r.ok(`${plat}: a ${t.padStart(2, '0')} preenche todo slot da família`, s.join() === chaves(t, plat).join(), s.join());
   const c = await esperarCanvas(page, noCanvas(t, plat, 'home'));
   r.ok(`${plat} ${t.padStart(2, '0')}: home no canvas com as peças da família`, [...c].sort().join() === noCanvas(t, plat, 'home').join(), c.join());
-  await foto(page, `${plat.toLowerCase()}-${t.padStart(2, '0')}-home`);
+  await foto(page, `${trilha}-${t.padStart(2, '0')}-home`);
   const cfg = await exportar(page);
   r.ok(`${plat}: o export entrega o config`, !!cfg);
   if (cfg) {
-    fs.writeFileSync(path.join(FOTOS, `config-${plat.toLowerCase()}-${t}.json`), JSON.stringify(cfg, null, 2));
-    const raiz = cfg[plat.toLowerCase()] ?? {};
+    fs.writeFileSync(path.join(FOTOS, `config-${trilha}-${t}.json`), JSON.stringify(cfg, null, 2));
+    const raiz = cfg[trilha] ?? {};
     const entradas = ['global', 'home', 'category', 'product'].flatMap(k => raiz[k] ?? []);
     r.ok(
       `${plat}: toda entrada do config é da família ${t} e nenhuma falta`,
@@ -493,7 +495,7 @@ for (const [plat, t] of [['Wake', '9'], ['Tray', '10']]) {
     const comVars = entradas.filter(e => e.variables).length;
     r.ok(`${plat}: o export carrega o Nível 1 das ${Object.keys(NIVEL1[t] ?? {}).length} peças do mapa da ${t.padStart(2, '0')}`, comVars === Object.keys(NIVEL1[t] ?? {}).length, `${comVars} entradas com variables`);
     const dv = difVariaveis(raiz.variables, t);
-    r.ok(`${plat}: ${plat.toLowerCase()}.variables leva as cores e as fontes da ${t.padStart(2, '0')}`, dv.length === 0, dv.join(' | '));
+    r.ok(`${plat}: ${trilha}.variables leva as cores e as fontes da ${t.padStart(2, '0')}`, dv.length === 0, dv.join(' | '));
     conferirTrayWake(cfg, plat, r);
   }
   if (plat === 'Tray') {

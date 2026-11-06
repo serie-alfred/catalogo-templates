@@ -288,14 +288,14 @@ const PASTA = {
   product: 'Product',
 };
 const semOrigem = [];
-const nOrigem = { Tray: 0, Wake: 0, Nuvemshop: 0 };
+const nOrigem = { Tray: 0, Wake: 0, Nuvemshop: 0, 'Wake 2.0': 0 };
 for (const i of todos) {
   for (const plat of Object.keys(nOrigem)) {
     if (!i.platforms.includes(plat)) continue;
     nOrigem[plat]++;
     const p = path.join(
       GLOBAL_TEMPLATES,
-      plat,
+      plat === 'Wake 2.0' ? 'Wake' : plat,
       PASTA[i.pagina[0]],
       `template_${i.template}`,
       i.selection
@@ -305,7 +305,7 @@ for (const i of todos) {
   }
 }
 r.ok(
-  `origem Tray (${nOrigem.Tray}), Wake (${nOrigem.Wake}) e Nuvemshop (${nOrigem.Nuvemshop}) existe no global-templates local`,
+  `origem Tray (${nOrigem.Tray}), Wake (${nOrigem.Wake}), Wake 2.0 (${nOrigem['Wake 2.0']}) e Nuvemshop (${nOrigem.Nuvemshop}) existe no global-templates local`,
   semOrigem.length === 0,
   semOrigem.join(' | ')
 );

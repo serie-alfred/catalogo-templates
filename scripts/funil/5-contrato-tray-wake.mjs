@@ -20,9 +20,10 @@ import { GLOBAL_TEMPLATES, SAIDA, relatorio } from './lib/util.mjs';
 import {
   conferirTrayWake,
   conferirNuvemshop,
+  conferirSchemasDesignStudio,
   conferirParidadeGlobalTemplates,
 } from './lib/contrato.mjs';
-import { NUVEMSHOP_LIGADA } from '../../src/types/platform.ts';
+import { NUVEMSHOP_LIGADA, WAKE2_LIGADA } from '../../src/types/platform.ts';
 
 const r = relatorio('Estágio 5 — contrato Tray/Wake');
 
@@ -30,7 +31,10 @@ const r = relatorio('Estágio 5 — contrato Tray/Wake');
 // Diz qual árvore foi lida e reprova se o local não for o que está empurrado.
 await conferirParidadeGlobalTemplates(r);
 
-const PLATAFORMAS = ['Tray', 'Wake', ...(NUVEMSHOP_LIGADA ? ['Nuvemshop'] : [])];
+// Wake 2.0: o bloco do Design Studio (`<sel>.schema.json`) e o HTML que o lê.
+conferirSchemasDesignStudio(r);
+
+const PLATAFORMAS = ['Tray', 'Wake', ...(NUVEMSHOP_LIGADA ? ['Nuvemshop'] : []), ...(WAKE2_LIGADA ? ['Wake 2.0'] : [])];
 
 for (const plataforma of PLATAFORMAS) {
   const arquivo = `${SAIDA}/config-${plataforma}.json`;
