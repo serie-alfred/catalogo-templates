@@ -375,6 +375,55 @@ export function conferirNuvemshop(config, r) {
   return entradas;
 }
 
+/*
+ * O slug da LP, do `.lp-contrato.md` §3. Na Nuvemshop ele vira o nome do modelo
+ * alternativo, `templates/pages/page.<slug>.json`, e o nome de um modelo tem até
+ * 128 caracteres (central de ajuda da Nuvemshop, "modelos personalizados").
+ */
+const SLUG_DA_LP = /^[a-z0-9][a-z0-9-]*$/;
+/** Seções por template, limite da plataforma (contrato da Nuvemshop, §2). */
+const LIMITE_DE_SECOES = 25;
+
+/**
+ * Confere o config do modo LP da Nuvemshop (fase 7): tudo o que o
+ * `conferirNuvemshop` confere (origem em `Nuvemshop/Home/…` pelo balde
+ * `landing`, assets, 14 globais, sem checkout, sem credencial) e o que é da LP —
+ * `tipo: "lp"`, `landingPage` com um slug que o generator aceita, só o balde
+ * `landing`, toda seção de miolo e no máximo 25 delas.
+ */
+export function conferirLpNuvemshop(config, r) {
+  const entradas = conferirNuvemshop(config, r);
+  const lp = config.nuvemshop?.landingPage;
+  r.ok(
+    'Nuvemshop-lp: tipo "lp" e landingPage { slug, nome }, com o slug de page.<slug>.json',
+    config.tipo === 'lp' &&
+      typeof lp?.slug === 'string' &&
+      SLUG_DA_LP.test(lp.slug) &&
+      lp.slug.length <= 128 &&
+      typeof lp?.nome === 'string' &&
+      lp.nome.trim() !== '',
+    JSON.stringify({ tipo: config.tipo, landingPage: lp })
+  );
+  const foraDaLp = [...new Set(entradas.map(e => e.balde))].filter(b => b !== 'landing');
+  r.ok(
+    `Nuvemshop-lp: ${entradas.length} seção(ões), só no balde landing`,
+    entradas.length > 0 && foraDaLp.length === 0,
+    foraDaLp.length ? `baldes de loja no config da LP: ${foraDaLp.join(', ')}` : 'landing vazio'
+  );
+  const foraDoMiolo = entradas.filter(e => !(e.pagina ?? []).includes('home'));
+  r.ok(
+    'Nuvemshop-lp: toda seção é de miolo (pagina home)',
+    foraDoMiolo.length === 0,
+    foraDoMiolo.map(e => `${e.template}/${e.selection}`).join(', ')
+  );
+  r.ok(
+    `Nuvemshop-lp: dentro do limite de ${LIMITE_DE_SECOES} seções por template`,
+    entradas.length <= LIMITE_DE_SECOES,
+    `${entradas.length}`
+  );
+  return entradas;
+}
+
 /**
  * QUAL `global-templates` as checagens de origem Tray/Wake leem — e se é o que o
  * generator clona.

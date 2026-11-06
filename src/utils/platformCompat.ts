@@ -1,6 +1,6 @@
 import { LAYOUTS, type LayoutKey } from '@/data/layoutData';
 import type { EditorMode, LayoutSelection } from '@/hooks/useLayoutGenerator';
-import { PLATFORMS, type Platform } from '@/types/platform';
+import { NUVEMSHOP_LIGADA, PLATFORMS, type Platform } from '@/types/platform';
 
 /** O LayoutItem por trás de uma selection, ou null se a entrada é lixo. */
 function resolve(selection: LayoutSelection) {
@@ -81,12 +81,18 @@ export function sanitizePlatform(value: string | null): Platform | null {
 
 /**
  * O modo LP só existe onde o generator sabe montar uma LP sozinha: Wake (página
- * custom de hotsite) e VTEX (seções numa Landing Page do CMS). A Tray não tem.
- * A Nuvemshop terá (`page.<slug>.json`), mas só na fase 7 do contrato dela:
- * até lá o generator não monta LP por seções da Nuvemshop.
+ * custom de hotsite), VTEX (seções numa Landing Page do CMS) e Nuvemshop (o
+ * modelo alternativo `templates/pages/page.<slug>.json`, fase 7 do contrato
+ * dela; quem liga o modelo a uma página é o lojista, no admin). A Tray não tem.
+ * A Nuvemshop continua atrás da flag: sem ela, nem chega aqui como plataforma
+ * (`sanitizePlatform`), e a condição repete a flag para não depender disso.
  */
 export function plataformaTemLp(platform: Platform | null): boolean {
-  return platform === 'Wake' || platform === 'VTEX';
+  return (
+    platform === 'Wake' ||
+    platform === 'VTEX' ||
+    (platform === 'Nuvemshop' && NUVEMSHOP_LIGADA)
+  );
 }
 
 /**
