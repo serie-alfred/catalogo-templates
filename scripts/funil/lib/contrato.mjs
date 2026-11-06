@@ -199,8 +199,20 @@ export function autotesteCopias(r) {
  * template_<N>/<selection>/` (contrato da Nuvemshop, §2.1 D).
  */
 export function conferirTrayWake(config, plataforma, r) {
+  // 'Wake 2.0' é a trilha `wake` com `designStudio: true`; origem, token e
+  // contrato são os da Wake.
+  const wake2 = plataforma === 'Wake 2.0';
+  if (wake2) plataforma = 'Wake';
   const raiz = config[plataforma.toLowerCase()];
   const entradas = [];
+  if (plataforma === 'Wake')
+    r.ok(
+      wake2
+        ? 'Wake 2.0: wake.designStudio === true'
+        : 'Wake: sem a chave designStudio (config igual ao de sempre)',
+      wake2 ? raiz.designStudio === true : !('designStudio' in raiz),
+      JSON.stringify(raiz.designStudio)
+    );
   for (const [balde, dir] of Object.entries(PASTA)) {
     for (const e of raiz[balde] ?? []) entradas.push({ ...e, balde, dir });
   }

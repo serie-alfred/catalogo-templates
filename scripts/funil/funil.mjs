@@ -56,6 +56,8 @@ const DESVIAM = [
   // Liga a Nuvemshop, que produção não tem: o 3-export troca a prova de que a
   // hidratação a RECUSA pela de que a aceita.
   'NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP',
+  // Liga a Wake 2.0 (flag), que produção ainda não tem.
+  'NEXT_PUBLIC_PLATAFORMA_WAKE2',
   // De onde o generator clona no 4-tema-nuvemshop (e a branch que a paridade do
   // global-templates espera): outro tema-base, outra árvore de componentes.
   'NUVEMSHOP_THEME_BASE_REPO',
