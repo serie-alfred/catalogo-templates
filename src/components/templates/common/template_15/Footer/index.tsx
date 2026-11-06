@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
 
@@ -108,7 +108,7 @@ const Sinal = ({ aberto }: { aberto: boolean }) => (
 );
 
 export default function Footer15() {
-  const { logo } = useLayout();
+  const logo = useLogoDoRodape();
   const {
     brandName,
     brandUrl,

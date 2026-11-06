@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
 
@@ -91,7 +91,7 @@ const Sinal = ({ aberto }: { aberto: boolean }) => (
 );
 
 export default function Footer09() {
-  const { logo } = useLayout();
+  const logo = useLogoDoRodape();
   const { columns, contactTitle, contactLines, contactHours, socials, brandUrl, payments, legal } = MOCK;
   const [aberta, setAberta] = useState<number | null>(0);
 

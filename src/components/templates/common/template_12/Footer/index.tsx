@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
 
@@ -190,7 +190,7 @@ const Sinal = ({ aberto }: { aberto: boolean }) =>
   svg(<path d={aberto ? 'M5 12h14' : 'M12 5v14M5 12h14'} />);
 
 export default function Footer12() {
-  const { logo } = useLayout();
+  const logo = useLogoDoRodape();
   const {
     logoAlt,
     brandName,

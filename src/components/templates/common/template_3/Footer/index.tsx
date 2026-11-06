@@ -3,7 +3,7 @@
 import { useState, type SyntheticEvent } from 'react';
 
 import styles from './index.module.css';
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 /**
  * O par +/− do acordeão de coluna do rodapé.
@@ -52,7 +52,7 @@ const ColChevron = () => (
 );
 
 const FooterNovo = () => {
-  const { logo } = useLayout();
+  const logo = useLogoDoRodape();
   const [open, setOpen] = useState<Record<string, boolean>>({
     institucional: true,
     atendimento: true,

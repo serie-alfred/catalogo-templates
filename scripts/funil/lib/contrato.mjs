@@ -193,6 +193,11 @@ export function autotesteCopias(r) {
   );
 }
 
+/**
+ * Serve também à Nuvemshop (`conferirNuvemshop`, abaixo): a origem dela se
+ * resolve pela mesma regra de pasta, `global-templates/Nuvemshop/<Página>/
+ * template_<N>/<selection>/` (contrato da Nuvemshop, §2.1 D).
+ */
 export function conferirTrayWake(config, plataforma, r) {
   const raiz = config[plataforma.toLowerCase()];
   const entradas = [];
@@ -223,11 +228,20 @@ export function conferirTrayWake(config, plataforma, r) {
     entradas,
     e => `${e.template}/${e.selection}`
   );
-  r.ok(
-    `${plataforma}: nenhuma cópia com variables divergentes${duplicadas ? ` (${duplicadas} duplicada${duplicadas > 1 ? 's' : ''})` : ''}`,
-    divergentes.length === 0,
-    `só um conjunto chega ao tema: ${divergentes.join(', ')}`
-  );
+  // Na Nuvemshop a cópia com cor própria é RECURSO: o generator põe as
+  // `variables` de cada entrada nos `settings` daquela instância em
+  // `templates/pages/<página>.json`, não num arquivo por componente (§2.1 C).
+  if (plataforma === 'Nuvemshop') {
+    if (divergentes.length)
+      console.log(
+        `     ℹ️  Nuvemshop: ${divergentes.length} item(ns) com cópias de variables próprias (${divergentes.join(', ')}) — cada instância leva os seus settings`
+      );
+  } else
+    r.ok(
+      `${plataforma}: nenhuma cópia com variables divergentes${duplicadas ? ` (${duplicadas} duplicada${duplicadas > 1 ? 's' : ''})` : ''}`,
+      divergentes.length === 0,
+      `só um conjunto chega ao tema: ${divergentes.join(', ')}`
+    );
 
   r.ok(
     `${plataforma}: bloco assets presente`,
@@ -263,6 +277,104 @@ export function conferirTrayWake(config, plataforma, r) {
   return entradas;
 }
 
+/*
+ * Credencial no config. A Wake leva o `wakeToken`, que é o contrato dela com o
+ * generator. A Nuvemshop NUNCA leva: o generator autentica pelo alias da CLI ou
+ * por variável de ambiente do CI, e o `auth login` é do humano, no terminal dele
+ * (contrato da Nuvemshop, decisão 3). Decide o NOME da chave, em qualquer
+ * profundidade. `key` sozinho fica de fora: é o campo de identidade do item.
+ */
+const CREDENCIAL = /token|senha|password|secret|segredo|credencia|api[-_]?key|access[-_]?key/i;
+
+/** Caminhos (`a.b.0.c`) de toda chave com cara de credencial dentro do valor. */
+export function camposDeCredencial(valor, caminho = '') {
+  if (!valor || typeof valor !== 'object') return [];
+  return Object.entries(valor).flatMap(([k, v]) => {
+    const aqui = caminho ? `${caminho}.${k}` : k;
+    return [...(CREDENCIAL.test(k) ? [aqui] : []), ...camposDeCredencial(v, aqui)];
+  });
+}
+
+/**
+ * Autoteste do detector acima, pelo mesmo motivo do `autotesteCopias`: o config
+ * da Nuvemshop que o editor exporta hoje não tem credencial, então sem um caso
+ * que REPROVA a asserção passaria verde mesmo com o detector quebrado.
+ */
+export function autotesteCredencial(r) {
+  const limpo = {
+    platform: 'nuvemshop',
+    nuvemshop: {
+      global: [{ key: 'header-09', variables: { '--header-bg': '#fff' } }],
+      variables: { colorPrimary: '#000', fontPrimary: "'Inter', sans-serif" },
+      assets: { logo: '', favicon: '', ogImage: '' },
+    },
+  };
+  const casos = [
+    ['config sem credencial passa', limpo, []],
+    ['wakeToken na raiz REPROVA', { ...limpo, wakeToken: 'x' }, ['wakeToken']],
+    [
+      'token aninhado num balde REPROVA',
+      { nuvemshop: { home: [{ deploy: { accessToken: 'x' } }] } },
+      ['nuvemshop.home.0.deploy.accessToken'],
+    ],
+  ];
+  for (const [rotulo, cfg, esperado] of casos) {
+    const achados = camposDeCredencial(cfg);
+    r.ok(
+      `detector de credencial: ${rotulo}`,
+      JSON.stringify(achados) === JSON.stringify(esperado),
+      JSON.stringify(achados)
+    );
+  }
+}
+
+/*
+ * As 14 chaves globais que o generator da Nuvemshop traduz para os settings do
+ * painel "Marca" (`sa_` + snake_case da chave), fixadas no contrato da
+ * Nuvemshop, §2.1 A. Renomear uma aqui sem o generator deixa o setting no valor
+ * inicial do tema-base, sem erro.
+ */
+const CHAVES_DA_MARCA = [
+  'colorPrimary',
+  'colorSecondary',
+  'colorTertiary',
+  'colorPrimaryBackground',
+  'colorPrimaryBackgroundSafe',
+  'colorSecondaryBackground',
+  'colorTertiaryBackground',
+  'colorFooter',
+  'colorFooterText',
+  'colorPrimaryText',
+  'colorSecondaryText',
+  'fontPrimary',
+  'fontSecondary',
+  'fontTertiary',
+];
+
+/**
+ * Confere um config Nuvemshop: as regras de pasta do Tray/Wake (origem, assets,
+ * 14 globais, sem checkout), as chaves do painel "Marca" e a regra nova — o
+ * config não carrega credencial nenhuma.
+ */
+export function conferirNuvemshop(config, r) {
+  const entradas = conferirTrayWake(config, 'Nuvemshop', r);
+  const globais = Object.keys(config.nuvemshop?.variables ?? {});
+  const faltam = CHAVES_DA_MARCA.filter(k => !globais.includes(k));
+  const sobram = globais.filter(k => !CHAVES_DA_MARCA.includes(k));
+  r.ok(
+    'Nuvemshop: as globais são as 14 chaves do painel "Marca" (§2.1 A)',
+    faltam.length === 0 && sobram.length === 0,
+    `faltam: ${faltam.join(', ') || '—'} · sobram: ${sobram.join(', ') || '—'}`
+  );
+  const credenciais = camposDeCredencial(config);
+  r.ok(
+    'Nuvemshop: config sem campo de credencial (nem wakeToken, nem token da loja)',
+    credenciais.length === 0,
+    credenciais.join(', ')
+  );
+  return entradas;
+}
+
 /**
  * QUAL `global-templates` as checagens de origem Tray/Wake leem — e se é o que o
  * generator clona.
@@ -274,15 +386,21 @@ export function conferirTrayWake(config, plataforma, r) {
  * empurrado: componente commitado aqui e não empurrado passa com "origem
  * existe" e some do tema sem erro.
  *
+ * Com `GLOBAL_COMPONENTS_BRANCH`, as três trilhas do generator clonam AQUELA
+ * branch (Tray, Wake e Nuvemshop leem a mesma constante), então é contra ela que
+ * o checkout local tem de bater — é como se confere um porte ainda não mesclado.
+ * Sem a variável, o HEAD do remoto, como sempre.
+ *
  * O remoto é privado. No github.com o helper é o do `gh` e responde na hora;
  * qualquer outro host vai com `credential.helper` vazio, que dá 401 em ~2s em
  * vez de travar no osxkeychain (ver README). Onde não houver acesso, o estágio
  * DIZ o que mediu em vez de calar.
  */
 export async function conferirParidadeGlobalTemplates(r) {
-  const { GLOBAL_COMPONENTS_REPO_URL: doGenerator } = await import(
-    pathToFileURL(path.join(GENERATOR, 'src/constants/config.js')).href
-  );
+  const { GLOBAL_COMPONENTS_REPO_URL: doGenerator, GLOBAL_COMPONENTS_REPO_BRANCH: branch } =
+    await import(pathToFileURL(path.join(GENERATOR, 'src/constants/config.js')).href);
+  const ref = branch ? `refs/heads/${branch}` : 'HEAD';
+  const alvo = branch ? `${doGenerator} @ ${branch}` : doGenerator;
   const git = (args, env = process.env) =>
     spawnSync('git', args, { encoding: 'utf8', timeout: 20000, env });
   const local = git(['-C', GLOBAL_TEMPLATES, 'rev-parse', 'HEAD']).stdout.trim();
@@ -291,16 +409,16 @@ export async function conferirParidadeGlobalTemplates(r) {
   // Zerar o helper no github.com zeraria também o do `gh` (o vazio da linha de
   // comando reinicia a lista inteira) e a paridade nunca seria verificada.
   const semKeychain = /^https:\/\/github\.com\//.test(doGenerator) ? [] : ['-c', 'credential.helper='];
-  const remoto = git([...semKeychain, 'ls-remote', doGenerator, 'HEAD'], {
+  const remoto = git([...semKeychain, 'ls-remote', doGenerator, ref], {
     ...process.env,
     GIT_TERMINAL_PROMPT: '0',
   });
   const cabeca = remoto.status === 0 ? remoto.stdout.split(/\s/)[0] : '';
   if (cabeca) {
     r.ok(
-      `global-templates lido (${local.slice(0, 7)}) é o commit que o generator clona`,
+      `global-templates lido (${local.slice(0, 7)}) é o commit que o generator clona${branch ? ` (branch ${branch})` : ''}`,
       cabeca === local,
-      `${doGenerator} está em ${cabeca.slice(0, 7)} — as origens Tray/Wake foram conferidas em outra árvore`
+      `${alvo} está em ${cabeca.slice(0, 7)} — as origens Tray/Wake/Nuvemshop foram conferidas em outra árvore`
     );
     return;
   }
@@ -310,7 +428,7 @@ export async function conferirParidadeGlobalTemplates(r) {
       `exit ${remoto.status ?? remoto.signal}`);
   console.log(
     `  ℹ️  origem Tray/Wake conferida em ${origemLocal || GLOBAL_TEMPLATES} @ ${local.slice(0, 7)};` +
-      ` o generator clona ${doGenerator}, que não respondeu daqui (${motivo}) — paridade não verificada`
+      ` o generator clona ${alvo}, que não respondeu daqui (${motivo}) — paridade não verificada`
   );
 }
 

@@ -14,7 +14,17 @@ export async function captureAndDownloadScreenshot(
   element: HTMLElement,
   filename: string
 ): Promise<void> {
-  const canvas = await html2canvas(element, { backgroundColor: null });
+  // O clone é do documento INTEIRO, e no Chrome/Safari o html2canvas espera
+  // toda <img> dele carregar, sem prazo. Uma imagem `loading="lazy"` fora da
+  // tela (as miniaturas do painel "Por template" abaixo da dobra) nunca carrega
+  // no clone: o "Baixar" ficava em "Gerando…" para sempre, sem PNG e sem
+  // config. Imagem e iframe fora do elemento fotografado não entram no PNG.
+  const canvas = await html2canvas(element, {
+    backgroundColor: null,
+    ignoreElements: node =>
+      (node.tagName === 'IMG' || node.tagName === 'IFRAME') &&
+      !element.contains(node),
+  });
   const dataUrl = canvas.toDataURL('image/png');
   const link = document.createElement('a');
   link.href = dataUrl;

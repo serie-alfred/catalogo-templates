@@ -39,6 +39,7 @@ const ESTREITAM = {
   FUNIL_TEMA_BUILD: v => v === '0', // 4: pula o `yarn build` do tema
   FIDELIDADE_SO: v => v !== '', // 2-fidelidade: um par só
   FUNIL_RENDER_NOVOS: v => v === '1', // 2-render: só os 23 do redesign
+  FUNIL_NUVEMSHOP_SO: v => v !== '', // 4-tema-nuvemshop: parte dos itens no laço
 };
 /**
  * Variáveis que trocam O QUE é medido: outra origem de componentes, outro
@@ -52,6 +53,15 @@ const DESVIAM = [
   'FASTSTORE_THEME_BASE_REPO',
   'FASTSTORE_THEME_BASE_BRANCH',
   'NEXT_PUBLIC_DEV_FIDELITY',
+  // Liga a Nuvemshop, que produção não tem: o 3-export troca a prova de que a
+  // hidratação a RECUSA pela de que a aceita.
+  'NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP',
+  // De onde o generator clona no 4-tema-nuvemshop (e a branch que a paridade do
+  // global-templates espera): outro tema-base, outra árvore de componentes.
+  'NUVEMSHOP_THEME_BASE_REPO',
+  'NUVEMSHOP_THEME_BASE_BRANCH',
+  'GLOBAL_COMPONENTS_REPO',
+  'GLOBAL_COMPONENTS_BRANCH',
 ];
 
 if (completa) {
@@ -282,7 +292,9 @@ if (completa) {
         // O commit de cada repo no início; o preflight compara com os de agora.
         commits: Object.fromEntries(REPOS.map(r => [r, inicio.repos[r].commit])),
         ambiente: Object.fromEntries(
-          [...DESVIAM, 'FUNIL_BASE_URL', 'FUNIL_STARTER_URL', 'CHROME_PATH']
+          // NUVEMSHOP_VALIDADOR não desvia (sem ele o 4-tema-nuvemshop reprova),
+          // mas diz QUAL validador deu o verde.
+          [...DESVIAM, 'FUNIL_BASE_URL', 'FUNIL_STARTER_URL', 'CHROME_PATH', 'NUVEMSHOP_VALIDADOR']
             .filter(k => process.env[k] !== undefined)
             .map(k => [k, process.env[k]])
         ),

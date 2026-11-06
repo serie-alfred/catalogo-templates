@@ -8,6 +8,7 @@ import { lpInicial } from '@/utils/lp';
 
 export interface LayoutSeed {
   logo?: string;
+  footerLogo?: string;
   selections?: LayoutSelection[];
 }
 
@@ -22,7 +23,8 @@ const noop = () => {};
  * Então o valor é montado à mão — daí o cast, que é o escape sancionado aqui
  * (`no-explicit-any` é `error` no ESLint).
  *
- * IMPORTANTE: templates só podem ler `logo` e `selections` do `useLayout()`.
+ * IMPORTANTE: templates só podem ler `logo`, `footerLogo` (pelo
+ * `useLogoDoRodape`) e `selections` do `useLayout()`.
  * Os defaults abaixo existem para que um consumidor novo receba algo válido em
  * vez de `undefined` — mas se um template passar a depender de outro campo,
  * adicione-o ao seed em vez de confiar no default.
@@ -40,6 +42,7 @@ export default function SeededLayoutProvider({
         // Defaults seguros para tudo que os templates podem tocar.
         selections: [],
         logo: '',
+        footerLogo: '',
         favicon: '',
         ogImage: '',
         isMobileView: false,

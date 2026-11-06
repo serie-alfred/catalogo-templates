@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
 
@@ -19,7 +19,7 @@ import styles from './index.module.css';
  * Aqui é estado local: preview não faz rede.
  *
  * O nome da marca NÃO vem da origem: o `/from-faststore` proíbe trazer o
- * wordmark do cliente para o catálogo, que é público. Vem de `useLayout().logo`
+ * wordmark do cliente para o catálogo, que é público. Vem de `useLogoDoRodape()`
  * com o fallback "SERIE//A", como em Header01/03/04/06.
  */
 interface Link {
@@ -147,7 +147,7 @@ const conteudo = {
 };
 
 export default function Footer() {
-  const { logo } = useLayout();
+  const logo = useLogoDoRodape();
   const [sentDesktop, setSentDesktop] = useState(false);
   const [sentMobile, setSentMobile] = useState(false);
 

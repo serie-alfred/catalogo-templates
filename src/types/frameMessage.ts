@@ -62,6 +62,8 @@ export type ToFrame =
       selections: LayoutSelection[];
       pagina: string;
       logo: string;
+      /** O logo dos rodapés; vazio = o `logo`. */
+      footerLogo: string;
       /** Repassado aos templates. O frame serve as duas visões. */
       isMobile: boolean;
     }

@@ -28,6 +28,11 @@ export interface PreviewSnapshot {
     fontTertiary: string;
   };
   logo: string;
+  /**
+   * Logo dos rodapés (para fundo escuro). Opcional: snapshot sem ele mostra o
+   * `logo` no rodapé, como antes deste campo existir.
+   */
+  footerLogo?: string;
   favicon: string;
   /**
    * Imagem de compartilhamento (og:image) do preview. Opcional: snapshots

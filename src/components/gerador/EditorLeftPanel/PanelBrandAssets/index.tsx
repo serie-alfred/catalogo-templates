@@ -16,6 +16,8 @@ type SlotProps = {
   value: string;
   accept: string;
   onChange: (dataUrl: string) => void;
+  /** Miniatura em fundo escuro: um logo claro sumiria no cinza-claro. */
+  escuro?: boolean;
 };
 
 /**
@@ -23,7 +25,14 @@ type SlotProps = {
  * tracejado para remover quando há imagem, cinza tracejado para carregar
  * quando não há.
  */
-function AssetSlot({ title, hint, value, accept, onChange }: SlotProps) {
+function AssetSlot({
+  title,
+  hint,
+  value,
+  accept,
+  onChange,
+  escuro = false,
+}: SlotProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = (file: File) => {
@@ -42,7 +51,7 @@ function AssetSlot({ title, hint, value, accept, onChange }: SlotProps) {
     <section className={styles.block}>
       <button
         type="button"
-        className={styles.thumb}
+        className={`${styles.thumb} ${escuro ? styles.thumbEscuro : ''}`}
         onClick={() => inputRef.current?.click()}
         aria-label={value ? `Trocar ${title}` : `Carregar ${title}`}
       >
@@ -99,8 +108,16 @@ const IMAGE_ACCEPT =
   'image/png,image/jpeg,image/svg+xml,image/webp,image/x-icon,image/vnd.microsoft.icon';
 
 export default function PanelBrandAssets() {
-  const { logo, setLogo, favicon, setFavicon, ogImage, setOgImage } =
-    useLayout();
+  const {
+    logo,
+    setLogo,
+    footerLogo,
+    setFooterLogo,
+    favicon,
+    setFavicon,
+    ogImage,
+    setOgImage,
+  } = useLayout();
 
   return (
     <div>
@@ -113,6 +130,16 @@ export default function PanelBrandAssets() {
         value={logo}
         accept={IMAGE_ACCEPT}
         onChange={setLogo}
+      />
+      {/* Para header claro e rodapé escuro (ou o contrário): os rodapés usam
+          este quando existe, e o Logo quando não. */}
+      <AssetSlot
+        title="Logo do rodapé"
+        hint={`Para fundo escuro; sem ele, vale o Logo (${MAX_MB} Mb)`}
+        value={footerLogo}
+        accept={IMAGE_ACCEPT}
+        onChange={setFooterLogo}
+        escuro
       />
       <AssetSlot
         title="Favicon"

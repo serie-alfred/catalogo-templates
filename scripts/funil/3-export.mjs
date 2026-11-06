@@ -9,10 +9,16 @@ import {
 } from 'node:fs';
 import { relatorio } from './lib/util.mjs';
 import { NON_DUPLICABLE_SELECTIONS } from '../../src/utils/sectionRules.ts';
+// A MESMA constante que o app lê, mas com o env DESTE processo: o funil e o
+// `next dev` têm de subir com a mesma NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP, e o
+// bloco "seletor e hidratação" no fim reprova quando não sobem.
+import { NUVEMSHOP_LIGADA } from '../../src/types/platform.ts';
 import {
   conferirTrayWake,
   conferirFaststore,
+  conferirNuvemshop,
   autotesteCopias,
+  autotesteCredencial,
 } from './lib/contrato.mjs';
 const CHROME = findChrome();
 const L = lerLayouts();
@@ -25,6 +31,8 @@ const r = relatorio('Estágio 3 — export e contrato com o generator');
 // O detector de cópias antes de qualquer config real: é ele que decide se a
 // asserção abaixo mede alguma coisa, e o seed só exercita o ramo que tolera.
 autotesteCopias(r);
+// Idem para a regra da Nuvemshop: o config dela não carrega credencial.
+autotesteCredencial(r);
 // Os PNGs também são baixados; pasta limpa a cada run para a conferência valer.
 const DL = `${SAIDA}/download`;
 rmSync(DL, { recursive: true, force: true });
@@ -120,7 +128,15 @@ const coerenteFor = plataforma => {
   return out;
 };
 
-for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
+// A Nuvemshop entra só com a flag. Enquanto nenhum item a declara, o palco de
+// export dela sai vazio, e os PNGs vão para uma pasta própria: o Chrome
+// SOBRESCREVE arquivo de mesmo nome, e os PNGs em branco dela tomariam o lugar
+// dos que a conferência do fim lê (medido em 05/11: 1 kB e 0 kB).
+const PLATAFORMAS = ['Tray', 'Wake', 'VTEX', 'VTEX-coerente'];
+if (NUVEMSHOP_LIGADA) PLATAFORMAS.push('Nuvemshop');
+const DL_NUVEMSHOP = `${DL}/nuvemshop`;
+
+for (const plat of PLATAFORMAS) {
   const coerente = plat.endsWith('-coerente');
   const plataforma = coerente ? plat.replace('-coerente', '') : plat;
   const p = await b.newPage();
@@ -128,7 +144,7 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
   const cdp = await p.createCDPSession();
   await cdp.send('Page.setDownloadBehavior', {
     behavior: 'allow',
-    downloadPath: DL,
+    downloadPath: plataforma === 'Nuvemshop' ? DL_NUVEMSHOP : DL,
   });
   p.on('dialog', async d => {
     log(`   [dialog ${plat}] ${d.message().slice(0, 90)}`);
@@ -139,6 +155,10 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
   );
 
   const seed = coerente ? coerenteFor(plataforma) : seedFor(plataforma);
+  if (!seed.length)
+    log(
+      `   ℹ️  ${plat}: nenhum item do catálogo declara a plataforma — o config sai só com globais e assets`
+    );
   // Papéis do checkout no sessionStorage em TODAS as plataformas: em VTEX eles têm
   // de chegar ao `faststore.checkout.variables`; em Tray/Wake não podem vazar.
   const CHECKOUT_SEMEADO = {
@@ -160,7 +180,9 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
     },
     plataforma,
     JSON.stringify(seed),
-    plataforma === 'Wake' ? 'TOKEN-DE-TESTE' : '',
+    // Na Nuvemshop, o token que sobrou de uma sessão Wake na mesma aba: é ele
+    // que daria credencial ao config se o export o carregasse.
+    plataforma === 'Wake' || plataforma === 'Nuvemshop' ? 'TOKEN-DE-TESTE' : '',
     JSON.stringify({ model: 'Checkout01', variables: CHECKOUT_SEMEADO, etapa: 'carrinho' })
   );
   await p.goto(`${BASE_URL}/gerador`, {
@@ -216,15 +238,32 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
   // `platform` hidratar do sessionStorage, o estágio ficava 120s esperando um export
   // que nunca começou. Esperar ele habilitar é a diferença entre medir o produto e
   // medir a corrida.
-  await p.waitForFunction(
-    () => {
-      const b = [...document.querySelectorAll('button')].find(x =>
-        x.textContent.trim().startsWith('Baixar')
-      );
-      return !!b && !b.disabled;
-    },
-    { timeout: 60000, polling: 250 }
-  );
+  const habilitou = await p
+    .waitForFunction(
+      () => {
+        const b = [...document.querySelectorAll('button')].find(x =>
+          x.textContent.trim().startsWith('Baixar')
+        );
+        return !!b && !b.disabled;
+      },
+      { timeout: 60000, polling: 250 }
+    )
+    .then(
+      () => true,
+      () => false
+    );
+  if (
+    !r.ok(
+      `${plat}: o "Baixar" habilita (a plataforma hidratou)`,
+      habilitou,
+      plataforma === 'Nuvemshop'
+        ? 'o dev recusou a Nuvemshop: suba-o com NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP=1, como o funil'
+        : 'a plataforma semeada não hidratou'
+    )
+  ) {
+    await p.close();
+    continue;
+  }
   await p.evaluate(() => {
     const btn = [...document.querySelectorAll('button')].find(x =>
       x.textContent.trim().startsWith('Baixar')
@@ -270,7 +309,86 @@ for (const plat of ['Tray', 'Wake', 'VTEX', 'VTEX-coerente']) {
     );
     if (plataforma === 'VTEX')
       conferirFaststore(config, r, { checkoutEsperado: CHECKOUT_SEMEADO });
+    else if (plataforma === 'Nuvemshop') conferirNuvemshop(config, r);
     else conferirTrayWake(config, plataforma, r);
+  }
+  await p.close();
+}
+
+// O seletor e a hidratação contra a flag, nos dois sentidos. Desligada (o
+// padrão, e o que vai para produção): uma aba que guardou `Nuvemshop` volta sem
+// plataforma e o seletor não a oferece. Ligada: volta com ela e o seletor a
+// oferece. A aba fica sem seções, então o convite do canvas (`[data-inicio]`)
+// só aparece DEPOIS da hidratação — é por ele que se espera, não por tempo.
+{
+  const p = await b.newPage();
+  await p.goto(`${BASE_URL}/gerador`, {
+    waitUntil: 'domcontentloaded',
+    timeout: 90000,
+  });
+  await p.evaluate(() => {
+    localStorage.clear();
+    sessionStorage.clear();
+    sessionStorage.setItem('layoutPlatform', 'Nuvemshop');
+    sessionStorage.setItem('layoutSelections', '[]');
+  });
+  await p.goto(`${BASE_URL}/gerador`, {
+    waitUntil: 'domcontentloaded',
+    timeout: 90000,
+  });
+  const hidratou = await p
+    .waitForSelector('[data-inicio]', { timeout: 60000 })
+    .then(
+      () => true,
+      () => false
+    );
+  const card = 'button[class*="card"][aria-haspopup]';
+  const visto = hidratou
+    ? await p.evaluate(sel => {
+        const b = [...document.querySelectorAll('button')].find(x =>
+          x.textContent.trim().startsWith('Baixar')
+        );
+        return {
+          rotulo: document.querySelector(sel)?.textContent.trim() ?? '',
+          baixar: !!b && !b.disabled,
+        };
+      }, card)
+    : null;
+  let opcoes = [];
+  if (hidratou) {
+    await p.click(card);
+    await p
+      .waitForSelector('[role="option"]', { timeout: 5000 })
+      .catch(() => {});
+    opcoes = await p.evaluate(() =>
+      [...document.querySelectorAll('[role="option"]')].map(o =>
+        o.textContent.trim()
+      )
+    );
+  }
+  const flag = `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP ${NUVEMSHOP_LIGADA ? 'ligada' : 'desligada'}`;
+  const mesmaFlag =
+    'o dev e o funil sobem com a mesma NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP?';
+  r.ok(
+    `${flag}: a aba com "Nuvemshop" guardado hidrata`,
+    hidratou,
+    'o convite do canvas não apareceu em 60 s'
+  );
+  if (visto) {
+    r.ok(
+      NUVEMSHOP_LIGADA
+        ? `${flag}: a hidratação aceita a Nuvemshop (seletor e "Baixar")`
+        : `${flag}: a hidratação recusa a Nuvemshop (seletor vazio, "Baixar" desabilitado)`,
+      NUVEMSHOP_LIGADA
+        ? visto.rotulo.startsWith('Nuvemshop') && visto.baixar
+        : visto.rotulo === 'Selecione uma plataforma' && !visto.baixar,
+      `seletor "${visto.rotulo}" · Baixar ${visto.baixar ? 'habilitado' : 'desabilitado'} — ${mesmaFlag}`
+    );
+    r.ok(
+      `${flag}: o seletor ${NUVEMSHOP_LIGADA ? 'oferece' : 'não oferece'} a Nuvemshop`,
+      opcoes.length >= 3 && opcoes.includes('Nuvemshop') === NUVEMSHOP_LIGADA,
+      `opções: ${opcoes.join(', ') || 'nenhuma'} — ${mesmaFlag}`
+    );
   }
   await p.close();
 }

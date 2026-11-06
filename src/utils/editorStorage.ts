@@ -24,6 +24,7 @@ export const CHAVES_DA_ABA = [
   'colors',
   'fonts',
   'logo',
+  'footerLogo',
   'favicon',
   'ogImage',
   'editorMode',

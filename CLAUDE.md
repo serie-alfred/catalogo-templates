@@ -35,6 +35,7 @@ There is no test runner. Verification is `yarn funil` — the stages in [scripts
 - `KV_REST_API_URL`, `KV_REST_API_TOKEN` — Vercel KV, used by [src/lib/previewStore.ts](src/lib/previewStore.ts) for the shareable preview. Without `KV_REST_API_URL` the store falls back to `.preview-store/` on disk (dev only).
 - `CRON_SECRET` — optional; when set, [/api/keep-alive](src/app/api/keep-alive/route.ts) requires `Authorization: Bearer <CRON_SECRET>` from the Vercel cron.
 - `ETEMAS_LOGIN_USER`, `ETEMAS_LOGIN_PASSWORD`, `ETEMAS_SESSION_SECRET` — o login da agência (ver **Login** abaixo). O segredo precisa de 32+ caracteres. **Em produção, sem as três o /gerador fica FECHADO** — cadastre antes de publicar.
+- `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP` — `1` põe a Nuvemshop no `/gerador` (ver **Nuvemshop** abaixo). **Não cadastre na Vercel** até a fase 6 do contrato da plataforma; é embutida no build.
 
 #### O que cadastrar na Vercel (Settings → Environment Variables, Production)
 
@@ -68,7 +69,7 @@ The two routes intentionally have separate `layout.tsx` files. Don't unify them.
 
 All state for the builder lives in [src/hooks/useLayoutGenerator.ts](src/hooks/useLayoutGenerator.ts) — selections, current platform, focused section, current page (`selectedPage`), the active rail destination (`railTarget`), mobile/desktop toggle, theme colors, fonts, assets, canvas/screenshot refs, section selection (`selectedUid`/`hoveredUid`), the section actions (`moveSection`/`duplicateSection`/`removeSection`), the Wake-token popup state, undo/redo, export logic. [src/context/LayoutContext.tsx](src/context/LayoutContext.tsx) just wraps that hook and exposes it via `useLayout()`. Components inside `gerador/` should consume `useLayout()` rather than receiving these as props.
 
-**Undo/redo** lives in [src/hooks/useThemeHistory.ts](src/hooks/useThemeHistory.ts) and is an _observer_: it never intercepts an action, it serializes the result. The versioned document is `selections` + the 10 colors + the 3 fonts — not UI state, not `platform` (it has its own confirm dialog), not the three assets (2 MB data URLs × 50 entries). Structural changes commit immediately; everything else is debounced 250 ms so a color-picker drag is one entry — except while a **text field** has focus (the hex input, the font name): those fields write on every keystroke, so the entry stays open until focus leaves the field (`focusout`), and typing `#123456` slowly is one entry, not `#1`…`#12345`. `undo`/`redo` first close whatever is still open, so one Cmd+Z always goes back exactly one gesture.
+**Undo/redo** lives in [src/hooks/useThemeHistory.ts](src/hooks/useThemeHistory.ts) and is an _observer_: it never intercepts an action, it serializes the result. The versioned document is `selections` + the 10 colors + the 3 fonts — not UI state, not `platform` (it has its own confirm dialog), not the four assets (2 MB data URLs × 50 entries). Structural changes commit immediately; everything else is debounced 250 ms so a color-picker drag is one entry — except while a **text field** has focus (the hex input, the font name): those fields write on every keystroke, so the entry stays open until focus leaves the field (`focusout`), and typing `#123456` slowly is one entry, not `#1`…`#12345`. `undo`/`redo` first close whatever is still open, so one Cmd+Z always goes back exactly one gesture.
 
 **The seeded context must stay in sync.** [SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx) forges the context object for `/p` and the iframe with an `as unknown as` cast, so the compiler will NOT catch a field you add to or remove from the hook's return.
 
@@ -78,9 +79,9 @@ All state for the builder lives in [src/hooks/useLayoutGenerator.ts](src/hooks/u
 
 A template is a React component plus a catalog entry. Two files always need to change together:
 
-1. **Component** — add it under `src/components/templates/{common,home,category,product}/template_N/<Name>/`. The folder convention is `index.tsx` + `index.module.css`. Components receive `{ isMobile }` from [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx) — the single renderer for every surface. Templates may read **only** `logo` and `selections` from `useLayout()`: outside the editor the context is seeded by hand ([SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx)), so any other field is a default, not real state.
+1. **Component** — add it under `src/components/templates/{common,home,category,product}/template_N/<Name>/`. The folder convention is `index.tsx` + `index.module.css`. Components receive `{ isMobile }` from [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx) — the single renderer for every surface. Templates may read **only** `logo` and `selections` from `useLayout()` — and a footer reads its logo through [useLogoDoRodape](src/hooks/useLogoDoRodape.ts) (`footerLogo || logo`), never `useLayout().logo`: outside the editor the context is seeded by hand ([SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx)), so any other field is a default, not real state.
 2. **Registry** — import it in [src/utils/templateRegistry.ts](src/utils/templateRegistry.ts) and add it to the `TemplateRegistry` object. The string key must match the `component` field used in `LAYOUTS`. **If the registry entry is missing, `ThemeRenderer` renders a visible red marker naming the component** — it used to emit `<img src="/images/gerador/…">`, which with `image: ''` in all items was a mute 404 (os campos `image` já estão preenchidos hoje — ver **Thumbs do seletor** abaixo), so the mistake hid instead of showing.
-3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`Tray | Wake | VTEX`), and `component` (the `TemplateRegistry` key).
+3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`Tray | Wake | VTEX | Nuvemshop`), and `component` (the `TemplateRegistry` key).
 
 > **Os dois lados saem de sincronia com facilidade, e em silêncio.** Hoje eles estão casados:
 > **100 componentes no registry, 100 `LayoutItem`s ativos, zero órfãos dos dois lados** — e o
@@ -100,8 +101,8 @@ A template is a React component plus a catalog entry. Two files always need to c
 > volta do padrão de deixar item comentado no arquivo.
 >
 > **Um componente só entra se a origem existir na plataforma que ele declara**, e isso é
-> verificável sem subir nada: Tray/Wake resolvem por
-> `global-templates/<Tray|Wake>/<Common|Home|Category|Product>/template_<template>/<selection>`
+> verificável sem subir nada: Tray/Wake/Nuvemshop resolvem por
+> `global-templates/<Tray|Wake|Nuvemshop>/<Common|Home|Category|Product>/template_<template>/<selection>`
 > (o campo `component` **não** participa do caminho), e VTEX resolve o `path` contra
 > `../faststore.starter` pelo grafo de `manifest.json`. `Newsletter01` ficou de fora justamente
 > por isso: não tem `template_1/newsletter` em nenhuma das duas plataformas, não tem manifest
@@ -228,7 +229,10 @@ sozinha. Ali o usuário monta UMA landing page com **qualquer seção de miolo**
   `home.scss` de cada seção Wake (`global-templates/Wake/Home/template_8/<selection>/`), como faz
   com o `Header08`/`Footer08`. Quando a raiz da peça tem regra mobile, o script põe o container
   num envelope `.<raiz>Box`, que a réplica renderiza: uma `@container` não estiliza o próprio
-  container.
+  container. Os portes com `derivar.json` no `global-templates` (Tray, Wake e Nuvemshop) também
+  saem dele; na Nuvemshop o destino é CSS puro (`css/<selection>-<NN>.css`). Para derivar de um
+  checkout que não é o irmão (worktree, clone na ponta do origin), use
+  `DERIVAR_STARTER=<raiz do starter>` e `DERIVAR_GLOBAL_TEMPLATES=<raiz do global-templates>`.
 
 ### Por template (rail)
 
@@ -482,8 +486,8 @@ Note the typo `--background-secundary-color` (and `--text-color-secundary`, `--f
 ### Persistence
 
 **O trabalho é por aba** ([src/utils/editorStorage.ts](src/utils/editorStorage.ts), `estadoDaAba`):
-selections, platform, colors, fonts and the three assets go to **`sessionStorage`** under keys
-`layoutSelections`, `layoutPlatform`, `colors`, `fonts`, `logo`, `favicon`, `ogImage` — and the
+selections, platform, colors, fonts and the four assets go to **`sessionStorage`** under keys
+`layoutSelections`, `layoutPlatform`, `colors`, `fonts`, `logo`, `footerLogo`, `favicon`, `ogImage` — and the
 checkout/LP modes under `editorMode` (`loja|checkout|lp`), `checkout` (`{ model, variables, etapa }`)
 and `lp` (`{ nome, selections }`), read back through `sanitizeEditorMode`/`sanitizeCheckout`/`sanitizeLp`;
 plus `wakeToken` and the tab's two links, `temaAtual` (the saved theme it saves into) and
@@ -571,6 +575,47 @@ hydration and `/gerador/import-log` also write it. Coming back to VTEX does not 
 The `PlatformSelect` normally lives only under "Componentes"; in checkout mode (no "Componentes")
 it shows in the left panel header, otherwise there would be no way to switch platform there.
 
+### Nuvemshop (atrás de flag)
+
+A 5ª plataforma, **tema por seções com fork** (Ipanema), no `config.json` como
+`platform: "nuvemshop"`. O contrato com os outros repos é `../.nuvemshop-contrato.md` (§2.1
+convenções, §4 o que muda aqui, §7 as fases). Hoje **a família 09 inteira (24 itens) a declara**, e
+só ela: o `platforms` de cada item ganha `'Nuvemshop'` só quando o porte dele existir em
+`global-templates/Nuvemshop/<Página>/template_<N>/<selection>/` — o `1-catalogo` reprova o item que
+declarar sem a pasta, com ou sem a flag. Com a flag desligada, marcar um item não muda nada visível:
+todo consumidor de `platforms` (`isItemAvailable`, `templatesCompletos`, `disponivelNaLp`,
+`partitionByPlatform`, o export) pergunta por UMA plataforma, e a hidratação só deixa chegar as de
+`PLATFORMS`. Com ela ligada, a 09 aparece no modal e como "09 · Editorial" em "Por template".
+
+- **A flag** ([types/platform.ts](src/types/platform.ts)): `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP=1`
+  inclui a Nuvemshop em `PLATFORMS`, a lista que o `PlatformSelect` mostra e que a hidratação
+  (`sanitizePlatform`) aceita. Desligada — o padrão, e **produção até a fase 6** —, a aba, o tema
+  salvo ou o `/gerador/import-log` com `Nuvemshop` voltam sem plataforma. O tipo `Platform` tem a
+  Nuvemshop sempre (tipo não depende de env). Por ser `NEXT_PUBLIC_*`, o valor entra no **build**:
+  trocar na Vercel pede deploy novo.
+- **Sem LP e sem checkout:** `plataformaTemLp` e `modeForPlatform` não a incluem. A LP é a fase 7
+  (`page.<slug>.json`); o checkout da Nuvemshop é da plataforma (o tema só pinta as cores).
+- **Export:** o ramo genérico do `buildConfigJson` (o de Tray/Wake) já sai como
+  `{ platform: "nuvemshop", nuvemshop: { global, variables, assets, home, … } }`, com as 14 globais
+  que o generator traduz para o painel "Marca" (`sa_*`, §2.1 A). **Nenhuma credencial**: não existe
+  equivalente do `wakeToken` — o generator autentica pelo alias da CLI ou por variável do CI, e o
+  login na loja é do humano. Não crie um campo de token para ela.
+- **Variável por cópia existe aqui:** cada instância vira uma entrada com `settings` próprios no
+  JSON da página, então duas cópias com cores diferentes chegam as duas (ao contrário de
+  Tray/Wake/FastStore, que injetam num arquivo por componente).
+- **Funil:** com a flag no funil **e** no dev (`NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP=1 yarn next dev
+  -p <porta>` + `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP=1 FUNIL_BASE_URL=… yarn funil 3 5`), o `3-export`
+  e o `5-contrato-tray-wake` põem a Nuvemshop no laço; a regra própria dela é o config sem campo de
+  credencial (detector com autoteste, semeado com um `wakeToken` esquecido na aba). Sem a flag, o
+  `3-export` prova o contrário: a aba que guardou `Nuvemshop` volta sem plataforma e o seletor não a
+  oferece. Flag diferente no funil e no dev reprova ali. Rodada com a flag ligada não vale como
+  evidência de produção (`DESVIAM` no `funil.mjs`).
+- **`4-tema-nuvemshop`** (com ou sem a flag): o generator irmão monta um tema por item marcado e um
+  com a família inteira (`--local`, nada sai daqui), e o `validate-theme.mjs` da skill
+  `seriea-nuvemshop-migration` valida cada um — o caminho dele vem de `NUVEMSHOP_VALIDADOR`, e sem
+  ela o estágio reprova. O `nuvemshop theme check` não serve: valida contra o tema remoto da loja,
+  com login. Ver o README do funil.
+
 ### Export flow
 
 `exportLayout` (the "Baixar" button, in the **topbar** since the right panel lost its header) does three things in sequence: (1) `await mountExportStage()` — which flips `isCapturing`, mounts [ExportStage](src/components/gerador/ExportStage/index.tsx) off-screen and resolves after two `requestAnimationFrame`s (layout, then paint) — then `await`s `waitForImages` on both copies plus `document.fonts.ready` before `html2canvas`ing the `desktopPreviewRef` (1920px) and `mobilePreviewRef` (375px) divs, downloading PNGs to the user. **Those awaits are load-bearing**: the stage used to be mounted since page load, so images and fonts were long since ready; without them the PNGs come out with blank images and fallback type, and nobody checks the PNG; (2) build a JSON config grouped by `platform → { global, variables, assets, [page]: items[] }`;
@@ -582,20 +627,30 @@ em silêncio. Como o clique deixa de produzir arquivo, o envio **tem** de confir
 (`window.alert`) — foi a ausência desse sinal que fez este fluxo virar download no passado. Falha
 de envio é a única exceção: baixa como resgate e avisa. `sendLayoutConfigEmail` **lança** em
 resposta não-ok; `fetch` sozinho resolve num 500 e o `catch` nunca rodava, o que agora perderia o
-config sem sinal nenhum. When `platform === 'wake'`, the JSON also includes `wakeToken`.
+config sem sinal nenhum. When `platform === 'wake'`, the JSON also includes `wakeToken` — and
+**only** then: the Nuvemshop config never carries a credential (see **Nuvemshop** below).
 The screenshots are best-effort: a html2canvas failure warns and still delivers the JSON.
 
-Both config shapes carry `assets` (logo, favicon, ogImage). The faststore one had none until this
+Both config shapes carry `assets` (logo, footerLogo, favicon, ogImage). The faststore one had none until this
 redesign, so VTEX exports were silently dropping the brand assets.
+
+**Logo do rodapé** (`footerLogo`, 04/11/2026): o segundo card de "Identidade visual", para header
+claro + rodapé escuro (ou o contrário). Os rodapés que mostram o logo enviado (famílias 02–05,
+07–09, 11–16) leem `useLogoDoRodape()`; vazio, vale o `logo`, então config, preview e tema salvo de
+antes do campo continuam iguais. 01, 06 e 10 não mostram o logo do usuário. O header e o
+checkout continuam com o `logo`. Vai no snapshot (opcional), na mensagem `content` do iframe e em
+`assets.footerLogo` das três trilhas e da LP, sem redução (só o checkout reduz). No generator: Tray
+e Wake gravam `logo-rodape.png` ao lado do `logo.png` e avisam que nenhum footer o lê ainda; na
+FastStore é o campo `logo` do schema de CMS do Footer, e a VALIDATE avisa.
 
 ### Shareable preview (`/p/[id]/[page]`)
 
 Alongside export, the topbar has a **Pré-visualizar** button ([PreviewButton](src/components/gerador/PreviewButton/index.tsx)) that persists the current theme server-side and returns a short random URL the client can open and navigate like a real site. Three pages share one id: `/p/{id}/home`, `/p/{id}/categoria`, `/p/{id}/produto`, switched via a floating bubble ([PreviewNav](src/components/preview/PreviewNav/index.tsx)).
 
-- **Snapshot**: `useLayoutGenerator.buildPreviewSnapshot()` serializes `{ platform, selections, colors, fonts, logo, favicon, ogImage }` (`PreviewSnapshot` in [src/lib/previewStore.ts](src/lib/previewStore.ts); `ogImage` is optional so older snapshots stay valid); `createPreview()` POSTs it to `/gerador/api/preview` and returns `${origin}/p/{id}/home`.
+- **Snapshot**: `useLayoutGenerator.buildPreviewSnapshot()` serializes `{ platform, selections, colors, fonts, logo, footerLogo, favicon, ogImage }` (`PreviewSnapshot` in [src/lib/previewStore.ts](src/lib/previewStore.ts); `footerLogo` and `ogImage` are optional so older snapshots stay valid); `createPreview()` POSTs it to `/gerador/api/preview` and returns `${origin}/p/{id}/home`.
 - **Storage is hybrid** ([previewStore.ts](src/lib/previewStore.ts)): a `fileStore` writes `.preview-store/{id}.json` in dev (zero config, gitignored) and a `kvStore` uses `@vercel/kv` in prod. `getStore()` picks KV when `KV_REST_API_URL` is set. The module is `server-only`; the client hook imports only the **type** (`import type`), so it never bundles it.
 - **Rendering reuse**: the page-filter + priority-sort rules live in [src/utils/previewRender.ts](src/utils/previewRender.ts) (`selectionsForPage`, `getPriorityOrder`, `belongsToPage`, `slugToPagina`/`PREVIEW_PAGES`), and `ThemeRenderer` is now literally the same component the editor uses — the two views can't diverge because there is only one.
-- **Theme outside the gerador**: [SharedPreview](src/components/preview/SharedPreview/index.tsx) renders [SeededStorefront](src/components/preview/SeededStorefront/index.tsx) (shared with the `/templates` viewer), which applies the theme vars inline on a wrapper (`buildThemeStyle` in [themeStyle.ts](src/utils/themeStyle.ts), shared with the mobile iframe) plus the Google-font `<link>`s, and wraps children in [SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx) with `{ logo, selections }` from the snapshot. The preview must NOT run `useLayoutGenerator` (it would hydrate the author's stored state). The `p` route group has its own `layout.tsx` importing `templates.css` + `globals.css` + `storefront.css` + `preview.css` (no chrome do editor, no `LayoutProvider`).
+- **Theme outside the gerador**: [SharedPreview](src/components/preview/SharedPreview/index.tsx) renders [SeededStorefront](src/components/preview/SeededStorefront/index.tsx) (shared with the `/templates` viewer), which applies the theme vars inline on a wrapper (`buildThemeStyle` in [themeStyle.ts](src/utils/themeStyle.ts), shared with the mobile iframe) plus the Google-font `<link>`s, and wraps children in [SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx) with `{ logo, footerLogo, selections }` from the snapshot. The preview must NOT run `useLayoutGenerator` (it would hydrate the author's stored state). The `p` route group has its own `layout.tsx` importing `templates.css` + `globals.css` + `storefront.css` + `preview.css` (no chrome do editor, no `LayoutProvider`).
 - **Shared storefront CSS**: [storefront.css](src/styles/storefront.css) holds the two rules that must hold on all three surfaces (`.preview-sticky-header` and the `.preview-template .component__container` 1200px clamp). Document-level rules stay split on purpose — `preview.css` for `/p`, `(frame)/frame.css` for the iframe — because their `color-scheme: light !important` / `background: #fff !important` would repaint the editor's own chrome.
 - **Prod requires** a Vercel KV database and env vars `KV_REST_API_URL` / `KV_REST_API_TOKEN`.
 - **"Editar" and the live preview** ([previewAoVivo.ts](src/utils/previewAoVivo.ts), the decision is
