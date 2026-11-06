@@ -87,7 +87,7 @@ section.crossSellingShelf17 [data-fs-product-shelf] {
 }
 .productShowcase17 [data-role=spot] {
   height: 100%;
-  background-color: color-mix(in srgb, var(--showcase-accent, var(--background-primary-color, #0e6b73)) 9%, var(--showcase-bg, #ffffff));
+  background-color: color-mix(in srgb, var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73))) 9%, var(--showcase-bg, #ffffff));
   color: var(--showcase-text, var(--text-primary-color, #0e2f38));
 }
 .productShowcase17 [data-role=spot] > :nth-child(2) {
@@ -120,25 +120,25 @@ section.crossSellingShelf17 [data-fs-product-shelf] {
   color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0e2f38)) 72%, var(--showcase-bg, #ffffff));
 }
 .productShowcase17 [data-role=spot-rating] {
-  color: var(--showcase-accent, var(--background-primary-color, #0e6b73));
+  color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
 }
 .productShowcase17 [data-role=spot-rating] svg {
   width: 13px;
   height: 13px;
 }
 .productShowcase17 [data-role=spot-price] {
-  color: var(--showcase-text, var(--text-primary-color, #0e2f38));
+  color: var(--showcase-text, var(--spot-price-color, var(--text-primary-color, #0e2f38)));
   font-size: 22px;
   line-height: 1.15;
 }
 .productShowcase17 [data-role=spot-buy] {
-  border-color: var(--showcase-accent, var(--background-primary-color, #0e6b73)) !important;
-  color: var(--showcase-accent, var(--background-primary-color, #0e6b73));
+  border-color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73))) !important;
+  color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
 }
 .productShowcase17 .rail [data-role=spot]:hover [data-role=spot-buy],
 .productShowcase17 .rail [data-role=spot]:focus-within [data-role=spot-buy] {
-  background-color: var(--showcase-accent, var(--background-primary-color, #0e6b73));
-  color: var(--showcase-bg, #ffffff);
+  background-color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
+  color: var(--spot-btn-text, var(--showcase-bg, #ffffff));
 }
 
 .arrows {
@@ -244,8 +244,8 @@ section.crossSellingShelf17 [data-fs-product-shelf] {
     font-size: 20px;
   }
   .productShowcase17 [data-role=spot-buy] {
-    background-color: var(--showcase-accent, var(--background-primary-color, #0e6b73));
-    color: var(--showcase-bg, #ffffff);
+    background-color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
+    color: var(--spot-btn-text, var(--showcase-bg, #ffffff));
   }
 }
 

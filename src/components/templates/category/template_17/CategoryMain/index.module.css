@@ -312,7 +312,7 @@
 }
 .grid [data-role=spot] {
   height: 100%;
-  background-color: color-mix(in srgb, var(--cat-main-accent, var(--background-primary-color, #0e6b73)) 9%, var(--cat-main-bg, #ffffff));
+  background-color: color-mix(in srgb, var(--cat-main-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73))) 9%, var(--cat-main-bg, #ffffff));
   color: var(--cat-main-text, var(--text-primary-color, #0e2f38));
 }
 .grid [data-role=spot] > :nth-child(2) {
@@ -344,8 +344,8 @@
 }
 .grid [data-role=spot-discount],
 .grid [data-role=spot-tag] {
-  background-color: var(--cat-main-tag-bg, var(--background-tertiary-color, #ffa24c));
-  color: var(--cat-main-text, var(--text-tertiary-color, #0e2f38));
+  background-color: var(--cat-main-tag-bg, var(--spot-tag-bg, var(--background-tertiary-color, #ffa24c)));
+  color: var(--cat-main-text, var(--spot-tag-text, var(--text-tertiary-color, #0e2f38)));
 }
 .grid [data-role=spot-brand],
 .grid [data-role=spot-list-price],
@@ -356,25 +356,25 @@
 }
 .grid [data-role=spot-rating] {
   gap: 2px;
-  color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
+  color: var(--cat-main-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
 }
 .grid [data-role=spot-rating] svg {
   width: 13px;
   height: 13px;
 }
 .grid [data-role=spot-price] {
-  color: var(--cat-main-text, var(--text-primary-color, #0e2f38));
+  color: var(--cat-main-text, var(--spot-price-color, var(--text-primary-color, #0e2f38)));
   font-size: 22px;
   line-height: 1.15;
 }
 .grid [data-role=spot-buy] {
-  border-color: var(--cat-main-accent, var(--background-primary-color, #0e6b73)) !important;
-  color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
+  border-color: var(--cat-main-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73))) !important;
+  color: var(--cat-main-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
 }
 .grid [data-role=spot]:hover [data-role=spot-buy],
 .grid [data-role=spot]:focus-within [data-role=spot-buy] {
-  background-color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
-  color: var(--text-color-base, #ffffff);
+  background-color: var(--cat-main-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
+  color: var(--spot-btn-text, var(--text-color-base, #ffffff));
 }
 .grid [data-role=spot-notify] {
   border-color: var(--cat-main-text, var(--text-primary-color, #0e2f38));
@@ -805,8 +805,8 @@
     font-size: 20px;
   }
   .grid [data-role=spot-buy] {
-    background-color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
-    color: var(--text-color-base, #ffffff);
+    background-color: var(--cat-main-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
+    color: var(--spot-btn-text, var(--text-color-base, #ffffff));
   }
   .more {
     gap: 12px;
