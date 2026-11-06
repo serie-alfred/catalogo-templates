@@ -19,10 +19,10 @@ import styles from './index.module.css';
  * Divergências deliberadas:
  *  - Sem portal no <body>: as vars do tema vêm de um wrapper acima do componente. Quem dá o
  *    container das `@container` é o envelope `.cartSidebar17Box` (ver "Só no catálogo").
- *  - Sem carrinho real: os 2 itens do desenho (o `mockCart` do starter tem 1, de outra
- *    família). O contador soma as quantidades, como o `totalItems` do core: dá "3 itens",
- *    onde o desenho escreve "2 itens" (conta as linhas). + / −, remover e o estado vazio
- *    funcionam só para o usuário ver o comportamento.
+ *  - Sem carrinho real: o item do `mockCart` do starter, o mesmo que o palco mostra (o
+ *    desenho traz 2 itens de ração; a paridade com o starter vale mais). O contador soma as
+ *    quantidades, como o `totalItems` do core. + / −, remover e o estado vazio funcionam só
+ *    para o usuário ver o comportamento.
  *  - Sem trava de scroll do <body>: no canvas ela travaria o editor.
  */
 
@@ -42,24 +42,18 @@ type ItemCarrinho17 = {
   variations: Record<string, string>;
 };
 
-// Os 2 itens do desenho. Sem foto (vale o quadro claro do `.lineFrame`) e sem `slug`: o nome
-// sai como <span>.
+// O mesmo item do `mockCart` global do starter (`utils/mockCart`), como nas 09 a 16: o palco
+// do Header17 mostra esse carrinho, e a réplica tem de contar a mesma história (o 2-fidelidade
+// compara nó a nó). A foto fica de fora (a URL da origem é de CDN de loja); vale o quadro claro
+// do `.lineFrame`. Sem `slug`: o nome sai como <span>.
 const ITENS_17: ItemCarrinho17[] = [
   {
-    id: 'cart17-item-1',
-    name: 'Ração Premium Cães Adultos Frango e Arroz 15 kg',
-    brand: 'Nobre Pet',
-    price: 329.9,
+    id: 'mock-cart-item-4077-281G',
+    name: 'Sapato Masculino Preto Liverpool',
+    brand: 'Minha Loja',
+    price: 287.92,
     quantity: 1,
-    variations: { Peso: '15 kg' },
-  },
-  {
-    id: 'cart17-item-2',
-    name: 'Petisco Bifinho Natural 500 g',
-    brand: 'Vitta Pet',
-    price: 39.9,
-    quantity: 2,
-    variations: { Sabor: 'Carne' },
+    variations: { Cor: 'Preto', Tamanho: '41' },
   },
 ];
 
