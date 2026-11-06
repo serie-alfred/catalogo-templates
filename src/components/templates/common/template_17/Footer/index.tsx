@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_17 } from '@/components/templates/common/template_17/Spot';
-import { useLayout } from '@/context/LayoutContext';
+import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
 
@@ -214,7 +214,7 @@ const talvezLink = (
   );
 
 export default function Footer17() {
-  const { logo: logoEnviado } = useLayout();
+  const logoEnviado = useLogoDoRodape();
   const logo = logoEnviado || undefined;
   const {
     logoAlt,
