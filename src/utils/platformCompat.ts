@@ -69,7 +69,12 @@ export function sanitizeSelections(value: unknown): LayoutSelection[] {
   });
 }
 
-/** Aceita só um dos valores do tipo — o localStorage pode conter qualquer coisa. */
+/**
+ * Aceita só uma plataforma OFERECIDA — o storage pode conter qualquer coisa.
+ * Com a flag da Nuvemshop desligada, `'Nuvemshop'` é recusado aqui (ver
+ * `PLATFORMS` em types/platform.ts), o que cobre a aba, o tema salvo e o
+ * `/gerador/import-log`.
+ */
 export function sanitizePlatform(value: string | null): Platform | null {
   return PLATFORMS.includes(value as Platform) ? (value as Platform) : null;
 }
@@ -77,6 +82,8 @@ export function sanitizePlatform(value: string | null): Platform | null {
 /**
  * O modo LP só existe onde o generator sabe montar uma LP sozinha: Wake (página
  * custom de hotsite) e VTEX (seções numa Landing Page do CMS). A Tray não tem.
+ * A Nuvemshop terá (`page.<slug>.json`), mas só na fase 7 do contrato dela:
+ * até lá o generator não monta LP por seções da Nuvemshop.
  */
 export function plataformaTemLp(platform: Platform | null): boolean {
   return platform === 'Wake' || platform === 'VTEX';
@@ -84,7 +91,8 @@ export function plataformaTemLp(platform: Platform | null): boolean {
 
 /**
  * O modo Checkout só existe em VTEX: o checkout-vtex é o checkout NATIVO da
- * VTEX, e Tray/Wake não têm o que mostrar ali. Trocar de plataforma sai do modo
+ * VTEX, e Tray/Wake não têm o que mostrar ali (a Nuvemshop também não: o tema
+ * só pinta 7 cores do checkout, que é da plataforma). Trocar de plataforma sai do modo
  * — e a hidratação passa pelo mesmo filtro, porque o `/gerador/import-log`
  * grava `layoutPlatform` cru e o `editorMode` guardado pode ser de outra sessão.
  */

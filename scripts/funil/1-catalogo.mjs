@@ -278,6 +278,9 @@ r.ok('todo mock existe em disco', semMock.length === 0, semMock.join(', '));
 
 // 7. origem real em global-templates. O `component` NÃO participa do caminho:
 //    o generator monta template_<template>/<selection> sob a pasta da página.
+//    A Nuvemshop segue a mesma regra (contrato dela, §2.1 D) e não depende da
+//    flag: é o `platforms` do item que promete o porte, então item que declara
+//    Nuvemshop sem a pasta reprova mesmo com a plataforma escondida no /gerador.
 const PASTA = {
   common: 'Common',
   home: 'Home',
@@ -285,12 +288,11 @@ const PASTA = {
   product: 'Product',
 };
 const semOrigem = [];
-let nTray = 0,
-  nWake = 0;
+const nOrigem = { Tray: 0, Wake: 0, Nuvemshop: 0 };
 for (const i of todos) {
-  for (const plat of ['Tray', 'Wake']) {
+  for (const plat of Object.keys(nOrigem)) {
     if (!i.platforms.includes(plat)) continue;
-    plat === 'Tray' ? nTray++ : nWake++;
+    nOrigem[plat]++;
     const p = path.join(
       GLOBAL_TEMPLATES,
       plat,
@@ -303,7 +305,7 @@ for (const i of todos) {
   }
 }
 r.ok(
-  `origem Tray (${nTray}) e Wake (${nWake}) existe no global-templates local`,
+  `origem Tray (${nOrigem.Tray}), Wake (${nOrigem.Wake}) e Nuvemshop (${nOrigem.Nuvemshop}) existe no global-templates local`,
   semOrigem.length === 0,
   semOrigem.join(' | ')
 );

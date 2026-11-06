@@ -193,6 +193,11 @@ export function autotesteCopias(r) {
   );
 }
 
+/**
+ * Serve também à Nuvemshop (`conferirNuvemshop`, abaixo): a origem dela se
+ * resolve pela mesma regra de pasta, `global-templates/Nuvemshop/<Página>/
+ * template_<N>/<selection>/` (contrato da Nuvemshop, §2.1 D).
+ */
 export function conferirTrayWake(config, plataforma, r) {
   const raiz = config[plataforma.toLowerCase()];
   const entradas = [];
@@ -223,11 +228,20 @@ export function conferirTrayWake(config, plataforma, r) {
     entradas,
     e => `${e.template}/${e.selection}`
   );
-  r.ok(
-    `${plataforma}: nenhuma cópia com variables divergentes${duplicadas ? ` (${duplicadas} duplicada${duplicadas > 1 ? 's' : ''})` : ''}`,
-    divergentes.length === 0,
-    `só um conjunto chega ao tema: ${divergentes.join(', ')}`
-  );
+  // Na Nuvemshop a cópia com cor própria é RECURSO: o generator põe as
+  // `variables` de cada entrada nos `settings` daquela instância em
+  // `templates/pages/<página>.json`, não num arquivo por componente (§2.1 C).
+  if (plataforma === 'Nuvemshop') {
+    if (divergentes.length)
+      console.log(
+        `     ℹ️  Nuvemshop: ${divergentes.length} item(ns) com cópias de variables próprias (${divergentes.join(', ')}) — cada instância leva os seus settings`
+      );
+  } else
+    r.ok(
+      `${plataforma}: nenhuma cópia com variables divergentes${duplicadas ? ` (${duplicadas} duplicada${duplicadas > 1 ? 's' : ''})` : ''}`,
+      divergentes.length === 0,
+      `só um conjunto chega ao tema: ${divergentes.join(', ')}`
+    );
 
   r.ok(
     `${plataforma}: bloco assets presente`,
@@ -259,6 +273,104 @@ export function conferirTrayWake(config, plataforma, r) {
     `${plataforma}: sem checkout no config (é só VTEX)`,
     !raiz.checkout && !config.faststore,
     Object.keys(raiz).join(',')
+  );
+  return entradas;
+}
+
+/*
+ * Credencial no config. A Wake leva o `wakeToken`, que é o contrato dela com o
+ * generator. A Nuvemshop NUNCA leva: o generator autentica pelo alias da CLI ou
+ * por variável de ambiente do CI, e o `auth login` é do humano, no terminal dele
+ * (contrato da Nuvemshop, decisão 3). Decide o NOME da chave, em qualquer
+ * profundidade. `key` sozinho fica de fora: é o campo de identidade do item.
+ */
+const CREDENCIAL = /token|senha|password|secret|segredo|credencia|api[-_]?key|access[-_]?key/i;
+
+/** Caminhos (`a.b.0.c`) de toda chave com cara de credencial dentro do valor. */
+export function camposDeCredencial(valor, caminho = '') {
+  if (!valor || typeof valor !== 'object') return [];
+  return Object.entries(valor).flatMap(([k, v]) => {
+    const aqui = caminho ? `${caminho}.${k}` : k;
+    return [...(CREDENCIAL.test(k) ? [aqui] : []), ...camposDeCredencial(v, aqui)];
+  });
+}
+
+/**
+ * Autoteste do detector acima, pelo mesmo motivo do `autotesteCopias`: o config
+ * da Nuvemshop que o editor exporta hoje não tem credencial, então sem um caso
+ * que REPROVA a asserção passaria verde mesmo com o detector quebrado.
+ */
+export function autotesteCredencial(r) {
+  const limpo = {
+    platform: 'nuvemshop',
+    nuvemshop: {
+      global: [{ key: 'header-09', variables: { '--header-bg': '#fff' } }],
+      variables: { colorPrimary: '#000', fontPrimary: "'Inter', sans-serif" },
+      assets: { logo: '', favicon: '', ogImage: '' },
+    },
+  };
+  const casos = [
+    ['config sem credencial passa', limpo, []],
+    ['wakeToken na raiz REPROVA', { ...limpo, wakeToken: 'x' }, ['wakeToken']],
+    [
+      'token aninhado num balde REPROVA',
+      { nuvemshop: { home: [{ deploy: { accessToken: 'x' } }] } },
+      ['nuvemshop.home.0.deploy.accessToken'],
+    ],
+  ];
+  for (const [rotulo, cfg, esperado] of casos) {
+    const achados = camposDeCredencial(cfg);
+    r.ok(
+      `detector de credencial: ${rotulo}`,
+      JSON.stringify(achados) === JSON.stringify(esperado),
+      JSON.stringify(achados)
+    );
+  }
+}
+
+/*
+ * As 14 chaves globais que o generator da Nuvemshop traduz para os settings do
+ * painel "Marca" (`sa_` + snake_case da chave), fixadas no contrato da
+ * Nuvemshop, §2.1 A. Renomear uma aqui sem o generator deixa o setting no valor
+ * inicial do tema-base, sem erro.
+ */
+const CHAVES_DA_MARCA = [
+  'colorPrimary',
+  'colorSecondary',
+  'colorTertiary',
+  'colorPrimaryBackground',
+  'colorPrimaryBackgroundSafe',
+  'colorSecondaryBackground',
+  'colorTertiaryBackground',
+  'colorFooter',
+  'colorFooterText',
+  'colorPrimaryText',
+  'colorSecondaryText',
+  'fontPrimary',
+  'fontSecondary',
+  'fontTertiary',
+];
+
+/**
+ * Confere um config Nuvemshop: as regras de pasta do Tray/Wake (origem, assets,
+ * 14 globais, sem checkout), as chaves do painel "Marca" e a regra nova — o
+ * config não carrega credencial nenhuma.
+ */
+export function conferirNuvemshop(config, r) {
+  const entradas = conferirTrayWake(config, 'Nuvemshop', r);
+  const globais = Object.keys(config.nuvemshop?.variables ?? {});
+  const faltam = CHAVES_DA_MARCA.filter(k => !globais.includes(k));
+  const sobram = globais.filter(k => !CHAVES_DA_MARCA.includes(k));
+  r.ok(
+    'Nuvemshop: as globais são as 14 chaves do painel "Marca" (§2.1 A)',
+    faltam.length === 0 && sobram.length === 0,
+    `faltam: ${faltam.join(', ') || '—'} · sobram: ${sobram.join(', ') || '—'}`
+  );
+  const credenciais = camposDeCredencial(config);
+  r.ok(
+    'Nuvemshop: config sem campo de credencial (nem wakeToken, nem token da loja)',
+    credenciais.length === 0,
+    credenciais.join(', ')
   );
   return entradas;
 }

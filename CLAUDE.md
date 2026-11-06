@@ -35,6 +35,7 @@ There is no test runner. Verification is `yarn funil` — the stages in [scripts
 - `KV_REST_API_URL`, `KV_REST_API_TOKEN` — Vercel KV, used by [src/lib/previewStore.ts](src/lib/previewStore.ts) for the shareable preview. Without `KV_REST_API_URL` the store falls back to `.preview-store/` on disk (dev only).
 - `CRON_SECRET` — optional; when set, [/api/keep-alive](src/app/api/keep-alive/route.ts) requires `Authorization: Bearer <CRON_SECRET>` from the Vercel cron.
 - `ETEMAS_LOGIN_USER`, `ETEMAS_LOGIN_PASSWORD`, `ETEMAS_SESSION_SECRET` — o login da agência (ver **Login** abaixo). O segredo precisa de 32+ caracteres. **Em produção, sem as três o /gerador fica FECHADO** — cadastre antes de publicar.
+- `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP` — `1` põe a Nuvemshop no `/gerador` (ver **Nuvemshop** abaixo). **Não cadastre na Vercel** até a fase 6 do contrato da plataforma; é embutida no build.
 
 #### O que cadastrar na Vercel (Settings → Environment Variables, Production)
 
@@ -80,7 +81,7 @@ A template is a React component plus a catalog entry. Two files always need to c
 
 1. **Component** — add it under `src/components/templates/{common,home,category,product}/template_N/<Name>/`. The folder convention is `index.tsx` + `index.module.css`. Components receive `{ isMobile }` from [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx) — the single renderer for every surface. Templates may read **only** `logo` and `selections` from `useLayout()`: outside the editor the context is seeded by hand ([SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx)), so any other field is a default, not real state.
 2. **Registry** — import it in [src/utils/templateRegistry.ts](src/utils/templateRegistry.ts) and add it to the `TemplateRegistry` object. The string key must match the `component` field used in `LAYOUTS`. **If the registry entry is missing, `ThemeRenderer` renders a visible red marker naming the component** — it used to emit `<img src="/images/gerador/…">`, which with `image: ''` in all items was a mute 404 (os campos `image` já estão preenchidos hoje — ver **Thumbs do seletor** abaixo), so the mistake hid instead of showing.
-3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`Tray | Wake | VTEX`), and `component` (the `TemplateRegistry` key).
+3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`Tray | Wake | VTEX | Nuvemshop`), and `component` (the `TemplateRegistry` key).
 
 > **Os dois lados saem de sincronia com facilidade, e em silêncio.** Hoje eles estão casados:
 > **100 componentes no registry, 100 `LayoutItem`s ativos, zero órfãos dos dois lados** — e o
@@ -100,8 +101,8 @@ A template is a React component plus a catalog entry. Two files always need to c
 > volta do padrão de deixar item comentado no arquivo.
 >
 > **Um componente só entra se a origem existir na plataforma que ele declara**, e isso é
-> verificável sem subir nada: Tray/Wake resolvem por
-> `global-templates/<Tray|Wake>/<Common|Home|Category|Product>/template_<template>/<selection>`
+> verificável sem subir nada: Tray/Wake/Nuvemshop resolvem por
+> `global-templates/<Tray|Wake|Nuvemshop>/<Common|Home|Category|Product>/template_<template>/<selection>`
 > (o campo `component` **não** participa do caminho), e VTEX resolve o `path` contra
 > `../faststore.starter` pelo grafo de `manifest.json`. `Newsletter01` ficou de fora justamente
 > por isso: não tem `template_1/newsletter` em nenhuma das duas plataformas, não tem manifest
@@ -571,6 +572,39 @@ hydration and `/gerador/import-log` also write it. Coming back to VTEX does not 
 The `PlatformSelect` normally lives only under "Componentes"; in checkout mode (no "Componentes")
 it shows in the left panel header, otherwise there would be no way to switch platform there.
 
+### Nuvemshop (atrás de flag)
+
+A 5ª plataforma, **tema por seções com fork** (Ipanema), no `config.json` como
+`platform: "nuvemshop"`. O contrato com os outros repos é `../.nuvemshop-contrato.md` (§2.1
+convenções, §4 o que muda aqui, §7 as fases). Hoje **nenhum item a declara**: o `platforms` de cada
+item ganha `'Nuvemshop'` só quando o porte dele existir em
+`global-templates/Nuvemshop/<Página>/template_<N>/<selection>/` — o `1-catalogo` reprova o item que
+declarar sem a pasta, com ou sem a flag.
+
+- **A flag** ([types/platform.ts](src/types/platform.ts)): `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP=1`
+  inclui a Nuvemshop em `PLATFORMS`, a lista que o `PlatformSelect` mostra e que a hidratação
+  (`sanitizePlatform`) aceita. Desligada — o padrão, e **produção até a fase 6** —, a aba, o tema
+  salvo ou o `/gerador/import-log` com `Nuvemshop` voltam sem plataforma. O tipo `Platform` tem a
+  Nuvemshop sempre (tipo não depende de env). Por ser `NEXT_PUBLIC_*`, o valor entra no **build**:
+  trocar na Vercel pede deploy novo.
+- **Sem LP e sem checkout:** `plataformaTemLp` e `modeForPlatform` não a incluem. A LP é a fase 7
+  (`page.<slug>.json`); o checkout da Nuvemshop é da plataforma (o tema só pinta as cores).
+- **Export:** o ramo genérico do `buildConfigJson` (o de Tray/Wake) já sai como
+  `{ platform: "nuvemshop", nuvemshop: { global, variables, assets, home, … } }`, com as 14 globais
+  que o generator traduz para o painel "Marca" (`sa_*`, §2.1 A). **Nenhuma credencial**: não existe
+  equivalente do `wakeToken` — o generator autentica pelo alias da CLI ou por variável do CI, e o
+  login na loja é do humano. Não crie um campo de token para ela.
+- **Variável por cópia existe aqui:** cada instância vira uma entrada com `settings` próprios no
+  JSON da página, então duas cópias com cores diferentes chegam as duas (ao contrário de
+  Tray/Wake/FastStore, que injetam num arquivo por componente).
+- **Funil:** com a flag no funil **e** no dev (`NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP=1 yarn next dev
+  -p <porta>` + `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP=1 FUNIL_BASE_URL=… yarn funil 3 5`), o `3-export`
+  e o `5-contrato-tray-wake` põem a Nuvemshop no laço; a regra própria dela é o config sem campo de
+  credencial (detector com autoteste, semeado com um `wakeToken` esquecido na aba). Sem a flag, o
+  `3-export` prova o contrário: a aba que guardou `Nuvemshop` volta sem plataforma e o seletor não a
+  oferece. Flag diferente no funil e no dev reprova ali. Rodada com a flag ligada não vale como
+  evidência de produção (`DESVIAM` no `funil.mjs`).
+
 ### Export flow
 
 `exportLayout` (the "Baixar" button, in the **topbar** since the right panel lost its header) does three things in sequence: (1) `await mountExportStage()` — which flips `isCapturing`, mounts [ExportStage](src/components/gerador/ExportStage/index.tsx) off-screen and resolves after two `requestAnimationFrame`s (layout, then paint) — then `await`s `waitForImages` on both copies plus `document.fonts.ready` before `html2canvas`ing the `desktopPreviewRef` (1920px) and `mobilePreviewRef` (375px) divs, downloading PNGs to the user. **Those awaits are load-bearing**: the stage used to be mounted since page load, so images and fonts were long since ready; without them the PNGs come out with blank images and fallback type, and nobody checks the PNG; (2) build a JSON config grouped by `platform → { global, variables, assets, [page]: items[] }`;
@@ -582,7 +616,8 @@ em silêncio. Como o clique deixa de produzir arquivo, o envio **tem** de confir
 (`window.alert`) — foi a ausência desse sinal que fez este fluxo virar download no passado. Falha
 de envio é a única exceção: baixa como resgate e avisa. `sendLayoutConfigEmail` **lança** em
 resposta não-ok; `fetch` sozinho resolve num 500 e o `catch` nunca rodava, o que agora perderia o
-config sem sinal nenhum. When `platform === 'wake'`, the JSON also includes `wakeToken`.
+config sem sinal nenhum. When `platform === 'wake'`, the JSON also includes `wakeToken` — and
+**only** then: the Nuvemshop config never carries a credential (see **Nuvemshop** below).
 The screenshots are best-effort: a html2canvas failure warns and still delivers the JSON.
 
 Both config shapes carry `assets` (logo, favicon, ogImage). The faststore one had none until this

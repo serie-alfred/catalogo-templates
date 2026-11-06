@@ -21,8 +21,9 @@ interface PlatformSelectProps {
  * `if (platform)`, o localStorage ficava com a plataforma antiga: voltar ao
  * placeholder esvaziava a tela e a plataforma "ressuscitava" no reload.
  *
- * O Figma só desenha a marca da Wake. Para Tray e VTEX o nome entra como texto
- * no mesmo lugar, com o mesmo peso.
+ * O Figma só desenha a marca da Wake. Para as outras (Tray, VTEX e a Nuvemshop,
+ * que só aparece com a flag — ver `PLATFORMS`) o nome entra como texto no mesmo
+ * lugar, com o mesmo peso.
  */
 const MARKS: Partial<Record<Platform, React.ReactNode>> = {
   Wake: <WakeMark width={41.873} height={12} />,

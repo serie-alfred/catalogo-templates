@@ -52,6 +52,9 @@ const DESVIAM = [
   'FASTSTORE_THEME_BASE_REPO',
   'FASTSTORE_THEME_BASE_BRANCH',
   'NEXT_PUBLIC_DEV_FIDELITY',
+  // Liga a Nuvemshop, que produção não tem: o 3-export troca a prova de que a
+  // hidratação a RECUSA pela de que a aceita.
+  'NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP',
 ];
 
 if (completa) {
