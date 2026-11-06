@@ -20,6 +20,7 @@ import { GLOBAL_TEMPLATES, SAIDA, relatorio } from './lib/util.mjs';
 import {
   conferirTrayWake,
   conferirNuvemshop,
+  conferirSchemasDesignStudio,
   conferirParidadeGlobalTemplates,
 } from './lib/contrato.mjs';
 import { NUVEMSHOP_LIGADA, WAKE2_LIGADA } from '../../src/types/platform.ts';
@@ -29,6 +30,9 @@ const r = relatorio('Estágio 5 — contrato Tray/Wake');
 // As origens abaixo são conferidas no clone local; o generator clona o remoto.
 // Diz qual árvore foi lida e reprova se o local não for o que está empurrado.
 await conferirParidadeGlobalTemplates(r);
+
+// Wake 2.0: o bloco do Design Studio (`<sel>.schema.json`) e o HTML que o lê.
+conferirSchemasDesignStudio(r);
 
 const PLATAFORMAS = ['Tray', 'Wake', ...(NUVEMSHOP_LIGADA ? ['Nuvemshop'] : []), ...(WAKE2_LIGADA ? ['Wake 2.0'] : [])];
 
