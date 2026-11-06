@@ -815,7 +815,7 @@ for (const [i, bloco] of ['Frame 146', 'Frame 149', 'Frame 150'].entries()) {
 await irParaRail(page, 'Identidade visual');
 await page
   .waitForFunction(
-    () => document.querySelectorAll('input[type="file"]').length >= 3,
+    () => document.querySelectorAll('input[type="file"]').length >= 4,
     { timeout: 15000, polling: 200 }
   )
   .catch(() => {});
@@ -828,7 +828,10 @@ for (const [i, slot] of ['Frame 146', 'Frame 149', 'Frame 150'].entries()) {
   const raiz = `Frame 143 > ${slot}`;
   const conteudo = `${raiz} > ${i === 0 ? 'Frame 33' : 'Frame 32'}`;
   const metaFig = `${conteudo} > Frame 122 > Frame ${123 + i}`;
-  const dom = `${ASIDE} section[class*="block"]:nth-of-type(${i + 1})`;
+  // O produto ganhou o slot "Logo do rodapé" em 2º lugar (06/11/2026), que o Figma não
+  // desenha: os 3 slots do Figma casam com os slots 1, 3 e 4 do painel. O 2º é conferido
+  // pelo 2-integracao (existe, grava e chega ao config).
+  const dom = `${ASIDE} section[class*="block"]:nth-of-type(${[1, 3, 4][i]})`;
   // `x` e `w` só: a altura do slot no mock varia (248/262/253) porque cada um
   // desenha uma arte de placeholder diferente — o produto renderiza sempre a
   // mesma moldura. Registrado em figma/README.md.
