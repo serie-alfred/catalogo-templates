@@ -98,6 +98,15 @@ export default function EditorLeftPanel({
           </p>
         )}
 
+        {platform === 'Wake 2.0' && (isComponentes || isTemplates) && (
+          <p className={styles.checkoutHint} role="note" data-wake2-aviso>
+            Wake 2.0 usa o Design Studio: o lojista edita os textos da home
+            direto no admin da Wake. A loja precisa estar no Storefront 2.0
+            (migração gratuita no admin da Wake, em Storefront › Repositório; o
+            2.0 só aceita conectores de pagamento tokenizados).
+          </p>
+        )}
+
         {isComponentes && <PanelComponents />}
 
         {isTemplates && <PanelTemplates />}
