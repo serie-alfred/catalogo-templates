@@ -149,13 +149,13 @@
   align-items: center;
   justify-content: center;
   height: 44px;
-  padding: 0 4px;
+  padding: 0 8px;
 }
 .dotBtn:first-child {
-  margin-left: -4px;
+  margin-left: -8px;
 }
 .dotBtn:last-child {
-  margin-right: -4px;
+  margin-right: -8px;
 }
 
 .dot {
