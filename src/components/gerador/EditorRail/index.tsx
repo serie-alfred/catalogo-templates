@@ -138,8 +138,8 @@ export default function EditorRail({ className }: { className?: string }) {
         </button>
       )}
       {/* O modo LP: uma landing page avulsa, montada com qualquer seção de
-          miolo e exportada sozinha (utils/lp.ts). Wake e VTEX — onde o
-          generator sabe montar a LP. */}
+          miolo e exportada sozinha (utils/lp.ts). Wake, Wake 2.0 e VTEX —
+          onde o generator sabe montar a LP (plataformaTemLp). */}
       {temLp && (
         <button
           type="button"

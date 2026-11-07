@@ -1,8 +1,8 @@
-import { LAYOUTS, type LayoutItem, type LayoutKey } from '@/data/layoutData';
+import { LAYOUTS, type LayoutKey } from '@/data/layoutData';
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import type { Platform } from '@/types/platform';
 
-import { sanitizeSelections } from './platformCompat';
+import { plataformaTemLp, sanitizeSelections } from './platformCompat';
 
 /**
  * O modo LP do /gerador: uma área à parte, como o checkout, em que o usuário
@@ -30,37 +30,41 @@ export function slugDaLp(nome: string): string {
 }
 
 /**
- * Componente de miolo: o que vai no `<main>` de uma página. Header, footer,
- * breadcrumb e spot são da loja (a LP herda os dela); seções de categoria e de
- * produto dependem do contexto daquela página (PLP, PDP) e não funcionam soltas.
- */
-export function disponivelNaLp(item: LayoutItem, platform: Platform | null): boolean {
-  return !!platform && item.pagina.includes('home') && item.platforms.includes(platform);
-}
-
-/**
  * A LP com que o modo abre pela primeira vez: a Black Friday do Figma
  * "Templates - Serie A", feita das seções da família 08. É um ponto de partida,
  * não um tipo — dá para tirar, trocar e somar qualquer outra seção.
+ *
+ * Plataforma sem a família 08 (a Wake 2.0 só tem a 10 e a 17) abre com as
+ * mesmas oito seções da primeira família da lista que ela tem inteira: sem
+ * isso a LP inicial seria feita de seções que o export dela descarta.
  */
-const COMPOSICAO_INICIAL: [LayoutKey, string][] = [
-  ['banner', '08'],
-  ['countdown', '08'],
-  ['categories', '08'],
-  ['showcase', '08'],
-  ['bannerSide', '08'],
-  ['editorial', '08'],
-  ['ruler', '08'],
-  ['newsletter', '08'],
+const COMPOSICAO_INICIAL: LayoutKey[] = [
+  'banner',
+  'countdown',
+  'categories',
+  'showcase',
+  'bannerSide',
+  'editorial',
+  'ruler',
+  'newsletter',
 ];
+const FAMILIAS_INICIAIS = ['08', '10'];
 
-export function lpInicial(): LpState {
+export function lpInicial(platform: Platform | null = null): LpState {
+  const id =
+    FAMILIAS_INICIAIS.find(
+      f =>
+        !platform ||
+        COMPOSICAO_INICIAL.every(key =>
+          LAYOUTS[key]?.items.find(i => i.id === f)?.platforms.includes(platform)
+        )
+    ) ?? FAMILIAS_INICIAIS[0];
   return {
     nome: 'Black Friday',
     // uid fixo: o 1º render do servidor e o do cliente precisam bater.
-    selections: COMPOSICAO_INICIAL.filter(([key, id]) =>
+    selections: COMPOSICAO_INICIAL.filter(key =>
       LAYOUTS[key]?.items.some(i => i.id === id)
-    ).map(([layoutKey, id]) => ({
+    ).map(layoutKey => ({
       uid: `lp-${layoutKey}-${id}`,
       id,
       layoutKey,
@@ -69,14 +73,24 @@ export function lpInicial(): LpState {
   };
 }
 
-/** `lp` lido do localStorage: nome em texto e só seções de miolo que ainda existem. */
-export function sanitizeLp(value: unknown): LpState {
-  if (!value || typeof value !== 'object') return lpInicial();
+/**
+ * `lp` lido do localStorage (ou de um tema salvo): nome em texto e só seções de
+ * miolo que ainda existem — e, numa plataforma com modo LP, que ela oferece. Sem
+ * esse filtro o canvas mostrava seções que o `buildLpConfigJson` descarta em
+ * silêncio. Plataforma sem LP (Tray) não filtra: a LP fica guardada como está.
+ */
+export function sanitizeLp(value: unknown, platform: Platform | null): LpState {
+  if (!value || typeof value !== 'object') return lpInicial(platform);
   const { nome, selections } = value as Partial<LpState>;
+  const filtra = plataformaTemLp(platform) ? platform : null;
   return {
     nome: typeof nome === 'string' && nome.trim() ? nome : lpInicial().nome,
-    selections: sanitizeSelections(selections).filter(s =>
-      LAYOUTS[s.layoutKey].items.find(i => i.id === s.id)?.pagina.includes('home')
-    ),
+    selections: sanitizeSelections(selections).filter(s => {
+      const item = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
+      return (
+        !!item?.pagina.includes('home') &&
+        (!filtra || item.platforms.includes(filtra))
+      );
+    }),
   };
 }
