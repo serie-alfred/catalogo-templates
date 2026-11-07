@@ -36,6 +36,8 @@ There is no test runner. Verification is `yarn funil` — the stages in [scripts
 - `CRON_SECRET` — optional; when set, [/api/keep-alive](src/app/api/keep-alive/route.ts) requires `Authorization: Bearer <CRON_SECRET>` from the Vercel cron.
 - `ETEMAS_LOGIN_USER`, `ETEMAS_LOGIN_PASSWORD`, `ETEMAS_SESSION_SECRET` — o login da agência (ver **Login** abaixo). O segredo precisa de 32+ caracteres. **Em produção, sem as três o /gerador fica FECHADO** — cadastre antes de publicar.
 - `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP` — `1` põe a Nuvemshop no `/gerador` (ver **Nuvemshop** abaixo). **Não cadastre na Vercel** até a fase 6 do contrato da plataforma; é embutida no build.
+- `NEXT_PUBLIC_PLATAFORMA_WAKE2` — `1` põe a Wake 2.0 no `/gerador` (ver **Wake 2.0** abaixo). Desligada em produção por enquanto; é embutida no build.
+- Do site público: `COMERCIAIS` (rodízio do WhatsApp) e `NEXT_PUBLIC_GTM_ID`/`_GA4_ID`/`_META_PIXEL_ID` (ver **Site público**).
 
 #### O que cadastrar na Vercel (Settings → Environment Variables, Production)
 
@@ -81,7 +83,7 @@ A template is a React component plus a catalog entry. Two files always need to c
 
 1. **Component** — add it under `src/components/templates/{common,home,category,product}/template_N/<Name>/`. The folder convention is `index.tsx` + `index.module.css`. Components receive `{ isMobile }` from [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx) — the single renderer for every surface. Templates may read **only** `logo` and `selections` from `useLayout()` — and a footer reads its logo through [useLogoDoRodape](src/hooks/useLogoDoRodape.ts) (`footerLogo || logo`), never `useLayout().logo`: outside the editor the context is seeded by hand ([SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx)), so any other field is a default, not real state.
 2. **Registry** — import it in [src/utils/templateRegistry.ts](src/utils/templateRegistry.ts) and add it to the `TemplateRegistry` object. The string key must match the `component` field used in `LAYOUTS`. **If the registry entry is missing, `ThemeRenderer` renders a visible red marker naming the component** — it used to emit `<img src="/images/gerador/…">`, which with `image: ''` in all items was a mute 404 (os campos `image` já estão preenchidos hoje — ver **Thumbs do seletor** abaixo), so the mistake hid instead of showing.
-3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`Tray | Wake | VTEX | Nuvemshop`), and `component` (the `TemplateRegistry` key).
+3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`'Tray' | 'Wake' | 'Wake 2.0' | 'VTEX' | 'Nuvemshop'`), and `component` (the `TemplateRegistry` key).
 
 > **Os dois lados saem de sincronia com facilidade, e em silêncio.** Hoje eles estão casados:
 > **100 componentes no registry, 100 `LayoutItem`s ativos, zero órfãos dos dois lados** — e o
@@ -195,11 +197,11 @@ A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/lay
 
 The downstream **template-generator** reads each entry's `variables` and injects them into the component's SCSS, which must consume them via the chained-fallback convention `var(--header-topbar-bg, var(--background-secundary-color, #122161))` (individual var → global token → hardcoded default). Keep `cssVar` names in sync with that SCSS.
 
-### Modo LP (Wake e VTEX)
+### Modo LP (Wake, Wake 2.0 e VTEX)
 
 Uma **área à parte**, como o modo Checkout: o rail ganha o alternador **Landing page**
-(`[data-editor-mode-lp]`, ícone `LandingPage` de `assets/icons/editor.tsx`) em Wake e VTEX — onde o generator sabe montar uma LP
-sozinha. Ali o usuário monta UMA landing page com **qualquer seção de miolo** do catálogo e exporta
+(`[data-editor-mode-lp]`, ícone `LandingPage` de `assets/icons/editor.tsx`) em Wake, Wake 2.0 e VTEX
+(`plataformaTemLp`) — onde o generator sabe montar uma LP sozinha. Ali o usuário monta UMA landing page com **qualquer seção de miolo** do catálogo e exporta
 **só ela**. Não existe componente "de LP": a antiga LP-componente (`BlackFriday01`, `pagina:
 "landing"`) foi dividida nas seções da família 08 (`BannerMain08`, `Countdown08`, `Categories08`,
 `Showcase08`, `ShelfBanner08`, `Editorial08`, `Ruler08`, `Newsletter08`, réplicas em
@@ -207,15 +209,18 @@ sozinha. Ali o usuário monta UMA landing page com **qualquer seção de miolo**
 `../.lp-contrato.md`.
 
 - **Estado** ([src/utils/lp.ts](src/utils/lp.ts)): `editorMode: 'lp'` e `lp = { nome, selections }`,
-  documento à parte das seções da loja (chave `lp` da aba, sanitizado por `sanitizeLp`). O hook expõe
+  documento à parte das seções da loja (chave `lp` da aba, sanitizado por `sanitizeLp`, que numa
+  plataforma com LP também tira o que ela não oferece — a Tray, sem LP, guarda a LP como está). O hook expõe
   as seções ATIVAS — as da loja ou as da LP — como `selections`/`setSelections`, então adicionar,
   mover, duplicar, remover e as variáveis funcionam sem um ramo por ação; o setter lê o modo de um
   ref. `selectedPage` vale `home` no modo LP. O histórico (`ThemeDoc.lp`) cobre as duas.
-- **Abre com a Black Friday** (`lpInicial`): as 8 seções 08 na ordem do Figma, com uid fixo (SSR).
-  É ponto de partida, não tipo.
-- **O que entra**: `disponivelNaLp` = item com `pagina` `home` na plataforma. Header, footer,
-  breadcrumb e spot são da loja (a LP herda os dela); seção de categoria/produto depende do contexto
-  da PLP/PDP. O picker já filtra sozinho, porque a página ativa é `home`.
+- **Abre com a Black Friday** (`lpInicial(platform)`): as 8 seções 08 na ordem do Figma, com uid fixo
+  (SSR). Plataforma sem a 08 inteira (a Wake 2.0) abre com as mesmas 8 seções da 10. É ponto de
+  partida, não tipo: trocar de plataforma com a LP inicial **intocada** a troca pela inicial do
+  destino, sem o confirm de remoção (`changePlatform`).
+- **O que entra**: item com `pagina` `home` na plataforma. Header, footer, breadcrumb e spot são da
+  loja (a LP herda os dela); seção de categoria/produto depende do contexto da PLP/PDP. O picker já
+  filtra sozinho, porque a página ativa é `home`.
 - **Topbar**: `LpNameField` no lugar do seletor de página — o nome, com o slug derivado (`slugDaLp`).
 - **Export** (`buildLpConfigJson`): `tipo: "lp"`, `landingPage: { slug, nome }` e o balde `landing`
   na ORDEM da página, cada entrada no formato de uma entrada de `home`; nada de global/home/checkout.
@@ -569,8 +574,9 @@ every page was wiped, variable overrides included, with no warning and no undo. 
 `partitionByPlatform` splits by the item's `platforms`; survivors keep their `uid`, `pagina` and the
 very same `variables` object (same item ⇒ same schema ⇒ `pickChangedVariables` still compares against
 the same defaults). Losses raise a confirm listing them by name; cancelling changes nothing.
-Tray↔Wake never loses anything — their catalogs are identical. **Leaving VTEX leaves the checkout
-mode** (`modeForPlatform`): not only in `changePlatform` but in an effect on `platform`, because the
+Tray↔Wake↔VTEX never loses anything — today every item is in all three (`platformCompat.ts`);
+going to Wake 2.0 drops everything outside families 10 and 17, and to Nuvemshop everything not ported.
+**Leaving VTEX leaves the checkout mode** (`modeForPlatform`): not only in `changePlatform` but in an effect on `platform`, because the
 hydration and `/gerador/import-log` also write it. Coming back to VTEX does not re-enter the mode.
 The `PlatformSelect` normally lives only under "Componentes"; in checkout mode (no "Componentes")
 it shows in the left panel header, otherwise there would be no way to switch platform there.
@@ -583,7 +589,7 @@ convenções, §4 o que muda aqui, §7 as fases). Hoje **a família 09 inteira (
 só ela: o `platforms` de cada item ganha `'Nuvemshop'` só quando o porte dele existir em
 `global-templates/Nuvemshop/<Página>/template_<N>/<selection>/` — o `1-catalogo` reprova o item que
 declarar sem a pasta, com ou sem a flag. Com a flag desligada, marcar um item não muda nada visível:
-todo consumidor de `platforms` (`isItemAvailable`, `templatesCompletos`, `disponivelNaLp`,
+todo consumidor de `platforms` (`isItemAvailable`, `templatesCompletos`, `sanitizeLp`,
 `partitionByPlatform`, o export) pergunta por UMA plataforma, e a hidratação só deixa chegar as de
 `PLATFORMS`. Com ela ligada, a 09 aparece no modal e como "09 · Editorial" em "Por template".
 
@@ -615,6 +621,33 @@ todo consumidor de `platforms` (`isItemAvailable`, `templatesCompletos`, `dispon
   `seriea-nuvemshop-migration` valida cada um — o caminho dele vem de `NUVEMSHOP_VALIDADOR`, e sem
   ela o estágio reprova. O `nuvemshop theme check` não serve: valida contra o tema remoto da loja,
   com login. Ver o README do funil.
+
+### Wake 2.0 (atrás de flag)
+
+A trilha Wake com as seções da home virando **blocos do Wake Design Studio**: o lojista edita a home
+(e a LP) no admin da Wake — textos, imagens (upload) e vitrines (escolhendo um hotsite); header,
+rodapé, categoria e produto ficam no tema. Só as **famílias 10 e 17** a declaram (`'Wake 2.0'` no
+`platforms` dos 48 itens delas); o `1-catalogo` resolve a origem dela em `global-templates/Wake/…`.
+
+- **A flag** ([types/platform.ts](src/types/platform.ts)): `NEXT_PUBLIC_PLATAFORMA_WAKE2=1` a põe em
+  `PLATFORMS` (seletor e hidratação), como a da Nuvemshop; desligada (produção, por enquanto), aba ou
+  tema salvo com `Wake 2.0` voltam sem plataforma. Embutida no build.
+- **Export:** o mesmo da Wake (`platform: "wake"`, `wakeToken`, `trilhaDe`), mais
+  `wake.designStudio: true` — no tema de loja e no da LP. O popup do token abre como na Wake e diz o
+  nome da plataforma escolhida.
+- **Aviso no painel** (`[data-wake2-aviso]`, `EditorLeftPanel`): em Componentes e Por template, o que
+  o Design Studio edita, os pré-requisitos da loja (Storefront 2.0, "Migração Automática" em
+  Storefront › Repositório, conectores tokenizados), a entrega numa branch do repositório da loja e
+  o chamado à Wake para Minha Conta/e-mails.
+- **LP:** tem modo LP; a LP inicial é a da 10 (não há 08), ver **Modo LP**.
+- **Generator:** com `designStudio`, clona o tema-base da Wake na branch `baseStorefrontDs`; cada
+  seção da home com `<selection>.schema.json` vira `Blocks/<type>.html|.schema.json`, entra no
+  `content_for_page` da rota da home em `Configs/pages.json`, e o `<main>` de `Pages/home.html` ganha
+  o wrapper `wake_has_content_for_page`. Receita de porte de seção e provas:
+  `../.familias-ferramentas/wake-design-studio/RECEITA.md` (o `smoke.mjs` ao lado roda o tema gerado).
+- **Funil:** com a flag no funil **e** no dev, `2-edicao` (aviso + popup), `2-lp`, `2-templates`,
+  `3-export` e `5-contrato-tray-wake` a incluem; `4-tema-tray-wake` monta a Wake 2.0 17 sempre (sem
+  depender da flag) e confere blocos, `content_for_page` e wrapper.
 
 ### Export flow
 

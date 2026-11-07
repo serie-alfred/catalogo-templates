@@ -28,10 +28,10 @@ export interface PlatformPartition {
  * `variablesSchema` é bit a bit o mesmo e `pickChangedVariables` continua
  * comparando contra os mesmos defaults na hora do export.
  *
- * Números do catálogo hoje (67 itens ativos): 21 nas três plataformas, 17 só
- * VTEX, 14 só Tray, 12 Tray+Wake, 2 Tray+VTEX e 1 só Wake. Tray e Wake NÃO têm
- * mais catálogo idêntico — os 14 itens só-Tray e o Breadcrumb02 só-Wake se
- * perdem ao trocar entre as duas.
+ * Hoje Tray, Wake e VTEX oferecem o catálogo inteiro (trocar entre as três não
+ * perde nada); a Nuvemshop só os itens portados e a Wake 2.0 só as famílias 10
+ * e 17 (os blocos do Design Studio). Os números mudam a cada família: conte no
+ * `layoutData.ts`, não neste comentário.
  */
 export function partitionByPlatform(
   selections: LayoutSelection[],

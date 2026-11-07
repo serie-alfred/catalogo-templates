@@ -44,11 +44,17 @@ Todas listadas em `.env.example`:
 
 | Var | Para quê |
 | --- | --- |
-| `SMTP_*`, `CONTACT_EMAIL` | envio do `config.json` por e-mail no export |
+| `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `CONTACT_EMAIL` | envio do `config.json` por e-mail no export (e do formulário de contato do site) |
 | `GOOGLE_FONTS_API_KEY` | lista de fontes do seletor |
-| `KV_REST_API_URL`, `KV_REST_API_TOKEN` | Vercel KV, onde o preview compartilhável é persistido |
+| `KV_REST_API_URL`, `KV_REST_API_TOKEN` (ou `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`) | Vercel KV/Upstash: preview compartilhável, temas salvos, limite de tentativas do login, rodízio do comercial |
 | `CRON_SECRET` | opcional — protege `/api/keep-alive`, o ping que impede o KV free de expirar |
+| `ETEMAS_LOGIN_USER`, `ETEMAS_LOGIN_PASSWORD`, `ETEMAS_SESSION_SECRET` | login da agência no `/gerador`; em produção, sem as três o editor fica fechado (segredo com 32+ caracteres) |
+| `COMERCIAIS` | site público: rodízio do "Falar com o comercial" no WhatsApp (`Nome:55DDDNUMERO,…`); vazio leva ao formulário |
+| `NEXT_PUBLIC_GTM_ID`, `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_META_PIXEL_ID` | site público: GTM, GA4 e Pixel, só depois do aceite de cookies; vazios, nada carrega |
+| `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP` | `1` põe a Nuvemshop no seletor do `/gerador` (desligada em produção; embutida no build) |
+| `NEXT_PUBLIC_PLATAFORMA_WAKE2` | `1` põe a Wake 2.0 (Design Studio, famílias 10 e 17) no seletor do `/gerador` (desligada em produção; embutida no build) |
 
+`NODE_ENV` e `VERCEL` vêm do Next e da Vercel; não se cadastram.
 Sem `KV_REST_API_URL`, o preview compartilhável grava em `.preview-store/` no disco (só dev).
 
 ---

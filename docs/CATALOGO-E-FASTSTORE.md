@@ -41,7 +41,7 @@ Os quatro são repositórios git independentes, lado a lado. O mapa completo est
 - Cada um é registrado em [src/utils/templateRegistry.ts](../src/utils/templateRegistry.ts) com um nome tipo `Showcase01`, `Header03`, `Spot04`… onde **o número = o `template_N`** da pasta (`Showcase01` = `home/template_1/Showcase`, `Showcase03` = `home/template_3/Showcase`, etc.).
 - O que o usuário pode escolher é definido em [src/data/layoutData.ts](../src/data/layoutData.ts). Cada `LayoutItem` declara:
   - `component`: a chave no `TemplateRegistry` (ex.: `"Showcase01"`).
-  - `platforms`: quais plataformas suportam aquele item (`'Tray' | 'Wake' | 'VTEX'`).
+  - `platforms`: quais plataformas suportam aquele item (`'Tray' | 'Wake' | 'Wake 2.0' | 'VTEX' | 'Nuvemshop'`).
   - **`path`**: o caminho do componente equivalente **no `faststore.starter`** (ex.: `"organisms/ProductShelfCustom01"`). **Só itens com plataforma `VTEX` têm `path`.**
 
 ## Como achar o componente de referência no `faststore.starter`
