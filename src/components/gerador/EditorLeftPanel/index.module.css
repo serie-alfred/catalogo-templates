@@ -82,3 +82,14 @@
   background: var(--ed-blue-50);
   box-shadow: inset 0 -1px 0 var(--ed-gray-000);
 }
+
+/* Os passos do aviso da Wake 2.0: lista curta, sem o recuo padrão do <ul>. */
+.hintLista {
+  margin: 6px 0 0;
+  padding-left: 16px;
+}
+
+.hintLista li + li {
+  margin-top: 4px;
+}
+
