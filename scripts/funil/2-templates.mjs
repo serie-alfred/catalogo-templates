@@ -250,9 +250,11 @@ const temasAplicados = {};
 const gravadas = page => page.evaluate(() => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]'));
 
 // ── 1. a lista nas três plataformas ─────────────────────────────────────────
-for (const plat of ['VTEX', 'Wake', 'Tray']) {
+// A Wake 2.0 (atrás de flag) só tem as famílias do Design Studio: 10 e 17.
+const NOME_DA_FAMILIA = { 9: '09 · Editorial', 10: '10 · Varejo', 17: '17 · Pet' };
+for (const plat of ['VTEX', 'Wake', 'Tray', ...(WAKE2_LIGADA ? ['Wake 2.0'] : [])]) {
   const { page } = await aba(browser);
-  await semear(page, { plataforma: plat, token: plat === 'Wake' ? 'TOKEN-DE-TESTE' : '' });
+  await semear(page, { plataforma: plat, token: plat === 'Wake' || plat === 'Wake 2.0' ? 'TOKEN-DE-TESTE' : '' });
   await abrirPainel(page);
   const lista = await cartoes(page);
   const esp = esperadas(plat);
@@ -261,18 +263,24 @@ for (const plat of ['VTEX', 'Wake', 'Tray']) {
     lista.map(c => c.t).join() === esp.join(),
     lista.map(c => c.t).join()
   );
-  r.ok(`${plat}: as famílias 09 e 10 estão entre eles`, esp.includes('9') && esp.includes('10'));
-  const c9 = lista.find(c => c.t === '9');
-  const c10 = lista.find(c => c.t === '10');
+  const [fa, fb] = plat === 'Wake 2.0' ? ['10', '17'] : ['9', '10'];
   r.ok(
-    `${plat}: nome e contagem de peças (09 · Editorial, 10 · Varejo)`,
-    !!c9 &&
-      c9.texto.includes('09 · Editorial') &&
-      c9.texto.includes(`${daFamilia('9', plat).length} peças`) &&
-      !!c10 &&
-      c10.texto.includes('10 · Varejo') &&
-      c10.texto.includes(`${daFamilia('10', plat).length} peças`),
-    `${c9?.texto} | ${c10?.texto}`
+    `${plat}: as famílias ${fa.padStart(2, '0')} e ${fb} estão entre eles`,
+    esp.includes(fa) && esp.includes(fb)
+  );
+  if (plat === 'Wake 2.0')
+    r.ok('Wake 2.0: só as famílias 10 e 17', esp.join() === '17,10', esp.join());
+  const ca = lista.find(c => c.t === fa);
+  const cb = lista.find(c => c.t === fb);
+  r.ok(
+    `${plat}: nome e contagem de peças (${NOME_DA_FAMILIA[fa]}, ${NOME_DA_FAMILIA[fb]})`,
+    !!ca &&
+      ca.texto.includes(NOME_DA_FAMILIA[fa]) &&
+      ca.texto.includes(`${daFamilia(fa, plat).length} peças`) &&
+      !!cb &&
+      cb.texto.includes(NOME_DA_FAMILIA[fb]) &&
+      cb.texto.includes(`${daFamilia(fb, plat).length} peças`),
+    `${ca?.texto} | ${cb?.texto}`
   );
   r.ok(`${plat}: cada card tem a prévia em mosaico (4 thumbs)`, lista.every(c => c.imgs === 4), lista.map(c => c.imgs).join());
   r.ok(

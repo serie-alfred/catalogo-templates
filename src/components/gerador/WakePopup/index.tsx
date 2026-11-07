@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import styles from './index.module.css';
 import { CircleQuestionMark } from 'lucide-react';
 import { iconsGenerator } from '@/assets/icons/generator';
+import { useLayout } from '@/context/LayoutContext';
 
 interface WakePopupProps {
   onClose: () => void;
@@ -28,6 +29,8 @@ export function WakePopup({
   setShowWakePopup,
 }: WakePopupProps) {
   const inputRef = useRef<HTMLInputElement>(null);
+  // O mesmo diálogo abre para a Wake e para a Wake 2.0: o nome tem de ser o escolhido.
+  const { platform } = useLayout();
 
   useEffect(() => {
     inputRef.current?.focus();
@@ -59,8 +62,9 @@ export function WakePopup({
         </button>
         <h2 id="wake-popup-titulo">Atenção</h2>
         <p>
-          Para construir o seu tema na plataforma <strong>Wake</strong> é
-          necessário informar o token da sua loja.
+          Para construir o seu tema na plataforma{' '}
+          <strong>{platform ?? 'Wake'}</strong> é necessário informar o token
+          da sua loja.
         </p>
         <p className={styles.nota}>
           O token fica salvo neste navegador e vai junto no{' '}

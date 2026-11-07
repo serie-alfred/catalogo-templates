@@ -72,8 +72,8 @@ export interface TemaAtual {
 /**
  * O que o canvas mostra: a loja (as páginas montadas com seções), o checkout
  * nativo da VTEX com o nosso visual, ou uma LP avulsa (`lp`, ver utils/lp.ts).
- * `checkout` só existe com `platform === 'VTEX'` e `lp` em Wake e VTEX — ver
- * `modeForPlatform` em platformCompat.ts.
+ * `checkout` só existe com `platform === 'VTEX'` e `lp` em Wake, Wake 2.0 e
+ * VTEX — ver `modeForPlatform` em platformCompat.ts.
  */
 export type EditorMode = 'loja' | 'checkout' | 'lp';
 
@@ -658,7 +658,12 @@ export function useLayoutGenerator() {
       // gravariam os defaults vazios por cima do que estava guardado.
       try {
         const storedLp = estadoDaAba.get('lp');
-        if (storedLp) setLp(sanitizeLp(JSON.parse(storedLp)));
+        // Sem LP guardada, a inicial é a da plataforma: na Wake 2.0 não há 08.
+        setLp(
+          storedLp
+            ? sanitizeLp(JSON.parse(storedLp), storedPlatform)
+            : lpInicial(storedPlatform)
+        );
       } catch (e) {
         console.error('LP guardada ilegível, usando a inicial:', e);
       }
@@ -977,11 +982,22 @@ export function useLayoutGenerator() {
 
     const loja = partitionByPlatform(lojaSelections, value);
     // Plataforma sem modo LP (Tray) não toca na LP: ela fica guardada como está e
-    // volta inteira quando o usuário voltar para Wake/VTEX — perguntar por ela
-    // aqui seria um diálogo sobre algo que a Tray nem mostra.
-    const daLp = plataformaTemLp(value)
-      ? partitionByPlatform(lp.selections, value)
-      : { kept: lp.selections, lostTitles: [] as string[] };
+    // volta inteira quando o usuário voltar para Wake/Wake 2.0/VTEX — perguntar
+    // por ela aqui seria um diálogo sobre algo que a Tray nem mostra.
+    //
+    // A LP inicial intocada não é trabalho do usuário: vira a inicial do
+    // destino, sem diálogo (a família 08 não existe na Wake 2.0, ver lpInicial).
+    const lpIntocada =
+      JSON.stringify(lp.selections) ===
+      JSON.stringify(lpInicial(platform).selections);
+    const daLp = !plataformaTemLp(value)
+      ? { kept: lp.selections, lostTitles: [] as string[] }
+      : lpIntocada
+        ? { kept: lpInicial(value).selections, lostTitles: [] as string[] }
+        : partitionByPlatform(lp.selections, value);
+    const lpMudou =
+      daLp.kept.length !== lp.selections.length ||
+      daLp.kept.some((s, i) => s.uid !== lp.selections[i].uid);
     const lostTitles = [
       ...loja.lostTitles,
       ...daLp.lostTitles.map(t => `${t} (na LP)`),
@@ -1004,7 +1020,7 @@ export function useLayoutGenerator() {
     setEditorModeState(prev => modeForPlatform(prev, value));
     if (
       loja.kept.length !== lojaSelections.length ||
-      daLp.kept.length !== lp.selections.length
+      lpMudou
     ) {
       const survivors = new Set([...loja.kept, ...daLp.kept].map(s => s.uid));
       setLojaSelections(loja.kept);
@@ -1821,7 +1837,8 @@ export function useLayoutGenerator() {
       const plat = sanitizePlatform(doc.platform ?? null);
       setPlatform(plat);
       setLojaSelections(sanitizeSelections(doc.selections));
-      if (doc.lp) setLp(sanitizeLp(doc.lp));
+      // Sem LP no documento, a da aba fica — filtrada pela plataforma nova.
+      setLp(prev => sanitizeLp(doc.lp ?? prev, plat));
       const c: Partial<PreviewSnapshot['colors']> = doc.colors ?? {};
       setColorPrimary(c.colorPrimary || '#1a1a1a');
       setColorSecondary(c.colorSecondary || '#ffffff');
