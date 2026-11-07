@@ -1,14 +1,11 @@
 /**
  * Estágio 5 — contrato Tray/Wake (e Nuvemshop, com a flag), estático.
  *
- * Executar o generator nessas duas trilhas é inviável desta máquina, e não por
- * escolha: a Tray abre `start cmd /k` (Windows), e a Wake clona o tema do
- * git.fbits.net, que TRAVA dentro do git-credential-osxkeychain, e publica
- * conteúdo ativo numa loja real via API, sem flag de bypass. (O tema-base da
- * Tray e o global-templates vêm do GitHub desde 13/10/2026 e clonam pelo `gh`.)
- *
- * O que dá para provar sem executar é o contrato: o caminho de origem, a
- * unicidade da key e os limites conhecidos de instância.
+ * Montar o tema é o `4-tema-tray-wake` (o generator com `GENERATOR_LOCAL=1`: a
+ * Wake não chama a API e a Tray não abre `tray watch`). Este estágio confere o
+ * contrato sem executar, no config que o /gerador exportou no estágio 3: o
+ * caminho de origem, a unicidade da key, os limites conhecidos de instância e,
+ * na Wake 2.0, os schemas dos blocos do Design Studio.
  *
  * A Nuvemshop entra com NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP=1, a mesma flag que a
  * põe no /gerador e no estágio 3 (que grava o config dela). Regra própria: o
