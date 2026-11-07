@@ -5,7 +5,8 @@
  * mesmo conjunto por caminhos diferentes, e enquanto discordavam era possível
  * pôr dois banners principais distintos na mesma home.
  */
-import { relatorio, espera } from './lib/util.mjs';
+import path from 'node:path';
+import { relatorio, espera, SAIDA } from './lib/util.mjs';
 import {
   abrirBrowser,
   novaAba,
@@ -18,6 +19,7 @@ import {
   gruposNaLista,
   clicarDeVerdade,
 } from './lib/editor.mjs';
+import { WAKE2_LIGADA } from '../../src/types/platform.ts';
 
 const r = relatorio('Estágio 2b — regras de edição');
 const browser = await abrirBrowser();
@@ -614,6 +616,95 @@ if (abriuWake) {
   r.ok(
     'Escape fecha o popup',
     !(await page.evaluate(() => !!document.querySelector('.wake-popup')))
+  );
+}
+
+// ── o aviso da Wake 2.0 é só dela ─────────────────────────────────────────────
+// A página acima está em Wake (escolhida na UI): o aviso do Design Studio não
+// pode aparecer ali.
+r.ok(
+  'Wake: o aviso do Design Studio (data-wake2-aviso) NÃO aparece',
+  !(await page.evaluate(() => !!document.querySelector('[data-wake2-aviso]')))
+);
+
+// ── Wake 2.0 (atrás de flag): popup com o nome dela e o aviso do processo ────
+// Mesmo caminho do cliente: semear Tray e escolher Wake 2.0 no seletor.
+if (WAKE2_LIGADA) {
+  await semear(page, {
+    plataforma: 'Tray',
+    selecoes: [sel('10', 'header', 'common')],
+  });
+  await clicarDeVerdade(
+    page,
+    'button[class*="card"][aria-haspopup="listbox"]'
+  );
+  await espera(500);
+  await page.evaluate(() =>
+    [...document.querySelectorAll('[role="option"]')]
+      .find(o => o.textContent.trim() === 'Wake 2.0')
+      ?.click()
+  );
+  const abriu2 = await page
+    .waitForSelector('.wake-popup', { timeout: 12000 })
+    .then(() => true)
+    .catch(() => false);
+  const nome = abriu2
+    ? await page.$eval('.wake-popup strong', el => el.textContent.trim())
+    : null;
+  r.ok(
+    'Wake 2.0: o popup do token diz "Wake 2.0", não "Wake"',
+    nome === 'Wake 2.0',
+    nome ?? 'o popup não abriu'
+  );
+  await page.keyboard.press('Escape');
+  await espera(500);
+
+  const aviso = await page.evaluate(() => {
+    const el = document.querySelector('[data-wake2-aviso]');
+    if (!el) return null;
+    const box = el.getBoundingClientRect();
+    return {
+      visivel: box.width > 0 && box.height > 0,
+      texto: el.innerText,
+    };
+  });
+  r.ok(
+    'Wake 2.0: o aviso do Design Studio aparece no painel esquerdo',
+    !!aviso?.visivel,
+    aviso ? 'existe mas não tem caixa' : 'nenhum [data-wake2-aviso]'
+  );
+  // Os fatos que quem gera precisa saber, um a um.
+  const FATOS = [
+    ['famílias', /famílias 10 e 17/],
+    ['imagem até 5 MB', /5 MB/],
+    ['vitrine por hotsite', /hotsite/],
+    ['o que fica no tema', /Header, rodapé, categoria e produto/],
+    ['Storefront 2.0', /Storefront 2\.0/],
+    ['conectores tokenizados', /tokenizados/],
+    ['entrega numa branch', /branch/],
+    ['chamado à Wake', /chamado/],
+  ];
+  const faltam = FATOS.filter(([, re]) => !re.test(aviso?.texto ?? '')).map(
+    ([n]) => n
+  );
+  r.ok(
+    `Wake 2.0: o aviso cobre os ${FATOS.length} pontos do processo`,
+    faltam.length === 0,
+    `faltam: ${faltam.join(', ')}`
+  );
+  if (aviso) {
+    const arq = path.join(SAIDA, 'wake2-aviso.png');
+    const painel = await page.evaluateHandle(
+      () =>
+        document.querySelector('[data-wake2-aviso]').closest('aside') ??
+        document.querySelector('[data-wake2-aviso]')
+    );
+    await painel.asElement().screenshot({ path: arq });
+    console.log(`  ℹ️  print do aviso: ${arq}`);
+  }
+} else {
+  console.log(
+    '  ℹ️  Wake 2.0 fora (NEXT_PUBLIC_PLATAFORMA_WAKE2 desligada): popup e aviso dela não conferidos'
   );
 }
 
