@@ -45,15 +45,6 @@ export function templateDoSlug(slug: string): TemplateCompleto | null {
 export const thumbDoTemplate = (slug: string): string =>
   `/images/templates/${slug}.webp`;
 
-/** "Fraunces e Figtree · 24 peças". */
-export function resumoDoTemplate(t: TemplateCompleto): string {
-  const f = t.tema?.fonts;
-  const fontes = f
-    ? [...new Set([f.fontPrimary, f.fontSecondary])].join(' e ')
-    : null;
-  return [fontes, `${t.itens.length} peças`].filter(Boolean).join(' · ');
-}
-
 /**
  * A loja inteira com a cara da família, como uma aba nova do editor a mostra
  * depois de aplicar o template: as peças com o Nível 1 do desenho
