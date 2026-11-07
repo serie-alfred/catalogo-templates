@@ -41,6 +41,8 @@ import {
   SAIDA,
   itens,
   relatorio,
+  ler,
+  git,
 } from './lib/util.mjs';
 import { TEMA_INICIAL, colorSafeOnWhite } from '../../src/utils/themeStyle.ts';
 
@@ -51,10 +53,6 @@ const COMPONENTES = path.join(GENERATOR, 'repo-temp');
 fs.rmSync(PASTA, { recursive: true, force: true });
 fs.mkdirSync(PASTA, { recursive: true });
 
-const ler = p => (fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '');
-const git = (dir, ...args) =>
-  spawnSync('git', ['-C', dir, ...args], { encoding: 'utf8' }).stdout?.trim() ??
-  '';
 const semComentario = t =>
   t.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 

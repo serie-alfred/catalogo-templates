@@ -53,6 +53,8 @@ import {
   SAIDA,
   itens,
   relatorio,
+  ler,
+  git,
 } from './lib/util.mjs';
 import { NUVEMSHOP_LIGADA } from '../../src/types/platform.ts';
 import { TEMA_INICIAL, colorSafeOnWhite } from '../../src/utils/themeStyle.ts';
@@ -64,10 +66,6 @@ const COMPONENTES = path.join(GENERATOR, 'repo-temp');
 fs.rmSync(PASTA, { recursive: true, force: true });
 fs.mkdirSync(PASTA, { recursive: true });
 
-const ler = p => (fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '');
-const git = (dir, ...args) =>
-  spawnSync('git', ['-C', dir, ...args], { encoding: 'utf8' }).stdout?.trim() ??
-  '';
 const fim = () => process.exit(r.fechar() ? 0 : 1);
 
 // ── o que montar ─────────────────────────────────────────────────────────────

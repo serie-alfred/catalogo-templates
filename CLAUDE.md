@@ -36,7 +36,7 @@ There is no test runner. Verification is `yarn funil` — the stages in [scripts
 - `CRON_SECRET` — optional; when set, [/api/keep-alive](src/app/api/keep-alive/route.ts) requires `Authorization: Bearer <CRON_SECRET>` from the Vercel cron.
 - `ETEMAS_LOGIN_USER`, `ETEMAS_LOGIN_PASSWORD`, `ETEMAS_SESSION_SECRET` — o login da agência (ver **Login** abaixo). O segredo precisa de 32+ caracteres. **Em produção, sem as três o /gerador fica FECHADO** — cadastre antes de publicar.
 - `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP` — `1` põe a Nuvemshop no `/gerador` (ver **Nuvemshop** abaixo). **Não cadastre na Vercel** até a fase 6 do contrato da plataforma; é embutida no build.
-- `NEXT_PUBLIC_PLATAFORMA_WAKE2` — `1` põe a Wake 2.0 no `/gerador` (ver **Wake 2.0** abaixo). Desligada em produção por enquanto; é embutida no build.
+- `NEXT_PUBLIC_PLATAFORMA_WAKE2` — `1` põe a Wake 2.0 no `/gerador` (ver **Wake 2.0** abaixo). Ligada em produção (Vercel) desde 06/11/2026; é embutida no build.
 - Do site público: `COMERCIAIS` (rodízio do WhatsApp) e `NEXT_PUBLIC_GTM_ID`/`_GA4_ID`/`_META_PIXEL_ID` (ver **Site público**).
 
 #### O que cadastrar na Vercel (Settings → Environment Variables, Production)
@@ -630,7 +630,7 @@ rodapé, categoria e produto ficam no tema. Só as **famílias 10 e 17** a decla
 `platforms` dos 48 itens delas); o `1-catalogo` resolve a origem dela em `global-templates/Wake/…`.
 
 - **A flag** ([types/platform.ts](src/types/platform.ts)): `NEXT_PUBLIC_PLATAFORMA_WAKE2=1` a põe em
-  `PLATFORMS` (seletor e hidratação), como a da Nuvemshop; desligada (produção, por enquanto), aba ou
+  `PLATFORMS` (seletor e hidratação), como a da Nuvemshop (ligada em produção). Desligada, aba ou
   tema salvo com `Wake 2.0` voltam sem plataforma. Embutida no build.
 - **Export:** o mesmo da Wake (`platform: "wake"`, `wakeToken`, `trilhaDe`), mais
   `wake.designStudio: true` — no tema de loja e no da LP. O popup do token abre como na Wake e diz o

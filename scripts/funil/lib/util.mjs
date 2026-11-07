@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 export const RAIZ = path.resolve(fileURLToPath(import.meta.url), '../../../..');
@@ -71,6 +71,13 @@ export function itens(layouts = lerLayouts()) {
     secao.items.map(item => ({ ...item, layoutKey, secao: secao.name }))
   );
 }
+
+/** Conteúdo do arquivo, ou '' se não existe. */
+export const ler = p => (fs.existsSync(p) ? fs.readFileSync(p, 'utf8') : '');
+/** `git -C dir …` → stdout sem espaços nas pontas ('' se falhar). */
+export const git = (dir, ...args) =>
+  spawnSync('git', ['-C', dir, ...args], { encoding: 'utf8' }).stdout?.trim() ??
+  '';
 
 export const espera = ms => new Promise(r => setTimeout(r, ms));
 
