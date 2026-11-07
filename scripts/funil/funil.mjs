@@ -47,6 +47,8 @@ const ESTREITAM = {
  * produção do tema. Não estreitam, desviam — ficam registradas, e a execução
  * que rodou com qualquer uma não vale como evidência.
  */
+/** Flags que produção TEM: a evidência só vale com o mesmo valor (Vercel, Production). */
+const COMO_PRODUCAO = { NEXT_PUBLIC_PLATAFORMA_WAKE2: '1' };
 const DESVIAM = [
   'FASTSTORE_COMPONENTS_REPO',
   'FASTSTORE_COMPONENTS_BRANCH',
@@ -56,8 +58,6 @@ const DESVIAM = [
   // Liga a Nuvemshop, que produção não tem: o 3-export troca a prova de que a
   // hidratação a RECUSA pela de que a aceita.
   'NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP',
-  // Liga a Wake 2.0 (flag), que produção ainda não tem.
-  'NEXT_PUBLIC_PLATAFORMA_WAKE2',
   // De onde o generator clona no 4-tema-nuvemshop (e a branch que a paridade do
   // global-templates espera): outro tema-base, outra árvore de componentes.
   'NUVEMSHOP_THEME_BASE_REPO',
@@ -272,6 +272,8 @@ if (completa) {
       );
   }
   for (const k of DESVIAM) if (process.env[k]) motivos.push(`${k}=${process.env[k]}`);
+  for (const [k, v] of Object.entries(COMO_PRODUCAO))
+    if (process.env[k] !== v) motivos.push(`${k}=${process.env[k] ?? ''} (produção tem ${v})`);
   for (const [nome, s] of Object.entries(inicio.servidores)) {
     if (!s.ok) motivos.push(`servidor ${nome}: ${s.motivo}`);
     if (!fim.servidores[nome]?.ok)
@@ -296,7 +298,7 @@ if (completa) {
         ambiente: Object.fromEntries(
           // NUVEMSHOP_VALIDADOR não desvia (sem ele o 4-tema-nuvemshop reprova),
           // mas diz QUAL validador deu o verde.
-          [...DESVIAM, 'FUNIL_BASE_URL', 'FUNIL_STARTER_URL', 'CHROME_PATH', 'NUVEMSHOP_VALIDADOR']
+          [...DESVIAM, ...Object.keys(COMO_PRODUCAO), 'FUNIL_BASE_URL', 'FUNIL_STARTER_URL', 'CHROME_PATH', 'NUVEMSHOP_VALIDADOR']
             .filter(k => process.env[k] !== undefined)
             .map(k => [k, process.env[k]])
         ),

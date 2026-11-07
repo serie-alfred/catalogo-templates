@@ -314,7 +314,9 @@ no início e no fim da execução, o que estava **fora do commit** em cada repo 
 --porcelain` — o funil lê o working tree) e **de que pasta rodava** o processo que respondeu em
 `FUNIL_BASE_URL`/`FUNIL_STARTER_URL` (`lsof`: outra sessão pode subir o catálogo de outro
 checkout na mesma porta), e as variáveis que desviam o que é medido (`FASTSTORE_*`,
-`NEXT_PUBLIC_DEV_FIDELITY`). Com isso ele diz `evidencia: true|false` e os `motivos`. As que
+`NEXT_PUBLIC_DEV_FIDELITY`, `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP`). O contrário também conta: flag que
+produção TEM precisa estar igual (`COMO_PRODUCAO`, hoje `NEXT_PUBLIC_PLATAFORMA_WAKE2=1`, no funil e no
+dev). Com isso ele diz `evidencia: true|false` e os `motivos`. As que
 **estreitam** — `FUNIL_TEMA_BUILD=0`, `FIDELIDADE_SO`, `FUNIL_RENDER_NOVOS=1` — a execução
 completa recusa: para iterar, rode os estágios por nome.
 

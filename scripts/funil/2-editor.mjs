@@ -225,9 +225,16 @@ const vpAntes = await vpInterna();
 const escAntes = await escala();
 ok('a viewport interna do tema é 1440', vpAntes === 1440, vpAntes);
 
+// Espera a escala ASSENTAR em vez de um tempo fixo: sob carga (load > 10) os 700 ms
+// não bastavam e a medida saía igual à de antes, com o painel já recolhido.
+const escalaAssentada = async anterior => {
+  let v = await escala();
+  for (let i = 0; i < 20 && v === anterior; i++) { await s(200); v = await escala(); }
+  return v;
+};
 await clicarDeVerdade(p, 'button[aria-label="Recolher painel esquerdo"]');
 await s(700);
-const escSemEsq = await escala();
+const escSemEsq = await escalaAssentada(escAntes);
 const vpSemEsq = await vpInterna();
 /*
  * "Aumenta" RESPEITANDO O TETO. A escala é `Math.min(1, desejada)` — o canvas
@@ -249,7 +256,7 @@ ok(
 
 await clicarDeVerdade(p, 'button[aria-label="Recolher painel direito"]');
 await s(700);
-const escSemAmbos = await escala();
+const escSemAmbos = await escalaAssentada(escSemEsq);
 const vpSemAmbos = await vpInterna();
 ok(
   'recolher direito leva a escala a 100%',

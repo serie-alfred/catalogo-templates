@@ -216,11 +216,20 @@ try {
   await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.ed-shell', { timeout: 60000 });
   await espera(2500);
-  await page.evaluate(() =>
-    [...document.querySelectorAll('div[role="group"] button')]
-      .find(b => /mobile/i.test(b.textContent ?? ''))
-      ?.click()
-  );
+  // Clica até o toggle ficar pressionado: sob carga a hidratação passa dos 2,5 s e
+  // um clique só caía num botão ainda sem handler (viewport ficava em 1440).
+  await page
+    .waitForFunction(
+      () => {
+        const b = [...document.querySelectorAll('div[role="group"] button')].find(x =>
+          /mobile/i.test(x.textContent ?? '')
+        );
+        if (b?.getAttribute('aria-pressed') !== 'true') b?.click();
+        return b?.getAttribute('aria-pressed') === 'true';
+      },
+      { timeout: 30000, polling: 500 }
+    )
+    .catch(() => {});
   await page
     .waitForFunction(
       () => document.querySelector('iframe')?.contentWindow?.innerWidth === 375,
