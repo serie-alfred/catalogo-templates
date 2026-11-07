@@ -117,7 +117,7 @@ export default function EditorLeftPanel({
                 Repositório). Só conectores de pagamento tokenizados.
               </li>
               <li>
-                Depois do &quot;Enviar&quot;, a equipe E-temas gera o tema e o
+                Depois do &quot;Enviar&quot;, a equipe E‑temas gera o tema e o
                 entrega numa branch do repositório da loja. Nada é publicado
                 sozinho.
               </li>
