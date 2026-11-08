@@ -1,11 +1,12 @@
 import puppeteer from 'puppeteer-core';
-import { findChrome, BASE_URL, lerLayouts, SAIDA } from './lib/util.mjs';
+import { findChrome, BASE_URL, lerLayouts, SAIDA, espera } from './lib/util.mjs';
 import {
   writeFileSync,
   existsSync,
   statSync,
   rmSync,
   mkdirSync,
+  readdirSync,
 } from 'node:fs';
 import { relatorio } from './lib/util.mjs';
 import { NON_DUPLICABLE_SELECTIONS } from '../../src/utils/sectionRules.ts';
@@ -392,6 +393,16 @@ for (const plat of PLATAFORMAS) {
     );
   }
   await p.close();
+}
+// O Chrome cria o arquivo vazio e só depois escreve; sob carga, fechar o navegador antes
+// deixava o PNG com 0 kB. Espera os downloads assentarem (sem .crdownload, tamanho > 0).
+for (let i = 0; i < 60; i++) {
+  const pendentes = readdirSync(DL).filter(n => n.endsWith('.crdownload'));
+  const vazios = ['layout-desktop.png', 'layout-mobile.png'].filter(
+    n => !existsSync(`${DL}/${n}`) || statSync(`${DL}/${n}`).size === 0
+  );
+  if (!pendentes.length && !vazios.length) break;
+  await espera(500);
 }
 await b.close();
 
