@@ -575,7 +575,7 @@ every page was wiped, variable overrides included, with no warning and no undo. 
 very same `variables` object (same item ⇒ same schema ⇒ `pickChangedVariables` still compares against
 the same defaults). Losses raise a confirm listing them by name; cancelling changes nothing.
 Tray↔Wake↔VTEX never loses anything — today every item is in all three (`platformCompat.ts`);
-going to Wake 2.0 drops everything outside families 10 and 17, and to Nuvemshop everything not ported.
+going to Wake 2.0 drops everything outside families 09 to 17, and to Nuvemshop everything not ported.
 **Leaving VTEX leaves the checkout mode** (`modeForPlatform`): not only in `changePlatform` but in an effect on `platform`, because the
 hydration and `/gerador/import-log` also write it. Coming back to VTEX does not re-enter the mode.
 The `PlatformSelect` normally lives only under "Componentes"; in checkout mode (no "Componentes")
@@ -626,8 +626,8 @@ todo consumidor de `platforms` (`isItemAvailable`, `templatesCompletos`, `saniti
 
 A trilha Wake com as seções da home virando **blocos do Wake Design Studio**: o lojista edita a home
 (e a LP) no admin da Wake — textos, imagens (upload) e vitrines (escolhendo um hotsite); header,
-rodapé, categoria e produto ficam no tema. Só as **famílias 10 e 17** a declaram (`'Wake 2.0'` no
-`platforms` dos 48 itens delas); o `1-catalogo` resolve a origem dela em `global-templates/Wake/…`.
+rodapé, categoria e produto ficam no tema. Só as **famílias 09 a 17** a declaram (`'Wake 2.0'` no
+`platforms` dos 216 itens delas); o `1-catalogo` resolve a origem dela em `global-templates/Wake/…`.
 
 - **A flag** ([types/platform.ts](src/types/platform.ts)): `NEXT_PUBLIC_PLATAFORMA_WAKE2=1` a põe em
   `PLATFORMS` (seletor e hidratação), como a da Nuvemshop (ligada em produção). Desligada, aba ou

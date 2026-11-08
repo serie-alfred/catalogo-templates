@@ -29,8 +29,8 @@ export interface PlatformPartition {
  * comparando contra os mesmos defaults na hora do export.
  *
  * Hoje Tray, Wake e VTEX oferecem o catálogo inteiro (trocar entre as três não
- * perde nada); a Nuvemshop só os itens portados e a Wake 2.0 só as famílias 10
- * e 17 (os blocos do Design Studio). Os números mudam a cada família: conte no
+ * perde nada); a Nuvemshop só os itens portados e a Wake 2.0 só as famílias 09
+ * a 17 (os blocos do Design Studio). Os números mudam a cada família: conte no
  * `layoutData.ts`, não neste comentário.
  */
 export function partitionByPlatform(

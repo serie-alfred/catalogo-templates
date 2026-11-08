@@ -675,7 +675,7 @@ if (WAKE2_LIGADA) {
   );
   // Os fatos que quem gera precisa saber, um a um.
   const FATOS = [
-    ['famílias', /famílias 10 e 17/],
+    ['famílias', /famílias 09 a 17/],
     ['imagem até 5 MB', /5 MB/],
     ['vitrine por hotsite', /hotsite/],
     ['o que fica no tema', /Header, rodapé, categoria e produto/],
