@@ -197,11 +197,11 @@ A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/lay
 
 The downstream **template-generator** reads each entry's `variables` and injects them into the component's SCSS, which must consume them via the chained-fallback convention `var(--header-topbar-bg, var(--background-secundary-color, #122161))` (individual var → global token → hardcoded default). Keep `cssVar` names in sync with that SCSS.
 
-### Modo LP (Wake, Wake 2.0 e VTEX)
+### Modo LP (Wake, Wake 2.0, VTEX e Nuvemshop)
 
 Uma **área à parte**, como o modo Checkout: o rail ganha o alternador **Landing page**
 (`[data-editor-mode-lp]`, ícone `LandingPage` de `assets/icons/editor.tsx`) em Wake, Wake 2.0 e VTEX
-(`plataformaTemLp`) — onde o generator sabe montar uma LP sozinha. Ali o usuário monta UMA landing page com **qualquer seção de miolo** do catálogo e exporta
+— e na Nuvemshop, com a flag dela (`plataformaTemLp`) — onde o generator sabe montar uma LP sozinha. Ali o usuário monta UMA landing page com **qualquer seção de miolo** do catálogo e exporta
 **só ela**. Não existe componente "de LP": a antiga LP-componente (`BlackFriday01`, `pagina:
 "landing"`) foi dividida nas seções da família 08 (`BannerMain08`, `Countdown08`, `Categories08`,
 `Showcase08`, `ShelfBanner08`, `Editorial08`, `Ruler08`, `Newsletter08`, réplicas em
@@ -215,7 +215,7 @@ Uma **área à parte**, como o modo Checkout: o rail ganha o alternador **Landin
   mover, duplicar, remover e as variáveis funcionam sem um ramo por ação; o setter lê o modo de um
   ref. `selectedPage` vale `home` no modo LP. O histórico (`ThemeDoc.lp`) cobre as duas.
 - **Abre com a Black Friday** (`lpInicial(platform)`): as 8 seções 08 na ordem do Figma, com uid fixo
-  (SSR). Plataforma sem a 08 inteira (a Wake 2.0) abre com as mesmas 8 seções da 10. É ponto de
+  (SSR). Plataforma sem a 08 inteira (a Wake 2.0 e a Nuvemshop) abre com as mesmas 8 seções da 10. É ponto de
   partida, não tipo: trocar de plataforma com a LP inicial **intocada** a troca pela inicial do
   destino, sem o confirm de remoção (`changePlatform`).
 - **O que entra**: item com `pagina` `home` na plataforma. Header, footer, breadcrumb e spot são da
@@ -600,8 +600,14 @@ chegar as de `PLATFORMS`. Com ela ligada, cada família portada aparece no modal
   salvo ou o `/gerador/import-log` com `Nuvemshop` voltam sem plataforma. O tipo `Platform` tem a
   Nuvemshop sempre (tipo não depende de env). Por ser `NEXT_PUBLIC_*`, o valor entra no **build**:
   trocar na Vercel pede deploy novo.
-- **Sem LP e sem checkout:** `plataformaTemLp` e `modeForPlatform` não a incluem. A LP é a fase 7
-  (`page.<slug>.json`); o checkout da Nuvemshop é da plataforma (o tema só pinta as cores).
+- **LP sim, checkout não:** `plataformaTemLp` a inclui (fase 7, só com a flag) e `modeForPlatform`
+  não a leva ao checkout, que na Nuvemshop é da plataforma (o tema só pinta as cores). A LP sai como
+  `{ platform: "nuvemshop", tipo: "lp", nuvemshop: { landingPage, landing, variables, assets } }`,
+  sem credencial, e o generator a escreve como o modelo alternativo de página de conteúdo
+  `templates/pages/page.<slug>.json`. **Quem liga o modelo a uma página é o lojista, no admin**
+  (Páginas → a página → menu "Modelo", com o layout publicado): isso não fica no tema. A 08 da LP
+  inicial não tem porte na Nuvemshop: ali a LP abre com as 8 seções da 10 (`lpInicial`), como na
+  Wake 2.0.
 - **Export:** o ramo genérico do `buildConfigJson` (o de Tray/Wake) já sai como
   `{ platform: "nuvemshop", nuvemshop: { global, variables, assets, home, … } }`, com as 14 globais
   que o generator traduz para o painel "Marca" (`sa_*`, §2.1 A). **Nenhuma credencial**: não existe

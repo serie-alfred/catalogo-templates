@@ -72,8 +72,8 @@ export interface TemaAtual {
 /**
  * O que o canvas mostra: a loja (as páginas montadas com seções), o checkout
  * nativo da VTEX com o nosso visual, ou uma LP avulsa (`lp`, ver utils/lp.ts).
- * `checkout` só existe com `platform === 'VTEX'` e `lp` em Wake, Wake 2.0 e
- * VTEX — ver `modeForPlatform` em platformCompat.ts.
+ * `checkout` só existe com `platform === 'VTEX'` e `lp` em Wake, Wake 2.0,
+ * VTEX e Nuvemshop (com a flag) — ver `modeForPlatform` em platformCompat.ts.
  */
 export type EditorMode = 'loja' | 'checkout' | 'lp';
 
@@ -986,7 +986,8 @@ export function useLayoutGenerator() {
     // por ela aqui seria um diálogo sobre algo que a Tray nem mostra.
     //
     // A LP inicial intocada não é trabalho do usuário: vira a inicial do
-    // destino, sem diálogo (a família 08 não existe na Wake 2.0, ver lpInicial).
+    // destino, sem diálogo (a família 08 não existe na Wake 2.0 nem na
+    // Nuvemshop, ver lpInicial).
     const lpIntocada =
       JSON.stringify(lp.selections) ===
       JSON.stringify(lpInicial(platform).selections);
