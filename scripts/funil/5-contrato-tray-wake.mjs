@@ -18,6 +18,7 @@ import {
   conferirTrayWake,
   conferirNuvemshop,
   conferirSchemasDesignStudio,
+  conferirLpNuvemshop,
   conferirParidadeGlobalTemplates,
 } from './lib/contrato.mjs';
 import { NUVEMSHOP_LIGADA, WAKE2_LIGADA } from '../../src/types/platform.ts';
@@ -95,6 +96,15 @@ for (const plataforma of PLATAFORMAS) {
       `     ℹ️  ${plataforma}: ${multi.length} slots com mais de um modelo (seleção máxima do estágio 3)`
     );
   }
+}
+
+// O config do modo LP da Nuvemshop (fase 7), que o estágio 3 exporta com a flag:
+// as mesmas regras de origem e de credencial, mais as da LP.
+if (NUVEMSHOP_LIGADA) {
+  const arquivo = `${SAIDA}/config-Nuvemshop-lp.json`;
+  if (fs.existsSync(arquivo))
+    conferirLpNuvemshop(JSON.parse(fs.readFileSync(arquivo, 'utf8')), r);
+  else r.ok('Nuvemshop-lp: config disponível', false, 'rode o estágio 3 antes');
 }
 
 // O universo endereçável, para a cobertura não virar surpresa.

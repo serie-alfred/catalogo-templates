@@ -11,15 +11,23 @@
  *      `variablesSchema` do item. Cada marcador tem de chegar ao tema: nos
  *      `settings` da instância (`templates/**`, §2.1 C do contrato) ou, quando a
  *      seção não tem o setting, no CSS do componente (o fallback do generator).
- *   2. Um config com a família inteira — o exportado pelo estágio 3 quando a
- *      flag está ligada (a perna /gerador → config → tema), senão o montado aqui
- *      com os mesmos itens — e o build do `theme-src/` dele: a classe-raiz e as
+ *   2. Um config com a família inteira, UM POR FAMÍLIA (o `template` dos itens:
+ *      duas famílias num tema passam das 25 seções por template da plataforma) —
+ *      o exportado pelo estágio 3 quando a flag está ligada (a perna /gerador →
+ *      config → tema), partido por família, senão o montado aqui com os mesmos
+ *      itens — e o build do `theme-src/` de cada um: a classe-raiz e as
  *      variáveis de cada CSS de seção têm de estar no `app-serie.css`, e o
  *      marcador `data-<raiz>-pronto` de cada JS no `app-serie.js`.
  *   3. Cada tema montado passa pelo validador (abaixo), com 0 erros.
  *   4. Controle negativo: numa CÓPIA do tema da família, um `{% schema %}`
  *      quebrado tem de reprovar no mesmo validador. Sem isso, um caminho errado
  *      para um script que sempre sai 0 daria verde.
+ *   5. O modo LP (fase 7): uma LP com as seções de miolo da família — o config
+ *      que o estágio 3 exportou no modo LP quando a flag está ligada, senão o
+ *      montado aqui — vira `templates/pages/page.<slug>.json` na ordem, com as
+ *      variáveis em cada instância, sem tocar no que é da loja (tokens globais,
+ *      outras páginas, layout), e o tema valida. Um slug inválido tem de
+ *      reprovar na VALIDATE com o tema-base intacto.
  *
  * O validador. O `nuvemshop theme check` da CLI não roda sem login: ele pede à
  * API da loja que valide os arquivos que DIFEREM do tema remoto (precisa do
@@ -288,15 +296,24 @@ function gerar(config, rotulo) {
 }
 
 // ── 1. item a item ───────────────────────────────────────────────────────────
-// `FUNIL_NUVEMSHOP_SO=banner-main,showcase` restringe ESTE laço (a família inteira
-// continua inteira): serve para iterar, e a execução completa do funil o recusa.
+// `FUNIL_NUVEMSHOP_SO=banner-main,showcase` restringe ESTE laço: serve para iterar, e
+// a execução completa do funil o recusa. Cada termo é uma `selection` (todas as
+// famílias que a têm), uma `selection-NN` (só a da família NN) ou um número de
+// família (`10`: os itens dela). A família inteira (passo 2) é montada para cada
+// família que sobrou no laço, sempre com todos os itens dela.
 const SO = (process.env.FUNIL_NUVEMSHOP_SO ?? '')
   .split(',')
   .map(s => s.trim())
   .filter(Boolean);
-const doLaco = SO.length
-  ? marcados.filter(i => SO.includes(i.selection))
-  : marcados;
+const NN = x => String(x.template).padStart(2, '0');
+const noSo = i =>
+  SO.some(
+    s =>
+      s === i.selection ||
+      s === `${i.selection}-${NN(i)}` ||
+      (/^\d+$/.test(s) && Number(s) === Number(i.template))
+  );
+const doLaco = SO.length ? marcados.filter(noSo) : marcados;
 if (SO.length)
   r.ok(
     `FUNIL_NUVEMSHOP_SO: ${doLaco.length} de ${marcados.length} itens no laço (execução parcial)`,
@@ -307,7 +324,7 @@ console.log(
   `  ⏳ ${doLaco.length} tema(s), um por item (o generator reclona a cada rodada — minutos)`
 );
 for (const i of doLaco) {
-  const rot = `${i.selection}-${String(i.template).padStart(2, '0')}`;
+  const rot = `${i.selection}-${NN(i)}`;
   try {
     const marcas = marcadores(i);
     const ctx = contextoDe(i);
@@ -379,10 +396,13 @@ for (const i of doLaco) {
   }
 }
 
-// ── 2. a família inteira ─────────────────────────────────────────────────────
+// ── 2. a família inteira, um tema por família ───────────────────────────────
 // Com a flag, o config é o que o /gerador exportou no estágio 3: é a perna
 // editor → config → tema. Sem a flag, o estágio 3 não exporta a Nuvemshop, e o
-// config sai daqui com os mesmos itens.
+// config sai daqui com os mesmos itens. Nos dois casos ele é partido por família
+// (o `template` de cada entrada): duas famílias num tema só dão dois headers, dois
+// cards e 26 seções na home, e o generator recusa mais de 25 por template — um
+// limite da plataforma, não do teste. Cada família que sobrou no laço vira um tema.
 const EXPORTADO = path.join(SAIDA, 'config-Nuvemshop.json');
 let familia = null;
 if (NUVEMSHOP_LIGADA) {
@@ -419,11 +439,23 @@ if (NUVEMSHOP_LIGADA) {
   );
 }
 
-if (familia) {
-  const g = gerar(familia, 'familia');
+/** O config só com as entradas da família `nn` (globais e assets ficam). */
+const soDaFamilia = (cfg, nn) => ({
+  ...cfg,
+  nuvemshop: Object.fromEntries(
+    Object.entries(cfg.nuvemshop ?? {}).map(([k, v]) => [
+      k,
+      Array.isArray(v) ? v.filter(e => NN(e) === nn) : v,
+    ])
+  ),
+});
+const familias = familia ? [...new Set(doLaco.map(NN))].sort() : [];
+for (const nn of familias) {
+  const daFamilia = marcados.filter(i => NN(i) === nn);
+  const g = gerar(soDaFamilia(familia, nn), `familia-${nn}`);
   if (
     r.ok(
-      'família inteira: o generator monta (--local)',
+      `família ${nn} (${daFamilia.length} itens): o generator monta (--local)`,
       g.ok,
       `${g.erro} — ${g.log}`
     )
@@ -431,7 +463,7 @@ if (familia) {
     for (const a of g.avisos) console.log(`     ⚠️  ${a}`);
     const v = validar(TEMA);
     r.ok(
-      `família inteira: o tema valida (${v.erros ?? '?'} erro(s), ${v.avisos ?? '?'} aviso(s))`,
+      `família ${nn}: o tema valida (${v.erros ?? '?'} erro(s), ${v.avisos ?? '?'} aviso(s))`,
       v.ok,
       v.motivo
     );
@@ -475,12 +507,12 @@ if (familia) {
           break;
         }
       }
-      fs.writeFileSync(path.join(PASTA, 'build.log'), logBuild);
+      fs.writeFileSync(path.join(PASTA, `build-${nn}.log`), logBuild);
       if (
         r.ok(
-          'família inteira: o theme-src/ compila (vite build)',
+          `família ${nn}: o theme-src/ compila (vite build)`,
           buildOk,
-          `ver ${path.relative(SAIDA, path.join(PASTA, 'build.log'))}`
+          `ver ${path.relative(SAIDA, path.join(PASTA, `build-${nn}.log`))}`
         )
       ) {
         const css = ler(bundle.css);
@@ -510,7 +542,7 @@ if (familia) {
             );
         }
         r.ok(
-          `os ${cssSecoes.length} CSS de seção estão no app-serie.css (classe-raiz e variáveis lidas)`,
+          `família ${nn}: os ${cssSecoes.length} CSS de seção estão no app-serie.css (classe-raiz e variáveis lidas)`,
           cssSecoes.length > 0 && semCss.length === 0,
           semCss.join(' | ') || 'nenhum CSS de seção no tema'
         );
@@ -523,7 +555,7 @@ if (familia) {
             semJs.push(`${f}: ${marca ?? 'sem marcador data-<raiz>-pronto'}`);
         }
         r.ok(
-          `os ${jsSecoes.length} JS de seção estão no app-serie.js (marcador data-<raiz>-pronto)`,
+          `família ${nn}: os ${jsSecoes.length} JS de seção estão no app-serie.js (marcador data-<raiz>-pronto)`,
           jsSecoes.length > 0 && semJs.length === 0,
           semJs.join(' | ') ||
             'nenhum JS de seção no tema — o tema-base tem o import.meta.glob dos .js no theme-src/src/main.ts?'
@@ -532,7 +564,7 @@ if (familia) {
     }
 
     // ── 4. controle negativo do validador, numa cópia ───────────────────────
-    const copia = path.join(PASTA, 'controle-negativo');
+    const copia = path.join(PASTA, `controle-negativo-${nn}`);
     const PASTAS_DO_TEMA = [
       'blocks',
       'config',
@@ -546,7 +578,7 @@ if (familia) {
     for (const p of PASTAS_DO_TEMA)
       if (fs.existsSync(path.join(TEMA, p)))
         fs.cpSync(path.join(TEMA, p), path.join(copia, p), { recursive: true });
-    const alvo = marcados
+    const alvo = daFamilia
       .map(i => `sections/${conv.tipoDaSecao(i.selection, i.template)}.tpl`)
       .find(rel => fs.existsSync(path.join(copia, rel)));
     if (alvo && temValidador) {
@@ -563,17 +595,186 @@ if (familia) {
           a.arquivo === alvo
       );
       r.ok(
-        `controle negativo: o validador reprova o {% schema %} quebrado de ${alvo} (numa cópia do tema)`,
+        `família ${nn}, controle negativo: o validador reprova o {% schema %} quebrado de ${alvo} (numa cópia do tema)`,
         !v.ok && pegou,
         v.motivo || 'o validador não apontou o arquivo quebrado'
       );
     } else if (temValidador) {
       r.ok(
-        'controle negativo: há seção da família na cópia do tema',
+        `família ${nn}, controle negativo: há seção da família na cópia do tema`,
         false,
         'nenhum sections/<tipo>.tpl dos itens marcados'
       );
     }
+  }
+}
+
+// ── 5. a LP (modo LP, fase 7 do contrato) ───────────────────────────────────
+// Uma LP feita das seções de miolo da família: com a flag, o config que o
+// /gerador exportou no modo LP (estágio 3); sem ela, o montado aqui com os
+// mesmos itens. O generator escreve `templates/pages/page.<slug>.json` (modelo
+// alternativo de página de conteúdo) com as seções na ordem, e NÃO toca no que
+// é da loja: tokens globais, home, as outras páginas e os grupos de layout.
+const EXPORTADO_LP = path.join(SAIDA, 'config-Nuvemshop-lp.json');
+// Uma família só (a primeira marcada): um template comporta 25 seções.
+const familiaDaLp = marcados.find(i => i.pagina.includes('home'))?.template;
+const miolo = marcados.filter(
+  i => i.pagina.includes('home') && i.template === familiaDaLp
+);
+/** Valor que o setting guarda: a família, quando o /gerador mandou a pilha. */
+const noSetting = v => String(v).match(/^\s*['"]([^'"]+)['"]/)?.[1] ?? v;
+if (
+  r.ok(
+    'o generator irmão tem o modo LP da Nuvemshop',
+    typeof conv.templateDaLp === 'function',
+    'convencoes.js sem templateDaLp — o checkout do generator ainda não tem a fase 7'
+  )
+) {
+  let lp = null;
+  if (NUVEMSHOP_LIGADA) {
+    if (
+      r.ok(
+        'flag ligada: o config de LP exportado pelo estágio 3 existe',
+        fs.existsSync(EXPORTADO_LP),
+        'rode o estágio 3 com a mesma flag'
+      )
+    )
+      lp = JSON.parse(ler(EXPORTADO_LP));
+  } else {
+    // A primeira seção de miolo entra duas vezes, cada cópia com os próprios
+    // marcadores (variável por cópia na LP).
+    const [primeira, ...resto] = miolo;
+    const com = (i, base) =>
+      entrada(
+        i,
+        Object.fromEntries(
+          marcadores(i).map(m => [m.cssVar, m.valor.replace('#0e0f', base)])
+        )
+      );
+    lp = {
+      platform: 'nuvemshop',
+      tipo: 'lp',
+      nuvemshop: {
+        landingPage: { slug: 'funil-lp', nome: 'Funil LP' },
+        landing: primeira
+          ? [
+              com(primeira, '#0e0f'),
+              com(primeira, '#0e1f'),
+              ...resto.map(i => entrada(i)),
+            ]
+          : [],
+        variables: GLOBAIS,
+        assets: { logo: '', favicon: '', ogImage: '' },
+      },
+    };
+    console.log(
+      `  ℹ️  LP: config montado do catálogo (${miolo.length} seções de miolo; sem a flag o estágio 3 não exporta a Nuvemshop)`
+    );
+  }
+  const landing = lp?.nuvemshop?.landing ?? [];
+  if (
+    lp &&
+    r.ok(
+      `LP: ${landing.length} seção(ões) de miolo em nuvemshop.landing`,
+      landing.length > 0
+    )
+  ) {
+    const slug = lp.nuvemshop.landingPage?.slug;
+    const g = gerar(lp, 'lp');
+    if (
+      r.ok(
+        `LP "${slug}": o generator monta (--local)`,
+        g.ok,
+        `${g.erro} — ${g.log}`
+      )
+    ) {
+      for (const a of g.avisos) console.log(`     ⚠️  ${a}`);
+      const rel = conv.templateDaLp(slug);
+      const doc = JSON.parse(ler(path.join(TEMA, rel)) || '{}');
+      // Os ids que o generator dá às instâncias: o `type`, e -2, -3 nas cópias.
+      const vistos = new Map();
+      const ids = landing.map(e => {
+        const tipo = conv.tipoDaSecao(e.selection, e.template);
+        const n = (vistos.get(tipo) ?? 0) + 1;
+        vistos.set(tipo, n);
+        return n === 1 ? tipo : `${tipo}-${n}`;
+      });
+      r.ok(
+        `LP: ${rel} com as ${ids.length} seções na ordem de nuvemshop.landing`,
+        JSON.stringify(doc.order) === JSON.stringify(ids),
+        `order: ${(doc.order ?? []).join(', ') || '— (arquivo ausente?)'}`
+      );
+      const perdidos = [];
+      let conferidas = 0;
+      landing.forEach((e, k) => {
+        const inst = doc.sections?.[ids[k]];
+        const tipo = conv.tipoDaSecao(e.selection, e.template);
+        const css = ler(path.join(TEMA, conv.DESTINO_DO_CSS, `${tipo}.css`));
+        for (const [cssVar, valor] of Object.entries(e.variables ?? {})) {
+          conferidas++;
+          const id = conv.settingIdDaVariavel(cssVar);
+          const chegou =
+            inst?.settings && id in inst.settings
+              ? inst.settings[id] === noSetting(valor)
+              : css.includes(valor);
+          if (!chegou) perdidos.push(`${ids[k]} ${cssVar}`);
+        }
+      });
+      r.ok(
+        `LP: as ${conferidas} variável(is) de Nível 1 chegam a cada instância (cópia com os próprios settings)`,
+        conferidas > 0 && perdidos.length === 0,
+        perdidos.join(', ') || 'nenhuma variável no config da LP'
+      );
+      // O que é da loja fica como o tema-base: o clone é um repo, então o que o
+      // generator mexeu é o `git status` dele.
+      const mexidos = git(
+        TEMA,
+        'status',
+        '--porcelain',
+        '--untracked-files=all'
+      )
+        .split('\n')
+        .filter(Boolean)
+        .map(l => l.slice(3));
+      const daLoja = mexidos.filter(
+        f =>
+          f === 'config/settings_data.json' ||
+          (f.startsWith('templates/') && f !== rel)
+      );
+      r.ok(
+        'LP: config/settings_data.json (tokens globais), as outras páginas e os grupos de layout intocados',
+        mexidos.includes(rel) && daLoja.length === 0,
+        `mexidos: ${daLoja.join(', ') || '—'}${mexidos.includes(rel) ? '' : ` · ${rel} não foi escrito`}`
+      );
+      const log = ler(path.join(PASTA, 'lp.log'));
+      r.ok(
+        'LP: o generator diz ao lojista como ligar o modelo à página (Páginas → "Modelo", layout publicado)',
+        log.includes('Loja online > Páginas') &&
+          log.includes(`"${slug}" no menu "Modelo"`) &&
+          log.includes('publica o layout'),
+        'o log não tem os passos do lojista'
+      );
+      const v = validar(TEMA);
+      r.ok(
+        `LP: o tema com a LP valida (${v.erros ?? '?'} erro(s), ${v.avisos ?? '?'} aviso(s))`,
+        v.ok,
+        v.motivo
+      );
+    }
+
+    // Slug inválido: a VALIDATE reprova antes de escrever (o tema-base sai intacto).
+    const ruim = structuredClone(lp);
+    ruim.nuvemshop.landingPage = { slug: 'Black Friday', nome: 'Black Friday' };
+    const gr = gerar(ruim, 'lp-slug-invalido');
+    const logRuim = ler(path.join(PASTA, 'lp-slug-invalido.log'));
+    r.ok(
+      'LP com slug inválido: a VALIDATE reprova antes de escrever (tema-base intacto)',
+      !gr.ok &&
+        logRuim.includes('landingPage.slug "Black Friday" inválido') &&
+        logRuim.includes('Nada foi escrito') &&
+        git(TEMA, 'status', '--porcelain') === '',
+      gr.ok ? 'o generator montou' : `${gr.erro} — ${gr.log}`
+    );
   }
 }
 
