@@ -250,7 +250,7 @@ const temasAplicados = {};
 const gravadas = page => page.evaluate(() => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]'));
 
 // ── 1. a lista nas três plataformas ─────────────────────────────────────────
-// A Wake 2.0 (atrás de flag) só tem as famílias do Design Studio: 10 e 17.
+// A Wake 2.0 (atrás de flag) só tem as famílias do Design Studio: 09 a 17.
 const NOME_DA_FAMILIA = { 9: '09 · Editorial', 10: '10 · Varejo', 17: '17 · Pet' };
 for (const plat of ['VTEX', 'Wake', 'Tray', ...(WAKE2_LIGADA ? ['Wake 2.0'] : [])]) {
   const { page } = await aba(browser);
@@ -269,7 +269,11 @@ for (const plat of ['VTEX', 'Wake', 'Tray', ...(WAKE2_LIGADA ? ['Wake 2.0'] : []
     esp.includes(fa) && esp.includes(fb)
   );
   if (plat === 'Wake 2.0')
-    r.ok('Wake 2.0: só as famílias 10 e 17', esp.join() === '17,10', esp.join());
+    r.ok(
+      'Wake 2.0: só as famílias 09 a 17',
+      [...esp].sort((a, b) => a - b).join() === '9,10,11,12,13,14,15,16,17',
+      esp.join()
+    );
   const ca = lista.find(c => c.t === fa);
   const cb = lista.find(c => c.t === fb);
   r.ok(

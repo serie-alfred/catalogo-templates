@@ -110,6 +110,7 @@
   line-height: 0.82;
   letter-spacing: -0.01em;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 
 .accent {

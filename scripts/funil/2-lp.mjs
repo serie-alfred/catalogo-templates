@@ -32,7 +32,7 @@ const r = relatorio('Estágio 2l — modo LP (landing page avulsa)');
 const browser = await abrirBrowser();
 
 const sel = (id, layoutKey, pagina) => ({ uid: `u-${layoutKey}-${id}`, id, layoutKey, pagina });
-// A Wake 2.0 só tem as famílias 10 e 17: a loja e a seção "de outra família" saem delas.
+// A Wake 2.0 só tem as famílias 09 a 17: a loja e a seção "de outra família" saem delas.
 const comunsDe = f => [sel(f, 'header', 'common'), sel(f, 'footer', 'common'), sel(f, 'banner', 'home')];
 const comuns = comunsDe('01');
 const ORDEM_INICIAL = ['banner-main', 'countdown', 'categories', 'showcase', 'banner-side', 'editorial', 'ruler', 'newsletter'];

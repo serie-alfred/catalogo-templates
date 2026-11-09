@@ -100,7 +100,7 @@ export default function EditorLeftPanel({
 
         {platform === 'Wake 2.0' && (isComponentes || isTemplates) && (
           <div className={styles.checkoutHint} role="note" data-wake2-aviso>
-            <strong>Wake 2.0 · Design Studio</strong> (só famílias 10 e 17)
+            <strong>Wake 2.0 · Design Studio</strong> (famílias 09 a 17)
             <ul className={styles.hintLista}>
               <li>
                 No Design Studio o lojista edita a home e a LP: textos, imagens

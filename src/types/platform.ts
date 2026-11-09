@@ -13,7 +13,7 @@ export const NUVEMSHOP_LIGADA =
   process.env.NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP === '1';
 
 /**
- * "Wake 2.0": a trilha Wake com as seções das famílias 10 e 17 virando blocos
+ * "Wake 2.0": a trilha Wake com as seções da home das famílias 09 a 17 virando blocos
  * do Design Studio. Atrás de flag, como a Nuvemshop; o export sai como o da Wake
  * mais `wake.designStudio: true`.
  */
