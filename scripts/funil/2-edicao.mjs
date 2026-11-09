@@ -5,8 +5,7 @@
  * mesmo conjunto por caminhos diferentes, e enquanto discordavam era possível
  * pôr dois banners principais distintos na mesma home.
  */
-import path from 'node:path';
-import { relatorio, espera, SAIDA } from './lib/util.mjs';
+import { relatorio, espera } from './lib/util.mjs';
 import {
   abrirBrowser,
   novaAba,
@@ -19,7 +18,6 @@ import {
   gruposNaLista,
   clicarDeVerdade,
 } from './lib/editor.mjs';
-import { WAKE2_LIGADA } from '../../src/types/platform.ts';
 
 const r = relatorio('Estágio 2b — regras de edição');
 const browser = await abrirBrowser();
@@ -281,7 +279,7 @@ await page.evaluate(() =>
 await espera(500);
 await page.evaluate(() =>
   [...document.querySelectorAll('[role="option"]')]
-    .find(o => o.textContent.trim() === 'VTEX')
+    .find(o => o.dataset.platform === 'VTEX')
     .click()
 );
 await espera(1500);
@@ -558,20 +556,21 @@ await clicarDeVerdade(page, 'button[class*="card"][aria-haspopup="listbox"]');
 await espera(500);
 await page.evaluate(() =>
   [...document.querySelectorAll('[role="option"]')]
-    .find(o => o.textContent.trim() === 'Wake')
+    .find(o => o.dataset.platform === 'Wake')
     ?.click()
 );
 const abriuWake = await page
   .waitForSelector('.wake-popup', { timeout: 12000 })
   .then(() => true)
   .catch(() => false);
-r.ok('escolher Wake abre o popup do token', abriuWake);
+r.ok('escolher a Wake legado abre o popup do token', abriuWake);
 
 if (abriuWake) {
   const anatomia = await page.evaluate(() => {
     const el = document.querySelector('.wake-popup');
     const botoes = [...el.querySelectorAll('button')];
     return {
+      nome: el.querySelector('strong')?.textContent.trim() ?? null,
       role: el.getAttribute('role'),
       tipos: botoes.map(b => b.type),
       rotulos: botoes.map(
@@ -581,6 +580,11 @@ if (abriuWake) {
       avisoVazio: !!el.querySelector('[role="status"]'),
     };
   });
+  r.ok(
+    'a Wake legado: o popup diz "Wake (legado)" — "Wake" sozinho é a do Design Studio',
+    anatomia.nome === 'Wake (legado)',
+    anatomia.nome ?? 'sem <strong>'
+  );
   r.ok(
     'todo botão do popup é type="button"',
     anatomia.tipos.every(t => t === 'button'),
@@ -619,17 +623,20 @@ if (abriuWake) {
   );
 }
 
-// ── o aviso da Wake 2.0 é só dela ─────────────────────────────────────────────
-// A página acima está em Wake (escolhida na UI): o aviso do Design Studio não
-// pode aparecer ali.
-r.ok(
-  'Wake: o aviso do Design Studio (data-wake2-aviso) NÃO aparece',
-  !(await page.evaluate(() => !!document.querySelector('[data-wake2-aviso]')))
-);
+// O painel esquerdo não tem aviso de plataforma em nenhuma das duas Wakes: a
+// caixa do Design Studio saiu em 09/11/2026, a pedido. Quem as distingue é a
+// legenda do card do seletor.
+const avisoNoPainel = () =>
+  page.evaluate(() =>
+    [...document.querySelectorAll('aside[aria-label="Painel de edição"] [role="note"]')]
+      .some(el => /Design Studio|legado/.test(el.textContent))
+  );
+r.ok('Wake legado: nenhum aviso de plataforma no painel esquerdo', !(await avisoNoPainel()));
 
-// ── Wake 2.0 (atrás de flag): popup com o nome dela e o aviso do processo ────
-// Mesmo caminho do cliente: semear Tray e escolher Wake 2.0 no seletor.
-if (WAKE2_LIGADA) {
+// ── Wake 2.0 (a Wake padrão, sem flag): o popup ──────────────────────────────
+// Mesmo caminho do cliente: semear Tray e escolher a Wake do Design Studio no
+// seletor (o valor guardado continua `Wake 2.0`; a tela diz só "Wake").
+{
   await semear(page, {
     plataforma: 'Tray',
     selecoes: [sel('10', 'header', 'common')],
@@ -641,7 +648,7 @@ if (WAKE2_LIGADA) {
   await espera(500);
   await page.evaluate(() =>
     [...document.querySelectorAll('[role="option"]')]
-      .find(o => o.textContent.trim() === 'Wake 2.0')
+      .find(o => o.dataset.platform === 'Wake 2.0')
       ?.click()
   );
   const abriu2 = await page
@@ -652,60 +659,14 @@ if (WAKE2_LIGADA) {
     ? await page.$eval('.wake-popup strong', el => el.textContent.trim())
     : null;
   r.ok(
-    'Wake 2.0: o popup do token diz "Wake 2.0", não "Wake"',
-    nome === 'Wake 2.0',
+    'Wake 2.0: o popup do token diz "Wake", não "Wake (legado)"',
+    nome === 'Wake',
     nome ?? 'o popup não abriu'
   );
   await page.keyboard.press('Escape');
   await espera(500);
 
-  const aviso = await page.evaluate(() => {
-    const el = document.querySelector('[data-wake2-aviso]');
-    if (!el) return null;
-    const box = el.getBoundingClientRect();
-    return {
-      visivel: box.width > 0 && box.height > 0,
-      texto: el.innerText,
-    };
-  });
-  r.ok(
-    'Wake 2.0: o aviso do Design Studio aparece no painel esquerdo',
-    !!aviso?.visivel,
-    aviso ? 'existe mas não tem caixa' : 'nenhum [data-wake2-aviso]'
-  );
-  // Os fatos que quem gera precisa saber, um a um.
-  const FATOS = [
-    ['famílias', /famílias 09 a 17/],
-    ['imagem até 5 MB', /5 MB/],
-    ['vitrine por hotsite', /hotsite/],
-    ['o que fica no tema', /Header, rodapé, categoria e produto/],
-    ['Storefront 2.0', /Storefront 2\.0/],
-    ['conectores tokenizados', /tokenizados/],
-    ['entrega numa branch', /branch/],
-    ['chamado à Wake', /chamado/],
-  ];
-  const faltam = FATOS.filter(([, re]) => !re.test(aviso?.texto ?? '')).map(
-    ([n]) => n
-  );
-  r.ok(
-    `Wake 2.0: o aviso cobre os ${FATOS.length} pontos do processo`,
-    faltam.length === 0,
-    `faltam: ${faltam.join(', ')}`
-  );
-  if (aviso) {
-    const arq = path.join(SAIDA, 'wake2-aviso.png');
-    const painel = await page.evaluateHandle(
-      () =>
-        document.querySelector('[data-wake2-aviso]').closest('aside') ??
-        document.querySelector('[data-wake2-aviso]')
-    );
-    await painel.asElement().screenshot({ path: arq });
-    console.log(`  ℹ️  print do aviso: ${arq}`);
-  }
-} else {
-  console.log(
-    '  ℹ️  Wake 2.0 fora (NEXT_PUBLIC_PLATAFORMA_WAKE2 desligada): popup e aviso dela não conferidos'
-  );
+  r.ok('Wake 2.0: nenhum aviso de plataforma no painel esquerdo', !(await avisoNoPainel()));
 }
 
 r.ok(

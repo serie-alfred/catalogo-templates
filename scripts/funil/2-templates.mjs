@@ -42,7 +42,6 @@ import {
   adicionarPeloModal,
 } from './lib/editor.mjs';
 import { conferirFaststore, conferirTrayWake } from './lib/contrato.mjs';
-import { WAKE2_LIGADA } from '../../src/types/platform.ts';
 
 const r = relatorio('Estágio 2t — Por template (família inteira)');
 const FOTOS = process.env.FUNIL_FOTOS ?? path.join(SAIDA, 'por-template');
@@ -252,7 +251,7 @@ const gravadas = page => page.evaluate(() => JSON.parse(sessionStorage.getItem('
 // ── 1. a lista nas três plataformas ─────────────────────────────────────────
 // A Wake 2.0 (atrás de flag) só tem as famílias do Design Studio: 09 a 17.
 const NOME_DA_FAMILIA = { 9: '09 · Editorial', 10: '10 · Varejo', 17: '17 · Pet' };
-for (const plat of ['VTEX', 'Wake', 'Tray', ...(WAKE2_LIGADA ? ['Wake 2.0'] : [])]) {
+for (const plat of ['VTEX', 'Wake', 'Tray', 'Wake 2.0']) {
   const { page } = await aba(browser);
   await semear(page, { plataforma: plat, token: plat === 'Wake' || plat === 'Wake 2.0' ? 'TOKEN-DE-TESTE' : '' });
   await abrirPainel(page);
@@ -481,7 +480,7 @@ for (const plat of ['VTEX', 'Wake', 'Tray', ...(WAKE2_LIGADA ? ['Wake 2.0'] : []
 }
 
 // ── 6. Wake (09) e Tray (10): o export passa no contrato ───────────────────
-for (const [plat, t] of [['Wake', '9'], ['Tray', '10'], ...(WAKE2_LIGADA ? [['Wake 2.0', '10'], ['Wake 2.0', '17']] : [])]) {
+for (const [plat, t] of [['Wake', '9'], ['Tray', '10'], ['Wake 2.0', '10'], ['Wake 2.0', '17']]) {
   const trilha = plat === 'Wake 2.0' ? 'wake' : plat.toLowerCase();
   const { page, erros } = await aba(browser);
   await semear(page, { plataforma: plat, token: trilha === 'wake' ? 'TOKEN-DE-TESTE' : '' });

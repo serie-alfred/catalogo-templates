@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useLayout } from '@/context/LayoutContext';
 import type { TemaResumo } from '@/lib/temasStore';
 import type { EstadoDoEditor } from '@/types/estadoEditor';
+import { rotuloDaPlataforma } from '@/types/platform';
 
 import styles from './index.module.css';
 
@@ -253,8 +254,10 @@ export default function PanelSavedThemes() {
                 <div className={styles.itemHead}>
                   <span className={styles.nome}>{tema.nome}</span>
                   <span className={styles.meta}>
-                    {tema.platform ?? 'sem plataforma'} ·{' '}
-                    {ultima ? quando(ultima.salvoEm) : '—'}
+                    {tema.platform
+                      ? rotuloDaPlataforma(tema.platform)
+                      : 'sem plataforma'}{' '}
+                    · {ultima ? quando(ultima.salvoEm) : '—'}
                   </span>
                   <span className={styles.meta}>
                     {tema.versoes.length}{' '}

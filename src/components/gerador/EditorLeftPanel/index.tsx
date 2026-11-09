@@ -98,37 +98,6 @@ export default function EditorLeftPanel({
           </p>
         )}
 
-        {platform === 'Wake 2.0' && (isComponentes || isTemplates) && (
-          <div className={styles.checkoutHint} role="note" data-wake2-aviso>
-            <strong>Wake 2.0 · Design Studio</strong> (famílias 09 a 17)
-            <ul className={styles.hintLista}>
-              <li>
-                No Design Studio o lojista edita a home e a LP: textos, imagens
-                (PNG, JPG ou GIF até 5 MB) e vitrines, escolhendo um hotsite.
-              </li>
-              <li>
-                Sem imagem escolhida, vale o banner do admin; hotsite sem
-                produto esconde a vitrine.
-              </li>
-              <li>Header, rodapé, categoria e produto ficam no tema.</li>
-              <li>
-                A loja precisa estar no Storefront 2.0: &quot;Migração
-                Automática&quot; gratuita no admin da Wake (Storefront ›
-                Repositório). Só conectores de pagamento tokenizados.
-              </li>
-              <li>
-                Depois do &quot;Enviar&quot;, a equipe E‑temas gera o tema e o
-                entrega numa branch do repositório da loja. Nada é publicado
-                sozinho.
-              </li>
-              <li>
-                Os links de Minha Conta e dos e-mails só apontam para a loja
-                nova depois de um chamado à Wake.
-              </li>
-            </ul>
-          </div>
-        )}
-
         {isComponentes && <PanelComponents />}
 
         {isTemplates && <PanelTemplates />}

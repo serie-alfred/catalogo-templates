@@ -5,7 +5,7 @@
  *
  * Prova, no editor de verdade:
  *  1. o alternador "Landing page" do rail só existe onde o generator monta LP
- *     (Wake, VTEX e — com NEXT_PUBLIC_PLATAFORMA_WAKE2=1 — Wake 2.0; na Tray, não);
+ *     (Wake, Wake 2.0 e VTEX; na Tray, não);
  *  2. entrar no modo abre a LP inicial (a Black Friday da família 08, oito
  *     seções na ordem do Figma; na Wake 2.0, que não tem a 08, as mesmas oito da
  *     10), SEM header/footer da loja, e a topbar troca o seletor de página pelo
@@ -26,7 +26,6 @@
 import { relatorio, espera, BASE_URL } from './lib/util.mjs';
 import { abrirBrowser, novaAba, semear, irParaRail, clicarDeVerdade } from './lib/editor.mjs';
 import { conferirFaststore, conferirTrayWake } from './lib/contrato.mjs';
-import { WAKE2_LIGADA } from '../../src/types/platform.ts';
 
 const r = relatorio('Estágio 2l — modo LP (landing page avulsa)');
 const browser = await abrirBrowser();
@@ -102,8 +101,7 @@ async function exportar(page) {
   await page.close();
 }
 
-const PLATAFORMAS_LP = ['VTEX', 'Wake', ...(WAKE2_LIGADA ? ['Wake 2.0'] : [])];
-if (!WAKE2_LIGADA) console.log('  ℹ️  Wake 2.0 fora (NEXT_PUBLIC_PLATAFORMA_WAKE2 desligada)');
+const PLATAFORMAS_LP = ['VTEX', 'Wake', 'Wake 2.0'];
 
 for (const plataforma of PLATAFORMAS_LP) {
   const wake2 = plataforma === 'Wake 2.0';
@@ -271,7 +269,7 @@ for (const plataforma of PLATAFORMAS_LP) {
 // ── Wake 2.0: trocar de plataforma com a LP inicial intocada ─────────────────
 // A LP inicial (08) de quem começou em VTEX vira a inicial da Wake 2.0 (10), sem
 // o diálogo de "estas seções serão removidas" — ela não era trabalho do usuário.
-if (WAKE2_LIGADA) {
+{
   const { page } = await novaAba(browser);
   const dialogos = [];
   page.on('dialog', d => dialogos.push(d.message().slice(0, 120)));
@@ -286,7 +284,7 @@ if (WAKE2_LIGADA) {
     await clicarDeVerdade(page, 'button[class*="card"][aria-haspopup="listbox"]');
     await espera(500);
   }
-  await page.evaluate(() => [...document.querySelectorAll('[role="option"]')].find(o => o.textContent.trim() === 'Wake 2.0')?.click());
+  await page.evaluate(() => [...document.querySelectorAll('[role="option"]')].find(o => o.dataset.platform === 'Wake 2.0')?.click());
   await espera(1500);
   const depois = await page.evaluate(() => ({
     plataforma: sessionStorage.getItem('layoutPlatform'),

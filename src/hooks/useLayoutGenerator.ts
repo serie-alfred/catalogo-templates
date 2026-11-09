@@ -13,7 +13,7 @@ import { belongsToPage } from '@/utils/previewRender';
 import { captureAndDownloadScreenshot } from '@/utils/screenshotExport';
 import { sendLayoutConfigEmail } from '@/services/emailService';
 import { isLocalDelivery } from '@/utils/configDelivery';
-import type { Platform } from '@/types/platform';
+import { rotuloDaPlataforma, type Platform } from '@/types/platform';
 import { useThemeHistory, type ThemeDoc } from './useThemeHistory';
 import {
   buildThemeStyle,
@@ -1007,7 +1007,7 @@ export function useLayoutGenerator() {
     if (
       lostTitles.length > 0 &&
       !window.confirm(
-        `Estas seções não existem na plataforma ${value} e serão removidas:\n\n` +
+        `Estas seções não existem na plataforma ${rotuloDaPlataforma(value)} e serão removidas:\n\n` +
           lostTitles.map(t => `• ${t}`).join('\n') +
           `\n\nO restante do tema é preservado. Continuar?`
       )

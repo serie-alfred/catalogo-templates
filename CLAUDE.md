@@ -36,7 +36,6 @@ There is no test runner. Verification is `yarn funil` — the stages in [scripts
 - `CRON_SECRET` — optional; when set, [/api/keep-alive](src/app/api/keep-alive/route.ts) requires `Authorization: Bearer <CRON_SECRET>` from the Vercel cron.
 - `ETEMAS_LOGIN_USER`, `ETEMAS_LOGIN_PASSWORD`, `ETEMAS_SESSION_SECRET` — o login da agência (ver **Login** abaixo). O segredo precisa de 32+ caracteres. **Em produção, sem as três o /gerador fica FECHADO** — cadastre antes de publicar.
 - `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP` — `1` põe a Nuvemshop no `/gerador` (ver **Nuvemshop** abaixo). **Não cadastre na Vercel** até a fase 6 do contrato da plataforma; é embutida no build.
-- `NEXT_PUBLIC_PLATAFORMA_WAKE2` — `1` põe a Wake 2.0 no `/gerador` (ver **Wake 2.0** abaixo). Ligada em produção (Vercel) desde 06/11/2026; é embutida no build.
 - Do site público: `COMERCIAIS` (rodízio do WhatsApp) e `NEXT_PUBLIC_GTM_ID`/`_GA4_ID`/`_META_PIXEL_ID` (ver **Site público**).
 
 #### O que cadastrar na Vercel (Settings → Environment Variables, Production)
@@ -420,7 +419,14 @@ columns `56px | 264px | minmax(0,1fr) | 264px` (rail, left panel, canvas, right 
   same and stronger: **no term depends on content**. An auto-height iframe makes `vh`/`fixed` resolve
   against the whole page — the original bug, in disguise.
 - **`ExportStage` is a sibling of the shell**, which is `overflow: hidden` and would clip the
-  off-screen stage at `top/left: -99999px`.
+  off-screen stage at `top/left: -99999px`. Off-screen is not invisible: the stage renders the
+  templates for real, and their `position: fixed` pieces (the PopupNews of families 06 and 09–17,
+  born open with `inset: 0; z-index: 2000`, and the HelpFloat) attach to the EDITOR window — they
+  covered the whole screen for the entire "Baixar" (fixed 09/11/2026). The stage root has
+  `clip-path: inset(0)`, which also clips fixed descendants (`overflow` does not) and leaves their
+  position alone, so html2canvas (which ignores `clip-path`) shoots the same PNG. Never use
+  `transform`/`filter`/`contain` there instead: they make the stage the fixed elements' containing
+  block, and the popup gets painted over the store in the PNG.
 - The `.rail` element declares no `width`: it is the grid track (`--ed-rail-w: 56px`, [editor-tokens.css](src/styles/editor-tokens.css)) that sizes it — `padding: 16px` + a 24px mark. It was hug in the Figma (24 + the 27.404px mark + 24 = 75.404), which spent 19px of chrome around 20px icons.
 
 **One renderer for every surface.** [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx)
@@ -630,32 +636,37 @@ chegar as de `PLATFORMS`. Com ela ligada, cada família portada aparece no modal
   ela o estágio reprova. O `nuvemshop theme check` não serve: valida contra o tema remoto da loja,
   com login. Ver o README do funil.
 
-### Wake 2.0 (atrás de flag)
+### Wake 2.0 — a Wake padrão (Design Studio)
 
 A trilha Wake com as seções da home virando **blocos do Wake Design Studio**: o lojista edita a home
 (e a LP) no admin da Wake — textos, imagens (upload) e vitrines (escolhendo um hotsite); header,
 rodapé, categoria e produto ficam no tema. Só as **famílias 09 a 17** a declaram (`'Wake 2.0'` no
 `platforms` dos 216 itens delas); o `1-catalogo` resolve a origem dela em `global-templates/Wake/…`.
 
-- **A flag** ([types/platform.ts](src/types/platform.ts)): `NEXT_PUBLIC_PLATAFORMA_WAKE2=1` a põe em
-  `PLATFORMS` (seletor e hidratação), como a da Nuvemshop (ligada em produção). Desligada, aba ou
-  tema salvo com `Wake 2.0` voltam sem plataforma. Embutida no build.
+- **É a Wake padrão desde 09/11/2026, sem flag** ([types/platform.ts](src/types/platform.ts)): a
+  `NEXT_PUBLIC_PLATAFORMA_WAKE2` deixou de existir. Em `PLATFORMS` ela vem antes da clássica, e a
+  tela a chama só de **"Wake"** — a clássica (famílias 01 a 17, sem Design Studio) aparece como
+  **"Wake (legado)"**. Só o NOME mudou (`rotuloDaPlataforma`, usado no seletor, no popup do token,
+  no confirm de troca, em "Temas salvos" e em "Por template"): o valor guardado continua
+  `'Wake 2.0'`/`'Wake'`, então aba, tema salvo, preview e `/gerador/import-log` de antes mantêm o
+  significado. O card do seletor mostra a marca da Wake nas duas, com a legenda
+  "(Design Studio)" ou "(legado)". Cada opção da lista leva `data-platform` com o valor: o funil
+  escolhe por ele, nunca pelo texto ("Wake" casaria com a do Design Studio).
 - **Export:** o mesmo da Wake (`platform: "wake"`, `wakeToken`, `trilhaDe`), mais
   `wake.designStudio: true` — no tema de loja e no da LP. O popup do token abre como na Wake e diz o
-  nome da plataforma escolhida.
-- **Aviso no painel** (`[data-wake2-aviso]`, `EditorLeftPanel`): em Componentes e Por template, o que
-  o Design Studio edita, os pré-requisitos da loja (Storefront 2.0, "Migração Automática" em
-  Storefront › Repositório, conectores tokenizados), a entrega numa branch do repositório da loja e
-  o chamado à Wake para Minha Conta/e-mails.
+  nome da plataforma escolhida ("Wake" ou "Wake (legado)").
+- **Sem aviso no painel** (desde 09/11/2026, a pedido): a caixa `[data-wake2-aviso]` do
+  `EditorLeftPanel`, que listava o que o Design Studio edita e os pré-requisitos da loja, saiu.
+  Nenhuma das duas Wakes mostra texto de plataforma no painel; o `2-edicao` confere isso.
 - **LP:** tem modo LP; a LP inicial é a da 10 (não há 08), ver **Modo LP**.
 - **Generator:** com `designStudio`, clona o tema-base da Wake na branch `baseStorefrontDs`; cada
   seção da home com `<selection>.schema.json` vira `Blocks/<type>.html|.schema.json`, entra no
   `content_for_page` da rota da home em `Configs/pages.json`, e o `<main>` de `Pages/home.html` ganha
   o wrapper `wake_has_content_for_page`. Receita de porte de seção e provas:
   `../.familias-ferramentas/wake-design-studio/RECEITA.md` (o `smoke.mjs` ao lado roda o tema gerado).
-- **Funil:** com a flag no funil **e** no dev, `2-edicao` (aviso + popup), `2-lp`, `2-templates`,
-  `3-export` e `5-contrato-tray-wake` a incluem; `4-tema-tray-wake` monta a Wake 2.0 17 sempre (sem
-  depender da flag) e confere blocos, `content_for_page` e wrapper.
+- **Funil:** `2-edicao` (popup das duas Wakes, e nenhum aviso no painel), `2-lp`, `2-templates`, `3-export` e
+  `5-contrato-tray-wake` a incluem sempre; `4-tema-tray-wake` monta a Wake 2.0 17 e confere blocos,
+  `content_for_page` e wrapper.
 
 ### Export flow
 

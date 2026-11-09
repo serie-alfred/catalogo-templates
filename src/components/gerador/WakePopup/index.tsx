@@ -3,6 +3,7 @@ import styles from './index.module.css';
 import { CircleQuestionMark } from 'lucide-react';
 import { iconsGenerator } from '@/assets/icons/generator';
 import { useLayout } from '@/context/LayoutContext';
+import { rotuloDaPlataforma } from '@/types/platform';
 
 interface WakePopupProps {
   onClose: () => void;
@@ -63,8 +64,8 @@ export function WakePopup({
         <h2 id="wake-popup-titulo">Atenção</h2>
         <p>
           Para construir o seu tema na plataforma{' '}
-          <strong>{platform ?? 'Wake'}</strong> é necessário informar o token
-          da sua loja.
+          <strong>{rotuloDaPlataforma(platform ?? 'Wake 2.0')}</strong> é
+          necessário informar o token da sua loja.
         </p>
         <p className={styles.nota}>
           O token fica salvo neste navegador e vai junto no{' '}

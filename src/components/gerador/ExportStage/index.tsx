@@ -20,6 +20,17 @@ import ThemeRenderer from '@/components/preview/ThemeRenderer';
  * O CHECKOUT não entra aqui, nem no modo Checkout: os PNGs são das páginas da
  * loja. O checkout é uma fixture do DOM da VTEX num iframe (CheckoutFrame), que
  * o html2canvas não atravessa, e o que dele vai no config são só os papéis.
+ *
+ * `clip-path: inset(0)` é o que mantém o palco INVISÍVEL. Estar em -99999px não
+ * basta: o que é `position: fixed` dentro dele (o PopupNews das famílias 06 e
+ * 09–17, que nasce aberto com `inset: 0; z-index: 2000`, e o HelpFloat) se
+ * prende à janela do EDITOR e cobria a tela inteira durante todo o "Baixar". O
+ * `clip-path` recorta também os descendentes fixos (o `overflow` não recorta), e
+ * o recorte é a caixa do palco, fora da tela; o recortado também não recebe
+ * clique. NÃO troque por `transform`/`filter`/`contain`: esses tornam o palco o
+ * bloco de contenção dos fixos, o pop-up passa a cobrir a loja dentro do palco e
+ * o html2canvas o pinta no PNG. Com o `clip-path` a posição dos fixos não muda,
+ * e o html2canvas (que não implementa `clip-path`) fotografa o mesmo de antes.
  */
 export default function ExportStage() {
   const { isCapturing, selections, selectedPage, desktopPreviewRef, mobilePreviewRef } =
@@ -35,6 +46,7 @@ export default function ExportStage() {
         top: '-99999px',
         left: '-99999px',
         pointerEvents: 'none',
+        clipPath: 'inset(0)',
       }}
     >
       <div

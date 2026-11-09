@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useLayout } from '@/context/LayoutContext';
 import { LAYOUTS } from '@/data/layoutData';
 import { templatesCompletos } from '@/utils/templatesCompletos';
+import { rotuloDaPlataforma } from '@/types/platform';
 
 import styles from './index.module.css';
 
@@ -52,7 +53,9 @@ export default function PanelTemplates() {
       </p>
 
       {templates.length === 0 && (
-        <p className={styles.hint}>Nenhum template completo para {platform}.</p>
+        <p className={styles.hint}>
+          Nenhum template completo para {rotuloDaPlataforma(platform)}.
+        </p>
       )}
 
       <ul className={styles.list}>

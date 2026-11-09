@@ -52,7 +52,6 @@ Todas listadas em `.env.example`:
 | `COMERCIAIS` | site público: rodízio do "Falar com o comercial" no WhatsApp (`Nome:55DDDNUMERO,…`); vazio leva ao formulário |
 | `NEXT_PUBLIC_GTM_ID`, `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_META_PIXEL_ID` | site público: GTM, GA4 e Pixel, só depois do aceite de cookies; vazios, nada carrega |
 | `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP` | `1` põe a Nuvemshop no seletor do `/gerador` (ligada em produção; embutida no build) |
-| `NEXT_PUBLIC_PLATAFORMA_WAKE2` | `1` põe a Wake 2.0 (Design Studio, famílias 09 a 17) no seletor do `/gerador` (ligada em produção; embutida no build) |
 
 `NODE_ENV` e `VERCEL` vêm do Next e da Vercel; não se cadastram.
 Sem `KV_REST_API_URL`, o preview compartilhável grava em `.preview-store/` no disco (só dev).

@@ -47,8 +47,12 @@ const ESTREITAM = {
  * produção do tema. Não estreitam, desviam — ficam registradas, e a execução
  * que rodou com qualquer uma não vale como evidência.
  */
-/** Flags que produção TEM: a evidência só vale com o mesmo valor (Vercel, Production). */
-const COMO_PRODUCAO = { NEXT_PUBLIC_PLATAFORMA_WAKE2: '1' };
+/**
+ * Flags que produção TEM: a evidência só vale com o mesmo valor (Vercel, Production).
+ * Hoje nenhuma: a NEXT_PUBLIC_PLATAFORMA_WAKE2 deixou de existir em 09/11/2026 (a Wake
+ * do Design Studio virou a Wake padrão, sem flag).
+ */
+const COMO_PRODUCAO = {};
 const DESVIAM = [
   'FASTSTORE_COMPONENTS_REPO',
   'FASTSTORE_COMPONENTS_BRANCH',

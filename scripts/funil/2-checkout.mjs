@@ -514,7 +514,7 @@ async function escolherPlataforma(nome) {
   await clicarDeVerdade(p, 'button[class*="card"][aria-haspopup="listbox"]');
   await p.waitForSelector('[role="option"]', { timeout: 15000 }).catch(() => {});
   const achou = await p.evaluate(n => {
-    const o = [...document.querySelectorAll('[role="option"]')].find(x => x.textContent.trim() === n);
+    const o = [...document.querySelectorAll('[role="option"]')].find(x => x.dataset.platform === n);
     o?.click();
     return !!o;
   }, nome);

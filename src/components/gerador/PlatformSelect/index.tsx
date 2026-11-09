@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { PLATFORMS, type Platform } from '@/types/platform';
+import { PLATFORMS, rotuloDaPlataforma, type Platform } from '@/types/platform';
 import { ChevronRight, WakeMark } from '@/assets/icons/editor';
 
 import styles from './index.module.css';
@@ -23,10 +23,19 @@ interface PlatformSelectProps {
  *
  * O Figma só desenha a marca da Wake. Para as outras (Tray, VTEX e a Nuvemshop,
  * que só aparece com a flag — ver `PLATFORMS`) o nome entra como texto no mesmo
- * lugar, com o mesmo peso.
+ * lugar, com o mesmo peso. As duas Wakes levam a marca; quem as separa é a
+ * legenda (`LEGENDAS`). Na lista, o nome é o `rotuloDaPlataforma` ("Wake" é a
+ * do Design Studio) e o valor fica no `data-platform` — é por ele que o funil
+ * escolhe, não pelo texto.
  */
+const WAKE = <WakeMark width={41.873} height={12} />;
 const MARKS: Partial<Record<Platform, React.ReactNode>> = {
-  Wake: <WakeMark width={41.873} height={12} />,
+  Wake: WAKE,
+  'Wake 2.0': WAKE,
+};
+const LEGENDAS: Partial<Record<Platform, string>> = {
+  Wake: '(legado)',
+  'Wake 2.0': '(Design Studio)',
 };
 
 export default function PlatformSelect({
@@ -64,13 +73,18 @@ export default function PlatformSelect({
       >
         {value ? (
           <>
-            {MARKS[value] ?? <span className={styles.mark}>{value}</span>}
+            {MARKS[value] ?? (
+              <span className={styles.mark}>{rotuloDaPlataforma(value)}</span>
+            )}
             {/* `title` nos dois: `.caption` tem ellipsis e o painel esquerdo
                 foi de 344 para 264 — hoje ainda cabe, mas o corte fica a poucos
                 pixels e o rótulo é a única coisa que diz qual plataforma está
                 selecionada. */}
-            <span className={styles.caption} title="(Storefront)">
-              (Storefront)
+            <span
+              className={styles.caption}
+              title={LEGENDAS[value] ?? '(Storefront)'}
+            >
+              {LEGENDAS[value] ?? '(Storefront)'}
             </span>
           </>
         ) : (
@@ -89,13 +103,14 @@ export default function PlatformSelect({
                 type="button"
                 role="option"
                 aria-selected={platform === value}
+                data-platform={platform}
                 className={styles.item}
                 onClick={() => {
                   setOpen(false);
                   if (platform !== value) onChange(platform);
                 }}
               >
-                {platform}
+                {rotuloDaPlataforma(platform)}
               </button>
             </li>
           ))}

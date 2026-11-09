@@ -434,7 +434,7 @@ await q(() =>
 await s(400);
 await q(() =>
   [...document.querySelectorAll('[role="option"]')]
-    .find(o => o.textContent.trim() === 'Tray')
+    .find(o => o.dataset.platform === 'Tray')
     .click()
 );
 await s(1200);
