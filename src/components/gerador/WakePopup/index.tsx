@@ -68,9 +68,15 @@ export function WakePopup({
           necessário informar o token da sua loja.
         </p>
         <p className={styles.nota}>
-          O token fica salvo neste navegador e vai junto no{' '}
-          <code>config.json</code> quando você baixar o tema. Nada é enviado
-          para a sua loja a partir daqui.
+          Como gerar o token:{' '}
+          <a
+            href="https://wakecommerce.readme.io/docs/autenticacao-e-criacao-do-token"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            tutorial da Wake
+          </a>
+          .
         </p>
 
         <div className={styles.inputGroup}>

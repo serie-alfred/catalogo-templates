@@ -149,7 +149,8 @@
   color: #cccccc;
 }
 
-/* Explica onde o token vai parar — o diálogo prometia envio e não enviava. */
+/* Aponta o tutorial da Wake para gerar o token (o texto anterior falava em config.json e
+   parecia pedir para tirar o token de lá). */
 .nota {
   margin-top: -4px;
   font-size: 12px;
@@ -157,11 +158,10 @@
   color: var(--ed-gray-500);
 }
 
-.nota code {
-  padding: 1px 4px;
-  border-radius: 4px;
-  background: var(--ed-bg-01);
-  font-size: 11px;
+.nota a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .aviso {
