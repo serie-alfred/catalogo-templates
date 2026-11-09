@@ -164,6 +164,13 @@ function pickChangedVariables(
   return Object.keys(changed).length > 0 ? changed : undefined;
 }
 
+/**
+ * O token da Wake como vai no config: sem espaços nem aspas nas pontas. Colado do admin ou de
+ * um JSON, ele chegava como `"agenc-…` (aspa junto), e o config saía com `\"agenc-…`.
+ */
+export const tokenLimpo = (valor: string): string =>
+  valor.trim().replace(/^["'`]+|["'`]+$/g, '').trim();
+
 export function useLayoutGenerator() {
   /** Estados principais */
   // dentro de useLayoutGenerator
@@ -1324,7 +1331,7 @@ export function useLayoutGenerator() {
         assets: { logo, footerLogo, favicon, ogImage },
       },
     };
-    if (plat === 'wake') config.wakeToken = wakeCustomValue;
+    if (plat === 'wake') config.wakeToken = tokenLimpo(wakeCustomValue);
     console.log(config);
     return config;
   };
@@ -1413,7 +1420,7 @@ export function useLayoutGenerator() {
     // ambiente do CI (contrato da Nuvemshop, decisão 3). O `3-export` reprova
     // qualquer campo de credencial no config dela.
     if (trilhaDe(platform) === 'wake') {
-      (config as Record<string, unknown>).wakeToken = wakeCustomValue;
+      (config as Record<string, unknown>).wakeToken = tokenLimpo(wakeCustomValue);
     }
 
     console.log(config);
