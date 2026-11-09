@@ -82,7 +82,7 @@ A template is a React component plus a catalog entry. Two files always need to c
 
 1. **Component** — add it under `src/components/templates/{common,home,category,product}/template_N/<Name>/`. The folder convention is `index.tsx` + `index.module.css`. Components receive `{ isMobile }` from [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx) — the single renderer for every surface. Templates may read **only** `logo` and `selections` from `useLayout()` — and a footer reads its logo through [useLogoDoRodape](src/hooks/useLogoDoRodape.ts) (`footerLogo || logo`), never `useLayout().logo`: outside the editor the context is seeded by hand ([SeededLayoutProvider](src/components/preview/SeededLayoutProvider/index.tsx)), so any other field is a default, not real state.
 2. **Registry** — import it in [src/utils/templateRegistry.ts](src/utils/templateRegistry.ts) and add it to the `TemplateRegistry` object. The string key must match the `component` field used in `LAYOUTS`. **If the registry entry is missing, `ThemeRenderer` renders a visible red marker naming the component** — it used to emit `<img src="/images/gerador/…">`, which with `image: ''` in all items was a mute 404 (os campos `image` já estão preenchidos hoje — ver **Thumbs do seletor** abaixo), so the mistake hid instead of showing.
-3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`'Tray' | 'Wake' | 'Wake 2.0' | 'VTEX' | 'Nuvemshop'`), and `component` (the `TemplateRegistry` key).
+3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`'Tray' | 'Wake' | 'Wake 2.0' | 'VTEX' | 'Nuvemshop'`), and `component` (the `TemplateRegistry` key). A component that must appear on **every** page (help float, newsletter pop-up, cookie bar) also declares `global: true` — see **Wake 2.0** below: it can't be a Design Studio block.
 
 > **Os dois lados saem de sincronia com facilidade, e em silêncio.** Hoje eles estão casados:
 > **100 componentes no registry, 100 `LayoutItem`s ativos, zero órfãos dos dois lados** — e o
@@ -237,6 +237,11 @@ Uma **área à parte**, como o modo Checkout: o rail ganha o alternador **Landin
   saem dele; na Nuvemshop o destino é CSS puro (`css/<selection>-<NN>.css`). Para derivar de um
   checkout que não é o irmão (worktree, clone na ponta do origin), use
   `DERIVAR_STARTER=<raiz do starter>` e `DERIVAR_GLOBAL_TEMPLATES=<raiz do global-templates>`.
+  **O CSS derivado não basta na Wake**: o que é próprio dela (header fixo via `header:has(> .hdNN)`,
+  anti-reset com `html` na frente, regra do `<img>` do logo, tudo que a réplica tem em "Só no
+  catálogo") vai no trecho "Só na Wake", que o script preserva. Lista completa no **Checklist de
+  todo componente Wake** do `../global-templates/README.md`; o generator a confere em
+  `templatesWake.test.js`.
 
 ### Por template (rail)
 
@@ -664,6 +669,14 @@ rodapé, categoria e produto ficam no tema. Só as **famílias 09 a 17** a decla
   `content_for_page` da rota da home em `Configs/pages.json`, e o `<main>` de `Pages/home.html` ganha
   o wrapper `wake_has_content_for_page`. Receita de porte de seção e provas:
   `../.familias-ferramentas/wake-design-studio/RECEITA.md` (o `smoke.mjs` ao lado roda o tema gerado).
+- **Componentes globais NÃO são bloco** (`LayoutItem.global`, hoje `help-float` e `popup-news`): o
+  Design Studio não tem bloco global — `content_for_page` só existe em página hotsite (home e
+  hotsites), produto e busca ficam de fora. O item com `global: true` sai no config com
+  `"global": true` (no balde `home`) e o generator da Wake o tira da home: o miolo editável vira UM
+  conteúdo da Wake (admin > Conteúdos), lido por ID na `common.graphql`, e o componente entra em
+  toda página — nas duas Wakes. No global-templates o porte dele não tem `.schema.json` (contrato
+  no `README.md` de lá). Também são singletons no editor (`PAGE_SINGLETON_SELECTIONS`). Item novo
+  que deve aparecer em toda página: marque `global: true`.
 - **Funil:** `2-edicao` (popup das duas Wakes, e nenhum aviso no painel), `2-lp`, `2-templates`, `3-export` e
   `5-contrato-tray-wake` a incluem sempre; `4-tema-tray-wake` monta a Wake 2.0 17 e confere blocos,
   `content_for_page` e wrapper.

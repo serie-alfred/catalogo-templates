@@ -363,7 +363,20 @@ for (const caso of CASOS) {
     );
 
     // ── Design Studio ─────────────────────────────────────────────────────
-    const daHome = daFamilia.filter(i => i.pagina.includes('home'));
+    // Os globais (`LayoutItem.global`: ajuda flutuante, pop-up) moram no balde home mas não são
+    // seção da home nem bloco: o Design Studio não tem bloco global. Vão para toda página.
+    const daHome = daFamilia.filter(i => i.pagina.includes('home') && !i.global);
+    const globais = daFamilia.filter(i => i.global);
+    if (globais.length) {
+      const arquivoGlobais = ler(path.join(TEMA, 'Components', 'globais.html'));
+      const nConteudos = (arquivoGlobais.match(/class="api-content\b/g) ?? []).length;
+      const chama = arq => /\{\{\s*globais\b/.test(ler(path.join(TEMA, 'Pages', arq)));
+      r.ok(
+        `${plataforma} ${nn}: os ${globais.length} componentes globais estão em Components/globais.html (um conteúdo cada) e home e produto chamam {{ globais }}`,
+        nConteudos === globais.length && chama('home.html') && chama('product.html'),
+        `api-content em globais.html: ${nConteudos}`
+      );
+    }
     const tipo = i =>
       `${i.selection.replace(/-/g, '_')}_${String(i.template).padStart(2, '0')}`;
     const blocos = path.join(TEMA, 'Blocks');

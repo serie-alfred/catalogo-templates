@@ -226,6 +226,37 @@ Para cada match, monte um `ComponentVariable` (`{ cssVar, label, type, default, 
    - `mobile`: `""`. Campo declarado e não lido por nenhum componente — os mockups do designer
      já trazem desktop e celular no mesmo quadro.
    - `variablesSchema`: o array do passo 5.
+   - `global: true` **se o componente aparece em toda página** (ajuda flutuante, pop-up de
+     newsletter, aviso de cookies, botão de WhatsApp — no starter, seção global). O export põe
+     `"global": true` na entrada e o generator da Wake o leva para toda página com o miolo
+     editável num conteúdo da Wake lido por ID — **inclusive na Wake 2.0**, porque o Design
+     Studio não tem bloco global (só põe blocos em página hotsite). O porte Wake dele segue o
+     contrato de global do `../global-templates/README.md` (um `api-content` de HTML simples,
+     `common.scss` + `sa-app.js`, **sem** `.schema.json`), não o de bloco. Na dúvida, pergunte.
+
+## 6.5. Porte para a Wake (quando o item declara `'Wake'`/`'Wake 2.0'`)
+
+O porte vive em `../global-templates/Wake/<Página>/template_<N>/<selection>/` e o CSS dele sai do
+SCSS do starter pelo `yarn derivar:css`. Isso **não basta**: o tema da Wake tem reset, CDN e
+estrutura de página próprios. Antes de dar o porte por pronto, cumpra o **Checklist de todo
+componente Wake** do `../global-templates/README.md` — as regras próprias da Wake vão no trecho
+"Só na Wake" do SCSS. O que mais escapa:
+
+- **Header: SEMPRE fixo ao topo.** Todo header nasce fixo ao rolar, em toda plataforma. No
+  starter/catálogo a raiz do header tem `position: sticky; top: 0`. Na Wake isso não gruda (o
+  componente mora dentro do `<header>` das páginas, e sticky só gruda dentro do pai): o porte leva
+  `header:has(> .hdNN) { position: sticky; top: 0; z-index: 30; }` no "Só na Wake" (z 30 = abaixo da
+  sacola do tema, z-40).
+- **Anti-reset com `html` na frente** em tudo que vai no `sa.css` (header, footer, breadcrumb,
+  spot, globais): `html :where(.xxNN) :is(a, p, …)`.
+- **Logo**: slot `hdNN_logo`/`ftNN_logo` no HTML e a regra do `<img>` que a réplica tem em "Só no
+  catálogo" copiada para o "Só na Wake" (senão o logo estica até a largura do bloco).
+- **Tudo do "Só no catálogo"** precisa de equivalente no "Só na Wake": o cliente escolhe pelo
+  catálogo, e a loja tem de sair igual.
+- **Global** (`global: true`): um `api-content`, `common.scss` + `sa-app.js`, sem `.schema.json`.
+
+O generator confere boa parte disso em `src/platforms/wake/templatesWake.test.js` e
+`globalProcessor.test.js` — rode `node --test` lá depois de mexer no global-templates.
 
 ## 7. Atualizar docs/memória do catálogo
 
@@ -244,6 +275,9 @@ Para cada match, monte um `ComponentVariable` (`{ cssVar, label, type, default, 
 - [ ] Modo de var detectado: A (herança, 2 níveis) e/ou B (fiel, 1 nível) — sem aborto; só PARA p/ valor cru/token interno em zona temável
 - [ ] Preview: sem hooks/GraphQL; dados fixos coerentes; **todo o grafo inline num só arquivo** (markup de `@faststore/ui` recriado); `{ isMobile }`; `import styles from './index.module.css'`
 - [ ] Logo (se Header/Footer): nenhum SVG/`<img>` fixo da marca de origem — `useLayout().logo` com fallback `"SERIE//A"`, igual `Header01`/`03`/`04`
+- [ ] Header: fixo ao topo (raiz `position: sticky; top: 0` no starter/catálogo; na Wake, `header:has(> .hdNN)` sticky z-30 no "Só na Wake")
+- [ ] Porte Wake (se declara Wake): **Checklist de todo componente Wake** do `../global-templates/README.md` cumprido e `node --test` do generator verde
+- [ ] Componente de toda página (ajuda flutuante, pop-up, cookies): `global: true` no `LayoutItem`
 - [ ] SCSS → CSS plano (desaninhado, sem `&`/`$`/`@mixin`/funções SCSS; `@media`→`@container`; `var(--…)` mantidos); `button`/`li` com bg/border **prefixados com a classe raiz** (vence o reset da preview, sem `!important`)
 - [ ] `variablesSchema` com **todas** as vars do componente: caminho A (com `inheritsLabel`+`backgroundVars`) ou B (sem `inheritsLabel`, `backgroundVars: []`); `default` byte-idêntico; labels confirmados com o dev
 - [ ] Registrado em `templateRegistry.ts` (chave = `component`) e em `layoutData.ts` (`key` único, `path` p/ VTEX, `platforms` com `'VTEX'`, `backgroundVars`)

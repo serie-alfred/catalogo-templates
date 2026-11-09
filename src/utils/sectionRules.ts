@@ -33,6 +33,10 @@ export const COMMON_SINGLETON_SELECTIONS: ReadonlySet<string> = new Set([
  * o 09 é `overrides/CrossSellingShelf09`), e os dois achatam para o MESMO
  * `overrides/CrossSellingShelf.tsx` no tema — o VALIDATE do generator reprova o
  * config com dois. A seção nativa é uma só por PDP, então a escolha também.
+ *
+ * `help-float` e `popup-news` são componentes GLOBAIS (`LayoutItem.global`): vão em toda
+ * página, um por loja — dois botões de ajuda ou dois pop-ups não fazem sentido, e os ids do
+ * markup (o painel, o título do diálogo) se repetiriam.
  */
 export const PAGE_SINGLETON_SELECTIONS: ReadonlySet<string> = new Set([
   'category-main',
@@ -43,6 +47,8 @@ export const PAGE_SINGLETON_SELECTIONS: ReadonlySet<string> = new Set([
   'product-related',
   'banner-main',
   'banner-top',
+  'help-float',
+  'popup-news',
 ]);
 
 /**

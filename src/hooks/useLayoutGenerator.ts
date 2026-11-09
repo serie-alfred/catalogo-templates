@@ -1354,6 +1354,10 @@ export function useLayoutGenerator() {
         title: found.title,
         key: found.key,
         pagina: found.pagina,
+        // Componente que vai em TODA página (ajuda flutuante, pop-up). O generator da Wake o
+        // tira da home e o põe em toda página com conteúdo editável por ID — inclusive na
+        // Wake 2.0, porque o Design Studio não tem bloco global. Ver `LayoutItem.global`.
+        ...(found.global ? { global: true } : {}),
         ...(variables ? { variables } : {}),
       };
     };
