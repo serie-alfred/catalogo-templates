@@ -34,7 +34,7 @@ export function slugDaLp(nome: string): string {
  * "Templates - Serie A", feita das seções da família 08. É um ponto de partida,
  * não um tipo — dá para tirar, trocar e somar qualquer outra seção.
  *
- * Plataforma sem a família 08 (a Wake 2.0 e a Nuvemshop) abre com as
+ * Plataforma sem a família 08 (hoje, a Nuvemshop) abre com as
  * mesmas oito seções da primeira família da lista que ela tem inteira: sem
  * isso a LP inicial seria feita de seções que o export dela descarta.
  */

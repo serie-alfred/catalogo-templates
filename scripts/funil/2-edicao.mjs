@@ -554,16 +554,25 @@ await semear(page, {
 });
 await clicarDeVerdade(page, 'button[class*="card"][aria-haspopup="listbox"]');
 await espera(500);
+// A Wake é uma só (a do Design Studio): a clássica, "Wake (legado)", saiu do seletor.
+r.ok(
+  'o seletor não oferece mais a Wake (legado)',
+  !(await page.evaluate(() =>
+    [...document.querySelectorAll('[role="option"]')].some(
+      o => o.dataset.platform === 'Wake' || /legado/i.test(o.textContent)
+    )
+  ))
+);
 await page.evaluate(() =>
   [...document.querySelectorAll('[role="option"]')]
-    .find(o => o.dataset.platform === 'Wake')
+    .find(o => o.dataset.platform === 'Wake 2.0')
     ?.click()
 );
 const abriuWake = await page
   .waitForSelector('.wake-popup', { timeout: 12000 })
   .then(() => true)
   .catch(() => false);
-r.ok('escolher a Wake legado abre o popup do token', abriuWake);
+r.ok('escolher a Wake abre o popup do token', abriuWake);
 
 if (abriuWake) {
   const anatomia = await page.evaluate(() => {
@@ -581,8 +590,8 @@ if (abriuWake) {
     };
   });
   r.ok(
-    'a Wake legado: o popup diz "Wake (legado)" — "Wake" sozinho é a do Design Studio',
-    anatomia.nome === 'Wake (legado)',
+    'o popup diz "Wake" (a do Design Studio, a única)',
+    anatomia.nome === 'Wake',
     anatomia.nome ?? 'sem <strong>'
   );
   r.ok(
@@ -623,15 +632,14 @@ if (abriuWake) {
   );
 }
 
-// O painel esquerdo não tem aviso de plataforma em nenhuma das duas Wakes: a
-// caixa do Design Studio saiu em 09/11/2026, a pedido. Quem as distingue é a
-// legenda do card do seletor.
+// O painel esquerdo não tem aviso de plataforma: a caixa do Design Studio saiu em
+// 09/11/2026, a pedido.
 const avisoNoPainel = () =>
   page.evaluate(() =>
     [...document.querySelectorAll('aside[aria-label="Painel de edição"] [role="note"]')]
       .some(el => /Design Studio|legado/.test(el.textContent))
   );
-r.ok('Wake legado: nenhum aviso de plataforma no painel esquerdo', !(await avisoNoPainel()));
+r.ok('Wake: nenhum aviso de plataforma no painel esquerdo', !(await avisoNoPainel()));
 
 // ── Wake 2.0 (a Wake padrão, sem flag): o popup ──────────────────────────────
 // Mesmo caminho do cliente: semear Tray e escolher a Wake do Design Studio no

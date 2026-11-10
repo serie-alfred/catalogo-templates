@@ -665,7 +665,7 @@ export function useLayoutGenerator() {
       // gravariam os defaults vazios por cima do que estava guardado.
       try {
         const storedLp = estadoDaAba.get('lp');
-        // Sem LP guardada, a inicial é a da plataforma: na Wake 2.0 não há 08.
+        // Sem LP guardada, a inicial é a da plataforma (sem a 08, a Nuvemshop usa outra).
         setLp(
           storedLp
             ? sanitizeLp(JSON.parse(storedLp), storedPlatform)
@@ -993,7 +993,7 @@ export function useLayoutGenerator() {
     // por ela aqui seria um diálogo sobre algo que a Tray nem mostra.
     //
     // A LP inicial intocada não é trabalho do usuário: vira a inicial do
-    // destino, sem diálogo (a família 08 não existe na Wake 2.0 nem na
+    // destino, sem diálogo (a família 08 não existe na
     // Nuvemshop, ver lpInicial).
     const lpIntocada =
       JSON.stringify(lp.selections) ===

@@ -28,9 +28,9 @@ export interface PlatformPartition {
  * `variablesSchema` é bit a bit o mesmo e `pickChangedVariables` continua
  * comparando contra os mesmos defaults na hora do export.
  *
- * Hoje Tray, Wake e VTEX oferecem o catálogo inteiro (trocar entre as três não
- * perde nada); a Nuvemshop só os itens portados e a Wake 2.0 só as famílias 09
- * a 17 (os blocos do Design Studio). Os números mudam a cada família: conte no
+ * Hoje Tray, Wake (a do Design Studio, 'Wake 2.0') e VTEX oferecem o catálogo inteiro (trocar entre as três não
+ * perde nada); a Nuvemshop só os itens portados. (A Wake 2.0 já foi só as famílias 09
+ * a 17, antes de as seções de home das 01–08 virarem bloco.) Os números mudam: conte no
  * `layoutData.ts`, não neste comentário.
  */
 export function partitionByPlatform(
@@ -76,7 +76,10 @@ export function sanitizeSelections(value: unknown): LayoutSelection[] {
  * `/gerador/import-log`.
  */
 export function sanitizePlatform(value: string | null): Platform | null {
-  return PLATFORMS.includes(value as Platform) ? (value as Platform) : null;
+  // A Wake clássica saiu do seletor: o que foi salvo com ela abre na Wake do Design
+  // Studio, que tem as mesmas famílias (as seções de home viraram bloco).
+  const v = value === 'Wake' ? 'Wake 2.0' : value;
+  return PLATFORMS.includes(v as Platform) ? (v as Platform) : null;
 }
 
 /**

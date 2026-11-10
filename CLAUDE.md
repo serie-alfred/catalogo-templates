@@ -645,18 +645,19 @@ chegar as de `PLATFORMS`. Com ela ligada, cada família portada aparece no modal
 
 A trilha Wake com as seções da home virando **blocos do Wake Design Studio**: o lojista edita a home
 (e a LP) no admin da Wake — textos, imagens (upload) e vitrines (escolhendo um hotsite); header,
-rodapé, categoria e produto ficam no tema. Só as **famílias 09 a 17** a declaram (`'Wake 2.0'` no
-`platforms` dos 216 itens delas); o `1-catalogo` resolve a origem dela em `global-templates/Wake/…`.
+rodapé, categoria, produto e os globais (`LayoutItem.global`) ficam no tema. **Todas as famílias**
+a declaram (`'Wake 2.0'` no `platforms` de todo item Wake): as seções de home das 01 a 08 ganharam
+`<selection>.schema.json` em 11/2026. O `1-catalogo` resolve a origem em `global-templates/Wake/…`.
 
-- **É a Wake padrão desde 09/11/2026, sem flag** ([types/platform.ts](src/types/platform.ts)): a
-  `NEXT_PUBLIC_PLATAFORMA_WAKE2` deixou de existir. Em `PLATFORMS` ela vem antes da clássica, e a
-  tela a chama só de **"Wake"** — a clássica (famílias 01 a 17, sem Design Studio) aparece como
-  **"Wake (legado)"**. Só o NOME mudou (`rotuloDaPlataforma`, usado no seletor, no popup do token,
-  no confirm de troca, em "Temas salvos" e em "Por template"): o valor guardado continua
-  `'Wake 2.0'`/`'Wake'`, então aba, tema salvo, preview e `/gerador/import-log` de antes mantêm o
-  significado. O card do seletor mostra a marca da Wake nas duas, com a legenda
-  "(Design Studio)" ou "(legado)". Cada opção da lista leva `data-platform` com o valor: o funil
-  escolhe por ele, nunca pelo texto ("Wake" casaria com a do Design Studio).
+- **É a ÚNICA Wake** ([types/platform.ts](src/types/platform.ts)): a clássica (`'Wake'`, "Wake
+  (legado)") saiu de `PLATFORMS` em 11/2026. Aba, tema salvo e preview gravados com `'Wake'` abrem
+  na do Design Studio (`sanitizePlatform` troca o valor). A tela a chama só de **"Wake"**
+  (`rotuloDaPlataforma`); o valor guardado continua `'Wake 2.0'`. Os itens ainda trazem `'Wake'` no
+  `platforms` ao lado de `'Wake 2.0'` — só para o funil da trilha antiga; o seletor não a oferece.
+  Cada opção da lista leva `data-platform` com o valor: o funil escolhe por ele, nunca pelo texto.
+- **Seção de home nova numa família Wake: é bloco.** `<selection>.schema.json` + o HTML lendo
+  `block_data ?? {}` com o conteúdo atual de fallback (padrão das famílias 09/10; contrato no
+  `../global-templates/README.md`). Só PDP, categoria, header/footer e os globais não são bloco.
 - **Export:** o mesmo da Wake (`platform: "wake"`, `wakeToken`, `trilhaDe`), mais
   `wake.designStudio: true` — no tema de loja e no da LP. O popup do token abre como na Wake e diz o
   nome da plataforma escolhida ("Wake" ou "Wake (legado)").

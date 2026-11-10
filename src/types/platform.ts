@@ -18,24 +18,22 @@ export const NUVEMSHOP_LIGADA =
  * desligada, uma aba ou um tema salvo com `Nuvemshop` volta sem plataforma,
  * como qualquer valor desconhecido.
  *
- * A Wake do Design Studio (`'Wake 2.0'`, famílias 09 a 17; o export sai como o
- * da Wake mais `wake.designStudio: true`) é a Wake PADRÃO desde 09/11/2026: vem
- * antes da clássica e aparece só como "Wake" (`rotuloDaPlataforma`). Ficou fora
- * de flag — a `NEXT_PUBLIC_PLATAFORMA_WAKE2` deixou de existir.
+ * A Wake é UMA só: a do Design Studio (`'Wake 2.0'`, todas as famílias; o export sai
+ * como o da Wake mais `wake.designStudio: true`), que aparece como "Wake"
+ * (`rotuloDaPlataforma`). A Wake clássica (`'Wake'`, "Wake (legado)") saiu do seletor:
+ * aba e tema salvos com ela abrem na do Design Studio (`sanitizePlatform`).
  */
 export const PLATFORMS: Platform[] = [
   'Tray',
   'Wake 2.0',
-  'Wake',
   'VTEX',
   ...(NUVEMSHOP_LIGADA ? (['Nuvemshop'] as const) : []),
 ];
 
 /**
  * O nome que a TELA mostra. O valor guardado (aba, tema salvo, preview,
- * `/gerador/import-log`) continua o de `Platform`: trocar o valor mudaria o
- * significado de todo tema já salvo como `'Wake'`, que é o clássico e tem as
- * famílias 01 a 08 que o Design Studio não tem.
+ * `/gerador/import-log`) continua o de `Platform`. `'Wake'` (a clássica) só aparece em
+ * registro antigo (import-log, resumo de tema salvo) e é mostrada como era.
  */
 const ROTULOS: Record<Platform, string> = {
   Tray: 'Tray',
