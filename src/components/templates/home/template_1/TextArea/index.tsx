@@ -3,7 +3,7 @@ import index from './index.module.scss';
 
 export default function TextArea() {
   return (
-    <div className="container">
+    <div className={index.container}>
       <div className={index.html}>
         <h2>Lorem Ipsum</h2>
         <p>

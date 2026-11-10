@@ -1,3 +1,12 @@
+// Container próprio: a classe global `.container` do custom-theme.scss do starter (aninhada
+// em `.theme`) não existe no tema de toda loja nem no catálogo, e sem ela o bloco ocupava a
+// largura toda. Mesmas medidas da global.
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
 .html{
   padding: 3rem 0;
   font-family: var(--text-area-font, inherit);
