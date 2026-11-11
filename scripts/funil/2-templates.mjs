@@ -249,11 +249,12 @@ const temasAplicados = {};
 const gravadas = page => page.evaluate(() => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]'));
 
 // ── 1. a lista nas três plataformas ─────────────────────────────────────────
-// A Wake 2.0 (atrás de flag) só tem as famílias do Design Studio: 09 a 17.
+// A Wake do seletor é a do Design Studio ('Wake 2.0'), com todas as famílias desde
+// `1c4a35e`; a clássica ('Wake') saiu do seletor e uma aba salva com ela abre na 2.0.
 const NOME_DA_FAMILIA = { 9: '09 · Editorial', 10: '10 · Varejo', 17: '17 · Pet' };
-for (const plat of ['VTEX', 'Wake', 'Tray', 'Wake 2.0']) {
+for (const plat of ['VTEX', 'Tray', 'Wake 2.0']) {
   const { page } = await aba(browser);
-  await semear(page, { plataforma: plat, token: plat === 'Wake' || plat === 'Wake 2.0' ? 'TOKEN-DE-TESTE' : '' });
+  await semear(page, { plataforma: plat, token: plat === 'Wake 2.0' ? 'TOKEN-DE-TESTE' : '' });
   await abrirPainel(page);
   const lista = await cartoes(page);
   const esp = esperadas(plat);
@@ -267,11 +268,13 @@ for (const plat of ['VTEX', 'Wake', 'Tray', 'Wake 2.0']) {
     `${plat}: as famílias ${fa.padStart(2, '0')} e ${fb} estão entre eles`,
     esp.includes(fa) && esp.includes(fb)
   );
+  // Antes de `1c4a35e` a Wake 2.0 só tinha 09 a 17: a 01 (completa) prova que as
+  // famílias 01–08 entraram, e a lista inteira é a mesma da VTEX.
   if (plat === 'Wake 2.0')
     r.ok(
-      'Wake 2.0: só as famílias 09 a 17',
-      [...esp].sort((a, b) => a - b).join() === '9,10,11,12,13,14,15,16,17',
-      esp.join()
+      'Wake 2.0: as mesmas famílias completas da VTEX, inclusive a 01',
+      esp.join() === esperadas('VTEX').join() && esp.includes('1'),
+      `${esp.join()} · VTEX: ${esperadas('VTEX').join()}`
     );
   const ca = lista.find(c => c.t === fa);
   const cb = lista.find(c => c.t === fb);
@@ -479,8 +482,8 @@ for (const plat of ['VTEX', 'Wake', 'Tray', 'Wake 2.0']) {
   await page.close();
 }
 
-// ── 6. Wake (09) e Tray (10): o export passa no contrato ───────────────────
-for (const [plat, t] of [['Wake', '9'], ['Tray', '10'], ['Wake 2.0', '10'], ['Wake 2.0', '17']]) {
+// ── 6. Wake (09, 10, 17) e Tray (10): o export passa no contrato ───────────
+for (const [plat, t] of [['Wake 2.0', '9'], ['Tray', '10'], ['Wake 2.0', '10'], ['Wake 2.0', '17']]) {
   const trilha = plat === 'Wake 2.0' ? 'wake' : plat.toLowerCase();
   const { page, erros } = await aba(browser);
   await semear(page, { plataforma: plat, token: trilha === 'wake' ? 'TOKEN-DE-TESTE' : '' });

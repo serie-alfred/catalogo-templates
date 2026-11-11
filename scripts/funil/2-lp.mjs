@@ -5,11 +5,11 @@
  *
  * Prova, no editor de verdade:
  *  1. o alternador "Landing page" do rail só existe onde o generator monta LP
- *     (Wake, Wake 2.0 e VTEX; na Tray, não);
+ *     (Wake e VTEX; na Tray, não). A Wake do seletor é a do Design Studio
+ *     ('Wake 2.0'); a clássica saiu dele em `1c4a35e`;
  *  2. entrar no modo abre a LP inicial (a Black Friday da família 08, oito
- *     seções na ordem do Figma; na Wake 2.0, que não tem a 08, as mesmas oito da
- *     10), SEM header/footer da loja, e a topbar troca o seletor de página pelo
- *     nome da LP com o slug;
+ *     seções na ordem do Figma, nas duas plataformas), SEM header/footer da loja,
+ *     e a topbar troca o seletor de página pelo nome da LP com o slug;
  *  3. a LP é um documento à parte: as seções da loja não mudam, e voltar à loja
  *     devolve o canvas dela;
  *  4. o modal oferece qualquer seção de miolo (não só as 08) e nunca header/footer;
@@ -18,10 +18,10 @@
  *     balde `landing` na ordem da página, sem global/home/checkout — e passa no
  *     contrato do generator (origem Wake em Home/template_N, path VTEX no starter);
  *  7. o preview compartilhável abre a LP em `/p/{id}/lp`;
- *  8. Wake 2.0: seção que ela não oferece, guardada na LP, some na hidratação
- *     (`sanitizeLp` filtra pela plataforma), o export leva `designStudio: true`,
- *     e trocar de VTEX para Wake 2.0 com a LP inicial intocada troca a 08 pela
- *     10 sem diálogo.
+ *  8. seção que não é de miolo (um header), guardada na LP, some na hidratação
+ *     (`sanitizeLp`), do canvas e da aba; na Wake 2.0 o export leva
+ *     `designStudio: true`; e trocar de VTEX para Wake 2.0 com a LP inicial
+ *     intocada mantém as oito seções da 08, sem diálogo de remoção.
  */
 import { relatorio, espera, BASE_URL } from './lib/util.mjs';
 import { abrirBrowser, novaAba, semear, irParaRail, clicarDeVerdade } from './lib/editor.mjs';
@@ -31,7 +31,6 @@ const r = relatorio('Estágio 2l — modo LP (landing page avulsa)');
 const browser = await abrirBrowser();
 
 const sel = (id, layoutKey, pagina) => ({ uid: `u-${layoutKey}-${id}`, id, layoutKey, pagina });
-// A Wake 2.0 só tem as famílias 09 a 17: a loja e a seção "de outra família" saem delas.
 const comunsDe = f => [sel(f, 'header', 'common'), sel(f, 'footer', 'common'), sel(f, 'banner', 'home')];
 const comuns = comunsDe('01');
 const ORDEM_INICIAL = ['banner-main', 'countdown', 'categories', 'showcase', 'banner-side', 'editorial', 'ruler', 'newsletter'];
@@ -101,17 +100,16 @@ async function exportar(page) {
   await page.close();
 }
 
-const PLATAFORMAS_LP = ['VTEX', 'Wake', 'Wake 2.0'];
+// A Wake do seletor é a do Design Studio ('Wake 2.0'): uma aba salva com a clássica
+// ('Wake') abre nela (`sanitizePlatform`), então semear 'Wake' aqui só repetiria a 2.0.
+const PLATAFORMAS_LP = ['VTEX', 'Wake 2.0'];
 
 for (const plataforma of PLATAFORMAS_LP) {
-  const wake2 = plataforma === 'Wake 2.0';
-  const fLoja = wake2 ? '10' : '01';
-  const fLp = wake2 ? '10' : '08';
+  const fLoja = '01';
+  const fLp = '08';
   // A seção de miolo de outra família que entra na LP, e o seletor do Nível 1 que a variável pinta.
-  const extra = wake2 ? { key: 'brand', id: '17', selection: 'brands' } : { key: 'bannerFull', id: '01', selection: 'banner-full' };
-  const destaque = wake2
-    ? { sel: '[data-role="cd-cta"]', prop: 'backgroundColor' }
-    : { sel: '[data-role="cd-title"] span', prop: 'color' };
+  const extra = { key: 'bannerFull', id: '01', selection: 'banner-full' };
+  const destaque = { sel: '[data-role="cd-title"] span', prop: 'color' };
   const { page, erros } = await novaAba(browser);
   await semear(page, { plataforma, selecoes: comunsDe(fLoja), token: plataforma === 'VTEX' ? '' : 'TOKEN-DE-TESTE' });
   await page.evaluate(() => sessionStorage.removeItem('lp'));
@@ -169,16 +167,18 @@ for (const plataforma of PLATAFORMAS_LP) {
   );
   await page.keyboard.press('Escape');
 
-  // seção de miolo que não é da família 08 entra na LP, e a variável pinta o canvas
-  // Na Wake 2.0 vai junto uma seção que ela NÃO oferece (a bannerFull 01): a
-  // hidratação tem de tirá-la, senão o canvas mostra o que o export descarta.
-  await page.evaluate((extra, wake2) => {
+  // seção de miolo que não é da família 08 entra na LP, e a variável pinta o canvas.
+  // Vai junto uma seção que a LP NÃO aceita (o header 01, que não é de miolo): a
+  // hidratação tem de tirá-la, senão o canvas mostra o que o export descarta. (O
+  // filtro por plataforma do `sanitizeLp` não tem caso aqui: VTEX e Wake 2.0
+  // oferecem o catálogo inteiro desde `1c4a35e`.)
+  await page.evaluate(extra => {
     const lp = JSON.parse(sessionStorage.getItem('lp'));
-    if (wake2) lp.selections.push({ uid: 'u-lp-bannerFull-01', id: '01', layoutKey: 'bannerFull', pagina: 'home' });
+    lp.selections.push({ uid: 'u-lp-header-01', id: '01', layoutKey: 'header', pagina: 'home' });
     lp.selections.push({ uid: `u-lp-${extra.key}-${extra.id}`, id: extra.id, layoutKey: extra.key, pagina: 'home' });
     for (const s of lp.selections) if (s.layoutKey === 'countdown') s.variables = { '--countdown-accent': '#ff0000' };
     sessionStorage.setItem('lp', JSON.stringify(lp));
-  }, extra, wake2);
+  }, extra);
   await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.ed-shell', { timeout: 60000 });
   await esperarCanvas(page, `s.includes(${JSON.stringify(extra.selection)})`);
@@ -192,14 +192,12 @@ for (const plataforma of PLATAFORMAS_LP) {
   const c2 = await secoesNoCanvas(page);
   const accent = await lerDestaque();
   r.ok(`${plataforma}: o modo LP sobrevive ao reload e aceita seção de miolo de outra família`, c2.at(-1) === extra.selection, c2.join());
-  if (wake2) {
-    const guardada = await page.evaluate(() => JSON.parse(sessionStorage.getItem('lp')).selections.map(s => `${s.layoutKey}:${s.id}`));
-    r.ok(
-      'Wake 2.0: seção que ela não oferece (bannerFull 01) some da LP na hidratação, do canvas e da aba',
-      !c2.includes('banner-full') && !guardada.includes('bannerFull:01'),
-      `canvas: ${c2.join()} · aba: ${guardada.join()}`
-    );
-  }
+  const guardada = await page.evaluate(() => JSON.parse(sessionStorage.getItem('lp')).selections.map(s => `${s.layoutKey}:${s.id}`));
+  r.ok(
+    `${plataforma}: seção que não é de miolo (header 01) some da LP na hidratação, do canvas e da aba`,
+    !c2.includes('header') && !guardada.includes('header:01') && guardada.includes(`${extra.key}:${extra.id}`),
+    `canvas: ${c2.join()} · aba: ${guardada.join()}`
+  );
   r.ok(`${plataforma}: --countdown-accent do painel pinta o destaque no canvas`, accent === 'rgb(255, 0, 0)', accent);
 
   // export: só a LP
@@ -267,17 +265,19 @@ for (const plataforma of PLATAFORMAS_LP) {
 }
 
 // ── Wake 2.0: trocar de plataforma com a LP inicial intocada ─────────────────
-// A LP inicial (08) de quem começou em VTEX vira a inicial da Wake 2.0 (10), sem
-// o diálogo de "estas seções serão removidas" — ela não era trabalho do usuário.
+// A Wake 2.0 tem a 08 inteira (desde `1c4a35e`): a LP inicial de quem começou em
+// VTEX continua a mesma, sem o diálogo de "estas seções serão removidas".
 {
   const { page } = await novaAba(browser);
   const dialogos = [];
   page.on('dialog', d => dialogos.push(d.message().slice(0, 120)));
-  await semear(page, { plataforma: 'VTEX', selecoes: comunsDe('10') });
+  await semear(page, { plataforma: 'VTEX', selecoes: comuns });
   await page.evaluate(() => sessionStorage.removeItem('lp'));
   await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.ed-shell', { timeout: 60000 });
   await espera(1500);
+  // A LP inicial de `lpInicial()` (uids fixos), na ordem do Figma: a mesma de antes da troca.
+  const inicial = ['banner', 'countdown', 'categories', 'showcase', 'bannerSide', 'editorial', 'ruler', 'newsletter'].map(k => `lp-${k}-08`).join();
   // Clique antes da hidratação é engolido: clica de verdade até a lista abrir.
   await irParaRail(page, 'Componentes');
   for (let i = 0; i < 20 && !(await page.$('[role="option"]')); i++) {
@@ -290,10 +290,11 @@ for (const plataforma of PLATAFORMAS_LP) {
     plataforma: sessionStorage.getItem('layoutPlatform'),
     ids: [...new Set(JSON.parse(sessionStorage.getItem('lp') ?? '{"selections":[]}').selections.map(s => s.id))],
     n: JSON.parse(sessionStorage.getItem('lp') ?? '{"selections":[]}').selections.length,
+    uids: JSON.parse(sessionStorage.getItem('lp') ?? '{"selections":[]}').selections.map(s => s.uid).join(),
   }));
   r.ok(
-    'VTEX → Wake 2.0: a LP inicial intocada vira as 8 seções da 10, sem diálogo de remoção',
-    depois.plataforma === 'Wake 2.0' && depois.ids.join() === '10' && depois.n === 8 && !dialogos.some(m => /removidas/.test(m)),
+    'VTEX → Wake 2.0: a LP inicial intocada continua as 8 seções da 08, sem diálogo de remoção',
+    depois.plataforma === 'Wake 2.0' && depois.ids.join() === '08' && depois.n === 8 && depois.uids === inicial && !dialogos.some(m => /removidas/.test(m)),
     `${JSON.stringify(depois)} · diálogos: ${dialogos.join(' | ') || '—'}`
   );
   await page.close();
