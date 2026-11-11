@@ -420,7 +420,7 @@
     {
       "arquivo": "V2/Base-11.jpg",
       "mostra": "abas Descricao/Itens/Garantia + tabela de especificacoes zebrada",
-      "precisaria": "ProductDescription02 (product-description so existe em template_1)"
+      "precisaria": "ProductDescription02 (product-description tem 01 e 09-17; nao ha 02)"
     },
     {
       "arquivo": "V3/Base.jpg",
@@ -430,12 +430,12 @@
     {
       "arquivo": "V3/Base-5.jpg",
       "mostra": "faixa de 5 logos de marca (GUCCI/CHANEL/asos/PRADA/GANT)",
-      "precisaria": "Brand05 (a secao brand so tem Brand01, familia 1)"
+      "precisaria": "Brand05 (a secao brand tem 01 e 09-17; nao ha 05)"
     },
     {
       "arquivo": "V3/Base-9.jpg",
       "mostra": "newsletter em 2 colunas, 2 inputs empilhados e botao abaixo",
-      "precisaria": "Newsletter05 (a secao newsletter so tem Newsletter07)"
+      "precisaria": "Newsletter05 (a secao newsletter tem 07-17; nao ha 05)"
     },
     {
       "arquivo": "V3/Base-11.jpg",
@@ -445,7 +445,7 @@
     {
       "arquivo": "V3/Base-12.jpg",
       "mostra": "titulo da categoria + barra HORIZONTAL de filtros + ordenacao",
-      "precisaria": "CategoryMain05 ou CategoryTitle05 (categoryMain tem 01, 02, 06, 07)"
+      "precisaria": "CategoryMain05 ou CategoryTitle05 (categoryMain tem 01, 02, 06, 07 e 09-17; nao ha 05)"
     },
     {
       "arquivo": "V3/Base-14.jpg",
@@ -455,7 +455,7 @@
     {
       "arquivo": "Lote2/ChatGPT Image 18 de set. de 2026, 12_28_23.png",
       "mostra": "PLP inteira da loja do 03 (header, trilha, banner 'Camisetas', filtros e grade), tudo nitido e plano, em 1536x1024",
-      "precisaria": "um CategoryMain03 (categoryMain tem 01, 02, 06, 07); nao e o CategoryMain02 — nenhum texto do print dele sobreviveu, e a grade tem 4 colunas contra 3"
+      "precisaria": "um CategoryMain03 (categoryMain tem 01, 02, 06, 07 e 09-17; nao ha 03); nao e o CategoryMain02 — nenhum texto do print dele sobreviveu, e a grade tem 4 colunas contra 3"
     }
   ],
   "alternativas": [

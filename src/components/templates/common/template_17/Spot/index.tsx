@@ -141,9 +141,6 @@ export const ESGOTADO_17: Produto17 = produto17(
   42
 );
 
-/** Rótulo fixo de vitrine de exemplo do mock (o desenho do card não mostra nenhum). */
-export const ROTULO_17 = 'Mais vendido';
-
 export const money17 = (n: number) =>
   `R$ ${n
     .toFixed(2)

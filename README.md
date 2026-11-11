@@ -40,7 +40,7 @@ ponta — catálogo, editor, export e o tema montado pelo generator. Ver
 
 ### Variáveis de ambiente
 
-Todas listadas em `.env.example`:
+Listadas em `.env.example` (o código também aceita `UPSTASH_REDIS_REST_URL`/`_TOKEN` no lugar do par `KV_*`):
 
 | Var | Para quê |
 | --- | --- |
@@ -51,7 +51,7 @@ Todas listadas em `.env.example`:
 | `ETEMAS_LOGIN_USER`, `ETEMAS_LOGIN_PASSWORD`, `ETEMAS_SESSION_SECRET` | login da agência no `/gerador`; em produção, sem as três o editor fica fechado (segredo com 32+ caracteres) |
 | `COMERCIAIS` | site público: rodízio do "Falar com o comercial" no WhatsApp (`Nome:55DDDNUMERO,…`); vazio leva ao formulário |
 | `NEXT_PUBLIC_GTM_ID`, `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_META_PIXEL_ID` | site público: GTM, GA4 e Pixel, só depois do aceite de cookies; vazios, nada carrega |
-| `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP` | `1` põe a Nuvemshop no seletor do `/gerador` (ligada em produção; embutida no build) |
+| `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP` | `1` põe a Nuvemshop no seletor do `/gerador` (desligada em produção; embutida no build) |
 
 `NODE_ENV` e `VERCEL` vêm do Next e da Vercel; não se cadastram.
 Sem `KV_REST_API_URL`, o preview compartilhável grava em `.preview-store/` no disco (só dev).
@@ -65,7 +65,7 @@ O mesmo tema é renderizado em quatro lugares, **pelo mesmo componente**
 
 | Superfície | URL | O que é |
 | --- | --- | --- |
-| **Editor** | `/gerador` | o canvas, dentro de um `<iframe>`, com o dock de seções à esquerda |
+| **Editor** | `/gerador` | o canvas, dentro de um `<iframe>`, com o painel de seções à esquerda |
 | **Preview compartilhável** | `/p/{id}/{home\|categoria\|produto}` | link que o cliente abre e navega como um site |
 | **Vitrine de templates** | `/templates/{NN}/{home\|categoria\|produto}` | os templates completos da home, só para ver (sem editor, sem login) |
 | **Export stage** | — | montado sob demanda para o `html2canvas` gerar os PNGs |
@@ -91,7 +91,7 @@ o preview, converte o SCSS, deriva o `variablesSchema` e registra tudo.
    única e, para VTEX, o `path` do componente no starter.
 
 Faltando o registro no registry, o `ThemeRenderer` desenha um marcador vermelho nomeando o
-componente. Hoje os dois lados estão casados — **90 componentes, 90 itens ativos, zero órfãos** —
+componente. Hoje os dois lados estão casados — **316 componentes, 316 itens ativos, zero órfãos** (11/11/2026) —
 e é o estágio 1 do funil que mantém assim, junto com o comando de auditoria no `CLAUDE.md`.
 
 ---
@@ -104,10 +104,10 @@ src/
 │   ├── (home)/                 landing pública
 │   ├── gerador/(editor)/       o editor — /gerador
 │   ├── gerador/(frame)/        documento do iframe — /gerador/frame-mobile
-│   ├── gerador/api/            fonts · preview · send-email
+│   ├── gerador/api/            fonts · preview · send-email · temas
 │   ├── p/[id]/[page]/          preview compartilhável
 │   ├── templates/              vitrine pública dos templates completos
-│   └── api/keep-alive/         ping do KV
+│   └── api/                    keep-alive (ping do KV) · preview/[id] · auth · comercial · contato
 ├── components/
 │   ├── templates/              os componentes do catálogo (por página e template_N)
 │   ├── gerador/                UI do editor (EditorRail, EditorLeftPanel, SectionsPanel, PreviewFrame…)
@@ -117,7 +117,7 @@ src/
 ├── utils/templateRegistry.ts   nome → componente
 ├── hooks/useLayoutGenerator.ts todo o estado do editor
 ├── lib/previewStore.ts         persistência do preview (KV em prod, arquivo em dev)
-└── styles/                     globals · editor-tokens · templates · storefront · preview · editor-canvas
+└── styles/                     globals · editor-tokens · templates · storefront · preview · editor-canvas · marca · site
 ```
 
 Cada card do modal "Componentes de seções" mostra

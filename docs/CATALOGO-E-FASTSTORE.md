@@ -29,10 +29,12 @@ e-temas/
 ├── catalogo-templates/           ← este projeto (mock/preview + JSON)
 ├── faststore.starter/            ← componentes REAIS da VTEX FastStore (referência)
 ├── produtos-template-generator/  ← monta o tema a partir do config.json
-└── global-templates/             ← catálogo Tray/Wake (trilha legada)
+├── global-templates/             ← componentes Tray, Wake e Nuvemshop
+├── checkout-vtex/                ← modelos de checkout VTEX + bancada
+└── nuvemshop-tema-base/          ← tema-base da trilha Nuvemshop
 ```
 
-Os quatro são repositórios git independentes, lado a lado. O mapa completo está em
+Os seis são repositórios git independentes, lado a lado. O mapa completo está em
 [../../CLAUDE.md](../../CLAUDE.md).
 
 ## Como os componentes do catálogo são organizados
@@ -62,6 +64,8 @@ Exemplo: o item `component: "Showcase01"` tem `path: "organisms/ProductShelfCust
 > (`ProductShelfCustom`, `ProductCard`, `Brands`). O `path` é o que amarra os dois.
 
 ## Mapa dos componentes VTEX (catálogo → faststore.starter)
+
+Mapa das famílias 01–07; das 08 em diante, o `path` de cada item em `layoutData.ts` é a referência.
 
 | Catálogo (`component`) | Pasta no catálogo | `path` → `faststore.starter/src/components/…` | Swiper? |
 |---|---|---|---|
@@ -211,8 +215,8 @@ mediria um ancestral que não governa nada. Dentro do iframe do canvas a viewpor
   e-temas. Achou 16 defeitos na primeira execução.
 - **`2-fidelidade`** (browser): casa nó a nó, por `data-role`, o componente real do
   starter (`/dev-fidelity`) com a réplica daqui (iframe do `/gerador`), em desktop e
-  mobile. Só cobre par com `data-role` espelhado dos DOIS lados — hoje **25**
-  componentes e ~9.800 asserções. Os itens anteriores a esta leva seguem sem prova
+  mobile. Só cobre par com `data-role` espelhado dos DOIS lados — hoje **232** pares
+  (conte `PARES` em `scripts/funil/lib/fidelidade.mjs`). Os itens anteriores a esta leva seguem sem prova
   de 1:1 (ver `ACHADOS-EM-ABERTO.md`).
 
 ### O que o `2-fidelidade` aprendeu no caminho
@@ -249,9 +253,8 @@ deles dispensa asserção; todos fazem os dois lados ficarem comparáveis:
    entre elas está cravado; o `:hover` é emulado em toda regra. Placar próprio;
    detalhe em `scripts/funil/README.md` (2f) e `lib/fidelidade-paleta.mjs`.
 
-> Componentes de templates **sem** `'VTEX'` em `platforms` (ex.: `Ruler02/04/05`,
-> `HomeCarousel06`, `ProductInfo02`, `BannerTripleSwiper05`) não têm `path` — são variantes
-> exclusivas de Tray/Wake. Mas **"sem `path`" não significa "não existe no starter"**: antes de
+> Hoje (11/11/2026) todo item tem `'VTEX'` e `path`. Quando um item novo chegar **sem** `'VTEX'`
+> nem `path`, lembre que **"sem `path`" não significa "não existe no starter"**: antes de
 > concluir que não há referência, procure pelo nome técnico em
 > `../faststore.starter/src/components/`. Foi assim que `Showcase06/07`, `Spot06/07`, `Header07`,
 > `Footer07`, `BannerMain06` e `TextArea` ganharam `path` — o equivalente já estava lá.

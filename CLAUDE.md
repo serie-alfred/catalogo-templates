@@ -28,7 +28,7 @@ There is no test runner. Verification is `yarn funil` — the stages in [scripts
 
 ### Required env vars
 
-`.env.example` lists all of them. The full set used at runtime:
+`.env.example` lists them (the `UPSTASH_REDIS_REST_URL`/`_TOKEN` fallback the KV code also reads is left out: it is an alternative to the `KV_*` pair). The full set used at runtime:
 
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `CONTACT_EMAIL` — used by [src/app/gerador/api/send-email/route.ts](src/app/gerador/api/send-email/route.ts) (Nodemailer; sends the exported layout JSON as an attachment).
 - `GOOGLE_FONTS_API_KEY` — used by [src/app/gerador/api/fonts/route.ts](src/app/gerador/api/fonts/route.ts) to proxy the Google Fonts list.
@@ -61,7 +61,7 @@ Next.js 15 App Router, React 19, TypeScript strict, CSS Modules + a few globals 
 ### Two route groups, two purposes
 
 - `(home)` — public marketing page ([src/app/(home)/page.tsx](<src/app/(home)/page.tsx>)), the "Provador" (see **Site público** below). Fonts via `next/font` in `(home)/fonts.ts`, loads `globals.css` + `site.css`. Its template cards come from the catalog and open the public viewer under `src/app/templates/` (see **Vitrine pública de templates**).
-- `gerador` — the interactive layout-builder tool. Split into two route groups, each with its **own root layout**: `(editor)` ([src/app/gerador/(editor)/page.tsx](<src/app/gerador/(editor)/page.tsx>), URL `/gerador`) loads `templates.css` + `globals.css` + `storefront.css` + `editor-canvas.css` + `editor-tokens.css` (in that order — the dark-mode lock in the last one has to win) and wraps children in `LayoutProvider`; `(frame)` (URL `/gerador/frame-mobile`) is the isolated document rendered inside the preview iframe. Route handlers under `src/app/gerador/api/**` sit outside both groups (they need no layout).
+- `gerador` — the interactive layout-builder tool. Split into two route groups, each with its **own root layout**: `(editor)` ([src/app/gerador/(editor)/page.tsx](<src/app/gerador/(editor)/page.tsx>), URL `/gerador`) loads `templates.css` + `globals.css` + `storefront.css` + `editor-tokens.css` + `marca.css` (editor-tokens after globals — its dark-mode lock has to win; `editor-canvas.css` belongs to `(frame)`) and wraps children in `LayoutProvider`; `(frame)` (URL `/gerador/frame-mobile`) is the isolated document rendered inside the preview iframe. Route handlers under `src/app/gerador/api/**` sit outside both groups (they need no layout).
   - **`next/font` is for the CHROME only.** Inter is loaded in the editor layout as `inter.variable` and applied on `.ed-shell`. It must never go on `<body>`: `ExportStage` mounts `ThemeRenderer` in this same document and no template declares its own `font-family`, so the generated class (0,1,0) would beat `body { font-family: var(--font-family) }` (0,0,1) and silently change the typography of the exported PNGs. The **theme** fonts stay runtime-selectable, as before.
 
 The two routes intentionally have separate `layout.tsx` files. Don't unify them.
@@ -85,7 +85,7 @@ A template is a React component plus a catalog entry. Two files always need to c
 3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`'Tray' | 'Wake' | 'Wake 2.0' | 'VTEX' | 'Nuvemshop'`), and `component` (the `TemplateRegistry` key). A component that must appear on **every** page (help float, newsletter pop-up, cookie bar) also declares `global: true` — see **Wake 2.0** below: it can't be a Design Studio block.
 
 > **Os dois lados saem de sincronia com facilidade, e em silêncio.** Hoje eles estão casados:
-> **100 componentes no registry, 100 `LayoutItem`s ativos, zero órfãos dos dois lados** — e o
+> **316 componentes no registry, 316 `LayoutItem`s ativos (11/11/2026), zero órfãos dos dois lados** — e o
 > `layoutData.ts` não tem mais nenhum item comentado. Foi assim que ficou depois que os 22 órfãos
 > (o tema **07 inteiro** incluído) viraram itens de verdade; antes, metade do catálogo estava
 > importada e invisível. Confira os dois sentidos antes de commitar:
@@ -113,7 +113,7 @@ A template is a React component plus a catalog entry. Two files always need to c
 
 Cada card do modal "Componentes de seções" mostra
 `public/images/gerador/<layoutKey>/<Component>.webp` — 744×401, que é 2× o slot
-(`.carouselImage` é `aspect-ratio: 334.667/180.333`). **Os 100 itens têm imagem**; o fallback
+(`.carouselImage` é `aspect-ratio: 334.667/180.333`). **Todos os itens têm imagem**; o fallback
 `placehold.co` em [SelectSectionItem](src/components/gerador/SelectSectionItem/index.tsx) só
 sobrevive como rede.
 
@@ -122,7 +122,7 @@ sobrevive como rede.
 - `design` (56) — mockup entregue pelo designer: as pastas V1–V3 (famílias 1, 2 e 5) e o `Lote2`
   de 23/09/2026 (famílias 1, 3, 4, 5, 6 e 7). Os mockups **não são versionados** (~80 MB de JPG e
   PNG); `scripts/thumbs/mapa.json` guarda o pareamento e o caminho da origem.
-- `auto` (44) — screenshot do componente real, tirado por `scripts/thumbs/auto.mjs`. Vale como
+- `auto` (260 em 11/11/2026) — screenshot do componente real, tirado por `scripts/thumbs/auto.mjs`. Vale como
   "ainda não veio do design". Não tenta imitar o estilo do mockup de propósito: um "quase igual"
   apagaria a distinção que este campo existe para manter.
 
@@ -136,7 +136,7 @@ onde o print era só placeholder, a arte inventa copy em inglês. Compare com o 
 `yarn thumbs` regera tudo, inclusive as thumbs dos templates completos da home (`thumbs:templates`,
 ver **Vitrine pública de templates**); os estágios `auto` e `templates` precisam de `yarn dev` de pé. Depois de mexer num
 componente, `THUMBS_SO=<Component> yarn thumbs:auto` refotografa só ele — a rodada inteira regrava
-os 44 prints, quase todos com bytes diferentes e nada visível mudado. **Duas travas impedem
+os ~260 prints, quase todos com bytes diferentes e nada visível mudado. **Duas travas impedem
 que uma rodada futura apague a arte do designer**: o componente estar em `mapa.json`, ou o item já
 estar marcado `imageSource: "design"`. O `aplicar.mjs` é idempotente e escreve o catálogo a partir
 do que existe **em disco** — apagar um `.webp` devolve o item ao placeholder sem editar TypeScript.
@@ -161,10 +161,10 @@ que é gerado — não edite à mão.
 
 ### Per-component variables (`variablesSchema`)
 
-A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **63 of the 100 active items declare one.** It is not a property of being VTEX-capable: `Header07`, `Footer07`, `Spot06/07` and `Showcase06/07` are VTEX and declare none — they were enabled from the registry orphans and nobody has authored their schemas yet. To count: `grep -c "variablesSchema:" src/data/layoutData.ts`. `Header01` has 8 vars: topbar/header/nav × bg+text, `--cart-text` and `--header-font`.
+A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/layoutData.ts](src/data/layoutData.ts)) to expose **per-instance** color/font overrides in the gerador. **301 of the 316 active items declare one (11/11/2026)**; the 15 without are image-only pieces (banners, `Brand01`, `Ruler04`, …) and `ProductRelated01`. To count: `grep -c "variablesSchema:" src/data/layoutData.ts`. `Header01` has 8 vars: topbar/header/nav × bg+text, `--cart-text` and `--header-font`.
 
 - `ComponentVariable = { cssVar, label, type: "color" | "font", default, group?, inheritsLabel? }`. `cssVar` is the literal CSS custom-property name written verbatim into `config.json` (e.g. `--header-topbar-bg`); `default` is the value the downstream SCSS uses as its `var()` fallback; `group` buckets fields in the panel; `inheritsLabel` is the friendly name of the global token shown while the field is still unset.
-- **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) _is_ the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because 37 of the 100 active items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
+- **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) _is_ the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because some items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
 - **State:** `LayoutSelection.variables?: Record<cssVar, value>` in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`); persisted with `selections` under the `layoutSelections` key of the tab's `sessionStorage`.
 - **Export:** `pickChangedVariables()` writes every schema key the user has set a value for, as a `variables` object on the entry — in both `buildConfigJson` (Tray/Wake) and `buildFaststoreConfigJson` (VTEX). It used to omit keys equal to the schema `default`, on the assumption that the downstream SCSS's `var()` fallback would land on that same default — but the real fallback is a 3-level chain (individual → global token → hardcoded default), and the *global token* in the middle isn't the schema default. A user picking white text that happens to match the default got the key omitted, the individual var never reached `:root`/the component, and the color silently became whatever the global token resolved to instead. Always emitting what was chosen is the only reading that can't regress this way.
 - Font values are stored as `'Family', sans-serif`; the panel parses the family out for `FontSelector` and re-wraps on change.
@@ -214,7 +214,7 @@ Uma **área à parte**, como o modo Checkout: o rail ganha o alternador **Landin
   mover, duplicar, remover e as variáveis funcionam sem um ramo por ação; o setter lê o modo de um
   ref. `selectedPage` vale `home` no modo LP. O histórico (`ThemeDoc.lp`) cobre as duas.
 - **Abre com a Black Friday** (`lpInicial(platform)`): as 8 seções 08 na ordem do Figma, com uid fixo
-  (SSR). Plataforma sem a 08 inteira (a Wake 2.0 e a Nuvemshop) abre com as mesmas 8 seções da 10. É ponto de
+  (SSR). Plataforma sem a 08 inteira (hoje só a Nuvemshop) abre com as mesmas 8 seções da 10. É ponto de
   partida, não tipo: trocar de plataforma com a LP inicial **intocada** a troca pela inicial do
   destino, sem o confirm de remoção (`changePlatform`).
 - **O que entra**: item com `pagina` `home` na plataforma. Header, footer, breadcrumb e spot são da
@@ -253,7 +253,7 @@ inteira na loja. Some no checkout e na LP.
   família (`template`) é completa quando cobre, na plataforma, `SLOTS_OBRIGATORIOS` — os singletons
   comuns de `sectionRules` (header, footer, breadcrumb, spot), `banner-main` e `showcase` na home,
   `category-main` e `product-info`. Família incompleta não aparece. Família nova (11, 12, 13) entra
-  sozinha quando cobrir os slots. Nome: `09 · Editorial` … `13 · Noturno`; as demais, `Template NN`
+  sozinha quando cobrir os slots. Nome: `09 · Editorial` … `17 · Pet`; as 01–08, `Template NN`
   (nada de nome de cliente: o repo é público).
 - **Aplicar** (`aplicarTemplate` no hook): troca TODAS as seções da loja pelas da família, uma por
   item, na ordem `ORDEM` (a da home segue o mapa do desenho das famílias 09–13; pop-up e ajuda
@@ -357,7 +357,7 @@ a loja num `<iframe>` (`…/frame`), pelo mesmo motivo do canvas: os drawers `fi
 `useLayoutGenerator.toggleSelection` is not a simple add — it enforces per-`selection` semantics that you must preserve when adding new selection types:
 
 - **`showcase`** — first one is added; clicking the same one again duplicates; clicking a _different_ showcase replaces all existing showcase entries in place (keeping their `pagina`).
-- **Singletons** (`category-main`, `category-banner`, `product-description`, `product-info`, `banner-top`, `banner-main`, `category-description`) — at most one per page; selecting a different one replaces in place.
+- **Singletons** (`PAGE_SINGLETON_SELECTIONS`: `category-main`, `category-banner`, `product-description`, `product-info`, `product-related`, `banner-top`, `banner-main`, `category-description`, `help-float`, `popup-news`) — at most one per page; selecting a different one replaces in place.
 - **`pagina === "common"`** — the code loops `item.pagina.map(...)` to produce one `LayoutSelection` per entry, but in practice **every item in `layoutData.ts` has a single-element `pagina`**, so a `common` item yields exactly ONE row; it's `belongsToPage` that makes it show up on all three pages. Re-selecting the same common item on the same `layoutKey` replaces the existing row.
 - Other items — appended, with a `MAX_PER_PAGE` (currently 101) cap per page.
 
@@ -458,7 +458,7 @@ before touching it.
   window. Inside the iframe the viewport **is** the storefront. Switching desktop↔mobile is pure CSS
   on the host — same document, no reload — and the `@container` queries resolve against the real width.
   - The bridge is `postMessage` ([frameMessage.ts](src/types/frameMessage.ts)): `hello`, `theme`
-    (coalesced per `requestAnimationFrame`), `content`, `highlight`, `scroll-to` downward; `ready`,
+    (coalesced per `requestAnimationFrame`), `content`, `selected`, `highlight`, `zoom`, `scroll-to` downward; `ready`,
     `select`, `hover`, `shortcut`, `section-action` upward.
   - **The handshake needs BOTH `hello` and `ready`.** The `<iframe>` is in the served HTML, so the
     browser starts fetching the child before the editor bundle finishes hydrating; with a bundle this
@@ -583,10 +583,9 @@ value.
 `changePlatform` **preserves what is compatible**. It used to be `setSelections([])`: every section on
 every page was wiped, variable overrides included, with no warning and no undo. Now
 `partitionByPlatform` splits by the item's `platforms`; survivors keep their `uid`, `pagina` and the
-very same `variables` object (same item ⇒ same schema ⇒ `pickChangedVariables` still compares against
-the same defaults). Losses raise a confirm listing them by name; cancelling changes nothing.
+very same `variables` object (same item ⇒ same schema, so every chosen value still has its field). Losses raise a confirm listing them by name; cancelling changes nothing.
 Tray↔Wake↔VTEX never loses anything — today every item is in all three (`platformCompat.ts`);
-going to Wake 2.0 drops everything outside families 09 to 17, and to Nuvemshop everything not ported.
+only going to Nuvemshop drops what was not ported.
 **Leaving VTEX leaves the checkout mode** (`modeForPlatform`): not only in `changePlatform` but in an effect on `platform`, because the
 hydration and `/gerador/import-log` also write it. Coming back to VTEX does not re-enter the mode.
 The `PlatformSelect` normally lives only under "Componentes"; in checkout mode (no "Componentes")
@@ -617,8 +616,7 @@ chegar as de `PLATFORMS`. Com ela ligada, cada família portada aparece no modal
   sem credencial, e o generator a escreve como o modelo alternativo de página de conteúdo
   `templates/pages/page.<slug>.json`. **Quem liga o modelo a uma página é o lojista, no admin**
   (Páginas → a página → menu "Modelo", com o layout publicado): isso não fica no tema. A 08 da LP
-  inicial não tem porte na Nuvemshop: ali a LP abre com as 8 seções da 10 (`lpInicial`), como na
-  Wake 2.0.
+  inicial não tem porte na Nuvemshop: ali a LP abre com as 8 seções da 10 (`lpInicial`).
 - **Export:** o ramo genérico do `buildConfigJson` (o de Tray/Wake) já sai como
   `{ platform: "nuvemshop", nuvemshop: { global, variables, assets, home, … } }`, com as 14 globais
   que o generator traduz para o painel "Marca" (`sa_*`, §2.1 A). **Nenhuma credencial**: não existe
@@ -659,12 +657,12 @@ a declaram (`'Wake 2.0'` no `platforms` de todo item Wake): as seções de home 
   `block_data ?? {}` com o conteúdo atual de fallback (padrão das famílias 09/10; contrato no
   `../global-templates/README.md`). Só PDP, categoria, header/footer e os globais não são bloco.
 - **Export:** o mesmo da Wake (`platform: "wake"`, `wakeToken`, `trilhaDe`), mais
-  `wake.designStudio: true` — no tema de loja e no da LP. O popup do token abre como na Wake e diz o
-  nome da plataforma escolhida ("Wake" ou "Wake (legado)").
+  `wake.designStudio: true` — no tema de loja e no da LP. O popup do token abre como na Wake e diz
+  "Wake" (a legado saiu do seletor; `sanitizePlatform` troca `'Wake'` por `'Wake 2.0'`).
 - **Sem aviso no painel** (desde 09/11/2026, a pedido): a caixa `[data-wake2-aviso]` do
   `EditorLeftPanel`, que listava o que o Design Studio edita e os pré-requisitos da loja, saiu.
-  Nenhuma das duas Wakes mostra texto de plataforma no painel; o `2-edicao` confere isso.
-- **LP:** tem modo LP; a LP inicial é a da 10 (não há 08), ver **Modo LP**.
+  A Wake não mostra texto de plataforma no painel; o `2-edicao` confere isso.
+- **LP:** tem modo LP; a LP inicial é a da 08 (a família 08 inteira declara `'Wake 2.0'` desde 10/11), ver **Modo LP**.
 - **Generator:** com `designStudio`, clona o tema-base da Wake na branch `baseStorefrontDs`; cada
   seção da home com `<selection>.schema.json` vira `Blocks/<type>.html|.schema.json`, entra no
   `content_for_page` da rota da home em `Configs/pages.json`, e o `<main>` de `Pages/home.html` ganha
@@ -678,7 +676,7 @@ a declaram (`'Wake 2.0'` no `platforms` de todo item Wake): as seções de home 
   toda página — nas duas Wakes. No global-templates o porte dele não tem `.schema.json` (contrato
   no `README.md` de lá). Também são singletons no editor (`PAGE_SINGLETON_SELECTIONS`). Item novo
   que deve aparecer em toda página: marque `global: true`.
-- **Funil:** `2-edicao` (popup das duas Wakes, e nenhum aviso no painel), `2-lp`, `2-templates`, `3-export` e
+- **Funil:** `2-edicao` (popup da Wake, o seletor sem a Wake legado, e nenhum aviso no painel), `2-lp`, `2-templates`, `3-export` e
   `5-contrato-tray-wake` a incluem sempre; `4-tema-tray-wake` monta a Wake 2.0 17 e confere blocos,
   `content_for_page` e wrapper.
 - **O canvas engana na comparação com a loja** (portes da família 01 para a Wake, 11/2026). Quem
@@ -718,7 +716,7 @@ redesign, so VTEX exports were silently dropping the brand assets.
 
 **Logo do rodapé** (`footerLogo`, 04/11/2026): o segundo card de "Identidade visual", para header
 claro + rodapé escuro (ou o contrário). Os rodapés que mostram o logo enviado (famílias 02–05,
-07–09, 11–16) leem `useLogoDoRodape()`; vazio, vale o `logo`, então config, preview e tema salvo de
+07–09, 11–17) leem `useLogoDoRodape()`; vazio, vale o `logo`, então config, preview e tema salvo de
 antes do campo continuam iguais. 01, 06 e 10 não mostram o logo do usuário. O header e o
 checkout continuam com o `logo`. Vai no snapshot (opcional), na mensagem `content` do iframe e em
 `assets.footerLogo` das três trilhas e da LP, sem redução (só o checkout reduz). No generator: Tray
@@ -889,8 +887,7 @@ compose dele com os placeholders do rodapé). Ver [scripts/funil/README.md](scri
 
 O SHA vendorizado é o `sha` de [src/data/checkout/VERSION.json](src/data/checkout/VERSION.json)
 — a única fonte dele no catálogo; nenhum doc ou comentário daqui repete o valor, que muda a cada
-`yarn checkout:sync` (e, enquanto o checkout-vtex não tem remote, pode ser um commit que só existe
-num snapshot local). O VERSION.json também diz `provisorio`, a origem de cada fixture e o sha256
+`yarn checkout:sync`. O VERSION.json também diz `provisorio`, a origem de cada fixture e o sha256
 de cada arquivo gravado. O que se desenha sobre o fundo do header e do rodapé (passo
 inativo, traço, texto do rodapé, cadeado) vem derivado do lib (gate0 #28, papéis fora do painel);
 o catálogo não calcula nada disso. O seletor de

@@ -118,14 +118,14 @@ Cada linha é um candidato a componente novo.
 | mockup | mostra | precisaria de |
 |---|---|---|
 | `V2/Base-10.jpg` | hero de PDP + grade de 4 atributos com icone + barra de abas | um product-highlights/abas na familia 2 (product/template_2 so tem ProductInfo) |
-| `V2/Base-11.jpg` | abas Descricao/Itens/Garantia + tabela de especificacoes zebrada | ProductDescription02 (product-description so existe em template_1) |
+| `V2/Base-11.jpg` | abas Descricao/Itens/Garantia + tabela de especificacoes zebrada | ProductDescription02 (product-description tem 01 e 09-17; nao ha 02) |
 | `V3/Base.jpg` | header de 1 fileira TRANSPARENTE sobre o hero + hero com titulo e CTA sobrepostos | um Header05 transparente: o Header05 do catalogo veio do faststore.starter e tem 3 andares opacos |
-| `V3/Base-5.jpg` | faixa de 5 logos de marca (GUCCI/CHANEL/asos/PRADA/GANT) | Brand05 (a secao brand so tem Brand01, familia 1) |
-| `V3/Base-9.jpg` | newsletter em 2 colunas, 2 inputs empilhados e botao abaixo | Newsletter05 (a secao newsletter so tem Newsletter07) |
+| `V3/Base-5.jpg` | faixa de 5 logos de marca (GUCCI/CHANEL/asos/PRADA/GANT) | Brand05 (a secao brand tem 01 e 09-17; nao ha 05) |
+| `V3/Base-9.jpg` | newsletter em 2 colunas, 2 inputs empilhados e botao abaixo | Newsletter05 (a secao newsletter tem 07-17; nao ha 05) |
 | `V3/Base-11.jpg` | banner-hero full-bleed no topo da categoria | um category-banner da familia 5 (nenhum item 05 tem pagina 'category') |
-| `V3/Base-12.jpg` | titulo da categoria + barra HORIZONTAL de filtros + ordenacao | CategoryMain05 ou CategoryTitle05 (categoryMain tem 01, 02, 06, 07) |
+| `V3/Base-12.jpg` | titulo da categoria + barra HORIZONTAL de filtros + ordenacao | CategoryMain05 ou CategoryTitle05 (categoryMain tem 01, 02, 06, 07 e 09-17; nao ha 05) |
 | `V3/Base-14.jpg` | acordeao de FAQ na PDP | CategoryDescription05 / um FAQ da familia 5 |
-| `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_23.png` | PLP inteira da loja do 03 (header, trilha, banner 'Camisetas', filtros e grade), tudo nitido e plano, em 1536x1024 | um CategoryMain03 (categoryMain tem 01, 02, 06, 07); nao e o CategoryMain02 — nenhum texto do print dele sobreviveu, e a grade tem 4 colunas contra 3 |
+| `Lote2/ChatGPT Image 18 de set. de 2026, 12_28_23.png` | PLP inteira da loja do 03 (header, trilha, banner 'Camisetas', filtros e grade), tudo nitido e plano, em 1536x1024 | um CategoryMain03 (categoryMain tem 01, 02, 06, 07 e 09-17; nao ha 03); nao e o CategoryMain02 — nenhum texto do print dele sobreviveu, e a grade tem 4 colunas contra 3 |
 
 ### Alternativas — o mesmo componente, num enquadramento pior
 

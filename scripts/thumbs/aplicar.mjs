@@ -1,5 +1,5 @@
 /**
- * Escreve `image`, `imageSource` e `imageSharedWith` nos 90 itens de layoutData.ts,
+ * Escreve `image`, `imageSource` e `imageSharedWith` em todos os itens de layoutData.ts,
  * a partir do que existe EM DISCO em public/images/gerador/.
  *
  * O disco é a fonte da verdade, não o inverso: um arquivo apagado devolve o item ao

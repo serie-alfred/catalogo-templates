@@ -143,10 +143,8 @@ O catálogo usa **CSS plano** (CSS Modules `.css`, PostCSS), não SCSS. Inverter
 - **Eliminar SCSS-only:** variáveis `$x`, `@mixin`/`@include`/`@extend`, e funções (`darken()`, `lighten()`, `color-mix()` se o alvo não suportar) → resolver para CSS plano ou hex equivalente. Se aparecer algo que não dá para resolver, avise.
 - **MANTER `var(--…)` verbatim** — é o que faz o preview refletir o tema e os overrides por instância.
 - **Reset global da preview — hoje o componente vence sozinho.** `src/styles/templates.css` tem
-  dois resets, e nenhum atrapalha mais: o de `.preview__area` **exclui explicitamente**
-  `.preview-template *` (comentário no arquivo: "NUNCA remova esta excecao"), e o que atinge os
-  templates usa `:where(.preview-template) button/input` — especificidade **(0,0,1) de
-  propósito**, para que qualquer classe própria do componente vença sem esforço. **Não prefixe
+  um reset só, e ele não atrapalha: `:where(.preview-template) button/input/ul/ol` — especificidade
+  **(0,0,1) de propósito**, para que qualquer classe própria do componente vença sem esforço. **Não prefixe
   seletores nem use `!important` por causa de reset**: escreva o CSS normalmente. (A orientação
   anterior, de prefixar com a classe raiz para chegar a (0,2,0), era para a regra antiga.)
 - **Peça NATIVA do FastStore no meio do componente? o CSS do core vem junto.** Quando a
@@ -182,7 +180,7 @@ Para cada match, monte um `ComponentVariable` (`{ cssVar, label, type, default, 
 
 1. **Dedup** por cssVar (mantém a 1ª ocorrência; se o default divergir entre ocorrências, avise).
 2. **`type`**: `"font"` se o token global ∈ {`--font-primary`,`--font-secundary`,`--font-tertiary`} **ou** o default tem `serif`/`sans-serif`/aspas; senão `"color"`. (Vale p/ A e B.)
-3. **`default`** = o default do SCSS **verbatim/byte-idêntico** (A = G3; B = G2) — `pickChangedVariables` compara contra ele no export. Defaults `rgba(…)` ficam como rgba (o `ColorPicker` é hex-only, mas swatch e diff funcionam; converter pra hex quebraria o byte-idêntico).
+3. **`default`** = o default do SCSS **verbatim/byte-idêntico** (A = G3; B = G2) — é o Nível 3 do SCSS e o que o painel mostra e restaura (o export leva todo valor escolhido, sem comparar). Defaults `rgba(…)` ficam como rgba (o `ColorPicker` é hex-only, mas swatch e diff funcionam; converter pra hex quebraria o byte-idêntico).
 4. **`inheritsLabel`** — **só no caminho A**, pela tabela fixa (preserve os typos). No caminho B, **omita o campo**.
 
    | G2 (token global) | `inheritsLabel` |
@@ -265,8 +263,8 @@ O generator confere boa parte disso em `src/platforms/wake/templatesWake.test.js
 ## Verificação
 
 1. `yarn lint` e `npx tsc --noEmit` (permitidos em `.claude/settings.local.json`) — garante que o import do registry, o `LayoutItem` e o CSS plano compilam (sem SCSS remanescente).
-2. `yarn dev` → `/gerador`: plataforma **VTEX** + página certa → o **card renderiza o preview** (não o PNG) ⇒ registry+component casam. Selecione → o **lápis** abre ⇒ `variablesSchema` não-vazio. Mude uma cor/fonte → **preview muda ao vivo** ⇒ SCSS lê `var(--<comp-var>)`.
-3. **Exportar** → no `config.json`, bloco `faststore` com `{ component: "organisms/<Nome>", title, key, variables? }`, e `variables` **só** com os valores alterados (via `pickChangedVariables`).
+2. `yarn dev` → `/gerador`: plataforma **VTEX** + página certa → o **canvas renderiza a seção** (sem o marcador vermelho) ⇒ registry+component casam. Selecione → o **painel da direita** mostra as variáveis ⇒ `variablesSchema` não-vazio. Depois, `THUMBS_SO=<Nome> yarn thumbs:auto` tira a thumb do card. Mude uma cor/fonte → **preview muda ao vivo** ⇒ SCSS lê `var(--<comp-var>)`.
+3. **Exportar** → no `config.json`, bloco `faststore` com `{ component: "organisms/<Nome>", title, key, variables? }`, e `variables` com os valores que o usuário escolheu (via `pickChangedVariables`).
 
 ## Checklist final
 
