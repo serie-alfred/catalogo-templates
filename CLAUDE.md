@@ -681,6 +681,22 @@ a declaram (`'Wake 2.0'` no `platforms` de todo item Wake): as seções de home 
 - **Funil:** `2-edicao` (popup das duas Wakes, e nenhum aviso no painel), `2-lp`, `2-templates`, `3-export` e
   `5-contrato-tray-wake` a incluem sempre; `4-tema-tray-wake` monta a Wake 2.0 17 e confere blocos,
   `content_for_page` e wrapper.
+- **O canvas engana na comparação com a loja** (portes da família 01 para a Wake, 11/2026). Quem
+  compara o `/gerador` com um tema gerado precisa saber:
+  - **Fonte sem declaração = `'Noto Sans'` do editor** (`globals.css`, `--font-family`), e a fonte
+    nem é baixada (vira a sans-serif do sistema). Isso não é a fonte da loja. Na loja, texto sem
+    fonte declarada sai na **secundária** (contrato: título → primária, texto → secundária). Num
+    componente novo, declare a fonte de todo texto, para o canvas mostrar o que a loja vai mostrar.
+  - **Container de 1200px/15px** é o do canvas. A Wake usa o do tema (1360px/20px) em header,
+    breadcrumb, categoria, PDP e rodapé: a largura difere por isso, e o porte segue o tema.
+  - **`@container` da réplica vira `@media` na loja** (o componente lá ocupa a janela). Teste a
+    réplica no canvas em larguras intermediárias (1024–1300px), não só em 1440 e 390.
+  - **Contraste com a paleta do usuário:** a réplica do Header 01 pinta a lupa com
+    `--header-text` sobre o campo branco, e o "Não sei meu CEP" do ProductInfo01 herda a cor do
+    texto do header. Numa paleta com header escuro, os dois somem no canvas e na loja. Na Wake os
+    dois foram corrigidos no porte; na réplica continuam assim.
+  - O checklist do que o porte para a Wake precisa está no `README.md` do `global-templates`
+    ("Checklist de todo componente Wake").
 
 ### Export flow
 
