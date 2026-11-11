@@ -388,7 +388,9 @@
 }
 
 .footer .footerTop .topContainer .topRow .footerRight .topMenu ul li a:hover {
-  color: #fff;
+  /* a cor do texto do rodapé, mais clara: #fff sumia em rodapé de fundo claro */
+  color: var(--text-color-footer);
+  opacity: 0.7;
   transition: ease-in-out 0.2s;
 }
 
