@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
+import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
 
 const Header = () => {
   const { logo } = useLayout();
+  // Mini-cart: o mesmo CartSidebar01 do Header01 (a Wake usa o mesmo minicart nas duas famílias).
+  const [cartOpen, setCartOpen] = useState(false);
   // Dados fixos para substituir as variáveis Twig
   const storeInfo = {
     name: 'logo',
@@ -27,6 +31,7 @@ const Header = () => {
   };
 
   return (
+    <>
     <header className={styles.header} data-role="hd-root">
       {/* Header Top */}
       <div className={styles.headerTop} data-role="hd-topbar">
@@ -396,7 +401,20 @@ const Header = () => {
               </div>
 
               <div className={styles.configCart}>
-                <div className={styles.cartWrapper} data-role="hd-cart">
+                <div
+                  className={styles.cartWrapper}
+                  data-role="hd-cart"
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Abrir carrinho, ${cartInfo.amount} itens`}
+                  onClick={() => setCartOpen(true)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setCartOpen(true);
+                    }
+                  }}
+                >
                   <svg
                     fill="none"
                     height="24"
@@ -470,11 +488,11 @@ const Header = () => {
                         ></path>
                       </svg>
                     </a>
-                    <div className={styles.submenuWrapper}>
+                    <div className={`${styles.submenuWrapper} ${styles.submenu__wrapper}`}>
                       <div
-                        className={`${styles.submenu__container} component__container`}
+                        className={`${styles.submenuContainer} ${styles.submenu__container} component__container`}
                       >
-                        <div className={styles.submenu__inner}>
+                        <div className={`${styles.submenuInner} ${styles.submenu__inner}`}>
                           <ul
                             className={`${styles.submenuL1} ${styles.sub1} ${styles.categoriesL2}`}
                           >
@@ -614,6 +632,10 @@ const Header = () => {
         </div>
       </div>
     </header>
+
+    {/* ── MINI-CART (CartSidebar01, o mesmo do Header01) ── */}
+    <CartSidebar01 open={cartOpen} onClose={() => setCartOpen(false)} />
+    </>
   );
 };
 
