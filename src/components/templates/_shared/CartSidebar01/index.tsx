@@ -71,13 +71,15 @@ export default function CartSidebar01({
   const [removed, setRemoved] = useState(false);
 
   // Trava o scroll do documento enquanto o drawer está aberto (mesmo efeito do
-  // Overlay do @faststore/ui).
+  // Overlay do @faststore/ui). No <html>, não no <body>: com o overflow-x do html, o
+  // overflow: hidden no body o torna container de rolagem e o header sticky deixa de
+  // grudar na janela — sumia ao abrir o carrinho com a página rolada.
   useEffect(() => {
     if (!open) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const previous = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = previous;
+      document.documentElement.style.overflow = previous;
     };
   }, [open]);
 

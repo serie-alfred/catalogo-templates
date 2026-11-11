@@ -244,9 +244,9 @@ const HeaderNovo = () => {
   // Trava o scroll enquanto o drawer/overlay está aberto.
   useEffect(() => {
     const lock = drawerOpen || searchOpen;
-    document.body.style.overflow = lock ? 'hidden' : '';
+    document.documentElement.style.overflow = lock ? 'hidden' : '';
     return () => {
-      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [drawerOpen, searchOpen]);
 

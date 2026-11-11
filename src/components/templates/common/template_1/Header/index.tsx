@@ -111,9 +111,9 @@ export default function Header() {
   const suggestionProducts = term.trim() ? buildSuggestionProducts(term) : [];
 
   useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? 'hidden' : '';
+    document.documentElement.style.overflow = mobileMenuOpen ? 'hidden' : '';
     return () => {
-      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [mobileMenuOpen]);
 

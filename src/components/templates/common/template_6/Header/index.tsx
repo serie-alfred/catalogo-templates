@@ -374,9 +374,9 @@ export default function Header06() {
   // ── Trava de scroll do body ──
   useEffect(() => {
     const lock = mobileOpen || mobileSearchOpen;
-    document.body.style.overflow = lock ? 'hidden' : '';
+    document.documentElement.style.overflow = lock ? 'hidden' : '';
     return () => {
-      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [mobileOpen, mobileSearchOpen]);
 

@@ -538,12 +538,12 @@ export default function CategoryMain16() {
   useEffect(() => {
     if (!panelOpen) return;
     closeRef.current?.focus();
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const prev = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && closePanel();
     document.addEventListener('keydown', onKey);
     return () => {
-      document.body.style.overflow = prev;
+      document.documentElement.style.overflow = prev;
       document.removeEventListener('keydown', onKey);
     };
   }, [panelOpen]);

@@ -227,12 +227,12 @@ export default function ProductInfo13() {
       if (e.key === 'Escape') setGuideOpen(false);
     };
     document.addEventListener('keydown', onKey);
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    const prev = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = 'hidden';
     const trigger = guideTriggerRef.current;
     return () => {
       document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = prev;
+      document.documentElement.style.overflow = prev;
       trigger?.focus();
     };
   }, [guideOpen]);

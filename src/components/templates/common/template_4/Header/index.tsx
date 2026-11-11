@@ -239,9 +239,9 @@ export default function Header04() {
   // ── Trava o scroll do documento com overlay/drawer aberto ──
   useEffect(() => {
     const lock = searchOpen || mobileOpen;
-    document.body.style.overflow = lock ? 'hidden' : '';
+    document.documentElement.style.overflow = lock ? 'hidden' : '';
     return () => {
-      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [searchOpen, mobileOpen]);
 

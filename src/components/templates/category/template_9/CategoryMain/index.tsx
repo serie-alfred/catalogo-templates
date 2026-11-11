@@ -390,8 +390,8 @@ export default function CategoryMain09() {
     if (!panelOpen) return;
     closeRef.current?.focus();
     const doc = closeRef.current?.ownerDocument ?? document;
-    const prev = doc.body.style.overflow;
-    doc.body.style.overflow = 'hidden';
+    const prev = doc.documentElement.style.overflow;
+    doc.documentElement.style.overflow = 'hidden';
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setPanelOpen(false);
@@ -400,7 +400,7 @@ export default function CategoryMain09() {
     };
     doc.addEventListener('keydown', onKey);
     return () => {
-      doc.body.style.overflow = prev;
+      doc.documentElement.style.overflow = prev;
       doc.removeEventListener('keydown', onKey);
     };
   }, [panelOpen]);

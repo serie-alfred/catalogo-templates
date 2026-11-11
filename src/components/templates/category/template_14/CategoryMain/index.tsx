@@ -373,12 +373,12 @@ export default function CategoryMain14() {
     if (!panelOpen) return;
     closeRef.current?.focus();
     const doc = closeRef.current?.ownerDocument ?? document;
-    const prev = doc.body.style.overflow;
-    doc.body.style.overflow = 'hidden';
+    const prev = doc.documentElement.style.overflow;
+    doc.documentElement.style.overflow = 'hidden';
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && closePanel();
     doc.addEventListener('keydown', onKey);
     return () => {
-      doc.body.style.overflow = prev;
+      doc.documentElement.style.overflow = prev;
       doc.removeEventListener('keydown', onKey);
     };
   }, [panelOpen]);

@@ -177,9 +177,9 @@ const CategoryMain = () => {
   // Trava o scroll enquanto um dos painéis mobile está aberto.
   useEffect(() => {
     const lock = filterOpen || sortOpen;
-    document.body.style.overflow = lock ? 'hidden' : '';
+    document.documentElement.style.overflow = lock ? 'hidden' : '';
     return () => {
-      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
     };
   }, [filterOpen, sortOpen]);
 
