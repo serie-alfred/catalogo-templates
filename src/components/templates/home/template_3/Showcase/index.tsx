@@ -90,7 +90,7 @@ export default function Showcase() {
                 itemScope
                 itemType="https://schema.org/SomeProducts"
               >
-                {Component ? <Component /> : <Spot />}
+                {Component ? <Component soCard /> : <Spot />}
               </SwiperSlide>
             ))}
           </Swiper>

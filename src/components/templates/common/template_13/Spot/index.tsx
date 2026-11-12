@@ -245,8 +245,16 @@ export function ProductCard13({
  * "Drop 07"; no mobile, 2 colunas sem a do hover. A coluna Hover pinta o estado de hover por
  * CSS (fim da folha); lá, o comparador passa o mouse.
  */
-export default function Spot13() {
+export default function Spot13({ soCard = false }: { soCard?: boolean }) {
   const [padrao] = PRODUTOS_13;
+  // Dentro de uma vitrine/lista de outro template o spot é só o card, não o quadro do desenho.
+  if (soCard)
+    return (
+      <div className={styles.productCard13Box}>
+        <link rel="stylesheet" href={FONTES_13} />
+        <ProductCard13 product={padrao} badge={ROTULO_13} />
+      </div>
+    );
   const colunas = [
     { rotulo: 'Padrão', produto: padrao, hover: false },
     { rotulo: 'Hover', produto: padrao, hover: true },

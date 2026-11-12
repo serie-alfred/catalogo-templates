@@ -59,7 +59,7 @@ export default function Showcase() {
                           itemScope
                           itemType="https://schema.org/SomeProducts"
                         >
-                          <SpotComponent />
+                          <SpotComponent soCard />
                         </div>
                       ))
                     ) : (

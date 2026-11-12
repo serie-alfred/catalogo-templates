@@ -631,7 +631,7 @@ const CategoryMain = () => {
                                   : undefined;
                                 return SpotComponent ? (
                                   <div style={spot?.variables as React.CSSProperties}>
-                                    <SpotComponent />
+                                    <SpotComponent soCard />
                                   </div>
                                 ) : (
                                   <div>

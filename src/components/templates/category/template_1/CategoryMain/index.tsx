@@ -571,7 +571,7 @@ const CategoryMain = () => {
                                               spot.variables as React.CSSProperties
                                             }
                                           >
-                                            <SpotComponent />
+                                            <SpotComponent soCard />
                                           </div>
                                         ))
                                       ) : (

@@ -91,7 +91,7 @@ export default function ProductRelated() {
                 itemScope
                 itemType="https://schema.org/SomeProducts"
               >
-                {Component ? <Component /> : <Spot />}
+                {Component ? <Component soCard /> : <Spot />}
               </SwiperSlide>
             ))}
           </Swiper>
