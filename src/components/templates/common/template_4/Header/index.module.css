@@ -95,8 +95,9 @@
   border-radius: 50%;
   transition: background var(--h4-t-fast), opacity var(--h4-t-fast), transform var(--h4-t-fast);
 }
+/* Hover = um tom da cor do texto (não um cinza escuro fixo, que some num header escuro). */
 .iconBtn:hover {
-  background: rgba(10, 10, 10, 0.055);
+  background: color-mix(in srgb, currentColor 5.5%, transparent);
 }
 .iconBtn:active {
   transform: scale(0.96);
@@ -295,7 +296,7 @@
   transition: background var(--h4-t-fast), transform var(--h4-t-fast);
 }
 .hamburger:hover {
-  background: rgba(10, 10, 10, 0.055);
+  background: color-mix(in srgb, currentColor 5.5%, transparent);
 }
 .hamburger:active {
   transform: scale(0.96);
@@ -396,8 +397,12 @@
   font-size: 14px;
   color: var(--header-text, var(--text-color-base, #0a0a0a));
 }
+/* Hover sem trocar a cor do texto: a cor de destaque pode ser a do painel (paleta escura com
+   destaque = fundo) e o link sumia. */
 .megaCol a:hover {
-  color: var(--header-accent, var(--background-secundary-color, #0a0a0a));
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
 }
 
 .megaImage img {
@@ -830,10 +835,14 @@
     text-transform: uppercase;
     opacity: 0.95;
   }
+  /* Hover = o sublinhado do item ativo, na cor do texto: a cor de destaque podia ser a do
+     fundo do header e o item sumia. */
   .desktopNav button:hover,
   .desktopNav a:hover {
-    color: var(--header-accent, var(--background-secundary-color, #0a0a0a));
     opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 1px;
   }
   .desktopNav .active {
     text-decoration: underline;

@@ -97,8 +97,10 @@
   color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #ffffff)) 48%, transparent);
 }
 
+/* Foco sem anel nem troca de cor: a borda fica a mesma de antes do foco. */
 .footer04 .fieldLine:focus {
-  border-bottom-color: var(--footer-text, var(--text-color-footer, #ffffff));
+  outline: none;
+  box-shadow: none;
 }
 
 .footer04 .mobileNlBtn {
@@ -177,7 +179,8 @@
 }
 
 .footer04 .dnlInput:focus {
-  border-color: var(--footer-text, var(--text-color-footer, #ffffff));
+  outline: none;
+  box-shadow: none;
 }
 
 .footer04 .dnlBtn {

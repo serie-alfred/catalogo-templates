@@ -12,8 +12,9 @@ const data = {
   brandName: 'MANU',
   brandTagline: 'EST. 2018',
   brandDescription: 'Alfaiataria contemporânea para o homem moderno.',
-  address:
-    'Showroom - Rua Oscar Freire, 800\nSão Paulo, SP · 01426-001\nSegunda a Sábado, 10h-19h',
+  // Só marcadores para a loja preencher: nada de endereço ou razão social inventados (o mesmo
+  // texto do ft04_endereco / ft04_copyright da Wake).
+  address: '[Endereço completo]\n[Cidade], [UF] · [CEP]\n[Horário de atendimento]',
   socials: [
     { label: 'Instagram', url: '#' },
     { label: 'Pinterest', url: '#' },
@@ -56,7 +57,7 @@ const data = {
   ],
   newsletterPlaceholder: 'seu@email.com',
   newsletterButtonLabel: 'Entrar',
-  copyright: '© 2026 MANU Moda Masculina Ltda. Todos os direitos reservados.',
+  copyright: '© 2026 [SUA MARCA]. Todos os direitos reservados.',
   legalLinks: [
     { name: 'Política de Privacidade', url: '#' },
     { name: 'Termos de Uso', url: '#' },

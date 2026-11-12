@@ -211,7 +211,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-topbar-text", label: "Texto/ícones da barra superior", type: "color", default: "#ffffff", group: "Barra superior", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-text", label: "Texto/ícones do header", type: "color", default: "#0a0a0a", group: "Header", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--header-accent", label: "Cor de destaque (badge, hover, menu)", type: "color", default: "#0a0a0a", group: "Destaque", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--header-accent", label: "Cor de destaque (selo da sacola)", type: "color", default: "#0a0a0a", group: "Destaque", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--header-accent-text", label: "Texto sobre o destaque", type: "color", default: "#ffffff", group: "Destaque", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--header-strip-bg", label: "Fundo da faixa de benefícios", type: "color", default: "#f5f5f5", group: "Faixa de benefícios", inheritsLabel: "cor primária da marca", previewNote: "Só na visão Desktop — alterne no topo do editor." },
         { cssVar: "--header-strip-text", label: "Texto da faixa de benefícios", type: "color", default: "#6b6b6b", group: "Faixa de benefícios", inheritsLabel: "cor de texto primária", previewNote: "Só na visão Desktop — alterne no topo do editor." },
