@@ -693,6 +693,15 @@ a declaram (`'Wake 2.0'` no `platforms` de todo item Wake): as seções de home 
     `--header-text` sobre o campo branco, e o "Não sei meu CEP" do ProductInfo01 herda a cor do
     texto do header. Numa paleta com header escuro, os dois somem no canvas e na loja. Na Wake os
     dois foram corrigidos no porte; na réplica continuam assim.
+  - **Marca sem logo = `SERIE//A`**, na réplica e na Wake (slot `hdNN_logo`/`ftNN_logo`), nunca
+    uma marca de demonstração ("NORTE" saiu no Header/Footer 03 da Wake). Linha legal/CNPJ só com
+    marcadores que a loja edita (`[RAZÃO SOCIAL] · CNPJ [00.000.000/0001-00] · [Endereço
+    completo]`), nada de empresa, CNPJ ou endereço inventados.
+  - **Destaque igual ao fundo apaga o hover:** com fundo e destaque escuros, texto que vira
+    `--header-accent` no hover some. Hover de menu e caminho aberto = fundo tingido pela cor do
+    texto; submenu abre ao lado do painel (`left: 100%`; na borda direita, `right: 100%`).
+  - **Marquee: duas metades iguais + `translateX(-50%)`**, sem padding/gap no trilho, e cada
+    metade mais larga que a tela (Header03, Header14, Ruler14 — meça em 2560 também).
   - O checklist do que o porte para a Wake precisa está no `README.md` do `global-templates`
     ("Checklist de todo componente Wake").
 

@@ -54,7 +54,8 @@
   font-weight: 800;
   letter-spacing: 0.01em;
   text-transform: uppercase;
-  animation: corre14 34s linear infinite;
+  /* 4 cópias da lista: 68s = a velocidade de 2 cópias em 34s */
+  animation: corre14 68s linear infinite;
 }
 
 .list {

@@ -513,9 +513,10 @@ const FooterNovo = () => {
           <span className={styles.legalBrand}>
             © 2026 BRAND<span>.</span> Todos os direitos reservados.
           </span>
+          {/* Só marcadores para a loja preencher: nada de razão social, CNPJ ou endereço
+              inventados (o mesmo texto do ft03_legal da Wake). */}
           <span className={styles.legalCnpj}>
-            Sua Loja Ltda. · CNPJ 00.000.000/0001-00 · Rua&nbsp;Augusta,
-            2.840 — São&nbsp;Paulo, SP
+            [RAZÃO SOCIAL] · CNPJ [00.000.000/0001-00] · [Endereço completo]
           </span>
           <a href="#" className={styles.legalPlatform}>
             <span className={styles.legalPlatformBrand}>

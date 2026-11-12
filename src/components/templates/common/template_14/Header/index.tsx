@@ -260,8 +260,9 @@ export default function Header14() {
           {mensagens.length > 0 && (
             <div className={styles.topbar} data-role="hd-topbar">
               <div className={styles.tape}>
-                {/* Duas metades iguais: a animação anda -50% e emenda. Só a 1ª volta é lida. */}
-                {[0, 1, 2, 3].map(volta => (
+                {/* Duas metades iguais de 4 voltas: a animação anda -50% e emenda, e 4 voltas cobrem
+                    uma tela de 2560px. Só a 1ª volta é lida. */}
+                {[0, 1, 2, 3, 4, 5, 6, 7].map(volta => (
                   <span key={volta} className={styles.lap} {...(volta ? { 'aria-hidden': true } : {})}>
                     {mensagens.map((m, i) => (
                       <React.Fragment key={i}>

@@ -8,7 +8,8 @@ import styles from './index.module.css';
  * Espelha `molecules/BenefitsStrip14` do faststore.starter (família 14, Esportiva; desenho
  * `Ruler14` / `Ruler14-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as
  * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
- * A faixa corre de lado (34s) com a lista duplicada (a cópia `aria-hidden`) e para com
+ * A faixa corre de lado com a lista quatro vezes (as cópias `aria-hidden`; -50% = duas listas,
+ * que cobrem uma tela de 2560px) e para com
  * `prefers-reduced-motion` — desvio aprovado da 14, igual a lá.
  */
 type BenefitsStrip14Icon = 'truck' | 'card' | 'exchange' | 'store' | 'clock';
@@ -115,8 +116,9 @@ export default function Ruler14() {
       >
         <link rel="stylesheet" href={FONTES_14} />
         <div className={styles.tape}>
-          {lista(false)}
-          {lista(true)}
+          {[false, true, true, true].map((copia, i) => (
+            <React.Fragment key={i}>{lista(copia)}</React.Fragment>
+          ))}
         </div>
       </section>
     </div>

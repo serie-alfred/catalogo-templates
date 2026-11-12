@@ -307,10 +307,10 @@ const HeaderNovo = () => {
     </>
   );
 
-  // Marquee infinito: o track tem MARQUEE_GROUPS grupos idÃªnticos e a animaÃ§Ã£o
-  // avanÃ§a exatamente um grupo (translateX(-50%) com 2 grupos), entÃ£o a emenda Ã©
-  // invisÃ­vel. MARQUEE_REPEATS existe para um grupo sozinho ser mais largo que a
-  // tela â com pouco conteÃºdo, sobra Ã¡rea vazia no fim do ciclo e a faixa pisca.
+  // Marquee infinito: o track tem MARQUEE_GROUPS grupos idênticos e a animação
+  // avança exatamente um grupo (translateX(-50%) com 2 grupos), então a emenda é
+  // invisível. MARQUEE_REPEATS existe para um grupo sozinho ser mais largo que a
+  // tela — com pouco conteúdo, sobra área vazia no fim do ciclo e a faixa pisca.
   const MARQUEE_GROUPS = 2;
   const MARQUEE_REPEATS = 4;
 
@@ -327,7 +327,7 @@ const HeaderNovo = () => {
                     <span
                       key={`${group}-${repeat}-${i}`}
                       className={styles.topbarItem}
-                      // sÃ³ a 1Âª passada Ã© anunciada; o resto Ã© duplicata visual
+                      // só a 1ª passada é anunciada; o resto é duplicata visual
                       aria-hidden={group > 0 || repeat > 0 || undefined}
                     >
                       {item}
