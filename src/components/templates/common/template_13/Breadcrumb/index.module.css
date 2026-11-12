@@ -9,9 +9,9 @@
 
 .breadcrumb13 {
   width: 100%;
-  border-bottom: 1px solid color-mix(in srgb, var(--breadcrumb-text, #f4f4f0) 16%, var(--breadcrumb-bg, #0d0d0d));
-  background-color: var(--breadcrumb-bg, #0d0d0d);
-  color: var(--breadcrumb-text, #f4f4f0);
+  border-bottom: 1px solid color-mix(in srgb, var(--breadcrumb-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--breadcrumb-bg, var(--background-secundary-color, #0d0d0d)));
+  background-color: var(--breadcrumb-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--breadcrumb-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--breadcrumb-title-font, var(--font-primary, 'Barlow Condensed', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
@@ -32,7 +32,7 @@
   opacity: 0.8;
 }
 .breadcrumb13 :where(a):focus-visible {
-  outline: 2px solid var(--breadcrumb-accent, #c8ff2e);
+  outline: 2px solid var(--breadcrumb-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 .breadcrumb13 :where(ol) {
@@ -68,18 +68,18 @@
 .link {
   display: block;
   padding: 10px 0;
-  color: color-mix(in srgb, var(--breadcrumb-text, #f4f4f0) 64%, var(--breadcrumb-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--breadcrumb-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .sep {
-  color: var(--breadcrumb-accent, #c8ff2e);
+  color: var(--breadcrumb-accent, var(--background-primary-color, #c8ff2e));
   font-weight: 800;
 }
 
 .current {
   display: block;
   padding: 10px 0 8px;
-  border-bottom: 2px solid var(--breadcrumb-accent, #c8ff2e);
+  border-bottom: 2px solid var(--breadcrumb-accent, var(--background-primary-color, #c8ff2e));
 }
 
 .currentText {
@@ -116,7 +116,7 @@
   }
   .currentText {
     padding-bottom: 2px;
-    border-bottom: 2px solid var(--breadcrumb-accent, #c8ff2e);
+    border-bottom: 2px solid var(--breadcrumb-accent, var(--background-primary-color, #c8ff2e));
   }
 }
 

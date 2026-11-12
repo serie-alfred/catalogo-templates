@@ -10,7 +10,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--popup-text, #f4f4f0);
+  color: var(--popup-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--popup-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
@@ -39,7 +39,7 @@
   cursor: pointer;
 }
 .popupNews13 :where(a, button, input):focus-visible {
-  outline: 2px solid var(--popup-button-bg, #c8ff2e);
+  outline: 2px solid var(--popup-button-bg, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 .popupNews13 svg {
@@ -61,15 +61,15 @@
   min-height: 520px;
   max-height: calc(100dvh - 32px);
   overflow-y: auto;
-  border: 1px solid color-mix(in srgb, var(--popup-text, #f4f4f0) 16%, var(--popup-bg, #0d0d0d));
-  background-color: var(--popup-bg, #0d0d0d);
+  border: 1px solid color-mix(in srgb, var(--popup-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--popup-bg, var(--background-secundary-color, #0d0d0d)));
+  background-color: var(--popup-bg, var(--background-secundary-color, #0d0d0d));
   outline: none;
 }
 
 .media {
   position: relative;
   flex: 0 0 320px;
-  background-color: #262626;
+  background-color: color-mix(in srgb, var(--popup-text, var(--text-color-secundary, #f4f4f0)) 11%, var(--popup-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .media img {
   position: absolute;
@@ -103,14 +103,14 @@
   justify-content: center;
   width: 50px;
   height: 50px;
-  border: 1px solid color-mix(in srgb, var(--popup-text, #f4f4f0) 16%, var(--popup-bg, #0d0d0d));
+  border: 1px solid color-mix(in srgb, var(--popup-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--popup-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .eyebrow {
   align-self: flex-start;
   padding: 5px 9px;
-  background-color: var(--popup-button-bg, #c8ff2e);
-  color: var(--popup-button-text, #0d0d0d);
+  background-color: var(--popup-button-bg, var(--background-primary-color, #c8ff2e));
+  color: var(--popup-button-text, var(--text-color-base, #0d0d0d));
   font-family: var(--popup-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 15px;
   font-weight: 800;
@@ -127,7 +127,7 @@
 }
 
 .text {
-  color: color-mix(in srgb, var(--popup-text, #f4f4f0) 64%, var(--popup-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--popup-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--popup-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 15px;
   line-height: 1.5;
 }
@@ -143,30 +143,30 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  color: color-mix(in srgb, var(--popup-text, #f4f4f0) 64%, var(--popup-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--popup-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--popup-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 13px;
 }
 
 .input {
   height: 48px;
   padding: 0 14px;
-  border: 1px solid var(--popup-text, #f4f4f0);
+  border: 1px solid var(--popup-text, var(--text-color-secundary, #f4f4f0));
   border-radius: 0;
   outline: none;
   background: transparent;
-  color: var(--popup-text, #f4f4f0);
+  color: var(--popup-text, var(--text-color-secundary, #f4f4f0));
   font: inherit;
   font-size: 16px;
 }
 .input::placeholder {
-  color: color-mix(in srgb, var(--popup-text, #f4f4f0) 50%, var(--popup-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--popup-text, var(--text-color-secundary, #f4f4f0)) 50%, var(--popup-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .submit {
   height: 54px;
   margin-top: 4px;
-  background-color: var(--popup-button-bg, #c8ff2e);
-  color: var(--popup-button-text, #0d0d0d);
+  background-color: var(--popup-button-bg, var(--background-primary-color, #c8ff2e));
+  color: var(--popup-button-text, var(--text-color-base, #0d0d0d));
   font-family: var(--popup-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 20px;
   font-weight: 800;
@@ -187,7 +187,7 @@
 }
 
 .privacy {
-  color: color-mix(in srgb, var(--popup-text, #f4f4f0) 64%, var(--popup-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--popup-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--popup-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 12px;
   line-height: 1.45;
 }
@@ -199,7 +199,7 @@
 .dismiss {
   align-self: flex-start;
   min-height: 44px;
-  color: color-mix(in srgb, var(--popup-text, #f4f4f0) 64%, var(--popup-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--popup-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--popup-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 14px;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -215,7 +215,7 @@
     min-height: 0;
     max-height: 100dvh;
     border: 0;
-    border-top: 2px solid var(--popup-button-bg, #c8ff2e);
+    border-top: 2px solid var(--popup-button-bg, var(--background-primary-color, #c8ff2e));
   }
   .media {
     display: none;

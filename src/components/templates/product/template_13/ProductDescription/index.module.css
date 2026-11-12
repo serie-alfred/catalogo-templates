@@ -5,8 +5,8 @@
 
 .productDescription13 {
   width: 100%;
-  background-color: var(--prod-desc-bg, #0d0d0d);
-  color: var(--prod-desc-text, #f4f4f0);
+  background-color: var(--prod-desc-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--prod-desc-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--prod-desc-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
@@ -51,7 +51,7 @@
 
 .intro {
   max-width: 480px;
-  color: color-mix(in srgb, var(--prod-desc-text, #f4f4f0) 64%, var(--prod-desc-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--prod-desc-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 17px;
   line-height: 1.55;
 }
@@ -62,7 +62,7 @@
   margin-top: 0.8em;
 }
 .intro a {
-  color: var(--prod-desc-text, #f4f4f0);
+  color: var(--prod-desc-text, var(--text-color-secundary, #f4f4f0));
   text-decoration: underline;
 }
 
@@ -78,12 +78,12 @@
   gap: 14px;
   min-height: 280px;
   padding: 28px;
-  border: 1px solid color-mix(in srgb, var(--prod-desc-text, #f4f4f0) 16%, var(--prod-desc-bg, #0d0d0d));
-  background-color: color-mix(in srgb, var(--prod-desc-text, #f4f4f0) 7%, var(--prod-desc-bg, #0d0d0d));
+  border: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--prod-desc-bg, var(--background-secundary-color, #0d0d0d)));
+  background-color: color-mix(in srgb, var(--prod-desc-text, var(--text-color-secundary, #f4f4f0)) 7%, var(--prod-desc-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .cardNum {
-  color: var(--prod-desc-accent, #c8ff2e);
+  color: var(--prod-desc-accent, var(--background-primary-color, #c8ff2e));
   font-family: var(--prod-desc-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 96px;
   font-weight: 800;
@@ -106,7 +106,7 @@
 }
 
 .cardText {
-  color: color-mix(in srgb, var(--prod-desc-text, #f4f4f0) 64%, var(--prod-desc-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--prod-desc-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 15px;
   line-height: 1.6;
 }
@@ -131,7 +131,7 @@
   justify-content: space-between;
   gap: 12px;
   padding: 14px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--prod-desc-text, #f4f4f0) 16%, var(--prod-desc-bg, #0d0d0d));
+  border-bottom: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--prod-desc-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .spec dt {
   font-family: var(--prod-desc-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
@@ -140,7 +140,7 @@
   text-transform: uppercase;
 }
 .spec dd {
-  color: color-mix(in srgb, var(--prod-desc-text, #f4f4f0) 64%, var(--prod-desc-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--prod-desc-bg, var(--background-secundary-color, #0d0d0d)));
   text-align: right;
 }
 
@@ -149,7 +149,7 @@
   flex: 1 1 360px;
   min-height: 200px;
   overflow: hidden;
-  background-color: #1e1e1e;
+  background-color: color-mix(in srgb, var(--prod-desc-text, var(--text-color-secundary, #f4f4f0)) 7%, var(--prod-desc-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .figure img {
   position: absolute;

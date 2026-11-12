@@ -5,8 +5,8 @@
 
 .productShelf13 {
   width: 100%;
-  background-color: var(--showcase-bg, #0d0d0d);
-  color: var(--showcase-text, #f4f4f0);
+  background-color: var(--showcase-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--showcase-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--showcase-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
@@ -42,8 +42,8 @@
   flex: none;
 }
 .productShelf13 [data-role=spot-tag] {
-  background-color: var(--showcase-tag-bg, var(--spot-tag-bg, #c8ff2e));
-  color: var(--spot-tag-text, var(--showcase-bg, #0d0d0d));
+  background-color: var(--showcase-tag-bg, var(--spot-tag-bg, var(--background-primary-color, #c8ff2e)));
+  color: var(--spot-tag-text, var(--text-color-base, #0d0d0d));
 }
 .productShelf13 [data-role=spot] h3 {
   font-size: 20px;
@@ -53,7 +53,7 @@
 }
 
 .title {
-  color: var(--showcase-title-color, #f4f4f0);
+  color: var(--showcase-title-color, var(--text-color-secundary, #f4f4f0));
   font-family: var(--showcase-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-weight: 800;
   text-transform: uppercase;
@@ -71,13 +71,13 @@
 .viewAll span {
   display: block;
   padding-bottom: 4px;
-  border-bottom: 2px solid var(--showcase-accent, #c8ff2e);
+  border-bottom: 2px solid var(--showcase-accent, var(--background-primary-color, #c8ff2e));
 }
 .viewAll:hover {
   opacity: 0.85;
 }
 .viewAll:focus-visible {
-  outline: 2px solid var(--showcase-accent, #c8ff2e);
+  outline: 2px solid var(--showcase-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 
@@ -92,17 +92,17 @@
   justify-content: center;
   width: 52px;
   height: 52px;
-  border: 1px solid var(--showcase-text, #f4f4f0);
+  border: 1px solid var(--showcase-text, var(--text-color-secundary, #f4f4f0));
   background-color: transparent;
-  color: var(--showcase-text, #f4f4f0);
+  color: var(--showcase-text, var(--text-color-secundary, #f4f4f0));
 }
 .arrow:disabled {
-  border-color: color-mix(in srgb, var(--showcase-text, #f4f4f0) 16%, var(--showcase-bg, #0d0d0d));
-  color: color-mix(in srgb, var(--showcase-text, #f4f4f0) 64%, var(--showcase-bg, #0d0d0d));
+  border-color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
+  color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
   cursor: default;
 }
 .arrow:focus-visible {
-  outline: 2px solid var(--showcase-accent, #c8ff2e);
+  outline: 2px solid var(--showcase-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 
@@ -110,8 +110,8 @@
   width: 52px;
   height: 52px;
   border: 0;
-  background-color: var(--showcase-accent, #c8ff2e);
-  color: var(--showcase-bg, #0d0d0d);
+  background-color: var(--showcase-accent, var(--background-primary-color, #c8ff2e));
+  color: var(--text-color-base, #0d0d0d);
 }
 
 .inner {
@@ -175,13 +175,13 @@
   position: relative;
   height: 3px;
   overflow: hidden;
-  background-color: color-mix(in srgb, var(--showcase-text, #f4f4f0) 16%, var(--showcase-bg, #0d0d0d));
+  background-color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .progress span {
   position: absolute;
   top: 0;
   bottom: 0;
-  background-color: var(--showcase-accent, #c8ff2e);
+  background-color: var(--showcase-accent, var(--background-primary-color, #c8ff2e));
 }
 
 .variantFull .progress {
@@ -265,15 +265,15 @@
   padding: 28px;
   overflow: hidden;
   border-radius: 2px;
-  background-color: #262626;
-  color: var(--banner-side-text, #f4f4f0);
+  background-color: color-mix(in srgb, var(--banner-side-text, var(--text-color-secundary, #f4f4f0)) 11%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
+  color: var(--banner-side-text, var(--text-color-secundary, #f4f4f0));
   scroll-snap-align: start;
 }
 .banner:hover {
   opacity: 0.92;
 }
 .banner:focus-visible {
-  outline: 2px solid var(--showcase-accent, #c8ff2e);
+  outline: 2px solid var(--showcase-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: -2px;
 }
 
@@ -297,8 +297,8 @@
 .bannerEyebrow {
   align-self: flex-start;
   padding: 5px 8px;
-  background-color: var(--showcase-accent, #c8ff2e);
-  color: var(--showcase-bg, #0d0d0d);
+  background-color: var(--showcase-accent, var(--background-primary-color, #c8ff2e));
+  color: var(--text-color-base, #0d0d0d);
   font-family: var(--showcase-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 14px;
   font-weight: 800;
@@ -327,8 +327,8 @@
   gap: 8px;
   height: 48px;
   padding: 0 20px;
-  background-color: var(--showcase-accent, #c8ff2e);
-  color: var(--showcase-bg, #0d0d0d);
+  background-color: var(--showcase-accent, var(--background-primary-color, #c8ff2e));
+  color: var(--text-color-base, #0d0d0d);
   font-family: var(--showcase-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;

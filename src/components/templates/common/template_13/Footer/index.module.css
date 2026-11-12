@@ -5,9 +5,9 @@
 
 .footer13 {
   width: 100%;
-  border-top: 1px solid color-mix(in srgb, var(--footer-text, #f4f4f0) 16%, var(--footer-bg, #0d0d0d));
-  background-color: var(--footer-bg, #0d0d0d);
-  color: var(--footer-text, #f4f4f0);
+  border-top: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 16%, var(--footer-bg, var(--background-footer, #0d0d0d)));
+  background-color: var(--footer-bg, var(--background-footer, #0d0d0d));
+  color: var(--footer-text, var(--text-color-footer, #f4f4f0));
   font-family: var(--footer-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
@@ -48,7 +48,7 @@
   cursor: pointer;
 }
 .footer13 :where(a, button):focus-visible {
-  outline: 2px solid var(--footer-accent, #c8ff2e);
+  outline: 2px solid var(--footer-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: -2px;
 }
 .footer13 svg {
@@ -61,10 +61,10 @@
 }
 
 .slash {
-  color: var(--footer-accent, #c8ff2e);
+  color: var(--footer-accent, var(--background-primary-color, #c8ff2e));
 }
 .socialsWrap {
-  border-bottom: 1px solid color-mix(in srgb, var(--footer-text, #f4f4f0) 16%, var(--footer-bg, #0d0d0d));
+  border-bottom: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 16%, var(--footer-bg, var(--background-footer, #0d0d0d)));
 }
 
 .socials {
@@ -87,11 +87,11 @@
   text-transform: uppercase;
 }
 .social:not(:last-child) {
-  border-right: 1px solid color-mix(in srgb, var(--footer-text, #f4f4f0) 16%, var(--footer-bg, #0d0d0d));
+  border-right: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 16%, var(--footer-bg, var(--background-footer, #0d0d0d)));
 }
 
 .arrow {
-  color: var(--footer-accent, #c8ff2e);
+  color: var(--footer-accent, var(--background-primary-color, #c8ff2e));
 }
 .grid {
   display: grid;
@@ -128,7 +128,7 @@
 
 .about {
   max-width: 260px;
-  color: color-mix(in srgb, var(--footer-text, #f4f4f0) 64%, var(--footer-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 64%, var(--footer-bg, var(--background-footer, #0d0d0d)));
   font-size: 15px;
   line-height: 1.5;
 }
@@ -141,7 +141,7 @@
 }
 
 .columnTitle {
-  color: var(--footer-accent, #c8ff2e);
+  color: var(--footer-accent, var(--background-primary-color, #c8ff2e));
   font-family: var(--footer-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
@@ -170,10 +170,10 @@
 }
 
 .muted {
-  color: color-mix(in srgb, var(--footer-text, #f4f4f0) 64%, var(--footer-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 64%, var(--footer-bg, var(--background-footer, #0d0d0d)));
 }
 .bottomWrap {
-  border-top: 1px solid color-mix(in srgb, var(--footer-text, #f4f4f0) 16%, var(--footer-bg, #0d0d0d));
+  border-top: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 16%, var(--footer-bg, var(--background-footer, #0d0d0d)));
 }
 
 .bottom {
@@ -200,11 +200,11 @@
 
 .payment {
   padding: 5px 9px;
-  border: 1px solid color-mix(in srgb, var(--footer-text, #f4f4f0) 16%, var(--footer-bg, #0d0d0d));
+  border: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 16%, var(--footer-bg, var(--background-footer, #0d0d0d)));
 }
 
 .legal {
-  color: color-mix(in srgb, var(--footer-text, #f4f4f0) 64%, var(--footer-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 64%, var(--footer-bg, var(--background-footer, #0d0d0d)));
   font-size: 13px;
   line-height: 1.5;
 }
@@ -229,10 +229,10 @@
     border-right: 0;
   }
   .social:nth-child(odd) {
-    border-right: 1px solid color-mix(in srgb, var(--footer-text, #f4f4f0) 16%, var(--footer-bg, #0d0d0d));
+    border-right: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 16%, var(--footer-bg, var(--background-footer, #0d0d0d)));
   }
   .social:nth-child(-n+2) {
-    border-bottom: 1px solid color-mix(in srgb, var(--footer-text, #f4f4f0) 16%, var(--footer-bg, #0d0d0d));
+    border-bottom: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 16%, var(--footer-bg, var(--background-footer, #0d0d0d)));
   }
   .arrow {
     width: 20px;
@@ -262,10 +262,10 @@
   }
   .column {
     gap: 0;
-    border-top: 1px solid color-mix(in srgb, var(--footer-text, #f4f4f0) 16%, var(--footer-bg, #0d0d0d));
+    border-top: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 16%, var(--footer-bg, var(--background-footer, #0d0d0d)));
   }
   .column:last-child {
-    border-bottom: 1px solid color-mix(in srgb, var(--footer-text, #f4f4f0) 16%, var(--footer-bg, #0d0d0d));
+    border-bottom: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 16%, var(--footer-bg, var(--background-footer, #0d0d0d)));
   }
   .accordion {
     align-items: center;
@@ -280,7 +280,7 @@
     text-transform: uppercase;
   }
   .accordionOpen {
-    color: var(--footer-accent, #c8ff2e);
+    color: var(--footer-accent, var(--background-primary-color, #c8ff2e));
   }
   .columnBody {
     display: none;

@@ -5,10 +5,10 @@
 
 .countdown13 {
   width: 100%;
-  border-top: 1px solid color-mix(in srgb, var(--countdown-text, #f4f4f0) 16%, var(--countdown-bg, #0d0d0d));
-  border-bottom: 1px solid color-mix(in srgb, var(--countdown-text, #f4f4f0) 16%, var(--countdown-bg, #0d0d0d));
-  background-color: var(--countdown-bg, #0d0d0d);
-  color: var(--countdown-text, #f4f4f0);
+  border-top: 1px solid color-mix(in srgb, var(--countdown-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--countdown-bg, var(--background-secundary-color, #0d0d0d)));
+  border-bottom: 1px solid color-mix(in srgb, var(--countdown-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--countdown-bg, var(--background-secundary-color, #0d0d0d)));
+  background-color: var(--countdown-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--countdown-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--countdown-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
@@ -33,7 +33,7 @@
   opacity: 0.85;
 }
 .countdown13 :where(a):focus-visible {
-  outline: 2px solid var(--countdown-accent, #c8ff2e);
+  outline: 2px solid var(--countdown-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 .countdown13 svg,
@@ -59,7 +59,7 @@
   min-height: 280px;
   overflow: hidden;
   border-radius: 2px;
-  background-color: #262626;
+  background-color: color-mix(in srgb, var(--countdown-text, var(--text-color-secundary, #f4f4f0)) 11%, var(--countdown-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .art picture,
 .art img {
@@ -79,7 +79,7 @@
 }
 
 .title {
-  color: var(--countdown-accent, #c8ff2e);
+  color: var(--countdown-accent, var(--background-primary-color, #c8ff2e));
   font-family: var(--countdown-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 26px;
   font-weight: 800;
@@ -118,18 +118,18 @@
 }
 
 .unitLast .value {
-  color: var(--countdown-accent, #c8ff2e);
+  color: var(--countdown-accent, var(--background-primary-color, #c8ff2e));
 }
 
 .unitLabel {
-  color: color-mix(in srgb, var(--countdown-text, #f4f4f0) 64%, var(--countdown-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--countdown-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--countdown-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 15px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .colon {
-  color: color-mix(in srgb, var(--countdown-text, #f4f4f0) 64%, var(--countdown-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--countdown-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--countdown-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 96px;
   line-height: 0.9;
 }
@@ -141,7 +141,7 @@
   justify-content: center;
   gap: 16px;
   padding-left: 32px;
-  border-left: 1px solid color-mix(in srgb, var(--countdown-text, #f4f4f0) 16%, var(--countdown-bg, #0d0d0d));
+  border-left: 1px solid color-mix(in srgb, var(--countdown-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--countdown-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .highlight {
@@ -153,7 +153,7 @@
 }
 
 .text {
-  color: color-mix(in srgb, var(--countdown-text, #f4f4f0) 64%, var(--countdown-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--countdown-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--countdown-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 15px;
   line-height: 1.5;
 }
@@ -164,8 +164,8 @@
   justify-content: center;
   gap: 10px;
   height: 52px;
-  background-color: var(--countdown-accent, #c8ff2e);
-  color: var(--countdown-bg, #0d0d0d);
+  background-color: var(--countdown-accent, var(--background-primary-color, #c8ff2e));
+  color: var(--countdown-bg, var(--text-color-base, #0d0d0d));
   font-family: var(--countdown-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 19px;
   font-weight: 800;
@@ -205,10 +205,10 @@
   }
   .unit {
     padding: 10px 0 8px;
-    border: 1px solid color-mix(in srgb, var(--countdown-text, #f4f4f0) 16%, var(--countdown-bg, #0d0d0d));
+    border: 1px solid color-mix(in srgb, var(--countdown-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--countdown-bg, var(--background-secundary-color, #0d0d0d)));
   }
   .unitLast {
-    border-color: var(--countdown-accent, #c8ff2e);
+    border-color: var(--countdown-accent, var(--background-primary-color, #c8ff2e));
   }
   .value {
     font-size: 54px;

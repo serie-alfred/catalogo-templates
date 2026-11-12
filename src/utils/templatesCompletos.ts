@@ -107,9 +107,8 @@ const CAMADAS = ['popup-news', 'help-float'];
  * (`.familias-contrato.md` §1) e, num token de FUNDO, o que os papéis de fundo
  * (`*-bg`) usam — acento e tag que caem num token de fundo pintam letra, não
  * área —, e entre esses o mais votado. O comentário de cada linha traz os votos.
- * Fontes = contrato §1 (título → primária; texto → secundária e terciária). A 13 não herda a marca
- * (o SCSS dela não lê token de cor nem de fonte): só as fontes, para o tema
- * global ficar coerente se o usuário trocar uma peça por outra família.
+ * Fontes = contrato §1 (título → primária; texto → secundária e terciária). A 13 herda a
+ * marca desde 12/11/2026 (antes só trazia as fontes); a entrada dela é escrita à mão.
  */
 export type CoresDoTema = Partial<
   Record<
@@ -189,6 +188,15 @@ export const TEMA_DAS_FAMILIAS: Record<string, TemaDaFamilia> = {
     },
   },
   '13': {
+    // Escrito à mão (12/11/2026), não pelo script: a 13 passou a herdar a marca pelos pares
+    // fundo↔texto derivado — seção escura no secundário, lima no primário, rodapé no do rodapé.
+    // Os textos derivados (branco/preto) que divergem do desenho voltam em NIVEL1_DAS_FAMILIAS.
+    colors: {
+      colorFooter: '#0d0d0d',
+      colorFooterText: '#f4f4f0',
+      colorPrimaryBackground: '#c8ff2e',
+      colorSecondaryBackground: '#0d0d0d',
+    },
     fonts: {
       fontPrimary: 'Barlow Condensed',
       fontSecondary: 'Barlow',
@@ -269,8 +277,8 @@ export const TEMA_DAS_FAMILIAS: Record<string, TemaDaFamilia> = {
  * das cadeias `var(--<n1>, var(--<token>, #hex))` do CSS das réplicas com o token
  * avaliado em `TEMA_DAS_FAMILIAS` (derivadas pelo contraste). Só entra o que
  * diverge — ou cujo token o tema não define. Chave: o `component` do item.
- * A 13 não tem entrada, e o script confirma: o SCSS dela não tem Nível 2 de cor
- * (`var(--<n1>, #hex)`), então toda var já cai no hex do desenho sem ajuda.
+ * A 13 (desde 12/11/2026, quando passou a herdar a marca) saiu do mesmo critério por um
+ * script avulso: os textos derivados (branco/preto) voltam ao #F4F4F0/#0D0D0D do desenho.
  */
 export const NIVEL1_DAS_FAMILIAS: Record<
   string,
@@ -417,6 +425,95 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     },
     ProductRelated12: {
       '--showcase-tag-text': '#3b1f33',
+    },
+  },
+  '13': {
+    Header13: {
+      '--header-text': '#f4f4f0',
+      '--header-topbar-text': '#0d0d0d',
+      '--cart-text': '#f4f4f0',
+      '--cart-button-text': '#0d0d0d',
+    },
+    Spot13: {
+      '--spot-text': '#f4f4f0',
+      '--spot-tag-text': '#0d0d0d',
+      '--spot-btn-text': '#0d0d0d',
+    },
+    Breadcrumb13: {
+      '--breadcrumb-text': '#f4f4f0',
+    },
+    Brand13: {
+      '--brands-text': '#f4f4f0',
+    },
+    Categories13: {
+      '--categories-title-color': '#f4f4f0',
+      '--categories-text': '#f4f4f0',
+    },
+    BannerMain13: {
+      '--banner-main-text': '#f4f4f0',
+      '--banner-main-button-text': '#0d0d0d',
+    },
+    Ruler13: {
+      '--ruler-text': '#f4f4f0',
+    },
+    BannerGrid13: {
+      '--banner-grid-title-color': '#f4f4f0',
+      '--banner-grid-text': '#f4f4f0',
+    },
+    ShelfBanner13: {
+      '--banner-side-text': '#f4f4f0',
+      '--showcase-text': '#f4f4f0',
+      '--showcase-title-color': '#f4f4f0',
+    },
+    Showcase13: {
+      '--showcase-text': '#f4f4f0',
+      '--showcase-title-color': '#f4f4f0',
+    },
+    CategoryTitle13: {
+      '--cat-title-text': '#f4f4f0',
+    },
+    HelpFloat13: {
+      '--help-bg': '#171717',
+      '--help-text': '#f4f4f0',
+      '--help-header-text': '#0d0d0d',
+    },
+    PopupNews13: {
+      '--popup-text': '#f4f4f0',
+      '--popup-button-text': '#0d0d0d',
+    },
+    Newsletter13: {
+      '--newsletter-title-color': '#0d0d0d',
+      '--newsletter-desc-color': '#0d0d0d',
+      '--newsletter-button-text': '#c8ff2e',
+    },
+    ClientReview13: {
+      '--socialproof-text': '#f4f4f0',
+    },
+    CategoryMain13: {
+      '--cat-main-text': '#f4f4f0',
+    },
+    CategoryDescription13: {
+      '--cat-desc-text': '#f4f4f0',
+    },
+    ProductDescription13: {
+      '--prod-desc-text': '#f4f4f0',
+    },
+    ProductInfo13: {
+      '--pdp-text': '#f4f4f0',
+      '--pdp-button-text': '#0d0d0d',
+    },
+    ProductReviews13: {
+      '--prod-reviews-text': '#f4f4f0',
+    },
+    ProductRelated13: {
+      '--showcase-text': '#f4f4f0',
+      '--showcase-title-color': '#f4f4f0',
+    },
+    Countdown13: {
+      '--countdown-text': '#f4f4f0',
+    },
+    Editorial13: {
+      '--editorial-text': '#f4f4f0',
     },
   },
   '14': {

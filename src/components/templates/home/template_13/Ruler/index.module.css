@@ -5,10 +5,10 @@
 
 .benefitsStrip13 {
   width: 100%;
-  border-top: 1px solid color-mix(in srgb, var(--ruler-text, #f4f4f0) 16%, var(--ruler-bg, #0d0d0d));
-  border-bottom: 1px solid color-mix(in srgb, var(--ruler-text, #f4f4f0) 16%, var(--ruler-bg, #0d0d0d));
-  background-color: var(--ruler-bg, #0d0d0d);
-  color: var(--ruler-text, #f4f4f0);
+  border-top: 1px solid color-mix(in srgb, var(--ruler-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--ruler-bg, var(--background-secundary-color, #0d0d0d)));
+  border-bottom: 1px solid color-mix(in srgb, var(--ruler-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--ruler-bg, var(--background-secundary-color, #0d0d0d)));
+  background-color: var(--ruler-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--ruler-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--ruler-title-font, var(--font-primary, 'Barlow Condensed', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
@@ -30,7 +30,7 @@
   opacity: 0.85;
 }
 .benefitsStrip13 :where(a):focus-visible {
-  outline: 2px solid var(--ruler-icon, #c8ff2e);
+  outline: 2px solid var(--ruler-icon, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 .benefitsStrip13 svg {
@@ -73,7 +73,7 @@
 }
 
 .sep {
-  color: var(--ruler-icon, #c8ff2e);
+  color: var(--ruler-icon, var(--background-primary-color, #c8ff2e));
 }
 
 .star {

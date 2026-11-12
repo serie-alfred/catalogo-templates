@@ -10,9 +10,9 @@ section.crossSellingShelf13 {
   width: 100%;
   margin: 0;
   padding: 40px max(clamp(16px, 3vw, 40px), (100% - 1280px) / 2 + clamp(16px, 3vw, 40px));
-  border-top: 1px solid color-mix(in srgb, var(--showcase-text, #f4f4f0) 16%, var(--showcase-bg, #0d0d0d));
-  background-color: var(--showcase-bg, #0d0d0d);
-  color: var(--showcase-text, #f4f4f0);
+  border-top: 1px solid color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
+  background-color: var(--showcase-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--showcase-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--showcase-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
@@ -29,7 +29,7 @@ section.crossSellingShelf13.crossSellingShelf13.crossSellingShelf13 > h2 {
   max-width: none;
   margin: 0;
   padding: 0 126px 0 0;
-  color: var(--showcase-title-color, #f4f4f0);
+  color: var(--showcase-title-color, var(--text-color-secundary, #f4f4f0));
   font-family: var(--showcase-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 72px;
   font-weight: 800;
@@ -61,7 +61,7 @@ section.crossSellingShelf13 [data-fs-product-shelf] {
 
 .productShowcase13 {
   position: relative;
-  color: var(--showcase-text, #f4f4f0);
+  color: var(--showcase-text, var(--text-color-secundary, #f4f4f0));
 }
 .productShowcase13 *,
 .productShowcase13 *::before,
@@ -100,19 +100,19 @@ section.crossSellingShelf13 [data-fs-product-shelf] {
   height: 52px;
   margin: 0;
   padding: 0;
-  border: 1px solid var(--showcase-text, #f4f4f0);
+  border: 1px solid var(--showcase-text, var(--text-color-secundary, #f4f4f0));
   background-color: transparent;
-  color: var(--showcase-text, #f4f4f0);
+  color: var(--showcase-text, var(--text-color-secundary, #f4f4f0));
   font: inherit;
   cursor: pointer;
 }
 .arrow:disabled {
-  border-color: color-mix(in srgb, var(--showcase-text, #f4f4f0) 16%, var(--showcase-bg, #0d0d0d));
-  color: color-mix(in srgb, var(--showcase-text, #f4f4f0) 64%, var(--showcase-bg, #0d0d0d));
+  border-color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
+  color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
   cursor: default;
 }
 .arrow:focus-visible {
-  outline: 2px solid var(--showcase-accent, #c8ff2e);
+  outline: 2px solid var(--showcase-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 
@@ -137,16 +137,16 @@ section.crossSellingShelf13 [data-fs-product-shelf] {
   flex: 1;
 }
 .slide:nth-child(4n+1) [data-role=spot-image] {
-  background-color: #262626;
+  background-color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 11%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .slide:nth-child(4n+2) [data-role=spot-image] {
-  background-color: #222222;
+  background-color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 9%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .slide:nth-child(4n+3) [data-role=spot-image] {
-  background-color: #2b2b2b;
+  background-color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 13%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .slide:nth-child(4n+4) [data-role=spot-image] {
-  background-color: #303030;
+  background-color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 15%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 @container (min-width: 961px) and (max-width: 1199px) {
@@ -200,13 +200,13 @@ section.crossSellingShelf13 [data-fs-product-shelf] {
     height: 3px;
     margin: 20px 16px 0;
     overflow: hidden;
-    background-color: color-mix(in srgb, var(--showcase-text, #f4f4f0) 16%, var(--showcase-bg, #0d0d0d));
+    background-color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
   }
   .progress span {
     position: absolute;
     top: 0;
     bottom: 0;
-    background-color: var(--showcase-accent, #c8ff2e);
+    background-color: var(--showcase-accent, var(--background-primary-color, #c8ff2e));
   }
 }
 

@@ -5,8 +5,8 @@
 
 .bannerGrid13 {
   width: 100%;
-  background-color: var(--banner-grid-bg, #0d0d0d);
-  color: var(--banner-grid-text, #f4f4f0);
+  background-color: var(--banner-grid-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--banner-grid-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--banner-grid-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
@@ -32,7 +32,7 @@
   opacity: 0.85;
 }
 .bannerGrid13 :where(a):focus-visible {
-  outline: 2px solid var(--banner-grid-accent, #c8ff2e);
+  outline: 2px solid var(--banner-grid-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 .bannerGrid13 svg,
@@ -55,13 +55,13 @@
   display: flex;
 }
 .item:nth-child(3n+1) .card {
-  background-color: #1e1e1e;
+  background-color: color-mix(in srgb, var(--banner-grid-text, var(--text-color-secundary, #f4f4f0)) 7%, var(--banner-grid-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .item:nth-child(3n+2) .card {
-  background-color: #262626;
+  background-color: color-mix(in srgb, var(--banner-grid-text, var(--text-color-secundary, #f4f4f0)) 11%, var(--banner-grid-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .item:nth-child(3n+3) .card {
-  background-color: #222222;
+  background-color: color-mix(in srgb, var(--banner-grid-text, var(--text-color-secundary, #f4f4f0)) 9%, var(--banner-grid-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 @container (min-width: 961px) {
@@ -99,7 +99,7 @@
 }
 
 .eyebrow {
-  color: var(--banner-grid-accent, #c8ff2e);
+  color: var(--banner-grid-accent, var(--background-primary-color, #c8ff2e));
   font-family: var(--banner-grid-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
@@ -107,7 +107,7 @@
 }
 
 .title {
-  color: var(--banner-grid-title-color, #f4f4f0);
+  color: var(--banner-grid-title-color, var(--text-color-secundary, #f4f4f0));
   font-family: var(--banner-grid-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 72px;
   font-weight: 800;

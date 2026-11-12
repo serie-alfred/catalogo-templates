@@ -5,8 +5,8 @@
 
 .editorial13 {
   width: 100%;
-  background-color: var(--editorial-bg, #0d0d0d);
-  color: var(--editorial-text, #f4f4f0);
+  background-color: var(--editorial-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--editorial-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--editorial-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
@@ -31,7 +31,7 @@
   opacity: 0.85;
 }
 .editorial13 :where(a):focus-visible {
-  outline: 2px solid var(--editorial-accent, #c8ff2e);
+  outline: 2px solid var(--editorial-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 .editorial13 svg,
@@ -76,7 +76,7 @@
 .viewAll span {
   display: block;
   padding-bottom: 4px;
-  border-bottom: 2px solid var(--editorial-accent, #c8ff2e);
+  border-bottom: 2px solid var(--editorial-accent, var(--background-primary-color, #c8ff2e));
 }
 
 .grid {
@@ -115,7 +115,7 @@
 .featureArt {
   position: absolute;
   inset: 0;
-  background-color: #1e1e1e;
+  background-color: color-mix(in srgb, var(--editorial-text, var(--text-color-secundary, #f4f4f0)) 7%, var(--editorial-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .featureCopy {
@@ -137,7 +137,7 @@
 }
 
 .featureEyebrow {
-  color: var(--editorial-accent, #c8ff2e);
+  color: var(--editorial-accent, var(--background-primary-color, #c8ff2e));
   font-size: 15px;
 }
 
@@ -180,13 +180,13 @@
 }
 .story + .story {
   padding-top: 16px;
-  border-top: 1px solid color-mix(in srgb, var(--editorial-text, #f4f4f0) 16%, var(--editorial-bg, #0d0d0d));
+  border-top: 1px solid color-mix(in srgb, var(--editorial-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--editorial-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .story:nth-child(2n+1) .storyArt {
-  background-color: #2b2b2b;
+  background-color: color-mix(in srgb, var(--editorial-text, var(--text-color-secundary, #f4f4f0)) 13%, var(--editorial-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .story:nth-child(2n+2) .storyArt {
-  background-color: #222222;
+  background-color: color-mix(in srgb, var(--editorial-text, var(--text-color-secundary, #f4f4f0)) 9%, var(--editorial-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .storyArt {
@@ -201,7 +201,7 @@
 }
 
 .storyEyebrow {
-  color: color-mix(in srgb, var(--editorial-text, #f4f4f0) 64%, var(--editorial-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--editorial-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--editorial-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 14px;
 }
 
@@ -284,7 +284,7 @@
     flex-direction: row;
     gap: 14px;
     padding-top: 16px;
-    border-top: 1px solid color-mix(in srgb, var(--editorial-text, #f4f4f0) 16%, var(--editorial-bg, #0d0d0d));
+    border-top: 1px solid color-mix(in srgb, var(--editorial-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--editorial-bg, var(--background-secundary-color, #0d0d0d)));
   }
   .storyArt {
     flex: none;

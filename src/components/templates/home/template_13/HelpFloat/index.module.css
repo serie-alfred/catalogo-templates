@@ -4,7 +4,7 @@
    novo. O que é só do canvas está no fim, depois de "Só no catálogo". */
 
 .helpFloatButton13 {
-  color: var(--help-text, #f4f4f0);
+  color: var(--help-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--help-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
@@ -39,7 +39,7 @@
   cursor: pointer;
 }
 .helpFloatButton13 :where(a, button):focus-visible {
-  outline: 2px solid var(--help-header-bg, #c8ff2e);
+  outline: 2px solid var(--help-header-bg, var(--background-primary-color, #c8ff2e));
   outline-offset: -2px;
 }
 .helpFloatButton13 svg {
@@ -57,14 +57,14 @@
   justify-content: center;
   width: 64px;
   height: 64px;
-  background-color: var(--help-header-bg, #c8ff2e);
-  color: var(--help-header-text, #0d0d0d);
+  background-color: var(--help-header-bg, var(--background-primary-color, #c8ff2e));
+  color: var(--help-header-text, var(--text-color-base, #0d0d0d));
 }
 .toggle:hover {
   opacity: 0.9;
 }
 .toggle:focus-visible {
-  outline: 2px solid var(--help-text, #f4f4f0);
+  outline: 2px solid var(--help-text, var(--text-color-secundary, #f4f4f0));
   outline-offset: 2px;
 }
 
@@ -78,9 +78,9 @@
   bottom: 100px;
   z-index: 1500;
   width: 340px;
-  border: 1px solid color-mix(in srgb, var(--help-text, #f4f4f0) 16%, var(--help-bg, #171717));
-  background-color: var(--help-bg, #171717);
-  color: var(--help-text, #f4f4f0);
+  border: 1px solid color-mix(in srgb, var(--help-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--help-bg, color-mix(in srgb, var(--text-color-secundary, #f4f4f0) 4%, var(--background-secundary-color, #0d0d0d))));
+  background-color: var(--help-bg, color-mix(in srgb, var(--text-color-secundary, #f4f4f0) 4%, var(--background-secundary-color, #0d0d0d)));
+  color: var(--help-text, var(--text-color-secundary, #f4f4f0));
 }
 
 .head {
@@ -88,7 +88,7 @@
   align-items: flex-start;
   justify-content: space-between;
   padding: 20px 20px 16px;
-  border-bottom: 1px solid color-mix(in srgb, var(--help-text, #f4f4f0) 16%, var(--help-bg, #171717));
+  border-bottom: 1px solid color-mix(in srgb, var(--help-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--help-bg, color-mix(in srgb, var(--text-color-secundary, #f4f4f0) 4%, var(--background-secundary-color, #0d0d0d))));
 }
 
 .headText {
@@ -106,7 +106,7 @@
 }
 
 .schedule {
-  color: color-mix(in srgb, var(--help-text, #f4f4f0) 64%, var(--help-bg, #171717));
+  color: color-mix(in srgb, var(--help-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--help-bg, color-mix(in srgb, var(--text-color-secundary, #f4f4f0) 4%, var(--background-secundary-color, #0d0d0d))));
   font-size: 13px;
 }
 
@@ -117,7 +117,7 @@
   justify-content: center;
   width: 46px;
   height: 46px;
-  border: 1px solid color-mix(in srgb, var(--help-text, #f4f4f0) 16%, var(--help-bg, #171717));
+  border: 1px solid color-mix(in srgb, var(--help-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--help-bg, color-mix(in srgb, var(--text-color-secundary, #f4f4f0) 4%, var(--background-secundary-color, #0d0d0d))));
 }
 
 .list {
@@ -129,7 +129,7 @@
 }
 .list li:not(:last-child) .item:not(.highlight) {
   min-height: 57px;
-  border-bottom: 1px solid color-mix(in srgb, var(--help-text, #f4f4f0) 16%, var(--help-bg, #171717));
+  border-bottom: 1px solid color-mix(in srgb, var(--help-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--help-bg, color-mix(in srgb, var(--text-color-secundary, #f4f4f0) 4%, var(--background-secundary-color, #0d0d0d))));
 }
 
 .item {
@@ -149,8 +149,8 @@ a.item:hover {
 }
 
 .highlight {
-  background-color: var(--help-header-bg, #c8ff2e);
-  color: var(--help-header-text, #0d0d0d);
+  background-color: var(--help-header-bg, var(--background-primary-color, #c8ff2e));
+  color: var(--help-header-text, var(--text-color-base, #0d0d0d));
 }
 
 @media (max-width: 960px) {

@@ -5,8 +5,8 @@
 
 .categories13 {
   width: 100%;
-  background-color: var(--categories-bg, #0d0d0d);
-  color: var(--categories-text, #f4f4f0);
+  background-color: var(--categories-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--categories-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--categories-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
@@ -36,7 +36,7 @@
   opacity: 0.85;
 }
 .categories13 :where(a):focus-visible {
-  outline: 2px solid var(--categories-accent, #c8ff2e);
+  outline: 2px solid var(--categories-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 .categories13 svg,
@@ -63,7 +63,7 @@
 }
 
 .title {
-  color: var(--categories-title-color, #f4f4f0);
+  color: var(--categories-title-color, var(--text-color-secundary, #f4f4f0));
   font-family: var(--categories-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 52px;
   font-weight: 800;
@@ -82,7 +82,7 @@
 .viewAll span {
   display: block;
   padding-bottom: 4px;
-  border-bottom: 2px solid var(--categories-accent, #c8ff2e);
+  border-bottom: 2px solid var(--categories-accent, var(--background-primary-color, #c8ff2e));
 }
 
 .list {
@@ -95,16 +95,16 @@
   display: flex;
 }
 .item:nth-child(4n+1) .card {
-  background-color: #1e1e1e;
+  background-color: color-mix(in srgb, var(--categories-text, var(--text-color-secundary, #f4f4f0)) 7%, var(--categories-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .item:nth-child(4n+2) .card {
-  background-color: #262626;
+  background-color: color-mix(in srgb, var(--categories-text, var(--text-color-secundary, #f4f4f0)) 11%, var(--categories-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .item:nth-child(4n+3) .card {
-  background-color: #2b2b2b;
+  background-color: color-mix(in srgb, var(--categories-text, var(--text-color-secundary, #f4f4f0)) 13%, var(--categories-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .item:nth-child(4n+4) .card {
-  background-color: #222222;
+  background-color: color-mix(in srgb, var(--categories-text, var(--text-color-secundary, #f4f4f0)) 9%, var(--categories-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .card {
@@ -144,8 +144,8 @@
   justify-content: center;
   width: 48px;
   height: 48px;
-  background-color: var(--categories-accent, #c8ff2e);
-  color: var(--categories-bg, #0d0d0d);
+  background-color: var(--categories-accent, var(--background-primary-color, #c8ff2e));
+  color: var(--categories-bg, var(--text-color-base, #0d0d0d));
 }
 .arrow svg {
   width: 22px;

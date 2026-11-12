@@ -5,8 +5,8 @@
 
 .newsletter13 {
   width: 100%;
-  background-color: var(--newsletter-bg, #c8ff2e);
-  color: var(--newsletter-title-color, #0d0d0d);
+  background-color: var(--newsletter-bg, var(--background-primary-color, #c8ff2e));
+  color: var(--newsletter-title-color, var(--text-color-base, #0d0d0d));
   font-family: var(--newsletter-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
@@ -27,7 +27,7 @@
   color: inherit;
 }
 .newsletter13 :where(a, button, input):focus-visible {
-  outline: 2px solid var(--newsletter-title-color, #0d0d0d);
+  outline: 2px solid var(--newsletter-title-color, var(--text-color-base, #0d0d0d));
   outline-offset: 2px;
 }
 
@@ -59,7 +59,7 @@
 
 .text {
   max-width: 460px;
-  color: var(--newsletter-desc-color, #0d0d0d);
+  color: var(--newsletter-desc-color, var(--text-color-base, #0d0d0d));
   font-size: 19px;
   line-height: 1.45;
 }
@@ -87,11 +87,11 @@
   height: 52px;
   margin: 0;
   padding: 0 16px;
-  border: 2px solid var(--newsletter-title-color, #0d0d0d);
+  border: 2px solid var(--newsletter-title-color, var(--text-color-base, #0d0d0d));
   border-radius: 0;
   outline: none;
   background: transparent;
-  color: var(--newsletter-title-color, #0d0d0d);
+  color: var(--newsletter-title-color, var(--text-color-base, #0d0d0d));
   font-family: var(--newsletter-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-size: 17px;
   font-weight: 500;
@@ -100,11 +100,11 @@
   appearance: none;
 }
 .input::placeholder {
-  color: color-mix(in srgb, var(--newsletter-title-color, #0d0d0d) 64%, var(--newsletter-bg, #c8ff2e));
+  color: color-mix(in srgb, var(--newsletter-title-color, var(--text-color-base, #0d0d0d)) 64%, var(--newsletter-bg, var(--background-primary-color, #c8ff2e)));
   opacity: 1;
 }
 .input:focus-visible {
-  outline: 2px solid var(--newsletter-title-color, #0d0d0d);
+  outline: 2px solid var(--newsletter-title-color, var(--text-color-base, #0d0d0d));
   outline-offset: 2px;
 }
 
@@ -113,8 +113,8 @@
   margin: 0;
   padding: 0;
   border: 0;
-  background-color: var(--newsletter-button-bg, #0d0d0d);
-  color: var(--newsletter-button-text, #c8ff2e);
+  background-color: var(--newsletter-button-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--newsletter-button-text, var(--text-color-secundary, #c8ff2e));
   font-family: var(--newsletter-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 21px;
   font-weight: 800;
@@ -131,7 +131,7 @@
 }
 
 .privacy {
-  color: var(--newsletter-desc-color, #0d0d0d);
+  color: var(--newsletter-desc-color, var(--text-color-base, #0d0d0d));
   font-size: 14px;
   line-height: 1.45;
 }

@@ -5,8 +5,8 @@
 
 .brands13 {
   width: 100%;
-  background-color: var(--brands-bg, #0d0d0d);
-  color: var(--brands-text, #f4f4f0);
+  background-color: var(--brands-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--brands-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--brands-title-font, var(--font-primary, 'Barlow Condensed', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
@@ -33,7 +33,7 @@
   text-decoration: none;
 }
 .brands13 :where(a):focus-visible {
-  outline: 2px solid var(--brands-accent, #c8ff2e);
+  outline: 2px solid var(--brands-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 .brands13 img {
@@ -74,7 +74,7 @@
 .viewAll span {
   display: block;
   padding-bottom: 4px;
-  border-bottom: 2px solid var(--brands-accent, #c8ff2e);
+  border-bottom: 2px solid var(--brands-accent, var(--background-primary-color, #c8ff2e));
 }
 .viewAll:hover {
   opacity: 0.85;
@@ -83,8 +83,8 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(160px, 100%), 1fr));
-  border-top: 1px solid color-mix(in srgb, var(--brands-text, #f4f4f0) 16%, var(--brands-bg, #0d0d0d));
-  border-left: 1px solid color-mix(in srgb, var(--brands-text, #f4f4f0) 16%, var(--brands-bg, #0d0d0d));
+  border-top: 1px solid color-mix(in srgb, var(--brands-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--brands-bg, var(--background-secundary-color, #0d0d0d)));
+  border-left: 1px solid color-mix(in srgb, var(--brands-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--brands-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .item {
@@ -98,8 +98,8 @@
   justify-content: center;
   min-height: 109px;
   padding: 0 12px;
-  border-right: 1px solid color-mix(in srgb, var(--brands-text, #f4f4f0) 16%, var(--brands-bg, #0d0d0d));
-  border-bottom: 1px solid color-mix(in srgb, var(--brands-text, #f4f4f0) 16%, var(--brands-bg, #0d0d0d));
+  border-right: 1px solid color-mix(in srgb, var(--brands-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--brands-bg, var(--background-secundary-color, #0d0d0d)));
+  border-bottom: 1px solid color-mix(in srgb, var(--brands-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--brands-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 30px;
   font-weight: 800;
   letter-spacing: 0.02em;
@@ -114,11 +114,11 @@
 @container (min-width: 961px) {
   .cell:hover,
   .cell:focus-visible {
-    background-color: var(--brands-accent, #c8ff2e);
-    color: var(--brands-bg, #0d0d0d);
+    background-color: var(--brands-accent, var(--background-primary-color, #c8ff2e));
+    color: var(--brands-bg, var(--text-color-base, #0d0d0d));
   }
   .cell:focus-visible {
-    outline-color: var(--brands-bg, #0d0d0d);
+    outline-color: var(--brands-bg, var(--text-color-base, #0d0d0d));
   }
 }
 .logo {

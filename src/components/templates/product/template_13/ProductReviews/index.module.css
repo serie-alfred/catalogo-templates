@@ -5,9 +5,9 @@
 
 .productReviews13 {
   width: 100%;
-  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, #f4f4f0) 16%, var(--prod-reviews-bg, #0d0d0d));
-  background-color: var(--prod-reviews-bg, #0d0d0d);
-  color: var(--prod-reviews-text, #f4f4f0);
+  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--prod-reviews-bg, var(--background-secundary-color, #0d0d0d)));
+  background-color: var(--prod-reviews-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--prod-reviews-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
@@ -38,7 +38,7 @@
   cursor: pointer;
 }
 .productReviews13 :where(button, input, textarea):focus-visible {
-  outline: 2px solid var(--prod-reviews-accent, #c8ff2e);
+  outline: 2px solid var(--prod-reviews-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 .productReviews13 svg {
@@ -113,7 +113,7 @@
 .starsBig,
 .starsSmall {
   display: flex;
-  color: var(--prod-reviews-accent, #c8ff2e);
+  color: var(--prod-reviews-accent, var(--background-primary-color, #c8ff2e));
 }
 
 .starsBig {
@@ -133,7 +133,7 @@
 }
 
 .avgCount {
-  color: color-mix(in srgb, var(--prod-reviews-text, #f4f4f0) 64%, var(--prod-reviews-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--prod-reviews-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 14px;
 }
 
@@ -161,7 +161,7 @@
   position: relative;
   flex: 1;
   height: 6px;
-  background-color: color-mix(in srgb, var(--prod-reviews-text, #f4f4f0) 16%, var(--prod-reviews-bg, #0d0d0d));
+  background-color: color-mix(in srgb, var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--prod-reviews-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .barFill {
@@ -169,18 +169,18 @@
   top: 0;
   bottom: 0;
   left: 0;
-  background-color: var(--prod-reviews-accent, #c8ff2e);
+  background-color: var(--prod-reviews-accent, var(--background-primary-color, #c8ff2e));
 }
 
 .empty {
-  color: color-mix(in srgb, var(--prod-reviews-text, #f4f4f0) 64%, var(--prod-reviews-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--prod-reviews-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 15px;
   line-height: 1.6;
 }
 
 .write {
   height: 52px;
-  border: 1px solid var(--prod-reviews-text, #f4f4f0) !important;
+  border: 1px solid var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0)) !important;
   font-family: var(--prod-reviews-title-font, var(--font-primary, 'Barlow Condensed', sans-serif)) !important;
   font-size: 18px !important;
   font-weight: 800 !important;
@@ -188,15 +188,15 @@
   text-transform: uppercase;
 }
 .write:hover {
-  background-color: var(--prod-reviews-text, #f4f4f0) !important;
-  color: var(--prod-reviews-bg, #0d0d0d) !important;
+  background-color: var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0)) !important;
+  color: var(--prod-reviews-bg, var(--background-secundary-color, #0d0d0d)) !important;
 }
 .form {
   display: flex;
   flex-direction: column;
   gap: 14px;
   padding: 18px;
-  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, #f4f4f0) 16%, var(--prod-reviews-bg, #0d0d0d));
+  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--prod-reviews-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .rate {
@@ -218,7 +218,7 @@
 .rateStars {
   display: flex;
   gap: 4px;
-  color: var(--prod-reviews-accent, #c8ff2e);
+  color: var(--prod-reviews-accent, var(--background-primary-color, #c8ff2e));
 }
 
 .rateStar {
@@ -236,7 +236,7 @@
   pointer-events: none;
 }
 .rateStar:focus-within {
-  outline: 2px solid var(--prod-reviews-accent, #c8ff2e);
+  outline: 2px solid var(--prod-reviews-accent, var(--background-primary-color, #c8ff2e));
 }
 
 .field {
@@ -246,17 +246,17 @@
 .field textarea {
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, #f4f4f0) 16%, var(--prod-reviews-bg, #0d0d0d));
+  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--prod-reviews-bg, var(--background-secundary-color, #0d0d0d)));
   border-radius: 0;
   outline: none;
   background: transparent;
-  color: var(--prod-reviews-text, #f4f4f0);
+  color: var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--prod-reviews-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-size: 16px;
 }
 .field input:focus-visible,
 .field textarea:focus-visible {
-  border-color: var(--prod-reviews-text, #f4f4f0);
+  border-color: var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0));
 }
 .field input {
   height: 48px;
@@ -273,8 +273,8 @@
 
 .submit {
   height: 52px;
-  background-color: var(--prod-reviews-accent, #c8ff2e) !important;
-  color: var(--prod-reviews-bg, #0d0d0d) !important;
+  background-color: var(--prod-reviews-accent, var(--background-primary-color, #c8ff2e)) !important;
+  color: var(--prod-reviews-bg, var(--text-color-base, #0d0d0d)) !important;
   font-family: var(--prod-reviews-title-font, var(--font-primary, 'Barlow Condensed', sans-serif)) !important;
   font-size: 18px !important;
   font-weight: 800 !important;
@@ -297,7 +297,7 @@
   flex-direction: column;
   gap: 10px;
   padding: 22px 0;
-  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, #f4f4f0) 16%, var(--prod-reviews-bg, #0d0d0d));
+  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--prod-reviews-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .reviewTop {
@@ -310,7 +310,7 @@
 
 .date,
 .author {
-  color: color-mix(in srgb, var(--prod-reviews-text, #f4f4f0) 64%, var(--prod-reviews-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--prod-reviews-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 13px;
 }
 
@@ -333,7 +333,7 @@
   justify-content: center;
   gap: 6px;
   padding-top: 20px;
-  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, #f4f4f0) 16%, var(--prod-reviews-bg, #0d0d0d));
+  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--prod-reviews-bg, var(--background-secundary-color, #0d0d0d)));
   font-family: var(--prod-reviews-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 17px;
   font-weight: 800;
@@ -345,17 +345,17 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, #f4f4f0) 16%, var(--prod-reviews-bg, #0d0d0d)) !important;
+  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--prod-reviews-bg, var(--background-secundary-color, #0d0d0d))) !important;
   font-weight: 800 !important;
 }
 .pagerBtn:hover {
-  border-color: var(--prod-reviews-text, #f4f4f0) !important;
+  border-color: var(--prod-reviews-text, var(--text-color-secundary, #f4f4f0)) !important;
 }
 
 .pagerOn {
   border: 0 !important;
-  background-color: var(--prod-reviews-accent, #c8ff2e) !important;
-  color: var(--prod-reviews-bg, #0d0d0d) !important;
+  background-color: var(--prod-reviews-accent, var(--background-primary-color, #c8ff2e)) !important;
+  color: var(--prod-reviews-bg, var(--text-color-base, #0d0d0d)) !important;
 }
 
 @container (max-width: 960px) {

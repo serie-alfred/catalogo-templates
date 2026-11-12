@@ -9,7 +9,7 @@
   flex-direction: column;
   gap: 14px;
   min-width: 0;
-  color: var(--spot-text, #f4f4f0);
+  color: var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0)));
   font-family: var(--spot-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
@@ -44,8 +44,8 @@
 }
 @container (min-width: 961px) {
   .productCard13:not(.soldOut):hover .media, .productCard13:not(.soldOut):focus-within .media {
-    background-color: #2b2b2b;
-    outline: 1px solid var(--spot-btn-bg, #c8ff2e);
+    background-color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0))) 13%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
+    outline: 1px solid var(--spot-btn-bg, var(--background-primary-color, #c8ff2e));
   }
   .productCard13:not(.soldOut):hover .buy, .productCard13:not(.soldOut):focus-within .buy {
     opacity: 1;
@@ -64,7 +64,7 @@
   aspect-ratio: 4/5;
   overflow: hidden;
   border-radius: 2px;
-  background-color: #1e1e1e;
+  background-color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0))) 7%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .mediaLink {
@@ -99,8 +99,8 @@
 
 .tag {
   padding: 5px 8px;
-  background-color: var(--spot-tag-bg, #c8ff2e);
-  color: var(--spot-tag-text, #0d0d0d);
+  background-color: var(--spot-tag-bg, var(--background-primary-color, #c8ff2e));
+  color: var(--spot-tag-text, var(--text-color-base, #0d0d0d));
   font-family: var(--spot-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 13px;
   font-weight: 800;
@@ -115,9 +115,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 2px 10px;
-  border-top: 2px solid color-mix(in srgb, var(--spot-text, #f4f4f0) 64%, #0d0d0d);
-  border-bottom: 2px solid color-mix(in srgb, var(--spot-text, #f4f4f0) 64%, #0d0d0d);
-  color: color-mix(in srgb, var(--spot-text, #f4f4f0) 64%, #0d0d0d);
+  border-top: 2px solid color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0))) 64%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
+  border-bottom: 2px solid color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0))) 64%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0))) 64%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
   font-family: var(--spot-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 44px;
   font-weight: 800;
@@ -141,10 +141,10 @@
   opacity: 0.8;
 }
 .favorite[aria-pressed=true] {
-  color: var(--spot-btn-bg, #c8ff2e);
+  color: var(--spot-btn-bg, var(--background-primary-color, #c8ff2e));
 }
 .favorite:focus-visible {
-  outline: 2px solid var(--spot-btn-bg, #c8ff2e);
+  outline: 2px solid var(--spot-btn-bg, var(--background-primary-color, #c8ff2e));
   outline-offset: -2px;
 }
 
@@ -158,8 +158,8 @@
   justify-content: center;
   gap: 10px;
   height: 52px;
-  background-color: var(--spot-btn-bg, #c8ff2e);
-  color: var(--spot-btn-text, #0d0d0d);
+  background-color: var(--spot-btn-bg, var(--background-primary-color, #c8ff2e));
+  color: var(--spot-btn-text, var(--text-color-base, #0d0d0d));
   font-family: var(--spot-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;
@@ -170,7 +170,7 @@
   transition: opacity 0.15s ease, transform 0.15s ease;
 }
 .buy:focus-visible {
-  outline: 2px solid var(--spot-text, #f4f4f0);
+  outline: 2px solid var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0)));
   outline-offset: 2px;
 }
 .info {
@@ -201,7 +201,7 @@
 }
 
 .installment {
-  color: color-mix(in srgb, var(--spot-text, #f4f4f0) 64%, #0d0d0d);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0))) 64%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 13px;
 }
 
@@ -217,7 +217,7 @@
 }
 
 .listPrice {
-  color: color-mix(in srgb, var(--spot-text, #f4f4f0) 64%, #0d0d0d);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0))) 64%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 14px;
   text-decoration: line-through;
 }
@@ -231,11 +231,11 @@
   white-space: nowrap;
 }
 .soldOut .media {
-  background-color: #1a1a1a;
+  background-color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0))) 6%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .soldOut .name,
 .soldOut .price {
-  color: color-mix(in srgb, var(--spot-text, #f4f4f0) 64%, #0d0d0d);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0))) 64%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .notify {
@@ -244,7 +244,7 @@
   justify-content: center;
   gap: 8px;
   height: 50px;
-  border: 1px solid var(--spot-text, #f4f4f0);
+  border: 1px solid var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0)));
   font-family: var(--spot-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 17px;
   font-weight: 800;
@@ -256,14 +256,14 @@
   opacity: 0.8;
 }
 .notify:focus-visible {
-  outline: 2px solid var(--spot-btn-bg, #c8ff2e);
+  outline: 2px solid var(--spot-btn-bg, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 
 .buyWide {
   height: 44px;
-  background-color: var(--spot-btn-bg, #c8ff2e);
-  color: var(--spot-btn-text, #0d0d0d);
+  background-color: var(--spot-btn-bg, var(--background-primary-color, #c8ff2e));
+  color: var(--spot-btn-text, var(--text-color-base, #0d0d0d));
   font-family: var(--spot-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 16px;
   font-weight: 800;
@@ -271,7 +271,7 @@
   text-transform: uppercase;
 }
 .buyWide:focus-visible {
-  outline: 2px solid var(--spot-text, #f4f4f0);
+  outline: 2px solid var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0)));
   outline-offset: 2px;
 }
 
@@ -354,7 +354,7 @@
    família, as colunas do canvas e os rótulos de estado. */
 .spotStage {
   width: 100%;
-  background-color: #0d0d0d;
+  background-color: var(--background-secundary-color, #0d0d0d);
   font-family: 'Barlow', system-ui, sans-serif;
   line-height: normal;
   letter-spacing: normal;
@@ -376,7 +376,7 @@
   min-width: 0;
 }
 .spotLabel {
-  color: color-mix(in srgb, #f4f4f0 64%, #0d0d0d);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0))) 64%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
   font-family: 'Barlow Condensed', sans-serif;
   font-size: 14px;
   font-weight: 700;
@@ -385,8 +385,8 @@
 }
 /* A coluna "Hover" pinta o estado de hover do card (lá, o comparador passa o mouse). */
 .spotHoverCol .media {
-  background-color: #2b2b2b;
-  outline: 1px solid var(--spot-btn-bg, #c8ff2e);
+  background-color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-color-secundary, #f4f4f0))) 13%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
+  outline: 1px solid var(--spot-btn-bg, var(--background-primary-color, #c8ff2e));
 }
 .spotHoverCol .buy {
   opacity: 1;

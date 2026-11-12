@@ -9,7 +9,7 @@
   z-index: 3000;
   visibility: hidden;
   pointer-events: none;
-  color: var(--cart-text, #f4f4f0);
+  color: var(--cart-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--font-secundary, "Barlow", system-ui, sans-serif);
   line-height: normal;
   letter-spacing: normal;
@@ -45,7 +45,7 @@
   cursor: pointer;
 }
 .cartSidebar13 :where(a, button):focus-visible {
-  outline: 2px solid var(--cart-button-bg, #c8ff2e);
+  outline: 2px solid var(--cart-button-bg, var(--background-primary-color, #c8ff2e));
   outline-offset: -2px;
 }
 .cartSidebar13 img,
@@ -78,8 +78,8 @@
   flex-direction: column;
   width: 440px;
   max-width: 100%;
-  border-left: 1px solid color-mix(in srgb, var(--cart-text, #f4f4f0) 16%, #0d0d0d);
-  background-color: color-mix(in srgb, var(--cart-text, #f4f4f0) 5%, #0d0d0d);
+  border-left: 1px solid color-mix(in srgb, var(--cart-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--background-secundary-color, #0d0d0d));
+  background-color: color-mix(in srgb, var(--cart-text, var(--text-color-secundary, #f4f4f0)) 5%, var(--background-secundary-color, #0d0d0d));
   transform: translateX(100%);
   transition: transform 0.25s ease;
 }
@@ -97,7 +97,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 24px;
-  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, #f4f4f0) 16%, #0d0d0d);
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--background-secundary-color, #0d0d0d));
 }
 
 .title {
@@ -109,7 +109,7 @@
 }
 
 .count {
-  color: var(--cart-button-bg, #c8ff2e);
+  color: var(--cart-button-bg, var(--background-primary-color, #c8ff2e));
 }
 
 .close {
@@ -119,7 +119,7 @@
   justify-content: center;
   width: 50px;
   height: 50px;
-  border: 1px solid color-mix(in srgb, var(--cart-text, #f4f4f0) 16%, #0d0d0d);
+  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--background-secundary-color, #0d0d0d));
 }
 .list {
   flex: 1;
@@ -132,7 +132,7 @@
   display: flex;
   gap: 16px;
   padding: 20px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, #f4f4f0) 16%, #0d0d0d);
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--background-secundary-color, #0d0d0d));
 }
 
 .lineImage {
@@ -140,7 +140,7 @@
   width: 96px;
   height: 120px;
   overflow: hidden;
-  background-color: #1e1e1e;
+  background-color: color-mix(in srgb, var(--cart-text, var(--text-color-secundary, #f4f4f0)) 7%, var(--background-secundary-color, #0d0d0d));
 }
 .lineImage img {
   width: 100%;
@@ -169,7 +169,7 @@ a.lineName:hover {
 }
 
 .lineVariation {
-  color: color-mix(in srgb, var(--cart-text, #f4f4f0) 64%, #0d0d0d);
+  color: color-mix(in srgb, var(--cart-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--background-secundary-color, #0d0d0d));
   font-size: 13px;
 }
 
@@ -185,7 +185,7 @@ a.lineName:hover {
   display: flex;
   align-items: center;
   height: 46px;
-  border: 1px solid color-mix(in srgb, var(--cart-text, #f4f4f0) 16%, #0d0d0d);
+  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--background-secundary-color, #0d0d0d));
 }
 .qty button {
   display: flex;
@@ -216,7 +216,7 @@ a.lineName:hover {
 .remove {
   align-self: flex-start;
   min-height: 32px;
-  color: color-mix(in srgb, var(--cart-text, #f4f4f0) 64%, #0d0d0d);
+  color: color-mix(in srgb, var(--cart-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--background-secundary-color, #0d0d0d));
   font-size: 13px;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -227,7 +227,7 @@ a.lineName:hover {
   flex-direction: column;
   gap: 10px;
   padding: 20px 24px 24px;
-  border-top: 1px solid color-mix(in srgb, var(--cart-text, #f4f4f0) 16%, #0d0d0d);
+  border-top: 1px solid color-mix(in srgb, var(--cart-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--background-secundary-color, #0d0d0d));
 }
 
 .subtotal {
@@ -245,15 +245,15 @@ a.lineName:hover {
 }
 
 .note {
-  color: color-mix(in srgb, var(--cart-text, #f4f4f0) 64%, #0d0d0d);
+  color: color-mix(in srgb, var(--cart-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--background-secundary-color, #0d0d0d));
   font-size: 13px;
 }
 
 .checkout {
   height: 56px;
   margin-top: 8px;
-  background-color: var(--cart-button-bg, #c8ff2e);
-  color: var(--cart-button-text, #0d0d0d);
+  background-color: var(--cart-button-bg, var(--background-primary-color, #c8ff2e));
+  color: var(--cart-button-text, var(--text-color-base, #0d0d0d));
   font-family: var(--font-primary, "Barlow Condensed", sans-serif);
   font-size: 21px;
   font-weight: 800;
@@ -264,7 +264,7 @@ a.lineName:hover {
   opacity: 0.9;
 }
 .checkout:focus-visible {
-  outline: 2px solid var(--cart-text, #f4f4f0);
+  outline: 2px solid var(--cart-text, var(--text-color-secundary, #f4f4f0));
   outline-offset: 2px;
 }
 

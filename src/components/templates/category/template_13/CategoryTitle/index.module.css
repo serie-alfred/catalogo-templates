@@ -5,9 +5,9 @@
 
 .categoryTitle13 {
   width: 100%;
-  border-bottom: 1px solid color-mix(in srgb, var(--cat-title-text, #f4f4f0) 16%, var(--cat-title-bg, #0d0d0d));
-  background-color: var(--cat-title-bg, #0d0d0d);
-  color: var(--cat-title-text, #f4f4f0);
+  border-bottom: 1px solid color-mix(in srgb, var(--cat-title-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--cat-title-bg, var(--background-secundary-color, #0d0d0d)));
+  background-color: var(--cat-title-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--cat-title-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--cat-title-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
@@ -63,7 +63,7 @@
 
 .count {
   padding-bottom: 6px;
-  color: var(--cat-title-accent, #c8ff2e);
+  color: var(--cat-title-accent, var(--background-primary-color, #c8ff2e));
   font-family: var(--cat-title-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 22px;
   font-weight: 800;
@@ -92,22 +92,22 @@
   gap: 8px;
   height: 46px;
   padding: 0 18px;
-  border: 1px solid var(--cat-title-text, #f4f4f0);
+  border: 1px solid var(--cat-title-text, var(--text-color-secundary, #f4f4f0));
 }
 .chip:focus-visible {
-  outline: 2px solid var(--cat-title-accent, #c8ff2e);
+  outline: 2px solid var(--cat-title-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 
 .chipQty {
-  color: color-mix(in srgb, var(--cat-title-text, #f4f4f0) 64%, var(--cat-title-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--cat-title-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--cat-title-bg, var(--background-secundary-color, #0d0d0d)));
   font-weight: 700;
 }
 
 .chipActive {
-  border-color: var(--cat-title-accent, #c8ff2e);
-  background-color: var(--cat-title-accent, #c8ff2e);
-  color: var(--cat-title-bg, #0d0d0d);
+  border-color: var(--cat-title-accent, var(--background-primary-color, #c8ff2e));
+  background-color: var(--cat-title-accent, var(--background-primary-color, #c8ff2e));
+  color: var(--text-color-base, #0d0d0d);
 }
 .chipActive .chipQty {
   color: inherit;

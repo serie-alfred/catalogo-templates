@@ -5,8 +5,8 @@
 
 .clientReview13 {
   width: 100%;
-  background-color: var(--socialproof-bg, #0d0d0d);
-  color: var(--socialproof-text, #f4f4f0);
+  background-color: var(--socialproof-bg, var(--background-secundary-color, #0d0d0d));
+  color: var(--socialproof-text, var(--text-color-secundary, #f4f4f0));
   font-family: var(--socialproof-font, var(--font-secundary, 'Barlow', system-ui, sans-serif));
   font-weight: 400;
   line-height: normal;
@@ -33,7 +33,7 @@
   cursor: pointer;
 }
 .clientReview13 :where(button):focus-visible {
-  outline: 2px solid var(--socialproof-accent, #c8ff2e);
+  outline: 2px solid var(--socialproof-accent, var(--background-primary-color, #c8ff2e));
   outline-offset: 2px;
 }
 .clientReview13 svg,
@@ -78,11 +78,11 @@
   justify-content: center;
   width: 52px;
   height: 52px;
-  border: 1px solid var(--socialproof-text, #f4f4f0);
+  border: 1px solid var(--socialproof-text, var(--text-color-secundary, #f4f4f0));
 }
 .arrow:disabled {
-  border-color: color-mix(in srgb, var(--socialproof-text, #f4f4f0) 16%, var(--socialproof-bg, #0d0d0d));
-  color: color-mix(in srgb, var(--socialproof-text, #f4f4f0) 64%, var(--socialproof-bg, #0d0d0d));
+  border-color: color-mix(in srgb, var(--socialproof-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--socialproof-bg, var(--background-secundary-color, #0d0d0d)));
+  color: color-mix(in srgb, var(--socialproof-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--socialproof-bg, var(--background-secundary-color, #0d0d0d)));
   cursor: default;
 }
 
@@ -104,18 +104,18 @@
   gap: 18px;
   min-width: 0;
   padding: 28px;
-  border: 1px solid color-mix(in srgb, var(--socialproof-text, #f4f4f0) 16%, var(--socialproof-bg, #0d0d0d));
-  background-color: color-mix(in srgb, var(--socialproof-text, #f4f4f0) 7%, var(--socialproof-bg, #0d0d0d));
+  border: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--socialproof-bg, var(--background-secundary-color, #0d0d0d)));
+  background-color: color-mix(in srgb, var(--socialproof-text, var(--text-color-secundary, #f4f4f0)) 7%, var(--socialproof-bg, var(--background-secundary-color, #0d0d0d)));
   scroll-snap-align: start;
 }
 .card:nth-child(3n+1) .avatar {
-  background-color: #1a1a1a;
+  background-color: color-mix(in srgb, var(--socialproof-text, var(--text-color-secundary, #f4f4f0)) 6%, var(--socialproof-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .card:nth-child(3n+2) .avatar {
-  background-color: #1e1e1e;
+  background-color: color-mix(in srgb, var(--socialproof-text, var(--text-color-secundary, #f4f4f0)) 7%, var(--socialproof-bg, var(--background-secundary-color, #0d0d0d)));
 }
 .card:nth-child(3n+3) .avatar {
-  background-color: #262626;
+  background-color: color-mix(in srgb, var(--socialproof-text, var(--text-color-secundary, #f4f4f0)) 11%, var(--socialproof-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 @container (min-width: 961px) and (max-width: 1199px) {
@@ -126,7 +126,7 @@
 .stars {
   display: flex;
   gap: 3px;
-  color: var(--socialproof-accent, #c8ff2e);
+  color: var(--socialproof-accent, var(--background-primary-color, #c8ff2e));
 }
 .stars svg {
   width: 18px;
@@ -144,7 +144,7 @@
   align-items: center;
   gap: 14px;
   padding-top: 18px;
-  border-top: 1px solid color-mix(in srgb, var(--socialproof-text, #f4f4f0) 16%, var(--socialproof-bg, #0d0d0d));
+  border-top: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--socialproof-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
 .avatar {
@@ -175,7 +175,7 @@
 }
 
 .product {
-  color: color-mix(in srgb, var(--socialproof-text, #f4f4f0) 64%, var(--socialproof-bg, #0d0d0d));
+  color: color-mix(in srgb, var(--socialproof-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--socialproof-bg, var(--background-secundary-color, #0d0d0d)));
   font-size: 13px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -251,10 +251,10 @@
     display: block;
     width: 24px;
     height: 3px;
-    background-color: color-mix(in srgb, var(--socialproof-text, #f4f4f0) 16%, var(--socialproof-bg, #0d0d0d));
+    background-color: color-mix(in srgb, var(--socialproof-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--socialproof-bg, var(--background-secundary-color, #0d0d0d)));
   }
   .dotOn {
-    background-color: var(--socialproof-accent, #c8ff2e);
+    background-color: var(--socialproof-accent, var(--background-primary-color, #c8ff2e));
   }
 }
 
