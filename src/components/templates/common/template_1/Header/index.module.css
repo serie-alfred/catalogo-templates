@@ -380,6 +380,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
 }
 
 header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li:nth-of-type(n + 5) .submenu__wrapper .submenu__container .submenu__inner>ul>li ul {
+  left: auto;
   right: 100%;
 }
 
@@ -464,7 +465,9 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
 header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>ul>li .submenu__wrapper .submenu__container .submenu__inner>ul>li ul {
   display: none;
   position: absolute;
-  right: -150%;
+  /* ao lado do painel (era right: -150%, que só acertava numa largura de painel) */
+  left: 100%;
+  right: auto;
   top: 0;
   width: 100%;
   background-color: #ffffff;
