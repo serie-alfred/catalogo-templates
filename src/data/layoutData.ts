@@ -856,6 +856,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--categories-font", label: "Fonte dos números e rótulos", type: "font", default: "'Geist Mono', monospace", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "12", selection: "categories", key: "cat12suv1b7g", image: "categories/Categories12.webp", imageSource: "auto", mobile: "", title: "Categorias Template 12", description: "Título em serifa e texto centrados; as categorias em círculos com anel (foto ou o pastel da posição) e o nome, a categoria com selo de anel vinho e pílula; no mobile, círculos menores rolando de lado", template: "12", pagina: ["home"], component: "Categories12", path: "molecules/Categories12", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--categories-bg", label: "Fundo da seção", type: "color", default: "#fbf6f3", group: "Categorias" },
         { cssVar: "--categories-title-color", label: "Título da seção", type: "color", default: "#3b1f33", group: "Categorias", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-text", label: "Nomes das categorias", type: "color", default: "#3b1f33", group: "Categorias", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-accent", label: "Destaque (anel e selo)", type: "color", default: "#7a2e5f", group: "Categorias", inheritsLabel: "cor primária da marca" },

@@ -6,7 +6,7 @@
 .categories12 {
   width: 100%;
   padding: 64px 0;
-  background-color: #fbf6f3;
+  background-color: var(--categories-bg, #fbf6f3);
   color: var(--categories-text, var(--text-primary-color, #3b1f33));
   font-family: var(--categories-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-weight: 400;
@@ -63,7 +63,7 @@
 }
 
 .subtitle {
-  color: color-mix(in srgb, var(--categories-text, var(--text-primary-color, #3b1f33)) 72%, #fbf6f3);
+  color: color-mix(in srgb, var(--categories-text, var(--text-primary-color, #3b1f33)) 72%, var(--categories-bg, #fbf6f3));
   font-size: 16px;
 }
 
@@ -95,7 +95,7 @@
   width: 132px;
   height: 132px;
   padding: 5px;
-  border: 3px solid color-mix(in srgb, var(--categories-text, var(--text-primary-color, #3b1f33)) 14%, #fbf6f3);
+  border: 3px solid color-mix(in srgb, var(--categories-text, var(--text-primary-color, #3b1f33)) 14%, var(--categories-bg, #fbf6f3));
   border-radius: 50%;
 }
 
