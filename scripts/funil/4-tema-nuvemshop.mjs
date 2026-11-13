@@ -643,7 +643,11 @@ if (
   } else {
     // A primeira seção de miolo entra duas vezes, cada cópia com os próprios
     // marcadores (variável por cópia na LP).
-    const [primeira, ...resto] = miolo;
+    // A que entra duas vezes é a primeira que tem variável de Nível 1 (famílias antigas abrem a home
+    // com um banner sem variável, e a prova de "variável por cópia" ficaria sem o que conferir).
+    const comVars = miolo.find(i => (i.variablesSchema ?? []).length) ?? miolo[0];
+    const primeira = comVars;
+    const resto = miolo.filter(i => i !== comVars);
     const com = (i, base) =>
       entrada(
         i,
