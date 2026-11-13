@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
+import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
 import { useLayout } from '@/context/LayoutContext';
 
 import {
@@ -19,7 +20,8 @@ import styles from './index.module.css';
  * Espelha `organisms/Header08` do faststore.starter — header do "Templates - Serie
  * A" (Figma 7316:17346 / 7316:19143). Mesmo markup, classes, `data-role` e vars de
  * Nível 1. O logo é o que o usuário enviou no /gerador; sem ele, a marca em texto SERIE//A.
- * O contador mostra o "99" do Figma (no starter é o carrinho de verdade).
+ * O contador mostra o "99" do Figma (no starter é o carrinho de verdade). O ícone da
+ * sacola abre o CartSidebar01, o mesmo do Header01 (a Wake usa a sacola da família 01).
  */
 
 const FONTES =
@@ -41,6 +43,8 @@ const Ico = ({ svg, className }: { svg: string; className?: string }) => (
 
 export default function Header08() {
   const { logo } = useLayout();
+  // Mini-cart: o mesmo CartSidebar01 do Header01.
+  const [cartOpen, setCartOpen] = useState(false);
 
   const marca = (
     <a
@@ -64,6 +68,7 @@ export default function Header08() {
   );
 
   return (
+    <>
     <header className={styles.header08} data-role="hd-root">
       <link rel="stylesheet" href={FONTES} />
 
@@ -137,6 +142,7 @@ export default function Header08() {
             className={styles.iconButton}
             aria-label="Carrinho"
             data-role="hd-cart"
+            onClick={() => setCartOpen(true)}
           >
             <span className={styles.bagBox}>
               <Ico svg={ICO_BAG} />
@@ -172,6 +178,7 @@ export default function Header08() {
             className={styles.iconButton}
             aria-label="Carrinho"
             data-role="hd-mcart"
+            onClick={() => setCartOpen(true)}
           >
             <span className={styles.bagBox}>
               <Ico svg={ICO_BAG} />
@@ -181,5 +188,9 @@ export default function Header08() {
         </div>
       </div>
     </header>
+
+    {/* ── MINI-CART (CartSidebar01, o mesmo do Header01) ── */}
+    <CartSidebar01 open={cartOpen} onClose={() => setCartOpen(false)} />
+    </>
   );
 }

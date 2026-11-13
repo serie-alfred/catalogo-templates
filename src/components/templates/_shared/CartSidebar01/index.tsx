@@ -12,7 +12,7 @@ import styles from './index.module.css';
 // preview. Os atributos data-fs-* são mantidos para o DOM ficar equivalente ao
 // que o cliente recebe no tema.
 //
-// Usado pelos headers 01, 03, 04, 05 e 07 (o Header06 usa o CartSidebar06).
+// Usado pelos headers 01 a 08, todos na variante 01 (o CartSidebar06 ficou sem uso).
 //
 // A prop `variant` existe porque o CartSidebar07 real NÃO é outro desenho: o
 // diff contra o CartSidebar01 do .starter não muda uma única propriedade de

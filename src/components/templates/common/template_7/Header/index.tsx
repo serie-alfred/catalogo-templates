@@ -24,7 +24,9 @@ import styles from './index.module.css';
  *  • o wordmark da marca → `useLayout().logo` com fallback "SERIE//A", como
  *    manda o /from-faststore: o catálogo é público e mostra a marca do usuário.
  *
- * O mini-cart usa o `_shared/CartSidebar01` com `variant="07"`.
+ * O mini-cart usa o `_shared/CartSidebar01` na variante 01, a mesma do Header01
+ * (a Wake usa a sacola da família 01 nas famílias 01 a 08). O texto abaixo
+ * explica a `variant="07"`, que este header usava até 13/11.
  *
  * Este comentário afirmava que a gaveta era um delta conhecido e que portar o
  * 07 seria "reescrever classe a classe", porque "a pele é a base do FastStore,
@@ -769,7 +771,6 @@ export default function Header() {
       </a>
 
       <CartSidebar01
-        variant="07"
         open={cartOpen}
         onClose={() => setCartOpen(false)}
         item={{
