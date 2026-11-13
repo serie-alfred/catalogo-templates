@@ -30,7 +30,7 @@ const conteudo = {
   helpItems: [
     {
       label: 'Fale no WhatsApp',
-      icon: icone("%3Cpath d='M3 17l1.2-3.3A7 7 0 1 1 7 16.2L3 17z'/%3E"),
+      icon: icone("%3Cpath d='M3 17l1.2-3.3A7 7 0 1 1 7 16.2L3 17z'/%3E%3Cpath d='M7.5 7.2c.3-.5.8-.5 1.1-.2l.7 1.2c.2.3.1.6-.1.8l-.4.4c.4.9 1.1 1.6 2 2l.4-.4c.2-.2.5-.3.8-.1l1.2.7c.3.3.3.8-.2 1.1-.9.6-2 .5-3-.1a6.2 6.2 0 0 1-2.4-2.4c-.6-1-.7-2.1-.1-3z'/%3E"),
       // o número da origem era a linha de atendimento REAL do cliente; aqui vai o
       // placeholder que o resto do catálogo usa (template_2/Header, template_7/Header)
       href: 'https://api.whatsapp.com/send/?phone=5511999999999',
