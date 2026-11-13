@@ -183,7 +183,7 @@ export const LAYOUTS: Layouts = {
   header: {
     name: "Header",
     items: [
-      { id: "01", selection: "header", key: "hdr01a2b3c4d", image: "header/Header01.webp", imageSource: "design", mobile: "", title: "Header Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Header01", path: "organisms/Header01", platforms: ['Tray','Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
+      { id: "01", selection: "header", key: "hdr01a2b3c4d", image: "header/Header01.webp", imageSource: "design", mobile: "", title: "Header Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Header01", path: "organisms/Header01", platforms: ['Tray','Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
         { cssVar: "--header-topbar-bg", label: "Fundo da barra superior", type: "color", default: "#122161", group: "Barra superior", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--header-topbar-text", label: "Texto/ícones da barra superior", type: "color", default: "#ffffff", group: "Barra superior", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--header-bg", label: "Fundo do header (meio)", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
@@ -197,7 +197,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-font", label: "Fonte do header", type: "font", default: "'Roboto', Arial, Helvetica, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--header-body-font", label: "Fonte da busca", type: "font", default: "'Poppins', Arial, Helvetica, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "03", selection: "header", key: "hdr03a2b3c4d", image: "header/Header03.webp", imageSource: "design", mobile: "", title: "Header Template 3", description: "Header com topbar animada e menu de navegação", template: "3", pagina: ["common"], component: "Header03", path: "organisms/Header03", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+      { id: "03", selection: "header", key: "hdr03a2b3c4d", image: "header/Header03.webp", imageSource: "design", mobile: "", title: "Header Template 3", description: "Header com topbar animada e menu de navegação", template: "3", pagina: ["common"], component: "Header03", path: "organisms/Header03", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--header-topbar-bg", label: "Fundo da barra superior", type: "color", default: "#000000", group: "Barra superior", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--header-topbar-text", label: "Texto da barra superior", type: "color", default: "#ffffff", group: "Barra superior", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
@@ -398,7 +398,7 @@ export const LAYOUTS: Layouts = {
   spot: {
     name: "Card de Produto",
     items: [
-      { id: "01", selection: "spot", key: "crdprd017839", image: "spot/Spot01.webp", imageSource: "design", mobile: "", title: "Card de Produto Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Spot01", path: "molecules/ProductCard01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["secondary", "tertiary"], variablesSchema: [
+      { id: "01", selection: "spot", key: "crdprd017839", image: "spot/Spot01.webp", imageSource: "design", mobile: "", title: "Card de Produto Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Spot01", path: "molecules/ProductCard01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["secondary", "tertiary"], variablesSchema: [
         { cssVar: "--spot-btn-bg", label: "Cor do botão comprar", type: "color", default: "#122161", group: "Botão", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--spot-btn-text", label: "Texto do botão comprar", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--spot-font", label: "Fonte do card de produto", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
@@ -406,7 +406,7 @@ export const LAYOUTS: Layouts = {
       { id: "02", selection: "spot", key: "cardprd02g96", image: "spot/Spot02.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Spot02", path: "molecules/ProductCard02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--spot-font", label: "Fonte do card de produto", type: "font", default: "sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "03", selection: "spot", key: "crdprd03h291", image: "spot/Spot03.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 3", description: "Card de produto com seletor de tamanhos", template: "3", pagina: ["common"], component: "Spot03", path: "molecules/ProductCard03", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["secondary", "tertiary"], variablesSchema: [
+      { id: "03", selection: "spot", key: "crdprd03h291", image: "spot/Spot03.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 3", description: "Card de produto com seletor de tamanhos", template: "3", pagina: ["common"], component: "Spot03", path: "molecules/ProductCard03", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["secondary", "tertiary"], variablesSchema: [
         { cssVar: "--spot-tag-bg", label: "Fundo da etiqueta de desconto", type: "color", default: "#ffffff", group: "Etiquetas", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--spot-tag-text", label: "Texto da etiqueta de desconto", type: "color", default: "#000000", group: "Etiquetas", inheritsLabel: "cor de texto primária" },
         { cssVar: "--spot-btn-bg", label: "Fundo do seletor de tamanho (hover)", type: "color", default: "#000000", group: "Seletor de tamanho", inheritsLabel: "cor secundária da marca", previewNote: "Aparece ao passar o mouse no card." },
@@ -524,7 +524,7 @@ export const LAYOUTS: Layouts = {
   breadcrumb: {
     name: "Breadcrumb",
     items: [
-      { id: "01", selection: "breadcrumb", key: "bred01q3r4s5", image: "breadcrumb/Breadcrumb01.webp", imageSource: "design", mobile: "", title: "Breadcrumb Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Breadcrumb01", path: "overrides/Breadcrumb01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "01", selection: "breadcrumb", key: "bred01q3r4s5", image: "breadcrumb/Breadcrumb01.webp", imageSource: "design", mobile: "", title: "Breadcrumb Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Breadcrumb01", path: "overrides/Breadcrumb01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--breadcrumb-text", label: "Cor do texto e links", type: "color", default: "#292929", group: "Breadcrumb", inheritsLabel: "cor de texto primária" },
         { cssVar: "--breadcrumb-font", label: "Fonte", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
@@ -587,7 +587,7 @@ export const LAYOUTS: Layouts = {
   footer: {
     name: "Footer",
     items: [
-      { id: "01", selection: "footer", key: "ftr01r39ws5p", image: "footer/Footer01.webp", imageSource: "design", mobile: "", title: "Footer Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Footer01",path: "organisms/Footer01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["footer"], variablesSchema: [
+      { id: "01", selection: "footer", key: "ftr01r39ws5p", image: "footer/Footer01.webp", imageSource: "design", mobile: "", title: "Footer Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Footer01",path: "organisms/Footer01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["footer"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#1A051C", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#3D3D3D", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
@@ -596,7 +596,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-title-font", label: "Fonte dos títulos e links", type: "font", default: "'Roboto', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--footer-font", label: "Fonte do texto", type: "font", default: "'Noto Sans', sans-serif", group: "Tipografia" },
       ] },
-      { id: "03", selection: "footer", key: "ftr03q3r4s5t", image: "footer/Footer03.webp", imageSource: "design", mobile: "", title: "Footer Template 3", description: "Footer com benefícios, newsletter e links", template: "3", pagina: ["common"], component: "Footer03", path: "organisms/Footer03", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["footer", "secondary"], variablesSchema: [
+      { id: "03", selection: "footer", key: "ftr03q3r4s5t", image: "footer/Footer03.webp", imageSource: "design", mobile: "", title: "Footer Template 3", description: "Footer com benefícios, newsletter e links", template: "3", pagina: ["common"], component: "Footer03", path: "organisms/Footer03", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["footer", "secondary"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#ffffff", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#000000", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
         { cssVar: "--footer-accent", label: "Cor de destaque (hover, links)", type: "color", default: "#e60f73", group: "Destaque", inheritsLabel: "cor secundária da marca" },
@@ -728,7 +728,7 @@ export const LAYOUTS: Layouts = {
   bannerFull: {
     name: "Banner largura máxima",
     items: [
-      { id: "01", selection: "banner-full", key: "banful01hwt4", image: "bannerFull/BannerFull01.webp", imageSource: "design", mobile: "", title: "Banner largura máxima Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerFull01", path: "atoms/BannerFull01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [] },
+      { id: "01", selection: "banner-full", key: "banful01hwt4", image: "bannerFull/BannerFull01.webp", imageSource: "design", mobile: "", title: "Banner largura máxima Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerFull01", path: "atoms/BannerFull01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [] },
       { id: "02", selection: "banner-full", key: "bnfull02x7k9", image: "bannerFull/BannerFull02.webp", imageSource: "design", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerFull02", path: "atoms/BannerFull02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [] },
       { id: "04", selection: "category-banner", key: "BanFul02op74", image: "bannerFull/BannerFullCategory02.webp", imageSource: "design", mobile: "", title: "Banner largura máxima Template 2", description: "Descrição Template 2", template: "2", pagina: ["category"], component: "BannerFullCategory02", path: "atoms/BannerFullCategory02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [] },
       { id: "05", selection: "banner-full", key: "bnfull05k3m7", image: "bannerFull/BannerFull05.webp", imageSource: "design", mobile: "", title: "Banner largura máxima Template 5", description: "Banner único ocupando a largura total da página", template: "5", pagina: ["home"], component: "BannerFull05", path: "organisms/BannerFull05", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [] },
@@ -737,7 +737,7 @@ export const LAYOUTS: Layouts = {
   brand: {
     name: "Marcas",
     items: [
-      { id: "01", selection: "brands", key: "mar01b3k7h2b", image: "brand/Brand01.webp", imageSource: "design", mobile: "", title: "Marcas Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Brand01", path: "molecules/Brands01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [] },
+      { id: "01", selection: "brands", key: "mar01b3k7h2b", image: "brand/Brand01.webp", imageSource: "design", mobile: "", title: "Marcas Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Brand01", path: "molecules/Brands01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [] },
       { id: "09", selection: "brands", key: "mar09edt2g6y", image: "brand/Brand09.webp", imageSource: "auto", mobile: "", title: "Marcas Template 9", description: "Chamada com filete e \"Ver todas\"; as marcas numa grade entre filetes, em logo ou em texto num dos seis estilos tipográficos; duas colunas no mobile", template: "9", pagina: ["home"], component: "Brand09", path: "molecules/Brands09", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--brands-bg", label: "Fundo da seção", type: "color", default: "#f7f4ef", group: "Marcas" },
         { cssVar: "--brands-text", label: "Texto das marcas", type: "color", default: "#1d1b18", group: "Marcas", inheritsLabel: "cor de texto primária" },
@@ -802,7 +802,7 @@ export const LAYOUTS: Layouts = {
   textArea: {
     name: "Área de Texto",
     items: [
-      { id: "01", selection: "text-area", key: "txt01a2b3c4d", image: "textArea/TextArea.webp", imageSource: "auto", mobile: "", title: "Área de Texto Template 1", description: "Bloco de conteúdo HTML livre, preenchido no CMS", template: "1", pagina: ["home"], override: true, path: "molecules/TextArea", component: "TextArea", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "01", selection: "text-area", key: "txt01a2b3c4d", image: "textArea/TextArea.webp", imageSource: "auto", mobile: "", title: "Área de Texto Template 1", description: "Bloco de conteúdo HTML livre, preenchido no CMS", template: "1", pagina: ["home"], override: true, path: "molecules/TextArea", component: "TextArea", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--text-area-font", label: "Fonte do texto", type: "font", default: "inherit", group: "Tipografia" },
       ] },
     ],
@@ -810,7 +810,7 @@ export const LAYOUTS: Layouts = {
   categories: {
     name: "Carrossel de Categorias",
     items: [
-      { id: "01", selection: "categories", key: "cat01lk3ndkl", image: "categories/Categories01.webp", imageSource: "design", mobile: "", title: "Carrossel de Categorias Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Categories01", path: "molecules/Categories01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "01", selection: "categories", key: "cat01lk3ndkl", image: "categories/Categories01.webp", imageSource: "design", mobile: "", title: "Carrossel de Categorias Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Categories01", path: "molecules/Categories01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--categories-title-color", label: "Cor do título e nomes", type: "color", default: "#122161", group: "Texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
@@ -908,7 +908,7 @@ export const LAYOUTS: Layouts = {
   banner: {
     name: "Banners",
     items: [
-      { id: "01", selection: "banner-main", key: "ban01m1k3nq2", image: "banner/BannerMain01.webp", imageSource: "design", mobile: "", title: "Banners Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerMain01", path: "organisms/BannerMain01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "01", selection: "banner-main", key: "ban01m1k3nq2", image: "banner/BannerMain01.webp", imageSource: "design", mobile: "", title: "Banners Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerMain01", path: "organisms/BannerMain01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--banner-main-accent", label: "Cor do bullet ativo", type: "color", default: "#682A77", group: "Carrossel", inheritsLabel: "cor primária da marca" },
       ] },
       { id: "06", selection: "banner-main", key: "ban06a1b2c3d", image: "banner/BannerMain06.webp", imageSource: "design", mobile: "", title: "Banners Template 6", description: "Banner clicável de largura total, com arte separada para desktop e mobile", template: "6", pagina: ["home"], component: "BannerMain06", path: "organisms/BannerMain06", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [] },
@@ -1006,7 +1006,7 @@ export const LAYOUTS: Layouts = {
   ruler: {
     name: "Regua de benefícios",
     items: [
-      { id: "01", selection: "ruler", key: "bnf01lm3a894", image: "ruler/Ruler01.webp", imageSource: "design", mobile: "", title: "Regua de benefícios Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Ruler01", path: "molecules/Ruler01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["secondary"], variablesSchema: [
+      { id: "01", selection: "ruler", key: "bnf01lm3a894", image: "ruler/Ruler01.webp", imageSource: "design", mobile: "", title: "Regua de benefícios Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Ruler01", path: "molecules/Ruler01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["secondary"], variablesSchema: [
         { cssVar: "--ruler-bg", label: "Fundo da régua", type: "color", default: "#122161", group: "Régua", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--ruler-text", label: "Texto e ícones da régua", type: "color", default: "#ffffff", group: "Régua", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--ruler-font", label: "Fonte da régua de benefícios", type: "font", default: "Arial, sans-serif", group: "Tipografia" },
@@ -1094,7 +1094,7 @@ export const LAYOUTS: Layouts = {
   grid: {
     name: "Grid de banners",
     items: [
-      { id: "01", selection: "banner-grid", key: "grd01qw09er8", image: "grid/BannerGrid01.webp", imageSource: "design", mobile: "", title: "Grid de banners Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerGrid01", path: "molecules/BannerGrid01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "01", selection: "banner-grid", key: "grd01qw09er8", image: "grid/BannerGrid01.webp", imageSource: "design", mobile: "", title: "Grid de banners Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerGrid01", path: "molecules/BannerGrid01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--banner-grid-title-color", label: "Cor do título", type: "color", default: "#122161", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--banner-grid-font", label: "Fonte do título", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
@@ -1179,7 +1179,7 @@ export const LAYOUTS: Layouts = {
   bannerSide: {
     name: "Banner Side",
     items: [
-      { id: "01", selection: "banner-side", key: "bansd014mh45", image: "bannerSide/BannerSide01.webp", imageSource: "design", mobile: "", title: "Banner Side Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerSide01", path: "molecules/BannerSide01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [] },
+      { id: "01", selection: "banner-side", key: "bansd014mh45", image: "bannerSide/BannerSide01.webp", imageSource: "design", mobile: "", title: "Banner Side Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerSide01", path: "molecules/BannerSide01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [] },
       { id: "02", selection: "banner-duplo", key: "bansdhg028e3", image: "bannerSide/BannerDuplo02.webp", imageSource: "design", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerDuplo02", path: "molecules/BannerDuplo02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [], variablesSchema: [
         { cssVar: "--banner-duplo-title-font", label: "Fonte do título", type: "font", default: "'Roboto', Arial, Helvetica, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
@@ -1298,7 +1298,7 @@ export const LAYOUTS: Layouts = {
   showcase: {
     name: "Vitrines",
     items: [
-      { id: "01", selection: "showcase", key: "vtr01cm487ha", image: "showcase/Showcase01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Showcase01", path: "organisms/ProductShelfCustom01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "01", selection: "showcase", key: "vtr01cm487ha", image: "showcase/Showcase01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "Showcase01", path: "organisms/ProductShelfCustom01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--showcase-title-color", label: "Cor do título", type: "color", default: "#122161", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--showcase-font", label: "Fonte do título", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--showcase-accent", label: "Cor do bullet ativo", type: "color", default: "#682a77", group: "Carrossel", inheritsLabel: "cor primária da marca" },
@@ -1306,7 +1306,7 @@ export const LAYOUTS: Layouts = {
       { id: "02", selection: "showcase", key: "vtr02mq91m48", image: "showcase/Showcase02.webp", imageSource: "design", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Showcase02", path: "organisms/ProductShelfCustom02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--showcase-font", label: "Fonte do título", type: "font", default: "sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
-      { id: "03", selection: "showcase", key: "vtr03s5t6u7v", image: "showcase/Showcase03.webp", imageSource: "auto", mobile: "", title: "Vitrine Template 3", description: "Vitrine de produtos com carrossel e seletor de tamanhos", template: "3", pagina: ["home"], component: "Showcase03", path: "organisms/ProductShelfCustom03", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["primary"], variablesSchema: [
+      { id: "03", selection: "showcase", key: "vtr03s5t6u7v", image: "showcase/Showcase03.webp", imageSource: "auto", mobile: "", title: "Vitrine Template 3", description: "Vitrine de produtos com carrossel e seletor de tamanhos", template: "3", pagina: ["home"], component: "Showcase03", path: "organisms/ProductShelfCustom03", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--showcase-title-color", label: "Cor do título", type: "color", default: "#292929", group: "Título", inheritsLabel: "cor de texto primária" },
         { cssVar: "--showcase-font", label: "Fonte do título", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--showcase-accent", label: "Cor do bullet ativo", type: "color", default: "#000000", group: "Carrossel", inheritsLabel: "cor primária da marca" },
@@ -1561,7 +1561,7 @@ export const LAYOUTS: Layouts = {
   productBanner: {
     name: "Banner do produto",
     items: [
-      { id: "01", selection: "product-banner", key: "pdb01vtx4k5l", image: "productBanner/ProductBanner01.webp", imageSource: "design", mobile: "", title: "Banner do produto Template 1", description: "Banner livre do produto, cadastrado no campo descriptionBanner da VTEX; arte separada para desktop e mobile", template: "1", pagina: ["product"], component: "ProductBanner01", path: "molecules/ProductDescriptionBanner01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [] },
+      { id: "01", selection: "product-banner", key: "pdb01vtx4k5l", image: "productBanner/ProductBanner01.webp", imageSource: "design", mobile: "", title: "Banner do produto Template 1", description: "Banner livre do produto, cadastrado no campo descriptionBanner da VTEX; arte separada para desktop e mobile", template: "1", pagina: ["product"], component: "ProductBanner01", path: "molecules/ProductDescriptionBanner01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [] },
     ],
   },
 
@@ -1973,7 +1973,7 @@ export const LAYOUTS: Layouts = {
   categoryMain: {
     name: "Grade de produtos",
     items: [
-      { id: "01", selection: "category-main", key: "catmn01ll098", image: "categoryMain/CategoryMain01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryMain01", path: "organisms/MainCategory01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
+      { id: "01", selection: "category-main", key: "catmn01ll098", image: "categoryMain/CategoryMain01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryMain01", path: "organisms/MainCategory01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
         { cssVar: "--cat-main-text", label: "Cor do texto", type: "color", default: "#141414", group: "Texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--cat-main-btn-bg", label: "Cor do botão de filtro", type: "color", default: "#122161", group: "Botões", inheritsLabel: "cor secundária da marca", previewNote: "Só na visão Mobile — alterne no topo do editor." },
         { cssVar: "--cat-main-btn-text", label: "Texto do botão de filtro", type: "color", default: "#ffffff", group: "Botões", inheritsLabel: "cor de texto secundária", previewNote: "Só na visão Mobile — alterne no topo do editor." },
@@ -2094,7 +2094,7 @@ export const LAYOUTS: Layouts = {
   categoryDescription: {
     name: "Descrição de categoria",
     items: [
-      { id: "01", selection: "category-description", key: "catdes01hp82", image: "categoryDescription/CategoryDescription01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryDescription01", path: "organisms/DescriptionCategory01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "01", selection: "category-description", key: "catdes01hp82", image: "categoryDescription/CategoryDescription01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryDescription01", path: "organisms/DescriptionCategory01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--cat-desc-text", label: "Cor do texto", type: "color", default: "#122161", group: "Texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--cat-desc-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
@@ -2168,13 +2168,13 @@ export const LAYOUTS: Layouts = {
   bannerProduct: {
     name: "Banner",
     items: [
-      { id: "01", selection: "banner-top", key: "ban01p4q5r6s", image: "bannerProduct/BannerTop01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "BannerTop01", path: "molecules/BannerTop01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [] },
+      { id: "01", selection: "banner-top", key: "ban01p4q5r6s", image: "bannerProduct/BannerTop01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "BannerTop01", path: "molecules/BannerTop01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [] },
     ],
   },
   productDescription: {
     name: "descrição",
     items: [
-      { id: "01", selection: "product-description", key: "desc01t7u8v9w", image: "productDescription/ProductDescription01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductDescription01", path: "molecules/ProductDescription01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["tertiary"], variablesSchema: [
+      { id: "01", selection: "product-description", key: "desc01t7u8v9w", image: "productDescription/ProductDescription01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductDescription01", path: "molecules/ProductDescription01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["tertiary"], variablesSchema: [
         { cssVar: "--prod-desc-text", label: "Cor do texto", type: "color", default: "#122161", group: "Texto", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-desc-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
@@ -2241,7 +2241,7 @@ export const LAYOUTS: Layouts = {
   productInfo: {
     name: "Informações do produto",
     items: [
-      { id: "01", selection: "product-info", key: "info01x0y1z2a", image: "productInfo/ProductInfo01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductInfo01", path: "organisms/ProductDetails01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
+      { id: "01", selection: "product-info", key: "info01x0y1z2a", image: "productInfo/ProductInfo01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductInfo01", path: "organisms/ProductDetails01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
         { cssVar: "--prod-info-btn-bg", label: "Cor do botão comprar", type: "color", default: "#682A77", group: "Botão principal", inheritsLabel: "cor primária da marca" },
         { cssVar: "--prod-info-btn-text", label: "Texto do botão comprar", type: "color", default: "#ffffff", group: "Botão principal", inheritsLabel: "cor de texto base" },
         { cssVar: "--prod-info-variant-active-bg", label: "Variação selecionada: fundo", type: "color", default: "#682A77", group: "Variações" },
@@ -2253,7 +2253,7 @@ export const LAYOUTS: Layouts = {
       { id: "02", selection: "product-info", key: "info02b3c4d5e", image: "productInfo/ProductInfo02.webp", imageSource: "design", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["product"], component: "ProductInfo02", path: "organisms/ProductInfo02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
         { cssVar: "--prod-info-font", label: "Fonte das informações do produto", type: "font", default: "sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "03", selection: "product-info", key: "info03c4d5e6f", image: "productInfo/ProductInfo03.webp", imageSource: "auto", mobile: "", title: "Detalhes do Produto Template 3", description: "PDP FastStore (SérieA): galeria com scroll, título, avaliação, variações de cor/tamanho, selos de confiança e accordion", template: "3", pagina: ["product"], component: "ProductInfo03", path: "organisms/ProductDetails02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [], variablesSchema: [
+      { id: "03", selection: "product-info", key: "info03c4d5e6f", image: "productInfo/ProductInfo03.webp", imageSource: "auto", mobile: "", title: "Detalhes do Produto Template 3", description: "PDP FastStore (SérieA): galeria com scroll, título, avaliação, variações de cor/tamanho, selos de confiança e accordion", template: "3", pagina: ["product"], component: "ProductInfo03", path: "organisms/ProductDetails02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--prod-info-title", label: "Cor do título do produto", type: "color", default: "#000", group: "Título e avaliação" },
         { cssVar: "--prod-info-rating", label: "Cor das estrelas de avaliação", type: "color", default: "#121212", group: "Título e avaliação" },
         { cssVar: "--prod-info-price", label: "Cor do preço", type: "color", default: "#121212", group: "Preço" },
@@ -2475,7 +2475,7 @@ export const LAYOUTS: Layouts = {
   productRelated: {
     name: "Produtos Relacionados",
     items: [
-      { id: "01", selection: "product-related", key: "rel01f6g7h8i", image: "productRelated/ProductRelated01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductRelated01", path: "organisms/ProductShowcase01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX'], backgroundVars: [] },
+      { id: "01", selection: "product-related", key: "rel01f6g7h8i", image: "productRelated/ProductRelated01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductRelated01", path: "organisms/ProductShowcase01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [] },
       { id: "09", selection: "product-related", key: "rel09edt4n7z", image: "productRelated/ProductRelated09.webp", imageSource: "auto", mobile: "", title: "Produtos relacionados Template 9", description: "\"Você também pode gostar\": título em serifa, setas na linha do título e quatro cards por vez; no mobile, cards rolando de lado com filete de progresso", template: "9", pagina: ["product"], override: true, component: "ProductRelated09", path: "overrides/CrossSellingShelf09", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--showcase-bg", label: "Fundo da seção", type: "color", default: "#f7f4ef", group: "Relacionados" },
         { cssVar: "--showcase-title-color", label: "Título", type: "color", default: "#1d1b18", group: "Relacionados", inheritsLabel: "cor de texto primária" },
