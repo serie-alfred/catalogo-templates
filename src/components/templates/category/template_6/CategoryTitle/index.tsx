@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { LayoutContext } from '@/context/LayoutContext';
 
 import styles from './index.module.css';
 
@@ -22,6 +24,15 @@ const conteudo = {
 };
 
 export default function CategoryTitle() {
+  /* O Category Main 06 já traz a trilha, o título e a contagem (o MainCategory06 da
+     origem desenha os três). Com ele na mesma página de categoria, esta seção sai de
+     cena — senão título e contagem aparecem duas vezes. Sozinha, ela vale. */
+  const selecoes = useContext(LayoutContext)?.selections ?? [];
+  const comMain06 = selecoes.some(
+    s => s.layoutKey === 'categoryMain' && s.id === '06' && (s.pagina ?? []).includes('category')
+  );
+  if (comMain06) return null;
+
   return (
     <div className={styles.root}>
       <section className={styles.categoryTitle06} data-role="plp-title-row">
