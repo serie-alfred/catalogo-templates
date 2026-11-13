@@ -641,9 +641,15 @@ if (
     )
       lp = JSON.parse(ler(EXPORTADO_LP));
   } else {
-    // A primeira seção de miolo entra duas vezes, cada cópia com os próprios
-    // marcadores (variável por cópia na LP).
-    const [primeira, ...resto] = miolo;
+    // A primeira seção de miolo COM variável entra duas vezes, cada cópia com os
+    // próprios marcadores (variável por cópia na LP). Família antiga abre a home
+    // com um banner sem Nível 1 (a 01 começa por `banner-full`): sem escolher a
+    // que tem variável, a LP chegava com 0 variável e o estágio reprovava.
+    const iComVariavel = miolo.findIndex(i => marcadores(i).length > 0);
+    const [primeira, ...resto] =
+      iComVariavel > 0
+        ? [miolo[iComVariavel], ...miolo.filter((_, k) => k !== iComVariavel)]
+        : miolo;
     const com = (i, base) =>
       entrada(
         i,
