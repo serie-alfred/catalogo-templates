@@ -200,15 +200,18 @@ export function autotesteCopias(r) {
  */
 export function conferirTrayWake(config, plataforma, r) {
   // 'Wake 2.0' é a trilha `wake` com `designStudio: true`; origem, token e
-  // contrato são os da Wake.
-  const wake2 = plataforma === 'Wake 2.0';
+  // contrato são os da Wake. Desde 10/11 (`1c4a35e`) a Wake é uma só, a do Design
+  // Studio: a aba ou o tema salvo com a clássica (`'Wake'`) abre nela
+  // (`sanitizePlatform`), então todo export da Wake sai com `designStudio: true`.
+  const rotulo = plataforma === 'Wake' ? 'Wake (aba salva como a clássica)' : plataforma;
+  const wake2 = plataforma === 'Wake 2.0' || plataforma === 'Wake';
   if (wake2) plataforma = 'Wake';
   const raiz = config[plataforma.toLowerCase()];
   const entradas = [];
   if (plataforma === 'Wake')
     r.ok(
       wake2
-        ? 'Wake 2.0: wake.designStudio === true'
+        ? `${rotulo}: wake.designStudio === true`
         : 'Wake: sem a chave designStudio (config igual ao de sempre)',
       wake2 ? raiz.designStudio === true : !('designStudio' in raiz),
       JSON.stringify(raiz.designStudio)
