@@ -90,10 +90,6 @@ const CONTEUDO = {
   aviseMeLabel: 'AVISE-ME',
   sizeGuideImage: 'https://placehold.co/600x461/f0f0f0/999999?text=Guia+de+medidas',
   buyLabel: 'COMPRAR AGORA',
-  shareWhatsappIconUrl: 'https://placehold.co/20x20/25d366/ffffff?text=%20',
-  shareInstagramIconUrl: 'https://placehold.co/20x20/c13584/ffffff?text=%20',
-  shareFacebookIconUrl: 'https://placehold.co/20x20/1877f2/ffffff?text=%20',
-  shareCopyIconUrl: 'https://placehold.co/20x20/f4f4f4/999999?text=%20',
   shareInstagramUrl: '#',
 };
 
@@ -392,16 +388,16 @@ export default function ProductInfo() {
                       {shareOpen && (
                         <span className={styles.sharePopover} data-role="share-popover">
                           <a className={`${styles.shareTile} ${styles.shareWpp}`} href="#" aria-label="Compartilhar no WhatsApp" data-role="share-tile">
-                            <img src={CONTEUDO.shareWhatsappIconUrl} alt="" width={20} height={20} />
+                            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 17l1.2-3.3A7 7 0 1 1 7 16.2L3 17z" /><path d="M7.5 7.2c.3-.5.8-.5 1.1-.2l.7 1.2c.2.3.1.6-.1.8l-.4.4c.4.9 1.1 1.6 2 2l.4-.4c.2-.2.5-.3.8-.1l1.2.7c.3.3.3.8-.2 1.1-.9.6-2 .5-3-.1a6.2 6.2 0 0 1-2.4-2.4c-.6-1-.7-2.1-.1-3z" /></svg>
                           </a>
                           <a className={`${styles.shareTile} ${styles.shareInsta}`} href={CONTEUDO.shareInstagramUrl} aria-label="Abrir o Instagram da marca" data-role="share-tile">
-                            <img src={CONTEUDO.shareInstagramIconUrl} alt="" width={20} height={20} />
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="4" /></svg>
                           </a>
                           <a className={`${styles.shareTile} ${styles.shareFb}`} href="#" aria-label="Compartilhar no Facebook" data-role="share-tile">
-                            <img src={CONTEUDO.shareFacebookIconUrl} alt="" width={20} height={20} />
+                            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.5-1.5h1.6V4.4a21 21 0 0 0-2.3-.1c-2.3 0-3.9 1.4-3.9 4v2.2H7.8v3h2.6V21z" /></svg>
                           </a>
                           <button type="button" className={`${styles.shareTile} ${styles.shareCopy}`} aria-label="Copiar o link do produto" data-role="share-tile">
-                            <img src={CONTEUDO.shareCopyIconUrl} alt="" width={20} height={20} />
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2" /><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" /></svg>
                           </button>
                           <span className={styles.srOnly} role="status" aria-live="polite" />
                         </span>

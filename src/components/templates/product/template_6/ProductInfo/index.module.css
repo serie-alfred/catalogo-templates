@@ -190,6 +190,8 @@ wrapper é quem estica — .galleryCol) ── */
   flex: none;
   width: 100%;
   aspect-ratio: 1 / 1;
+  overflow: hidden;
+  /* sem isso o quadrado cresce até a altura de uma foto retrato (min-height auto) */
   /* thumb quadrada (159.23@1280 / 181@1920) */
   margin: 0;
   /* metrics: thumb-slide mar 0 */
@@ -218,7 +220,8 @@ wrapper é quem estica — .galleryCol) ── */
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  /* a foto inteira no quadrado, qualquer que seja a proporção da foto da loja */
 }
 
 .thumbActive {
