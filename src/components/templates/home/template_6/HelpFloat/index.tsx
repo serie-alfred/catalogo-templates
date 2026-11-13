@@ -15,7 +15,7 @@ import styles from './index.module.css';
  * width/height 20 explícitos nos dois lados.
  */
 const icone = (d: string) =>
-  `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none' stroke='%23ffffff' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E${d}%3C/svg%3E`;
+  `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none' stroke='%23ffffff' stroke-width='1.1' stroke-linecap='round' stroke-linejoin='round'%3E${d}%3C/svg%3E`;
 
 interface Item {
   label: string;
