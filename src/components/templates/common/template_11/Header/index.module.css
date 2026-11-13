@@ -424,3 +424,19 @@
 }
 
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* A busca da barra divide a largura com o menu e, acima de 960px (até ~1400px), fica com
+   160–200px: as sugestões quebravam em duas linhas. A caixa tem no mínimo 320px (presa à
+   esquerda do campo) e cada linha fica numa linha só. */
+@container (min-width: 961px) {
+  .search .suggestions {
+    right: auto;
+    width: max(calc(100% + 2px), 320px);
+  }
+}
+.suggestTerm,
+.suggestProduct {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
