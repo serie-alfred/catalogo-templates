@@ -348,3 +348,13 @@
     max-width: 320px;
   }
 }
+
+/* Campos (busca, newsletter, CEP) sem anel de foco do navegador nem sombra: no foco a borda
+   fica a de antes. Igual à Wake. */
+.footer__main input:focus,
+.footer__main input:focus-visible,
+.footer__main textarea:focus,
+.footer__main select:focus {
+  outline: none;
+  box-shadow: none;
+}

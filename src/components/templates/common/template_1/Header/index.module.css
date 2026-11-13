@@ -1530,3 +1530,13 @@ header.header .searchProductList {
     display: none;
   }
 }
+
+/* Campos (busca, newsletter, CEP) sem anel de foco do navegador nem sombra: no foco a borda
+   fica a de antes. Igual à Wake. */
+.header01Root input:focus,
+.header01Root input:focus-visible,
+.header01Root textarea:focus,
+.header01Root select:focus {
+  outline: none;
+  box-shadow: none;
+}

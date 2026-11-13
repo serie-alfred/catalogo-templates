@@ -8,7 +8,6 @@ import {
   ICO_BAG,
   ICO_CHAT,
   ICO_CHEVRON,
-  ICO_LOGO,
   ICO_MENU,
   ICO_SEARCH,
   ICO_SEARCH_MOBILE,
@@ -19,7 +18,7 @@ import styles from './index.module.css';
 /**
  * Espelha `organisms/Header08` do faststore.starter — header do "Templates - Serie
  * A" (Figma 7316:17346 / 7316:19143). Mesmo markup, classes, `data-role` e vars de
- * Nível 1. O logo é o que o usuário enviou no /gerador; sem ele, a marca do Figma.
+ * Nível 1. O logo é o que o usuário enviou no /gerador; sem ele, a marca em texto SERIE//A.
  * O contador mostra o "99" do Figma (no starter é o carrinho de verdade).
  */
 
@@ -53,7 +52,7 @@ export default function Header08() {
       {logo ? (
         <img src={logo} alt="Logo" height={32} />
       ) : (
-        <Ico svg={ICO_LOGO} />
+        <span className={styles.logoText}>SERIE//A</span>
       )}
     </a>
   );

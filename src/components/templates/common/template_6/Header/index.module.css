@@ -1073,3 +1073,13 @@
     max-height: calc(100vh - 6.2rem);
   }
 }
+
+/* Campos (busca, newsletter, CEP) sem anel de foco do navegador nem sombra: no foco a borda
+   fica a de antes. Igual à Wake. */
+.header06Root input:focus,
+.header06Root input:focus-visible,
+.header06Root textarea:focus,
+.header06Root select:focus {
+  outline: none;
+  box-shadow: none;
+}

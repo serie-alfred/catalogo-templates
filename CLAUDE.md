@@ -694,12 +694,18 @@ a declaram (`'Wake 2.0'` no `platforms` de todo item Wake): as seções de home 
     texto do header. Numa paleta com header escuro, os dois somem no canvas e na loja. Na Wake os
     dois foram corrigidos no porte; na réplica continuam assim.
   - **Marca sem logo = `SERIE//A`**, na réplica e na Wake (slot `hdNN_logo`/`ftNN_logo`), nunca
-    uma marca de demonstração ("NORTE" saiu no Header/Footer 03 da Wake). Linha legal/CNPJ só com
+    uma marca de demonstração ("NORTE" saiu no Header/Footer 03 da Wake) nem um símbolo fixo (o
+    asterisco do Figma no Header/Footer 08 saiu; agora `.logoText`). Linha legal/CNPJ só com
     marcadores que a loja edita (`[RAZÃO SOCIAL] · CNPJ [00.000.000/0001-00] · [Endereço
     completo]`), nada de empresa, CNPJ ou endereço inventados.
   - **Destaque igual ao fundo apaga o hover:** com fundo e destaque escuros, texto que vira
     `--header-accent` no hover some. Hover de menu e caminho aberto = fundo tingido pela cor do
     texto; submenu abre ao lado do painel (`left: 100%`; na borda direita, `right: 100%`).
+    Teste com a paleta da família 09 (`#1d1b18` no texto, no fundo primário e no secundário) e
+    meça hover de cada nível ≥ 3:1: o Header05 saía 1:1 (item, links do painel e as `//` da
+    marca). O destaque só pinta texto sobre hex fixo do desenho, nunca sobre um token da paleta.
+    Escolha: CSS (`currentColor`), não um token "seguro" novo no `themeStyle` — o fundo pode vir do
+    Nível 1 da seção, que um token global não enxerga, e o token teria de ir às três plataformas.
   - **Marquee: duas metades iguais + `translateX(-50%)`**, sem padding/gap no trilho, e cada
     metade mais larga que a tela (Header03, Header14, Ruler14 — meça em 2560 também).
   - O checklist do que o porte para a Wake precisa está no `README.md` do `global-templates`

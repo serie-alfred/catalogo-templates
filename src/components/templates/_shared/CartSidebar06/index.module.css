@@ -517,7 +517,6 @@
 }
 .ssContainer .ssInput:focus {
   outline: none;
-  border-color: var(--prod-info-text, var(--text-primary-color, #212721));
 }
 
 .ssContainer .ssButton {
@@ -708,7 +707,7 @@
   overflow: hidden;
 }
 .ssCart .ssForm:focus-within {
-  border-color: var(--prod-info-text, var(--text-primary-color, #212721));
+  outline: none;
 }
 
 .ssCart .ssInput {
@@ -784,7 +783,7 @@
   overflow: hidden;
 }
 .cpForm:focus-within {
-  border-color: var(--cart-text, var(--text-primary-color, #212721));
+  outline: none;
 }
 
 .cpContainer .cpInput {

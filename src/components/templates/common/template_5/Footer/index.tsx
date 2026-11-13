@@ -19,7 +19,7 @@ const data = {
   newsletterButtonLabel: 'Quero receber',
   newsletterConsentText:
     'Quero receber novidades, ofertas e comunicações da SÉRIE//A. Posso cancelar a qualquer momento.',
-  brandName: 'SÉRIE//A',
+  brandName: 'SERIE//A',
   brandDescription:
     'Uma loja de departamentos feita para escolhas simples, produtos relevantes e uma compra sem atrito.',
   columns: [

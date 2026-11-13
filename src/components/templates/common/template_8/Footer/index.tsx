@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
-import { ICO_LOGO, ICO_PAGAMENTO, ICO_SOCIAL } from './icons';
+import { ICO_PAGAMENTO, ICO_SOCIAL } from './icons';
 import styles from './index.module.css';
 
 /**
@@ -99,9 +99,9 @@ export default function Footer08() {
                 data-role="ft-logo"
               >
                 {logo ? (
-                  <img src={logo} alt="" height={48} loading="lazy" />
+                  <img src={logo} alt="Logo" height={48} loading="lazy" />
                 ) : (
-                  <Svg svg={ICO_LOGO} className={styles.ico} />
+                  <span className={styles.logoText}>SERIE//A</span>
                 )}
               </a>
               <p className={styles.text} data-role="ft-text">

@@ -350,3 +350,25 @@
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
 
 /* O canvas não navega nem abre gaveta: os links e botões são só desenho. */
+
+/* Sem logo enviado: a marca em texto SERIE//A (a reserva de todos os headers e footers do
+   catálogo), no lugar do símbolo do Figma — o símbolo não é a marca da loja. Igual à Wake. */
+.logoText {
+  display: block;
+  font-weight: 800;
+  font-size: 22px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  color: inherit;
+}
+
+/* Campos (busca, newsletter, CEP) sem anel de foco do navegador nem sombra: no foco a borda
+   fica a de antes. Igual à Wake. */
+.header08 input:focus,
+.header08 input:focus-visible,
+.header08 textarea:focus,
+.header08 select:focus {
+  outline: none;
+  box-shadow: none;
+}

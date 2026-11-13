@@ -245,3 +245,25 @@
 }
 
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* Sem logo enviado: a marca em texto SERIE//A (a reserva de todos os headers e footers do
+   catálogo), no lugar do símbolo do Figma — o símbolo não é a marca da loja. Igual à Wake. */
+.logoText {
+  display: block;
+  font-weight: 800;
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  color: inherit;
+}
+
+/* Campos (busca, newsletter, CEP) sem anel de foco do navegador nem sombra: no foco a borda
+   fica a de antes. Igual à Wake. */
+.footer08Box input:focus,
+.footer08Box input:focus-visible,
+.footer08Box textarea:focus,
+.footer08Box select:focus {
+  outline: none;
+  box-shadow: none;
+}

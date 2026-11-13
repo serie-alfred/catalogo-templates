@@ -230,3 +230,13 @@
     background-color: var(--color-black);
   }
 }
+
+/* Campos (busca, newsletter, CEP) sem anel de foco do navegador nem sombra: no foco a borda
+   fica a de antes. Igual à Wake. */
+.footer__newsletter input:focus,
+.footer__newsletter input:focus-visible,
+.footer__newsletter textarea:focus,
+.footer__newsletter select:focus {
+  outline: none;
+  box-shadow: none;
+}

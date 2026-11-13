@@ -91,8 +91,7 @@
   font: inherit;
 }
 .nlField:focus {
-  border-color: var(--footer-newsletter-text, var(--text-color-base, #000000)) !important;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--footer-newsletter-text, var(--text-color-base, #000000)) 18%, transparent) !important;
+  outline: none;
 }
 
 .nlButton {
@@ -362,4 +361,14 @@
   .paymentRow {
     flex-wrap: wrap;
   }
+}
+
+/* Campos (busca, newsletter, CEP) sem anel de foco do navegador nem sombra: no foco a borda
+   fica a de antes. Igual à Wake. */
+.footer05 input:focus,
+.footer05 input:focus-visible,
+.footer05 textarea:focus,
+.footer05 select:focus {
+  outline: none;
+  box-shadow: none;
 }

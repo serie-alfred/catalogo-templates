@@ -21,7 +21,7 @@ const data = {
     { name: 'Atendimento', url: '#' },
     { name: 'Acompanhar pedido', url: '#' },
   ],
-  brandName: 'SÉRIE//A',
+  brandName: 'SERIE//A',
   searchPlaceholder: 'Buscar produtos e marcas',
   favoritesLabel: 'Favoritos',
   favoritesCount: 2,

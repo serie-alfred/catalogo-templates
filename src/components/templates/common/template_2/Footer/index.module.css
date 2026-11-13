@@ -822,6 +822,18 @@
   font-size: 24px;
   line-height: 1;
   white-space: nowrap;
-  color: var(--header-text, var(--text-color-base, #122161));
+  /* Cor do texto do rodapé (como na Wake): a do texto do header é a de contraste com o fundo
+     do HEADER, e na paleta da família 09 saía branca sobre o rodapé claro. */
+  color: var(--footer-text, var(--text-color-footer, #122161));
   font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+}
+
+/* Campos (busca, newsletter, CEP) sem anel de foco do navegador nem sombra: no foco a borda
+   fica a de antes. Igual à Wake. */
+.footer input:focus,
+.footer input:focus-visible,
+.footer textarea:focus,
+.footer select:focus {
+  outline: none;
+  box-shadow: none;
 }

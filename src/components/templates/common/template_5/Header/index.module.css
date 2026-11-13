@@ -150,8 +150,10 @@
   color: var(--header-text, var(--text-color-base, #1a1f2b));
 }
 
+/* As barras do "SERIE//A" (sem logo) não usam a cor de destaque: numa paleta em que ela é
+   a do fundo do header (os dois escuros, como na da família 09), as barras sumiam. */
 .wordmarkAccent {
-  color: var(--header-accent, var(--background-secundary-color, #2f9e57));
+  opacity: 0.55;
 }
 
 .wordmarkImg {
@@ -245,10 +247,16 @@
   cursor: pointer;
   color: inherit;
 }
+/* Hover e menu aberto sem trocar a cor do texto: com a cor de destaque, numa paleta em que
+   ela é a do fundo da barra (os dois escuros), o item sumia. Fundo tingido pela cor do texto;
+   o aberto ganha também o traço embaixo. */
 .navItem > button:hover,
 .navItem > a:hover,
 .navItem > button[aria-expanded=true] {
-  color: var(--header-accent, var(--background-secundary-color, #2f9e57));
+  background: color-mix(in srgb, currentColor 9%, transparent);
+}
+.navItem > button[aria-expanded=true] {
+  box-shadow: inset 0 -2px 0 currentColor;
 }
 .navItem.navItemSale > a {
   color: var(--h5-danger);
@@ -309,7 +317,9 @@
   font-size: 14px;
 }
 .menuLinks a:hover {
-  color: var(--header-accent, var(--background-secundary-color, #2f9e57));
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
 }
 .menuLinks a:first-child {
   font-weight: 650;
@@ -381,8 +391,7 @@
   font-size: 14px;
 }
 .simpleGrid a:hover {
-  color: var(--header-accent, var(--background-secundary-color, #2f9e57));
-  border-color: var(--header-accent, var(--background-secundary-color, #2f9e57));
+  border-color: currentColor;
 }
 
 /* Clique fora do painel fecha a busca — indicar que é clicável. .searchPanel
@@ -428,8 +437,7 @@
   font-size: 17px;
 }
 .searchField:focus {
-  border-color: var(--header-accent, var(--background-secundary-color, #2f9e57));
-  box-shadow: 0 0 0 3px rgba(47, 158, 87, 0.18);
+  outline: none;
 }
 
 .iconBtn {
@@ -774,4 +782,14 @@
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* Campos (busca, newsletter, CEP) sem anel de foco do navegador nem sombra: no foco a borda
+   fica a de antes. Igual à Wake. */
+.header05 input:focus,
+.header05 input:focus-visible,
+.header05 textarea:focus,
+.header05 select:focus {
+  outline: none;
+  box-shadow: none;
 }

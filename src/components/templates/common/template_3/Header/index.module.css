@@ -155,7 +155,6 @@
 .searchInput:focus {
   outline: none;
   background: #fff;
-  border-color: #000;
   box-shadow: 0 0 0 3px rgba(0,0,0,0.04);
 }
 .searchIcon {
@@ -1160,4 +1159,14 @@
 }
 .soTag:hover {
   border-color: var(--header-text, var(--text-color-base, #000000));
+}
+
+/* Campos (busca, newsletter, CEP) sem anel de foco do navegador nem sombra: no foco a borda
+   fica a de antes. Igual à Wake. */
+.header03Root input:focus,
+.header03Root input:focus-visible,
+.header03Root textarea:focus,
+.header03Root select:focus {
+  outline: none;
+  box-shadow: none;
 }

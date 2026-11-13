@@ -6,10 +6,10 @@ const Footer = () => {
   const logo = useLogoDoRodape();
   // Dados fixos para substituir as variáveis Twig
   const storeInfo = {
-    name: 'Paulibrás',
+    name: 'SERIE//A',
     // Ver o comentário gêmeo no Header02: '/logo.png' não existe em public/.
     logo,
-    textFooter: '© 2023 Paulibrás. Todos os direitos reservados.',
+    textFooter: '© 2026 [RAZÃO SOCIAL] · CNPJ [00.000.000/0001-00] · [Endereço completo]',
     social: {
       facebook: '#',
       twitter: '#',
