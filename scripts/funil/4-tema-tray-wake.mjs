@@ -365,9 +365,10 @@ for (const caso of CASOS) {
     // ── Design Studio ─────────────────────────────────────────────────────
     // Os globais (`LayoutItem.global`: ajuda flutuante, pop-up) moram no balde home mas não são
     // seção da home nem bloco: o Design Studio não tem bloco global. Vão para toda página.
+    // `Components/globais.html` é da Wake (as duas): a Tray não tem esse arquivo.
     const daHome = daFamilia.filter(i => i.pagina.includes('home') && !i.global);
     const globais = daFamilia.filter(i => i.global);
-    if (globais.length) {
+    if (globais.length && plataforma !== 'Tray') {
       const arquivoGlobais = ler(path.join(TEMA, 'Components', 'globais.html'));
       const nConteudos = (arquivoGlobais.match(/class="api-content\b/g) ?? []).length;
       const chama = arq => /\{\{\s*globais\b/.test(ler(path.join(TEMA, 'Pages', arq)));
