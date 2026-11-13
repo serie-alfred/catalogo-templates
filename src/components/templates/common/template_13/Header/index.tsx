@@ -190,6 +190,13 @@ export default function Header13() {
   const nomeSacola = cartLabel || 'Bag';
   const rotuloCarrinho = `Abrir ${nomeSacola.toLowerCase()}, ${totalItems} ${totalItems === 1 ? 'item' : 'itens'}`;
   const mensagens = topbarItems.filter(t => t.text);
+  // Marquee: a fita anda uma volta por ciclo, então precisa de voltas bastantes para todas
+  // menos uma cobrirem 3000px de tela. A largura de uma volta é estimada por baixo (7px por
+  // letra + 40px por mensagem, com a estrela); a velocidade fica em ~45px/s. A mesma conta
+  // está no header_view.html da Wake.
+  const fitaPx = mensagens.reduce((soma, m) => soma + m.text.length * 7 + 40, 0);
+  const voltas = Math.min(40, Math.max(3, Math.ceil(3000 / Math.max(fitaPx, 1)) + 1));
+  const fitaDur = Math.max(6, Math.ceil(fitaPx / 45));
   const contagem = totalItems > 99 ? '99+' : totalItems;
 
   return (
@@ -200,9 +207,12 @@ export default function Header13() {
 
           {mensagens.length > 0 && (
             <div className={styles.topbar} data-role="hd-topbar">
-              <div className={styles.tape}>
-                {/* A fita repete as mensagens até o fim da tela; só a 1ª volta é lida. */}
-                {[0, 1, 2].map(volta => (
+              <div
+                className={styles.tape}
+                style={{ '--hd13-voltas': voltas, '--hd13-fita-dur': `${fitaDur}s` } as React.CSSProperties}
+              >
+                {/* A fita repete as mensagens e anda em loop; só a 1ª volta é lida. */}
+                {Array.from({ length: voltas }, (_, volta) => (
                   <span key={volta} className={styles.lap} {...(volta ? { 'aria-hidden': true } : {})}>
                     {mensagens.map((m, i) => (
                       <React.Fragment key={i}>

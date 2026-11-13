@@ -459,3 +459,38 @@
 }
 
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* Topbar em marquee infinito (o mesmo trecho está no "Só na Wake"; no starter a fita é
+   parada). A fita tem N voltas iguais (--hd13-voltas, calculado no index.tsx) e anda uma volta
+   por ciclo: translateX(-100% / N) termina no mesmo desenho em que começou. Para a conta
+   fechar, o espaço entre as voltas vira padding-right da volta (a fita fica sem gap e sem
+   padding). Para no hover; com prefers-reduced-motion fica parada, como antes. */
+.tape {
+  flex: none;
+  width: max-content;
+  gap: 0;
+  padding: 0;
+  animation: fita13 var(--hd13-fita-dur, 14s) linear infinite;
+}
+.lap {
+  padding-right: 22px;
+}
+.topbar:hover .tape {
+  animation-play-state: paused;
+}
+@keyframes fita13 {
+  to {
+    transform: translateX(calc(-100% / var(--hd13-voltas, 3)));
+  }
+}
+@container (max-width: 960px) {
+  .lap {
+    padding-right: 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tape {
+    padding-left: 22px;
+    animation: none;
+  }
+}
