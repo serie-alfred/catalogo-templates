@@ -608,6 +608,10 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "footer", key: "ftr01r39ws5p", image: "footer/Footer01.webp", imageSource: "design", mobile: "", title: "Footer Template 1", description: "Descrição Template 1", template: "1", pagina: ["common"], component: "Footer01",path: "organisms/Footer01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["footer"], variablesSchema: [
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#1A051C", group: "Rodapé", inheritsLabel: "cor de fundo do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#3D3D3D", group: "Rodapé", inheritsLabel: "cor de texto do rodapé" },
+        { cssVar: "--footer-news-bg", label: "Fundo da newsletter", type: "color", default: "#1A051C", group: "Newsletter", inheritsLabel: "fundo do rodapé" },
+        { cssVar: "--footer-news-text", label: "Texto da newsletter", type: "color", default: "#3D3D3D", group: "Newsletter", inheritsLabel: "texto do rodapé" },
+        { cssVar: "--footer-button-bg", label: "Fundo do botão da newsletter", type: "color", default: "#682A77", group: "Newsletter", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--footer-button-text", label: "Texto do botão da newsletter", type: "color", default: "#ffffff", group: "Newsletter", inheritsLabel: "cor de texto base" },
         { cssVar: "--footer-font", label: "Fonte do rodapé", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "02", selection: "footer", key: "ftr02qmrhs43", image: "footer/Footer02.webp", imageSource: "design", mobile: "", title: "Footer Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Footer02", path: "organisms/Footer02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["footer", "primary", "tertiary"], variablesSchema: [
@@ -791,8 +795,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--brands-bg", label: "Fundo da seção", type: "color", default: "#ffffff", group: "Marcas" },
         { cssVar: "--brands-text", label: "Texto das marcas", type: "color", default: "#0b1b33", group: "Marcas", inheritsLabel: "cor de texto primária" },
         { cssVar: "--brands-accent", label: "Destaque (link)", type: "color", default: "#e4002b", group: "Marcas", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--brands-title-font", label: "Fonte dos títulos", type: "font", default: "'Saira', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
-        { cssVar: "--brands-font", label: "Fonte do texto", type: "font", default: "'Inter', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+        { cssVar: "--brands-title-font", label: "Fonte da seção", type: "font", default: "'Saira', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "15", selection: "brands", key: "brd15lux9w2e", image: "brand/Brand15.webp", imageSource: "auto", mobile: "", title: "Marcas Template 15", description: "Cabeça centralizada e a faixa de marcas entre fios dourados, separadas por fios finos, com os nomes em serifa alternando itálico e versalete (ou o logo); \"Ver todas as marcas\" sobre o fio. No mobile, duas colunas", template: "15", pagina: ["home"], component: "Brand15", path: "molecules/Brands15", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--brands-bg", label: "Fundo da seção", type: "color", default: "#faf8f4", group: "Marcas" },
@@ -854,6 +857,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--categories-body-font", label: "Fonte do texto", type: "font", default: "'Open Sans', sans-serif", group: "Tipografia" },
       ] },
       { id: "09", selection: "categories", key: "cat09edt4s9b", image: "categories/Categories09.webp", imageSource: "auto", mobile: "", title: "Categorias Template 9", description: "Título com trecho em itálico, \"Ver todas\" e setas; cinco categorias por vez em foto 4:5 com o nome em itálico; no mobile, a lista rola de lado", template: "9", pagina: ["home"], component: "Categories09", path: "molecules/Categories09", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--categories-bg", label: "Fundo da seção", type: "color", default: "#f7f4ef", group: "Categorias" },
         { cssVar: "--categories-title-color", label: "Título da seção", type: "color", default: "#1d1b18", group: "Categorias", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-text", label: "Texto dos cards", type: "color", default: "#1d1b18", group: "Categorias", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-title-font", label: "Fonte dos títulos", type: "font", default: "'Fraunces', Georgia, serif", group: "Tipografia", inheritsLabel: "fonte primária" },
@@ -886,16 +890,14 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--categories-title-color", label: "Título da seção", type: "color", default: "#f4f4f0", group: "Categorias", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--categories-text", label: "Nomes das categorias", type: "color", default: "#f4f4f0", group: "Categorias", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--categories-accent", label: "Destaque (link e seta)", type: "color", default: "#c8ff2e", group: "Categorias", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--categories-title-font", label: "Fonte dos títulos", type: "font", default: "'Barlow Condensed', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
-        { cssVar: "--categories-font", label: "Fonte do texto", type: "font", default: "'Barlow', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+        { cssVar: "--categories-title-font", label: "Fonte da seção", type: "font", default: "'Barlow Condensed', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "14", selection: "categories", key: "cat14esp5n3j", image: "categories/Categories14.webp", imageSource: "auto", mobile: "", title: "Categorias Template 14", description: "Cabeça em linha com o título em Saira itálica e \"Ver todas\" sublinhado em vermelho; seis blocos altos com a foto, o número da posição apagado, o nome numa etiqueta marinho em paralelogramo e o quadrado vermelho com a seta; no mobile, os blocos rolando de lado", template: "14", pagina: ["home"], component: "Categories14", path: "molecules/Categories14", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--categories-bg", label: "Fundo da seção", type: "color", default: "#ffffff", group: "Categorias" },
         { cssVar: "--categories-title-color", label: "Título da seção", type: "color", default: "#0b1b33", group: "Categorias", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-text", label: "Etiquetas e números", type: "color", default: "#0b1b33", group: "Categorias", inheritsLabel: "cor de texto primária" },
         { cssVar: "--categories-accent", label: "Destaque (link e seta)", type: "color", default: "#e4002b", group: "Categorias", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--categories-title-font", label: "Fonte dos títulos", type: "font", default: "'Saira', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
-        { cssVar: "--categories-font", label: "Fonte do texto", type: "font", default: "'Inter', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+        { cssVar: "--categories-title-font", label: "Fonte da seção", type: "font", default: "'Saira', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "15", selection: "categories", key: "cat15lux5n3j", image: "categories/Categories15.webp", imageSource: "auto", mobile: "", title: "Categorias Template 15", description: "Cabeça centralizada com a chamada dourada, o título em serifa com o trecho em itálico e o fio dourado; as categorias em fotos 3:4 com o nome em serifa e \"Ver\" dourado sobre o fio; no mobile, duas colunas com a seta no lugar do \"Ver\"", template: "15", pagina: ["home"], component: "Categories15", path: "molecules/Categories15", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--categories-bg", label: "Fundo da seção", type: "color", default: "#faf8f4", group: "Categorias" },
@@ -1084,8 +1086,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--ruler-bg", label: "Fundo da régua", type: "color", default: "#d9f99d", group: "Régua" },
         { cssVar: "--ruler-text", label: "Texto e traços", type: "color", default: "#0b1b33", group: "Régua", inheritsLabel: "cor de texto primária" },
         { cssVar: "--ruler-icon", label: "Ícones", type: "color", default: "#e4002b", group: "Régua", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--ruler-title-font", label: "Fonte dos benefícios", type: "font", default: "'Saira', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
-        { cssVar: "--ruler-font", label: "Fonte da régua", type: "font", default: "'Inter', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+        { cssVar: "--ruler-title-font", label: "Fonte da régua", type: "font", default: "'Saira', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "15", selection: "ruler", key: "bnf15lux1h8z", image: "ruler/Ruler15.webp", imageSource: "auto", mobile: "", title: "Régua Template 15", description: "Faixa areia com os benefícios em grade, cada um entre fios dourados verticais: o ícone de traço dourado, o título em versalete e uma linha apagada; no mobile, grade 2 × 2 só com os títulos", template: "15", pagina: ["home"], component: "Ruler15", path: "molecules/BenefitsStrip15", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--ruler-bg", label: "Fundo da régua", type: "color", default: "#efe8db", group: "Régua" },
@@ -1123,6 +1124,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--banner-grid-card-font", label: "Fonte do título do card", type: "font", default: "'League Spartan', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "09", selection: "banner-grid", key: "grd09edt7m2x", image: "grid/BannerGrid09.webp", imageSource: "auto", mobile: "", title: "Grid de banners Template 9", description: "Chamada com filete e nota à direita; um banner grande à esquerda e dois empilhados à direita, cada um com título e \"Ver mais\"; os três em coluna no mobile", template: "9", pagina: ["home"], component: "BannerGrid09", path: "molecules/BannerGrid09", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--banner-grid-bg", label: "Fundo da seção", type: "color", default: "#f7f4ef", group: "Grid" },
         { cssVar: "--banner-grid-title-color", label: "Título da seção", type: "color", default: "#1d1b18", group: "Grid", inheritsLabel: "cor de texto primária" },
         { cssVar: "--banner-grid-text", label: "Texto dos banners", type: "color", default: "#1d1b18", group: "Grid", inheritsLabel: "cor de texto primária" },
         { cssVar: "--banner-grid-title-font", label: "Fonte dos títulos", type: "font", default: "'Fraunces', Georgia, serif", group: "Tipografia", inheritsLabel: "fonte primária" },
@@ -1156,8 +1158,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--banner-grid-title-color", label: "Títulos", type: "color", default: "#f4f4f0", group: "Grid", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--banner-grid-text", label: "Texto dos banners", type: "color", default: "#f4f4f0", group: "Grid", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--banner-grid-accent", label: "Destaque (números)", type: "color", default: "#c8ff2e", group: "Grid", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--banner-grid-title-font", label: "Fonte dos títulos", type: "font", default: "'Barlow Condensed', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
-        { cssVar: "--banner-grid-font", label: "Fonte do texto", type: "font", default: "'Barlow', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+        { cssVar: "--banner-grid-title-font", label: "Fonte da seção", type: "font", default: "'Barlow Condensed', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "14", selection: "banner-grid", key: "grd14esp2x6f", image: "grid/BannerGrid14.webp", imageSource: "auto", mobile: "", title: "Grid de banners Template 14", description: "Três banners: o primeiro, grande, ocupa as duas linhas e os outros dois empilham à direita; sobre a arte, no pé, a placa marinho em paralelogramo com a chamada, o título em Saira itálica e o CTA vermelho; no mobile, os três empilhados", template: "14", pagina: ["home"], component: "BannerGrid14", path: "molecules/BannerGrid14", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--banner-grid-bg", label: "Fundo da seção", type: "color", default: "#ffffff", group: "Grid" },
@@ -1266,7 +1267,8 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--showcase-text", label: "Texto da vitrine", type: "color", default: "#f4f4f0", group: "Vitrine", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--showcase-title-color", label: "Título", type: "color", default: "#f4f4f0", group: "Vitrine", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--showcase-accent", label: "Destaque (link, régua e seta)", type: "color", default: "#c8ff2e", group: "Vitrine", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--showcase-tag-bg", label: "Fundo do rótulo dos cards", type: "color", default: "#c8ff2e", group: "Vitrine", previewNote: "Aparece quando a vitrine tem rótulo nos cards; os cards de exemplo ao lado do banner não têm.", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--showcase-accent-text", label: "Texto e ícone sobre o destaque", type: "color", default: "#0d0d0d", group: "Vitrine", inheritsLabel: "cor de texto base" },
+        { cssVar: "--showcase-tag-bg", label: "Fundo do rótulo dos cards", type: "color", default: "#c8ff2e", group: "Vitrine", previewNote: "Aparece quando a vitrine tem rótulo nos cards (no exemplo, \"Novo\").", inheritsLabel: "cor primária da marca" },
         { cssVar: "--showcase-title-font", label: "Fonte dos títulos", type: "font", default: "'Barlow Condensed', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--showcase-font", label: "Fonte do texto", type: "font", default: "'Barlow', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
@@ -1399,6 +1401,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--showcase-text", label: "Texto da vitrine", type: "color", default: "#f4f4f0", group: "Vitrine", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--showcase-title-color", label: "Título", type: "color", default: "#f4f4f0", group: "Vitrine", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--showcase-accent", label: "Destaque (link, régua e seta)", type: "color", default: "#c8ff2e", group: "Vitrine", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--showcase-accent-text", label: "Texto e ícone sobre o destaque", type: "color", default: "#0d0d0d", group: "Vitrine", inheritsLabel: "cor de texto base" },
         { cssVar: "--showcase-tag-bg", label: "Fundo do rótulo dos cards", type: "color", default: "#c8ff2e", group: "Vitrine", inheritsLabel: "cor primária da marca" },
         { cssVar: "--showcase-title-font", label: "Fonte dos títulos", type: "font", default: "'Barlow Condensed', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--showcase-font", label: "Fonte do texto", type: "font", default: "'Barlow', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
@@ -1463,6 +1466,10 @@ export const LAYOUTS: Layouts = {
     name: "Banner com texto",
     items: [
       { id: "01", selection: "banner-solo-left", key: "bnslft05w7x8", image: "bannerSideLeft/BannerSoloLeft05.webp", imageSource: "design", mobile: "", title: "Banner com texto Template 5", description: "Banner com bloco de texto alinhado à esquerda", template: "5", pagina: ["home"], component: "BannerSoloLeft05", path: "organisms/BannerSoloLeft05", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--banner-side-bg", label: "Fundo da seção", type: "color", default: "#ffffff", group: "Banner com texto" },
+        { cssVar: "--banner-side-text", label: "Título e texto", type: "color", default: "#000000", group: "Banner com texto", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--banner-side-cta-bg", label: "Fundo do botão", type: "color", default: "#000000", group: "Banner com texto", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--banner-side-cta-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Banner com texto", inheritsLabel: "cor de texto base" },
         { cssVar: "--banner-side-font", label: "Fonte da seção", type: "font", default: "'Roboto', Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "07", selection: "banner-solo-left", key: "bnslft07b2c3", image: "bannerSideLeft/BannerSoloLeft07.webp", imageSource: "auto", mobile: "", title: "Banner com texto Template 7", description: "Banner editorial em 2 colunas: imagem com citação e coluna de texto com link", template: "7", pagina: ["home"], component: "BannerSoloLeft07", path: "molecules/EditorialBanner07", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
@@ -1542,8 +1549,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cat-title-bg", label: "Fundo do título", type: "color", default: "#0d0d0d", group: "Título", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--cat-title-text", label: "Texto do título e dos chips", type: "color", default: "#f4f4f0", group: "Título", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--cat-title-accent", label: "Destaque (contagem)", type: "color", default: "#c8ff2e", group: "Título", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--cat-title-title-font", label: "Fonte dos títulos", type: "font", default: "'Barlow Condensed', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
-        { cssVar: "--cat-title-font", label: "Fonte do texto", type: "font", default: "'Barlow', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+        { cssVar: "--cat-title-title-font", label: "Fonte da seção", type: "font", default: "'Barlow Condensed', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "14", selection: "category-title", key: "cattit14es4u", image: "categoryTitle/CategoryTitle14.webp", imageSource: "auto", mobile: "", title: "Título da categoria Template 14", description: "Faixa marinho com o nome da categoria enorme em Saira itálica, a contagem num paralelogramo lima e os chips de subcategoria em paralelogramo com a quantidade; ao fundo, o nome repetido em contorno vazado e um traço lima inclinado. No mobile, os chips numa linha que rola de lado", template: "14", pagina: ["category"], component: "CategoryTitle14", path: "organisms/CategoryTitle14", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--cat-title-bg", label: "Fundo da faixa", type: "color", default: "#0b1b33", group: "Título", inheritsLabel: "cor secundária da marca" },
@@ -1738,6 +1744,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--popup-bg", label: "Fundo do pop-up", type: "color", default: "#ffffff", group: "Pop-up" },
         { cssVar: "--popup-text", label: "Texto do pop-up", type: "color", default: "#0b1b33", group: "Pop-up", inheritsLabel: "cor de texto primária" },
         { cssVar: "--popup-accent", label: "Fundo do selo", type: "color", default: "#d9f99d", group: "Pop-up", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--popup-accent-text", label: "Texto do selo", type: "color", default: "#0b1b33", group: "Pop-up", inheritsLabel: "texto do pop-up" },
         { cssVar: "--popup-button-bg", label: "Fundo do botão e do destaque", type: "color", default: "#e4002b", group: "Botão", inheritsLabel: "cor primária da marca" },
         { cssVar: "--popup-button-text", label: "Texto do botão e do destaque", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor de texto base" },
         { cssVar: "--popup-title-font", label: "Fonte do selo, do título e do botão", type: "font", default: "'Saira', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
@@ -1814,6 +1821,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--newsletter-bg", label: "Fundo da newsletter", type: "color", default: "#f7f4ef", group: "Newsletter" },
         { cssVar: "--newsletter-title-color", label: "Título", type: "color", default: "#1d1b18", group: "Newsletter", inheritsLabel: "cor de texto primária" },
         { cssVar: "--newsletter-desc-color", label: "Texto de apoio", type: "color", default: "#5e574f", group: "Newsletter", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--newsletter-field-text", label: "Texto e linha dos campos", type: "color", default: "#1d1b18", group: "Newsletter", inheritsLabel: "cor do título" },
         { cssVar: "--newsletter-title-font", label: "Fonte dos títulos", type: "font", default: "'Fraunces', Georgia, serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--newsletter-font", label: "Fonte do texto", type: "font", default: "'Figtree', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
@@ -2042,6 +2050,8 @@ export const LAYOUTS: Layouts = {
       { id: "10", selection: "category-main", key: "catmn10vrj3q", image: "categoryMain/CategoryMain10.webp", imageSource: "auto", mobile: "", title: "Grade de produtos Template 10", description: "PLP com barra de contagem, ordenação, itens por página e grade/lista, chips ativos, filtros na lateral (categoria, marca, tamanho, cor, preço), grade de cards e paginação; no mobile, painel de filtros; inclui o estado vazio da busca", template: "10", pagina: ["category"], component: "CategoryMain10", path: "organisms/MainCategory10", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--cat-main-text", label: "Texto da listagem", type: "color", default: "#101828", group: "Listagem", inheritsLabel: "cor de texto primária" },
         { cssVar: "--cat-main-accent", label: "Destaque (filtros ativos e paginação)", type: "color", default: "#1340d8", group: "Listagem", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--cat-main-buy-bg", label: "Fundo do botão Comprar dos cards", type: "color", default: "#1340d8", group: "Listagem", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--cat-main-buy-text", label: "Texto do botão Comprar dos cards", type: "color", default: "#ffffff", group: "Listagem", inheritsLabel: "cor de texto base" },
         { cssVar: "--filter-bg", label: "Fundo do painel de filtros", type: "color", default: "#ffffff", group: "Filtros", previewNote: "Só na visão Mobile, com o painel de filtros aberto." },
         { cssVar: "--filter-text", label: "Texto do painel de filtros", type: "color", default: "#101828", group: "Filtros", inheritsLabel: "cor de texto primária", previewNote: "Só na visão Mobile, com o painel de filtros aberto." },
         { cssVar: "--filter-accent", label: "Destaque do painel de filtros", type: "color", default: "#1340d8", group: "Filtros", inheritsLabel: "cor primária da marca", previewNote: "Só na visão Mobile, com o painel de filtros aberto." },
@@ -2060,6 +2070,8 @@ export const LAYOUTS: Layouts = {
       { id: "12", selection: "category-main", key: "catmn12suv8w", image: "categoryMain/CategoryMain12.webp", imageSource: "auto", mobile: "", title: "Grade de produtos Template 12", description: "PLP com a contagem, os chips ativos e \"Ordenar\" em pílula; a coluna branca de filtros com as facetas abertas (checkbox, pílulas e faixa de preço), a grade de cards e \"Carregar mais\" com a barra de progresso. No mobile, \"Filtrar\" abre a folha de baixo em acordeão; inclui o estado vazio da busca", template: "12", pagina: ["category"], component: "CategoryMain12", path: "organisms/MainCategory12", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--cat-main-text", label: "Texto da listagem", type: "color", default: "#3b1f33", group: "Listagem", inheritsLabel: "cor de texto primária" },
         { cssVar: "--cat-main-accent", label: "Destaque (barra e botões)", type: "color", default: "#7a2e5f", group: "Listagem", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--cat-main-buy-bg", label: "Fundo do botão dos cards", type: "color", default: "#7a2e5f", group: "Listagem", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--cat-main-buy-text", label: "Texto do botão dos cards", type: "color", default: "#ffffff", group: "Listagem", inheritsLabel: "cor de texto base" },
         { cssVar: "--filter-bg", label: "Fundo do painel de filtros", type: "color", default: "#ffffff", group: "Filtros" },
         { cssVar: "--filter-text", label: "Texto do painel de filtros", type: "color", default: "#3b1f33", group: "Filtros", inheritsLabel: "cor de texto primária" },
         { cssVar: "--filter-accent", label: "Destaque do painel de filtros", type: "color", default: "#7a2e5f", group: "Filtros", inheritsLabel: "cor primária da marca" },
@@ -2102,6 +2114,8 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cat-main-bg", label: "Fundo da página", type: "color", default: "#ffffff", group: "Listagem" },
         { cssVar: "--cat-main-text", label: "Texto e contornos", type: "color", default: "#0e2f38", group: "Listagem", inheritsLabel: "cor de texto primária" },
         { cssVar: "--cat-main-accent", label: "Destaque (atalho escolhido, filtros, botões e tom dos cards)", type: "color", default: "#0e6b73", group: "Listagem", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--cat-main-buy-bg", label: "Fundo do botão dos cards", type: "color", default: "#0e6b73", group: "Listagem", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--cat-main-buy-text", label: "Texto do botão dos cards", type: "color", default: "#ffffff", group: "Listagem", inheritsLabel: "cor de texto base" },
         { cssVar: "--cat-main-tag-bg", label: "Fundo do -N% dos cards e do contador dos filtros", type: "color", default: "#ffa24c", group: "Listagem", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--filter-bg", label: "Fundo da coluna de filtros", type: "color", default: "#eaf4f3", group: "Filtros" },
         { cssVar: "--cat-main-title-font", label: "Fonte dos atalhos, das facetas e dos títulos", type: "font", default: "'Bricolage Grotesque', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
@@ -2430,12 +2444,15 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-font", label: "Fonte", type: "font", default: "'Jost', -apple-system, Helvetica, Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária", previewNote: "Do widget Trustvox, que só existe na loja publicada." },
       ] },
       { id: "09", selection: "product-reviews", key: "prodrev09edt", image: "productReviews/ProductReviews09.webp", imageSource: "auto", mobile: "", title: "Avaliações do produto Template 9", description: "Média em destaque com estrelas, distribuição de 1 a 5, \"Escrever avaliação\" e a lista de avaliações", template: "9", pagina: ["product"], component: "ProductReviews09", path: "organisms/ProductReviews09", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--prod-reviews-bg", label: "Fundo das avaliações", type: "color", default: "#f7f4ef", group: "Avaliações" },
         { cssVar: "--prod-reviews-text", label: "Texto das avaliações", type: "color", default: "#1d1b18", group: "Avaliações", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-reviews-accent", label: "Estrelas e destaque", type: "color", default: "#9c4a2f", group: "Avaliações", inheritsLabel: "cor primária da marca" },
         { cssVar: "--prod-reviews-title-font", label: "Fonte dos títulos", type: "font", default: "'Fraunces', Georgia, serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--prod-reviews-font", label: "Fonte do texto", type: "font", default: "'Figtree', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "10", selection: "product-reviews", key: "prodrev10vrj", image: "productReviews/ProductReviews10.webp", imageSource: "auto", mobile: "", title: "Avaliações do produto Template 10", description: "Média em destaque com estrelas, distribuição de 1 a 5, \"Escrever avaliação\" e a lista de avaliações", template: "10", pagina: ["product"], component: "ProductReviews10", path: "organisms/ProductReviews10", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--prod-reviews-bg", label: "Fundo da seção", type: "color", default: "#f2f4f7", group: "Avaliações" },
+        { cssVar: "--prod-reviews-card-bg", label: "Fundo dos cards de avaliação", type: "color", default: "#ffffff", group: "Avaliações" },
         { cssVar: "--prod-reviews-text", label: "Texto das avaliações", type: "color", default: "#101828", group: "Avaliações", inheritsLabel: "cor de texto primária" },
         { cssVar: "--prod-reviews-accent", label: "Destaque", type: "color", default: "#1340d8", group: "Avaliações", inheritsLabel: "cor primária da marca" },
         { cssVar: "--prod-reviews-title-font", label: "Fonte dos títulos", type: "font", default: "'Archivo', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
@@ -2696,8 +2713,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--editorial-bg", label: "Fundo do editorial", type: "color", default: "#0d0d0d", group: "Editorial", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--editorial-text", label: "Texto do editorial", type: "color", default: "#f4f4f0", group: "Editorial", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--editorial-accent", label: "Destaque (chamada e link)", type: "color", default: "#c8ff2e", group: "Editorial", inheritsLabel: "cor primária da marca" },
-        { cssVar: "--editorial-title-font", label: "Fonte dos títulos", type: "font", default: "'Barlow Condensed', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
-        { cssVar: "--editorial-font", label: "Fonte do texto", type: "font", default: "'Barlow', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
+        { cssVar: "--editorial-title-font", label: "Fonte da seção", type: "font", default: "'Barlow Condensed', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "14", selection: "editorial", key: "edt14esp6s1w", image: "editorial/Editorial14.webp", imageSource: "auto", mobile: "", title: "Editorial Template 14", description: "Fundo cinza-azulado com o título em Saira itálica e \"Ver todos os guias\"; o guia de destaque com a arte larga, a placa marinho com o número, a chamada com o traço vermelho, o título, o texto e o link; os demais empilhados ao lado com o número vermelho da posição. No mobile, o destaque em cima e os demais em linha com a miniatura", template: "14", pagina: ["home"], component: "Editorial14", path: "organisms/Editorial14", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--editorial-bg", label: "Fundo do editorial", type: "color", default: "#f1f4f8", group: "Editorial" },
