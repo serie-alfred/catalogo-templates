@@ -308,7 +308,7 @@
   padding: 0 6px;
   border-radius: 999px;
   background-color: var(--header-badge-bg, var(--background-tertiary-color, #ffa24c));
-  color: var(--header-text, var(--text-tertiary-color, #0e2f38));
+  color: var(--header-badge-text, var(--header-text, var(--text-tertiary-color, #0e2f38)));
   font-size: 12px;
   font-weight: 700;
 }
@@ -359,8 +359,8 @@
 .navHighlight {
   height: 36px;
   padding: 0 16px;
-  background-color: var(--header-badge-bg, var(--background-tertiary-color, #ffa24c)) !important;
-  color: var(--header-text, var(--text-tertiary-color, #0e2f38));
+  background-color: var(--header-offer-bg, var(--header-badge-bg, var(--background-tertiary-color, #ffa24c))) !important;
+  color: var(--header-offer-text, var(--header-badge-text, var(--header-text, var(--text-tertiary-color, #0e2f38))));
   font-weight: 700;
 }
 .navHighlight:hover {
@@ -509,8 +509,8 @@
   height: 44px;
   padding: 0 20px;
   border-radius: 999px;
-  background-color: var(--header-badge-bg, var(--background-tertiary-color, #ffa24c));
-  color: var(--header-text, var(--text-tertiary-color, #0e2f38));
+  background-color: var(--header-offer-bg, var(--header-badge-bg, var(--background-tertiary-color, #ffa24c)));
+  color: var(--header-offer-text, var(--header-badge-text, var(--header-text, var(--text-tertiary-color, #0e2f38))));
 }
 
 .drawerFoot {

@@ -307,9 +307,12 @@ export default function Header() {
         <span className={styles.brandName} data-role={nameRole}>
           {logo ? <img src={logo} alt="Logo" className={styles.brandLogo} /> : 'SERIE//A'}
         </span>
-        <span className={styles.brandTagline} data-role={tagRole}>
-          casa · conforto · estilo
-        </span>
+        {/* Como no starter: a tagline só acompanha a marca em texto; com logo, sai. */}
+        {!logo && (
+          <span className={styles.brandTagline} data-role={tagRole}>
+            casa · conforto · estilo
+          </span>
+        )}
       </a>
     );
   };

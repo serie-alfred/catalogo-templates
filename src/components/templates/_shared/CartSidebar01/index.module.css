@@ -427,8 +427,8 @@
 
 .slideOver .buttonFinish {
   height: 53px;
-  background-color: var(--background-primary-color, #171a1c);
-  color: var(--text-color-base, #ffffff);
+  background-color: var(--cart-button-bg, var(--background-primary-color, #171a1c));
+  color: var(--cart-button-text, var(--text-color-base, #ffffff));
   border-color: transparent;
 }
 
@@ -438,13 +438,13 @@
   /* A borda continua no acento de marca (botão outline, par intencional).
      O texto era --text-primary-color direto — mesmo bug do headerClose/
      buttonShare: virava azul do cliente em vez de seguir o texto do minicart. */
-  border: 1px solid var(--background-primary-color, #171a1c);
+  border: 1px solid var(--cart-button-bg, var(--background-primary-color, #171a1c));
   color: var(--cart-text, var(--text-primary-color, #1a1a1a));
 }
 .slideOver .buttonContinue:hover {
-  background-color: var(--background-primary-color, #171a1c);
-  border-color: var(--background-primary-color, #171a1c);
-  color: var(--text-color-base, #ffffff);
+  background-color: var(--cart-button-bg, var(--background-primary-color, #171a1c));
+  border-color: var(--cart-button-bg, var(--background-primary-color, #171a1c));
+  color: var(--cart-button-text, var(--text-color-base, #ffffff));
 }
 
 /* ── Carrinho vazio (EmptyState) ─────────────────────────────────────────── */

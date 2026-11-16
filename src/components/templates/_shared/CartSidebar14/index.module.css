@@ -113,8 +113,8 @@
   min-width: 28px;
   height: 28px;
   padding: 0 6px;
-  background-color: var(--cart-button-bg, var(--background-primary-color, #e4002b));
-  color: var(--cart-button-text, var(--text-color-base, #ffffff));
+  background-color: var(--cart-count-bg, var(--cart-button-bg, var(--background-primary-color, #e4002b)));
+  color: var(--cart-count-text, var(--cart-button-text, var(--text-color-base, #ffffff)));
   font-size: 16px;
   clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
 }
