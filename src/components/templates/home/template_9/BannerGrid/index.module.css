@@ -5,7 +5,7 @@
 
 .bannerGrid09 {
   width: 100%;
-  background-color: #f7f4ef;
+  background-color: var(--banner-grid-bg, #f7f4ef);
   color: var(--banner-grid-text, var(--text-primary-color, #1d1b18));
   font-family: var(--banner-grid-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   font-weight: 400;
@@ -63,7 +63,7 @@
 }
 
 .note {
-  color: color-mix(in srgb, var(--banner-grid-text, var(--text-primary-color, #1d1b18)) 66%, #f7f4ef);
+  color: color-mix(in srgb, var(--banner-grid-text, var(--text-primary-color, #1d1b18)) 66%, var(--banner-grid-bg, #f7f4ef));
   font-size: 13px;
 }
 
@@ -124,7 +124,7 @@
 }
 
 .title {
-  color: var(--banner-grid-title-color, var(--text-primary-color, #1d1b18));
+  color: var(--banner-grid-text, var(--text-primary-color, #1d1b18));
   font-family: var(--banner-grid-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 22px;
   font-weight: 300;

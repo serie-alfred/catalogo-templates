@@ -9,8 +9,8 @@
   flex-direction: column;
   gap: 20px;
   min-width: 0;
-  color: var(--spot-text, var(--text-primary-color, #1a1714));
-  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #1a1714)));
+  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -92,7 +92,7 @@
 }
 
 .tag {
-  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -108,7 +108,7 @@
 }
 
 .outTag {
-  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -150,7 +150,7 @@
 }
 
 .buy {
-  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -184,7 +184,7 @@
 }
 
 .brand {
-  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -193,7 +193,7 @@
 }
 
 .name {
-  font-family: var(--spot-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
+  font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif)));
   font-size: 24px;
   line-height: 1.15;
 }
@@ -216,13 +216,13 @@
 }
 
 .listPrice {
-  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #1a1714))) 66%, #faf8f4);
   font-size: 12px;
   text-decoration: line-through;
 }
 
 .discount {
-  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -232,7 +232,7 @@
 }
 
 .installment {
-  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #1a1714))) 66%, #faf8f4);
   font-size: 12px;
 }
 
@@ -250,14 +250,14 @@
 .soldOut .brand,
 .soldOut .name,
 .soldOut .price {
-  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #1a1714))) 66%, #faf8f4);
 }
 .soldOut .price {
   letter-spacing: normal;
 }
 
 .notify {
-  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -269,7 +269,7 @@
   gap: 10px;
   height: 50px;
   margin-top: 8px;
-  border: 1px solid var(--spot-text, var(--text-primary-color, #1a1714));
+  border: 1px solid var(--showcase-text, var(--spot-text, var(--text-primary-color, #1a1714)));
   white-space: nowrap;
 }
 .notify:hover {
@@ -281,7 +281,7 @@
 }
 
 .buyWide {
-  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
+  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;

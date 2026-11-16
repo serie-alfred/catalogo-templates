@@ -60,8 +60,8 @@
   padding-top: 4px;
 }
 .mainCategory12 [data-role=spot-buy] {
-  background-color: var(--cat-main-accent, var(--spot-btn-bg, var(--background-primary-color, #7a2e5f))) !important;
-  color: var(--spot-btn-text, var(--text-color-base, #ffffff)) !important;
+  background-color: var(--cat-main-buy-bg, var(--spot-btn-bg, var(--background-primary-color, #7a2e5f))) !important;
+  color: var(--cat-main-buy-text, var(--spot-btn-text, var(--text-color-base, #ffffff))) !important;
 }
 .mainCategory12 [data-role=spot-rating] svg {
   color: var(--cat-main-accent, var(--background-primary-color, #7a2e5f));

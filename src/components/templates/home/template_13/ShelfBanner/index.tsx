@@ -6,7 +6,7 @@ import styles from './index.module.css';
 
 /**
  * Espelha `organisms/ProductShelfBanner13`: o núcleo das vitrines 13, variante `banner`, com o
- * mock de lá (sem arte: vale o grafite de placeholder; sem rótulo nos cards; sem "Ver todos",
+ * mock de lá (sem arte: vale o grafite de placeholder; rótulo "Novo" nos cards; sem "Ver todos",
  * o CTA do banner faz esse papel).
  */
 export default function ShelfBanner13() {
@@ -15,6 +15,7 @@ export default function ShelfBanner13() {
       variant="banner"
       styles={styles}
       title="Essenciais do drop"
+      tagLabel="Novo"
       banner={{
         eyebrow: 'Drop 07',
         title: 'Feito pra rodar à noite',

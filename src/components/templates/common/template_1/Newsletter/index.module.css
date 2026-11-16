@@ -1,5 +1,5 @@
 .footer__newsletter {
-  background-color: var(--footer-bg, var(--background-footer, #1A051C));
+  background-color: var(--footer-news-bg, var(--footer-bg, var(--background-footer, #1A051C)));
   padding: 40px 0px;
   width: 100%;
   container-type: inline-size;
@@ -31,7 +31,7 @@
   display: block;
   line-height: 1;
   font-family: var(--footer-font, var(--font-secundary, 'Poppins', sans-serif));
-  color: var(--footer-text, var(--text-color-footer, #3D3D3D));
+  color: var(--footer-news-text, var(--footer-text, var(--text-color-footer, #3D3D3D)));
 }
 
 .footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__title span:first-of-type {
@@ -103,7 +103,7 @@
   align-items: center;
   width: 100%;
   height: 56px;
-  background-color: var(--color-white);
+  background-color: #ffffff;
   border-radius: 40px;
   border: 1px solid #dfdfe0;
   font-family: var(--footer-font, var(--font-secundary, 'Poppins', sans-serif));
@@ -169,7 +169,7 @@
   font-family: var(--footer-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 400;
   font-size: 11px;
-  color: var(--footer-text, var(--text-color-footer, #3D3D3D));
+  color: var(--footer-news-text, var(--footer-text, var(--text-color-footer, #3D3D3D)));
   margin-top: 10px;
 }
 
@@ -227,7 +227,7 @@
 
   .footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__form form button:hover,
   .footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__form form .mc-embedded-subscribe:hover {
-    background-color: var(--color-black);
+    background-color: #000000;
   }
 }
 

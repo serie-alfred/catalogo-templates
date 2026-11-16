@@ -8,8 +8,8 @@
   flex-direction: column;
   gap: 12px;
   min-width: 0;
-  color: var(--spot-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--spot-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
+  color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #1d1b18)));
+  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Figtree', system-ui, sans-serif)));
   line-height: 1.15;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -93,7 +93,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  color: var(--spot-text, var(--text-primary-color, #1d1b18));
+  color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #1d1b18)));
 }
 .favorite:disabled {
   cursor: wait;
@@ -136,7 +136,7 @@
 
 .veilTag {
   padding: 10px 16px;
-  border: 1px solid var(--spot-text, var(--text-primary-color, #1d1b18));
+  border: 1px solid var(--showcase-text, var(--spot-text, var(--text-primary-color, #1d1b18)));
   font-size: 11px;
   font-weight: 600;
   line-height: 1.2;
@@ -166,7 +166,7 @@
 }
 
 .listPrice {
-  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1d1b18)) 64%, transparent);
+  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #1d1b18))) 64%, transparent);
   font-size: 12px;
 }
 
@@ -176,13 +176,13 @@
 }
 
 .priceOff {
-  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1d1b18)) 64%, transparent);
+  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #1d1b18))) 64%, transparent);
   font-size: 14px;
   line-height: normal;
 }
 
 .installment {
-  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1d1b18)) 64%, transparent);
+  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #1d1b18))) 64%, transparent);
   font-size: 12px;
   line-height: normal;
 }
