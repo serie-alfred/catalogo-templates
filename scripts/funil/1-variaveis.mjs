@@ -688,6 +688,15 @@ for (const item of comPath) {
       )].map(m => path.join(RAIZ, 'src/components/templates', m[1], 'index.module.css'))
        .filter(fs.existsSync)
     : [];
+  // Sub-componente irmão importado por caminho relativo (a Newsletter que o
+  // Footer01 renderiza, `../Newsletter`): é o mesmo caso da gaveta — a folha
+  // dele pinta campos do painel do item.
+  const irmaos = fs.existsSync(tsx)
+    ? [...fs.readFileSync(tsx, 'utf8').matchAll(/from '(\.\.?\/[\w-]+)'/g)]
+        .map(m => path.join(dir, m[1], 'index.module.css'))
+        .filter(f => fs.existsSync(f) && f !== arq)
+    : [];
+  compartilhados.push(...irmaos);
   const css = [arq, ...compartilhados].map(f => fs.readFileSync(f, 'utf8')).join('\n');
   const usadas = consumos(css);
 
