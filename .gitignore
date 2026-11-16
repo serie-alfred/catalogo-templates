@@ -48,3 +48,10 @@ next-env.d.ts
 
 # saídas do funil de teste
 /.funil
+
+# rascunhos de depuração (probes, medições) — nunca versionar
+/scripts/tmp-*
+/scripts/*tmp/
+/scripts/.*-tmp.*
+/scripts/.hover-*
+/scripts/_f*
