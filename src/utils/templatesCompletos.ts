@@ -8,6 +8,7 @@ import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import type { Platform } from '@/types/platform';
 import type { FrameColors, FrameFonts } from '@/types/frameMessage';
 import { contrastOn } from './themeStyle';
+import { TOKEN_DO_NIVEL1 } from './nivel1Tokens';
 import {
   COMMON_SINGLETON_SELECTIONS,
   NON_DUPLICABLE_SELECTIONS,
@@ -848,6 +849,74 @@ export function selecoesDoTemplate(t: TemplateCompleto): LayoutSelection[] {
       ...(variables ? { variables: { ...variables } } : {}),
     };
   });
+}
+
+/**
+ * Tokens globais que cada cor do painel "Variáveis globais" escreve — inclusive
+ * o texto de contraste que o fundo de marca deriva (`contrastOn`).
+ */
+export const TOKENS_DA_COR_GLOBAL = {
+  colorPrimary: ['--text-primary-color'],
+  colorSecondary: ['--text-secundary-color'],
+  colorPrimaryBackground: [
+    '--background-primary-color',
+    '--background-primary-color-safe',
+    '--text-color-base',
+  ],
+  colorSecondaryBackground: [
+    '--background-secundary-color',
+    '--text-color-secundary',
+  ],
+  colorTertiaryBackground: [
+    '--background-tertiary-color',
+    '--text-tertiary-color',
+  ],
+  colorFooter: ['--background-footer'],
+  colorFooterText: ['--text-color-footer'],
+} as const;
+
+/** Valor fixado pelo template para a var do componente, se houver. */
+function fixoDoTemplate(component: string, cssVar: string): string | undefined {
+  for (const familia of Object.values(NIVEL1_DAS_FAMILIAS)) {
+    const v = familia[component]?.[cssVar];
+    if (v !== undefined) return v;
+  }
+  return undefined;
+}
+
+/**
+ * Solta os valores de Nível 1 que um template completo fixou nas seções e que
+ * seguem um dos `tokens` — para a cor global que o usuário acabou de mudar voltar
+ * a pintar essas seções. Só sai o que AINDA é o valor do template: o que o usuário
+ * escolheu no painel da direita fica. Devolve o mesmo array quando nada muda.
+ */
+export function soltarFixosDoTemplate(
+  selecoes: LayoutSelection[],
+  tokens: readonly string[]
+): LayoutSelection[] {
+  let mudou = false;
+  const saida = selecoes.map(sel => {
+    if (!sel.variables) return sel;
+    const item = (
+      LAYOUTS as Record<string, { items: { id: string; component: string }[] }>
+    )[sel.layoutKey]?.items.find(i => i.id === sel.id);
+    const mapa = item && TOKEN_DO_NIVEL1[item.component];
+    if (!item || !mapa) return sel;
+    const variables = { ...sel.variables };
+    let mexeu = false;
+    for (const [cssVar, token] of Object.entries(mapa)) {
+      if (!tokens.includes(token)) continue;
+      if (variables[cssVar] === undefined) continue;
+      if (variables[cssVar] !== fixoDoTemplate(item.component, cssVar))
+        continue;
+      delete variables[cssVar];
+      mexeu = true;
+    }
+    if (!mexeu) return sel;
+    mudou = true;
+    return { ...sel, variables };
+  });
+  return mudou ? saida : selecoes;
 }
 
 /**
