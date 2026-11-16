@@ -200,7 +200,8 @@ export function ProductCard10({
   const pix = inStock && product.pix > 0 ? product.pix : 0;
   const media = product.rating?.average ?? 0;
   const total = product.rating?.totalCount ?? 0;
-  const temNota = showRating && media > 0;
+  // Com a nota ligada, as estrelas sempre aparecem: sem avaliação, vazias.
+  const temNota = showRating;
 
   return (
     <article
@@ -292,25 +293,29 @@ export function ProductCard10({
         )}
       </div>
 
-      {temNota && (
+      {temNota ? (
         <div className={styles.rating} data-role="spot-rating">
           <span className={styles.srOnly}>
-            Nota {media.toFixed(1).replace('.', ',')} de 5
+            {media > 0 ? `Nota ${media.toFixed(1).replace('.', ',')} de 5` : 'Sem avaliações'}
           </span>
           <span className={styles.stars} aria-hidden="true">
             {[1, 2, 3, 4, 5].map(i => (
               <span key={i} className={i > 1 ? styles.dsk : undefined}>
-                <Star filled={media >= i - 0.25 || i === 1} />
+                <Star filled={media > 0 && (media >= i - 0.25 || i === 1)} />
               </span>
             ))}
           </span>
           <span className={styles.ratingText} aria-hidden="true">
-            <strong
-              className={styles.ratingValue}
-              data-role="spot-rating-value"
-            >
-              {media.toFixed(1).replace('.', ',')}
-            </strong>
+            {media > 0 ? (
+              <strong
+                className={styles.ratingValue}
+                data-role="spot-rating-value"
+              >
+                {media.toFixed(1).replace('.', ',')}
+              </strong>
+            ) : (
+              <strong className={styles.ratingValue}>&nbsp;</strong>
+            )}
             {total > 0 && (
               <span data-role="spot-rating-count">
                 ({total.toLocaleString('pt-BR')})
@@ -318,6 +323,17 @@ export function ProductCard10({
             )}
           </span>
         </div>
+      ) : (
+        showRating && (
+          <div className={`${styles.rating} ${styles.vazio}`} aria-hidden="true">
+            <span className={styles.stars}>
+              <svg width="14" height="14" viewBox="0 0 24 24" />
+            </span>
+            <span className={styles.ratingText}>
+              <strong className={styles.ratingValue}>&nbsp;</strong>
+            </span>
+          </div>
+        )
       )}
 
       <a className={styles.name} href={href} data-role="spot-name">
@@ -327,26 +343,38 @@ export function ProductCard10({
       {inStock ? (
         <>
           <div className={styles.prices}>
-            {listPrice > price && (
+            {listPrice > price ? (
               <s className={styles.listPrice} data-role="spot-list-price">
                 de {money10(listPrice)}
+              </s>
+            ) : (
+              <s className={`${styles.listPrice} ${styles.vazio}`} aria-hidden="true">
+                &nbsp;
               </s>
             )}
             <span className={styles.price} data-role="spot-price">
               {money10(price)}
             </span>
-            {pix > 0 && (
+            {pix > 0 ? (
               <span className={styles.pix} data-role="spot-pix">
                 {money10(pix)} no Pix
               </span>
+            ) : (
+              <span className={`${styles.pix} ${styles.vazio}`} aria-hidden="true">
+                &nbsp;
+              </span>
             )}
-            {installment && (
+            {installment ? (
               <span
                 className={styles.installment}
                 data-role="spot-installments"
               >
                 ou {installment.n}x de {money10(installment.v)}
                 <span className={styles.dsk}> sem juros</span>
+              </span>
+            ) : (
+              <span className={`${styles.installment} ${styles.vazio}`} aria-hidden="true">
+                &nbsp;
               </span>
             )}
           </div>

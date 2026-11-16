@@ -2141,3 +2141,12 @@ a <img> é item flex (bloco): o strut de baseline de ~4.4px da img inline deixou
     width: 100%;
   }
 }
+
+/* Cards alinhados lado a lado: o preço "de" sempre ocupa a linha (sem desconto, .vazio no
+   index.tsx: invisível, com a mesma altura). O data-has-list-price agora é sempre emitido:
+   ele desliga o ::before vazio do .price, que aqui é a própria linha reservada. O nome é de 1
+   linha numa caixa de altura fixa (.nameSkuBox), então já alinha. O mesmo trecho está no
+   "Só na Wake" do spot.scss. */
+.vazio {
+  visibility: hidden;
+}

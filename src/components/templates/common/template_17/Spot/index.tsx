@@ -266,7 +266,8 @@ export function ProductCard17({
   const comprar = buyLabel || 'Adicionar';
   const media = product.rating || 0;
   const total = product.ratingCount || 0;
-  const temNota = inStock && showRating && media > 0;
+  // Com a nota ligada, as estrelas sempre aparecem: sem avaliação, vazias.
+  const temNota = inStock && showRating;
 
   return (
     <article
@@ -343,9 +344,15 @@ export function ProductCard17({
       </div>
 
       <div className={styles.info}>
-        {brand && (
+        {/* Marca, nota, preço "de" e parcela sempre ocupam a linha (vazios, invisíveis): os
+            cards lado a lado ficam com nome, preço e botão na mesma altura. */}
+        {brand ? (
           <span className={styles.brand} data-role="spot-brand">
             {brand}
+          </span>
+        ) : (
+          <span className={`${styles.brand} ${styles.vazio}`} aria-hidden="true">
+            &nbsp;
           </span>
         )}
         <h3 className={styles.name}>
@@ -354,13 +361,13 @@ export function ProductCard17({
           </a>
         </h3>
 
-        {temNota && (
+        {temNota ? (
           <div
             className={`${styles.rating} ${styles.dsk}`}
             data-role="spot-rating"
           >
             <span className={styles.srOnly}>
-              Nota {media.toFixed(1).replace('.', ',')} de 5
+              {media > 0 ? `Nota ${media.toFixed(1).replace('.', ',')} de 5` : 'Sem avaliações'}
             </span>
             <Stars media={media} />
             {total > 0 && (
@@ -373,23 +380,35 @@ export function ProductCard17({
               </span>
             )}
           </div>
-        )}
+        ) : showRating ? (
+          <div className={`${styles.rating} ${styles.dsk} ${styles.vazio}`} aria-hidden="true">
+            <Stars media={0} />
+          </div>
+        ) : null}
 
-        {discount > 0 && (
+        {discount > 0 ? (
           <s className={styles.listPrice} data-role="spot-list-price">
             <span className={styles.srOnly}>De </span>
             {money17(listPrice)}
+          </s>
+        ) : (
+          <s className={`${styles.listPrice} ${styles.vazio}`} aria-hidden="true">
+            &nbsp;
           </s>
         )}
         <span className={styles.price} data-role="spot-price">
           {discount > 0 && <span className={styles.srOnly}>por </span>}
           {money17(price)}
         </span>
-        {installment && (
+        {installment ? (
           <span className={styles.installment} data-role="spot-installments">
             {installment.installments}x de{' '}
             {money17(installment.installmentValue)}
             <span className={styles.dsk}> sem juros</span>
+          </span>
+        ) : (
+          <span className={`${styles.installment} ${styles.vazio}`} aria-hidden="true">
+            &nbsp;
           </span>
         )}
         {pix > 0 && (

@@ -212,10 +212,14 @@ export function ProductCard13({
             {money13(price)}
           </span>
         )}
-        {installment && (
+        {installment ? (
           <span className={styles.installment} data-role="spot-installments">
             {installment.installmentNumber}x de {money13(installment.installmentValue)}
             {installment.installmentInterest === 0 && <span className={styles.dsk}> sem juros</span>}
+          </span>
+        ) : (
+          <span className={`${styles.installment} ${styles.vazio}`} aria-hidden="true">
+            &nbsp;
           </span>
         )}
         {!inStock && (

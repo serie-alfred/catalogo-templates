@@ -192,10 +192,14 @@ export function ProductCard09({
                 {money(price)}
               </span>
             </span>
-            {installment && (
+            {installment ? (
               <span className={styles.installment} data-role="spot-installments">
                 {installment.n}x de {money(installment.v)}
                 <span className={styles.dsk}> sem juros</span>
+              </span>
+            ) : (
+              <span className={`${styles.installment} ${styles.vazio}`} aria-hidden="true">
+                &nbsp;
               </span>
             )}
           </>

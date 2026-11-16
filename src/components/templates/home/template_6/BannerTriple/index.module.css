@@ -1,5 +1,5 @@
 .bannerColumnContainer {
-  margin: 30px 0px 45px 0px;
+  margin: 30px auto 45px auto;
   container-type: inline-size;
   width: 100%;
 }

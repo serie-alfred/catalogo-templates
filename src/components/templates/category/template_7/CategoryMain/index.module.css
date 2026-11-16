@@ -1178,3 +1178,35 @@ um passo de tipografia — os cards do contrato já quebram sozinhos (flex: 1 1 
   cursor: pointer;
   margin-top: 4px;
 }
+
+/* Cards alinhados lado a lado: o nome corta em 2 linhas (reticências na 2ª) e sempre ocupa a
+   altura de 2 linhas; o Pix sempre ocupa a linha (sem ele, .vazio no index.tsx: invisível, com
+   a mesma altura; por isso o -Solo não é mais usado); e o card estica, com o Comprar no fundo.
+   O mesmo trecho está no "Só na Wake" do category.scss. */
+.card,
+.mCard {
+  display: flex;
+  flex-direction: column;
+}
+.cardBody,
+.mCardBody {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+.cardTitle,
+.mCardTitle {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  min-height: 2.6em;
+}
+.cardCta,
+.mCardCta {
+  margin-top: auto;
+}
+.vazio {
+  visibility: hidden;
+}

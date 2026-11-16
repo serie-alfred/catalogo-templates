@@ -306,23 +306,26 @@ export default function CategoryMain() {
           R$ {fmt(p.price)}
         </p>
         <p
-          className={`${pfx === 'd' ? styles.cardInstallment : styles.mCardInstallment}${
-            !p.pix
-              ? pfx === 'd'
-                ? ' ' + styles.cardInstallmentSolo
-                : ' ' + styles.mCardInstallmentSolo
-              : ''
-          }`}
+          className={pfx === 'd' ? styles.cardInstallment : styles.mCardInstallment}
           data-role={pfx === 'd' ? 'card-installment' : 'm-card-installment'}
         >
           {p.parcela}
         </p>
-        {p.pix && (
+        {/* Parcela e Pix sempre ocupam a linha (vazios, invisíveis): o Comprar fica
+            na mesma altura em todos os cards da grade. */}
+        {p.pix ? (
           <p
             className={pfx === 'd' ? styles.cardPix : styles.mCardPix}
             data-role={pfx === 'd' ? 'card-pix' : 'm-card-pix'}
           >
             {p.pix}
+          </p>
+        ) : (
+          <p
+            className={`${pfx === 'd' ? styles.cardPix : styles.mCardPix} ${styles.vazio}`}
+            aria-hidden="true"
+          >
+            &nbsp;
           </p>
         )}
         <span

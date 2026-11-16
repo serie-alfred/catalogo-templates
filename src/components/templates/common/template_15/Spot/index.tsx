@@ -189,11 +189,17 @@ export function ProductCard15({
       </div>
 
       <div className={styles.info}>
-        {brand && (
+        {/* Marca e parcela sempre ocupam a linha (vazios, invisíveis): os cards lado a lado
+            ficam com nome, preço e botão na mesma altura. */}
+        {brand ? (
           <span className={styles.brand} data-role="spot-brand">
             {brand}
           </span>
-        )}
+        ) : showBrand ? (
+          <span className={`${styles.brand} ${styles.vazio}`} aria-hidden="true">
+            &nbsp;
+          </span>
+        ) : null}
         <h3 className={styles.name}>
           <a href={href} data-role="spot-name">
             {name}
@@ -218,10 +224,14 @@ export function ProductCard15({
             {money15(price)}
           </span>
         )}
-        {installment && (
+        {installment ? (
           <span className={styles.installment} data-role="spot-installments">
             {installment.installmentNumber}x de {money15(installment.installmentValue)}
             {installment.installmentInterest === 0 && <span className={styles.dsk}> sem juros</span>}
+          </span>
+        ) : (
+          <span className={`${styles.installment} ${styles.vazio}`} aria-hidden="true">
+            &nbsp;
           </span>
         )}
         {!inStock && (

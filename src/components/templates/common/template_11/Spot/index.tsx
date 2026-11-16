@@ -289,11 +289,17 @@ export function ProductCard11({
             </span>
           )}
         </div>
-        {installment && (
+        {installment ? (
           <span className={styles.installment} data-role="spot-installments">
             ou {installment.installmentNumber}x de{' '}
             {money11(installment.installmentValue)}
           </span>
+        ) : (
+          inStock && (
+            <span className={`${styles.installment} ${styles.vazio}`} aria-hidden="true">
+              &nbsp;
+            </span>
+          )
         )}
         {/* Mobile esgotado: a linha da parcela fica reservada, como no desenho (alinha os cards da grade). */}
         {!inStock && (

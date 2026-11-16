@@ -344,9 +344,13 @@ function Card({ p, index }: { p: Produto; index: number }) {
 
           <a href="#" className={styles.infoLink}>
             <div className={styles.priceWrap}>
-              <div className={styles.price} data-has-list-price={temDesconto || undefined}>
-                {temDesconto && (
+              <div className={styles.price} data-has-list-price="true">
+                {temDesconto ? (
                   <span className={styles.listPrice} data-role="list-price">{money(p.precoDe!)}</span>
+                ) : (
+                  <span className={`${styles.listPrice} ${styles.vazio}`} aria-hidden="true">
+                    &nbsp;
+                  </span>
                 )}
                 <span className={styles.priceLine} data-role="card-price">
                   {money(p.preco)}

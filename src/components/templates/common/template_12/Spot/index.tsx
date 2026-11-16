@@ -150,7 +150,8 @@ export function ProductCard12({
 
   const media = Number(product.rating?.average) || 0;
   const total = Number(product.rating?.totalCount) || 0;
-  const temNota = showRating && media > 0;
+  // Com a nota ligada, as estrelas sempre aparecem: sem avaliação, vazias.
+  const temNota = showRating;
   const notaTexto = media.toFixed(1).replace('.', ',');
 
   const listPriceEl = (extra: string) =>
@@ -158,7 +159,11 @@ export function ProductCard12({
       <s className={`${styles.listPrice} ${extra}`} data-role="spot-list-price">
         {money12(listPrice)}
       </s>
-    ) : null;
+    ) : (
+      <s className={`${styles.listPrice} ${extra} ${styles.vazio}`} aria-hidden="true">
+        &nbsp;
+      </s>
+    );
 
   return (
     <article className={`${styles.productCard12}${inStock ? '' : ` ${styles.soldOut}`}`} data-role="spot">
@@ -206,23 +211,32 @@ export function ProductCard12({
       </div>
 
       <div className={styles.info}>
-        {temNota && (
+        {temNota ? (
           <div className={styles.rating} data-role="spot-rating">
-            <span className={styles.srOnly}>Nota {notaTexto} de 5</span>
+            <span className={styles.srOnly}>{media > 0 ? `Nota ${notaTexto} de 5` : 'Sem avaliações'}</span>
             {/* Desktop: as 5 estrelas; mobile: uma estrela só, como no desenho. */}
             <span className={`${styles.stars} ${styles.dsk}`}>
               <Stars media={media} />
             </span>
             <span className={`${styles.stars} ${styles.mob}`}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" opacity={media > 0 ? undefined : 0.28}>
                 <path d={STAR} />
               </svg>
             </span>
             <span aria-hidden="true">
-              {notaTexto}
-              {total > 0 && <span data-role="spot-rating-count">{` (${total.toLocaleString('pt-BR')})`}</span>}
+              {media > 0 ? notaTexto : '\u00a0'}
+              {media > 0 && total > 0 && <span data-role="spot-rating-count">{` (${total.toLocaleString('pt-BR')})`}</span>}
             </span>
           </div>
+        ) : (
+          showRating && (
+            <div className={`${styles.rating} ${styles.vazio}`} aria-hidden="true">
+              <span className={styles.stars}>
+                <svg width="14" height="14" viewBox="0 0 24 24" />
+              </span>
+              <span>&nbsp;</span>
+            </div>
+          )
         )}
 
         <h3 className={styles.name}>
@@ -239,10 +253,16 @@ export function ProductCard12({
             <span className={`${styles.price}${inStock ? '' : ` ${styles.priceOut}`}`} data-role="spot-price">
               {money12(price)}
             </span>
-            {installment && (
+            {installment ? (
               <span className={styles.installment} data-role="spot-installments">
                 {installment.installmentNumber}x de {money12(installment.installmentValue)}
               </span>
+            ) : (
+              inStock && (
+                <span className={`${styles.installment} ${styles.vazio}`} aria-hidden="true">
+                  &nbsp;
+                </span>
+              )
             )}
             {!inStock && (
               <span className={`${styles.installment} ${styles.dsk}`} data-role="spot-unavailable">

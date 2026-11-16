@@ -180,7 +180,8 @@ export function ProductCard14({
 
   const media = Number(product.rating?.average) || 0;
   const total = Number(product.rating?.totalCount) || 0;
-  const temNota = showRating && inStock && media > 0;
+  // Com a nota ligada, as estrelas sempre aparecem: sem avaliação, vazias.
+  const temNota = showRating && inStock;
 
   return (
     <article className={`${styles.productCard14}${inStock ? '' : ` ${styles.soldOut}`}`} data-role="spot">
@@ -234,18 +235,24 @@ export function ProductCard14({
       </div>
 
       <div className={styles.info}>
-        {brand && (
+        {/* Marca, nota, preço "de" e parcela sempre ocupam a linha (vazios, invisíveis): os
+            cards lado a lado ficam com nome, preço e botão na mesma altura. */}
+        {brand ? (
           <span className={styles.brand} data-role="spot-brand">
             {brand}
+          </span>
+        ) : (
+          <span className={`${styles.brand} ${styles.vazio}`} aria-hidden="true">
+            &nbsp;
           </span>
         )}
         <a className={styles.name} href={href} data-role="spot-name">
           {name}
         </a>
 
-        {temNota && (
+        {temNota ? (
           <span className={styles.rating} data-role="spot-rating">
-            <span className={styles.stars} role="img" aria-label={`Nota ${media.toFixed(1).replace('.', ',')} de 5`}>
+            <span className={styles.stars} role="img" aria-label={media > 0 ? `Nota ${media.toFixed(1).replace('.', ',')} de 5` : 'Sem avaliações'}>
               {[1, 2, 3, 4, 5].map(i => (
                 <React.Fragment key={i}>
                   {media >= i - 0.25
@@ -256,24 +263,38 @@ export function ProductCard14({
             </span>
             {total > 0 && <span data-role="spot-rating-count">&nbsp;({total.toLocaleString('pt-BR')})</span>}
           </span>
-        )}
+        ) : showRating ? (
+          <span className={`${styles.rating} ${styles.vazio}`} aria-hidden="true">
+            <span className={styles.stars}>
+              <svg className={styles.star} width={13} height={13} viewBox="0 0 24 24" />
+            </span>
+          </span>
+        ) : null}
 
         {inStock && (
           <div className={styles.prices}>
-            {listPrice > price && (
+            {listPrice > price ? (
               <s className={styles.listPrice} data-role="spot-list-price">
                 <span className={styles.srOnly}>De </span>
                 {money14(listPrice)}
+              </s>
+            ) : (
+              <s className={`${styles.listPrice} ${styles.vazio}`} aria-hidden="true">
+                &nbsp;
               </s>
             )}
             <span className={styles.price} data-role="spot-price">
               {listPrice > price && <span className={styles.srOnly}>por </span>}
               {money14(price)}
             </span>
-            {installment && (
+            {installment ? (
               <span className={styles.installment} data-role="spot-installments">
                 {installment.installmentNumber}x de {money14(installment.installmentValue)}
                 {installment.installmentInterest === 0 ? ' sem juros' : ' com juros'}
+              </span>
+            ) : (
+              <span className={`${styles.installment} ${styles.vazio}`} aria-hidden="true">
+                &nbsp;
               </span>
             )}
             {pix && (

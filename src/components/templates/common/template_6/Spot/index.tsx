@@ -93,9 +93,15 @@ export default function Spot() {
                   </div>
                 </div>
               ) : (
-                <div className={styles.priceNormal}>
-                  <span title="BRL">R$</span>
-                  <span>{product.price.toFixed(2)}</span>
+                <div className={styles.prices}>
+                  {/* "de" reservado (invisível): o preço não sobe em relação ao vizinho com desconto. */}
+                  <div className={`${styles.priceBefore} ${styles.vazio}`} aria-hidden="true">
+                    <span>&nbsp;</span>
+                  </div>
+                  <div className={styles.priceNormal}>
+                    <span title="BRL">R$</span>
+                    <span>{product.price.toFixed(2)}</span>
+                  </div>
                 </div>
               )}
             </div>

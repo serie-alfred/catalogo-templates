@@ -490,3 +490,22 @@
     display: none;
   }
 }
+
+/* Cards alinhados lado a lado: o nome tem sempre a altura de 2 linhas e corta com reticências
+   na 2ª; marca, nota, preço "de" e parcela sempre ocupam a linha (vazios, ficam invisíveis:
+   .vazio no index.tsx); e o bloco de informações estica, então o botão fica no fundo do card.
+   O mesmo trecho está no "Só na Wake" do spot.scss. */
+.info {
+  flex: 1 1 auto;
+}
+.name {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  min-height: 2.6em;
+}
+.vazio {
+  visibility: hidden;
+}

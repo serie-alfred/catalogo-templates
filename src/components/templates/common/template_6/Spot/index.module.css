@@ -309,3 +309,12 @@
     background-color: var(--background-tertiary-color);
   }
 }
+
+/* Cards alinhados lado a lado: o nome tem sempre a altura de 2 linhas e o "de" sempre ocupa a
+   linha (sem desconto, .vazio no index.tsx: invisível, com a mesma altura). */
+.spot .productWrapper .productContent .productTitle h3 {
+  min-height: 42px;
+}
+.vazio {
+  visibility: hidden;
+}
