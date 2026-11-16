@@ -15,6 +15,7 @@ import styles from './index.module.css';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useLayout } from '@/context/LayoutContext';
 import { WakePopup } from '@/components/gerador/WakePopup';
+import ConfirmHost from '@/components/gerador/ConfirmDialog';
 
 export default function GeradorPage() {
   const isMobile = useIsMobile();
@@ -121,6 +122,9 @@ export default function GeradorPage() {
       {/* Fora do shell: ele é `overflow: hidden` e recortaria o palco
           off-screen do export, que fica em top/left -99999px. */}
       <ExportStage />
+
+      {/* As confirmações do gerador (ConfirmDialog/confirmar.ts), no lugar do window.confirm. */}
+      <ConfirmHost />
     </>
   );
 }

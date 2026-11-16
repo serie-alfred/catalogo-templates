@@ -60,7 +60,7 @@ export default function SeededLayoutProvider({
         undo: noop,
         redo: noop,
         setRailTarget: noop,
-        aplicarTemplate: () => false,
+        aplicarTemplate: async () => false,
         setLeftCollapsed: noop,
         setRightCollapsed: noop,
         setSelectedUid: noop,

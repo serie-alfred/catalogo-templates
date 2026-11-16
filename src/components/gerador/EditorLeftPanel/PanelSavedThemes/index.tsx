@@ -6,6 +6,7 @@ import { useLayout } from '@/context/LayoutContext';
 import type { TemaResumo } from '@/lib/temasStore';
 import type { EstadoDoEditor } from '@/types/estadoEditor';
 import { rotuloDaPlataforma } from '@/types/platform';
+import { confirmar } from '@/components/gerador/ConfirmDialog/confirmar';
 
 import styles from './index.module.css';
 
@@ -123,9 +124,12 @@ export default function PanelSavedThemes() {
     if (
       temTrabalho &&
       temaAtual?.id !== tema.id &&
-      !window.confirm(
-        `Abrir "${tema.nome}"${versao ? ` (versão ${versao})` : ''}?\n\nO tema desta aba será substituído. Dá para desfazer com Voltar.`
-      )
+      !(await confirmar({
+        titulo: `Abrir "${tema.nome}"${versao ? ` (versão ${versao})` : ''}?`,
+        texto: 'O tema desta aba será substituído.',
+        nota: 'Dá para desfazer com Voltar.',
+        ok: 'Abrir tema',
+      }))
     )
       return;
     setOcupado(true);
@@ -154,9 +158,12 @@ export default function PanelSavedThemes() {
 
   const apagar = async (tema: TemaResumo) => {
     if (
-      !window.confirm(
-        `Apagar "${tema.nome}" e as ${tema.versoes.length} versões do histórico?\n\nIsto não tem volta.`
-      )
+      !(await confirmar({
+        titulo: `Apagar "${tema.nome}" e as ${tema.versoes.length} versões do histórico?`,
+        nota: 'Isto não tem volta.',
+        ok: 'Apagar',
+        perigo: true,
+      }))
     )
       return;
     setOcupado(true);

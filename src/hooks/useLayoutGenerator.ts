@@ -52,6 +52,7 @@ import type { PreviewSnapshot } from '@/lib/previewStore';
 import type { EstadoDoEditor } from '@/types/estadoEditor';
 import { abaSemTrabalho, estadoDaAba } from '@/utils/editorStorage';
 import { avisarPreviewAtualizado } from '@/utils/previewAoVivo';
+import { confirmar } from '@/components/gerador/ConfirmDialog/confirmar';
 
 /** Os destinos do rail de navegação do editor: os quatro do Figma e o
  *  "Por template" (escolher uma família inteira, utils/templatesCompletos.ts). */
@@ -984,7 +985,7 @@ export function useLayoutGenerator() {
    * Quem sobrevive vem inteiro — mesmo `uid`, mesma `pagina`, mesmo objeto
    * `variables`. Cores, fontes e assets nunca foram afetados e continuam assim.
    */
-  const changePlatform = (value: Platform) => {
+  const changePlatform = async (value: Platform) => {
     setShowPlatformError(false);
 
     const loja = partitionByPlatform(lojaSelections, value);
@@ -1013,11 +1014,13 @@ export function useLayoutGenerator() {
 
     if (
       lostTitles.length > 0 &&
-      !window.confirm(
-        `Estas seções não existem na plataforma ${rotuloDaPlataforma(value)} e serão removidas:\n\n` +
-          lostTitles.map(t => `• ${t}`).join('\n') +
-          `\n\nO restante do tema é preservado. Continuar?`
-      )
+      !(await confirmar({
+        titulo: `Trocar para ${rotuloDaPlataforma(value)}?`,
+        texto: `Estas seções não existem na plataforma ${rotuloDaPlataforma(value)} e serão removidas:`,
+        itens: lostTitles,
+        nota: 'O restante do tema é preservado.',
+        ok: 'Trocar plataforma',
+      }))
     ) {
       return;
     }
@@ -1051,7 +1054,7 @@ export function useLayoutGenerator() {
    * cores e fontes juntas. Com seções já escolhidas pede confirmação. Leva para "Componentes" na home.
    * Devolve false se o usuário cancelou.
    */
-  const aplicarTemplate = (t: TemplateCompleto): boolean => {
+  const aplicarTemplate = async (t: TemplateCompleto): Promise<boolean> => {
     const cores = t.tema?.colors ?? {};
     const fontes = t.tema?.fonts;
     const oQueMuda =
@@ -1068,11 +1071,14 @@ export function useLayoutGenerator() {
       : '';
     if (
       lojaSelections.length > 0 &&
-      !window.confirm(
-        `Aplicar o template ${t.nome}?\n\nAs ${lojaSelections.length} seções ` +
-          `escolhidas hoje serão substituídas pelas ${t.itens.length} peças do ` +
-          `template, em todas as páginas. ${oQueMuda}${proprias}\n\nDá para desfazer com Voltar.`
-      )
+      !(await confirmar({
+        titulo: `Aplicar o template ${t.nome}?`,
+        texto:
+          `As ${lojaSelections.length} seções escolhidas hoje serão substituídas ` +
+          `pelas ${t.itens.length} peças do template, em todas as páginas. ${oQueMuda}${proprias}`,
+        nota: 'Dá para desfazer com Voltar.',
+        ok: 'Aplicar template',
+      }))
     ) {
       return false;
     }
@@ -2010,13 +2016,17 @@ export function useLayoutGenerator() {
    * o que perder, e num passo só de desfazer. Cores e fontes ficam. O convite
    * não volta nesta carga (`inicioEscolhido`); recarregar a aba vazia o mostra.
    */
-  const comecarDoZero = (): boolean => {
+  const comecarDoZero = async (): Promise<boolean> => {
     if (
       lojaSelections.length > 0 &&
-      !window.confirm(
-        `Começar do zero?\n\nAs ${lojaSelections.length} seções da loja saem, ` +
-          `em todas as páginas. Cores e fontes ficam como estão.\n\nDá para desfazer com Voltar.`
-      )
+      !(await confirmar({
+        titulo: 'Começar do zero?',
+        texto:
+          `As ${lojaSelections.length} seções da loja saem, em todas as páginas. ` +
+          `Cores e fontes ficam como estão.`,
+        nota: 'Dá para desfazer com Voltar.',
+        ok: 'Começar do zero',
+      }))
     ) {
       return false;
     }

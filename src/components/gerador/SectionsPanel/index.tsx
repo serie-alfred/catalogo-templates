@@ -24,6 +24,7 @@ import {
 } from '@dnd-kit/modifiers';
 
 import { LAYOUTS } from '@/data/layoutData';
+import { confirmar } from '@/components/gerador/ConfirmDialog/confirmar';
 import { useLayout } from '@/context/LayoutContext';
 import { selectionsForPage, getPriorityOrder } from '@/utils/previewRender';
 import {
@@ -156,12 +157,14 @@ export default function SectionsPanel() {
   );
 
   const handleRemove = useCallback(
-    (row: SectionRowData) => {
+    async (row: SectionRowData) => {
       if (
         row.isCommon &&
-        !window.confirm(
-          `"${row.title}" aparece nas três páginas. Remover de todas?`
-        )
+        !(await confirmar({
+          titulo: `Remover "${row.title}"?`,
+          texto: 'Esta seção aparece nas três páginas e sai de todas.',
+          ok: 'Remover de todas',
+        }))
       ) {
         return;
       }
