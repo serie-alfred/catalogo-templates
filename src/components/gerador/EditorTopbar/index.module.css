@@ -94,3 +94,19 @@
   opacity: 0.7;
   cursor: progress;
 }
+
+/* Wake sem token: um ponto avisa que o export vai perguntar. */
+.iconButton[data-vazio] {
+  position: relative;
+}
+
+.iconButton[data-vazio]::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f59e0b;
+}

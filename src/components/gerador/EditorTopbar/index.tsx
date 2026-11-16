@@ -11,6 +11,7 @@ import PreviewButton from '../PreviewButton';
 import ExportFeedbackModal from '../ExportFeedbackModal';
 import { UndoLeft, UndoRight, ArrowDown } from '@/assets/icons/editor';
 import { isLocalDelivery } from '@/utils/configDelivery';
+import { KeyRound } from 'lucide-react';
 
 import styles from './index.module.css';
 
@@ -50,7 +51,10 @@ export default function EditorTopbar({ className }: { className?: string }) {
     editorMode,
     checkout,
     setCheckoutEtapa,
+    wakeCustomValue,
+    abrirTokenWake,
   } = useLayout();
+  const ehWake = platform === 'Wake' || platform === 'Wake 2.0';
 
   const [exporting, setExporting] = useState(false);
 
@@ -148,6 +152,24 @@ export default function EditorTopbar({ className }: { className?: string }) {
       </div>
 
       <div className={styles.actions}>
+        {/* O popup do token só abre sozinho no export com o token vazio; este
+            é o caminho para ver ou trocar um token já salvo. */}
+        {ehWake && (
+          <button
+            type="button"
+            className={styles.iconButton}
+            onClick={abrirTokenWake}
+            aria-label="Token da loja Wake"
+            title={
+              wakeCustomValue.trim()
+                ? 'Token da loja Wake'
+                : 'Token da loja Wake (não informado)'
+            }
+            data-vazio={wakeCustomValue.trim() ? undefined : 'true'}
+          >
+            <KeyRound width={20} height={20} />
+          </button>
+        )}
         <PreviewButton />
         <button
           type="button"

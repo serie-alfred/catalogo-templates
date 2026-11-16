@@ -25,7 +25,8 @@ export default function GeradorPage() {
     wakeCustomValue,
     setWakeCustomValue,
     showWakePopup,
-    setShowWakePopup,
+    wakePopupModo,
+    fecharWakePopup,
     wakePopupRef,
     leftCollapsed,
     setLeftCollapsed,
@@ -110,10 +111,10 @@ export default function GeradorPage() {
 
         {showWakePopup && (
           <WakePopup
+            modo={wakePopupModo}
+            onFechar={fecharWakePopup}
             wakeCustomValue={wakeCustomValue}
             setWakeCustomValue={setWakeCustomValue}
-            onClose={() => setShowWakePopup(false)}
-            setShowWakePopup={setShowWakePopup}
             wakePopupRef={wakePopupRef}
           />
         )}

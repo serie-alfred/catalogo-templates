@@ -545,9 +545,9 @@ r.ok(
 );
 
 // ── o popup do token da Wake ───────────────────────────────────────────────
-// Nunca era aberto pelo funil: `semear` grava `layoutPlatform` direto, e só o
-// `changePlatform` abre o diálogo. Semear Tray e escolher Wake na UI é o
-// caminho que o cliente percorre.
+// Desde 16/11/2026 ele NÃO abre na troca de plataforma: o token só serve ao
+// config.json, então é pedido no "Enviar"/"Baixar", e só com o token vazio.
+// Semear Tray e escolher Wake na UI é o caminho que o cliente percorre.
 await semear(page, {
   plataforma: 'Tray',
   selecoes: [sel('01', 'header', 'common')],
@@ -568,11 +568,30 @@ await page.evaluate(() =>
     .find(o => o.dataset.platform === 'Wake 2.0')
     ?.click()
 );
+await espera(2000);
+r.ok(
+  'escolher a Wake NÃO abre o popup do token',
+  !(await page.evaluate(() => !!document.querySelector('.wake-popup')))
+);
+const BOTAO_TOKEN = 'button[aria-label="Token da loja Wake"]';
+r.ok(
+  'a topbar mostra o botão do token, marcado como vazio',
+  await page.evaluate(
+    b => document.querySelector(b)?.dataset.vazio === 'true',
+    BOTAO_TOKEN
+  )
+);
+
+const rotuloDoExport = () =>
+  page.evaluate(
+    () => document.querySelector('header button[class*="download"]')?.textContent.trim() ?? null
+  );
+await clicarDeVerdade(page, 'header button[class*="download"]');
 const abriuWake = await page
   .waitForSelector('.wake-popup', { timeout: 12000 })
   .then(() => true)
   .catch(() => false);
-r.ok('escolher a Wake abre o popup do token', abriuWake);
+r.ok('exportar com o token vazio abre o popup do token', abriuWake);
 
 if (abriuWake) {
   const anatomia = await page.evaluate(() => {
@@ -585,7 +604,8 @@ if (abriuWake) {
       rotulos: botoes.map(
         b => b.textContent.trim() || b.getAttribute('aria-label') || '?'
       ),
-      prometeEnviar: /(^|\s)enviar(\s|$)/i.test(el.innerText),
+      salvarDesligado: botoes.find(b => /Salvar e exportar/.test(b.textContent))?.disabled ?? null,
+      prometeEnviar: /(^|s)enviar(s|$)/i.test(el.innerText),
       avisoVazio: !!el.querySelector('[role="status"]'),
     };
   });
@@ -609,6 +629,12 @@ if (abriuWake) {
     anatomia.rotulos.every(x => x !== '?'),
     anatomia.rotulos.join(' | ')
   );
+  r.ok(
+    'no export, o popup oferece seguir sem token',
+    anatomia.rotulos.includes('Exportar sem token'),
+    anatomia.rotulos.join(' | ')
+  );
+  r.ok('"Salvar e exportar" desligado com o campo vazio', anatomia.salvarDesligado === true);
   r.ok('campo vazio avisa a consequência', anatomia.avisoVazio);
   r.ok(
     'o popup é um diálogo de verdade',
@@ -630,6 +656,42 @@ if (abriuWake) {
     'Escape fecha o popup',
     !(await page.evaluate(() => !!document.querySelector('.wake-popup')))
   );
+  r.ok(
+    'Escape desiste do export',
+    !/Gerando/.test((await rotuloDoExport()) ?? ''),
+    await rotuloDoExport()
+  );
+
+  // Com o token salvo, o export segue direto, sem perguntar.
+  await clicarDeVerdade(page, 'header button[class*="download"]');
+  await espera(400);
+  r.ok(
+    'com o token salvo, exportar não abre o popup',
+    !(await page.evaluate(() => !!document.querySelector('.wake-popup')))
+  );
+  await page
+    .waitForFunction(
+      () => !/Gerando/.test(document.querySelector('header button[class*="download"]')?.textContent ?? ''),
+      { timeout: 60000 }
+    )
+    .catch(() => {});
+
+  // O botão da topbar abre o mesmo popup, para trocar o token, com "Salvar".
+  await clicarDeVerdade(page, BOTAO_TOKEN);
+  const abriuEditar = await page
+    .waitForSelector('.wake-popup', { timeout: 5000 })
+    .then(() => true)
+    .catch(() => false);
+  const rotulosEditar = abriuEditar
+    ? await page.$$eval('.wake-popup button', bs => bs.map(b => b.textContent.trim()))
+    : [];
+  r.ok(
+    'o botão do token abre o popup para editar ("Salvar", sem export)',
+    abriuEditar && rotulosEditar.includes('Salvar') && !rotulosEditar.includes('Exportar sem token'),
+    rotulosEditar.join(' | ')
+  );
+  await page.keyboard.press('Escape');
+  await espera(500);
 }
 
 // O painel esquerdo não tem aviso de plataforma: a caixa do Design Studio saiu em
@@ -641,7 +703,7 @@ const avisoNoPainel = () =>
   );
 r.ok('Wake: nenhum aviso de plataforma no painel esquerdo', !(await avisoNoPainel()));
 
-// ── Wake 2.0 (a Wake padrão, sem flag): o popup ──────────────────────────────
+// ── Wake 2.0 (a Wake padrão, sem flag) ───────────────────────────────────────
 // Mesmo caminho do cliente: semear Tray e escolher a Wake do Design Studio no
 // seletor (o valor guardado continua `Wake 2.0`; a tela diz só "Wake").
 {
@@ -659,20 +721,7 @@ r.ok('Wake: nenhum aviso de plataforma no painel esquerdo', !(await avisoNoPaine
       .find(o => o.dataset.platform === 'Wake 2.0')
       ?.click()
   );
-  const abriu2 = await page
-    .waitForSelector('.wake-popup', { timeout: 12000 })
-    .then(() => true)
-    .catch(() => false);
-  const nome = abriu2
-    ? await page.$eval('.wake-popup strong', el => el.textContent.trim())
-    : null;
-  r.ok(
-    'Wake 2.0: o popup do token diz "Wake", não "Wake (legado)"',
-    nome === 'Wake',
-    nome ?? 'o popup não abriu'
-  );
-  await page.keyboard.press('Escape');
-  await espera(500);
+  await espera(1500);
 
   r.ok('Wake 2.0: nenhum aviso de plataforma no painel esquerdo', !(await avisoNoPainel()));
 }

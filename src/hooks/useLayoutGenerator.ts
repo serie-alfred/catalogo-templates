@@ -211,6 +211,43 @@ export function useLayoutGenerator(conta?: ContaAtual) {
   const [wakeCustomValue, setWakeCustomValue] = useState<string>('');
   const [showWakePopup, setShowWakePopup] = useState(false);
   const wakePopupRef = useRef<HTMLDivElement | null>(null);
+  /*
+   * O token só serve ao config.json, então é pedido na hora de exportar — e só
+   * se estiver vazio. Abria em toda troca para Wake, mesmo com token salvo.
+   * 'editar' é o botão "Token da loja" da topbar; 'exportar' é o export
+   * esperando a resposta (`pedirTokenWake`).
+   */
+  const [wakePopupModo, setWakePopupModo] = useState<'editar' | 'exportar'>(
+    'editar'
+  );
+  const respostaDoTokenRef = useRef<
+    ((r: 'exportar' | 'cancelar') => void) | null
+  >(null);
+  /* O export espera o popup com um `await`: a closure dele é a do clique, com o
+     token de antes. O config lê o token por aqui, sempre o atual. */
+  const wakeTokenAtual = useRef('');
+  wakeTokenAtual.current = wakeCustomValue;
+
+  /** Todo fechamento do popup passa aqui, para o export pendente não ficar preso. */
+  const fecharWakePopup = useCallback(
+    (r: 'exportar' | 'cancelar' = 'cancelar') => {
+      setShowWakePopup(false);
+      const responder = respostaDoTokenRef.current;
+      respostaDoTokenRef.current = null;
+      responder?.(r);
+    },
+    []
+  );
+  const abrirTokenWake = useCallback(() => {
+    setWakePopupModo('editar');
+    setShowWakePopup(true);
+  }, []);
+  const pedirTokenWake = () =>
+    new Promise<'exportar' | 'cancelar'>(resolve => {
+      respostaDoTokenRef.current = resolve;
+      setWakePopupModo('exportar');
+      setShowWakePopup(true);
+    });
 
   const [focusedKey, setFocusedKey] = useState<LayoutKey | null>(null);
   const [showPlatformError, setShowPlatformError] = useState<boolean>(false);
@@ -518,7 +555,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
         wakePopupRef.current &&
         !wakePopupRef.current.contains(event.target as Node)
       ) {
-        setShowWakePopup(false);
+        fecharWakePopup('cancelar');
       }
     }
 
@@ -526,7 +563,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [fecharWakePopup]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -1070,10 +1107,6 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       // que acabou de deixar de existir.
       setSelectedUid(prev => (prev && survivors.has(prev) ? prev : null));
     }
-
-    if (value === 'Wake' || value === 'Wake 2.0') {
-      setShowWakePopup(true);
-    }
   };
 
   /**
@@ -1367,7 +1400,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
         assets: { logo, footerLogo, favicon, ogImage },
       },
     };
-    if (plat === 'wake') config.wakeToken = tokenLimpo(wakeCustomValue);
+    if (plat === 'wake') config.wakeToken = tokenLimpo(wakeTokenAtual.current);
     console.log(config);
     return config;
   };
@@ -1456,7 +1489,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     // ambiente do CI (contrato da Nuvemshop, decisão 3). O `3-export` reprova
     // qualquer campo de credencial no config dela.
     if (trilhaDe(platform) === 'wake') {
-      (config as Record<string, unknown>).wakeToken = tokenLimpo(wakeCustomValue);
+      (config as Record<string, unknown>).wakeToken = tokenLimpo(wakeTokenAtual.current);
     }
 
     console.log(config);
@@ -1618,6 +1651,15 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       return;
     }
     setShowPlatformError(false);
+
+    // Wake sem token: pergunta antes de gerar. Não bloqueia — "Exportar sem
+    // token" segue (o tema sai, mas os globais não viram conteúdo no painel).
+    if (
+      (platform === 'Wake' || platform === 'Wake 2.0') &&
+      wakeTokenAtual.current.trim() === ''
+    ) {
+      if ((await pedirTokenWake()) === 'cancelar') return;
+    }
 
     // O palco só existe durante a captura; espera o paint antes de fotografar.
     //
@@ -2205,7 +2247,9 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     wakeCustomValue,
     setWakeCustomValue,
     showWakePopup,
-    setShowWakePopup,
+    wakePopupModo,
+    fecharWakePopup,
+    abrirTokenWake,
     wakePopupRef,
   };
 }

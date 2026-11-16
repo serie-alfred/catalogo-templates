@@ -6,15 +6,19 @@ import { useLayout } from '@/context/LayoutContext';
 import { rotuloDaPlataforma } from '@/types/platform';
 
 interface WakePopupProps {
-  onClose: () => void;
+  /** 'exportar': o export está esperando; 'editar': aberto pela topbar. */
+  modo: 'editar' | 'exportar';
+  /** 'exportar' segue com o export; 'cancelar' (X, Esc, clique fora) o desiste. */
+  onFechar: (r: 'exportar' | 'cancelar') => void;
   wakeCustomValue: string;
   setWakeCustomValue: (value: string) => void;
-  setShowWakePopup: (value: boolean) => void;
   wakePopupRef: React.Ref<HTMLDivElement>;
 }
 
 /**
- * Pede o token da loja Wake ao trocar de plataforma.
+ * Pede o token da loja Wake. Abre no "Enviar"/"Baixar" quando o token está
+ * vazio, ou pelo botão "Token da loja" da topbar — não mais a cada troca de
+ * plataforma: o token só serve ao config.json.
  *
  * O botão dizia "Enviar" e só fechava o diálogo. Nada é enviado daqui — não
  * existe nenhuma chamada de rede envolvendo o token em lugar nenhum do
@@ -23,11 +27,11 @@ interface WakePopupProps {
  * não tem rede é uma mentira que só é descoberta quando o tema não sobe.
  */
 export function WakePopup({
-  onClose,
+  modo,
+  onFechar,
   wakeCustomValue,
   setWakeCustomValue,
   wakePopupRef,
-  setShowWakePopup,
 }: WakePopupProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   // O mesmo diálogo abre para a Wake e para a Wake 2.0: o nome tem de ser o escolhido.
@@ -36,11 +40,11 @@ export function WakePopup({
   useEffect(() => {
     inputRef.current?.focus();
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setShowWakePopup(false);
+      if (e.key === 'Escape') onFechar('cancelar');
     };
     document.addEventListener('keydown', onKeyDown);
     return () => document.removeEventListener('keydown', onKeyDown);
-  }, [setShowWakePopup]);
+  }, [onFechar]);
 
   const vazio = wakeCustomValue.trim() === '';
 
@@ -56,7 +60,7 @@ export function WakePopup({
         <button
           type="button"
           className={styles.closeButton}
-          onClick={() => setShowWakePopup(false)}
+          onClick={() => onFechar('cancelar')}
           aria-label="Fechar"
         >
           {iconsGenerator.closeSide}
@@ -102,18 +106,40 @@ export function WakePopup({
           </div>
         </div>
 
-        {/* Avisa, não bloqueia: o popup abre sozinho na troca para Wake e o
-            usuário pode legitimamente ainda não ter o token em mãos. */}
+        {/* Avisa, não bloqueia: quem exporta pode ainda não ter o token em
+            mãos, e o tema sai sem ele. */}
         {vazio && (
           <p className={styles.aviso} role="status">
-            Sem o token o tema é gerado normalmente, mas a publicação na Wake
-            vai precisar dele depois.
+            Sem o token o tema é gerado normalmente, mas os componentes globais
+            (ajuda e pop-up de newsletter) não são cadastrados no painel da
+            Wake.
           </p>
         )}
 
-        <button type="button" onClick={onClose}>
-          Salvar e continuar
-        </button>
+        {modo === 'exportar' ? (
+          <div className={styles.acoes}>
+            {/* O token já foi salvo no onChange: os dois seguem com o export,
+                a diferença é só o que o rótulo promete. */}
+            <button
+              type="button"
+              className={styles.secundario}
+              onClick={() => onFechar('exportar')}
+            >
+              Exportar sem token
+            </button>
+            <button
+              type="button"
+              onClick={() => onFechar('exportar')}
+              disabled={vazio}
+            >
+              Salvar e exportar
+            </button>
+          </div>
+        ) : (
+          <button type="button" onClick={() => onFechar('cancelar')}>
+            Salvar
+          </button>
+        )}
       </div>
     </div>
   );
