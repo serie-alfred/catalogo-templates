@@ -69,7 +69,19 @@ export default function ProductReviews() {
                   data-role="tvx-panel"
                 >
                   {/* o host do widget: na loja é aqui que o Trustvox monta */}
-                  <div id="trustvox-reviews" className={styles.widgetHost} data-role="tvx-host" />
+                  <div id="trustvox-reviews" className={styles.widgetHost} data-role="tvx-host">
+                    {/* Só no catálogo: o espaço do widget, com aviso. Nada de nota ou
+                        comentário de exemplo (seria dado de comércio inventado). */}
+                    <div className={styles.reserva} aria-hidden="true">
+                      <span className={styles.reservaEstrelas}>★★★★★</span>
+                      <span className={styles.reservaLinha} />
+                      <span className={styles.reservaLinha} />
+                      <span className={`${styles.reservaLinha} ${styles.reservaCurta}`} />
+                    </div>
+                    <p className={styles.reservaNota}>
+                      As avaliações do Trustvox aparecem aqui, na loja.
+                    </p>
+                  </div>
                 </div>
               )}
             </div>

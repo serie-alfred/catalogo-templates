@@ -81,10 +81,11 @@
   gap: 12px;
   padding: 22px clamp(16px, 3vw, 40px);
   font-family: var(--footer-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
-  font-size: 52px;
+  font-size: clamp(28px, 3.6vw, 52px);
   font-weight: 800;
   line-height: 1;
   text-transform: uppercase;
+  overflow-wrap: anywhere;
 }
 .social:not(:last-child) {
   border-right: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 16%, var(--footer-bg, var(--background-footer, #0d0d0d)));

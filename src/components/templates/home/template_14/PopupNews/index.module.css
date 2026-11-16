@@ -58,7 +58,9 @@
   grid-template-columns: 380px 1fr;
   width: 900px;
   max-width: calc(100% - 32px);
-  height: 560px;
+  /* Altura mínima do desenho; cresce com o conteúdo (com 560px fixos o formulário rolava
+     dentro do pop-up). A rolagem fica só para a tela mais baixa que o pop-up. */
+  min-height: 560px;
   max-height: calc(100dvh - 32px);
   overflow-y: auto;
   background-color: var(--popup-bg, #ffffff);

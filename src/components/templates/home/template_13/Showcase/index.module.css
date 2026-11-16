@@ -380,9 +380,13 @@
     padding: 32px 0;
   }
   .head {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 12px;
     padding: 0 16px;
+  }
+  .title {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .variantFull .title {
     font-size: 48px;
