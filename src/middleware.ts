@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { COOKIE_SESSAO, modoAuth, sessaoValida } from '@/lib/auth';
+import { COOKIE_SESSAO, lerSessao, modoAuth } from '@/lib/auth';
 
 /**
  * A porta do /gerador (ver src/lib/auth.ts para os modos).
@@ -45,10 +45,25 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (
-    modo === 'ligado' &&
-    (await sessaoValida(request.cookies.get(COOKIE_SESSAO)?.value))
-  ) {
+  const sessao =
+    modo === 'ligado'
+      ? await lerSessao(request.cookies.get(COOKIE_SESSAO)?.value)
+      : null;
+  if (sessao) {
+    // O painel de contas é só da agência. A rota confere de novo (o Edge não
+    // vê se a conta de convidado foi revogada), mas um convidado nem chega lá.
+    const soDaAgencia =
+      pathname === '/gerador/contas' ||
+      pathname.startsWith('/gerador/contas/') ||
+      pathname.startsWith('/gerador/api/contas');
+    if (soDaAgencia && sessao.papel !== 'admin') {
+      return ehApi
+        ? NextResponse.json(
+            { message: 'Só a conta da agência administra as contas.' },
+            { status: 403 }
+          )
+        : NextResponse.redirect(new URL('/gerador', request.url));
+    }
     return NextResponse.next();
   }
 

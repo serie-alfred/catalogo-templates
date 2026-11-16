@@ -74,12 +74,20 @@ export function sanitizeSelections(value: unknown): LayoutSelection[] {
  * Com a flag da Nuvemshop desligada, `'Nuvemshop'` é recusado aqui (ver
  * `PLATFORMS` em types/platform.ts), o que cobre a aba, o tema salvo e o
  * `/gerador/import-log`.
+ *
+ * `permitidas`: as plataformas da CONTA (src/types/conta.ts) — um convidado só
+ * Wake que abre uma aba, um tema ou um preview de VTEX fica sem plataforma.
  */
-export function sanitizePlatform(value: string | null): Platform | null {
+export function sanitizePlatform(
+  value: string | null,
+  permitidas: readonly Platform[] = PLATFORMS
+): Platform | null {
   // A Wake clássica saiu do seletor: o que foi salvo com ela abre na Wake do Design
   // Studio, que tem as mesmas famílias (as seções de home viraram bloco).
   const v = value === 'Wake' ? 'Wake 2.0' : value;
-  return PLATFORMS.includes(v as Platform) ? (v as Platform) : null;
+  return PLATFORMS.includes(v as Platform) && permitidas.includes(v as Platform)
+    ? (v as Platform)
+    : null;
 }
 
 /**

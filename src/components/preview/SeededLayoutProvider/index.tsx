@@ -5,6 +5,7 @@ import { LayoutContext, type LayoutContextType } from '@/context/LayoutContext';
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import { CHECKOUT_PADRAO } from '@/utils/checkout';
 import { lpInicial } from '@/utils/lp';
+import { PLATFORMS } from '@/types/platform';
 
 export interface LayoutSeed {
   logo?: string;
@@ -54,6 +55,9 @@ export default function SeededLayoutProvider({
         expandedUids: new Set<string>(),
         focusedKey: null,
         platform: null,
+        // Fora do editor não há conta: ninguém troca de plataforma aqui.
+        conta: null,
+        plataformasDisponiveis: PLATFORMS,
         selectedPage: 'home',
         canUndo: false,
         canRedo: false,

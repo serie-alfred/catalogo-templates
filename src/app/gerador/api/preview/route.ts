@@ -4,8 +4,11 @@ import {
   PreviewStoreConfigError,
   type PreviewSnapshot,
 } from '@/lib/previewStore';
+import { contaPode, exigirConta, plataformaRecusada } from '@/lib/contaAtual';
 
 export async function POST(request: Request) {
+  const g = await exigirConta();
+  if ('resposta' in g) return g.resposta;
   try {
     const snapshot = (await request.json()) as PreviewSnapshot;
 
@@ -15,6 +18,10 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+
+    // Convidado só publica preview das plataformas da conta.
+    if (g.conta.papel !== 'admin' && !contaPode(g.conta, snapshot.platform))
+      return plataformaRecusada();
 
     const id = await savePreview(snapshot);
     return NextResponse.json({ id }, { status: 200 });

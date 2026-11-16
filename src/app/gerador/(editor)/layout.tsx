@@ -7,7 +7,9 @@ import '../../../styles/storefront.css';
 import '../../../styles/editor-tokens.css';
 // Só para o Logo do rail (o acento do banner do E): tokens com prefixo.
 import '../../../styles/marca.css';
+import { redirect } from 'next/navigation';
 import { LayoutProvider } from '@/context/LayoutContext';
+import { contaAtual } from '@/lib/contaAtual';
 
 /**
  * Fonte do CHROME do editor (Figma). Exposta SÓ como custom property
@@ -38,15 +40,26 @@ export const metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function RootLayout({
+/**
+ * A conta é resolvida AQUI, no servidor, e entra no hook pelo provider: o
+ * editor já nasce com as plataformas da conta (seletor, entrada padrão,
+ * hidratação), sem piscar outra plataforma enquanto um fetch não volta. Isso
+ * torna o /gerador dinâmico (lê o cookie e, para convidado, o KV).
+ *
+ * O middleware já mandou ao /login quem não tem cookie válido; chega aqui sem
+ * conta só o convidado revogado ou desativado (o Edge não enxerga o KV).
+ */
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const conta = await contaAtual();
+  if (!conta) redirect('/login?revogada=1');
   return (
     <html lang="pt-BR" className={inter.variable}>
       <body className={``} suppressHydrationWarning>
-        <LayoutProvider>{children}</LayoutProvider>
+        <LayoutProvider conta={conta}>{children}</LayoutProvider>
       </body>
     </html>
   );

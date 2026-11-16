@@ -1,5 +1,11 @@
 import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import {
+  contaPode,
+  exigirConta,
+  plataformaDaTrilha,
+  plataformaRecusada,
+} from '@/lib/contaAtual';
 
 // A rota é pública e o único chamador (services/emailService.ts) manda nome e
 // mensagem fixos, sem `email`. Ler esses campos do corpo deixava qualquer um
@@ -9,6 +15,8 @@ const REMETENTE = 'Layout Config';
 const MENSAGEM = 'Olá, JSON do layout gerado!';
 
 export async function POST(request: Request) {
+  const g = await exigirConta();
+  if ('resposta' in g) return g.resposta;
   let json: unknown;
   try {
     ({ json } = await request.json());
@@ -18,6 +26,18 @@ export async function POST(request: Request) {
   if (!json || typeof json !== 'object') {
     return NextResponse.json({ message: 'Missing config' }, { status: 400 });
   }
+
+  // O config diz a plataforma pela trilha (`wake`, `faststore`…): um convidado
+  // só envia config das plataformas da conta.
+  const plataforma = plataformaDaTrilha(
+    (json as { platform?: unknown }).platform
+  );
+  if (g.conta.papel !== 'admin' && !contaPode(g.conta, plataforma))
+    return plataformaRecusada();
+  // Quem enviou, no assunto e no corpo: o time sabe de que conta veio o tema.
+  // O usuário passou por `normalizarUsuario` (sem espaço, aspas nem HTML).
+  const quem =
+    g.conta.papel === 'admin' ? 'agência' : `convidado ${g.conta.usuario}`;
 
   try {
     const transporter = nodemailer.createTransport({
@@ -34,9 +54,9 @@ export async function POST(request: Request) {
       // O remetente precisa ser a conta autenticada acima.
       from: `"${REMETENTE}" <${process.env.SMTP_USER}>`,
       to: process.env.CONTACT_EMAIL,
-      subject: `E-temas Template Config`,
-      text: MENSAGEM,
-      html: `<p>${MENSAGEM}</p>`,
+      subject: `E-temas Template Config (${quem})`,
+      text: `${MENSAGEM}\nEnviado pela conta: ${quem}.`,
+      html: `<p>${MENSAGEM}</p><p>Enviado pela conta: ${quem}.</p>`,
       attachments: [
         {
           filename: 'config.json',

@@ -2,7 +2,8 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
-import { PLATFORMS, rotuloDaPlataforma, type Platform } from '@/types/platform';
+import { rotuloDaPlataforma, type Platform } from '@/types/platform';
+import { useLayout } from '@/context/LayoutContext';
 import { ChevronRight, WakeMark } from '@/assets/icons/editor';
 
 import styles from './index.module.css';
@@ -45,6 +46,8 @@ export default function PlatformSelect({
 }: PlatformSelectProps) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+  // Só as plataformas da CONTA (um convidado "só Wake" vê só a Wake).
+  const { plataformasDisponiveis } = useLayout();
 
   useEffect(() => {
     if (!open) return;
@@ -97,7 +100,7 @@ export default function PlatformSelect({
 
       {open && (
         <ul className={styles.menu} role="listbox" aria-label="Plataforma">
-          {PLATFORMS.map(platform => (
+          {plataformasDisponiveis.map(platform => (
             <li key={platform}>
               <button
                 type="button"

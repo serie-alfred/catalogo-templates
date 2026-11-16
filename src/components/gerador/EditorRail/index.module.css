@@ -82,6 +82,13 @@
   margin-bottom: 44px;
 }
 
+/* "Contas" (só da agência) em cima do "Sair", no mesmo pé. */
+.peColuna {
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
 .aviso {
   color: #b54708;
   cursor: help;

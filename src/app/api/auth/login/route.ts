@@ -8,6 +8,7 @@ import {
   modoAuth,
 } from '@/lib/auth';
 import { getKv } from '@/lib/kv';
+import { autenticarConvidado } from '@/lib/contas';
 
 export const dynamic = 'force-dynamic';
 
@@ -52,15 +53,21 @@ export async function POST(request: Request) {
   const falhas = kv ? ((await kv.get<number>(chave).catch(() => 0)) ?? 0) : 0;
   if (falhas >= MAX_FALHAS) return deVolta(request, 'limite', next);
 
-  if (!(await credenciaisConferem(usuario, senha))) {
+  // A agência (variáveis) primeiro; senão, uma conta de convidado do KV. Sem
+  // banco, só a agência entra (`autenticarConvidado` lança e vira null).
+  const sessao = (await credenciaisConferem(usuario, senha))
+    ? await criarSessao(usuario, 'admin', '')
+    : await autenticarConvidado(usuario, senha)
+        .catch(() => null)
+        .then(c => (c ? criarSessao(c.usuario, 'convidado', c.carimbo) : null));
+  if (!sessao) {
     await kv?.incr(chave, JANELA_SEGUNDOS).catch(() => {});
     return deVolta(request, 'credenciais', next);
   }
 
   await kv?.del([chave]).catch(() => {});
-  const sessao = await criarSessao();
   const res = NextResponse.redirect(new URL(next, request.url), 303);
-  res.cookies.set(COOKIE_SESSAO, sessao!, {
+  res.cookies.set(COOKIE_SESSAO, sessao, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',

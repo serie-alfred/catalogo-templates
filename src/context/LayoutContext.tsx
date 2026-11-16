@@ -1,6 +1,7 @@
 'use client';
 import React, { createContext, useContext } from 'react';
 import { useLayoutGenerator } from '@/hooks/useLayoutGenerator';
+import type { ContaAtual } from '@/types/conta';
 
 export type LayoutContextType = ReturnType<typeof useLayoutGenerator>;
 
@@ -10,8 +11,15 @@ export const LayoutContext = createContext<LayoutContextType | undefined>(
   undefined
 );
 
-export function LayoutProvider({ children }: { children: React.ReactNode }) {
-  const layout = useLayoutGenerator();
+export function LayoutProvider({
+  children,
+  conta,
+}: {
+  children: React.ReactNode;
+  /** Quem está no editor (resolvido no servidor, no layout do /gerador). */
+  conta: ContaAtual;
+}) {
+  const layout = useLayoutGenerator(conta);
   return (
     <LayoutContext.Provider value={layout}>{children}</LayoutContext.Provider>
   );

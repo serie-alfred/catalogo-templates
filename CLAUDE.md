@@ -44,7 +44,7 @@ Só os nomes; os valores ficam com o time e **nunca** entram no repo (ele é pú
 
 | Variável | Para quê | Obrigatória |
 | --- | --- | --- |
-| `ETEMAS_LOGIN_USER` | usuário da conta única da agência | sim — sem ela o editor fecha |
+| `ETEMAS_LOGIN_USER` | usuário da conta da agência (a administradora; as de convidado ficam no KV, ver **Login**) | sim — sem ela o editor fecha |
 | `ETEMAS_LOGIN_PASSWORD` | senha dessa conta (trocar invalida as sessões abertas) | sim |
 | `ETEMAS_SESSION_SECRET` | assina o cookie de sessão; 32+ caracteres aleatórios (ex.: `openssl rand -base64 48`) | sim |
 | `KV_REST_API_URL` + `KV_REST_API_TOKEN` (ou `UPSTASH_REDIS_REST_URL` + `_TOKEN`) | preview, histórico de temas e o limite de tentativas do login | já cadastradas |
@@ -769,8 +769,12 @@ Alongside export, the topbar has a **Pré-visualizar** button ([PreviewButton](s
 ### Saved themes (history)
 
 Rail destination **"Temas salvos"** (`[data-rail-target="salvos"]`, after "Por template", in every
-mode) → [PanelSavedThemes](src/components/gerador/EditorLeftPanel/PanelSavedThemes/index.tsx). ONE
-history for the agency (single account, behind the login). Saving sends `estadoAtual()` — the
+mode) → [PanelSavedThemes](src/components/gerador/EditorLeftPanel/PanelSavedThemes/index.tsx). One
+history behind the login, **filtered by owner**: each theme records `dono` (the account that created
+it); the agency sees and touches every theme, a guest account only its own (`podeMexer`, applied in
+every route — another account's theme answers 404, not 403). Themes saved before the accounts have no
+`dono` and belong to the agency. A guest also cannot save a theme of a platform outside its account
+(403). Saving sends `estadoAtual()` — the
 `EstadoDoEditor` ([types/estadoEditor.ts](src/types/estadoEditor.ts)): the preview snapshot + the LP
 always + `editorMode` + `wakeToken`. First save creates the theme, the next ones append versions
 (`temaAtual` links the tab); "Salvar como novo" forks. The list shows platform, date of the last version
@@ -791,9 +795,48 @@ version.
 
 ### Login
 
-One agency account. [src/lib/auth.ts](src/lib/auth.ts) (Web Crypto only: it runs in the Edge
-middleware and in the Node routes) + [src/middleware.ts](src/middleware.ts) (`matcher: /gerador`,
-`/gerador/:path*`).
+Two kinds of account: the **agency** (`admin`, the three env vars — sees everything, the only one
+that manages accounts) and **guest** accounts (`convidado`, for stakeholders — created by the agency
+at `/gerador/contas`, stored in the KV, each limited to some platforms). [src/lib/auth.ts](src/lib/auth.ts)
+(Web Crypto only: it runs in the Edge middleware and in the Node routes) +
+[src/middleware.ts](src/middleware.ts) (`matcher: /gerador`, `/gerador/:path*`) +
+[src/lib/contas.ts](src/lib/contas.ts) (the guest accounts) + [src/lib/contaAtual.ts](src/lib/contaAtual.ts)
+(who is asking, checked in full).
+
+- **Two layers, because the Edge can't read the KV** (the dev KV is a file). The middleware checks
+  the cookie's signature and expiry (and, for the agency, its stamp — see below). Everything the
+  editor does also goes through `contaAtual()` in Node: the `/gerador` layout (which is now
+  **dynamic**: it reads the cookie and, for a guest, the KV), every `/gerador/api/*` route
+  (`exigirConta`), `/api/auth/estado`, the `/login` redirect and the "Editar" of the `/p`. That
+  layer is where a revoked guest is caught. Never check a guest with `lerSessao` alone: the
+  `/login` did that and looped with the editor layout (valid signature → editor → revoked → login).
+- **Guest accounts** (`conta:{usuario}` + sorted set `contas`): password in PBKDF2-SHA256
+  (210k iterations, salt per account, Web Crypto), never returned by the API (`publica()`). A random
+  **stamp** (`carimbo`) goes signed into the cookie and is compared on every request: a new password
+  or deactivating the account changes it, so its open sessions drop. **Platforms are NOT in the
+  cookie**: `contaAtual` reads them from the KV each time, so changing them applies on the next load
+  of the editor without a new login. A guest login also runs PBKDF2 for an unknown user (fake salt),
+  so the response time doesn't reveal which users exist.
+- **What a guest's platforms restrict**: the editor receives `conta` from the layout
+  (`LayoutProvider conta` → `useLayoutGenerator(conta)` → `plataformasDisponiveis`): the
+  `PlatformSelect` lists only those, a new tab enters on `ENTRADA_PADRAO` if its platform is
+  allowed, otherwise on the first allowed one (`templatePadrao(platform)`: the same family if it is
+  complete there, else the first complete one), and hydration / `carregarEstado` drop a platform
+  outside the account (`sanitizePlatform(value, permitidas)`). **The server refuses it too** (403):
+  create/re-save preview, send-email (the config's `platform` is the track — `plataformaDaTrilha`)
+  and saved themes. The e-mail subject says which account sent the config.
+- **Panel** `/gerador/contas` (route group `(admin)`, its own root layout — the editor's would
+  mount the hook and touch the tab's state): create (user, optional name, password with "Gerar",
+  platforms), toggle platforms, new password, deactivate/reactivate, delete. The password is shown
+  once, to copy. API: `GET/POST /gerador/api/contas`, `PATCH/DELETE /gerador/api/contas/{usuario}`,
+  agency only (`exigirConta({ admin: true })`; the middleware already sends a guest away from
+  `/gerador/contas*` and `/gerador/api/contas*`). The rail shows a "Contas" link
+  (`[data-contas-link]`) at its foot for the agency, only with the login on.
+- **Testing the login locally** without stopping the dev on 5503: `next.config.ts` reads
+  `NEXT_DIST_DIR` (two `next dev` on the same `.next` collide):
+  `NEXT_DIST_DIR=.next-login ETEMAS_LOGIN_USER=… ETEMAS_LOGIN_PASSWORD=… ETEMAS_SESSION_SECRET=… yarn next dev -p 5512`.
+  `next dev` then adds `.next-login/types/**/*.ts` to `tsconfig.json` — revert that before
+  committing. Without KV vars, accounts go to `.preview-store/kv.json` (never production).
 
 - **Protected**: everything under `/gerador` — editor, the canvas iframe (`/gerador/frame-mobile`),
   `/gerador/import-log` and all `/gerador/api/*` (create/re-save preview, history, send-email, fonts).
@@ -803,11 +846,14 @@ middleware and in the Node routes) + [src/middleware.ts](src/middleware.ts) (`ma
   `/login`, `/api/auth/*`, and **files of `public/` under `/gerador/`** (checkout fixtures,
   `familia08/`, `footer08/` — the `/p` loads them): the rule is "last segment has an extension"; no
   app route has a dot.
-- **Session**: cookie `etemas_sessao` = `<exp>.<HMAC-SHA256(secret, v1|user|exp|sha256(password))>`,
-  httpOnly, `sameSite: lax`, `secure` in production, 7 days. Changing user, password or secret
-  invalidates every open session — no session list in the database.
-- **Login** (`POST /api/auth/login`, native form, works without JS): user AND password are always both
-  compared, in constant time over their SHA-256 (`credenciaisConferem`); 10 failures per IP in 15 min
+- **Session**: cookie `etemas_sessao` = `v2.<base64url({u, p, c, e})>.<HMAC-SHA256(secret, "v2.<payload>")>`
+  (user, role, stamp, expiry), httpOnly, `sameSite: lax`, `secure` in production, 7 days. The
+  agency's stamp is `sha256(admin|user|password)` from the env, recomputed by the middleware —
+  changing user, password or secret drops every agency session; a guest's stamp is the KV one (above).
+  No session list in the database. The old v1 cookie is rejected (one new login after the deploy).
+- **Login** (`POST /api/auth/login`, native form, works without JS): the agency first — user AND
+  password always both compared, in constant time over their SHA-256 (`credenciaisConferem`) —, then
+  a guest account (`autenticarConvidado`; without a database only the agency gets in); 10 failures per IP in 15 min
   block (counter `login-falhas:<ip>` in the KV; without a database the login works without the limit);
   `next` only accepts a path of this origin (`destinoSeguro` rejects `//host` and `/\host`). **Logout**:
   `POST /api/auth/logout` (the rail's "Sair", at its foot).
@@ -815,8 +861,8 @@ middleware and in the Node routes) + [src/middleware.ts](src/middleware.ts) (`ma
   without them: nobody gets in, pages go to `/login`, which says "Acesso fechado" and lists the missing
   NAMES, APIs answer 503; **`desligado-dev`** — development without them: no login, a warning in the
   terminal (once) and an icon at the foot of the rail (`[data-login-desligado]`, from
-  `GET /api/auth/estado`, read at runtime because `/gerador` is prerendered). That's how `yarn dev` and
-  the funil run. To test the login locally, put the three vars in `.env.development.local` (ignored by
+  `GET /api/auth/estado`). In that mode `contaAtual` treats everyone as the agency with every
+  platform — that's how `yarn dev` and the funil run. To test the login locally, put the three vars in `.env.development.local` (ignored by
   git; `.env.local` is TRACKED in this repo — never put credentials there).
 
 ### Modo Checkout (VTEX)

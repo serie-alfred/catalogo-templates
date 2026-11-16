@@ -868,11 +868,15 @@ export const ENTRADA_PADRAO: { platform: Platform; template: string } = {
  * O template de `ENTRADA_PADRAO`, se ele for completo na plataforma. Se deixar
  * de ser (catálogo mudou), null: o editor abre vazio, com o convite do canvas.
  */
-export function templatePadrao(): TemplateCompleto | null {
+export function templatePadrao(
+  platform: Platform = ENTRADA_PADRAO.platform
+): TemplateCompleto | null {
   const alvo = Number(ENTRADA_PADRAO.template);
+  const completos = templatesCompletos(platform);
+  // Fora da plataforma padrão (a conta de convidado que não tem VTEX), o mesmo
+  // template se ele for completo ali; senão o primeiro completo da plataforma.
   return (
-    templatesCompletos(ENTRADA_PADRAO.platform).find(
-      t => Number(t.template) === alvo
-    ) ?? null
+    completos.find(t => Number(t.template) === alvo) ??
+    (platform === ENTRADA_PADRAO.platform ? null : (completos[0] ?? null))
   );
 }

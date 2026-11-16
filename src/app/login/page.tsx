@@ -1,12 +1,6 @@
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-import {
-  COOKIE_SESSAO,
-  destinoSeguro,
-  modoAuth,
-  sessaoValida,
-  variaveisFaltando,
-} from '@/lib/auth';
+import { destinoSeguro, modoAuth, variaveisFaltando } from '@/lib/auth';
+import { contaAtual } from '@/lib/contaAtual';
 import Logo from '@/components/common/Logo';
 
 import styles from './index.module.css';
@@ -23,16 +17,20 @@ const ERROS: Record<string, string> = {
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ next?: string; erro?: string; saiu?: string }>;
+  searchParams: Promise<{
+    next?: string;
+    erro?: string;
+    saiu?: string;
+    revogada?: string;
+  }>;
 }) {
-  const { next, erro, saiu } = await searchParams;
+  const { next, erro, saiu, revogada } = await searchParams;
   const destino = destinoSeguro(next);
   const modo = modoAuth();
 
-  if (
-    modo === 'ligado' &&
-    (await sessaoValida((await cookies()).get(COOKIE_SESSAO)?.value))
-  ) {
+  // A conta INTEIRA, não só o cookie: a sessão de um convidado revogado tem
+  // assinatura válida, e mandá-lo ao editor (que o devolve para cá) dava laço.
+  if (modo === 'ligado' && (await contaAtual().catch(() => null))) {
     redirect(destino);
   }
 
@@ -84,8 +82,18 @@ export default async function LoginPage({
           >
             <h1 className={styles.title}>Entrar</h1>
             <p className={styles.text}>
-              Use a conta da agência para abrir o editor e o histórico de temas.
+              Use a conta da agência, ou a conta que a agência criou para você.
             </p>
+            {revogada && !erro && (
+              <p
+                className={styles.erro}
+                role="alert"
+                data-login-erro="revogada"
+              >
+                Seu acesso foi alterado ou desativado. Entre de novo, ou fale
+                com a agência.
+              </p>
+            )}
             {erro && ERROS[erro] && (
               <p className={styles.erro} role="alert" data-login-erro={erro}>
                 {ERROS[erro]}

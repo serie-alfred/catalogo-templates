@@ -5,6 +5,7 @@ import {
   PreviewStoreConfigError,
   type PreviewSnapshot,
 } from '@/lib/previewStore';
+import { contaPode, exigirConta, plataformaRecusada } from '@/lib/contaAtual';
 
 /**
  * Regrava o preview `id` com o tema de agora — é o que faz o /p acompanhar a
@@ -15,6 +16,8 @@ export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const g = await exigirConta();
+  if ('resposta' in g) return g.resposta;
   const { id } = await params;
   if (!idDePreviewValido(id)) {
     return NextResponse.json({ message: 'Id inválido' }, { status: 400 });
@@ -27,6 +30,8 @@ export async function PUT(
         { status: 400 }
       );
     }
+    if (g.conta.papel !== 'admin' && !contaPode(g.conta, snapshot.platform))
+      return plataformaRecusada();
     const rev = await updatePreview(id, snapshot);
     return NextResponse.json({ id, rev }, { status: 200 });
   } catch (error) {

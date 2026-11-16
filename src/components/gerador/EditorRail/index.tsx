@@ -10,6 +10,7 @@ import {
   History,
   LogOut,
   ShieldOff,
+  Users,
 } from 'lucide-react';
 
 import { useLayout } from '@/context/LayoutContext';
@@ -68,8 +69,14 @@ const ITEMS: { target: RailTarget; label: string; icon: React.ReactNode }[] = [
 ];
 
 export default function EditorRail({ className }: { className?: string }) {
-  const { railTarget, setRailTarget, platform, editorMode, setEditorMode } =
-    useLayout();
+  const {
+    railTarget,
+    setRailTarget,
+    platform,
+    editorMode,
+    setEditorMode,
+    conta,
+  } = useLayout();
   const noCheckout = editorMode === 'checkout';
   const naLp = editorMode === 'lp';
   const temLp = plataformaTemLp(platform);
@@ -158,17 +165,32 @@ export default function EditorRail({ className }: { className?: string }) {
       {/* No PÉ do rail (margin-top: auto): longe dos destinos e das
           coordenadas que o 2-geometria mede. */}
       {modoLogin === 'ligado' && (
-        <form method="post" action="/api/auth/logout" className={styles.pe}>
-          <button
-            type="submit"
-            className={styles.item}
-            aria-label="Sair"
-            data-tip="Sair do editor"
-            data-logout=""
-          >
-            <LogOut width={20} height={20} />
-          </button>
-        </form>
+        <div className={`${styles.pe} ${styles.peColuna}`}>
+          {/* Só a agência administra as contas (o middleware e a rota
+              conferem de novo). Um <a> comum: o painel tem layout próprio. */}
+          {conta?.papel === 'admin' && (
+            <a
+              href="/gerador/contas"
+              className={styles.item}
+              aria-label="Contas e acessos"
+              data-tip="Contas e acessos"
+              data-contas-link=""
+            >
+              <Users width={20} height={20} />
+            </a>
+          )}
+          <form method="post" action="/api/auth/logout">
+            <button
+              type="submit"
+              className={styles.item}
+              aria-label="Sair"
+              data-tip="Sair do editor"
+              data-logout=""
+            >
+              <LogOut width={20} height={20} />
+            </button>
+          </form>
+        </div>
       )}
       {modoLogin === 'desligado-dev' && (
         <span

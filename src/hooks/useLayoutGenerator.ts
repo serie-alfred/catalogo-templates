@@ -13,7 +13,8 @@ import { belongsToPage } from '@/utils/previewRender';
 import { captureAndDownloadScreenshot } from '@/utils/screenshotExport';
 import { sendLayoutConfigEmail } from '@/services/emailService';
 import { isLocalDelivery } from '@/utils/configDelivery';
-import { rotuloDaPlataforma, type Platform } from '@/types/platform';
+import { PLATFORMS, rotuloDaPlataforma, type Platform } from '@/types/platform';
+import type { ContaAtual } from '@/types/conta';
 import { useThemeHistory, type ThemeDoc } from './useThemeHistory';
 import {
   buildThemeStyle,
@@ -172,7 +173,30 @@ function pickChangedVariables(
 export const tokenLimpo = (valor: string): string =>
   valor.trim().replace(/^["'`]+|["'`]+$/g, '').trim();
 
-export function useLayoutGenerator() {
+/**
+ * `conta`: quem está no editor, resolvida no servidor (layout do /gerador).
+ * Sem ela (não há caso hoje; o parâmetro é opcional só para não quebrar quem
+ * chama sem provider), valem todas as plataformas oferecidas.
+ */
+export function useLayoutGenerator(conta?: ContaAtual) {
+  /**
+   * As plataformas que ESTA conta pode usar, na ordem do seletor. Memo por uma
+   * chave de texto: o efeito de hidratação depende de `entrarComOPadrao`, que
+   * depende disto, e uma identidade nova a cada render re-hidrataria a aba.
+   */
+  const chavePlataformas = (conta?.plataformas ?? PLATFORMS).join('|');
+  const plataformasDisponiveis = useMemo<Platform[]>(() => {
+    const daConta = chavePlataformas.split('|');
+    const lista = PLATFORMS.filter(p => daConta.includes(p));
+    return lista.length ? lista : PLATFORMS;
+  }, [chavePlataformas]);
+  /** A entrada padrão na plataforma padrão, ou na primeira da conta. */
+  const plataformaDeEntrada: Platform = plataformasDisponiveis.includes(
+    ENTRADA_PADRAO.platform
+  )
+    ? ENTRADA_PADRAO.platform
+    : plataformasDisponiveis[0];
+
   /** Estados principais */
   // dentro de useLayoutGenerator
   // Estado persistido inicia com o default de SSR; a leitura do localStorage
@@ -614,9 +638,9 @@ export function useLayoutGenerator() {
    * de ser completo — aí a aba fica vazia, com o convite do canvas.
    */
   const entrarComOPadrao = useCallback((): boolean => {
-    const t = templatePadrao();
+    const t = templatePadrao(plataformaDeEntrada);
     if (!t) return false;
-    setPlatform(ENTRADA_PADRAO.platform);
+    setPlatform(plataformaDeEntrada);
     // Os fundos iniciais dos `useState` acima: a aba ainda não tem outros.
     vestirTemplate(t, {
       primary: TEMA_INICIAL.colors.colorPrimaryBackground,
@@ -624,7 +648,7 @@ export function useLayoutGenerator() {
       tertiary: TEMA_INICIAL.colors.colorTertiaryBackground,
     });
     return true;
-  }, [vestirTemplate]);
+  }, [vestirTemplate, plataformaDeEntrada]);
 
   /** A aba começou sem trabalho nenhum (medido na hidratação, antes de gravar). */
   const abaNovaRef = useRef(false);
@@ -650,7 +674,8 @@ export function useLayoutGenerator() {
         setLojaSelections(sanitizeSelections(JSON.parse(storedSelections)));
       }
       const storedPlatform = sanitizePlatform(
-        estadoDaAba.get('layoutPlatform')
+        estadoDaAba.get('layoutPlatform'),
+        plataformasDisponiveis
       );
       setPlatform(storedPlatform);
       const storedMode = sanitizeEditorMode(
@@ -710,7 +735,9 @@ export function useLayoutGenerator() {
     } finally {
       setHydrated(true);
     }
-  }, [entrarComOPadrao]);
+    // `plataformasDisponiveis` vem do servidor e não muda na vida da aba (memo
+    // por chave de texto): estar aqui não re-hidrata nada.
+  }, [entrarComOPadrao, plataformasDisponiveis]);
 
   useEffect(() => {
     setColorPrimaryText(contrastOn(colorPrimaryBackground));
@@ -986,6 +1013,9 @@ export function useLayoutGenerator() {
    * `variables`. Cores, fontes e assets nunca foram afetados e continuam assim.
    */
   const changePlatform = async (value: Platform) => {
+    // A conta não tem essa plataforma: o seletor nem a oferece, e as APIs a
+    // recusam; isto fecha a porta para quem chamasse por outro caminho.
+    if (!plataformasDisponiveis.includes(value)) return;
     setShowPlatformError(false);
 
     const loja = partitionByPlatform(lojaSelections, value);
@@ -1852,7 +1882,10 @@ export function useLayoutGenerator() {
       /** O histórico reabre sem fechar o painel dele (para ver outra versão). */
       opcoes: { manterPainel?: boolean } = {}
     ) => {
-      const plat = sanitizePlatform(doc.platform ?? null);
+      const plat = sanitizePlatform(
+        doc.platform ?? null,
+        plataformasDisponiveis
+      );
       setPlatform(plat);
       setLojaSelections(sanitizeSelections(doc.selections));
       // Sem LP no documento, a da aba fica — filtrada pela plataforma nova.
@@ -1899,7 +1932,7 @@ export function useLayoutGenerator() {
       setSelectedPage('home');
       setInicioEscolhido(true);
     },
-    []
+    [plataformasDisponiveis]
   );
 
   /**
@@ -2066,6 +2099,8 @@ export function useLayoutGenerator() {
   }, [platform, hydrated]);
 
   return {
+    conta: conta ?? null,
+    plataformasDisponiveis,
     selections,
     focusedKey,
     platform,
