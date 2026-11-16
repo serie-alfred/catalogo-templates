@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
+import { useFitaEmPixels } from '@/hooks/useFitaEmPixels';
 
 import styles from './index.module.css';
 
@@ -60,6 +61,9 @@ const ICONES: Record<BenefitsStrip14Icon, React.ReactNode> = {
 
 export default function Ruler14() {
   const itens = BENEFITS.filter(b => b.text);
+  // A animação anda meia fita (2 das 4 listas): em pixels inteiros, os ícones não tremem.
+  const fitaRef = useRef<HTMLDivElement>(null);
+  const fitaPx = useFitaEmPixels(fitaRef, 2);
 
   const lista = (copia: boolean) => (
     <ul className={styles.list} aria-hidden={copia || undefined}>
@@ -115,7 +119,11 @@ export default function Ruler14() {
         data-role="rl-root"
       >
         <link rel="stylesheet" href={FONTES_14} />
-        <div className={styles.tape}>
+        <div
+          ref={fitaRef}
+          className={`${styles.tape}${fitaPx ? ` ${styles.tapePx}` : ''}`}
+          style={fitaPx ? ({ '--fita-px': fitaPx } as React.CSSProperties) : undefined}
+        >
           {[false, true, true, true].map((copia, i) => (
             <React.Fragment key={i}>{lista(copia)}</React.Fragment>
           ))}

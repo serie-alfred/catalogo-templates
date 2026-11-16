@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import CartSidebar13, { CART_13_QUANTIDADE } from '@/components/templates/_shared/CartSidebar13';
 import { FONTES_13, PRODUTOS_13 } from '@/components/templates/common/template_13/Spot';
 import { useLayout } from '@/context/LayoutContext';
+import { useFitaEmPixels } from '@/hooks/useFitaEmPixels';
 
 import styles from './index.module.css';
 
@@ -197,6 +198,10 @@ export default function Header13() {
   const fitaPx = mensagens.reduce((soma, m) => soma + m.text.length * 7 + 40, 0);
   const voltas = Math.min(40, Math.max(3, Math.ceil(3000 / Math.max(fitaPx, 1)) + 1));
   const fitaDur = Math.max(6, Math.ceil(fitaPx / 45));
+  // Distância medida de uma volta, em pixels inteiros: a animação anda um pixel por passo e
+  // a estrela (SVG) não treme em relação ao texto.
+  const fitaRef = useRef<HTMLDivElement>(null);
+  const voltaPx = useFitaEmPixels(fitaRef, voltas);
   const contagem = totalItems > 99 ? '99+' : totalItems;
 
   return (
@@ -208,8 +213,15 @@ export default function Header13() {
           {mensagens.length > 0 && (
             <div className={styles.topbar} data-role="hd-topbar">
               <div
-                className={styles.tape}
-                style={{ '--hd13-voltas': voltas, '--hd13-fita-dur': `${fitaDur}s` } as React.CSSProperties}
+                ref={fitaRef}
+                className={`${styles.tape}${voltaPx ? ` ${styles.tapePx}` : ''}`}
+                style={
+                  {
+                    '--hd13-voltas': voltas,
+                    '--hd13-fita-dur': `${fitaDur}s`,
+                    ...(voltaPx ? { '--fita-px': voltaPx } : {}),
+                  } as React.CSSProperties
+                }
               >
                 {/* A fita repete as mensagens e anda em loop; só a 1ª volta é lida. */}
                 {Array.from({ length: voltas }, (_, volta) => (

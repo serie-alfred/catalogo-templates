@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import CartSidebar14, { CART_14_QUANTIDADE } from '@/components/templates/_shared/CartSidebar14';
 import { FONTES_14, PRODUTOS_14 } from '@/components/templates/common/template_14/Spot';
 import { useLayout } from '@/context/LayoutContext';
+import { useFitaEmPixels } from '@/hooks/useFitaEmPixels';
 
 import styles from './index.module.css';
 
@@ -150,6 +151,9 @@ export default function Header14() {
   const [focarBusca, setFocarBusca] = useState(false);
   const [aberto, setAberto] = useState<number | null>(null);
   const buscaMobRef = useRef<HTMLInputElement>(null);
+  // A animação anda meia fita (4 das 8 voltas): em pixels inteiros, os ícones não tremem.
+  const fitaRef = useRef<HTMLDivElement>(null);
+  const fitaPx = useFitaEmPixels(fitaRef, 2);
 
   const termoLimpo = termo.trim().toLowerCase();
   const curto = termoLimpo.length < 2;
@@ -259,7 +263,11 @@ export default function Header14() {
 
           {mensagens.length > 0 && (
             <div className={styles.topbar} data-role="hd-topbar">
-              <div className={styles.tape}>
+              <div
+                ref={fitaRef}
+                className={`${styles.tape}${fitaPx ? ` ${styles.tapePx}` : ''}`}
+                style={fitaPx ? ({ '--fita-px': fitaPx } as React.CSSProperties) : undefined}
+              >
                 {/* Duas metades iguais de 4 voltas: a animação anda -50% e emenda, e 4 voltas cobrem
                     uma tela de 2560px. Só a 1ª volta é lida. */}
                 {[0, 1, 2, 3, 4, 5, 6, 7].map(volta => (
