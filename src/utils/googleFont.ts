@@ -96,3 +96,22 @@ export function loadComponentFonts(
     }
   }
 }
+
+/**
+ * Amostra do nome da fonte no seletor: baixa só os glifos do próprio nome
+ * (`text=`), uma vez por família. A fonte inteira continua vindo do
+ * `loadGoogleFont` quando ela é escolhida.
+ */
+export function loadFontNamePreview(family: string, doc: Document = document) {
+  if (!ehFonteDoGoogle(family) || ehFonteDoSistema(family)) return;
+  const id = `preview-name-${family.replace(/\s+/g, '-')}`;
+  if (doc.getElementById(id)) return;
+  const link = doc.createElement('link');
+  link.id = id;
+  link.rel = 'stylesheet';
+  link.href = `https://fonts.googleapis.com/css2?family=${family.replace(
+    / /g,
+    '+'
+  )}&text=${encodeURIComponent(family)}&display=swap`;
+  doc.head.appendChild(link);
+}

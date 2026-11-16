@@ -59,6 +59,9 @@ export function carregarFontesGoogle(): Promise<FonteDoCatalogo[] | null> {
               !!f && typeof (f as { family?: unknown }).family === 'string'
           )
           .filter(f => !ehFonteDoSistema(f.family))
+          // Fontes de ícone (Material Symbols/Icons) não são tipografia: escolhidas
+          // num título, trocam as letras por ícones.
+          .filter(f => !/^Material (Symbols|Icons)/i.test(f.family))
           .map(f => ({ family: f.family, origem: 'google' as const }));
       })
       .catch(() => null)
