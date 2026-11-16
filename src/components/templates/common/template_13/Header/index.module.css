@@ -471,6 +471,10 @@
   gap: 0;
   padding: 0;
   animation: fita13 var(--hd13-fita-dur, 14s) linear infinite;
+  /* Camada própria: a ~45px/s a fita anda menos de 1px por quadro, e redesenhada a cada
+     quadro a estrela (SVG) pulava de pixel em pixel enquanto o texto deslizava. */
+  will-change: transform;
+  backface-visibility: hidden;
 }
 .lap {
   padding-right: 22px;

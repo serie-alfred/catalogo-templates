@@ -521,3 +521,12 @@
 }
 
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* Marquee numa camada própria (como o do header 03). A ~40–45px/s a fita anda menos de 1px
+   por quadro; redesenhada a cada quadro, os ícones (SVG de traço fino) pulavam de pixel em
+   pixel enquanto o texto deslizava, e pareciam tremer. Com will-change a fita é pintada uma
+   vez e só deslizada pela placa de vídeo. */
+.tape {
+  will-change: transform;
+  backface-visibility: hidden;
+}
