@@ -290,7 +290,7 @@
 .pillOn {
   border-color: var(--filter-accent, var(--background-primary-color, #7a2e5f));
   background-color: var(--filter-accent, var(--background-primary-color, #7a2e5f));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
   font-weight: 700;
 }
 
@@ -442,7 +442,7 @@
 
 .emptyPrimary {
   background-color: var(--cat-main-accent, var(--background-primary-color, #7a2e5f));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
 }
 
 .emptySecondary {
@@ -568,7 +568,7 @@
 
 .panelApply {
   background-color: var(--filter-accent, var(--background-primary-color, #7a2e5f));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
 }
 
 @container (min-width: 961px) {
@@ -610,7 +610,7 @@
   }
   .mFilter {
     background-color: var(--filter-accent, var(--background-primary-color, #7a2e5f));
-    color: var(--text-color-base, #ffffff);
+    color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
   }
   .mSort {
     border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);

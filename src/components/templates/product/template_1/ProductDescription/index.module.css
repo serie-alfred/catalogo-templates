@@ -51,7 +51,8 @@
   padding: 0px 15px;
   font-weight: 400;
   font-size: 16px;
-  color: #0F0F0F;
+  font-family: var(--prod-desc-font, var(--font-secundary, 'Manrope', sans-serif));
+  color: var(--prod-desc-text, var(--text-primary-color, #122161));
 }
 
 .descriptionWrapper h2,
@@ -81,7 +82,7 @@
 }
 
 .descriptionWrapper a {
- color: var(--text-primary-color);
+ color: var(--prod-desc-text, var(--text-primary-color, #122161));
   text-decoration: none;
   margin: 0px;
 }

@@ -5,7 +5,7 @@
   align-items: center;
   width: 100%;
   container-type: inline-size;
-  color: var(--text-primary-color, #000);
+  color: var(--special-offers-title-color, var(--text-primary-color, #000000));
 }
 .specialoffersContainer .specialoffersContent {
   width: 100%;
@@ -69,7 +69,7 @@
   display: flex;
   padding: 15px;
   border-radius: 25px;
-  color: var(--text-color-base, #fff);
+  color: var(--special-offers-card-text, var(--text-color-base, #ffffff));
   gap: 15px;
   width: 33%;
 }

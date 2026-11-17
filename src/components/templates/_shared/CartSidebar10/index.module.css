@@ -10,7 +10,7 @@
   visibility: hidden;
   pointer-events: none;
   color: var(--cart-text, var(--text-primary-color, #101828));
-  font-family: var(--font-secundary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cart-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -99,7 +99,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-primary, "Archivo", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Archivo', system-ui, sans-serif));
   font-size: 20px;
   font-weight: 800;
 }

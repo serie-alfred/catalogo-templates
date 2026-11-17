@@ -18,7 +18,7 @@
   font-family: var(--shelf-title-font, var(--font-primary, 'Cormorant Garamond', serif));
   font-weight: 600;
   font-size: 20px;
-  color: var(--text-primary-color);
+  color: var(--shelf-title-color, var(--text-primary-color, #2c2420));
   text-align: center;
   display: flex;
   flex-direction: column;
@@ -30,7 +30,7 @@
   font-family: var(--shelf-font, var(--font-secundary, 'DM Sans', sans-serif));
   text-decoration: underline;
   font-weight: 500;
-  color: var(--text-primary-color);
+  color: var(--shelf-link-color, var(--text-primary-color, #8c7d74));
   font-size: 14px;
 }
 

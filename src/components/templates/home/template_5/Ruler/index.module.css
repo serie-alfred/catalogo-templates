@@ -7,7 +7,7 @@
   container-type: inline-size;
   /* cor e fonte do tema, com o valor de antes (o do shell) como fallback — o
      Ruler05 do starter lê os mesmos papéis */
-  color: var(--text-primary-color, #000);
+  color: var(--ruler-text, var(--text-primary-color, #000000));
   font-family: var(--ruler-font, var(--font-secundary, sans-serif));
 }
 .homeRuler .rulerContainer {
@@ -32,7 +32,7 @@
   font-weight: 500;
 }
 .homeRuler .rulerContainer .swiper__wrapper .rulerItem p span {
-  color: #353434;
+  color: var(--ruler-description, #353434);
   font-size: 12px;
   font-weight: 300;
 }

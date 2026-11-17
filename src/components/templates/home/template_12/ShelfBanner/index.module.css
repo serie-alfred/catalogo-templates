@@ -261,7 +261,7 @@
   padding: 6px 14px;
   border-radius: 999px;
   background-color: #ffffff;
-  color: var(--text-primary-color, #3b1f33);
+  color: var(--showcase-eyebrow, var(--text-primary-color, #3b1f33));
   font-size: 13px;
   font-weight: 700;
 }
@@ -300,7 +300,7 @@
   padding: 14px 24px;
   border-radius: 999px;
   background-color: var(--showcase-accent, var(--background-primary-color, #7a2e5f));
-  color: var(--text-color-base, #ffffff);
+  color: var(--showcase-accent-text, var(--text-color-base, #ffffff));
   font-size: 15px;
   font-weight: 700;
 }

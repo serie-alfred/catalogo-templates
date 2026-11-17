@@ -14,7 +14,7 @@
   border-bottom-right-radius: 30px;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
-  color: var(--text-color-base, #fff);
+  color: var(--categories-text, var(--text-color-base, #ffffff));
   padding: 50px;
   width: 100%;
   margin: 0 auto;

@@ -181,7 +181,7 @@
   border: 2px solid var(--prod-reviews-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
   background-color: var(--prod-reviews-accent, var(--background-primary-color, #5b4bdb));
-  color: var(--text-color-base, #ffffff);
+  color: var(--prod-reviews-btn-text, var(--text-color-base, #ffffff));
   box-shadow: 0 4px 0 var(--prod-reviews-text, var(--text-primary-color, #2a2350));
   font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 18px;
@@ -272,7 +272,7 @@
   border: 2px solid var(--prod-reviews-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
   background-color: var(--prod-reviews-text, var(--text-primary-color, #2a2350));
-  color: var(--prod-reviews-bg, #fffbf2);
+  color: var(--prod-reviews-btn-text, var(--prod-reviews-bg, #fffbf2));
   font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 17px;
   font-weight: 600;
@@ -350,7 +350,7 @@
 .pagerOn {
   border-color: var(--prod-reviews-text, var(--text-primary-color, #2a2350));
   background-color: var(--prod-reviews-text, var(--text-primary-color, #2a2350));
-  color: var(--prod-reviews-bg, #fffbf2);
+  color: var(--prod-reviews-btn-text, var(--prod-reviews-bg, #fffbf2));
 }
 
 .more {

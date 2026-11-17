@@ -100,7 +100,7 @@
 
 .chipActive {
   background-color: var(--cat-title-text, var(--text-primary-color, #0a0a0a));
-  color: #ffffff;
+  color: var(--cat-title-chip-text, #ffffff);
 }
 .chipActive:hover {
   text-decoration: none;

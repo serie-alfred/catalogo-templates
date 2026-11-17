@@ -150,7 +150,7 @@
   padding: 2px 8px;
   border-radius: 999px;
   background-color: var(--categories-accent, var(--background-primary-color, #7a2e5f));
-  color: var(--text-color-base, #ffffff);
+  color: var(--categories-badge-text, var(--text-color-base, #ffffff));
   font-size: 11px;
   font-weight: 700;
 }

@@ -125,7 +125,7 @@
 .speciesOn {
   border: 0;
   background-color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
 }
 .speciesOn .speciesIcon {
   background-color: var(--cat-main-bg, #ffffff);
@@ -285,7 +285,7 @@
 .pillOn {
   border-color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
   background-color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
   font-weight: 700;
 }
 
@@ -500,7 +500,7 @@
 
 .emptyPrimary {
   background-color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
 }
 
 .emptySecondary {
@@ -654,7 +654,7 @@
 
 .panelApply {
   background-color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
 }
 
 @container (min-width: 961px) {

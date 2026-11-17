@@ -82,7 +82,7 @@
   position: absolute;
   top: 16px;
   left: 16px;
-  color: #3a3a3a;
+  color: var(--banner-main-counter, #3a3a3a);
   font-family: var(--banner-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }

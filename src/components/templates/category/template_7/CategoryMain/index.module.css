@@ -522,7 +522,7 @@ absolutos → não mudam a altura do filter-block (fidelidade preservada). */
   position: absolute;
   top: 8px;
   left: 8px;
-  color: #fff;
+  color: var(--plp-flag-text, #ffffff);
   font: 600 8.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
   padding: 3px 8px;
   text-transform: uppercase;
@@ -534,7 +534,7 @@ absolutos → não mudam a altura do filter-block (fidelidade preservada). */
 }
 
 .flagNew {
-  background: #c07a5a;
+  background: var(--plp-new, #c07a5a);
 }
 
 .flagSale {
@@ -591,7 +591,7 @@ absolutos → não mudam a altura do filter-block (fidelidade preservada). */
 
 .cardPix {
   font: 500 10.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: #5c7a66;
+  color: var(--plp-pix, #5c7a66);
   margin: 0 0 12px;
 }
 
@@ -960,7 +960,7 @@ ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
   position: absolute;
   top: 7px;
   left: 7px;
-  color: #fff;
+  color: var(--plp-flag-text, #ffffff);
   font: 600 7.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
   padding: 2px 7px;
   text-transform: uppercase;
@@ -1014,7 +1014,7 @@ ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
 
 .mCardPix {
   font: 500 9.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: #5c7a66;
+  color: var(--plp-pix, #5c7a66);
   margin: 0 0 9px;
 }
 

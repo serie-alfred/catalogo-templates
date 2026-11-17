@@ -248,7 +248,7 @@
   border-radius: 999px !important;
   background-color: var(--header-accent, var(--background-primary-color, #5b4bdb)) !important;
   box-shadow: 0 4px 0 var(--header-text, var(--text-primary-color, #2a2350));
-  color: #ffffff !important;
+  color: var(--header-cart-text, #ffffff) !important;
   font-family: var(--header-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif)) !important;
   font-size: 18px !important;
   font-weight: 600 !important;

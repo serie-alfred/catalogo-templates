@@ -166,7 +166,7 @@
   position: absolute;
   top: 16px;
   left: 16px;
-  color: #2e2e2e;
+  color: var(--categories-label, #2e2e2e);
   font-family: var(--categories-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }

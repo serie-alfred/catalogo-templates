@@ -208,7 +208,7 @@
   position: absolute;
   top: 16px;
   left: 16px;
-  color: #333333;
+  color: var(--showcase-eyebrow, #333333);
   font-family: var(--showcase-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }

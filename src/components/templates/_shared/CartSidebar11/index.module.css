@@ -10,7 +10,7 @@
   visibility: hidden;
   pointer-events: none;
   color: var(--cart-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-primary, "Geist", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -114,7 +114,7 @@
 }
 
 .count {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cart-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
   font-weight: 400;
   letter-spacing: 0;
@@ -169,7 +169,7 @@
 .lineRef,
 .lineVariation {
   color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cart-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -213,7 +213,7 @@
   width: 36px;
   border-right: 1px solid var(--cart-text, var(--text-primary-color, #0a0a0a));
   border-left: 1px solid var(--cart-text, var(--text-primary-color, #0a0a0a));
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cart-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
 }
 
@@ -225,7 +225,7 @@
 }
 
 .removeText {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cart-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   text-decoration: underline;
   text-transform: uppercase;
@@ -257,7 +257,7 @@
 }
 
 .subtotalLabel {
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cart-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   text-transform: uppercase;
 }
@@ -270,7 +270,7 @@
 
 .note {
   color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cart-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -309,7 +309,7 @@
 .emptyText {
   padding: 28px 22px;
   color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
-  font-family: var(--font-secundary, "Geist Mono", monospace);
+  font-family: var(--cart-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
   text-transform: uppercase;
 }

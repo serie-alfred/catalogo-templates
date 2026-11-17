@@ -77,7 +77,7 @@
   height: 44px;
   border-radius: 50%;
   background-color: rgba(16, 24, 40, 0.08) !important;
-  color: var(--text-color-secundary, #101828) !important;
+  color: var(--popup-accent-text, var(--text-color-secundary, #101828)) !important;
 }
 
 .media img {
@@ -93,7 +93,7 @@
   gap: 4px;
   padding: 36px 40px 28px;
   background-color: var(--popup-accent, var(--background-secundary-color, #ffcf24));
-  color: var(--text-color-secundary, #101828);
+  color: var(--popup-accent-text, var(--text-color-secundary, #101828));
 }
 
 .eyebrow {

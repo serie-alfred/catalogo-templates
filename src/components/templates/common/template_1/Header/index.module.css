@@ -454,7 +454,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 400;
   font-size: 14px;
-  color: var(--text-primary-color, #122161);
+  color: var(--header-submenu-text, var(--text-primary-color, #122161));
   text-decoration: none;
 }
 
@@ -488,7 +488,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   display: block;
   line-height: 1;
   font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
-  color: var(--text-primary-color, #122161);
+  color: var(--header-submenu-text, var(--text-primary-color, #122161));
   font-weight: 400;
   font-size: 14px;
   text-decoration: none;

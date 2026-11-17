@@ -6,7 +6,7 @@
   margin: 30px 0px;
   width: 100%;
   container-type: inline-size;
-  color: var(--text-primary-color, #000);
+  color: var(--home-combined-text, var(--text-primary-color, #000000));
 }
 
 @container (max-width: 768px) {
@@ -63,7 +63,7 @@
   font-weight: 700;
   line-height: 1.25em;
   margin-bottom: 16px;
-  color: var(--text-primary-color, #000);
+  color: var(--home-combined-title-color, var(--text-primary-color, #000000));
 }
 
 @container (max-width: 768px) {
@@ -106,7 +106,7 @@
 
 .contactExpert {
   font-size: 14px;
-  color: var(--text-primary-color, #42504b);
+  color: var(--home-combined-muted, var(--text-primary-color, #42504b));
 }
 
 .avatars img {

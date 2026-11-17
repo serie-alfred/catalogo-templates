@@ -301,17 +301,17 @@ sem url → gradiente-placeholder do container */
   width: 28px;
   height: 28px;
   flex-shrink: 0;
-  border: 1.5px solid #5c7a66;
+  border: 1.5px solid var(--pdp-pix, #5c7a66);
   border-radius: 50%;
   font: 700 8px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
   letter-spacing: 0.02em;
-  color: #5c7a66;
+  color: var(--pdp-pix, #5c7a66);
 }
 
 .pixText {
   font: 600 18px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
   line-height: 24px;
-  color: #5c7a66;
+  color: var(--pdp-pix, #5c7a66);
   margin: 18px 0;
 }
 
@@ -319,7 +319,7 @@ sem url → gradiente-placeholder do container */
 
 .pixMeta {
   font: 400 13px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: #5c7a66;
+  color: var(--pdp-pix, #5c7a66);
 }
 
 .otherPay {
@@ -490,7 +490,7 @@ sem url → gradiente-placeholder do container */
   background: #f5f0e8;
   border-radius: 1px;
   margin-bottom: 20px;
-  color: #5c7a66;
+  color: var(--pdp-pix, #5c7a66);
 }
 
 .trust p {
@@ -953,19 +953,19 @@ sem url → gradiente-placeholder do container */
   width: 24px;
   height: 24px;
   flex-shrink: 0;
-  border: 1.5px solid #5c7a66;
+  border: 1.5px solid var(--pdp-pix, #5c7a66);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font: 700 7px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: #5c7a66;
+  color: var(--pdp-pix, #5c7a66);
 }
 
 .mPixText {
   font: 600 17px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
   line-height: 22px;
-  color: #5c7a66;
+  color: var(--pdp-pix, #5c7a66);
   margin: 17px 0;
 }
 
@@ -973,7 +973,7 @@ sem url → gradiente-placeholder do container */
 
 .mPixMeta {
   font: 400 12px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: #5c7a66;
+  color: var(--pdp-pix, #5c7a66);
 }
 
 .mOptLabel {
@@ -1055,7 +1055,7 @@ sem url → gradiente-placeholder do container */
   background: #f5f0e8;
   border-radius: 1px;
   margin-bottom: 20px;
-  color: #5c7a66;
+  color: var(--pdp-pix, #5c7a66);
 }
 
 .mTrust p {

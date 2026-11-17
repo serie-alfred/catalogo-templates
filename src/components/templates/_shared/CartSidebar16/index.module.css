@@ -10,7 +10,7 @@
   visibility: hidden;
   pointer-events: none;
   color: var(--cart-text, var(--text-primary-color, #2a2350));
-  font-family: var(--font-secundary, "Nunito", system-ui, sans-serif);
+  font-family: var(--cart-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -102,7 +102,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-primary, "Fredoka", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 30px;
   font-weight: 700;
   line-height: 1;
@@ -220,14 +220,14 @@ a.lineName:hover {
 
 .qtyValue {
   width: 24px;
-  font-family: var(--font-primary, "Fredoka", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 18px;
   font-weight: 600;
   text-align: center;
 }
 
 .linePrice {
-  font-family: var(--font-primary, "Fredoka", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 21px;
   font-weight: 600;
   white-space: nowrap;
@@ -261,7 +261,7 @@ a.lineName:hover {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  font-family: var(--font-primary, "Fredoka", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
 }
 
 .summaryLabel {
@@ -288,7 +288,7 @@ a.lineName:hover {
   background-color: var(--cart-button-bg, var(--background-primary-color, #5b4bdb)) !important;
   box-shadow: 0 4px 0 var(--cart-text, var(--text-primary-color, #2a2350));
   color: var(--cart-button-text, var(--text-color-base, #ffffff)) !important;
-  font-family: var(--font-primary, "Fredoka", system-ui, sans-serif) !important;
+  font-family: var(--cart-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif)) !important;
   font-size: 20px !important;
   font-weight: 600 !important;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -301,7 +301,7 @@ a.lineName:hover {
 .continue {
   height: 48px;
   margin-top: 4px !important;
-  font-family: var(--font-primary, "Fredoka", system-ui, sans-serif) !important;
+  font-family: var(--cart-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif)) !important;
   font-size: 17px !important;
   font-weight: 600 !important;
   text-decoration: underline !important;
@@ -320,7 +320,7 @@ a.lineName:hover {
 }
 
 .emptyText {
-  font-family: var(--font-primary, "Fredoka", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 22px;
   font-weight: 600;
 }
