@@ -220,7 +220,7 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  color: var(--spot-installments, #525252);
+  color: var(--spot-installments, var(--spot-rating-text, #525252));
   width: 100%;
   margin-top: 6px;
   text-align: left;
@@ -242,7 +242,7 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  color: var(--spot-installments, #525252);
+  color: var(--spot-installments, var(--spot-rating-text, #525252));
 }
 
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .out-of-stock {

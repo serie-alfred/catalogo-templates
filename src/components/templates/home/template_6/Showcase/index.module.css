@@ -21,8 +21,9 @@
   letter-spacing: 0%;
 }
 .homeShowcase .showcaseContainer .showcaseTitle span{
+  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
   font-size: 16px;
-  color: #18181a99;
+  color: color-mix(in srgb, var(--shelf-title-color, var(--text-primary-color, #18181a)) 60%, transparent);
 }
 .homeShowcase .showcaseContainer .showcaseWrapper {
   width: 100%;

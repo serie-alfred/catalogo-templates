@@ -337,12 +337,12 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagNew span {
   background-color: var(--background-tertiary-color);
-  color: var(--text-tertiary-color);
+  color: var(--prod-info-new-text, var(--prod-gallery-badge-text, var(--text-tertiary-color, #ffffff)));
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagFeatured span {
   background-color: #f6f6fa;
-  color: #000;
+  color: var(--prod-info-offer-text, var(--prod-info-secondary-text, #000000));
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div.tagDiscount span {
@@ -351,6 +351,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__productTag div span {
+  font-family: var(--prod-info-font, inherit);
   align-items: center;
   background-color: #0f0f0f;
   border-radius: 4px;
@@ -488,7 +489,8 @@
 }
 
 .precoParc {
-  color: #6a6a6a;
+  font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
+  color: var(--prod-info-muted, #6a6a6a);
   display: inline-block;
   font-size: 14px;
   font-style: normal;
@@ -510,7 +512,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 400;
   font-size: 14px;
-  color: #6a6a6a;
+  color: var(--prod-info-muted, #6a6a6a);
   line-height: 22px;
   letter-spacing: 0.25px;
 }
@@ -670,7 +672,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 500;
   font-size: 14px;
-  color: #6a6a6a;
+  color: var(--prod-info-muted, #6a6a6a);
   text-decoration: underline;
   margin-top: 30px;
 }
@@ -774,7 +776,7 @@
   height: 57px;
   border-radius: 16px;
   font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
-  color: #000;
+  color: var(--prod-info-text, #000);
   font-size: 16px;
   font-weight: 600;
   line-height: 1;
@@ -1118,7 +1120,8 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping a {
-  color: #6a6a6a;
+  font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
+  color: var(--prod-info-muted, #6a6a6a);
   display: inline-block;
   font-size: 12px;
   font-weight: 600;
