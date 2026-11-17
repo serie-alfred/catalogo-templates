@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
 import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
@@ -172,6 +172,26 @@ function Marca({ nome }: { nome: string }) {
   );
 }
 
+/**
+ * O nome de cada rede é uma palavra só, grande, numa célula da grade. Com uma fonte mais
+ * larga que a do desenho ele não caberia: aqui a fonte dos links encolhe 1px por vez até
+ * a palavra mais longa caber inteira (mínimo 18px), o mesmo tamanho para todas, em vez de
+ * vazar para a vizinha ou quebrar no meio.
+ */
+function ajustarRedes(raiz: HTMLElement | null) {
+  if (!raiz) return;
+  const links = [...raiz.querySelectorAll<HTMLElement>('a')];
+  links.forEach(link => (link.style.fontSize = ''));
+  if (!links.length) return;
+  // Um tamanho só para todas: o maior em que a palavra mais longa ainda cabe.
+  let tamanho = parseFloat(getComputedStyle(links[0]).fontSize);
+  const vaza = () => links.some(link => link.scrollWidth > link.clientWidth + 1);
+  while (vaza() && tamanho > 18) {
+    tamanho -= 1;
+    links.forEach(link => (link.style.fontSize = `${tamanho}px`));
+  }
+}
+
 export default function Footer13() {
   const logo = useLogoDoRodape();
   const {
@@ -187,6 +207,14 @@ export default function Footer13() {
   } = MOCK;
 
   const [aberto, setAberto] = useState<number | null>(0);
+  const redesRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const ajustar = () => ajustarRedes(redesRef.current);
+    ajustar();
+    document.fonts?.ready.then(ajustar);
+    window.addEventListener('resize', ajustar);
+    return () => window.removeEventListener('resize', ajustar);
+  });
 
   const redes = socials.filter(s => s.network && ROTULO_REDE[s.network]);
   const formas = payments
@@ -239,7 +267,7 @@ export default function Footer13() {
 
         {redes.length > 0 && (
           <div className={styles.socialsWrap}>
-            <div className={styles.socials} data-role="ft-socials">
+            <div className={styles.socials} data-role="ft-socials" ref={redesRef}>
               {redes.map((s, i) => (
                 <a
                   key={i}

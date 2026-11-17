@@ -1,6 +1,7 @@
 .bannerSide {
   display: flex;
   margin: 40px 0;
+  background-color: var(--banner-duplo-bg, #ffffff);
   flex-direction: column;
   align-items: center;
   width: 100%;
@@ -20,7 +21,7 @@
   margin-bottom: 40px;
   font-size: 28px;
   font-weight: 700;
-  color: var(--text-primary-color);
+  color: var(--banner-duplo-title-color, var(--text-primary-color, #000000));
 }
 
 .bannerSide .bannerContainer {

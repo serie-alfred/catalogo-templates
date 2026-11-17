@@ -224,8 +224,8 @@
 .badge {
   align-self: flex-start;
   padding: 5px 9px;
-  background-color: var(--pdp-accent, var(--background-primary-color, #c8ff2e));
-  color: var(--pdp-bg, var(--text-color-base, #0d0d0d));
+  background-color: var(--pdp-badge-bg, var(--pdp-accent, var(--background-primary-color, #c8ff2e)));
+  color: var(--pdp-badge-text, var(--pdp-bg, var(--text-color-base, #0d0d0d)));
   font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 14px;
   font-weight: 800;
@@ -235,9 +235,9 @@
 
 .title {
   font-family: var(--pdp-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
-  font-size: 64px;
+  font-size: 48px;
   font-weight: 800;
-  line-height: 0.86;
+  line-height: 60px;
   text-transform: uppercase;
 }
 
@@ -350,7 +350,7 @@
 }
 
 .swatchOn {
-  outline: 2px solid var(--pdp-accent, var(--background-primary-color, #c8ff2e));
+  outline: 2px solid var(--pdp-sku-active, var(--pdp-accent, var(--background-primary-color, #c8ff2e)));
   outline-offset: 2px;
 }
 
@@ -387,9 +387,9 @@
 }
 
 .sizeOn {
-  border-color: var(--pdp-accent, var(--background-primary-color, #c8ff2e)) !important;
-  background-color: var(--pdp-accent, var(--background-primary-color, #c8ff2e)) !important;
-  color: var(--pdp-bg, var(--text-color-base, #0d0d0d)) !important;
+  border-color: var(--pdp-sku-active, var(--pdp-accent, var(--background-primary-color, #c8ff2e))) !important;
+  background-color: var(--pdp-sku-active, var(--pdp-accent, var(--background-primary-color, #c8ff2e))) !important;
+  color: var(--pdp-sku-active-text, var(--pdp-bg, var(--text-color-base, #0d0d0d))) !important;
   font-weight: 800 !important;
 }
 
@@ -399,7 +399,7 @@
   cursor: default !important;
 }
 .sizeOut.sizeOn {
-  border-color: var(--pdp-accent, var(--background-primary-color, #c8ff2e)) !important;
+  border-color: var(--pdp-sku-active, var(--pdp-accent, var(--background-primary-color, #c8ff2e))) !important;
   background-color: transparent !important;
   color: color-mix(in srgb, var(--pdp-text, var(--text-color-secundary, #f4f4f0)) 64%, var(--pdp-bg, var(--background-secundary-color, #0d0d0d))) !important;
 }
@@ -784,8 +784,8 @@
     font-size: 13px;
   }
   .title {
-    font-size: 42px;
-    line-height: 0.88;
+    font-size: 36px;
+    line-height: 45px;
   }
   .meta {
     font-size: 13px;

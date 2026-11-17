@@ -18,8 +18,8 @@
   line-height: 1;
   font-weight: 700;
   font-size: 24px;
-  font-family: var(--cat-desc-font, var(--font-primary, 'Manrope', sans-serif));
-  color: var(--cat-desc-text, var(--text-primary-color, #122161));
+  font-family: var(--cat-desc-title-font, var(--cat-desc-font, var(--font-primary, 'Manrope', sans-serif)));
+  color: var(--cat-desc-title-color, var(--cat-desc-text, var(--text-primary-color, #122161)));
   margin: 0 0 1rem 0;
 }
 

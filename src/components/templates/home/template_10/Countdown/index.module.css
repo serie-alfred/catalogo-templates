@@ -140,7 +140,7 @@
   padding: 0 28px;
   border-radius: 12px;
   background-color: var(--countdown-accent, var(--background-primary-color, #1340d8));
-  color: var(--text-color-base, #ffffff);
+  color: var(--countdown-accent-text, var(--text-color-base, #ffffff));
   font-size: 16px;
   font-weight: 800;
 }

@@ -114,7 +114,10 @@
 .logo img {
   display: block;
   width: auto;
-  height: 32px;
+  height: 48px;
+  max-width: 220px;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .slash {
@@ -340,7 +343,8 @@
     letter-spacing: normal;
   }
   .logo img {
-    height: 26px;
+    height: 36px;
+    max-width: 160px;
   }
   .actions {
     gap: 2px;
