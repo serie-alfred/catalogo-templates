@@ -72,7 +72,7 @@
   margin: 0;
 }
 .text :where(a) {
-  color: var(--cat-desc-accent, var(--background-primary-color, #5b4bdb));
+  color: var(--cat-desc-accent, var(--background-primary-color-safe, #5b4bdb));
   font-weight: 800;
 }
 .text :where(ul, ol) {
@@ -89,7 +89,7 @@
   align-items: center;
   gap: 6px;
   min-height: 44px;
-  color: var(--cat-desc-accent, var(--background-primary-color, #5b4bdb));
+  color: var(--cat-desc-accent, var(--background-primary-color-safe, #5b4bdb));
   font-size: 16px;
   font-weight: 800;
   text-decoration: underline;

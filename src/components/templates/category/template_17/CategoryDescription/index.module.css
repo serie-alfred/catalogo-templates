@@ -61,7 +61,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--cat-desc-accent, var(--background-primary-color, #0e6b73));
+  color: var(--cat-desc-accent, var(--background-primary-color-safe, #0e6b73));
   font-size: 14px;
   font-weight: 700;
 }
@@ -86,7 +86,7 @@
   margin: 0;
 }
 .text :where(a) {
-  color: var(--cat-desc-accent, var(--background-primary-color, #0e6b73));
+  color: var(--cat-desc-accent, var(--background-primary-color-safe, #0e6b73));
   font-weight: 700;
 }
 .text :where(ul, ol) {
@@ -103,7 +103,7 @@
   align-items: center;
   gap: 6px;
   min-height: 44px;
-  color: var(--cat-desc-accent, var(--background-primary-color, #0e6b73));
+  color: var(--cat-desc-accent, var(--background-primary-color-safe, #0e6b73));
   font-size: 15px;
   font-weight: 700;
 }

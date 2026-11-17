@@ -160,7 +160,7 @@
   border-radius: 50%;
 }
 .favorite[aria-pressed=true] {
-  color: var(--spot-btn-bg, var(--background-primary-color, #5b4bdb));
+  color: var(--spot-btn-bg, var(--background-primary-color-safe, #5b4bdb));
 }
 
 .favoriteIcon {
@@ -202,7 +202,7 @@
 .rating {
   display: flex;
   align-items: center;
-  color: var(--spot-price-color, var(--background-primary-color, #5b4bdb));
+  color: var(--spot-price-color, var(--background-primary-color-safe, #5b4bdb));
 }
 
 .stars {
@@ -239,7 +239,7 @@
 }
 
 .price {
-  color: var(--spot-price-color, var(--background-primary-color, #5b4bdb));
+  color: var(--spot-price-color, var(--background-primary-color-safe, #5b4bdb));
   font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif)));
   font-size: 26px;
   font-weight: 600;

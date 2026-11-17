@@ -222,7 +222,7 @@
   background-color: #ffffff;
 }
 .toneOutline .tileEyebrow {
-  color: var(--banner-grid-accent, var(--background-primary-color, #1340d8));
+  color: var(--banner-grid-accent, var(--background-primary-color-safe, #1340d8));
 }
 .toneOutline .tileTitle {
   color: var(--banner-grid-title-color, var(--text-primary-color, #101828));

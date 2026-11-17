@@ -155,7 +155,7 @@
   font-weight: 700;
   font-size: 18px;
   line-height: 1.2;
-  color: var(--spot-price-color, var(--background-primary-color, #0096fe));
+  color: var(--spot-price-color, var(--background-primary-color-safe, #0096fe));
   margin: 0;
   white-space: nowrap;
 }

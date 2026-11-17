@@ -120,7 +120,7 @@ section.crossSellingShelf17 [data-fs-product-shelf] {
   color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0e2f38)) 72%, var(--showcase-bg, #ffffff));
 }
 .productShowcase17 [data-role=spot-rating] {
-  color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
+  color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73)));
 }
 .productShowcase17 [data-role=spot-rating] svg {
   width: 13px;
@@ -133,7 +133,7 @@ section.crossSellingShelf17 [data-fs-product-shelf] {
 }
 .productShowcase17 [data-role=spot-buy] {
   border-color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73))) !important;
-  color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
+  color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73)));
 }
 .productShowcase17 .rail [data-role=spot]:hover [data-role=spot-buy],
 .productShowcase17 .rail [data-role=spot]:focus-within [data-role=spot-buy] {

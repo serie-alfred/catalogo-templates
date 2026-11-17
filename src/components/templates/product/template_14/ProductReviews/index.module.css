@@ -184,7 +184,7 @@
   gap: 10px;
   height: 54px;
   background-color: var(--prod-reviews-accent, var(--background-primary-color, #e4002b));
-  color: var(--prod-reviews-bg, #ffffff);
+  color: var(--text-color-base, #ffffff);
   font-family: var(--prod-reviews-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 18px;
   font-style: italic;

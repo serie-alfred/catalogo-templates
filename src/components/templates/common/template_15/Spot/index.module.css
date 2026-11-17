@@ -142,7 +142,7 @@
   cursor: wait;
 }
 .favorite[aria-pressed=true] {
-  color: var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+  color: var(--spot-tag-bg, var(--background-primary-color-safe, #7a5f1c));
 }
 .favorite:focus-visible {
   outline: 1px solid var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
@@ -189,7 +189,7 @@
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+  color: var(--spot-tag-bg, var(--background-primary-color-safe, #7a5f1c));
 }
 
 .name {
@@ -227,7 +227,7 @@
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--spot-tag-bg, var(--background-primary-color, #7a5f1c));
+  color: var(--spot-tag-bg, var(--background-primary-color-safe, #7a5f1c));
   letter-spacing: 0.1em;
 }
 

@@ -79,7 +79,7 @@
 }
 
 .title {
-  color: var(--countdown-accent, var(--background-primary-color, #c8ff2e));
+  color: var(--countdown-accent, var(--background-primary-color-safe, #c8ff2e));
   font-family: var(--countdown-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 26px;
   font-weight: 800;
@@ -118,7 +118,7 @@
 }
 
 .unitLast .value {
-  color: var(--countdown-accent, var(--background-primary-color, #c8ff2e));
+  color: var(--countdown-accent, var(--background-primary-color-safe, #c8ff2e));
 }
 
 .unitLabel {

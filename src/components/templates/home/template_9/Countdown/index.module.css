@@ -59,7 +59,7 @@
 }
 
 .eyebrow {
-  color: var(--countdown-accent, var(--background-primary-color, #9c4a2f));
+  color: var(--countdown-accent, var(--background-primary-color-safe, #9c4a2f));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.16em;

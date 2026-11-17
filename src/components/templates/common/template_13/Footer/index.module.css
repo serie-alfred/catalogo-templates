@@ -142,7 +142,7 @@
 }
 
 .columnTitle {
-  color: var(--footer-accent, var(--background-primary-color, #c8ff2e));
+  color: var(--footer-accent, var(--text-color-footer, #c8ff2e));
   font-family: var(--footer-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;

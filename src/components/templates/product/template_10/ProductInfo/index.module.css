@@ -236,7 +236,7 @@
 }
 
 .brand {
-  color: var(--pdp-accent, var(--background-primary-color, #1340d8));
+  color: var(--pdp-accent, var(--background-primary-color-safe, #1340d8));
   font-weight: 700;
 }
 .brand:hover {
@@ -274,7 +274,7 @@
 }
 
 .ratingLink {
-  color: var(--pdp-accent, var(--background-primary-color, #1340d8));
+  color: var(--pdp-accent, var(--background-primary-color-safe, #1340d8));
   font-weight: 600;
   text-decoration: underline;
 }
@@ -325,7 +325,7 @@
 
 .inlineLink {
   display: inline;
-  color: var(--pdp-accent, var(--background-primary-color, #1340d8));
+  color: var(--pdp-accent, var(--background-primary-color-safe, #1340d8));
   font-weight: 700;
   text-decoration: underline;
 }
@@ -469,7 +469,7 @@ label.groupLabel {
   font-weight: 800;
 }
 .chipOn.axisChip {
-  color: var(--pdp-accent, var(--background-primary-color, #1340d8));
+  color: var(--pdp-accent, var(--background-primary-color-safe, #1340d8));
 }
 
 .axisOut {
@@ -619,7 +619,7 @@ label.groupLabel {
 
 .cepHelp {
   align-self: flex-start;
-  color: var(--pdp-accent, var(--background-primary-color, #1340d8));
+  color: var(--pdp-accent, var(--background-primary-color-safe, #1340d8));
   font-size: 13px;
   text-decoration: underline;
 }
@@ -670,7 +670,7 @@ label.groupLabel {
 }
 
 .trustIcon {
-  color: var(--pdp-accent, var(--background-primary-color, #1340d8));
+  color: var(--pdp-accent, var(--background-primary-color-safe, #1340d8));
 }
 .mobileBar {
   display: none;

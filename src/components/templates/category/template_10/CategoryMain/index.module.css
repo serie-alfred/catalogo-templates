@@ -192,7 +192,7 @@
   padding: 0 8px 0 14px;
   border-radius: 999px;
   background-color: color-mix(in srgb, var(--filter-accent, var(--background-primary-color, #1340d8)) 10%, #ffffff);
-  color: var(--filter-accent, var(--background-primary-color, #1340d8));
+  color: var(--filter-accent, var(--background-primary-color-safe, #1340d8));
   font-size: 14px;
   font-weight: 700;
 }
@@ -202,7 +202,7 @@
   align-items: center;
   min-height: 44px;
   padding: 0 8px;
-  color: var(--filter-accent, var(--background-primary-color, #1340d8));
+  color: var(--filter-accent, var(--background-primary-color-safe, #1340d8));
   font-size: 14px;
   font-weight: 700;
   text-decoration: underline;
@@ -245,7 +245,7 @@
 
 .linkBtn {
   align-self: flex-start;
-  color: var(--filter-accent, var(--background-primary-color, #1340d8));
+  color: var(--filter-accent, var(--background-primary-color-safe, #1340d8));
   font-size: 13px;
   font-weight: 700;
   text-align: left;
@@ -483,7 +483,7 @@
 .optBtn[aria-pressed=true] {
   border: 2px solid var(--filter-accent, var(--background-primary-color, #1340d8));
   background-color: color-mix(in srgb, var(--filter-accent, var(--background-primary-color, #1340d8)) 10%, var(--filter-bg, #ffffff));
-  color: var(--filter-accent, var(--background-primary-color, #1340d8));
+  color: var(--filter-accent, var(--background-primary-color-safe, #1340d8));
   font-weight: 800;
 }
 
@@ -622,7 +622,7 @@
   height: 88px;
   border-radius: 50%;
   background-color: color-mix(in srgb, var(--cat-main-accent, var(--background-primary-color, #1340d8)) 10%, #ffffff);
-  color: var(--cat-main-accent, var(--background-primary-color, #1340d8));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #1340d8));
 }
 
 .emptyTitle {
@@ -672,7 +672,7 @@
 
 .emptySecondary {
   border: 2px solid var(--cat-main-accent, var(--background-primary-color, #1340d8));
-  color: var(--cat-main-accent, var(--background-primary-color, #1340d8));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #1340d8));
 }
 .panel {
   position: fixed;
@@ -736,7 +736,7 @@
   padding: 0 12px;
   border-radius: 999px;
   background-color: color-mix(in srgb, var(--filter-accent, var(--background-primary-color, #1340d8)) 10%, #ffffff);
-  color: var(--filter-accent, var(--background-primary-color, #1340d8));
+  color: var(--filter-accent, var(--background-primary-color-safe, #1340d8));
   font-size: 13px;
   font-weight: 700;
 }
@@ -779,7 +779,7 @@
 
 .accSum {
   overflow: hidden;
-  color: var(--filter-accent, var(--background-primary-color, #1340d8));
+  color: var(--filter-accent, var(--background-primary-color-safe, #1340d8));
   font-family: var(--cat-main-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-size: 13px;
   font-weight: 600;
@@ -829,7 +829,7 @@
 .panel .panelClear {
   border: 2px solid var(--filter-accent, var(--background-primary-color, #1340d8));
   background-color: var(--filter-bg, #ffffff);
-  color: var(--filter-accent, var(--background-primary-color, #1340d8));
+  color: var(--filter-accent, var(--background-primary-color-safe, #1340d8));
 }
 
 .panel .panelApply {

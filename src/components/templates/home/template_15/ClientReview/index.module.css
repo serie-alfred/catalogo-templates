@@ -46,7 +46,7 @@
 }
 
 .eyebrow {
-  color: var(--socialproof-accent, var(--background-primary-color, #7a5f1c));
+  color: var(--socialproof-accent, var(--background-primary-color-safe, #7a5f1c));
 }
 
 .inner {
@@ -94,7 +94,7 @@
 .stars {
   display: flex;
   gap: 4px;
-  color: var(--socialproof-accent, var(--background-primary-color, #7a5f1c));
+  color: var(--socialproof-accent, var(--background-primary-color-safe, #7a5f1c));
 }
 
 .quote {
