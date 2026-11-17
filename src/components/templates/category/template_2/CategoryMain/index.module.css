@@ -456,10 +456,10 @@
 .filterTitleActive {
   align-items: center;
   border-bottom: 1px solid #dfdfe0;
-  color: var(--text-primary-color);
+  color: var(--cat-main-text, var(--text-primary-color, #141414));
   display: flex;
   flex-wrap: wrap;
-  font-family: Roboto, Arial, Helvetica, sans-serif;
+  font-family: var(--cat-main-font, var(--font-secundary, Roboto, Arial, Helvetica, sans-serif));
   font-size: 14px;
   font-weight: 500;
   justify-content: space-between;
@@ -475,7 +475,7 @@
   justify-content: space-between;
   font-weight: 500;
   font-size: 14px;
-  color: var(--text-primary-color);
+  color: var(--cat-main-text, var(--text-primary-color, #141414));
   line-height: 1;
   padding: 10px 0;
   border-bottom: 1px solid #DFDFE0;
@@ -557,7 +557,7 @@
   line-height: 1;
   font-weight: 500;
   font-size: 14px;
-  color: var(--text-primary-color);
+  color: var(--cat-main-text, var(--text-primary-color, #141414));
 }
 
 .filterCount {
@@ -566,7 +566,7 @@
   line-height: 1;
   font-weight: 500;
   font-size: 14px;
- color: var(--text-primary-color);
+ color: var(--cat-main-text, var(--text-primary-color, #141414));
 }
 
 .categoryMain .filterButton {
@@ -693,7 +693,7 @@
     line-height: 1;
     font-weight: 400;
     font-size: 14px;
-   color: var(--text-primary-color);
+   color: var(--cat-main-text, var(--text-primary-color, #141414));
   }
 
   .listTotalMobile b {
@@ -735,7 +735,7 @@
     align-items: center;
     font-size: 20px;
     font-weight: 700;
-    color: var(--text-primary-color);
+    color: var(--cat-main-text, var(--text-primary-color, #141414));
     margin-bottom: 30px;
   }
 

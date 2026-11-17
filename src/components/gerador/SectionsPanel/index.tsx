@@ -64,6 +64,7 @@ export default function SectionsPanel() {
     moveSection,
     duplicateSection,
     removeSection,
+    removeSections,
   } = useLayout();
 
   const [activeUid, setActiveUid] = useState<string | null>(null);
@@ -173,6 +174,37 @@ export default function SectionsPanel() {
     [removeSection]
   );
 
+  /**
+   * "Remover todas": tira TODAS as seções da página aberta de uma vez. As que
+   * valem em todas as páginas (header, rodapé, breadcrumb, card) saem das três —
+   * o modal conta quantas e lista os nomes, para ninguém apagar o header da loja
+   * achando que mexia só na home. Uma atualização só: o Voltar devolve tudo.
+   */
+  const handleRemoveAll = useCallback(async () => {
+    if (!rows.length) return;
+    const comuns = rows.filter(r => r.isCommon).length;
+    const ok = await confirmar({
+      titulo:
+        rows.length === 1
+          ? 'Remover a seção desta página?'
+          : `Remover as ${rows.length} seções desta página?`,
+      texto: comuns
+        ? comuns === rows.length
+          ? 'Todas aparecem nas três páginas e saem de todas.'
+          : `${comuns} delas aparece${comuns === 1 ? '' : 'm'} nas três páginas e sai${
+              comuns === 1 ? '' : 'em'
+            } de todas.`
+        : undefined,
+      itens: rows.map(r =>
+        r.isCommon ? `${r.title} · todas as páginas` : r.title
+      ),
+      nota: 'Dá para desfazer com Voltar.',
+      ok: 'Remover todas',
+      perigo: true,
+    });
+    if (ok) removeSections(rows.map(r => r.uid));
+  }, [rows, removeSections]);
+
   const rowHandlers = (row: SectionRowData) => ({
     selected: row.uid === selectedUid,
     hovered: row.uid === hoveredUid,
@@ -195,19 +227,28 @@ export default function SectionsPanel() {
       {/* Sem cabeçalho "Seções · N": o Figma leva o painel direto para o
           primeiro acordeão. */}
       <div className={styles.list}>
-        {/* Só aparece quando resolve algum problema. O frame do Figma desenha
-            exatamente UMA linha aberta, então com o corte em 2 o estado de
-            repouso e o estado desenhado continuam idênticos — nenhuma linha
-            desce. E ela nasce colada ao momento em que a lista fica longa. */}
-        {abertasNaPagina >= 2 && (
+        {/* A barra existe com qualquer seção na página: "Remover todas" vale
+            sempre. "Recolher todas" só aparece quando resolve algo (duas ou
+            mais linhas abertas), como antes. */}
+        {rows.length > 0 && (
           <div className={styles.listBar}>
+            {abertasNaPagina >= 2 && (
+              <button
+                type="button"
+                className={styles.collapseAll}
+                onClick={collapseAllSections}
+                aria-label="Recolher todas as seções"
+              >
+                Recolher todas
+              </button>
+            )}
             <button
               type="button"
-              className={styles.collapseAll}
-              onClick={collapseAllSections}
-              aria-label="Recolher todas as seções"
+              className={`${styles.collapseAll} ${styles.removeAll}`}
+              onClick={handleRemoveAll}
+              aria-label="Remover todas as seções desta página"
             >
-              Recolher todas
+              Remover todas
             </button>
           </div>
         )}

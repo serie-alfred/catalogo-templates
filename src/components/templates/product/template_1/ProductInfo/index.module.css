@@ -343,7 +343,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 700;
   font-size: 24px;
-  color: #292929;
+  color: var(--prod-info-title, #292929);
   margin-bottom: 25px;
 }
 
@@ -520,7 +520,8 @@
 }
 
 .precoParc {
-  color: #3d3d3d;
+  font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
+  color: var(--prod-info-installments, #3D3D3D);
   display: inline-block;
   font-size: 14px;
   font-style: normal;
@@ -542,7 +543,7 @@
   font-family: var(--prod-info-font, var(--font-primary, 'Manrope', sans-serif));
   font-weight: 400;
   font-size: 14px;
-  color: #3D3D3D;
+  color: var(--prod-info-installments, #3D3D3D);
   line-height: 22px;
   letter-spacing: 0.25px;
 }
@@ -559,7 +560,7 @@
   display: inline-block;
   content: 'Em';
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
-  color: #3d3d3d;
+  color: var(--prod-info-installments, #3D3D3D);
   margin-right: 3px;
   margin-left: 3px;
   font-size: 14px;
@@ -576,7 +577,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .infoPreco>.txt-corparcelas .preco-parc2 strong {
   font-size: 14px;
   font-weight: 400;
-  color: #3D3D3D;
+  color: var(--prod-info-installments, #3D3D3D);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .infoPreco>.txt-corparcelas .preco-parc2 strong span {
@@ -585,12 +586,12 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .infoPreco strong {
   font-weight: 400;
-  color: #3D3D3D;
+  color: var(--prod-info-installments, #3D3D3D);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .infoPreco strong span {
   font-weight: 400;
-  color: #3D3D3D;
+  color: var(--prod-info-installments, #3D3D3D);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco #preco #produto_nao_disp {
@@ -702,7 +703,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 500;
   font-size: 14px;
-  color: #525252;
+  color: var(--prod-info-link, #525252);
   text-decoration: underline;
   margin-top: 30px;
   cursor: pointer;
@@ -814,7 +815,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 16px;
   font-weight: 600;
-  color: #0f0f0f;
+  color: var(--prod-info-size-text, #0f0f0f);
   line-height: 1;
   display: flex;
   flex-wrap: wrap;
@@ -1092,7 +1093,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 700;
   font-size: 16px;
-  color: #0f0f0f;
+  color: var(--prod-info-variant-title, #0f0f0f);
   margin-bottom: 25px;
 }
 

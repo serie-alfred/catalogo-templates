@@ -89,7 +89,7 @@
 .spot .productWrapper .productImage .productTag .tagDiscount span {
   background-color: var(--background-light-pink);
   border: 1px solid #DFDFE0;
-  color: #0F0F0F;
+  color: var(--shelf-text-color, #0F0F0F);
 }
 .spot .productWrapper .productImage .productTag div span {
   display: flex;

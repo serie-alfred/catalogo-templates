@@ -51,6 +51,7 @@ export default function PanelSavedThemes() {
     estadoAtual,
     carregarEstado,
     setPreviewAtual,
+    setCarregandoExterno,
     selections,
     lp,
   } = useLayout();
@@ -134,6 +135,7 @@ export default function PanelSavedThemes() {
       return;
     setOcupado(true);
     setAviso(null);
+    setCarregandoExterno(true);
     try {
       const res = await fetch(
         `${API}/${tema.id}${versao ? `?versao=${versao}` : ''}`,
@@ -153,6 +155,7 @@ export default function PanelSavedThemes() {
       setAviso(e instanceof Error ? e.message : String(e));
     } finally {
       setOcupado(false);
+      setCarregandoExterno(false);
     }
   };
 
