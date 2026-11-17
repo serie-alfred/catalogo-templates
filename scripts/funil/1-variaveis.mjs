@@ -198,6 +198,22 @@ const PENDENTES = {};
 const dispensasUsadas = new Set();
 
 /**
+ * Variáveis de uma peça que só os portes Tray/Wake desenham: o componente VTEX não tem
+ * o elemento (o card 01 da FastStore só mostra o selo de desconto; as faixas Oferta e
+ * Novo são do card da Tray/Wake). O painel oferece o campo porque a Tray/Wake o usam; a
+ * checagem 4 pula a var, mas reprova se o SCSS do starter passar a lê-la numa regra viva
+ * (aí a dispensa caducou e tem de sair). Rodada 3 do Alfredo, 17/11/2026.
+ */
+const FORA_DA_VTEX = {
+  Spot01: {
+    '--spot-flag-bg': 'faixa Oferta',
+    '--spot-flag-text': 'faixa Oferta',
+    '--spot-new-bg': 'faixa Novo',
+    '--spot-new-text': 'faixa Novo',
+  },
+};
+
+/**
  * O SCSS que chega ao tema a partir de um `path`: a pasta de cada asset do
  * fecho (componentes, hooks, utils… — o que não tem SCSS não soma nada) e o
  * `src/sass/<nome>.module.scss` que cada um declara em `dependencies.scss`, que
@@ -755,6 +771,15 @@ for (const item of comPath) {
     const { ok, soIsenta, mortas, detalhe } = veredito(v.cssVar, folhasDoFecho, globais, usos);
     if (soIsenta) soPorFolhaGlobal++;
     if (ok) for (const m of mortas) mortasDoItem.set(descrever(m), m);
+    const foraDaVtex = FORA_DA_VTEX[item.component]?.[v.cssVar];
+    if (foraDaVtex) {
+      r.ok(
+        `${item.component} · ${v.cssVar}: só a Tray/Wake desenha (${foraDaVtex}), e o starter de fato não a lê`,
+        !ok,
+        'o SCSS do starter passou a ler a var numa regra viva — tire-a de FORA_DA_VTEX'
+      );
+      continue;
+    }
     r.ok(
       `${item.component} · ${v.cssVar}: o SCSS do starter consome numa regra viva`,
       ok,
