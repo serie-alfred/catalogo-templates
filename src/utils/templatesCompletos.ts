@@ -904,8 +904,8 @@ export function soltarFixosDoTemplate(
     if (!item || !mapa) return sel;
     const variables = { ...sel.variables };
     let mexeu = false;
-    for (const [cssVar, token] of Object.entries(mapa)) {
-      if (!tokens.includes(token)) continue;
+    for (const [cssVar, seguidos] of Object.entries(mapa)) {
+      if (!seguidos.some(t => tokens.includes(t))) continue;
       if (variables[cssVar] === undefined) continue;
       if (variables[cssVar] !== fixoDoTemplate(item.component, cssVar))
         continue;
