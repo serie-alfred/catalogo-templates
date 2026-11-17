@@ -16,6 +16,7 @@ import { useIsMobile } from '@/hooks/useIsMobile';
 import { useLayout } from '@/context/LayoutContext';
 import { WakePopup } from '@/components/gerador/WakePopup';
 import ConfirmHost from '@/components/gerador/ConfirmDialog';
+import CarregandoTema from '@/components/gerador/CarregandoTema';
 
 export default function GeradorPage() {
   const isMobile = useIsMobile();
@@ -126,6 +127,9 @@ export default function GeradorPage() {
 
       {/* As confirmações do gerador (ConfirmDialog/confirmar.ts), no lugar do window.confirm. */}
       <ConfirmHost />
+
+      {/* A intro da home enquanto um tema salvo chega do servidor. */}
+      <CarregandoTema />
     </>
   );
 }

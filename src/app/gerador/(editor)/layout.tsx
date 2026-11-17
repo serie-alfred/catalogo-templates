@@ -10,6 +10,7 @@ import '../../../styles/marca.css';
 import { redirect } from 'next/navigation';
 import { LayoutProvider } from '@/context/LayoutContext';
 import { contaAtual } from '@/lib/contaAtual';
+import { SCRIPT_DO_CARREGANDO } from '@/components/gerador/CarregandoTema';
 
 /**
  * Fonte do CHROME do editor (Figma). Exposta SÓ como custom property
@@ -57,7 +58,12 @@ export default async function RootLayout({
   const conta = await contaAtual();
   if (!conta) redirect('/login?revogada=1');
   return (
-    <html lang="pt-BR" className={inter.variable}>
+    // O script do carregamento marca o <html> antes da hidratação quando a URL
+    // traz um tema salvo: o atributo a mais é esperado.
+    <html lang="pt-BR" className={inter.variable} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: SCRIPT_DO_CARREGANDO }} />
+      </head>
       <body className={``} suppressHydrationWarning>
         <LayoutProvider conta={conta}>{children}</LayoutProvider>
       </body>

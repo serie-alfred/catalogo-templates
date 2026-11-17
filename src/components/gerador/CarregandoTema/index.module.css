@@ -1,0 +1,175 @@
+/*
+ * A intro da home (home/Intro/index.module.css), como camada de carregamento do
+ * editor. A montagem é a mesma; o banner troca de cor em laço enquanto o tema
+ * não chega, e a camada sai subindo quando chega.
+ */
+.camada {
+  display: none;
+}
+
+/* Ligada pelo script do <head> (antes da hidratação) ou pelo React. */
+:global(:root[data-carregando-tema]) .camada,
+.camada[data-fase='rodando'],
+.camada[data-fase='saindo'] {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  background: #17130c;
+  color: var(--site-tinta, #f3f0ea);
+  animation: entra 0.25s ease both;
+}
+
+.camada[data-fase='saindo'] {
+  animation: sai 0.5s var(--site-ease-troca, ease) both;
+}
+
+@keyframes entra {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes sai {
+  to {
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+.palco {
+  display: flex;
+}
+
+.marca {
+  --u: 4px;
+  display: flex;
+  gap: calc(3 * var(--u));
+  width: calc(30 * var(--u));
+  height: calc(28 * var(--u));
+}
+
+@keyframes monta {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes ergue {
+  from {
+    transform: scaleY(0);
+  }
+}
+
+.espinha {
+  width: calc(6 * var(--u));
+  background: currentColor;
+  transform-origin: bottom;
+  animation: ergue 0.5s var(--site-ease-troca, ease) 0.1s both;
+}
+
+.secoes {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: calc(3 * var(--u));
+}
+
+.header {
+  height: calc(6 * var(--u));
+  background: currentColor;
+  transform-origin: left;
+  animation: monta 0.5s var(--site-ease-troca, ease) 0.3s both;
+}
+
+.banner {
+  height: calc(10 * var(--u));
+  overflow: hidden;
+}
+
+@keyframes cores {
+  0% {
+    background-color: var(--c0);
+  }
+  12.5% {
+    background-color: var(--c1);
+  }
+  25% {
+    background-color: var(--c2);
+  }
+  37.5% {
+    background-color: var(--c3);
+  }
+  50% {
+    background-color: var(--c4);
+  }
+  62.5% {
+    background-color: var(--c5);
+  }
+  75% {
+    background-color: var(--c6);
+  }
+  87.5% {
+    background-color: var(--c7);
+  }
+  100% {
+    background-color: var(--c0);
+  }
+}
+
+.modulo {
+  display: block;
+  height: 100%;
+  background-color: var(--c0);
+  transform-origin: left;
+  animation:
+    monta 0.5s var(--site-ease-troca, ease) 0.45s both,
+    cores 1.3s steps(1, end) 0.6s infinite;
+}
+
+.vitrine {
+  height: calc(7 * var(--u));
+  display: flex;
+  gap: calc(2 * var(--u));
+}
+
+.vitrine span {
+  flex: 1;
+  background: currentColor;
+  transform-origin: bottom;
+  animation: ergue 0.4s var(--site-ease-mola, ease) both;
+}
+
+.vitrine span:nth-child(1) {
+  animation-delay: 0.6s;
+}
+.vitrine span:nth-child(2) {
+  animation-delay: 0.7s;
+}
+.vitrine span:nth-child(3) {
+  animation-delay: 0.8s;
+}
+
+@keyframes sobe {
+  from {
+    transform: translateY(110%);
+    opacity: 0;
+  }
+}
+
+.frase {
+  font-size: 15px;
+  color: var(--site-tinta-2, rgba(243, 240, 234, 0.78));
+  animation: sobe 0.6s var(--site-ease-troca, ease) 0.7s both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .camada,
+  .camada *,
+  .camada[data-fase='saindo'] {
+    animation: none !important;
+  }
+}
