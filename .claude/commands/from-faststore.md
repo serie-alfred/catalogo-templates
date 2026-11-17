@@ -195,7 +195,12 @@ Para cada match, monte um `ComponentVariable` (`{ cssVar, label, type, default, 
    | `--font-primary` | "fonte primária" |
    | `--font-secundary` | "fonte secundária" |
 
-5. **`label`/`group`** PT-BR por heurística do nome do cssVar (`topbar`→"Barra superior", `nav`→"Menu", `bg`→"Fundo …", `text`→"Texto …", `button`/`btn`→"Botão", `price`→"Preço", `title`→"Título", `rating`→"Avaliação", `variant`→"Variações", `badge`→"Selo", `newsletter`→"Newsletter", `font`/`title-font`→"Tipografia", `accent`→"Destaque", `legal`→"Barra legal"). **Proponha a tabela e confirme com o dev** antes de gravar (espelhe `Header01`, `Footer01`, `Spot01`, `ProductInfo01`/`ProductInfo03`). Componentes grandes podem passar de 15 itens — tudo bem.
+5. **`label`/`group`/ordem** — padrão de 17/11/2026 (`../.familias-contrato.md` §6), sem exceção:
+   - rótulo começa pelo que muda: "Fundo do…", "Texto do…", "Borda do…", "Ícone do…", "Linhas…", "Destaque (onde)", "Fonte do…" (nunca "Cor do título" nem "Título" sozinho);
+   - grupo = a parte do componente; a parte principal usa o nome da seção no painel esquerdo (Header, Footer, Vitrine, Banner, Régua de benefícios, Depoimentos, Listagem, Produto, Avaliações, Descrição do produto…); subpartes: Pré Header, Menu, Busca, Botão, Selo, Card, Formulário, Filtros, Variações, Mini-carrinho;
+   - ordem: Pré Header → parte principal → subpartes → Mini-carrinho → **Tipografia por último** (toda fonte no grupo "Tipografia");
+   - todo texto que o componente renderiza tem de ter cor e fonte alcançáveis por algum campo — se a réplica tem texto que nenhuma var pinta, volte ao passo 1.
+   **Proponha a tabela e confirme com o dev** antes de gravar. Componentes grandes podem passar de 15 itens — tudo bem.
 6. **Não-vazio:** o array precisa ter ≥1 item (senão o lápis/painel não aparece — `ComponentVariablesPanel` só monta com `variablesSchema` não-vazio).
 7. **Cross-check com o CSS gerado:** cada cssVar do schema deve realmente ser consumido pelo `index.module.css` (mesmo nome, mesmo default). Se uma zona temável ficou com valor cru (sem var), volte ao passo 1 ("quando PARAR e perguntar") — não gere schema com cssVar que o CSS não usa, nem deixe zona temável sem a var correspondente.
 
@@ -278,5 +283,7 @@ O generator confere boa parte disso em `src/platforms/wake/templatesWake.test.js
 - [ ] Componente de toda página (ajuda flutuante, pop-up, cookies): `global: true` no `LayoutItem`
 - [ ] SCSS → CSS plano (desaninhado, sem `&`/`$`/`@mixin`/funções SCSS; `@media`→`@container`; `var(--…)` mantidos); `button`/`li` com bg/border **prefixados com a classe raiz** (vence o reset da preview, sem `!important`)
 - [ ] `variablesSchema` com **todas** as vars do componente: caminho A (com `inheritsLabel`+`backgroundVars`) ou B (sem `inheritsLabel`, `backgroundVars: []`); `default` byte-idêntico; labels confirmados com o dev
+- [ ] Painel no padrão de 17/11: rótulos "Fundo/Texto/Borda/Ícone/Fonte do…", grupo = parte, Tipografia por último; todo texto da réplica muda com algum campo (render A/B)
+- [ ] Card de Produto (Spot): raiz com `data-spot="SpotNN"` — é o que o `ThemeRenderer` usa para o Card escolhido pintar todo card dele na página
 - [ ] Registrado em `templateRegistry.ts` (chave = `component`) e em `layoutData.ts` (`key` único, `path` p/ VTEX, `platforms` com `'VTEX'`, `backgroundVars`)
 - [ ] `yarn lint` + `npx tsc --noEmit` limpos; preview, lápis e overrides ao vivo validados em `yarn dev`

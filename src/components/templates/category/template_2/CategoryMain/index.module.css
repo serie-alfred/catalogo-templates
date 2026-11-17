@@ -144,7 +144,7 @@
 }
 
 .listFields strong {
-  color: var(--text-primary-color);
+  color: var(--cat-main-text, var(--text-primary-color, #141414));
   content: "Ordenar por:";
   display: block;
   font-size: 16px;
@@ -165,7 +165,7 @@
   padding: 0 15px;
   font-weight: 400;
   font-size: 16px;
-  color: #68686E;
+  color: var(--cat-main-select-text, #68686e);
   border: 1px solid #DFDFE0;
   background-color: #FFFFFF;
   background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 10L12 14L16 10' stroke='%237A7A7A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
@@ -403,7 +403,7 @@
   justify-content: space-between;
   font-weight: 700;
   font-size: 20px;
-  color: var(--text-primary-color);
+  color: var(--cat-main-text, var(--text-primary-color, #141414));
   margin-bottom: 30px;
 }
 
@@ -436,7 +436,7 @@
 
 
 .filterTotal span {
-  color: var(--text-primary-color);
+  color: var(--cat-main-text, var(--text-primary-color, #141414));
   display: block;
   font-size: 14px;
   font-weight: 400;
@@ -747,7 +747,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    color: #000000;
+    color: var(--cat-main-text, #000000);
     font-size: 14px;
     font-weight: 400;
     width: 100%;

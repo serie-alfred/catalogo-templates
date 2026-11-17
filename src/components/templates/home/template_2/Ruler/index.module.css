@@ -105,11 +105,11 @@
 }
 
 .homeRuler .rulerContainer .rulerSwiper .swiper__wrapper .swiper__slide .rulerItem .itemIcon svg path {
-  stroke: var(--text-color-base);
+  stroke: var(--ruler-text, var(--text-color-base, #ffffff));
 }
 
 .homeRuler .rulerContainer .rulerSwiper .swiper__wrapper .swiper__slide .rulerItem .itemIcon svg rect {
-  stroke: var(--text-color-base);
+  stroke: var(--ruler-text, var(--text-color-base, #ffffff));
 }
 
 .homeRuler .rulerContainer .rulerSwiper .swiper__wrapper .swiper__slide .rulerItem .itemText {
@@ -123,14 +123,14 @@
   font-family: var(--ruler-font, var(--font-secundary, sans-serif));
   font-weight: 400;
   font-size: 12px;
-  color: var(--text-color-base);
+  color: var(--ruler-text, var(--text-color-base, #ffffff));
   letter-spacing: 0.25px;
 }
 
 .homeRuler .rulerContainer .rulerSwiper .swiper__wrapper .swiper__slide .rulerItem .itemText span b {
   font-weight: 600;
   font-size: 16px;
-  color: var(--text-color-base);
+  color: var(--ruler-text, var(--text-color-base, #ffffff));
   margin-bottom: 8px;
   width: 100%;
   display: block;
@@ -149,7 +149,7 @@
   align-items: center;
   justify-content: flex-start;
   z-index: 1;
-  color: var(--text-color-base);
+  color: var(--ruler-text, var(--text-color-base, #ffffff));
 }
 
 .homeRuler .rulerContainer .swiperRulerButtonNext {

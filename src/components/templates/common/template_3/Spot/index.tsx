@@ -14,7 +14,7 @@ const data = {
 
 export default function Spot() {
   return (
-    <div className={styles.card}>
+    <div className={styles.card} data-spot="Spot03">
       <div className={styles.card__image}>
         <a href="#" onClick={e => e.preventDefault()}>
           <img src={data.image} alt={data.name} loading="lazy" />

@@ -114,7 +114,7 @@
   padding: 6px 14px;
   border-radius: 999px;
   background-color: #dce6da;
-  color: #3b1f33;
+  color: var(--popup-eyebrow-text, #3b1f33);
   font-size: 13px;
   font-weight: 700;
   line-height: 18px;

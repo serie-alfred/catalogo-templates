@@ -10,7 +10,7 @@
   visibility: hidden;
   pointer-events: none;
   color: var(--cart-text, var(--text-primary-color, #0e2f38));
-  font-family: var(--font-secundary, "DM Sans", system-ui, sans-serif);
+  font-family: var(--cart-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -100,7 +100,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-primary, "Bricolage Grotesque", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -116,7 +116,7 @@
   padding: 0 8px;
   border-radius: 999px;
   background-color: color-mix(in srgb, var(--cart-button-bg, var(--background-primary-color, #0e6b73)) 9%, #ffffff);
-  font-family: var(--font-secundary, "DM Sans", system-ui, sans-serif);
+  font-family: var(--cart-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif));
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0;
@@ -224,7 +224,7 @@ a.lineName:hover {
 }
 
 .linePrice {
-  font-family: var(--font-primary, "Bricolage Grotesque", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
   font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -266,7 +266,7 @@ a.lineName:hover {
 }
 
 .summaryValue {
-  font-family: var(--font-primary, "Bricolage Grotesque", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
   font-size: 28px;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -316,7 +316,7 @@ a.lineName:hover {
 }
 
 .emptyText {
-  font-family: var(--font-primary, "Bricolage Grotesque", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
   font-size: 22px;
   font-weight: 700;
   letter-spacing: -0.02em;

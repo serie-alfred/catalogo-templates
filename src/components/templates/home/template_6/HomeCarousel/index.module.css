@@ -26,6 +26,7 @@
 }
 .carouselContainer .swiper .swiperWrapper .rulerItem span {
   font-size: 14px;
+  color: var(--home-carousel-text, var(--text-primary-color, #000000));
 }
 .carouselContainer .swiper .swiperWrapper .rulerItem a {
   display: flex;

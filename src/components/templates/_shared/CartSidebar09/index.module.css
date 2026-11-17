@@ -10,7 +10,7 @@
   visibility: hidden;
   pointer-events: none;
   color: var(--cart-text, var(--text-primary-color, #1d1b18));
-  font-family: var(--font-secundary, "Figtree", system-ui, sans-serif);
+  font-family: var(--cart-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   line-height: 1.15;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -89,7 +89,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 28px;
   font-weight: 300;
   line-height: 1.2;
@@ -277,7 +277,7 @@
 }
 
 .emptyText {
-  font-family: var(--font-primary, "Fraunces", Georgia, serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 22px;
   font-weight: 300;
   line-height: 1.3;

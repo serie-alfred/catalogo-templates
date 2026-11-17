@@ -10,7 +10,7 @@
   visibility: hidden;
   pointer-events: none;
   color: var(--cart-text, var(--text-primary-color, #0b1b33));
-  font-family: var(--font-secundary, "Inter", system-ui, sans-serif);
+  font-family: var(--cart-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -98,7 +98,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  font-family: var(--font-primary, "Saira", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 30px;
   font-style: italic;
   font-weight: 900;
@@ -228,7 +228,7 @@
 }
 
 .linePrice {
-  font-family: var(--font-primary, "Saira", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 21px;
   font-style: italic;
   font-weight: 800;
@@ -248,7 +248,7 @@
   display: flex;
   align-items: baseline;
   justify-content: space-between;
-  font-family: var(--font-primary, "Saira", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-style: italic;
   text-transform: uppercase;
 }
@@ -277,7 +277,7 @@
   margin-top: 8px;
   background-color: var(--cart-button-bg, var(--background-primary-color, #e4002b));
   color: var(--cart-button-text, var(--text-color-base, #ffffff));
-  font-family: var(--font-primary, "Saira", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 20px;
   font-style: italic;
   font-weight: 800;
@@ -294,7 +294,7 @@
 
 .continue {
   height: 44px;
-  font-family: var(--font-primary, "Saira", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 15px;
   font-style: italic;
   font-weight: 700;
@@ -314,7 +314,7 @@
 }
 
 .emptyText {
-  font-family: var(--font-primary, "Saira", system-ui, sans-serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 24px;
   font-style: italic;
   font-weight: 800;

@@ -21,6 +21,7 @@
 .categoryMain {
   width: 100%;
   padding-top: 2rem;
+  font-family: var(--cat-main-font, inherit);
 
   /* --cat-main-text: cor de texto do componente inteiro (sidebar, "Mostrando
      X de Y", "Ordenar por:", modal de filtro, painel de ordenação, itens de

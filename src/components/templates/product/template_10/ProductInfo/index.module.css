@@ -157,8 +157,8 @@
   left: 14px;
   padding: 5px 10px;
   border-radius: 999px;
-  background-color: #d92d20;
-  color: #ffffff;
+  background-color: var(--pdp-discount-bg, #d92d20);
+  color: var(--pdp-discount-text, #ffffff);
   font-size: 13px;
   font-weight: 800;
 }
@@ -301,8 +301,8 @@
 .tag {
   padding: 3px 8px;
   border-radius: 999px;
-  background-color: #d92d20;
-  color: #ffffff;
+  background-color: var(--pdp-discount-bg, #d92d20);
+  color: var(--pdp-discount-text, #ffffff);
   font-size: 12px;
   font-weight: 800;
 }
@@ -359,8 +359,8 @@
   margin-top: 6px;
   padding: 12px 14px;
   border-radius: 10px;
-  background-color: #e7f4ee;
-  color: #067647;
+  background-color: var(--pdp-pix-bg, #e7f4ee);
+  color: var(--pdp-pix, #067647);
 }
 
 .pixCopy {
@@ -502,7 +502,7 @@ label.groupLabel {
 }
 
 .notifyOk {
-  color: #067647;
+  color: var(--pdp-pix, #067647);
   font-size: 14px;
   font-weight: 700;
 }
@@ -608,8 +608,8 @@ label.groupLabel {
   height: 48px;
   padding: 0 20px;
   border-radius: 10px;
-  background-color: var(--pdp-text, var(--text-primary-color, #101828));
-  color: #ffffff;
+  background-color: var(--pdp-shipping-btn-bg, var(--pdp-text, var(--text-primary-color, #101828)));
+  color: var(--pdp-shipping-btn-text, #ffffff);
   font-weight: 700;
 }
 .darkBtn:disabled {
@@ -650,7 +650,7 @@ label.groupLabel {
 }
 
 .shipFree {
-  color: #067647;
+  color: var(--pdp-pix, #067647);
   font-weight: 800;
 }
 .trust {
@@ -940,7 +940,7 @@ label.groupLabel {
     font-weight: 800;
   }
   .mobilePix {
-    color: #067647;
+    color: var(--pdp-pix, #067647);
     font-size: 12px;
     font-weight: 700;
   }

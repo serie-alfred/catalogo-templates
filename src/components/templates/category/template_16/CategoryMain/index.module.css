@@ -97,7 +97,7 @@
   border: 2px solid var(--cat-main-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
   background-color: #ffc93c;
-  color: #2a2350;
+  color: var(--cat-main-age-text, #2a2350);
   font-family: var(--cat-main-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 20px;
   font-weight: 600;
@@ -224,7 +224,7 @@
 
 .densityOn {
   background-color: var(--cat-main-accent, var(--background-primary-color, #5b4bdb));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
 }
 .mBar,
 .mChips,
@@ -322,7 +322,7 @@
 .pillOn {
   border-color: var(--cat-main-text, var(--text-primary-color, #2a2350));
   background-color: var(--cat-main-accent, var(--background-primary-color, #5b4bdb));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
 }
 
 .linkBtn {
@@ -404,7 +404,7 @@
 
 .pageOn {
   background-color: var(--cat-main-accent, var(--background-primary-color, #5b4bdb));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
   box-shadow: 0 3px 0 var(--cat-main-text, var(--text-primary-color, #2a2350));
 }
 
@@ -452,7 +452,7 @@
   border: 2px solid var(--cat-main-text, var(--text-primary-color, #2a2350));
   border-radius: 50%;
   background-color: var(--cat-main-accent, var(--background-primary-color, #5b4bdb));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
   font-family: var(--cat-main-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 28px;
   font-weight: 700;
@@ -509,7 +509,7 @@
 
 .emptyPrimary {
   background-color: var(--cat-main-accent, var(--background-primary-color, #5b4bdb));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
 }
 
 .emptySecondary {
@@ -645,7 +645,7 @@
 
 .panelApply {
   background-color: var(--cat-main-accent, var(--background-primary-color, #5b4bdb));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
   box-shadow: 0 4px 0 var(--cat-main-text, var(--text-primary-color, #2a2350));
 }
 
@@ -725,7 +725,7 @@
   }
   .mFilter {
     background-color: var(--cat-main-accent, var(--background-primary-color, #5b4bdb));
-    color: var(--text-color-base, #ffffff);
+    color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
   }
   .mSort:focus-within {
     outline: 3px solid var(--cat-main-accent, var(--background-primary-color, #5b4bdb));

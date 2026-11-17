@@ -54,7 +54,7 @@
   overflow: hidden;
   border-radius: 16px;
   background-color: var(--banner-grid-accent, var(--background-primary-color, #1340d8));
-  color: var(--text-color-base, #ffffff);
+  color: var(--banner-grid-accent-text, var(--text-color-base, #ffffff));
 }
 .main:hover .mainTitle {
   text-decoration: underline;
@@ -89,7 +89,7 @@
   padding: 6px 12px;
   border-radius: 8px;
   background-color: var(--banner-grid-highlight, var(--background-tertiary-color, #ffcf24));
-  color: var(--text-tertiary-color, #101828);
+  color: var(--banner-grid-highlight-text, var(--text-tertiary-color, #101828));
   font-size: 16px;
   font-weight: 800;
 }
@@ -186,21 +186,21 @@
   padding: 0 18px;
   border-radius: 10px;
   background-color: var(--banner-grid-accent, var(--background-primary-color, #1340d8));
-  color: var(--text-color-base, #ffffff);
+  color: var(--banner-grid-accent-text, var(--text-color-base, #ffffff));
   font-size: 14px;
   font-weight: 700;
 }
 
 .toneHighlight {
   background-color: var(--banner-grid-highlight, var(--background-tertiary-color, #ffcf24));
-  color: var(--text-tertiary-color, #101828);
+  color: var(--banner-grid-highlight-text, var(--text-tertiary-color, #101828));
 }
 .toneHighlight .tileArt {
   background-color: rgba(16, 24, 40, 0.08);
 }
 .toneHighlight .tileCta {
   background-color: var(--banner-grid-text, var(--text-primary-color, #101828));
-  color: #ffffff;
+  color: var(--banner-grid-cta-text, #ffffff);
 }
 
 .toneNeutral {

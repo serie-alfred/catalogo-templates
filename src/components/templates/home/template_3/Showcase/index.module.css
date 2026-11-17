@@ -27,7 +27,7 @@
   font-family: var(--showcase-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 500;
   font-size: 14px;
-  color: #7a7a7a;
+  color: var(--showcase-link-color, #7a7a7a);
   text-decoration: underline;
   text-underline-offset: 2px;
 }

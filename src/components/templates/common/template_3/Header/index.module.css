@@ -28,6 +28,7 @@
 .topbar {
   background: var(--header-topbar-bg, var(--background-secundary-color, #000000));
   color: var(--header-topbar-text, var(--text-color-secundary, #ffffff));
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   font-size: 11.5px;
   font-weight: 400;
   letter-spacing: 0.06em;
@@ -224,6 +225,7 @@
 /* Cart counter */
 .cartCount {
   position: absolute;
+  font-family: var(--header-font, var(--font-secundary, 'Poppins', sans-serif));
   top: 4px;
   right: 4px;
   min-width: 16px;

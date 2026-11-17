@@ -184,7 +184,7 @@ export function ProductCard14({
   const temNota = showRating && inStock;
 
   return (
-    <article className={`${styles.productCard14}${inStock ? '' : ` ${styles.soldOut}`}`} data-role="spot">
+    <article className={`${styles.productCard14}${inStock ? '' : ` ${styles.soldOut}`}`} data-role="spot" data-spot="Spot14">
       <div className={styles.media}>
         <a className={styles.mediaLink} href={href} tabIndex={-1} aria-hidden="true" data-role="spot-image">
           {product.image && <img className={styles.img} src={product.image} alt={name} width={400} height={400} />}

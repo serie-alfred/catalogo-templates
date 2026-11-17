@@ -50,7 +50,7 @@
 }
 .services {
   background-color: var(--footer-accent, var(--background-secundary-color, #1340d8));
-  color: var(--text-color-secundary, #ffffff);
+  color: var(--footer-service-text, var(--text-color-secundary, #ffffff));
 }
 
 .servicesInner {

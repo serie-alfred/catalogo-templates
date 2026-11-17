@@ -15,7 +15,7 @@ const data = {
 
 export default function Spot() {
   return (
-    <div className={styles.card}>
+    <div className={styles.card} data-spot="Spot05">
       <div className={styles.card__topbar}>
         <div className={styles.card__rating}>
           <svg

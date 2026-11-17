@@ -181,7 +181,7 @@
   height: 36px;
   border-radius: 50%;
   background-color: var(--prod-desc-accent, var(--background-primary-color, #7a2e5f));
-  color: #ffffff;
+  color: var(--prod-desc-step-text, #ffffff);
   font-weight: 700;
 }
 

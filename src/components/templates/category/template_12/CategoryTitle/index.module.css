@@ -102,7 +102,7 @@
   height: 48px;
   border: 0;
   background-color: var(--cat-title-accent, var(--background-primary-color, #7a2e5f));
-  color: var(--text-color-base, #ffffff);
+  color: var(--cat-title-accent-text, var(--text-color-base, #ffffff));
   font-weight: 700;
 }
 .chipActive .chipQty {

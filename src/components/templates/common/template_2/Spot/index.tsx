@@ -3,7 +3,7 @@ import styles from './index.module.css';
 
 export default function Spot() {
   return (
-    <div className={`${styles.product} ${styles.spot}`} data-role="spot">
+    <div className={`${styles.product} ${styles.spot}`} data-role="spot" data-spot="Spot02">
       <div className={styles.productWrapper}>
         {/* Imagem do Produto */}
         <div className={styles.productImage}>

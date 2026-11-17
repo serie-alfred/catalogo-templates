@@ -17,7 +17,7 @@
 }
 
 .header .headerTop {
-  background-color: var(--background-tertiary-color);
+  background-color: var(--header-topbar-bg, var(--background-tertiary-color, #000000));
   padding: 10px 0px;
 }
 
@@ -39,7 +39,7 @@
   flex-wrap: wrap;
   align-items: center;
   width: max-content;
-  color: var(--text-tertiary-color);
+  color: var(--header-topbar-text, var(--text-tertiary-color, #ffffff));
   font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 500;
   font-size: 14px;
@@ -65,7 +65,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  color: var(--text-tertiary-color);
+  color: var(--header-topbar-text, var(--text-tertiary-color, #ffffff));
   font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 500;
   font-size: 14px;
@@ -91,7 +91,7 @@
 
 .header .headerTop .topContainer .topRow .topSocial ul li {
   margin-right: 10px;
-  color: var(--text-tertiary-color);
+  color: var(--header-topbar-text, var(--text-tertiary-color, #ffffff));
 }
 
 .header .headerTop .topContainer .topRow .topSocial ul li:last-of-type {
@@ -103,7 +103,7 @@
 }
 
 .header .headerMiddle {
-  background-color: var(--background-primary-color);
+  background-color: var(--header-bg, var(--background-primary-color, #000000));
   padding: 24px 0px;
 }
 
@@ -406,7 +406,7 @@
   font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 500;
   font-size: 14px;
-  color: var(--text-color-base);
+  color: var(--header-text, var(--text-color-base, #ffffff));
   text-decoration: none;
   padding: 8px 12px;
   border-radius: 5px;
@@ -527,7 +527,7 @@
   font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 500;
   font-size: 14px;
-  color: var(--text-color-base);
+  color: var(--header-text, var(--text-color-base, #ffffff));
 }
 
 .header
@@ -544,19 +544,19 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  background-color: var(--background-secundary-color);
+  background-color: var(--header-accent, var(--background-secundary-color, #dd1838));
   border-radius: 100%;
   font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 700;
   font-size: 12px;
-  color: var(--text-color-secundary);
+  color: var(--header-accent-text, var(--text-color-secundary, #ffffff));
   position: absolute;
   left: 28px;
   top: 5px;
 }
 
 .header .header__bottom {
-  background-color: var(--background-secundary-color);
+  background-color: var(--header-nav-bg, var(--background-secundary-color, #dd1838));
   position: relative;
 }
 
@@ -654,7 +654,7 @@
   font-family: var(--header-font, var(--font-primary, 'Roboto', Arial, Helvetica, sans-serif));
   font-weight: 500;
   font-size: 14px;
-  color: var(--text-color-secundary);
+  color: var(--header-nav-text, var(--text-color-secundary, #ffffff));
   text-decoration: none;
   padding: 12px 23px;
   transition: 0.5s;

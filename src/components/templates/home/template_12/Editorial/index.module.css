@@ -115,7 +115,7 @@
   height: 44px;
   border-radius: 50%;
   background-color: var(--editorial-accent, var(--background-primary-color, #7a2e5f));
-  color: var(--text-color-base, #ffffff);
+  color: var(--editorial-accent-text, var(--text-color-base, #ffffff));
   font-family: var(--editorial-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 20px;
 }

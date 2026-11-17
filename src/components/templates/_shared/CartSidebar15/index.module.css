@@ -10,7 +10,7 @@
   visibility: hidden;
   pointer-events: none;
   color: var(--cart-text, var(--text-primary-color, #1a1714));
-  font-family: var(--font-secundary, "Manrope", system-ui, sans-serif);
+  font-family: var(--cart-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -112,7 +112,7 @@
 }
 
 .count {
-  font-family: var(--font-secundary, "Manrope", system-ui, sans-serif);
+  font-family: var(--cart-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -121,7 +121,7 @@
 }
 
 .title {
-  font-family: var(--font-primary, "Cormorant Garamond", Georgia, serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
   font-size: 36px;
   font-weight: 400;
   line-height: 1;
@@ -173,7 +173,7 @@
 }
 
 .lineBrand {
-  font-family: var(--font-secundary, "Manrope", system-ui, sans-serif);
+  font-family: var(--cart-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -183,7 +183,7 @@
 }
 
 .lineName {
-  font-family: var(--font-primary, "Cormorant Garamond", Georgia, serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
   font-size: 22px;
   line-height: 1.15;
 }
@@ -261,7 +261,7 @@
 }
 
 .subtotalLabel {
-  font-family: var(--font-secundary, "Manrope", system-ui, sans-serif);
+  font-family: var(--cart-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -269,7 +269,7 @@
 }
 
 .subtotalValue {
-  font-family: var(--font-primary, "Cormorant Garamond", Georgia, serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
   font-size: 30px;
   font-weight: 500;
 }
@@ -280,7 +280,7 @@
 }
 
 .checkout {
-  font-family: var(--font-secundary, "Manrope", system-ui, sans-serif);
+  font-family: var(--cart-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -298,7 +298,7 @@
 }
 
 .continue {
-  font-family: var(--font-secundary, "Manrope", system-ui, sans-serif);
+  font-family: var(--cart-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -324,7 +324,7 @@
 }
 
 .emptyText {
-  font-family: var(--font-primary, "Cormorant Garamond", Georgia, serif);
+  font-family: var(--cart-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
   font-size: 26px;
   line-height: 1.2;
 }

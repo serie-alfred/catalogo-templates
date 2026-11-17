@@ -147,7 +147,7 @@
   position: absolute;
   top: 16px;
   left: 16px;
-  color: #333333;
+  color: var(--pdp-counter-text, #333333);
   font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
@@ -325,7 +325,7 @@
 
 .optionOn {
   background-color: var(--pdp-text, var(--text-primary-color, #0a0a0a));
-  color: #ffffff;
+  color: var(--pdp-size-active-text, #ffffff);
 }
 
 .optionOut {

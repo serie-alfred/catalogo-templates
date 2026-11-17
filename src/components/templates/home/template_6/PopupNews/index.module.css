@@ -170,7 +170,7 @@
   line-height: 13.8px;
   text-transform: uppercase;
   /* metrics: label@1280 */
-  color: #6f6f6f;
+  color: var(--popup-label-color, #6f6f6f);
   /* contraste: #bdbdbd dava 1.88:1 sobre o branco do painel — bem abaixo dos 4.5 */
   /* do WCAG AA, e aqui é RÓTULO de campo, não placeholder. #6f6f6f = 5.02:1. */
 }

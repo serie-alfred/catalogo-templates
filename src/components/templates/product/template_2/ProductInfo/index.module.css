@@ -23,7 +23,8 @@
   background: #eee;
   border: 1px solid #cbcbcb;
   border-radius: 4px;
-  color: #000;
+  color: var(--prod-info-text, #000000);
+  font-family: var(--prod-info-font, inherit);
   cursor: pointer;
   display: flex;
   flex-shrink: 0;
@@ -273,11 +274,12 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__sku {
-  color: #6a6a6a;
+  color: var(--prod-info-muted, #6a6a6a);
   display: block;
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
+  font-family: var(--prod-info-font, inherit);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__sku b {
@@ -291,7 +293,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 700;
   font-size: 24px;
-  color: #000;
+  color: var(--prod-info-title, #000000);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars {
@@ -304,13 +306,17 @@
   margin-right: 3px;
 }
 
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars svg path {
+  fill: var(--prod-info-rating, #B8B8B8);
+}
+
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars span {
   display: block;
   line-height: 1;
   font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 400;
   font-size: 12px;
-  color: #6a6a6a;
+  color: var(--prod-info-muted, #6a6a6a);
   margin-top: 1px;
 }
 
@@ -415,7 +421,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 700;
   font-size: 22px;
-  color: #000;
+  color: var(--prod-info-price, #000000);
   line-height: 1;
   display: flex;
   flex-wrap: wrap;
@@ -430,7 +436,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoDe {
   font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   align-items: center;
-  color: #6a6a6a;
+  color: var(--prod-info-muted, #6a6a6a);
   display: flex;
   flex-wrap: wrap;
   font-size: 14px;
@@ -446,9 +452,9 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .precoDiscountFlag {
   align-items: center;
-  background-color: var(--background-secundary-color);
+  background-color: var(--prod-info-discount-bg, var(--background-secundary-color, #333333));
   border-radius: 70px;
-  color: var(--text-color-secundary);
+  color: var(--prod-info-discount-text, var(--text-color-secundary, #ffffff));
   display: flex;
   flex-wrap: wrap;
   font-size: 12px;
@@ -458,6 +464,7 @@
   margin-bottom: 8px;
   padding: 0 10px;
   width: max-content;
+  font-family: var(--prod-info-font, inherit);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__price .produtoPreco .PrecoPrincipal {
@@ -674,7 +681,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 700;
   font-size: 16px;
-  color: #000;
+  color: var(--prod-info-title, #000000);
   margin-bottom: 15px !important;
 }
 
@@ -954,7 +961,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button {
   align-items: center;
-  background-color: var(--background-tertiary-color);
+  background-color: var(--prod-info-btn-bg, var(--background-tertiary-color, #000000));
   border-radius: 16px;
   display: flex;
   flex-wrap: wrap;
@@ -965,6 +972,7 @@
   -o-transition: all .25s ease-in;
   transition: all .25s ease-in;
   width: 100%;
+  font-family: var(--prod-info-font, inherit);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button::before {
@@ -973,7 +981,7 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button span {
   align-items: center;
-  color: var(--text-tertiary-color);
+  color: var(--prod-info-btn-text, var(--text-tertiary-color, #ffffff));
   display: flex;
   flex-wrap: wrap;
   font-size: 16px;
@@ -988,7 +996,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button span svg path {
-  stroke: var(--text-tertiary-color);
+  stroke: var(--prod-info-btn-text, var(--text-tertiary-color, #ffffff));
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__message {
@@ -1032,7 +1040,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, sans-serif));
   font-weight: 700;
   font-size: 16px;
-  color: #000;
+  color: var(--prod-info-title, #000000);
   margin-bottom: 25px;
 }
 
@@ -1086,10 +1094,10 @@
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form .shipping__send {
   align-items: center;
-  background-color: var(--background-tertiary-color);
+  background-color: var(--prod-info-btn2-bg, var(--background-tertiary-color, #000000));
   border: none;
   border-radius: 16px;
-  color: var(--text-tertiary-color);
+  color: var(--prod-info-btn2-text, var(--text-tertiary-color, #ffffff));
   display: flex;
   flex-wrap: wrap;
   font-size: 16px;
@@ -1102,6 +1110,7 @@
   -o-transition: all .25s ease-in;
   transition: all .25s ease-in;
   width: 125px;
+  font-family: var(--prod-info-font, inherit);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form .shipping__send svg {
