@@ -54,7 +54,7 @@
 
 .eyebrow,
 .more {
-  color: var(--categories-accent, var(--background-primary-color, #7a5f1c));
+  color: var(--categories-accent, var(--background-primary-color-safe, #7a5f1c));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;

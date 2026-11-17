@@ -142,7 +142,7 @@
 }
 
 .navHighlight {
-  color: var(--header-accent, var(--background-primary-color, #7a2e5f));
+  color: var(--header-accent, var(--background-primary-color-safe, #7a2e5f));
 }
 
 .submenu {

@@ -52,7 +52,7 @@
 }
 .productShelf14 [data-role=spot-discount] {
   background-color: var(--showcase-accent, var(--background-primary-color, #e4002b));
-  color: var(--showcase-bg, #ffffff);
+  color: var(--text-color-base, #ffffff);
 }
 
 .inner {
@@ -257,7 +257,7 @@
 .bannerEyebrow {
   padding: 4px 14px;
   background-color: var(--showcase-accent, var(--background-primary-color, #e4002b));
-  color: var(--showcase-bg, #ffffff);
+  color: var(--text-color-base, #ffffff);
   font-family: var(--showcase-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 13px;
   font-style: italic;

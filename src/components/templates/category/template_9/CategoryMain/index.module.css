@@ -65,7 +65,7 @@
 
 .accent,
 .accentQty {
-  color: var(--cat-main-accent, var(--background-primary-color, #9c4a2f));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #9c4a2f));
 }
 
 .accentQty {

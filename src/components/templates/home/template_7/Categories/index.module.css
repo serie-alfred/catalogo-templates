@@ -52,7 +52,7 @@
   font-weight: 400;
   line-height: normal;
   letter-spacing: .1em;
-  color: var(--categories-accent, var(--background-primary-color, #b8976a));
+  color: var(--categories-accent, var(--background-primary-color-safe, #b8976a));
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
@@ -60,7 +60,7 @@
 }
 
 .viewAll:hover {
-  color: color-mix(in srgb, var(--categories-accent, var(--background-primary-color, #b8976a)) 68%, #000);
+  color: color-mix(in srgb, var(--categories-accent, var(--background-primary-color-safe, #b8976a)) 68%, #000);
 }
 
 .grid {
@@ -125,7 +125,7 @@
 
 .card:hover .label,
 .card:hover .mLabel {
-  color: var(--categories-accent, var(--background-primary-color, #b8976a));
+  color: var(--categories-accent, var(--background-primary-color-safe, #b8976a));
 }
 
 .img {

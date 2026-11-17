@@ -67,16 +67,30 @@ function cssDo(componente) {
   return arquivos.filter(fs.existsSync).map(f => fs.readFileSync(f, 'utf8')).join('\n');
 }
 
-/** O primeiro token global depois de `var(<cssVar>,` (pulando Nível 1 intermediários). */
-function tokenDe(css, cssVar) {
-  const contagem = new Map();
-  const re = new RegExp(`var\\(${cssVar.replace(/[-]/g, '\\-')},\\s*((?:var\\(--[a-z0-9-]+,\\s*)+)`, 'g');
-  for (const m of css.matchAll(re)) {
-    const tok = [...m[1].matchAll(/var\((--[a-z0-9-]+)/g)].map(x => x[1]).find(t => GLOBAIS.has(t));
-    if (tok) contagem.set(tok, (contagem.get(tok) ?? 0) + 1);
+/**
+ * TODOS os tokens globais que a var segue quando está vazia: o fallback inteiro de
+ * cada `var(<cssVar>, …)` da réplica, inclusive dentro de `color-mix` e de Nível 1
+ * intermediários. A mesma var às vezes cai em tokens diferentes em regras
+ * diferentes (Header12 --header-text: texto-primário no miolo, texto-secundário
+ * na topbar); guardar só o mais frequente deixava o pino preso quando o usuário
+ * mudava o outro (revisão de 17/11, D1-01/D2-05).
+ */
+function tokensDe(css, cssVar) {
+  const achados = new Set();
+  const alvo = `var(${cssVar}`;
+  for (let i = 0; (i = css.indexOf(alvo, i)) !== -1; i += alvo.length) {
+    const depois = css[i + alvo.length];
+    if (depois !== ',' && !/\s/.test(depois)) continue;
+    let n = 0, fim = -1;
+    for (let j = i + 3; j < css.length; j++) {
+      if (css[j] === '(') n++;
+      else if (css[j] === ')' && --n === 0) { fim = j; break; }
+    }
+    if (fim === -1) continue;
+    for (const m of css.slice(i + alvo.length, fim).matchAll(/var\(\s*(--[a-z0-9-]+)/g))
+      if (GLOBAIS.has(m[1])) achados.add(m[1]);
   }
-  // A mais frequente: a mesma var às vezes aparece numa mistura com outro token.
-  return [...contagem.entries()].sort((a, b) => b[1] - a[1])[0]?.[0];
+  return [...achados].sort();
 }
 
 const mapa = {};
@@ -84,9 +98,9 @@ let com = 0, sem = 0;
 for (const [componente, vars] of [...fixos.entries()].sort()) {
   const css = cssDo(componente);
   for (const v of [...vars].sort()) {
-    const tok = tokenDe(css, v);
-    if (!tok) { sem++; continue; }
-    (mapa[componente] ??= {})[v] = tok;
+    const toks = tokensDe(css, v);
+    if (!toks.length) { sem++; continue; }
+    (mapa[componente] ??= {})[v] = toks;
     com++;
   }
 }
@@ -95,10 +109,11 @@ const saida = `/**
  * GERADO por \`scripts/nivel1-tokens.mjs\` (\`yarn nivel1:tokens\`) — não edite à mão.
  *
  * Para cada valor de Nível 1 que um template completo fixa (\`NIVEL1_DAS_FAMILIAS\`),
- * o token global que a cadeia da réplica segue. ${com} vars com token; ${sem} vão
- * direto ao hex (sem global a seguir) e ficam de fora.
+ * os tokens globais que a cadeia da réplica segue (todos: a mesma var pode cair em
+ * tokens diferentes em regras diferentes). ${com} vars com token; ${sem} vão direto
+ * ao hex (sem global a seguir) e ficam de fora.
  */
-export const TOKEN_DO_NIVEL1: Record<string, Record<string, string>> = ${JSON.stringify(mapa, null, 2).replace(/"([A-Za-z0-9]+)":/g, '$1:').replace(/"/g, "'")};
+export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> = ${JSON.stringify(mapa, null, 2).replace(/"([A-Za-z0-9]+)":/g, '$1:').replace(/"/g, "'")};
 `;
 fs.writeFileSync(path.join(RAIZ, 'src/utils/nivel1Tokens.ts'), saida);
 console.log(`nivel1Tokens.ts: ${com} vars com token, ${sem} sem`);

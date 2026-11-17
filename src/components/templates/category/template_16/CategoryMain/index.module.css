@@ -168,7 +168,7 @@
   align-items: center;
   height: 44px;
   padding: 0 8px;
-  color: var(--cat-main-accent, var(--background-primary-color, #5b4bdb));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #5b4bdb));
   font-size: 14px;
   font-weight: 800;
   text-decoration: underline;
@@ -328,7 +328,7 @@
 .linkBtn {
   align-self: flex-start;
   min-height: 36px;
-  color: var(--cat-main-accent, var(--background-primary-color, #5b4bdb));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #5b4bdb));
   font-size: 14px;
   font-weight: 800;
   text-decoration: underline;
@@ -467,7 +467,7 @@
 }
 
 .emptyCount {
-  color: var(--cat-main-accent, var(--background-primary-color, #5b4bdb));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #5b4bdb));
   font-size: 15px;
   font-weight: 800;
 }
@@ -615,7 +615,7 @@
 }
 
 .accSum {
-  color: var(--cat-main-accent, var(--background-primary-color, #5b4bdb));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #5b4bdb));
   font-family: var(--cat-main-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
   font-size: 14px;
   font-weight: 800;

@@ -95,7 +95,7 @@
 .count {
   padding: 5px 16px;
   background-color: var(--cat-title-accent, var(--background-tertiary-color, #d9f99d));
-  color: var(--cat-title-bg, var(--background-secundary-color, #0b1b33));
+  color: var(--text-tertiary-color, #0b1b33);
   clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
   font-family: var(--cat-title-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 16px;
@@ -144,7 +144,7 @@
 
 .chipActive {
   background-color: var(--cat-title-accent, var(--background-tertiary-color, #d9f99d));
-  color: var(--cat-title-bg, var(--background-secundary-color, #0b1b33));
+  color: var(--text-tertiary-color, #0b1b33);
 }
 .chipActive .chipQty {
   color: inherit;

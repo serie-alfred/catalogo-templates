@@ -67,7 +67,7 @@
   gap: 4px;
   height: 44px;
   padding: 0 8px;
-  color: var(--brands-accent, var(--background-primary-color, #1340d8));
+  color: var(--brands-accent, var(--background-primary-color-safe, #1340d8));
   font-size: 15px;
   font-weight: 700;
 }

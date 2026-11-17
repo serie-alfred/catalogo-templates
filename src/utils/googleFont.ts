@@ -1,8 +1,19 @@
 import { LAYOUTS, type LayoutSection } from '@/data/layoutData';
 import { ehFonteDoSistema } from './fontCatalog';
 
-/** Os pesos que a loja baixa desde sempre (os templates só usam regular e bold). */
-const PESOS_PADRAO = [400, 700];
+/**
+ * Os pesos que o tema gerado baixa: 300–900, normal e itálico (`GOOGLE_FONT_SPEC` do
+ * generator). Era 400;700 com a nota "os templates só usam regular e bold", mas as
+ * réplicas têm ~1.300 declarações de outros pesos (500, 600, 800, 900) e itálico: o
+ * canvas desenhava o 500 com a face 400 e o 800 com a 700, e a loja mostrava outra
+ * coisa. O Google ignora o que a família não tem. Revisão das variáveis de 17/11, D4-04.
+ */
+const PESOS_PADRAO = [300, 400, 500, 600, 700, 800, 900];
+
+/** `ital,wght@0,300;…;1,900`: os pesos padrão nos dois estilos. */
+const EIXO_PADRAO =
+  'ital,wght@' +
+  [0, 1].flatMap(ital => PESOS_PADRAO.map(p => `${ital},${p}`)).join(';');
 
 /**
  * Famílias que aparecem como padrão no `variablesSchema` e NÃO estão no Google Fonts: fontes
@@ -53,7 +64,7 @@ export function loadGoogleFont(
   link.href = `https://fonts.googleapis.com/css2?family=${family.replace(
     / /g,
     '+'
-  )}:wght@${lista.join(';')}&display=swap`;
+  )}:${padrao ? EIXO_PADRAO : `wght@${lista.join(';')}`}&display=swap`;
   doc.head.appendChild(link);
 }
 
@@ -114,4 +125,30 @@ export function loadFontNamePreview(family: string, doc: Document = document) {
     '+'
   )}&text=${encodeURIComponent(family)}&display=swap`;
   doc.head.appendChild(link);
+}
+
+/**
+ * Espera as folhas de fonte do Google já injetadas no documento carregarem (ou
+ * falharem), com teto. O `document.fonts.ready` sozinho não basta: uma face cuja
+ * folha ainda não chegou não está pendente, então ele resolve na hora e a captura
+ * sai na fonte de fallback. Revisão das variáveis de 17/11, D4-05.
+ */
+export function folhasDeFonteCarregadas(
+  doc: Document = document,
+  tetoMs = 5000
+): Promise<void> {
+  const links = [
+    ...doc.querySelectorAll<HTMLLinkElement>('link[id^="preview-font-"]'),
+  ].filter(l => !l.sheet);
+  const cada = links.map(
+    l =>
+      new Promise<void>(resolve => {
+        l.addEventListener('load', () => resolve(), { once: true });
+        l.addEventListener('error', () => resolve(), { once: true });
+      })
+  );
+  return Promise.race([
+    Promise.all(cada).then(() => undefined),
+    new Promise<void>(resolve => setTimeout(resolve, tetoMs)),
+  ]);
 }

@@ -59,7 +59,7 @@
 .mainCategory14 [data-role=spot-discount],
 .mainCategory14 [data-role=spot-buy] {
   background-color: var(--cat-main-accent, var(--background-primary-color, #e4002b));
-  color: var(--cat-main-bg, #ffffff);
+  color: var(--text-color-base, #ffffff);
 }
 .mainCategory14 [data-role=spot-price] {
   color: var(--cat-main-text, var(--text-primary-color, #0b1b33));
@@ -301,7 +301,7 @@
 .sizeOn {
   border-color: transparent !important;
   background-color: var(--cat-main-accent, var(--background-primary-color, #e4002b)) !important;
-  color: var(--cat-main-bg, #ffffff) !important;
+  color: var(--text-color-base, #ffffff) !important;
 }
 .results {
   display: flex;
@@ -387,7 +387,7 @@
 
 .pageNext {
   background-color: var(--cat-main-accent, var(--background-primary-color, #e4002b));
-  color: var(--cat-main-bg, #ffffff);
+  color: var(--text-color-base, #ffffff);
   clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
 }
 
@@ -440,7 +440,7 @@
   align-self: flex-start;
   padding: 4px 16px;
   background-color: var(--cat-main-accent, var(--background-primary-color, #e4002b));
-  color: var(--cat-main-bg, #ffffff);
+  color: var(--text-color-base, #ffffff);
   font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 14px;
   font-style: italic;
@@ -489,7 +489,7 @@
 .emptyPrimary {
   height: 56px;
   background-color: var(--cat-main-accent, var(--background-primary-color, #e4002b));
-  color: var(--cat-main-bg, #ffffff) !important;
+  color: var(--text-color-base, #ffffff) !important;
   clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
 }
 
@@ -625,7 +625,7 @@
 
 .panelApply {
   background-color: var(--cat-main-accent, var(--background-primary-color, #e4002b)) !important;
-  color: var(--cat-main-bg, #ffffff) !important;
+  color: var(--text-color-base, #ffffff) !important;
   clip-path: polygon(12px 0, 100% 0, calc(100% - 12px) 100%, 0 100%);
 }
 

@@ -65,13 +65,76 @@
   background: var(--ed-bg-02);
 }
 
+.quadro {
+  position: relative;
+  display: block;
+  aspect-ratio: 744 / 401;
+  overflow: hidden;
+  background: var(--ed-bg-01);
+}
+
+/* O skeleton: um brilho largo e lento cruzando o quadro. Some quando a imagem
+   entra, junto com ela. */
+.quadro::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 80%
+  );
+  background-size: 220% 100%;
+  animation: brilho 1.4s ease-in-out infinite;
+  transition: opacity 0.4s ease;
+}
+
+.quadro[data-pronta]::before {
+  opacity: 0;
+  animation: none;
+}
+
+@keyframes brilho {
+  from {
+    background-position: 120% 0;
+  }
+  to {
+    background-position: -120% 0;
+  }
+}
+
 .mosaico img {
+  position: relative;
   display: block;
   width: 100%;
-  height: auto;
-  aspect-ratio: 744 / 401;
+  height: 100%;
   object-fit: cover;
-  background: var(--ed-bg-01);
+  opacity: 0;
+  transform: scale(1.04);
+  filter: blur(4px);
+  transition:
+    opacity 0.45s ease,
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.45s ease;
+}
+
+.quadro[data-pronta] img {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quadro::before {
+    animation: none;
+  }
+
+  .mosaico img {
+    transform: none;
+    filter: none;
+    transition: opacity 0.2s linear;
+  }
 }
 
 .info {

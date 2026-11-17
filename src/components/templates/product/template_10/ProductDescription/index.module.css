@@ -74,7 +74,7 @@
 
 .tabOn {
   border-bottom: 3px solid var(--prod-desc-accent, var(--background-primary-color, #1340d8));
-  color: var(--prod-desc-accent, var(--background-primary-color, #1340d8));
+  color: var(--prod-desc-accent, var(--background-primary-color-safe, #1340d8));
   font-weight: 800;
 }
 
@@ -135,7 +135,7 @@
   height: auto;
 }
 .html a {
-  color: var(--prod-desc-accent, var(--background-primary-color, #1340d8));
+  color: var(--prod-desc-accent, var(--background-primary-color-safe, #1340d8));
 }
 
 .extra {
@@ -177,7 +177,7 @@
   gap: 10px;
 }
 .boxList svg {
-  color: var(--prod-desc-accent, var(--background-primary-color, #1340d8));
+  color: var(--prod-desc-accent, var(--background-primary-color-safe, #1340d8));
 }
 
 .info {
@@ -189,7 +189,7 @@
   background-color: color-mix(in srgb, var(--prod-desc-accent, var(--background-primary-color, #1340d8)) 8%, #ffffff);
 }
 .info svg {
-  color: var(--prod-desc-accent, var(--background-primary-color, #1340d8));
+  color: var(--prod-desc-accent, var(--background-primary-color-safe, #1340d8));
 }
 
 .infoCopy {

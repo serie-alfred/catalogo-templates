@@ -208,7 +208,7 @@
 
 .brand {
   align-self: flex-start;
-  color: var(--pdp-button-bg, var(--background-primary-color, #0e6b73));
+  color: var(--pdp-button-bg, var(--background-primary-color-safe, #0e6b73));
   font-size: 14px;
   font-weight: 700;
 }
@@ -240,7 +240,7 @@
 .stars {
   display: flex;
   gap: 2px;
-  color: var(--pdp-button-bg, var(--background-primary-color, #0e6b73));
+  color: var(--pdp-button-bg, var(--background-primary-color-safe, #0e6b73));
 }
 
 .ratingAvg {
@@ -310,7 +310,7 @@
 
 .pixIcon {
   display: flex;
-  color: var(--pdp-button-bg, var(--background-primary-color, #0e6b73));
+  color: var(--pdp-button-bg, var(--background-primary-color-safe, #0e6b73));
 }
 .group {
   display: flex;
@@ -371,7 +371,7 @@
 
 .notifyLink {
   display: inline;
-  color: var(--pdp-button-bg, var(--background-primary-color, #0e6b73));
+  color: var(--pdp-button-bg, var(--background-primary-color-safe, #0e6b73));
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -427,7 +427,7 @@
 }
 
 .favOn svg {
-  color: var(--pdp-button-bg, var(--background-primary-color, #0e6b73));
+  color: var(--pdp-button-bg, var(--background-primary-color-safe, #0e6b73));
 }
 
 .buy {
@@ -547,7 +547,7 @@
 
 .shipFree {
   flex: none;
-  color: var(--pdp-button-bg, var(--background-primary-color, #0e6b73));
+  color: var(--pdp-button-bg, var(--background-primary-color-safe, #0e6b73));
   font-weight: 700;
 }
 .accordions {

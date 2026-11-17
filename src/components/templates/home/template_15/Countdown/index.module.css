@@ -87,7 +87,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  color: var(--countdown-accent, var(--background-primary-color, #7a5f1c));
+  color: var(--countdown-accent, var(--background-primary-color-safe, #7a5f1c));
 }
 
 .rule {

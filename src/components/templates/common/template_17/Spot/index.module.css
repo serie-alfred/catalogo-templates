@@ -171,7 +171,7 @@
   outline-offset: 2px;
 }
 .favorite[aria-pressed=true] {
-  color: var(--spot-btn-bg, var(--background-primary-color, #0e6b73));
+  color: var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73));
 }
 .info {
   display: flex;
@@ -196,7 +196,7 @@
 .rating {
   display: flex;
   align-items: center;
-  color: var(--spot-btn-bg, var(--background-primary-color, #0e6b73));
+  color: var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73));
 }
 
 .stars {
@@ -255,7 +255,7 @@
 
 .buy {
   border: 1.5px solid var(--spot-btn-bg, var(--background-primary-color, #0e6b73)) !important;
-  color: var(--spot-btn-bg, var(--background-primary-color, #0e6b73));
+  color: var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73));
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 

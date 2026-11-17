@@ -53,7 +53,7 @@
   right: 6px;
 }
 .productShelf15 [data-role=spot-brand] {
-  color: var(--showcase-accent, var(--background-primary-color, #7a5f1c));
+  color: var(--showcase-accent, var(--background-primary-color-safe, #7a5f1c));
 }
 .productShelf15 [data-role=spot] h3 {
   font-size: 25px;
@@ -95,7 +95,7 @@
 }
 
 .eyebrow {
-  color: var(--showcase-accent, var(--background-primary-color, #7a5f1c));
+  color: var(--showcase-accent, var(--background-primary-color-safe, #7a5f1c));
 }
 
 .title {

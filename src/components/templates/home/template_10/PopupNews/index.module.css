@@ -153,7 +153,7 @@
 }
 
 .couponCode {
-  color: var(--popup-button-bg, var(--background-primary-color, #1340d8));
+  color: var(--popup-button-bg, var(--background-primary-color-safe, #1340d8));
   font-size: 24px;
   font-weight: 800;
   letter-spacing: 0.06em;

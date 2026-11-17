@@ -172,7 +172,7 @@
   font-weight: 800;
 }
 .about .more {
-  color: var(--cat-desc-accent, var(--background-primary-color, #1340d8));
+  color: var(--cat-desc-accent, var(--background-primary-color-safe, #1340d8));
 }
 
 @container (max-width: 960px) {
