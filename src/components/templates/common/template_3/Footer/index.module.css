@@ -505,7 +505,7 @@ details.col.colList {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
+  background: var(--footer-chip-bg, #ffffff);
 }
 
 .payChipLbl {
@@ -598,9 +598,9 @@ details.col.colList {
   align-items: center;
   gap: 10px;
   padding: 7px 13px 7px 11px;
-  border: 1px solid var(--text-tertiary-color);
+  border: 1px solid color-mix(in srgb, var(--footer-legal-text, var(--text-color-secundary, rgba(255,255,255,0.92))) 15%, transparent);
   border-radius: 999px;
-  /* color: rgba(255,255,255,.9); */
+  color: color-mix(in srgb, var(--footer-legal-text, var(--text-color-secundary, rgba(255,255,255,0.92))) 97%, transparent);
   font-size: 11px;
   letter-spacing: .04em;
   transition: border-color .25s cubic-bezier(0.2, 0.7, 0.2, 1), color .25s cubic-bezier(0.2, 0.7, 0.2, 1), background .25s cubic-bezier(0.2, 0.7, 0.2, 1);
@@ -614,10 +614,11 @@ details.col.colList {
   line-height: 1;
   display: inline-flex;
   align-items: baseline;
+  color: var(--footer-legal-text, var(--text-color-secundary, rgba(255,255,255,0.92)));
 }
 
 .legalPlatformBrand span {
-  color: var(--footer-legal-text);
+  color: var(--footer-legal-text, var(--text-color-secundary, rgba(255,255,255,0.92)));
   margin: 0 1px;
   font-weight: 600;
   letter-spacing: -.04em;
@@ -626,7 +627,7 @@ details.col.colList {
 .legalPlatformSep {
   width: 1px;
   height: 11px;
-  background: var(--text-tertiary-color);
+  background: color-mix(in srgb, var(--footer-legal-text, var(--text-color-secundary, rgba(255,255,255,0.92))) 22%, transparent);
   display: inline-block;
 }
 
@@ -636,24 +637,20 @@ details.col.colList {
   font-weight: 500;
   letter-spacing: .16em;
   text-transform: uppercase;
-  /* color: rgba(255,255,255,.55); */
+  color: color-mix(in srgb, var(--footer-legal-text, var(--text-color-secundary, rgba(255,255,255,0.92))) 60%, transparent);
   line-height: 1;
   transition: color .25s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .legalPlatform:hover {
-  border-color: var(--background-tertiary-color);
-  background: rgba(231,56,136,.07);
-}
-
-.legalPlatform:hover .legalPlatformRole {
-  color: var(--background-tertiary-color);
+  border-color: var(--footer-accent, var(--background-secundary-color, #e60f73));
+  background: color-mix(in srgb, var(--footer-accent, var(--background-secundary-color, #e60f73)) 7%, transparent);
 }
 
 .legalPlatform:focus-visible {
   outline: none;
   border-color: var(--footer-accent, var(--background-secundary-color, #e60f73));
-  box-shadow: 0 0 0 3px rgba(231,56,136,.18);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--footer-accent, var(--background-secundary-color, #e60f73)) 18%, transparent);
 }
 
 
@@ -682,7 +679,7 @@ details.col.colList {
   .benefit {
     scroll-snap-align: start;
     padding: 14px 16px;
-    border: 1px solid var(--background-tertiary-color);
+    border: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #000000)) 7%, transparent);
     border-radius: 14px;
     background: var(--footer-bg, var(--background-footer, #ffffff));
     gap: 10px;

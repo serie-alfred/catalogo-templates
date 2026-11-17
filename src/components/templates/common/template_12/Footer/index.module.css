@@ -6,7 +6,7 @@
 .footer12 {
   width: 100%;
   padding-top: 24px;
-  background-color: #fbf6f3;
+  background-color: var(--footer-page-bg, #fbf6f3);
   color: var(--footer-text, var(--text-color-footer, #3b1f33));
   font-family: var(--footer-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   line-height: normal;
@@ -114,7 +114,7 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--footer-surface-bg, #ffffff);
   color: var(--footer-text, var(--text-primary-color, #3b1f33));
 }
 .column {
@@ -190,7 +190,7 @@
 .payment {
   padding: 8px 14px;
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--footer-surface-bg, #ffffff);
   color: var(--footer-text, var(--text-primary-color, #3b1f33));
 }
 
@@ -207,8 +207,8 @@
   height: 40px;
   overflow: hidden;
   border-radius: 12px;
-  background-color: #ffffff;
-  color: color-mix(in srgb, var(--footer-text, var(--text-primary-color, #3b1f33)) 80%, #ffffff);
+  background-color: var(--footer-surface-bg, #ffffff);
+  color: color-mix(in srgb, var(--footer-text, var(--text-primary-color, #3b1f33)) 80%, var(--footer-surface-bg, #ffffff));
   font-size: 11px;
   font-weight: 700;
 }
@@ -271,7 +271,7 @@
     flex-direction: column;
     padding: 4px 16px;
     border-radius: 24px;
-    background-color: #ffffff;
+    background-color: var(--footer-surface-bg, #ffffff);
     color: var(--footer-text, var(--text-primary-color, #3b1f33));
   }
   .column {
@@ -312,7 +312,7 @@
     gap: 4px;
   }
   .contactNote {
-    color: color-mix(in srgb, var(--footer-text, var(--text-primary-color, #3b1f33)) 80%, #ffffff);
+    color: color-mix(in srgb, var(--footer-text, var(--text-primary-color, #3b1f33)) 80%, var(--footer-surface-bg, #ffffff));
   }
   .contactLine {
     display: flex;

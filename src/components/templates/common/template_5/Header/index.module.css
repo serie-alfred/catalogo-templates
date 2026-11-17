@@ -143,10 +143,8 @@
   color: var(--header-text, var(--text-color-base, #1a1f2b));
 }
 
-/* As barras do "SERIE//A" (sem logo) não usam a cor de destaque: numa paleta em que ela é
-   a do fundo do header (os dois escuros, como na da família 09), as barras sumiam. */
 .wordmarkAccent {
-  opacity: 0.55;
+  color: var(--header-accent, var(--background-secundary-color, #2f9e57));
 }
 
 .wordmarkImg {
@@ -240,16 +238,10 @@
   cursor: pointer;
   color: inherit;
 }
-/* Hover e menu aberto sem trocar a cor do texto: com a cor de destaque, numa paleta em que
-   ela é a do fundo da barra (os dois escuros), o item sumia. Fundo tingido pela cor do texto;
-   o aberto ganha também o traço embaixo. */
 .navItem > button:hover,
 .navItem > a:hover,
 .navItem > button[aria-expanded=true] {
-  background: color-mix(in srgb, currentColor 9%, transparent);
-}
-.navItem > button[aria-expanded=true] {
-  box-shadow: inset 0 -2px 0 currentColor;
+  color: var(--header-accent, var(--background-secundary-color, #2f9e57));
 }
 .navItem.navItemSale > a {
   color: var(--h5-danger);
@@ -310,9 +302,7 @@
   font-size: 14px;
 }
 .menuLinks a:hover {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
+  color: var(--header-accent, var(--background-secundary-color, #2f9e57));
 }
 .menuLinks a:first-child {
   font-weight: 650;
@@ -384,7 +374,8 @@
   font-size: 14px;
 }
 .simpleGrid a:hover {
-  border-color: currentColor;
+  color: var(--header-accent, var(--background-secundary-color, #2f9e57));
+  border-color: var(--header-accent, var(--background-secundary-color, #2f9e57));
 }
 
 /* Clique fora do painel fecha a busca — indicar que é clicável. .searchPanel
@@ -431,6 +422,8 @@
 }
 .searchField:focus {
   outline: none;
+  border-color: var(--header-accent, var(--background-secundary-color, #2f9e57));
+  box-shadow: 0 0 0 3px rgba(47, 158, 87, 0.18);
 }
 
 .iconBtn {

@@ -146,7 +146,7 @@
   height: 52px;
   border: 2px solid var(--header-nav-bg, var(--background-secundary-color, #1340d8));
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--header-field-bg, #ffffff);
 }
 
 .searchField {

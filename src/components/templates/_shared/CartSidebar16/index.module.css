@@ -81,7 +81,7 @@
   max-width: 100%;
   border-left: 2px solid var(--cart-text, var(--text-primary-color, #2a2350));
   border-radius: 28px 0 0 28px;
-  background-color: #fffbf2;
+  background-color: var(--cart-bg, #fffbf2);
   transform: translateX(100%);
   transition: transform 0.25s ease;
 }
@@ -95,7 +95,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 22px 24px;
-  border-bottom: 2px dashed color-mix(in srgb, var(--cart-text, var(--text-primary-color, #2a2350)) 18%, #fffbf2);
+  border-bottom: 2px dashed color-mix(in srgb, var(--cart-text, var(--text-primary-color, #2a2350)) 18%, var(--cart-bg, #fffbf2));
 }
 
 .title {
@@ -146,7 +146,7 @@
   flex: none;
   gap: 16px;
   padding: 16px 0;
-  border-bottom: 2px dashed color-mix(in srgb, var(--cart-text, var(--text-primary-color, #2a2350)) 18%, #fffbf2);
+  border-bottom: 2px dashed color-mix(in srgb, var(--cart-text, var(--text-primary-color, #2a2350)) 18%, var(--cart-bg, #fffbf2));
 }
 .line:nth-child(even) .lineImage {
   background-color: #e8e3f3;
@@ -186,7 +186,7 @@ a.lineName:hover {
 }
 
 .lineVariation {
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #2a2350)) 70%, #fffbf2);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #2a2350)) 70%, var(--cart-bg, #fffbf2));
   font-size: 13px;
   font-weight: 600;
 }
@@ -239,7 +239,7 @@ a.lineName:hover {
   align-self: flex-start;
   gap: 6px;
   min-height: 32px;
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #2a2350)) 70%, #fffbf2) !important;
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #2a2350)) 70%, var(--cart-bg, #fffbf2)) !important;
   font-size: 13px !important;
   font-weight: 700 !important;
 }
@@ -254,7 +254,7 @@ a.lineName:hover {
   margin: 0 16px 16px;
   padding: 20px;
   border-radius: 24px;
-  background-color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #2a2350)) 7%, #fffbf2);
+  background-color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #2a2350)) 7%, var(--cart-bg, #fffbf2));
 }
 
 .summaryRow {
@@ -275,7 +275,7 @@ a.lineName:hover {
 }
 
 .note {
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #2a2350)) 70%, #fffbf2);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #2a2350)) 70%, var(--cart-bg, #fffbf2));
   font-size: 13px;
   font-weight: 600;
 }

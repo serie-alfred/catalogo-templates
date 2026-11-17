@@ -920,7 +920,7 @@ terracota #C07A5A) = hex inline. */
 
 .drawerAccount {
   padding: 12px 18px;
-  background: #f5f0e8;
+  background: var(--header-account-bg, #f5f0e8);
   margin-top: 8px;
 }
 

@@ -77,7 +77,7 @@
   flex-direction: column;
   width: 460px;
   max-width: 100%;
-  background-color: #ffffff;
+  background-color: var(--cart-bg, #ffffff);
   box-shadow: -1px 0 3px rgba(16, 24, 40, 0.08);
   transform: translateX(100%);
   transition: transform 0.3s ease;
@@ -92,7 +92,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 16px 16px 16px 24px;
-  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 11%, var(--cart-bg, #ffffff));
 }
 
 .title {
@@ -111,7 +111,7 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background-color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 5%, #ffffff);
+  background-color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 5%, var(--cart-bg, #ffffff));
 }
 
 .list {
@@ -127,7 +127,7 @@
   display: flex;
   gap: 12px;
   padding: 16px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 11%, var(--cart-bg, #ffffff));
 }
 
 .lineImage {
@@ -173,11 +173,11 @@
   width: 44px;
   height: 44px;
   margin: -10px -10px 0 0;
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 74%, var(--cart-bg, #ffffff));
 }
 
 .lineVariation {
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 74%, var(--cart-bg, #ffffff));
   font-size: 12px;
 }
 
@@ -192,7 +192,7 @@
   display: flex;
   align-items: center;
   height: 46px;
-  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 20%, var(--cart-bg, #ffffff));
   border-radius: 8px;
 }
 .qty button {
@@ -225,8 +225,8 @@
   flex-direction: column;
   gap: 12px;
   padding: 16px 24px 20px;
-  border-top: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 11%, #ffffff);
-  background-color: #ffffff;
+  border-top: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 11%, var(--cart-bg, #ffffff));
+  background-color: var(--cart-bg, #ffffff);
 }
 
 .subtotal {
@@ -247,7 +247,7 @@
 }
 
 .note {
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #101828)) 74%, var(--cart-bg, #ffffff));
   font-size: 13px;
 }
 
@@ -267,7 +267,7 @@
   height: 48px;
   border: 2px solid var(--cart-button-bg, var(--background-primary-color, #1340d8));
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--cart-bg, #ffffff);
   color: var(--cart-button-bg, var(--background-primary-color, #1340d8));
   font-size: 15px;
   font-weight: 800;

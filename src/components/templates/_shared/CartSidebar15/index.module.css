@@ -89,7 +89,7 @@
   flex-direction: column;
   width: 460px;
   max-width: 100%;
-  background-color: #faf8f4;
+  background-color: var(--cart-bg, #faf8f4);
   transform: translateX(100%);
   transition: transform 0.3s ease;
 }
@@ -102,7 +102,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 28px 32px 24px;
-  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, #faf8f4);
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, var(--cart-bg, #faf8f4));
 }
 
 .headText {
@@ -117,7 +117,7 @@
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, var(--cart-bg, #faf8f4));
 }
 
 .title {
@@ -133,7 +133,7 @@
   justify-content: center;
   width: 50px;
   height: 50px;
-  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, #faf8f4);
+  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, var(--cart-bg, #faf8f4));
 }
 .close:hover {
   opacity: 0.8;
@@ -148,7 +148,7 @@
   display: flex;
   gap: 20px;
   padding: 28px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, #faf8f4);
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, var(--cart-bg, #faf8f4));
 }
 
 .lineImage {
@@ -178,7 +178,7 @@
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, var(--cart-bg, #faf8f4));
   font-size: 10px;
 }
 
@@ -192,7 +192,7 @@
 }
 
 .lineVariation {
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, var(--cart-bg, #faf8f4));
   font-size: 12px;
 }
 
@@ -207,7 +207,7 @@
 .qty {
   display: flex;
   align-items: center;
-  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, #faf8f4);
+  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, var(--cart-bg, #faf8f4));
 }
 .qty button {
   display: flex;
@@ -236,7 +236,7 @@
 .remove {
   align-self: flex-start;
   min-height: 32px;
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, var(--cart-bg, #faf8f4));
   font-size: 12px;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -250,8 +250,8 @@
   flex-direction: column;
   gap: 10px;
   padding: 24px 32px 28px;
-  border-top: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, #faf8f4);
-  background-color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 5%, #faf8f4);
+  border-top: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 14%, var(--cart-bg, #faf8f4));
+  background-color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 5%, var(--cart-bg, #faf8f4));
 }
 
 .subtotal {
@@ -275,7 +275,7 @@
 }
 
 .note {
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #1a1714)) 66%, var(--cart-bg, #faf8f4));
   font-size: 12px;
 }
 

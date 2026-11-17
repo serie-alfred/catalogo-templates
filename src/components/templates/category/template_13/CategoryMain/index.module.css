@@ -183,6 +183,17 @@
   border-top: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-color-secundary, #f4f4f0)) 16%, var(--cat-main-bg, var(--background-secundary-color, #0d0d0d)));
 }
 
+/* filtros fixos ao rolar (só na coluna lateral do desktop) */
+@container (min-width: 961px) {
+  .aside {
+    position: sticky;
+    top: 1rem;
+    align-self: flex-start;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+}
+
 .facet {
   display: flex;
   flex-direction: column;

@@ -123,8 +123,8 @@
 }
 
 .nlButton:hover:not(:disabled) {
-  /* #a8865a não é mix exato do accent — converter mudaria a cor do design */
-  background: #a8865a;
+  /* hover derivado do fundo do botão (90% + preto ≈ #a8865a no padrão) */
+  background: color-mix(in srgb, var(--footer-button-bg, var(--background-primary-color, #b8976a)) 90%, #000);
 }
 
 
@@ -395,7 +395,7 @@ a.credit:hover { opacity: .7; }
 }
 
 .nlButtonM:hover:not(:disabled) {
-  background: #a8865a;
+  background: color-mix(in srgb, var(--footer-button-bg, var(--background-primary-color, #b8976a)) 90%, #000);
 }
 
 

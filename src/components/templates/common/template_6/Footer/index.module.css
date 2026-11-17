@@ -93,12 +93,12 @@
   flex: 1 1 0;
   min-width: 0;
   padding: 0 16px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--footer-input-border, #e0e0e0);
   border-radius: 120px;
   background: var(--footer-panel, #ffffff);
   font-family: var(--footer-font, var(--font-secundary, 'Jost', sans-serif));
   font-size: 14px;
-  color: var(--footer-text, var(--text-color-footer, #212721));
+  color: var(--footer-input-text, var(--footer-text, var(--text-color-footer, #212721)));
 }
 @container (max-width: 768px) {
   .field {
@@ -108,11 +108,11 @@
   }
 }
 .field::placeholder {
-  color: #828282;
+  color: var(--footer-input-text, #828282);
 }
 .field:hover {
   outline: none;
-  background-color: #e0e0e0;
+  background-color: var(--footer-input-border, #e0e0e0);
 }
 .field:focus-visible {
   outline: none;
