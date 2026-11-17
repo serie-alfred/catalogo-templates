@@ -3,6 +3,7 @@ import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import type { Platform } from '@/types/platform';
 
 import { plataformaTemLp, sanitizeSelections } from './platformCompat';
+import { cabeNaLpDaPlataforma } from './previewRender';
 
 /**
  * O modo LP do /gerador: uma área à parte, como o checkout, em que o usuário
@@ -89,7 +90,8 @@ export function sanitizeLp(value: unknown, platform: Platform | null): LpState {
       const item = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
       return (
         !!item?.pagina.includes('home') &&
-        (!filtra || item.platforms.includes(filtra))
+        (!filtra || item.platforms.includes(filtra)) &&
+        cabeNaLpDaPlataforma(item, filtra)
       );
     }),
   };

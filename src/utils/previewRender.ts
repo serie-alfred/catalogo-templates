@@ -73,13 +73,28 @@ export function slugToPagina(slug: string): string | null {
  * categorias que abriam vazias.
  */
 export function isItemAvailable(
-  item: { pagina: Pagina[]; platforms: Platform[] },
+  item: { pagina: Pagina[]; platforms: Platform[]; override?: boolean },
   selectedPage: string,
-  platform: Platform | null
+  platform: Platform | null,
+  naLp = false
 ): boolean {
   if (!platform) return false;
+  if (naLp && !cabeNaLpDaPlataforma(item, platform)) return false;
   return (
     item.pagina.includes(selectedPage as Pagina) &&
     item.platforms.includes(platform)
   );
+}
+
+/**
+ * Na LP da VTEX, a página é montada pela receita do CMS (seções com `path`), e um
+ * override (a TextArea, que troca um componente nativo) não tem como entrar nela: o
+ * export descartava a seção em silêncio. Por isso ela nem aparece para a LP VTEX.
+ * Revisão das variáveis de 17/11, D8-05.
+ */
+export function cabeNaLpDaPlataforma(
+  item: { override?: boolean },
+  platform: Platform | null
+): boolean {
+  return !(platform === 'VTEX' && item.override);
 }

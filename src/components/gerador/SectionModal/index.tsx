@@ -27,7 +27,9 @@ export default function SectionModal({ onClose }: { onClose: () => void }) {
     selectedPage,
     platform,
     toggleSelection,
+    editorMode,
   } = useLayout();
+  const naLp = editorMode === 'lp';
 
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -94,6 +96,7 @@ export default function SectionModal({ onClose }: { onClose: () => void }) {
                 <SelectSection
                   selectedPage={selectedPage}
                   platform={platform}
+                  naLp={naLp}
                   activeLayoutKey={focusedKey}
                   setActiveLayoutKey={setFocusedKey}
                 />
@@ -110,6 +113,7 @@ export default function SectionModal({ onClose }: { onClose: () => void }) {
                   }
                   selectedPage={selectedPage}
                   platform={platform}
+                  naLp={naLp}
                 />
               </ScrollArea>
             </div>

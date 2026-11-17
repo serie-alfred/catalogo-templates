@@ -12,6 +12,8 @@ interface SelectSectionProps {
   setActiveLayoutKey: (key: LayoutKey) => void;
   selectedPage: string;
   platform: Platform | null;
+  /** Modo LP: some o que a LP da plataforma não monta (ver cabeNaLpDaPlataforma). */
+  naLp?: boolean;
 }
 
 /**
@@ -26,6 +28,7 @@ export default function SelectSection({
   setActiveLayoutKey,
   selectedPage,
   platform,
+  naLp = false,
 }: SelectSectionProps) {
   const entries = Object.entries(LAYOUTS) as [LayoutKey, LayoutSection][];
 
@@ -34,7 +37,7 @@ export default function SelectSection({
       layoutKey,
       name: section.name,
       count: section.items.filter(item =>
-        isItemAvailable(item, selectedPage, platform)
+        isItemAvailable(item, selectedPage, platform, naLp)
       ).length,
     }))
     .filter(tab => tab.count > 0);

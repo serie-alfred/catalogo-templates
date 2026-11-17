@@ -56,6 +56,11 @@ import type { EstadoDoEditor } from '@/types/estadoEditor';
 import { abaSemTrabalho, estadoDaAba } from '@/utils/editorStorage';
 import { avisarPreviewAtualizado } from '@/utils/previewAoVivo';
 import { confirmar } from '@/components/gerador/ConfirmDialog/confirmar';
+import {
+  folhasDeFonteCarregadas,
+  loadComponentFonts,
+  loadGoogleFont,
+} from '@/utils/googleFont';
 
 /** Os destinos do rail de navegação do editor: os quatro do Figma e o
  *  "Por template" (escolher uma família inteira, utils/templatesCompletos.ts). */
@@ -140,6 +145,10 @@ async function waitForImages(root: HTMLElement) {
 const trilhaDe = (platform: Platform) =>
   platform === 'Wake 2.0' ? 'wake' : platform.toLowerCase();
 
+/** O valor pode ir ao tema como declaração CSS (não vazio, sem `;{}<>`). */
+export const valorDeVariavelValido = (value: string): boolean =>
+  !!value.trim() && !/[;{}<>]/.test(value);
+
 function pickChangedVariables(
   found: LayoutItem,
   selection: LayoutSelection
@@ -160,8 +169,12 @@ function pickChangedVariables(
   const changed: Record<string, string> = {};
   for (const variable of schema) {
     const value = overrides[variable.cssVar];
-    if (value != null) {
-      changed[variable.cssVar] = value;
+    // Vazio (o campo hex apagado) não sai: no canvas o React tira a declaração e a
+    // seção herda o token, mas no tema `--x: ;` invalidava a propriedade. Valor com
+    // `;{}<>` também não: no tema fecharia a declaração e injetaria CSS. Revisão
+    // das variáveis de 17/11, D8-03 (o generator recusa o mesmo).
+    if (typeof value === 'string' && valorDeVariavelValido(value)) {
+      changed[variable.cssVar] = value.trim();
     }
   }
 
@@ -426,11 +439,17 @@ export function useLayoutGenerator(conta?: ContaAtual) {
   /** Define (imutavelmente) o valor de uma variável individual de um item. */
   const setItemVariable = (uid: string, cssVar: string, value: string) => {
     setSelections(prev =>
-      prev.map(s =>
-        s.uid === uid
-          ? { ...s, variables: { ...(s.variables ?? {}), [cssVar]: value } }
-          : s
-      )
+      prev.map(s => {
+        if (s.uid !== uid) return s;
+        // Campo apagado = volta a herdar: a chave sai, como o canvas já mostrava.
+        if (!value.trim()) {
+          if (!s.variables || !(cssVar in s.variables)) return s;
+          const { [cssVar]: _apagada, ...resto } = s.variables;
+          void _apagada;
+          return { ...s, variables: resto };
+        }
+        return { ...s, variables: { ...(s.variables ?? {}), [cssVar]: value } };
+      })
     );
   };
 
@@ -1696,6 +1715,16 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       // fonte fallback: montado sob demanda, o palco não teve o tempo que
       // antes tinha (ficava montado desde o load da página). É uma regressão
       // silenciosa — ninguém confere o PNG — então não remova.
+      // As fontes do tema e as por componente só eram carregadas NESTE documento se
+      // a aba Tipografia ou o painel da seção tivessem sido abertos: o canvas é
+      // outro documento (o iframe). Carrega aqui, espera as folhas e só então o
+      // fonts.ready, que já enxerga as faces que o palco usa (D4-05).
+      [fontPrimary, fontSecondary, fontTertiary].forEach(f =>
+        loadGoogleFont(f, document)
+      );
+      loadComponentFonts(selections, document);
+      await folhasDeFonteCarregadas(document);
+      await new Promise(r => requestAnimationFrame(() => r(null)));
       await Promise.all([
         waitForImages(desktop),
         waitForImages(mobile),

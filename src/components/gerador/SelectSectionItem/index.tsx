@@ -19,6 +19,8 @@ interface SelectSectionItemProps {
   onSelect: (id: string, layoutKey: LayoutKey) => void;
   selectedPage: string;
   platform: Platform | null;
+  /** Modo LP: some o que a LP da plataforma não monta (ver cabeNaLpDaPlataforma). */
+  naLp?: boolean;
 }
 
 export default function SelectSectionItem({
@@ -27,6 +29,7 @@ export default function SelectSectionItem({
   onSelect,
   selectedPage,
   platform,
+  naLp = false,
 }: SelectSectionItemProps) {
   const imageBasePath = '/images/gerador/';
 
@@ -44,7 +47,7 @@ export default function SelectSectionItem({
     : allImages;
 
   imagesToShow = imagesToShow.filter(item =>
-    isItemAvailable(item, selectedPage, platform)
+    isItemAvailable(item, selectedPage, platform, naLp)
   );
 
   const isSelected = (id: string, layoutKey: LayoutKey) =>
