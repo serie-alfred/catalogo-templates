@@ -4,6 +4,7 @@
    estruturais (sobreposições decorativas), fora do contrato de tema. */
 
 .editorialBanner07Root {
+  background-color: var(--editorial-bg, #ffffff);
   line-height: normal;
   font-family: var(--editorial-font, var(--font-secundary, 'DM Sans', sans-serif));
   container-type: inline-size;

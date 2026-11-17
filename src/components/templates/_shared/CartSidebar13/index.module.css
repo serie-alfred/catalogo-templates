@@ -109,7 +109,7 @@
 }
 
 .count {
-  color: var(--cart-button-bg, var(--background-primary-color, #c8ff2e));
+  color: var(--cart-count-color, var(--background-primary-color, #c8ff2e));
 }
 
 .close {

@@ -93,20 +93,19 @@
 }
 
 .spot .product-wrapper .product-image .product-tag div.tag-new span {
-  background-color: var(--background-tertiary-color, #f5a623);
-  color: var(--spot-btn-text, var(--text-color-secundary, #ffffff));
+  background-color: var(--spot-new-bg, var(--background-tertiary-color, #f5a623));
+  color: var(--spot-new-text, var(--text-tertiary-color, #ffffff));
 }
 
 .spot .product-wrapper .product-image .product-tag div.tag-featured span {
-  background-color: var(--spot-btn-bg, var(--background-secundary-color, #122161));
-  color: var(--spot-btn-text, var(--text-color-secundary, #ffffff));
+  background-color: var(--spot-flag-bg, var(--background-secundary-color, #122161));
+  color: var(--spot-flag-text, var(--text-color-secundary, #ffffff));
 
 }
 
 .spot .product-wrapper .product-image .product-tag div.tag-discount span {
-  background-color: var(--spot-btn-bg, var(--background-secundary-color, #122161));
-  color: var(--spot-btn-text, var(--text-color-secundary, #ffffff));
-  filter: brightness(150%);
+  background-color: var(--spot-tag-bg, var(--background-secundary-color, #122161));
+  color: var(--spot-tag-text, var(--text-color-secundary, #ffffff));
 }
 
 .spot .product-wrapper .product-image .product-tag div span {

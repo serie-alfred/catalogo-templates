@@ -370,6 +370,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#f4f4f0", group: "Mini-carrinho", previewNote: "Aparece com o mini-carrinho aberto.", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--cart-button-bg", label: "Fundo do botão Finalizar compra", type: "color", default: "#c8ff2e", group: "Mini-carrinho", previewNote: "Aparece com o mini-carrinho aberto.", inheritsLabel: "cor primária da marca" },
         { cssVar: "--cart-button-text", label: "Texto do botão Finalizar compra", type: "color", default: "#0d0d0d", group: "Mini-carrinho", previewNote: "Aparece com o mini-carrinho aberto.", inheritsLabel: "cor de texto base" },
+        { cssVar: "--cart-count-color", label: "Texto do número da sacola", type: "color", default: "#c8ff2e", group: "Mini-carrinho", previewNote: "Aparece com o mini-carrinho aberto.", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-title-font", label: "Fonte da marca, do menu e da sacola", type: "font", default: "'Barlow Condensed', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--header-font", label: "Fonte do texto e dos submenus", type: "font", default: "'Barlow', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--cart-title-font", label: "Fonte dos títulos e botões do mini-carrinho", type: "font", default: "'Barlow Condensed', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
@@ -452,6 +453,12 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--spot-price-color", label: "Texto do preço (por)", type: "color", default: "#000000", group: "Card", inheritsLabel: "cor de texto primária" },
         { cssVar: "--spot-old-price", label: "Texto do preço (de)", type: "color", default: "#000000", group: "Card", inheritsLabel: "cor de texto primária" },
         { cssVar: "--spot-rating-text", label: "Texto das avaliações", type: "color", default: "#525252", group: "Card" },
+        { cssVar: "--spot-flag-bg", label: "Fundo da faixa Oferta", type: "color", default: "#122161", group: "Faixas", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--spot-flag-text", label: "Texto da faixa Oferta", type: "color", default: "#ffffff", group: "Faixas", inheritsLabel: "cor secundária de contraste da marca" },
+        { cssVar: "--spot-new-bg", label: "Fundo da faixa Novo", type: "color", default: "#f5a623", group: "Faixas", inheritsLabel: "cor terciária da marca" },
+        { cssVar: "--spot-new-text", label: "Texto da faixa Novo", type: "color", default: "#ffffff", group: "Faixas", inheritsLabel: "cor terciária de contraste da marca" },
+        { cssVar: "--spot-tag-bg", label: "Fundo do selo de desconto", type: "color", default: "#122161", group: "Faixas", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--spot-tag-text", label: "Texto do selo de desconto", type: "color", default: "#ffffff", group: "Faixas", inheritsLabel: "cor secundária de contraste da marca" },
         { cssVar: "--spot-font", label: "Fonte do card de produto", type: "font", default: "'Poppins', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "02", selection: "spot", key: "cardprd02g96", image: "spot/Spot02.webp", imageSource: "auto", mobile: "", title: "Card de Produto Template 2", description: "Descrição Template 2", template: "2", pagina: ["common"], component: "Spot02", path: "molecules/ProductCard02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary", "secondary"], variablesSchema: [
@@ -1447,6 +1454,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--shelf-title-font", label: "Fonte do título", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "07", selection: "showcase", key: "vtr07bru5q6r", image: "showcase/Showcase07.webp", imageSource: "design", mobile: "", title: "Vitrine Template 7", description: "Vitrine com título e link para a listagem completa", template: "7", pagina: ["home"], component: "Showcase07", path: "organisms/ProductShelfCustom07", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--shelf-bg", label: "Fundo da vitrine", type: "color", default: "#ffffff", group: "Vitrine" },
         { cssVar: "--shelf-title-color", label: "Texto do título", type: "color", default: "#2c2420", group: "Vitrine", inheritsLabel: "cor de texto primária" },
         { cssVar: "--shelf-link-color", label: "Texto do Ver todos", type: "color", default: "#8c7d74", group: "Vitrine", inheritsLabel: "cor de texto primária" },
         { cssVar: "--shelf-title-font", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
@@ -1577,6 +1585,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--banner-side-font", label: "Fonte da seção", type: "font", default: "'Roboto', Arial, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "07", selection: "banner-solo-left", key: "bnslft07b2c3", image: "bannerSideLeft/BannerSoloLeft07.webp", imageSource: "auto", mobile: "", title: "Banner com texto Template 7", description: "Banner editorial em 2 colunas: imagem com citação e coluna de texto com link", template: "7", pagina: ["home"], component: "BannerSoloLeft07", path: "molecules/EditorialBanner07", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--editorial-bg", label: "Fundo do banner", type: "color", default: "#ffffff", group: "Banner" },
         { cssVar: "--editorial-title-color", label: "Texto do título e do link", type: "color", default: "#2c2420", group: "Banner", inheritsLabel: "cor de texto primária" },
         { cssVar: "--editorial-body-color", label: "Texto do parágrafo", type: "color", default: "#6a5e58", group: "Banner", inheritsLabel: "cor de texto primária" },
         { cssVar: "--editorial-accent", label: "Texto do rótulo e do hover", type: "color", default: "#b8976a", group: "Banner", inheritsLabel: "cor primária da marca" },
@@ -2695,7 +2704,11 @@ export const LAYOUTS: Layouts = {
   productRelated: {
     name: "Produtos Relacionados",
     items: [
-      { id: "01", selection: "product-related", key: "rel01f6g7h8i", image: "productRelated/ProductRelated01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductRelated01", path: "organisms/ProductShowcase01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [] },
+      { id: "01", selection: "product-related", key: "rel01f6g7h8i", image: "productRelated/ProductRelated01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductRelated01", path: "overrides/CrossSellingShelf01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--showcase-bg", label: "Fundo da seção", type: "color", default: "#ffffff", group: "Relacionados" },
+        { cssVar: "--showcase-title-color", label: "Texto do título", type: "color", default: "#122161", group: "Relacionados", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--showcase-title-font", label: "Fonte do título", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+      ] },
       { id: "09", selection: "product-related", key: "rel09edt4n7z", image: "productRelated/ProductRelated09.webp", imageSource: "auto", mobile: "", title: "Produtos relacionados Template 9", description: "\"Você também pode gostar\": título em serifa, setas na linha do título e quatro cards por vez; no mobile, cards rolando de lado com filete de progresso", template: "9", pagina: ["product"], override: true, component: "ProductRelated09", path: "overrides/CrossSellingShelf09", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--showcase-bg", label: "Fundo da seção", type: "color", default: "#f7f4ef", group: "Relacionados" },
         { cssVar: "--showcase-title-color", label: "Texto do título", type: "color", default: "#1d1b18", group: "Relacionados", inheritsLabel: "cor de texto primária" },
@@ -2793,6 +2806,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--countdown-font", label: "Fonte do texto", type: "font", default: "'Figtree', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "10", selection: "countdown", key: "cdn10vrj3s5r", image: "countdown/Countdown10.webp", imageSource: "auto", mobile: "", title: "Contador Template 10", description: "\"Oferta relâmpago\" numa faixa de destaque com o raio e o título, texto, a contagem em caixas escuras, o CTA e a arte à direita; no mobile, arte no topo e contagem em grade de quatro", template: "10", pagina: ["home"], component: "Countdown10", path: "organisms/Countdown10", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary", "secondary"], variablesSchema: [
+        { cssVar: "--countdown-section-bg", label: "Fundo da seção", type: "color", default: "#f2f4f7", group: "Contador" },
         { cssVar: "--countdown-bg", label: "Fundo do contador", type: "color", default: "#ffcf24", group: "Contador", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--countdown-text", label: "Texto do contador", type: "color", default: "#101828", group: "Contador", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--countdown-accent", label: "Fundo do botão", type: "color", default: "#1340d8", group: "Contador", inheritsLabel: "cor primária da marca" },
