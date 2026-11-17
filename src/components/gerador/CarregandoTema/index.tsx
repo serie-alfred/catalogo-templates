@@ -29,13 +29,14 @@ const SAIDA_MS = 500;
 const MAXIMO_MS = 15000;
 
 /**
- * Liga a camada ANTES da primeira pintura quando a URL traz um tema salvo
- * (`?preview=<id>`, o "Editar" do /p): o editor leva alguns segundos para
+ * Liga a camada ANTES da primeira pintura quando há conteúdo salvo a restaurar:
+ * a URL traz um tema (`?preview=<id>`, o "Editar" do /p) ou a aba já tem seções
+ * guardadas (`sessionStorage`, o recarregar). O editor leva alguns segundos para
  * hidratar e, nesse intervalo, mostrava o canvas vazio, como se o tema tivesse
  * sumido. Mesmo truque da intro da home (home/Intro): marca o `<html>` e o CSS
  * mostra a camada, que o React depois assume.
  */
-export const SCRIPT_DO_CARREGANDO = `try{if(/[?&]preview=/.test(location.search))document.documentElement.dataset.carregandoTema=String(Date.now())}catch(e){}`;
+export const SCRIPT_DO_CARREGANDO = `try{var s=sessionStorage.getItem('layoutSelections');if(/[?&]preview=/.test(location.search)||(s&&s!=='[]'))document.documentElement.dataset.carregandoTema=String(Date.now())}catch(e){}`;
 
 /**
  * A intro da home (o E se montando com as seções de uma loja, o banner trocando
@@ -47,7 +48,7 @@ export const SCRIPT_DO_CARREGANDO = `try{if(/[?&]preview=/.test(location.search)
  * como a intro. Com movimento reduzido, só a marca parada e o texto.
  */
 export default function CarregandoTema() {
-  const { carregandoExterno } = useLayout();
+  const { carregandoExterno, hydrated } = useLayout();
   const [fase, setFase] = useState<'fora' | 'rodando' | 'saindo'>('fora');
   const inicio = useRef(0);
 
@@ -68,14 +69,15 @@ export default function CarregandoTema() {
       return;
     }
     if (fase !== 'rodando') return;
-    // Ainda não começou a buscar: o `?preview=` sai da URL só no fim do fetch.
-    const esperando = /[?&]preview=/.test(window.location.search);
+    // Ainda não restaurou a aba, ou ainda não começou a buscar o tema (o
+    // `?preview=` sai da URL só no fim do fetch).
+    const esperando = !hydrated || /[?&]preview=/.test(window.location.search);
     const resta = esperando
       ? MAXIMO_MS - (Date.now() - inicio.current)
       : Math.max(0, MINIMO_MS - (Date.now() - inicio.current));
     const t = setTimeout(() => setFase('saindo'), Math.max(0, resta));
     return () => clearTimeout(t);
-  }, [carregandoExterno, fase]);
+  }, [carregandoExterno, hydrated, fase]);
 
   // A saída tem efeito próprio: no mesmo efeito de cima, a troca para 'saindo'
   // limpava o timer que levaria a 'fora', e a camada ficava presa.

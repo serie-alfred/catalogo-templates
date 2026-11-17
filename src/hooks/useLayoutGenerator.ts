@@ -2285,6 +2285,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     estadoAtual,
     carregarEstado,
     mostrarInicio,
+    hydrated,
     carregandoExterno,
     setCarregandoExterno,
     comecarPorTemplate,
