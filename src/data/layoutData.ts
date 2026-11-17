@@ -1200,6 +1200,8 @@ export const LAYOUTS: Layouts = {
     items: [
       { id: "01", selection: "banner-side", key: "bansd014mh45", image: "bannerSide/BannerSide01.webp", imageSource: "design", mobile: "", title: "Banner Side Template 1", description: "Descrição Template 1", template: "1", pagina: ["home"], component: "BannerSide01", path: "molecules/BannerSide01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [] },
       { id: "02", selection: "banner-duplo", key: "bansdhg028e3", image: "bannerSide/BannerDuplo02.webp", imageSource: "design", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerDuplo02", path: "molecules/BannerDuplo02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--banner-duplo-bg", label: "Fundo da seção", type: "color", default: "#ffffff", group: "Banner" },
+        { cssVar: "--banner-duplo-title-color", label: "Cor do título", type: "color", default: "#000000", group: "Banner", inheritsLabel: "cor de texto primária" },
         { cssVar: "--banner-duplo-title-font", label: "Fonte do título", type: "font", default: "'Roboto', Arial, Helvetica, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "03", selection: "banner-side", key: "bansd0234nb7", image: "bannerSide/BannerSide02.webp", imageSource: "design", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerSide02", path: "molecules/BannerSide02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["tertiary"], variablesSchema: [
@@ -2127,8 +2129,10 @@ export const LAYOUTS: Layouts = {
     name: "Descrição de categoria",
     items: [
       { id: "01", selection: "category-description", key: "catdes01hp82", image: "categoryDescription/CategoryDescription01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["category"], component: "CategoryDescription01", path: "organisms/DescriptionCategory01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
-        { cssVar: "--cat-desc-text", label: "Cor do texto", type: "color", default: "#122161", group: "Texto", inheritsLabel: "cor de texto primária" },
-        { cssVar: "--cat-desc-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
+        { cssVar: "--cat-desc-title-color", label: "Cor do título", type: "color", default: "#122161", group: "Texto", inheritsLabel: "cor da descrição" },
+        { cssVar: "--cat-desc-text", label: "Cor da descrição", type: "color", default: "#122161", group: "Texto", inheritsLabel: "cor de texto primária" },
+        { cssVar: "--cat-desc-title-font", label: "Fonte do título", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte da descrição" },
+        { cssVar: "--cat-desc-font", label: "Fonte da descrição", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "06", selection: "category-description", key: "catdes06frc3", image: "categoryDescription/CategoryDescription06.webp", imageSource: "design", mobile: "", title: "Descrição de categoria Template 6", description: "Texto editorial da categoria com corte \"saiba mais\" e acordeão de dúvidas frequentes", template: "6", pagina: ["category"], component: "CategoryDescription06", path: "organisms/CategorySeoFaq06", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--plp-text", label: "Cor do texto", type: "color", default: "#212721", group: "Texto", inheritsLabel: "cor de texto primária" },
@@ -2388,6 +2392,10 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--pdp-bg", label: "Fundo da PDP", type: "color", default: "#0d0d0d", group: "PDP", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--pdp-text", label: "Texto da PDP", type: "color", default: "#f4f4f0", group: "PDP", inheritsLabel: "cor de texto secundária" },
         { cssVar: "--pdp-accent", label: "Destaque (miniatura, estrelas e seta)", type: "color", default: "#c8ff2e", group: "PDP", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--pdp-badge-bg", label: "Fundo do selo do produto", type: "color", default: "#c8ff2e", group: "PDP", inheritsLabel: "destaque" },
+        { cssVar: "--pdp-badge-text", label: "Texto do selo do produto", type: "color", default: "#0d0d0d", group: "PDP", inheritsLabel: "fundo da PDP" },
+        { cssVar: "--pdp-sku-active", label: "Cor e tamanho selecionados", type: "color", default: "#c8ff2e", group: "PDP", inheritsLabel: "destaque" },
+        { cssVar: "--pdp-sku-active-text", label: "Texto do tamanho selecionado", type: "color", default: "#0d0d0d", group: "PDP", inheritsLabel: "fundo da PDP" },
         { cssVar: "--pdp-button-bg", label: "Fundo do botão de compra", type: "color", default: "#c8ff2e", group: "Botão", inheritsLabel: "cor primária da marca" },
         { cssVar: "--pdp-button-text", label: "Texto do botão de compra", type: "color", default: "#0d0d0d", group: "Botão", inheritsLabel: "cor de texto base" },
         { cssVar: "--pdp-title-font", label: "Fonte dos títulos, do preço e dos botões", type: "font", default: "'Barlow Condensed', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
@@ -2610,7 +2618,8 @@ export const LAYOUTS: Layouts = {
       { id: "10", selection: "countdown", key: "cdn10vrj3s5r", image: "countdown/Countdown10.webp", imageSource: "auto", mobile: "", title: "Contador Template 10", description: "\"Oferta relâmpago\" numa faixa de destaque com o raio e o título, texto, a contagem em caixas escuras, o CTA e a arte à direita; no mobile, arte no topo e contagem em grade de quatro", template: "10", pagina: ["home"], component: "Countdown10", path: "organisms/Countdown10", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary", "secondary"], variablesSchema: [
         { cssVar: "--countdown-bg", label: "Fundo do contador", type: "color", default: "#ffcf24", group: "Contador", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--countdown-text", label: "Texto do contador", type: "color", default: "#101828", group: "Contador", inheritsLabel: "cor de texto secundária" },
-        { cssVar: "--countdown-accent", label: "Destaque (botão)", type: "color", default: "#1340d8", group: "Contador", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--countdown-accent", label: "Fundo do botão", type: "color", default: "#1340d8", group: "Contador", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--countdown-accent-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Contador", inheritsLabel: "cor de texto base" },
         { cssVar: "--countdown-title-font", label: "Fonte do título e do contador", type: "font", default: "'Archivo', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--countdown-font", label: "Fonte do texto", type: "font", default: "'Archivo', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
