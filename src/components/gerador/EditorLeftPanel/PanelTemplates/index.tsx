@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 
 import { useLayout } from '@/context/LayoutContext';
@@ -11,6 +11,35 @@ import { rotuloDaPlataforma } from '@/types/platform';
 import styles from './index.module.css';
 
 const BASE = '/images/gerador/';
+
+/**
+ * Uma peça do mosaico: skeleton com brilho correndo enquanto a imagem não chega,
+ * e ela entra suave (fade com um leve zoom de volta) quando carrega. Sem isto as
+ * thumbs apareciam aos pedaços, de cima para baixo, conforme a rede entregava.
+ * Imagem já em cache dispara o `load` antes da hidratação: o `complete` do
+ * elemento cobre esse caso.
+ */
+function ThumbSuave({ src }: { src: string }) {
+  const ref = useRef<HTMLImageElement>(null);
+  const [pronta, setPronta] = useState(false);
+  useEffect(() => {
+    if (ref.current?.complete && ref.current.naturalWidth > 0) setPronta(true);
+  }, []);
+  return (
+    <span className={styles.quadro} data-pronta={pronta || undefined}>
+      <Image
+        ref={ref}
+        src={src}
+        alt=""
+        width={372}
+        height={200}
+        sizes="116px"
+        onLoad={() => setPronta(true)}
+        onError={() => setPronta(true)}
+      />
+    </span>
+  );
+}
 
 /**
  * Destino "Por template" do rail: as famílias que montam a loja inteira
@@ -72,14 +101,7 @@ export default function PanelTemplates() {
               >
                 <span className={styles.mosaico} aria-hidden>
                   {t.previa.map(src => (
-                    <Image
-                      key={src}
-                      src={`${BASE}${src}`}
-                      alt=""
-                      width={372}
-                      height={200}
-                      sizes="116px"
-                    />
+                    <ThumbSuave key={src} src={`${BASE}${src}`} />
                   ))}
                 </span>
                 <span className={styles.info}>
