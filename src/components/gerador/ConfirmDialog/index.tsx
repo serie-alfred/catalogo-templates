@@ -90,8 +90,9 @@ export default function ConfirmHost() {
         )}
         {pedido.itens && pedido.itens.length > 0 && (
           <ul className={styles.itens}>
-            {pedido.itens.map(item => (
-              <li key={item}>{item}</li>
+            {pedido.itens.map((item, i) => (
+              // Pela posição: duas seções iguais na página (duas vitrines 08) têm o mesmo nome.
+              <li key={i}>{item}</li>
             ))}
           </ul>
         )}

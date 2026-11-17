@@ -503,6 +503,22 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     });
   };
 
+  /**
+   * "Remover todas" do painel de seções: tira de uma vez as seções indicadas
+   * (as da página aberta). Uma atualização só — o histórico fecha UMA entrada,
+   * e o Voltar devolve todas juntas, em vez de uma por clique.
+   */
+  const removeSections = (uids: string[]) => {
+    const fora = new Set(uids);
+    if (!fora.size) return;
+    setSelections(prev => prev.filter(item => !fora.has(item.uid)));
+    setSelectedUid(prev => (prev && fora.has(prev) ? null : prev));
+    setExpandedUids(prev => {
+      const next = new Set([...prev].filter(uid => !fora.has(uid)));
+      return next.size === prev.size ? prev : next;
+    });
+  };
+
   const [fontPrimary, setFontPrimary] = useState(
     TEMA_INICIAL.fonts.fontPrimary
   );
@@ -2269,6 +2285,8 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     estadoAtual,
     carregarEstado,
     mostrarInicio,
+    carregandoExterno,
+    setCarregandoExterno,
     comecarPorTemplate,
     comecarDoZero,
     setItemVariable,
@@ -2309,6 +2327,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     moveSection,
     duplicateSection,
     removeSection,
+    removeSections,
     isCapturing,
     wakeCustomValue,
     setWakeCustomValue,
