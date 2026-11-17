@@ -10,9 +10,11 @@ import styles from './index.module.css';
 /**
  * Variáveis globais de cor.
  *
- * São as DEZ que já existiam, com os rótulos que já existiam — o Figma desenha
- * quatro campos, mas os dez valores são o que vai no bloco `variables` do
- * config.json e o que os `inheritsLabel` das variáveis por componente citam.
+ * São nove das dez que vão no bloco `variables` do config.json, com os rótulos
+ * que os `inheritsLabel` das variáveis por componente citam. A "cor secundária"
+ * (`--text-secundary-color`) saiu do painel em 16/11/2026: só o contador do
+ * minicart do Header03 a lia, e o campo parecia não fazer nada. O valor continua
+ * no estado e no config.
  *
  * Três delas são derivadas por luminância do fundo correspondente (limiar YIQ
  * 128 — `contrastOn`, em `src/utils/themeStyle.ts`) e por isso entram
@@ -23,8 +25,6 @@ export default function PanelGlobalColors() {
   const {
     colorPrimary,
     setColorPrimary,
-    colorSecondary,
-    setColorSecondary,
     colorTertiary,
     colorPrimaryBackground,
     setColorPrimaryBackground,
@@ -47,11 +47,6 @@ export default function PanelGlobalColors() {
       label: 'Defina a cor base do texto',
       color: colorPrimary,
       setColor: setColorPrimary,
-    },
-    {
-      label: 'Defina a cor secundária',
-      color: colorSecondary,
-      setColor: setColorSecondary,
     },
     {
       label: 'Defina a cor primária da marca',

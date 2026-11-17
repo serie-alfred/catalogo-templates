@@ -107,7 +107,8 @@ await bloco('varredura', async () => {
 });
 
 // ═══ 2. as 10 cores globais ═════════════════════════════════════════════════
-// Só a primária era exercitada. As outras 6 editáveis e as 3 derivadas nunca.
+// Só a primária era exercitada. As outras 5 editáveis e as 3 derivadas nunca.
+// (A "cor secundária" saiu do painel em 16/11/2026: nenhum componente a usava.)
 await bloco('cores', async () => {
   await irParaRail(page, 'Variáveis globais');
   await page
@@ -115,14 +116,13 @@ await bloco('cores', async () => {
       () =>
         document.querySelectorAll(
           'aside[aria-label="Painel de edição"] input[aria-label]'
-        ).length >= 10,
+        ).length >= 9,
       { timeout: 15000, polling: 200 }
     )
     .catch(() => {});
 
   const EDITAVEIS = [
     ['Defina a cor base do texto', '#a10001'],
-    ['Defina a cor secundária', '#a10002'],
     ['Defina a cor primária da marca', '#a10003'],
     ['Defina a cor secundária da marca', '#a10004'],
     ['Defina a cor terciária da marca', '#a10005'],
@@ -172,7 +172,7 @@ await bloco('cores', async () => {
     EDITAVEIS.map(([rot]) => rot)
   );
   r.ok(
-    'as 7 cores editáveis aceitam valor e o guardam',
+    'as 6 cores editáveis aceitam valor e o guardam',
     aplicadas.every((a, i) => a.valor === EDITAVEIS[i][1]),
     JSON.stringify(aplicadas.filter((a, i) => a.valor !== EDITAVEIS[i][1]))
   );

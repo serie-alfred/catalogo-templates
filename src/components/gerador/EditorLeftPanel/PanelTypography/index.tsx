@@ -17,10 +17,10 @@ export default function PanelTypography() {
     setFontPrimary,
     fontSecondary,
     setFontSecondary,
-    fontTertiary,
-    setFontTertiary,
   } = useLayout();
 
+  // A fonte terciária saiu do painel: nenhum componente a lê (o valor continua no
+  // estado e no config, para temas salvos e o generator).
   const fields = [
     {
       label: 'Defina a fonte dos títulos',
@@ -33,12 +33,6 @@ export default function PanelTypography() {
       cssVariable: 'font-secondary',
       value: fontSecondary,
       onChange: setFontSecondary,
-    },
-    {
-      label: 'Defina a fonte terciária',
-      cssVariable: 'font-tertiary',
-      value: fontTertiary,
-      onChange: setFontTertiary,
     },
   ];
 

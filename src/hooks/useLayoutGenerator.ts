@@ -34,6 +34,8 @@ import { lpInicial, sanitizeLp, slugDaLp, type LpState } from '@/utils/lp';
 import {
   ENTRADA_PADRAO,
   selecoesDoTemplate,
+  soltarFixosDoTemplate,
+  TOKENS_DA_COR_GLOBAL,
   templatePadrao,
   type TemplateCompleto,
 } from '@/utils/templatesCompletos';
@@ -2140,6 +2142,70 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     }
   }, [platform, hydrated]);
 
+  /*
+   * As cores globais que o painel edita. Além de gravar a cor, soltam os valores
+   * de Nível 1 que um template fixou nas seções seguindo aquele token (e ainda
+   * com o valor do template): sem isso, mudar a "cor primária da marca" depois de
+   * aplicar uma família não mexia no header que ela tinha fixado — a reclamação
+   * de que as globais "não funcionam". O que o usuário escolheu à mão fica.
+   */
+  const soltarFixos = useCallback(
+    (campo: keyof typeof TOKENS_DA_COR_GLOBAL) =>
+      setLojaSelections(prev =>
+        soltarFixosDoTemplate(prev, TOKENS_DA_COR_GLOBAL[campo])
+      ),
+    []
+  );
+  const setColorPrimaryGlobal = useCallback(
+    (v: string) => {
+      setColorPrimary(v);
+      soltarFixos('colorPrimary');
+    },
+    [soltarFixos]
+  );
+  const setColorSecondaryGlobal = useCallback(
+    (v: string) => {
+      setColorSecondary(v);
+      soltarFixos('colorSecondary');
+    },
+    [soltarFixos]
+  );
+  const setColorPrimaryBackgroundGlobal = useCallback(
+    (v: string) => {
+      setColorPrimaryBackground(v);
+      soltarFixos('colorPrimaryBackground');
+    },
+    [soltarFixos]
+  );
+  const setColorSecondaryBackgroundGlobal = useCallback(
+    (v: string) => {
+      setColorSecondaryBackground(v);
+      soltarFixos('colorSecondaryBackground');
+    },
+    [soltarFixos]
+  );
+  const setColorTertiaryBackgroundGlobal = useCallback(
+    (v: string) => {
+      setColorTertiaryBackground(v);
+      soltarFixos('colorTertiaryBackground');
+    },
+    [soltarFixos]
+  );
+  const setColorFooterGlobal = useCallback(
+    (v: string) => {
+      setColorFooter(v);
+      soltarFixos('colorFooter');
+    },
+    [soltarFixos]
+  );
+  const setColorFooterTextGlobal = useCallback(
+    (v: string) => {
+      setColorFooterText(v);
+      soltarFixos('colorFooterText');
+    },
+    [soltarFixos]
+  );
+
   return {
     conta: conta ?? null,
     plataformasDisponiveis,
@@ -2166,9 +2232,9 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     ogImage,
     setOgImage,
     colorPrimary,
-    setColorPrimary,
+    setColorPrimary: setColorPrimaryGlobal,
     colorSecondary,
-    setColorSecondary,
+    setColorSecondary: setColorSecondaryGlobal,
     colorTertiary,
     colorPrimaryBackground,
     colorSecondaryBackground,
@@ -2177,17 +2243,17 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     colorFooterText,
     colorPrimaryText,
     colorSecondaryText,
-    setColorPrimaryBackground,
-    setColorSecondaryBackground,
-    setColorTertiaryBackground,
+    setColorPrimaryBackground: setColorPrimaryBackgroundGlobal,
+    setColorSecondaryBackground: setColorSecondaryBackgroundGlobal,
+    setColorTertiaryBackground: setColorTertiaryBackgroundGlobal,
     /* setColorPrimaryText / setColorSecondaryText / setColorTertiary NÃO são
        expostos: as três cores são derivadas por luminância dos fundos de marca
        (ver o efeito de `contrastOn`). Ficavam como campos editáveis cuja
        edição era sobrescrita no toque seguinte em qualquer fundo. Os `useState`
        e a derivação continuam — o que sai é só a possibilidade de escrever
        nelas de fora. */
-    setColorFooter,
-    setColorFooterText,
+    setColorFooter: setColorFooterGlobal,
+    setColorFooterText: setColorFooterTextGlobal,
     toggleMobileView,
     changePlatform,
     toggleSelection,
