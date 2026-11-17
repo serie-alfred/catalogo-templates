@@ -226,3 +226,34 @@ horizontalmente na troca de + para - (glifos têm larguras diferentes). */
   margin: 0 auto;
   margin-top: 30px;
 }
+
+/* ── Só no catálogo: o espaço reservado ao widget do Trustvox ───────────── */
+.reserva {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+  border: 1px dashed color-mix(in srgb, var(--prod-text, var(--text-primary-color, #212721)) 24%, transparent);
+  border-radius: 8px;
+}
+.reservaEstrelas {
+  color: color-mix(in srgb, var(--prod-text, var(--text-primary-color, #212721)) 30%, transparent);
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+.reservaLinha {
+  display: block;
+  height: 10px;
+  border-radius: 5px;
+  background-color: color-mix(in srgb, var(--prod-text, var(--text-primary-color, #212721)) 10%, transparent);
+}
+.reservaCurta {
+  width: 60%;
+}
+.reservaNota {
+  margin: 12px 0 0;
+  color: color-mix(in srgb, var(--prod-text, var(--text-primary-color, #212721)) 60%, transparent);
+  font-family: var(--prod-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif));
+  font-size: 13px;
+  text-align: center;
+}
