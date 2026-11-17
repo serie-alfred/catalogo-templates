@@ -60,8 +60,8 @@
   display: none !important;
 }
 .topbar {
-  background-color: color-mix(in srgb, var(--header-nav-bg, var(--background-secundary-color, #1340d8)) 72%, #000000);
-  color: var(--header-nav-text, var(--text-color-secundary, #ffffff));
+  background-color: var(--header-topbar-bg, color-mix(in srgb, var(--header-nav-bg, var(--background-secundary-color, #1340d8)) 72%, #000000));
+  color: var(--header-topbar-text, var(--header-nav-text, var(--text-color-secundary, #ffffff)));
   font-size: 12px;
 }
 
