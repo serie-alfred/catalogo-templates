@@ -180,7 +180,7 @@ function Marca({ nome }: { nome: string }) {
  */
 function ajustarRedes(raiz: HTMLElement | null) {
   if (!raiz) return;
-  const links = [...raiz.querySelectorAll<HTMLElement>('a')];
+  const links = Array.from(raiz.querySelectorAll<HTMLElement>('a'));
   links.forEach(link => (link.style.fontSize = ''));
   if (!links.length) return;
   // Um tamanho só para todas: o maior em que a palavra mais longa ainda cabe.
