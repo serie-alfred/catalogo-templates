@@ -109,7 +109,7 @@
   height: 48px;
   border-radius: 999px;
   background-color: color-mix(in srgb, var(--cat-main-accent, var(--background-primary-color, #0e6b73)) 9%, var(--cat-main-bg, #ffffff));
-  color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #0e6b73));
 }
 .speciesIcon svg {
   display: block;
@@ -166,7 +166,7 @@
   align-items: center;
   min-height: 44px;
   padding: 0 6px;
-  color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #0e6b73));
   font-size: 14px;
   font-weight: 700;
   text-decoration: underline;
@@ -292,7 +292,7 @@
 .linkBtn {
   align-self: flex-start;
   min-height: 36px;
-  color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #0e6b73));
   font-size: 14px;
   font-weight: 700;
 }
@@ -356,7 +356,7 @@
 }
 .grid [data-role=spot-rating] {
   gap: 2px;
-  color: var(--cat-main-buy-bg, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
+  color: var(--cat-main-buy-bg, var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73)));
 }
 .grid [data-role=spot-rating] svg {
   width: 13px;
@@ -369,7 +369,7 @@
 }
 .grid [data-role=spot-buy] {
   border-color: var(--cat-main-buy-bg, var(--spot-btn-bg, var(--background-primary-color, #0e6b73))) !important;
-  color: var(--cat-main-buy-bg, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
+  color: var(--cat-main-buy-bg, var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73)));
 }
 .grid [data-role=spot]:hover [data-role=spot-buy],
 .grid [data-role=spot]:focus-within [data-role=spot-buy] {
@@ -452,7 +452,7 @@
   height: 96px;
   border-radius: 56% 44% 52% 48%/48% 56% 44% 52%;
   background-color: color-mix(in srgb, var(--cat-main-accent, var(--background-primary-color, #0e6b73)) 9%, var(--cat-main-bg, #ffffff));
-  color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #0e6b73));
 }
 
 .emptySvg {
@@ -460,7 +460,7 @@
 }
 
 .emptyCount {
-  color: var(--cat-main-accent, var(--background-primary-color, #0e6b73));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #0e6b73));
   font-size: 14px;
   font-weight: 700;
 }

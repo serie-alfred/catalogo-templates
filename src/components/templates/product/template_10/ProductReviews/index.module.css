@@ -169,7 +169,7 @@
   border: 2px solid var(--prod-reviews-accent, var(--background-primary-color, #1340d8));
   border-radius: 10px;
   background-color: var(--prod-reviews-card-bg, #ffffff);
-  color: var(--prod-reviews-accent, var(--background-primary-color, #1340d8));
+  color: var(--prod-reviews-accent, var(--background-primary-color-safe, #1340d8));
   font-size: 15px;
   font-weight: 800;
 }

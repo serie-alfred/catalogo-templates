@@ -88,7 +88,7 @@
   color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0e2f38)) 72%, var(--showcase-bg, #ffffff));
 }
 .productShelf17 [data-role=spot-rating] {
-  color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
+  color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73)));
 }
 .productShelf17 [data-role=spot-rating] svg {
   width: 13px;
@@ -101,7 +101,7 @@
 }
 .productShelf17 [data-role=spot-buy] {
   border-color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73))) !important;
-  color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
+  color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73)));
 }
 .productShelf17 .rail [data-role=spot]:hover [data-role=spot-buy],
 .productShelf17 .rail [data-role=spot]:focus-within [data-role=spot-buy] {
@@ -167,7 +167,7 @@
   align-items: center;
   min-height: 44px;
   padding: 0 8px;
-  color: var(--showcase-accent, var(--background-primary-color, #0e6b73));
+  color: var(--showcase-accent, var(--background-primary-color-safe, #0e6b73));
   font-size: 15px;
   font-weight: 700;
 }

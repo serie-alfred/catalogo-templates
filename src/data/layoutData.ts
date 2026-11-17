@@ -1376,7 +1376,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--showcase-font", label: "Fonte do texto", type: "font", default: "'Inter', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "15", selection: "banner-side", key: "bsd15lux4m9t", image: "bannerSide/ShelfBanner15.webp", imageSource: "auto", mobile: "", title: "Vitrine com banner Template 15", description: "Chamada, título e setas no topo; o banner escuro com o fio dourado por dentro, a chamada, o título em serifa com o trecho em itálico, o texto e \"Ver a linha\" sobre o fio, e três cards por vez ao lado; o fio de posição embaixo. No mobile, o banner vem em cima e os cards rolam de lado", template: "15", pagina: ["home"], component: "ShelfBanner15", path: "organisms/ProductShelfBanner15", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
-        { cssVar: "--banner-side-text", label: "Texto do banner", type: "color", default: "#faf8f4", group: "Banner", inheritsLabel: "cor de texto base" },
+        { cssVar: "--banner-side-text", label: "Texto do banner", type: "color", default: "#faf8f4", group: "Banner" },
         { cssVar: "--showcase-bg", label: "Fundo da vitrine", type: "color", default: "#faf8f4", group: "Vitrine" },
         { cssVar: "--showcase-text", label: "Texto da vitrine", type: "color", default: "#1a1714", group: "Vitrine", inheritsLabel: "cor de texto primária" },
         { cssVar: "--showcase-title-color", label: "Texto do título", type: "color", default: "#1a1714", group: "Vitrine", inheritsLabel: "cor de texto primária" },

@@ -117,7 +117,7 @@
 }
 
 .eyebrow {
-  color: var(--pdp-accent, var(--background-primary-color, #9c4a2f));
+  color: var(--pdp-accent, var(--background-primary-color-safe, #9c4a2f));
 }
 
 .labelValue {
@@ -153,7 +153,7 @@
 .stars {
   display: flex;
   gap: 2px;
-  color: var(--pdp-accent, var(--background-primary-color, #9c4a2f));
+  color: var(--pdp-accent, var(--background-primary-color-safe, #9c4a2f));
 }
 
 .prices {
@@ -313,7 +313,7 @@
 }
 
 .error {
-  color: var(--pdp-accent, var(--background-primary-color, #9c4a2f));
+  color: var(--pdp-accent, var(--background-primary-color-safe, #9c4a2f));
   font-size: 12px;
 }
 .line {

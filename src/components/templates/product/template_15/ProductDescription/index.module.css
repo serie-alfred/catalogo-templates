@@ -46,7 +46,7 @@
   font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--prod-desc-accent, var(--background-primary-color, #7a5f1c));
+  color: var(--prod-desc-accent, var(--background-primary-color-safe, #7a5f1c));
 }
 
 .title {
@@ -96,7 +96,7 @@
 }
 
 .numeral {
-  color: var(--prod-desc-accent, var(--background-primary-color, #7a5f1c));
+  color: var(--prod-desc-accent, var(--background-primary-color-safe, #7a5f1c));
   font-family: var(--prod-desc-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
   font-size: 40px;
   font-style: italic;

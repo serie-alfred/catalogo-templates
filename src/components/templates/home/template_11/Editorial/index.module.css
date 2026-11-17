@@ -132,7 +132,7 @@
 }
 
 .tag {
-  color: var(--editorial-accent, var(--background-primary-color, #0a0a0a));
+  color: var(--editorial-accent, var(--background-primary-color-safe, #0a0a0a));
 }
 
 .body {

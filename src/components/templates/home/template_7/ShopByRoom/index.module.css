@@ -38,7 +38,7 @@
   line-height: normal;
   letter-spacing: .16em;
   text-transform: uppercase;
-  color: var(--room-accent, var(--background-primary-color, #b8976a));
+  color: var(--room-accent, var(--background-primary-color-safe, #b8976a));
 }
 .title {
   font-family: var(--room-title-font, var(--font-primary, 'Cormorant Garamond', serif));

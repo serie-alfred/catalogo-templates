@@ -69,7 +69,7 @@
   display: flex;
   align-items: center;
   min-height: 44px;
-  color: var(--editorial-accent, var(--background-primary-color, #5b4bdb));
+  color: var(--editorial-accent, var(--background-primary-color-safe, #5b4bdb));
   font-size: 16px;
   font-weight: 800;
   text-decoration: underline;
@@ -274,7 +274,7 @@
     min-height: 52px;
     border: 2px solid var(--editorial-text, var(--text-primary-color, #2a2350));
     border-radius: 999px;
-    color: var(--editorial-accent, var(--background-primary-color, #5b4bdb));
+    color: var(--editorial-accent, var(--background-primary-color-safe, #5b4bdb));
     font-family: var(--editorial-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
     font-size: 17px;
     font-weight: 600;

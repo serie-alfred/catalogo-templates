@@ -541,6 +541,12 @@ absolutos → não mudam a altura do filter-block (fidelidade preservada). */
   background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
 }
 
+/* A letra de cada faixa segue o par do fundo dela (D2-04, revisão de 17/11): a dourada fica no
+   secundário e a de promoção no primário. Especificidade (0,2,0) para vencer o .flag/.mFlag. */
+.flag.flagGold, .mFlag.flagGold { color: var(--plp-flag-text, var(--text-color-secundary, #ffffff)); }
+.flag.flagSale, .mFlag.flagSale { color: var(--plp-flag-text, var(--text-color-base, #ffffff)); }
+
+
 .wish {
   position: absolute;
   top: 6px;

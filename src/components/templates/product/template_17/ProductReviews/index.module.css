@@ -188,7 +188,7 @@
   height: 52px;
   border-radius: 999px;
   background-color: var(--prod-reviews-accent, var(--background-primary-color, #0e6b73));
-  color: var(--prod-reviews-bg, #ffffff);
+  color: var(--text-color-base, #ffffff);
   font-size: 16px;
   font-weight: 700;
 }

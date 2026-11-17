@@ -210,7 +210,7 @@
 }
 
 .favOn {
-  color: var(--pdp-button-bg, var(--background-primary-color, #5b4bdb));
+  color: var(--pdp-button-bg, var(--background-primary-color-safe, #5b4bdb));
 }
 
 .favPhoto {
@@ -270,7 +270,7 @@
 .stars {
   display: flex;
   gap: 2px;
-  color: var(--pdp-price-color, var(--background-primary-color, #5b4bdb));
+  color: var(--pdp-price-color, var(--background-primary-color-safe, #5b4bdb));
 }
 .stars svg {
   width: 16px;
@@ -333,7 +333,7 @@
 }
 
 .price {
-  color: var(--pdp-price-color, var(--background-primary-color, #5b4bdb));
+  color: var(--pdp-price-color, var(--background-primary-color-safe, #5b4bdb));
   font-family: var(--pdp-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 44px;
   font-weight: 700;
@@ -415,7 +415,7 @@
   align-items: center;
   gap: 6px;
   min-height: 44px;
-  color: var(--pdp-price-color, var(--background-primary-color, #5b4bdb));
+  color: var(--pdp-price-color, var(--background-primary-color-safe, #5b4bdb));
   font-size: 14px;
   font-weight: 800;
   text-decoration: underline;

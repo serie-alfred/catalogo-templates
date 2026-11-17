@@ -147,7 +147,7 @@
 
 .columnTitle {
   margin-bottom: 4px !important;
-  color: var(--footer-accent, var(--background-secundary-color, #ffc93c));
+  color: var(--footer-accent, var(--text-color-footer, #ffc93c));
   font-family: var(--footer-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 19px;
   font-weight: 600;

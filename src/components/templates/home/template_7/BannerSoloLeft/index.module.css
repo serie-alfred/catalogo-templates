@@ -81,7 +81,7 @@
   line-height: normal;
   letter-spacing: .16em;
   text-transform: uppercase;
-  color: var(--editorial-accent, var(--background-primary-color, #b8976a));
+  color: var(--editorial-accent, var(--background-primary-color-safe, #b8976a));
   margin: 1em 0 14px;
 }
 
@@ -120,7 +120,7 @@
 }
 
 .link:hover {
-  color: var(--editorial-accent, var(--background-primary-color, #b8976a));
+  color: var(--editorial-accent, var(--background-primary-color-safe, #b8976a));
   border-bottom-color: var(--editorial-accent, var(--background-primary-color, #b8976a));
 }
 

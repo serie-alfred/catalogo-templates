@@ -303,8 +303,8 @@
   text-decoration: none;
   
   transition: all 0.3s ease;
-  color: var(--background-primary-color);
-    border: 1px solid var(--background-primary-color);
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #682A77));
+  border: 1px solid var(--cat-main-accent, var(--background-primary-color, #682A77));
   font-family: var(--cat-main-font, var(--font-secundary, Roboto, Arial, Helvetica, sans-serif));
 }
 

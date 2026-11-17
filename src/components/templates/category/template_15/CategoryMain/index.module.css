@@ -68,7 +68,7 @@
 }
 
 .accent {
-  color: var(--cat-main-accent, var(--background-primary-color, #7a5f1c));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #7a5f1c));
 }
 
 .mob {
@@ -94,7 +94,7 @@
   letter-spacing: 0.22em;
   text-transform: uppercase;
   margin-right: 12px;
-  color: var(--cat-main-accent, var(--background-primary-color, #7a5f1c));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #7a5f1c));
 }
 
 .facetBtn,
@@ -147,7 +147,7 @@
   text-align: left;
 }
 .sortOption[aria-selected=true] {
-  color: var(--cat-main-accent, var(--background-primary-color, #7a5f1c));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #7a5f1c));
   font-weight: 600;
 }
 .sortOption:hover {
@@ -382,7 +382,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  color: var(--cat-main-accent, var(--background-primary-color, #7a5f1c));
+  color: var(--cat-main-accent, var(--background-primary-color-safe, #7a5f1c));
 }
 
 .emptyRule {

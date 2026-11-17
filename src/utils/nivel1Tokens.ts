@@ -3,7 +3,7 @@
  *
  * Para cada valor de Nível 1 que um template completo fixa (`NIVEL1_DAS_FAMILIAS`),
  * os tokens globais que a cadeia da réplica segue (todos: a mesma var pode cair em
- * tokens diferentes em regras diferentes). 176 vars com token; 0 vão direto
+ * tokens diferentes em regras diferentes). 175 vars com token; 1 vão direto
  * ao hex (sem global a seguir) e ficam de fora.
  */
 export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> = {
@@ -25,7 +25,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   BannerGrid15: {
     '--banner-grid-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ]
   },
   BannerMain10: {
@@ -85,7 +86,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   Brand15: {
     '--brands-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ]
   },
   Breadcrumb12: {
@@ -119,7 +121,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   Categories15: {
     '--categories-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ]
   },
   CategoryDescription12: {
@@ -135,12 +138,13 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   CategoryDescription15: {
     '--cat-desc-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ]
   },
   CategoryMain09: {
     '--cat-main-accent': [
-      '--background-primary-color'
+      '--background-primary-color-safe'
     ]
   },
   CategoryMain11: {
@@ -155,7 +159,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   CategoryMain15: {
     '--cat-main-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ]
   },
   CategoryMain17: {
@@ -171,7 +176,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   CategoryTitle15: {
     '--cat-title-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ]
   },
   CategoryTitle16: {
@@ -187,12 +193,13 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   ClientReview15: {
     '--socialproof-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ]
   },
   Countdown09: {
     '--countdown-accent': [
-      '--background-primary-color'
+      '--background-primary-color-safe'
     ]
   },
   Countdown10: {
@@ -223,7 +230,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   Countdown15: {
     '--countdown-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ]
   },
   Countdown16: {
@@ -243,7 +251,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   Editorial15: {
     '--editorial-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ]
   },
   Footer09: {
@@ -461,7 +470,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   PopupNews15: {
     '--popup-button-bg': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ],
     '--popup-button-text': [
       '--text-color-base'
@@ -486,7 +496,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   ProductDescription15: {
     '--prod-desc-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ]
   },
   ProductDescription16: {
@@ -500,7 +511,7 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   ProductInfo09: {
     '--pdp-accent': [
-      '--background-primary-color'
+      '--background-primary-color-safe'
     ],
     '--pdp-button-text': [
       '--text-color-base'
@@ -521,7 +532,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   ProductInfo15: {
     '--pdp-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ],
     '--pdp-button-text': [
       '--text-color-base'
@@ -570,7 +582,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   ProductRelated15: {
     '--showcase-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ]
   },
   ProductRelated17: {
@@ -590,7 +603,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   ProductReviews15: {
     '--prod-reviews-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ]
   },
   Ruler13: {
@@ -642,11 +656,9 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
     ]
   },
   ShelfBanner15: {
-    '--banner-side-text': [
-      '--text-color-base'
-    ],
     '--showcase-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ],
     '--showcase-tag-bg': [
       '--background-primary-color'
@@ -706,7 +718,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   Showcase15: {
     '--showcase-accent': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ],
     '--showcase-tag-bg': [
       '--background-primary-color'

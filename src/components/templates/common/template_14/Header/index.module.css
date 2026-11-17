@@ -175,7 +175,7 @@
 }
 
 .highlight {
-  color: var(--header-accent, var(--background-primary-color, #e4002b));
+  color: var(--header-accent, var(--background-primary-color-safe, #e4002b));
 }
 
 .submenu {
