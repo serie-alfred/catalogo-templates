@@ -3,7 +3,7 @@ import './index.css';
 
 export default function Spot() {
   return (
-    <div itemID="1" className="product spot">
+    <div itemID="1" className="product spot" data-spot="Spot01">
       <div className="product-wrapper">
         {/* product image */}
         <div className="product-image">

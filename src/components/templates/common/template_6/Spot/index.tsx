@@ -26,7 +26,7 @@ export default function Spot() {
   );
 
   return (
-    <div className={`${styles.product} ${styles.spot}`}>
+    <div className={`${styles.product} ${styles.spot}`} data-spot="Spot06">
       <div className={styles.productWrapper}>
         {/* Imagem */}
         <div className={styles.productImage}>

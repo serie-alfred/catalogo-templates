@@ -45,7 +45,7 @@ const HeartIcon = () => (
 
 export default function Spot() {
   return (
-    <div className={styles.card} data-role="ps-card">
+    <div className={styles.card} data-role="ps-card" data-spot="Spot07">
       <div
         className={styles.img}
         data-role="ps-img"

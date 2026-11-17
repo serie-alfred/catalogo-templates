@@ -12,7 +12,7 @@ const data = {
 
 export default function Spot() {
   return (
-    <div className={styles.card}>
+    <div className={styles.card} data-spot="Spot04">
       <a
         href="#"
         className={styles.card__image}

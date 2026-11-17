@@ -192,7 +192,7 @@ export function ProductCard11({
           ? ''
           : ` ${layout === 'quick' ? styles.layoutQuick : styles.layoutShelf}`
       }${inStock ? '' : ` ${styles.soldOut}`}`}
-      data-role="spot"
+      data-role="spot" data-spot="Spot11"
     >
       <div className={styles.top}>
         <span className={styles.ref} data-role="spot-ref">

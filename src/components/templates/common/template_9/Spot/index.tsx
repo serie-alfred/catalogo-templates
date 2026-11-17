@@ -102,7 +102,7 @@ export function ProductCard09({
   return (
     <article
       className={`${styles.productCard09}${inStock ? '' : ` ${styles.soldOut}`}`}
-      data-role="spot"
+      data-role="spot" data-spot="Spot09"
     >
       <div className={styles.media}>
         <a

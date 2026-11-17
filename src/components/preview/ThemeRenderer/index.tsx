@@ -141,8 +141,29 @@ function ThemeRenderer({
 }: ThemeRendererProps) {
   const items = selectionsForPage(selections, pagina);
 
+  /*
+   * As variáveis do "Card de Produto" escolhido valem para TODO card daquele
+   * componente na página — vitrines, PLP e relacionados que usam o mesmo card —,
+   * como no tema, onde o generator as injeta na raiz do ProductCardNN. Sem isto
+   * elas só pintavam o card de exemplo do próprio Spot. Cada réplica de card
+   * marca a raiz com `data-spot="SpotNN"`; card de outra família não é tocado,
+   * também como no tema.
+   */
+  const estiloDosCards = selections
+    .filter(sel => sel.layoutKey === 'spot' && sel.variables)
+    .map(sel => {
+      const comp = LAYOUTS.spot.items.find(it => it.id === sel.id)?.component;
+      const decl = Object.entries(sel.variables ?? {})
+        .filter(([k, v]) => /^--[a-z0-9-]+$/.test(k) && !/[;{}<>]/.test(v))
+        .map(([k, v]) => `${k}:${v};`)
+        .join('');
+      return comp && decl ? `[data-spot="${comp}"]{${decl}}` : '';
+    })
+    .join('');
+
   return (
     <>
+      {estiloDosCards && <style data-cards-do-spot>{estiloDosCards}</style>}
       {items.map(item => {
         const layoutItem = LAYOUTS[item.layoutKey].items.find(
           it => it.id === item.id
