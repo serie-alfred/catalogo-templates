@@ -9,7 +9,7 @@
   width: 100%;
 }
 .homeBIR .roomBrowserSection {
-  background-color: var(--background-primary-color, #152420);
+  background-color: var(--categories-bg, var(--background-primary-color, #152420));
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
   border-top-left-radius: 30px;
@@ -110,10 +110,10 @@
   font-size: 18px;
 }
 .homeBIR .roomBrowserSection .roomBrowserContent .livingRoomContainer .livingRoomImageWrapper .bannerImageText .bannerText .containerBannerText {
-  background-color: #fff;
+  background-color: var(--categories-label-bg, #ffffff);
   border-radius: 10px;
   bottom: 25px;
-  color: var(--text-primary-color, #000);
+  color: var(--categories-label-text, var(--text-primary-color, #000000));
   left: 25px;
   max-width: -moz-fit-content;
   max-width: fit-content;
@@ -149,10 +149,10 @@
   transition: all 0.25s ease-in-out;
 }
 .homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .bedroomImageWrapper .bannerImageText .bannerText .containerBannerText {
-  background-color: #fff;
+  background-color: var(--categories-label-bg, #ffffff);
   border-radius: 10px;
   bottom: 25px;
-  color: var(--text-primary-color, #000);
+  color: var(--categories-label-text, var(--text-primary-color, #000000));
   left: 25px;
   max-width: -moz-fit-content;
   max-width: fit-content;
@@ -202,10 +202,10 @@
 .homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .walkInClosetContainer .kitchenImage .bannerImageText .bannerText .containerBannerText,
 .homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .kitchenContainer .walkInClosetImage .bannerImageText .bannerText .containerBannerText,
 .homeBIR .roomBrowserSection .roomBrowserContent .bedroomContainer .customRow .customRowContent .kitchenColumn .kitchenContainer .kitchenImage .bannerImageText .bannerText .containerBannerText {
-  background-color: #fff;
+  background-color: var(--categories-label-bg, #ffffff);
   border-radius: 10px;
   bottom: 25px;
-  color: var(--text-primary-color, #000);
+  color: var(--categories-label-text, var(--text-primary-color, #000000));
   left: 25px;
   max-width: -moz-fit-content;
   max-width: fit-content;

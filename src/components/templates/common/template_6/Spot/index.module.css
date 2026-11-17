@@ -104,7 +104,7 @@
   font-weight: 800;
   font-size: 10px;
   text-transform: uppercase;
-  color: #ffffff;
+  color: var(--shelf-flag-text, #ffffff);
   background-color: #0F0F0F;
   line-height: 1;
   letter-spacing: 0.24px;
@@ -152,7 +152,7 @@
   font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
   font-weight: 400;
   font-size: 14px;
-  color: #292929;
+  color: var(--shelf-text-color, #292929);
   letter-spacing: 0.15px;
   padding: 0px;
   margin: 0px;
@@ -165,7 +165,7 @@
   font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
   font-weight: 600;
   font-size: 18px;
-  color: #292929;
+  color: var(--shelf-text-color, #292929);
   text-align: center;
 }
 .spot .productWrapper .productContent .productPriceWrapper .productPrice {
@@ -201,13 +201,13 @@
 }
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .priceBefore {
   margin-bottom: 6px;
-  color: #8F8F8F;
+  color: var(--shelf-old-price, #8F8F8F);
 }
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .priceNormal,
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .pricePromotion {
   font-weight: 600;
   font-size: 18px;
-  color: var(--background-tertiary-color);
+  color: var(--shelf-text-color, var(--background-tertiary-color, #000000));
   text-decoration: none;
 }
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .product-payment {
@@ -215,7 +215,7 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  color: #525252;
+  color: var(--shelf-installments, #525252);
   width: 100%;
   margin-top: 6px;
   text-align: center;
@@ -234,7 +234,7 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  color: #525252;
+  color: var(--shelf-installments, #525252);
 }
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .product-payment span.operadora,
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .product-payment strong.operadora,

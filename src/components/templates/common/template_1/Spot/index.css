@@ -137,7 +137,7 @@
   font-family: var(--spot-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 400;
   font-size: 12px;
-  color: #525252;
+  color: var(--spot-rating-text, #525252);
   margin-left: 3px;
   position: relative;
   top: 0.5px;
@@ -155,7 +155,7 @@
   overflow: hidden;
   line-height: 21px;
   font-family: var(--spot-font, var(--font-secundary, 'Poppins', sans-serif));
-  color: (--color-text-base);
+  color: var(--spot-text, #292929);
   font-weight: 400;
   font-size: 14px;
   letter-spacing: 0.15px;
@@ -171,7 +171,7 @@
   font-family: var(--spot-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 400;
   font-size: 14px;
-  color: #292929;
+  color: var(--spot-text, #292929);
   text-align: left;
 }
 
@@ -202,7 +202,7 @@
 
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .price-before {
   margin-bottom: 6px;
-  color: var(--text-primary-color);
+  color: var(--spot-old-price, var(--text-primary-color, #000000));
   font-family: var(--spot-font, var(--font-secundary, 'Poppins', sans-serif));
 }
 
@@ -210,7 +210,7 @@
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .prices .price-promotion {
   font-weight: 600;
   font-size: 18px;
-  color: var(--text-primary-color);
+  color: var(--spot-price-color, var(--text-primary-color, #000000));
   text-decoration: none;
   font-family: var(--spot-font, var(--font-secundary, 'Poppins', sans-serif));
 }
@@ -220,7 +220,7 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  color: #525252;
+  color: var(--spot-installments, #525252);
   width: 100%;
   margin-top: 6px;
   text-align: left;
@@ -242,7 +242,7 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  color: #525252;
+  color: var(--spot-installments, #525252);
 }
 
 .spot .product-wrapper .product-content .product-price-wrapper .product-price .out-of-stock {

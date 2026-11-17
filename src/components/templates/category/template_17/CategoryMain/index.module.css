@@ -379,6 +379,9 @@
 .grid [data-role=spot-notify] {
   border-color: var(--cat-main-text, var(--text-primary-color, #0e2f38));
 }
+.grid [data-role=spot-out-of-stock] {
+  color: var(--cat-main-out-text, #ffffff);
+}
 
 .gridItem {
   display: flex;

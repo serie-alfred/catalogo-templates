@@ -17,11 +17,11 @@
   background: #eee;
   border: 1px solid #cbcbcb;
   border-radius: 4px;
-  color: #000;
+  color: var(--prod-info-fav-text, #000000);
   cursor: pointer;
   display: flex;
   flex-shrink: 0;
-  font-family: inherit;
+  font-family: var(--prod-info-font, inherit);
   font-size: 14px;
   font-weight: 500;
   gap: 10px;
@@ -453,7 +453,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 700;
   font-size: 22px;
-  color: #000;
+  color: var(--prod-info-price-color, #000000);
   line-height: 1;
   display: flex;
   flex-wrap: wrap;
@@ -719,7 +719,7 @@
   font-family: var(--prod-info-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 700;
   font-size: 16px;
-  color: #0f0f0f;
+  color: var(--prod-info-variant-title, #0f0f0f);
   margin-bottom: 15px !important;
 }
 

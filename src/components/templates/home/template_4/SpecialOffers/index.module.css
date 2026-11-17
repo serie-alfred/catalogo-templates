@@ -44,7 +44,7 @@
   }
 }
 .specialoffersContainer .specialoffersContent .specialText .actOffers {
-  background-color: var(--background-primary-color, #274c4f);
+  background-color: var(--special-offers-cta-bg, var(--background-primary-color, #274c4f));
   padding: 16px 20px;
   border-radius: 40px;
 }
@@ -53,7 +53,7 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  color: var(--text-color-base, #fff);
+  color: var(--special-offers-cta-text, var(--text-color-base, #ffffff));
 }
 .specialoffersContainer .specialoffersContent .specialContent {
   display: flex;
@@ -74,13 +74,13 @@
   width: 33%;
 }
 .specialoffersContainer .specialoffersContent .specialContent .specialContainer.green {
-  background-color: var(--background-primary-color, #617b67);
+  background-color: var(--special-offers-card-1-bg, var(--background-primary-color, #617b67));
 }
 .specialoffersContainer .specialoffersContent .specialContent .specialContainer.salmao {
-  background-color: var(--background-secundary-color, #724728);
+  background-color: var(--special-offers-card-2-bg, var(--background-secundary-color, #724728));
 }
 .specialoffersContainer .specialoffersContent .specialContent .specialContainer.grey {
-  background-color: var(--background-tertiary-color, #6e6a65);
+  background-color: var(--special-offers-card-3-bg, var(--background-tertiary-color, #6e6a65));
 }
 .specialoffersContainer .specialoffersContent .specialContent .specialContainer .containerImage {
   height: 300px;
@@ -108,8 +108,8 @@
   margin: 10px 0px;
 }
 .specialoffersContainer .specialoffersContent .specialContent .specialContainer .containerText .buttonWrapper {
-  background-color: #fff;
-  color: var(--text-primary-color, #27302d);
+  background-color: var(--special-offers-card-button-bg, #ffffff);
+  color: var(--special-offers-card-button-text, var(--text-primary-color, #27302d));
   padding: 15px 10px;
   border-radius: 120px;
   display: flex;

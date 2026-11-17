@@ -46,7 +46,7 @@
   font-weight: 700;
   font-size: 14px;
   line-height: 1.4;
-  color: #141414;
+  color: var(--spot-text, #141414);
   text-decoration: none;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -65,7 +65,7 @@
   font-family: var(--spot-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 400;
   font-size: 14px;
-  color: #8f8f8f;
+  color: var(--spot-old-price, #8f8f8f);
   text-decoration: line-through;
   white-space: nowrap;
 }
@@ -87,7 +87,7 @@
   font-weight: 700;
   font-size: 18px;
   line-height: 1.2;
-  color: #141414;
+  color: var(--spot-price-color, #141414);
   margin: 0;
   white-space: nowrap;
 }

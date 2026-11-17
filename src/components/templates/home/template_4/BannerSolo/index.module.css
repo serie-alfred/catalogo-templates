@@ -77,8 +77,8 @@
   }
 }
 .collectionSoloContainer .collectionContent .bannerImageText .bannerText .containerBannerText a {
-  background-color: var(--background-primary-color, #274c4f);
-  color: var(--text-color-base, #fff);
+  background-color: var(--banner-solo-cta-bg, var(--background-primary-color, #274c4f));
+  color: var(--banner-solo-cta-text, var(--text-color-base, #ffffff));
   width: 30%;
   display: flex;
   justify-content: center;

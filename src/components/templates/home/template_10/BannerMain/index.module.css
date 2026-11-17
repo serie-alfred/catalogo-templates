@@ -241,7 +241,6 @@
   min-height: 306px;
   border: 1px solid color-mix(in srgb, var(--text-primary-color, #101828) 11%, #ffffff);
   color: var(--banner-main-promo-text, var(--text-primary-color, #101828));
-  color: var(--text-primary-color, #101828);
 }
 .toneOutline .promoArt {
   width: 72px;
@@ -301,8 +300,8 @@
   height: 44px;
   padding: 0 18px;
   border-radius: 10px;
-  background-color: var(--text-primary-color, #101828);
-  color: #ffffff;
+  background-color: var(--banner-main-promo-button-bg, var(--text-primary-color, #101828));
+  color: var(--banner-main-promo-button-text, #ffffff);
   font-size: 14px;
   font-weight: 700;
 }

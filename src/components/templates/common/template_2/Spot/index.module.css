@@ -76,8 +76,8 @@
 }
 
 .spot .productWrapper .productImage .productTag .tagNew span {
-  background-color: var(--background-primary-color);
-  color: var(--text-color-base);
+  background-color: var(--spot-tag-bg, var(--background-primary-color, #000000));
+  color: var(--spot-tag-text, var(--text-color-base, #ffffff));
   padding: 5px 7px;
   border-radius: 120px;
 }
@@ -101,7 +101,7 @@
   padding: 0px 6px;
   height: 19px;
   width: max-content;
-  font-family: 'Noto Sans', sans-serif;
+  font-family: var(--spot-font, 'Noto Sans', sans-serif);
   font-weight: 800;
   font-size: 10px;
   text-transform: uppercase;
@@ -124,10 +124,10 @@
 }
 
 .spot .productWrapper .productContent .pContentTop .productStars span {
-  font-family: 'Noto Sans', sans-serif;
+  font-family: var(--spot-font, 'Noto Sans', sans-serif);
   font-weight: 400;
   font-size: 12px;
-  color: #525252;
+  color: var(--spot-rating-text, #525252);
   margin-left: 3px;
   position: relative;
   top: 0.5px;
@@ -153,7 +153,7 @@
   font-family: var(--spot-font, var(--font-secundary, sans-serif));
   font-weight: 400;
   font-size: 14px;
-  color: #000;
+  color: var(--spot-text, #000000);
   letter-spacing: 0.15px;
   padding: 0px;
   margin: 0px;
@@ -166,7 +166,7 @@
   font-family: var(--spot-font, var(--font-secundary, sans-serif));
   font-weight: 600;
   font-size: 18px;
-  color: #000;
+  color: var(--spot-text, #000000);
   text-align: left;
 }
 
@@ -221,7 +221,7 @@
   .prices
   .price-before {
   margin-bottom: 6px;
-  color: #6a6a6a;
+  color: var(--spot-old-price, #6a6a6a);
 }
 
 .favoriteCard svg {
@@ -278,7 +278,7 @@
   .price-promotion {
   font-weight: 600;
   font-size: 18px;
-  color: black;
+  color: var(--spot-price-color, #000000);
   text-decoration: none;
 }
 
@@ -293,7 +293,7 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  color: #6a6a6a;
+  color: var(--spot-installments, #6a6a6a);
   width: 100%;
   margin-top: 6px;
   text-align: left;
@@ -357,7 +357,7 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  color: #6a6a6a;
+  color: var(--spot-installments, #6a6a6a);
 }
 
 .spot
@@ -398,7 +398,7 @@
   font-family: var(--spot-font, var(--font-secundary, sans-serif));
   font-size: 14px;
   font-weight: 400;
-  color: #000;
+  color: var(--spot-text, #000000);
   text-align: left;
 }
 

@@ -18,7 +18,7 @@
 .rowAlignwide {
   display: flex;
   width: 100%;
-  background-color: #eef4f5;
+  background-color: var(--home-combined-bg, #eef4f5);
   border-radius: 20px;
   padding: 50px;
 }
@@ -95,7 +95,7 @@
   column-gap: 10px;
   margin-bottom: 32px;
   padding: 15px 25px 15px 20px;
-  background-color: #e2edef;
+  background-color: var(--home-combined-pill-bg, #e2edef);
 }
 
 @container (max-width: 768px) {
@@ -115,10 +115,10 @@
 }
 
 .buttonWrapper a {
-  background-color: var(--background-primary-color, #345255);
+  background-color: var(--home-combined-cta-bg, var(--background-primary-color, #345255));
   border-radius: 50px;
   box-sizing: border-box;
-  color: var(--text-color-base, #fff);
+  color: var(--home-combined-cta-text, var(--text-color-base, #ffffff));
   font-size: 14px;
   padding: 19px 24px;
 }
@@ -131,7 +131,7 @@
 
 .columnImage {
   display: flex;
-  color: var(--text-color-secundary, #fff);
+  color: var(--home-combined-discount-text, var(--text-color-secundary, #ffffff));
   gap: 20px;
 }
 
@@ -217,7 +217,7 @@
 }
 
 .discount {
-  background-color: var(--background-secundary-color, #2e4649);
+  background-color: var(--home-combined-discount-bg, var(--background-secundary-color, #2e4649));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -240,9 +240,9 @@
 
 .discount a {
   margin: 20px 0px;
-  background-color: var(--background-primary-color, #426268);
+  background-color: var(--home-combined-discount-cta-bg, var(--background-primary-color, #426268));
   padding: 20px 30px;
   border-radius: 120px;
   font-size: 16px;
-  color: var(--text-color-base, #fff);
+  color: var(--home-combined-cta-text, var(--text-color-base, #ffffff));
 }

@@ -229,7 +229,7 @@
 }
 
 .pix {
-  color: #067647;
+  color: var(--spot-pix, #067647);
   font-size: 13px;
   font-weight: 700;
 }

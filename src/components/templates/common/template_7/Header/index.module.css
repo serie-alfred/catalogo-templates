@@ -971,7 +971,7 @@ terracota #C07A5A) = hex inline. */
 .drawerBenefit span {
   font-family: var(--header-body-font, var(--font-secundary, 'DM Sans', sans-serif));
   font-size: 11px;
-  color: #6a5e58;
+  color: var(--header-benefit-text, #6a5e58);
 }
 
 /* ── WhatsApp flutuante ──────────────────────────────────────────────────

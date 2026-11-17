@@ -37,6 +37,7 @@
   .newsletter
   .newsletterTitle {
   color: var(--footer-text, var(--text-color-footer, #ffffff));
+  font-family: var(--footer-title-font, inherit);
   font-size: 33px;
   font-weight: 500;
   line-height: 1.1;
@@ -825,7 +826,7 @@
   /* Cor do texto do rodapé (como na Wake): a do texto do header é a de contraste com o fundo
      do HEADER, e na paleta da família 09 saía branca sobre o rodapé claro. */
   color: var(--footer-text, var(--text-color-footer, #122161));
-  font-family: var(--header-font, var(--font-primary, 'Manrope', sans-serif));
+  font-family: var(--footer-title-font, var(--header-font, var(--font-primary, 'Manrope', sans-serif)));
 }
 
 /* Campos (busca, newsletter, CEP) sem anel de foco do navegador nem sombra: no foco a borda

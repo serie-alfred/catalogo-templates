@@ -72,7 +72,7 @@
   padding: 0 22px;
   border-right: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
   background-color: var(--cat-main-text, var(--text-primary-color, #0a0a0a));
-  color: #ffffff;
+  color: var(--cat-main-button-text, #ffffff);
   font-size: 14px;
   font-weight: 500;
 }
@@ -240,7 +240,7 @@
   gap: 12px;
   padding: 0 28px;
   background-color: var(--cat-main-text, var(--text-primary-color, #0a0a0a));
-  color: #ffffff;
+  color: var(--cat-main-button-text, #ffffff);
   font-size: 15px;
   font-weight: 500;
 }
@@ -324,7 +324,7 @@
 .emptyPrimary {
   border-bottom: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
   background-color: var(--cat-main-text, var(--text-primary-color, #0a0a0a));
-  color: #ffffff;
+  color: var(--cat-main-button-text, #ffffff);
 }
 .overlay {
   position: fixed;
