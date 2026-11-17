@@ -8,6 +8,7 @@ import type { EstadoDoEditor } from '@/types/estadoEditor';
 import { rotuloDaPlataforma } from '@/types/platform';
 import { confirmar } from '@/components/gerador/ConfirmDialog/confirmar';
 
+import Pontinhos from '@/components/gerador/Pontinhos';
 import styles from './index.module.css';
 
 const API = '/gerador/api/temas';
@@ -243,7 +244,9 @@ export default function PanelSavedThemes() {
             {erro}
           </p>
         )}
-        {temas === null && <p className={styles.hint}>Carregando…</p>}
+        {temas === null && !erro && (
+          <Pontinhos rotulo="Carregando os temas salvos" />
+        )}
         {temas?.length === 0 && !erro && (
           <p className={styles.hint}>
             Nenhum tema salvo ainda. Monte um tema e use “Salvar no histórico”.
