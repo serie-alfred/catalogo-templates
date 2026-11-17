@@ -381,3 +381,7 @@ como texto corrido (h3 = pergunta, p = resposta). */
   }
 
 }
+/* Palavra longa (sem espaço, como um link colado) quebra em vez de vazar da coluna. */
+.seoFaqWrap {
+  overflow-wrap: anywhere;
+}

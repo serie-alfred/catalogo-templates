@@ -82,8 +82,11 @@
   margin-top: 18px;
 }
 
+/* Corte por LINHAS: a altura fixa caía no meio de uma linha. */
 .textClamped {
-  max-height: 138px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
   overflow: hidden;
 }
 
@@ -191,7 +194,7 @@
     max-width: none;
   }
   .textClamped {
-    max-height: 96px;
+    -webkit-line-clamp: 4;
   }
   .faq {
     flex: none;
@@ -215,3 +218,8 @@
 }
 
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* Palavra longa (sem espaço, como um link colado) quebra em vez de vazar da coluna. */
+.categorySeoFaq11 {
+  overflow-wrap: anywhere;
+}

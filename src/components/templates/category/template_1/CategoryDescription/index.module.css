@@ -50,3 +50,7 @@
 .descriptionText a:hover {
   text-decoration: underline;
 }
+/* Palavra longa (sem espaço, como um link colado) quebra em vez de vazar da coluna. */
+.categoryDescription {
+  overflow-wrap: anywhere;
+}

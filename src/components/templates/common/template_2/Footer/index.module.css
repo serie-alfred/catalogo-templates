@@ -174,12 +174,14 @@
   }
 }
 
+/* O logo enviado no /gerador vem no tamanho real: com `width/height: auto` ele anulava o
+   width="200" da tag e um PNG largo cobria a coluna da direita. Mesmo limite do Header02 e do
+   footer 02 da Wake (`.newsletter__title img`). */
 .footer .footerTop .topContainer .topRow .footerLeft .middleLogo a img {
-  width: auto;
+  width: 100%;
+  max-width: 184px;
   height: auto;
-  color: white;
-  font-size: 32px;
-  font-weight: 600;
+  display: block;
 }
 
 .footer .footerTop .topContainer .topRow .footerRight {

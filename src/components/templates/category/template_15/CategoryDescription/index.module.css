@@ -209,3 +209,8 @@
 }
 
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* Palavra longa (sem espaço, como um link colado) quebra em vez de vazar da coluna. */
+.categorySeoFaq15 {
+  overflow-wrap: anywhere;
+}

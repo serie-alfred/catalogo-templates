@@ -77,8 +77,11 @@
   margin: 0;
 }
 
+/* Corte por LINHAS: a altura fixa caía no meio de uma linha. */
 .textClamped > :nth-child(2) {
-  max-height: 52px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   overflow: hidden;
 }
 .textClamped > :nth-child(n+3) {
@@ -204,7 +207,9 @@
     line-height: 1.7;
   }
   .textClamped > :first-child {
-    max-height: 128px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
     overflow: hidden;
   }
   .textClamped > :nth-child(n+2) {
@@ -231,3 +236,8 @@
 }
 
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
+
+/* Palavra longa (sem espaço, como um link colado) quebra em vez de vazar da coluna. */
+.categorySeoFaq09 {
+  overflow-wrap: anywhere;
+}
