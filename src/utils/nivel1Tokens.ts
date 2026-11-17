@@ -789,7 +789,8 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
       '--text-color-base'
     ],
     '--spot-tag-bg': [
-      '--background-primary-color'
+      '--background-primary-color',
+      '--background-primary-color-safe'
     ],
     '--spot-tag-text': [
       '--text-color-base'
