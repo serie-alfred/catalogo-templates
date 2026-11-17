@@ -43,7 +43,7 @@
 }
 .productShelf13 [data-role=spot-tag] {
   background-color: var(--showcase-tag-bg, var(--spot-tag-bg, var(--background-primary-color, #c8ff2e)));
-  color: var(--spot-tag-text, var(--text-color-base, #0d0d0d));
+  color: var(--spot-tag-text, var(--showcase-accent-text, var(--text-color-base, #0d0d0d)));
 }
 .productShelf13 [data-role=spot] h3 {
   font-size: 20px;
@@ -111,7 +111,7 @@
   height: 52px;
   border: 0;
   background-color: var(--showcase-accent, var(--background-primary-color, #c8ff2e));
-  color: var(--text-color-base, #0d0d0d);
+  color: var(--showcase-accent-text, var(--text-color-base, #0d0d0d));
 }
 
 .inner {
@@ -298,7 +298,7 @@
   align-self: flex-start;
   padding: 5px 8px;
   background-color: var(--showcase-accent, var(--background-primary-color, #c8ff2e));
-  color: var(--text-color-base, #0d0d0d);
+  color: var(--showcase-accent-text, var(--text-color-base, #0d0d0d));
   font-family: var(--showcase-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 14px;
   font-weight: 800;
@@ -328,7 +328,7 @@
   height: 48px;
   padding: 0 20px;
   background-color: var(--showcase-accent, var(--background-primary-color, #c8ff2e));
-  color: var(--text-color-base, #0d0d0d);
+  color: var(--showcase-accent-text, var(--text-color-base, #0d0d0d));
   font-family: var(--showcase-title-font, var(--font-primary, 'Barlow Condensed', sans-serif));
   font-size: 18px;
   font-weight: 800;

@@ -104,7 +104,7 @@
   align-self: flex-start;
   padding: 5px 16px;
   background-color: var(--popup-accent, var(--background-secundary-color, #d9f99d));
-  color: var(--popup-text, var(--text-primary-color, #0b1b33));
+  color: var(--popup-accent-text, var(--popup-text, var(--text-primary-color, #0b1b33)));
   font-family: var(--popup-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 14px;
   font-style: italic;

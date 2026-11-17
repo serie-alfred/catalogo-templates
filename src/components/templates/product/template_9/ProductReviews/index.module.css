@@ -5,7 +5,7 @@
 
 .productReviews09 {
   width: 100%;
-  background-color: #f7f4ef;
+  background-color: var(--prod-reviews-bg, #f7f4ef);
   color: var(--prod-reviews-text, var(--text-primary-color, #1d1b18));
   font-family: var(--prod-reviews-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   font-weight: 400;
@@ -60,7 +60,7 @@
   max-width: 1280px;
   margin: 0 auto;
   padding: 56px clamp(16px, 3vw, 40px);
-  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 16%, var(--prod-reviews-bg, #f7f4ef));
 }
 
 .frame {
@@ -114,12 +114,12 @@
 }
 
 .muted13 {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, var(--prod-reviews-bg, #f7f4ef));
   font-size: 13px;
 }
 
 .muted12 {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, var(--prod-reviews-bg, #f7f4ef));
   font-size: 12px;
 }
 
@@ -139,7 +139,7 @@
 .bar {
   position: relative;
   height: 2px;
-  background-color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  background-color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 16%, var(--prod-reviews-bg, #f7f4ef));
 }
 .bar span {
   position: absolute;
@@ -150,12 +150,12 @@
 }
 
 .distCount {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, var(--prod-reviews-bg, #f7f4ef));
   text-align: right;
 }
 
 .empty {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, var(--prod-reviews-bg, #f7f4ef));
   font-size: 14px;
   line-height: 1.7;
 }
@@ -265,7 +265,7 @@
   flex: 8 1 460px;
   flex-direction: column;
   min-width: 0;
-  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 16%, var(--prod-reviews-bg, #f7f4ef));
   scroll-margin-top: 96px;
 }
 
@@ -274,7 +274,7 @@
   flex-direction: column;
   gap: 10px;
   padding: 24px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border-bottom: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 16%, var(--prod-reviews-bg, #f7f4ef));
 }
 
 .reviewTop {
@@ -292,7 +292,7 @@
 
 .reviewText {
   max-width: 680px;
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, var(--prod-reviews-bg, #f7f4ef));
   font-size: 14px;
   line-height: 1.7;
 }
@@ -316,7 +316,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef) !important;
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, var(--prod-reviews-bg, #f7f4ef)) !important;
 }
 
 .pageNext {
@@ -330,7 +330,7 @@
 
 .ellipsis {
   width: 32px;
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) 64%, var(--prod-reviews-bg, #f7f4ef));
   text-align: center;
 }
 

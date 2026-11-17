@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, useRef } from 'react';
 
-import { loadGoogleFont } from '@/utils/googleFont';
+import { loadGoogleFont, loadFontNamePreview } from '@/utils/googleFont';
 import {
   FONTES_DO_SISTEMA,
   carregarFontesGoogle,
@@ -122,6 +122,13 @@ export default function FontSelector({
     [opcoes]
   );
 
+  // Cada opção do Google mostra o nome na própria fonte: só os glifos do nome
+  // (`text=`), o suficiente para a amostra, e só com a lista aberta.
+  useEffect(() => {
+    if (!aberto) return;
+    for (const f of opcoes.doGoogle) loadFontNamePreview(f.family);
+  }, [aberto, opcoes]);
+
   // A opção destacada acompanha a rolagem da lista.
   useEffect(() => {
     if (ativo < 0) return;
@@ -201,7 +208,7 @@ export default function FontSelector({
         data-indice={indice}
         data-origem={font.origem}
         className={`${styles.suggestion} ${indice === ativo ? styles.ativo : ''}`}
-        style={{ fontFamily: font.family }}
+        style={{ fontFamily: `'${font.family}', sans-serif` }}
         // `onMouseDown` e não click: o blur do input fecha a lista antes.
         onMouseDown={e => {
           e.preventDefault();

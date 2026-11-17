@@ -89,7 +89,7 @@
 .field {
   display: flex;
   flex-direction: column;
-  border-bottom: 1px solid var(--newsletter-title-color, var(--text-primary-color, #1d1b18));
+  border-bottom: 1px solid var(--newsletter-field-text, var(--newsletter-title-color, var(--text-primary-color, #1d1b18)));
   text-align: left;
 }
 .field input {
@@ -98,12 +98,12 @@
   border: 0;
   outline: none;
   background: transparent;
-  color: var(--newsletter-title-color, var(--text-primary-color, #1d1b18));
+  color: var(--newsletter-field-text, var(--newsletter-title-color, var(--text-primary-color, #1d1b18)));
   font: inherit;
   font-size: 16px;
 }
 .field input::placeholder {
-  color: color-mix(in srgb, var(--newsletter-title-color, var(--text-primary-color, #1d1b18)) 64%, var(--newsletter-bg, #f7f4ef));
+  color: color-mix(in srgb, var(--newsletter-field-text, var(--newsletter-title-color, var(--text-primary-color, #1d1b18))) 64%, var(--newsletter-bg, #f7f4ef));
   opacity: 1;
 }
 .field:focus-within {

@@ -5,7 +5,7 @@
 
 .productReviews10 {
   width: 100%;
-  background-color: #f2f4f7;
+  background-color: var(--prod-reviews-bg, #f2f4f7);
   color: var(--prod-reviews-text, var(--text-primary-color, #101828));
   font-family: var(--prod-reviews-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
@@ -80,9 +80,9 @@
   flex-direction: column;
   gap: 16px;
   padding: 24px;
-  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 11%, var(--prod-reviews-card-bg, #ffffff));
   border-radius: 16px;
-  background-color: #ffffff;
+  background-color: var(--prod-reviews-card-bg, #ffffff);
 }
 
 .average {
@@ -112,7 +112,7 @@
 }
 
 .muted {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 74%, var(--prod-reviews-card-bg, #ffffff));
   font-size: 14px;
 }
 
@@ -144,7 +144,7 @@
   height: 8px;
   overflow: hidden;
   border-radius: 4px;
-  background-color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  background-color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 11%, var(--prod-reviews-card-bg, #ffffff));
 }
 .bar span {
   display: block;
@@ -154,12 +154,12 @@
 
 .distCount {
   width: 48px;
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 74%, var(--prod-reviews-card-bg, #ffffff));
   text-align: right;
 }
 
 .empty {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 74%, var(--prod-reviews-card-bg, #ffffff));
   font-size: 15px;
   line-height: 1.5;
 }
@@ -168,13 +168,13 @@
   height: 48px;
   border: 2px solid var(--prod-reviews-accent, var(--background-primary-color, #1340d8));
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--prod-reviews-card-bg, #ffffff);
   color: var(--prod-reviews-accent, var(--background-primary-color, #1340d8));
   font-size: 15px;
   font-weight: 800;
 }
 .outline:hover {
-  background-color: color-mix(in srgb, var(--prod-reviews-accent, var(--background-primary-color, #1340d8)) 6%, #ffffff);
+  background-color: color-mix(in srgb, var(--prod-reviews-accent, var(--background-primary-color, #1340d8)) 6%, var(--prod-reviews-card-bg, #ffffff));
 }
 
 .list {
@@ -190,9 +190,9 @@
   flex-direction: column;
   gap: 10px;
   padding: 22px;
-  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 11%, var(--prod-reviews-card-bg, #ffffff));
   border-radius: 16px;
-  background-color: #ffffff;
+  background-color: var(--prod-reviews-card-bg, #ffffff);
 }
 
 .reviewTop {
@@ -211,13 +211,13 @@
 }
 
 .reviewText {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 80%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 80%, var(--prod-reviews-card-bg, #ffffff));
   font-size: 15px;
   line-height: 1.55;
 }
 
 .reviewMeta {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 74%, var(--prod-reviews-card-bg, #ffffff));
   font-size: 13px;
 }
 
@@ -230,7 +230,7 @@
   flex-direction: column;
   gap: 12px;
   padding-top: 16px;
-  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 11%, var(--prod-reviews-card-bg, #ffffff));
 }
 
 .rate {
@@ -280,9 +280,9 @@
 .field textarea {
   width: 100%;
   padding: 12px 14px;
-  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #101828)) 20%, var(--prod-reviews-card-bg, #ffffff));
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--prod-reviews-card-bg, #ffffff);
   color: inherit;
   font: inherit;
   font-size: 15px;

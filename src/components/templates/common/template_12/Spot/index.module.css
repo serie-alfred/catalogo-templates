@@ -10,11 +10,11 @@
   gap: 12px;
   min-width: 0;
   padding: 12px;
-  border: 1px solid color-mix(in srgb, var(--spot-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #3b1f33))) 10%, #ffffff);
   border-radius: 24px;
   background-color: #ffffff;
-  color: var(--spot-text, var(--text-primary-color, #3b1f33));
-  font-family: var(--spot-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
+  color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #3b1f33)));
+  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif)));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -138,7 +138,7 @@
   padding: 8px 16px;
   border-radius: 999px;
   background-color: #ffffff;
-  color: var(--spot-text, var(--text-primary-color, #3b1f33));
+  color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #3b1f33)));
   font-size: 13px;
   font-weight: 700;
   line-height: 18px;
@@ -157,7 +157,7 @@
   height: 44px;
   border-radius: 50% !important;
   background-color: #ffffff !important;
-  color: var(--spot-text, var(--text-primary-color, #3b1f33)) !important;
+  color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #3b1f33))) !important;
 }
 .favorite[aria-pressed=true] {
   color: var(--spot-btn-bg, var(--background-primary-color, #7a2e5f)) !important;
@@ -182,7 +182,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #3b1f33))) 72%, #ffffff);
   font-size: 12px;
   line-height: 16px;
 }
@@ -217,7 +217,7 @@
 }
 
 .listPrice {
-  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #3b1f33))) 72%, #ffffff);
   font-size: 13px;
   line-height: 18px;
   text-decoration: line-through;
@@ -230,11 +230,11 @@
 }
 
 .priceOut {
-  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #3b1f33))) 72%, #ffffff);
 }
 
 .installment {
-  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #3b1f33))) 72%, #ffffff);
   font-size: 12px;
   line-height: 16px;
 }
@@ -257,7 +257,7 @@
   width: auto;
   padding: 0 18px !important;
   gap: 8px;
-  outline: 2px solid var(--spot-text, var(--text-primary-color, #3b1f33));
+  outline: 2px solid var(--showcase-text, var(--spot-text, var(--text-primary-color, #3b1f33)));
   outline-offset: 2px;
 }
 .buy:focus-visible .buyLabel {
@@ -275,14 +275,14 @@
   gap: 8px;
   height: 51px;
   padding: 0 18px;
-  border: 1.5px solid var(--spot-text, var(--text-primary-color, #3b1f33));
+  border: 1.5px solid var(--showcase-text, var(--spot-text, var(--text-primary-color, #3b1f33)));
   border-radius: 999px;
   font-size: 14px;
   font-weight: 700;
   white-space: nowrap;
 }
 .notify:hover {
-  background-color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #3b1f33)) 6%, #ffffff);
+  background-color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #3b1f33))) 6%, #ffffff);
 }
 
 @container (max-width: 960px) {

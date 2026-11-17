@@ -5,7 +5,7 @@
 
 .categories09 {
   width: 100%;
-  background-color: #f7f4ef;
+  background-color: var(--categories-bg, #f7f4ef);
   color: var(--categories-text, var(--text-primary-color, #1d1b18));
   font-family: var(--categories-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   font-weight: 400;
@@ -103,7 +103,7 @@
   border: 1px solid var(--categories-text, var(--text-primary-color, #1d1b18));
 }
 .arrow:disabled {
-  border-color: color-mix(in srgb, var(--categories-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border-color: color-mix(in srgb, var(--categories-text, var(--text-primary-color, #1d1b18)) 16%, var(--categories-bg, #f7f4ef));
   cursor: default;
 }
 
@@ -173,7 +173,7 @@
 }
 
 .see {
-  color: color-mix(in srgb, var(--categories-text, var(--text-primary-color, #1d1b18)) 66%, #f7f4ef);
+  color: color-mix(in srgb, var(--categories-text, var(--text-primary-color, #1d1b18)) 66%, var(--categories-bg, #f7f4ef));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.16em;
