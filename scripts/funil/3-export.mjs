@@ -46,6 +46,117 @@ const PIXEL = Buffer.from(
   'base64'
 );
 
+
+// ── Valores-sentinela (variáveis por componente e globais do painel) ─────────
+// O seed antigo só punha UMA variável em UM item, então o funil nunca viu se o
+// export leva o que o editor escolheu. Aqui cada variável semeada tem um valor
+// que não repete em lugar nenhum (nem com o default do schema), e a conferência
+// lê o config de volta cssVar a cssVar. O contador é global ao processo: duas
+// plataformas ou duas LPs nunca dividem um valor.
+let nSent = 0;
+const FONTES_SENT = [
+  "'Lora', serif",
+  "'Oswald', sans-serif",
+  "'Manrope', sans-serif",
+  "'Merriweather', serif",
+  "'Rubik', sans-serif",
+];
+const valorSentinela = v => {
+  nSent++;
+  if (v.type === 'font') return FONTES_SENT[nSent % FONTES_SENT.length];
+  return `#${((0x2a1b0c + nSent * 0x0b0d11) & 0xffffff).toString(16).padStart(6, '0')}`;
+};
+const variaveisSentinela = it =>
+  Object.fromEntries(it.variablesSchema.map(v => [v.cssVar, valorSentinela(v)]));
+/** O item serve ao export da plataforma? Na VTEX só sai o que tem `path` e não é override. */
+const exportavel = (it, plat) =>
+  !!it?.variablesSchema?.length &&
+  it.platforms.includes(plat) &&
+  (plat !== 'VTEX' || (!!it.path && !it.override));
+/** Prefere item com fonte no schema, para a fonte também ser provada. */
+const poeFontePrimeiro = (a, b) =>
+  (b.it.variablesSchema.some(v => v.type === 'font') ? 1 : 0) -
+  (a.it.variablesSchema.some(v => v.type === 'font') ? 1 : 0);
+/** Semeadas por plataforma: [{ sel, it, variables }] — o que a conferência lê. */
+const SENTINELAS = {};
+
+// Globais do painel: valores próprios, que o config tem de devolver iguais. Os
+// fundos são claramente escuros/claros para as 3 cores DERIVADAS (texto sobre
+// o fundo, terciária) terem resposta determinística.
+const GLOBAIS = {
+  colors: {
+    colorPrimary: '#c1272d',
+    colorSecondary: '#2d7fc1',
+    colorTertiary: '#ffffff',
+    colorPrimaryBackground: '#101820',
+    colorSecondaryBackground: '#f0e8d0',
+    colorTertiaryBackground: '#204060',
+    colorFooter: '#3a1c5e',
+    colorFooterText: '#e0d0f0',
+    colorPrimaryText: '#ffffff',
+    colorSecondaryText: '#000000',
+  },
+  fonts: {
+    fontPrimary: 'Playfair Display',
+    fontSecondary: 'Nunito',
+    fontTertiary: 'Space Mono',
+  },
+};
+const luminancia = hex => {
+  const n = parseInt(hex.slice(1), 16);
+  return (((n >> 16) & 255) * 299 + ((n >> 8) & 255) * 587 + (n & 255) * 114) / 1000;
+};
+const contraste = hex => (luminancia(hex) >= 128 ? '#000000' : '#ffffff');
+const bgs = GLOBAIS.colors;
+// Fontes como saem no config: o nome cru do painel (o `variaveisTrayWake` não embrulha).
+const GLOBAIS_ESPERADAS = {
+  ...GLOBAIS.fonts,
+  colorPrimary: bgs.colorPrimary,
+  colorSecondary: bgs.colorSecondary,
+  colorPrimaryBackground: bgs.colorPrimaryBackground,
+  colorSecondaryBackground: bgs.colorSecondaryBackground,
+  colorTertiaryBackground: bgs.colorTertiaryBackground,
+  colorFooter: bgs.colorFooter,
+  colorFooterText: bgs.colorFooterText,
+  // derivadas: o editor as recalcula do fundo, o valor semeado não vale
+  colorPrimaryText: contraste(bgs.colorPrimaryBackground),
+  colorSecondaryText: contraste(bgs.colorSecondaryBackground),
+  colorTertiary: contraste(bgs.colorTertiaryBackground),
+  colorPrimaryBackgroundSafe:
+    luminancia(bgs.colorPrimaryBackground) >= 220 ? '#000000' : bgs.colorPrimaryBackground,
+};
+
+/** Confere `variables` de um balde do config contra o semeado, chave a chave. */
+const conferirGlobais = (rotulo, variables) => {
+  const dif = Object.entries(GLOBAIS_ESPERADAS)
+    .filter(([k, v]) => variables?.[k] !== v)
+    .map(([k, v]) => `${k}: esperado ${v}, veio ${variables?.[k]}`);
+  r.ok(
+    `${rotulo}: as ${Object.keys(GLOBAIS_ESPERADAS).length} globais do painel (cores e fontes) saem com os valores semeados`,
+    dif.length === 0,
+    dif.join(' | ')
+  );
+};
+
+/** Cada cssVar → valor semeado aparece, e só ele, na entrada do item certo. */
+const conferirSentinelas = (rotulo, entradas, semeadas, chaveDe) => {
+  for (const { it, variables, onde } of semeadas) {
+    const achadas = entradas.filter(e => e.key === it.key);
+    const e = achadas[0];
+    const dif = Object.entries(variables)
+      .filter(([k, v]) => e?.variables?.[k] !== v)
+      .map(([k, v]) => `${k}: esperado ${v}, veio ${e?.variables?.[k]}`);
+    const sobra = Object.keys(e?.variables ?? {}).filter(k => !(k in variables));
+    r.ok(
+      `${rotulo}: ${it.component ?? it.id} (${onde}) leva as ${Object.keys(variables).length} variáveis semeadas, cada cssVar com o seu valor`,
+      achadas.length === 1 && dif.length === 0 && sobra.length === 0,
+      achadas.length !== 1
+        ? `${achadas.length} entradas com key "${it.key}" em ${chaveDe}`
+        : [...dif, ...sobra.map(k => `sobrou ${k}`)].join(' | ')
+    );
+  }
+};
+
 const seedFor = plat => {
   const out = [];
   for (const [layoutKey, sec] of Object.entries(L))
@@ -99,6 +210,28 @@ const seedFor = plat => {
     alvo.variables = { [v.cssVar]: valor };
     out.push({ ...alvo, uid: `${alvo.uid}-copia` });
   }
+
+  // Variáveis-sentinela em TODAS as variáveis do schema de 3 itens, um de cada
+  // grupo de página (common, home e category/product), fora o alvo da cópia.
+  const itemDe = sel => L[sel.layoutKey].items.find(i => i.id === sel.id);
+  const grupos = [
+    ['common', ['common']],
+    ['home', ['home']],
+    ['category/product', ['category', 'product']],
+  ];
+  const semeadas = [];
+  for (const [onde, paginas] of grupos) {
+    const cand = out
+      .filter(sel => paginas.includes(sel.pagina) && sel.uid !== alvo?.uid)
+      .map(sel => ({ sel, it: itemDe(sel) }))
+      .filter(({ it }) => exportavel(it, plat))
+      .sort(poeFontePrimeiro);
+    const esc = cand[0];
+    if (!esc) continue;
+    esc.sel.variables = variaveisSentinela(esc.it);
+    semeadas.push({ ...esc, variables: esc.sel.variables, onde });
+  }
+  SENTINELAS[plat] = semeadas;
   return out;
 };
 
@@ -172,9 +305,11 @@ for (const plat of PLATAFORMAS) {
     timeout: 90000,
   });
   await p.evaluate(
-    (pl, sel, tok, ck) => {
+    (pl, sel, tok, ck, gl) => {
       localStorage.clear();
       sessionStorage.clear();
+      sessionStorage.setItem('colors', JSON.stringify(gl.colors));
+      sessionStorage.setItem('fonts', JSON.stringify(gl.fonts));
       sessionStorage.setItem('layoutPlatform', pl);
       sessionStorage.setItem('layoutSelections', sel);
       if (tok) sessionStorage.setItem('wakeToken', tok);
@@ -185,7 +320,8 @@ for (const plat of PLATAFORMAS) {
     // Na Nuvemshop, o token que sobrou de uma sessão Wake na mesma aba: é ele
     // que daria credencial ao config se o export o carregasse.
     plataforma === 'Wake' || plataforma === 'Wake 2.0' || plataforma === 'Nuvemshop' ? 'TOKEN-DE-TESTE' : '',
-    JSON.stringify({ model: 'Checkout01', variables: CHECKOUT_SEMEADO, etapa: 'carrinho' })
+    JSON.stringify({ model: 'Checkout01', variables: CHECKOUT_SEMEADO, etapa: 'carrinho' }),
+    GLOBAIS
   );
   await p.goto(`${BASE_URL}/gerador`, {
     waitUntil: 'domcontentloaded',
@@ -313,6 +449,22 @@ for (const plat of PLATAFORMAS) {
       conferirFaststore(config, r, { checkoutEsperado: CHECKOUT_SEMEADO });
     else if (plataforma === 'Nuvemshop') conferirNuvemshop(config, r);
     else conferirTrayWake(config, plataforma, r);
+
+    // Valores de ponta a ponta: o que o editor escolheu é o que o config leva.
+    const raiz = plataforma === 'VTEX' ? config.faststore : config[esperado];
+    conferirGlobais(plat, raiz?.variables);
+    if (!coerente) {
+      const sem = SENTINELAS[plat] ?? [];
+      r.ok(
+        `${plat}: variáveis-sentinela semeadas em 3 itens (common, home, category/product)`,
+        sem.length === 3 && sem.some(x => x.it.variablesSchema.some(v => v.type === 'font')),
+        `semeados: ${sem.map(x => x.onde).join(', ') || 'nenhum'}`
+      );
+      for (const x of sem) {
+        const balde = x.sel.pagina === 'common' ? raiz?.global : raiz?.[x.sel.pagina];
+        conferirSentinelas(plat, balde ?? [], [x], x.sel.pagina === 'common' ? 'global' : x.sel.pagina);
+      }
+    }
   }
   await p.close();
 }
@@ -436,6 +588,104 @@ if (NUVEMSHOP_LIGADA) {
       );
     }
     conferirNuvemshop(cfg, r);
+  }
+  await p.close();
+}
+
+
+// O modo LP com valores de ponta a ponta, na VTEX e na Wake 2.0 (as duas que o
+// estágio exporta e onde o generator monta LP). A LP tem o seu `buildLpConfigJson`,
+// com `landing` no lugar de global/home, e é um caminho de `pickChangedVariables`
+// que o export da loja não toca. Três seções de miolo (home), todas as variáveis
+// do schema semeadas, uma fonte no meio; as globais do painel também têm de sair.
+for (const plat of ['VTEX', 'Wake 2.0']) {
+  const trilha = plat === 'VTEX' ? 'faststore' : 'wake';
+  const cand = [];
+  for (const [layoutKey, sec] of Object.entries(L))
+    for (const it of sec.items)
+      if (
+        it.pagina.includes('home') &&
+        !it.global &&
+        !NON_DUPLICABLE_SELECTIONS.has(it.selection) &&
+        exportavel(it, plat)
+      )
+        cand.push({
+          it,
+          sel: { uid: `lplp-${layoutKey}-${it.id}`, id: it.id, layoutKey, pagina: 'home' },
+        });
+  cand.sort(poeFontePrimeiro);
+  const semeadas = cand.slice(0, 3).map(c => {
+    c.sel.variables = variaveisSentinela(c.it);
+    return { ...c, variables: c.sel.variables, onde: 'landing' };
+  });
+  const p = await b.newPage();
+  const cdp = await p.createCDPSession();
+  await cdp.send('Page.setDownloadBehavior', { behavior: 'allow', downloadPath: DL });
+  p.on('dialog', async d => {
+    log(`   [dialog ${plat}-lp] ${d.message().slice(0, 90)}`);
+    await d.dismiss();
+  });
+  await p.goto(`${BASE_URL}/gerador`, { waitUntil: 'domcontentloaded', timeout: 90000 });
+  await p.evaluate(
+    (pl, loja, lp, gl, tok) => {
+      localStorage.clear();
+      sessionStorage.clear();
+      sessionStorage.setItem('layoutPlatform', pl);
+      sessionStorage.setItem('layoutSelections', loja);
+      sessionStorage.setItem('colors', JSON.stringify(gl.colors));
+      sessionStorage.setItem('fonts', JSON.stringify(gl.fonts));
+      if (tok) sessionStorage.setItem('wakeToken', tok);
+      sessionStorage.setItem('editorMode', 'lp');
+      sessionStorage.setItem('lp', lp);
+    },
+    plat,
+    JSON.stringify(coerenteFor(plat)),
+    JSON.stringify({ nome: 'LP Sentinela', selections: semeadas.map(x => x.sel) }),
+    GLOBAIS,
+    plat === 'Wake 2.0' ? 'TOKEN-DE-TESTE' : ''
+  );
+  await p.goto(`${BASE_URL}/gerador`, { waitUntil: 'domcontentloaded', timeout: 90000 });
+  await p.waitForSelector('.ed-shell', { timeout: 60000 });
+  const emLp = await p
+    .waitForFunction(() => document.querySelector('[data-editor-mode-lp]')?.getAttribute('aria-pressed') === 'true', {
+      timeout: 60000,
+      polling: 250,
+    })
+    .then(
+      () => true,
+      () => false
+    );
+  r.ok(`${plat}-lp: a aba semeada abre no modo LP com ${semeadas.length} seções`, emLp && semeadas.length === 3);
+  let cfg = null;
+  if (emLp) {
+    await p.evaluate(() => {
+      window.__cfg = null;
+      const orig = URL.createObjectURL.bind(URL);
+      URL.createObjectURL = bl => {
+        if (bl && bl.type === 'application/json') bl.text().then(t => (window.__cfg = JSON.parse(t)));
+        return orig(bl);
+      };
+    });
+    await p
+      .waitForFunction(
+        () => {
+          const x = [...document.querySelectorAll('button')].find(y => y.textContent.trim().startsWith('Baixar'));
+          return !!x && !x.disabled;
+        },
+        { timeout: 60000, polling: 250 }
+      )
+      .catch(() => {});
+    await p.evaluate(() => [...document.querySelectorAll('button')].find(x => x.textContent.trim().startsWith('Baixar'))?.click());
+    for (let i = 0; i < 40 && !cfg; i++) {
+      await s(3000);
+      cfg = await p.evaluate(() => window.__cfg).catch(() => null);
+    }
+  }
+  if (r.ok(`${plat}-lp: o "Baixar" do modo LP entrega o config`, !!cfg)) {
+    const raiz = cfg[trilha] ?? {};
+    r.ok(`${plat}-lp: tipo "lp" e landingPage com o slug do nome`, cfg.tipo === 'lp' && raiz.landingPage?.slug === 'lp-sentinela', JSON.stringify(raiz.landingPage));
+    conferirGlobais(`${plat}-lp`, raiz.variables);
+    conferirSentinelas(`${plat}-lp`, raiz.landing ?? [], semeadas, 'landing');
   }
   await p.close();
 }
