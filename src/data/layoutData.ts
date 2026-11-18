@@ -223,6 +223,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-text", label: "Texto/ícones do header", type: "color", default: "#000000", group: "Header", inheritsLabel: "cor primária de contraste da marca" },
         { cssVar: "--header-accent", label: "Destaque (hover e sublinhado)", type: "color", default: "#e73888", group: "Header", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--header-accent-text", label: "Texto do contador do carrinho", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor secundária de contraste da marca" },
         { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#171a1c", group: "Mini-carrinho", inheritsLabel: "cor base do texto", previewNote: "Aparece com o mini-carrinho aberto." },
         { cssVar: "--cart-button-bg", label: "Fundo do botão Finalizar compra (e texto e borda do Continuar comprando)", type: "color", default: "#171a1c", group: "Mini-carrinho", previewNote: "Aparece com o mini-carrinho aberto.", inheritsLabel: "cor primária da marca" },
         { cssVar: "--cart-button-text", label: "Texto do botão Finalizar compra", type: "color", default: "#ffffff", group: "Mini-carrinho", previewNote: "Aparece com o mini-carrinho aberto.", inheritsLabel: "cor primária de contraste da marca" },

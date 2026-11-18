@@ -233,7 +233,7 @@
   padding: 0 4px;
   border-radius: 999px;
   background: var(--header-accent, var(--background-secundary-color, #e73888));
-  color: var(--header-topbar-text, var(--text-color-secundary, #ffffff));
+  color: var(--header-accent-text, var(--text-color-secundary, #ffffff));
   font-size: 9.5px;
   font-weight: 600;
   letter-spacing: 0.02em;
