@@ -266,6 +266,7 @@
   justify-content: center;
   gap: 10px 28px;
   margin-top: 0;
+  color: var(--footer-text, var(--text-color-footer, #f5f0e8)); /* texto da barra legal */
 }
 
 .credit {
@@ -275,8 +276,6 @@
   text-decoration: none;
   transition: opacity .3s ease;
 }
-
-a.credit:hover { opacity: .7; }
 
 .creditLabel {
   font-size: 10px;
@@ -294,8 +293,33 @@ a.credit:hover { opacity: .7; }
 }
 
 .creditLogoVtex { height: 20px; }
-/* wordmark da agência em currentColor (acompanha a cor do texto do rodapé) */
-.creditLogoAgency { height: 12px; color: var(--footer-text, var(--text-color-footer, #f5f0e8)); }
+
+/* ── Crédito padrão da agência ("Desenvolvido por:" + logo SÉRIE//A) ─────────────
+   Cor herdada da barra legal (currentColor); só as duas barras do logo são fixas. */
+.devCredit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+  opacity: 1;
+  transition: opacity .3s ease;
+}
+
+.devCredit:hover { opacity: .8; }
+
+.devCreditText {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.devCreditLogo {
+  display: block;
+  width: auto;
+  height: 14px;
+}
 
 /* ══ MOBILE (<768) ════════════════════════════════════════════════════════════ */
 .mobile { padding: 32px 18px 24px; }  /* inline: padding 32/18/24 */
@@ -305,7 +329,6 @@ a.credit:hover { opacity: .7; }
 .mobile .creditLabel { font-size: 9px; }
 .mobile .creditLogo { max-height: 16px; }
 .mobile .creditLogoVtex { height: 16px; }
-.mobile .creditLogoAgency { height: 10px; }
 
 .brandNameM {
   margin-bottom: 4px;

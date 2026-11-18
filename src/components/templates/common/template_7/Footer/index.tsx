@@ -60,8 +60,7 @@ const AgencyLogo = ({ className }: { className?: string }) => (
   <svg
     className={className}
     viewBox="6.5 3.9 67 13.9"
-    role="img"
-    aria-label="Serie A"
+    aria-hidden="true"
     focusable="false"
     xmlns="http://www.w3.org/2000/svg"
   >
@@ -77,21 +76,27 @@ const AgencyLogo = ({ className }: { className?: string }) => (
   </svg>
 )
 
+/** Crédito padrão da agência na barra legal: "Desenvolvido por:" + logo SÉRIE//A. Fixo, fora do CMS. */
+const Credit = () => (
+  <a
+    className={styles.devCredit}
+    href="https://seriea.com.br/"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Desenvolvido por SÉRIE//A (abre em nova aba)"
+  >
+    <span className={styles.devCreditText}>Desenvolvido por:</span>
+    <AgencyLogo className={styles.devCreditLogo} />
+  </a>
+);
+
 /** Créditos do rodapé: plataforma + agência. Conteúdo fixo, fora do CMS. */
 const Credits = ({ role }: { role: string }) => (
   <div className={styles.credits} data-role={role}>
     <span className={styles.credit}>
       <VtexLogo className={[styles.creditLogo, styles.creditLogoVtex].join(' ')} />
     </span>
-    <a
-      className={styles.credit}
-      href="https://seriea.com.br/"
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label="Serie A — abre em nova aba"
-    >
-      <AgencyLogo className={[styles.creditLogo, styles.creditLogoAgency].join(' ')} />
-    </a>
+    <Credit />
   </div>
 )
 

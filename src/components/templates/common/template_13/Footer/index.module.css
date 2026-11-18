@@ -209,6 +209,38 @@
   font-size: 13px;
   line-height: 1.5;
 }
+
+.legalGroup {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px 24px;
+  margin-left: auto;
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #f4f4f0)) 64%, var(--footer-bg, var(--background-footer, #0d0d0d)));
+}
+
+.credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  text-decoration: none;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+
+.credit:hover {
+  opacity: 0.8;
+}
+
+.creditLogo {
+  display: block;
+  width: auto;
+  height: 14px;
+}
 @container (max-width: 960px) {
   .footer13 .dsk {
     display: none !important;
@@ -313,6 +345,18 @@
   }
   .legal {
     line-height: 1.55;
+  }
+
+  .legalGroup {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    justify-content: flex-start;
+    margin-left: 0;
+  }
+
+  .credit {
+    justify-content: center;
   }
 }
 

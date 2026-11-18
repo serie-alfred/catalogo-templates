@@ -511,18 +511,14 @@
   padding: 0px 10px;
 }
 
-.footer .footerBottom .bottomContainer .bottomRow .footerDev {
-  width: 20%;
-  max-width: 20%;
+.footer .footerBottom .bottomContainer .bottomRow .footerCredit {
+  flex: 0 0 auto;
+  margin-left: auto;
   padding: 0px 15px;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.footer .footerBottom .bottomContainer .bottomRow .footerDev a {
-  display: inline-block;
-  line-height: 1;
+  align-items: center;
+  color: var(--footer-text, var(--text-color-footer, #ffffff));
+  font-family: 'Noto Sans', sans-serif;
 }
 
 .modal__lgpd {
@@ -791,11 +787,15 @@
     text-align: center;
   }
 
-  .footer .footerBottom .bottomContainer .bottomRow .footerDev {
+  .footer .footerBottom .bottomContainer .bottomRow {
+    flex-wrap: wrap;
+  }
+
+  .footer .footerBottom .bottomContainer .bottomRow .footerCredit {
     width: 100%;
-    max-width: 100%;
-    justify-content: center;
+    margin-left: 0;
     margin-top: 25px;
+    justify-content: center;
   }
 
   .modal__lgpd .lgpd__content p {
@@ -832,4 +832,30 @@
 .footer select:focus {
   outline: none;
   box-shadow: none;
+}
+
+
+/* Crédito padrão da agência: herda fonte e cor da barra legal. */
+.credit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  text-decoration: none;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.credit:hover {
+  opacity: 0.8;
+}
+
+.creditLogo {
+  display: block;
+  height: 14px;
+  width: auto;
 }
