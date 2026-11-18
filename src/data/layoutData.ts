@@ -1825,6 +1825,7 @@ export const LAYOUTS: Layouts = {
     name: "Abas de categoria",
     items: [
       { id: "06", selection: "category-tabs", key: "cattab06frc5", image: "categoryTabs/CategoryTabs06.webp", imageSource: "auto", mobile: "", title: "Abas de categoria Template 6", description: "Título, abas de categoria e carrossel de cards de modelo, com a segunda foto aparecendo no hover", template: "6", pagina: ["home"], component: "CategoryTabs06", path: "molecules/CategoryTabs06", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--categorytabs-bg", label: "Fundo da seção", type: "color", default: "#f6f6f6", group: "Seção" },
         { cssVar: "--categorytabs-title-color", label: "Texto do título", type: "color", default: "#212721", group: "Título", inheritsLabel: "cor base do texto" },
         { cssVar: "--categorytabs-tab-color", label: "Texto da aba", type: "color", default: "#212721", group: "Botão", inheritsLabel: "cor base do texto" },
         { cssVar: "--categorytabs-tab-active-color", label: "Sublinhado da aba ativa", type: "color", default: "#212721", group: "Botão", inheritsLabel: "cor base do texto" },

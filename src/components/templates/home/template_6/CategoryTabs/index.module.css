@@ -31,7 +31,7 @@
   /* superfície cinza da seção inteira (origem: flexRowContent bg rgb(246,246,246)); */
   /* sem ela o pill "Ver modelo" flutua no branco abaixo do cinza das fotos. */
   /* Neutro estrutural (isento da cadeia de tema, como as fotos de produto). */
-  background-color: #f6f6f6;
+  background-color: var(--categorytabs-bg, #f6f6f6);
 }
 
 @media(max-width: 768px) {
