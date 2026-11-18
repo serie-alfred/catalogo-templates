@@ -44,7 +44,6 @@ import {
   ler,
   git,
 } from './lib/util.mjs';
-import { TEMA_INICIAL, colorSafeOnWhite } from '../../src/utils/themeStyle.ts';
 
 const r = relatorio('Estágio 4 — temas Tray, Wake e Wake 2.0 montados (sem a loja)');
 const PASTA = path.join(SAIDA, 'tray-wake');
@@ -86,20 +85,55 @@ const PASTA_DA_PAGINA = {
   product: 'Product',
 };
 
-// As 16 globais como uma aba nova as exporta (`variaveisTrayWake` no hook).
+// As 16 globais com SENTINELAS (valor único por chave), no formato que uma aba nova exporta
+// (`variaveisTrayWake` no hook): o que sai no tema só pode ter vindo do config.
 const GLOBAIS = {
-  ...TEMA_INICIAL.fonts,
-  ...TEMA_INICIAL.colors,
-  colorPrimaryBackgroundSafe: colorSafeOnWhite(
-    TEMA_INICIAL.colors.colorPrimaryBackground
-  ),
-  colorSecondaryBackgroundSafe: colorSafeOnWhite(
-    TEMA_INICIAL.colors.colorSecondaryBackground
-  ),
-  colorTertiaryBackgroundSafe: colorSafeOnWhite(
-    TEMA_INICIAL.colors.colorTertiaryBackground
-  ),
+  fontPrimary: 'RevGlobPrim',
+  fontSecondary: 'RevGlobSec',
+  fontTertiary: 'RevGlobTer',
+  colorPrimary: '#c0ff01',
+  colorSecondary: '#c0ff02',
+  colorTertiary: '#c0ff03',
+  colorPrimaryBackground: '#c0ff04',
+  colorSecondaryBackground: '#c0ff05',
+  colorTertiaryBackground: '#c0ff06',
+  colorFooter: '#c0ff07',
+  colorFooterText: '#c0ff08',
+  colorPrimaryText: '#c0ff09',
+  colorSecondaryText: '#c0ff0a',
+  colorPrimaryBackgroundSafe: '#c0ff0b',
+  colorSecondaryBackgroundSafe: '#c0ff0c',
+  colorTertiaryBackgroundSafe: '#c0ff0d',
 };
+// Chave global → propriedade que o generator escreve em `:root` do `_variables.scss`.
+const GLOBAL_NO_ROOT = {
+  fontPrimary: '--font-primary',
+  fontSecondary: '--font-secundary',
+  fontTertiary: '--font-tertiary',
+  colorPrimaryBackground: '--background-primary-color',
+  colorPrimaryBackgroundSafe: '--background-primary-color-safe',
+  colorSecondaryBackgroundSafe: '--background-secundary-color-safe',
+  colorTertiaryBackgroundSafe: '--background-tertiary-color-safe',
+  colorSecondaryBackground: '--background-secundary-color',
+  colorTertiaryBackground: '--background-tertiary-color',
+  colorFooter: '--background-footer',
+  colorPrimary: '--text-primary-color',
+  colorSecondary: '--text-secundary-color',
+  colorTertiary: '--text-tertiary-color',
+  colorPrimaryText: '--text-color-base',
+  colorSecondaryText: '--text-color-secundary',
+  colorFooterText: '--text-color-footer',
+};
+const hex2 = n => n.toString(16).padStart(2, '0');
+/** Sentinela de uma variável por componente: única por item (k) e por variável (n). */
+const sentinela = (k, n, v) =>
+  v.type === 'font' ? `'RevF${hex2(k)}${hex2(n)}', sans-serif` : `#d6${hex2(k)}${hex2(n)}`;
+/** As variáveis semeadas de um item: [{ cssVar, valor }]. */
+const varsSemeadas = (i, k) =>
+  (i.variablesSchema ?? []).map((v, n) => ({
+    cssVar: v.cssVar,
+    valor: sentinela(k + 1, n + 1, v),
+  }));
 
 /** O config da família, como o `buildConfigJson` o escreve depois do "Por template". */
 function configDe({ plataforma, familia }, daFamilia) {
@@ -110,17 +144,21 @@ function configDe({ plataforma, familia }, daFamilia) {
     variables: GLOBAIS,
     assets: { logo: '', footerLogo: '', favicon: '', ogImage: '' },
   };
-  for (const i of daFamilia) {
+  daFamilia.forEach((i, k) => {
+    const variables = Object.fromEntries(
+      varsSemeadas(i, k).map(v => [v.cssVar, v.valor])
+    );
     const entrada = {
       template: i.template,
       selection: i.selection,
       title: i.title,
       key: i.key,
       pagina: i.pagina,
+      ...(Object.keys(variables).length ? { variables } : {}),
     };
     if (i.pagina.includes('common')) raiz.global.push(entrada);
     else for (const pg of i.pagina) (raiz[pg] ??= []).push(entrada);
-  }
+  });
   return {
     platform: trilha,
     [trilha]: raiz,
@@ -323,6 +361,59 @@ for (const caso of CASOS) {
       `${plataforma} ${nn}: o SCSS do tema compila (${scss.entradas.length} folha(s) de entrada)`,
       scss.entradas.length > 0 && scss.falhas.length === 0,
       scss.falhas.slice(0, 3).join(' | ') || 'nenhuma folha de entrada'
+    );
+
+    // ── as variáveis chegaram com o VALOR semeado ─────────────────────────
+    // (a) as 16 globais: no `:root` do `_variables.scss`, com o valor da sentinela.
+    const txtVars = ler(
+      path.join(
+        TEMA,
+        ...(plataforma === 'Tray'
+          ? ['resources', 'scss', 'base', '_variables.scss']
+          : ['_Resources', 'SCSS', 'base', '_variables.scss'])
+      )
+    );
+    const bloco = txtVars.match(/:root\s*\{([\s\S]*?)\}/)?.[1] ?? '';
+    const globalErrada = Object.entries(GLOBAL_NO_ROOT)
+      .filter(([k, prop]) => {
+        const m = bloco.match(new RegExp(`${prop}:\\s*([^;]+);`));
+        return !m || !m[1].includes(GLOBAIS[k]);
+      })
+      .map(([k]) => k);
+    r.ok(
+      `${plataforma} ${nn}: as 16 globais saem em :root do _variables.scss com o valor semeado`,
+      txtVars !== '' && globalErrada.length === 0,
+      txtVars === '' ? '_variables.scss não existe' : `sem o valor: ${globalErrada.join(', ')}`
+    );
+    r.ok(
+      `${plataforma} ${nn}: o _variables.scss não tem chave "undefined"`,
+      txtVars !== '' && !txtVars.includes('undefined'),
+      txtVars
+        .split('\n')
+        .filter(l => l.includes('undefined'))
+        .slice(0, 3)
+        .join(' | ')
+    );
+    // (b) por componente: cada variável do schema aparece DECLARADA com o valor semeado
+    // no CSS compilado (aspas à parte: o sass pode normalizá-las).
+    const semAspas = t => t.replace(/["']/g, '');
+    const cssSemAspas = semAspas(scss.css);
+    const escapar = t => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const semDecl = [];
+    let nVars = 0;
+    daFamilia.forEach((i, k) => {
+      for (const v of varsSemeadas(i, k)) {
+        nVars++;
+        const re = new RegExp(
+          `${escapar(v.cssVar)}\\s*:\\s*${escapar(semAspas(v.valor))}\\s*[;}]`
+        );
+        if (!re.test(cssSemAspas)) semDecl.push(`${i.selection} ${v.cssVar}=${v.valor}`);
+      }
+    });
+    r.ok(
+      `${plataforma} ${nn}: as ${nVars} variáveis por componente dos itens saem declaradas com o valor semeado no CSS compilado`,
+      nVars > 0 && semDecl.length === 0,
+      `${semDecl.length} sem declaração: ${semDecl.slice(0, 5).join(' | ')}`
     );
 
     // ── cada seção chegou ─────────────────────────────────────────────────

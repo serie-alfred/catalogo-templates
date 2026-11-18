@@ -154,6 +154,44 @@ r.ok(
   'nenhum override do config tem cor no variablesSchema'
 );
 
+// ── globais do painel: VALORES-sentinela ─────────────────────────────────────
+// O config coerente traz as globais com os valores de um tema de exemplo, que o
+// próprio starter pode ter igual (ou parecido) no custom-theme.scss — então "a
+// variável existe" (regex abaixo) não prova que o valor do editor chegou lá. Aqui
+// cada global do painel vira um valor único, que nenhum SCSS do starter tem, e o
+// custom-theme.scss gerado precisa devolver EXATAMENTE aquele valor no token do
+// VAR_MAP do generator (VariablesGenerator.js). As cores usam a faixa #0e0e__
+// (6 dígitos: o nível 2 do checkout lê o mesmo `faststore.variables`) e as fontes
+// são famílias do Google, que o WebFonts aceita.
+const GLOBAIS_SENTINELA = {
+  fontPrimary: { token: '--font-primary', valor: 'Lato', fonte: true },
+  fontSecondary: { token: '--font-secundary', valor: 'Merriweather', fonte: true },
+  fontTertiary: { token: '--font-tertiary', valor: 'Montserrat', fonte: true },
+  colorPrimaryBackground: { token: '--background-primary-color' },
+  colorPrimaryBackgroundSafe: { token: '--background-primary-color-safe' },
+  colorSecondaryBackgroundSafe: { token: '--background-secundary-color-safe' },
+  colorTertiaryBackgroundSafe: { token: '--background-tertiary-color-safe' },
+  colorSecondaryBackground: { token: '--background-secundary-color' },
+  colorTertiaryBackground: { token: '--background-tertiary-color' },
+  colorFooter: { token: '--background-footer' },
+  colorPrimary: { token: '--text-primary-color' },
+  colorSecondary: { token: '--text-secundary-color' },
+  colorTertiary: { token: '--text-tertiary-color' },
+  colorPrimaryText: { token: '--text-color-base' },
+  colorSecondaryText: { token: '--text-color-secundary' },
+  colorFooterText: { token: '--text-color-footer' },
+};
+let globalN = 0;
+for (const g of Object.values(GLOBAIS_SENTINELA)) {
+  g.valor ??= `#0e0e${String(++globalN).padStart(2, '0')}`;
+}
+config.faststore.variables = {
+  ...(config.faststore.variables ?? {}),
+  ...Object.fromEntries(
+    Object.entries(GLOBAIS_SENTINELA).map(([k, g]) => [k, g.valor])
+  ),
+};
+
 // ── checkout VTEX: o config ──────────────────────────────────────────────────
 // O export já leva `faststore.checkout` (o estágio 3 confere modelo, SHA e
 // papéis). Aqui o nível 1 vira MARCADOR — valores que nenhum arquivo da base tem —
@@ -569,6 +607,42 @@ r.ok(
   /--background-primary-color:/.test(tema) && /--font-primary:/.test(tema)
 );
 
+// Valores, não só nomes: cada token do :root gerado vale o sentinela semeado no
+// config, e aparece uma vez só no bloco gerado.
+const blocoVars =
+  /\/\* BEGIN:custom-variables \*\/\s*:root\s*\{([^}]*)\}/.exec(tema)?.[1] ?? '';
+r.ok(
+  'bloco :root gerado encontrado no custom-theme.scss',
+  blocoVars !== '',
+  'sem BEGIN:custom-variables + :root'
+);
+const tokenDivergente = Object.entries(GLOBAIS_SENTINELA)
+  .map(([chave, g]) => {
+    const ocorr = [
+      ...blocoVars.matchAll(new RegExp(`(?:^|[;\\s])${g.token}:\\s*([^;]+);`, 'g')),
+    ].map(m => m[1].trim());
+    const esperado = g.fonte
+      ? `'${g.valor}', Arial, Helvetica, sans-serif`
+      : g.valor;
+    return ocorr.length === 1 && ocorr[0] === esperado
+      ? null
+      : `${chave} (${g.token}): esperado ${esperado}, veio ${ocorr.join(' | ') || 'nada'}`;
+  })
+  .filter(Boolean);
+r.ok(
+  `os ${Object.keys(GLOBAIS_SENTINELA).length} tokens globais do custom-theme.scss recebem exatamente o valor semeado no config`,
+  tokenDivergente.length === 0,
+  tokenDivergente.join(' · ')
+);
+const tokensSemMapa = [...blocoVars.matchAll(/(--[\w-]+):/g)]
+  .map(m => m[1])
+  .filter(t => !Object.values(GLOBAIS_SENTINELA).some(g => g.token === t));
+r.ok(
+  'o :root gerado não tem token fora do mapa de globais (VAR_MAP mudou?)',
+  tokensSemMapa.length === 0,
+  tokensSemMapa.join(', ')
+);
+
 // O bloco gerado tem que ser o ÚLTIMO `:root` do arquivo. As custom properties
 // do editor e as do design original do starter moram nas duas no `:root`, mesma
 // especificidade: quem declara por último vence. Quando o bloco era prependido,
@@ -603,6 +677,14 @@ const familias = [...fontes.matchAll(/family=([^:&"']+)/g)].map(m => m[1]);
 r.ok(
   `WebFonts com as fontes escolhidas (${familias.join(', ')})`,
   familias.length >= 3
+);
+const fontesSemeadas = Object.values(GLOBAIS_SENTINELA)
+  .filter(g => g.fonte)
+  .map(g => g.valor);
+r.ok(
+  'WebFonts importa as 3 fontes semeadas no config',
+  fontesSemeadas.every(f => familias.includes(f)),
+  `esperadas ${fontesSemeadas.join(', ')}, vieram ${familias.join(', ')}`
 );
 
 // Dados de exemplo NÃO podem viajar ligados para a loja do cliente. O starter
