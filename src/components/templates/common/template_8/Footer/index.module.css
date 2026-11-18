@@ -1,33 +1,5 @@
 /* Espelha organisms/Footer08 (faststore.starter): o SCSS compilado com o sass,
-   `@media (max-width: 960px)` → `/* ── Crédito padrão da agência ("Desenvolvido por:" + logo SÉRIE//A) ─────────────
-   Cor herdada da barra legal (currentColor); só as duas barras do logo são fixas. */
-.devCredit {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: inherit;
-  text-decoration: none;
-  opacity: 1;
-  transition: opacity .3s ease;
-  margin-left: auto; /* fim da faixa legal (a linha `legal` ocupa a largura toda) */
-}
-
-.devCredit:hover { opacity: .8; }
-
-.devCreditText {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: normal;
-  white-space: nowrap;
-}
-
-.devCreditLogo {
-  display: block;
-  width: auto;
-  height: 14px;
-}
-
-@container ft (max-width: 960px)`.
+   `@media (max-width: 960px)` → `@container ft (max-width: 960px)`.
    Gerado por `yarn derivar:css` (scripts/derivar-css.mjs) — mexa no SCSS de lá e rode.
    O que é só do canvas está no fim, depois de "Só no catálogo", e é preservado. */
 
@@ -227,6 +199,33 @@
   letter-spacing: 0.25px;
   text-align: center;
   white-space: pre-line;
+}
+
+.devCredit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  margin-left: auto;
+}
+.devCredit:hover {
+  opacity: 0.8;
+}
+
+.devCreditText {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.devCreditLogo {
+  display: block;
+  width: auto;
+  height: 14px;
 }
 
 @container ft (max-width: 960px) {
