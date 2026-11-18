@@ -225,7 +225,17 @@ export function ProductCard09({
 }
 
 /** O item do catálogo: os três estados do desenho lado a lado (3 colunas; 2 no mobile). */
-export default function Spot09() {
+export default function Spot09({ soCard = false }: { soCard?: boolean }) {
+  // Dentro de uma lista (vitrine, grade, relacionados) de qualquer família o spot é só o
+  // card (`CardDaLoja`), sem o quadro do desenho nem envelope de container: as
+  // @container do card respondem à largura da lista, como as @media na loja.
+  if (soCard)
+    return (
+      <>
+        <link rel="stylesheet" href={FONTES_09} />
+        <ProductCard09 product={PRODUTOS_09[0]} />
+      </>
+    );
   return (
     <div className={styles.productCard09Box}>
       <link rel="stylesheet" href={FONTES_09} />

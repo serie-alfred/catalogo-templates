@@ -43,21 +43,6 @@
   display: block;
   flex: none;
 }
-.productShelf15 [data-role=spot-tag] {
-  top: 16px;
-  left: 16px;
-  background-color: var(--spot-tag-bg, var(--showcase-tag-bg, var(--background-primary-color, #7a5f1c)));
-}
-.productShelf15 [data-role=spot-favorite] {
-  top: 6px;
-  right: 6px;
-}
-.productShelf15 [data-role=spot-brand] {
-  color: var(--showcase-accent, var(--background-primary-color-safe, #7a5f1c));
-}
-.productShelf15 [data-role=spot] h3 {
-  font-size: 25px;
-}
 
 .eyebrow,
 .viewAll,
@@ -273,35 +258,6 @@
   border-bottom: 1px solid var(--banner-side-text, #faf8f4);
 }
 
-.variantBanner [data-role=spot] {
-  gap: 18px;
-}
-.variantBanner [data-role=spot] > :nth-child(2) {
-  align-items: stretch;
-  gap: 7px;
-  text-align: left;
-}
-.variantBanner [data-role=spot-favorite] {
-  top: 4px;
-  right: 4px;
-}
-.variantBanner [data-role=spot-favorite] svg {
-  width: 18px;
-  height: 18px;
-}
-.variantBanner [data-role=spot-brand] {
-  font-size: 10.5px;
-}
-.variantBanner [data-role=spot] h3 {
-  font-size: 22px;
-}
-.variantBanner [data-role=spot-price] {
-  letter-spacing: normal;
-}
-.variantBanner [data-role=spot] > :nth-child(2) > span:not([data-role]) {
-  justify-content: flex-start;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .productShelf15 * {
     scroll-behavior: auto;
@@ -342,48 +298,6 @@
     display: flex;
     align-self: center;
   }
-  .productShelf15 [data-role=spot] {
-    gap: 14px;
-  }
-  .productShelf15 [data-role=spot] > :nth-child(2) {
-    align-items: center;
-    gap: 6px;
-    text-align: center;
-  }
-  .productShelf15 [data-role=spot] > :nth-child(2) > span:not([data-role]) {
-    justify-content: center;
-  }
-  .productShelf15 [data-role=spot] > button[data-role=spot-buy] {
-    display: none !important;
-  }
-  .productShelf15 [data-role=spot-tag] {
-    top: 12px;
-    left: 12px;
-    padding: 5px 8px;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-  }
-  .productShelf15 [data-role=spot-favorite] {
-    top: 2px;
-    right: 2px;
-  }
-  .productShelf15 [data-role=spot-favorite] svg {
-    width: 18px;
-    height: 18px;
-  }
-  .productShelf15 [data-role=spot-brand] {
-    font-size: 10px;
-    letter-spacing: 0.22em;
-  }
-  .productShelf15 [data-role=spot] h3 {
-    font-size: 21px;
-  }
-  .productShelf15 [data-role=spot-price] {
-    font-size: 14px;
-  }
-  .productShelf15 [data-role=spot-installments] span {
-    display: inline !important;
-  }
   .row {
     flex-direction: column;
     gap: 28px;
@@ -408,37 +322,6 @@
   }
   .variantBanner .slide {
     flex-basis: 168px;
-  }
-  .variantBanner [data-role=spot] {
-    gap: 12px;
-  }
-  .variantBanner [data-role=spot] > :nth-child(2) {
-    align-items: stretch;
-    gap: 5px;
-    text-align: left;
-  }
-  .variantBanner [data-role=spot] > :nth-child(2) > span:not([data-role]) {
-    justify-content: flex-start;
-  }
-  .variantBanner [data-role=spot-favorite] {
-    top: 0;
-    right: 0;
-  }
-  .variantBanner [data-role=spot-favorite] svg {
-    width: 17px;
-    height: 17px;
-  }
-  .variantBanner [data-role=spot-brand] {
-    letter-spacing: 0.16em;
-  }
-  .variantBanner [data-role=spot] h3 {
-    font-size: 19px;
-  }
-  .variantBanner [data-role=spot-price] {
-    font-size: 13px;
-  }
-  .variantBanner [data-role=spot-installments] span {
-    display: none !important;
   }
 }
 

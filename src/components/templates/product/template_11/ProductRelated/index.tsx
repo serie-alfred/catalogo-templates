@@ -7,6 +7,7 @@ import {
   produto11,
   type Produto11,
 } from '@/components/templates/common/template_11/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 
 import styles from './index.module.css';
 
@@ -131,7 +132,9 @@ export default function ProductRelated11() {
             >
               {PRODUTOS.map(p => (
                 <li key={p.id} className={styles.slide}>
-                  <ProductCard11 product={p} variant="grid" layout="shelf" />
+                  <CardDaLoja familia="Spot11">
+                    <ProductCard11 product={p} variant="grid" layout="shelf" />
+                  </CardDaLoja>
                 </li>
               ))}
             </ul>

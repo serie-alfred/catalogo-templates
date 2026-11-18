@@ -39,7 +39,7 @@
   position: absolute;
   top: 10px;
   left: 10px;
-  color: var(--shelf-flag-text, #ffffff);
+  color: var(--spot-tag-text, #ffffff);
   font-family: var(--font-secundary, 'DM Sans', sans-serif);
   font-size: 9px;
   font-weight: 600;
@@ -49,7 +49,7 @@
   text-transform: uppercase;
 }
 
-.flagGold { background: var(--shelf-accent, var(--background-primary-color, #b8976a)); }
+.flagGold { background: var(--spot-accent, var(--background-primary-color, #b8976a)); }
 .flagSale { background: var(--spot-tag-bg, #c07a5a); }
 
 /* coração da wishlist: na origem é um <button> real (favorita/desfavorita) com
@@ -75,7 +75,7 @@
 }
 
 .wish:hover {
-  color: var(--wish-active-color, var(--shelf-accent, var(--background-primary-color, #b8976a)));
+  color: var(--spot-wishlist-active, var(--spot-accent, var(--background-primary-color, #b8976a)));
 }
 
 .cardBody {
@@ -92,7 +92,7 @@
   line-height: normal;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--spot-brand, var(--shelf-installments, #8c7d74));
+  color: var(--spot-brand, var(--spot-installments, #8c7d74));
   margin: 0 0 4px;
 }
 
@@ -101,7 +101,7 @@
   font-size: 16px;
   font-weight: 400;
   line-height: 1.25;
-  color: var(--shelf-title-color, var(--text-primary-color, #2c2420));
+  color: var(--spot-text, var(--text-primary-color, #2c2420));
   margin-bottom: 12px;
   min-height: 40px;
   display: -webkit-box;
@@ -114,7 +114,7 @@
 }
 
 .card:hover .cardTitle {
-  color: var(--shelf-accent, var(--background-primary-color, #b8976a));
+  color: var(--spot-accent, var(--background-primary-color, #b8976a));
 }
 
 .priceRow {
@@ -128,7 +128,7 @@
 .listPrice {
   font-family: var(--font-secundary, 'DM Sans', sans-serif);
   font-size: 14px;
-  color: var(--spot-old-price, color-mix(in srgb, var(--shelf-title-color, var(--text-primary-color, #2c2420)) 55%, transparent));
+  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #2c2420)) 55%, transparent));
   text-decoration: line-through;
 }
 
@@ -137,7 +137,7 @@
   font-size: 19px;
   font-weight: 600;
   line-height: normal;
-  color: var(--spot-price-color, var(--shelf-title-color, var(--text-primary-color, #2c2420)));
+  color: var(--spot-price-color, var(--spot-text, var(--text-primary-color, #2c2420)));
   margin: 0;
 }
 
@@ -149,7 +149,7 @@
   font-size: 11.5px;
   font-weight: 400;
   line-height: 1.3;
-  color: var(--shelf-installments, #8c7d74);
+  color: var(--spot-installments, #8c7d74);
   min-height: 15px;
   margin-bottom: 3px;
 }
@@ -162,7 +162,7 @@
   font-size: 11.5px;
   font-weight: 500;
   line-height: normal;
-  color: var(--shelf-pix, #5c7a66);
+  color: var(--spot-pix, #5c7a66);
   margin-bottom: 14px;
 }
 
@@ -173,8 +173,8 @@
   width: 100%;
   border: 0;
   appearance: none;
-  background: var(--shelf-buy-bg, var(--background-primary-color, #2c2420));
-  color: var(--shelf-buy-text, var(--text-color-base, #faf8f4));
+  background: var(--spot-btn-bg, var(--background-primary-color, #2c2420));
+  color: var(--spot-btn-text, var(--text-color-base, #faf8f4));
   padding: 11px;
   font-family: var(--font-secundary, 'DM Sans', sans-serif);
   font-size: 11px;
@@ -188,5 +188,5 @@
 }
 
 .buy:hover {
-  background: var(--spot-btn-hover-bg, color-mix(in srgb, var(--shelf-buy-bg, var(--background-primary-color, #2c2420)) 85%, #fff));
+  background: var(--spot-btn-hover-bg, color-mix(in srgb, var(--spot-btn-bg, var(--background-primary-color, #2c2420)) 85%, #fff));
 }

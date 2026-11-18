@@ -262,8 +262,18 @@ export function ProductCard15({
  * a lado, com o rótulo "Atelier"; no mobile, 2 colunas sem a do hover. A coluna Hover pinta o
  * estado de hover por CSS (fim da folha); lá, o comparador passa o mouse.
  */
-export default function Spot15() {
+export default function Spot15({ soCard = false }: { soCard?: boolean }) {
   const [padrao, desconto] = PRODUTOS_15;
+  // Dentro de uma lista (vitrine, grade, relacionados) de qualquer família o spot é só o
+  // card (`CardDaLoja`), sem o quadro do desenho nem envelope de container: as
+  // @container do card respondem à largura da lista, como as @media na loja.
+  if (soCard)
+    return (
+      <>
+        <link rel="stylesheet" href={FONTES_15} />
+        <ProductCard15 product={padrao} badge={ROTULO_15} />
+      </>
+    );
   const colunas = [
     { rotulo: 'Padrão', produto: padrao, hover: false },
     { rotulo: 'Hover', produto: desconto, hover: true },

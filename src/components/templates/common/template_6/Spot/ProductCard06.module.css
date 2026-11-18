@@ -1,0 +1,647 @@
+/* O card da grade da PLP 06 (molecules/ProductCard06 do faststore.starter), tirado da réplica da
+   PLP: a lista só dá o slot. Regras e @container como estavam lá (o container é o da PLP). */
+
+/* (display swap, CSS puro — igual à origem); o chip tem hover próprio na borda. */
+
+.card {
+  position: relative;
+  display: flex;
+  /* metrics: card@1280 (flex column) */
+  flex-direction: column;
+  justify-content: space-between;
+  /* metrics: card@1280 */
+  width: 100%;
+  /* metrics: card@1280 (card = largura do slide) */
+  min-width: 0;
+  /* nome nowrap não pode inflar o min-content do slide */
+  height: 100%;
+  overflow: hidden;
+  /* origem: classe overflow-hidden no containerNormal */
+  text-align: center;
+  /* metrics: card@1280 (herança tc da origem) */
+}
+
+/* Links de navegação (imagem + info) — layout idêntico ao antigo .cardLink */
+
+.imgLink, .infoLink {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+/* O hover do CARD troca a linha do nome pela linha do seletor de tamanho */
+
+.cardInner {
+  display: flex;
+  flex-direction: column;
+  gap: 11.2px;
+  /* metrics: card@1280 (zona da imagem ↔ info; 396 = 305 + 11.2 + 80) */
+}
+
+/* ── Zona da imagem ──────────────────────────────────────────────────────────── */
+
+.imgZone {
+  position: relative;
+  /* âncora do flag e do botão de carrinho (mobile) */
+  width: 100%;
+  /* metrics: card-img-wrap@1280 (300, largura do slide) */
+  /* swipe horizontal é do carrossel; rolagem vertical da página segue livre */
+  touch-action: pan-y;
+  /* strut da origem: img INLINE numa linha Jost 16/18.4 → baseline soma ~4.4 */
+  /* (zona 304.63 = img 300.23 + baseline) — igual ao padrão do BannerMain06 mobile */
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 16px;
+  /* metrics: card@1280 (fs 16 herdado) */
+  line-height: 18.4px;
+  /* metrics: card@1280 (lh 18.4) */
+}
+
+/* Foto em RETRATO 265/406 com `contain` sobre fundo #f6f6f6: a arte do produto entra
+inteira, sem corte, e o que sobra da caixa vira o fundo claro. A .imgWrap virou flex, então
+a <img> é item flex (bloco): o strut de baseline de ~4.4px da img inline deixou de existir. */
+
+.imgWrap {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+  /* âncora da 2ª foto (hover) — não altera o layout da principal */
+  overflow: hidden;
+  /* recorta os slots vizinhos da pista do carrossel (.hoverTrack) */
+  background-color: #f6f6f6;
+}
+/* `metrics-hover.md` (estado hoverado @1280), anotados com `// metrics:`. */
+
+.cardImg {
+  display: inline;
+  /* inline no CSS, mas bloco na prática: é item flex da .imgWrap */
+  width: 100%;
+  height: auto;
+  aspect-ratio: 265 / 406;
+  object-fit: contain;
+}
+/* e um `inset: 0` esticaria a foto de hover além do quadrado 1:1 da principal. */
+
+.cardImgHover {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 265 / 406;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  /* o clique continua sendo do <Link> embaixo */
+  transform: translateY(-50%);
+}
+
+@media (hover: hover) {
+  .card:hover .cardImgHover {
+    opacity: 1;
+  }
+}
+
+.hoverTrack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  aspect-ratio: 265 / 406;
+  opacity: 0;
+  /* opacidade = revelar/esconder no hover; transform = o deslize entre as fotos */
+  transition: opacity 0.35s ease, transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  pointer-events: none;
+  /* o clique continua sendo do <Link> embaixo */
+}
+/* enquanto o <img> ainda não existe (fotos distantes só entram depois do 1º hover). */
+
+.hoverSlide {
+  flex: 0 0 100%;
+  aspect-ratio: 265 / 406;
+}
+/* para o lado, que é o que dá o deslize. O aspect-ratio mantém o slot quadrado mesmo */
+
+.hoverSlide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+@media (hover: hover) {
+  .card:hover .hoverTrack {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hoverTrack {
+    transition: opacity 0.35s ease;
+  }
+}
+/* Aparecem apenas no hover do card; o visual do card não muda em repouso. */
+
+.imgNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  /* acima do <Link>/imagem */
+  /* botão circular translúcido sobre a foto (pastilha de 40px; o chevron segue 20px) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: hsla(0, 0%, 100%, 0.3411764706);
+  cursor: pointer;
+  opacity: 0;
+  /* repouso: escondida */
+  transition: opacity 0.18s ease;
+  /* chevron fornecido (SVG data-URI). A cor #000 vive dentro da data-URI (currentColor */
+  /* não resolve em background-image) — exceção estrutural documentada. */
+}
+
+/* ── Setas do carrossel de imagens (só MainCategory06, via prop imageCarousel) ── */
+
+.imgNav::before {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'><path fill='%23000' d='M15.563,40.836c0.195,0.195,0.451,0.293,0.707,0.293s0.512-0.098,0.707-0.293l15-15c0.391-0.391,0.391-1.023,0-1.414l-15-15c-0.391-0.391-1.023-0.391-1.414,0s-0.391,1.023,0,1.414l14.293,14.293L15.563,39.422C15.172,39.813,15.172,40.446,15.563,40.836z'/></svg>") no-repeat 50%;
+  pointer-events: none;
+}
+
+.imgNav {
+  /* extremos da pista (1ª/última foto do hover): sem wrap, a seta não tem para onde ir. */
+  /* `visibility` em vez de `opacity` para não brigar com a regra de revelar no hover. */
+}
+
+.imgNav:disabled {
+  visibility: hidden;
+}
+
+.imgZone:hover .imgNav {
+  opacity: 1;
+}
+
+.imgNavPrev {
+  left: 8px;
+}
+
+.imgNavPrev::before {
+  transform: rotate(180deg);
+}
+
+.imgNavPrev {
+  /* aponta para a esquerda */
+}
+
+.imgNavNext {
+  right: 8px;
+}
+/* O botão é a área de toque (≥24px de altura — WCAG 2.5.8 AA); a barra visível é o span. */
+
+.imgDots {
+  display: none;
+  /* desktop: continua com as setas de hover */
+  position: absolute;
+  z-index: 3;
+  /* acima do <Link>/imagem, igual às setas */
+  /* ocupa 100% da largura do card (sem recuo lateral), como pedido */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  gap: 0;
+  /* respiro entre as barras (o flex:1 divide o restante igualmente) */
+  align-items: center;
+}
+/* row de largura total, então N fotos = N barras de 100/N% (dinâmico, sem cálculo em JS). */
+
+.imgDot {
+  flex: 1 1 0;
+  /* divide o espaço igualmente até 100% do card */
+  min-width: 0;
+  display: flex;
+  align-items: flex-end;
+  min-height: 24px;
+  /* alvo de toque (a barra visível tem 3px) */
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+/* Barras largas dividindo o card em partes IGUAIS: cada botão é `flex: 1 1 0` num flex */
+
+.imgDotBar {
+  display: block;
+  width: 100%;
+  height: 4px;
+  /* inativo/ativo derivados do texto do card (contrastam em qualquer fundo) */
+  background-color: hsla(0,0%,52.9%,.1294117647);
+  transition: background 0.18s ease;
+}
+
+/* ── Dots do carrossel (prop imageDots — só página de categoria, só MOBILE) ── */
+
+.imgDotActive .imgDotBar {
+  background: var(--spot-text, var(--text-primary-color, #212721));
+}
+
+@container (max-width: 960px) {
+  .imgDots {
+    display: flex;
+  }
+/* a prop `imageDots` (vitrines) seguem intactos. */
+
+  .imgZoneDots .imgNav {
+    display: none;
+  }
+}
+
+@media (hover: none) {
+  .imgDots {
+    display: flex;
+  }
+
+  .imgZoneDots .imgNav {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .imgNav, .imgDotBar {
+    transition: none;
+  }
+}
+
+.flagRow {
+  position: absolute;
+  top: 16px;
+  /* metrics: flag@1280 (y card+16) */
+  left: 16px;
+  /* metrics: flag@1280 (x card+16) */
+  display: flex;
+  column-gap: 4px;
+  /* a origem empilha mais de um selo na mesma linha (wrapper-flags-shelf) */
+}
+
+.flag {
+  box-sizing: border-box;
+  display: flex;
+  /* metrics: flag@1280 (flex center) */
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: 1.5rem;
+  margin: 0;
+  padding: 0 .625rem;
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 12px;
+  /* metrics: flag@1280 */
+  font-weight: 400;
+  line-height: 13.2px;
+  /* metrics: flag@1280 (folha 13.2) */
+  color: var(--spot-tag-text, var(--text-primary-color, #212721));
+  border: 1px solid color-mix(in srgb, var(--spot-text, var(--text-primary-color, #212721)) 15%, transparent);
+}
+
+/* ── Wishlist (coração, canto superior direito) ──────────────────────────────── */
+
+.wishlist {
+  position: absolute;
+  /* a11y (PageSpeed "áreas de toque"): o Lighthouse mede o client rect do botão e */
+  /* ignora expansor em ::before — então o botão É a área de 44×44, com o coração */
+  /* de 21×18 centrado dentro. top/right recolocam o coração no mesmo ponto visual */
+  /* que o 21×18 em top/right 16 da origem (centro a 26.5 × 25 da quina). */
+  top: 3px;
+  right: 4px;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--spot-wishlist-color, var(--text-primary-color, #212721));
+  cursor: pointer;
+}
+
+.wishlist svg {
+  display: block;
+  width: 21px;
+  /* metrics: wishlist@1280 (21×18) */
+  height: 18px;
+}
+
+/* ── Adicionar ao carrinho (canto inferior direito da imagem — SÓ mobile) ────── */
+
+.addCart {
+  position: absolute;
+  bottom: 7px;
+  right: 9px;
+  z-index: 2;
+  display: none;
+  /* desktop: oculto (o hover revela o seletor de tamanho) */
+  font-size: 0;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color: var(--spot-icon-bg, #ffffff);
+  border-radius: 50%;
+  cursor: pointer;
+  /* Ícone da sacola via ::before (SVG encodado como background-image). */
+  /* Cor fixa %238c8e8c (#8c8e8c) — currentColor não resolve em background-image. */
+}
+
+.addCart::before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg width='16' height='15' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4.748 4.252h-.235c-.783 0-1.175 0-1.492.143-.28.125-.519.328-.689.583-.192.29-.257.676-.386 1.448l-.759 4.553v.002c-.173 1.041-.26 1.562-.11 1.968.133.357.386.655.716.845.376.215.904.215 1.96.215h8.493c1.057 0 1.586 0 1.961-.216.33-.189.583-.487.715-.844.151-.406.064-.926-.109-1.967v-.003l-.76-4.553c-.128-.772-.193-1.158-.385-1.448a1.626 1.626 0 00-.689-.583c-.317-.143-.708-.143-1.491-.143h-.236m-6.504 0h6.504m-6.504 0a3.252 3.252 0 116.504 0' stroke='%238c8e8c' stroke-width='.813' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.addCart:active {
+  transform: scale(0.94);
+}
+
+.addCart:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ── Info (nome/SKU + preço) ─────────────────────────────────────────────────── */
+
+.infoCol {
+  display: flex;
+  /* metrics: info-col@1280 (flex column gap 11.2) */
+  flex-direction: column;
+  gap: 11.2px;
+}
+
+.nameSkuBox {
+  position: relative;
+  height: 28px;
+  /* metrics: info-col@1280 (80 = 28 + 11.2 + 40.78 — constante nos 4 vps) */
+}
+
+.nameRow {
+  /* linha do NOME (papel name-sku-wrap): colapsa no hover do card (swap). */
+  /* overflow cria BFC → as margens do h3 contam na altura (24 = 18 + 3 + 3) */
+  width: 100%;
+  overflow: hidden;
+}
+
+.name {
+  display: flow-root;
+  /* metrics: name@1280 (flow-root na origem — o hover diffa display) */
+  align-items: center;
+  /* metrics: name@1280 (computado na origem) */
+  min-height: 18px;
+  /* metrics: name@1280 (rect.h 18 medido; 18 + m 3/3 = linha de 24) */
+  margin: 3px 0;
+  /* metrics: name@1280 (m 3/0) */
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 14px;
+  /* metrics: name@1280 */
+  font-weight: 400;
+  line-height: 16.1px;
+  /* metrics: name@1280 */
+  letter-spacing: 0.5008px;
+  /* metrics: name@1280 */
+  text-align: left;
+  /* metrics: name@1280 */
+  color: var(--spot-text, var(--text-primary-color, #212721));
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* ── Seletor de tamanho/SKU (revelado no hover do card) ──────────────────────── */
+
+.skuRow {
+  /* dentro do nameSkuBox (position relative): substitui a linha do nome no hover */
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 24px;
+  /* metrics-hover: sku-row@1280 (300×24) */
+  display: none;
+  /* repouso: oculto (origem: display none → flex no hover) */
+  justify-content: flex-start;
+  /* metrics-hover: sku-row@1280 */
+  align-items: flex-start;
+  column-gap: 4px;
+  /* metrics-hover: sku-row@1280 (gap 4 entre chips) */
+}
+
+.skuChip {
+  box-sizing: border-box;
+  display: flex;
+  /* metrics-hover: sku-chip@1280 (flex center) */
+  justify-content: center;
+  align-items: center;
+  height: 24px;
+  /* metrics-hover: sku-chip@1280 (31×24 p/ 2 caracteres) */
+  padding: 4px;
+  /* metrics-hover: sku-chip@1280 (p 4) */
+  border: 1px solid rgba(33, 39, 33, 0.12);
+  /* metrics-hover: sku-chip@1280 (repouso 0.12) */
+  border-radius: 4px;
+  /* metrics-hover: sku-chip@1280 */
+  background: none;
+  /* stack de SISTEMA da origem (tachyons default) — não é Jost/Fabriga */
+  font-family: var(--spot-font, -apple-system, BlinkMacSystemFont, 'avenir next', avenir, 'helvetica neue', helvetica, ubuntu, roboto, noto, 'segoe ui', arial, sans-serif);
+  font-size: 14px;
+  /* metrics-hover: sku-chip@1280 */
+  font-weight: 600;
+  line-height: 16.1px;
+  /* metrics-hover: sku-chip@1280 */
+  letter-spacing: 0.5008px;
+  text-decoration: none;
+  color: var(--spot-text, var(--text-primary-color, #212721));
+  transition: 0.4s;
+  /* metrics-hover: sku-chip@1280 (transition 0.4s) */
+  cursor: pointer;
+  /* hover REAL da origem: borda 0.12 → sólida */
+}
+
+.skuChip:hover:not(:disabled) {
+  border-color: rgb(33, 39, 33);
+  /* metrics: hover sku-chip (border rgba 0.12 → sólida) */
+}
+
+.skuChip {
+  /* sem SKU disponível → não clicável (mantém o visual; só troca o cursor) */
+}
+
+.skuChip:disabled {
+  cursor: default;
+}
+
+.skuChip {
+  /* enquanto adiciona ao carrinho */
+}
+
+.skuChip[data-adding] {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .card:not([data-soldout]):hover .name {
+    display: none;
+    /* metrics: hover card (h3 flow-root → none) */
+  }
+
+  .card:not([data-soldout]):hover .skuRow {
+    display: flex;
+    /* metrics: hover card (linha SKU none → flex) */
+  }
+}
+
+.priceWrap {
+  display: flex;
+  /* metrics: price-wrap@1280 (flex column, sem gap, 2 filhos) */
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.price {
+  display: flex;
+  /* metrics: price@1280 (flex column gap 4) */
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  /* metrics: price@1280 (gap 4 — slot vazio do preço "de" + gap = 22.4 de altura) */
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 16px;
+  /* metrics: price@1280 (folha 16/400) */
+  font-weight: 400;
+  line-height: 18.4px;
+  /* metrics: price@1280 */
+  color: var(--spot-text, var(--text-primary-color, #212721));
+  /* origem tem um slot VAZIO (preço "de" riscado ausente) que ocupa a 1ª posição */
+  /* do flex — com o gap 4 ele explica os 22.4 de altura (18.4 + 4) */
+}
+
+.price::before {
+  content: '';
+}
+
+.price {
+  /* com desconto, quem ocupa esse slot é o riscado (.listPrice) — o pseudo sai de cena */
+  /* para não somar uma 3ª linha e empurrar o preço para baixo */
+}
+
+.price[data-has-list-price]::before {
+  content: none;
+}
+/* vazio que ele substitui: assim card com e sem desconto têm exatamente a mesma altura. */
+
+.listPrice {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18.4px;
+  text-decoration: line-through;
+  color: var(--spot-old-price, #828282);
+  /* mesmo cinza estrutural da origem do "ou"/parcelas */
+}
+/* selo "OFF x%"). Fonte menor que o preço de venda, mas line-height 18.4 igual ao slot */
+
+.priceLine {
+  white-space: nowrap;
+}
+
+/* "ou" menor no fim da linha do preço (origem: "R$ 429,90 ou" / "10X de R$ 42,99") */
+
+.priceOu {
+  font-size: 12px;
+  /* metrics: price@1280 (span "ou" 12/500, 13.3 de largura) */
+  font-weight: 500;
+  line-height: 13.8px;
+  color: var(--spot-installments, #5b5b5b);
+  /* cinza estrutural da origem; escureceu de rgb(130,130,130) por contraste (AA) */
+}
+
+/* Preço "de" riscado (1ª linha do .price quando há desconto — o mesmo dado que gera o */
+
+.instRow {
+  /* strut da origem: linha de 16px/18.4 com span menor dentro (h 18.4) */
+  font-size: 16px;
+  /* metrics: price-wrap@1280 (linha das parcelas h 18.4 via strut) */
+  line-height: 18.4px;
+}
+
+.installments {
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
+  font-size: 12px;
+  /* metrics: raiz@1280 (parcelas 12/500 lh 13.8) */
+  font-weight: 500;
+  line-height: 13.8px;
+  color: var(--spot-installments, #5b5b5b);
+  /* cinza estrutural da origem (isento da cadeia de tema); era rgb(130,130,130) antes do */
+  /* ajuste de contraste (AA) */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skuChip {
+    transition-duration: 0ms !important;
+  }
+}
+
+@container (max-width: 960px) {
+  .addCart {
+    display: inline-flex;
+  }
+}
+
+@container (max-width: 1199px) {
+  .name {
+    min-height: 0;
+    /* metrics: name@1024 (h 13.8 = linha exata) */
+    margin: 0;
+    /* metrics: name@1024 (sem margens) */
+    font-size: 12px;
+    /* metrics: name@1024 */
+    line-height: 13.8px;
+    /* metrics: name@1024 */
+  }
+}
+
+@container (max-width: 639px) {
+  .flag {
+    height: 18.97px;
+    /* metrics: flag@375 (53×19) */
+    padding: 0 5px;
+    /* metrics: flag@375 (p 0/5) */
+    font-size: 10px;
+    /* metrics: flag@375 */
+    line-height: 11px;
+    /* metrics: flag@375 (folha 11) */
+    background-color: var(--spot-tag-bg, var(--spot-flag-bg, var(--background-primary-color, #000000)));
+    color: var(--spot-tag-text, var(--spot-flag-text, var(--text-color-base, #ffffff)));
+  }
+}
+
+/* Cards alinhados lado a lado: o preço "de" sempre ocupa a linha (sem desconto, .vazio no
+   index.tsx: invisível, com a mesma altura). O data-has-list-price agora é sempre emitido:
+   ele desliga o ::before vazio do .price, que aqui é a própria linha reservada. O nome é de 1
+   linha numa caixa de altura fixa (.nameSkuBox), então já alinha. O mesmo trecho está no
+   "Só na Wake" do spot.scss. */
+.vazio {
+  visibility: hidden;
+}

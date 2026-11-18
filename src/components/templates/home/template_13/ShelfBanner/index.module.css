@@ -41,16 +41,6 @@
   display: block;
   flex: none;
 }
-.productShelf13 [data-role=spot-tag] {
-  background-color: var(--spot-tag-bg, var(--showcase-tag-bg, var(--background-primary-color, #c8ff2e)));
-  color: var(--spot-tag-text, var(--showcase-accent-text, var(--text-color-base, #0d0d0d)));
-}
-.productShelf13 [data-role=spot] h3 {
-  font-size: 20px;
-}
-.productShelf13 [data-role=spot-price] {
-  font-size: 24px;
-}
 
 .title {
   color: var(--showcase-title-color, var(--text-color-secundary, #f4f4f0));
@@ -205,27 +195,6 @@
   font-size: 64px;
   line-height: 0.85;
 }
-.variantBanner [data-role=spot] {
-  gap: 12px;
-}
-.variantBanner [data-role=spot] > :nth-child(2) {
-  gap: 5px;
-}
-.variantBanner [data-role=spot] h3 {
-  font-size: 19px;
-}
-.variantBanner [data-role=spot-price] {
-  margin-top: 2px;
-  font-size: 22px;
-}
-.variantBanner [data-role=spot-favorite] {
-  top: 2px;
-  right: 2px;
-}
-.variantBanner [data-role=spot-favorite] svg {
-  width: 18px;
-  height: 18px;
-}
 .variantBanner .progress {
   width: calc(100% - 2 * clamp(16px, 3vw, 40px));
   max-width: 1200px;
@@ -347,34 +316,6 @@
   }
 }
 @container (max-width: 960px) {
-  .productShelf13 [data-role=spot] {
-    gap: 10px;
-  }
-  .productShelf13 [data-role=spot] > :nth-child(2) {
-    gap: 10px;
-  }
-  .productShelf13 [data-role=spot] > button[data-role=spot-buy] {
-    display: none !important;
-  }
-  .productShelf13 [data-role=spot] h3 {
-    font-size: 18px;
-    letter-spacing: normal;
-  }
-  .productShelf13 [data-role=spot-price] {
-    margin-top: 0;
-    font-size: 22px;
-  }
-  .productShelf13 [data-role=spot-installments] span {
-    display: inline !important;
-  }
-  .productShelf13 [data-role=spot-tags] {
-    top: 10px;
-    left: 10px;
-  }
-  .productShelf13 [data-role=spot-favorite] {
-    top: 0;
-    right: 0;
-  }
   .inner {
     gap: 20px;
     padding: 32px 0;
@@ -440,23 +381,6 @@
   .variantBanner .title {
     font-size: 44px;
     line-height: 0.86;
-  }
-  .variantBanner [data-role=spot] {
-    gap: 10px;
-  }
-  .variantBanner [data-role=spot] > :nth-child(2) {
-    gap: 10px;
-  }
-  .variantBanner [data-role=spot] h3 {
-    font-size: 18px;
-  }
-  .variantBanner [data-role=spot-price] {
-    margin-top: 0;
-    font-size: 22px;
-  }
-  .variantBanner [data-role=spot-favorite] {
-    top: 0;
-    right: 0;
   }
   .variantBanner .progress {
     width: auto;

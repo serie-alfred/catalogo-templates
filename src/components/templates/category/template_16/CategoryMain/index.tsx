@@ -15,6 +15,7 @@ import {
   produto16,
   type Produto16,
 } from '@/components/templates/common/template_16/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 import {
   type Facet16,
   type PriceBucket16,
@@ -840,7 +841,9 @@ export default function CategoryMain16() {
                 >
                   {products.map((p, i) => (
                     <li key={p.id ?? i} className={styles.gridItem}>
-                      <ProductCard16 product={p} showRating={false} />
+                      <CardDaLoja familia="Spot16">
+                        <ProductCard16 product={p} showRating={false} />
+                      </CardDaLoja>
                     </li>
                   ))}
                 </ul>

@@ -5,7 +5,7 @@
 
 .mainCategory11 {
   width: 100%;
-  background-color: #ffffff;
+  background-color: var(--cat-main-bg, #ffffff);
   color: var(--cat-main-text, var(--text-primary-color, #0a0a0a));
   font-family: var(--cat-main-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-weight: 400;
@@ -93,7 +93,7 @@
 }
 
 .sortLabel {
-  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 62%, var(--cat-main-bg, #ffffff));
   font-family: var(--cat-main-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   text-transform: uppercase;
@@ -167,7 +167,7 @@
   font-size: 13px;
 }
 .chip:hover {
-  background-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 6%, #ffffff);
+  background-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 6%, var(--cat-main-bg, #ffffff));
 }
 
 .clearLink {
@@ -224,7 +224,7 @@
   display: inline-block;
   width: 160px;
   height: 2px;
-  background-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 18%, #ffffff);
+  background-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 18%, var(--cat-main-bg, #ffffff));
 }
 .progress > span {
   position: absolute;
@@ -298,7 +298,7 @@
 
 .emptyDesc {
   max-width: 560px;
-  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0a0a0a)) 62%, var(--cat-main-bg, #ffffff));
   font-size: 16px;
   line-height: 1.55;
 }
@@ -659,9 +659,6 @@
   .grid2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     border-left: 0;
-  }
-  .grid article[data-role=spot] > [data-role=spot-buy] {
-    display: none;
   }
   .more {
     flex-direction: column;

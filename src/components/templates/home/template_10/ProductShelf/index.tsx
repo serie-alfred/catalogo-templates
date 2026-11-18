@@ -7,6 +7,7 @@ import {
   produto10,
   type Produto10,
 } from '@/components/templates/common/template_10/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 
 /**
  * Espelha `molecules/ProductShelf10` do faststore.starter — o núcleo das duas
@@ -17,8 +18,8 @@ import {
  * A folha mora em cada réplica (Showcase, ShelfBanner) — uma por item do
  * catálogo — e chega aqui por prop; as duas saem do mesmo SCSS.
  * Produtos = o mock.ts do núcleo de lá, com as notas do desenho (sem foto: vale o
- * placeholder). Sempre o ProductCard10: as vitrines 10 do starter não trocam o card
- * pelo spot escolhido (sem `usesSpot`), então a réplica também não troca.
+ * placeholder). O card é o da loja (`CardDaLoja`): sem
+ * Card de Produto escolhido, ou com o Spot10, o ProductCard10.
  * A variante `full` não leva classe extra, como no starter (só a `banner` tem regra).
  */
 
@@ -250,7 +251,9 @@ export default function ProductShelf10({
     >
       {produtos.map(prod => (
         <li key={prod.id} className={styles.slide}>
-          <ProductCard10 product={prod} badge={tagLabel} />
+          <CardDaLoja familia="Spot10">
+            <ProductCard10 product={prod} badge={tagLabel} />
+          </CardDaLoja>
         </li>
       ))}
     </ul>
@@ -273,7 +276,7 @@ export default function ProductShelf10({
     (banner.imageDesktop || banner.imageMobile || banner.title);
 
   return (
-    <div className={styles.productShelf10Box}>
+    <div className={styles.productShelf10Box} data-lista="productShelf10">
       <link rel="stylesheet" href={FONTES_10} />
       <section
         className={`${styles.productShelf10}${variant === 'banner' ? ` ${styles.variantBanner}` : ''}`}

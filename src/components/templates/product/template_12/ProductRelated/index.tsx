@@ -7,6 +7,7 @@ import {
   produto12,
   type Produto12,
 } from '@/components/templates/common/template_12/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 
 import styles from './index.module.css';
 
@@ -71,7 +72,7 @@ export default function ProductRelated12() {
       <section className={`section section-product-shelf layout__section ${styles.crossSellingShelf12}`}>
         <h2 className="text__title-section layout__content">Quem comprou, também levou</h2>
         <div data-fs-product-shelf>
-          <div className={styles.productShowcase12} id="quem-comprou-tambem-levou" data-role="rel-carousel">
+          <div className={styles.productShowcase12} data-lista="productShowcase12" id="quem-comprou-tambem-levou" data-role="rel-carousel">
             {/* As fontes da família (o título é o h2 nativo da seção, fora deste nó). */}
             <link rel="stylesheet" href={FONTES_12} />
             <div className={styles.arrows}>
@@ -85,7 +86,9 @@ export default function ProductRelated12() {
             <ul ref={railRef} className={styles.rail} onScroll={medir} data-role="rel-list">
               {PRODUTOS.map(p => (
                 <li key={p.id} className={styles.slide}>
-                  <ProductCard12 product={p} />
+                  <CardDaLoja familia="Spot12">
+                    <ProductCard12 product={p} />
+                  </CardDaLoja>
                 </li>
               ))}
             </ul>

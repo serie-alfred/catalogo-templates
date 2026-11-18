@@ -934,43 +934,18 @@ export function conferirImports(paths, r) {
  * falha — trata como contrato: mudou a lista, alguém mexeu na compatibilidade e
  * precisa saber.
  *
- * A família 07 é fechada. O `ProductCard07` recebe
- * `ProductCard07Product`, um shape próprio montado por `productToCard07(node)`, e
- * não o `Product` do core que todas as outras vitrines entregam. Abrir isso é
- * redesenhar a família, não declarar uma flag.
+ * Hoje vazia (18/11/2026): o card é independente da lista. Toda vitrine troca o card
+ * pelo Card de Produto escolhido, e os 16 cards compilam em qualquer lista — o
+ * `ProductCard07` deixou de exigir o shape próprio (`ProductCard07Product`).
  */
-const PARES_IMPOSSIVEIS = new Set([
-  '01×07',
-  '02×07',
-  '03×07',
-  '04×07',
-  '05×07',
-  '06×07',
-]);
+const PARES_IMPOSSIVEIS = new Set([]);
 /**
- * Vitrines sem `usesSpot`: a escolha de card do cliente não as alcança. A 08 é
- * de propósito — o card dela é o do Figma "Templates - Serie A" (selo, desconto,
- * Pix e parcela no layout da campanha), parte do núcleo `molecules/ProductShelf08`.
- * A 09 segue o mesmo desenho: a vitrine é um invólucro do núcleo
- * `molecules/ProductShelf09`, que importa o `ProductCard09` — o `replaceAll` do
- * generator só roda nos arquivos do asset com `usesSpot`, e o import do card não
- * está no `ProductShelfCustom09`. (Os relacionados 09 são override e recebem a troca.)
- * A 10 é o mesmo caso: `ProductShelfCustom10` embrulha `molecules/ProductShelf10`, que
- * importa o `ProductCard10`, e nenhum manifest 10 declara `usesSpot`.
- * A 11 também: `ProductShelfCustom11` embrulha `molecules/ProductShelf11` (que
- * importa o `ProductCard11`), e nenhum manifest 11 declara `usesSpot`.
- * A 12 idem: `ProductShelfCustom12` embrulha `molecules/ProductShelf12` (que importa o
- * `ProductCard12`), e nenhum manifest 12 declara `usesSpot`.
- * A 13 idem: `ProductShelfCustom13` embrulha `molecules/ProductShelf13` (que importa o
- * `ProductCard13`), e nenhum manifest 13 declara `usesSpot`.
- * A 14 idem: `ProductShelfCustom14` embrulha `molecules/ProductShelf14` (que importa o
- * `ProductCard14`), e nenhum manifest 14 declara `usesSpot`.
- * A 15 idem: `ProductShelfCustom15` embrulha `molecules/ProductShelf15` (que importa o
- * `ProductCard15`), e nenhum manifest 15 declara `usesSpot`.
- * A 16 idem: `ProductShelfCustom16` embrulha `molecules/ProductShelf16` (que importa o
- * `ProductCard16`), e nenhum manifest 16 declara `usesSpot`.
+ * Vitrines sem `usesSpot`: a escolha de card do cliente não as alcança. Hoje
+ * nenhuma (18/11/2026): a lista de produtos nunca desenha card próprio, renderiza o
+ * Card de Produto escolhido (no catálogo, o `CardDaLoja`), e as variáveis do card
+ * ficam no item Spot. Uma família que voltar a fixar o card entra aqui, com o porquê.
  */
-const SEM_SUBSTITUICAO = new Set(['07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17']);
+const SEM_SUBSTITUICAO = new Set([]);
 
 const igual = (a, b) => a.length === b.size && a.every(x => b.has(x));
 
@@ -1053,7 +1028,7 @@ export async function conferirParesCardVitrine(vtexPaths, r) {
   );
   r.ok(
     `${total - incompativeis.length}/${total} pares vitrine×card compilam; ` +
-      `os ${PARES_IMPOSSIVEIS.size} restantes são a limitação conhecida do card 07`,
+      `${PARES_IMPOSSIVEIS.size} limitação(ões) aceita(s) em PARES_IMPOSSIVEIS`,
     novos.length === 0 && sumiram.length === 0,
     [
       ...novos.map(([par, motivo]) => `NOVO: ${par} — ${motivo}`),

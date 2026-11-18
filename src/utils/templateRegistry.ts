@@ -84,6 +84,9 @@ import ProductInfo03 from '@/components/templates/product/template_3/ProductInfo
 import ProductInfo04 from '@/components/templates/product/template_4/ProductInfo';
 import ProductInfo06 from '@/components/templates/product/template_6/ProductInfo';
 import ProductInfo07 from '@/components/templates/product/template_7/ProductInfo';
+import ProductDescription07 from '@/components/templates/product/template_7/ProductDescription';
+import ProductRelated07 from '@/components/templates/product/template_7/ProductRelated';
+import Breadcrumb07 from '@/components/templates/common/template_7/Breadcrumb';
 import ProductReviews06 from '@/components/templates/product/template_6/ProductReviews';
 
 // ************
@@ -446,6 +449,9 @@ export const TemplateRegistry: Record<
   ProductInfo04,
   ProductInfo06,
   ProductInfo07,
+  ProductDescription07,
+  ProductRelated07,
+  Breadcrumb07,
   ProductReviews06,
 
   SpecialOffers04,

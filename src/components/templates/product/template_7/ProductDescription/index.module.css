@@ -1,0 +1,249 @@
+/* Espelha molecules/ProductDescription07 (faststore.starter) — a descrição da PDP 07
+   (o bloco descrição + especificações + cuidados + FAQ e o acordeão do mobile), que era
+   parte do ProductInfo07. Conversão: `$vars` resolvidas inline, `@media (max-width: 960px)`
+   → `@container`, consultando o envelope `.productDescription07Box`. Mesmas vars de
+   Nível 1, mesmos Níveis 3 do ProductInfo07. Os hex diretos (`#faf8f4` página, `#fff`
+   cartão) são estruturais, como na origem. */
+
+.productDescription07Box {
+  container-type: inline-size;
+}
+
+.productDescription07 {
+  font-family: var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  background: #faf8f4;
+  line-height: normal;
+  /* origem (sem reset) usa line-height normal; FastStore injeta 18.4px global */
+}
+
+.desktop {
+  display: block;
+}
+
+.mobile {
+  display: none;
+}
+
+@container (max-width: 960px) {
+  .desktop {
+    display: none;
+  }
+
+  .mobile {
+    display: block;
+    padding: 0 18px 24px;
+  }
+}
+
+/* ═══════════════ DESKTOP ═══════════════ */
+
+/* descrição + specs */
+
+.description {
+  padding: 64px 56px;
+  /* metrics: description@1024 */
+  border-top: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 12%, transparent);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+}
+
+.sectionEyebrow {
+  font: 400 11px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  line-height: 14px;
+  /* metrics: normal(11)=14 */
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pdp-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #b8976a)));
+  margin: 11px 0 16px;
+  /* metrics: UA p 1em(11) + inline 16 */
+}
+
+.descTitle {
+  font: 300 32px/1.15 var(--pdp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
+  color: var(--pdp-title-color, var(--text-primary-color, #2c2420));
+  margin: 26.56px 0 20px;
+}
+
+/* metrics: UA h2 0.83em(26.56) + inline 20 */
+
+.descP {
+  font: 300 15px/1.8 var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 62%, transparent);
+  margin: 15px 0 16px;
+}
+
+/* metrics: UA p 1em(15) + inline 16 */
+
+.descP:last-child {
+  margin-bottom: 15px;
+}
+
+/* A descrição chega em HTML, parágrafos num bloco só, e o reset zera a margem do <p>:
+   eles saíam colados. 16px é o espaço de quando cada parágrafo era um bloco próprio.
+   Espelha o ProductDetails07 do starter. */
+.descP p + p {
+  margin-top: 16px;
+}
+
+.specsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.specCard {
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 12%, transparent);
+  border-radius: 1px;
+  padding: 16px;
+  min-width: 0;
+}
+
+/* min-width:0 → o valor nowrap não estica o track 1fr do grid */
+
+.specLabel {
+  font: 500 10px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  line-height: 13px;
+  /* metrics: normal(10)=13 */
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+  margin: 10px 0 6px;
+  /* metrics: UA p 1em(10) + inline 6 */
+}
+
+.specValue {
+  font: 400 14px var(--pdp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
+  line-height: 17px;
+  color: var(--pdp-title-color, var(--text-primary-color, #2c2420));
+  margin: 14px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* metrics: normal(14)=17, 1 linha como a origem */
+
+.care {
+  background: #faf8f4;
+  border: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 12%, transparent);
+  border-radius: 1px;
+  padding: 16px;
+  margin-top: 14px;
+}
+
+.care .specLabel {
+  margin-bottom: 8px;
+}
+
+/* metrics: care label UA mt 10 (mantém) + inline mb 8 */
+
+.careText {
+  font: 400 13px/1.6 var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 62%, transparent);
+  margin: 13px 0;
+}
+
+/* metrics: UA p 1em(13) */
+
+.faq {
+  margin-top: 24px;
+}
+
+.faq .sectionEyebrow {
+  margin-bottom: 14px;
+}
+
+/* metrics: faq eyebrow inline mb 14 */
+
+.faqItem {
+  border-top: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 12%, transparent);
+}
+
+.faqItemLast {
+  border-bottom: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 12%, transparent);
+}
+
+.faqHead {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-align: left;
+}
+
+.faqQ {
+  font: 400 13.5px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  line-height: 17px;
+  color: var(--pdp-title-color, var(--text-primary-color, #2c2420));
+  margin: 13.5px 0;
+}
+
+/* metrics: origem <p> UA 1em(13.5); normal(13.5)=17 */
+
+.faqToggle {
+  font: 300 20px/1 var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.faqA {
+  font: 400 13px/1.7 var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 62%, transparent);
+  margin: 0 0 14px;
+}
+
+/* ═══════════════ MOBILE ═══════════════ */
+
+.mAccordion {}
+
+.mAccItem {
+  border-top: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 12%, transparent);
+}
+
+/* metrics: m-acc-item@375 */
+
+.mAccItemLast {
+  border-bottom: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 12%, transparent);
+}
+
+.mAccHead {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-align: left;
+}
+
+.mAccQ {
+  font: 500 13px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  line-height: 17px;
+  color: var(--pdp-title-color, var(--text-primary-color, #2c2420));
+  margin: 13px 0;
+}
+
+/* metrics: origem <p> UA 1em(13); normal(13)=17 */
+
+.mAccToggle {
+  font: 300 20px/1 var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.mAccBody {
+  font: 400 12.5px/1.7 var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  color: color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 62%, transparent);
+  margin: 0 0 14px;
+  white-space: pre-line;
+}

@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ProductCard09, FONTES_09, type Produto09 } from '@/components/templates/common/template_9/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 
 /**
  * Espelha `molecules/ProductShelf09` do faststore.starter — o núcleo das duas
@@ -12,8 +13,8 @@ import { ProductCard09, FONTES_09, type Produto09 } from '@/components/templates
  * A folha mora em cada réplica (Showcase, ShelfBanner) — uma por item do
  * catálogo — e chega aqui por prop; as duas saem do mesmo SCSS.
  * Produtos = o mock.ts do núcleo de lá (sem foto: vale o placeholder).
- * Sempre o ProductCard09: as vitrines 09 do starter não trocam o card pelo spot
- * escolhido (sem `usesSpot`), então a réplica também não troca.
+ * O card é o da loja (`CardDaLoja`): sem
+ * Card de Produto escolhido, ou com o Spot09, o ProductCard09.
  */
 
 type Estilos = Record<string, string>;
@@ -150,7 +151,9 @@ export default function ProductShelf09({
     <ul ref={railRef} className={styles.rail} onScroll={medir} data-role="sh-list">
       {PRODUTOS.map(prod => (
         <li key={prod.id} className={styles.slide}>
-          <ProductCard09 product={prod} badge={tagLabel} />
+          <CardDaLoja familia="Spot09">
+            <ProductCard09 product={prod} badge={tagLabel} />
+          </CardDaLoja>
         </li>
       ))}
     </ul>

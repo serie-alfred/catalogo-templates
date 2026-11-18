@@ -42,18 +42,6 @@
 .productShelf10 :where(.head svg, .banner svg, .banner img) {
   display: block;
 }
-.productShelf10 [data-role=spot-discount],
-.productShelf10 [data-role=spot-tag] {
-  background-color: var(--spot-tag-bg, var(--showcase-tag-bg, var(--background-tertiary-color, #d92d20)));
-  color: var(--spot-tag-text, var(--showcase-tag-text, var(--text-tertiary-color, #ffffff)));
-}
-.productShelf10 [data-role=spot-buy] {
-  background-color: var(--spot-btn-bg, var(--showcase-accent, var(--background-primary-color, #1340d8)));
-  color: var(--spot-btn-text, var(--text-color-base, #ffffff));
-}
-.productShelf10 [data-role=spot-rating] > span:nth-child(2) > span + span {
-  display: none;
-}
 
 .inner {
   display: flex;
@@ -144,27 +132,6 @@
 }
 .slide > * {
   flex: 1;
-}
-.slide:nth-child(5n+1) [data-role=spot-image] {
-  background-color: #eef1f5;
-}
-.slide:nth-child(5n+2) [data-role=spot-image] {
-  background-color: #e7ecf3;
-}
-.slide:nth-child(5n+3) [data-role=spot-image] {
-  background-color: #f3f4f6;
-}
-.slide:nth-child(5n+4) [data-role=spot-image] {
-  background-color: #e9eef6;
-}
-.slide:nth-child(5n+5) [data-role=spot-image] {
-  background-color: #edeff2;
-}
-@container (min-width: 961px) {
-  .slide [data-role=spot-price] {
-    font-size: 22px;
-    letter-spacing: -0.01em;
-  }
 }
 
 .progress {

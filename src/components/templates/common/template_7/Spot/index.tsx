@@ -18,7 +18,20 @@ import styles from './index.module.css';
  * (`.fill`), preço "de" riscado, linha de parcela com altura reservada e o
  * recorte de 2 linhas no título.
  */
-const produto = {
+/** O que o card desenha (texto já formatado). A PLP 07 passa os produtos dela. */
+export interface ProdutoCard07 {
+  brand?: string;
+  title: string;
+  image?: string;
+  flag?: string;
+  flagVariant?: 'gold' | 'sale';
+  listPrice?: string;
+  price: string;
+  installment?: string;
+  pix?: string;
+}
+
+const produtoPadrao: ProdutoCard07 = {
   brand: 'Tapete Belga',
   title: 'Tapete Essence Clássico 2,00m × 2,50m',
   image: 'https://placehold.co/428',
@@ -44,16 +57,29 @@ const HeartIcon = () => (
 );
 
 export default function Spot() {
+  return <ProductCard07 />;
+}
+
+/**
+ * O card 07 com os produtos de quem o usa: é o que a PLP 07 (`CategoryMain07`) desenha
+ * quando o card da loja é o 07 ou nenhum (o starter faz o mesmo com o ProductCard07).
+ */
+export function ProductCard07({ produto = produtoPadrao }: { produto?: ProdutoCard07 }) {
   return (
     <div className={styles.card} data-role="ps-card" data-spot="Spot07">
       <div
         className={styles.img}
         data-role="ps-img"
-        style={{ backgroundImage: `url(${produto.image})` }}
+        style={produto.image ? { backgroundImage: `url(${produto.image})` } : undefined}
       >
-        <span className={`${styles.flag} ${styles.flagSale}`} data-role="ps-flag">
-          {produto.flag}
-        </span>
+        {produto.flag && (
+          <span
+            className={`${styles.flag} ${produto.flagVariant === 'gold' ? styles.flagGold : styles.flagSale}`}
+            data-role="ps-flag"
+          >
+            {produto.flag}
+          </span>
+        )}
         <button
           type="button"
           className={styles.wish}
@@ -65,17 +91,21 @@ export default function Spot() {
       </div>
 
       <div className={styles.cardBody}>
-        <p className={styles.brand} data-role="ps-brand">
-          {produto.brand}
-        </p>
+        {produto.brand && (
+          <p className={styles.brand} data-role="ps-brand">
+            {produto.brand}
+          </p>
+        )}
         <h3 className={styles.cardTitle} data-role="ps-cardtitle">
           {produto.title}
         </h3>
 
         <div className={styles.priceRow}>
-          <span className={styles.listPrice} data-role="ps-listprice">
-            {produto.listPrice}
-          </span>
+          {produto.listPrice && (
+            <span className={styles.listPrice} data-role="ps-listprice">
+              {produto.listPrice}
+            </span>
+          )}
           <p className={styles.price} data-role="ps-price">
             {produto.price}
           </p>
@@ -85,9 +115,11 @@ export default function Spot() {
         <p className={styles.installment} data-role="ps-installment">
           {produto.installment}
         </p>
-        <p className={styles.pix} data-role="ps-pix">
-          {produto.pix}
-        </p>
+        {produto.pix && (
+          <p className={styles.pix} data-role="ps-pix">
+            {produto.pix}
+          </p>
+        )}
 
         <span className={styles.fill} aria-hidden="true" />
         <button type="button" className={styles.buy} data-role="ps-buy">

@@ -12,8 +12,8 @@
   padding: 12px;
   border-radius: 16px;
   background-color: var(--spot-bg, color-mix(in srgb, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)) 9%, #ffffff));
-  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38)));
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif)));
+  color: var(--spot-text, var(--text-primary-color, #0e2f38));
+  font-family: var(--spot-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -49,7 +49,7 @@
 }
 @container (min-width: 961px) {
   .productCard17:not(.soldOut):hover, .productCard17:not(.soldOut):focus-within {
-    box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 45%, transparent);
+    box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 45%, transparent);
   }
   .productCard17:not(.soldOut):hover .name a, .productCard17:not(.soldOut):focus-within .name a {
     text-decoration: underline;
@@ -149,7 +149,7 @@
   height: 32px;
   padding: 0 16px;
   border-radius: 999px;
-  background-color: var(--spot-soldout-bg, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))));
+  background-color: var(--spot-soldout-bg, var(--spot-text, var(--text-primary-color, #0e2f38)));
   color: var(--spot-soldout-text, #ffffff);
   font-size: 14px;
   font-weight: 700;
@@ -166,7 +166,7 @@
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  color: var(--spot-wishlist-color, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))));
+  color: var(--spot-wishlist-color, var(--spot-text, var(--text-primary-color, #0e2f38)));
 }
 .favorite:hover {
   opacity: 0.88;
@@ -187,13 +187,13 @@
 }
 
 .brand {
-  color: var(--spot-brand, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff));
+  color: var(--spot-brand, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff));
   font-size: 13px;
   font-weight: 500;
 }
 
 .name {
-  color: var(--spot-name, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))));
+  color: var(--spot-name, var(--spot-text, var(--text-primary-color, #0e2f38)));
   font-size: 15px;
   font-weight: 500;
   line-height: 1.35;
@@ -212,20 +212,20 @@
 
 .ratingCount {
   margin-left: 4px;
-  color: var(--spot-rating-text, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff));
+  color: var(--spot-rating-text, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff));
   font-size: 12px;
 }
 
 .listPrice {
   margin-top: 4px;
-  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff));
+  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff));
   font-size: 13px;
   text-decoration: line-through;
 }
 
 .price {
   color: var(--spot-price-color, var(--text-primary-color, #0e2f38));
-  font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif)));
+  font-family: var(--spot-title-font, var(--font-primary, 'Bricolage Grotesque', system-ui, sans-serif));
   font-size: 24px;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -233,7 +233,7 @@
 }
 
 .installment {
-  color: var(--spot-installments, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))));
+  color: var(--spot-installments, var(--spot-text, var(--text-primary-color, #0e2f38)));
   font-size: 13px;
 }
 
@@ -243,11 +243,11 @@
 }
 
 .pix {
-  color: var(--spot-pix, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff));
+  color: var(--spot-pix, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff));
 }
 
 .outText {
-  color: var(--spot-unavailable, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff));
+  color: var(--spot-unavailable, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff));
 }
 .buy,
 .notify {
@@ -274,15 +274,15 @@
 }
 
 .notify {
-  border: 1.5px solid var(--spot-notify-text, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))));
-  color: var(--spot-notify-text, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))));
+  border: 1.5px solid var(--spot-notify-text, var(--spot-text, var(--text-primary-color, #0e2f38)));
+  color: var(--spot-notify-text, var(--spot-text, var(--text-primary-color, #0e2f38)));
 }
 .notify:hover {
-  background-color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 6%, #ffffff);
+  background-color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 6%, #ffffff);
 }
 .soldOut .name,
 .soldOut .price {
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff);
 }
 .soldOut .price {
   margin-top: 4px;
@@ -378,6 +378,109 @@
   container-type: inline-size;
 }
 
+/* ── Nas listas da família (data-lista) ── */
+/* Espelha o fim do SCSS do ProductCard17: o desenho do card dentro das listas da família, que
+   antes morava nelas. A lista marca a raiz com `data-lista`. */
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17[data-role=spot] {
+  height: 100%;
+  background-color: color-mix(in srgb, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)) 9%, #ffffff);
+  color: var(--spot-text, var(--text-primary-color, #0e2f38));
+}
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17[data-role=spot] > :nth-child(2) {
+  flex: 1;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  align-items: baseline;
+  column-gap: 8px;
+}
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17[data-role=spot] > :nth-child(2) > * {
+  flex: 0 0 100%;
+}
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17[data-role=spot] > :nth-child(2) > [data-role=spot-list-price],
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17[data-role=spot] > :nth-child(2) > [data-role=spot-price] {
+  flex: 0 0 auto;
+  margin-top: 4px;
+}
+
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17[data-role=spot] h3 {
+  display: -webkit-box;
+  min-height: 2.7em;
+  overflow: hidden;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+:global(:where([data-lista='productShelf17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-tags] {
+  top: 8px;
+  left: 8px;
+}
+
+:global(:where([data-lista='productShelf17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-discount],
+:global(:where([data-lista='productShelf17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-tag] {
+  background-color: var(--spot-tag-bg, var(--background-tertiary-color, #ffa24c));
+  color: var(--spot-tag-text, var(--text-tertiary-color, #0e2f38));
+}
+
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-brand],
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-list-price],
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-pix],
+:global(:where([data-lista='mainCategory17'])) .productCard17 [data-role=spot-unavailable],
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-rating-count] {
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff);
+}
+
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-rating] {
+  color: var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73));
+}
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-rating] svg {
+  width: 13px;
+  height: 13px;
+}
+
+:global(:where([data-lista='mainCategory17'])) .productCard17 [data-role=spot-rating] {
+  gap: 2px;
+}
+
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-price] {
+  color: var(--spot-price-color, var(--text-primary-color, #0e2f38));
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-buy] {
+  border-color: var(--spot-btn-bg, var(--background-primary-color, #0e6b73)) !important;
+  color: var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73));
+}
+
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17[data-role=spot]:hover [data-role=spot-buy],
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17[data-role=spot]:focus-within [data-role=spot-buy] {
+  background-color: var(--spot-btn-bg, var(--background-primary-color, #0e6b73));
+  color: var(--spot-btn-text, var(--text-color-base, #ffffff));
+}
+
+:global(:where([data-lista='mainCategory17'])) .productCard17 [data-role=spot-notify] {
+  border-color: var(--spot-text, var(--text-primary-color, #0e2f38));
+}
+
+@container (max-width: 960px) {
+  :global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17[data-role=spot] > :nth-child(2) > [data-role=spot-list-price],
+  :global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17[data-role=spot] > :nth-child(2) > [data-role=spot-price] {
+    margin-top: 2px;
+  }
+  :global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17[data-role=spot] > :nth-child(2) > [data-role=spot-list-price] + [data-role=spot-price] {
+    margin-top: -3px;
+  }
+  :global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-price] {
+    font-size: 20px;
+  }
+  :global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-buy] {
+    background-color: var(--spot-btn-bg, var(--background-primary-color, #0e6b73));
+    color: var(--spot-btn-text, var(--text-color-base, #ffffff));
+  }
+}
+/* ── fim: nas listas da família ── */
+
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
 /* O quadro do desenho `Spot17` (palco do starter, `Comum17Stage.module.scss`): o branco da
    família, as colunas do canvas e os rótulos de estado apagados. */
@@ -412,7 +515,7 @@
 }
 /* A coluna "Hover" pinta o estado de hover do card (lá, o comparador passa o mouse). */
 .spotHoverCol .productCard17 {
-  box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 45%, transparent);
+  box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 45%, transparent);
 }
 .spotHoverCol .name a {
   text-decoration: underline;

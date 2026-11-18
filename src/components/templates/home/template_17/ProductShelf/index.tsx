@@ -7,6 +7,7 @@ import {
   produto17,
   type Produto17,
 } from '@/components/templates/common/template_17/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 
 /**
  * Espelha `molecules/ProductShelf17` do faststore.starter — o núcleo das duas vitrines 17
@@ -16,8 +17,8 @@ import {
  *
  * A folha mora em cada réplica (Showcase, ShelfBanner) — uma por item do catálogo — e chega
  * aqui por prop; as duas saem do mesmo SCSS. Produtos = o mock.ts do núcleo de lá, com as notas
- * que o palco injeta (sem foto: o desenho também não tem). Sempre o ProductCard17: nenhum
- * manifest 17 do starter tem `usesSpot`.
+ * que o palco injeta (sem foto: o desenho também não tem). O card é o da loja (`CardDaLoja`): sem
+ * Card de Produto escolhido, ou com o Spot17, o ProductCard17.
  *
  * Divergências deliberadas: sem consulta de coleção nem analytics (`view_item_list`), e sem a
  * raiz de seção do organism (`div.productShelfCustom17` / `div.productShelfBanner17`, que lá
@@ -282,7 +283,7 @@ export default function ProductShelf17({
   );
 
   return (
-    <div className={style.productShelf17Box}>
+    <div className={style.productShelf17Box} data-lista="productShelf17">
       <section
         className={`${style.productShelf17}${variant === 'banner' ? ` ${style.variantBanner}` : ''}`}
         aria-label={listName || undefined}
@@ -345,7 +346,9 @@ export default function ProductShelf17({
             >
               {produtos.map((p, i) => (
                 <li key={p.id || i} className={style.slide}>
-                  <ProductCard17 product={p} badge={tagLabel} />
+                  <CardDaLoja familia="Spot17">
+                    <ProductCard17 product={p} badge={tagLabel} />
+                  </CardDaLoja>
                 </li>
               ))}
             </ul>

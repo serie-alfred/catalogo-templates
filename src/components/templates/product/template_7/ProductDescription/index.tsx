@@ -1,0 +1,198 @@
+'use client';
+
+import React, { useState } from 'react';
+
+import styles from './index.module.css';
+
+/**
+ * Espelha `molecules/ProductDescription07` do faststore.starter — a descrição da PDP 07,
+ * que era um bloco do ProductInfo07 e virou peça própria (como o ProductDescription01).
+ * Desktop: "Sobre o produto" (título + parágrafos) e, ao lado, as especificações, o
+ * cartão de cuidados e o FAQ. Mobile: o acordeão de 3 blocos. As duas árvores trocam por
+ * CSS aos 960px.
+ *
+ * O que sai: `usePDP` — a descrição e a ficha abaixo são as do `mock.ts` da origem.
+ * `useState` fica para o FAQ e o acordeão, que é o que faz o preview parecer vivo.
+ */
+const DESCRICAO = {
+  eyebrow: 'Sobre o produto',
+  titulo: 'Elegância clássica para sala ou quarto',
+  paragrafos: [
+    'Com superfície levemente aveludada e toque surpreendentemente suave, o Tapete Belga Essence Clássico é confeccionado com 70% de poliéster e 30% de algodão — uma composição pensada para durabilidade sem abrir mão do conforto.',
+    'Seus arabescos florais, bordas contrastantes e acabamento com franjas elegantes criam um ponto de destaque em qualquer composição, sem perder a sofisticação que um ambiente bem decorado exige.',
+    'Ideal para posicionar embaixo de mesa de centro, com sofá neutro ou em quarto com composição clássica — em ambientes com madeira, tons claros e decoração atemporal.',
+  ],
+};
+
+const ESPECIFICACOES = {
+  eyebrow: 'Especificações',
+  cards: [
+    { label: 'Composição', value: '70% Poliéster · 30% Algodão' },
+    { label: 'Dimensões', value: '2,00m × 2,50m' },
+    { label: 'Perfil', value: 'Baixo perfil · 6mm' },
+    { label: 'Embalagem', value: '1 tapete enrolado' },
+  ],
+  cuidadosTitulo: 'Cuidados e lavagem',
+  cuidadosTexto:
+    'Lavar à mão ou em máquina com programa delicado. Não usar alvejante. Secar à sombra. Não usar secadora.',
+};
+
+const FAQ = {
+  titulo: 'Dúvidas frequentes',
+  itens: [
+    {
+      q: 'Como escolher o tamanho certo?',
+      a: 'Meça o espaço e deixe o tapete ultrapassar o sofá em pelo menos 20 cm de cada lado. Para salas de 20m² ou mais, o 2,00m × 2,50m é o padrão.',
+    },
+    {
+      q: 'O tapete tem antiderrapante?',
+      a: 'A base tem acabamento de baixo perfil. Para pisos muito lisos, recomendamos usar uma manta antiderrapante por baixo (vendida separadamente).',
+    },
+    {
+      q: 'Qual o prazo de entrega?',
+      a: 'Enviamos para todo o Brasil. O prazo estimado aparece no carrinho após informar seu CEP, variando conforme a região.',
+    },
+  ],
+};
+
+const ENTREGA =
+  'Enviamos para todo o Brasil com rastreio. O prazo e o valor do frete aparecem no carrinho após você informar o CEP. Trocas em até 7 dias corridos após o recebimento.';
+
+export default function ProductDescription07() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [openAcc, setOpenAcc] = useState<number | null>(null);
+
+  // a descrição vai como PARÁGRAFOS (na origem, o HTML da API num <div>); os outros dois
+  // itens seguem texto com `\n`, num <p> com `pre-line`
+  const acordeaoMobile: Array<{ title: string; body?: string; paragrafos?: string[] }> = [
+    { title: 'Descrição do produto', paragrafos: DESCRICAO.paragrafos },
+    {
+      title: 'Composição e especificações',
+      body: [
+        ...ESPECIFICACOES.cards.map(s => `${s.label}: ${s.value}`),
+        `${ESPECIFICACOES.cuidadosTitulo}: ${ESPECIFICACOES.cuidadosTexto}`,
+      ].join('\n'),
+    },
+    { title: 'Entrega e prazo', body: ENTREGA },
+  ];
+
+  const alternar = (
+    set: React.Dispatch<React.SetStateAction<number | null>>,
+    i: number
+  ) => set(prev => (prev === i ? null : i));
+
+  const porTecla = (e: React.KeyboardEvent, fn: () => void) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      fn();
+    }
+  };
+
+  return (
+    /* envelope só do catálogo: carrega o container-type das @container */
+    <div className={styles.productDescription07Box}>
+      <div className={styles.productDescription07}>
+        {/* ═══════════════ DESKTOP ═══════════════ */}
+        <div className={styles.desktop}>
+          <div className={styles.description} data-role="description">
+            <div className={styles.descCol} data-role="desc-col">
+              <p className={styles.sectionEyebrow}>{DESCRICAO.eyebrow}</p>
+              <h2 className={styles.descTitle} data-role="desc-title">
+                {DESCRICAO.titulo}
+              </h2>
+              {/* UM `desc-p` com os parágrafos dentro, como na origem: lá a descrição é o
+                  HTML que a API entrega, injetado num bloco só. Os 16px entre eles vêm de
+                  `.descP p + p`, declarado igual aqui e no starter. */}
+              <div className={styles.descP} data-role="desc-p">
+                {DESCRICAO.paragrafos.map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+              </div>
+            </div>
+            <div className={styles.specsCol} data-role="specs-col">
+              <p className={styles.sectionEyebrow}>{ESPECIFICACOES.eyebrow}</p>
+              <div className={styles.specsGrid} data-role="specs-grid">
+                {ESPECIFICACOES.cards.map((s, i) => (
+                  <div key={i} className={styles.specCard} data-role="spec-card">
+                    <p className={styles.specLabel}>{s.label}</p>
+                    <p className={styles.specValue}>{s.value}</p>
+                  </div>
+                ))}
+              </div>
+              <div className={styles.care} data-role="care">
+                <p className={styles.specLabel}>{ESPECIFICACOES.cuidadosTitulo}</p>
+                <p className={styles.careText}>{ESPECIFICACOES.cuidadosTexto}</p>
+              </div>
+              <div className={styles.faq} data-role="faq">
+                <p className={styles.sectionEyebrow}>{FAQ.titulo}</p>
+                {FAQ.itens.map((f, i) => (
+                  <div
+                    key={i}
+                    className={`${styles.faqItem} ${i === FAQ.itens.length - 1 ? styles.faqItemLast : ''}`}
+                    data-role="faq-item"
+                  >
+                    <div
+                      className={styles.faqHead}
+                      role="button"
+                      tabIndex={0}
+                      onClick={() => alternar(setOpenFaq, i)}
+                      onKeyDown={e => porTecla(e, () => alternar(setOpenFaq, i))}
+                      aria-expanded={openFaq === i}
+                      aria-controls={`pdp07-faq-panel-${i}`}
+                    >
+                      <p className={styles.faqQ}>{f.q}</p>
+                      <span className={styles.faqToggle}>{openFaq === i ? '−' : '+'}</span>
+                    </div>
+                    {openFaq === i && (
+                      <p id={`pdp07-faq-panel-${i}`} className={styles.faqA} role="region">
+                        {f.a}
+                      </p>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ═══════════════ MOBILE ═══════════════ */}
+        <div className={styles.mobile}>
+          <div className={styles.mAccordion} data-role="m-accordion">
+            {acordeaoMobile.map((a, i) => (
+              <div
+                key={i}
+                className={`${styles.mAccItem} ${i === acordeaoMobile.length - 1 ? styles.mAccItemLast : ''}`}
+                data-role="m-acc-item"
+              >
+                <div
+                  className={styles.mAccHead}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => alternar(setOpenAcc, i)}
+                  onKeyDown={e => porTecla(e, () => alternar(setOpenAcc, i))}
+                  aria-expanded={openAcc === i}
+                  aria-controls={`pdp07-acc-panel-${i}`}
+                >
+                  <p className={styles.mAccQ}>{a.title}</p>
+                  <span className={styles.mAccToggle}>{openAcc === i ? '−' : '+'}</span>
+                </div>
+                {openAcc === i && a.paragrafos && (
+                  <div id={`pdp07-acc-panel-${i}`} className={styles.mAccBody} role="region">
+                    {a.paragrafos.map((p, j) => (
+                      <p key={j}>{p}</p>
+                    ))}
+                  </div>
+                )}
+                {openAcc === i && !a.paragrafos && a.body && (
+                  <p id={`pdp07-acc-panel-${i}`} className={styles.mAccBody} role="region">
+                    {a.body}
+                  </p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

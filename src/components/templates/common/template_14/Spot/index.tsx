@@ -327,8 +327,18 @@ export function ProductCard14({
  * "Alta performance" e as notas do desenho; no mobile, 2 colunas sem a do hover. A coluna
  * Hover pinta o estado de hover por CSS (fim da folha), como o palco de lá.
  */
-export default function Spot14() {
+export default function Spot14({ soCard = false }: { soCard?: boolean }) {
   const [padrao] = PRODUTOS_14;
+  // Dentro de uma lista (vitrine, grade, relacionados) de qualquer família o spot é só o
+  // card (`CardDaLoja`), sem o quadro do desenho nem envelope de container: as
+  // @container do card respondem à largura da lista, como as @media na loja.
+  if (soCard)
+    return (
+      <>
+        <link rel="stylesheet" href={FONTES_14} />
+        <ProductCard14 product={padrao} badge={ROTULO_14} />
+      </>
+    );
   const colunas = [
     { rotulo: 'Padrão', produto: padrao, hover: false },
     { rotulo: 'Hover · o botão sobe', produto: padrao, hover: true },

@@ -8,6 +8,7 @@ import {
   produto14,
   type Produto14,
 } from '@/components/templates/common/template_14/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 
 /**
  * Espelha `molecules/ProductShelf14` do faststore.starter — o núcleo das duas vitrines 14
@@ -17,7 +18,8 @@ import {
  *
  * A folha mora em cada réplica (Showcase, ShelfBanner) — uma por item do catálogo — e chega
  * aqui por prop; as duas saem do mesmo SCSS. Produtos = o mock.ts do núcleo de lá (sem foto:
- * vale o placeholder). Sempre o ProductCard14: nenhum manifest 14 tem `usesSpot`.
+ * vale o placeholder). O card é o da loja (`CardDaLoja`): sem
+ * Card de Produto escolhido, ou com o Spot14, o ProductCard14.
  *
  * Divergências deliberadas: sem consulta de coleção nem analytics (`view_item_list`); as notas
  * dos cards são as do desenho (lá o card as consulta no resolver `getProductRating`).
@@ -123,7 +125,9 @@ export default function ProductShelf14({
 
   const cards = produtos.map((p, i) => (
     <li key={p.id || i} className={style.slide}>
-      <ProductCard14 product={p} badge={tagLabel} />
+      <CardDaLoja familia="Spot14">
+        <ProductCard14 product={p} badge={tagLabel} />
+      </CardDaLoja>
     </li>
   ));
 
@@ -176,7 +180,7 @@ export default function ProductShelf14({
   );
 
   return (
-    <div className={style.productShelf14Box}>
+    <div className={style.productShelf14Box} data-lista="productShelf14">
       <section
         className={`${style.productShelf14} ${variant === 'banner' ? style.variantBanner : (style.variantFull ?? '')}`.trim()}
         aria-label={listName || undefined}

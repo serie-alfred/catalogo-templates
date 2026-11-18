@@ -293,8 +293,18 @@ export function ProductCard12({
  * (`DevFidelityStage/Comum12Stage`): Padrão, Hover e Esgotado lado a lado; no mobile, 2
  * colunas sem a do hover. A coluna Hover pinta o estado de hover por CSS (fim da folha).
  */
-export default function Spot12() {
+export default function Spot12({ soCard = false }: { soCard?: boolean }) {
   const [padrao, hover] = PRODUTOS_12;
+  // Dentro de uma lista (vitrine, grade, relacionados) de qualquer família o spot é só o
+  // card (`CardDaLoja`), sem o quadro do desenho nem envelope de container: as
+  // @container do card respondem à largura da lista, como as @media na loja.
+  if (soCard)
+    return (
+      <>
+        <link rel="stylesheet" href={FONTES_12} />
+        <ProductCard12 product={padrao} />
+      </>
+    );
   const colunas = [
     { rotulo: 'Padrão', produto: padrao, hover: false },
     { rotulo: 'Hover', produto: hover, hover: true },

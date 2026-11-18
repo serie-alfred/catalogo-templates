@@ -79,30 +79,6 @@ o texto invisível (failure-mode #14 / eye-check GATE 2). Mantidas em hex. */
   flex-shrink: 0;
 }
 
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
-}
-
-.crumbLink {
-  font: 400 11.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.crumbCurrent {
-  font: 500 11.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
-}
-
-.crumbSep {
-  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 35%, transparent);
-  font-size: 10px;
-}
-
 .title {
   font: 300 40px/1 var(--plp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
   color: var(--plp-title-color, var(--text-primary-color, #2c2420));
@@ -117,8 +93,6 @@ o texto invisível (failure-mode #14 / eye-check GATE 2). Mantidas em hex. */
   max-width: 680px;
   margin: 0 0 24px;
 }
-
-/* UA 1em removida do topo; 24px = design */
 
 .chips {
   display: flex;
@@ -493,130 +467,7 @@ absolutos → não mudam a altura do filter-block (fidelidade preservada). */
   text-align: center;
 }
 
-.card {
-  display: block;
-  background: #fff;
-  border-radius: 1px;
-  overflow: hidden;
-  box-shadow: 0 1px 12px rgba(44, 36, 32, 0.06);
-  text-decoration: none;
-}
-
-.cardMedia {
-  position: relative;
-  aspect-ratio: 1;
-  background: linear-gradient(150deg, #ede8e0, #ddd0c0);
-  overflow: hidden;
-}
-
-.cardImg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.flag {
-  position: absolute;
-  top: 8px;
-  left: 8px;
-  color: var(--plp-flag-text, #ffffff);
-  font: 600 8.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  padding: 3px 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.flagGold {
-  background: var(--plp-accent, var(--background-secundary-color, #b8976a));
-}
-
-.flagNew {
-  background: var(--plp-new, #c07a5a);
-}
-
-.flagSale {
-  background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
-}
-
-/* A letra de cada faixa segue o par do fundo dela (D2-04, revisão de 17/11): a dourada fica no
-   secundário e a de promoção no primário. Especificidade (0,2,0) para vencer o .flag/.mFlag. */
-.flag.flagGold, .mFlag.flagGold { color: var(--plp-flag-text, var(--text-color-secundary, #ffffff)); }
-.flag.flagSale, .mFlag.flagSale { color: var(--plp-flag-text, var(--text-color-base, #ffffff)); }
-
-
-.wish {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  width: 28px;
-  height: 28px;
-  background: rgba(255, 255, 255, 0.88);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
-}
-
-.cardBody {
-  padding: 14px;
-}
-
-.cardTitle {
-  font: 400 14px/1.3 var(--plp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
-  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
-  margin: 0 0 8px;
-}
-
-/* UA 1em removida do topo; 8px = design */
-
-.cardPrice {
-  font: 600 17px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
-  margin: 0 0 1px;
-}
-
-/* UA 1em removida do topo; 1px = design */
-
-.cardInstallment {
-  font: 400 10.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
-  margin: 0 0 2px;
-}
-
-/* UA 1em removida do topo; 2px = design */
-
-.cardInstallmentSolo {
-  margin-bottom: 12px;
-}
-
 /* metrics: card sem Pix (row 2)@1024 */
-
-.cardPix {
-  font: 500 10.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: var(--plp-pix, #5c7a66);
-  margin: 0 0 12px;
-}
-
-/* UA 1em removida do topo; 12px = design */
-
-.cardCta {
-  display: inline-block;
-  width: 100%;
-  background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
-  color: var(--plp-cta-text, var(--text-color-base, #faf8f4));
-  border: none;
-  padding: 10px;
-  font: 500 10px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  cursor: pointer;
-  text-align: center;
-  box-sizing: border-box;
-}
 
 /* pagination (só com dados reais) */
 
@@ -800,30 +651,6 @@ ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
   flex-shrink: 0;
 }
 
-.mBreadcrumb {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 6px;
-}
-
-.mCrumbLink {
-  font: 400 10.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.mCrumbCurrent {
-  font: 500 10.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
-}
-
-.mCrumbSep {
-  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 35%, transparent);
-  font-size: 9px;
-}
-
 .mTitle {
   font: 300 28px/1 var(--plp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
   color: var(--plp-title-color, var(--text-primary-color, #2c2420));
@@ -935,110 +762,6 @@ ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-}
-
-.mCard {
-  display: block;
-  background: #fff;
-  border-radius: 1px;
-  overflow: hidden;
-  box-shadow: 0 1px 10px rgba(44, 36, 32, 0.07);
-  text-decoration: none;
-}
-
-.mCardMedia {
-  position: relative;
-  aspect-ratio: 1;
-  background: linear-gradient(150deg, #ede8e0, #ddd0c0);
-  overflow: hidden;
-}
-
-.mCardImg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.mFlag {
-  position: absolute;
-  top: 7px;
-  left: 7px;
-  color: var(--plp-flag-text, #ffffff);
-  font: 600 7.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  padding: 2px 7px;
-  text-transform: uppercase;
-}
-
-.mWish {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 26px;
-  height: 26px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
-}
-
-.mCardBody {
-  padding: 11px;
-}
-
-.mCardTitle {
-  font: 400 12.5px/1.3 var(--plp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
-  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
-  margin: 0 0 6px;
-}
-
-/* UA 1em removida do topo; 6px = design */
-
-.mCardPrice {
-  font: 600 15px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: var(--plp-title-color, var(--text-primary-color, #2c2420));
-  margin: 0 0 1px;
-}
-
-/* UA 1em removida do topo; 1px = design */
-
-.mCardInstallment {
-  font: 400 9.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
-  margin: 0 0 2px;
-}
-
-/* UA 1em removida do topo; 2px = design */
-
-.mCardInstallmentSolo {
-  margin-bottom: 9px;
-}
-
-.mCardPix {
-  font: 500 9.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  color: var(--plp-pix, #5c7a66);
-  margin: 0 0 9px;
-}
-
-/* UA 1em removida do topo; 9px = design */
-
-.mCardCta {
-  display: inline-block;
-  width: 100%;
-  background: var(--plp-cta-bg, var(--background-primary-color, #2c2420));
-  color: var(--plp-cta-text, var(--text-color-base, #faf8f4));
-  border: none;
-  padding: 8px;
-  font: 500 9px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  cursor: pointer;
-  text-align: center;
-  box-sizing: border-box;
 }
 
 /* guia de tamanhos no MOBILE ─────────────────────────────────────────────────────
@@ -1185,34 +908,3 @@ um passo de tipografia — os cards do contrato já quebram sozinhos (flex: 1 1 
   margin-top: 4px;
 }
 
-/* Cards alinhados lado a lado: o nome corta em 2 linhas (reticências na 2ª) e sempre ocupa a
-   altura de 2 linhas; o Pix sempre ocupa a linha (sem ele, .vazio no index.tsx: invisível, com
-   a mesma altura; por isso o -Solo não é mais usado); e o card estica, com o Comprar no fundo.
-   O mesmo trecho está no "Só na Wake" do category.scss. */
-.card,
-.mCard {
-  display: flex;
-  flex-direction: column;
-}
-.cardBody,
-.mCardBody {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-}
-.cardTitle,
-.mCardTitle {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  overflow: hidden;
-  min-height: 2.6em;
-}
-.cardCta,
-.mCardCta {
-  margin-top: auto;
-}
-.vazio {
-  visibility: hidden;
-}

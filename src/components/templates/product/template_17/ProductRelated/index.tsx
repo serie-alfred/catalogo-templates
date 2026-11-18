@@ -6,6 +6,7 @@ import {
   ProductCard17,
   produto17,
 } from '@/components/templates/common/template_17/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 
 import styles from './index.module.css';
 
@@ -145,6 +146,7 @@ export default function ProductRelated17() {
         <div data-fs-product-shelf>
           <div
             className={styles.productShowcase17}
+            data-lista="productShowcase17"
             id="quem-levou-tambem-levou"
             data-role="rel-carousel"
           >
@@ -178,7 +180,9 @@ export default function ProductRelated17() {
             >
               {PRODUTOS.map(p => (
                 <li key={p.id} className={styles.slide}>
-                  <ProductCard17 product={p} />
+                  <CardDaLoja familia="Spot17">
+                    <ProductCard17 product={p} />
+                  </CardDaLoja>
                 </li>
               ))}
             </ul>

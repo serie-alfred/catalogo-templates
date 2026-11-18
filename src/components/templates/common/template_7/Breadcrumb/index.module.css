@@ -1,0 +1,63 @@
+/* Espelha sass/breadcrumb07.module.scss (faststore.starter, família 07): a trilha que
+   ficava no topo do ProductInfo07. Conversão: `$vars` resolvidas inline, `@media
+   (max-width: 960px)` → `@container`, consultando o envelope `.breadcrumbSection07Box`.
+   Mesmas vars de Nível 1, mesmos Níveis 3. A faixa branca é estrutural (hex direto). */
+
+.breadcrumbSection07Box {
+  container-type: inline-size;
+}
+
+.breadcrumb07 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 56px;
+  /* metrics: breadcrumb@1024 */
+  background: #fff;
+  border-bottom: 1px solid color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #2c2420)) 12%, transparent);
+  font-family: var(--breadcrumb-font, var(--font-secundary, 'DM Sans', sans-serif));
+  line-height: normal;
+}
+
+.link {
+  font: 400 11.5px var(--breadcrumb-font, var(--font-secundary, 'DM Sans', sans-serif));
+  line-height: 15px;
+  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #2c2420)) 70%, transparent);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* metrics: origem normal(11.5)=15 */
+
+.current {
+  font: 500 11.5px var(--breadcrumb-font, var(--font-secundary, 'DM Sans', sans-serif));
+  line-height: 15px;
+  color: var(--breadcrumb-text, var(--text-primary-color, #2c2420));
+}
+
+.sep {
+  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #2c2420)) 30%, transparent);
+  font-size: 10px;
+}
+
+.breadcrumbSection07 [data-fs-breadcrumb] {
+  padding: 0;
+}
+
+/* metrics: o trilho mobile do MainCategory07 (m-breadcrumb@375), que a PLP mostrava no topo */
+@container (max-width: 960px) {
+  .breadcrumb07 {
+    gap: 6px;
+    padding: 12px 18px;
+  }
+
+  .link,
+  .current {
+    font-size: 10.5px;
+    line-height: 14px;
+  }
+
+  .sep {
+    font-size: 9px;
+  }
+}

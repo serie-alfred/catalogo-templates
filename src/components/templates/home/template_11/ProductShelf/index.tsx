@@ -8,6 +8,7 @@ import {
   produto11,
   type Produto11,
 } from '@/components/templates/common/template_11/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 
 /**
  * Espelha `molecules/ProductShelf11` do faststore.starter — o núcleo das duas
@@ -19,9 +20,8 @@ import {
  *
  * A folha mora em cada réplica (Showcase, ShelfBanner) — uma por item do
  * catálogo — e chega aqui por prop; as duas saem do mesmo SCSS.
- * Produtos = o mock.ts do núcleo de lá (sem foto: vale o placeholder). Sempre o
- * ProductCard11: nenhum manifest 11 do starter tem `usesSpot`, então a réplica também
- * não troca o card pelo spot escolhido.
+ * Produtos = o mock.ts do núcleo de lá (sem foto: vale o placeholder). O card é o da loja (`CardDaLoja`): sem
+ * Card de Produto escolhido, ou com o Spot11, o ProductCard11.
  */
 
 type Estilos = Record<string, string>;
@@ -200,12 +200,14 @@ export default function ProductShelf11({
 
   const cards = produtos.map((p, i) => (
     <li key={p.id || i} className={style.slide}>
-      <ProductCard11
-        product={p}
-        badge={tagLabel}
-        variant="grid"
-        layout={variant === 'banner' ? 'quick' : 'shelf'}
-      />
+      <CardDaLoja familia="Spot11">
+        <ProductCard11
+          product={p}
+          badge={tagLabel}
+          variant="grid"
+          layout={variant === 'banner' ? 'quick' : 'shelf'}
+        />
+      </CardDaLoja>
     </li>
   ));
 

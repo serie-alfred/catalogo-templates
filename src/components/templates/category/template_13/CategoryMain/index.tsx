@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 
 
 import styles from './index.module.css';
 import { FONTES_13, ProductCard13, produto13, type Produto13 } from '@/components/templates/common/template_13/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 import {
   type Facet13,
   type PriceBucket13,
@@ -454,7 +455,7 @@ export default function CategoryMain13() {
   if (isEmpty && userCount === 0) {
     return (
       <div className={styles.mainCategory13Box}>
-        <section className={styles.mainCategory13} aria-label={listName} data-role="cm-root">
+        <section className={styles.mainCategory13} data-lista="mainCategory13" aria-label={listName} data-role="cm-root">
           <link rel="stylesheet" href={FONTES_13} />
           {emptyBlock}
         </section>
@@ -468,7 +469,7 @@ export default function CategoryMain13() {
 
   return (
     <div className={styles.mainCategory13Box}>
-      <section className={styles.mainCategory13} aria-label={listName} data-role="cm-root">
+      <section className={styles.mainCategory13} data-lista="mainCategory13" aria-label={listName} data-role="cm-root">
         <link rel="stylesheet" href={FONTES_13} />
 
         {/* mobile: Filtrar (n) | Ordenar */}
@@ -587,7 +588,9 @@ export default function CategoryMain13() {
                   <ul className={`${styles.grid} ${styles[`cols${cols}`]}`} data-role="cm-grid">
                     {products.map((p, i) => (
                       <li key={p.id ?? i} className={styles.gridItem}>
-                        <ProductCard13 product={p} showListPrice />
+                        <CardDaLoja familia="Spot13">
+                          <ProductCard13 product={p} showListPrice />
+                        </CardDaLoja>
                       </li>
                     ))}
                   </ul>

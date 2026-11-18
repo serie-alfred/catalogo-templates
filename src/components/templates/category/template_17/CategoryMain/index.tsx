@@ -15,6 +15,7 @@ import {
   produto17,
   type Produto17,
 } from '@/components/templates/common/template_17/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 import {
   type Facet17,
   type PriceBucket17,
@@ -814,6 +815,7 @@ export default function CategoryMain17() {
     <div className={styles.mainCategory17Box}>
       <section
         className={styles.mainCategory17}
+        data-lista="mainCategory17"
         aria-label={listName}
         data-role="cm-root"
       >
@@ -961,7 +963,9 @@ export default function CategoryMain17() {
                 >
                   {products.map((p, i) => (
                     <li key={p.id ?? i} className={styles.gridItem}>
-                      <ProductCard17 product={p} soldOutText={soldOutText} />
+                      <CardDaLoja familia="Spot17">
+                        <ProductCard17 product={p} soldOutText={soldOutText} />
+                      </CardDaLoja>
                     </li>
                   ))}
                 </ul>

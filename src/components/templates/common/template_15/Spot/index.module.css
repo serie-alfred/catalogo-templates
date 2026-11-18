@@ -9,8 +9,8 @@
   flex-direction: column;
   gap: 20px;
   min-width: 0;
-  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #1a1714)));
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
+  color: var(--spot-text, var(--text-primary-color, #1a1714));
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -92,7 +92,7 @@
 }
 
 .tag {
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -108,7 +108,7 @@
 }
 
 .outTag {
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -121,7 +121,7 @@
   border-top: 1px solid var(--spot-soldout-border, var(--spot-tag-bg, var(--background-primary-color, #7a5f1c)));
   border-bottom: 1px solid var(--spot-soldout-border, var(--spot-tag-bg, var(--background-primary-color, #7a5f1c)));
   background-color: var(--spot-soldout-bg, #faf8f4);
-  color: var(--spot-soldout-text, var(--spot-text, var(--showcase-text, var(--text-primary-color, #1a1714))));
+  color: var(--spot-soldout-text, var(--spot-text, var(--text-primary-color, #1a1714)));
   white-space: nowrap;
   pointer-events: none;
 }
@@ -135,7 +135,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  color: var(--spot-wishlist-color, var(--spot-text, var(--showcase-text, var(--text-primary-color, #1a1714))));
+  color: var(--spot-wishlist-color, var(--spot-text, var(--text-primary-color, #1a1714)));
 }
 .favorite:hover {
   opacity: 0.8;
@@ -152,7 +152,7 @@
 }
 
 .buy {
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -186,7 +186,7 @@
 }
 
 .brand {
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -195,8 +195,8 @@
 }
 
 .name {
-  color: var(--spot-name, var(--spot-text, var(--showcase-text, var(--text-primary-color, #1a1714))));
-  font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif)));
+  color: var(--spot-name, var(--spot-text, var(--text-primary-color, #1a1714)));
+  font-family: var(--spot-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
   font-size: 24px;
   line-height: 1.15;
 }
@@ -205,7 +205,7 @@
 }
 
 .price {
-  color: var(--spot-price-color, var(--spot-text, var(--showcase-text, var(--text-primary-color, #1a1714))));
+  color: var(--spot-price-color, var(--spot-text, var(--text-primary-color, #1a1714)));
   font-size: 14px;
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -220,13 +220,13 @@
 }
 
 .listPrice {
-  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #1a1714))) 66%, #faf8f4));
+  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4));
   font-size: 12px;
   text-decoration: line-through;
 }
 
 .discount {
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -236,11 +236,11 @@
 }
 
 .installment {
-  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #1a1714))) 66%, #faf8f4));
+  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4));
   font-size: 12px;
 }
 .installment[data-role=spot-unavailable] {
-  color: var(--spot-unavailable, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #1a1714))) 66%, #faf8f4));
+  color: var(--spot-unavailable, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4));
 }
 
 .srOnly {
@@ -257,14 +257,14 @@
 .soldOut .brand,
 .soldOut .name,
 .soldOut .price {
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #1a1714))) 66%, #faf8f4);
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #1a1714)) 66%, #faf8f4);
 }
 .soldOut .price {
   letter-spacing: normal;
 }
 
 .notify {
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -276,8 +276,8 @@
   gap: 10px;
   height: 50px;
   margin-top: 8px;
-  border: 1px solid var(--spot-notify-text, var(--spot-text, var(--showcase-text, var(--text-primary-color, #1a1714))));
-  color: var(--spot-notify-text, var(--spot-text, var(--showcase-text, var(--text-primary-color, #1a1714))));
+  border: 1px solid var(--spot-notify-text, var(--spot-text, var(--text-primary-color, #1a1714)));
+  color: var(--spot-notify-text, var(--spot-text, var(--text-primary-color, #1a1714)));
   white-space: nowrap;
 }
 .notify:hover {
@@ -289,7 +289,7 @@
 }
 
 .buyWide {
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif)));
+  font-family: var(--spot-font, var(--font-secundary, 'Manrope', system-ui, sans-serif));
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.22em;
@@ -375,6 +375,135 @@
 .productCard15Box {
   container-type: inline-size;
 }
+
+/* ── Nas listas da família (data-lista) ── */
+/* Espelha o fim do SCSS do ProductCard15: o desenho do card dentro das listas da família, que
+   antes morava nelas. A lista marca a raiz com `data-lista`. */
+:global(:where([data-lista^='productShelf15'])) .productCard15 [data-role=spot-tag] {
+  top: 16px;
+  left: 16px;
+}
+
+:global(:where([data-lista^='productShelf15'], [data-lista='productShowcase15'])) .productCard15 [data-role=spot-favorite] {
+  top: 6px;
+  right: 6px;
+}
+
+:global(:where([data-lista^='productShelf15'], [data-lista='productShowcase15'])) .productCard15[data-role=spot] h3 {
+  font-size: 25px;
+}
+
+:global(:where([data-lista='productShelf15Banner'])) .productCard15[data-role=spot] {
+  gap: 18px;
+}
+:global(:where([data-lista='productShelf15Banner'])) .productCard15[data-role=spot] > :nth-child(2) {
+  align-items: stretch;
+  gap: 7px;
+  text-align: left;
+}
+
+:global(:where([data-lista='productShelf15Banner'])) .productCard15 [data-role=spot-favorite] {
+  top: 4px;
+  right: 4px;
+}
+
+:global(:where([data-lista='productShelf15Banner'])) .productCard15 [data-role=spot-favorite] svg {
+  width: 18px;
+  height: 18px;
+}
+
+:global(:where([data-lista='productShelf15Banner'])) .productCard15 [data-role=spot-brand] {
+  font-size: 10.5px;
+}
+
+:global(:where([data-lista='productShelf15Banner'])) .productCard15[data-role=spot] h3 {
+  font-size: 22px;
+}
+
+:global(:where([data-lista='productShelf15Banner'])) .productCard15 [data-role=spot-price] {
+  letter-spacing: normal;
+}
+
+:global(:where([data-lista='productShelf15Banner'])) .productCard15[data-role=spot] > :nth-child(2) > span:not([data-role]) {
+  justify-content: flex-start;
+}
+
+@container (max-width: 960px) {
+  :global(:where([data-lista^='productShelf15'], [data-lista='productShowcase15'])) .productCard15[data-role=spot] {
+    gap: 14px;
+  }
+  :global(:where([data-lista^='productShelf15'], [data-lista='productShowcase15'])) .productCard15[data-role=spot] > :nth-child(2) {
+    align-items: center;
+    gap: 6px;
+    text-align: center;
+  }
+  :global(:where([data-lista^='productShelf15'], [data-lista='productShowcase15'])) .productCard15[data-role=spot] > :nth-child(2) > span:not([data-role]) {
+    justify-content: center;
+  }
+  :global(:where([data-lista^='productShelf15'], [data-lista='productShowcase15'])) .productCard15[data-role=spot] > button[data-role=spot-buy] {
+    display: none !important;
+  }
+  :global(:where([data-lista^='productShelf15'])) .productCard15 [data-role=spot-tag] {
+    top: 12px;
+    left: 12px;
+    padding: 5px 8px;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+  }
+  :global(:where([data-lista^='productShelf15'], [data-lista='productShowcase15'])) .productCard15 [data-role=spot-favorite] {
+    top: 2px;
+    right: 2px;
+  }
+  :global(:where([data-lista^='productShelf15'], [data-lista='productShowcase15'])) .productCard15 [data-role=spot-favorite] svg {
+    width: 18px;
+    height: 18px;
+  }
+  :global(:where([data-lista^='productShelf15'], [data-lista='productShowcase15'])) .productCard15 [data-role=spot-brand] {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+  }
+  :global(:where([data-lista^='productShelf15'], [data-lista='productShowcase15'])) .productCard15[data-role=spot] h3 {
+    font-size: 21px;
+  }
+  :global(:where([data-lista^='productShelf15'], [data-lista='productShowcase15'])) .productCard15 [data-role=spot-price] {
+    font-size: 14px;
+  }
+  :global(:where([data-lista^='productShelf15'], [data-lista='productShowcase15'])) .productCard15 [data-role=spot-installments] span {
+    display: inline !important;
+  }
+  :global(:where([data-lista='productShelf15Banner'])) .productCard15[data-role=spot] {
+    gap: 12px;
+  }
+  :global(:where([data-lista='productShelf15Banner'])) .productCard15[data-role=spot] > :nth-child(2) {
+    align-items: stretch;
+    gap: 5px;
+    text-align: left;
+  }
+  :global(:where([data-lista='productShelf15Banner'])) .productCard15[data-role=spot] > :nth-child(2) > span:not([data-role]) {
+    justify-content: flex-start;
+  }
+  :global(:where([data-lista='productShelf15Banner'])) .productCard15 [data-role=spot-favorite] {
+    top: 0;
+    right: 0;
+  }
+  :global(:where([data-lista='productShelf15Banner'])) .productCard15 [data-role=spot-favorite] svg {
+    width: 17px;
+    height: 17px;
+  }
+  :global(:where([data-lista='productShelf15Banner'])) .productCard15 [data-role=spot-brand] {
+    letter-spacing: 0.16em;
+  }
+  :global(:where([data-lista='productShelf15Banner'])) .productCard15[data-role=spot] h3 {
+    font-size: 19px;
+  }
+  :global(:where([data-lista='productShelf15Banner'])) .productCard15 [data-role=spot-price] {
+    font-size: 13px;
+  }
+  :global(:where([data-lista='productShelf15Banner'])) .productCard15 [data-role=spot-installments] span {
+    display: none !important;
+  }
+}
+/* ── fim: nas listas da família ── */
 
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
 /* O quadro do desenho `Spot15` (palco do starter, `Comum15Stage.module.scss`): o creme da

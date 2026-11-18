@@ -1,5 +1,8 @@
 import React from 'react';
 
+import CardDaLoja from '@/components/templates/CardDaLoja';
+import Spot01 from '@/components/templates/common/template_1/Spot';
+
 /**
  * Espelha `molecules/ProductShelf08` do faststore.starter — o núcleo das duas
  * vitrines 08 (`Showcase08` = ProductShelfCustom08, variante cheia;
@@ -9,6 +12,10 @@ import React from 'react';
  *
  * A folha mora em cada réplica (Showcase, ShelfBanner) — o funil exige uma por
  * item do catálogo — e chega aqui por prop; as duas saem do mesmo SCSS.
+ *
+ * O card é o da loja (`CardDaLoja`). A família 08 não tem card próprio: sem Card de
+ * Produto escolhido, ou com o Spot01, vale o Spot01 — o starter faz o mesmo com o
+ * ProductCard01. A vitrine só dá o slot (o `.slide`).
  */
 
 type Estilos = Record<string, string>;
@@ -20,24 +27,6 @@ const FONTES =
   'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap';
 
 const PRODUTOS = [1, 2, 3, 4, 5, 6];
-
-const Heart = () => (
-  <svg
-    aria-hidden="true"
-    width="22.333"
-    height="21.583"
-    viewBox="0 0 22.3333 21.5834"
-    fill="none"
-  >
-    <path
-      d="M9.70981 18.0954C7.12363 16.1615 2 11.7402 2 7.76157C2 5.13183 3.92982 3 6.58333 3C7.95833 3 9.33333 3.45833 11.1667 5.29167C13 3.45833 14.375 3 15.75 3C18.4035 3 20.3333 5.13183 20.3333 7.76157C20.3333 11.7402 15.2097 16.1615 12.6235 18.0954C11.7532 18.7461 10.5801 18.7461 9.70981 18.0954Z"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
 
 const Chevron = ({ dir }: { dir: 'prev' | 'next' }) => (
   <svg
@@ -60,63 +49,6 @@ const Chevron = ({ dir }: { dir: 'prev' | 'next' }) => (
     />
   </svg>
 );
-
-function Card({ styles }: { styles: Estilos }) {
-  return (
-    <div className={styles.card} data-role="sh-card">
-      <a
-        className={styles.cardLink}
-        href="#"
-        aria-label="Camisa Polo Piquet Manga Curta Azul"
-      />
-      <div className={styles.cardMedia}>
-        <img
-          className={styles.cardImg}
-          src={RETRATO}
-          alt="Camisa Polo Piquet Manga Curta Azul"
-          width={230}
-          height={345}
-        />
-        <div className={styles.cardTags}>
-          <span className={styles.cardTag} data-role="sh-tag">
-            Novidade
-          </span>
-          <span className={styles.cardOff} data-role="sh-off">
-            10% OFF
-          </span>
-        </div>
-        <button
-          type="button"
-          className={styles.cardWish}
-          data-role="sh-wish"
-          aria-pressed={false}
-          aria-label="Adicionar à lista de desejos"
-        >
-          <Heart />
-        </button>
-      </div>
-      <div className={styles.cardInfo}>
-        <h3 className={styles.cardName} data-role="sh-card-name">
-          Camisa Polo Piquet Manga Curta Azul
-        </h3>
-        <div className={styles.cardPrices}>
-          <s className={styles.cardList} data-role="sh-list-price">
-            R$ 149,90
-          </s>
-          <span className={styles.cardPrice} data-role="sh-price">
-            R$ 59,90
-          </span>
-        </div>
-        <p className={styles.cardPix} data-role="sh-pix">
-          <strong>R$ 55,90</strong> no pix
-        </p>
-        <p className={styles.cardInstallment} data-role="sh-installment">
-          8x R$ 5,90 no cartão
-        </p>
-      </div>
-    </div>
-  );
-}
 
 export default function ProductShelf08({
   variant,
@@ -155,7 +87,9 @@ export default function ProductShelf08({
             <div className={styles.track}>
               {PRODUTOS.map(i => (
                 <div key={i} className={styles.slide}>
-                  <Card styles={styles} />
+                  <CardDaLoja familia="Spot01">
+                    <Spot01 />
+                  </CardDaLoja>
                 </div>
               ))}
             </div>

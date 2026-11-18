@@ -8,6 +8,7 @@ import {
   ProductCard09,
   type Produto09,
 } from '@/components/templates/common/template_9/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
@@ -600,7 +601,9 @@ export default function CategoryMain09() {
             <ul className={styles.grid} data-role="cm-grid">
               {products.map((p, i) => (
                 <li key={p.id ?? i} className={styles.gridItem}>
-                  <ProductCard09 product={p} />
+                  <CardDaLoja familia="Spot09">
+                    <ProductCard09 product={p} />
+                  </CardDaLoja>
                 </li>
               ))}
             </ul>

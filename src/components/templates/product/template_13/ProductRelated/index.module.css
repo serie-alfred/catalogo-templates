@@ -77,12 +77,6 @@ section.crossSellingShelf13 [data-fs-product-shelf] {
   display: block;
   flex: none;
 }
-.productShowcase13 [data-role=spot] h3 {
-  font-size: 20px;
-}
-.productShowcase13 [data-role=spot-price] {
-  font-size: 24px;
-}
 
 .arrows {
   position: absolute;
@@ -136,18 +130,6 @@ section.crossSellingShelf13 [data-fs-product-shelf] {
 .slide > * {
   flex: 1;
 }
-.slide:nth-child(4n+1) [data-role=spot-image] {
-  background-color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 11%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
-}
-.slide:nth-child(4n+2) [data-role=spot-image] {
-  background-color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 9%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
-}
-.slide:nth-child(4n+3) [data-role=spot-image] {
-  background-color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 13%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
-}
-.slide:nth-child(4n+4) [data-role=spot-image] {
-  background-color: color-mix(in srgb, var(--showcase-text, var(--text-color-secundary, #f4f4f0)) 15%, var(--showcase-bg, var(--background-secundary-color, #0d0d0d)));
-}
 
 @container (min-width: 961px) and (max-width: 1199px) {
   .slide {
@@ -159,30 +141,6 @@ section.crossSellingShelf13 [data-fs-product-shelf] {
 }
 
 @container (max-width: 960px) {
-  .productShowcase13 [data-role=spot] {
-    gap: 10px;
-  }
-  .productShowcase13 [data-role=spot] > :nth-child(2) {
-    gap: 10px;
-  }
-  .productShowcase13 [data-role=spot] > button[data-role=spot-buy] {
-    display: none !important;
-  }
-  .productShowcase13 [data-role=spot] h3 {
-    font-size: 18px;
-    letter-spacing: normal;
-  }
-  .productShowcase13 [data-role=spot-price] {
-    margin-top: 0;
-    font-size: 22px;
-  }
-  .productShowcase13 [data-role=spot-installments] span {
-    display: inline !important;
-  }
-  .productShowcase13 [data-role=spot-favorite] {
-    top: 0;
-    right: 0;
-  }
   .arrows {
     display: none;
   }

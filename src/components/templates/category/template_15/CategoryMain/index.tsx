@@ -4,6 +4,7 @@ import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_15, ProductCard15, produto15, type Produto15 } from '@/components/templates/common/template_15/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 import {
   type Facet15,
   type FacetValue15,
@@ -566,7 +567,9 @@ export default function CategoryMain15() {
             <ul className={styles.grid} data-role="cm-grid">
               {products.map((p, i) => (
                 <li key={p.id ?? i} className={styles.gridItem}>
-                  <ProductCard15 product={p} />
+                  <CardDaLoja familia="Spot15">
+                    <ProductCard15 product={p} />
+                  </CardDaLoja>
                 </li>
               ))}
             </ul>

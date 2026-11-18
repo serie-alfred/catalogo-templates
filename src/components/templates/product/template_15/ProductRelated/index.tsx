@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FONTES_15, ProductCard15, produto15, type Produto15 } from '@/components/templates/common/template_15/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 
 import styles from './index.module.css';
 
@@ -66,7 +67,7 @@ export default function ProductRelated15() {
       <section className={`section section-product-shelf layout__section ${styles.crossSellingShelf15}`}>
         <h2 className="text__title-section layout__content">Você também pode gostar</h2>
         <div data-fs-product-shelf>
-          <div className={styles.productShowcase15} id="voce-tambem-pode-gostar" data-role="rel-carousel">
+          <div className={styles.productShowcase15} data-lista="productShowcase15" id="voce-tambem-pode-gostar" data-role="rel-carousel">
             {/* As fontes da família (o título é o h2 nativo da seção, fora deste nó). */}
             <link rel="stylesheet" href={FONTES_15} />
             <div className={styles.arrows}>
@@ -80,7 +81,9 @@ export default function ProductRelated15() {
             <ul ref={railRef} className={styles.rail} onScroll={medir} data-role="rel-list">
               {PRODUTOS.map(p => (
                 <li key={p.id} className={styles.slide}>
-                  <ProductCard15 product={p} />
+                  <CardDaLoja familia="Spot15">
+                    <ProductCard15 product={p} />
+                  </CardDaLoja>
                 </li>
               ))}
             </ul>

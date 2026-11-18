@@ -77,16 +77,6 @@ section.crossSellingShelf15 [data-fs-product-shelf] {
   display: block;
   flex: none;
 }
-.productShowcase15 [data-role=spot-favorite] {
-  top: 6px;
-  right: 6px;
-}
-.productShowcase15 [data-role=spot-brand] {
-  color: var(--showcase-accent, var(--background-primary-color-safe, #7a5f1c));
-}
-.productShowcase15 [data-role=spot] h3 {
-  font-size: 25px;
-}
 
 .arrows {
   position: absolute;
@@ -142,53 +132,12 @@ section.crossSellingShelf15 [data-fs-product-shelf] {
 .slide > * {
   flex: 1;
 }
-.slide:nth-child(3n+1) [data-role=spot]:not(:hover) > :first-child {
-  background-color: #dcd3c4;
-}
-.slide:nth-child(3n+2) [data-role=spot]:not(:hover) > :first-child {
-  background-color: #e9e3d8;
-}
 
 .progressWrap {
   display: none;
 }
 
 @container (max-width: 960px) {
-  .productShowcase15 [data-role=spot] {
-    gap: 14px;
-  }
-  .productShowcase15 [data-role=spot] > :nth-child(2) {
-    align-items: center;
-    gap: 6px;
-    text-align: center;
-  }
-  .productShowcase15 [data-role=spot] > :nth-child(2) > span:not([data-role]) {
-    justify-content: center;
-  }
-  .productShowcase15 [data-role=spot] > button[data-role=spot-buy] {
-    display: none !important;
-  }
-  .productShowcase15 [data-role=spot-favorite] {
-    top: 2px;
-    right: 2px;
-  }
-  .productShowcase15 [data-role=spot-favorite] svg {
-    width: 18px;
-    height: 18px;
-  }
-  .productShowcase15 [data-role=spot-brand] {
-    font-size: 10px;
-    letter-spacing: 0.22em;
-  }
-  .productShowcase15 [data-role=spot] h3 {
-    font-size: 21px;
-  }
-  .productShowcase15 [data-role=spot-price] {
-    font-size: 14px;
-  }
-  .productShowcase15 [data-role=spot-installments] span {
-    display: inline !important;
-  }
   .arrows {
     display: none;
   }

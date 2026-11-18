@@ -52,18 +52,6 @@
   display: block;
   flex: none;
 }
-.mainCategory14 [data-role=spot] {
-  background-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0b1b33)) 6%, var(--cat-main-bg, #ffffff));
-  color: var(--cat-main-text, var(--text-primary-color, #0b1b33));
-}
-.mainCategory14 [data-role=spot-discount],
-.mainCategory14 [data-role=spot-buy] {
-  background-color: var(--spot-btn-bg, var(--cat-main-accent, var(--background-primary-color, #e4002b)));
-  color: var(--spot-btn-text, var(--text-color-base, #ffffff));
-}
-.mainCategory14 [data-role=spot-price] {
-  color: var(--spot-price-color, var(--cat-main-text, var(--text-primary-color, #0b1b33)));
-}
 .inner {
   display: flex;
   flex-direction: column;
@@ -331,30 +319,6 @@
 
 .gridItem {
   min-width: 0;
-}
-.gridItem:nth-child(9n+2) [data-role=spot-image] {
-  background-color: #e4e9f0;
-}
-.gridItem:nth-child(9n+3) [data-role=spot-image] {
-  background-color: #d3dbe6;
-}
-.gridItem:nth-child(9n+4) [data-role=spot-image] {
-  background-color: #c8d2de;
-}
-.gridItem:nth-child(9n+5) [data-role=spot-image] {
-  background-color: #cfd8e3;
-}
-.gridItem:nth-child(9n+6) [data-role=spot-image] {
-  background-color: #e8ecf2;
-}
-.gridItem:nth-child(9n+7) [data-role=spot-image] {
-  background-color: #dae1ea;
-}
-.gridItem:nth-child(9n+8) [data-role=spot-image] {
-  background-color: #e6ebf1;
-}
-.gridItem:nth-child(9n) [data-role=spot-image] {
-  background-color: #e1e7ef;
 }
 
 .pagination {
@@ -741,13 +705,6 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px 12px;
     padding: 0 16px;
-  }
-  .gridItem [data-role=spot-pix] {
-    display: block !important;
-    font-size: 12px;
-  }
-  .gridItem [data-role=spot-buy] {
-    display: none !important;
   }
   .pagination {
     padding: 0 16px;

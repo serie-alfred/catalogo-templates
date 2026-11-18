@@ -254,10 +254,10 @@ export default function Spot13({ soCard = false }: { soCard?: boolean }) {
   // Dentro de uma vitrine/lista de outro template o spot é só o card, não o quadro do desenho.
   if (soCard)
     return (
-      <div className={styles.productCard13Box}>
+      <>
         <link rel="stylesheet" href={FONTES_13} />
         <ProductCard13 product={padrao} badge={ROTULO_13} />
-      </div>
+      </>
     );
   const colunas = [
     { rotulo: 'Padrão', produto: padrao, hover: false },

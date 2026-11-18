@@ -3,7 +3,7 @@
  *
  * Para cada valor de Nível 1 que um template completo fixa (`NIVEL1_DAS_FAMILIAS`),
  * os tokens globais que a cadeia da réplica segue (todos: a mesma var pode cair em
- * tokens diferentes em regras diferentes). 175 vars com token; 1 vão direto
+ * tokens diferentes em regras diferentes). 171 vars com token; 28 vão direto
  * ao hex (sem global a seguir) e ficam de fora.
  */
 export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> = {
@@ -603,24 +603,6 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
       '--text-tertiary-color'
     ]
   },
-  ProductRelated09: {
-    '--showcase-tag-text': [
-      '--background-primary-color'
-    ]
-  },
-  ProductRelated10: {
-    '--showcase-tag-bg': [
-      '--background-tertiary-color'
-    ],
-    '--showcase-tag-text': [
-      '--text-tertiary-color'
-    ]
-  },
-  ProductRelated12: {
-    '--showcase-tag-text': [
-      '--text-tertiary-color'
-    ]
-  },
   ProductRelated13: {
     '--showcase-text': [
       '--text-color-secundary'
@@ -699,24 +681,6 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
       '--text-primary-color'
     ]
   },
-  ShelfBanner09: {
-    '--showcase-tag-text': [
-      '--background-primary-color'
-    ]
-  },
-  ShelfBanner10: {
-    '--showcase-tag-bg': [
-      '--background-tertiary-color'
-    ],
-    '--showcase-tag-text': [
-      '--text-tertiary-color'
-    ]
-  },
-  ShelfBanner12: {
-    '--showcase-tag-text': [
-      '--text-tertiary-color'
-    ]
-  },
   ShelfBanner13: {
     '--banner-side-text': [
       '--text-color-secundary'
@@ -732,44 +696,17 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
     '--showcase-accent': [
       '--background-primary-color',
       '--background-primary-color-safe'
-    ],
-    '--showcase-tag-bg': [
-      '--background-primary-color'
     ]
   },
   ShelfBanner16: {
     '--banner-side-text': [
       '--text-primary-color',
       '--text-tertiary-color'
-    ],
-    '--showcase-tag-bg': [
-      '--background-tertiary-color'
     ]
   },
   ShelfBanner17: {
-    '--showcase-tag-bg': [
-      '--background-tertiary-color'
-    ],
     '--showcase-text': [
       '--text-primary-color',
-      '--text-tertiary-color'
-    ]
-  },
-  Showcase09: {
-    '--showcase-tag-text': [
-      '--background-primary-color'
-    ]
-  },
-  Showcase10: {
-    '--showcase-tag-bg': [
-      '--background-tertiary-color'
-    ],
-    '--showcase-tag-text': [
-      '--text-tertiary-color'
-    ]
-  },
-  Showcase12: {
-    '--showcase-tag-text': [
       '--text-tertiary-color'
     ]
   },
@@ -781,32 +718,13 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
       '--text-color-secundary'
     ]
   },
-  Showcase14: {
-    '--showcase-tag-bg': [
-      '--background-tertiary-color'
-    ],
-    '--showcase-tag-text': [
-      '--text-tertiary-color'
-    ]
-  },
   Showcase15: {
     '--showcase-accent': [
       '--background-primary-color',
       '--background-primary-color-safe'
-    ],
-    '--showcase-tag-bg': [
-      '--background-primary-color'
-    ]
-  },
-  Showcase16: {
-    '--showcase-tag-bg': [
-      '--background-tertiary-color'
     ]
   },
   Showcase17: {
-    '--showcase-tag-bg': [
-      '--background-tertiary-color'
-    ],
     '--showcase-text': [
       '--text-primary-color',
       '--text-tertiary-color'

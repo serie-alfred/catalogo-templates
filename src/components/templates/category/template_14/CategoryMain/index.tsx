@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 
 
 import styles from './index.module.css';
 import { FONTES_14, ProductCard14, produto14, type Produto14 } from '@/components/templates/common/template_14/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 import {
   type Facet14,
   type PriceBucket14,
@@ -485,7 +486,7 @@ export default function CategoryMain14() {
   if (isEmpty && userCount === 0) {
     return (
       <div className={styles.mainCategory14Box}>
-        <section className={`${styles.mainCategory14} ${styles.onlyEmpty}`} aria-label={listName} data-role="cm-root">
+        <section className={`${styles.mainCategory14} ${styles.onlyEmpty}`} data-lista="mainCategory14" aria-label={listName} data-role="cm-root">
           <link rel="stylesheet" href={FONTES_14} />
           {emptyBlock}
         </section>
@@ -516,7 +517,7 @@ export default function CategoryMain14() {
 
   return (
     <div className={styles.mainCategory14Box}>
-      <section className={styles.mainCategory14} aria-label={listName} data-role="cm-root">
+      <section className={styles.mainCategory14} data-lista="mainCategory14" aria-label={listName} data-role="cm-root">
         <link rel="stylesheet" href={FONTES_14} />
         <div className={styles.inner}>
           {specFacet && (
@@ -602,7 +603,9 @@ export default function CategoryMain14() {
                   <ul className={styles.grid} data-role="cm-grid">
                     {products.map((p, i) => (
                       <li key={p.id ?? i} className={styles.gridItem}>
-                        <ProductCard14 product={p} />
+                        <CardDaLoja familia="Spot14">
+                          <ProductCard14 product={p} />
+                        </CardDaLoja>
                       </li>
                     ))}
                   </ul>

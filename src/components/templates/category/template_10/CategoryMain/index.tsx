@@ -16,6 +16,7 @@ import {
   produto10,
   type Produto10,
 } from '@/components/templates/common/template_10/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 import {
   type Facet10,
   type RawFacet10,
@@ -654,7 +655,7 @@ export default function CategoryMain10() {
   );
 
   return (
-    <div className={styles.mainCategory10Box}>
+    <div className={styles.mainCategory10Box} data-lista="mainCategory10">
       <div className={styles.mainCategory10} data-role="cm-root">
         <link rel="stylesheet" href={FONTES_10} />
         <div
@@ -898,11 +899,14 @@ export default function CategoryMain10() {
               <div className={styles.results}>
                 <ul
                   className={`${styles.grid}${view === 'list' ? ` ${styles.gridList}` : ''}`}
+                  data-lista-modo={view === 'list' ? 'lista' : undefined}
                   data-role="cm-grid"
                 >
                   {products.map(p => (
                     <li key={p.id} className={styles.gridItem}>
-                      <ProductCard10 product={p} />
+                      <CardDaLoja familia="Spot10">
+                        <ProductCard10 product={p} />
+                      </CardDaLoja>
                     </li>
                   ))}
                 </ul>

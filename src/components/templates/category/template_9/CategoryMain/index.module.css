@@ -5,7 +5,7 @@
 
 .mainCategory09 {
   width: 100%;
-  background-color: #f7f4ef;
+  background-color: var(--cat-main-bg, #f7f4ef);
   color: var(--cat-main-text, var(--text-primary-color, #1d1b18));
   font-family: var(--cat-main-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   font-weight: 400;
@@ -31,7 +31,7 @@
   color: inherit;
   text-decoration: none;
 }
-.mainCategory09 :where(button:not([data-role^=spot])) {
+.mainCategory09 :where(button:not(.grid *)) {
   margin: 0;
   padding: 0;
   border: 0;
@@ -60,7 +60,7 @@
 }
 
 .muted {
-  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 64%, var(--cat-main-bg, #f7f4ef));
 }
 
 .accent,
@@ -82,8 +82,8 @@
   justify-content: space-between;
   gap: 8px 24px;
   min-height: 64px;
-  border-top: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
-  border-bottom: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border-top: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, var(--cat-main-bg, #f7f4ef));
+  border-bottom: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, var(--cat-main-bg, #f7f4ef));
 }
 
 .facetBtns {
@@ -117,7 +117,7 @@
 .mCount,
 .progressText {
   font-size: 13px;
-  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 64%, var(--cat-main-bg, #f7f4ef));
 }
 
 .sortBtn {
@@ -272,7 +272,7 @@
   gap: 8px;
   height: 36px;
   padding: 0 12px;
-  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, var(--cat-main-bg, #f7f4ef));
   font-size: 12px;
   text-transform: none;
   letter-spacing: normal;
@@ -304,7 +304,7 @@
   position: relative;
   width: 240px;
   height: 1px;
-  background-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  background-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, var(--cat-main-bg, #f7f4ef));
 }
 .progress span {
   position: absolute;
@@ -335,8 +335,8 @@
   gap: 22px;
   padding: 96px clamp(16px, 3vw, 40px);
   text-align: center;
-  border-top: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
-  border-bottom: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border-top: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, var(--cat-main-bg, #f7f4ef));
+  border-bottom: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, var(--cat-main-bg, #f7f4ef));
 }
 
 .emptyEyebrow {
@@ -347,13 +347,13 @@
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 64%, var(--cat-main-bg, #f7f4ef));
 }
 .emptyEyebrow::before, .emptyEyebrow::after {
   content: "";
   width: 32px;
   height: 1px;
-  background-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  background-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 64%, var(--cat-main-bg, #f7f4ef));
 }
 
 .emptyTitle {
@@ -372,7 +372,7 @@
   max-width: 460px;
   font-size: 15px;
   line-height: 1.65;
-  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 64%, var(--cat-main-bg, #f7f4ef));
 }
 
 .emptyActions {
@@ -397,7 +397,7 @@
 .emptyPrimary {
   padding: 0 32px;
   background-color: var(--cat-main-text, var(--text-primary-color, #1d1b18));
-  color: #f7f4ef;
+  color: var(--cat-main-bg, #f7f4ef);
 }
 
 .emptySecondary {
@@ -525,8 +525,8 @@
   .mBar {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border-top: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
-    border-bottom: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+    border-top: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, var(--cat-main-bg, #f7f4ef));
+    border-bottom: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, var(--cat-main-bg, #f7f4ef));
     font-size: 11px;
     font-weight: 600;
   }
@@ -539,7 +539,7 @@
   }
   .mBtn:first-child {
     gap: 10px;
-    border-right: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+    border-right: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1d1b18)) 16%, var(--cat-main-bg, #f7f4ef));
   }
   .sortMenu {
     top: 64px;

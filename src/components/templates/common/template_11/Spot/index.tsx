@@ -325,8 +325,18 @@ export function ProductCard11({
  * (`DevFidelityStage/Comum11Stage`): [A] Padrão, [B] Hover e [C] Esgotado lado a lado; no
  * mobile, 2 colunas sem a do hover (o esgotado vira [B]).
  */
-export default function Spot11() {
+export default function Spot11({ soCard = false }: { soCard?: boolean }) {
   const [padrao] = PRODUTOS_11;
+  // Dentro de uma lista (vitrine, grade, relacionados) de qualquer família o spot é só o
+  // card (`CardDaLoja`), sem o quadro do desenho nem envelope de container: as
+  // @container do card respondem à largura da lista, como as @media na loja.
+  if (soCard)
+    return (
+      <>
+        <link rel="stylesheet" href={FONTES_11} />
+        <ProductCard11 product={padrao} />
+      </>
+    );
   const colunas = [
     { rotulo: '[A] Padrão', produto: padrao, hover: false },
     { rotulo: '[B] Hover', produto: padrao, hover: true },

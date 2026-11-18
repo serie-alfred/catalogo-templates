@@ -8,9 +8,9 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  background-color: var(--spot-bg, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 6%, #ffffff));
-  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33)));
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Inter', system-ui, sans-serif)));
+  background-color: var(--spot-bg, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0b1b33)) 6%, #ffffff));
+  color: var(--spot-text, var(--text-primary-color, #0b1b33));
+  font-family: var(--spot-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -99,7 +99,7 @@
 
 .tag,
 .discount {
-  font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif)));
+  font-family: var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-style: italic;
   font-weight: 800;
   text-transform: uppercase;
@@ -128,9 +128,9 @@
   left: 0;
   transform: translateY(-50%);
   padding: 6px 0;
-  background-color: var(--spot-soldout-bg, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
-  color: var(--spot-soldout-text, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 6%, #ffffff));
-  font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif)));
+  background-color: var(--spot-soldout-bg, var(--spot-text, var(--text-primary-color, #0b1b33)));
+  color: var(--spot-soldout-text, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0b1b33)) 6%, #ffffff));
+  font-family: var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 24px;
   font-style: italic;
   font-weight: 900;
@@ -148,7 +148,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  color: var(--spot-wishlist-color, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
+  color: var(--spot-wishlist-color, var(--spot-text, var(--text-primary-color, #0b1b33)));
 }
 .favorite:hover {
   opacity: 0.85;
@@ -173,7 +173,7 @@
   height: 48px;
   background-color: var(--spot-btn-bg, var(--background-primary-color, #e4002b));
   color: var(--spot-btn-text, var(--text-color-base, #ffffff));
-  font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif)));
+  font-family: var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 17px;
   font-style: italic;
   font-weight: 800;
@@ -186,7 +186,7 @@
   transition: opacity 0.15s ease, transform 0.15s ease;
 }
 .buy:focus-visible {
-  outline: 2px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33)));
+  outline: 2px solid var(--spot-text, var(--text-primary-color, #0b1b33));
   outline-offset: -4px;
 }
 .info {
@@ -198,7 +198,7 @@
 }
 
 .brand {
-  color: var(--spot-brand, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff));
+  color: var(--spot-brand, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0b1b33)) 70%, #ffffff));
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -206,7 +206,7 @@
 }
 
 .name {
-  color: var(--spot-name, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
+  color: var(--spot-name, var(--spot-text, var(--text-primary-color, #0b1b33)));
   font-size: 15px;
   font-weight: 600;
   line-height: 1.3;
@@ -219,14 +219,14 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  color: var(--spot-rating-text, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff));
+  color: var(--spot-rating-text, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0b1b33)) 70%, #ffffff));
   font-size: 12px;
 }
 
 .stars {
   display: flex;
   gap: 1px;
-  color: var(--spot-stars, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
+  color: var(--spot-stars, var(--spot-text, var(--text-primary-color, #0b1b33)));
 }
 
 .prices {
@@ -237,14 +237,14 @@
 }
 
 .listPrice {
-  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff));
+  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0b1b33)) 70%, #ffffff));
   font-size: 13px;
   text-decoration: line-through;
 }
 
 .price {
   color: var(--spot-price-color, var(--text-primary-color, #0b1b33));
-  font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif)));
+  font-family: var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 24px;
   font-style: italic;
   font-weight: 800;
@@ -253,12 +253,12 @@
 }
 
 .installment {
-  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff));
+  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0b1b33)) 70%, #ffffff));
   font-size: 13px;
 }
 
 .pix {
-  color: var(--spot-pix, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
+  color: var(--spot-pix, var(--spot-text, var(--text-primary-color, #0b1b33)));
   font-size: 13px;
   font-weight: 600;
 }
@@ -282,7 +282,7 @@
   justify-content: center;
   gap: 8px;
   margin-top: 8px;
-  font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif)));
+  font-family: var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-style: italic;
   font-weight: 800;
   text-transform: uppercase;
@@ -291,8 +291,8 @@
 
 .notify {
   height: 48px;
-  border: 2px solid var(--spot-notify-text, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
-  color: var(--spot-notify-text, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
+  border: 2px solid var(--spot-notify-text, var(--spot-text, var(--text-primary-color, #0b1b33)));
+  color: var(--spot-notify-text, var(--spot-text, var(--text-primary-color, #0b1b33)));
   font-size: 16px;
 }
 .notify:hover {
@@ -311,7 +311,7 @@
   clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
 }
 .buyWide:focus-visible {
-  outline: 2px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33)));
+  outline: 2px solid var(--spot-text, var(--text-primary-color, #0b1b33));
   outline-offset: -4px;
 }
 
@@ -389,6 +389,22 @@
 .productCard14Box {
   container-type: inline-size;
 }
+
+/* ── Nas listas da família (data-lista) ── */
+/* Espelha o fim do SCSS do ProductCard14: o desenho do card dentro das listas da família, que
+   antes morava nelas. A lista marca a raiz com `data-lista`. */
+@container (max-width: 960px) {
+  :global(:where([data-lista='productShelf14'], [data-lista='productShowcase14'], [data-lista='mainCategory14'])) .productCard14 [data-role=spot-pix] {
+    display: block !important;
+  }
+  :global(:where([data-lista="mainCategory14"])) .productCard14 [data-role=spot-pix] {
+    font-size: 12px;
+  }
+  :global(:where([data-lista='productShelf14'], [data-lista='productShowcase14'], [data-lista='mainCategory14'])) .productCard14 [data-role=spot-buy] {
+    display: none !important;
+  }
+}
+/* ── fim: nas listas da família ── */
 
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
 /* O quadro do desenho `Spot14` (palco do starter, `Comum14Stage.module.scss`): o branco da

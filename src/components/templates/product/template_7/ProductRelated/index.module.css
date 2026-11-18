@@ -1,0 +1,97 @@
+/* Espelha sass/crossSellingShelf07.module.scss (faststore.starter, família 07): os
+   relacionados que ficavam no fim do ProductInfo07. Conversão: `$vars` resolvidas inline,
+   `@media (max-width: 960px)` → `@container`, consultando o envelope
+   `.crossSellingShelf07Box`. Mesmas vars de Nível 1 e Níveis 3 do ProductInfo07. O card é
+   o da loja (o spot) e traz as próprias regras. */
+
+.crossSellingShelf07Box {
+  container-type: inline-size;
+}
+
+section.crossSellingShelf07 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0;
+  padding: 56px 56px 80px;
+  /* metrics: related@1024 */
+  background: #faf8f4;
+  color: var(--pdp-title-color, var(--text-primary-color, #2c2420));
+  font-family: var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  line-height: normal;
+}
+
+section.crossSellingShelf07.crossSellingShelf07.crossSellingShelf07 > h2 {
+  width: auto;
+  max-width: none;
+  /* metrics: UA h2 0.83em(26.56) em cima; embaixo, o mesmo 26.56 + o mb 32 da cabeça */
+  margin: 26.56px 0 58.56px;
+  padding: 0 120px 0 0;
+  color: var(--pdp-title-color, var(--text-primary-color, #2c2420));
+  font: 300 32px/1 var(--pdp-font-title, var(--font-primary, 'Cormorant Garamond', serif));
+  letter-spacing: normal;
+  text-align: left;
+}
+
+section.crossSellingShelf07 [data-fs-product-shelf] {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+@container (max-width: 960px) {
+  section.crossSellingShelf07 {
+    padding: 28px 18px 24px;
+  }
+
+  section.crossSellingShelf07.crossSellingShelf07.crossSellingShelf07 > h2 {
+    margin: 19.92px 0 16px;
+    padding: 0;
+    font-size: 24px;
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.slot {
+  min-width: 0;
+}
+
+.more {
+  position: absolute;
+  top: 99.56px;
+  right: 56px;
+  font: 400 12px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
+  line-height: 15px;
+  letter-spacing: 0.1em;
+  color: color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 70%, transparent);
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+@container (max-width: 960px) {
+  .grid {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .slot {
+    flex: 0 0 160px;
+  }
+
+  .more {
+    display: none;
+  }
+}

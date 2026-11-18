@@ -5,6 +5,7 @@ import {
   ProductCard09,
   type Produto09,
 } from '@/components/templates/common/template_9/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 
 import styles from './index.module.css';
 
@@ -95,7 +96,9 @@ export default function ProductRelated09() {
             <ul ref={railRef} className={styles.rail} onScroll={medir} data-role="rel-list">
               {PRODUTOS.map(p => (
                 <li key={p.id} className={styles.slide}>
-                  <ProductCard09 product={p} />
+                  <CardDaLoja familia="Spot09">
+                    <ProductCard09 product={p} />
+                  </CardDaLoja>
                 </li>
               ))}
             </ul>

@@ -10,11 +10,11 @@
   gap: 8px;
   min-width: 0;
   padding: 14px;
-  border: 1px solid color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 11%, #ffffff);
   border-radius: 12px;
   background-color: #ffffff;
-  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828)));
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Archivo', system-ui, sans-serif)));
+  color: var(--spot-text, var(--text-primary-color, #101828));
+  font-family: var(--spot-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -133,7 +133,7 @@
 }
 
 .tagOut {
-  background-color: var(--spot-soldout-bg, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff));
+  background-color: var(--spot-soldout-bg, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff));
   color: var(--spot-soldout-text, #ffffff);
   font-size: 11px;
   font-weight: 700;
@@ -148,7 +148,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  color: var(--spot-wishlist-color, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff));
+  color: var(--spot-wishlist-color, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff));
 }
 .favorite:disabled {
   cursor: default;
@@ -196,12 +196,12 @@
   align-items: center;
   gap: 4px;
   margin-left: 4px;
-  color: var(--spot-rating-text, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff));
+  color: var(--spot-rating-text, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff));
   font-size: 12px;
 }
 
 .ratingValue {
-  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828)));
+  color: var(--spot-text, var(--text-primary-color, #101828));
   font-weight: 700;
 }
 
@@ -221,13 +221,13 @@
 }
 
 .listPrice {
-  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff));
+  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff));
   font-size: 13px;
   text-decoration: line-through;
 }
 
 .price {
-  color: var(--spot-price-color, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))));
+  color: var(--spot-price-color, var(--spot-text, var(--text-primary-color, #101828)));
   font-size: 24px;
   font-weight: 800;
   letter-spacing: -0.01em;
@@ -240,7 +240,7 @@
 }
 
 .installment {
-  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff));
+  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff));
   font-size: 13px;
 }
 .buy {
@@ -280,7 +280,7 @@
 }
 
 .outText {
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff);
   font-size: 13px;
 }
 
@@ -302,7 +302,7 @@
 }
 
 .soldOut .name {
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff);
 }
 @container (max-width: 960px) {
   .productCard10 {
@@ -385,6 +385,45 @@
 .productCard10Box {
   container-type: inline-size;
 }
+
+/* ── Nas listas da família (data-lista) ── */
+/* Espelha o fim do SCSS do ProductCard10: o desenho do card dentro das listas da família, que
+   antes morava nelas. A lista marca a raiz com `data-lista`. */
+:global(:where([data-lista='productShelf10'], [data-lista='mainCategory10'])) .productCard10 [data-role=spot-rating] > span:nth-child(2) > span + span {
+  display: none;
+}
+@container (min-width: 961px) {
+  :global(:where([data-lista='productShelf10'], [data-lista='productShowcase10'], [data-lista='mainCategory10'])) .productCard10 [data-role=spot-price] {
+    font-size: 22px;
+    letter-spacing: -0.01em;
+  }
+  :global(:where([data-lista-modo="lista"])) .productCard10[data-role=spot] {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr) 220px;
+    align-content: start;
+    column-gap: 20px;
+  }
+  :global(:where([data-lista-modo="lista"])) .productCard10[data-role=spot] > * {
+    grid-column: 2;
+  }
+  :global(:where([data-lista-modo="lista"])) .productCard10[data-role=spot] > :first-child {
+    grid-column: 1;
+    grid-row: 1/6;
+  }
+  :global(:where([data-lista-modo="lista"])) .productCard10[data-role=spot] > [data-role=spot-buy],
+  :global(:where([data-lista-modo="lista"])) .productCard10[data-role=spot] > [data-role=spot-notify] {
+    grid-column: 3;
+    grid-row: 1/6;
+    align-self: center;
+  }
+}
+@container (max-width: 960px) {
+  :global(:where([data-lista='productShowcase10'])) .productCard10 [data-role=spot-list-price],
+  :global(:where([data-lista='mainCategory10'])) .productCard10 [data-role=spot-rating-count] {
+    display: none;
+  }
+}
+/* ── fim: nas listas da família ── */
 
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
 

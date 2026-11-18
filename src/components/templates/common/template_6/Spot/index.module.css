@@ -16,7 +16,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
   font-weight: 500;
   font-size: 14px;
   color: #525252;
@@ -80,17 +80,17 @@
 }
 .spot .productWrapper .productImage .productTag .tagNew span {
   background-color: var(--spot-new-bg, var(--background-tertiary-color, #000000));
-  color: var(--spot-new-text, var(--shelf-flag-text, #ffffff));
+  color: var(--spot-new-text, var(--spot-flag-text, #ffffff));
   padding: 5px 7px;
   border-radius: 120px;
 }
 .spot .productWrapper .productImage .productTag .tagFeatured span {
-  background-color: var(--shelf-flag-bg, var(--background-pink, transparent));
+  background-color: var(--spot-flag-bg, var(--background-pink, transparent));
 }
 .spot .productWrapper .productImage .productTag .tagDiscount span {
   background-color: var(--spot-tag-bg, var(--background-light-pink, transparent));
   border: 1px solid #DFDFE0;
-  color: var(--spot-tag-text, var(--shelf-text-color, #0F0F0F));
+  color: var(--spot-tag-text, var(--spot-text, #0F0F0F));
 }
 .spot .productWrapper .productImage .productTag div span {
   display: flex;
@@ -101,11 +101,11 @@
   padding: 0px 6px;
   height: 19px;
   width: max-content;
-  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
   font-weight: 800;
   font-size: 10px;
   text-transform: uppercase;
-  color: var(--shelf-flag-text, #ffffff);
+  color: var(--spot-flag-text, #ffffff);
   background-color: #0F0F0F;
   line-height: 1;
   letter-spacing: 0.24px;
@@ -125,7 +125,7 @@
   align-items: center;
 }
 .spot .productWrapper .productContent .p-content-top .product-stars span {
-  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
   font-weight: 400;
   font-size: 12px;
   color: #525252;
@@ -150,10 +150,10 @@
   display: -webkit-box;
   overflow: hidden;
   line-height: 21px;
-  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
   font-weight: 400;
   font-size: 14px;
-  color: var(--shelf-text-color, #292929);
+  color: var(--spot-text, #292929);
   letter-spacing: 0.15px;
   padding: 0px;
   margin: 0px;
@@ -163,10 +163,10 @@
   display: block;
   text-decoration: none;
   line-height: 21px;
-  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
   font-weight: 600;
   font-size: 18px;
-  color: var(--shelf-text-color, #292929);
+  color: var(--spot-text, #292929);
   text-align: center;
 }
 .spot .productWrapper .productContent .productPriceWrapper .productPrice {
@@ -188,7 +188,7 @@
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .pricePromotion,
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .priceBefore,
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .priceNormal {
-  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
@@ -202,21 +202,21 @@
 }
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .priceBefore {
   margin-bottom: 6px;
-  color: var(--shelf-old-price, #8F8F8F);
+  color: var(--spot-old-price, #8F8F8F);
 }
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .priceNormal,
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .pricePromotion {
   font-weight: 600;
   font-size: 18px;
-  color: var(--spot-price-color, var(--shelf-text-color, var(--background-tertiary-color-safe, var(--background-tertiary-color, #000000))));
+  color: var(--spot-price-color, var(--spot-text, var(--background-tertiary-color-safe, var(--background-tertiary-color, #000000))));
   text-decoration: none;
 }
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .product-payment {
-  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  color: var(--shelf-installments, #525252);
+  color: var(--spot-installments, #525252);
   width: 100%;
   margin-top: 6px;
   text-align: center;
@@ -231,11 +231,11 @@
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .product-payment span,
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .product-payment strong,
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .product-payment b {
-  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
   font-size: 14px;
   font-weight: 400;
   line-height: 1;
-  color: var(--shelf-installments, #525252);
+  color: var(--spot-installments, #525252);
 }
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .product-payment span.operadora,
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .product-payment strong.operadora,
@@ -245,7 +245,7 @@
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .out-of-stock {
   display: block;
   line-height: 1;
-  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
   font-size: 14px;
   font-weight: 400;
   color: #525252;
@@ -260,11 +260,11 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  font-family: var(--shelf-font, var(--font-secundary, 'Jost', sans-serif));
+  font-family: var(--spot-font, var(--font-secundary, 'Jost', sans-serif));
   font-weight: 700;
   font-size: 14px;
-  color: var(--shelf-btn-text, #F5F5F5);
-  background-color: var(--shelf-btn-bg, var(--background-pink, transparent));
+  color: var(--spot-btn-text, #F5F5F5);
+  background-color: var(--spot-btn-bg, var(--background-pink, transparent));
   width: 100%;
   height: 45px;
   border-radius: 8px;

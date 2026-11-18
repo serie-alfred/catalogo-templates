@@ -84,6 +84,19 @@ A template is a React component plus a catalog entry. Two files always need to c
 2. **Registry** — import it in [src/utils/templateRegistry.ts](src/utils/templateRegistry.ts) and add it to the `TemplateRegistry` object. The string key must match the `component` field used in `LAYOUTS`. **If the registry entry is missing, `ThemeRenderer` renders a visible red marker naming the component** — it used to emit `<img src="/images/gerador/…">`, which with `image: ''` in all items was a mute 404 (os campos `image` já estão preenchidos hoje — ver **Thumbs do seletor** abaixo), so the mistake hid instead of showing.
 3. **Catalog** — add a `LayoutItem` to the appropriate `LayoutSection` in [src/data/layoutData.ts](src/data/layoutData.ts). `LAYOUTS` is the source of truth for what users can pick. Each item declares `selection` (semantic slot name, drives the special rules below), `pagina` (`common | home | category | product`), `platforms` (`'Tray' | 'Wake' | 'Wake 2.0' | 'VTEX' | 'Nuvemshop'`), and `component` (the `TemplateRegistry` key). A component that must appear on **every** page (help float, newsletter pop-up, cookie bar) also declares `global: true` — see **Wake 2.0** below: it can't be a Design Studio block.
 
+> **A lista de produtos nunca desenha card próprio: renderiza o Card de Produto escolhido; as
+> variáveis do card ficam no item Spot.** Vitrine, vitrine com banner, grade da PLP e
+> relacionados põem cada slot em [`CardDaLoja`](src/components/templates/CardDaLoja.tsx)
+> (`<CardDaLoja familia="SpotNN">{card da família}</CardDaLoja>`): com outro card escolhido
+> entra ele, com `soCard`; sem card (ou com o da própria família, `familia`) fica o da família.
+> O `soCard` dos Spot09–17 é só o card, sem envelope de container, para as `@container` dele
+> responderem à largura da lista. No `variablesSchema` da lista só entra o que a lista desenha
+> (título, filtros, setas, fundo). O CSS do card lê só `--spot-*` → token global → hex, nunca
+> var de lista: a lista põe as dela inline no wrapper da seção e o card, dentro, as herdaria
+> (era o `--shelf-title-color` da Showcase07 pintando o nome do produto no Spot07). Confira:
+> as vars que `common/template_*/Spot/*.css` lê × os `cssVar` dos itens que não são spot = vazio.
+> Os modelos antigos (CategoryMain01/02, vitrines 01–07, ProductRelated01) fazem o mesmo à mão.
+
 > **Os dois lados saem de sincronia com facilidade, e em silêncio.** Hoje eles estão casados:
 > **316 componentes no registry, 316 `LayoutItem`s ativos (11/11/2026), zero órfãos dos dois lados** — e o
 > `layoutData.ts` não tem mais nenhum item comentado. Foi assim que ficou depois que os 22 órfãos

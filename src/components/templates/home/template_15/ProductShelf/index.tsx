@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ProductCard15, FONTES_15, produto15, type Produto15 } from '@/components/templates/common/template_15/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 
 /**
  * Espelha `molecules/ProductShelf15` do faststore.starter — o núcleo das duas
@@ -12,8 +13,8 @@ import { ProductCard15, FONTES_15, produto15, type Produto15 } from '@/component
  *
  * A folha mora em cada réplica (Showcase, ShelfBanner) — uma por item do
  * catálogo — e chega aqui por prop; as duas saem do mesmo SCSS.
- * Produtos = o mock.ts do núcleo de lá (sem foto: vale o placeholder). Sempre o
- * ProductCard15: nenhum manifest 15 do starter tem `usesSpot`.
+ * Produtos = o mock.ts do núcleo de lá (sem foto: vale o placeholder). O card é o da loja (`CardDaLoja`): sem
+ * Card de Produto escolhido, ou com o Spot15, o ProductCard15.
  *
  * Divergências deliberadas: sem consulta de coleção nem analytics (`view_item_list`); o
  * envelope `.productShelf15Box` é o container das `@container` do CSS derivado.
@@ -149,7 +150,9 @@ export default function ProductShelf15({
     <ul ref={railRef} className={style.rail} onScroll={medir} data-role="sh-list">
       {produtos.map((p, i) => (
         <li key={p.id || i} className={style.slide}>
-          <ProductCard15 product={p} badge={tagLabel} />
+          <CardDaLoja familia="Spot15">
+            <ProductCard15 product={p} badge={tagLabel} />
+          </CardDaLoja>
         </li>
       ))}
     </ul>
@@ -190,7 +193,7 @@ export default function ProductShelf15({
   );
 
   return (
-    <div className={style.productShelf15Box}>
+    <div className={style.productShelf15Box} data-lista={variant === 'banner' ? 'productShelf15Banner' : 'productShelf15'}>
       <section
         className={`${style.productShelf15} ${variant === 'banner' ? style.variantBanner : style.variantFull}`}
         aria-label={listName || undefined}

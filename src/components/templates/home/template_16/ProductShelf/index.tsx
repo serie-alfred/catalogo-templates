@@ -7,6 +7,7 @@ import {
   produto16,
   type Produto16,
 } from '@/components/templates/common/template_16/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 
 /**
  * Espelha `molecules/ProductShelf16` do faststore.starter — o núcleo das duas vitrines 16
@@ -16,8 +17,8 @@ import {
  *
  * A folha mora em cada réplica (Showcase, ShelfBanner) — uma por item do catálogo — e chega
  * aqui por prop; as duas saem do mesmo SCSS. Produtos = o mock.ts do núcleo de lá (sem foto,
- * sem Pix e sem nota: o desenho da vitrine também não tem). Sempre o ProductCard16: nenhum
- * manifest 16 do starter tem `usesSpot`.
+ * sem Pix e sem nota: o desenho da vitrine também não tem). O card é o da loja (`CardDaLoja`): sem
+ * Card de Produto escolhido, ou com o Spot16, o ProductCard16.
  *
  * Divergências deliberadas: sem consulta de coleção nem analytics (`view_item_list`).
  */
@@ -279,7 +280,7 @@ export default function ProductShelf16({
   );
 
   return (
-    <div className={style.productShelf16Box}>
+    <div className={style.productShelf16Box} data-lista="productShelf16">
       <section
         className={`${style.productShelf16} ${variant === 'banner' ? style.variantBanner : ''}`}
         aria-label={title || undefined}
@@ -325,7 +326,9 @@ export default function ProductShelf16({
             >
               {produtos.map((p, i) => (
                 <li key={p.id || i} className={style.slide}>
-                  <ProductCard16 product={p} badge={tagLabel} />
+                  <CardDaLoja familia="Spot16">
+                    <ProductCard16 product={p} badge={tagLabel} />
+                  </CardDaLoja>
                 </li>
               ))}
             </ul>

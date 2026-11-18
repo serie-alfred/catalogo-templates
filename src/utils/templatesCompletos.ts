@@ -385,12 +385,6 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     Footer09: {
       '--footer-accent': '#9c4a2f',
     },
-    ShelfBanner09: {
-      '--showcase-tag-text': '#9c4a2f',
-    },
-    Showcase09: {
-      '--showcase-tag-text': '#9c4a2f',
-    },
     HelpFloat09: {
       '--help-header-text': '#f7f4ef',
     },
@@ -410,9 +404,6 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     },
     ProductReviews09: {
       '--prod-reviews-accent': '#9c4a2f',
-    },
-    ProductRelated09: {
-      '--showcase-tag-text': '#9c4a2f',
     },
     Countdown09: {
       '--countdown-accent': '#9c4a2f',
@@ -441,23 +432,11 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     ProductInfo10: {
       '--pdp-shipping-btn-bg': '#101828',
     },
-    ShelfBanner10: {
-      '--showcase-tag-bg': '#d92d20',
-      '--showcase-tag-text': '#ffffff',
-    },
-    Showcase10: {
-      '--showcase-tag-bg': '#d92d20',
-      '--showcase-tag-text': '#ffffff',
-    },
     PopupNews10: {
       '--popup-accent': '#ffcf24',
     },
     Newsletter10: {
       '--newsletter-button-text': '#101828',
-    },
-    ProductRelated10: {
-      '--showcase-tag-bg': '#d92d20',
-      '--showcase-tag-text': '#ffffff',
     },
     Countdown10: {
       '--countdown-bg': '#ffcf24',
@@ -506,20 +485,11 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     BannerMain12: {
       '--banner-main-text': '#3b1f33',
     },
-    ShelfBanner12: {
-      '--showcase-tag-text': '#3b1f33',
-    },
-    Showcase12: {
-      '--showcase-tag-text': '#3b1f33',
-    },
     Newsletter12: {
       '--newsletter-title-color': '#3b1f33',
     },
     CategoryDescription12: {
       '--cat-desc-text': '#3b1f33',
-    },
-    ProductRelated12: {
-      '--showcase-tag-text': '#3b1f33',
     },
   },
   '13': {
@@ -621,10 +591,6 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     BannerMain14: {
       '--banner-main-accent': '#d9f99d',
     },
-    Showcase14: {
-      '--showcase-tag-bg': '#d9f99d',
-      '--showcase-tag-text': '#0b1b33',
-    },
     HelpFloat14: {
       '--help-header-bg': '#0b1b33',
     },
@@ -687,11 +653,9 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     ShelfBanner15: {
       '--banner-side-text': '#faf8f4',
       '--showcase-accent': '#7a5f1c',
-      '--showcase-tag-bg': '#7a5f1c',
     },
     Showcase15: {
       '--showcase-accent': '#7a5f1c',
-      '--showcase-tag-bg': '#7a5f1c',
     },
     CategoryTitle15: {
       '--cat-title-accent': '#7a5f1c',
@@ -760,10 +724,6 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     },
     ShelfBanner16: {
       '--banner-side-text': '#2a2350',
-      '--showcase-tag-bg': '#ffc93c',
-    },
-    Showcase16: {
-      '--showcase-tag-bg': '#ffc93c',
     },
     CategoryTitle16: {
       '--cat-title-text': '#2a2350',
@@ -807,11 +767,9 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     },
     ShelfBanner17: {
       '--showcase-text': '#0e2f38',
-      '--showcase-tag-bg': '#ffa24c',
     },
     Showcase17: {
       '--showcase-text': '#0e2f38',
-      '--showcase-tag-bg': '#ffa24c',
     },
     PopupNews17: {
       '--popup-text': '#0e2f38',

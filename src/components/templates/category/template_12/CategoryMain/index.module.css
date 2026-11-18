@@ -6,7 +6,7 @@
 .mainCategory12 {
   width: 100%;
   padding: 28px 0 56px;
-  background-color: #fbf6f3;
+  background-color: var(--cat-main-bg, #fbf6f3);
   color: var(--cat-main-text, var(--text-primary-color, #3b1f33));
   font-family: var(--cat-main-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-weight: 400;
@@ -47,27 +47,6 @@
 }
 .mainCategory12 :where(.empty a):hover {
   opacity: 0.8;
-}
-.mainCategory12 [data-role=spot] {
-  height: 100%;
-  border-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
-}
-.mainCategory12 [data-role=spot] > :last-child {
-  flex: 1;
-}
-.mainCategory12 [data-role=spot] > :last-child > :last-child {
-  margin-top: auto;
-  padding-top: 4px;
-}
-.mainCategory12 [data-role=spot-buy] {
-  background-color: var(--spot-btn-bg, var(--cat-main-buy-bg, var(--background-primary-color, #7a2e5f))) !important;
-  color: var(--spot-btn-text, var(--cat-main-buy-text, var(--text-color-base, #ffffff))) !important;
-}
-.mainCategory12 [data-role=spot-rating] svg {
-  color: var(--cat-main-accent, var(--background-primary-color, #7a2e5f));
-}
-.mainCategory12 [data-role=spot-list-price] {
-  font-size: 12px;
 }
 
 .srOnly {
@@ -253,7 +232,7 @@
   margin-bottom: 8px;
   padding: 0 16px;
   border-radius: 999px;
-  background-color: #fbf6f3;
+  background-color: var(--cat-main-bg, #fbf6f3);
 }
 .search input {
   width: 100%;
@@ -329,24 +308,6 @@
 }
 .gridItem > * {
   flex: 1;
-}
-.gridItem:nth-child(9n+1) [data-role=spot-image], .gridItem:nth-child(9n+8) [data-role=spot-image] {
-  background-color: #f3ddd6;
-}
-.gridItem:nth-child(9n+2) [data-role=spot-image], .gridItem:nth-child(9n+9) [data-role=spot-image] {
-  background-color: #dce6da;
-}
-.gridItem:nth-child(9n+3) [data-role=spot-image], .gridItem:nth-child(9n+7) [data-role=spot-image] {
-  background-color: #e6dff0;
-}
-.gridItem:nth-child(9n+4) [data-role=spot-image] {
-  background-color: #f1e6d8;
-}
-.gridItem:nth-child(9n+5) [data-role=spot-image] {
-  background-color: #d8eae4;
-}
-.gridItem:nth-child(9n+6) [data-role=spot-image] {
-  background-color: #eed3d8;
 }
 .more {
   display: flex;
@@ -503,7 +464,7 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background-color: #fbf6f3;
+  background-color: var(--cat-main-bg, #fbf6f3);
 }
 
 .panelBody {
@@ -660,18 +621,6 @@
   }
   .layout {
     display: block;
-  }
-  .grid [data-role=spot] > :last-child > :last-child {
-    padding-top: 2px;
-  }
-  .grid [data-role=spot-rating-count] {
-    display: none;
-  }
-  .grid [data-role=spot-list-price]:has(+ [data-role=spot-price]) {
-    display: block !important;
-  }
-  .grid [data-role=spot-list-price]:not(:has(+ [data-role=spot-price])) {
-    display: none !important;
   }
   .results {
     gap: 0;

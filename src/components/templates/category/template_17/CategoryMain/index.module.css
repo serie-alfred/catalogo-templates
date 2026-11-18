@@ -321,78 +321,6 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 24px 16px;
 }
-.grid [data-role=spot] {
-  height: 100%;
-  background-color: color-mix(in srgb, var(--spot-btn-bg, var(--cat-main-buy-bg, var(--background-primary-color, #0e6b73))) 9%, var(--cat-main-bg, #ffffff));
-  color: var(--cat-main-text, var(--text-primary-color, #0e2f38));
-}
-.grid [data-role=spot] > :nth-child(2) {
-  flex: 1;
-  flex-flow: row wrap;
-  align-content: flex-start;
-  align-items: baseline;
-  column-gap: 8px;
-}
-.grid [data-role=spot] > :nth-child(2) > * {
-  flex: 0 0 100%;
-}
-.grid [data-role=spot] > :nth-child(2) > [data-role=spot-list-price],
-.grid [data-role=spot] > :nth-child(2) > [data-role=spot-price] {
-  flex: 0 0 auto;
-  margin-top: 4px;
-}
-.grid [data-role=spot] h3 {
-  display: -webkit-box;
-  min-height: 2.7em;
-  overflow: hidden;
-  line-height: 1.35;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-.grid [data-role=spot-tags] {
-  top: 8px;
-  left: 8px;
-}
-.grid [data-role=spot-discount],
-.grid [data-role=spot-tag] {
-  background-color: var(--spot-tag-bg, var(--cat-main-tag-bg, var(--background-tertiary-color, #ffa24c)));
-  color: var(--spot-tag-text, var(--cat-main-text, var(--text-tertiary-color, #0e2f38)));
-}
-.grid [data-role=spot-brand],
-.grid [data-role=spot-list-price],
-.grid [data-role=spot-pix],
-.grid [data-role=spot-unavailable],
-.grid [data-role=spot-rating-count] {
-  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0e2f38)) 72%, var(--cat-main-bg, #ffffff));
-}
-.grid [data-role=spot-rating] {
-  gap: 2px;
-  color: var(--spot-btn-bg, var(--cat-main-buy-bg, var(--background-primary-color-safe, #0e6b73)));
-}
-.grid [data-role=spot-rating] svg {
-  width: 13px;
-  height: 13px;
-}
-.grid [data-role=spot-price] {
-  color: var(--spot-price-color, var(--cat-main-text, var(--text-primary-color, #0e2f38)));
-  font-size: 22px;
-  line-height: 1.15;
-}
-.grid [data-role=spot-buy] {
-  border-color: var(--spot-btn-bg, var(--cat-main-buy-bg, var(--background-primary-color, #0e6b73))) !important;
-  color: var(--spot-btn-bg, var(--cat-main-buy-bg, var(--background-primary-color-safe, #0e6b73)));
-}
-.grid [data-role=spot]:hover [data-role=spot-buy],
-.grid [data-role=spot]:focus-within [data-role=spot-buy] {
-  background-color: var(--spot-btn-bg, var(--cat-main-buy-bg, var(--background-primary-color, #0e6b73)));
-  color: var(--spot-btn-text, var(--cat-main-buy-text, var(--text-color-base, #ffffff)));
-}
-.grid [data-role=spot-notify] {
-  border-color: var(--cat-main-text, var(--text-primary-color, #0e2f38));
-}
-.grid [data-role=spot-out-of-stock] {
-  color: var(--cat-main-out-text, #ffffff);
-}
 
 .gridItem {
   display: flex;
@@ -807,20 +735,6 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px 12px;
     padding: 0 16px;
-  }
-  .grid [data-role=spot] > :nth-child(2) > [data-role=spot-list-price],
-  .grid [data-role=spot] > :nth-child(2) > [data-role=spot-price] {
-    margin-top: 2px;
-  }
-  .grid [data-role=spot] > :nth-child(2) > [data-role=spot-list-price] + [data-role=spot-price] {
-    margin-top: -3px;
-  }
-  .grid [data-role=spot-price] {
-    font-size: 20px;
-  }
-  .grid [data-role=spot-buy] {
-    background-color: var(--spot-btn-bg, var(--cat-main-buy-bg, var(--background-primary-color, #0e6b73)));
-    color: var(--spot-btn-text, var(--cat-main-buy-text, var(--text-color-base, #ffffff)));
   }
   .more {
     gap: 12px;

@@ -5,7 +5,7 @@
 
 .mainCategory10 {
   width: 100%;
-  background-color: #f2f4f7;
+  background-color: var(--cat-main-bg, #f2f4f7);
   color: var(--cat-main-text, var(--text-primary-color, #101828));
   font-family: var(--cat-main-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-size: 16px;
@@ -44,18 +44,6 @@
 .mainCategory10 :where(.bar, .aside, .panel, .mBar, .pagination, .empty) svg {
   display: block;
   flex-shrink: 0;
-}
-.mainCategory10 [data-role=spot-buy] {
-  background-color: var(--spot-btn-bg, var(--cat-main-buy-bg, var(--background-primary-color, #1340d8)));
-  color: var(--spot-btn-text, var(--cat-main-buy-text, var(--text-color-base, #ffffff)));
-}
-.mainCategory10 [data-role=spot-rating] > span:nth-child(2) > span + span {
-  display: none;
-}
-@container (max-width: 960px) {
-  .mainCategory10 [data-role=spot-rating-count] {
-    display: none;
-  }
 }
 
 .srOnly {
@@ -520,51 +508,10 @@
   flex: 1;
   min-width: 0;
 }
-.gridItem:nth-child(6n+1) [data-role=spot-image] {
-  background-color: #eef1f5;
-}
-.gridItem:nth-child(6n+2) [data-role=spot-image] {
-  background-color: #e7ecf3;
-}
-.gridItem:nth-child(6n+3) [data-role=spot-image] {
-  background-color: #f3f4f6;
-}
-.gridItem:nth-child(6n+4) [data-role=spot-image] {
-  background-color: #e9eef6;
-}
-.gridItem:nth-child(6n+5) [data-role=spot-image] {
-  background-color: #edeff2;
-}
-.gridItem:nth-child(6n+6) [data-role=spot-image] {
-  background-color: #e5eaf1;
-}
 
 @container (min-width: 961px) {
-  .grid [data-role=spot-price] {
-    font-size: 22px;
-    letter-spacing: -0.01em;
-  }
   .gridList {
     grid-template-columns: 1fr;
-  }
-  .gridList [data-role=spot] {
-    display: grid;
-    grid-template-columns: 200px minmax(0, 1fr) 220px;
-    align-content: start;
-    column-gap: 20px;
-  }
-  .gridList [data-role=spot] > * {
-    grid-column: 2;
-  }
-  .gridList [data-role=spot] > :first-child {
-    grid-column: 1;
-    grid-row: 1/6;
-  }
-  .gridList [data-role=spot] > [data-role=spot-buy],
-  .gridList [data-role=spot] > [data-role=spot-notify] {
-    grid-column: 3;
-    grid-row: 1/6;
-    align-self: center;
   }
 }
 .pagination {

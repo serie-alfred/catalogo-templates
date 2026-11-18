@@ -8,10 +8,10 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  border: 1px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a)));
+  border: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a));
   background-color: #ffffff;
-  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a)));
-  font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Geist', system-ui, sans-serif)));
+  color: var(--spot-text, var(--text-primary-color, #0a0a0a));
+  font-family: var(--spot-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   line-height: normal;
   letter-spacing: normal;
   -webkit-font-smoothing: antialiased;
@@ -64,12 +64,12 @@
   justify-content: space-between;
   height: 45px;
   padding-left: 14px;
-  border-bottom: 1px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a)));
+  border-bottom: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a));
 }
 
 .ref {
-  color: var(--spot-ref, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))));
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Geist Mono', monospace)));
+  color: var(--spot-ref, var(--spot-text, var(--text-primary-color, #0a0a0a)));
+  font-family: var(--spot-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -79,10 +79,10 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  border-left: 1px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))) !important;
+  border-left: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a)) !important;
 }
 .favorite[data-role=spot-favorite] {
-  color: var(--spot-wishlist-color, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))));
+  color: var(--spot-wishlist-color, var(--spot-text, var(--text-primary-color, #0a0a0a)));
 }
 .favorite:disabled {
   cursor: default;
@@ -122,7 +122,7 @@
   padding: 6px 10px;
   background-color: var(--spot-tag-bg, var(--background-tertiary-color, #0a0a0a));
   color: var(--spot-tag-text, var(--text-tertiary-color, #ffffff));
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Geist Mono', monospace)));
+  font-family: var(--spot-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -137,7 +137,7 @@
   flex-direction: column;
   gap: 10px;
   padding: 14px;
-  border-top: 1px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a)));
+  border-top: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a));
 }
 
 .row {
@@ -150,7 +150,7 @@
 
 .name {
   min-width: 0;
-  color: var(--spot-name, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))));
+  color: var(--spot-name, var(--spot-text, var(--text-primary-color, #0a0a0a)));
   font-weight: 500;
 }
 .name:focus-visible {
@@ -165,12 +165,12 @@
 }
 
 .priceOut {
-  color: var(--spot-unavailable, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))) 62%, #ffffff));
+  color: var(--spot-unavailable, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff));
 }
 
 .installment {
-  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))) 62%, #ffffff));
-  font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Geist Mono', monospace)));
+  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff));
+  font-family: var(--spot-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
 
@@ -180,7 +180,7 @@
 .buy {
   display: flex;
   align-items: center;
-  border-top: 1px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))) !important;
+  border-top: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a)) !important;
   background-color: var(--spot-btn-bg, var(--background-primary-color, #ff4f00)) !important;
   color: var(--spot-btn-text, var(--text-color-base, #0a0a0a)) !important;
   font-size: 14px;
@@ -221,7 +221,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: var(--spot-notify-text, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))));
+  color: var(--spot-notify-text, var(--spot-text, var(--text-primary-color, #0a0a0a)));
   font-size: 14px;
   font-weight: 500;
 }
@@ -229,7 +229,7 @@
 .notifyBox {
   flex: none;
   height: 46px;
-  border: 1px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a)));
+  border: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a));
 }
 
 .notifyBar {
@@ -289,7 +289,7 @@
     flex: none;
     gap: 6px;
     height: 45px;
-    border-top: 1px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a)));
+    border-top: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a));
   }
 }
 .layoutQuick .media {
@@ -330,6 +330,16 @@
 .productCard11Box {
   container-type: inline-size;
 }
+
+/* ── Nas listas da família (data-lista) ── */
+/* Espelha o fim do SCSS do ProductCard11: o desenho do card dentro das listas da família, que
+   antes morava nelas. A lista marca a raiz com `data-lista`. */
+@container (max-width: 960px) {
+  :global(:where([data-lista="mainCategory11"])) article.productCard11[data-role=spot] > [data-role=spot-buy] {
+    display: none;
+  }
+}
+/* ── fim: nas listas da família ── */
 
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
 

@@ -3,10 +3,13 @@
 import React, { useState } from 'react';
 
 import styles from './index.module.css';
+import CardDaLoja from '@/components/templates/CardDaLoja';
+import { ProductCard07, type ProdutoCard07 } from '@/components/templates/common/template_7/Spot';
 
 /**
  * Espelha `organisms/MainCategory07` do faststore.starter — a PLP inteira:
- * trilha, título, subtítulo e chips de subcategoria; sidebar de filtros com
+ * título, subtítulo e chips de subcategoria (a trilha é a peça Breadcrumb07, como
+ * na família 01); sidebar de filtros com
  * blocos colapsáveis e slider de preço; barra de ordenação com contador e
  * chips ativos; grade de cards. Mobile é uma árvore própria, com bottom-sheet
  * de filtros.
@@ -24,9 +27,8 @@ import styles from './index.module.css';
  * (sem fallback, por decisão de lá) e a paginação só com dados reais — nenhum
  * dos dois aparece no palco da origem.
  *
- * Os produtos não têm imagem no mock da origem: o gradiente do `.cardMedia` É
- * o visual real. Pôr um placeholder aqui criaria uma imagem que o original não
- * tem.
+ * O card da grade é o da loja (`CardDaLoja`): sem Card de Produto escolhido, ou com o
+ * Spot07, o ProductCard07 (common/template_7/Spot), como o starter.
  */
 interface Produto {
   id: string;
@@ -61,12 +63,6 @@ const TOTAL = 248;
 const SUBSTANTIVO = 'produtos';
 const SUBTITULO =
   'Escolha tapetes para sala, quarto, banheiro, cozinha, corredores e entrada com curadoria de materiais, formatos e medidas.';
-
-const TRILHA = [
-  { item: '/', name: 'Página inicial' },
-  { item: '/decoracao', name: 'Decoração' },
-  { name: 'Tapetes' },
-];
 
 const SUBCATEGORIAS: ValorFacet[] = [
   { value: 'tapete-para-sala', label: 'Tapete para Sala' },
@@ -133,8 +129,15 @@ const EXPANDIDO_POR_PADRAO = new Set(['Tamanho', 'Superfície', 'Preço']);
 
 const fmt = (n: number) => n.toFixed(2).replace('.', ',');
 
-const flagClass = (v?: string) =>
-  v === 'sale' ? styles.flagSale : v === 'new' ? styles.flagNew : styles.flagGold;
+/** O produto da grade no formato do card 07 (o starter passa o node ao ProductCard07, que o normaliza). */
+const paraCard07 = (p: Produto): ProdutoCard07 => ({
+  title: p.title,
+  price: `R$ ${fmt(p.price)}`,
+  flag: p.flag,
+  flagVariant: p.flagVariant === 'sale' ? 'sale' : 'gold',
+  installment: p.parcela,
+  pix: p.pix,
+});
 
 /**
  * Espelha o PriceRange07 local da origem: fill e os dois thumbs VISÍVEIS
@@ -233,111 +236,6 @@ export default function CategoryMain() {
   const removerChip = (value: string) =>
     setChips(prev => prev.filter(c => c.value !== value));
 
-  const trilha = (
-    prefixo: '' | 'm',
-    cls: { nav: string; sep: string; link: string; atual: string }
-  ) => (
-    <nav className={cls.nav} aria-label="breadcrumb" data-role={prefixo ? 'm-breadcrumb' : 'breadcrumb'}>
-      {TRILHA.map((c, i) => (
-        <React.Fragment key={i}>
-          {i > 0 && <span className={cls.sep}>›</span>}
-          {i < TRILHA.length - 1 ? (
-            <a href={c.item || '#'} className={cls.link}>
-              {c.name}
-            </a>
-          ) : (
-            <span className={cls.atual}>{c.name}</span>
-          )}
-        </React.Fragment>
-      ))}
-    </nav>
-  );
-
-  const card = (p: Produto, i: number, pfx: 'd' | 'm') => (
-    <a
-      key={p.id ?? i}
-      href={p.url}
-      data-role={pfx === 'd' ? 'card' : 'm-card'}
-      className={pfx === 'd' ? styles.card : styles.mCard}
-    >
-      <div
-        className={pfx === 'd' ? styles.cardMedia : styles.mCardMedia}
-        data-role={pfx === 'd' ? 'card-media' : 'm-card-media'}
-      >
-        {p.flag && (
-          <span
-            className={`${pfx === 'd' ? styles.flag : styles.mFlag} ${flagClass(p.flagVariant)}`}
-            data-role={pfx === 'd' ? 'card-flag' : 'm-card-flag'}
-          >
-            {p.flag}
-          </span>
-        )}
-        <span
-          className={pfx === 'd' ? styles.wish : styles.mWish}
-          data-role={pfx === 'd' ? 'card-wish' : 'm-card-wish'}
-          aria-hidden="true"
-        >
-          <svg
-            width={pfx === 'd' ? 12 : 11}
-            height={pfx === 'd' ? 12 : 11}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          >
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-          </svg>
-        </span>
-      </div>
-      <div
-        className={pfx === 'd' ? styles.cardBody : styles.mCardBody}
-        data-role={pfx === 'd' ? 'card-body' : 'm-card-body'}
-      >
-        <h3
-          data-role={pfx === 'd' ? 'card-title' : 'm-card-title'}
-          className={pfx === 'd' ? styles.cardTitle : styles.mCardTitle}
-        >
-          {p.title}
-        </h3>
-        <p
-          data-role={pfx === 'd' ? 'card-price' : 'm-card-price'}
-          className={pfx === 'd' ? styles.cardPrice : styles.mCardPrice}
-        >
-          R$ {fmt(p.price)}
-        </p>
-        <p
-          className={pfx === 'd' ? styles.cardInstallment : styles.mCardInstallment}
-          data-role={pfx === 'd' ? 'card-installment' : 'm-card-installment'}
-        >
-          {p.parcela}
-        </p>
-        {/* Parcela e Pix sempre ocupam a linha (vazios, invisíveis): o Comprar fica
-            na mesma altura em todos os cards da grade. */}
-        {p.pix ? (
-          <p
-            className={pfx === 'd' ? styles.cardPix : styles.mCardPix}
-            data-role={pfx === 'd' ? 'card-pix' : 'm-card-pix'}
-          >
-            {p.pix}
-          </p>
-        ) : (
-          <p
-            className={`${pfx === 'd' ? styles.cardPix : styles.mCardPix} ${styles.vazio}`}
-            aria-hidden="true"
-          >
-            &nbsp;
-          </p>
-        )}
-        <span
-          data-role={pfx === 'd' ? 'card-cta' : 'm-card-cta'}
-          className={pfx === 'd' ? styles.cardCta : styles.mCardCta}
-        >
-          Comprar
-        </span>
-      </div>
-    </a>
-  );
-
   return (
     /* wrapper só do catálogo: carrega o container-type para as @container */
     <div className={styles.plpRootWrap}>
@@ -345,12 +243,6 @@ export default function CategoryMain() {
         {/* ═══ DESKTOP ═══ */}
         <div className={styles.desktop} data-role="root">
           <div className={styles.headerBlock} data-role="header-block">
-            {trilha('', {
-              nav: styles.breadcrumb,
-              sep: styles.crumbSep,
-              link: styles.crumbLink,
-              atual: styles.crumbCurrent,
-            })}
             <h1 className={styles.title} data-role="title">
               {TITULO}
             </h1>
@@ -488,7 +380,11 @@ export default function CategoryMain() {
               </div>
 
               <div className={styles.grid} data-role="grid">
-                {PRODUTOS.map((p, i) => card(p, i, 'd'))}
+                {PRODUTOS.map((p, i) => (
+                  <CardDaLoja key={p.id ?? i} familia="Spot07">
+                    <ProductCard07 produto={paraCard07(p)} />
+                  </CardDaLoja>
+                ))}
               </div>
             </div>
           </div>
@@ -497,12 +393,6 @@ export default function CategoryMain() {
         {/* ═══ MOBILE ═══ */}
         <div className={styles.mobile} data-role="m-root">
           <div className={styles.mHeaderBlock} data-role="m-header-block">
-            {trilha('m', {
-              nav: styles.mBreadcrumb,
-              sep: styles.mCrumbSep,
-              link: styles.mCrumbLink,
-              atual: styles.mCrumbCurrent,
-            })}
             <p className={styles.mTitle} data-role="m-title" role="heading" aria-level={1}>
               {TITULO}
             </p>
@@ -581,7 +471,11 @@ export default function CategoryMain() {
           </div>
 
           <div className={styles.mGrid} data-role="m-grid">
-            {PRODUTOS.map((p, i) => card(p, i, 'm'))}
+            {PRODUTOS.map((p, i) => (
+              <CardDaLoja key={p.id ?? i} familia="Spot07">
+                <ProductCard07 produto={paraCard07(p)} />
+              </CardDaLoja>
+            ))}
           </div>
 
           {drawerAberto && (

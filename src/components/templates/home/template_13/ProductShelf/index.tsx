@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ProductCard13, FONTES_13, produto13, type Produto13 } from '@/components/templates/common/template_13/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 
 /**
  * Espelha `molecules/ProductShelf13` do faststore.starter — o núcleo das duas
@@ -11,9 +12,8 @@ import { ProductCard13, FONTES_13, produto13, type Produto13 } from '@/component
  *
  * A folha mora em cada réplica (Showcase, ShelfBanner) — uma por item do
  * catálogo — e chega aqui por prop; as duas saem do mesmo SCSS.
- * Produtos = o mock.ts do núcleo de lá (sem foto: vale o placeholder). Sempre o
- * ProductCard13: nenhum manifest 13 do starter tem `usesSpot`, então a réplica também
- * não troca o card pelo spot escolhido.
+ * Produtos = o mock.ts do núcleo de lá (sem foto: vale o placeholder). O card é o da loja (`CardDaLoja`): sem
+ * Card de Produto escolhido, ou com o Spot13, o ProductCard13.
  *
  * Divergências deliberadas: sem consulta de coleção nem analytics (`view_item_list`).
  */
@@ -120,7 +120,9 @@ export default function ProductShelf13({
 
   const cards = produtos.map((p, i) => (
     <li key={p.id || i} className={style.slide}>
-      <ProductCard13 product={p} badge={tagLabel} />
+      <CardDaLoja familia="Spot13">
+        <ProductCard13 product={p} badge={tagLabel} />
+      </CardDaLoja>
     </li>
   ));
 
@@ -181,7 +183,7 @@ export default function ProductShelf13({
   );
 
   return (
-    <div className={style.productShelf13Box}>
+    <div className={style.productShelf13Box} data-lista={variant === 'banner' ? 'productShelf13Banner' : 'productShelf13'}>
       <section
         className={`${style.productShelf13} ${variant === 'banner' ? style.variantBanner : style.variantFull}`}
         aria-label={listName || undefined}

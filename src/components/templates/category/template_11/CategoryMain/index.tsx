@@ -16,6 +16,7 @@ import {
   produto11,
   type Produto11,
 } from '@/components/templates/common/template_11/Spot';
+import CardDaLoja from '@/components/templates/CardDaLoja';
 import {
   type Facet11,
   type RawFacet11,
@@ -478,6 +479,7 @@ export default function CategoryMain11() {
       <link rel="stylesheet" href={FONTES_11} />
       <section
         className={styles.mainCategory11}
+        data-lista="mainCategory11"
         aria-label={listName}
         data-role="cm-root"
       >
@@ -642,7 +644,9 @@ export default function CategoryMain11() {
             >
               {products.map((p, i) => (
                 <li key={p.id ?? i} className={styles.gridItem}>
-                  <ProductCard11 product={p} variant="grid" />
+                  <CardDaLoja familia="Spot11">
+                    <ProductCard11 product={p} variant="grid" />
+                  </CardDaLoja>
                 </li>
               ))}
             </ul>

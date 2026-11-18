@@ -410,8 +410,18 @@ export function ProductCard10({
  * O item do catálogo: o quadro do desenho `Spot10`, como o palco do starter —
  * Padrão, Hover (só desktop) e Esgotado lado a lado, com os rótulos do canvas.
  */
-export default function Spot10() {
+export default function Spot10({ soCard = false }: { soCard?: boolean }) {
   const [padrao, , esgotado] = PRODUTOS_10;
+  // Dentro de uma lista (vitrine, grade, relacionados) de qualquer família o spot é só o
+  // card (`CardDaLoja`), sem o quadro do desenho nem envelope de container: as
+  // @container do card respondem à largura da lista, como as @media na loja.
+  if (soCard)
+    return (
+      <>
+        <link rel="stylesheet" href={FONTES_10} />
+        <ProductCard10 product={padrao} />
+      </>
+    );
   const colunas = [
     { rotulo: 'Padrão', produto: padrao, hover: false },
     { rotulo: 'Hover', produto: padrao, hover: true },

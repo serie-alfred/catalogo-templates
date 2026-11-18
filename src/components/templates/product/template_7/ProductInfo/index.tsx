@@ -5,18 +5,19 @@ import React, { useState } from 'react';
 import styles from './index.module.css';
 
 /**
- * Espelha `organisms/ProductDetails07` do faststore.starter — a PDP editorial
- * inteira, em duas árvores trocadas por CSS aos 960px. Desktop: trilha,
- * galeria com 5 thumbs, coluna de compra sticky (rótulo, título, avaliação,
- * preço/parcela/Pix, tamanho, estampa, quantidade, CTAs, selo de confiança e
- * benefícios), bloco de descrição + especificações + cuidados + FAQ, e a
- * prateleira de relacionados. Mobile: galeria com dots, info, acordeão de 3
- * blocos, relacionados e a barra fixa de compra.
+ * Espelha `organisms/ProductDetails07` do faststore.starter — a compra da PDP
+ * editorial, em duas árvores trocadas por CSS aos 960px. Desktop: galeria com 5
+ * thumbs e a coluna de compra sticky (rótulo, título, avaliação, preço/parcela/Pix,
+ * tamanho, estampa, quantidade, CTAs, selo de confiança e benefícios). Mobile:
+ * galeria com dots, info e a barra fixa de compra.
  *
- * O que sai: `usePDP`, `useProductsQuery`, `useBuyButton`, `useLazyQuery` do
- * rating, `useViewItemList` e o tracking — o conteúdo abaixo é o mesmo do
- * `mock.ts` da origem. `useState` fica para a quantidade, o thumb ativo e os
- * acordeões, que é o que faz o preview parecer vivo.
+ * A trilha, a descrição (+ especificações, cuidados e FAQ) e os relacionados eram
+ * blocos deste componente e viraram peças próprias, como na família 01: Breadcrumb07,
+ * ProductDescription07 e ProductRelated07.
+ *
+ * O que sai: `usePDP`, `useBuyButton`, `useLazyQuery` do rating e o tracking — o
+ * conteúdo abaixo é o mesmo do `mock.ts` da origem. `useState` fica para a
+ * quantidade e o thumb ativo, que é o que faz o preview parecer vivo.
  *
  * As imagens têm `url` vazia na origem de propósito ("o SCSS aplica o
  * gradiente-placeholder, mesmo look da origem"), então aqui elas não existem:
@@ -53,58 +54,6 @@ const PRODUTO = {
   ],
 };
 
-const TRILHA = [
-  { item: '/', name: 'Início' },
-  { item: '/decoracao', name: 'Decoração' },
-  { item: '/decoracao/tapetes', name: 'Tapetes' },
-  { item: '/decoracao/tapetes/tapete-para-sala', name: 'Tapete para Sala' },
-  { name: 'Tapete Belga Essence Clássico' },
-];
-
-const DESCRICAO = {
-  eyebrow: 'Sobre o produto',
-  titulo: 'Elegância clássica para sala ou quarto',
-  paragrafos: [
-    'Com superfície levemente aveludada e toque surpreendentemente suave, o Tapete Belga Essence Clássico é confeccionado com 70% de poliéster e 30% de algodão — uma composição pensada para durabilidade sem abrir mão do conforto.',
-    'Seus arabescos florais, bordas contrastantes e acabamento com franjas elegantes criam um ponto de destaque em qualquer composição, sem perder a sofisticação que um ambiente bem decorado exige.',
-    'Ideal para posicionar embaixo de mesa de centro, com sofá neutro ou em quarto com composição clássica — em ambientes com madeira, tons claros e decoração atemporal.',
-  ],
-};
-
-const ESPECIFICACOES = {
-  eyebrow: 'Especificações',
-  cards: [
-    { label: 'Composição', value: '70% Poliéster · 30% Algodão' },
-    { label: 'Dimensões', value: '2,00m × 2,50m' },
-    { label: 'Perfil', value: 'Baixo perfil · 6mm' },
-    { label: 'Embalagem', value: '1 tapete enrolado' },
-  ],
-  cuidadosTitulo: 'Cuidados e lavagem',
-  cuidadosTexto:
-    'Lavar à mão ou em máquina com programa delicado. Não usar alvejante. Secar à sombra. Não usar secadora.',
-};
-
-const FAQ = {
-  titulo: 'Dúvidas frequentes',
-  itens: [
-    {
-      q: 'Como escolher o tamanho certo?',
-      a: 'Meça o espaço e deixe o tapete ultrapassar o sofá em pelo menos 20 cm de cada lado. Para salas de 20m² ou mais, o 2,00m × 2,50m é o padrão.',
-    },
-    {
-      q: 'O tapete tem antiderrapante?',
-      a: 'A base tem acabamento de baixo perfil. Para pisos muito lisos, recomendamos usar uma manta antiderrapante por baixo (vendida separadamente).',
-    },
-    {
-      q: 'Qual o prazo de entrega?',
-      a: 'Enviamos para todo o Brasil. O prazo estimado aparece no carrinho após informar seu CEP, variando conforme a região.',
-    },
-  ],
-};
-
-const ENTREGA =
-  'Enviamos para todo o Brasil com rastreio. O prazo e o valor do frete aparecem no carrinho após você informar o CEP. Trocas em até 7 dias corridos após o recebimento.';
-
 const BENEFICIOS = [
   'Combina com vários ambientes',
   'Estampa clássica e atemporal',
@@ -115,16 +64,6 @@ const BENEFICIOS = [
 const CONFIANCA =
   'Compra segura, parcelamento sem juros e atendimento especializado';
 const CONSULTORA = 'Comprar com uma consultora';
-
-const RELACIONADOS = [
-  { id: 'r1', tag: 'Mesmo modelo', title: 'Essence Clássico 1,40m × 2,00m', price: 549.9, parcela: '10× R$ 54,99' },
-  { id: 'r2', tag: 'Similar', title: 'Tapete Persa Damask Bege', price: 689.9, parcela: '10× R$ 68,99' },
-  { id: 'r3', tag: 'Combina com', title: 'Almofada Veludo Gold 45×45', price: 129.9, parcela: '3× R$ 43,30' },
-  { id: 'r4', tag: 'Combina com', title: 'Manta Tricô Areia Premium', price: 189.9, parcela: '5× R$ 37,98' },
-];
-
-const RELACIONADOS_TITULO = 'Produtos relacionados';
-const RELACIONADOS_TITULO_MOBILE = 'Você também pode gostar';
 
 const fmt = (n: number) => n.toFixed(2).replace('.', ',');
 
@@ -154,27 +93,6 @@ function Stars({ average, size }: { average: number; size: number }) {
 export default function ProductInfo() {
   const [qty, setQty] = useState(1);
   const [activeImg, setActiveImg] = useState(0);
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [openAcc, setOpenAcc] = useState<number | null>(null);
-
-  // a descrição vai como PARÁGRAFOS (na origem, o HTML da API num <div>); os outros dois
-  // itens seguem texto com `\n`, num <p> com `pre-line`
-  const acordeaoMobile: Array<{ title: string; body?: string; paragrafos?: string[] }> = [
-    { title: 'Descrição do produto', paragrafos: DESCRICAO.paragrafos },
-    {
-      title: 'Composição e especificações',
-      body: [
-        ...ESPECIFICACOES.cards.map(s => `${s.label}: ${s.value}`),
-        `${ESPECIFICACOES.cuidadosTitulo}: ${ESPECIFICACOES.cuidadosTexto}`,
-      ].join('\n'),
-    },
-    { title: 'Entrega e prazo', body: ENTREGA },
-  ];
-
-  const alternar = (
-    set: React.Dispatch<React.SetStateAction<number | null>>,
-    i: number
-  ) => set(prev => (prev === i ? null : i));
 
   const porTecla = (e: React.KeyboardEvent, fn: () => void) => {
     if (e.key === 'Enter' || e.key === ' ') {
@@ -189,21 +107,6 @@ export default function ProductInfo() {
       <div className={styles.pdpRoot}>
         {/* ═══════════════ DESKTOP ═══════════════ */}
         <div className={styles.desktop} data-role="root">
-          <nav className={styles.breadcrumb} aria-label="breadcrumb" data-role="breadcrumb">
-            {TRILHA.map((c, i) => (
-              <React.Fragment key={i}>
-                {i > 0 && <span className={styles.crumbSep}>›</span>}
-                {i < TRILHA.length - 1 ? (
-                  <a href={c.item || '#'} className={styles.crumbLink}>
-                    {c.name}
-                  </a>
-                ) : (
-                  <span className={styles.crumbCurrent}>{c.name}</span>
-                )}
-              </React.Fragment>
-            ))}
-          </nav>
-
           <div className={styles.main} data-role="main">
             <div className={styles.gallery} data-role="gallery">
               <div className={styles.galleryMain} data-role="gallery-main">
@@ -367,92 +270,6 @@ export default function ProductInfo() {
               </div>
             </div>
           </div>
-
-          <div className={styles.description} data-role="description">
-            <div className={styles.descCol} data-role="desc-col">
-              <p className={styles.sectionEyebrow}>{DESCRICAO.eyebrow}</p>
-              <h2 className={styles.descTitle} data-role="desc-title">
-                {DESCRICAO.titulo}
-              </h2>
-              {/* UM `desc-p` com os parágrafos dentro, como na origem: lá a descrição é o
-                  HTML que a API entrega, injetado num bloco só. O reset zera a margem dos
-                  <p> internos nos dois lados; os 16px entre eles vêm de `.descP p + p`,
-                  declarado igual aqui e no starter. */}
-              <div className={styles.descP} data-role="desc-p">
-                {DESCRICAO.paragrafos.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
-              </div>
-            </div>
-            <div className={styles.specsCol} data-role="specs-col">
-              <p className={styles.sectionEyebrow}>{ESPECIFICACOES.eyebrow}</p>
-              <div className={styles.specsGrid} data-role="specs-grid">
-                {ESPECIFICACOES.cards.map((s, i) => (
-                  <div key={i} className={styles.specCard} data-role="spec-card">
-                    <p className={styles.specLabel}>{s.label}</p>
-                    <p className={styles.specValue}>{s.value}</p>
-                  </div>
-                ))}
-              </div>
-              <div className={styles.care} data-role="care">
-                <p className={styles.specLabel}>{ESPECIFICACOES.cuidadosTitulo}</p>
-                <p className={styles.careText}>{ESPECIFICACOES.cuidadosTexto}</p>
-              </div>
-              <div className={styles.faq} data-role="faq">
-                <p className={styles.sectionEyebrow}>{FAQ.titulo}</p>
-                {FAQ.itens.map((f, i) => (
-                  <div
-                    key={i}
-                    className={`${styles.faqItem} ${i === FAQ.itens.length - 1 ? styles.faqItemLast : ''}`}
-                    data-role="faq-item"
-                  >
-                    <div
-                      className={styles.faqHead}
-                      role="button"
-                      tabIndex={0}
-                      onClick={() => alternar(setOpenFaq, i)}
-                      onKeyDown={e => porTecla(e, () => alternar(setOpenFaq, i))}
-                      aria-expanded={openFaq === i}
-                      aria-controls={`pdp07-faq-panel-${i}`}
-                    >
-                      <p className={styles.faqQ}>{f.q}</p>
-                      <span className={styles.faqToggle}>{openFaq === i ? '−' : '+'}</span>
-                    </div>
-                    {openFaq === i && (
-                      <p id={`pdp07-faq-panel-${i}`} className={styles.faqA} role="region">
-                        {f.a}
-                      </p>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.related} data-role="related">
-            <div className={styles.relatedHead}>
-              <h2 className={styles.relatedTitle} data-role="related-title">
-                {RELACIONADOS_TITULO}
-              </h2>
-              <a className={styles.relatedMore} href="#relacionados">
-                Ver mais →
-              </a>
-            </div>
-            <div className={styles.relatedGrid} data-role="related-grid">
-              {RELACIONADOS.map(p => (
-                <a key={p.id} href="#" className={styles.relatedCard} data-role="related-card">
-                  <div className={styles.relatedImg} />
-                  <div className={styles.relatedBody}>
-                    <p className={styles.relatedTag}>{p.tag}</p>
-                    <h3 className={styles.relatedName}>{p.title}</h3>
-                    <p className={styles.relatedPrice}>R$ {fmt(p.price)}</p>
-                    <p className={styles.relatedInst}>{p.parcela}</p>
-                    <span className={styles.relatedBuy}>Comprar</span>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
         </div>
 
         {/* ═══════════════ MOBILE ═══════════════ */}
@@ -563,57 +380,6 @@ export default function ProductInfo() {
               ))}
             </div>
 
-            <div className={styles.mAccordion} data-role="m-accordion">
-              {acordeaoMobile.map((a, i) => (
-                <div
-                  key={i}
-                  className={`${styles.mAccItem} ${i === acordeaoMobile.length - 1 ? styles.mAccItemLast : ''}`}
-                  data-role="m-acc-item"
-                >
-                  <div
-                    className={styles.mAccHead}
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => alternar(setOpenAcc, i)}
-                    onKeyDown={e => porTecla(e, () => alternar(setOpenAcc, i))}
-                    aria-expanded={openAcc === i}
-                    aria-controls={`pdp07-acc-panel-${i}`}
-                  >
-                    <p className={styles.mAccQ}>{a.title}</p>
-                    <span className={styles.mAccToggle}>{openAcc === i ? '−' : '+'}</span>
-                  </div>
-                  {openAcc === i && a.paragrafos && (
-                    <div id={`pdp07-acc-panel-${i}`} className={styles.mAccBody} role="region">
-                      {a.paragrafos.map((p, j) => (
-                        <p key={j}>{p}</p>
-                      ))}
-                    </div>
-                  )}
-                  {openAcc === i && !a.paragrafos && a.body && (
-                    <p id={`pdp07-acc-panel-${i}`} className={styles.mAccBody} role="region">
-                      {a.body}
-                    </p>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <div className={styles.mRelated} data-role="m-related">
-              <h2 className={styles.mRelatedTitle} data-role="m-related-title">
-                {RELACIONADOS_TITULO_MOBILE}
-              </h2>
-              <div className={styles.mRelatedRow}>
-                {RELACIONADOS.slice(0, 3).map(p => (
-                  <a key={p.id} href="#" className={styles.mRelCard} data-role="m-rel-card">
-                    <div className={styles.mRelImg} />
-                    <div className={styles.mRelBody}>
-                      <p className={styles.mRelName}>{p.title}</p>
-                      <p className={styles.mRelPrice}>R$ {fmt(p.price)}</p>
-                    </div>
-                  </a>
-                ))}
-              </div>
-            </div>
           </div>
 
           <div className={styles.mStickyCta} data-role="m-sticky-cta">
