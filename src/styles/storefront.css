@@ -47,16 +47,20 @@
  * Só `max-width` e `margin`: nada que vire containing block ou recorte (ver o
  * topo de editor-canvas.css). O contorno de seleção acompanha a caixa do card.
  */
-.preview-template[data-selection='spot'] {
+.preview-template[data-selection='spot']:not(:has([class*='spotStage'])) {
   max-width: 290px;
   margin: 40px auto;
 }
 
 @media (max-width: 600px) {
-  .preview-template[data-selection='spot'] {
+  .preview-template[data-selection='spot']:not(:has([class*='spotStage'])) {
     max-width: 175px;
   }
 }
+
+/* Os cards 09–17 têm palco próprio (`.spotStage`): Padrão, Hover e Esgotado lado
+   a lado numa grade que já dá a cada card a largura dele. Limitar a seção a um card
+   espremia os três estados num espaço de um — eles ficam com a largura toda. */
 
 /*
  * A primeira seção de CONTEÚDO não tem folga acima dela.
