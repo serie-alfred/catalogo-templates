@@ -892,7 +892,7 @@ borda direita do wrap). */
   font-size: 16px;
   line-height: 18.4px;
   font-weight: 500;
-  color: var(--prod-info-text, var(--text-primary-color, #212721));
+  color: var(--prod-price-color, var(--prod-info-text, var(--text-primary-color, #212721)));
   /* metrics: selling rgb(33,39,33) */
 }
 
@@ -971,7 +971,7 @@ borda direita do wrap). */
   line-height: 16.1px;
   letter-spacing: 0.7px;
   /* metrics: installments ls 0.6992 */
-  color: var(--prod-info-text, var(--text-primary-color, #212721));
+  color: var(--prod-installments-color, var(--prod-info-text, var(--text-primary-color, #212721)));
 }
 
 .instNum {
