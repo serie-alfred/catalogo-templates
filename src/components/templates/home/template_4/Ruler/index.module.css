@@ -1,5 +1,5 @@
 .rulerFooter {
-  background-color: #eef4f5;
+  background-color: var(--ruler-bg, #eef4f5);
   display: flex;
   justify-content: center;
   padding: 20px 0px;

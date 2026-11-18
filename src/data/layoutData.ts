@@ -1313,7 +1313,9 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--ruler-text", label: "Texto da régua", type: "color", default: "#ffffff", group: "Régua", inheritsLabel: "cor primária de contraste da marca" },
         { cssVar: "--ruler-font", label: "Fonte da régua de benefícios", type: "font", default: "sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
-      { id: "04", selection: "ruler", key: "bnf04t5u6v7w", image: "ruler/Ruler04.webp", imageSource: "design", mobile: "", title: "Regua de benefícios Template 4", description: "Régua de benefícios em linha de ícones", template: "4", pagina: ["home"], component: "Ruler04", path: "organisms/Ruler04", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [] },
+      { id: "04", selection: "ruler", key: "bnf04t5u6v7w", image: "ruler/Ruler04.webp", imageSource: "design", mobile: "", title: "Regua de benefícios Template 4", description: "Régua de benefícios em linha de ícones", template: "4", pagina: ["home"], component: "Ruler04", path: "organisms/Ruler04", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--ruler-bg", label: "Fundo da régua", type: "color", default: "#eef4f5", group: "Régua" },
+      ] },
       { id: "05", selection: "ruler", key: "bnf05x8y9z0a", image: "ruler/Ruler05.webp", imageSource: "design", mobile: "", title: "Regua de benefícios Template 5", description: "Régua de benefícios em carrossel", template: "5", pagina: ["home"], component: "Ruler05", path: "organisms/Ruler05", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--ruler-text", label: "Texto do título", type: "color", default: "#000000", group: "Régua", inheritsLabel: "cor base do texto" },
         { cssVar: "--ruler-description", label: "Texto da descrição", type: "color", default: "#353434", group: "Régua" },
