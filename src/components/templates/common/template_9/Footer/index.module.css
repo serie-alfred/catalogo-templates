@@ -159,6 +159,34 @@
   font-size: 12px;
 }
 
+/* ── Crédito padrão da agência ("Desenvolvido por:" + logo SÉRIE//A) ─────────────
+   Cor herdada da barra legal (currentColor); só as duas barras do logo são fixas. */
+.devCredit {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #1d1b18)) 66%, var(--footer-bg, var(--background-footer, #f7f4ef)));
+  text-decoration: none;
+  opacity: 1;
+  transition: opacity .3s ease;
+  margin-left: auto; /* ao final da linha da barra legal */
+}
+
+.devCredit:hover { opacity: .8; }
+
+.devCreditText {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.devCreditLogo {
+  display: block;
+  width: auto;
+  height: 14px;
+}
+
 @container (max-width: 960px) {
   .legal {
     line-height: 1.5;
@@ -220,6 +248,10 @@
     padding: 10px 0 6px;
     font-size: 84px;
     line-height: 0.95;
+  }
+  .devCredit {
+    align-self: center;
+    margin-left: 0;
   }
   .bottomInner {
     flex-direction: column;

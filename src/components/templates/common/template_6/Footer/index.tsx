@@ -148,9 +148,14 @@ const VtexLogo = () => (
   </svg>
 );
 
-/** Logo da agência: o texto na cor do rodapé, as duas barras na cor da marca. */
+/** Crédito padrão da agência (igual em todos os footers): "Desenvolvido por:" + logo SÉRIE//A, o conjunto é o link. */
 const AgencyLogo = () => (
-  <svg width="90.0636" height="27" viewBox="0 0 80 24" role="img" aria-label="Série Design" focusable="false" xmlns="http://www.w3.org/2000/svg">
+  <svg
+    viewBox="6.5 3.9 67 13.9"
+    aria-hidden="true"
+    focusable="false"
+    xmlns="http://www.w3.org/2000/svg"
+  >
     <path fill="currentColor" d="M28.0374 6.99414H33.1182C33.8851 6.99414 34.5498 7.07397 35.1124 7.23407C35.675 7.39416 36.1413 7.6256 36.5122 7.9288C36.8828 8.232 37.1587 8.60102 37.3398 9.03671C37.5208 9.47198 37.6115 9.965 37.6115 10.5158C37.6115 10.8873 37.5666 11.2402 37.4771 11.5753C37.3877 11.9103 37.2503 12.2186 37.0651 12.5006C36.8798 12.7821 36.6462 13.0331 36.3651 13.2531C36.0841 13.473 35.7538 13.6556 35.3744 13.8004L37.5475 17.0019H35.0679L33.189 14.1589H33.1314L30.0638 14.1525V17.0019H28.0378V6.99414H28.0374ZM33.1695 12.3982C33.5532 12.3982 33.8885 12.3532 34.1764 12.2636C34.4638 12.174 34.7046 12.0483 34.8987 11.8857C35.0925 11.7235 35.2375 11.526 35.3333 11.2933C35.4291 11.0606 35.477 10.8016 35.477 10.5153C35.477 9.95608 35.2854 9.52379 34.9017 9.21889C34.5181 8.91356 33.9407 8.76111 33.1695 8.76111H30.0633V12.3978H33.1695V12.3982Z" />
     <path fill="currentColor" d="M38.6307 7H40.6694V17.0048H38.6307V7Z" />
     <path fill="currentColor" d="M18.3717 6.98773H27.0183V8.76914H20.399V10.768H26.142V12.4402H20.399V15.2272H27.0183V17.0018H18.3717V6.9873V6.98773Z" />
@@ -161,12 +166,24 @@ const AgencyLogo = () => (
     <path fill="#97D700" d="M63.4597 7L58.7671 17.0027H56.4681L61.1488 7H63.4597Z" />
     <path fill="#E63888" d="M58.6002 7L53.9076 17.0035H51.6086L56.2893 7H58.6002Z" />
   </svg>
-);
+)
 
-/** Plataforma e agência: fixos à direita, fora do conteúdo, como na origem. */
+const Credit = () => (
+  <a
+    className={styles.credit}
+    href="https://seriea.com.br/"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Desenvolvido por SÉRIE//A (abre em nova aba)"
+  >
+    <span>Desenvolvido por:</span>
+    <AgencyLogo />
+  </a>
+)
+
+/** Plataforma: fixa à direita, fora do conteúdo, como na origem (o crédito da agência é o <Credit />). */
 const PLATFORM_LOGOS = [
   { url: 'https://vtex.com/br-pt/overview-plataforma', Logo: VtexLogo },
-  { url: 'https://seriea.com.br/', Logo: AgencyLogo },
 ];
 
 export default function Footer06() {
@@ -361,6 +378,7 @@ export default function Footer06() {
                 <Logo />
               </a>
             ))}
+            <Credit />
           </div>
         </div>
       </div>
