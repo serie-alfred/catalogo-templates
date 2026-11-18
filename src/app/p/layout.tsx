@@ -6,7 +6,7 @@ import '../../styles/preview.css';
 // Só para o balão de navegação (PreviewNav): tokens com prefixo, que a loja
 // não lê, e as fontes do site como variável — nunca no <body>, que é da loja.
 import '../../styles/marca.css';
-import { variaveisDaMarca } from '../(home)/fonts';
+import { variaveisDaMarca } from '../(home)/fontes-marca';
 
 export const metadata = {
   title: 'Preview do tema',

@@ -1,7 +1,7 @@
 import React from 'react';
 import '../../styles/editor-tokens.css';
 import '../../styles/marca.css';
-import { variaveisDaMarca } from '../(home)/fonts';
+import { variaveisDaMarca } from '../(home)/fontes-marca';
 
 /**
  * Root layout do /login: os tokens da marca e as fontes do site (o login é a

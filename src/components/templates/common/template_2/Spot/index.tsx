@@ -102,6 +102,9 @@ export default function Spot() {
           <div className={styles.productPriceWrapper}>
             <div className={styles.productPrice}>
               <div className={styles.prices}>
+                <div className={styles['price-before']} data-role="spot-list-price">
+                  <span>R$ 890,00</span>
+                </div>
                 <div className={styles.priceNormal} data-role="spot-price">
                   <span className={styles.currency} title="BRL">
                     R$

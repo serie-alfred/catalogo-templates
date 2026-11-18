@@ -25,6 +25,13 @@ export default function Spot() {
     100 - (product.priceOffer / product.price) * 100
   );
 
+  const unitPrice = product.priceOffer > 0 ? product.priceOffer : product.price;
+  const installments = (
+    <div className={styles['product-payment']} data-role="card-inst">
+      <span>{`3X de R$ ${(unitPrice / 3).toFixed(2)}`}</span>
+    </div>
+  );
+
   return (
     <div className={`${styles.product} ${styles.spot}`} data-spot="Spot06">
       <div className={styles.productWrapper}>
@@ -91,6 +98,7 @@ export default function Spot() {
                       <span>{product.priceOffer.toFixed(2)}</span>
                     </div>
                   </div>
+                  {installments}
                 </div>
               ) : (
                 <div className={styles.prices}>
@@ -102,6 +110,7 @@ export default function Spot() {
                     <span title="BRL">R$</span>
                     <span>{product.price.toFixed(2)}</span>
                   </div>
+                  {installments}
                 </div>
               )}
             </div>

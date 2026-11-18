@@ -1,12 +1,10 @@
 import {
   Archivo,
   Barlow_Condensed,
-  Bricolage_Grotesque,
   Cormorant_Garamond,
   Fraunces,
   Fredoka,
   Geist,
-  Instrument_Sans,
   Saira,
   Young_Serif,
 } from 'next/font/google';
@@ -17,17 +15,9 @@ import {
  * do template no leque, no título e na arara — sem preload, porque só uma
  * aparece de cara.
  */
-export const display = Bricolage_Grotesque({
-  subsets: ['latin'],
-  variable: '--f-display',
-  display: 'swap',
-});
+import { display, texto } from './fontes-marca';
 
-export const texto = Instrument_Sans({
-  subsets: ['latin'],
-  variable: '--f-texto',
-  display: 'swap',
-});
+export { display, texto, variaveisDaMarca } from './fontes-marca';
 
 // O next/font só aceita objetos literais em cada chamada: nada de spread.
 const luxo = Cormorant_Garamond({
@@ -103,6 +93,3 @@ export const variaveisDasFontes = [
 ]
   .map(f => f.variable)
   .join(' ');
-
-/** Só as duas do site, para as superfícies fora da home (vitrine, /p, login). */
-export const variaveisDaMarca = `${display.variable} ${texto.variable}`;
