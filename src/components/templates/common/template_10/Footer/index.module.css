@@ -264,6 +264,8 @@
   flex: none;
   width: auto;
   height: 14px;
+  --sa-credit-ink: rgb(from var(--footer-legal-bg, #f2f4f7) clamp(26, (128 - (r * 299 + g * 587 + b * 114) / 1000) * 999, 255) clamp(26, (128 - (r * 299 + g * 587 + b * 114) / 1000) * 999, 255) clamp(26, (128 - (r * 299 + g * 587 + b * 114) / 1000) * 999, 255));
+  color: var(--sa-credit-ink, currentColor);
 }
 @container (max-width: 960px) {
   .servicesInner {

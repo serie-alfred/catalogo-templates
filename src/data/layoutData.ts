@@ -2622,6 +2622,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-info-installments", label: "Texto das parcelas", type: "color", default: "#3D3D3D", group: "Produto" },
         { cssVar: "--prod-info-price-color", label: "Texto do preço", type: "color", default: "#000000", group: "Produto" },
         { cssVar: "--prod-info-link", label: "Texto do link Ver todas as formas de pagamento", type: "color", default: "#525252", group: "Produto" },
+        { cssVar: "--prod-info-cep-link", label: "Texto do link Não sei meu CEP", type: "color", default: "#141414", group: "Produto", inheritsLabel: "cor base do texto" },
         { cssVar: "--prod-info-fav-text", label: "Texto do botão Adicionar aos Favoritos", type: "color", default: "#000000", group: "Produto" },
         { cssVar: "--prod-info-title", label: "Texto do nome do produto", type: "color", default: "#292929", group: "Produto" },
         { cssVar: "--prod-info-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },

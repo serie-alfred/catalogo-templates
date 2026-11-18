@@ -362,6 +362,8 @@
 }
 
 .credit svg {
+  --sa-credit-ink: rgb(from var(--footer-bg, var(--background-footer, #0a0a0a)) clamp(26, (128 - (r * 299 + g * 587 + b * 114) / 1000) * 999, 255) clamp(26, (128 - (r * 299 + g * 587 + b * 114) / 1000) * 999, 255) clamp(26, (128 - (r * 299 + g * 587 + b * 114) / 1000) * 999, 255));
+  color: var(--sa-credit-ink, currentColor);
   display: block;
   height: 14px;
   width: auto;

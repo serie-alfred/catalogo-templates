@@ -698,9 +698,9 @@ a declaram (`'Wake 2.0'` no `platforms` de todo item Wake): as seções de home 
   - **`@container` da réplica vira `@media` na loja** (o componente lá ocupa a janela). Teste a
     réplica no canvas em larguras intermediárias (1024–1300px), não só em 1440 e 390.
   - **Contraste com a paleta do usuário:** a réplica do Header 01 pinta a lupa com
-    `--header-text` sobre o campo branco, e o "Não sei meu CEP" do ProductInfo01 herda a cor do
-    texto do header. Numa paleta com header escuro, os dois somem no canvas e na loja. Na Wake os
-    dois foram corrigidos no porte; na réplica continuam assim.
+    `--header-text` sobre o campo branco: numa paleta com header escuro, ela some no canvas e na
+    loja (corrigida no porte da Wake; na réplica continua assim). O "Não sei meu CEP" do
+    ProductInfo01 tem cor própria desde 18/11/2026 (`--prod-info-cep-link`, nas cinco versões).
   - **Marca sem logo = `SERIE//A`**, na réplica e na Wake (slot `hdNN_logo`/`ftNN_logo`), nunca
     uma marca de demonstração ("NORTE" saiu no Header/Footer 03 da Wake) nem um símbolo fixo (o
     asterisco do Figma no Header/Footer 08 saiu; agora `.logoText`). Linha legal/CNPJ só com

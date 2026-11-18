@@ -1003,6 +1003,12 @@
     margin: 0;
     max-width: 100%;
   }
+
+  /* No celular o ícone do carrinho não cabe ao lado de "Adicionar ao carrinho"
+     e quebrava o rótulo em duas linhas: fica só o texto. */
+  .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button span svg {
+    display: none;
+  }
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton button {
@@ -1081,6 +1087,13 @@
   padding-top: 25px;
   margin-top: 30px;
   border-top: 1px solid #DFDFE0;
+}
+
+/* "Não sei meu CEP": cor própria. Sem regra, herdava a cor do ancestral e
+   mudava junto com o botão "Adicionar ao carrinho". */
+.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .noCep {
+  color: var(--prod-info-cep-link, var(--text-primary-color, #141414));
+  text-decoration: underline;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .produto-calcular-frete {
