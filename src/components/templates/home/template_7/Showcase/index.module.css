@@ -105,14 +105,14 @@
   height: 8px;
   border-radius: 0px;
   padding: 0px;
-  background: #ffffff;
+  background: transparent; /* a barra não pinta fundo: o da vitrine (--shelf-bg) aparece atrás dos dots */
   margin-top: 40px;
 }
 
 .home__showcase .showcase__container .showcase__wrapper .swiper__showcase__pagination .swiper__bullet {
   width: 11px;
   height: 11px;
-  background-color: #e3e3e3;
+  background-color: color-mix(in srgb, var(--shelf-title-color, var(--text-primary-color, #2c2420)) 22%, transparent); /* como no starter: segue o texto da vitrine */
   opacity: 1;
   border: none;
   border-radius: 100%;
