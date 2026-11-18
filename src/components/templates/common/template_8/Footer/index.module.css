@@ -11,7 +11,7 @@
   background-color: var(--footer-bg, #000000);
   box-shadow: inset 0 1px 0 color-mix(in srgb, var(--footer-text, #ffffff) 8%, transparent);
   color: var(--footer-text, #ffffff);
-  font-family: var(--footer-font, 'Manrope', sans-serif);
+  font-family: var(--footer-font, var(--font-secundary, 'Manrope', sans-serif));
   line-height: 1.15;
   letter-spacing: 0.16px;
   -webkit-font-smoothing: antialiased;
@@ -192,7 +192,7 @@
 
 .legal {
   width: 100%;
-  font-family: var(--footer-legal-font, 'Red Hat Display', sans-serif);
+  font-family: var(--footer-legal-font, var(--font-secundary, 'Red Hat Display', sans-serif));
   font-size: 12px;
   font-weight: 500;
   line-height: 1.6;

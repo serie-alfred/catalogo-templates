@@ -5,7 +5,7 @@
    "Só no catálogo", e é preservado. */
 
 .categories08 {
-  font-family: var(--categories-body-font, 'Open Sans', sans-serif);
+  font-family: var(--categories-body-font, var(--font-secundary, 'Open Sans', sans-serif));
   color: var(--categories-text, #ffffff);
   line-height: 1.15;
   letter-spacing: 0.16px;
@@ -65,7 +65,7 @@
 }
 
 .categoryTitle {
-  font-family: var(--categories-font, 'Open Sans', sans-serif);
+  font-family: var(--categories-font, var(--font-secundary, 'Open Sans', sans-serif));
   font-size: 20px;
   font-weight: 700;
   line-height: 1.2;

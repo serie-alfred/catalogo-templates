@@ -5,7 +5,7 @@
    "Só no catálogo", e é preservado. */
 
 .productShelf08 {
-  font-family: var(--showcase-font, 'Open Sans', sans-serif);
+  font-family: var(--showcase-font, var(--font-secundary, 'Open Sans', sans-serif));
   color: var(--showcase-card-text, #292929);
   line-height: 1.15;
   letter-spacing: 0.16px;
@@ -35,7 +35,7 @@
   display: flex;
   flex-direction: column;
   background-color: var(--showcase-bg, #ffffff);
-  font-family: var(--showcase-font, 'Open Sans', sans-serif);
+  font-family: var(--showcase-font, var(--font-secundary, 'Open Sans', sans-serif));
 }
 
 .shelfFull {
@@ -65,7 +65,7 @@
 }
 
 .shelfTitle {
-  font-family: var(--showcase-title-font, 'Open Sans', sans-serif);
+  font-family: var(--showcase-title-font, var(--font-primary, 'Open Sans', sans-serif));
   font-size: 20px;
   font-weight: 700;
   color: var(--showcase-title-color, #000000);

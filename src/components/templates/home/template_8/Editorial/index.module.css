@@ -5,7 +5,7 @@
    "Só no catálogo", e é preservado. */
 
 .editorial08 {
-  font-family: var(--editorial-font, 'Open Sans', sans-serif);
+  font-family: var(--editorial-font, var(--font-secundary, 'Open Sans', sans-serif));
   color: var(--editorial-body-color, #dfdfe0);
   line-height: 1.15;
   letter-spacing: 0.16px;
@@ -44,7 +44,7 @@
   overflow: hidden;
   background-image: linear-gradient(to top, var(--editorial-bg-end, #141414), var(--editorial-bg-start, #292929));
   color: var(--editorial-body-color, #dfdfe0);
-  font-family: var(--editorial-font, 'Open Sans', sans-serif);
+  font-family: var(--editorial-font, var(--font-secundary, 'Open Sans', sans-serif));
 }
 
 .aboutGlow {
@@ -125,7 +125,7 @@
 }
 
 .aboutTitle {
-  font-family: var(--editorial-title-font, 'Open Sans', sans-serif);
+  font-family: var(--editorial-title-font, var(--font-primary, 'Open Sans', sans-serif));
   color: var(--editorial-title-color, #dfdfe0);
   font-size: 32px;
   font-weight: 800;
