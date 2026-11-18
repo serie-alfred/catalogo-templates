@@ -2250,8 +2250,11 @@ export const LAYOUTS: Layouts = {
     name: "Depoimentos",
     items: [
       { id: "01", selection: "client-review", key: "rev06b1c2d3e", image: "review/ClientReview06.webp", imageSource: "auto", mobile: "", title: "Depoimentos Template 6", description: "Carrossel de depoimentos de clientes", template: "6", pagina: ["home"], component: "ClientReview06", path: "organisms/ClientReview06", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
-        { cssVar: "--review-title-color", label: "Texto do título", type: "color", default: "#000000", group: "Depoimentos", inheritsLabel: "cor base do texto" },
-        { cssVar: "--review-text", label: "Texto dos depoimentos", type: "color", default: "#000000", group: "Depoimentos", inheritsLabel: "cor base do texto" },
+        { cssVar: "--review-title-color", label: "Texto do título e do subtítulo", type: "color", default: "#000000", group: "Depoimentos", inheritsLabel: "cor base do texto" },
+        { cssVar: "--review-text", label: "Texto dos depoimentos e do nome", type: "color", default: "#000000", group: "Depoimentos", inheritsLabel: "cor base do texto" },
+        { cssVar: "--review-bg", label: "Fundo da seção", type: "color", default: "#f0f0f0", group: "Depoimentos" },
+        { cssVar: "--review-card-bg", label: "Fundo dos cards", type: "color", default: "#ffffff", group: "Depoimentos" },
+        { cssVar: "--review-stars", label: "Estrelas de avaliação", type: "color", default: "#ffde21", group: "Depoimentos" },
         { cssVar: "--review-font", label: "Fonte da seção", type: "font", default: "inherit", group: "Tipografia" },
       ] },
       { id: "07", selection: "client-review", key: "rev07bru9s8t", image: "review/ClientReview07.webp", imageSource: "auto", mobile: "", title: "Depoimentos Template 7", description: "Prova social centralizada: número em destaque, subtítulo, estrelas e nota", template: "7", pagina: ["home"], component: "ClientReview07", path: "molecules/SocialProof07", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["tertiary", "primary"], variablesSchema: [

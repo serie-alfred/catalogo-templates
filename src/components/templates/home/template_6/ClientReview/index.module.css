@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  background-color: #f0f0f0;
+  background-color: var(--review-bg, #f0f0f0);
   overflow-x: hidden;
   padding: 30px 0px 50px 0px;
   container-type: inline-size;
@@ -26,7 +26,8 @@
   width: 100%;
   max-width: 2rem;
   height: 2px;
-  background: rgba(24, 24, 26, 0.2);
+  /* o traço segue a cor do subtítulo (some no fundo escuro se for cinza fixo) */
+  background: color-mix(in srgb, currentColor 20%, transparent);
   display: inline-block;
   margin: 1rem auto;
   border-radius: 2px;
@@ -54,7 +55,7 @@
   border-radius: 12px;
   padding: 30px;
   width: 270px;
-  background-color: #fff;
+  background-color: var(--review-card-bg, #ffffff);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 .reviewContainer .review .swiper .swiper__wrapper .swiper__slide .reviewItem .stars {
@@ -67,6 +68,9 @@
 .reviewContainer .review .swiper .swiper__wrapper .swiper__slide .reviewItem .stars .stars__inner svg {
   width: 17px;
   height: 17px;
+}
+.reviewContainer .review .swiper .swiper__wrapper .swiper__slide .reviewItem .stars .stars__inner svg path {
+  fill: var(--review-stars, #ffde21);
 }
 .reviewContainer .review .swiper .swiper__wrapper .swiper__slide .reviewItem img {
   position: absolute;
