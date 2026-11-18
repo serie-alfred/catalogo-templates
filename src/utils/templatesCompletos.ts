@@ -836,19 +836,32 @@ export function temaDoTemplate(
   };
 }
 
+/**
+ * Os pinos de Nível 1 que a família do item fixa nele (`NIVEL1_DAS_FAMILIAS`),
+ * já como o pedaço de `LayoutSelection` que os carrega — `{}` quando não há.
+ *
+ * Toda porta por onde uma seção NASCE passa por aqui: o template completo
+ * (`selecoesDoTemplate`), o picker (`toggleSelection`) e a LP inicial
+ * (`lpInicial`). Antes só o template os copiava, e a mesma seção ficava com a cor
+ * do desenho ou com a do global conforme a porta (D1-04, decisão de 18/11/2026).
+ */
+export function pinosDoTemplate(
+  item: Pick<LayoutItem, 'template' | 'component'>
+): { variables?: Record<string, string> } {
+  const variables = NIVEL1_DAS_FAMILIAS[item.template]?.[item.component];
+  // Cópia: o objeto do mapa não pode virar estado mutável de uma seção.
+  return variables ? { variables: { ...variables } } : {};
+}
+
 /** As seções da loja com a família inteira, em todas as páginas. */
 export function selecoesDoTemplate(t: TemplateCompleto): LayoutSelection[] {
-  return t.itens.map(({ layoutKey, item }) => {
-    const variables = NIVEL1_DAS_FAMILIAS[t.template]?.[item.component];
-    return {
-      uid: crypto.randomUUID(),
-      id: item.id,
-      layoutKey,
-      pagina: item.pagina[0],
-      // Cópia: o objeto do mapa não pode virar estado mutável de uma seção.
-      ...(variables ? { variables: { ...variables } } : {}),
-    };
-  });
+  return t.itens.map(({ layoutKey, item }) => ({
+    uid: crypto.randomUUID(),
+    id: item.id,
+    layoutKey,
+    pagina: item.pagina[0],
+    ...pinosDoTemplate(item),
+  }));
 }
 
 /**

@@ -7,6 +7,7 @@ import { FONTES_17 } from '@/components/templates/common/template_17/Spot';
 import { useLayout } from '@/context/LayoutContext';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/Header17` do faststore.starter (família 17, Pet; desenho `Header17` /
@@ -256,6 +257,7 @@ export default function Header17() {
   const logo = logoEnviado || undefined;
 
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   const [totalItems, setTotalItems] = useState(CART_17_QUANTIDADE);
   const abrirCarrinho = () => setCartOpen(true);
   const [termo, setTermo] = useState('');

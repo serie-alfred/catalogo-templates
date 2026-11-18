@@ -7,6 +7,7 @@ import { buildSearchSuggestions } from '@/components/templates/_shared/searchSug
 import { useLayout } from '@/context/LayoutContext';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/Header07` do faststore.starter — o de VERDADE.
@@ -233,6 +234,7 @@ export default function Header() {
   const { logo } = useLayout();
 
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   const cartQtd = 1;
 
   // topbar rotativa (mobile)
@@ -270,6 +272,7 @@ export default function Header() {
   }, [searchOpen]);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
+  useAbrirNoCanvas('menu', setDrawerOpen);
   const [openItems, setOpenItems] = useState<Record<number, boolean>>({});
   const [openCols, setOpenCols] = useState<Record<string, boolean>>({});
   const toggleItem = useCallback(

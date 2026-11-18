@@ -6,6 +6,7 @@ import { useLayout } from '@/context/LayoutContext';
 import { useFitaEmPixels } from '@/hooks/useFitaEmPixels';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/Header13` do faststore.starter (família 13, Noturno; desenho
@@ -139,6 +140,7 @@ export default function Header13() {
   } = MOCK;
 
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   const [totalItems, setTotalItems] = useState(CART_13_QUANTIDADE);
 
   const [termo, setTermo] = useState('');

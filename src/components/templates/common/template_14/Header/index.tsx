@@ -6,6 +6,7 @@ import { useLayout } from '@/context/LayoutContext';
 import { useFitaEmPixels } from '@/hooks/useFitaEmPixels';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/Header14` do faststore.starter (família 14, Esportiva; desenho
@@ -143,6 +144,7 @@ export default function Header14() {
   const { topbarItems, brandName, menu, searchPlaceholder, accountLabel, wishlistLabel, wishlistUrl, drawerLinks, cartLabel } = MOCK;
 
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   const [totalItems, setTotalItems] = useState(CART_14_QUANTIDADE);
 
   const [termo, setTermo] = useState('');

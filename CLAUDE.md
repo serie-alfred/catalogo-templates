@@ -269,6 +269,8 @@ inteira na loja. Some no checkout e na LP.
   `default`) com o que a cadeia `var(--n1, var(--token, …))` da réplica resolve no tema da família e guarda
   só as que divergem; aplicar põe esses valores em `variables` das seções (mesmo render, mesmo undo). O
   painel da direita os mostra como cor própria, com "Restaurar padrão", e o export os leva por componente.
+  Desde 18/11/2026 (D1-04) toda porta por onde a seção nasce aplica os mesmos pinos (`pinosDoTemplate`):
+  o "Por template", o picker (`toggleSelection`) e a LP inicial (`lpInicial`; a 08 não tem pino).
 - **Entrada padrão:** uma aba nova entra com `ENTRADA_PADRAO` aplicado pelo mesmo `vestirTemplate`,
   sem `confirm` (ver "Entrada: a aba nova já vem com um template"). No pé do painel, **Começar do
   zero** esvazia a loja.
@@ -358,6 +360,7 @@ a loja num `<iframe>` (`…/frame`), pelo mesmo motivo do canvas: os drawers `fi
 
 - **`showcase`** — first one is added; clicking the same one again duplicates; clicking a _different_ showcase replaces all existing showcase entries in place (keeping their `pagina`).
 - **Singletons** (`PAGE_SINGLETON_SELECTIONS`: `category-main`, `category-banner`, `product-description`, `product-info`, `product-related`, `banner-top`, `banner-main`, `category-description`, `help-float`, `popup-news`) — at most one per page; selecting a different one replaces in place.
+- **Só na Tray** (`SINGLETONS_DA_TRAY`: `category-title`, `product-reviews`) — singletons too, because the Tray generator does not instance copies outside the Home (D8-06). `ehSingletonDePagina(selection, platform)` and `podeDuplicar(selection, platform)` are the per-platform questions the hook, the list and the canvas badge ask.
 - **`pagina === "common"`** — the code loops `item.pagina.map(...)` to produce one `LayoutSelection` per entry, but in practice **every item in `layoutData.ts` has a single-element `pagina`**, so a `common` item yields exactly ONE row; it's `belongsToPage` that makes it show up on all three pages. Re-selecting the same common item on the same `layoutKey` replaces the existing row.
 - Other items — appended, with a `MAX_PER_PAGE` (currently 101) cap per page.
 

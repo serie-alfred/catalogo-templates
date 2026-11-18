@@ -42,6 +42,28 @@ export function luminance(hexColor: string): number {
   return (r * 299 + g * 587 + b * 114) / 1000;
 }
 
+/** Luminância relativa da WCAG (0–1): a que a razão de contraste usa. */
+function luminanciaRelativa(hexColor: string): number {
+  const hex = normalizeHex(hexColor);
+  const canal = (i: number) => {
+    const c = parseInt(hex.substring(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * canal(0) + 0.7152 * canal(2) + 0.0722 * canal(4);
+}
+
+/**
+ * Razão de contraste da WCAG entre duas cores (1 a 21). Hex inválido dá `NaN`,
+ * e qualquer comparação com `NaN` é falsa — quem avisa "contraste baixo" não
+ * avisa à toa enquanto o usuário ainda digita o hex.
+ */
+export function razaoDeContraste(a: string, b: string): number {
+  const [l1, l2] = [luminanciaRelativa(a), luminanciaRelativa(b)].sort(
+    (x, y) => y - x
+  );
+  return (l1 + 0.05) / (l2 + 0.05);
+}
+
 /**
  * Preto ou branco, o que tiver contraste sobre a cor dada. Limiar 128.
  *

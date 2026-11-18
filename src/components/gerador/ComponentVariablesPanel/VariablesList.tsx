@@ -35,6 +35,13 @@ export interface VariablesListProps {
   inheritsTextFor?: (variable: ComponentVariable) => string | undefined;
   /** Cor com que o picker abre enquanto o campo herda. Padrão: o `default`. */
   inheritedColorFor?: (variable: ComponentVariable) => string;
+  /**
+   * Foco entrou num campo (`variable`) ou saiu dele (`null`). Inclui o popover
+   * do ColorPicker, que é portal mas borbulha pela árvore do React. Sem ele a
+   * lista não ganha envoltório nenhum: o modo Checkout não usa, e o DOM dele
+   * fica como era.
+   */
+  onCampoFoco?: (variable: ComponentVariable | null) => void;
 }
 
 /**
@@ -51,6 +58,7 @@ export default function VariablesList({
   fontValue = toFontValue,
   inheritsTextFor,
   inheritedColorFor,
+  onCampoFoco,
 }: VariablesListProps) {
   // Agrupa as variáveis pelo campo `group` (preservando a ordem do schema).
   const groups = useMemo(() => {
@@ -76,60 +84,72 @@ export default function VariablesList({
           <h3 className={styles.groupTitle}>{group.name}</h3>
 
           {group.variables.map(variable => {
-            const current = values?.[variable.cssVar];
-            const isUnset = current == null;
-            const inheritsText = isUnset
-              ? inheritsTextFor?.(variable)
-              : undefined;
-            const nota = variable.previewNote ? (
-              <p className={styles.nota}>{variable.previewNote}</p>
-            ) : null;
-
-            /* Fragmento com `key` no lugar do `key` que estava no controle:
-               a nota é irmã dele, e as duas juntas são UM item da lista. */
-            if (variable.type === 'font') {
-              return (
-                <Fragment
-                  // remonta ao alternar set/unset para limpar o estado interno
-                  key={`${variable.cssVar}-${isUnset ? 'unset' : 'set'}`}
-                >
-                  <FontSelector
-                    label={variable.label}
-                    cssVariable={variable.cssVar.replace(/^--/, '')}
-                    selectedFont={current ? parseFontFamily(current) : ''}
-                    unset={isUnset}
-                    inheritsLabel={variable.inheritsLabel}
-                    inheritsText={inheritsText}
-                    onFontChange={family =>
-                      onChange(variable.cssVar, fontValue(family))
-                    }
-                  />
-                  {nota}
-                </Fragment>
-              );
-            }
-
+            const item = renderCampo(variable);
+            if (!onCampoFoco) return item;
+            /* `display: contents`: a caixa não existe para o layout do grupo,
+               o controle e a nota continuam itens do flex como antes. */
             return (
-              <Fragment key={variable.cssVar}>
-                <ColorPicker
-                  label={variable.label}
-                  color={
-                    current ??
-                    inheritedColorFor?.(variable) ??
-                    variable.default
-                  }
-                  unset={isUnset}
-                  inheritsLabel={variable.inheritsLabel}
-                  inheritsText={inheritsText}
-                  optional={variable.optional}
-                  setColor={value => onChange(variable.cssVar, value)}
-                />
-                {nota}
-              </Fragment>
+              <div
+                key={variable.cssVar}
+                className={styles.campo}
+                data-campo={variable.cssVar}
+                onFocus={() => onCampoFoco(variable)}
+                onBlur={() => onCampoFoco(null)}
+              >
+                {item}
+              </div>
             );
           })}
         </section>
       ))}
     </>
   );
+
+  function renderCampo(variable: ComponentVariable) {
+    const current = values?.[variable.cssVar];
+    const isUnset = current == null;
+    const inheritsText = isUnset ? inheritsTextFor?.(variable) : undefined;
+    const nota = variable.previewNote ? (
+      <p className={styles.nota}>{variable.previewNote}</p>
+    ) : null;
+
+    /* Fragmento com `key` no lugar do `key` que estava no controle:
+               a nota é irmã dele, e as duas juntas são UM item da lista. */
+    if (variable.type === 'font') {
+      return (
+        <Fragment
+          // remonta ao alternar set/unset para limpar o estado interno
+          key={`${variable.cssVar}-${isUnset ? 'unset' : 'set'}`}
+        >
+          <FontSelector
+            label={variable.label}
+            cssVariable={variable.cssVar.replace(/^--/, '')}
+            selectedFont={current ? parseFontFamily(current) : ''}
+            unset={isUnset}
+            inheritsLabel={variable.inheritsLabel}
+            inheritsText={inheritsText}
+            onFontChange={family =>
+              onChange(variable.cssVar, fontValue(family))
+            }
+          />
+          {nota}
+        </Fragment>
+      );
+    }
+
+    return (
+      <Fragment key={variable.cssVar}>
+        <ColorPicker
+          label={variable.label}
+          color={current ?? inheritedColorFor?.(variable) ?? variable.default}
+          unset={isUnset}
+          inheritsLabel={variable.inheritsLabel}
+          inheritsText={inheritsText}
+          optional={variable.optional}
+          setColor={value => onChange(variable.cssVar, value)}
+        />
+        {nota}
+      </Fragment>
+    );
+  }
 }

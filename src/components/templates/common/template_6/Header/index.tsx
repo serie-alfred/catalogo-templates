@@ -7,6 +7,7 @@ import {
   buildSearchSuggestions,
   buildSuggestionProducts,
 } from '@/components/templates/_shared/searchSuggestions';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 // Preview do Header06 — dados fixos, sem VTEX/GraphQL/hooks.
 // Espelha faststore.starter/src/components/organisms/Header06 (index.tsx +
@@ -357,6 +358,7 @@ export default function Header06() {
   // ── Drawer mobile ──
   // Acordeão nível 1 (itens de topo) e nível 2 (colunas do mega, chave `${i}-${c}`).
   const [mobileOpen, setMobileOpen] = useState(false);
+  useAbrirNoCanvas('menu', setMobileOpen);
   const [openMobileItems, setOpenMobileItems] = useState<Record<number, boolean>>({});
   const [openMobileCols, setOpenMobileCols] = useState<Record<string, boolean>>({});
   const toggleMobileItem = useCallback(
@@ -370,6 +372,7 @@ export default function Header06() {
 
   // ── Mini-cart ──
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   const cartQtd = 1;
 
   // ── Trava de scroll do body ──

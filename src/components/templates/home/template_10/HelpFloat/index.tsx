@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/HelpFloatButton10` do faststore.starter (família 10, Varejo; desenho
@@ -118,6 +119,7 @@ const Ajuda = () =>
 export default function HelpFloatButton10() {
   const { bubbleText, title, subtitle, helpItems = [], footerText } = CONTEUDO;
   const [aberto, setAberto] = useState(false);
+  useAbrirNoCanvas('ajuda', setAberto);
 
   useEffect(() => {
     if (!aberto) return;

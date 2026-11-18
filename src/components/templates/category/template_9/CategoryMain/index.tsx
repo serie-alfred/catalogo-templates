@@ -8,6 +8,7 @@ import {
   ProductCard09,
   type Produto09,
 } from '@/components/templates/common/template_9/Spot';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/MainCategory09` do faststore.starter (família 09, Editorial;
@@ -372,6 +373,7 @@ export default function CategoryMain09() {
 
   /* ── painel mobile (tela cheia): aplica na hora ── */
   const [panelOpen, setPanelOpen] = useState(false);
+  useAbrirNoCanvas('filtros', setPanelOpen);
   const [acc, setAcc] = useState<Record<string, boolean>>({});
   const closeRef = useRef<HTMLButtonElement>(null);
   const filterBtnRef = useRef<HTMLButtonElement>(null);

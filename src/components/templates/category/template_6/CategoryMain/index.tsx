@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/MainCategory06` do faststore.starter — a PLP 06 inteira,
@@ -728,6 +729,7 @@ export default function CategoryMain() {
   /* estado de busca do MainCategory06 (lá é o useSearch; aqui, local): ordenação,
      facets marcados ({key, value}) e a faixa de preço, que conta como um facet */
   const [filtroAberto, setFiltroAberto] = useState(false);
+  useAbrirNoCanvas('filtros', setFiltroAberto);
   const [ordem, setOrdem] = useState('orders_desc');
   const [marcados, setMarcados] = useState<{ key: string; value: string }[]>(
     []

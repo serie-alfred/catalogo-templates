@@ -1,4 +1,6 @@
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
+import type { EstadoNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import type { Platform } from '@/types/platform';
 
 /**
  * Protocolo entre o editor (/gerador) e o documento do iframe mobile
@@ -66,6 +68,8 @@ export type ToFrame =
       footerLogo: string;
       /** Repassado aos templates. O frame serve as duas visões. */
       isMobile: boolean;
+      /** Para o badge de duplicar seguir a regra da plataforma (`podeDuplicar`). */
+      platform: Platform | null;
     }
   /**
    * Seção selecionada, em canal PRÓPRIO e aplicado imperativamente no frame.
@@ -80,7 +84,15 @@ export type ToFrame =
   /** Fator de escala do canvas. O frame contra-escala a camada de controles
    *  (badges e rótulo de hover) para que ela não encolha junto com o tema. */
   | { source: typeof FRAME_PARENT; type: 'zoom'; escala: number }
-  | { source: typeof FRAME_PARENT; type: 'scroll-to'; uid: string };
+  | { source: typeof FRAME_PARENT; type: 'scroll-to'; uid: string }
+  /** Abre (ou, com `estado: null`, fecha) o carrinho/painel/menu da seção
+   *  enquanto um campo dele está focado no painel (ver useAbrirNoCanvas). */
+  | {
+      source: typeof FRAME_PARENT;
+      type: 'estado-no-canvas';
+      uid: string | null;
+      estado: EstadoNoCanvas | null;
+    };
 
 /** iframe → editor. */
 export type FromFrame =

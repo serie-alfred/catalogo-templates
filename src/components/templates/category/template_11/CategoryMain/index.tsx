@@ -27,6 +27,7 @@ import {
   rangeValue,
   valueLabel,
 } from './facets';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/MainCategory11` do faststore.starter (família 11, Grade; desenhos
@@ -419,6 +420,7 @@ export default function CategoryMain11() {
 
   /* ── gaveta de filtros: aplica na hora ── */
   const [panelOpen, setPanelOpen] = useState(false);
+  useAbrirNoCanvas('filtros', setPanelOpen);
   const [acc, setAcc] = useState<Record<string, boolean>>({});
   const closeRef = useRef<HTMLButtonElement>(null);
   const filterBtnRef = useRef<HTMLButtonElement>(null);

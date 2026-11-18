@@ -4,6 +4,7 @@ import React from 'react';
 
 import { useLayout } from '@/context/LayoutContext';
 import ColorPicker from '../../ColorPicker';
+import { razaoDeContraste } from '@/utils/themeStyle';
 
 import styles from './index.module.css';
 
@@ -38,15 +39,36 @@ export default function PanelGlobalColors() {
     setColorFooter,
     colorFooterText,
     setColorFooterText,
+    editorMode,
   } = useLayout();
 
   const noop = () => {};
 
-  const fields = [
+  /* Na LP, os generators não mexem nos tokens globais da loja (decisão de
+     18/11/2026, D8-04): a LP herda as cores e fontes da loja publicada. O
+     campo trava em vez de sumir, para o lojista ver de onde vem a cor. O
+     export continua levando o bloco `variables`, como antes. */
+  const naLp = editorMode === 'lp';
+
+  /* Os fundos neutros das seções são hex claros do desenho, sem token (D2-08):
+     o texto corrido lê a cor base do texto por cima deles. Abaixo de 3:1
+     contra o branco o texto some — o aviso não trava, só conta. */
+  const textoSome = razaoDeContraste(colorPrimary, '#ffffff') < 3;
+
+  const fields: {
+    label: string;
+    color: string;
+    setColor: (value: string) => void;
+    readOnly?: boolean;
+    aviso?: string;
+  }[] = [
     {
       label: 'Defina a cor base do texto',
       color: colorPrimary,
       setColor: setColorPrimary,
+      aviso: textoSome
+        ? 'Com essa cor, o texto some nos fundos claros das seções.'
+        : undefined,
     },
     {
       label: 'Defina a cor primária da marca',
@@ -95,6 +117,11 @@ export default function PanelGlobalColors() {
 
   return (
     <div>
+      {naLp && (
+        <p className={styles.lp} role="status" data-globais-lp="">
+          Na LP, as cores e fontes globais são as da loja.
+        </p>
+      )}
       {fields.map(field => (
         <section key={field.label} className={styles.block}>
           <h3 className={styles.title}>{field.label}</h3>
@@ -102,13 +129,18 @@ export default function PanelGlobalColors() {
             label={field.label}
             color={field.color}
             setColor={field.setColor}
-            readOnly={field.readOnly}
+            readOnly={field.readOnly || naLp}
             variant="block"
           />
           {field.readOnly && (
             <p className={styles.derived}>
               Calculada a partir do fundo correspondente, para garantir
               contraste.
+            </p>
+          )}
+          {field.aviso && !naLp && (
+            <p className={styles.aviso} role="status" data-contraste-aviso="">
+              {field.aviso}
             </p>
           )}
         </section>

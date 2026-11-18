@@ -16,3 +16,14 @@
   font-weight: 700;
   color: var(--ed-gray-800);
 }
+
+/* Modo LP: os globais são os da loja (D8-04). Igual ao das cores. */
+.lp {
+  margin: 0;
+  padding: 12px 16px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--ed-gray-400);
+  background: var(--ed-blue-50);
+  box-shadow: inset 0 -1px 0 var(--ed-gray-000);
+}

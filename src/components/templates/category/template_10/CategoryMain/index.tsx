@@ -28,6 +28,7 @@ import {
   rangeValue,
   selectedLabel,
 } from './facets';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/MainCategory10` do faststore.starter (família 10, Varejo;
@@ -567,6 +568,7 @@ export default function CategoryMain10() {
 
   /* ── painel mobile (tela cheia): aplica na hora ── */
   const [panelOpen, setPanelOpen] = useState(false);
+  useAbrirNoCanvas('filtros', setPanelOpen);
   const [acc, setAcc] = useState<Record<string, boolean>>({});
   const closeRef = useRef<HTMLButtonElement>(null);
   const filterBtnRef = useRef<HTMLButtonElement>(null);

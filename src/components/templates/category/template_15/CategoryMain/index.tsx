@@ -13,6 +13,7 @@ import {
   priceBuckets,
   priceLabel,
 } from './facets';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/MainCategory15` do faststore.starter (família 15, Luxo; desenhos
@@ -328,6 +329,7 @@ export default function CategoryMain15() {
 
   /* ── painel mobile (tela cheia): aplica na hora ── */
   const [panelOpen, setPanelOpen] = useState(false);
+  useAbrirNoCanvas('filtros', setPanelOpen);
   const [acc, setAcc] = useState<Record<string, boolean>>({});
   const closeRef = useRef<HTMLButtonElement>(null);
   const filterBtnRef = useRef<HTMLButtonElement>(null);

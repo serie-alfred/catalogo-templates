@@ -6,6 +6,7 @@ import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
 import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
 import { buildSearchSuggestions } from '@/components/templates/_shared/searchSuggestions';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 // Preview do Header04 (MANU) — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Header04 (gerado via /from-faststore).
@@ -234,6 +235,7 @@ export default function Header04() {
 
   // ── Mini-cart ──
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   const cartCount = 1;
 
   // ── Trava o scroll do documento com overlay/drawer aberto ──

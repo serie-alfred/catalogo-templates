@@ -5,6 +5,7 @@ import { LAYOUTS } from '@/data/layoutData';
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { selectionsForPage } from '@/utils/previewRender';
+import { SecaoUidContext } from '@/hooks/useAbrirNoCanvas';
 
 interface ThemeRendererProps {
   selections: LayoutSelection[];
@@ -82,7 +83,12 @@ const Secao = React.memo(
         style={variaveis as React.CSSProperties | undefined}
       >
         {Component ? (
-          <Component isMobile={isMobile} />
+          /* O uid da seção, para o componente saber se o editor pediu para
+             abrir o carrinho/painel DELE (useAbrirNoCanvas). Contexto não vira
+             DOM: o markup da seção é o mesmo de antes. */
+          <SecaoUidContext.Provider value={uid}>
+            <Component isMobile={isMobile} />
+          </SecaoUidContext.Provider>
         ) : (
           /* Componente fora do `TemplateRegistry`. Isto costumava renderizar
              `<img src={`/images/gerador/${layoutItem.image}`}>`, e como os 67

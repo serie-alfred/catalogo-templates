@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FONTES_17 as FONTES } from '@/components/templates/common/template_17/Spot'
 import styles from './index.module.css'
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas'
 
 /**
  * Espelha `organisms/HelpFloatButton17` do faststore.starter (família 17, Pet; desenho
@@ -106,6 +107,7 @@ const externo = (url: string) => (/^https?:/i.test(url) ? { target: '_blank', re
 export default function HelpFloat17() {
   const { buttonLabel, title, scheduleText, helpItems = [], ctaLabel, ctaUrl } = helpFloatButton17Mock
   const [aberto, setAberto] = useState(false)
+  useAbrirNoCanvas('ajuda', setAberto)
 
   useEffect(() => {
     if (!aberto) return

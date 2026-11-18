@@ -7,6 +7,7 @@ import {
   buildSearchSuggestions,
   buildSuggestionProducts,
 } from '@/components/templates/_shared/searchSuggestions';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 // Preview do Header03 — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Header03 + as molecules
@@ -230,6 +231,7 @@ const HeaderNovo = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [term, setTerm] = useState('');
   const [overlayTerm, setOverlayTerm] = useState('');
