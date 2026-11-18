@@ -2700,6 +2700,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-info-variant-border", label: "Borda da variação", type: "color", default: "#121212", group: "Variações" },
         { cssVar: "--prod-info-variant-active-bg", label: "Fundo da variação escolhida", type: "color", default: "#121212", group: "Variações" },
         { cssVar: "--prod-info-variant-active-text", label: "Texto da variação escolhida", type: "color", default: "#ffffff", group: "Variações" },
+        { cssVar: "--pdp-bg", label: "Fundo da PDP", type: "color", default: "#f7f4ef", group: "Produto" },
         { cssVar: "--prod-gallery-badge-bg", label: "Fundo da etiqueta", type: "color", default: "#121212", group: "Selo" },
         { cssVar: "--prod-gallery-badge-text", label: "Texto da etiqueta", type: "color", default: "#ffffff", group: "Selo" },
         { cssVar: "--prod-gallery-dot-active", label: "Destaque (ponto ativo da galeria)", type: "color", default: "#121212", group: "Galeria e selos", previewNote: "Só na visão Mobile — alterne no topo do editor." },

@@ -5,7 +5,7 @@
 
 .productDetails09 {
   width: 100%;
-  background-color: #f7f4ef;
+  background-color: var(--pdp-bg, #f7f4ef);
   color: var(--pdp-text, var(--text-primary-color, #1d1b18));
   font-family: var(--pdp-font, var(--font-secundary, 'Figtree', system-ui, sans-serif));
   font-weight: 400;
@@ -121,7 +121,7 @@
 }
 
 .labelValue {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, var(--pdp-bg, #f7f4ef));
   font-weight: 500;
 }
 
@@ -137,7 +137,7 @@
 }
 
 .muted12 {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, var(--pdp-bg, #f7f4ef));
   font-size: 12px;
 }
 
@@ -146,7 +146,7 @@
   align-items: center;
   gap: 8px;
   align-self: flex-start;
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, var(--pdp-bg, #f7f4ef));
   font-size: 12px;
 }
 
@@ -176,12 +176,12 @@
 }
 
 .listPrice {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, var(--pdp-bg, #f7f4ef));
   font-size: 14px;
 }
 
 .installment {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, var(--pdp-bg, #f7f4ef));
   font-size: 13px;
 }
 .colors {
@@ -189,7 +189,7 @@
   flex-direction: column;
   gap: 12px;
   padding-top: 24px;
-  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, var(--pdp-bg, #f7f4ef));
 }
 
 .swatches {
@@ -219,7 +219,7 @@
   align-items: center;
   min-height: 48px;
   padding: 0 16px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, var(--pdp-bg, #f7f4ef));
   font-size: 14px;
 }
 
@@ -266,7 +266,7 @@
 
 .size {
   height: 48px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, var(--pdp-bg, #f7f4ef));
   text-align: center !important;
 }
 
@@ -277,7 +277,7 @@
 }
 
 .sizeOut {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, var(--pdp-bg, #f7f4ef));
   text-decoration: line-through;
   cursor: default !important;
 }
@@ -298,7 +298,7 @@
   min-width: 44px;
   height: 44px;
   padding: 0 12px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, var(--pdp-bg, #f7f4ef));
   font-size: 13px;
   text-align: center !important;
 }
@@ -334,7 +334,7 @@
   font-size: 15px;
 }
 .line input::placeholder {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, var(--pdp-bg, #f7f4ef));
   opacity: 1;
 }
 .line:focus-within {
@@ -401,7 +401,7 @@
   display: flex;
   align-items: center;
   height: 56px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, var(--pdp-bg, #f7f4ef));
 }
 .qty button {
   width: 44px;
@@ -410,7 +410,7 @@
   text-align: center;
 }
 .qty button:disabled {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, var(--pdp-bg, #f7f4ef));
   cursor: default;
 }
 .qty span {
@@ -438,14 +438,14 @@
   gap: 16px;
   align-items: baseline;
   padding: 10px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border-bottom: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, var(--pdp-bg, #f7f4ef));
 }
 .shipList strong {
   font-weight: 600;
 }
 
 .shipMeta {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, var(--pdp-bg, #f7f4ef));
 }
 
 .cepHelp {
@@ -453,7 +453,7 @@
   align-items: center;
   align-self: flex-start;
   min-height: 32px;
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, var(--pdp-bg, #f7f4ef));
   font-size: 12px;
   text-decoration: underline !important;
   text-underline-offset: 3px;
@@ -464,10 +464,10 @@
 }
 
 .acc {
-  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, var(--pdp-bg, #f7f4ef));
 }
 .acc:last-child {
-  border-bottom: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+  border-bottom: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, var(--pdp-bg, #f7f4ef));
 }
 
 .accBtn {
@@ -484,7 +484,7 @@
 
 .accPanel p {
   padding-bottom: 20px;
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, var(--pdp-bg, #f7f4ef));
   font-size: 14px;
   line-height: 1.7;
   white-space: pre-line;
@@ -508,7 +508,7 @@
   max-height: calc(100vh - 32px);
   overflow: auto;
   padding: 0 24px 24px;
-  background-color: #f7f4ef;
+  background-color: var(--pdp-bg, #f7f4ef);
   color: var(--pdp-text, var(--text-primary-color, #1d1b18));
 }
 
@@ -583,7 +583,7 @@
   .dashes span {
     flex: 1;
     height: 1px;
-    background-color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
+    background-color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, var(--pdp-bg, #f7f4ef));
   }
   .dashes .dashOn {
     background-color: var(--pdp-text, var(--text-primary-color, #1d1b18));
@@ -635,8 +635,8 @@
     align-items: center;
     gap: 12px;
     padding: 12px 16px 20px;
-    border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, #f7f4ef);
-    background-color: #f7f4ef;
+    border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 16%, var(--pdp-bg, #f7f4ef));
+    background-color: var(--pdp-bg, #f7f4ef);
   }
   .mobilePrice {
     display: flex;
@@ -649,7 +649,7 @@
     font-weight: 600;
   }
   .mobileInstallment {
-    color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, #f7f4ef);
+    color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #1d1b18)) 64%, var(--pdp-bg, #f7f4ef));
     font-size: 12px;
   }
   .buyMobile {
