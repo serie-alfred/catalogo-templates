@@ -24,7 +24,7 @@
   --h5-service-text: var(--header-service-text, var(--header-bg, var(--background-primary-color, #ffffff)));
   --h5-success-soft: var(--header-success-soft, #e7f4ec);
   --h5-danger: var(--header-danger, #d6432a);
-  --h5-font-mono: var(--header-font-mono, 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, Menlo, monospace);
+  --h5-font-mono: var(--header-font-mono, var(--font-secundary, 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, Menlo, monospace));
   font-family: var(--header-font, var(--font-primary, -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif));
   color: var(--header-text, var(--text-color-base, #1a1f2b));
   font-size: 15px;

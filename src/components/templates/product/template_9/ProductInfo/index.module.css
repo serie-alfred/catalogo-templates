@@ -271,9 +271,9 @@
 }
 
 .sizeOn {
-  border-color: var(--pdp-text, var(--text-primary-color, #1d1b18));
-  background-color: var(--pdp-text, var(--text-primary-color, #1d1b18));
-  color: var(--pdp-size-active-text, #f7f4ef);
+  border-color: var(--pdp-text, var(--background-primary-color, #1d1b18));
+  background-color: var(--pdp-text, var(--background-primary-color, #1d1b18));
+  color: var(--pdp-size-active-text, var(--text-color-base, #f7f4ef));
 }
 
 .sizeOut {

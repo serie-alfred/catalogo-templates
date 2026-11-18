@@ -32,6 +32,8 @@ type FontSelectorProps = {
   inheritsText?: string;
   /** Ver ColorPicker: `block` na esquerda (sem rótulo), `field` na direita. */
   variant?: 'block' | 'field';
+  /** Mostra a fonte, não deixa trocar (os globais no modo LP). */
+  disabled?: boolean;
 };
 
 export default function FontSelector({
@@ -43,6 +45,7 @@ export default function FontSelector({
   inheritsLabel,
   inheritsText,
   variant = 'field',
+  disabled = false,
 }: FontSelectorProps) {
   const [google, setGoogle] = useState<FonteDoCatalogo[]>([]);
   // Sem `GOOGLE_FONTS_API_KEY` a rota devolve 500 e o catálogo do Google não
@@ -246,6 +249,7 @@ export default function FontSelector({
           autoComplete="off"
           spellCheck={false}
           value={searchTerm}
+          disabled={disabled}
           onChange={handleInputChange}
           onFocus={e => {
             abrir();

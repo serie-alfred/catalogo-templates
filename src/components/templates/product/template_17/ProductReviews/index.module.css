@@ -346,8 +346,8 @@
 
 .pagerOn {
   border: 0;
-  background-color: var(--prod-reviews-text, var(--text-primary-color, #0e2f38));
-  color: var(--prod-reviews-bg, #ffffff);
+  background-color: var(--prod-reviews-text, var(--background-primary-color, #0e2f38));
+  color: var(--prod-reviews-bg, var(--text-color-base, #ffffff));
   font-weight: 700;
 }
 

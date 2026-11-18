@@ -5,6 +5,7 @@ import { FONTES_09, PRODUTOS_09 } from '@/components/templates/common/template_9
 import { useLayout } from '@/context/LayoutContext';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/Header09` do faststore.starter (família 09, Editorial; desenho
@@ -116,6 +117,7 @@ export default function Header09() {
   } = MOCK;
 
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   const [totalItems, setTotalItems] = useState(CART_09_QUANTIDADE);
 
   const [termo, setTermo] = useState('');

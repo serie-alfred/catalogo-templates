@@ -53,6 +53,8 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
     setHoveredUid,
     isMobileView,
     scrollToSectionRef,
+    estadoNoCanvasRef,
+    platform,
     logo,
     footerLogo,
     colorPrimary,
@@ -196,10 +198,11 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
       logo,
       footerLogo,
       isMobile: isMobileView,
+      platform,
     }),
     /* `selectedUid` SAIU daqui: mudar a seleção não pode custar uma republicação
        do tema inteiro. Vai no canal `selected`, aplicado imperativamente. */
-    [selections, selectedPage, logo, footerLogo, isMobileView]
+    [selections, selectedPage, logo, footerLogo, isMobileView, platform]
   );
 
   // Handshake + eventos vindos do frame.
@@ -305,6 +308,17 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
       scrollToSectionRef.current = null;
     };
   }, [post, scrollToSectionRef]);
+
+  // Canal do "abrir no canvas" (carrinho, painel, filtros, menu) que o painel
+  // da direita usa enquanto um campo desses está focado. Mesmo padrão do
+  // scroll-to: ref, porque pedir o mesmo estado de novo tem de chegar.
+  useEffect(() => {
+    estadoNoCanvasRef.current = (uid, estado) =>
+      post({ source: FRAME_PARENT, type: 'estado-no-canvas', uid, estado });
+    return () => {
+      estadoNoCanvasRef.current = null;
+    };
+  }, [post, estadoNoCanvasRef]);
 
   useEffect(
     () => () => {

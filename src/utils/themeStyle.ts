@@ -2,6 +2,32 @@ import type React from 'react';
 import type { FrameColors, FrameFonts } from '@/types/frameMessage';
 
 /**
+ * Famílias serifadas (D4-08, decisão 7 do lote E, 18/11/2026): a pilha delas termina
+ * em `Georgia, serif`, para o fallback (troca de fonte, falha no carregamento) não
+ * cair numa sans. Lista pelo nome, sem consultar o Google: o `buildThemeStyle` roda
+ * no servidor e o catálogo do Google pode estar fora. As famílias com "Sans" no nome
+ * nunca são serifadas. A MESMA regex mora no generator (`ehSerifada` em
+ * `src/utils/fontVariables.js`) e no estágio `2-vitrine` do funil (que lê este arquivo): mude as três juntas.
+ */
+const SERIFADAS =
+  /(^|\s)(serif|slab)\b|garamond|fraunces|playfair|\blora\b|merriweather|baskerville|bodoni|caslon|cormorant|crimson|georgia|\btimes\b|spectral|vollkorn|cinzel|literata|newsreader|gelasio|\bdomine\b|\bcardo\b|\bprata\b|\bbitter\b|\barvo\b|zilla|\baleo\b|rokkitt/i;
+
+export function ehFonteSerifada(family: string): boolean {
+  return !/\bsans\b/i.test(family) && SERIFADAS.test(family);
+}
+
+/**
+ * O valor de fonte que o editor grava (tokens globais e variáveis por componente):
+ * `'Família', sans-serif`, ou `'Família', Georgia, serif` quando ela é serifada.
+ */
+export function pilhaDaFonte(family: string): string {
+  return ehFonteSerifada(family)
+    ? `'${family}', Georgia, serif`
+    : `'${family}', sans-serif`;
+}
+
+
+/**
  * O tema com que o editor nasce: os valores iniciais do `useLayoutGenerator`.
  * Um template completo só define o que o desenho dele pede (`TEMA_DAS_FAMILIAS`);
  * o resto continua daqui — no editor, numa aba nova; na vitrine `/templates`,
@@ -40,6 +66,28 @@ export function luminance(hexColor: string): number {
   const g = parseInt(hex.substring(2, 4), 16);
   const b = parseInt(hex.substring(4, 6), 16);
   return (r * 299 + g * 587 + b * 114) / 1000;
+}
+
+/** Luminância relativa da WCAG (0–1): a que a razão de contraste usa. */
+function luminanciaRelativa(hexColor: string): number {
+  const hex = normalizeHex(hexColor);
+  const canal = (i: number) => {
+    const c = parseInt(hex.substring(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  };
+  return 0.2126 * canal(0) + 0.7152 * canal(2) + 0.0722 * canal(4);
+}
+
+/**
+ * Razão de contraste da WCAG entre duas cores (1 a 21). Hex inválido dá `NaN`,
+ * e qualquer comparação com `NaN` é falsa — quem avisa "contraste baixo" não
+ * avisa à toa enquanto o usuário ainda digita o hex.
+ */
+export function razaoDeContraste(a: string, b: string): number {
+  const [l1, l2] = [luminanciaRelativa(a), luminanciaRelativa(b)].sort(
+    (x, y) => y - x
+  );
+  return (l1 + 0.05) / (l2 + 0.05);
 }
 
 /**
@@ -86,12 +134,21 @@ export function buildThemeStyle(
     ),
     '--background-secundary-color': c.colorSecondaryBackground,
     '--background-tertiary-color': c.colorTertiaryBackground,
+    // Irmãs da -safe da primária (D2-07, 18/11/2026): a letra de acento que lê a
+    // cor secundária/terciária sobre neutro claro não some com a marca branca.
+    '--background-secundary-color-safe': colorSafeOnWhite(
+      c.colorSecondaryBackground
+    ),
+    '--background-tertiary-color-safe': colorSafeOnWhite(
+      c.colorTertiaryBackground
+    ),
     '--background-footer': c.colorFooter,
     '--text-color-footer': c.colorFooterText,
     '--text-color-base': c.colorPrimaryText,
     '--text-color-secundary': c.colorSecondaryText,
-    '--font-primary': `'${f.fontPrimary}', sans-serif`,
-    '--font-secundary': `'${f.fontSecondary}', sans-serif`,
-    '--font-tertiary': `'${f.fontTertiary}', sans-serif`,
+    // Serifada termina em `Georgia, serif` (D4-08, `pilhaDaFonte`).
+    '--font-primary': pilhaDaFonte(f.fontPrimary),
+    '--font-secundary': pilhaDaFonte(f.fontSecondary),
+    '--font-tertiary': pilhaDaFonte(f.fontTertiary),
   } as React.CSSProperties;
 }

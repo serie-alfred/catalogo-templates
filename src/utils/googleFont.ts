@@ -70,7 +70,8 @@ export function loadGoogleFont(
 
 /**
  * Extrai as famílias das fontes por componente e as carrega.
- * Os valores são gravados no formato `'Família', sans-serif`.
+ * Os valores são gravados no formato `'Família', sans-serif` (serifada:
+ * `'Família', Georgia, serif` — `pilhaDaFonte`); a família é o primeiro item.
  *
  * Carrega DOIS conjuntos, e o segundo é o que faltava:
  *

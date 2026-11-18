@@ -300,8 +300,8 @@
   height: 44px;
   padding: 0 18px;
   border-radius: 10px;
-  background-color: var(--banner-main-promo-button-bg, var(--text-primary-color, #101828));
-  color: var(--banner-main-promo-button-text, #ffffff);
+  background-color: var(--banner-main-promo-button-bg, var(--background-primary-color, #101828));
+  color: var(--banner-main-promo-button-text, var(--text-color-base, #ffffff));
   font-size: 14px;
   font-weight: 700;
 }

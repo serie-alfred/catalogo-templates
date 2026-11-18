@@ -187,13 +187,19 @@ function validar(dir) {
 }
 
 // ── o config, no formato do export ───────────────────────────────────────────
-// As 14 globais como uma aba nova as exporta (`variaveisTrayWake` no hook):
-// os valores iniciais do editor, e a `Safe` derivada pela mesma função.
+// As 16 globais como uma aba nova as exporta (`variaveisTrayWake` no hook):
+// os valores iniciais do editor, e as três `Safe` derivadas pela mesma função.
 const GLOBAIS = {
   ...TEMA_INICIAL.fonts,
   ...TEMA_INICIAL.colors,
   colorPrimaryBackgroundSafe: colorSafeOnWhite(
     TEMA_INICIAL.colors.colorPrimaryBackground
+  ),
+  colorSecondaryBackgroundSafe: colorSafeOnWhite(
+    TEMA_INICIAL.colors.colorSecondaryBackground
+  ),
+  colorTertiaryBackgroundSafe: colorSafeOnWhite(
+    TEMA_INICIAL.colors.colorTertiaryBackground
   ),
 };
 const baldeDe = i => (i.pagina[0] === 'common' ? 'global' : i.pagina[0]);
@@ -440,7 +446,7 @@ if (NUVEMSHOP_LIGADA) {
 }
 
 /*
- * As 14 globais com sentinelas únicas (cor `#0a0bNN`, fonte "Funil Global Fonte NN"),
+ * As 16 globais com sentinelas únicas (cor `#0a0bNN`, fonte "Funil Global Fonte NN"),
  * para provar que cada `sa_*` do settings_data.json é o valor semeado e não um
  * default do tema-base. Só o config da família as leva; o exportado do estágio 3 não muda.
  */

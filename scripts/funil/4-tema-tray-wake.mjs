@@ -85,7 +85,7 @@ const PASTA_DA_PAGINA = {
   product: 'Product',
 };
 
-// As 14 globais com SENTINELAS (valor único por chave), no formato que uma aba nova exporta
+// As 16 globais com SENTINELAS (valor único por chave), no formato que uma aba nova exporta
 // (`variaveisTrayWake` no hook): o que sai no tema só pode ter vindo do config.
 const GLOBAIS = {
   fontPrimary: 'RevGlobPrim',
@@ -102,6 +102,8 @@ const GLOBAIS = {
   colorPrimaryText: '#c0ff09',
   colorSecondaryText: '#c0ff0a',
   colorPrimaryBackgroundSafe: '#c0ff0b',
+  colorSecondaryBackgroundSafe: '#c0ff0c',
+  colorTertiaryBackgroundSafe: '#c0ff0d',
 };
 // Chave global → propriedade que o generator escreve em `:root` do `_variables.scss`.
 const GLOBAL_NO_ROOT = {
@@ -110,6 +112,8 @@ const GLOBAL_NO_ROOT = {
   fontTertiary: '--font-tertiary',
   colorPrimaryBackground: '--background-primary-color',
   colorPrimaryBackgroundSafe: '--background-primary-color-safe',
+  colorSecondaryBackgroundSafe: '--background-secundary-color-safe',
+  colorTertiaryBackgroundSafe: '--background-tertiary-color-safe',
   colorSecondaryBackground: '--background-secundary-color',
   colorTertiaryBackground: '--background-tertiary-color',
   colorFooter: '--background-footer',
@@ -360,7 +364,7 @@ for (const caso of CASOS) {
     );
 
     // ── as variáveis chegaram com o VALOR semeado ─────────────────────────
-    // (a) as 14 globais: no `:root` do `_variables.scss`, com o valor da sentinela.
+    // (a) as 16 globais: no `:root` do `_variables.scss`, com o valor da sentinela.
     const txtVars = ler(
       path.join(
         TEMA,
@@ -377,7 +381,7 @@ for (const caso of CASOS) {
       })
       .map(([k]) => k);
     r.ok(
-      `${plataforma} ${nn}: as 14 globais saem em :root do _variables.scss com o valor semeado`,
+      `${plataforma} ${nn}: as 16 globais saem em :root do _variables.scss com o valor semeado`,
       txtVars !== '' && globalErrada.length === 0,
       txtVars === '' ? '_variables.scss não existe' : `sem o valor: ${globalErrada.join(', ')}`
     );

@@ -2,11 +2,13 @@ import { useState } from 'react';
 import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
 import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 const Header = () => {
   const { logo } = useLayout();
   // Mini-cart: o mesmo CartSidebar01 do Header01 (a Wake usa o mesmo minicart nas duas famílias).
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   // Dados fixos para substituir as variáveis Twig
   const storeInfo = {
     name: 'logo',

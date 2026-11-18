@@ -5,6 +5,7 @@ import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
 import { useLayout } from '@/context/LayoutContext';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/Header12` do faststore.starter (família 12, Suave; desenho
@@ -138,6 +139,7 @@ export default function Header12() {
   } = MOCK;
 
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   const [totalItems, setTotalItems] = useState(CART_12_QUANTIDADE);
 
   const [termo, setTermo] = useState('');

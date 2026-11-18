@@ -46,7 +46,7 @@
 .productShelf15 [data-role=spot-tag] {
   top: 16px;
   left: 16px;
-  background-color: var(--showcase-tag-bg, var(--spot-tag-bg, var(--background-primary-color, #7a5f1c)));
+  background-color: var(--spot-tag-bg, var(--showcase-tag-bg, var(--background-primary-color, #7a5f1c)));
 }
 .productShelf15 [data-role=spot-favorite] {
   top: 6px;

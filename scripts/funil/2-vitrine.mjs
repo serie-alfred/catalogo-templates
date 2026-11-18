@@ -100,8 +100,17 @@ const NIVEL1 = (() => {
   const out = {};
   for (const [, fam, corpo] of bloco.matchAll(/\n {2}'(\d+)': \{([\s\S]*?)\n {2}\},/g))
     for (const [, comp, vars] of corpo.matchAll(/\n {4}(\w+): \{([\s\S]*?)\n {4}\},/g))
-      (out[fam] ??= {})[comp] = Object.fromEntries([...vars.matchAll(/'(--[\w-]+)': '([^']+)'/g)].map(m => [m[1], m[2]]));
+      // Valor de fonte vem entre aspas duplas ("'League Spartan', sans-serif"), às vezes na linha de baixo.
+      (out[fam] ??= {})[comp] = Object.fromEntries([...vars.matchAll(/'(--[\w-]+)':\s*(?:'([^']+)'|"([^"]+)")/g)].map(m => [m[1], m[2] ?? m[3]]));
   return out;
+})();
+/** A pilha de fonte do editor (`pilhaDaFonte` em themeStyle.ts): serifada termina em Georgia, serif. */
+const pilhaDaFonte = (() => {
+  const ts = fonte('src/utils/themeStyle.ts');
+  const m = /const SERIFADAS =\s*\/(.+)\/i;/.exec(ts);
+  if (!m) throw new Error('themeStyle.ts: não achei `const SERIFADAS = /…/i;`');
+  const serifadas = new RegExp(m[1], 'i');
+  return f => (!/\bsans\b/i.test(f) && serifadas.test(f) ? `'${f}', Georgia, serif` : `'${f}', sans-serif`);
 })();
 /** O tema com que o editor nasce (themeStyle.ts), base de toda família. */
 const INICIAL = (() => {
@@ -131,9 +140,9 @@ function temaEsperado(t) {
     '--text-color-footer': c.colorFooterText,
     '--text-color-base': contraste(c.colorPrimaryBackground),
     '--text-color-secundary': contraste(c.colorSecondaryBackground),
-    '--font-primary': `'${f.fontPrimary}', sans-serif`,
-    '--font-secundary': `'${f.fontSecondary}', sans-serif`,
-    '--font-tertiary': `'${f.fontTertiary}', sans-serif`,
+    '--font-primary': pilhaDaFonte(f.fontPrimary),
+    '--font-secundary': pilhaDaFonte(f.fontSecondary),
+    '--font-tertiary': pilhaDaFonte(f.fontTertiary),
   };
 }
 const VARS_DO_TEMA = Object.keys(temaEsperado(ESPERADAS[0] ?? '1'));

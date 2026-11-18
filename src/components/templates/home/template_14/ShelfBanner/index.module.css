@@ -47,8 +47,8 @@
   background-color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0b1b33)) 6%, var(--showcase-bg, #ffffff));
 }
 .productShelf14 [data-role=spot-tag] {
-  background-color: var(--showcase-tag-bg, var(--spot-tag-bg, var(--background-tertiary-color, #d9f99d)));
-  color: var(--showcase-tag-text, var(--spot-tag-text, var(--text-tertiary-color, #0b1b33)));
+  background-color: var(--spot-tag-bg, var(--showcase-tag-bg, var(--background-tertiary-color, #d9f99d)));
+  color: var(--spot-tag-text, var(--showcase-tag-text, var(--text-tertiary-color, #0b1b33)));
 }
 .productShelf14 [data-role=spot-discount] {
   background-color: var(--showcase-accent, var(--background-primary-color, #e4002b));

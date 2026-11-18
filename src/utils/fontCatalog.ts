@@ -39,6 +39,9 @@ export function ehFonteDoSistema(family: string): boolean {
   return DO_SISTEMA.has(family.trim().toLowerCase());
 }
 
+/** A regra da serifada mora em themeStyle.ts (o funil importa aquele arquivo direto, sem bundler). */
+export { ehFonteSerifada, pilhaDaFonte } from './themeStyle';
+
 let google: Promise<FonteDoCatalogo[] | null> | null = null;
 
 /**

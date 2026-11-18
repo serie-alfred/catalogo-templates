@@ -21,6 +21,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
+import { ehFonteSerifada } from '../../src/utils/themeStyle.ts';
 import {
   GENERATOR,
   FASTSTORE_STARTER,
@@ -169,6 +170,8 @@ const GLOBAIS_SENTINELA = {
   fontTertiary: { token: '--font-tertiary', valor: 'Montserrat', fonte: true },
   colorPrimaryBackground: { token: '--background-primary-color' },
   colorPrimaryBackgroundSafe: { token: '--background-primary-color-safe' },
+  colorSecondaryBackgroundSafe: { token: '--background-secundary-color-safe' },
+  colorTertiaryBackgroundSafe: { token: '--background-tertiary-color-safe' },
   colorSecondaryBackground: { token: '--background-secundary-color' },
   colorTertiaryBackground: { token: '--background-tertiary-color' },
   colorFooter: { token: '--background-footer' },
@@ -620,7 +623,7 @@ const tokenDivergente = Object.entries(GLOBAIS_SENTINELA)
       ...blocoVars.matchAll(new RegExp(`(?:^|[;\\s])${g.token}:\\s*([^;]+);`, 'g')),
     ].map(m => m[1].trim());
     const esperado = g.fonte
-      ? `'${g.valor}', Arial, Helvetica, sans-serif`
+      ? `'${g.valor}', ${ehFonteSerifada(g.valor) ? 'Georgia, serif' : 'Arial, Helvetica, sans-serif'}`
       : g.valor;
     return ocorr.length === 1 && ocorr[0] === esperado
       ? null

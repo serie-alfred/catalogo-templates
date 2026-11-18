@@ -115,7 +115,7 @@
 }
 
 .brandLogo:hover {
-  color: var(--footer-accent, var(--background-secundary-color, #e60f73));
+  color: var(--footer-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #e60f73)));
 }
 
 .brandLogoImg {
@@ -131,7 +131,7 @@
 }
 
 .brandLogo span:hover {
-  color: var(--footer-accent, var(--background-secundary-color, #e60f73));
+  color: var(--footer-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #e60f73)));
 }
 
 .footerBrand p {
@@ -161,7 +161,7 @@
 }
 
 .socials a:hover {
-  color: var(--footer-accent, var(--background-secundary-color, #e60f73));
+  color: var(--footer-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #e60f73)));
   background: var(--footer-accent, var(--background-secundary-color, #e60f73));
 }
 
@@ -251,7 +251,7 @@ details.col.colList {
 }
 
 .colList a:hover {
-  color: var(--footer-accent, var(--background-secundary-color, #e60f73));
+  color: var(--footer-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #e60f73)));
 }
 
 .colList a:hover::after {
@@ -262,7 +262,7 @@ details.col.colList {
   display: inline-flex !important;
   align-items: center;
   gap: 8px;
-  color: var(--footer-accent, var(--background-secundary-color, #e60f73)) !important;
+  color: var(--footer-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #e60f73))) !important;
   font-weight: 500;
 }
 
@@ -415,7 +415,7 @@ details.col.colList {
 }
 
 .nlLegal a:hover {
-  color: var(--footer-accent, var(--background-secundary-color, #e60f73));
+  color: var(--footer-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #e60f73)));
   border-color: var(--footer-accent, var(--background-secundary-color, #e60f73));
 }
 
@@ -438,7 +438,7 @@ details.col.colList {
 .nlSuccess svg {
   width: 18px;
   height: 18px;
-  color: var(--footer-accent, var(--background-secundary-color, #e60f73));
+  color: var(--footer-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #e60f73)));
   stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -516,7 +516,7 @@ details.col.colList {
 }
 
 .payChipLblRose {
-  color: var(--footer-accent, var(--background-secundary-color, #e60f73));
+  color: var(--footer-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #e60f73)));
 }
 
 .secRow {
@@ -771,7 +771,7 @@ details.col.colList {
   }
 
   .col[open] > summary {
-    color: var(--footer-accent, var(--background-secundary-color, #e60f73));
+    color: var(--footer-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #e60f73)));
   }
 
   .col .colHead .colChev {
@@ -783,7 +783,7 @@ details.col.colList {
   }
 
   .col[open] > summary > .colChev {
-    color: var(--footer-accent, var(--background-secundary-color, #e60f73));
+    color: var(--footer-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #e60f73)));
     display: inline-flex;
     /* visibility: visible; */
     content-visibility: visible;
@@ -822,7 +822,7 @@ details.col.colList {
   }
 
   .colList a:hover {
-    color: var(--footer-accent, var(--background-secundary-color, #e60f73));
+    color: var(--footer-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #e60f73)));
   }
 
   .trustInner {

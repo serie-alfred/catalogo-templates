@@ -269,10 +269,10 @@
 
 .submit {
   height: 52px;
-  border: 2px solid var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  border: 2px solid var(--prod-reviews-text, var(--background-primary-color, #2a2350));
   border-radius: 999px;
-  background-color: var(--prod-reviews-text, var(--text-primary-color, #2a2350));
-  color: var(--prod-reviews-btn-text, var(--prod-reviews-bg, #fffbf2));
+  background-color: var(--prod-reviews-text, var(--background-primary-color, #2a2350));
+  color: var(--prod-reviews-btn-text, var(--prod-reviews-bg, var(--text-color-base, #fffbf2)));
   font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 17px;
   font-weight: 600;
@@ -348,9 +348,9 @@
 }
 
 .pagerOn {
-  border-color: var(--prod-reviews-text, var(--text-primary-color, #2a2350));
-  background-color: var(--prod-reviews-text, var(--text-primary-color, #2a2350));
-  color: var(--prod-reviews-btn-text, var(--prod-reviews-bg, #fffbf2));
+  border-color: var(--prod-reviews-text, var(--background-primary-color, #2a2350));
+  background-color: var(--prod-reviews-text, var(--background-primary-color, #2a2350));
+  color: var(--prod-reviews-btn-text, var(--prod-reviews-bg, var(--text-color-base, #fffbf2)));
 }
 
 .more {

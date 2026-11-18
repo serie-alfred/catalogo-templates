@@ -8,8 +8,8 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  background-color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0b1b33))) 6%, #ffffff);
-  color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #0b1b33)));
+  background-color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 6%, #ffffff);
+  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33)));
   font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Inter', system-ui, sans-serif)));
   line-height: normal;
   letter-spacing: normal;
@@ -128,8 +128,8 @@
   left: 0;
   transform: translateY(-50%);
   padding: 6px 0;
-  background-color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #0b1b33)));
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0b1b33))) 6%, #ffffff);
+  background-color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33)));
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 6%, #ffffff);
   font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif)));
   font-size: 24px;
   font-style: italic;
@@ -185,7 +185,7 @@
   transition: opacity 0.15s ease, transform 0.15s ease;
 }
 .buy:focus-visible {
-  outline: 2px solid var(--showcase-text, var(--spot-text, var(--text-primary-color, #0b1b33)));
+  outline: 2px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33)));
   outline-offset: -4px;
 }
 .info {
@@ -197,7 +197,7 @@
 }
 
 .brand {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -217,14 +217,14 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff);
   font-size: 12px;
 }
 
 .stars {
   display: flex;
   gap: 1px;
-  color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #0b1b33)));
+  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33)));
 }
 
 .prices {
@@ -235,7 +235,7 @@
 }
 
 .listPrice {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff);
   font-size: 13px;
   text-decoration: line-through;
 }
@@ -251,7 +251,7 @@
 }
 
 .installment {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff);
   font-size: 13px;
 }
 
@@ -288,7 +288,7 @@
 
 .notify {
   height: 48px;
-  border: 2px solid var(--showcase-text, var(--spot-text, var(--text-primary-color, #0b1b33)));
+  border: 2px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33)));
   font-size: 16px;
 }
 .notify:hover {
@@ -307,7 +307,7 @@
   clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
 }
 .buyWide:focus-visible {
-  outline: 2px solid var(--showcase-text, var(--spot-text, var(--text-primary-color, #0b1b33)));
+  outline: 2px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33)));
   outline-offset: -4px;
 }
 

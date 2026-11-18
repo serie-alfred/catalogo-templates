@@ -71,8 +71,8 @@
   gap: 10px;
   padding: 0 22px;
   border-right: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
-  background-color: var(--cat-main-text, var(--text-primary-color, #0a0a0a));
-  color: var(--cat-main-button-text, #ffffff);
+  background-color: var(--cat-main-text, var(--background-primary-color, #0a0a0a));
+  color: var(--cat-main-button-text, var(--text-color-base, #ffffff));
   font-size: 14px;
   font-weight: 500;
 }
@@ -239,8 +239,8 @@
   align-items: center;
   gap: 12px;
   padding: 0 28px;
-  background-color: var(--cat-main-text, var(--text-primary-color, #0a0a0a));
-  color: var(--cat-main-button-text, #ffffff);
+  background-color: var(--cat-main-text, var(--background-primary-color, #0a0a0a));
+  color: var(--cat-main-button-text, var(--text-color-base, #ffffff));
   font-size: 15px;
   font-weight: 500;
 }
@@ -323,8 +323,8 @@
 
 .emptyPrimary {
   border-bottom: 1px solid var(--cat-main-text, var(--text-primary-color, #0a0a0a));
-  background-color: var(--cat-main-text, var(--text-primary-color, #0a0a0a));
-  color: var(--cat-main-button-text, #ffffff);
+  background-color: var(--cat-main-text, var(--background-primary-color, #0a0a0a));
+  color: var(--cat-main-button-text, var(--text-color-base, #ffffff));
 }
 .overlay {
   position: fixed;

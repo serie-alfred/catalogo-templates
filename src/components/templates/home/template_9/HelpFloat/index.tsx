@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Réplica de `organisms/HelpFloatButton09` do faststore.starter: mesmo markup, classes e
@@ -119,6 +120,7 @@ export default function HelpFloat09() {
     footerText,
   } = CONTEUDO;
   const [aberto, setAberto] = useState(false);
+  useAbrirNoCanvas('ajuda', setAberto);
 
   useEffect(() => {
     if (!aberto) return;

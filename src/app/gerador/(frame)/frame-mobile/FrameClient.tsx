@@ -21,6 +21,12 @@ import {
   type ToFrame,
 } from '@/types/frameMessage';
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
+import {
+  ALVO_VAZIO,
+  EstadoNoCanvasContext,
+  type AlvoNoCanvas,
+} from '@/hooks/useAbrirNoCanvas';
+import type { Platform } from '@/types/platform';
 
 interface Content {
   selections: LayoutSelection[];
@@ -28,6 +34,7 @@ interface Content {
   logo: string;
   footerLogo: string;
   isMobile: boolean;
+  platform: Platform | null;
 }
 
 /**
@@ -44,6 +51,10 @@ export default function FrameClient() {
     fonts: FrameFonts;
   } | null>(null);
   const [content, setContent] = useState<Content | null>(null);
+  /* O carrinho/painel que o editor pediu aberto. Estado e não DOM: quem abre é
+     o próprio componente (`useAbrirNoCanvas`), e só os consumidores do
+     contexto re-renderizam — o ThemeRenderer (memo) não reconcilia. */
+  const [alvo, setAlvo] = useState<AlvoNoCanvas>(ALVO_VAZIO);
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   /* Última seção selecionada. Guardada em ref porque ela NÃO participa do
@@ -59,6 +70,7 @@ export default function FrameClient() {
   useCanvasInteractions(rootRef, {
     // O canvas só existe depois do primeiro `content`.
     enabled: !!content,
+    platform: content?.platform ?? null,
     onSelect: uid =>
       postRef.current({ source: FRAME_CHILD, type: 'select', uid }),
     onHover: uid =>
@@ -101,7 +113,15 @@ export default function FrameClient() {
             logo: data.logo,
             footerLogo: data.footerLogo,
             isMobile: data.isMobile,
+            platform: data.platform ?? null,
           });
+          break;
+        case 'estado-no-canvas':
+          setAlvo(
+            data.uid && data.estado
+              ? { uid: data.uid, estado: data.estado }
+              : ALVO_VAZIO
+          );
           break;
         /* Seleção é atributo, não estrutura: aplicada direto no DOM, sem passar
            por render. O uid fica guardado para ser REAPLICADO depois de cada
@@ -235,12 +255,14 @@ export default function FrameClient() {
           viewport. O documento em si não recarrega: as fontes não são
           refetchadas.
         */}
-        <ThemeRenderer
-          key={content.isMobile ? 'mobile' : 'desktop'}
-          selections={content.selections}
-          pagina={content.pagina}
-          isMobile={content.isMobile}
-        />
+        <EstadoNoCanvasContext.Provider value={alvo}>
+          <ThemeRenderer
+            key={content.isMobile ? 'mobile' : 'desktop'}
+            selections={content.selections}
+            pagina={content.pagina}
+            isMobile={content.isMobile}
+          />
+        </EstadoNoCanvasContext.Provider>
       </div>
     </SeededLayoutProvider>
   );

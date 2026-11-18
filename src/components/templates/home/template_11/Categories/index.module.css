@@ -119,14 +119,14 @@
 }
 
 .rowOn {
-  background-color: var(--categories-text, var(--text-primary-color, #0a0a0a));
-  color: var(--categories-bg, #ffffff);
+  background-color: var(--categories-text, var(--background-primary-color, #0a0a0a));
+  color: var(--categories-bg, var(--text-color-base, #ffffff));
 }
 .rowOn .num {
   color: inherit;
 }
 .rowOn:focus-visible {
-  outline-color: var(--categories-bg, #ffffff);
+  outline-color: var(--categories-bg, var(--text-color-base, #ffffff));
 }
 
 .num {

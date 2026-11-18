@@ -27,10 +27,7 @@ import { LAYOUTS } from '@/data/layoutData';
 import { confirmar } from '@/components/gerador/ConfirmDialog/confirmar';
 import { useLayout } from '@/context/LayoutContext';
 import { selectionsForPage, getPriorityOrder } from '@/utils/previewRender';
-import {
-  LOCKED_LAYOUT_KEYS,
-  NON_DUPLICABLE_SELECTIONS,
-} from '@/utils/sectionRules';
+import { LOCKED_LAYOUT_KEYS, podeDuplicar } from '@/utils/sectionRules';
 
 import SectionRow, { SectionRowView, type SectionRowData } from './SectionRow';
 import styles from './index.module.css';
@@ -65,6 +62,7 @@ export default function SectionsPanel() {
     duplicateSection,
     removeSection,
     removeSections,
+    platform,
   } = useLayout();
 
   const [activeUid, setActiveUid] = useState<string | null>(null);
@@ -97,13 +95,11 @@ export default function SectionsPanel() {
           title: layoutItem?.title ?? sel.id,
           group: section?.name ?? sel.layoutKey,
           isCommon: sel.pagina === 'common',
-          canDuplicate: !NON_DUPLICABLE_SELECTIONS.has(
-            layoutItem?.selection ?? ''
-          ),
+          canDuplicate: podeDuplicar(layoutItem?.selection ?? '', platform),
           locked: LOCKED_LAYOUT_KEYS.has(sel.layoutKey),
         };
       }),
-    [selections, selectedPage]
+    [selections, selectedPage, platform]
   );
 
   /** Buckets pela mesma prioridade que governa o render. */

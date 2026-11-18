@@ -1,16 +1,93 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
 import { useLayout } from '@/context/LayoutContext';
-import { LAYOUTS } from '@/data/layoutData';
+import { LAYOUTS, type ComponentVariable } from '@/data/layoutData';
+import { estadoDaNota, type EstadoNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import type { Platform } from '@/types/platform';
 import VariablesList from './VariablesList';
 
 import styles from './index.module.css';
 
+/** O que a loja publicada mostra quando a seção tem cópias (ver `copias`). */
+const NA_LOJA: Record<Platform, string> = {
+  VTEX: 'vale o que estiver na última cópia',
+  Tray: 'vale o que estiver na primeira cópia',
+  Wake: 'vale o que estiver na primeira cópia',
+  'Wake 2.0': 'vale o que estiver na primeira cópia',
+  Nuvemshop: 'cada cópia fica com as suas',
+};
+
 export default function ComponentVariablesPanel() {
-  const { selectedUid, selections, setItemVariable, resetItemVariables } =
-    useLayout();
+  const {
+    selectedUid,
+    selections,
+    setItemVariable,
+    resetItemVariables,
+    platform,
+    estadoNoCanvasRef,
+  } = useLayout();
+
+  /* Abrir no canvas o que o campo focado pinta (D3-06): o mini-carrinho, o
+     painel de ajuda, o de filtros ou o menu mobile da seção selecionada. O
+     foco que sai do campo só fecha depois de um respiro: passar do campo hex
+     para o popover do seletor de cor é blur + focus, e sem o respiro o
+     carrinho piscaria fechado entre os dois. */
+  const enviadoRef = useRef<string>('');
+  const fecharRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  /* Gavetas que, ao abrir, põem o foco nelas mesmas (o diálogo do
+     CartSidebar10, por exemplo) tiram o foco do campo — e o campo fecharia a
+     gaveta que acabou de abrir. Foco que cai no iframe logo depois de abrir
+     volta para o campo; um clique do usuário no canvas, depois, fecha. */
+  const abriuEmRef = useRef(0);
+  const ultimoCampoRef = useRef<HTMLElement | null>(null);
+  const enviar = useCallback(
+    (uid: string | null, estado: EstadoNoCanvas | null) => {
+      const chave = uid && estado ? `${uid}:${estado}` : '';
+      if (chave === enviadoRef.current) return;
+      enviadoRef.current = chave;
+      if (chave) abriuEmRef.current = Date.now();
+      estadoNoCanvasRef.current?.(chave ? uid : null, chave ? estado : null);
+    },
+    [estadoNoCanvasRef]
+  );
+  const aoFocarCampo = useCallback(
+    (variable: ComponentVariable | null) => {
+      if (fecharRef.current) clearTimeout(fecharRef.current);
+      fecharRef.current = null;
+      if (variable) {
+        ultimoCampoRef.current =
+          document.activeElement instanceof HTMLElement
+            ? document.activeElement
+            : null;
+        enviar(selectedUid, estadoDaNota(variable.previewNote));
+        return;
+      }
+      fecharRef.current = setTimeout(() => {
+        const campo = ultimoCampoRef.current;
+        if (
+          enviadoRef.current &&
+          document.activeElement?.tagName === 'IFRAME' &&
+          Date.now() - abriuEmRef.current < 1000 &&
+          campo?.isConnected
+        ) {
+          campo.focus();
+          return;
+        }
+        enviar(null, null);
+      }, 200);
+    },
+    [enviar, selectedUid]
+  );
+  // Trocar de seção (ou o painel sair) fecha o que estava aberto.
+  useEffect(
+    () => () => {
+      if (fecharRef.current) clearTimeout(fecharRef.current);
+      enviar(null, null);
+    },
+    [selectedUid, enviar]
+  );
 
   const selection = useMemo(
     () => selections.find(s => s.uid === selectedUid) ?? null,
@@ -27,13 +104,13 @@ export default function ComponentVariablesPanel() {
 
   /* Quantas cópias deste mesmo item existem no tema. Duplicar seção é recurso
      (`duplicateSection`, e o ramo de showcase do `toggleSelection`), e as
-     variáveis são por `uid` — então o editor DEIXA pintar duas cópias de cores
-     diferentes, e o canvas, o /p/{id} e os PNGs do export mostram as duas.
-     O tema não comporta isso: as três plataformas injetam num arquivo SCSS por
-     COMPONENTE. Wake e Tray gravam na pasta de origem, compartilhada pelas
-     instâncias; no FastStore o `componentVarsMap` é indexado por `component` e
-     a segunda cópia sequer chega ao `sections.json`. Sem este aviso a escolha
-     some entre a tela e a entrega, sem erro nenhum. */
+     variáveis são por `uid`: no editor, no /p/{id} e nos PNGs do export cada
+     cópia mostra as próprias cores, e o config leva uma entrada por cópia.
+     Quem decide o que a LOJA mostra é o generator de cada plataforma, e cada um
+     resolve de um jeito (D8-01, decisão de 18/11/2026: o comportamento fica,
+     o aviso conta como é): FastStore injeta num SCSS por componente e vale a
+     ÚLTIMA cópia; Tray e Wake gravam no arquivo de origem e vale a PRIMEIRA;
+     a Nuvemshop grava settings por instância e cada cópia fica com as suas. */
   const copias = useMemo(
     () =>
       selection
@@ -73,9 +150,18 @@ export default function ComponentVariablesPanel() {
           estruturais — fora do escopo acordado. */}
       {copias > 1 && (
         <p className={styles.aviso} role="status">
-          Este componente está <strong>{copias}×</strong> no tema. As cores e
-          fontes daqui valem para <strong>todas as cópias</strong> — o tema
-          guarda um conjunto por componente, não por cópia.
+          Este componente está <strong>{copias}×</strong> no tema. Aqui cada
+          cópia guarda as próprias cores e fontes; na loja,{' '}
+          {platform ? (
+            <strong>{NA_LOJA[platform]}</strong>
+          ) : (
+            <>
+              na VTEX vale a <strong>última</strong> cópia, na Tray e na Wake a{' '}
+              <strong>primeira</strong>, e na Nuvemshop{' '}
+              <strong>cada cópia fica com as suas</strong>
+            </>
+          )}
+          .
         </p>
       )}
 
@@ -86,6 +172,7 @@ export default function ComponentVariablesPanel() {
           onChange={(cssVar, value) =>
             setItemVariable(selectedUid, cssVar, value)
           }
+          onCampoFoco={aoFocarCampo}
         />
       </div>
 

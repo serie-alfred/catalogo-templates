@@ -289,8 +289,8 @@
   letter-spacing: 0.22em;
   text-transform: uppercase;
   height: 52px;
-  background-color: var(--prod-reviews-text, var(--text-primary-color, #1a1714)) !important;
-  color: var(--prod-reviews-bg, #faf8f4) !important;
+  background-color: var(--prod-reviews-text, var(--background-primary-color, #1a1714)) !important;
+  color: var(--prod-reviews-bg, var(--text-color-base, #faf8f4)) !important;
 }
 .submit:disabled {
   opacity: 0.6;
@@ -367,8 +367,8 @@
 
 .pagerOn {
   border: 0 !important;
-  background-color: var(--prod-reviews-text, var(--text-primary-color, #1a1714)) !important;
-  color: var(--prod-reviews-bg, #faf8f4) !important;
+  background-color: var(--prod-reviews-text, var(--background-primary-color, #1a1714)) !important;
+  color: var(--prod-reviews-bg, var(--text-color-base, #faf8f4)) !important;
 }
 @container (max-width: 960px) {
   .inner {

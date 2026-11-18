@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/HelpFloatButton11` do faststore.starter (família 11, Grade; desenho
@@ -69,6 +70,7 @@ const externo = (url: string) => /^(https?:|mailto:|tel:|\/\/)/i.test(url);
 export default function HelpFloat11() {
   const { title, titleTag, scheduleText, helpItems = [] } = CONTEUDO;
   const [aberto, setAberto] = useState(false);
+  useAbrirNoCanvas('ajuda', setAberto);
 
   useEffect(() => {
     if (!aberto) return;

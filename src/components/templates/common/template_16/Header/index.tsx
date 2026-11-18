@@ -6,6 +6,7 @@ import CartSidebar16, {
 import { useLayout } from '@/context/LayoutContext';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/Header16` do faststore.starter (família 16, Infantil; desenho
@@ -230,6 +231,7 @@ export default function Header16() {
   const logo = logoEnviado || undefined;
 
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   const [totalItems, setTotalItems] = useState(CART_16_QUANTIDADE);
   const abrirCarrinho = () => setCartOpen(true);
   const [termo, setTermo] = useState('');

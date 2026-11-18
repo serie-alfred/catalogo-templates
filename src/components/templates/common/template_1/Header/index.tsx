@@ -7,6 +7,7 @@ import {
   buildSearchSuggestions,
   buildSuggestionProducts,
 } from '@/components/templates/_shared/searchSuggestions';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 // Preview do Header01 â origem: faststore.starter/src/components/organisms/Header01
 // (+ molecules NavBarSearch01 e MiniCartController01 e o mini-cart CartSidebar01).
@@ -101,6 +102,7 @@ export default function Header() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   const [openL1, setOpenL1] = useState<number | null>(null);
   const [openL2, setOpenL2] = useState<number | null>(null);
   const [term, setTerm] = useState('');

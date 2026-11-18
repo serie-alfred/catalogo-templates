@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/HelpFloatButton16` do faststore.starter (família 16, Infantil; desenho
@@ -133,6 +134,7 @@ const MOCK: HelpFloatButton16Props = {
 export default function HelpFloat16() {
   const { buttonLabel, title, scheduleText, helpItems = [] } = MOCK;
   const [aberto, setAberto] = useState(false);
+  useAbrirNoCanvas('ajuda', setAberto);
 
   useEffect(() => {
     if (!aberto) return;

@@ -167,7 +167,7 @@ A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/lay
 - **UI:** [ComponentVariablesPanel](src/components/gerador/ComponentVariablesPanel/index.tsx) _is_ the right column of the shell — permanent, not a drawer. It shows the groups of the selected section (colors → `ColorPicker`, fonts → `FontSelector`) and has two empty states, because some items declare no schema at all. The inherited state renders as "Usando variável da {inheritsLabel} (clique aqui para alterar)" — that sentence lives in the control, not in the caller. Live preview applies `item.variables` as inline CSS vars on the section wrapper in [ThemeRenderer](src/components/preview/ThemeRenderer/index.tsx).
 - **State:** `LayoutSelection.variables?: Record<cssVar, value>` in `useLayoutGenerator` (`setItemVariable`, `resetItemVariables`); persisted with `selections` under the `layoutSelections` key of the tab's `sessionStorage`.
 - **Export:** `pickChangedVariables()` writes every schema key the user has set a value for, as a `variables` object on the entry — in both `buildConfigJson` (Tray/Wake) and `buildFaststoreConfigJson` (VTEX). It used to omit keys equal to the schema `default`, on the assumption that the downstream SCSS's `var()` fallback would land on that same default — but the real fallback is a 3-level chain (individual → global token → hardcoded default), and the *global token* in the middle isn't the schema default. A user picking white text that happens to match the default got the key omitted, the individual var never reached `:root`/the component, and the color silently became whatever the global token resolved to instead. Always emitting what was chosen is the only reading that can't regress this way.
-- Font values are stored as `'Family', sans-serif`; the panel parses the family out for `FontSelector` and re-wraps on change.
+- Font values are stored as `'Family', sans-serif` — or `'Family', Georgia, serif` for a serif family (`pilhaDaFonte` in [fontCatalog.ts](src/utils/fontCatalog.ts), same rule for the global `--font-*` in `buildThemeStyle` and in the generator's `pilhaDeFonte`; D4-08, 18/11/2026); the panel parses the family out for `FontSelector` and re-wraps on change.
 - **Fontes das famílias 09 a 13 (23/10/2026):** os 120 itens têm a fonte no grupo "Tipografia". O nome
   segue a herança do SCSS do starter: `--<secao>-title-font` herda a fonte primária e `--<secao>-font` a
   secundária (o CategoryTitle fica `--cat-title-title-font`). Item com uma cadeia só tem uma variável só
@@ -269,6 +269,13 @@ inteira na loja. Some no checkout e na LP.
   `default`) com o que a cadeia `var(--n1, var(--token, …))` da réplica resolve no tema da família e guarda
   só as que divergem; aplicar põe esses valores em `variables` das seções (mesmo render, mesmo undo). O
   painel da direita os mostra como cor própria, com "Restaurar padrão", e o export os leva por componente.
+  Desde 18/11/2026 (D1-04) toda porta por onde a seção nasce aplica os mesmos pinos (`pinosDoTemplate`):
+  o "Por template", o picker (`toggleSelection`) e a LP inicial (`lpInicial`).
+  **Pinos de fonte** (decisão 7 do lote E, 18/11/2026): as cadeias de fonte que iam do Nível 1 direto à
+  fonte do desenho ganharam Nível 2 (`--font-primary` no `*-title-font`, `--font-secundary` no resto), e
+  nas famílias sem fontes em `TEMA_DAS_FAMILIAS` (01 a 08) a fonte do desenho volta como pino em
+  `NIVEL1_DAS_FAMILIAS` (Ruler01, Footer02, ProductInfo03/04, Header05/Footer05, CategoryTitle06/
+  CategoryMain06 e as 10 peças da 08) — é o pino que leva a fonte ao config e daí ao WebFonts do tema.
 - **Entrada padrão:** uma aba nova entra com `ENTRADA_PADRAO` aplicado pelo mesmo `vestirTemplate`,
   sem `confirm` (ver "Entrada: a aba nova já vem com um template"). No pé do painel, **Começar do
   zero** esvazia a loja.
@@ -358,6 +365,7 @@ a loja num `<iframe>` (`…/frame`), pelo mesmo motivo do canvas: os drawers `fi
 
 - **`showcase`** — first one is added; clicking the same one again duplicates; clicking a _different_ showcase replaces all existing showcase entries in place (keeping their `pagina`).
 - **Singletons** (`PAGE_SINGLETON_SELECTIONS`: `category-main`, `category-banner`, `product-description`, `product-info`, `product-related`, `banner-top`, `banner-main`, `category-description`, `help-float`, `popup-news`) — at most one per page; selecting a different one replaces in place.
+- **Só na Tray** (`SINGLETONS_DA_TRAY`: `category-title`, `product-reviews`) — singletons too, because the Tray generator does not instance copies outside the Home (D8-06). `ehSingletonDePagina(selection, platform)` and `podeDuplicar(selection, platform)` are the per-platform questions the hook, the list and the canvas badge ask.
 - **`pagina === "common"`** — the code loops `item.pagina.map(...)` to produce one `LayoutSelection` per entry, but in practice **every item in `layoutData.ts` has a single-element `pagina`**, so a `common` item yields exactly ONE row; it's `belongsToPage` that makes it show up on all three pages. Re-selecting the same common item on the same `layoutKey` replaces the existing row.
 - Other items — appended, with a `MAX_PER_PAGE` (currently 101) cap per page.
 

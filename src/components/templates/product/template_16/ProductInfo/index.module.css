@@ -637,8 +637,8 @@
   height: 50px;
   padding: 0 22px;
   border-radius: 999px;
-  background-color: var(--pdp-text, var(--text-primary-color, #2a2350));
-  color: var(--pdp-bg, #fffbf2);
+  background-color: var(--pdp-text, var(--background-primary-color, #2a2350));
+  color: var(--pdp-bg, var(--text-color-base, #fffbf2));
   font-family: var(--pdp-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 17px;
   font-weight: 600;

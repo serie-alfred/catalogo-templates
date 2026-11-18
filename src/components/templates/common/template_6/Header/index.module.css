@@ -126,7 +126,7 @@
   overflow: hidden;
   min-height: 41px;
   background: var(--header-topbar-bg, var(--background-secundary-color, #ffffff));
-  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 15%, transparent);
+  border-bottom: 1px solid var(--header-rule, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 15%, transparent));
 }
 
 .topbarTrack {
@@ -188,7 +188,7 @@
 
 .bar {
   background: var(--header-bg, var(--background-primary-color, #ffffff));
-  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 15%, transparent);
+  border-bottom: 1px solid var(--header-rule, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 15%, transparent));
 }
 
 .barInner {
@@ -336,7 +336,7 @@
   width: 260px;
   height: 1.875rem;
   padding: 0 6px 0 16px;
-  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 22%, transparent);
+  border: 1px solid var(--header-rule, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 22%, transparent));
   border-radius: 7.5rem;
   transition: 0.4s ease;
 }
@@ -508,7 +508,7 @@
   z-index: 40;
   background: var(--header-bg, var(--background-primary-color, #ffffff));
   padding: 0 0 1.5rem;
-  border-bottom: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 15%, transparent);
+  border-bottom: 1px solid var(--header-rule, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 15%, transparent));
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px);
@@ -530,7 +530,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  border-left: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 15%, transparent);
+  border-left: 1px solid var(--header-rule, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 15%, transparent));
   padding-left: 1.5rem;
   width: max-content;
   height: fit-content;
@@ -627,7 +627,7 @@
   gap: 10px;
   height: 46px;
   padding: 0 14px;
-  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 22%, transparent);
+  border: 1px solid var(--header-rule, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 22%, transparent));
   border-radius: 120px;
   color: var(--header-text, var(--text-color-base, #212721));
 }
@@ -872,7 +872,7 @@
 /* Único separador do menu — não encosta nas bordas.
    O .starter usa #e8e8e8 fixo; aqui deriva do texto do tema. */
 .mobileFooter .lineMobile {
-  border-top: 1px solid color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 9%, transparent);
+  border-top: 1px solid var(--header-rule, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 9%, transparent));
   padding-bottom: 1.5rem;
 }
 

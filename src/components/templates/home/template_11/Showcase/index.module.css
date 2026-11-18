@@ -238,8 +238,8 @@
   gap: 12px;
   height: 52px;
   padding: 0 22px;
-  background-color: var(--banner-side-text, var(--text-primary-color, #0a0a0a));
-  color: var(--banner-side-bg, #ffffff);
+  background-color: var(--banner-side-text, var(--background-primary-color, #0a0a0a));
+  color: var(--banner-side-bg, var(--text-color-base, #ffffff));
   font-size: 15px;
   font-weight: 500;
 }

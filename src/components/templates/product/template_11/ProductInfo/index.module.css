@@ -324,8 +324,8 @@
 }
 
 .optionOn {
-  background-color: var(--pdp-text, var(--text-primary-color, #0a0a0a));
-  color: var(--pdp-size-active-text, #ffffff);
+  background-color: var(--pdp-text, var(--background-primary-color, #0a0a0a));
+  color: var(--pdp-size-active-text, var(--text-color-base, #ffffff));
 }
 
 .optionOut {
@@ -340,7 +340,7 @@
 }
 
 .optionOn.optionOut {
-  color: color-mix(in srgb, #ffffff 78%, var(--pdp-text, var(--text-primary-color, #0a0a0a)));
+  color: color-mix(in srgb, var(--pdp-size-active-text, var(--text-color-base, #ffffff)) 78%, var(--pdp-text, var(--background-primary-color, #0a0a0a)));
 }
 
 .inlineLink {
@@ -483,8 +483,8 @@
 
 .notifySubmit {
   padding: 0 20px;
-  background-color: var(--pdp-text, var(--text-primary-color, #0a0a0a));
-  color: #ffffff;
+  background-color: var(--pdp-text, var(--background-primary-color, #0a0a0a));
+  color: var(--text-color-base, #ffffff);
   font-size: 14px;
   font-weight: 500;
 }

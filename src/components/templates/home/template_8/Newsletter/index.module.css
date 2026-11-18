@@ -5,7 +5,7 @@
    "Só no catálogo", e é preservado. */
 
 .newsletter08 {
-  font-family: var(--newsletter-font, 'Manrope', sans-serif);
+  font-family: var(--newsletter-font, var(--font-secundary, 'Manrope', sans-serif));
   color: var(--newsletter-title-color, #0f0f0f);
   line-height: 1.15;
   letter-spacing: 0.16px;
@@ -39,7 +39,7 @@
   display: flex;
   align-items: stretch;
   background-color: var(--newsletter-bg, #ffffff);
-  font-family: var(--newsletter-font, 'Manrope', sans-serif);
+  font-family: var(--newsletter-font, var(--font-secundary, 'Manrope', sans-serif));
 }
 
 .newsletterPanel,

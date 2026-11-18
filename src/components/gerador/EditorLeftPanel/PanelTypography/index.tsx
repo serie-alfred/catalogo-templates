@@ -17,7 +17,11 @@ export default function PanelTypography() {
     setFontPrimary,
     fontSecondary,
     setFontSecondary,
+    editorMode,
   } = useLayout();
+
+  // Na LP os globais são os da loja (D8-04): o mesmo aviso das cores.
+  const naLp = editorMode === 'lp';
 
   // A fonte terciária saiu do painel: nenhum componente a lê (o valor continua no
   // estado e no config, para temas salvos e o generator).
@@ -38,6 +42,11 @@ export default function PanelTypography() {
 
   return (
     <div>
+      {naLp && (
+        <p className={styles.lp} role="status" data-globais-lp="">
+          Na LP, as cores e fontes globais são as da loja.
+        </p>
+      )}
       {fields.map(field => (
         <section key={field.cssVariable} className={styles.block}>
           <h3 className={styles.title}>{field.label}</h3>
@@ -47,6 +56,7 @@ export default function PanelTypography() {
             selectedFont={field.value}
             onFontChange={field.onChange}
             variant="block"
+            disabled={naLp}
           />
         </section>
       ))}

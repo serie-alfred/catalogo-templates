@@ -116,6 +116,8 @@ const PALETA = {
   '--text-primary-color': 'rgb(19, 0, 0)',
   '--text-secundary-color': 'rgb(20, 0, 0)',
   '--text-tertiary-color': 'rgb(21, 0, 0)',
+  '--background-secundary-color-safe': 'rgb(22, 0, 0)',
+  '--background-tertiary-color-safe': 'rgb(23, 0, 0)',
   '--font-primary': "'Poppins', sans-serif",
   '--font-secundary': "'Roboto', sans-serif",
   '--font-tertiary': "'Open Sans', sans-serif",

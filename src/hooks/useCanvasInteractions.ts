@@ -2,7 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
-import { NON_DUPLICABLE_SELECTIONS } from '@/utils/sectionRules';
+import { podeDuplicar } from '@/utils/sectionRules';
+import type { Platform } from '@/types/platform';
 
 interface CanvasInteractionOptions {
   /** Chamado ao clicar em qualquer ponto de uma seção. */
@@ -24,6 +25,8 @@ interface CanvasInteractionOptions {
    * clique-para-selecionar chegavam a ser ligados.
    */
   enabled?: boolean;
+  /** A plataforma do editor: o badge de duplicar segue `podeDuplicar`. */
+  platform?: Platform | null;
 }
 
 const SECTION_SELECTOR = '[data-section-uid]';
@@ -56,6 +59,7 @@ export function useCanvasInteractions(
     onDuplicate,
     onRemove,
     enabled = true,
+    platform = null,
   }: CanvasInteractionOptions = {}
 ) {
   // Handlers num ref: o efeito não deve re-assinar a cada render do pai.
@@ -66,6 +70,9 @@ export function useCanvasInteractions(
     onRemove,
   });
   handlersRef.current = { onSelect, onHover, onDuplicate, onRemove };
+  // Lida em `syncActions`, que roda a cada seleção: ref, não dependência.
+  const platformRef = useRef(platform);
+  platformRef.current = platform;
 
   useEffect(() => {
     if (!enabled) return;
@@ -146,9 +153,10 @@ export function useCanvasInteractions(
         return;
       }
       const selection = selected.getAttribute('data-selection') ?? '';
-      // Espelha a regra da lista: singleton não duplica. A chave é o
+      // Espelha a regra da lista: singleton não duplica (na Tray, também
+      // `category-title` e `product-reviews`). A chave é o
       // `selection`, não a `layoutKey` — ver sectionRules.ts.
-      duplicateBadge.hidden = NON_DUPLICABLE_SELECTIONS.has(selection);
+      duplicateBadge.hidden = !podeDuplicar(selection, platformRef.current);
       actions.hidden = false;
       positionActions();
       esconderSobreOverlay();

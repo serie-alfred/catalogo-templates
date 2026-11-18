@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/HelpFloatButton14` do faststore.starter (família 14, Esportiva; desenho
@@ -118,6 +119,7 @@ const CONTEUDO: HelpFloatButton14Props = {
 export default function HelpFloat14() {
   const { buttonLabel, title, scheduleText, helpItems = [] } = CONTEUDO;
   const [aberto, setAberto] = useState(false);
+  useAbrirNoCanvas('ajuda', setAberto);
 
   useEffect(() => {
     if (!aberto) return;

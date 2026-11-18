@@ -4,6 +4,7 @@ import type { Platform } from '@/types/platform';
 
 import { plataformaTemLp, sanitizeSelections } from './platformCompat';
 import { cabeNaLpDaPlataforma } from './previewRender';
+import { pinosDoTemplate } from './templatesCompletos';
 
 /**
  * O modo LP do /gerador: uma área à parte, como o checkout, em que o usuário
@@ -57,20 +58,30 @@ export function lpInicial(platform: Platform | null = null): LpState {
       f =>
         !platform ||
         COMPOSICAO_INICIAL.every(key =>
-          LAYOUTS[key]?.items.find(i => i.id === f)?.platforms.includes(platform)
+          LAYOUTS[key]?.items
+            .find(i => i.id === f)
+            ?.platforms.includes(platform)
         )
     ) ?? FAMILIAS_INICIAIS[0];
   return {
     nome: 'Black Friday',
     // uid fixo: o 1º render do servidor e o do cliente precisam bater.
-    selections: COMPOSICAO_INICIAL.filter(key =>
-      LAYOUTS[key]?.items.some(i => i.id === id)
-    ).map(layoutKey => ({
-      uid: `lp-${layoutKey}-${id}`,
-      id,
-      layoutKey,
-      pagina: 'home',
-    })),
+    selections: COMPOSICAO_INICIAL.flatMap(layoutKey => {
+      const item = LAYOUTS[layoutKey]?.items.find(i => i.id === id);
+      if (!item) return [];
+      return [
+        {
+          uid: `lp-${layoutKey}-${id}`,
+          id,
+          layoutKey,
+          pagina: 'home',
+          // Os pinos da família, como no "Por template" (D1-04). A 08 não tem
+          // nenhum (`.lp-contrato.md` §2: Nível 1 direto ao desenho); a 10, que
+          // abre a LP da Nuvemshop, tem.
+          ...pinosDoTemplate(item),
+        },
+      ];
+    }),
   };
 }
 

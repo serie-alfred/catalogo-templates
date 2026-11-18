@@ -15,6 +15,7 @@ import {
   ICO_USER,
 } from './icons';
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/Header08` do faststore.starter — header do "Templates - Serie
@@ -45,6 +46,7 @@ export default function Header08() {
   const { logo } = useLayout();
   // Mini-cart: o mesmo CartSidebar01 do Header01.
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
 
   const marca = (
     <a

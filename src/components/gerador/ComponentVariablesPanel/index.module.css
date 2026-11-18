@@ -88,3 +88,9 @@
 .resetButton:hover {
   background: var(--ed-bg-01);
 }
+
+/* Envoltório de um campo só para ouvir o foco (abrir o carrinho/painel no
+   canvas): sem caixa, o controle e a nota seguem itens do flex do grupo. */
+.campo {
+  display: contents;
+}

@@ -124,6 +124,10 @@ const GLOBAIS_ESPERADAS = {
   colorTertiary: contraste(bgs.colorTertiaryBackground),
   colorPrimaryBackgroundSafe:
     luminancia(bgs.colorPrimaryBackground) >= 220 ? '#000000' : bgs.colorPrimaryBackground,
+  colorSecondaryBackgroundSafe:
+    luminancia(bgs.colorSecondaryBackground) >= 220 ? '#000000' : bgs.colorSecondaryBackground,
+  colorTertiaryBackgroundSafe:
+    luminancia(bgs.colorTertiaryBackground) >= 220 ? '#000000' : bgs.colorTertiaryBackground,
 };
 
 /** Confere `variables` de um balde do config contra o semeado, chave a chave. */

@@ -4,6 +4,7 @@ import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
 import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
 import { buildSearchSuggestions } from '@/components/templates/_shared/searchSuggestions';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 // Preview do Header05 (SÉRIE//A) — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Header05 (gerado via /from-faststore).
@@ -194,6 +195,7 @@ export default function Header05() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   const [activeMenu, setActiveMenu] = useState<number | null>(null);
   const [openAccordion, setOpenAccordion] = useState<number | null>(null);
   const [term, setTerm] = useState('');

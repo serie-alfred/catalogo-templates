@@ -7,6 +7,12 @@
  * ao hex (sem global a seguir) e ficam de fora.
  */
 export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> = {
+  BannerGrid10: {
+    '--banner-grid-text': [
+      '--background-primary-color',
+      '--text-primary-color'
+    ]
+  },
   BannerGrid11: {
     '--banner-grid-accent': [
       '--background-primary-color'
@@ -32,6 +38,9 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   BannerMain10: {
     '--banner-main-button-text': [
       '--text-tertiary-color'
+    ],
+    '--banner-main-promo-button-bg': [
+      '--background-primary-color'
     ]
   },
   BannerMain11: {
@@ -157,10 +166,19 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
       '--text-color-secundary'
     ]
   },
+  CategoryMain14: {
+    '--cat-main-text': [
+      '--background-primary-color',
+      '--text-primary-color'
+    ]
+  },
   CategoryMain15: {
     '--cat-main-accent': [
       '--background-primary-color',
       '--background-primary-color-safe'
+    ],
+    '--cat-main-bg': [
+      '--text-color-base'
     ]
   },
   CategoryMain17: {
@@ -247,6 +265,15 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   Editorial13: {
     '--editorial-text': [
       '--text-color-secundary'
+    ]
+  },
+  Editorial14: {
+    '--editorial-bg': [
+      '--text-color-base'
+    ],
+    '--editorial-text': [
+      '--background-primary-color',
+      '--text-primary-color'
     ]
   },
   Editorial15: {
@@ -515,6 +542,14 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
     ],
     '--pdp-button-text': [
       '--text-color-base'
+    ],
+    '--pdp-size-active-text': [
+      '--text-color-base'
+    ]
+  },
+  ProductInfo10: {
+    '--pdp-shipping-btn-bg': [
+      '--background-primary-color'
     ]
   },
   ProductInfo11: {
@@ -530,10 +565,19 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
       '--text-color-secundary'
     ]
   },
+  ProductInfo14: {
+    '--pdp-text': [
+      '--background-primary-color',
+      '--text-primary-color'
+    ]
+  },
   ProductInfo15: {
     '--pdp-accent': [
       '--background-primary-color',
       '--background-primary-color-safe'
+    ],
+    '--pdp-bg': [
+      '--text-color-base'
     ],
     '--pdp-button-text': [
       '--text-color-base'
@@ -543,13 +587,18 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
     '--pdp-accent': [
       '--background-tertiary-color'
     ],
+    '--pdp-bg': [
+      '--text-color-base'
+    ],
     '--pdp-text': [
+      '--background-primary-color',
       '--text-primary-color',
       '--text-tertiary-color'
     ]
   },
   ProductInfo17: {
     '--pdp-text': [
+      '--background-primary-color',
       '--text-primary-color',
       '--text-tertiary-color'
     ]
@@ -601,10 +650,34 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
       '--text-color-secundary'
     ]
   },
+  ProductReviews14: {
+    '--prod-reviews-text': [
+      '--background-primary-color',
+      '--text-primary-color'
+    ]
+  },
   ProductReviews15: {
     '--prod-reviews-accent': [
       '--background-primary-color',
       '--background-primary-color-safe'
+    ],
+    '--prod-reviews-bg': [
+      '--text-color-base'
+    ]
+  },
+  ProductReviews16: {
+    '--prod-reviews-bg': [
+      '--text-color-base'
+    ],
+    '--prod-reviews-text': [
+      '--background-primary-color',
+      '--text-primary-color'
+    ]
+  },
+  ProductReviews17: {
+    '--prod-reviews-text': [
+      '--background-primary-color',
+      '--text-primary-color'
     ]
   },
   Ruler13: {

@@ -10,10 +10,10 @@
   gap: 8px;
   min-width: 0;
   padding: 14px;
-  border: 1px solid color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #101828))) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 11%, #ffffff);
   border-radius: 12px;
   background-color: #ffffff;
-  color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #101828)));
+  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828)));
   font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Archivo', system-ui, sans-serif)));
   line-height: normal;
   letter-spacing: normal;
@@ -129,7 +129,7 @@
 }
 
 .tagOut {
-  background-color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #101828))) 74%, #ffffff);
+  background-color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff);
   color: #ffffff;
   font-size: 11px;
   font-weight: 700;
@@ -144,7 +144,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #101828))) 74%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff);
 }
 .favorite:disabled {
   cursor: default;
@@ -192,12 +192,12 @@
   align-items: center;
   gap: 4px;
   margin-left: 4px;
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #101828))) 74%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff);
   font-size: 12px;
 }
 
 .ratingValue {
-  color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #101828)));
+  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828)));
   font-weight: 700;
 }
 
@@ -217,7 +217,7 @@
 }
 
 .listPrice {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #101828))) 74%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff);
   font-size: 13px;
   text-decoration: line-through;
 }
@@ -235,7 +235,7 @@
 }
 
 .installment {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #101828))) 74%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff);
   font-size: 13px;
 }
 .buy {
@@ -275,7 +275,7 @@
 }
 
 .outText {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #101828))) 74%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff);
   font-size: 13px;
 }
 
@@ -297,7 +297,7 @@
 }
 
 .soldOut .name {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #101828))) 74%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #101828))) 74%, #ffffff);
 }
 @container (max-width: 960px) {
   .productCard10 {

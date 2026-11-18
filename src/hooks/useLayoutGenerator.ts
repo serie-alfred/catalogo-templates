@@ -6,7 +6,7 @@ import {
   useCallback,
   type SetStateAction,
 } from 'react';
-import { PAGE_SINGLETON_SELECTIONS } from '@/utils/sectionRules';
+import { ehSingletonDePagina, podeDuplicar } from '@/utils/sectionRules';
 import { arrayMove } from '@dnd-kit/sortable';
 import { LAYOUTS, LayoutKey, LayoutItem } from '@/data/layoutData';
 import { belongsToPage } from '@/utils/previewRender';
@@ -31,9 +31,11 @@ import {
   sanitizeSelections,
 } from '@/utils/platformCompat';
 import { lpInicial, sanitizeLp, slugDaLp, type LpState } from '@/utils/lp';
+import type { EstadoNoCanvas } from '@/hooks/useAbrirNoCanvas';
 import {
   ENTRADA_PADRAO,
   selecoesDoTemplate,
+  pinosDoTemplate,
   soltarFixosDoTemplate,
   TOKENS_DA_COR_GLOBAL,
   templatePadrao,
@@ -436,6 +438,15 @@ export function useLayoutGenerator(conta?: ContaAtual) {
    */
   const scrollToSectionRef = useRef<((uid: string) => void) | null>(null);
 
+  /**
+   * Mesmo tipo de canal, para abrir no canvas o carrinho/painel/menu de uma
+   * seção enquanto um campo dele está focado no painel da direita (D3-06,
+   * ver `useAbrirNoCanvas`). `uid`/`estado` nulos fecham.
+   */
+  const estadoNoCanvasRef = useRef<
+    ((uid: string | null, estado: EstadoNoCanvas | null) => void) | null
+  >(null);
+
   /** Define (imutavelmente) o valor de uma variável individual de um item. */
   const setItemVariable = (uid: string, cssVar: string, value: string) => {
     setSelections(prev =>
@@ -497,6 +508,11 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     setSelections(prev => {
       const index = prev.findIndex(i => i.uid === uid);
       if (index === -1) return prev;
+      // A mesma regra que esconde o botão (lista e canvas), por plataforma.
+      const selection = LAYOUTS[prev[index].layoutKey].items.find(
+        i => i.id === prev[index].id
+      )?.selection;
+      if (selection && !podeDuplicar(selection, platform)) return prev;
 
       const duplicated = { ...prev[index], uid: crypto.randomUUID() };
 
@@ -1166,8 +1182,8 @@ export function useLayoutGenerator(conta?: ContaAtual) {
             `${fontes.fontSecondary !== fontes.fontPrimary ? ` + ${fontes.fontSecondary}` : ''}); as cores não mudam.`
           : 'Cores e fontes não mudam.';
     const proprias = t.comCorPropria
-      ? ` ${t.comCorPropria} seções ganham cor própria para ficar como o desenho ` +
-        `(o painel da direita mostra e volta à cor global).`
+      ? ` ${t.comCorPropria} seções ganham cor própria ou fonte própria para ficar como o desenho ` +
+        `(o painel da direita mostra e volta à global).`
       : '';
     if (
       lojaSelections.length > 0 &&
@@ -1199,6 +1215,17 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       const item = LAYOUTS[layoutKey].items.find(i => i.id === id);
       if (!item) return prev;
 
+      /* Toda seção que o picker cria nasce com os pinos de Nível 1 da família,
+         como no "Por template" (D1-04): a mesma seção tem a mesma cor por onde
+         quer que entre. */
+      const nova = (paginaDaSecao: string): LayoutSelection => ({
+        uid: crypto.randomUUID(),
+        id,
+        layoutKey,
+        pagina: paginaDaSecao,
+        ...pinosDoTemplate(item),
+      });
+
       // helper para saber se um selection é showcase
       const isShowcaseEntry = (s: LayoutSelection) => {
         const found = LAYOUTS[s.layoutKey].items.find(i => i.id === s.id);
@@ -1213,7 +1240,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
         if (existingShowcases.length === 0) {
           const countInPage = prev.filter(p => p.pagina === pagina).length;
           if (countInPage >= MAX_PER_PAGE) return prev;
-          return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
+          return [...prev, nova(pagina)];
         }
 
         // 2) Já existe o MESMO showcase → pode duplicar (respeita MAX_PER_PAGE da página alvo)
@@ -1223,19 +1250,14 @@ export function useLayoutGenerator(conta?: ContaAtual) {
         if (sameShowcaseExists) {
           const countInPage = prev.filter(p => p.pagina === pagina).length;
           if (countInPage >= MAX_PER_PAGE) return prev;
-          return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
+          return [...prev, nova(pagina)];
         }
 
         // 3) Existe showcase DIFERENTE → substituir TODOS os showcases mantendo suas páginas
         // (não checa MAX_PER_PAGE, pois é substituição 1-para-1, a contagem por página não aumenta)
         const replaced = prev.map(s => {
           if (isShowcaseEntry(s)) {
-            return {
-              uid: crypto.randomUUID(),
-              id,
-              layoutKey,
-              pagina: s.pagina, // mantemos a página de cada showcase existente
-            };
+            return nova(s.pagina); // mantemos a página de cada showcase existente
           }
           return s;
         });
@@ -1250,7 +1272,8 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       // `NON_DUPLICABLE_SELECTIONS`. Duas listas do mesmo conjunto divergem: foi
       // assim que o botão de duplicar apareceu em slot que aqui já era singleton.
       // Agora as duas saem de `sectionRules`.
-      if (PAGE_SINGLETON_SELECTIONS.has(item.selection)) {
+      // Na Tray, `category-title` e `product-reviews` também (D8-06).
+      if (ehSingletonDePagina(item.selection, platform)) {
         const ocupaOSlot = (s: LayoutSelection) =>
           LAYOUTS[s.layoutKey].items.find(i => i.id === s.id)?.selection ===
           item.selection;
@@ -1270,19 +1293,14 @@ export function useLayoutGenerator(conta?: ContaAtual) {
           // volta a ser coerente.
           return prev.map(s =>
             ocupaOSlot(s)
-              ? {
-                  uid: crypto.randomUUID(),
-                  id,
-                  layoutKey,
-                  pagina: s.pagina, // mantém a página de quem estava lá
-                }
+              ? nova(s.pagina) // mantém a página de quem estava lá
               : s
           );
         }
 
         const countInPage = prev.filter(p => p.pagina === pagina).length;
         if (countInPage >= MAX_PER_PAGE) return prev;
-        return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
+        return [...prev, nova(pagina)];
       }
 
       // 👉 Itens não-showcase (mantém sua lógica original)
@@ -1299,21 +1317,11 @@ export function useLayoutGenerator(conta?: ContaAtual) {
 
         if (alreadySelectedIndex !== -1) {
           const newSelections = [...prev];
-          newSelections[alreadySelectedIndex] = {
-            uid: crypto.randomUUID(),
-            id,
-            layoutKey,
-            pagina: 'common',
-          };
+          newSelections[alreadySelectedIndex] = nova('common');
           return newSelections;
         }
 
-        const newSelections = item.pagina.map(p => ({
-          uid: crypto.randomUUID(),
-          id,
-          layoutKey,
-          pagina: p,
-        }));
+        const newSelections = item.pagina.map(p => nova(p));
 
         return [...prev, ...newSelections];
       }
@@ -1322,7 +1330,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       const countInPage = prev.filter(p => p.pagina === pagina).length;
       if (countInPage >= MAX_PER_PAGE) return prev;
 
-      return [...prev, { uid: crypto.randomUUID(), id, layoutKey, pagina }];
+      return [...prev, nova(pagina)];
     });
   };
 
@@ -1342,11 +1350,17 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     colorPrimaryText,
     colorSecondaryText,
     colorPrimaryBackgroundSafe: colorSafeOnWhite(colorPrimaryBackground),
+    colorSecondaryBackgroundSafe: colorSafeOnWhite(colorSecondaryBackground),
+    colorTertiaryBackgroundSafe: colorSafeOnWhite(colorTertiaryBackground),
   });
 
-  /** O nível 2 do VTEX (o mesmo do checkout e do tema da loja). */
-  const variaveisVtex = () =>
-    variaveisGlobais(
+  /**
+   * O nível 2 do VTEX: o do checkout (`variaveisGlobais`, espelho do `VAR_MAP`
+   * do checkout-vtex) mais as -safe da secundária e da terciária, que só o tema
+   * da loja lê (D2-07). O compose do checkout ignora chave que não é papel dele.
+   */
+  const variaveisVtex = () => ({
+    ...variaveisGlobais(
       {
         colorPrimary,
         colorSecondary,
@@ -1360,7 +1374,10 @@ export function useLayoutGenerator(conta?: ContaAtual) {
         colorSecondaryText,
       },
       { fontPrimary, fontSecondary, fontTertiary }
-    );
+    ),
+    colorSecondaryBackgroundSafe: colorSafeOnWhite(colorSecondaryBackground),
+    colorTertiaryBackgroundSafe: colorSafeOnWhite(colorTertiaryBackground),
+  });
 
   /**
    * O config do modo LP: SÓ a LP (`tipo: "lp"`), sem tema de loja. As seções
@@ -2354,6 +2371,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     hoveredUid,
     setHoveredUid,
     scrollToSectionRef,
+    estadoNoCanvasRef,
     moveSection,
     duplicateSection,
     removeSection,

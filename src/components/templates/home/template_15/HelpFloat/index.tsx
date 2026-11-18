@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/HelpFloatButton15` do faststore.starter (família 15, Luxo; desenho
@@ -91,6 +92,7 @@ const ICONES: Record<HelpFloat15Icon, React.ReactNode> = {
 export default function HelpFloat15() {
   const { buttonLabel, title, subtitle, helpItems = [] } = CONTEUDO;
   const [aberto, setAberto] = useState(false);
+  useAbrirNoCanvas('ajuda', setAberto);
   const botaoRef = useRef<HTMLButtonElement>(null);
 
   const fechar = () => {

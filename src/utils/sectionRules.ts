@@ -1,3 +1,5 @@
+import type { Platform } from '@/types/platform';
+
 /**
  * Regras por `selection` que o painel de seções, o canvas e o `toggleSelection`
  * aplicam — as três a partir DESTE arquivo.
@@ -66,6 +68,44 @@ export const NON_DUPLICABLE_SELECTIONS: ReadonlySet<string> = new Set([
   ...COMMON_SINGLETON_SELECTIONS,
   ...PAGE_SINGLETON_SELECTIONS,
 ]);
+
+/**
+ * Singletons de página SÓ NA TRAY (D8-06, decisão de 18/11/2026): fora da Home o
+ * generator da Tray não instancia cópia — `catalog.html` e `product.html` não
+ * recebem o contador de instâncias, e a segunda entrada vira um include repetido
+ * do primeiro snippet mais um `_2.html` órfão. Nas outras plataformas continuam
+ * duplicáveis.
+ */
+export const SINGLETONS_DA_TRAY: ReadonlySet<string> = new Set([
+  'category-title',
+  'product-reviews',
+]);
+
+/** Singleton de página na plataforma dada: a lista geral mais a da Tray. */
+export function ehSingletonDePagina(
+  selection: string,
+  platform: Platform | null
+): boolean {
+  return (
+    PAGE_SINGLETON_SELECTIONS.has(selection) ||
+    (platform === 'Tray' && SINGLETONS_DA_TRAY.has(selection))
+  );
+}
+
+/**
+ * A seção pode ganhar cópia (botão de duplicar) na plataforma dada. É a pergunta
+ * que a lista, o canvas e o `duplicateSection` fazem; `NON_DUPLICABLE_SELECTIONS`
+ * continua sendo a parte que vale em toda plataforma.
+ */
+export function podeDuplicar(
+  selection: string,
+  platform: Platform | null
+): boolean {
+  return (
+    !NON_DUPLICABLE_SELECTIONS.has(selection) &&
+    !(platform === 'Tray' && SINGLETONS_DA_TRAY.has(selection))
+  );
+}
 
 /**
  * Seções cuja posição é fixada por `getPriorityOrder` (header=0, breadcrumb=1,

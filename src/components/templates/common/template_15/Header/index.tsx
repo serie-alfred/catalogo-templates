@@ -10,6 +10,7 @@ import {
 import { useLayout } from '@/context/LayoutContext';
 
 import styles from './index.module.css';
+import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/Header15` do faststore.starter (família 15, Luxo; desenho `Header15` /
@@ -143,6 +144,7 @@ export default function Header15() {
   } = MOCK;
 
   const [cartOpen, setCartOpen] = useState(false);
+  useAbrirNoCanvas('carrinho', setCartOpen);
   const [totalItems, setTotalItems] = useState(CART_15_QUANTIDADE);
   const abrirCarrinho = () => setCartOpen(true);
 

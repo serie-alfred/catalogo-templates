@@ -501,7 +501,7 @@
 .footer .footerBottom .bottomContainer .bottomRow .footerCopyright span {
   display: block;
   line-height: 1;
-  font-family: var(--footer-font, 'Noto Sans', sans-serif);
+  font-family: var(--footer-font, var(--font-secundary, 'Noto Sans', sans-serif));
   font-weight: 400;
   font-size: 12px;
   color: var(--footer-text, var(--text-color-footer, #ffffff));
@@ -518,7 +518,7 @@
   display: flex;
   align-items: center;
   color: var(--footer-text, var(--text-color-footer, #ffffff));
-  font-family: 'Noto Sans', sans-serif;
+  font-family: var(--footer-font, var(--font-secundary, 'Noto Sans', sans-serif));
 }
 
 .modal__lgpd {
