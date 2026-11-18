@@ -9,17 +9,35 @@ import styles from './index.module.css';
  * de ajuda presa na borda direita. Recolhida mostra só a coluna de ícones;
  * o toggle revela os rótulos, e o item "horário" abre um painel.
  *
- * Os ícones da origem são SVGs no CDN de um cliente. Aqui são data-URI
- * neutros, pelo mesmo motivo dos banners: o catálogo é público e nenhum
- * template aponta para asset de cliente. A caixa não muda — os `<img>` têm
- * width/height 20 explícitos nos dois lados.
+ * Os ícones da origem são SVGs no CDN de um cliente. Aqui são desenhos neutros,
+ * pelo mesmo motivo dos banners: o catálogo é público e nenhum template aponta
+ * para asset de cliente. São `<svg>` INLINE com `stroke="currentColor"`, não
+ * `<img>`: um `<img>` não herda cor, e o campo "Texto e ícones" (`--help-text`)
+ * tem de pintar os ícones também. A caixa não muda (20×20, mesma classe). O
+ * starter e os portes usam os mesmos desenhos como ícone padrão (quando o
+ * lojista não envia um, que aí sai como `<img>`, na cor da própria arte).
  */
-const icone = (d: string) =>
-  `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20' fill='none' stroke='%23ffffff' stroke-width='1.1' stroke-linecap='round' stroke-linejoin='round'%3E${d}%3C/svg%3E`;
+const Icone = ({ children }: { children: React.ReactNode }) => (
+  <svg
+    className={styles.icon}
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.1"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true"
+  >
+    {children}
+  </svg>
+);
 
 interface Item {
   label: string;
-  icon: string;
+  icon: React.ReactNode;
   href?: string;
   expandable?: boolean;
   content?: string;
@@ -30,24 +48,46 @@ const conteudo = {
   helpItems: [
     {
       label: 'Fale no WhatsApp',
-      icon: icone("%3Cpath d='M3 17l1.2-3.3A7 7 0 1 1 7 16.2L3 17z'/%3E%3Cpath d='M7.5 7.2c.3-.5.8-.5 1.1-.2l.7 1.2c.2.3.1.6-.1.8l-.4.4c.4.9 1.1 1.6 2 2l.4-.4c.2-.2.5-.3.8-.1l1.2.7c.3.3.3.8-.2 1.1-.9.6-2 .5-3-.1a6.2 6.2 0 0 1-2.4-2.4c-.6-1-.7-2.1-.1-3z'/%3E"),
+      icon: (
+        <>
+          <path d="M3 17l1.2-3.3A7 7 0 1 1 7 16.2L3 17z" />
+          <path d="M7.5 7.2c.3-.5.8-.5 1.1-.2l.7 1.2c.2.3.1.6-.1.8l-.4.4c.4.9 1.1 1.6 2 2l.4-.4c.2-.2.5-.3.8-.1l1.2.7c.3.3.3.8-.2 1.1-.9.6-2 .5-3-.1a6.2 6.2 0 0 1-2.4-2.4c-.6-1-.7-2.1-.1-3z" />
+        </>
+      ),
       // o número da origem era a linha de atendimento REAL do cliente; aqui vai o
       // placeholder que o resto do catálogo usa (template_2/Header, template_7/Header)
       href: 'https://api.whatsapp.com/send/?phone=5511999999999',
     },
     {
       label: 'Trocas e devoluções',
-      icon: icone("%3Cpath d='M3 8h11a3 3 0 0 1 0 6H6'/%3E%3Cpath d='M6 5L3 8l3 3'/%3E"),
+      icon: (
+        <>
+          <path d="M3 8h11a3 3 0 0 1 0 6H6" />
+          <path d="M6 5L3 8l3 3" />
+        </>
+      ),
       href: 'https://sualoja.troque.app.br/',
     },
     {
       label: 'Rastrear pedido',
-      icon: icone("%3Crect x='2' y='6' width='11' height='8'/%3E%3Cpath d='M13 9h3l2 3v2h-5z'/%3E%3Ccircle cx='5.5' cy='15.5' r='1.5'/%3E%3Ccircle cx='15' cy='15.5' r='1.5'/%3E"),
+      icon: (
+        <>
+          <rect x="2" y="6" width="11" height="8" />
+          <path d="M13 9h3l2 3v2h-5z" />
+          <circle cx="5.5" cy="15.5" r="1.5" />
+          <circle cx="15" cy="15.5" r="1.5" />
+        </>
+      ),
       href: 'https://sualoja.cademeupedido.com.br/',
     },
     {
       label: 'horário',
-      icon: icone("%3Ccircle cx='10' cy='10' r='7'/%3E%3Cpath d='M10 6v4l3 2'/%3E"),
+      icon: (
+        <>
+          <circle cx="10" cy="10" r="7" />
+          <path d="M10 6v4l3 2" />
+        </>
+      ),
       expandable: true,
       content: 'Atendimento (Seg. à Sex.) - 08h às 16h',
     },
@@ -149,15 +189,7 @@ export default function HelpFloat() {
                   rel="noopener noreferrer"
                   title={item.label}
                 >
-                  <img
-                    className={styles.icon}
-                    src={item.icon}
-                    alt=""
-                    aria-hidden="true"
-                    width={20}
-                    height={20}
-                    loading="lazy"
-                  />
+                  <Icone>{item.icon}</Icone>
                   <span className={styles.itemLabel} data-role="help-item-label">
                     {item.label}
                   </span>
@@ -173,15 +205,7 @@ export default function HelpFloat() {
                     aria-controls={`helpfloat-tab-${i}`}
                     title={item.label}
                   >
-                    <img
-                      className={styles.icon}
-                      src={item.icon}
-                      alt=""
-                      aria-hidden="true"
-                      width={20}
-                      height={20}
-                      loading="lazy"
-                    />
+                    <Icone>{item.icon}</Icone>
                     <span
                       className={styles.itemLabel}
                       data-role="help-item-label"
@@ -221,15 +245,7 @@ export default function HelpFloat() {
                   data-role="help-item-link"
                   title={item.label}
                 >
-                  <img
-                    className={styles.icon}
-                    src={item.icon}
-                    alt=""
-                    aria-hidden="true"
-                    width={20}
-                    height={20}
-                    loading="lazy"
-                  />
+                  <Icone>{item.icon}</Icone>
                   <span className={styles.itemLabel} data-role="help-item-label">
                     {item.label}
                   </span>
