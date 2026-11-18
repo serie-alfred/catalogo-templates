@@ -75,7 +75,7 @@
   width: 440px;
   max-width: 100%;
   border-radius: 28px 0 0 28px;
-  background-color: #ffffff;
+  background-color: var(--cart-bg, #ffffff);
   transform: translateX(100%);
   transition: transform 0.25s ease;
 }
@@ -93,7 +93,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 24px 24px 16px;
-  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 10%, var(--cart-bg, #ffffff));
 }
 
 .title {
@@ -104,7 +104,7 @@
 }
 
 .count {
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 72%, var(--cart-bg, #ffffff));
   font-family: var(--cart-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-size: 16px;
 }
@@ -132,7 +132,7 @@
   flex: none;
   gap: 14px;
   padding: 16px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 10%, var(--cart-bg, #ffffff));
 }
 
 .lineImage {
@@ -181,7 +181,7 @@ a.lineName:hover {
 }
 
 .lineVariation {
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 72%, var(--cart-bg, #ffffff));
   font-size: 13px;
   line-height: 18px;
 }
@@ -197,7 +197,7 @@ a.lineName:hover {
   display: flex;
   align-items: center;
   height: 46px;
-  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 10%, var(--cart-bg, #ffffff));
   border-radius: 999px;
 }
 .qty button {
@@ -234,15 +234,15 @@ a.lineName:hover {
   gap: 10px;
   margin-top: auto;
   padding: 18px 24px 24px;
-  border-top: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
-  background-color: #ffffff;
+  border-top: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 10%, var(--cart-bg, #ffffff));
+  background-color: var(--cart-bg, #ffffff);
 }
 
 .summaryRow {
   display: flex;
   justify-content: space-between;
   gap: 12px;
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #3b1f33)) 72%, var(--cart-bg, #ffffff));
   font-size: 14px;
   line-height: 19px;
 }

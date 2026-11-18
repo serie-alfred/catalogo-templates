@@ -51,7 +51,7 @@
   width: calc(100vw - 32px);
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: var(--cart-bg, #ffffff);
   color: var(--cart-text, var(--text-primary-color, #171a1c));
   font-family: var(--font-primary, -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', system-ui, sans-serif);
   font-size: 16px;
@@ -89,7 +89,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 8px 16px;
-  background-color: #ffffff;
+  background-color: var(--cart-bg, #ffffff);
   border-bottom: 1px solid #e3e6e8;
 }
 
@@ -285,7 +285,7 @@
   right: 0;
 }
 .quantitySelector .quantityButton:hover:not(:disabled) {
-  background-color: #ffffff;
+  background-color: var(--cart-bg, #ffffff);
   color: var(--cart-text, var(--text-primary-color, #1c1c1c));
 }
 .quantitySelector .quantityButton:disabled {
@@ -334,7 +334,7 @@
   bottom: 0;
   margin-top: auto;
   padding: 0 16px 1.5rem;
-  background-color: #ffffff;
+  background-color: var(--cart-bg, #ffffff);
   border-top: 1px solid #e2e2e2;
   box-shadow: none;
 }

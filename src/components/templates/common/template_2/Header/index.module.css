@@ -197,7 +197,7 @@
   .search
   form
   .searchKey {
-  background-color: #fff;
+  background-color: var(--header-field-bg, #ffffff);
   color: var(--text-color-base);
   font-family: var(--header-body-font, var(--font-secundary, 'Poppins', Arial, Helvetica, sans-serif));
   border: none;
@@ -618,7 +618,7 @@
   > ul {
   /* Branco como o painel dos outros itens (e a Wake): os links são #000, e com o fundo na cor
      secundária da paleta (escura na da família 09) o submenu do 5º item em diante sumia. */
-  background: #fff;
+  background: var(--header-submenu-bg, #ffffff);
 }
 
 .header
@@ -699,7 +699,7 @@
   left: 0px;
   top: 100%;
   z-index: 11;
-  background-color: #fff;
+  background-color: var(--header-submenu-bg, #ffffff);
   min-width: max-content;
   height: auto;
   padding: 0px;
@@ -849,7 +849,7 @@
   right: auto;
   top: 0;
   width: 100%;
-  background-color: #fff;
+  background-color: var(--header-submenu-bg, #ffffff);
   z-index: 1;
   padding: 7px 0px;
   min-width: 200px;

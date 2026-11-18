@@ -80,7 +80,7 @@
   width: 440px;
   max-width: 100%;
   border-radius: 16px 0 0 16px;
-  background-color: #ffffff;
+  background-color: var(--cart-bg, #ffffff);
   transform: translateX(100%);
   transition: transform 0.25s ease;
 }
@@ -93,7 +93,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 20px 20px 18px 28px;
-  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 12%, #ffffff);
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 12%, var(--cart-bg, #ffffff));
 }
 
 .title {
@@ -115,7 +115,7 @@
   height: 26px;
   padding: 0 8px;
   border-radius: 999px;
-  background-color: color-mix(in srgb, var(--cart-button-bg, var(--background-primary-color, #0e6b73)) 9%, #ffffff);
+  background-color: color-mix(in srgb, var(--cart-button-bg, var(--background-primary-color, #0e6b73)) 9%, var(--cart-bg, #ffffff));
   font-family: var(--cart-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif));
   font-size: 13px;
   font-weight: 700;
@@ -129,7 +129,7 @@
   width: 48px;
   height: 48px;
   border-radius: 999px !important;
-  background-color: color-mix(in srgb, var(--cart-button-bg, var(--background-primary-color, #0e6b73)) 9%, #ffffff) !important;
+  background-color: color-mix(in srgb, var(--cart-button-bg, var(--background-primary-color, #0e6b73)) 9%, var(--cart-bg, #ffffff)) !important;
 }
 .list {
   flex: 1;
@@ -141,7 +141,7 @@
   display: flex;
   gap: 16px;
   padding: 20px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 12%, #ffffff);
+  border-bottom: 1px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 12%, var(--cart-bg, #ffffff));
 }
 
 .lineImage {
@@ -150,7 +150,7 @@
   width: 96px;
   height: 96px;
   border-radius: 16px;
-  background-color: color-mix(in srgb, var(--cart-button-bg, var(--background-primary-color, #0e6b73)) 9%, #ffffff);
+  background-color: color-mix(in srgb, var(--cart-button-bg, var(--background-primary-color, #0e6b73)) 9%, var(--cart-bg, #ffffff));
 }
 
 .lineFrame {
@@ -186,7 +186,7 @@ a.lineName:hover {
 }
 
 .lineVariation {
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 72%, var(--cart-bg, #ffffff));
   font-size: 13px;
 }
 
@@ -201,7 +201,7 @@ a.lineName:hover {
 .qty {
   display: flex;
   align-items: center;
-  border: 1.5px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 12%, #ffffff);
+  border: 1.5px solid color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 12%, var(--cart-bg, #ffffff));
   border-radius: 999px;
 }
 .qty button {
@@ -236,7 +236,7 @@ a.lineName:hover {
   align-items: center;
   gap: 6px;
   min-height: 36px;
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff) !important;
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 72%, var(--cart-bg, #ffffff)) !important;
   font-size: 13px !important;
 }
 .remove:hover {
@@ -251,7 +251,7 @@ a.lineName:hover {
   margin: 0 16px 16px;
   padding: 20px;
   border-radius: 16px;
-  background-color: color-mix(in srgb, var(--cart-button-bg, var(--background-primary-color, #0e6b73)) 9%, #ffffff);
+  background-color: color-mix(in srgb, var(--cart-button-bg, var(--background-primary-color, #0e6b73)) 9%, var(--cart-bg, #ffffff));
 }
 
 .summaryRow {
@@ -273,7 +273,7 @@ a.lineName:hover {
 }
 
 .note {
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 72%, var(--cart-bg, #ffffff));
   font-size: 13px;
 }
 
@@ -302,7 +302,7 @@ a.lineName:hover {
   font-weight: 700 !important;
 }
 .continue:hover {
-  background-color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 6%, #ffffff) !important;
+  background-color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0e2f38)) 6%, var(--cart-bg, #ffffff)) !important;
 }
 .empty {
   display: flex;

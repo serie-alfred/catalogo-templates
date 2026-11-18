@@ -168,7 +168,7 @@ header.header .header__middle .middle__container .middle__row .middle__search .s
 }
 
 header.header .header__middle .middle__container .middle__row .middle__search .search form .searchKey {
-  background-color: #fff;
+  background-color: var(--header-field-bg, #ffffff);
   border: 1px solid rgba(137, 137, 137, 0.4784313725);
   border-radius: 16px;
   font-size: 16px;
@@ -417,7 +417,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   left: 0px;
   top: 100%;
   z-index: 11;
-  background-color: #ffffff;
+  background-color: var(--header-submenu-bg, #ffffff);
   min-width: max-content;
   height: auto;
   padding: 0px;
@@ -470,7 +470,7 @@ header.header .header__bottom .bottom__container .bottom__row .bottom__menu nav>
   right: auto;
   top: 0;
   width: 100%;
-  background-color: #ffffff;
+  background-color: var(--header-submenu-bg, #ffffff);
   z-index: 1;
   padding: 7px 0px;
   min-width: 200px;

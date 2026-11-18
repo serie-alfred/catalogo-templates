@@ -186,21 +186,21 @@ const Footer = () => {
                                 >
                                   <path
                                     d="M10.6666 5.00008H1.33325"
-                                    stroke="white"
+                                    stroke="currentColor"
                                     strokeWidth="1.5"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                   ></path>
                                   <path
                                     d="M7.33325 8.33333L10.6666 5"
-                                    stroke="white"
+                                    stroke="currentColor"
                                     strokeWidth="1.5"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                   ></path>
                                   <path
                                     d="M7.33325 1.66675L10.6666 5.00008"
-                                    stroke="white"
+                                    stroke="currentColor"
                                     strokeWidth="1.5"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"

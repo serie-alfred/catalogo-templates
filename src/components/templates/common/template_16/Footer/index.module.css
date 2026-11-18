@@ -61,7 +61,7 @@
 .wave {
   width: 100%;
   height: 32px;
-  fill: #fffbf2;
+  fill: var(--footer-wave, #fffbf2);
 }
 .grid {
   display: grid;

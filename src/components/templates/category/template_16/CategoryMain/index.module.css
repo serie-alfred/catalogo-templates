@@ -249,6 +249,17 @@
   background-color: var(--filter-bg, #ffffff);
 }
 
+/* filtros fixos ao rolar (só na coluna lateral do desktop) */
+@container (min-width: 961px) {
+  .aside {
+    position: sticky;
+    top: 1rem;
+    align-self: flex-start;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+}
+
 .facet {
   display: flex;
   flex-direction: column;

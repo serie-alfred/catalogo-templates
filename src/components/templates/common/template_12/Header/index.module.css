@@ -65,7 +65,7 @@
   min-height: 36px;
   padding: 0 16px;
   background-color: var(--header-topbar-bg, var(--background-secundary-color, #f4dcd6));
-  color: var(--header-text, var(--text-color-secundary, #3b1f33));
+  color: var(--header-topbar-text, var(--header-text, var(--text-color-secundary, #3b1f33)));
   font-size: 13px;
   font-weight: 600;
   line-height: 18px;
@@ -93,7 +93,7 @@
   padding: 8px 8px 8px 28px;
   border: 1px solid color-mix(in srgb, var(--header-text, var(--text-primary-color, #3b1f33)) 12%, #ffffff);
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--header-bar-bg, #ffffff);
 }
 
 .logo {

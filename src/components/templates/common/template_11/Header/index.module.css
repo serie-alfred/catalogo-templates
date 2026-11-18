@@ -70,7 +70,7 @@
 .topbar {
   border-bottom: 1px solid var(--header-text, var(--text-color-base, #0a0a0a));
   background-color: var(--header-topbar-bg, var(--background-secundary-color, #ffffff));
-  color: var(--header-text, var(--text-color-base, #0a0a0a));
+  color: var(--header-topbar-text, var(--header-text, var(--text-color-base, #0a0a0a)));
 }
 
 .topbarInner {

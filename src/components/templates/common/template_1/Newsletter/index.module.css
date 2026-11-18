@@ -103,13 +103,13 @@
   align-items: center;
   width: 100%;
   height: 56px;
-  background-color: #ffffff;
+  background-color: var(--footer-input-bg, #ffffff);
   border-radius: 40px;
-  border: 1px solid #dfdfe0;
+  border: 1px solid var(--footer-input-border, #dfdfe0);
   font-family: var(--footer-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 400;
   font-size: 16px;
-  color: #68686e;
+  color: var(--footer-input-text, #68686e);
   padding: 0px 15px;
   margin: 0px;
 }
@@ -117,11 +117,11 @@
 .footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__form form .form__item input::-ms-input-placeholder,
 .footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__form form .form__item input::-webkit-input-placeholder,
 .footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__form form .form__item input::-moz-placeholder {
-  color: #68686e;
+  color: var(--footer-input-text, #68686e);
 }
 
 .footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__form form .form__item input::placeholder {
-  color: #68686e;
+  color: var(--footer-input-text, #68686e);
 }
 
 .footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__form form button,
@@ -141,11 +141,6 @@
   line-height: 1;
   text-transform: capitalize;
   transition: all 0.3s ease-in-out;
-}
-
-.footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__form form button:hover,
-.footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__form form .mc-embedded-subscribe:hover {
-  /* background-color: darker(var(--text-color-base), 10%); */
 }
 
 .footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__form form .mc-embedded-subscribe input{
@@ -223,11 +218,6 @@
   .footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__form form .mc-embedded-subscribe {
     margin: 0px auto;
     font-size: 14px;
-  }
-
-  .footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__form form button:hover,
-  .footer__newsletter .newsletter__container .newsletter__row .newsletter .newsletter__form form .mc-embedded-subscribe:hover {
-    background-color: #000000;
   }
 }
 

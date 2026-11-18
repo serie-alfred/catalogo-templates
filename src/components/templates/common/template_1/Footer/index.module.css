@@ -125,7 +125,7 @@
   left: 15px;
   top: -45px;
   width: calc(100% - 30px);
-  border-top: 1px solid #CCCCCC;
+  border-top: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #3D3D3D)) 20%, transparent);
 }
 
 .footer__bottom .bottom__container .bottom__row .footer__copyright {

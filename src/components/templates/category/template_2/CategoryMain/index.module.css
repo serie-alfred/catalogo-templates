@@ -69,6 +69,17 @@
   margin-bottom: 30px;
 }
 
+/* filtros fixos ao rolar (só na coluna lateral do desktop) */
+@container (min-width: 1024px) {
+  .listFilter {
+    position: sticky;
+    top: 1rem;
+    align-self: flex-start;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+  }
+}
+
 .filterMask {
   position: fixed;
   left: 0;

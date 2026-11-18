@@ -79,7 +79,7 @@
   width: 441px;
   max-width: 100%;
   border-left: 1px solid var(--cart-text, var(--text-primary-color, #0a0a0a));
-  background-color: #ffffff;
+  background-color: var(--cart-bg, #ffffff);
   transform: translateX(100%);
   transition: transform 0.25s ease;
 }
@@ -168,7 +168,7 @@
 
 .lineRef,
 .lineVariation {
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0a0a0a)) 62%, var(--cart-bg, #ffffff));
   font-family: var(--cart-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
@@ -269,7 +269,7 @@
 }
 
 .note {
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0a0a0a)) 62%, var(--cart-bg, #ffffff));
   font-family: var(--cart-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
@@ -308,7 +308,7 @@
 
 .emptyText {
   padding: 28px 22px;
-  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--cart-text, var(--text-primary-color, #0a0a0a)) 62%, var(--cart-bg, #ffffff));
   font-family: var(--cart-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
   text-transform: uppercase;
