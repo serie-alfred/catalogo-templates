@@ -439,6 +439,23 @@ if (NUVEMSHOP_LIGADA) {
   );
 }
 
+/*
+ * As 14 globais com sentinelas únicas (cor `#0a0bNN`, fonte "Funil Global Fonte NN"),
+ * para provar que cada `sa_*` do settings_data.json é o valor semeado e não um
+ * default do tema-base. Só o config da família as leva; o exportado do estágio 3 não muda.
+ */
+const SENTINELAS_GLOBAIS = Object.fromEntries(
+  conv.TOKENS.map((t, k) => {
+    const nn = String(k + 1).padStart(2, '0');
+    return [
+      t.chave,
+      t.tipo === 'font'
+        ? `'Funil Global Fonte ${nn}', sans-serif`
+        : `#0a0b${nn}`,
+    ];
+  })
+);
+
 /** O config só com as entradas da família `nn` (globais e assets ficam). */
 const soDaFamilia = (cfg, nn) => ({
   ...cfg,
@@ -452,7 +469,16 @@ const soDaFamilia = (cfg, nn) => ({
 const familias = familia ? [...new Set(doLaco.map(NN))].sort() : [];
 for (const nn of familias) {
   const daFamilia = marcados.filter(i => NN(i) === nn);
-  const g = gerar(soDaFamilia(familia, nn), `familia-${nn}`);
+  const g = gerar(
+    soDaFamilia(
+      {
+        ...familia,
+        nuvemshop: { ...familia.nuvemshop, variables: SENTINELAS_GLOBAIS },
+      },
+      nn
+    ),
+    `familia-${nn}`
+  );
   if (
     r.ok(
       `família ${nn} (${daFamilia.length} itens): o generator monta (--local)`,
@@ -467,6 +493,54 @@ for (const nn of familias) {
       v.ok,
       v.motivo
     );
+
+    // Globais: cada sa_* do settings_data.json = o valor semeado (o Ipanema guarda em `settings`).
+    {
+      const dadosTxt = ler(path.join(TEMA, 'config/settings_data.json'));
+      let dados = null;
+      try {
+        dados = JSON.parse(dadosTxt);
+      } catch {
+        /* cai na asserção abaixo */
+      }
+      const guardados = dados?.settings ?? {};
+      r.ok(
+        `família ${nn}: config/settings_data.json é JSON com o objeto "settings"`,
+        !!dados && typeof guardados === 'object' && !Array.isArray(guardados),
+        dadosTxt
+          ? 'sem "settings" (formato {settings})'
+          : 'arquivo ausente ou vazio'
+      );
+      const errados = [];
+      const vazios = [];
+      for (const t of conv.TOKENS) {
+        const semeado = SENTINELAS_GLOBAIS[t.chave];
+        const esperado =
+          t.tipo === 'font' ? semeado.match(/^'([^']+)'/)[1] : semeado;
+        const got = guardados[t.id];
+        if (got === undefined || got === null || got === '') vazios.push(t.id);
+        else if (got !== esperado)
+          errados.push(`${t.id}=${JSON.stringify(got)} (esperado ${esperado})`);
+      }
+      r.ok(
+        `família ${nn}: nenhuma das ${conv.TOKENS.length} sa_* fica sem valor no settings_data.json`,
+        vazios.length === 0,
+        `sem valor: ${vazios.join(', ')}`
+      );
+      r.ok(
+        `família ${nn}: as ${conv.TOKENS.filter(t => t.tipo === 'color').length} sa_* de cor = valor semeado`,
+        !errados.some(e => /^sa_color/.test(e)) &&
+          !vazios.some(x => x.startsWith('sa_color')),
+        errados.filter(e => /^sa_color/.test(e)).join(' | ') ||
+          vazios.join(', ')
+      );
+      r.ok(
+        `família ${nn}: as ${conv.TOKENS.filter(t => t.tipo === 'font').length} sa_* de fonte = família semeada`,
+        !errados.some(e => /^sa_font/.test(e)) &&
+          !vazios.some(x => x.startsWith('sa_font')),
+        errados.filter(e => /^sa_font/.test(e)).join(' | ') || vazios.join(', ')
+      );
+    }
 
     // O build do theme-src/: é ele que põe o CSS e o JS das seções no tema.
     const fontes = path.join(TEMA, conv.DESTINO_DO_CSS);
