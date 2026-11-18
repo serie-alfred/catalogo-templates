@@ -229,7 +229,7 @@
   pointer-events: none;
   width: 24px;
   fill: white;
-  stroke: #000;
+  stroke: var(--spot-wishlist-color, #000000);
   stroke-width: 2px;
 }
 

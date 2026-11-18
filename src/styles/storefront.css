@@ -38,6 +38,27 @@
 }
 
 /*
+ * O "Card de Produto" sozinho (visão "Todas as páginas", a única que o mostra)
+ * fica na largura de um card de vitrine, centralizado. Sem isto o card esticava
+ * para a página inteira: a foto quadrada virava um bloco de 1200px de altura.
+ * Na loja ele nunca aparece solto, só dentro da grade da vitrine/PLP, que lhe
+ * dá ~1/4 da largura no desktop e ~1/2 no celular — é essa largura que vale aqui.
+ *
+ * Só `max-width` e `margin`: nada que vire containing block ou recorte (ver o
+ * topo de editor-canvas.css). O contorno de seleção acompanha a caixa do card.
+ */
+.preview-template[data-selection='spot'] {
+  max-width: 290px;
+  margin: 40px auto;
+}
+
+@media (max-width: 600px) {
+  .preview-template[data-selection='spot'] {
+    max-width: 175px;
+  }
+}
+
+/*
  * A primeira seção de CONTEÚDO não tem folga acima dela.
  *
  * 13 componentes do catálogo declaram `margin: 40px 0` na própria raiz — é o

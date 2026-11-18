@@ -199,8 +199,9 @@ const dispensasUsadas = new Set();
 
 /**
  * Variáveis de uma peça que só os portes Tray/Wake desenham: o componente VTEX não tem
- * o elemento (o card 01 da FastStore só mostra o selo de desconto; as faixas Oferta e
- * Novo são do card da Tray/Wake). O painel oferece o campo porque a Tray/Wake o usam; a
+ * o elemento (o card 01 da FastStore mostra o selo de desconto e, desde 18/11/2026, a
+ * faixa Novo pela data de lançamento; a faixa Oferta é só do card da Tray/Wake, que a
+ * liga pelo destaque do produto, sem equivalente na VTEX). O painel oferece o campo porque a Tray/Wake o usam; a
  * checagem 4 pula a var, mas reprova se o SCSS do starter passar a lê-la numa regra viva
  * (aí a dispensa caducou e tem de sair). Rodada 3 do Alfredo, 17/11/2026.
  */
@@ -208,8 +209,6 @@ const FORA_DA_VTEX = {
   Spot01: {
     '--spot-flag-bg': 'faixa Oferta',
     '--spot-flag-text': 'faixa Oferta',
-    '--spot-new-bg': 'faixa Novo',
-    '--spot-new-text': 'faixa Novo',
   },
 };
 

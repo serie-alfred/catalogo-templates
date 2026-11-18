@@ -73,7 +73,7 @@
   width: 37px;
   height: 37px;
   border: 0;
-  background-color: #fff !important;
+  background-color: var(--spot-size-bg, #ffffff) !important;
   font-family: var(--spot-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 600;
   font-size: 14px;

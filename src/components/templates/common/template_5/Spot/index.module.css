@@ -52,6 +52,14 @@
   opacity: 0.7;
 }
 
+.card__action[aria-label="Adicionar ao carrinho"] svg path {
+  stroke: var(--spot-cart-icon, #000000);
+}
+
+.card__action[aria-label*="desejos"] svg path {
+  stroke: var(--spot-wishlist-color, #141414);
+}
+
 .card__image {
   display: block;
   position: relative;

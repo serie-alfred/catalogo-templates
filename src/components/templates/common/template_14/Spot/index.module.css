@@ -8,7 +8,7 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  background-color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 6%, #ffffff);
+  background-color: var(--spot-bg, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 6%, #ffffff));
   color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33)));
   font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Inter', system-ui, sans-serif)));
   line-height: normal;
@@ -116,8 +116,8 @@
 
 .discount {
   padding: 3px 12px;
-  background-color: var(--spot-btn-bg, var(--background-primary-color, #e4002b));
-  color: var(--spot-btn-text, var(--text-color-base, #ffffff));
+  background-color: var(--spot-discount-bg, var(--spot-btn-bg, var(--background-primary-color, #e4002b)));
+  color: var(--spot-discount-text, var(--spot-btn-text, var(--text-color-base, #ffffff)));
   font-size: 14px;
 }
 
@@ -128,8 +128,8 @@
   left: 0;
   transform: translateY(-50%);
   padding: 6px 0;
-  background-color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33)));
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 6%, #ffffff);
+  background-color: var(--spot-soldout-bg, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
+  color: var(--spot-soldout-text, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 6%, #ffffff));
   font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Saira', system-ui, sans-serif)));
   font-size: 24px;
   font-style: italic;
@@ -148,6 +148,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
+  color: var(--spot-wishlist-color, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
 }
 .favorite:hover {
   opacity: 0.85;
@@ -197,7 +198,7 @@
 }
 
 .brand {
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff);
+  color: var(--spot-brand, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff));
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -205,6 +206,7 @@
 }
 
 .name {
+  color: var(--spot-name, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
   font-size: 15px;
   font-weight: 600;
   line-height: 1.3;
@@ -217,14 +219,14 @@
   display: flex;
   align-items: center;
   gap: 2px;
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff);
+  color: var(--spot-rating-text, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff));
   font-size: 12px;
 }
 
 .stars {
   display: flex;
   gap: 1px;
-  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33)));
+  color: var(--spot-stars, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
 }
 
 .prices {
@@ -235,7 +237,7 @@
 }
 
 .listPrice {
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff);
+  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff));
   font-size: 13px;
   text-decoration: line-through;
 }
@@ -251,11 +253,12 @@
 }
 
 .installment {
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff);
+  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))) 70%, #ffffff));
   font-size: 13px;
 }
 
 .pix {
+  color: var(--spot-pix, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
   font-size: 13px;
   font-weight: 600;
 }
@@ -288,7 +291,8 @@
 
 .notify {
   height: 48px;
-  border: 2px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33)));
+  border: 2px solid var(--spot-notify-text, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
+  color: var(--spot-notify-text, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0b1b33))));
   font-size: 16px;
 }
 .notify:hover {

@@ -50,7 +50,7 @@
 }
 
 .flagGold { background: var(--shelf-accent, var(--background-primary-color, #b8976a)); }
-.flagSale { background: #c07a5a; }
+.flagSale { background: var(--spot-tag-bg, #c07a5a); }
 
 /* coração da wishlist: na origem é um <button> real (favorita/desfavorita) com
    z-index acima do link-overlay do card. No preview ele é inerte. */
@@ -69,7 +69,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #4a3f38;
+  color: var(--spot-wishlist-color, #4a3f38);
   cursor: pointer;
   transition: color .3s ease, background-color .3s ease;
 }
@@ -92,7 +92,7 @@
   line-height: normal;
   letter-spacing: .1em;
   text-transform: uppercase;
-  color: var(--shelf-installments, #8c7d74);
+  color: var(--spot-brand, var(--shelf-installments, #8c7d74));
   margin: 0 0 4px;
 }
 
@@ -128,7 +128,7 @@
 .listPrice {
   font-family: var(--font-secundary, 'DM Sans', sans-serif);
   font-size: 14px;
-  color: color-mix(in srgb, var(--shelf-title-color, var(--text-primary-color, #2c2420)) 55%, transparent);
+  color: var(--spot-old-price, color-mix(in srgb, var(--shelf-title-color, var(--text-primary-color, #2c2420)) 55%, transparent));
   text-decoration: line-through;
 }
 
@@ -137,7 +137,7 @@
   font-size: 19px;
   font-weight: 600;
   line-height: normal;
-  color: var(--shelf-title-color, var(--text-primary-color, #2c2420));
+  color: var(--spot-price-color, var(--shelf-title-color, var(--text-primary-color, #2c2420)));
   margin: 0;
 }
 
@@ -188,5 +188,5 @@
 }
 
 .buy:hover {
-  background: color-mix(in srgb, var(--shelf-buy-bg, var(--background-primary-color, #2c2420)) 85%, #fff);
+  background: var(--spot-btn-hover-bg, color-mix(in srgb, var(--shelf-buy-bg, var(--background-primary-color, #2c2420)) 85%, #fff));
 }

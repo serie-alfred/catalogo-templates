@@ -68,6 +68,7 @@
 }
 
 .ref {
+  color: var(--spot-ref, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))));
   font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Geist Mono', monospace)));
   font-size: 11px;
 }
@@ -79,6 +80,9 @@
   width: 44px;
   height: 44px;
   border-left: 1px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))) !important;
+}
+.favorite[data-role=spot-favorite] {
+  color: var(--spot-wishlist-color, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))));
 }
 .favorite:disabled {
   cursor: default;
@@ -117,11 +121,15 @@
   left: 0;
   padding: 6px 10px;
   background-color: var(--spot-tag-bg, var(--background-tertiary-color, #0a0a0a));
-  color: var(--text-tertiary-color, #ffffff);
+  color: var(--spot-tag-text, var(--text-tertiary-color, #ffffff));
   font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Geist Mono', monospace)));
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+.tag[data-role=spot-tag] {
+  background-color: var(--spot-badge-bg, var(--spot-tag-bg, var(--background-tertiary-color, #0a0a0a)));
+  color: var(--spot-badge-text, var(--spot-tag-text, var(--text-tertiary-color, #ffffff)));
 }
 .info {
   display: flex;
@@ -142,6 +150,7 @@
 
 .name {
   min-width: 0;
+  color: var(--spot-name, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))));
   font-weight: 500;
 }
 .name:focus-visible {
@@ -156,11 +165,11 @@
 }
 
 .priceOut {
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))) 62%, #ffffff);
+  color: var(--spot-unavailable, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))) 62%, #ffffff));
 }
 
 .installment {
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))) 62%, #ffffff);
+  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))) 62%, #ffffff));
   font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Geist Mono', monospace)));
   font-size: 11px;
 }
@@ -212,6 +221,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
+  color: var(--spot-notify-text, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0a0a0a))));
   font-size: 14px;
   font-weight: 500;
 }

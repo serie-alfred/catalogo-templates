@@ -11,7 +11,7 @@
   min-width: 0;
   padding: 12px;
   border-radius: 16px;
-  background-color: color-mix(in srgb, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)) 9%, #ffffff);
+  background-color: var(--spot-bg, color-mix(in srgb, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)) 9%, #ffffff));
   color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38)));
   font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif)));
   line-height: normal;
@@ -137,6 +137,11 @@
   white-space: nowrap;
 }
 
+.tag[data-role=spot-discount] {
+  background-color: var(--spot-discount-bg, var(--spot-tag-bg, var(--background-tertiary-color, #ffa24c)));
+  color: var(--spot-discount-text, var(--spot-tag-text, var(--text-tertiary-color, #0e2f38)));
+}
+
 .outTag {
   position: relative;
   display: flex;
@@ -144,8 +149,8 @@
   height: 32px;
   padding: 0 16px;
   border-radius: 999px;
-  background-color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38)));
-  color: #ffffff;
+  background-color: var(--spot-soldout-bg, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))));
+  color: var(--spot-soldout-text, #ffffff);
   font-size: 14px;
   font-weight: 700;
   pointer-events: none;
@@ -161,7 +166,7 @@
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38)));
+  color: var(--spot-wishlist-color, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))));
 }
 .favorite:hover {
   opacity: 0.88;
@@ -182,12 +187,13 @@
 }
 
 .brand {
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
+  color: var(--spot-brand, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff));
   font-size: 13px;
   font-weight: 500;
 }
 
 .name {
+  color: var(--spot-name, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))));
   font-size: 15px;
   font-weight: 500;
   line-height: 1.35;
@@ -196,7 +202,7 @@
 .rating {
   display: flex;
   align-items: center;
-  color: var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73));
+  color: var(--spot-stars, var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73)));
 }
 
 .stars {
@@ -206,13 +212,13 @@
 
 .ratingCount {
   margin-left: 4px;
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
+  color: var(--spot-rating-text, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff));
   font-size: 12px;
 }
 
 .listPrice {
   margin-top: 4px;
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
+  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff));
   font-size: 13px;
   text-decoration: line-through;
 }
@@ -227,13 +233,21 @@
 }
 
 .installment {
+  color: var(--spot-installments, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))));
   font-size: 13px;
 }
 
 .pix,
 .outText {
-  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
   font-size: 13px;
+}
+
+.pix {
+  color: var(--spot-pix, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff));
+}
+
+.outText {
+  color: var(--spot-unavailable, color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff));
 }
 .buy,
 .notify {
@@ -260,7 +274,8 @@
 }
 
 .notify {
-  border: 1.5px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38)));
+  border: 1.5px solid var(--spot-notify-text, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))));
+  color: var(--spot-notify-text, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))));
 }
 .notify:hover {
   background-color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 6%, #ffffff);
