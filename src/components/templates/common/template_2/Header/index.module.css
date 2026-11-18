@@ -117,6 +117,12 @@
   display: none;
 }
 
+/* Menu do celular: o traço vinha cravado (#0F0F0F) no markup e sumia no header escuro.
+   Segue o texto do header, como os ícones de login e carrinho. */
+.header .headerMiddle .middleContainer .middleRow .middleTabs .tabsInner svg path {
+  stroke: var(--header-text, var(--text-color-base, #ffffff));
+}
+
 .header .headerMiddle .middleContainer .middleRow .middleLogo {
   width: 28%;
   max-width: 28%;
@@ -432,7 +438,7 @@
   svg
   path {
   transition: 0.5s;
-  stroke: var(--text-color-base);
+  stroke: var(--header-text, var(--text-color-base, #ffffff));
 }
 
 .header
@@ -511,7 +517,7 @@
   svg
   path {
   transition: 0.5s;
-  stroke: var(--text-color-base);
+  stroke: var(--header-text, var(--text-color-base, #ffffff));
 }
 
 .header
