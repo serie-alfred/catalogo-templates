@@ -21,6 +21,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
+import { ehFonteSerifada } from '../../src/utils/fontCatalog.ts';
 import {
   GENERATOR,
   FASTSTORE_STARTER,
@@ -622,7 +623,7 @@ const tokenDivergente = Object.entries(GLOBAIS_SENTINELA)
       ...blocoVars.matchAll(new RegExp(`(?:^|[;\\s])${g.token}:\\s*([^;]+);`, 'g')),
     ].map(m => m[1].trim());
     const esperado = g.fonte
-      ? `'${g.valor}', Arial, Helvetica, sans-serif`
+      ? `'${g.valor}', ${ehFonteSerifada(g.valor) ? 'Georgia, serif' : 'Arial, Helvetica, sans-serif'}`
       : g.valor;
     return ocorr.length === 1 && ocorr[0] === esperado
       ? null
