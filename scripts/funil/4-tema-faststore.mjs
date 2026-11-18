@@ -21,7 +21,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
-import { ehFonteSerifada } from '../../src/utils/fontCatalog.ts';
+import { ehFonteSerifada } from '../../src/utils/themeStyle.ts';
 import {
   GENERATOR,
   FASTSTORE_STARTER,

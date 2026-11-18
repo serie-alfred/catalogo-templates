@@ -104,11 +104,11 @@ const NIVEL1 = (() => {
       (out[fam] ??= {})[comp] = Object.fromEntries([...vars.matchAll(/'(--[\w-]+)':\s*(?:'([^']+)'|"([^"]+)")/g)].map(m => [m[1], m[2] ?? m[3]]));
   return out;
 })();
-/** A pilha de fonte do editor (`pilhaDaFonte` em fontCatalog.ts): serifada termina em Georgia, serif. */
+/** A pilha de fonte do editor (`pilhaDaFonte` em themeStyle.ts): serifada termina em Georgia, serif. */
 const pilhaDaFonte = (() => {
-  const ts = fonte('src/utils/fontCatalog.ts');
+  const ts = fonte('src/utils/themeStyle.ts');
   const m = /const SERIFADAS =\s*\/(.+)\/i;/.exec(ts);
-  if (!m) throw new Error('fontCatalog.ts: não achei `const SERIFADAS = /…/i;`');
+  if (!m) throw new Error('themeStyle.ts: não achei `const SERIFADAS = /…/i;`');
   const serifadas = new RegExp(m[1], 'i');
   return f => (!/\bsans\b/i.test(f) && serifadas.test(f) ? `'${f}', Georgia, serif` : `'${f}', sans-serif`);
 })();
