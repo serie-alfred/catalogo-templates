@@ -1806,6 +1806,8 @@ export const LAYOUTS: Layouts = {
     name: "Combinações",
     items: [
       { id: "01", selection: "combined-categ", key: "homcmb04y9z0", image: "homeCombined/HomeCombined04.webp", imageSource: "design", mobile: "", title: "Combinações Template 4", description: "Bloco combinado de categorias, chamada e desconto", template: "4", pagina: ["home"], component: "HomeCombined04", path: "organisms/HomeCombined04", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--home-combined-bg", label: "Fundo da seção", type: "color", default: "#eef4f5", group: "Combinação" },
+        { cssVar: "--home-combined-pill-bg", label: "Fundo da pílula", type: "color", default: "#e2edef", group: "Combinação" },
         { cssVar: "--home-combined-title-color", label: "Texto do título", type: "color", default: "#000000", group: "Combinação", inheritsLabel: "cor base do texto" },
         { cssVar: "--home-combined-text", label: "Texto do parágrafo", type: "color", default: "#000000", group: "Combinação", inheritsLabel: "cor base do texto" },
         { cssVar: "--home-combined-muted", label: "Texto da pílula", type: "color", default: "#42504b", group: "Combinação", inheritsLabel: "cor base do texto" },
