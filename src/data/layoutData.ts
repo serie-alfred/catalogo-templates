@@ -1791,6 +1791,9 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "special-offers", key: "spcofr04u5v6", image: "specialOffers/SpecialOffers04.webp", imageSource: "design", mobile: "", title: "Ofertas Especiais Template 4", description: "Bloco de ofertas com cartões de desconto", template: "4", pagina: ["home"], component: "SpecialOffers04", path: "organisms/SpecialOffers04", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--special-offers-title-color", label: "Texto do título", type: "color", default: "#000000", group: "Ofertas", inheritsLabel: "cor base do texto" },
         { cssVar: "--special-offers-card-text", label: "Texto dos cards", type: "color", default: "#ffffff", group: "Ofertas", inheritsLabel: "cor primária de contraste da marca" },
+        { cssVar: "--special-offers-card-1-bg", label: "Fundo do card 1 (esquerda)", type: "color", default: "#617b67", group: "Card", inheritsLabel: "cor primária da marca" },
+        { cssVar: "--special-offers-card-2-bg", label: "Fundo do card 2 (meio)", type: "color", default: "#724728", group: "Card", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--special-offers-card-3-bg", label: "Fundo do card 3 (direita)", type: "color", default: "#6e6a65", group: "Card", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--special-offers-card-button-bg", label: "Fundo do botão dos cards", type: "color", default: "#ffffff", group: "Card" },
         { cssVar: "--special-offers-card-button-text", label: "Texto do botão dos cards", type: "color", default: "#27302d", group: "Card", inheritsLabel: "cor base do texto" },
         { cssVar: "--special-offers-cta-bg", label: "Fundo do Ver todos", type: "color", default: "#274c4f", group: "Botão", inheritsLabel: "cor primária da marca" },
