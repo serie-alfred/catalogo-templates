@@ -2139,10 +2139,11 @@ export const LAYOUTS: Layouts = {
       ] },
       { id: "08", selection: "newsletter", key: "nlt08sra2h7k", image: "newsletter/Newsletter08.webp", imageSource: "auto", mobile: "", title: "Newsletter Template 8", description: "Painel de texto e formulário de nome e e-mail lado a lado", template: "8", pagina: ["home"], component: "Newsletter08", path: "organisms/Newsletter08", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         // Nível 1 direto ao valor do design (Figma "Templates - Serie A"), sem Nível 2.
-        { cssVar: "--newsletter-bg", label: "Fundo do formulário", type: "color", default: "#ffffff", group: "Newsletter" },
-        { cssVar: "--newsletter-panel-bg", label: "Fundo do painel de texto", type: "color", default: "#f6f6fa", group: "Newsletter" },
-        { cssVar: "--newsletter-title-color", label: "Texto dos títulos e dos campos", type: "color", default: "#0f0f0f", group: "Newsletter" },
-        { cssVar: "--newsletter-desc-color", label: "Texto do painel", type: "color", default: "#525252", group: "Newsletter" },
+        { cssVar: "--newsletter-bg", label: "Fundo do formulário", type: "color", default: "#ffffff", group: "Formulário" },
+        { cssVar: "--newsletter-panel-bg", label: "Fundo do painel de texto", type: "color", default: "#f6f6fa", group: "Painel" },
+        { cssVar: "--newsletter-panel-title", label: "Título do painel", type: "color", default: "#0f0f0f", group: "Painel" },
+        { cssVar: "--newsletter-title-color", label: "Título e campos do formulário", type: "color", default: "#0f0f0f", group: "Formulário" },
+        { cssVar: "--newsletter-desc-color", label: "Texto do painel", type: "color", default: "#525252", group: "Painel" },
         { cssVar: "--newsletter-button-bg", label: "Fundo do botão", type: "color", default: "#000000", group: "Formulário" },
         { cssVar: "--newsletter-button-text", label: "Texto do botão", type: "color", default: "#ffffff", group: "Formulário" },
         { cssVar: "--newsletter-font", label: "Fonte da newsletter", type: "font", default: "'Manrope', sans-serif", group: "Tipografia" },

@@ -56,7 +56,7 @@
 
 .newsletterPanel {
   background-color: var(--newsletter-panel-bg, #f6f6fa);
-  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--newsletter-title-color, #0f0f0f) 7%, transparent);
+  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--newsletter-panel-title, #0f0f0f) 7%, transparent);
 }
 
 .newsletterTitle {
@@ -66,7 +66,7 @@
   line-height: 1.2;
   letter-spacing: 3.2px;
   text-transform: uppercase;
-  color: var(--newsletter-title-color, #0f0f0f);
+  color: var(--newsletter-panel-title, #0f0f0f);
 }
 
 .newsletterText {
