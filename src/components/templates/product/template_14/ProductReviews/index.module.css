@@ -287,8 +287,8 @@
 
 .submit {
   height: 48px;
-  background-color: var(--prod-reviews-text, var(--text-primary-color, #0b1b33));
-  color: var(--prod-reviews-bg, #ffffff);
+  background-color: var(--prod-reviews-text, var(--background-primary-color, #0b1b33));
+  color: var(--prod-reviews-bg, var(--text-color-base, #ffffff));
   font-family: var(--prod-reviews-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 16px;
   font-style: italic;
@@ -367,8 +367,8 @@
 }
 
 .pagerOn {
-  background-color: var(--prod-reviews-text, var(--text-primary-color, #0b1b33));
-  color: var(--prod-reviews-bg, #ffffff);
+  background-color: var(--prod-reviews-text, var(--background-primary-color, #0b1b33));
+  color: var(--prod-reviews-bg, var(--text-color-base, #ffffff));
   clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
 }
 .pagerOn:hover {

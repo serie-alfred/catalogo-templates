@@ -1182,8 +1182,8 @@ export function useLayoutGenerator(conta?: ContaAtual) {
             `${fontes.fontSecondary !== fontes.fontPrimary ? ` + ${fontes.fontSecondary}` : ''}); as cores não mudam.`
           : 'Cores e fontes não mudam.';
     const proprias = t.comCorPropria
-      ? ` ${t.comCorPropria} seções ganham cor própria para ficar como o desenho ` +
-        `(o painel da direita mostra e volta à cor global).`
+      ? ` ${t.comCorPropria} seções ganham cor própria ou fonte própria para ficar como o desenho ` +
+        `(o painel da direita mostra e volta à global).`
       : '';
     if (
       lojaSelections.length > 0 &&
@@ -1350,11 +1350,17 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     colorPrimaryText,
     colorSecondaryText,
     colorPrimaryBackgroundSafe: colorSafeOnWhite(colorPrimaryBackground),
+    colorSecondaryBackgroundSafe: colorSafeOnWhite(colorSecondaryBackground),
+    colorTertiaryBackgroundSafe: colorSafeOnWhite(colorTertiaryBackground),
   });
 
-  /** O nível 2 do VTEX (o mesmo do checkout e do tema da loja). */
-  const variaveisVtex = () =>
-    variaveisGlobais(
+  /**
+   * O nível 2 do VTEX: o do checkout (`variaveisGlobais`, espelho do `VAR_MAP`
+   * do checkout-vtex) mais as -safe da secundária e da terciária, que só o tema
+   * da loja lê (D2-07). O compose do checkout ignora chave que não é papel dele.
+   */
+  const variaveisVtex = () => ({
+    ...variaveisGlobais(
       {
         colorPrimary,
         colorSecondary,
@@ -1368,7 +1374,10 @@ export function useLayoutGenerator(conta?: ContaAtual) {
         colorSecondaryText,
       },
       { fontPrimary, fontSecondary, fontTertiary }
-    );
+    ),
+    colorSecondaryBackgroundSafe: colorSafeOnWhite(colorSecondaryBackground),
+    colorTertiaryBackgroundSafe: colorSafeOnWhite(colorTertiaryBackground),
+  });
 
   /**
    * O config do modo LP: SÓ a LP (`tipo: "lp"`), sem tema de loja. As seções

@@ -346,8 +346,8 @@
 
 .pillOn {
   border: 0;
-  background-color: var(--pdp-text, var(--text-primary-color, #0e2f38));
-  color: var(--pdp-bg, #ffffff);
+  background-color: var(--pdp-text, var(--background-primary-color, #0e2f38));
+  color: var(--pdp-bg, var(--text-color-base, #ffffff));
   font-weight: 700;
   cursor: default;
 }

@@ -192,7 +192,8 @@ const NIVEL1 = (() => {
   const out = {};
   for (const [, fam, corpo] of bloco.matchAll(/\n {2}'(\d+)': \{([\s\S]*?)\n {2}\},/g))
     for (const [, comp, vars] of corpo.matchAll(/\n {4}(\w+): \{([\s\S]*?)\n {4}\},/g))
-      (out[fam] ??= {})[comp] = Object.fromEntries([...vars.matchAll(/'(--[\w-]+)': '([^']+)'/g)].map(m => [m[1], m[2]]));
+      // Valor de fonte vem entre aspas duplas ("'League Spartan', sans-serif"), às vezes na linha de baixo.
+      (out[fam] ??= {})[comp] = Object.fromEntries([...vars.matchAll(/'(--[\w-]+)':\s*(?:'([^']+)'|"([^"]+)")/g)].map(m => [m[1], m[2] ?? m[3]]));
   return out;
 })();
 const componenteDe = Object.fromEntries(TODOS.map(i => [`${i.layoutKey}:${i.id}`, i.component]));

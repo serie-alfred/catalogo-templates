@@ -46,7 +46,7 @@
 }
 .productShelf17 [data-role=spot] {
   height: 100%;
-  background-color: color-mix(in srgb, var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73))) 9%, var(--showcase-bg, #ffffff));
+  background-color: color-mix(in srgb, var(--spot-btn-bg, var(--showcase-accent, var(--background-primary-color, #0e6b73))) 9%, var(--showcase-bg, #ffffff));
   color: var(--showcase-text, var(--text-primary-color, #0e2f38));
 }
 .productShelf17 [data-role=spot] > :nth-child(2) {
@@ -78,8 +78,8 @@
 }
 .productShelf17 [data-role=spot-discount],
 .productShelf17 [data-role=spot-tag] {
-  background-color: var(--showcase-tag-bg, var(--spot-tag-bg, var(--background-tertiary-color, #ffa24c)));
-  color: var(--showcase-text, var(--spot-tag-text, var(--text-tertiary-color, #0e2f38)));
+  background-color: var(--spot-tag-bg, var(--showcase-tag-bg, var(--background-tertiary-color, #ffa24c)));
+  color: var(--spot-tag-text, var(--showcase-text, var(--text-tertiary-color, #0e2f38)));
 }
 .productShelf17 [data-role=spot-brand],
 .productShelf17 [data-role=spot-list-price],
@@ -88,24 +88,24 @@
   color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #0e2f38)) 72%, var(--showcase-bg, #ffffff));
 }
 .productShelf17 [data-role=spot-rating] {
-  color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73)));
+  color: var(--spot-btn-bg, var(--showcase-accent, var(--background-primary-color-safe, #0e6b73)));
 }
 .productShelf17 [data-role=spot-rating] svg {
   width: 13px;
   height: 13px;
 }
 .productShelf17 [data-role=spot-price] {
-  color: var(--showcase-text, var(--spot-price-color, var(--text-primary-color, #0e2f38)));
+  color: var(--spot-price-color, var(--showcase-text, var(--text-primary-color, #0e2f38)));
   font-size: 22px;
   line-height: 1.15;
 }
 .productShelf17 [data-role=spot-buy] {
-  border-color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73))) !important;
-  color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73)));
+  border-color: var(--spot-btn-bg, var(--showcase-accent, var(--background-primary-color, #0e6b73))) !important;
+  color: var(--spot-btn-bg, var(--showcase-accent, var(--background-primary-color-safe, #0e6b73)));
 }
 .productShelf17 .rail [data-role=spot]:hover [data-role=spot-buy],
 .productShelf17 .rail [data-role=spot]:focus-within [data-role=spot-buy] {
-  background-color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
+  background-color: var(--spot-btn-bg, var(--showcase-accent, var(--background-primary-color, #0e6b73)));
   color: var(--spot-btn-text, var(--showcase-bg, #ffffff));
 }
 
@@ -396,7 +396,7 @@
     font-size: 20px;
   }
   .productShelf17 [data-role=spot-buy] {
-    background-color: var(--showcase-accent, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)));
+    background-color: var(--spot-btn-bg, var(--showcase-accent, var(--background-primary-color, #0e6b73)));
     color: var(--spot-btn-text, var(--showcase-bg, #ffffff));
   }
 }

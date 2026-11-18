@@ -39,6 +39,31 @@ export function ehFonteDoSistema(family: string): boolean {
   return DO_SISTEMA.has(family.trim().toLowerCase());
 }
 
+/**
+ * Famílias serifadas (D4-08, decisão 7 do lote E, 18/11/2026): a pilha delas termina
+ * em `Georgia, serif`, para o fallback (troca de fonte, falha no carregamento) não
+ * cair numa sans. Lista pelo nome, sem consultar o Google: o `buildThemeStyle` roda
+ * no servidor e o catálogo do Google pode estar fora. As famílias com "Sans" no nome
+ * nunca são serifadas. A MESMA regex mora no generator (`ehSerifada` em
+ * `src/utils/fontVariables.js`) e no estágio `2-vitrine` do funil: mude as três juntas.
+ */
+const SERIFADAS =
+  /(^|\s)(serif|slab)\b|garamond|fraunces|playfair|\blora\b|merriweather|baskerville|bodoni|caslon|cormorant|crimson|georgia|\btimes\b|spectral|vollkorn|cinzel|literata|newsreader|gelasio|\bdomine\b|\bcardo\b|\bprata\b|\bbitter\b|\barvo\b|zilla|\baleo\b|rokkitt/i;
+
+export function ehFonteSerifada(family: string): boolean {
+  return !/\bsans\b/i.test(family) && SERIFADAS.test(family);
+}
+
+/**
+ * O valor de fonte que o editor grava (tokens globais e variáveis por componente):
+ * `'Família', sans-serif`, ou `'Família', Georgia, serif` quando ela é serifada.
+ */
+export function pilhaDaFonte(family: string): string {
+  return ehFonteSerifada(family)
+    ? `'${family}', Georgia, serif`
+    : `'${family}', sans-serif`;
+}
+
 let google: Promise<FonteDoCatalogo[] | null> | null = null;
 
 /**

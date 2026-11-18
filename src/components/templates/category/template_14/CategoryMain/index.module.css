@@ -58,11 +58,11 @@
 }
 .mainCategory14 [data-role=spot-discount],
 .mainCategory14 [data-role=spot-buy] {
-  background-color: var(--cat-main-accent, var(--background-primary-color, #e4002b));
-  color: var(--text-color-base, #ffffff);
+  background-color: var(--spot-btn-bg, var(--cat-main-accent, var(--background-primary-color, #e4002b)));
+  color: var(--spot-btn-text, var(--text-color-base, #ffffff));
 }
 .mainCategory14 [data-role=spot-price] {
-  color: var(--cat-main-text, var(--text-primary-color, #0b1b33));
+  color: var(--spot-price-color, var(--cat-main-text, var(--text-primary-color, #0b1b33)));
 }
 .inner {
   display: flex;
@@ -113,8 +113,8 @@
 }
 
 .specOn {
-  background-color: var(--cat-main-text, var(--text-primary-color, #0b1b33));
-  color: var(--cat-main-bg, #ffffff);
+  background-color: var(--cat-main-text, var(--background-primary-color, #0b1b33));
+  color: var(--cat-main-bg, var(--text-color-base, #ffffff));
 }
 
 .bar {
@@ -388,8 +388,8 @@
 }
 
 .pageOn {
-  background-color: var(--cat-main-text, var(--text-primary-color, #0b1b33));
-  color: var(--cat-main-bg, #ffffff);
+  background-color: var(--cat-main-text, var(--background-primary-color, #0b1b33));
+  color: var(--cat-main-bg, var(--text-color-base, #ffffff));
 }
 
 .pageOff {
@@ -527,8 +527,8 @@
   justify-content: space-between;
   height: 64px;
   padding: 0 8px 0 16px;
-  background-color: var(--cat-main-text, var(--text-primary-color, #0b1b33));
-  color: var(--cat-main-bg, #ffffff);
+  background-color: var(--cat-main-text, var(--background-primary-color, #0b1b33));
+  color: var(--cat-main-bg, var(--text-color-base, #ffffff));
 }
 
 .panelTitle {
@@ -699,8 +699,8 @@
     justify-content: center;
     gap: 8px;
     height: 48px;
-    background-color: var(--cat-main-text, var(--text-primary-color, #0b1b33)) !important;
-    color: var(--cat-main-bg, #ffffff) !important;
+    background-color: var(--cat-main-text, var(--background-primary-color, #0b1b33)) !important;
+    color: var(--cat-main-bg, var(--text-color-base, #ffffff)) !important;
     font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
     font-size: 16px;
     font-style: italic;

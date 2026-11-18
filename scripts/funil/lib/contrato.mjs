@@ -22,6 +22,15 @@ const CK = checkoutVendorizado
       compose: await import(pathToFileURL(path.join(CHECKOUT_DEST.lib, 'compose.mjs')).href),
     }
   : null;
+/*
+ * As -safe da secundária e da terciária (D2-07, 18/11/2026): derivadas no editor
+ * (`colorSafeOnWhite`, limiar 220) como a da primária, mas só o tema da LOJA as
+ * lê. Ficam fora do `VAR_MAP` do checkout (o `lib/level2.mjs` do checkout-vtex e
+ * o literal do generator são espelhos chave a chave); o generator as escreve no
+ * `:root` pelo `VAR_MAP_LOJA`.
+ */
+const DERIVADAS_DA_LOJA = ['colorSecondaryBackgroundSafe', 'colorTertiaryBackgroundSafe'];
+
 /** A base do modelo (dist com slots) que o compose do generator lê. */
 const baseDoCheckout = () =>
   Object.fromEntries(
@@ -62,9 +71,11 @@ function conferirCheckoutFaststore(raiz, r, esperado) {
       JSON.stringify(ck.variables) === JSON.stringify(esperado),
       JSON.stringify(ck.variables)
     );
-  const fora = Object.keys(raiz.variables ?? {}).filter(k => !Object.hasOwn(CK.level2.VAR_MAP, k));
+  const fora = Object.keys(raiz.variables ?? {}).filter(
+    k => !Object.hasOwn(CK.level2.VAR_MAP, k) && !DERIVADAS_DA_LOJA.includes(k)
+  );
   r.ok(
-    'VTEX: faststore.variables (o nível 2 do checkout) só com chaves do VAR_MAP',
+    'VTEX: faststore.variables (o nível 2 do checkout) só com chaves do VAR_MAP (+ as -safe da loja)',
     fora.length === 0,
     fora.join(', ')
   );
@@ -273,8 +284,12 @@ export function conferirTrayWake(config, plataforma, r) {
    * O número segue cravado de propósito. É ele que pega variável global
    * entrando ou saindo sem querer — o que o export manda para o tema do cliente
    * não pode mudar em silêncio.
+   *
+   * 16 desde 18/11/2026 (D2-07): `colorSecondaryBackgroundSafe` e
+   * `colorTertiaryBackgroundSafe`, a mesma regra (`colorSafeOnWhite`, limiar 220)
+   * sobre a cor secundária e a terciária (`DERIVADAS_DA_LOJA`).
    */
-  const GLOBAIS_ESPERADAS = 14;
+  const GLOBAIS_ESPERADAS = 16;
   r.ok(
     `${plataforma}: ${GLOBAIS_ESPERADAS} variáveis globais`,
     Object.keys(raiz.variables ?? {}).length === GLOBAIS_ESPERADAS,
@@ -344,7 +359,7 @@ export function autotesteCredencial(r) {
 }
 
 /*
- * As 14 chaves globais que o generator da Nuvemshop traduz para os settings do
+ * As 16 chaves globais que o generator da Nuvemshop traduz para os settings do
  * painel "Marca" (`sa_` + snake_case da chave), fixadas no contrato da
  * Nuvemshop, §2.1 A. Renomear uma aqui sem o generator deixa o setting no valor
  * inicial do tema-base, sem erro.
@@ -356,7 +371,9 @@ const CHAVES_DA_MARCA = [
   'colorPrimaryBackground',
   'colorPrimaryBackgroundSafe',
   'colorSecondaryBackground',
+  'colorSecondaryBackgroundSafe',
   'colorTertiaryBackground',
+  'colorTertiaryBackgroundSafe',
   'colorFooter',
   'colorFooterText',
   'colorPrimaryText',
@@ -368,7 +385,7 @@ const CHAVES_DA_MARCA = [
 
 /**
  * Confere um config Nuvemshop: as regras de pasta do Tray/Wake (origem, assets,
- * 14 globais, sem checkout), as chaves do painel "Marca" e a regra nova — o
+ * 16 globais, sem checkout), as chaves do painel "Marca" e a regra nova — o
  * config não carrega credencial nenhuma.
  */
 export function conferirNuvemshop(config, r) {
@@ -377,7 +394,7 @@ export function conferirNuvemshop(config, r) {
   const faltam = CHAVES_DA_MARCA.filter(k => !globais.includes(k));
   const sobram = globais.filter(k => !CHAVES_DA_MARCA.includes(k));
   r.ok(
-    'Nuvemshop: as globais são as 14 chaves do painel "Marca" (§2.1 A)',
+    'Nuvemshop: as globais são as 16 chaves do painel "Marca" (§2.1 A)',
     faltam.length === 0 && sobram.length === 0,
     `faltam: ${faltam.join(', ') || '—'} · sobram: ${sobram.join(', ') || '—'}`
   );
@@ -402,7 +419,7 @@ const LIMITE_DE_SECOES = 25;
 /**
  * Confere o config do modo LP da Nuvemshop (fase 7): tudo o que o
  * `conferirNuvemshop` confere (origem em `Nuvemshop/Home/…` pelo balde
- * `landing`, assets, 14 globais, sem checkout, sem credencial) e o que é da LP —
+ * `landing`, assets, 16 globais, sem checkout, sem credencial) e o que é da LP —
  * `tipo: "lp"`, `landingPage` com um slug que o generator aceita, só o balde
  * `landing`, toda seção de miolo e no máximo 25 delas.
  */

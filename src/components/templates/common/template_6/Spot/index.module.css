@@ -207,7 +207,7 @@
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .pricePromotion {
   font-weight: 600;
   font-size: 18px;
-  color: var(--shelf-text-color, var(--background-tertiary-color, #000000));
+  color: var(--shelf-text-color, var(--background-tertiary-color-safe, #000000));
   text-decoration: none;
 }
 .spot .productWrapper .productContent .productPriceWrapper .productPrice .prices .product-payment {

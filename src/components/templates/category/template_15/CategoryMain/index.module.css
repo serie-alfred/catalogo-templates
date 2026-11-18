@@ -194,9 +194,9 @@
   border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1a1714)) 14%, var(--cat-main-bg, #faf8f4)) !important;
 }
 .sizeBtn[aria-pressed=true] {
-  border-color: var(--cat-main-text, var(--text-primary-color, #1a1714)) !important;
-  background-color: var(--cat-main-text, var(--text-primary-color, #1a1714)) !important;
-  color: var(--cat-main-bg, #faf8f4) !important;
+  border-color: var(--cat-main-text, var(--background-primary-color, #1a1714)) !important;
+  background-color: var(--cat-main-text, var(--background-primary-color, #1a1714)) !important;
+  color: var(--cat-main-bg, var(--text-color-base, #faf8f4)) !important;
   font-weight: 600 !important;
 }
 
@@ -216,9 +216,9 @@
   border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #1a1714)) 14%, var(--cat-main-bg, #faf8f4)) !important;
 }
 .optBtn[aria-pressed=true] {
-  border-color: var(--cat-main-text, var(--text-primary-color, #1a1714)) !important;
-  background-color: var(--cat-main-text, var(--text-primary-color, #1a1714)) !important;
-  color: var(--cat-main-bg, #faf8f4) !important;
+  border-color: var(--cat-main-text, var(--background-primary-color, #1a1714)) !important;
+  background-color: var(--cat-main-text, var(--background-primary-color, #1a1714)) !important;
+  color: var(--cat-main-bg, var(--text-color-base, #faf8f4)) !important;
   font-weight: 600 !important;
 }
 .optBtn[aria-pressed=true] .optQty {
@@ -262,8 +262,8 @@
 
 .solidBtn {
   padding: 0 28px !important;
-  background-color: var(--cat-main-text, var(--text-primary-color, #1a1714)) !important;
-  color: var(--cat-main-bg, #faf8f4) !important;
+  background-color: var(--cat-main-text, var(--background-primary-color, #1a1714)) !important;
+  color: var(--cat-main-bg, var(--text-color-base, #faf8f4)) !important;
 }
 .active {
   display: flex;
@@ -432,8 +432,8 @@
 }
 
 .emptyPrimary {
-  background-color: var(--cat-main-text, var(--text-primary-color, #1a1714));
-  color: var(--cat-main-bg, #faf8f4) !important;
+  background-color: var(--cat-main-text, var(--background-primary-color, #1a1714));
+  color: var(--cat-main-bg, var(--text-color-base, #faf8f4)) !important;
 }
 
 .emptySecondary {
@@ -517,8 +517,8 @@
 }
 .accBody .sizeBtn[aria-pressed=true],
 .accBody .optBtn[aria-pressed=true] {
-  border-color: var(--cat-main-text, var(--text-primary-color, #1a1714)) !important;
-  color: var(--filter-bg, #ffffff) !important;
+  border-color: var(--cat-main-text, var(--background-primary-color, #1a1714)) !important;
+  color: var(--filter-bg, var(--text-color-base, #ffffff)) !important;
 }
 .accBody .guide {
   min-height: 44px;
@@ -549,8 +549,8 @@
 }
 
 .panelApply {
-  background-color: var(--cat-main-text, var(--text-primary-color, #1a1714)) !important;
-  color: var(--filter-bg, #ffffff) !important;
+  background-color: var(--cat-main-text, var(--background-primary-color, #1a1714)) !important;
+  color: var(--filter-bg, var(--text-color-base, #ffffff)) !important;
 }
 .mBar {
   display: none;

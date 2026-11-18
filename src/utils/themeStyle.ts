@@ -1,5 +1,6 @@
 import type React from 'react';
 import type { FrameColors, FrameFonts } from '@/types/frameMessage';
+import { pilhaDaFonte } from './fontCatalog';
 
 /**
  * O tema com que o editor nasce: os valores iniciais do `useLayoutGenerator`.
@@ -108,12 +109,21 @@ export function buildThemeStyle(
     ),
     '--background-secundary-color': c.colorSecondaryBackground,
     '--background-tertiary-color': c.colorTertiaryBackground,
+    // Irmãs da -safe da primária (D2-07, 18/11/2026): a letra de acento que lê a
+    // cor secundária/terciária sobre neutro claro não some com a marca branca.
+    '--background-secundary-color-safe': colorSafeOnWhite(
+      c.colorSecondaryBackground
+    ),
+    '--background-tertiary-color-safe': colorSafeOnWhite(
+      c.colorTertiaryBackground
+    ),
     '--background-footer': c.colorFooter,
     '--text-color-footer': c.colorFooterText,
     '--text-color-base': c.colorPrimaryText,
     '--text-color-secundary': c.colorSecondaryText,
-    '--font-primary': `'${f.fontPrimary}', sans-serif`,
-    '--font-secundary': `'${f.fontSecondary}', sans-serif`,
-    '--font-tertiary': `'${f.fontTertiary}', sans-serif`,
+    // Serifada termina em `Georgia, serif` (D4-08, `pilhaDaFonte`).
+    '--font-primary': pilhaDaFonte(f.fontPrimary),
+    '--font-secundary': pilhaDaFonte(f.fontSecondary),
+    '--font-tertiary': pilhaDaFonte(f.fontTertiary),
   } as React.CSSProperties;
 }

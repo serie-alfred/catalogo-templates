@@ -114,8 +114,8 @@
   gap: 12px;
   min-height: 72px;
   padding: 0 24px;
-  background-color: var(--prod-reviews-text, var(--text-primary-color, #0a0a0a));
-  color: var(--prod-reviews-btn-text, #ffffff);
+  background-color: var(--prod-reviews-text, var(--background-primary-color, #0a0a0a));
+  color: var(--prod-reviews-btn-text, var(--text-color-base, #ffffff));
   font-size: 15px;
   font-weight: 500;
 }
@@ -256,8 +256,8 @@
   align-self: flex-start;
   height: 52px;
   padding: 0 22px;
-  background-color: var(--prod-reviews-text, var(--text-primary-color, #0a0a0a));
-  color: var(--prod-reviews-btn-text, #ffffff);
+  background-color: var(--prod-reviews-text, var(--background-primary-color, #0a0a0a));
+  color: var(--prod-reviews-btn-text, var(--text-color-base, #ffffff));
   font-size: 15px;
   font-weight: 500;
 }
@@ -363,8 +363,8 @@
 }
 
 .pagerOn {
-  background-color: var(--prod-reviews-text, var(--text-primary-color, #0a0a0a));
-  color: var(--prod-reviews-btn-text, #ffffff);
+  background-color: var(--prod-reviews-text, var(--background-primary-color, #0a0a0a));
+  color: var(--prod-reviews-btn-text, var(--text-color-base, #ffffff));
 }
 
 .widgetHost {

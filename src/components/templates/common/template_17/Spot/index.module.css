@@ -12,7 +12,7 @@
   padding: 12px;
   border-radius: 16px;
   background-color: color-mix(in srgb, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)) 9%, #ffffff);
-  color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #0e2f38)));
+  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38)));
   font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'DM Sans', system-ui, sans-serif)));
   line-height: normal;
   letter-spacing: normal;
@@ -49,7 +49,7 @@
 }
 @container (min-width: 961px) {
   .productCard17:not(.soldOut):hover, .productCard17:not(.soldOut):focus-within {
-    box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0e2f38))) 45%, transparent);
+    box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 45%, transparent);
   }
   .productCard17:not(.soldOut):hover .name a, .productCard17:not(.soldOut):focus-within .name a {
     text-decoration: underline;
@@ -144,7 +144,7 @@
   height: 32px;
   padding: 0 16px;
   border-radius: 999px;
-  background-color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #0e2f38)));
+  background-color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38)));
   color: #ffffff;
   font-size: 14px;
   font-weight: 700;
@@ -161,7 +161,7 @@
   width: 44px;
   height: 44px;
   border-radius: 999px;
-  color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #0e2f38)));
+  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38)));
 }
 .favorite:hover {
   opacity: 0.88;
@@ -182,7 +182,7 @@
 }
 
 .brand {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
   font-size: 13px;
   font-weight: 500;
 }
@@ -206,13 +206,13 @@
 
 .ratingCount {
   margin-left: 4px;
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
   font-size: 12px;
 }
 
 .listPrice {
   margin-top: 4px;
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
   font-size: 13px;
   text-decoration: line-through;
 }
@@ -232,7 +232,7 @@
 
 .pix,
 .outText {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
   font-size: 13px;
 }
 .buy,
@@ -260,14 +260,14 @@
 }
 
 .notify {
-  border: 1.5px solid var(--showcase-text, var(--spot-text, var(--text-primary-color, #0e2f38)));
+  border: 1.5px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38)));
 }
 .notify:hover {
-  background-color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0e2f38))) 6%, #ffffff);
+  background-color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 6%, #ffffff);
 }
 .soldOut .name,
 .soldOut .price {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 72%, #ffffff);
 }
 .soldOut .price {
   margin-top: 4px;
@@ -397,7 +397,7 @@
 }
 /* A coluna "Hover" pinta o estado de hover do card (lá, o comparador passa o mouse). */
 .spotHoverCol .productCard17 {
-  box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #0e2f38))) 45%, transparent);
+  box-shadow: 0 10px 24px -14px color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #0e2f38))) 45%, transparent);
 }
 .spotHoverCol .name a {
   text-decoration: underline;

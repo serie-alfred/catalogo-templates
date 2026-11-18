@@ -132,8 +132,8 @@
   bottom: 28px;
   left: 0;
   padding: 10px 40px 12px 24px;
-  background-color: var(--editorial-text, var(--text-primary-color, #0b1b33));
-  color: var(--editorial-bg, #f1f4f8);
+  background-color: var(--editorial-text, var(--background-primary-color, #0b1b33));
+  color: var(--editorial-bg, var(--text-color-base, #f1f4f8));
   font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 64px;
   font-style: italic;

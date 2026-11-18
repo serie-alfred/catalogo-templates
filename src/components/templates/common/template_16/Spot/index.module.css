@@ -10,10 +10,10 @@
   gap: 14px;
   min-width: 0;
   padding: 12px;
-  border: 2px solid color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350))) 18%, #fffbf2);
+  border: 2px solid color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350))) 18%, #fffbf2);
   border-radius: 24px;
   background-color: #ffffff;
-  color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
+  color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
   font-family: var(--showcase-font, var(--spot-font, var(--font-secundary, 'Nunito', system-ui, sans-serif)));
   line-height: normal;
   letter-spacing: normal;
@@ -50,8 +50,8 @@
 }
 @container (min-width: 961px) {
   .productCard16:not(.soldOut):hover, .productCard16:not(.soldOut):focus-within {
-    border-color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
-    box-shadow: 0 8px 0 var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
+    border-color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
+    box-shadow: 0 8px 0 var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
     transform: translateY(-6px);
   }
   .productCard16:not(.soldOut):hover .media, .productCard16:not(.soldOut):focus-within .media {
@@ -62,7 +62,7 @@
     text-underline-offset: 3px;
   }
   .productCard16:not(.soldOut):hover .buy, .productCard16:not(.soldOut):focus-within .buy {
-    box-shadow: 0 2px 0 var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
+    box-shadow: 0 2px 0 var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
     transform: translateY(2px);
   }
   .productCard16:not(.soldOut):hover .imgHover {
@@ -110,7 +110,7 @@
   width: 60px;
   height: 60px;
   padding: 0 6px;
-  border: 2px solid var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
+  border: 2px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
   border-radius: 50%;
   background-color: var(--spot-tag-bg, var(--background-tertiary-color, #ffc93c));
   color: var(--spot-tag-text, var(--text-tertiary-color, #2a2350));
@@ -133,7 +133,7 @@
   width: 104px;
   height: 104px;
   margin: -52px 0 0 -52px;
-  border: 2px dashed var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
+  border: 2px dashed var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
   border-radius: 50%;
   background-color: #ffffff;
   font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif)));
@@ -169,7 +169,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  border: 2px solid var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
+  border: 2px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
   border-radius: 50%;
   background-color: #ffffff;
   transition: transform 0.15s ease;
@@ -186,7 +186,7 @@
 }
 
 .brand {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350))) 68%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350))) 68%, #ffffff);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.04em;
@@ -212,7 +212,7 @@
 
 .ratingCount {
   margin-left: 4px;
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350))) 68%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350))) 68%, #ffffff);
   font-size: 12px;
   font-weight: 700;
 }
@@ -225,14 +225,14 @@
 }
 
 .listPrice {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350))) 68%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350))) 68%, #ffffff);
   font-size: 14px;
   text-decoration: line-through;
 }
 
 .discount {
   padding: 2px 8px;
-  border: 2px solid var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
+  border: 2px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
   border-radius: 999px;
   font-size: 12px;
   font-weight: 800;
@@ -253,7 +253,7 @@
 
 .pix,
 .outText {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350))) 68%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350))) 68%, #ffffff);
   font-size: 13px;
   font-weight: 600;
 }
@@ -274,7 +274,7 @@
   gap: 8px;
   height: 50px;
   margin-bottom: 4px;
-  border: 2px solid var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
+  border: 2px solid var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
   border-radius: 999px;
   font-family: var(--showcase-title-font, var(--spot-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif)));
   font-size: 18px;
@@ -289,24 +289,24 @@
 
 .buy {
   background-color: var(--spot-btn-bg, var(--background-primary-color, #5b4bdb));
-  box-shadow: 0 4px 0 var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
+  box-shadow: 0 4px 0 var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
   color: var(--spot-btn-text, var(--text-color-base, #ffffff));
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 .buy:active {
-  box-shadow: 0 1px 0 var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
+  box-shadow: 0 1px 0 var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
   transform: translateY(3px);
 }
 
 .notify:hover {
-  background-color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350))) 6%, #ffffff);
+  background-color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350))) 6%, #ffffff);
 }
 .soldOut .media {
   background-color: #edeae3;
 }
 .soldOut .name,
 .soldOut .price {
-  color: color-mix(in srgb, var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350))) 68%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350))) 68%, #ffffff);
 }
 .soldOut .price {
   margin-top: 4px;
@@ -403,7 +403,7 @@
     font-size: 16px;
   }
   .buy {
-    box-shadow: 0 3px 0 var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
+    box-shadow: 0 3px 0 var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
   }
   .bell {
     width: 16px;
@@ -455,8 +455,8 @@
 }
 /* A coluna "Hover" pinta o estado de hover do card (lá, o comparador passa o mouse). */
 .spotHoverCol .productCard16 {
-  border-color: var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
-  box-shadow: 0 8px 0 var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
+  border-color: var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
+  box-shadow: 0 8px 0 var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
   transform: translateY(-6px);
 }
 .spotHoverCol .media {
@@ -467,7 +467,7 @@
   text-underline-offset: 3px;
 }
 .spotHoverCol .buy {
-  box-shadow: 0 2px 0 var(--showcase-text, var(--spot-text, var(--text-primary-color, #2a2350)));
+  box-shadow: 0 2px 0 var(--spot-text, var(--showcase-text, var(--text-primary-color, #2a2350)));
   transform: translateY(2px);
 }
 @container (max-width: 960px) {

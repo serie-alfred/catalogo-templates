@@ -199,8 +199,8 @@
   background-color: rgba(16, 24, 40, 0.08);
 }
 .toneHighlight .tileCta {
-  background-color: var(--banner-grid-text, var(--text-primary-color, #101828));
-  color: var(--banner-grid-cta-text, #ffffff);
+  background-color: var(--banner-grid-text, var(--background-primary-color, #101828));
+  color: var(--banner-grid-cta-text, var(--text-color-base, #ffffff));
 }
 
 .toneNeutral {

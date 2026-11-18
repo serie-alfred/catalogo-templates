@@ -3,6 +3,7 @@
 import React, { Fragment, useMemo } from 'react';
 
 import type { ComponentVariable } from '@/data/layoutData';
+import { pilhaDaFonte } from '@/utils/fontCatalog';
 import ColorPicker from '../ColorPicker';
 import FontSelector from '../FontSelector';
 
@@ -14,9 +15,12 @@ export function parseFontFamily(value: string): string {
   return first.replace(/['"]/g, '').trim();
 }
 
-/** Empacota a família escolhida no formato gravado no config. */
+/**
+ * Empacota a família escolhida no formato gravado no config: `'Família', sans-serif`,
+ * ou `'Família', Georgia, serif` quando ela é serifada (D4-08, `pilhaDaFonte`).
+ */
 export function toFontValue(family: string): string {
-  return `'${family}', sans-serif`;
+  return pilhaDaFonte(family);
 }
 
 export interface VariablesListProps {
@@ -25,7 +29,7 @@ export interface VariablesListProps {
   /** O que o usuário já escolheu. Chave ausente = o campo herda. */
   values: Record<string, string> | undefined;
   onChange: (cssVar: string, value: string) => void;
-  /** Como a família escolhida vira valor. Padrão: `'Família', sans-serif`. */
+  /** Como a família escolhida vira valor. Padrão: `toFontValue` (`pilhaDaFonte`). */
   fontValue?: (family: string) => string;
   /**
    * A frase do estado herdado, AO VIVO — "Herdando de cor primária da marca

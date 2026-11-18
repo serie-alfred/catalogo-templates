@@ -86,12 +86,18 @@ const PASTA_DA_PAGINA = {
   product: 'Product',
 };
 
-// As 14 globais como uma aba nova as exporta (`variaveisTrayWake` no hook).
+// As 16 globais como uma aba nova as exporta (`variaveisTrayWake` no hook).
 const GLOBAIS = {
   ...TEMA_INICIAL.fonts,
   ...TEMA_INICIAL.colors,
   colorPrimaryBackgroundSafe: colorSafeOnWhite(
     TEMA_INICIAL.colors.colorPrimaryBackground
+  ),
+  colorSecondaryBackgroundSafe: colorSafeOnWhite(
+    TEMA_INICIAL.colors.colorSecondaryBackground
+  ),
+  colorTertiaryBackgroundSafe: colorSafeOnWhite(
+    TEMA_INICIAL.colors.colorTertiaryBackground
   ),
 };
 

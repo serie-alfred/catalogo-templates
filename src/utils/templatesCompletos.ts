@@ -280,11 +280,97 @@ export const TEMA_DAS_FAMILIAS: Record<string, TemaDaFamilia> = {
  * diverge — ou cujo token o tema não define. Chave: o `component` do item.
  * A 13 (desde 12/11/2026, quando passou a herdar a marca) saiu do mesmo critério por um
  * script avulso: os textos derivados (branco/preto) voltam ao #F4F4F0/#0D0D0D do desenho.
+ *
+ * FONTES (escritas à mão, decisão 7 do lote E, 18/11/2026 — D4-03): as cadeias de fonte
+ * que iam do Nível 1 direto à fonte do desenho ganharam Nível 2 (`--font-primary` no
+ * `*-title-font`, `--font-secundary` no resto). Como as famílias 01 a 08 não trazem
+ * fontes em `TEMA_DAS_FAMILIAS` (a loja fica com Roboto/Poppins), a fonte do desenho
+ * dessas peças volta como pino — o `default` do schema —, o que também a leva ao config
+ * (o export só manda `variables`) e daí ao WebFonts/_variables do tema.
  */
 export const NIVEL1_DAS_FAMILIAS: Record<
   string,
   Record<string, Record<string, string>>
 > = {
+  '1': {
+    Ruler01: {
+      '--ruler-font': 'Arial, sans-serif',
+    },
+  },
+  '2': {
+    Footer02: {
+      '--footer-font': "'Noto Sans', sans-serif",
+    },
+  },
+  '3': {
+    ProductInfo03: {
+      '--prod-info-font': "'Inter', sans-serif",
+      '--prod-gallery-font': "'Inter', sans-serif",
+    },
+  },
+  '4': {
+    ProductInfo04: {
+      '--prod-info-font': "'Inter', sans-serif",
+      '--prod-gallery-font': "'Inter', sans-serif",
+    },
+  },
+  '5': {
+    Header05: {
+      '--header-font-mono':
+        "'JetBrains Mono', 'IBM Plex Mono', ui-monospace, Menlo, monospace",
+    },
+    Footer05: {
+      '--footer-font-mono':
+        "'JetBrains Mono', 'IBM Plex Mono', ui-monospace, Menlo, monospace",
+    },
+  },
+  '6': {
+    CategoryTitle06: {
+      '--plp-title-font': "'League Spartan', sans-serif",
+    },
+    CategoryMain06: {
+      '--plp-title-font': "'League Spartan', sans-serif",
+    },
+  },
+  '8': {
+    Header08: {
+      '--header-font': "'Manrope', sans-serif",
+    },
+    Footer08: {
+      '--footer-font': "'Manrope', sans-serif",
+      '--footer-legal-font': "'Red Hat Display', sans-serif",
+    },
+    Categories08: {
+      '--categories-font': "'Open Sans', sans-serif",
+      '--categories-body-font': "'Open Sans', sans-serif",
+    },
+    BannerMain08: {
+      '--banner-main-title-font': "'Inter', sans-serif",
+      '--banner-main-font': "'Inter', sans-serif",
+    },
+    Ruler08: {
+      '--benefits-font': "'Manrope', sans-serif",
+    },
+    ShelfBanner08: {
+      '--showcase-title-font': "'Open Sans', sans-serif",
+      '--showcase-font': "'Open Sans', sans-serif",
+    },
+    Showcase08: {
+      '--showcase-title-font': "'Open Sans', sans-serif",
+      '--showcase-font': "'Open Sans', sans-serif",
+    },
+    Newsletter08: {
+      '--newsletter-font': "'Manrope', sans-serif",
+    },
+    Countdown08: {
+      '--countdown-title-font': "'Inter', sans-serif",
+      '--countdown-font': "'Inter', sans-serif",
+    },
+    Editorial08: {
+      '--editorial-title-font': "'Open Sans', sans-serif",
+      '--editorial-font': "'Open Sans', sans-serif",
+    },
+  },
   '9': {
     Header09: {
       '--header-topbar-text': '#f7f4ef',
@@ -320,6 +406,7 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     ProductInfo09: {
       '--pdp-accent': '#9c4a2f',
       '--pdp-button-text': '#f7f4ef',
+      '--pdp-size-active-text': '#f7f4ef',
     },
     ProductReviews09: {
       '--prod-reviews-accent': '#9c4a2f',
@@ -346,6 +433,13 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     },
     BannerMain10: {
       '--banner-main-button-text': '#101828',
+      '--banner-main-promo-button-bg': '#101828',
+    },
+    BannerGrid10: {
+      '--banner-grid-text': '#101828',
+    },
+    ProductInfo10: {
+      '--pdp-shipping-btn-bg': '#101828',
     },
     ShelfBanner10: {
       '--showcase-tag-bg': '#d92d20',
@@ -540,6 +634,21 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     Countdown14: {
       '--countdown-accent': '#d9f99d',
     },
+    // D2-06 (18/11/2026): botões "ativos" leem o primário da marca (#e4002b na 14); o navy do
+    // desenho fica no Nível 1 de texto de cada seção para o template não mudar.
+    CategoryMain14: {
+      '--cat-main-text': '#0b1b33',
+    },
+    ProductInfo14: {
+      '--pdp-text': '#0b1b33',
+    },
+    ProductReviews14: {
+      '--prod-reviews-text': '#0b1b33',
+    },
+    Editorial14: {
+      '--editorial-text': '#0b1b33',
+      '--editorial-bg': '#f1f4f8',
+    },
   },
   '15': {
     Header15: {
@@ -603,6 +712,7 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     },
     CategoryMain15: {
       '--cat-main-accent': '#7a5f1c',
+      '--cat-main-bg': '#faf8f4', // letra dos botões "ativos" (D2-06): o papel do desenho
     },
     CategoryDescription15: {
       '--cat-desc-accent': '#7a5f1c',
@@ -613,9 +723,11 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     ProductInfo15: {
       '--pdp-accent': '#7a5f1c',
       '--pdp-button-text': '#faf8f4',
+      '--pdp-bg': '#faf8f4', // letra do tamanho selecionado (D2-06): o papel do desenho
     },
     ProductReviews15: {
       '--prod-reviews-accent': '#7a5f1c',
+      '--prod-reviews-bg': '#faf8f4', // letra da página ativa e do "Enviar" (D2-06)
     },
     ProductRelated15: {
       '--showcase-accent': '#7a5f1c',
@@ -669,6 +781,11 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     ProductInfo16: {
       '--pdp-text': '#2a2350',
       '--pdp-accent': '#ffc93c',
+      '--pdp-bg': '#fffbf2', // letra do "Calcular" (D2-06): o papel do desenho
+    },
+    ProductReviews16: {
+      '--prod-reviews-text': '#2a2350', // fundo da página ativa e do "Enviar" (D2-06): o navy do desenho
+      '--prod-reviews-bg': '#fffbf2',
     },
     Countdown16: {
       '--countdown-accent-text': '#2a2350',
@@ -707,6 +824,9 @@ export const NIVEL1_DAS_FAMILIAS: Record<
     },
     ProductInfo17: {
       '--pdp-text': '#0e2f38',
+    },
+    ProductReviews17: {
+      '--prod-reviews-text': '#0e2f38', // fundo da página ativa (D2-06): o escuro do desenho
     },
     ProductRelated17: {
       '--showcase-text': '#0e2f38',
@@ -878,10 +998,12 @@ export const TOKENS_DA_COR_GLOBAL = {
   ],
   colorSecondaryBackground: [
     '--background-secundary-color',
+    '--background-secundary-color-safe',
     '--text-color-secundary',
   ],
   colorTertiaryBackground: [
     '--background-tertiary-color',
+    '--background-tertiary-color-safe',
     '--text-tertiary-color',
   ],
   colorFooter: ['--background-footer'],

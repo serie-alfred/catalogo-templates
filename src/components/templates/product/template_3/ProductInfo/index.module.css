@@ -61,7 +61,7 @@
 .badge {
   display: inline-flex;
   align-items: center;
-  font-family: var(--prod-gallery-font, 'Inter', sans-serif);
+  font-family: var(--prod-gallery-font, var(--font-secundary, 'Inter', sans-serif));
   background-color: var(--prod-gallery-badge-bg, #121212);
   color: var(--prod-gallery-badge-text, #ffffff);
   padding: 6px 12px;
@@ -264,7 +264,7 @@
 }
 
 .stock {
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 300;
   font-size: 16px;
   line-height: 1.35;
@@ -315,7 +315,7 @@
 }
 
 .trustBadges li span {
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 600;
   font-size: 16px;
   line-height: 1.4;
@@ -329,7 +329,7 @@
 }
 
 .sku {
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 600;
   font-size: 14px;
   line-height: 1;
@@ -338,7 +338,7 @@
 }
 
 .productTitle h1 {
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 600;
   font-size: 28px;
   line-height: 1.35;
@@ -370,7 +370,7 @@
 }
 
 .rating > span {
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 400;
   font-size: 12px;
   color: var(--prod-info-muted, #8a8a8a);
@@ -386,7 +386,7 @@
 }
 
 .specs li {
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 300;
   font-size: 16px;
   line-height: 1.35;
@@ -407,7 +407,7 @@
 }
 
 .listPrice {
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 600;
   font-size: 21px;
   line-height: 1;
@@ -417,7 +417,7 @@
 }
 
 .price {
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 600;
   font-size: 21px;
   line-height: 1;
@@ -432,7 +432,7 @@
 
 .colorLabel {
   display: block;
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 600;
   font-size: 16px;
   line-height: 1.5;
@@ -494,7 +494,7 @@
 
 .variationTitle {
   display: block;
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 600;
   font-size: 16px;
   color: var(--prod-info-text, #121212);
@@ -542,7 +542,7 @@
 }
 
 .productDetails .sizeOption span {
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 400;
   font-size: 16px;
   color: var(--prod-info-text, #121212);
@@ -585,7 +585,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 400;
   font-size: 16px;
   transition: background-color 0.3s, border-color 0.3s, color 0.3s, opacity 0.3s;
@@ -652,7 +652,7 @@
 }
 
 .accordionTitle {
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 600;
   font-size: 16px;
   letter-spacing: -0.32px;
@@ -674,7 +674,7 @@
 }
 
 .accordionContent p {
-  font-family: var(--prod-info-font, 'Inter', sans-serif);
+  font-family: var(--prod-info-font, var(--font-secundary, 'Inter', sans-serif));
   font-weight: 300;
   font-size: 16px;
   line-height: 1.35;

@@ -608,8 +608,8 @@ label.groupLabel {
   height: 48px;
   padding: 0 20px;
   border-radius: 10px;
-  background-color: var(--pdp-shipping-btn-bg, var(--pdp-text, var(--text-primary-color, #101828)));
-  color: var(--pdp-shipping-btn-text, #ffffff);
+  background-color: var(--pdp-shipping-btn-bg, var(--background-primary-color, #101828));
+  color: var(--pdp-shipping-btn-text, var(--text-color-base, #ffffff));
   font-weight: 700;
 }
 .darkBtn:disabled {

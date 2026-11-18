@@ -31,9 +31,9 @@
 .title {
   margin: 16px 0;  /* metrics: plp-title margin@1280 */
   /* Só o <h1> usa League Spartan; a contagem ao lado segue no var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif)) do container. */
-  /* Token já definido em src/themes/custom-theme.scss e a face é carregada em */
-  /* src/fonts/WebFonts.tsx (pesos 300-900, então o 700 abaixo existe). */
-  font-family: var(--plp-title-font, var(--font-league-spartan, 'League Spartan', sans-serif));
+  /* Nível 2 = a fonte de título da loja (decisão 7 do lote E, 18/11/2026); o "Por */
+  /* template" da 06 fixa a League Spartan no Nível 1 (NIVEL1_DAS_FAMILIAS). */
+  font-family: var(--plp-title-font, var(--font-primary, 'League Spartan', sans-serif));
   font-size: 24px;  /* metrics: plp-title 24/700 */
   font-weight: 700;
   line-height: 27.6px;
