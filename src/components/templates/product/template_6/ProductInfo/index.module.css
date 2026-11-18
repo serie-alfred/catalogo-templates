@@ -1158,11 +1158,11 @@ Nº de slides por vista: pedido do cliente = 3 no desktop / 2.3 no mobile
 }
 
 .sizeActive {
-  /* botão primário (D2-06): fundo no primário da marca (--background-primary-color) e a
-  letra no par dele (--text-color-base, derivado desse fundo), não mais no token de texto */
-  border-color: var(--prod-info-text, var(--background-primary-color, #212721));
-  background: var(--prod-info-text, var(--background-primary-color, #212721));
-  color: var(--prod-chip-text, var(--text-color-base, #ffffff));
+  border-color: var(--prod-info-text, var(--text-primary-color, #212721));
+  background: var(--prod-info-text, var(--text-primary-color, #212721));
+  /* texto sobre o preenchimento ESCURO (=--prod-info-text) → --text-color-secundary
+  (auto-derivado p/ superfície escura), não --text-color-base (pode ser escuro) */
+  color: var(--prod-chip-text, var(--text-color-secundary, #ffffff));
   font-weight: 500;
 }
 

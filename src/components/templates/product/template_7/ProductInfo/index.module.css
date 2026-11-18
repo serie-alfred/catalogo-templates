@@ -62,7 +62,7 @@ ink→--text-primary-color, gold→--background-secundary-color, CTA→--backgro
 .starsBase {
   display: flex;
   gap: 2px;
-  color: color-mix(in srgb, var(--pdp-accent, var(--background-secundary-color-safe, #b8976a)) 26%, transparent);
+  color: color-mix(in srgb, var(--pdp-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #b8976a))) 26%, transparent);
 }
 
 .starsFill {
@@ -71,7 +71,7 @@ ink→--text-primary-color, gold→--background-secundary-color, CTA→--backgro
   left: 0;
   display: flex;
   gap: 2px;
-  color: var(--pdp-accent, var(--background-secundary-color-safe, #b8976a));
+  color: var(--pdp-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #b8976a)));
   overflow: hidden;
 }
 
@@ -233,7 +233,7 @@ sem url → gradiente-placeholder do container */
   font: 400 11px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--pdp-accent, var(--background-secundary-color-safe, #b8976a));
+  color: var(--pdp-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #b8976a)));
   line-height: 14px;
   /* metrics: origem normal(11)=14 */
   margin: 11px 0 10px;
@@ -327,7 +327,7 @@ sem url → gradiente-placeholder do container */
   font: 400 11.5px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
   line-height: 15px;
   /* metrics: normal(11.5)=15 */
-  color: var(--pdp-accent, var(--background-secundary-color-safe, #b8976a));
+  color: var(--pdp-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #b8976a)));
   text-decoration: none;
   cursor: pointer;
   margin-top: 10px;
@@ -514,7 +514,7 @@ sem url → gradiente-placeholder do container */
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  color: var(--pdp-accent, var(--background-secundary-color-safe, #b8976a));
+  color: var(--pdp-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #b8976a)));
 }
 
 .benefit svg {
@@ -549,7 +549,7 @@ sem url → gradiente-placeholder do container */
   /* metrics: normal(11)=14 */
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--pdp-accent, var(--background-secundary-color-safe, #b8976a));
+  color: var(--pdp-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #b8976a)));
   margin: 11px 0 16px;
   /* metrics: UA p 1em(11) + inline 16 */
 }
@@ -892,7 +892,7 @@ sem url → gradiente-placeholder do container */
   /* metrics: normal(10)=13 */
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--pdp-accent, var(--background-secundary-color-safe, #b8976a));
+  color: var(--pdp-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #b8976a)));
   margin: 10px 0 6px;
   /* metrics: m-eyebrow@375 */
 }
@@ -1083,7 +1083,7 @@ sem url → gradiente-placeholder do container */
   display: flex;
   align-items: flex-start;
   gap: 6px;
-  color: var(--pdp-accent, var(--background-secundary-color-safe, #b8976a));
+  color: var(--pdp-accent, var(--background-secundary-color-safe, var(--background-secundary-color, #b8976a)));
 }
 
 .mBenefit svg {

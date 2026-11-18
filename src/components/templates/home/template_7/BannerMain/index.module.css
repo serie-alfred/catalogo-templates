@@ -95,15 +95,15 @@
   transition: background-color .5s ease, color .5s ease, border-color .5s ease;
 }
 .ctaPrimary {
-  background: var(--banner-main-cta-bg, var(--background-primary-color, #faf8f4));
-  color: var(--banner-main-cta-text, var(--text-color-base, #2c2420));
+  background: var(--banner-main-cta-bg, var(--text-color-secundary, #faf8f4));
+  color: var(--banner-main-cta-text, var(--text-primary-color, #2c2420));
   border: none;
   padding: 14px 30px;
   font-weight: 500;
 }
 /* #e7e0d5 e #d8c7a8 não são mix exato de nenhum token — converter mudaria a */
 /* cor de hover do design. Ficam cruas; hover não segue o tema aqui. */
-.ctaPrimary:hover { background: color-mix(in srgb, var(--banner-main-cta-bg, var(--background-primary-color, #faf8f4)) 88%, var(--banner-main-cta-text, var(--text-color-base, #2c2420))); }
+.ctaPrimary:hover { background: #e7e0d5; }
 .ctaOutline {
   background: transparent;
   color: var(--banner-main-title-color, var(--text-color-secundary, #faf8f4));
