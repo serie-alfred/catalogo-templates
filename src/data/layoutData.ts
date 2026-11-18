@@ -1317,6 +1317,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--ruler-bg", label: "Fundo da régua", type: "color", default: "#eef4f5", group: "Régua" },
       ] },
       { id: "05", selection: "ruler", key: "bnf05x8y9z0a", image: "ruler/Ruler05.webp", imageSource: "design", mobile: "", title: "Regua de benefícios Template 5", description: "Régua de benefícios em carrossel", template: "5", pagina: ["home"], component: "Ruler05", path: "organisms/Ruler05", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
+        { cssVar: "--ruler-bg", label: "Fundo da régua", type: "color", default: "transparent", group: "Régua", optional: true },
         { cssVar: "--ruler-text", label: "Texto do título", type: "color", default: "#000000", group: "Régua", inheritsLabel: "cor base do texto" },
         { cssVar: "--ruler-description", label: "Texto da descrição", type: "color", default: "#353434", group: "Régua" },
         { cssVar: "--ruler-font", label: "Fonte da régua de benefícios", type: "font", default: "sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
