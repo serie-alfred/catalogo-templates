@@ -112,7 +112,7 @@
   align-items: center;
   gap: 8px;
   min-height: 44px;
-  color: var(--banner-grid-accent, var(--background-primary-color-safe, #0e6b73));
+  color: var(--banner-grid-text, var(--banner-grid-accent, var(--background-primary-color-safe, #0e6b73)));
   font-size: 15px;
   font-weight: 700;
 }

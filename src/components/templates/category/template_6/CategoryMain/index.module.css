@@ -2017,10 +2017,11 @@ a <img> é item flex (bloco): o strut de baseline de ~4.4px da img inline deixou
   border-radius: 2px;
   font: 400 14px/1 var(--filter-font, var(--plp-font, var(--font-secundary, 'Jost', -apple-system, Helvetica, Arial, sans-serif)));
   transition: border-color 0.15s ease, background 0.15s ease;
-  color: var(--filter-text, var(--plp-text, var(--text-primary-color, #212721)));
+  color: var(--plp-filter-idle, var(--filter-text, var(--plp-text, var(--text-primary-color, #212721))));
 }
 .panel[data-facet-style=chips] .value:has(.srOnly:checked), .panel[data-facet-style=chips] .value:hover {
   border-color: var(--filter-text, var(--plp-text, var(--text-primary-color, #212721)));
+  color: var(--filter-text, var(--plp-text, var(--text-primary-color, #212721)));
 }
 .panel[data-facet-style=color] .values {
   flex-direction: row;
