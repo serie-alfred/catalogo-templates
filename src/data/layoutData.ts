@@ -1481,6 +1481,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--banner-duplo-title-font", label: "Fonte do título", type: "font", default: "'Roboto', Arial, Helvetica, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "03", selection: "banner-side", key: "bansd0234nb7", image: "bannerSide/BannerSide02.webp", imageSource: "design", mobile: "", title: "Banner Side Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "BannerSide02", path: "molecules/BannerSide02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["tertiary"], variablesSchema: [
+        { cssVar: "--banner-side-bg", label: "Fundo da caixa de texto", type: "color", default: "#000000", group: "Banner", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--banner-side-text", label: "Texto do banner", type: "color", default: "#ffffff", group: "Banner", inheritsLabel: "cor terciária de contraste da marca" },
         { cssVar: "--banner-side-title-font", label: "Fonte do título", type: "font", default: "sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--banner-side-font", label: "Fonte do texto", type: "font", default: "sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
@@ -1607,6 +1608,7 @@ export const LAYOUTS: Layouts = {
       ] },
       { id: "02", selection: "showcase", key: "vtr02mq91m48", image: "showcase/Showcase02.webp", imageSource: "design", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Showcase02", path: "organisms/ProductShelfCustom02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--showcase-title-color", label: "Texto do título", type: "color", default: "#000000", group: "Vitrine", inheritsLabel: "cor base do texto" },
+        { cssVar: "--showcase-accent", label: "Destaque (marcador ativo)", type: "color", default: "#000000", group: "Vitrine", inheritsLabel: "cor primária da marca" },
         { cssVar: "--showcase-font", label: "Fonte do título", type: "font", default: "sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "03", selection: "showcase", key: "vtr03s5t6u7v", image: "showcase/Showcase03.webp", imageSource: "auto", mobile: "", title: "Vitrine Template 3", description: "Vitrine de produtos com carrossel e seletor de tamanhos", template: "3", pagina: ["home"], component: "Showcase03", path: "organisms/ProductShelfCustom03", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
@@ -1633,12 +1635,14 @@ export const LAYOUTS: Layouts = {
       ] },
       { id: "06", selection: "showcase", key: "vtr06frc4d5e", image: "showcase/Showcase06.webp", imageSource: "auto", mobile: "", title: "Vitrine Template 6", description: "Vitrine com título, subtítulo e carrossel", template: "6", pagina: ["home"], component: "Showcase06", path: "organisms/ProductShelfCustom06", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--shelf-title-color", label: "Texto do título", type: "color", default: "#212721", group: "Vitrine", inheritsLabel: "cor base do texto" },
+        { cssVar: "--shelf-arrow-color", label: "Destaque (setas e marcador ativo)", type: "color", default: "#212721", group: "Vitrine", inheritsLabel: "cor base do texto" },
         { cssVar: "--shelf-title-font", label: "Fonte do título", type: "font", default: "'Fabriga', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "07", selection: "showcase", key: "vtr07bru5q6r", image: "showcase/Showcase07.webp", imageSource: "design", mobile: "", title: "Vitrine Template 7", description: "Vitrine com título e link para a listagem completa", template: "7", pagina: ["home"], component: "Showcase07", path: "organisms/ProductShelfCustom07", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--shelf-bg", label: "Fundo da vitrine", type: "color", default: "#ffffff", group: "Vitrine" },
         { cssVar: "--shelf-title-color", label: "Texto do título e do preço", type: "color", default: "#2c2420", group: "Vitrine", inheritsLabel: "cor base do texto" },
         { cssVar: "--shelf-link-color", label: "Texto do Ver todos", type: "color", default: "#8c7d74", group: "Vitrine", inheritsLabel: "cor base do texto" },
+        { cssVar: "--shelf-accent", label: "Destaque (marcador ativo, subtítulo e hover)", type: "color", default: "#b8976a", group: "Vitrine", inheritsLabel: "cor primária da marca" },
         { cssVar: "--shelf-title-font", label: "Fonte do título", type: "font", default: "'Cormorant Garamond', serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--shelf-font", label: "Fonte do texto", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
@@ -2625,6 +2629,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-info-cep-link", label: "Texto do link Não sei meu CEP", type: "color", default: "#141414", group: "Produto", inheritsLabel: "cor base do texto" },
         { cssVar: "--prod-info-fav-text", label: "Texto do botão Adicionar aos Favoritos", type: "color", default: "#000000", group: "Produto" },
         { cssVar: "--prod-info-title", label: "Texto do nome do produto", type: "color", default: "#292929", group: "Produto" },
+        { cssVar: "--prod-gallery-dot-active", label: "Marcador ativo da galeria", type: "color", default: "#682A77", group: "Produto", inheritsLabel: "cor primária da marca", previewNote: "Só na visão Mobile — alterne no topo do editor." },
         { cssVar: "--prod-info-font", label: "Fonte", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "02", selection: "product-info", key: "info02b3c4d5e", image: "productInfo/ProductInfo02.webp", imageSource: "design", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["product"], component: "ProductInfo02", path: "organisms/ProductInfo02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
@@ -2641,6 +2646,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--prod-info-btn-text", label: "Texto do botão Adicionar ao carrinho", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor terciária de contraste da marca" },
         { cssVar: "--prod-info-btn2-bg", label: "Fundo do botão Calcular", type: "color", default: "#000000", group: "Botão", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--prod-info-btn2-text", label: "Texto do botão Calcular", type: "color", default: "#ffffff", group: "Botão", inheritsLabel: "cor terciária de contraste da marca" },
+        { cssVar: "--prod-gallery-dot-active", label: "Marcador ativo da galeria", type: "color", default: "#000", group: "Produto", inheritsLabel: "cor terciária da marca", previewNote: "Só na visão Mobile — alterne no topo do editor." },
         { cssVar: "--prod-info-font", label: "Fonte das informações do produto", type: "font", default: "sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "03", selection: "product-info", key: "info03c4d5e6f", image: "productInfo/ProductInfo03.webp", imageSource: "auto", mobile: "", title: "Detalhes do Produto Template 3", description: "PDP FastStore (SérieA): galeria com scroll, título, avaliação, variações de cor/tamanho, selos de confiança e accordion", template: "3", pagina: ["product"], component: "ProductInfo03", path: "organisms/ProductDetails02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
@@ -2890,6 +2896,7 @@ export const LAYOUTS: Layouts = {
       { id: "01", selection: "product-related", key: "rel01f6g7h8i", image: "productRelated/ProductRelated01.webp", imageSource: "design", mobile: "", title: "Título Template 1", description: "Descrição Template 1", template: "1", pagina: ["product"], component: "ProductRelated01", path: "overrides/CrossSellingShelf01", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: [], variablesSchema: [
         { cssVar: "--showcase-bg", label: "Fundo da seção", type: "color", default: "#ffffff", group: "Relacionados" },
         { cssVar: "--showcase-title-color", label: "Texto do título", type: "color", default: "#122161", group: "Relacionados", inheritsLabel: "cor base do texto" },
+        { cssVar: "--showcase-accent", label: "Destaque (marcador ativo)", type: "color", default: "#682a77", group: "Relacionados", inheritsLabel: "cor primária da marca" },
         { cssVar: "--showcase-title-font", label: "Fonte do título", type: "font", default: "'Manrope', sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
       ] },
       { id: "09", selection: "product-related", key: "rel09edt4n7z", image: "productRelated/ProductRelated09.webp", imageSource: "auto", mobile: "", title: "Produtos relacionados Template 9", description: "\"Você também pode gostar\": título em serifa, setas na linha do título e quatro cards por vez; no mobile, cards rolando de lado com filete de progresso", template: "9", pagina: ["product"], override: true, component: "ProductRelated09", path: "overrides/CrossSellingShelf09", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [

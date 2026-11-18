@@ -1438,7 +1438,7 @@
   }
 
   .product__info .info__container .info__row .info__left .info__position .info__image .swiperPagination .swiperPaginationBulletActive {
-    background-color: var(--background-tertiary-color);
+    background-color: var(--prod-gallery-dot-active, var(--background-tertiary-color, #000));
   }
 
   .product__info .info__container .info__row .info__left .info__position .info__image #visualBlock #colFotos #foto_a .foto_a_wrapper {

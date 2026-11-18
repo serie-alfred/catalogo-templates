@@ -125,7 +125,7 @@
 }
 
 .home__showcase .showcase__container .showcase__wrapper .swiper__showcase__pagination .swiper__bullet.swiper__bullet__active {
-  background-color: var(--background-primary-color-safe);
+  background-color: var(--shelf-accent, var(--background-primary-color-safe, #b8976a));
 }
 
 .home__showcase .showcase__container .showcase__wrapper .swiper__button__prev,

@@ -62,7 +62,7 @@
 }
 
 .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet.swiperPaginationBulletActive {
-  background-color: var(--background-primary-color-safe);
+  background-color: var(--showcase-accent, var(--background-primary-color-safe, #000000));
 }
 
 .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcaseButtonPrev,

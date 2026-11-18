@@ -43,7 +43,7 @@
 
 .sectionText {
   flex: 1;
-  background: var(--background-tertiary-color);
+  background: var(--banner-side-bg, var(--background-tertiary-color, #000000));
   color: var(--banner-side-text, var(--text-tertiary-color, #ffffff));
   display: flex;
   flex-direction: column;

@@ -1496,7 +1496,7 @@
   }
 
   .produtoImagem .swiper :global(.swiper-pagination-bullet-active) {
-    background-color: var(--background-primary-color-safe, #682A77);
+    background-color: var(--prod-gallery-dot-active, var(--background-primary-color-safe, #682A77));
   }
 
   .product__info .info__container .info__row .info__left {
