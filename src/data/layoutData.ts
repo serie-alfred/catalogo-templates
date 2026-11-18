@@ -1308,6 +1308,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--benefits-font", label: "Fonte da régua", type: "font", default: "'DM Sans', sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
       { id: "02", selection: "ruler", key: "bnf0213jan45", image: "ruler/Ruler02.webp", imageSource: "design", mobile: "", title: "Regua de benefícios Template 2", description: "Descrição Template 2", template: "2", pagina: ["home"], component: "Ruler02", path: "molecules/Ruler02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
+        { cssVar: "--ruler-bg", label: "Fundo da régua", type: "color", default: "#000000", group: "Régua", inheritsLabel: "cor primária da marca" },
         { cssVar: "--ruler-text", label: "Texto da régua", type: "color", default: "#ffffff", group: "Régua", inheritsLabel: "cor primária de contraste da marca" },
         { cssVar: "--ruler-font", label: "Fonte da régua de benefícios", type: "font", default: "sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },

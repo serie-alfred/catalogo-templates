@@ -2,7 +2,7 @@
   padding: 25px 0px;
   margin-bottom: 30px;
   /* border-bottom: 1px solid #efeff0; */
-  background: var(--background-primary-color);
+  background: var(--ruler-bg, var(--background-primary-color, #000000));
   font-family: var(--ruler-font, var(--font-secundary, sans-serif));
   container-type: inline-size;
   width: 100%;
