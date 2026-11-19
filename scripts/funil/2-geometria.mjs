@@ -76,6 +76,14 @@ const DIVERGENCIAS_CONSCIENTES = [
   },
   { label: 't3.meta2', eixos: ['w'], motivo: 'idem t3.meta1' },
   { label: 't3.meta3', eixos: ['w'], motivo: 'idem t3.meta1' },
+  {
+    label: 'painelDir.grupo1.rotulo',
+    eixos: ['w'],
+    motivo:
+      'O Figma escreve "Fundo da barra superior"; desde fb9548f (16/11) o ' +
+      'campo do Header01 se chama "Fundo do pré-header". Texto diferente, largura hug ' +
+      'diferente. x, y e h continuam conferidos.',
+  },
 ];
 
 /**
@@ -126,10 +134,12 @@ const DESVIOS_DO_REDESIGN = {
   'painelEsq.plataformaLegenda': { w: -48.58, x: -35.42 },
   'painelEsq.plataformaChevron': { x: -84, y: -4 },
   // ── lista de seções (dentro do painel esquerdo) ──
-  'lista.linha1': { w: -80.6, x: -19.4, y: -8 },
-  'lista.linha1.cabeca': { w: -72.6, x: -19.4, y: -12 },
-  'lista.linha1.caret': { x: -19.4, y: -12 },
-  'lista.linha1.toggle': { x: -92, y: -12 },
+  // +49 no y da 1ª linha: a barra do "Recolher todas / Remover todas" (46fda24, 17/11)
+  // existe com qualquer seção na página e empurra a lista; o Figma não a desenha.
+  'lista.linha1': { w: -80.6, x: -19.4, y: 41 },
+  'lista.linha1.cabeca': { w: -72.6, x: -19.4, y: 37 },
+  'lista.linha1.caret': { x: -19.4, y: 37 },
+  'lista.linha1.toggle': { x: -92, y: 37 },
   'lista.linha2': { h: -8, w: -80.6, x: -19.4 },
   'lista.linha2.cabeca': { w: -72.6, x: -19.4 },
   'lista.linha2.caret': { x: -19.4 },
@@ -147,18 +157,24 @@ const DESVIOS_DO_REDESIGN = {
   'topbar.historico.icone1': { x: -100 },
   'topbar.historico.botao2': { x: -100 },
   'topbar.historico.icone2': { x: -100 },
-  'topbar.paginaCaret': { x: -0.55 },
-  'topbar.toggle': { x: 99.08 },
-  'topbar.desktop': { w: -10.5, x: 99.08 },
-  'topbar.desktop.icone': { x: 95.27 },
-  'topbar.mobile': { w: 10.5, x: 88.58 },
-  'topbar.mobile.icone': { x: 101.2 },
+  // O SEED é Wake: desde dfa9802 (16/11) a topbar mostra o botão do token da Wake
+  // (40 + 8 de gap) antes do "Pré-visualizar", e o meio da barra anda -24 (página) e
+  // -48 (alternador). Medidos.
+  'topbar.pagina': { x: -24.36 },
+  'topbar.paginaCaret': { x: -24.55 },
+  'topbar.toggle': { x: 51.08 },
+  'topbar.desktop': { w: -10.5, x: 51.08 },
+  'topbar.desktop.icone': { x: 47.27 },
+  'topbar.mobile': { w: 10.5, x: 40.58 },
+  'topbar.mobile.icone': { x: 53.2 },
   // ── painel direito — 420→264 e começa abaixo da topbar ──
-  // Os dois botões mudaram de PAI (foram para a topbar), daí o x muito maior.
-  // A largura do "Pré-visualizar" caiu 28.19 porque o padding do botão encolheu
-  // junto com a barra. Medidos, não estimados.
-  'painelDir.previsualizar': { w: -28.19, x: -631.36 },
-  'painelDir.previsualizarIcone': { x: -551.55 },
+  // Os dois botões mudaram de PAI (foram para a topbar). O "Pré-visualizar" fica à
+  // esquerda do "Baixar" na trilha `auto` das ações, que cresce para a esquerda: ele
+  // não anda com o botão do token da Wake. Até 19/11 o seletor (`button[class*=
+  // "trigger"]` na topbar) casava o SELETOR DE PÁGINA, que vem antes no DOM, e estes
+  // dois nós mediam a página, não o botão (-631.36 era a página). Medidos de novo.
+  'painelDir.previsualizar': { x: 99.08 },
+  'painelDir.previsualizarIcone': { x: 99.08 },
   painelDir: { h: -64, w: -156, x: 156, y: 64 },
   'painelDir.grupo1': { w: -156, x: 156 },
   'painelDir.grupo1.titulo': { w: -140, x: 148 },
@@ -195,9 +211,6 @@ const DESVIOS_DO_REDESIGN = {
   't4.bloco2': { h: -8, w: -80.6, x: -19.4, y: -8 },
   't4.titulo2': { x: -27.4, y: -12 },
   't4.input2': { w: -64.6, x: -27.4, y: -12 },
-  't4.bloco3': { h: -8, w: -80.6, x: -19.4, y: -16 },
-  't4.titulo3': { x: -27.4, y: -20 },
-  't4.input3': { w: -64.6, x: -27.4, y: -20 },
   // ── destino Identidade visual ──
   't3.header': { w: -80.6, x: -19.4 },
   't3.slot1': { w: -80.6, x: -19.4 },
@@ -657,16 +670,18 @@ await cmp('painelDir', DIR, noR('Frame 158'));
  * Os DOIS BOTÕES continuam medidos, contra a mesma referência do Figma: eles
  * não sumiram, mudaram de pai. Reapontar (em vez de apagar) é o que mantém a
  * cobertura e o que faz o estágio ainda reprovar se alguém mexer neles.
+ * O seletor entra pelas AÇÕES da topbar: o seletor de página também tem classe
+ * `trigger` e vem antes no DOM (foi ele que estes dois nós mediram até 19/11).
  */
 const TOPBAR_ACOES = 'header[class*="topbar"]';
 await cmp(
   'painelDir.previsualizar',
-  `${TOPBAR_ACOES} button[class*="trigger"]`,
+  `${TOPBAR_ACOES} div[class*="actions"] button[class*="trigger"]`,
   noR('Frame 158 > Frame 131 > Button[1]')
 );
 await cmp(
   'painelDir.previsualizarIcone',
-  `${TOPBAR_ACOES} button[class*="trigger"] svg`,
+  `${TOPBAR_ACOES} div[class*="actions"] button[class*="trigger"] svg`,
   noR('Frame 158 > Frame 131 > Button[1] > Edit / Show')
 );
 await cmp(
@@ -772,7 +787,8 @@ for (const [i, bloco] of [
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// Tela 4 — Tipografia: 3 blocos idênticos
+// Tela 4 — Tipografia: 2 blocos idênticos. O 3º do Figma (fonte terciária, Frame 150)
+// saiu do painel em 0a077b7 (16/11): nenhum componente a lia. Fica sem gêmeo no DOM.
 // ═══════════════════════════════════════════════════════════════════════════
 await irParaRail(page, 'Tipografia');
 await page
@@ -780,7 +796,7 @@ await page
     () =>
       document.querySelectorAll(
         'aside[aria-label="Painel de edição"] section[class*="block"]'
-      ).length >= 3,
+      ).length >= 2,
     { timeout: 15000, polling: 200 }
   )
   .catch(() => {});
@@ -789,7 +805,7 @@ await espera(500);
 const F4 = arvore(load('t4-esquerda'));
 const noF4 = e => caminho(F4, e);
 await cmp('t4.header', `${ASIDE} > header`, noF4('Frame 143 > Frame 148'));
-for (const [i, bloco] of ['Frame 146', 'Frame 149', 'Frame 150'].entries()) {
+for (const [i, bloco] of ['Frame 146', 'Frame 149'].entries()) {
   const raiz = `Frame 143 > ${bloco}`;
   const dom = `${ASIDE} section[class*="block"]:nth-of-type(${i + 1})`;
   await cmp(`t4.bloco${i + 1}`, dom, noF4(raiz));
@@ -805,6 +821,20 @@ for (const [i, bloco] of ['Frame 146', 'Frame 149', 'Frame 150'].entries()) {
     `${dom} input`,
     noF4(`${raiz} > Frame 31 > Button`),
     'xywh'
+  );
+}
+
+{
+  const blocos = await page.evaluate(
+    () =>
+      document.querySelectorAll(
+        'aside[aria-label="Painel de edição"] section[class*="block"]'
+      ).length
+  );
+  r.ok(
+    'Tipografia tem 2 blocos (a fonte terciária saiu do painel em 0a077b7)',
+    blocos === 2,
+    `${blocos} blocos`
   );
 }
 
