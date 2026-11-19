@@ -126,10 +126,17 @@ export default function CategoryDescription10() {
     if (!el || aberto) return;
     const medir = () => setTemMais(el.scrollHeight > el.clientHeight + 1);
     medir();
-    if (typeof ResizeObserver === 'undefined') return;
+    // A fonte da página, ao carregar, muda as quebras do texto cortado sem mudar a caixa,
+    // e o ResizeObserver não avisa. Mede de novo quando as fontes chegam.
+    let vivo = true;
+    document.fonts?.ready.then(() => vivo && medir());
+    if (typeof ResizeObserver === 'undefined') return () => { vivo = false };
     const ro = new ResizeObserver(medir);
     ro.observe(el);
-    return () => ro.disconnect();
+    return () => {
+      vivo = false;
+      ro.disconnect();
+    };
   }, [corpo, aberto]);
 
   const temSobre = !!semTags(corpo);

@@ -51,7 +51,7 @@
 }
 
 .header .headerTop .topContainer .topRow .topLogin a svg path {
-  stroke: var(--text-tertiary-color);
+  stroke: var(--header-topbar-text, var(--text-tertiary-color, #ffffff));
 }
 
 .header .headerTop .topContainer .topRow .topWhatsapp {
@@ -204,7 +204,7 @@
   form
   .searchKey {
   background-color: var(--header-field-bg, #ffffff);
-  color: var(--text-color-base);
+  color: var(--header-text, var(--text-color-base, #ffffff));
   font-family: var(--header-body-font, var(--font-secundary, 'Poppins', Arial, Helvetica, sans-serif));
   border: none;
   border-radius: 120px;

@@ -221,7 +221,7 @@
   .prices
   .price-before {
   margin-bottom: 6px;
-  color: var(--spot-old-price, #6a6a6a);
+  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #000000)) 55%, transparent));
 }
 
 .favoriteCard svg {

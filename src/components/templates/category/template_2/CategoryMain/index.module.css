@@ -505,6 +505,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  color: var(--cat-main-text, var(--text-primary-color, #141414));
 }
 
 .filterArrow svg {
@@ -643,6 +644,7 @@
   .filter .filterTitleForm,
   .filter .filterTitleActive,
   .filter .filterTitle,
+  .filter .filterArrow,
   .filter .filterName,
   .filter .filterCount {
     color: var(--cat-main-panel-text, var(--cat-main-text, var(--text-primary-color, #141414)));

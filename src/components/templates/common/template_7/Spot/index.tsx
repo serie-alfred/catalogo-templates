@@ -29,6 +29,9 @@ export interface ProdutoCard07 {
   price: string;
   installment?: string;
   pix?: string;
+  /** Versão compacta (a do card mobile da origem: "10× R$ 77,99", "Pix R$ 740,90"). */
+  installmentCompact?: string;
+  pixCompact?: string;
 }
 
 const produtoPadrao: ProdutoCard07 = {
@@ -64,7 +67,71 @@ export default function Spot() {
  * O card 07 com os produtos de quem o usa: é o que a PLP 07 (`CategoryMain07`) desenha
  * quando o card da loja é o 07 ou nenhum (o starter faz o mesmo com o ProductCard07).
  */
-export function ProductCard07({ produto = produtoPadrao }: { produto?: ProdutoCard07 }) {
+export function ProductCard07({
+  produto = produtoPadrao,
+  variant,
+}: {
+  produto?: ProdutoCard07;
+  /** `mobile` = a árvore própria do card mobile da origem (`m-ps-*`, sem coração, textos compactos). */
+  variant?: 'desktop' | 'mobile';
+}) {
+  if (variant === 'mobile') {
+    return (
+      <div className={styles.mCard} data-role="m-ps-card" data-spot="Spot07">
+        <div
+          className={styles.mImg}
+          data-role="m-ps-img"
+          style={produto.image ? { backgroundImage: `url(${produto.image})` } : undefined}
+        >
+          {produto.flag && (
+            <span
+              className={`${styles.mFlag} ${produto.flagVariant === 'sale' ? styles.flagSale : styles.flagGold}`}
+              data-role="m-ps-flag"
+            >
+              {produto.flag}
+            </span>
+          )}
+        </div>
+        <div className={styles.mCardBody}>
+          <h3 className={styles.mCardTitle} data-role="m-ps-cardtitle">
+            {produto.title}
+          </h3>
+          <div className={styles.mPriceRow}>
+            {produto.listPrice ? (
+              <span className={styles.mListPrice} data-role="m-ps-listprice">
+                {produto.listPrice}
+              </span>
+            ) : (
+              <span className={`${styles.mListPrice} ${styles.mListPriceGhost}`} aria-hidden="true">
+                &nbsp;
+              </span>
+            )}
+            <p className={styles.mPrice} data-role="m-ps-price">
+              {produto.price}
+            </p>
+          </div>
+          {produto.installmentCompact ? (
+            <p className={styles.mInstallment} data-role="m-ps-installment">
+              {produto.installmentCompact}
+            </p>
+          ) : (
+            <p className={styles.mInstallment} aria-hidden="true">
+              &nbsp;
+            </p>
+          )}
+          {produto.pixCompact && (
+            <p className={styles.mPix} data-role="m-ps-pix">
+              {produto.pixCompact}
+            </p>
+          )}
+          <span className={styles.mFill} aria-hidden="true" />
+          <button type="button" className={styles.mBuy} data-role="m-ps-buy">
+            Comprar
+          </button>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className={styles.card} data-role="ps-card" data-spot="Spot07">
       <div
@@ -112,9 +179,15 @@ export function ProductCard07({ produto = produtoPadrao }: { produto?: ProdutoCa
         </div>
 
         {/* altura reservada mesmo sem parcelamento — ver .installment no CSS */}
-        <p className={styles.installment} data-role="ps-installment">
-          {produto.installment}
-        </p>
+        {produto.installment ? (
+          <p className={styles.installment} data-role="ps-installment">
+            {produto.installment}
+          </p>
+        ) : (
+          <p className={`${styles.installment} ${styles.installmentGhost}`} aria-hidden="true">
+            &nbsp;
+          </p>
+        )}
         {produto.pix && (
           <p className={styles.pix} data-role="ps-pix">
             {produto.pix}
