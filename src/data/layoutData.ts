@@ -1021,7 +1021,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--footer-bg", label: "Fundo do rodapé", type: "color", default: "#2a2350", group: "Footer", inheritsLabel: "cor do rodapé" },
         { cssVar: "--footer-text", label: "Texto do rodapé", type: "color", default: "#fffbf2", group: "Footer", inheritsLabel: "cor do texto do rodapé" },
         { cssVar: "--footer-accent", label: "Destaque (títulos e bolinha da marca)", type: "color", default: "#ffc93c", group: "Footer", inheritsLabel: "cor secundária da marca" },
-        { cssVar: "--footer-wave", label: "Cor da onda no topo", type: "color", default: "#fffbf2", group: "Footer" },
+        { cssVar: "--footer-wave", label: "Fundo da faixa ondulada no topo (o creme)", type: "color", default: "#fffbf2", group: "Footer", previewNote: "É o recorte creme em volta da faixa: use a cor da seção vizinha para emendar sem marca." },
         { cssVar: "--footer-title-font", label: "Fonte dos títulos", type: "font", default: "'Fredoka', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--footer-font", label: "Fonte do texto", type: "font", default: "'Nunito', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
       ] },
@@ -1322,6 +1322,7 @@ export const LAYOUTS: Layouts = {
       ] },
       { id: "16", selection: "banner-main", key: "ban16inf9p1s", image: "banner/BannerMain16.webp", imageSource: "auto", mobile: "", title: "Banner principal Template 16", description: "Faixa amarela com o selo em pílula branca, o título grande arredondado, o texto, o botão roxo e o botão branco em pílula com sombra chapada; à direita a arte arredondada com filete e o selo coral redondo e inclinado; os pontos com o atual em pílula, as setas redondas e a onda creme fechando a faixa. No mobile, a arte no topo e o botão largo", template: "16", pagina: ["home"], component: "BannerMain16", path: "organisms/BannerMain16", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--banner-main-bg", label: "Fundo do banner", type: "color", default: "#ffc93c", group: "Banner", inheritsLabel: "cor secundária da marca" },
+        { cssVar: "--banner-main-wave", label: "Fundo da faixa ondulada no pé (o creme)", type: "color", default: "#fffbf2", group: "Banner", previewNote: "É o recorte creme em volta da faixa: use a cor da seção vizinha para emendar sem marca." },
         { cssVar: "--banner-main-text", label: "Texto do banner", type: "color", default: "#2a2350", group: "Banner", inheritsLabel: "cor secundária de contraste da marca" },
         { cssVar: "--banner-main-accent", label: "Destaque (selo da arte)", type: "color", default: "#ff6f61", group: "Banner", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--banner-main-button-bg", label: "Fundo do botão principal", type: "color", default: "#5b4bdb", group: "Botão", inheritsLabel: "cor primária da marca" },
@@ -2007,7 +2008,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--cat-title-title-font", label: "Fonte dos títulos", type: "font", default: "'Fredoka', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--cat-title-font", label: "Fonte do texto", type: "font", default: "'Nunito', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--cat-title-chip-text", label: "Texto e borda das pílulas das subcategorias", type: "color", default: "#2a2350", group: "Pílulas", inheritsLabel: "texto da faixa" },
-        { cssVar: "--cat-title-wave", label: "Cor da onda no pé da faixa", type: "color", default: "#fffbf2", group: "Título" },
+        { cssVar: "--cat-title-wave", label: "Fundo da faixa ondulada no pé (o creme)", type: "color", default: "#fffbf2", group: "Título", previewNote: "É o recorte creme em volta da faixa: use a cor da seção vizinha para emendar sem marca." },
       ] },
       { id: "17", selection: "category-title", key: "ctt17pet5v2n", image: "categoryTitle/CategoryTitle17.webp", imageSource: "auto", mobile: "", title: "Título da categoria Template 17", description: "Faixa verde-água clara com o nome da categoria grande, a contagem em teal ao lado, a descrição curta e as subcategorias em pílulas com a quantidade. No mobile, sem a descrição", template: "17", pagina: ["category"], component: "CategoryTitle17", path: "organisms/CategoryTitle17", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--cat-title-bg", label: "Fundo da faixa", type: "color", default: "#eaf4f3", group: "Título" },
@@ -2339,7 +2340,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--newsletter-title-font", label: "Fonte dos títulos", type: "font", default: "'Fredoka', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--newsletter-font", label: "Fonte do texto", type: "font", default: "'Nunito', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
         { cssVar: "--newsletter-input-text", label: "Texto e borda dos campos Nome e E-mail", type: "color", default: "#2a2350", group: "Campos", inheritsLabel: "texto do botão" },
-        { cssVar: "--newsletter-wave", label: "Cor das ondas acima e abaixo da faixa", type: "color", default: "#fffbf2", group: "Newsletter" },
+        { cssVar: "--newsletter-wave", label: "Fundo das faixas onduladas acima e abaixo (o creme)", type: "color", default: "#fffbf2", group: "Newsletter", previewNote: "É o recorte creme em volta da faixa: use a cor da seção vizinha para emendar sem marca." },
       ] },
       { id: "17", selection: "newsletter", key: "nws17pet7j2a", image: "newsletter/Newsletter17.webp", imageSource: "auto", mobile: "", title: "Newsletter Template 17", description: "Faixa teal: à esquerda o recorte orgânico tangerina com a patinha, o título e o texto; à direita Nome e E-mail em pílulas translúcidas com rótulo, o botão tangerina \"Quero receber\" e a política. No mobile, tudo numa coluna", template: "17", pagina: ["home"], component: "Newsletter17", path: "organisms/Newsletter17", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary"], variablesSchema: [
         { cssVar: "--newsletter-bg", label: "Fundo da faixa", type: "color", default: "#0e6b73", group: "Newsletter", inheritsLabel: "cor primária da marca" },
@@ -3276,7 +3277,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--countdown-accent-text", label: "Texto sobre o destaque", type: "color", default: "#2a2350", group: "Contador", inheritsLabel: "cor secundária de contraste da marca" },
         { cssVar: "--countdown-title-font", label: "Fonte dos títulos, dos números e dos botões", type: "font", default: "'Fredoka', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte primária" },
         { cssVar: "--countdown-font", label: "Fonte do texto", type: "font", default: "'Nunito', system-ui, sans-serif", group: "Tipografia", inheritsLabel: "fonte secundária" },
-        { cssVar: "--countdown-wave", label: "Cor das ondas acima e abaixo da faixa", type: "color", default: "#fffbf2", group: "Contador" },
+        { cssVar: "--countdown-wave", label: "Fundo das faixas onduladas acima e abaixo (o creme)", type: "color", default: "#fffbf2", group: "Contador", previewNote: "É o recorte creme em volta da faixa: use a cor da seção vizinha para emendar sem marca." },
       ] },
       { id: "17", selection: "countdown", key: "cnt17pet2r5w", image: "countdown/Countdown17.webp", imageSource: "auto", mobile: "", title: "Contador Template 17", description: "Faixa petróleo: à esquerda a arte em recorte orgânico; à direita a etiqueta \"Semana do Pet\" com a patinha, a chamada, a contagem em quatro caixas tangerina, o texto e o botão tangerina em pílula. No mobile, tudo numa coluna com o botão largo", template: "17", pagina: ["home"], component: "Countdown17", path: "organisms/Countdown17", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["footer"], variablesSchema: [
         { cssVar: "--countdown-bg", label: "Fundo do contador", type: "color", default: "#0e2f38", group: "Contador", inheritsLabel: "cor do rodapé" },

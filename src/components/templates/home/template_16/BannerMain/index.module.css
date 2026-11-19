@@ -244,7 +244,7 @@
   display: block;
   width: 100%;
   height: 40px;
-  fill: #fffbf2;
+  fill: var(--banner-main-wave, #fffbf2);
 }
 
 .mob {
