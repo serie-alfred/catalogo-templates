@@ -1456,6 +1456,42 @@ const TIPOS_DS = new Set([
   'product_list',
 ]);
 
+/**
+ * O HTML lê o setting `nome` do bloco? Três formas válidas no Scriban da Wake:
+ *  - direta: `cms.titulo_texto`;
+ *  - dividida (`card_2_titulo`): o laço monta com `"card"` e `"titulo"` literais;
+ *  - indexada (`texto_3`, sem sufixo): o laço lê `cms["texto_" + n]`. Até 19/11 a
+ *    checagem não conhecia esta forma e acusava 180 campos que o HTML lê (descrições
+ *    de categoria 01, 06, 09–17 e o guia de medidas da PLP 07).
+ */
+export function htmlLeSetting(html, nome) {
+  if (new RegExp(`\\.${nome}\\b`).test(html)) return true;
+  const p = /^(.+?)_(\d+)_(.+)$/.exec(nome);
+  if (p && html.includes(`"${p[1]}"`) && html.includes(`"${p[3]}"`)) return true;
+  const q = /^(.+)_(\d+)$/.exec(nome);
+  return !!q && new RegExp(`\\[\\s*"${q[1]}_"\\s*\\+`).test(html);
+}
+
+/** Casos fixos de `htmlLeSetting`: um caso quebrado reprova o estágio. */
+export function autotesteHtmlLeSetting(r) {
+  const casos = [
+    ['{{ cms.titulo_texto }}', 'titulo_texto', true],
+    ['{{ cms.titulo_textos }}', 'titulo_texto', false],
+    ['cms["card_" + n]["titulo"] ... "card" "titulo"', 'card_2_titulo', true],
+    ['x = cms["texto_" + n] ?? ""', 'texto_3', true],
+    ['x = cms[ "texto_" + n]', 'texto_1', true],
+    ['x = cms["textos_" + n]', 'texto_1', false],
+    ['x = cms["texto_"]', 'texto_1', false],
+    ['x = cms["pergunta_" + n]', 'resposta_1', false],
+  ];
+  const falhas = casos.filter(([h, n, esperado]) => htmlLeSetting(h, n) !== esperado);
+  r.ok(
+    `autoteste de htmlLeSetting: ${casos.length - falhas.length}/${casos.length} casos`,
+    falhas.length === 0,
+    falhas.map(([h, n, e]) => `${n} em ${JSON.stringify(h)} deveria ser ${e}`).join(' | ')
+  );
+}
+
 export function conferirSchemasDesignStudio(r, raiz = GLOBAL_TEMPLATES) {
   const base = path.join(raiz, 'Wake');
   const erros = [];
@@ -1497,11 +1533,7 @@ export function conferirSchemasDesignStudio(r, raiz = GLOBAL_TEMPLATES) {
           if (st?.type === 'select' && !(st.options?.length > 0))
             erros.push(`${id}: ${nome}: select sem options`);
           if (!nome) continue;
-          const direto = new RegExp(`\\.${nome}\\b`).test(html);
-          const p = /^(.+?)_(\d+)_(.+)$/.exec(nome);
-          const dividido =
-            !!p && html.includes(`"${p[1]}"`) && html.includes(`"${p[3]}"`);
-          if (!direto && !dividido)
+          if (!htmlLeSetting(html, nome))
             erros.push(`${id}: o HTML não lê "${nome}"`);
         }
       }

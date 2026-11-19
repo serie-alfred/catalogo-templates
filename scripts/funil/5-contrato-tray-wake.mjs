@@ -18,6 +18,7 @@ import {
   conferirTrayWake,
   conferirNuvemshop,
   conferirSchemasDesignStudio,
+  autotesteHtmlLeSetting,
   conferirLpNuvemshop,
   conferirParidadeGlobalTemplates,
 } from './lib/contrato.mjs';
@@ -30,6 +31,7 @@ const r = relatorio('Estágio 5 — contrato Tray/Wake');
 await conferirParidadeGlobalTemplates(r);
 
 // Wake 2.0: o bloco do Design Studio (`<sel>.schema.json`) e o HTML que o lê.
+autotesteHtmlLeSetting(r);
 conferirSchemasDesignStudio(r);
 
 const PLATAFORMAS = ['Tray', 'Wake', ...(NUVEMSHOP_LIGADA ? ['Nuvemshop'] : []), 'Wake 2.0'];
