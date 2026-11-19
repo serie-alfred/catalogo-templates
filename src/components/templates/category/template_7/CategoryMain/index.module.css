@@ -139,6 +139,8 @@ o texto invisível (failure-mode #14 / eye-check GATE 2). Mantidas em hex. */
   position: sticky;
   top: 118px;
   align-self: flex-start;
+  max-height: calc(100vh - 118px - 1rem);
+  overflow-y: auto;
 }
 
 .sidebarHead {

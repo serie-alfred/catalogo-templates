@@ -143,6 +143,8 @@
   align-self: flex-start;
   position: sticky;
   top: 142px;
+  max-height: calc(100vh - 142px - 1rem);
+  overflow-y: auto;
   margin-bottom: 30px;
 }
 
