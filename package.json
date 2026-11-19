@@ -15,7 +15,8 @@
     "thumbs:templates": "node scripts/thumbs/templates.mjs",
     "derivar:css": "node scripts/derivar-css.mjs",
     "nivel1:tokens": "node scripts/nivel1-tokens.mjs",
-    "alcance": "node scripts/funil/alcance.mjs"
+    "alcance": "node scripts/funil/alcance.mjs",
+    "login:e2e": "node scripts/login-e2e.mjs"
   },
   "resolutions": {
     "minimatch": "^9.0.7",
@@ -37,6 +38,8 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@lottiefiles/dotlottie-react": "^0.14.4",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.119.2",
     "@vercel/analytics": "1.5.0",
     "@vercel/kv": "^3.0.0",
     "brace-expansion": "^2.1.7",

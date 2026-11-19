@@ -197,7 +197,7 @@ export default function EditorRail({ className }: { className?: string }) {
           className={`${styles.pe} ${styles.aviso}`}
           role="status"
           aria-label="Login desligado"
-          title="Login desligado: desenvolvimento sem ETEMAS_LOGIN_USER, ETEMAS_LOGIN_PASSWORD e ETEMAS_SESSION_SECRET. Em produção, sem elas, o acesso fica fechado."
+          title="Login desligado: desenvolvimento sem NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY e SUPABASE_SECRET_KEY. Em produção, sem elas, o acesso fica fechado."
           data-login-desligado=""
         >
           <ShieldOff width={20} height={20} />

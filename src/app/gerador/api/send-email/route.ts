@@ -35,9 +35,12 @@ export async function POST(request: Request) {
   if (g.conta.papel !== 'admin' && !contaPode(g.conta, plataforma))
     return plataformaRecusada();
   // Quem enviou, no assunto e no corpo: o time sabe de que conta veio o tema.
-  // O usuário passou por `normalizarUsuario` (sem espaço, aspas nem HTML).
+  // `usuario` é o e-mail da conta (Supabase); no HTML vai escapado.
   const quem =
-    g.conta.papel === 'admin' ? 'agência' : `convidado ${g.conta.usuario}`;
+    g.conta.papel === 'admin'
+      ? `agência ${g.conta.usuario}`
+      : `convidado ${g.conta.usuario}`;
+  const quemHtml = quem.replace(/[&<>"']/g, c => `&#${c.charCodeAt(0)};`);
 
   try {
     const transporter = nodemailer.createTransport({
@@ -56,7 +59,7 @@ export async function POST(request: Request) {
       to: process.env.CONTACT_EMAIL,
       subject: `E-temas Template Config (${quem})`,
       text: `${MENSAGEM}\nEnviado pela conta: ${quem}.`,
-      html: `<p>${MENSAGEM}</p><p>Enviado pela conta: ${quem}.</p>`,
+      html: `<p>${MENSAGEM}</p><p>Enviado pela conta: ${quemHtml}.</p>`,
       attachments: [
         {
           filename: 'config.json',
