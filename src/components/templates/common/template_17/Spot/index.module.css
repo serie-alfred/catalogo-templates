@@ -383,7 +383,7 @@
    antes morava nelas. A lista marca a raiz com `data-lista`. */
 :global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17[data-role=spot] {
   height: 100%;
-  background-color: color-mix(in srgb, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)) 9%, #ffffff);
+  background-color: var(--spot-bg, color-mix(in srgb, var(--spot-btn-bg, var(--background-primary-color, #0e6b73)) 9%, #ffffff));
   color: var(--spot-text, var(--text-primary-color, #0e2f38));
 }
 :global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17[data-role=spot] > :nth-child(2) {
@@ -416,22 +416,33 @@
   left: 8px;
 }
 
-:global(:where([data-lista='productShelf17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-discount],
 :global(:where([data-lista='productShelf17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-tag] {
   background-color: var(--spot-tag-bg, var(--background-tertiary-color, #ffa24c));
   color: var(--spot-tag-text, var(--text-tertiary-color, #0e2f38));
 }
+:global(:where([data-lista='productShelf17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-discount] {
+  background-color: var(--spot-discount-bg, var(--spot-tag-bg, var(--background-tertiary-color, #ffa24c)));
+  color: var(--spot-discount-text, var(--spot-tag-text, var(--text-tertiary-color, #0e2f38)));
+}
 
-:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-brand],
-:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-list-price],
-:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-pix],
-:global(:where([data-lista='mainCategory17'])) .productCard17 [data-role=spot-unavailable],
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-brand] {
+  color: var(--spot-brand, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff));
+}
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-list-price] {
+  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff));
+}
+:global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-pix] {
+  color: var(--spot-pix, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff));
+}
+:global(:where([data-lista='mainCategory17'])) .productCard17 [data-role=spot-unavailable] {
+  color: var(--spot-unavailable, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff));
+}
 :global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-rating-count] {
-  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff);
+  color: var(--spot-rating-text, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0e2f38)) 72%, #ffffff));
 }
 
 :global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-rating] {
-  color: var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73));
+  color: var(--spot-stars, var(--spot-btn-bg, var(--background-primary-color-safe, #0e6b73)));
 }
 :global(:where([data-lista='productShelf17'], [data-lista='productShowcase17'], [data-lista='mainCategory17'])) .productCard17 [data-role=spot-rating] svg {
   width: 13px;

@@ -27,7 +27,7 @@
   padding: 0;
   list-style: none;
 }
-.productShelf09 :where(a) {
+:where(.productShelf09) :where(a) {
   color: inherit;
   text-decoration: none;
 }

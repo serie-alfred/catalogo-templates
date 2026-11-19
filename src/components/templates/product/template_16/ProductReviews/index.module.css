@@ -64,6 +64,7 @@
 }
 
 .title {
+  color: var(--prod-reviews-title-color, var(--prod-reviews-text, var(--text-primary-color, #2a2350)));
   font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 40px;
   font-weight: 700;
@@ -91,6 +92,7 @@
   border-radius: 28px;
   background-color: var(--prod-reviews-card-bg, #ffffff);
   box-shadow: 0 6px 0 var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  color: var(--prod-reviews-card-text, var(--prod-reviews-text, var(--text-primary-color, #2a2350)));
 }
 
 .average {
@@ -130,7 +132,7 @@
 }
 
 .avgCount {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #2a2350)) 70%, var(--prod-reviews-card-bg, #ffffff));
+  color: color-mix(in srgb, var(--prod-reviews-card-text, var(--prod-reviews-text, var(--text-primary-color, #2a2350))) 70%, var(--prod-reviews-card-bg, #ffffff));
   font-size: 14px;
   font-weight: 700;
 }
@@ -159,7 +161,7 @@
   height: 14px;
   overflow: hidden;
   border-radius: 999px;
-  background-color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #2a2350)) 9%, var(--prod-reviews-card-bg, #ffffff));
+  background-color: color-mix(in srgb, var(--prod-reviews-card-text, var(--prod-reviews-text, var(--text-primary-color, #2a2350))) 9%, var(--prod-reviews-card-bg, #ffffff));
 }
 
 .barFill {
@@ -248,7 +250,7 @@
   border-radius: 24px;
   outline: none;
   background-color: var(--prod-reviews-card-bg, #ffffff);
-  color: var(--prod-reviews-text, var(--text-primary-color, #2a2350));
+  color: var(--prod-reviews-card-text, var(--prod-reviews-text, var(--text-primary-color, #2a2350)));
   font-family: var(--prod-reviews-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
   font-size: 16px;
 }
@@ -297,6 +299,7 @@
   border: 2px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #2a2350)) 18%, var(--prod-reviews-bg, #fffbf2));
   border-radius: 24px;
   background-color: var(--prod-reviews-card-bg, #ffffff);
+  color: var(--prod-reviews-card-text, var(--prod-reviews-text, var(--text-primary-color, #2a2350)));
 }
 
 .reviewTop {
@@ -307,13 +310,13 @@
 }
 
 .date {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #2a2350)) 70%, var(--prod-reviews-card-bg, #ffffff));
+  color: color-mix(in srgb, var(--prod-reviews-card-text, var(--prod-reviews-text, var(--text-primary-color, #2a2350))) 70%, var(--prod-reviews-card-bg, #ffffff));
   font-size: 13px;
   font-weight: 700;
 }
 
 .author {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #2a2350)) 70%, var(--prod-reviews-card-bg, #ffffff));
+  color: color-mix(in srgb, var(--prod-reviews-card-text, var(--prod-reviews-text, var(--text-primary-color, #2a2350))) 70%, var(--prod-reviews-card-bg, #ffffff));
   font-size: 13px;
   font-weight: 800;
 }
@@ -345,6 +348,7 @@
   border: 2px solid var(--prod-reviews-text, var(--text-primary-color, #2a2350));
   border-radius: 50%;
   background-color: var(--prod-reviews-pager-bg, #ffffff);
+  color: var(--prod-reviews-card-text, var(--prod-reviews-text, var(--text-primary-color, #2a2350)));
 }
 
 .pagerOn {
@@ -358,6 +362,7 @@
   border: 2px solid var(--prod-reviews-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
   background-color: var(--prod-reviews-pager-bg, #ffffff);
+  color: var(--prod-reviews-card-text, var(--prod-reviews-text, var(--text-primary-color, #2a2350)));
   font-family: var(--prod-reviews-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 17px;
   font-weight: 600;

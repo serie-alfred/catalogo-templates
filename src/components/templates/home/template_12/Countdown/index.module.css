@@ -71,7 +71,8 @@
 .eyebrow {
   padding: 6px 14px;
   border-radius: 999px;
-  background-color: var(--countdown-surface-bg, #ffffff);
+  background-color: var(--countdown-eyebrow-bg, var(--countdown-surface-bg, #ffffff));
+  color: var(--countdown-eyebrow-text, var(--countdown-text, var(--text-primary-color, #3b1f33)));
   font-size: 13px;
   font-weight: 700;
 }
@@ -98,18 +99,18 @@
   height: 76px;
   padding: 0 16px;
   border-radius: 999px;
-  background-color: var(--countdown-surface-bg, #ffffff);
+  background-color: var(--countdown-unit-bg, var(--countdown-surface-bg, #ffffff));
 }
 
 .value {
-  color: var(--countdown-accent, var(--background-primary-color, #7a2e5f));
+  color: var(--countdown-value, var(--countdown-accent, var(--background-primary-color, #7a2e5f)));
   font-family: var(--countdown-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 30px;
   line-height: 1;
 }
 
 .unitLabel {
-  color: color-mix(in srgb, var(--countdown-text, var(--text-primary-color, #3b1f33)) 83%, var(--countdown-surface-bg, #ffffff));
+  color: var(--countdown-unit-label, color-mix(in srgb, var(--countdown-text, var(--text-primary-color, #3b1f33)) 83%, var(--countdown-surface-bg, #ffffff)));
   font-size: 12px;
   font-weight: 600;
 }
@@ -128,7 +129,7 @@
   height: 220px;
   overflow: hidden;
   border-radius: 999px 999px 24px 24px;
-  background-color: #f3ddd6;
+  background-color: var(--countdown-art-bg, #f3ddd6);
 }
 .art picture,
 .art img {

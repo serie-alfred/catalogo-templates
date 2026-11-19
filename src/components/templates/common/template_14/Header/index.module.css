@@ -111,7 +111,7 @@
   display: flex;
   align-items: center;
   gap: 28px;
-  max-width: 1280px;
+  max-width: 1440px;
   min-height: 80px;
   margin: 0 auto;
   padding: 0 clamp(16px, 3vw, 40px);
@@ -119,6 +119,7 @@
 
 .logo {
   display: inline-flex;
+  flex: none;
   align-items: center;
   gap: 5px;
   font-family: var(--header-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
@@ -206,13 +207,16 @@
 
 .actions {
   display: flex;
+  flex: 0 1 auto;
   align-items: center;
   gap: 4px;
+  min-width: 0;
   margin-left: auto;
 }
 
 .icon {
   display: flex;
+  flex: none;
   align-items: center;
   justify-content: center;
   width: 44px;
@@ -220,6 +224,8 @@
 }
 .searchWrap {
   position: relative;
+  flex: 0 1 240px;
+  min-width: 120px;
 }
 
 .search,
@@ -227,12 +233,12 @@
   display: flex;
   align-items: center;
   height: 44px;
-  background-color: color-mix(in srgb, var(--header-text, var(--text-primary-color, #0b1b33)) 6%, var(--header-bg, #ffffff));
+  background-color: var(--header-field-bg, color-mix(in srgb, var(--header-text, var(--text-primary-color, #0b1b33)) 6%, var(--header-bg, #ffffff)));
   clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
 }
 
 .search {
-  width: 240px;
+  width: 100%;
 }
 
 .searchInput {
@@ -244,14 +250,14 @@
   border-radius: 0;
   outline: none;
   background: transparent;
-  color: var(--header-text, var(--text-primary-color, #0b1b33));
+  color: var(--header-field-text, var(--header-text, var(--text-primary-color, #0b1b33)));
   font: inherit;
   font-size: 14px;
   -webkit-appearance: none;
   appearance: none;
 }
 .searchInput::placeholder {
-  color: color-mix(in srgb, var(--header-text, var(--text-primary-color, #0b1b33)) 55%, var(--header-bg, #ffffff));
+  color: color-mix(in srgb, var(--header-field-text, var(--header-text, var(--text-primary-color, #0b1b33))) 55%, var(--header-field-bg, color-mix(in srgb, var(--header-text, var(--text-primary-color, #0b1b33)) 6%, var(--header-bg, #ffffff))));
 }
 .searchInput::-webkit-search-cancel-button {
   display: none;
@@ -264,6 +270,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
+  color: var(--header-field-icon, var(--header-field-text, var(--header-text, var(--text-primary-color, #0b1b33))));
 }
 
 .suggestions {
@@ -273,14 +280,15 @@
   left: 0;
   z-index: 40;
   min-width: 280px;
-  border: 1px solid color-mix(in srgb, var(--header-text, var(--text-primary-color, #0b1b33)) 14%, var(--header-bg, #ffffff));
-  background-color: var(--header-bg, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--header-suggest-text, var(--header-text, var(--text-primary-color, #0b1b33))) 14%, var(--header-suggest-bg, var(--header-bg, #ffffff)));
+  background-color: var(--header-suggest-bg, var(--header-bg, #ffffff));
   box-shadow: 0 16px 32px rgba(11, 27, 51, 0.12);
+  color: var(--header-suggest-text, var(--header-text, var(--text-primary-color, #0b1b33)));
   font-size: 15px;
 }
 
 .suggestList + .suggestList {
-  border-top: 1px solid color-mix(in srgb, var(--header-text, var(--text-primary-color, #0b1b33)) 14%, var(--header-bg, #ffffff));
+  border-top: 1px solid color-mix(in srgb, var(--header-suggest-text, var(--header-text, var(--text-primary-color, #0b1b33))) 14%, var(--header-suggest-bg, var(--header-bg, #ffffff)));
 }
 
 .suggestItem {
@@ -292,11 +300,12 @@
   text-align: left;
 }
 .suggestItem:hover {
-  background-color: color-mix(in srgb, var(--header-text, var(--text-primary-color, #0b1b33)) 6%, var(--header-bg, #ffffff));
+  background-color: color-mix(in srgb, var(--header-suggest-text, var(--header-text, var(--text-primary-color, #0b1b33))) 6%, var(--header-suggest-bg, var(--header-bg, #ffffff)));
   opacity: 1;
 }
 .cart {
   display: flex;
+  flex: none;
   align-items: center;
   gap: 10px;
   height: 48px;
@@ -345,7 +354,23 @@
 .chevronOpen .chevron {
   transform: rotate(90deg);
 }
-@container (max-width: 960px) {
+@container (max-width: 1365px) {
+  .bar {
+    gap: 20px;
+  }
+  .navItem {
+    padding: 14px 8px;
+  }
+}
+@container (max-width: 1279px) {
+  .cart {
+    padding: 0 16px;
+  }
+  .header14 .cart .dsk {
+    display: none !important;
+  }
+}
+@container (max-width: 1199px) {
   .header14 .dsk {
     display: none !important;
   }

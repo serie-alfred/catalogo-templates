@@ -53,6 +53,7 @@
 }
 
 .title {
+  color: var(--socialproof-title-color, var(--socialproof-text, var(--text-primary-color, #2a2350)));
   font-family: var(--socialproof-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 44px;
   font-weight: 700;
@@ -70,11 +71,11 @@
   justify-content: center;
   width: 52px;
   height: 52px;
-  border: 2px solid var(--socialproof-text, var(--text-primary-color, #2a2350));
+  border: 2px solid var(--socialproof-title-color, var(--socialproof-text, var(--text-primary-color, #2a2350)));
   border-radius: 50%;
   background-color: var(--socialproof-arrow-bg, #ffffff);
-  color: var(--socialproof-text, var(--text-primary-color, #2a2350));
-  box-shadow: 0 4px 0 var(--socialproof-text, var(--text-primary-color, #2a2350));
+  color: var(--socialproof-arrow-text, var(--socialproof-text, var(--text-primary-color, #2a2350)));
+  box-shadow: 0 4px 0 var(--socialproof-title-color, var(--socialproof-text, var(--text-primary-color, #2a2350)));
 }
 .arrow:disabled {
   cursor: default;
@@ -210,7 +211,7 @@
 .dot {
   width: 10px;
   height: 10px;
-  border: 2px solid var(--socialproof-text, var(--text-primary-color, #2a2350));
+  border: 2px solid var(--socialproof-title-color, var(--socialproof-text, var(--text-primary-color, #2a2350)));
   border-radius: 50%;
 }
 
@@ -218,7 +219,7 @@
   width: 28px;
   border: 0;
   border-radius: 999px;
-  background-color: var(--socialproof-text, var(--text-primary-color, #2a2350));
+  background-color: var(--socialproof-title-color, var(--socialproof-text, var(--text-primary-color, #2a2350)));
 }
 
 @container (min-width: 961px) and (max-width: 1199px) {

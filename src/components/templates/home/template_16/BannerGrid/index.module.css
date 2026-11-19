@@ -60,24 +60,54 @@
 }
 
 .tom0 {
-  background-color: #f3e6c4;
+  background-color: var(--banner-grid-first-bg, #f3e6c4);
+}
+
+.tom0 .title {
+  color: var(--banner-grid-first-text, var(--banner-grid-title-color, var(--text-primary-color, #2a2350)));
+}
+
+.tom0 .text {
+  color: var(--banner-grid-first-text, var(--banner-grid-text, var(--text-primary-color, #2a2350)));
 }
 .tom0 .bubble {
+  border-color: var(--banner-grid-bubble-first-text, var(--banner-grid-text, var(--text-primary-color, #2a2350)));
   background-color: var(--banner-grid-bubble-first-bg, #ffc93c);
+  color: var(--banner-grid-bubble-first-text, var(--banner-grid-text, var(--text-primary-color, #2a2350)));
 }
 
 .tom1 {
-  background-color: #f4ddd7;
+  background-color: var(--banner-grid-second-bg, #f4ddd7);
+}
+
+.tom1 .title {
+  color: var(--banner-grid-second-text, var(--banner-grid-title-color, var(--text-primary-color, #2a2350)));
+}
+
+.tom1 .text {
+  color: var(--banner-grid-second-text, var(--banner-grid-text, var(--text-primary-color, #2a2350)));
 }
 .tom1 .bubble {
+  border-color: var(--banner-grid-bubble-second-text, var(--banner-grid-text, var(--text-primary-color, #2a2350)));
   background-color: var(--banner-grid-bubble-second-bg, #ff6f61);
+  color: var(--banner-grid-bubble-second-text, var(--banner-grid-text, var(--text-primary-color, #2a2350)));
 }
 
 .tom2 {
-  background-color: #d8eeea;
+  background-color: var(--banner-grid-third-bg, #d8eeea);
+}
+
+.tom2 .title {
+  color: var(--banner-grid-third-text, var(--banner-grid-title-color, var(--text-primary-color, #2a2350)));
+}
+
+.tom2 .text {
+  color: var(--banner-grid-third-text, var(--banner-grid-text, var(--text-primary-color, #2a2350)));
 }
 .tom2 .bubble {
+  border-color: var(--banner-grid-bubble-third-text, var(--banner-grid-text, var(--text-primary-color, #2a2350)));
   background-color: var(--banner-grid-bubble-third-bg, #22b8a7);
+  color: var(--banner-grid-bubble-third-text, var(--banner-grid-text, var(--text-primary-color, #2a2350)));
 }
 
 .art {

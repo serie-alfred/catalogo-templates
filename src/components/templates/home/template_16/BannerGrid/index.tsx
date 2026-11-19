@@ -76,6 +76,10 @@ const Seta = () => (
   </svg>
 )
 
+// A cor de cada posição (fundo, bolha e texto do cartão): classe escrita por extenso, como no
+// starter.
+const TONS = [styles.tom0, styles.tom1, styles.tom2]
+
 export default function BannerGrid16() {
   const { banners = [] } = bannerGrid16Mock
   if (!banners.length) return null
@@ -86,7 +90,7 @@ export default function BannerGrid16() {
       <link rel="stylesheet" href={FONTES} />
       <div className={styles.grid}>
         {banners.map((b, i) => (
-          <a key={i} className={`${styles.banner} ${styles[`tom${i % 3}`]}`} href={b.url || '#'} data-role="bg-item">
+          <a key={i} className={`${styles.banner} ${TONS[i % 3]}`} href={b.url || '#'} data-role="bg-item">
             {(b.imageDesktop || b.imageMobile) && (
               <picture className={styles.art}>
                 {b.imageMobile && <source media="(max-width: 960px)" srcSet={b.imageMobile} />}

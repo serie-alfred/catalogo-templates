@@ -71,6 +71,7 @@
   border: 2px solid var(--prod-desc-text, var(--text-primary-color, #2a2350));
   border-radius: 28px;
   background-color: var(--prod-desc-card-bg, #ffffff);
+  color: var(--prod-desc-card-text, var(--prod-desc-text, var(--text-primary-color, #2a2350)));
 }
 .card:nth-child(3n+2) .cardNum {
   transform: rotate(6deg);

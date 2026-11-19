@@ -456,10 +456,12 @@
 
 /* ── Só no catálogo ───────────────────────────────────────────────────── */
 /* O quadro do desenho `Spot13` (palco do starter, `Comum13Stage.module.scss`): o preto da
-   família, as colunas do canvas e os rótulos de estado. */
+   família, as colunas do canvas e os rótulos de estado. O card 13 não tem caixa: senta no
+   fundo da lista. O palco pinta o "Fundo sob o card" (`--spot-bg`, a mesma base dos textos
+   apagados), para o lojista ver o card no fundo que escolheu; sem valor, o preto de antes. */
 .spotStage {
   width: 100%;
-  background-color: var(--background-secundary-color, #0d0d0d);
+  background-color: var(--spot-bg, var(--background-secundary-color, #0d0d0d));
   font-family: 'Barlow', system-ui, sans-serif;
   line-height: normal;
   letter-spacing: normal;

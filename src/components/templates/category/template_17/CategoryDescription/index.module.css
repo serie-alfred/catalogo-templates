@@ -172,8 +172,8 @@
   background-color: var(--cat-desc-bg, #ffffff);
 }
 .faqOpen .sign {
-  background-color: var(--cat-desc-accent, var(--background-primary-color, #0e6b73));
-  color: var(--text-color-base, #ffffff);
+  background-color: var(--cat-desc-sign-bg, var(--cat-desc-accent, var(--background-primary-color, #0e6b73)));
+  color: var(--cat-desc-sign-text, var(--text-color-base, #ffffff));
 }
 
 .answer {

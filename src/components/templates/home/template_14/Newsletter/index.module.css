@@ -112,18 +112,18 @@
   padding: 0 16px;
   border: 0;
   border-radius: 0;
-  background-color: var(--newsletter-title-color, var(--text-color-base, #ffffff));
-  color: var(--newsletter-button-bg, var(--background-secundary-color, #0b1b33));
+  background-color: var(--newsletter-input-bg, var(--newsletter-title-color, var(--text-color-base, #ffffff)));
+  color: var(--newsletter-input-text, var(--newsletter-button-bg, var(--background-secundary-color, #0b1b33)));
   font-family: var(--newsletter-font, var(--font-secundary, 'Inter', system-ui, sans-serif));
   font-size: 16px;
   outline: none;
 }
 .input::placeholder {
-  color: color-mix(in srgb, var(--newsletter-button-bg, var(--background-secundary-color, #0b1b33)) 55%, var(--newsletter-title-color, var(--text-color-base, #ffffff)));
+  color: color-mix(in srgb, var(--newsletter-input-text, var(--newsletter-button-bg, var(--background-secundary-color, #0b1b33))) 55%, var(--newsletter-input-bg, var(--newsletter-title-color, var(--text-color-base, #ffffff))));
   opacity: 1;
 }
 .input:focus-visible {
-  outline: 2px solid var(--newsletter-button-bg, var(--background-secundary-color, #0b1b33));
+  outline: 2px solid var(--newsletter-input-text, var(--newsletter-button-bg, var(--background-secundary-color, #0b1b33)));
   outline-offset: -2px;
 }
 

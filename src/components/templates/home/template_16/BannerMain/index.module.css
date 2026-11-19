@@ -74,10 +74,10 @@
   gap: 8px;
   height: 40px;
   padding: 0 16px;
-  border: 2px solid var(--banner-main-text, var(--text-primary-color, #2a2350));
+  border: 2px solid var(--banner-main-eyebrow-text, var(--banner-main-text, var(--text-primary-color, #2a2350)));
   border-radius: 999px;
   background-color: var(--banner-main-eyebrow-bg, #ffffff);
-  color: var(--banner-main-text, var(--text-primary-color, #2a2350));
+  color: var(--banner-main-eyebrow-text, var(--banner-main-text, var(--text-primary-color, #2a2350)));
   font-size: 14px;
   font-weight: 800;
 }
@@ -126,7 +126,7 @@
 .secondary {
   padding: 0 28px;
   background-color: var(--banner-main-secondary-bg, #ffffff);
-  color: var(--banner-main-text, var(--text-primary-color, #2a2350));
+  color: var(--banner-main-secondary-text, var(--banner-main-text, var(--text-primary-color, #2a2350)));
 }
 
 .media {
@@ -231,7 +231,7 @@
   border: 2px solid var(--banner-main-text, var(--text-color-secundary, #2a2350));
   border-radius: 50%;
   background-color: var(--banner-main-secondary-bg, #ffffff);
-  color: var(--banner-main-text, var(--text-primary-color, #2a2350));
+  color: var(--banner-main-secondary-text, var(--banner-main-text, var(--text-primary-color, #2a2350)));
   box-shadow: 0 4px 0 var(--banner-main-text, var(--text-color-secundary, #2a2350));
 }
 

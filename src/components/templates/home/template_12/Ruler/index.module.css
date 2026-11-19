@@ -70,20 +70,23 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background-color: var(--ruler-badge-bg, #f4dcd6);
-  color: var(--ruler-icon, var(--text-primary-color, #3b1f33));
+  background-color: var(--ruler-item-1-icon-bg, var(--ruler-badge-bg, #f4dcd6));
+  color: var(--ruler-item-1-icon, var(--ruler-icon, var(--text-primary-color, #3b1f33)));
 }
 
 .item:nth-child(4n+2) .badge {
-  background-color: var(--ruler-badge-bg, #dce6da);
+  background-color: var(--ruler-item-2-icon-bg, var(--ruler-badge-bg, #dce6da));
+  color: var(--ruler-item-2-icon, var(--ruler-icon, var(--text-primary-color, #3b1f33)));
 }
 
 .item:nth-child(4n+3) .badge {
-  background-color: var(--ruler-badge-bg, #e6dff0);
+  background-color: var(--ruler-item-3-icon-bg, var(--ruler-badge-bg, #e6dff0));
+  color: var(--ruler-item-3-icon, var(--ruler-icon, var(--text-primary-color, #3b1f33)));
 }
 
 .item:nth-child(4n+4) .badge {
-  background-color: var(--ruler-badge-bg, #f1e6d8);
+  background-color: var(--ruler-item-4-icon-bg, var(--ruler-badge-bg, #f1e6d8));
+  color: var(--ruler-item-4-icon, var(--ruler-icon, var(--text-primary-color, #3b1f33)));
 }
 
 .icon {

@@ -41,7 +41,7 @@
   display: block;
   width: 100%;
   height: 32px;
-  fill: #fffbf2;
+  fill: var(--countdown-wave, #fffbf2);
 }
 
 .mob {

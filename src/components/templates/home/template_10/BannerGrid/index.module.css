@@ -104,7 +104,7 @@
   padding: 0 24px;
   border-radius: 12px;
   background-color: var(--banner-grid-main-cta-bg, #ffffff);
-  color: var(--banner-grid-text, var(--text-primary-color, #101828));
+  color: var(--banner-grid-main-cta-text, var(--text-primary-color, #101828));
   font-size: 16px;
   font-weight: 800;
 }
@@ -185,44 +185,56 @@
   height: 44px;
   padding: 0 18px;
   border-radius: 10px;
-  background-color: var(--banner-grid-accent, var(--background-primary-color, #1340d8));
-  color: var(--banner-grid-accent-text, var(--text-color-base, #ffffff));
+  background-color: var(--banner-grid-neutral-cta-bg, var(--background-primary-color, #1340d8));
+  color: var(--banner-grid-neutral-cta-text, var(--text-color-base, #ffffff));
   font-size: 14px;
   font-weight: 700;
 }
 
 .toneHighlight {
-  background-color: var(--banner-grid-highlight, var(--background-tertiary-color, #ffcf24));
-  color: var(--banner-grid-highlight-text, var(--text-tertiary-color, #101828));
+  background-color: var(--banner-grid-highlight-tile-bg, var(--background-tertiary-color, #ffcf24));
+  color: var(--banner-grid-highlight-tile-text, var(--text-tertiary-color, #101828));
 }
 .toneHighlight .tileArt {
   background-color: rgba(16, 24, 40, 0.08);
 }
 .toneHighlight .tileCta {
-  background-color: var(--banner-grid-text, var(--background-primary-color, #101828));
+  background-color: var(--banner-grid-highlight-cta-bg, var(--background-primary-color, #101828));
   color: var(--banner-grid-cta-text, var(--text-color-base, #ffffff));
 }
 
 .toneNeutral {
-  background-color: color-mix(in srgb, var(--banner-grid-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  background-color: var(--banner-grid-neutral-bg, color-mix(in srgb, var(--banner-grid-text, var(--text-primary-color, #101828)) 11%, #ffffff));
 }
 .toneNeutral .tileArt {
   background-color: #f2f4f7;
 }
 
 .toneTint {
-  background-color: color-mix(in srgb, var(--banner-grid-accent, var(--background-primary-color, #1340d8)) 12%, #ffffff);
+  background-color: var(--banner-grid-tint-bg, color-mix(in srgb, var(--background-primary-color, #1340d8) 12%, #ffffff));
+  color: var(--banner-grid-tint-text, var(--text-primary-color, #101828));
 }
 .toneTint .tileArt {
   background-color: rgba(255, 255, 255, 0.6);
 }
 
+.toneTint .tileCta {
+  background-color: var(--banner-grid-tint-cta-bg, var(--background-primary-color, #1340d8));
+  color: var(--banner-grid-tint-cta-text, var(--text-color-base, #ffffff));
+}
+
 .toneOutline {
-  border: 1px solid color-mix(in srgb, var(--banner-grid-text, var(--text-primary-color, #101828)) 11%, var(--banner-grid-tile-bg, #ffffff));
+  border: 1px solid color-mix(in srgb, var(--banner-grid-outline-text, var(--text-primary-color, #101828)) 11%, var(--banner-grid-tile-bg, #ffffff));
   background-color: var(--banner-grid-tile-bg, #ffffff);
+  color: var(--banner-grid-outline-text, var(--text-primary-color, #101828));
 }
 .toneOutline .tileEyebrow {
-  color: var(--banner-grid-accent, var(--background-primary-color-safe, #1340d8));
+  color: var(--banner-grid-outline-eyebrow, var(--background-primary-color-safe, #1340d8));
+}
+
+.toneOutline .tileCta {
+  background-color: var(--banner-grid-outline-cta-bg, var(--background-primary-color, #1340d8));
+  color: var(--banner-grid-outline-cta-text, var(--text-color-base, #ffffff));
 }
 .toneOutline .tileTitle {
   color: var(--banner-grid-title-color, var(--text-primary-color, #101828));

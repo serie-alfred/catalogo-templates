@@ -125,11 +125,12 @@
   border: 2px solid color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #2a2350)) 18%, var(--cat-desc-bg, #fffbf2));
   border-radius: 24px;
   background-color: var(--cat-desc-card-bg, #ffffff);
+  color: var(--cat-desc-card-text, var(--cat-desc-text, var(--text-primary-color, #2a2350)));
 }
 
 .faqOpen {
   padding-bottom: 18px;
-  border-color: var(--cat-desc-text, var(--text-primary-color, #2a2350));
+  border-color: var(--cat-desc-card-text, var(--cat-desc-text, var(--text-primary-color, #2a2350)));
 }
 
 .faqHeading {
@@ -162,7 +163,7 @@
   justify-content: center;
   width: 36px;
   height: 36px;
-  border: 2px solid var(--cat-desc-text, var(--text-primary-color, #2a2350));
+  border: 2px solid var(--cat-desc-card-text, var(--cat-desc-text, var(--text-primary-color, #2a2350)));
   border-radius: 50%;
 }
 .faqOpen .sign {
@@ -172,7 +173,7 @@
 }
 
 .answer {
-  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #2a2350)) 72%, var(--cat-desc-card-bg, #ffffff));
+  color: color-mix(in srgb, var(--cat-desc-card-text, var(--cat-desc-text, var(--text-primary-color, #2a2350))) 72%, var(--cat-desc-card-bg, #ffffff));
   font-size: 16px;
   line-height: 1.6;
 }

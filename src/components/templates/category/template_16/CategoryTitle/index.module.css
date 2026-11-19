@@ -91,10 +91,10 @@
   gap: 8px;
   height: 50px;
   padding: 0 20px;
-  border: 2px solid var(--cat-title-text, var(--text-primary-color, #2a2350));
+  border: 2px solid var(--cat-title-chip-text, var(--cat-title-text, var(--text-primary-color, #2a2350)));
   border-radius: 999px;
   background-color: var(--cat-title-chip-bg, #ffffff);
-  color: var(--cat-title-text, var(--text-primary-color, #2a2350));
+  color: var(--cat-title-chip-text, var(--cat-title-text, var(--text-primary-color, #2a2350)));
 }
 .chip:focus-visible {
   outline: 3px solid var(--cat-title-accent, var(--background-primary-color, #5b4bdb));
@@ -102,7 +102,7 @@
 }
 
 .chipQty {
-  color: color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #2a2350)) 70%, var(--cat-title-chip-bg, #ffffff));
+  color: color-mix(in srgb, var(--cat-title-chip-text, var(--cat-title-text, var(--text-primary-color, #2a2350))) 70%, var(--cat-title-chip-bg, #ffffff));
   font-family: var(--cat-title-font, var(--font-secundary, 'Nunito', system-ui, sans-serif));
   font-size: 14px;
   font-weight: 800;
@@ -120,7 +120,7 @@
   display: block;
   width: 100%;
   height: 32px;
-  fill: #fffbf2;
+  fill: var(--cat-title-wave, #fffbf2);
 }
 
 .waveMob {

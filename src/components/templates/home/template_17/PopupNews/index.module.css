@@ -127,7 +127,7 @@
   padding: 0 12px;
   border-radius: 999px;
   background-color: var(--popup-accent, var(--background-tertiary-color, #ffa24c));
-  color: var(--popup-text, var(--text-tertiary-color, #0e2f38));
+  color: var(--popup-accent-text, var(--popup-text, var(--text-tertiary-color, #0e2f38)));
   font-size: 13px;
   font-weight: 700;
 }

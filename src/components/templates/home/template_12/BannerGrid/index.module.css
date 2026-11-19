@@ -50,7 +50,6 @@
   min-height: 520px;
   padding: 28px;
   border-radius: 28px;
-  background-color: var(--banner-grid-card-bg, #f4dcd6);
 }
 .card:hover .cta {
   opacity: 0.85;
@@ -68,7 +67,6 @@
 }
 
 .title {
-  color: var(--banner-grid-title-color, var(--text-primary-color, #3b1f33));
   font-family: var(--banner-grid-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 30px;
   font-weight: 400;
@@ -85,7 +83,6 @@
   align-self: flex-start;
   padding: 12px 20px;
   border-radius: 999px;
-  background-color: var(--banner-grid-cta-bg, #ffffff);
   font-size: 14px;
   font-weight: 700;
 }
@@ -97,7 +94,6 @@
   margin-top: 8px;
   overflow: hidden;
   border-radius: 999px 999px 20px 20px;
-  background-color: #ebc9c0;
 }
 .art picture,
 .art img {
@@ -108,20 +104,56 @@
   object-fit: cover;
 }
 
+.card:nth-child(3n+1) {
+  background-color: var(--banner-grid-card-1-bg, var(--banner-grid-card-bg, #f4dcd6));
+  color: var(--banner-grid-card-1-text, var(--banner-grid-text, var(--text-primary-color, #3b1f33)));
+}
+.card:nth-child(3n+1) .title {
+  color: var(--banner-grid-card-1-title, var(--banner-grid-title-color, var(--text-primary-color, #3b1f33)));
+}
+.card:nth-child(3n+1) .cta {
+  background-color: var(--banner-grid-card-1-cta-bg, var(--banner-grid-cta-bg, #ffffff));
+  color: var(--banner-grid-card-1-cta-text, var(--banner-grid-card-1-text, var(--banner-grid-text, var(--text-primary-color, #3b1f33))));
+}
+.card:nth-child(3n+1) .art {
+  background-color: var(--banner-grid-card-1-art-bg, #ebc9c0);
+}
+
 .card:nth-child(3n+2) {
-  min-height: 620px;
-  background-color: var(--banner-grid-card-bg, #dce6da);
+  background-color: var(--banner-grid-card-2-bg, var(--banner-grid-card-bg, #dce6da));
+  color: var(--banner-grid-card-2-text, var(--banner-grid-text, var(--text-primary-color, #3b1f33)));
+}
+.card:nth-child(3n+2) .title {
+  color: var(--banner-grid-card-2-title, var(--banner-grid-title-color, var(--text-primary-color, #3b1f33)));
+}
+.card:nth-child(3n+2) .cta {
+  background-color: var(--banner-grid-card-2-cta-bg, var(--banner-grid-cta-bg, #ffffff));
+  color: var(--banner-grid-card-2-cta-text, var(--banner-grid-card-2-text, var(--banner-grid-text, var(--text-primary-color, #3b1f33))));
 }
 .card:nth-child(3n+2) .art {
-  min-height: 300px;
-  background-color: #c7d6c4;
+  background-color: var(--banner-grid-card-2-art-bg, #c7d6c4);
 }
 
 .card:nth-child(3n+3) {
-  background-color: var(--banner-grid-card-bg, #e6dff0);
+  background-color: var(--banner-grid-card-3-bg, var(--banner-grid-card-bg, #e6dff0));
+  color: var(--banner-grid-card-3-text, var(--banner-grid-text, var(--text-primary-color, #3b1f33)));
+}
+.card:nth-child(3n+3) .title {
+  color: var(--banner-grid-card-3-title, var(--banner-grid-title-color, var(--text-primary-color, #3b1f33)));
+}
+.card:nth-child(3n+3) .cta {
+  background-color: var(--banner-grid-card-3-cta-bg, var(--banner-grid-cta-bg, #ffffff));
+  color: var(--banner-grid-card-3-cta-text, var(--banner-grid-card-3-text, var(--banner-grid-text, var(--text-primary-color, #3b1f33))));
 }
 .card:nth-child(3n+3) .art {
-  background-color: #d6cbe6;
+  background-color: var(--banner-grid-card-3-art-bg, #d6cbe6);
+}
+
+.card:nth-child(3n+2) {
+  min-height: 620px;
+}
+.card:nth-child(3n+2) .art {
+  min-height: 300px;
 }
 
 @container (max-width: 960px) {

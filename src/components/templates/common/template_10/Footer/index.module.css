@@ -83,7 +83,7 @@
   height: 44px;
   border-radius: 50%;
   background-color: var(--footer-service-icon-bg, #ffffff);
-  color: var(--footer-accent, var(--background-secundary-color, #1340d8));
+  color: var(--footer-service-icon-color, var(--footer-accent, var(--background-secundary-color, #1340d8)));
 }
 
 .serviceBody {
@@ -174,7 +174,7 @@
   display: flex;
   gap: 4px;
   margin-top: 4px;
-  color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #101828)) 76%, var(--footer-bg, var(--background-footer, #ffffff)));
+  color: var(--footer-social-color, color-mix(in srgb, var(--footer-text, var(--text-color-footer, #101828)) 76%, var(--footer-bg, var(--background-footer, #ffffff))));
 }
 
 .social {

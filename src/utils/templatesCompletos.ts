@@ -427,7 +427,7 @@ export const NIVEL1_DAS_FAMILIAS: Record<
       '--banner-main-promo-button-bg': '#101828',
     },
     BannerGrid10: {
-      '--banner-grid-text': '#101828',
+      '--banner-grid-highlight-cta-bg': '#101828',
     },
     ProductInfo10: {
       '--pdp-shipping-btn-bg': '#101828',

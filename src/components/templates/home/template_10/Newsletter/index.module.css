@@ -68,8 +68,8 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background-color: var(--newsletter-title-color, var(--text-color-secundary, #ffffff));
-  color: var(--newsletter-bg, var(--background-secundary-color, #1340d8));
+  background-color: var(--newsletter-icon-bg, var(--newsletter-title-color, var(--text-color-secundary, #ffffff)));
+  color: var(--newsletter-icon-color, var(--newsletter-bg, var(--background-secundary-color, #1340d8)));
 }
 .icon svg {
   width: 30px;
@@ -132,13 +132,14 @@
   border: 0;
   border-radius: 10px;
   background-color: var(--newsletter-input-bg, #ffffff);
-  color: var(--text-primary-color, #101828);
+  box-shadow: inset 0 0 0 1px var(--newsletter-input-border, var(--newsletter-input-bg, #ffffff));
+  color: var(--newsletter-input-text, var(--text-primary-color, #101828));
   font: inherit;
   font-size: 15px;
   font-weight: 600;
 }
 .field input::placeholder {
-  color: color-mix(in srgb, var(--text-primary-color, #101828) 55%, var(--newsletter-input-bg, #ffffff));
+  color: color-mix(in srgb, var(--newsletter-input-text, var(--text-primary-color, #101828)) 55%, var(--newsletter-input-bg, #ffffff));
 }
 .field input:focus-visible {
   outline: 2px solid var(--newsletter-button-bg, var(--background-tertiary-color, #ffcf24));

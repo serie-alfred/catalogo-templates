@@ -8,9 +8,8 @@
  */
 export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> = {
   BannerGrid10: {
-    '--banner-grid-text': [
-      '--background-primary-color',
-      '--text-primary-color'
+    '--banner-grid-highlight-cta-bg': [
+      '--background-primary-color'
     ]
   },
   BannerGrid11: {
@@ -613,8 +612,7 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   ProductRelated15: {
     '--showcase-accent': [
-      '--background-primary-color',
-      '--background-primary-color-safe'
+      '--background-primary-color'
     ]
   },
   ProductRelated17: {
@@ -706,8 +704,7 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   ShelfBanner17: {
     '--showcase-text': [
-      '--text-primary-color',
-      '--text-tertiary-color'
+      '--text-primary-color'
     ]
   },
   Showcase13: {
@@ -726,8 +723,7 @@ export const TOKEN_DO_NIVEL1: Record<string, Record<string, readonly string[]>> 
   },
   Showcase17: {
     '--showcase-text': [
-      '--text-primary-color',
-      '--text-tertiary-color'
+      '--text-primary-color'
     ]
   },
   Spot09: {

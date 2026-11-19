@@ -104,7 +104,7 @@
 }
 
 .tag {
-  color: var(--editorial-accent, var(--background-primary-color-safe, #0e6b73));
+  color: var(--editorial-card-accent, var(--editorial-accent, var(--background-primary-color-safe, #0e6b73)));
   font-size: 13px;
   font-weight: 700;
 }
@@ -114,7 +114,8 @@
   flex-direction: column;
   overflow: hidden;
   border-radius: 16px;
-  background-color: color-mix(in srgb, var(--editorial-bg, #eaf4f3) 30%, #ffffff);
+  background-color: var(--editorial-card-bg, color-mix(in srgb, var(--editorial-bg, #eaf4f3) 30%, #ffffff));
+  color: var(--editorial-card-text, var(--editorial-text, var(--text-primary-color, #0e2f38)));
 }
 
 .featureArt {
@@ -144,7 +145,7 @@
 }
 
 .featureText {
-  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #0e2f38)) 74%, var(--editorial-bg, #eaf4f3));
+  color: color-mix(in srgb, var(--editorial-card-text, var(--editorial-text, var(--text-primary-color, #0e2f38))) 74%, var(--editorial-card-bg, var(--editorial-bg, #eaf4f3)));
   font-size: 15px;
   line-height: 1.55;
 }
@@ -154,7 +155,7 @@
   align-items: center;
   gap: 8px;
   margin-top: 4px;
-  color: var(--editorial-accent, var(--background-primary-color-safe, #0e6b73));
+  color: var(--editorial-card-accent, var(--editorial-accent, var(--background-primary-color-safe, #0e6b73)));
   font-size: 15px;
   font-weight: 700;
 }
@@ -171,7 +172,8 @@
   gap: 18px;
   padding: 16px;
   border-radius: 16px;
-  background-color: color-mix(in srgb, var(--editorial-bg, #eaf4f3) 30%, #ffffff);
+  background-color: var(--editorial-card-bg, color-mix(in srgb, var(--editorial-bg, #eaf4f3) 30%, #ffffff));
+  color: var(--editorial-card-text, var(--editorial-text, var(--text-primary-color, #0e2f38)));
 }
 
 .thumb {
@@ -209,7 +211,7 @@
 }
 
 .meta {
-  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #0e2f38)) 74%, var(--editorial-bg, #eaf4f3));
+  color: color-mix(in srgb, var(--editorial-card-text, var(--editorial-text, var(--text-primary-color, #0e2f38))) 74%, var(--editorial-card-bg, var(--editorial-bg, #eaf4f3)));
   font-size: 13px;
 }
 
@@ -221,8 +223,8 @@
   gap: 10px;
   padding: 24px 28px;
   border-radius: 16px;
-  background-color: var(--editorial-accent, var(--background-primary-color, #0e6b73));
-  color: var(--text-color-base, #f9fcfb);
+  background-color: var(--editorial-help-bg, var(--editorial-accent, var(--background-primary-color, #0e6b73)));
+  color: var(--editorial-help-text, var(--text-color-base, #f9fcfb));
 }
 
 .helpTitle {
