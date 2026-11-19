@@ -2812,7 +2812,7 @@ export const LAYOUTS: Layouts = {
       ] },
       { id: "02", selection: "product-info", key: "info02b3c4d5e", image: "productInfo/ProductInfo02.webp", imageSource: "design", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["product"], component: "ProductInfo02", path: "organisms/ProductInfo02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
         { cssVar: "--prod-info-muted", label: "Texto do SKU, das avaliações e do preço \"de\"", type: "color", default: "#6a6a6a", group: "Produto" },
-        { cssVar: "--prod-info-rating", label: "Ícone das estrelas de avaliação", type: "color", default: "#B8B8B8", group: "Produto" },
+        { cssVar: "--prod-info-rating", label: "Ícone das estrelas de avaliação", type: "color", default: "#121212", group: "Produto", previewNote: "Pinta só as estrelas acesas, até a nota do produto; no preview o produto não tem avaliação, e as 5 aparecem apagadas (na cor do texto)." },
         { cssVar: "--prod-info-title", label: "Texto dos títulos (produto, variações e frete)", type: "color", default: "#000000", group: "Produto" },
         { cssVar: "--prod-info-price", label: "Texto do preço", type: "color", default: "#000000", group: "Produto" },
         { cssVar: "--prod-info-text", label: "Texto do botão Favoritos e das variações (tamanho)", type: "color", default: "#000000", group: "Produto" },

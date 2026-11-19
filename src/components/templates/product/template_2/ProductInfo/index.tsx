@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styles from './index.module.css';
 
+// A nota do mock do starter (`mockRating.average` do ProductInfo02): nenhuma estrela acesa.
+const NOTA_MOCK = 0;
+
 const ProductInfo = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('G');
@@ -142,11 +145,12 @@ const ProductInfo = () => {
                       SKU: <b>{product.sku}</b>
                     </span>
                     <div className={styles.content__stars} data-role="rating">
+                      {/* Como no starter: estrela acesa (.starOn, --prod-info-rating) até a nota e
+                          apagada (.starOff, o texto a 28%) depois dela. Nota 0, a do mock do starter. */}
                       {[...Array(5)].map((_, i) => (
-                        <svg key={i} height="12" viewBox="0 0 12 12" width="12">
+                        <svg key={i} height="12" viewBox="0 0 12 12" width="12" className={i < NOTA_MOCK ? styles.starOn : styles.starOff}>
                           <path
                             d="M7.00776 1.01041L8.03431 3.08048C8.17431 3.36864 8.54759 3.64504 8.86259 3.69797L10.7232 4.00965C11.9131 4.20961 12.1931 5.07998 11.3356 5.93859L9.88914 7.39704C9.64414 7.64403 9.51003 8.12038 9.58581 8.46151L9.99997 10.2669C10.3266 11.696 9.57414 12.2488 8.32015 11.5019L6.57616 10.461C6.26121 10.2728 5.74211 10.2728 5.42127 10.461L3.67732 11.5019C2.42912 12.2488 1.67088 11.6901 1.99751 10.2669L2.41163 8.46151C2.48745 8.12038 2.3533 7.64403 2.10832 7.39704L0.66182 5.93859C-0.189753 5.07998 0.0843847 4.20961 1.27425 4.00965L3.13488 3.69797C3.44401 3.64504 3.8173 3.36864 3.95729 3.08048L4.98383 1.01041C5.54377 -0.112844 6.45366 -0.112844 7.00776 1.01041Z"
-                            fill="#B8B8B8"
                           />
                         </svg>
                       ))}
