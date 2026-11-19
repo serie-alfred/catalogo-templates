@@ -395,6 +395,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-text", label: "Texto e ícones", type: "color", default: "#f4f4f0", group: "Header", inheritsLabel: "cor secundária de contraste da marca" },
         { cssVar: "--header-accent", label: "Destaque (bag, marcador e item em destaque)", type: "color", default: "#c8ff2e", group: "Destaque", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-accent-text", label: "Texto do botão da sacola", type: "color", default: "#0d0d0d", group: "Destaque", inheritsLabel: "cor primária de contraste da marca" },
+        { cssVar: "--header-cart-count-text", label: "Texto da quantidade ao lado de Bag", type: "color", default: "#0d0d0d", group: "Destaque", inheritsLabel: "cor primária de contraste da marca" },
         { cssVar: "--cart-bg", label: "Fundo do mini-carrinho", type: "color", default: "#0d0d0d", group: "Mini-carrinho", previewNote: "Aparece com o mini-carrinho aberto.", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--cart-text", label: "Texto do mini-carrinho", type: "color", default: "#f4f4f0", group: "Mini-carrinho", previewNote: "Aparece com o mini-carrinho aberto.", inheritsLabel: "cor secundária de contraste da marca" },
         { cssVar: "--cart-button-bg", label: "Fundo do botão Finalizar compra e do contador", type: "color", default: "#c8ff2e", group: "Mini-carrinho", previewNote: "Aparece com o mini-carrinho aberto.", inheritsLabel: "cor primária da marca" },

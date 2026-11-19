@@ -215,6 +215,9 @@
   text-transform: uppercase;
   white-space: nowrap;
 }
+.cart [data-role='hd-badge'] {
+  color: var(--header-cart-count-text, var(--header-accent-text, var(--text-color-base, #0d0d0d)));
+}
 .cart:hover {
   opacity: 0.9;
 }
