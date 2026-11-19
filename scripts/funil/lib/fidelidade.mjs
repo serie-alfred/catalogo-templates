@@ -387,7 +387,17 @@ export const PARES = [
   },
   { starter: 'BannerDuplo02', id: '02', layoutKey: 'bannerSide', pagina: 'home' },
   { starter: 'BannerSide02', id: '03', layoutKey: 'bannerSide', pagina: 'home' },
-  { starter: 'ProductShelfCustom02', id: '02', layoutKey: 'showcase', pagina: 'home', textoLivre: ['spot-rating-count'] },
+  {
+    starter: 'ProductShelfCustom02',
+    id: '02',
+    layoutKey: 'showcase',
+    pagina: 'home',
+    textoLivre: ['spot-rating-count'],
+    paletaDeUmLado: {
+      '.swiperPaginationBullet':
+        'a bolinha da paginação: o ProductShelfCustom02 do starter não tem paginação, a réplica e os portes Tray/Wake têm. Desde 19/11 ela deriva do texto da vitrine (color-mix), em vez do hex fixo, e passou a ser lida como cor do tema.',
+    },
+  },
   {
     starter: 'MainCategory02',
     id: '02',
