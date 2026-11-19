@@ -137,7 +137,7 @@
   padding: 0 16px;
   border: 2px solid var(--categories-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--categories-label-bg, #ffffff);
   font-family: var(--categories-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 18px;
   font-weight: 600;

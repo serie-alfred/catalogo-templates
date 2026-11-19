@@ -6,7 +6,7 @@
 .productReviews11 {
   width: 100%;
   padding: 56px 0;
-  background-color: #ffffff;
+  background-color: var(--prod-reviews-bg, #ffffff);
   color: var(--prod-reviews-text, var(--text-primary-color, #0a0a0a));
   font-family: var(--prod-reviews-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-size: 16px;
@@ -152,7 +152,7 @@
   position: relative;
   grid-area: bar;
   height: 4px;
-  background-color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #0a0a0a)) 14%, #ffffff);
+  background-color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #0a0a0a)) 14%, var(--prod-reviews-bg, #ffffff));
 }
 .bar span {
   position: absolute;
@@ -165,7 +165,7 @@
 .empty {
   padding: 20px 24px;
   border-bottom: 1px solid var(--prod-reviews-text, var(--text-primary-color, #0a0a0a));
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #0a0a0a)) 62%, var(--prod-reviews-bg, #ffffff));
   font-size: 15px;
   line-height: 1.55;
 }
@@ -270,7 +270,7 @@
   align-items: center;
   min-height: 41px;
   border-bottom: 1px solid var(--prod-reviews-text, var(--text-primary-color, #0a0a0a));
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #0a0a0a)) 62%, var(--prod-reviews-bg, #ffffff));
   font-family: var(--prod-reviews-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.06em;
@@ -322,7 +322,7 @@
 .reviewText {
   grid-area: text;
   padding: 6px 24px 20px;
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #0a0a0a)) 62%, var(--prod-reviews-bg, #ffffff));
   line-height: 1.55;
 }
 .pager {
@@ -343,7 +343,7 @@
 }
 .pagerPrev:disabled,
 .pagerNext:disabled {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #0a0a0a)) 62%, var(--prod-reviews-bg, #ffffff));
 }
 
 .pagerPrev {
@@ -452,7 +452,7 @@
     padding: 0;
   }
   .date {
-    color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+    color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #0a0a0a)) 62%, var(--prod-reviews-bg, #ffffff));
     text-align: right;
   }
   .rating {

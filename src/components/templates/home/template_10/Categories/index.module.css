@@ -5,7 +5,7 @@
 
 .categories10 {
   width: 100%;
-  background-color: #f2f4f7;
+  background-color: var(--categories-bg, #f2f4f7);
   color: var(--categories-text, var(--text-primary-color, #101828));
   font-family: var(--categories-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
@@ -104,8 +104,8 @@
 }
 
 .arrowPrev {
-  border: 1px solid color-mix(in srgb, var(--categories-text, var(--text-primary-color, #101828)) 20%, #ffffff);
-  background-color: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--categories-text, var(--text-primary-color, #101828)) 20%, var(--categories-card-bg, #ffffff));
+  background-color: var(--categories-card-bg, #ffffff);
 }
 
 .arrowNext {
@@ -157,9 +157,9 @@
   gap: 10px;
   height: 100%;
   padding: 12px;
-  border: 1px solid color-mix(in srgb, var(--categories-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--categories-text, var(--text-primary-color, #101828)) 11%, var(--categories-card-bg, #ffffff));
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--categories-card-bg, #ffffff);
 }
 .card:hover .name {
   text-decoration: underline;

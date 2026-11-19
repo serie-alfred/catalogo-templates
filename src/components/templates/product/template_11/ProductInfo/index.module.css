@@ -6,7 +6,7 @@
 .productDetails11 {
   position: relative;
   width: 100%;
-  background-color: #ffffff;
+  background-color: var(--pdp-bg, #ffffff);
   color: var(--pdp-text, var(--text-primary-color, #0a0a0a));
   font-family: var(--pdp-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-size: 16px;
@@ -221,7 +221,7 @@
 }
 
 .meta {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, var(--pdp-bg, #ffffff));
   font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   letter-spacing: 0.04em;
@@ -255,13 +255,13 @@
 }
 
 .pix {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, var(--pdp-bg, #ffffff));
   font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 12px;
 }
 
 .summary {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, var(--pdp-bg, #ffffff));
   font-size: 15px;
   line-height: 1.55;
 }
@@ -284,7 +284,7 @@
 }
 
 .legendValue {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, var(--pdp-bg, #ffffff));
 }
 
 .options {
@@ -329,7 +329,7 @@
 }
 
 .optionOut {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, var(--pdp-bg, #ffffff));
   text-decoration: line-through;
 }
 .optionOut:hover {
@@ -353,7 +353,7 @@
 }
 
 .soldNote {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, var(--pdp-bg, #ffffff));
   font-size: 13px;
   line-height: 1.5;
 }
@@ -474,7 +474,7 @@
   outline: none;
 }
 .field input::placeholder {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 55%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 55%, var(--pdp-bg, #ffffff));
 }
 .field:focus-within {
   outline: 2px solid var(--pdp-text, var(--text-primary-color, #0a0a0a));
@@ -505,14 +505,14 @@
 .specRow {
   display: grid;
   grid-template-columns: 140px 1fr;
-  border-bottom: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 14%, #ffffff);
+  border-bottom: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 14%, var(--pdp-bg, #ffffff));
 }
 .specRow:last-child {
   border-bottom: 0;
 }
 .specRow dt {
   padding: 12px 28px;
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, var(--pdp-bg, #ffffff));
   font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   text-transform: uppercase;
@@ -557,7 +557,7 @@
   outline: none;
 }
 .cepInput::placeholder {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 55%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 55%, var(--pdp-bg, #ffffff));
 }
 .cepInput:focus-visible {
   outline: none;
@@ -575,7 +575,7 @@
 
 .cepHelp {
   align-self: flex-start;
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, var(--pdp-bg, #ffffff));
   font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   text-decoration: underline;
@@ -593,7 +593,7 @@
   align-items: baseline;
   gap: 16px;
   padding: 10px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 14%, #ffffff);
+  border-bottom: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 14%, var(--pdp-bg, #ffffff));
   font-size: 14px;
 }
 .shipRow:last-child {
@@ -605,7 +605,7 @@
 }
 
 .shipEta {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, var(--pdp-bg, #ffffff));
   font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
@@ -649,7 +649,7 @@
 }
 
 .trustText {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, var(--pdp-bg, #ffffff));
   font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }
@@ -675,7 +675,7 @@
   max-height: calc(100vh - 32px);
   overflow: auto;
   border: 1px solid var(--pdp-text, var(--text-primary-color, #0a0a0a));
-  background-color: #ffffff;
+  background-color: var(--pdp-bg, #ffffff);
   color: var(--pdp-text, var(--text-primary-color, #0a0a0a));
   font-family: var(--pdp-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
 }
@@ -854,7 +854,7 @@
     height: 72px;
     margin-top: 8px;
     border-top: 1px solid var(--pdp-text, var(--text-primary-color, #0a0a0a));
-    background-color: #ffffff;
+    background-color: var(--pdp-bg, #ffffff);
   }
   .mobilePrice {
     display: flex;
@@ -870,7 +870,7 @@
     font-weight: 500;
   }
   .mobileInstallment {
-    color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+    color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #0a0a0a)) 62%, var(--pdp-bg, #ffffff));
     font-family: var(--pdp-font, var(--font-secundary, 'Geist Mono', monospace));
     font-size: 11px;
   }

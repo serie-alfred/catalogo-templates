@@ -6,7 +6,7 @@
 .bannerGrid12 {
   width: 100%;
   padding: 56px 0;
-  background-color: #fbf6f3;
+  background-color: var(--banner-grid-bg, #fbf6f3);
   color: var(--banner-grid-text, var(--text-primary-color, #3b1f33));
   font-family: var(--banner-grid-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-weight: 400;
@@ -50,7 +50,7 @@
   min-height: 520px;
   padding: 28px;
   border-radius: 28px;
-  background-color: #f4dcd6;
+  background-color: var(--banner-grid-card-bg, #f4dcd6);
 }
 .card:hover .cta {
   opacity: 0.85;
@@ -85,7 +85,7 @@
   align-self: flex-start;
   padding: 12px 20px;
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--banner-grid-cta-bg, #ffffff);
   font-size: 14px;
   font-weight: 700;
 }
@@ -110,7 +110,7 @@
 
 .card:nth-child(3n+2) {
   min-height: 620px;
-  background-color: #dce6da;
+  background-color: var(--banner-grid-card-bg, #dce6da);
 }
 .card:nth-child(3n+2) .art {
   min-height: 300px;
@@ -118,7 +118,7 @@
 }
 
 .card:nth-child(3n+3) {
-  background-color: #e6dff0;
+  background-color: var(--banner-grid-card-bg, #e6dff0);
 }
 .card:nth-child(3n+3) .art {
   background-color: #d6cbe6;

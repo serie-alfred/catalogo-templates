@@ -43,9 +43,9 @@
   align-items: center;
   gap: 14px;
   padding: 18px 20px;
-  border: 1px solid color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #101828)) 11%, var(--ruler-card-bg, #ffffff));
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--ruler-card-bg, #ffffff);
 }
 
 .link {
@@ -67,7 +67,7 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background-color: color-mix(in srgb, var(--ruler-icon, var(--background-primary-color, #1340d8)) 10%, #ffffff);
+  background-color: color-mix(in srgb, var(--ruler-icon, var(--background-primary-color, #1340d8)) 10%, var(--ruler-card-bg, #ffffff));
   color: var(--ruler-icon, var(--background-primary-color, #1340d8));
 }
 .icon svg {
@@ -88,7 +88,7 @@
 }
 
 .text {
-  color: color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #101828)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #101828)) 72%, var(--ruler-card-bg, #ffffff));
   font-size: 13px;
 }
 
@@ -144,7 +144,7 @@
     width: 6px;
     height: 6px;
     border-radius: 3px;
-    background-color: #c8d0dc;
+    background-color: color-mix(in srgb, var(--ruler-text, var(--text-primary-color, #101828)) 16%, var(--ruler-bg, #f2f4f7));
     transition: width 0.2s ease;
   }
   .dotOn {

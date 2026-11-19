@@ -55,7 +55,7 @@
   top: 40%;
   transform: translateY(-50%);
   z-index: 2;
-  background: #fff;
+  background: var(--showcase-arrow-bg, #ffffff);
   border: 1px solid #dfdfe0;
   border-radius: 50%;
   width: 44px;
@@ -90,7 +90,7 @@
 }
 
 .nav_btn {
-  background: #fff;
+  background: var(--showcase-arrow-bg, #ffffff);
   border: 1px solid #dfdfe0;
   border-radius: 50%;
   width: 44px;

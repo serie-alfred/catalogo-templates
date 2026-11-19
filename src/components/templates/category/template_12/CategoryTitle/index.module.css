@@ -6,7 +6,7 @@
 .categoryTitle12 {
   width: 100%;
   padding: 40px 0 36px;
-  background-color: #fbf6f3;
+  background-color: var(--cat-title-bg, #fbf6f3);
   color: var(--cat-title-text, var(--text-primary-color, #3b1f33));
   font-family: var(--cat-title-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-weight: 400;
@@ -64,7 +64,7 @@
 }
 
 .count {
-  color: color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #3b1f33)) 72%, #fbf6f3);
+  color: color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #3b1f33)) 72%, var(--cat-title-bg, #fbf6f3));
   font-size: 16px;
 }
 
@@ -86,15 +86,15 @@
   gap: 8px;
   height: 50px;
   padding: 0 22px;
-  border: 1px solid color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #3b1f33)) 12%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #3b1f33)) 12%, var(--cat-title-chip-bg, #ffffff));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--cat-title-chip-bg, #ffffff);
   font-size: 15px;
   font-weight: 600;
 }
 
 .chipQty {
-  color: color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #3b1f33)) 72%, #fbf6f3);
+  color: color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #3b1f33)) 73%, var(--cat-title-chip-bg, #ffffff));
   font-size: 13px;
 }
 

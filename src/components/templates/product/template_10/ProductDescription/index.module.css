@@ -5,7 +5,7 @@
 
 .productDescription10 {
   width: 100%;
-  background-color: #f2f4f7;
+  background-color: var(--prod-desc-bg, #f2f4f7);
   color: var(--prod-desc-text, var(--text-primary-color, #101828));
   font-family: var(--prod-desc-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
@@ -40,9 +40,9 @@
 
 .card {
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 11%, var(--prod-desc-card-bg, #ffffff));
   border-radius: 16px;
-  background-color: #ffffff;
+  background-color: var(--prod-desc-card-bg, #ffffff);
 }
 
 .tabs {
@@ -50,7 +50,7 @@
   gap: 4px;
   padding: 0 16px;
   overflow-x: auto;
-  border-bottom: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-bottom: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 11%, var(--prod-desc-card-bg, #ffffff));
   scrollbar-width: none;
 }
 .tabs::-webkit-scrollbar {
@@ -64,7 +64,7 @@
   padding: 0 18px;
   border: 0;
   background: none;
-  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 74%, var(--prod-desc-card-bg, #ffffff));
   font: inherit;
   font-size: 16px;
   font-weight: 600;
@@ -101,7 +101,7 @@
 
 .specs {
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 11%, var(--prod-desc-card-bg, #ffffff));
   border-radius: 10px;
   font-size: 15px;
 }
@@ -109,14 +109,14 @@
 .row {
   display: grid;
   grid-template-columns: minmax(140px, 38%) 1fr;
-  background-color: #ffffff;
+  background-color: var(--prod-desc-card-bg, #ffffff);
 }
 .row:nth-child(odd) {
-  background-color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 2.5%, #ffffff);
+  background-color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 2.5%, var(--prod-desc-card-bg, #ffffff));
 }
 .row dt {
   padding: 12px 16px;
-  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 85%, #ffffff);
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 85%, var(--prod-desc-card-bg, #ffffff));
   font-weight: 700;
 }
 .row dd {
@@ -155,7 +155,7 @@
   flex-direction: column;
   gap: 12px;
   padding: 20px;
-  border: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 11%, var(--prod-desc-card-bg, #ffffff));
   border-radius: 12px;
 }
 
@@ -186,7 +186,7 @@
   gap: 14px;
   padding: 20px;
   border-radius: 12px;
-  background-color: color-mix(in srgb, var(--prod-desc-accent, var(--background-primary-color, #1340d8)) 8%, #ffffff);
+  background-color: color-mix(in srgb, var(--prod-desc-accent, var(--background-primary-color, #1340d8)) 8%, var(--prod-desc-card-bg, #ffffff));
 }
 .info svg {
   color: var(--prod-desc-accent, var(--background-primary-color-safe, #1340d8));
@@ -204,7 +204,7 @@
 }
 
 .infoText {
-  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 85%, #ffffff);
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #101828)) 85%, var(--prod-desc-card-bg, #ffffff));
   font-size: 14px;
   line-height: 1.5;
 }

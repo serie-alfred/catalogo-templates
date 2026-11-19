@@ -131,7 +131,7 @@
   justify-content: space-between;
   width: 34px;
   height: 198px;
-  background: white;
+  background: var(--prod-gallery-scroll-bg, #ffffff);
   border-radius: 4px;
 }
 
@@ -144,7 +144,7 @@
   padding: 8px;
   border: none;
   background: none;
-  color: #333333;
+  color: var(--prod-gallery-scroll-text, #333333);
   cursor: pointer;
   opacity: 1;
   transition: opacity 0.2s ease;
@@ -166,7 +166,7 @@
   flex: 1;
   width: 6px;
   margin: 6px 0;
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: color-mix(in srgb, var(--prod-gallery-scroll-text, #333333) 10%, transparent);
   border-radius: 3px;
 }
 
@@ -175,14 +175,14 @@
   left: 0;
   width: 100%;
   min-height: 24px;
-  background-color: #626262;
+  background-color: color-mix(in srgb, var(--prod-gallery-scroll-text, #333333) 75%, transparent);
   border-radius: 3px;
   cursor: grab;
   transition: background-color 0.2s ease;
 }
 
 .handle:hover {
-  background-color: #4a4a4a;
+  background-color: color-mix(in srgb, var(--prod-gallery-scroll-text, #333333) 88%, transparent);
 }
 
 .handle:active {
@@ -233,7 +233,7 @@
 .swiper :global(.swiper-pagination-bullet) {
   width: 11px;
   height: 11px;
-  background-color: #e3e3e3;
+  background-color: color-mix(in srgb, var(--prod-info-text, #121212) 12%, transparent);
   opacity: 1;
   border: none;
   border-radius: 100%;
@@ -453,6 +453,8 @@
 .colorSwatch {
   position: relative;
   display: block;
+  background: none;
+  padding: 0;
   width: clamp(64px, 22%, 128px);
   aspect-ratio: 4 / 5;
   overflow: hidden;
@@ -520,7 +522,7 @@
    `.preview__area li { border: none; background: none }` (especificidade). */
 .productDetails .sizeOption {
   position: relative;
-  background-color: #ffffff;
+  background-color: var(--prod-info-variant-bg, #ffffff);
   border: 1px solid var(--prod-info-variant-border, #121212);
   min-width: 44px;
   height: 44px;
@@ -534,7 +536,7 @@
 }
 
 .productDetails .sizeOption:hover {
-  background-color: #f2f2f2;
+  background-color: color-mix(in srgb, var(--prod-info-variant-bg, #ffffff) 95%, #000000);
 }
 
 .productDetails .sizeOption.active {

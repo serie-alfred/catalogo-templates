@@ -6,7 +6,7 @@
 .bannerMain12 {
   width: 100%;
   padding: 24px 0 28px;
-  background-color: #fbf6f3;
+  background-color: var(--banner-main-page-bg, #fbf6f3);
   color: var(--banner-main-text, var(--text-primary-color, #3b1f33));
   font-family: var(--banner-main-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-weight: 400;
@@ -79,7 +79,7 @@
 .eyebrow {
   padding: 8px 16px;
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--banner-main-surface-bg, #ffffff);
   color: var(--banner-main-text, var(--text-primary-color, #3b1f33));
   font-size: 13px;
   font-weight: 700;
@@ -155,7 +155,7 @@
   min-width: 268px;
   padding: 10px 10px 10px 18px;
   border-radius: 22px;
-  background-color: #ffffff;
+  background-color: var(--banner-main-surface-bg, #ffffff);
   color: var(--banner-main-text, var(--text-primary-color, #3b1f33));
 }
 .card:focus-visible {
@@ -176,7 +176,7 @@
 }
 
 .cardText {
-  color: color-mix(in srgb, var(--banner-main-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--banner-main-text, var(--text-primary-color, #3b1f33)) 72%, var(--banner-main-surface-bg, #ffffff));
   font-size: 13px;
 }
 
@@ -215,7 +215,7 @@
   width: 8px;
   height: 8px;
   border-radius: 999px;
-  background-color: color-mix(in srgb, var(--banner-main-text, var(--text-primary-color, #3b1f33)) 30%, #fbf6f3);
+  background-color: color-mix(in srgb, var(--banner-main-text, var(--text-primary-color, #3b1f33)) 30%, var(--banner-main-page-bg, #fbf6f3));
   transition: width 0.2s ease;
 }
 

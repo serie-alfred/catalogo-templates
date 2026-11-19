@@ -85,7 +85,7 @@
   padding: 0 16px;
   border: 2px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #2a2350)) 18%, var(--brands-bg, #fffbf2));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--brands-card-bg, #ffffff);
   font-size: 22px;
   font-weight: 600;
   text-align: center;

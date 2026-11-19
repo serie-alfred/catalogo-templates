@@ -63,21 +63,21 @@
   background-color: #f3e6c4;
 }
 .tom0 .bubble {
-  background-color: #ffc93c;
+  background-color: var(--banner-grid-bubble-first-bg, #ffc93c);
 }
 
 .tom1 {
   background-color: #f4ddd7;
 }
 .tom1 .bubble {
-  background-color: #ff6f61;
+  background-color: var(--banner-grid-bubble-second-bg, #ff6f61);
 }
 
 .tom2 {
   background-color: #d8eeea;
 }
 .tom2 .bubble {
-  background-color: #22b8a7;
+  background-color: var(--banner-grid-bubble-third-bg, #22b8a7);
 }
 
 .art {
@@ -120,7 +120,7 @@
   padding: 18px 20px;
   border: 2px solid var(--banner-grid-text, var(--text-primary-color, #2a2350));
   border-radius: 22px;
-  background-color: #ffffff;
+  background-color: var(--banner-grid-card-bg, #ffffff);
 }
 
 .title {

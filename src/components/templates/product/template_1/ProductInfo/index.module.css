@@ -14,7 +14,7 @@
 .favoriteButton {
   align-items: center;
   appearance: none;
-  background: #eee;
+  background: var(--prod-info-fav-bg, #eeeeee);
   border: 1px solid #cbcbcb;
   border-radius: 4px;
   color: var(--prod-info-fav-text, #000000);
@@ -37,7 +37,7 @@
 }
 
 .favoriteButton:hover {
-  background: #e0e0e0;
+  background: color-mix(in srgb, var(--prod-info-fav-bg, #eeeeee) 94%, #000000);
 }
 
 .favoriteButton.favorited {
@@ -63,6 +63,7 @@
 }
 
 .listaCorVariacao .listaItem {
+  background-color: transparent;
   width: fit-content;
   border-radius: 120px;
   height: fit-content;
@@ -807,7 +808,7 @@
 }
 
 .listaCorVariacao li {
-  background-color: #fff;
+  background-color: var(--prod-info-variant-bg, #ffffff);
   border: 1px solid #DFDFE0;
   width: 93px;
   height: 56px;
@@ -978,7 +979,7 @@
   box-shadow: none;
   margin: 0px;
   padding: 0px;
-  background: white;
+  background: transparent;
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .productFormBox .buyButton {
@@ -1124,7 +1125,7 @@
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label input {
   width: 100%;
   height: 56px;
-  background-color: #ffffff;
+  background-color: var(--prod-info-cep-bg, #ffffff);
   border-radius: 16px;
   border: 1px solid #DFDFE0;
   box-shadow: unset;
@@ -1483,7 +1484,7 @@
   .produtoImagem .swiper :global(.swiper-pagination-bullet) {
     width: 11px;
     height: 11px;
-    background-color: #e3e3e3;
+    background-color: color-mix(in srgb, var(--prod-info-title, var(--text-primary-color, #292929)) 13%, transparent);
     opacity: 1;
     border: none;
     border-radius: 100%;

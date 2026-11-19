@@ -5,7 +5,7 @@
 
 .productDetails10 {
   width: 100%;
-  background-color: #f2f4f7;
+  background-color: var(--pdp-bg, #f2f4f7);
   color: var(--pdp-text, var(--text-primary-color, #101828));
   font-family: var(--pdp-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
@@ -79,9 +79,9 @@
   display: flex;
   gap: 16px;
   padding: 16px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
   border-radius: 16px;
-  background-color: #ffffff;
+  background-color: var(--pdp-card-bg, #ffffff);
 }
 
 .thumbs {
@@ -94,7 +94,7 @@
   width: 76px;
   height: 76px;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
   border-radius: 10px;
   background-color: #eef1f5;
 }
@@ -112,8 +112,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #edeff2;
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 85%, #ffffff);
+  background-color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 7%, var(--pdp-card-bg, #ffffff));
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 85%, var(--pdp-card-bg, #ffffff));
   font-size: 16px;
   font-weight: 800;
 }
@@ -172,9 +172,9 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--pdp-card-bg, #ffffff);
 }
 .fav:disabled {
   cursor: default;
@@ -198,13 +198,13 @@
   flex-direction: column;
   gap: 2px;
   padding: 14px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--pdp-card-bg, #ffffff);
 }
 
 .highlightName {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 74%, var(--pdp-card-bg, #ffffff));
   font-size: 12px;
 }
 
@@ -223,9 +223,9 @@
   gap: 16px;
   min-width: 0;
   padding: 28px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
   border-radius: 16px;
-  background-color: #ffffff;
+  background-color: var(--pdp-card-bg, #ffffff);
 }
 
 .meta {
@@ -244,7 +244,7 @@
 }
 
 .code {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 74%, var(--pdp-card-bg, #ffffff));
 }
 
 .title {
@@ -284,7 +284,7 @@
   flex-direction: column;
   gap: 6px;
   padding-top: 16px;
-  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
 }
 
 .listRow {
@@ -294,7 +294,7 @@
 }
 
 .listPrice {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 74%, var(--pdp-card-bg, #ffffff));
   font-size: 15px;
 }
 
@@ -334,7 +334,7 @@
   display: flex;
   flex-direction: column;
   padding: 4px 14px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
   border-radius: 10px;
   font-size: 14px;
 }
@@ -345,11 +345,11 @@
   padding: 8px 0;
 }
 .plans li + li {
-  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
 }
 
 .plansMeta {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 74%, var(--pdp-card-bg, #ffffff));
 }
 
 .pix {
@@ -374,7 +374,7 @@
 }
 
 .pixText {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 85%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 85%, var(--pdp-card-bg, #ffffff));
   font-size: 13px;
 }
 .group {
@@ -422,9 +422,9 @@ label.groupLabel {
   gap: 10px;
   height: 52px;
   padding: 4px 14px 4px 4px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 20%, var(--pdp-card-bg, #ffffff));
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--pdp-card-bg, #ffffff);
   font-size: 14px;
   font-weight: 600;
 }
@@ -438,7 +438,7 @@ label.groupLabel {
   height: 40px;
   overflow: hidden;
   border-radius: 6px;
-  background-color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  background-color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
 }
 .swatch img {
   width: 100%;
@@ -450,9 +450,9 @@ label.groupLabel {
   min-width: 120px;
   height: 52px;
   padding: 0 16px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 20%, var(--pdp-card-bg, #ffffff));
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--pdp-card-bg, #ffffff);
   font-size: 15px;
   font-weight: 700;
 }
@@ -465,7 +465,7 @@ label.groupLabel {
 
 .chipOn {
   border: 2px solid var(--pdp-accent, var(--background-primary-color, #1340d8));
-  background-color: color-mix(in srgb, var(--pdp-accent, var(--background-primary-color, #1340d8)) 8%, #ffffff);
+  background-color: color-mix(in srgb, var(--pdp-accent, var(--background-primary-color, #1340d8)) 8%, var(--pdp-card-bg, #ffffff));
   font-weight: 800;
 }
 .chipOn.axisChip {
@@ -474,13 +474,13 @@ label.groupLabel {
 
 .axisOut {
   border-style: dashed;
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 45%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 45%, var(--pdp-card-bg, #ffffff));
   text-decoration: line-through;
   cursor: not-allowed;
 }
 
 .soldNote {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 74%, var(--pdp-card-bg, #ffffff));
   font-size: 13px;
   line-height: 1.4;
 }
@@ -492,7 +492,7 @@ label.groupLabel {
   flex-direction: column;
   gap: 10px;
   padding: 14px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
   border-radius: 12px;
 }
 
@@ -521,13 +521,13 @@ label.groupLabel {
   width: 100%;
   height: 48px;
   padding: 0 14px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 20%, var(--pdp-card-bg, #ffffff));
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--pdp-card-bg, #ffffff);
   font-size: 15px;
 }
 .field input::placeholder {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 64%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 64%, var(--pdp-card-bg, #ffffff));
 }
 
 .error {
@@ -545,7 +545,7 @@ label.groupLabel {
   display: flex;
   align-items: center;
   height: 58px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 20%, var(--pdp-card-bg, #ffffff));
   border-radius: 10px;
 }
 .qty button {
@@ -586,7 +586,7 @@ label.groupLabel {
   flex-direction: column;
   gap: 10px;
   padding-top: 16px;
-  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
 }
 
 .input {
@@ -594,13 +594,13 @@ label.groupLabel {
   min-width: 0;
   height: 48px;
   padding: 0 14px;
-  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 20%, var(--pdp-card-bg, #ffffff));
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--pdp-card-bg, #ffffff);
   font-size: 15px;
 }
 .input::placeholder {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 64%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 64%, var(--pdp-card-bg, #ffffff));
 }
 
 .darkBtn {
@@ -630,7 +630,7 @@ label.groupLabel {
   font-size: 14px;
 }
 .shipTable tr {
-  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
 }
 .shipTable td {
   padding: 10px 0;
@@ -641,7 +641,7 @@ label.groupLabel {
 }
 
 .shipEta {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 74%, var(--pdp-card-bg, #ffffff));
 }
 
 .shipPrice {
@@ -658,8 +658,8 @@ label.groupLabel {
   grid-template-columns: repeat(auto-fit, minmax(min(120px, 100%), 1fr));
   gap: 10px;
   padding-top: 14px;
-  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 85%, #ffffff);
+  border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 85%, var(--pdp-card-bg, #ffffff));
   font-size: 13px;
   font-weight: 600;
 }
@@ -695,7 +695,7 @@ label.groupLabel {
   padding: 20px;
   overflow: auto;
   border-radius: 16px;
-  background-color: #ffffff;
+  background-color: var(--pdp-card-bg, #ffffff);
   color: var(--pdp-text, var(--text-primary-color, #101828));
 }
 
@@ -724,7 +724,7 @@ label.groupLabel {
 
 @container (max-width: 960px) {
   .productDetails10 {
-    background-color: #ffffff;
+    background-color: var(--pdp-card-bg, #ffffff);
   }
   .onlyDesktop {
     display: none;
@@ -885,7 +885,7 @@ label.groupLabel {
     padding: 10px 12px;
     border: 0;
     border-radius: 10px;
-    background-color: #f2f4f7;
+    background-color: var(--pdp-bg, #f2f4f7);
   }
   .highlightValue {
     font-size: 15px;
@@ -925,8 +925,8 @@ label.groupLabel {
     align-items: center;
     gap: 12px;
     padding: 10px 16px 14px;
-    border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, #ffffff);
-    background-color: #ffffff;
+    border-top: 1px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #101828)) 11%, var(--pdp-card-bg, #ffffff));
+    background-color: var(--pdp-card-bg, #ffffff);
     box-shadow: 0 -4px 12px rgba(16, 24, 40, 0.08);
   }
   .mobilePrice {

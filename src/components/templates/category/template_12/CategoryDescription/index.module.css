@@ -6,7 +6,7 @@
 .categorySeoFaq12 {
   width: 100%;
   padding: 48px 0;
-  background-color: #fbf6f3;
+  background-color: var(--cat-desc-page-bg, #fbf6f3);
   color: var(--cat-desc-text, var(--text-primary-color, #3b1f33));
   font-family: var(--cat-desc-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-weight: 400;
@@ -66,7 +66,7 @@
   align-self: flex-start;
   padding: 6px 14px;
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--cat-desc-surface-bg, #ffffff);
   color: var(--cat-desc-text, var(--text-primary-color, #3b1f33));
   font-size: 13px;
   font-weight: 700;
@@ -135,9 +135,9 @@
 
 .faqItem {
   padding: 0 24px;
-  border: 1px solid color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #3b1f33)) 10%, var(--cat-desc-surface-bg, #ffffff));
   border-radius: 24px;
-  background-color: #ffffff;
+  background-color: var(--cat-desc-surface-bg, #ffffff);
 }
 
 .faqHeading {
@@ -165,7 +165,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #fbf6f3;
+  background-color: var(--cat-desc-page-bg, #fbf6f3);
 }
 
 .faqOpen .sign {
@@ -175,7 +175,7 @@
 
 .answer {
   margin: 0 0 22px;
-  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #3b1f33)) 72%, var(--cat-desc-surface-bg, #ffffff));
   font-size: 15px;
   line-height: 1.6;
 }

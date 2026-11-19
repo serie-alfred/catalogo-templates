@@ -62,7 +62,7 @@
 }
 
 .eyebrow {
-  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #3b1f33)) 71%, var(--editorial-bg, #fbf6f3));
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -78,7 +78,7 @@
 
 .text {
   max-width: 560px;
-  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #3b1f33)) 71%, var(--editorial-bg, #fbf6f3));
   font-size: 16px;
 }
 
@@ -96,9 +96,9 @@
   flex-direction: column;
   gap: 14px;
   padding: 20px;
-  border: 1px solid color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #3b1f33)) 10%, var(--editorial-surface-bg, #ffffff));
   border-radius: 28px;
-  background-color: #ffffff;
+  background-color: var(--editorial-surface-bg, #ffffff);
 }
 
 .stepHead {
@@ -151,7 +151,7 @@
 }
 
 .stepText {
-  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--editorial-text, var(--text-primary-color, #3b1f33)) 72%, var(--editorial-surface-bg, #ffffff));
   font-size: 15px;
   line-height: 1.5;
 }
@@ -182,7 +182,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--editorial-surface-bg, #ffffff);
 }
 
 .dots {

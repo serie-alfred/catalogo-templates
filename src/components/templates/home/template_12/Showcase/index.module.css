@@ -71,7 +71,7 @@
 }
 
 .subtitle {
-  color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #3b1f33)) 71%, var(--showcase-bg, #fbf6f3));
   font-size: 16px;
 }
 
@@ -102,9 +102,9 @@
   justify-content: center;
   width: 50px;
   height: 50px;
-  border: 1px solid color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #3b1f33)) 10%, var(--showcase-surface-bg, #ffffff));
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--showcase-surface-bg, #ffffff);
   color: var(--showcase-text, var(--text-primary-color, #3b1f33));
 }
 .arrow:disabled {
@@ -172,9 +172,9 @@
   gap: 8px;
   min-height: 0;
   padding: 12px 20px;
-  border: 1px solid color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #3b1f33)) 10%, var(--showcase-surface-bg, #ffffff));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--showcase-surface-bg, #ffffff);
   text-decoration: none;
 }
 
@@ -207,7 +207,7 @@
   align-self: flex-start;
   padding: 6px 14px;
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--banner-side-eyebrow-bg, #ffffff);
   color: var(--text-primary-color, #3b1f33);
   font-size: 13px;
   font-weight: 700;
@@ -301,7 +301,7 @@
     margin: 0 16px;
     overflow: hidden;
     border-radius: 999px;
-    background-color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+    background-color: color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #3b1f33)) 6%, var(--showcase-bg, #fbf6f3));
   }
   .progress span {
     position: absolute;

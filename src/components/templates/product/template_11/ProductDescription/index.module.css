@@ -6,7 +6,7 @@
 .productDescription11 {
   width: 100%;
   padding: 56px 0;
-  background-color: #ffffff;
+  background-color: var(--prod-desc-bg, #ffffff);
   color: var(--prod-desc-text, var(--text-primary-color, #0a0a0a));
   font-family: var(--prod-desc-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-size: 16px;
@@ -94,7 +94,7 @@
 
 .html {
   max-width: 560px;
-  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #0a0a0a)) 62%, var(--prod-desc-bg, #ffffff));
   font-size: 16px;
   line-height: 1.6;
 }
@@ -110,7 +110,7 @@
   position: relative;
   flex: 1;
   min-height: 360px;
-  background-color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #0a0a0a)) 5%, #ffffff);
+  background-color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #0a0a0a)) 5%, var(--prod-desc-bg, #ffffff));
 }
 .drawing img {
   position: absolute;
@@ -146,7 +146,7 @@
   border-right: 1px solid var(--prod-desc-text, var(--text-primary-color, #0a0a0a));
 }
 .spec dt {
-  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #0a0a0a)) 62%, var(--prod-desc-bg, #ffffff));
   font-family: var(--prod-desc-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   text-transform: uppercase;

@@ -92,9 +92,9 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  border: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 20%, var(--socialproof-card-bg, #ffffff));
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--socialproof-card-bg, #ffffff);
 }
 .arrow:disabled {
   cursor: default;
@@ -117,9 +117,9 @@
   flex-direction: column;
   gap: 12px;
   padding: 22px;
-  border: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 11%, var(--socialproof-card-bg, #ffffff));
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--socialproof-card-bg, #ffffff);
   scroll-snap-align: start;
 }
 .card:nth-child(3n+1) .thumb {
@@ -149,7 +149,7 @@
 }
 
 .reviewText {
-  color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 75%, #ffffff);
+  color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 75%, var(--socialproof-card-bg, #ffffff));
   font-size: 14px;
   line-height: 1.55;
 }
@@ -160,7 +160,7 @@
   gap: 10px;
   margin-top: auto;
   padding-top: 12px;
-  border-top: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border-top: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 11%, var(--socialproof-card-bg, #ffffff));
 }
 
 .thumb {
@@ -196,7 +196,7 @@ a.product:hover {
 }
 
 .author {
-  color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 75%, #ffffff);
+  color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 75%, var(--socialproof-card-bg, #ffffff));
   font-size: 12px;
 }
 
@@ -262,7 +262,7 @@ a.product:hover {
     width: 6px;
     height: 6px;
     border-radius: 3px;
-    background-color: #c8d0dc;
+    background-color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #101828)) 16%, var(--socialproof-bg, #f2f4f7));
     transition: width 0.2s ease;
   }
   .dotOn {

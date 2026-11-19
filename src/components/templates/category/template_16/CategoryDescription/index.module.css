@@ -124,7 +124,7 @@
   padding: 0 20px;
   border: 2px solid color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #2a2350)) 18%, var(--cat-desc-bg, #fffbf2));
   border-radius: 24px;
-  background-color: #ffffff;
+  background-color: var(--cat-desc-card-bg, #ffffff);
 }
 
 .faqOpen {
@@ -172,7 +172,7 @@
 }
 
 .answer {
-  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #2a2350)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #2a2350)) 72%, var(--cat-desc-card-bg, #ffffff));
   font-size: 16px;
   line-height: 1.6;
 }

@@ -47,7 +47,7 @@ o espaçamento vive nos flexColChild). Cor/fonte = cadeia 3 níveis (temável). 
   .bar {
     margin-top: 0;
     border-bottom: 1px solid #e0e0e0;
-    background: #fff;
+    background: var(--prod-bar-bg, #ffffff);
     font-size: 12px;
   }
 
@@ -1914,7 +1914,7 @@ para a cadeia de tokens temável do FastStore. Medidas mantidas em rem, como na 
   padding: 10px 12px;
   border: 1px solid color-mix(in srgb, var(--prod-info-text, var(--text-primary-color, #212721)) 12%, transparent);
   border-radius: 80px;
-  background: #ffffff;
+  background: var(--prod-input-bg, #ffffff);
   font-family: inherit;
   font-size: 12px;
   letter-spacing: 0.4px;

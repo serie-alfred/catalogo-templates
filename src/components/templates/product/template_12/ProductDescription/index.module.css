@@ -6,7 +6,7 @@
 .productDescription12 {
   width: 100%;
   padding: 56px 0;
-  background-color: #fbf6f3;
+  background-color: var(--prod-desc-bg, #fbf6f3);
   color: var(--prod-desc-text, var(--text-primary-color, #3b1f33));
   font-family: var(--prod-desc-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-size: 16px;
@@ -65,7 +65,7 @@
   margin: 0;
 }
 .html > p ~ p {
-  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #3b1f33)) 71%, var(--prod-desc-bg, #fbf6f3));
 }
 .html ul,
 .html ol {
@@ -112,15 +112,15 @@
 }
 
 .toneRose {
-  background-color: #f4dcd6;
+  background-color: var(--prod-desc-card-bg, #f4dcd6);
 }
 
 .toneLilac {
-  background-color: #e6dff0;
+  background-color: var(--prod-desc-card-bg, #e6dff0);
 }
 
 .toneSage {
-  background-color: #dce6da;
+  background-color: var(--prod-desc-card-bg, #dce6da);
 }
 
 .cardTitle {
@@ -146,9 +146,9 @@
   flex-direction: column;
   gap: 18px;
   padding: 28px 32px;
-  border: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #3b1f33)) 10%, var(--prod-desc-box-bg, #ffffff));
   border-radius: 28px;
-  background-color: #ffffff;
+  background-color: var(--prod-desc-box-bg, #ffffff);
 }
 
 .boxTitle {
@@ -201,7 +201,7 @@
   gap: 6px;
   padding: 18px;
   border-radius: 22px;
-  background-color: #fbf6f3;
+  background-color: var(--prod-desc-bg, #fbf6f3);
 }
 
 .resultValue {
@@ -211,13 +211,13 @@
 }
 
 .resultText {
-  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #3b1f33)) 71%, var(--prod-desc-bg, #fbf6f3));
   font-size: 13px;
   line-height: 1.4;
 }
 
 .note {
-  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--prod-desc-text, var(--text-primary-color, #3b1f33)) 71%, var(--prod-desc-bg, #fbf6f3));
   font-size: 12px;
 }
 

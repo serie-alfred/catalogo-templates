@@ -5,7 +5,7 @@
 
 .bannerGrid10 {
   width: 100%;
-  background-color: #f2f4f7;
+  background-color: var(--banner-grid-bg, #f2f4f7);
   color: var(--banner-grid-text, var(--text-primary-color, #101828));
   font-family: var(--banner-grid-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
@@ -103,7 +103,7 @@
   margin-top: 8px;
   padding: 0 24px;
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--banner-grid-main-cta-bg, #ffffff);
   color: var(--banner-grid-text, var(--text-primary-color, #101828));
   font-size: 16px;
   font-weight: 800;
@@ -218,8 +218,8 @@
 }
 
 .toneOutline {
-  border: 1px solid color-mix(in srgb, var(--banner-grid-text, var(--text-primary-color, #101828)) 11%, #ffffff);
-  background-color: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--banner-grid-text, var(--text-primary-color, #101828)) 11%, var(--banner-grid-tile-bg, #ffffff));
+  background-color: var(--banner-grid-tile-bg, #ffffff);
 }
 .toneOutline .tileEyebrow {
   color: var(--banner-grid-accent, var(--background-primary-color-safe, #1340d8));

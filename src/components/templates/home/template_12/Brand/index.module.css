@@ -65,14 +65,14 @@
   align-items: center;
   height: 66px;
   padding: 0 32px;
-  border: 1px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #3b1f33)) 10%, var(--brands-pill-bg, #ffffff));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--brands-pill-bg, #ffffff);
   font-family: var(--brands-title-font, var(--font-primary, 'Young Serif', Georgia, serif));
   font-size: 20px;
 }
 .pill:hover {
-  border-color: color-mix(in srgb, var(--brands-text, var(--text-primary-color, #3b1f33)) 30%, #ffffff);
+  border-color: color-mix(in srgb, var(--brands-text, var(--text-primary-color, #3b1f33)) 30%, var(--brands-pill-bg, #ffffff));
 }
 .pill:focus-visible {
   outline: 2px solid var(--brands-text, var(--text-primary-color, #3b1f33));

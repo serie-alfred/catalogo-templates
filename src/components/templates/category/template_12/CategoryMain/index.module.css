@@ -117,9 +117,9 @@
   gap: 10px;
   height: 44px;
   padding: 0 18px 0 20px;
-  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #3b1f33)) 10%, var(--cat-main-surface-bg, #ffffff));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--cat-main-surface-bg, #ffffff);
   font-size: 14px;
   cursor: pointer;
 }
@@ -132,7 +132,7 @@
 }
 
 .sortLabel {
-  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #3b1f33)) 72%, var(--cat-main-surface-bg, #ffffff));
 }
 
 .sortSelect {
@@ -270,9 +270,9 @@
 .pill {
   height: 40px;
   padding: 0 16px;
-  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--filter-text, var(--text-primary-color, #3b1f33)) 10%, var(--filter-bg, #ffffff));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--filter-bg, #ffffff);
   font-size: 14px;
   font-weight: 600;
 }
@@ -362,9 +362,9 @@
   max-width: 760px;
   margin: 0 auto;
   padding: 56px clamp(24px, 5vw, 64px);
-  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #3b1f33)) 10%, var(--cat-main-surface-bg, #ffffff));
   border-radius: 32px;
-  background-color: #ffffff;
+  background-color: var(--cat-main-surface-bg, #ffffff);
   text-align: center;
 }
 
@@ -375,7 +375,7 @@
   width: 64px;
   height: 64px;
   border-radius: 50%;
-  background-color: #f4dcd6;
+  background-color: var(--cat-main-empty-icon-bg, #f4dcd6);
 }
 
 .emptyTitle {
@@ -387,7 +387,7 @@
 
 .emptyText {
   max-width: 520px;
-  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #3b1f33)) 72%, var(--cat-main-surface-bg, #ffffff));
   font-size: 16px;
   line-height: 1.55;
 }
@@ -585,8 +585,8 @@
     color: var(--cat-main-accent-text, var(--text-color-base, #ffffff));
   }
   .mSort {
-    border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
-    background-color: #ffffff;
+    border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #3b1f33)) 10%, var(--cat-main-surface-bg, #ffffff));
+    background-color: var(--cat-main-surface-bg, #ffffff);
   }
   .mSort:focus-within {
     outline: 2px solid var(--cat-main-accent, var(--background-primary-color, #7a2e5f));

@@ -5,7 +5,7 @@
   display: block;
   margin: 0;
   padding: 8px;
-  background-color: white;
+  background-color: var(--spot-bg, #ffffff);
 }
 
 .spot .product-wrapper .compare-buttons {

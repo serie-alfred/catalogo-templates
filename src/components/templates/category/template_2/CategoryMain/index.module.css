@@ -178,7 +178,7 @@
   font-size: 16px;
   color: var(--cat-main-select-text, #68686e);
   border: 1px solid #DFDFE0;
-  background-color: #FFFFFF;
+  background-color: var(--cat-main-panel-bg, #ffffff);
   background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 10L12 14L16 10' stroke='%237A7A7A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
   background-repeat: no-repeat;
   background-position-x: 90%;
@@ -635,9 +635,17 @@
     max-width: 360px;
     height: 100%;
     padding: 15px;
-    background: #ffffff;
+    background: var(--cat-main-panel-bg, #ffffff);
     visibility: hidden;
     transition: left 0.3s, visibility 0.3s;
+  }
+
+  .filter .filterTitleForm,
+  .filter .filterTitleActive,
+  .filter .filterTitle,
+  .filter .filterName,
+  .filter .filterCount {
+    color: var(--cat-main-panel-text, var(--cat-main-text, var(--text-primary-color, #141414)));
   }
 
   .filterOpen {
@@ -721,7 +729,7 @@
     bottom: -100%;
     left: 0;
     width: 100%;
-    background: white;
+    background: var(--cat-main-panel-bg, #ffffff);
     z-index: 1000;
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -746,7 +754,7 @@
     align-items: center;
     font-size: 20px;
     font-weight: 700;
-    color: var(--cat-main-text, var(--text-primary-color, #141414));
+    color: var(--cat-main-panel-text, var(--cat-main-text, var(--text-primary-color, #141414)));
     margin-bottom: 30px;
   }
 
@@ -758,7 +766,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    color: var(--cat-main-text, #000000);
+    color: var(--cat-main-panel-text, var(--cat-main-text, #000000));
     font-size: 14px;
     font-weight: 400;
     width: 100%;

@@ -6,7 +6,7 @@
 .categoryTitle11 {
   width: 100%;
   padding: 48px 0 40px;
-  background-color: #ffffff;
+  background-color: var(--cat-title-bg, #ffffff);
   color: var(--cat-title-text, var(--text-primary-color, #0a0a0a));
   font-family: var(--cat-title-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-weight: 400;
@@ -92,7 +92,7 @@
 }
 
 .chipQty {
-  color: color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--cat-title-text, var(--text-primary-color, #0a0a0a)) 62%, var(--cat-title-bg, #ffffff));
   font-family: var(--cat-title-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
   font-weight: 400;

@@ -10,9 +10,9 @@
   gap: 8px;
   min-width: 0;
   padding: 14px;
-  border: 1px solid color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 11%, var(--spot-bg, #ffffff));
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--spot-bg, #ffffff);
   color: var(--spot-text, var(--text-primary-color, #101828));
   font-family: var(--spot-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   line-height: normal;
@@ -133,8 +133,8 @@
 }
 
 .tagOut {
-  background-color: var(--spot-soldout-bg, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff));
-  color: var(--spot-soldout-text, #ffffff);
+  background-color: var(--spot-soldout-bg, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, var(--spot-bg, #ffffff)));
+  color: var(--spot-soldout-text, var(--spot-bg, #ffffff));
   font-size: 11px;
   font-weight: 700;
 }
@@ -148,7 +148,7 @@
   justify-content: center;
   width: 44px;
   height: 44px;
-  color: var(--spot-wishlist-color, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff));
+  color: var(--spot-wishlist-color, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, var(--spot-bg, #ffffff)));
 }
 .favorite:disabled {
   cursor: default;
@@ -196,7 +196,7 @@
   align-items: center;
   gap: 4px;
   margin-left: 4px;
-  color: var(--spot-rating-text, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff));
+  color: var(--spot-rating-text, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, var(--spot-bg, #ffffff)));
   font-size: 12px;
 }
 
@@ -221,7 +221,7 @@
 }
 
 .listPrice {
-  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff));
+  color: var(--spot-old-price, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, var(--spot-bg, #ffffff)));
   font-size: 13px;
   text-decoration: line-through;
 }
@@ -240,7 +240,7 @@
 }
 
 .installment {
-  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff));
+  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, var(--spot-bg, #ffffff)));
   font-size: 13px;
 }
 .buy {
@@ -280,7 +280,7 @@
 }
 
 .outText {
-  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, var(--spot-bg, #ffffff));
   font-size: 13px;
 }
 
@@ -292,7 +292,7 @@
   height: 48px;
   border: 2px solid var(--spot-notify-text, var(--spot-btn-bg, var(--background-primary-color, #1340d8)));
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--spot-bg, #ffffff);
   color: var(--spot-notify-text, var(--spot-btn-bg, var(--background-primary-color, #1340d8)));
   font-size: 15px;
   font-weight: 700;
@@ -302,7 +302,7 @@
 }
 
 .soldOut .name {
-  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #101828)) 74%, var(--spot-bg, #ffffff));
 }
 @container (max-width: 960px) {
   .productCard10 {

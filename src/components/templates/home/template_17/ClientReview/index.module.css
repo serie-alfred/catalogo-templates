@@ -148,7 +148,7 @@
   height: 48px;
   overflow: hidden;
   border-radius: 56% 44% 52% 48%/48% 56% 44% 52%;
-  background-color: #d9cebd;
+  background-color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #0e2f38)) 16%, color-mix(in srgb, var(--socialproof-accent, var(--background-primary-color, #0e6b73)) 9%, var(--socialproof-bg, #ffffff)));
 }
 .avatar img {
   width: 100%;
@@ -158,12 +158,12 @@
 
 .card:nth-child(3n+2) .avatar {
   border-radius: 44% 56% 48% 52%/56% 44% 56% 44%;
-  background-color: #c9d4d0;
+  background-color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #0e2f38)) 15%, color-mix(in srgb, var(--socialproof-accent, var(--background-primary-color, #0e6b73)) 9%, var(--socialproof-bg, #ffffff)));
 }
 
 .card:nth-child(3n+3) .avatar {
   border-radius: 52% 48% 60% 40%/44% 52% 48% 56%;
-  background-color: #ccd2c4;
+  background-color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #0e2f38)) 16%, color-mix(in srgb, var(--socialproof-accent, var(--background-primary-color, #0e6b73)) 9%, var(--socialproof-bg, #ffffff)));
 }
 
 .whoCopy {

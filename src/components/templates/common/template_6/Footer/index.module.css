@@ -95,7 +95,7 @@
   padding: 0 16px;
   border: 1px solid var(--footer-input-border, #e0e0e0);
   border-radius: 120px;
-  background: var(--footer-panel, #ffffff);
+  background: var(--footer-input-bg, var(--footer-panel, #ffffff));
   font-family: var(--footer-font, var(--font-secundary, 'Jost', sans-serif));
   font-size: 14px;
   color: var(--footer-input-text, var(--footer-text, var(--text-color-footer, #212721)));

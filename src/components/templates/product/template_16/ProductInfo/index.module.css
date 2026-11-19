@@ -130,7 +130,7 @@
   padding: 0 14px;
   border: 2px solid var(--pdp-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--pdp-control-bg, #ffffff);
   font-size: 14px;
   font-weight: 800;
 }
@@ -154,7 +154,7 @@
   height: 52px;
   border: 2px solid var(--pdp-text, var(--text-primary-color, #2a2350));
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--pdp-control-bg, #ffffff);
   color: var(--pdp-text, var(--text-primary-color, #2a2350));
   box-shadow: 0 4px 0 var(--pdp-text, var(--text-primary-color, #2a2350));
   pointer-events: auto;
@@ -202,7 +202,7 @@
   height: 56px;
   border: 2px solid var(--pdp-text, var(--text-primary-color, #2a2350));
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--pdp-control-bg, #ffffff);
   color: var(--pdp-text, var(--text-primary-color, #2a2350));
 }
 .fav:disabled {
@@ -304,7 +304,7 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--pdp-control-bg, #ffffff);
 }
 .prices {
   display: flex;
@@ -389,7 +389,7 @@
   overflow: hidden;
   border: 2px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #2a2350)) 18%, var(--pdp-bg, #fffbf2));
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--pdp-control-bg, #ffffff);
 }
 .swatch img {
   display: block;
@@ -434,7 +434,7 @@
   padding: 0 16px;
   border: 2px solid var(--pdp-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--pdp-control-bg, #ffffff);
   color: var(--pdp-text, var(--text-primary-color, #2a2350));
   font-family: var(--pdp-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 19px;
@@ -485,7 +485,7 @@
   height: 56px;
   border: 2px solid var(--pdp-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--pdp-control-bg, #ffffff);
 }
 .qty button {
   display: flex;
@@ -539,7 +539,7 @@
   padding: 18px;
   border: 2px solid var(--pdp-text, var(--text-primary-color, #2a2350));
   border-radius: 24px;
-  background-color: #ffffff;
+  background-color: var(--pdp-card-bg, #ffffff);
 }
 
 .notifyTitle {
@@ -572,14 +572,14 @@
   border: 2px solid var(--pdp-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
   outline: none;
-  background-color: #ffffff;
+  background-color: var(--pdp-control-bg, #ffffff);
   color: var(--pdp-text, var(--text-primary-color, #2a2350));
   font: inherit;
   font-size: 16px;
   font-weight: 600;
 }
 .input::placeholder {
-  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #2a2350)) 68%, #ffffff);
+  color: color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #2a2350)) 68%, var(--pdp-control-bg, #ffffff));
   opacity: 1;
 }
 .input:focus-visible {
@@ -679,7 +679,7 @@
   padding: 0 20px;
   border: 2px solid color-mix(in srgb, var(--pdp-text, var(--text-primary-color, #2a2350)) 18%, var(--pdp-bg, #fffbf2));
   border-radius: 24px;
-  background-color: #ffffff;
+  background-color: var(--pdp-card-bg, #ffffff);
 }
 
 .accOn {
@@ -731,7 +731,7 @@
   overflow: auto;
   border: 2px solid var(--pdp-text, var(--text-primary-color, #2a2350));
   border-radius: 24px;
-  background-color: #ffffff;
+  background-color: var(--pdp-card-bg, #ffffff);
   box-shadow: 0 6px 0 var(--pdp-text, var(--text-primary-color, #2a2350));
 }
 
