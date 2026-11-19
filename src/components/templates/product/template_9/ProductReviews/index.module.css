@@ -177,7 +177,7 @@
 
 .submit,
 .more {
-  background-color: var(--prod-reviews-text, var(--text-primary-color, #1d1b18)) !important;
+  background-color: var(--prod-reviews-btn-bg, var(--prod-reviews-text, var(--text-primary-color, #1d1b18))) !important;
   color: var(--prod-reviews-btn-text, #f7f4ef) !important;
 }
 .submit:disabled,
