@@ -6,7 +6,7 @@
 .categorySeoFaq11 {
   width: 100%;
   padding: 64px 0;
-  background-color: #ffffff;
+  background-color: var(--cat-desc-bg, #ffffff);
   color: var(--cat-desc-text, var(--text-primary-color, #0a0a0a));
   font-family: var(--cat-desc-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   font-size: 16px;
@@ -74,7 +74,7 @@
 
 .text {
   max-width: 560px;
-  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #0a0a0a)) 62%, var(--cat-desc-bg, #ffffff));
   font-size: 15px;
   line-height: 1.6;
 }
@@ -155,7 +155,7 @@
 
 .answer {
   padding: 0 24px 22px 56px;
-  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #0a0a0a)) 62%, var(--cat-desc-bg, #ffffff));
   font-size: 15px;
   line-height: 1.6;
 }
@@ -165,7 +165,7 @@
 
 .faqHtml {
   padding: 22px 24px;
-  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #0a0a0a)) 62%, var(--cat-desc-bg, #ffffff));
   font-size: 15px;
   line-height: 1.6;
 }

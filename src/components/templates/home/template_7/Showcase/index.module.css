@@ -176,3 +176,10 @@
     right: -5px;
   }
 }
+/* Espelho das setas circulares do ProductShelfCustom07 do starter (.navPrev/.navNext). A prévia
+   não as renderiza (as setas acima são as do desenho da Tray); a regra fica aqui para o campo
+   "Fundo das setas" (--shelf-nav-bg) ter o mesmo valor nas duas pontas. */
+.navPrev,
+.navNext {
+  background: var(--shelf-nav-bg, #ffffff);
+}

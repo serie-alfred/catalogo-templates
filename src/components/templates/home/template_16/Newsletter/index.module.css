@@ -122,13 +122,13 @@
   border: 2px solid var(--newsletter-button-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
   outline: none;
-  background-color: #ffffff;
+  background-color: var(--newsletter-input-bg, #ffffff);
   color: var(--newsletter-button-text, var(--text-primary-color, #2a2350));
   font-size: 17px;
   font-weight: 600;
 }
 .input::placeholder {
-  color: color-mix(in srgb, var(--newsletter-button-text, var(--text-primary-color, #2a2350)) 68%, #ffffff);
+  color: color-mix(in srgb, var(--newsletter-button-text, var(--text-primary-color, #2a2350)) 68%, var(--newsletter-input-bg, #ffffff));
   opacity: 1;
 }
 .input:focus-visible {

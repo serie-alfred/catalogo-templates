@@ -115,7 +115,7 @@
   display: block;
   overflow: hidden;
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--pdp-photo-bg, #ffffff);
 }
 .frame img {
   display: block;

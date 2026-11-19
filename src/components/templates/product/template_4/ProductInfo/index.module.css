@@ -241,7 +241,7 @@
   justify-content: space-between;
   width: 34px;
   height: 198px;
-  background: white;
+  background: var(--prod-gallery-scrollbar-bg, #ffffff);
   border-radius: 4px;
 }
 
@@ -276,7 +276,7 @@
   flex: 1;
   width: 6px;
   margin: 6px 0;
-  background-color: rgba(0, 0, 0, 0.08);
+  background-color: color-mix(in srgb, var(--prod-info-text, #121212) 8%, transparent);
   border-radius: 3px;
 }
 
@@ -285,14 +285,14 @@
   left: 0;
   width: 100%;
   min-height: 24px;
-  background-color: #626262;
+  background-color: color-mix(in srgb, var(--prod-info-text, #121212) 66%, var(--prod-gallery-scrollbar-bg, #ffffff));
   border-radius: 3px;
   cursor: grab;
   transition: background-color 0.2s ease;
 }
 
 .productGallery .scrollbar .track .handle:hover {
-  background-color: #4a4a4a;
+  background-color: color-mix(in srgb, var(--prod-info-text, #121212) 76%, var(--prod-gallery-scrollbar-bg, #ffffff));
 }
 
 .productGallery .scrollbar .track .handle:active {
@@ -572,7 +572,7 @@
 
 .productVariations[data-fs-sku-selector-variant="label"] li[data-fs-sku-selector-option] {
   position: relative;
-  background-color: #ffffff;
+  background-color: var(--prod-info-variant-bg, #ffffff);
   border: 1px solid var(--prod-info-variant-border, #121212);
   min-width: 44px;
   height: 44px;
@@ -586,7 +586,7 @@
 }
 
 .productVariations[data-fs-sku-selector-variant="label"] li[data-fs-sku-selector-option]:hover {
-  background-color: #f2f2f2;
+  background-color: color-mix(in srgb, var(--prod-info-text, #121212) 5%, var(--prod-info-variant-bg, #ffffff));
 }
 
 .productVariations[data-fs-sku-selector-variant="label"] li[data-fs-sku-selector-option][data-fs-sku-selector-checked="true"] {
@@ -675,7 +675,7 @@
 }
 
 .colorSwatch .colorFill {
-  background: #efefef;
+  background: color-mix(in srgb, var(--prod-info-text, #121212) 7%, transparent);
 }
 
 .colorSwatch:hover {

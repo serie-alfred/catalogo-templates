@@ -5,7 +5,7 @@
 
 .categorySeoFaq10 {
   width: 100%;
-  background-color: #f2f4f7;
+  background-color: var(--cat-desc-bg, #f2f4f7);
   color: var(--cat-desc-text, var(--text-primary-color, #101828));
   font-family: var(--cat-desc-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-size: 16px;
@@ -67,9 +67,9 @@
 }
 
 .faqItem {
-  border: 1px solid color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 11%, var(--cat-desc-card-bg, #ffffff));
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--cat-desc-card-bg, #ffffff);
 }
 
 .faqItemOpen {
@@ -106,7 +106,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background-color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 5%, #ffffff);
+  background-color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 5%, var(--cat-desc-card-bg, #ffffff));
 }
 .faqItemOpen .sign {
   background-color: var(--cat-desc-accent, var(--background-primary-color, #1340d8));
@@ -115,7 +115,7 @@
 
 .answer {
   padding: 0 20px 20px;
-  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 78%, #ffffff);
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 78%, var(--cat-desc-card-bg, #ffffff));
   font-size: 15px;
   line-height: 1.6;
 }
@@ -124,7 +124,7 @@
 }
 
 .faqHtml {
-  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 78%, #ffffff);
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 78%, var(--cat-desc-card-bg, #ffffff));
   font-size: 15px;
   line-height: 1.6;
 }
@@ -134,9 +134,9 @@
   flex-direction: column;
   gap: 10px;
   padding: 24px;
-  border: 1px solid color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 11%, var(--cat-desc-card-bg, #ffffff));
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--cat-desc-card-bg, #ffffff);
 }
 
 .aboutTitle {
@@ -146,7 +146,7 @@
 }
 
 .text {
-  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 78%, #ffffff);
+  color: color-mix(in srgb, var(--cat-desc-text, var(--text-primary-color, #101828)) 78%, var(--cat-desc-card-bg, #ffffff));
   font-size: 15px;
   line-height: 1.65;
 }

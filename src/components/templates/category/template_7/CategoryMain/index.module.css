@@ -5,10 +5,11 @@
    — só o `.seoHtml` tem 20 seletores de elemento aninhados, que CSS Modules
    recusa soltos —, e `@media` de largura → `@container`.
 
-   As superfícies claras (`#f5f0e8` do SEO, `#ede4d8` dos chips, `#faf8f4` da
-   página) e os semânticos (`#c07a5a` novidade, `#5c7a66` Pix) ficam em hex por
-   decisão do autor da origem, com o motivo escrito lá: o terciário do tema demo
-   é escuro e apagaria o texto sobre eles. Não são convertidos aqui de propósito.
+   As superfícies claras (`#faf8f4` da página, `#ffffff` dos controles, `#f5f0e8`
+   do SEO) têm campo próprio (`--plp-bg`, `--plp-surface`, `--plp-seo-bg`) direto
+   ao hex, SEM token global: o terciário do tema demo é escuro e apagaria o texto
+   sobre elas. Os chips/trilha (`#ede4d8`) são tinta do destaque a 20.3% sobre
+   `--plp-bg`. Os semânticos (`#c07a5a` novidade, `#5c7a66` Pix) seguem como na origem.
 
    Cuidado registrado: `#faf8f4` (fundo da página) é byte-idêntico ao Nível 3 de
    `--plp-cta-text`, e `#f5f0e8` (fundo do SEO) NÃO é `#faf8f4`. São três beges
@@ -30,7 +31,7 @@ o texto invisível (failure-mode #14 / eye-check GATE 2). Mantidas em hex. */
 
 .plpRoot {
   font-family: var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  background: #faf8f4;
+  background: var(--plp-bg, #faf8f4);
   /* RESET das margens do User Agent ─────────────────────────────────────────────
   A origem deste componente é um HTML de design SEM reset de CSS, então as margens
   que o browser dá em <p>/<h1..h6> (`margin: 1em 0` no <p>, 0.67em no <h1>, 0.83em no
@@ -103,7 +104,7 @@ o texto invisível (failure-mode #14 / eye-check GATE 2). Mantidas em hex. */
 }
 
 .chip {
-  background: #fff;
+  background: var(--plp-surface, #ffffff);
   color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
   border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
   padding: 8px 18px;
@@ -234,7 +235,7 @@ o texto invisível (failure-mode #14 / eye-check GATE 2). Mantidas em hex. */
   height: 16px;
   border: 1.5px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
   border-radius: 2px;
-  background: #fff;
+  background: var(--plp-surface, #ffffff);
   cursor: pointer;
   flex-shrink: 0;
   position: relative;
@@ -284,7 +285,7 @@ o texto invisível (failure-mode #14 / eye-check GATE 2). Mantidas em hex. */
 .rangeTrack {
   position: relative;
   height: 4px;
-  background: #ede4d8;
+  background: color-mix(in srgb, var(--plp-accent, var(--background-secundary-color, #b8976a)) 20.3%, var(--plp-bg, #faf8f4));
   border-radius: 2px;
   margin-bottom: 16px;
 }
@@ -304,7 +305,7 @@ o texto invisível (failure-mode #14 / eye-check GATE 2). Mantidas em hex. */
   top: -5px;
   width: 14px;
   height: 14px;
-  background: #fff;
+  background: var(--plp-surface, #ffffff);
   border: 2px solid var(--plp-cta-bg, var(--background-primary-color, #2c2420));
   border-radius: 50%;
   cursor: pointer;
@@ -407,7 +408,7 @@ absolutos → não mudam a altura do filter-block (fidelidade preservada). */
 }
 
 .activeChip {
-  background: #ede4d8;
+  background: color-mix(in srgb, var(--plp-accent, var(--background-secundary-color, #b8976a)) 20.3%, var(--plp-bg, #faf8f4));
   color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
   padding: 5px 12px;
   font: 400 11px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
@@ -440,7 +441,7 @@ absolutos → não mudam a altura do filter-block (fidelidade preservada). */
 
 .sortSelect {
   border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
-  background: #fff;
+  background: var(--plp-surface, #ffffff);
   padding: 7px 12px;
   font: 400 12px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
   color: var(--plp-title-color, var(--text-primary-color, #2c2420));
@@ -482,7 +483,7 @@ absolutos → não mudam a altura do filter-block (fidelidade preservada). */
   min-width: 34px;
   height: 34px;
   border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
-  background: #fff;
+  background: var(--plp-surface, #ffffff);
   color: var(--plp-title-color, var(--text-primary-color, #2c2420));
   font: 400 12px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
   cursor: pointer;
@@ -504,7 +505,7 @@ absolutos → não mudam a altura do filter-block (fidelidade preservada). */
 
 .seo {
   padding: 64px 56px;
-  background: #f5f0e8;
+  background: var(--plp-seo-bg, #f5f0e8);
 }
 
 .seoTitle {
@@ -586,7 +587,7 @@ ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
   flex: 1 1 180px;
   min-width: 0;
   box-sizing: border-box;
-  background: #fff;
+  background: var(--plp-surface, #ffffff);
   border-radius: 1px;
   padding: 20px;
   border-top: 3px solid var(--plp-accent, var(--background-secundary-color, #b8976a));
@@ -621,7 +622,7 @@ ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
 .seoHtml table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
+  background: var(--plp-surface, #ffffff);
   font-size: 12.5px;
 }
 
@@ -646,7 +647,7 @@ ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
 
 .mHeaderBlock {
   padding: 16px 18px 12px;
-  background: #fff;
+  background: var(--plp-surface, #ffffff);
   border-bottom: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 10%, transparent);
   flex-shrink: 0;
 }
@@ -663,7 +664,7 @@ ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
   overflow-x: auto;
   padding: 12px 18px;
   border-bottom: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 15%, transparent);
-  background: #faf8f4;
+  background: var(--plp-bg, #faf8f4);
   flex-shrink: 0;
 }
 
@@ -675,7 +676,7 @@ ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
 
 .mSubcat {
   flex-shrink: 0;
-  background: #fff;
+  background: var(--plp-surface, #ffffff);
   color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
   border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
   padding: 7px 14px;
@@ -700,7 +701,7 @@ ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  background: #fff;
+  background: var(--plp-surface, #ffffff);
   flex-shrink: 0;
 }
 
@@ -708,7 +709,7 @@ ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #faf8f4;
+  background: var(--plp-bg, #faf8f4);
   border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
   padding: 7px 12px;
   font: 400 11.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
@@ -718,7 +719,7 @@ ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
 }
 
 .mActiveChip {
-  background: #ede4d8;
+  background: color-mix(in srgb, var(--plp-accent, var(--background-secundary-color, #b8976a)) 20.3%, var(--plp-bg, #faf8f4));
   color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
   padding: 5px 10px;
   font: 400 10.5px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
@@ -744,7 +745,7 @@ ganha um estilo de leitura coerente. Ver docs/plp07-guia-por-categoria.md. */
 
 .mSortSelect {
   border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
-  background: #fff;
+  background: var(--plp-surface, #ffffff);
   padding: 6px 10px;
   font: 400 11px var(--plp-font, var(--font-secundary, 'DM Sans', sans-serif));
   color: var(--plp-title-color, var(--text-primary-color, #2c2420));
@@ -773,7 +774,7 @@ e a tipografia um passo abaixo. */
 
 .mSeo {
   padding: 28px 18px 32px;
-  background: #f5f0e8;
+  background: var(--plp-seo-bg, #f5f0e8);
 }
 
 .mSeoTitle {
@@ -823,7 +824,7 @@ um passo de tipografia — os cards do contrato já quebram sozinhos (flex: 1 1 
 }
 
 .mDrawer {
-  background: #faf8f4;
+  background: var(--plp-bg, #faf8f4);
   border-radius: 12px 12px 0 0;
   padding: 20px 18px 32px;
 }
@@ -879,7 +880,7 @@ um passo de tipografia — os cards do contrato já quebram sozinhos (flex: 1 1 
 }
 
 .mDrawerChip {
-  background: #fff;
+  background: var(--plp-surface, #ffffff);
   color: color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 78%, transparent);
   border: 1px solid color-mix(in srgb, var(--plp-title-color, var(--text-primary-color, #2c2420)) 24%, transparent);
   padding: 8px 14px;

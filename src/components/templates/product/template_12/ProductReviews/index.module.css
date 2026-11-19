@@ -6,7 +6,7 @@
 .productReviews12 {
   width: 100%;
   padding: 56px 0;
-  background-color: #fbf6f3;
+  background-color: var(--prod-reviews-bg, #fbf6f3);
   color: var(--prod-reviews-text, var(--text-primary-color, #3b1f33));
   font-family: var(--prod-reviews-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-size: 16px;
@@ -118,9 +118,9 @@
   gap: 14px;
   max-width: 360px;
   padding: 28px;
-  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 10%, var(--prod-reviews-card-bg, #ffffff));
   border-radius: 28px;
-  background-color: #ffffff;
+  background-color: var(--prod-reviews-card-bg, #ffffff);
 }
 
 .average {
@@ -159,7 +159,7 @@
 }
 
 .avgCount {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 72%, var(--prod-reviews-card-bg, #ffffff));
   font-size: 14px;
 }
 
@@ -188,7 +188,7 @@
   flex: 1;
   height: 8px;
   border-radius: 999px;
-  background-color: color-mix(in srgb, var(--prod-reviews-accent, var(--background-primary-color, #7a2e5f)) 14%, #ffffff);
+  background-color: color-mix(in srgb, var(--prod-reviews-accent, var(--background-primary-color, #7a2e5f)) 14%, var(--prod-reviews-card-bg, #ffffff));
 }
 .bar span {
   border-radius: 999px;
@@ -198,12 +198,12 @@
 .distPct {
   flex: none;
   width: 36px;
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 72%, var(--prod-reviews-card-bg, #ffffff));
   text-align: right;
 }
 
 .empty {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 72%, var(--prod-reviews-card-bg, #ffffff));
   font-size: 15px;
   line-height: 1.55;
 }
@@ -212,7 +212,7 @@
   flex-direction: column;
   gap: 12px;
   padding-top: 14px;
-  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border-top: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 10%, var(--prod-reviews-card-bg, #ffffff));
 }
 
 .rate {
@@ -265,9 +265,9 @@
 .textarea {
   width: 100%;
   margin: 0;
-  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 14%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 14%, var(--prod-reviews-card-bg, #ffffff));
   outline: none;
-  background-color: #ffffff;
+  background-color: var(--prod-reviews-card-bg, #ffffff);
   color: var(--prod-reviews-text, var(--text-primary-color, #3b1f33));
   font: inherit;
   font-size: 15px;
@@ -323,9 +323,9 @@
   flex-direction: column;
   gap: 10px;
   padding: 24px;
-  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 10%, var(--prod-reviews-card-bg, #ffffff));
   border-radius: 24px;
-  background-color: #ffffff;
+  background-color: var(--prod-reviews-card-bg, #ffffff);
 }
 
 .reviewTop {
@@ -347,15 +347,15 @@
 }
 
 .toneRose {
-  background-color: #f3ddd6;
+  background-color: var(--prod-reviews-avatar-bg, #f3ddd6);
 }
 
 .toneSage {
-  background-color: #dce6da;
+  background-color: var(--prod-reviews-avatar-bg, #dce6da);
 }
 
 .toneLilac {
-  background-color: #e6dff0;
+  background-color: var(--prod-reviews-avatar-bg, #e6dff0);
 }
 
 .who {
@@ -371,7 +371,7 @@
 }
 
 .date {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 72%, var(--prod-reviews-card-bg, #ffffff));
   font-size: 13px;
 }
 
@@ -381,7 +381,7 @@
 }
 
 .reviewText {
-  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)) 72%, var(--prod-reviews-card-bg, #ffffff));
   font-size: 15px;
   line-height: 1.55;
 }

@@ -708,10 +708,22 @@ for (const item of comPath) {
   // dele pinta campos do painel do item.
   const irmaos = fs.existsSync(tsx)
     ? [...fs.readFileSync(tsx, 'utf8').matchAll(/from '(\.\.?\/[\w-]+)'/g)]
-        .map(m => path.join(dir, m[1], 'index.module.css'))
+        .flatMap(m => [
+          path.join(dir, m[1], 'index.module.css'),
+          // Componente irmão na MESMA pasta (`./ProductCard06` → ProductCard06.module.css):
+          // o card 06 do catálogo mora assim, e a folha dele pinta campos do Spot06.
+          path.join(dir, `${m[1]}.module.css`),
+        ])
         .filter(f => fs.existsSync(f) && f !== arq)
     : [];
   compartilhados.push(...irmaos);
+  // Folha de outro componente na MESMA pasta do item, mesmo sem import pelo index.tsx: a pasta
+  // do Spot06 guarda o ProductCard06.module.css, o card que as listas da família 06 renderizam
+  // (CardDaLoja); os campos --spot-img-bg/--spot-icon-bg pintam esse card.
+  for (const f of fs.readdirSync(dir)) {
+    const p = path.join(dir, f);
+    if (f.endsWith('.module.css') && p !== arq && !compartilhados.includes(p)) compartilhados.push(p);
+  }
   const css = [arq, ...compartilhados].map(f => fs.readFileSync(f, 'utf8')).join('\n');
   const usadas = consumos(css);
 

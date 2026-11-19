@@ -67,7 +67,7 @@ a <img> é item flex (bloco): o strut de baseline de ~4.4px da img inline deixou
   /* âncora da 2ª foto (hover) — não altera o layout da principal */
   overflow: hidden;
   /* recorta os slots vizinhos da pista do carrossel (.hoverTrack) */
-  background-color: #f6f6f6;
+  background-color: var(--spot-img-bg, #f6f6f6);
 }
 /* `metrics-hover.md` (estado hoverado @1280), anotados com `// metrics:`. */
 
@@ -244,7 +244,7 @@ a <img> é item flex (bloco): o strut de baseline de ~4.4px da img inline deixou
   width: 100%;
   height: 4px;
   /* inativo/ativo derivados do texto do card (contrastam em qualquer fundo) */
-  background-color: hsla(0,0%,52.9%,.1294117647);
+  background-color: color-mix(in srgb, var(--spot-text, var(--text-primary-color, #212721)) 7%, transparent);
   transition: background 0.18s ease;
 }
 

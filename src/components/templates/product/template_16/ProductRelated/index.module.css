@@ -99,7 +99,7 @@ section.crossSellingShelf16 [data-fs-product-shelf] {
   height: 52px;
   border: 2px solid var(--showcase-text, var(--text-primary-color, #2a2350));
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--showcase-arrow-bg, #ffffff);
   color: var(--showcase-text, var(--text-primary-color, #2a2350));
   box-shadow: 0 4px 0 var(--showcase-text, var(--text-primary-color, #2a2350));
 }

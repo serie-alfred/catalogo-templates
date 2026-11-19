@@ -1,7 +1,7 @@
 /* Espelha sass/breadcrumb07.module.scss (faststore.starter, família 07): a trilha que
    ficava no topo do ProductInfo07. Conversão: `$vars` resolvidas inline, `@media
    (max-width: 960px)` → `@container`, consultando o envelope `.breadcrumbSection07Box`.
-   Mesmas vars de Nível 1, mesmos Níveis 3. A faixa branca é estrutural (hex direto). */
+   Mesmas vars de Nível 1, mesmos Níveis 3. A faixa branca é estrutural (`--breadcrumb-bg` direto ao hex, sem token global). */
 
 .breadcrumbSection07Box {
   container-type: inline-size;
@@ -13,7 +13,7 @@
   gap: 8px;
   padding: 20px 56px;
   /* metrics: breadcrumb@1024 */
-  background: #fff;
+  background: var(--breadcrumb-bg, #ffffff);
   border-bottom: 1px solid color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #2c2420)) 12%, transparent);
   font-family: var(--breadcrumb-font, var(--font-secundary, 'DM Sans', sans-serif));
   line-height: normal;

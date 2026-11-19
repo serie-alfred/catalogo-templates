@@ -52,7 +52,7 @@
 .showcase__swiper :global(.swiper-pagination-bullet) {
   width: 11px;
   height: 11px;
-  background-color: #e3e3e3;
+  background-color: color-mix(in srgb, var(--showcase-title-color, var(--text-primary-color, #122161)) 12%, transparent);
   opacity: 1;
   border: none;
   border-radius: 100%;

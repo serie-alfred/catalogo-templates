@@ -56,13 +56,13 @@
   align-items: center;
   justify-content: center;
   z-index: 1;
-  background-color: #fff;
+  background-color: var(--banner-main-arrow-bg, #ffffff);
   border-radius: 100%;
 }
 
 .banner__home .swiperBannerButtonPrev svg path,
 .banner__home .swiperBannerButtonNext svg path{
-stroke: black;
+stroke: var(--banner-main-arrow-text, #000000);
 }
 
 .banner__home .swiperBannerButtonNext {

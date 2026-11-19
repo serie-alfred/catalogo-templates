@@ -10,7 +10,7 @@
 .breadcrumb12 {
   width: 100%;
   padding: 20px 0;
-  background-color: #fbf6f3;
+  background-color: var(--breadcrumb-bg, #fbf6f3);
   color: var(--breadcrumb-text, var(--text-primary-color, #3b1f33));
   font-family: var(--breadcrumb-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   line-height: normal;
@@ -53,9 +53,9 @@
   display: inline-flex;
   align-items: center;
   padding: 6px 8px;
-  border: 1px solid color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #3b1f33)) 10%, var(--breadcrumb-pill-bg, #ffffff));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--breadcrumb-pill-bg, #ffffff);
 }
 
 .list {
@@ -80,10 +80,10 @@
   gap: 8px;
   padding: 10px 14px;
   border-radius: 999px;
-  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #3b1f33)) 72%, var(--breadcrumb-pill-bg, #ffffff));
 }
 .link:hover {
-  background-color: #fbf6f3;
+  background-color: var(--breadcrumb-bg, #fbf6f3);
   color: var(--breadcrumb-text, var(--text-primary-color, #3b1f33));
 }
 
@@ -109,13 +109,13 @@
   gap: 8px;
   padding: 12px 16px;
   border-radius: 999px;
-  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #3b1f33)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #3b1f33)) 72%, var(--breadcrumb-pill-bg, #ffffff));
   font-size: 14px;
   font-weight: 600;
   line-height: 19px;
 }
 .back:hover {
-  background-color: #ffffff;
+  background-color: var(--breadcrumb-pill-bg, #ffffff);
   color: var(--breadcrumb-text, var(--text-primary-color, #3b1f33));
 }
 

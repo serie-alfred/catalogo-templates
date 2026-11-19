@@ -96,20 +96,20 @@
   padding: 0 22px 0 8px;
   border: 2px solid var(--cat-main-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
-  background-color: #ffc93c;
+  background-color: var(--cat-main-age-first-bg, #ffc93c);
   color: var(--cat-main-age-text, #2a2350);
   font-family: var(--cat-main-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
   font-size: 20px;
   font-weight: 600;
 }
 .ageItem:nth-child(4n+2) .age {
-  background-color: #ff6f61;
+  background-color: var(--cat-main-age-second-bg, #ff6f61);
 }
 .ageItem:nth-child(4n+3) .age {
-  background-color: #22b8a7;
+  background-color: var(--cat-main-age-third-bg, #22b8a7);
 }
 .ageItem:nth-child(4n+4) .age {
-  background-color: #c9c2f2;
+  background-color: var(--cat-main-age-fourth-bg, #c9c2f2);
 }
 
 .ageOn {
@@ -125,7 +125,8 @@
   height: 54px;
   border: 2px solid var(--cat-main-text, var(--text-primary-color, #2a2350));
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--cat-main-age-num-bg, #ffffff);
+  color: var(--cat-main-age-text, #2a2350);
   font-size: 18px;
 }
 .bar {
@@ -185,7 +186,7 @@
   padding: 0 20px;
   border: 2px solid var(--cat-main-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--cat-main-control-bg, #ffffff);
   font-size: 15px;
   font-weight: 800;
   cursor: pointer;
@@ -210,7 +211,7 @@
   padding: 3px;
   border: 2px solid var(--cat-main-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--cat-main-control-bg, #ffffff);
 }
 
 .densityBtn {
@@ -410,7 +411,7 @@
   padding: 0 16px;
   border: 2px solid var(--cat-main-text, var(--text-primary-color, #2a2350));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--cat-main-control-bg, #ffffff);
 }
 
 .pageOn {
@@ -524,7 +525,7 @@
 }
 
 .emptySecondary {
-  background-color: #ffffff;
+  background-color: var(--cat-main-control-bg, #ffffff);
 }
 .panel {
   position: fixed;
@@ -651,7 +652,7 @@
 }
 
 .panelClear {
-  background-color: #ffffff;
+  background-color: var(--cat-main-control-bg, #ffffff);
 }
 
 .panelApply {
@@ -730,7 +731,7 @@
     height: 48px;
     border: 2px solid var(--cat-main-text, var(--text-primary-color, #2a2350));
     border-radius: 999px;
-    background-color: #ffffff;
+    background-color: var(--cat-main-control-bg, #ffffff);
     box-shadow: 0 3px 0 var(--cat-main-text, var(--text-primary-color, #2a2350));
     cursor: pointer;
   }

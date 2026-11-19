@@ -7,10 +7,9 @@
    (`p`/`svg` dentro de `.trust`/`.benefit`), `@media` de largura →
    `@container`.
 
-   Os hex diretos (`#faf8f4` página, `#fff` cartão, `#f5f0e8` trust, `#5c7a66`
-   Pix, `#25d366` WhatsApp) ficam como estão: a origem os declara como
-   "estruturais / semânticos — não temáveis; contraste garantido", e o motivo
-   vale. Atenção ao que parece igual e não é: `#faf8f4` é byte-idêntico ao
+   As superfícies estruturais (`#faf8f4` página, `#ffffff` cartão, `#f5f0e8`
+   trust) têm campo próprio (`--pdp-bg`, `--pdp-card-bg`, `--pdp-trust-bg`)
+   direto ao hex, sem token global; `#25d366` (WhatsApp) é cor de marca, isenta. Atenção ao que parece igual e não é: `#faf8f4` é byte-idêntico ao
    Nível 3 de `--pdp-cta-text`, e reusar `$ctaText` para o fundo da página
    amarraria a página à cor do texto do botão. */
 
@@ -27,7 +26,7 @@ ink→--text-primary-color, gold→--background-secundary-color, CTA→--backgro
 
 .pdpRoot {
   font-family: var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  background: #faf8f4;
+  background: var(--pdp-bg, #faf8f4);
   line-height: normal;
   /* origem (sem reset) usa line-height normal; FastStore injeta 18.4px global */
 }
@@ -229,7 +228,7 @@ sem url → gradiente-placeholder do container */
 /* metrics: rating@1024 h16 (texto 12px normal=16, font-independente) */
 
 .priceBlock {
-  background: #faf8f4;
+  background: var(--pdp-bg, #faf8f4);
   border: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 12%, transparent);
   border-radius: 2px;
   padding: 20px;
@@ -327,7 +326,7 @@ sem url → gradiente-placeholder do container */
 .sizeBtn {
   padding: 9px 16px;
   border: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 20%, transparent);
-  background: #fff;
+  background: var(--pdp-card-bg, #ffffff);
   font: 400 12px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
   line-height: 16px;
   /* metrics: size-btn h36 = pad18 + border2 + 16 (origem button@1024, font-independente) */
@@ -377,7 +376,7 @@ sem url → gradiente-placeholder do container */
 /* origem: div flex-shrink 1 (não forçar 0) */
 
 .swatchActive {
-  box-shadow: 0 0 0 2px #faf8f4, 0 0 0 4px var(--pdp-title-color, var(--text-primary-color, #2c2420));
+  box-shadow: 0 0 0 2px var(--pdp-bg, #faf8f4), 0 0 0 4px var(--pdp-title-color, var(--text-primary-color, #2c2420));
 }
 
 .qtyRow {
@@ -398,7 +397,7 @@ sem url → gradiente-placeholder do container */
 .qtyBtn {
   width: 40px;
   height: 48px;
-  background: #fff;
+  background: var(--pdp-card-bg, #ffffff);
   border: none;
   font: 400 18px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
   color: color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 80%, transparent);
@@ -457,7 +456,7 @@ sem url → gradiente-placeholder do container */
   justify-content: center;
   gap: 6px;
   padding: 12px;
-  background: #f5f0e8;
+  background: var(--pdp-trust-bg, #f5f0e8);
   border-radius: 1px;
   margin-bottom: 20px;
   color: var(--pdp-pix, #5c7a66);
@@ -605,7 +604,7 @@ sem url → gradiente-placeholder do container */
 /* metrics: m-rating@375 */
 
 .mPriceBlock {
-  background: #faf8f4;
+  background: var(--pdp-bg, #faf8f4);
   border: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 12%, transparent);
   border-radius: 2px;
   padding: 16px;
@@ -698,7 +697,7 @@ sem url → gradiente-placeholder do container */
 /* metrics: m-swatch 34@375 (flex-shrink 1 como a origem) */
 
 .mSwatchActive {
-  box-shadow: 0 0 0 2px #faf8f4, 0 0 0 4px var(--pdp-title-color, var(--text-primary-color, #2c2420));
+  box-shadow: 0 0 0 2px var(--pdp-bg, #faf8f4), 0 0 0 4px var(--pdp-title-color, var(--text-primary-color, #2c2420));
 }
 
 .mSize {
@@ -717,7 +716,7 @@ sem url → gradiente-placeholder do container */
   padding: 8px 14px;
   /* metrics: m-size-btn@375 */
   border: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 20%, transparent);
-  background: #fff;
+  background: var(--pdp-card-bg, #ffffff);
   font: 400 11.5px var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
   line-height: 15px;
   /* metrics: m-size-btn h33 = pad16 + border2 + 15 (font-independente) */
@@ -742,7 +741,7 @@ sem url → gradiente-placeholder do container */
   gap: 6px;
   padding: 10px 14px;
   /* metrics: m-trust@375 */
-  background: #f5f0e8;
+  background: var(--pdp-trust-bg, #f5f0e8);
   border-radius: 1px;
   margin-bottom: 20px;
   color: var(--pdp-pix, #5c7a66);
@@ -796,7 +795,7 @@ sem url → gradiente-placeholder do container */
   bottom: 0;
   left: 0;
   right: 0;
-  background: #fff;
+  background: var(--pdp-card-bg, #ffffff);
   border-top: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 12%, transparent);
   padding: 12px 18px;
   /* metrics: m-sticky-cta@375 */

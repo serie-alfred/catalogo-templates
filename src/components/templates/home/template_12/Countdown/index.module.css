@@ -6,7 +6,7 @@
 .countdown12 {
   width: 100%;
   padding: 32px 0;
-  background-color: #fbf6f3;
+  background-color: var(--countdown-page-bg, #fbf6f3);
   color: var(--countdown-text, var(--text-primary-color, #3b1f33));
   font-family: var(--countdown-font, var(--font-secundary, 'Nunito Sans', system-ui, sans-serif));
   font-weight: 400;
@@ -71,7 +71,7 @@
 .eyebrow {
   padding: 6px 14px;
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--countdown-surface-bg, #ffffff);
   font-size: 13px;
   font-weight: 700;
 }
@@ -98,7 +98,7 @@
   height: 76px;
   padding: 0 16px;
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--countdown-surface-bg, #ffffff);
 }
 
 .value {
@@ -109,7 +109,7 @@
 }
 
 .unitLabel {
-  color: color-mix(in srgb, var(--countdown-text, var(--text-primary-color, #3b1f33)) 80%, var(--countdown-bg, #dce6da));
+  color: color-mix(in srgb, var(--countdown-text, var(--text-primary-color, #3b1f33)) 83%, var(--countdown-surface-bg, #ffffff));
   font-size: 12px;
   font-weight: 600;
 }

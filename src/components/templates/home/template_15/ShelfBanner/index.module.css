@@ -208,7 +208,7 @@
   margin-right: 32px;
   padding: 32px;
   overflow: hidden;
-  background-color: #2e2823;
+  background-color: var(--banner-side-bg, #2e2823);
   color: var(--banner-side-text, #faf8f4);
   outline: 1px solid var(--showcase-accent, var(--background-primary-color, #7a5f1c));
   outline-offset: -12px;

@@ -16,7 +16,7 @@ section.crossSellingShelf07 {
   margin: 0;
   padding: 56px 56px 80px;
   /* metrics: related@1024 */
-  background: #faf8f4;
+  background: var(--pdp-bg, #faf8f4);
   color: var(--pdp-title-color, var(--text-primary-color, #2c2420));
   font-family: var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
   line-height: normal;

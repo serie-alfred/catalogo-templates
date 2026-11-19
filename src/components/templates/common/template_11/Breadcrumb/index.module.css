@@ -10,7 +10,7 @@
 .breadcrumb11 {
   width: 100%;
   padding: 20px 0;
-  background-color: #ffffff;
+  background-color: var(--breadcrumb-bg, #ffffff);
   color: var(--breadcrumb-text, var(--text-primary-color, #0a0a0a));
   font-family: var(--breadcrumb-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   line-height: normal;
@@ -81,7 +81,7 @@
 
 .link,
 .sep {
-  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff);
+  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #0a0a0a)) 62%, var(--breadcrumb-bg, #ffffff));
 }
 
 @container (max-width: 960px) {

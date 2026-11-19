@@ -79,9 +79,9 @@
   align-items: center;
   gap: 12px;
   padding: 10px 12px 10px 20px;
-  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 11%, var(--cat-main-bar-bg, #ffffff));
   border-radius: 12px;
-  background-color: #ffffff;
+  background-color: var(--cat-main-bar-bg, #ffffff);
 }
 
 .count,
@@ -106,7 +106,7 @@
   align-items: center;
   gap: 8px;
   font-size: 14px;
-  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 74%, var(--cat-main-bar-bg, #ffffff));
 }
 
 .selectBox {
@@ -125,9 +125,9 @@
   height: 44px;
   margin: 0;
   padding: 0 50px 0 14px;
-  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 20%, var(--cat-main-bar-bg, #ffffff));
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--cat-main-bar-bg, #ffffff);
   color: inherit;
   font: inherit;
   font-size: 14px;
@@ -142,7 +142,7 @@
 
 .viewToggle {
   display: flex;
-  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 20%, var(--cat-main-bar-bg, #ffffff));
   border-radius: 10px;
   overflow: hidden;
 }
@@ -153,7 +153,7 @@
   justify-content: center;
   width: 44px;
   height: 42px;
-  background-color: #ffffff;
+  background-color: var(--cat-main-bar-bg, #ffffff);
   color: var(--cat-main-text, var(--text-primary-color, #101828));
 }
 .viewBtn[aria-pressed=true] {
@@ -179,7 +179,7 @@
   height: 36px;
   padding: 0 8px 0 14px;
   border-radius: 999px;
-  background-color: color-mix(in srgb, var(--filter-accent, var(--background-primary-color, #1340d8)) 10%, #ffffff);
+  background-color: color-mix(in srgb, var(--filter-accent, var(--background-primary-color, #1340d8)) 10%, var(--filter-bg, #ffffff));
   color: var(--filter-accent, var(--background-primary-color-safe, #1340d8));
   font-size: 14px;
   font-weight: 700;
@@ -424,7 +424,7 @@
   margin-top: 2px;
   border: 2px solid var(--filter-accent, var(--background-primary-color, #1340d8));
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--filter-bg, #ffffff);
   appearance: none;
   pointer-events: auto;
   cursor: pointer;
@@ -435,7 +435,7 @@
   height: 20px;
   border: 2px solid var(--filter-accent, var(--background-primary-color, #1340d8));
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--filter-bg, #ffffff);
   pointer-events: auto;
   cursor: pointer;
 }
@@ -529,14 +529,14 @@
   min-width: 44px;
   height: 44px;
   padding: 0 12px;
-  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 20%, var(--cat-main-bar-bg, #ffffff));
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--cat-main-bar-bg, #ffffff);
   font-size: 16px;
   font-weight: 700;
 }
 .pageBtn[aria-disabled=true] {
-  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 45%, #ffffff);
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 45%, var(--cat-main-bar-bg, #ffffff));
   cursor: default;
 }
 
@@ -553,7 +553,7 @@
 
 .pageGap {
   width: 32px;
-  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 74%, #ffffff);
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 74%, var(--cat-main-bar-bg, #ffffff));
   text-align: center;
 }
 
@@ -566,9 +566,9 @@
   align-items: center;
   gap: 16px;
   padding: 56px 32px;
-  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 11%, var(--cat-main-bar-bg, #ffffff));
   border-radius: 16px;
-  background-color: #ffffff;
+  background-color: var(--cat-main-bar-bg, #ffffff);
   text-align: center;
 }
 
@@ -579,7 +579,7 @@
   width: 88px;
   height: 88px;
   border-radius: 50%;
-  background-color: color-mix(in srgb, var(--cat-main-accent, var(--background-primary-color, #1340d8)) 10%, #ffffff);
+  background-color: color-mix(in srgb, var(--cat-main-accent, var(--background-primary-color, #1340d8)) 10%, var(--cat-main-bar-bg, #ffffff));
   color: var(--cat-main-accent, var(--background-primary-color-safe, #1340d8));
 }
 
@@ -594,7 +594,7 @@
 
 .emptyText {
   max-width: 520px;
-  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 72%, #ffffff);
+  color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 72%, var(--cat-main-bar-bg, #ffffff));
   font-size: 16px;
   line-height: 1.5;
 }
@@ -693,7 +693,7 @@
   height: 32px;
   padding: 0 12px;
   border-radius: 999px;
-  background-color: color-mix(in srgb, var(--filter-accent, var(--background-primary-color, #1340d8)) 10%, #ffffff);
+  background-color: color-mix(in srgb, var(--filter-accent, var(--background-primary-color, #1340d8)) 10%, var(--filter-bg, #ffffff));
   color: var(--filter-accent, var(--background-primary-color-safe, #1340d8));
   font-size: 13px;
   font-weight: 700;
@@ -835,16 +835,16 @@
     justify-content: center;
     gap: 8px;
     height: 50px;
-    border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 20%, #ffffff);
+    border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 20%, var(--cat-main-bar-bg, #ffffff));
     border-radius: 10px;
-    background-color: #ffffff;
+    background-color: var(--cat-main-bar-bg, #ffffff);
     font-size: 15px;
     font-weight: 700;
     cursor: pointer;
   }
   .mBar .mBtn {
-    border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 20%, #ffffff);
-    background-color: #ffffff;
+    border: 1px solid color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #101828)) 20%, var(--cat-main-bar-bg, #ffffff));
+    background-color: var(--cat-main-bar-bg, #ffffff);
   }
   .mSelect {
     position: absolute;

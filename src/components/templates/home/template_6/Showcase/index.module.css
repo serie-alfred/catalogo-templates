@@ -45,13 +45,13 @@
   height: 8px;
   border-radius: 0px;
   padding: 0px;
-  background: #ffffff;
+  background: transparent;
   margin-top: 40px;
 }
 .homeShowcase .showcaseContainer .showcaseWrapper .swiperShowcasePagination .swiperPaginationBullet {
   width: 11px;
   height: 11px;
-  background-color: #CCCCCC;
+  background-color: color-mix(in srgb, var(--shelf-title-color, var(--text-primary-color, #212721)) 23%, transparent);
   opacity: 1;
   border: none;
   border-radius: 100%;

@@ -9,7 +9,7 @@
 
 .breadcrumb10 {
   width: 100%;
-  background-color: #f2f4f7;
+  background-color: var(--breadcrumb-bg, #f2f4f7);
   color: var(--breadcrumb-text, var(--text-primary-color, #101828));
   font-family: var(--breadcrumb-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   line-height: normal;
@@ -40,9 +40,9 @@
 .nav {
   max-width: 100%;
   padding: 0 8px;
-  border: 1px solid color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #101828)) 11%, var(--breadcrumb-pill-bg, #ffffff));
   border-radius: 10px;
-  background-color: #ffffff;
+  background-color: var(--breadcrumb-pill-bg, #ffffff);
 }
 
 .list {
@@ -67,7 +67,7 @@
 
 .sep {
   display: flex;
-  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #101828)) 45%, #ffffff);
+  color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #101828)) 45%, var(--breadcrumb-pill-bg, #ffffff));
 }
 
 .link {
@@ -89,7 +89,7 @@
   height: 32px;
   padding: 0 12px;
   border-radius: 999px;
-  background-color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #101828)) 5%, #ffffff);
+  background-color: color-mix(in srgb, var(--breadcrumb-text, var(--text-primary-color, #101828)) 5%, var(--breadcrumb-pill-bg, #ffffff));
   font-weight: 700;
 }
 

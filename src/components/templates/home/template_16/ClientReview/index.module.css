@@ -72,7 +72,7 @@
   height: 52px;
   border: 2px solid var(--socialproof-text, var(--text-primary-color, #2a2350));
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--socialproof-arrow-bg, #ffffff);
   color: var(--socialproof-text, var(--text-primary-color, #2a2350));
   box-shadow: 0 4px 0 var(--socialproof-text, var(--text-primary-color, #2a2350));
 }
@@ -111,7 +111,7 @@
   padding: 28px;
   border: 2px solid var(--socialproof-text, var(--text-primary-color, #2a2350));
   border-radius: 28px;
-  background-color: #ffffff;
+  background-color: var(--socialproof-card-bg, #ffffff);
   box-shadow: 0 6px 0 var(--socialproof-text, var(--text-primary-color, #2a2350));
   scroll-snap-align: start;
 }
@@ -196,7 +196,7 @@
 }
 
 .product {
-  color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #2a2350)) 68%, #ffffff);
+  color: color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #2a2350)) 68%, var(--socialproof-card-bg, #ffffff));
   font-size: 13px;
   font-weight: 700;
 }

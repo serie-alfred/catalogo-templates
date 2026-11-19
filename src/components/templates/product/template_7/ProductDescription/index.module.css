@@ -2,8 +2,8 @@
    (o bloco descrição + especificações + cuidados + FAQ e o acordeão do mobile), que era
    parte do ProductInfo07. Conversão: `$vars` resolvidas inline, `@media (max-width: 960px)`
    → `@container`, consultando o envelope `.productDescription07Box`. Mesmas vars de
-   Nível 1, mesmos Níveis 3 do ProductInfo07. Os hex diretos (`#faf8f4` página, `#fff`
-   cartão) são estruturais, como na origem. */
+   Nível 1, mesmos Níveis 3 do ProductInfo07. As superfícies (`#faf8f4` página, `#ffffff`
+   cartão) têm campo próprio (`--pdp-bg`, `--pdp-card-bg`) direto ao hex, sem token global. */
 
 .productDescription07Box {
   container-type: inline-size;
@@ -11,7 +11,7 @@
 
 .productDescription07 {
   font-family: var(--pdp-font, var(--font-secundary, 'DM Sans', sans-serif));
-  background: #faf8f4;
+  background: var(--pdp-bg, #faf8f4);
   line-height: normal;
   /* origem (sem reset) usa line-height normal; FastStore injeta 18.4px global */
 }
@@ -93,7 +93,7 @@
 }
 
 .specCard {
-  background: #fff;
+  background: var(--pdp-card-bg, #ffffff);
   border: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 12%, transparent);
   border-radius: 1px;
   padding: 16px;
@@ -126,7 +126,7 @@
 /* metrics: normal(14)=17, 1 linha como a origem */
 
 .care {
-  background: #faf8f4;
+  background: var(--pdp-bg, #faf8f4);
   border: 1px solid color-mix(in srgb, var(--pdp-title-color, var(--text-primary-color, #2c2420)) 12%, transparent);
   border-radius: 1px;
   padding: 16px;

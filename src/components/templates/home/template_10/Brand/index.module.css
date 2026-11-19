@@ -87,10 +87,10 @@
   justify-content: center;
   height: 88px;
   padding: 0 12px;
-  border: 1px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #101828)) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--brands-text, var(--text-primary-color, #101828)) 11%, var(--brands-card-bg, #ffffff));
   border-radius: 12px;
-  background-color: #ffffff;
-  color: color-mix(in srgb, var(--brands-text, var(--text-primary-color, #101828)) 80%, #ffffff);
+  background-color: var(--brands-card-bg, #ffffff);
+  color: color-mix(in srgb, var(--brands-text, var(--text-primary-color, #101828)) 80%, var(--brands-card-bg, #ffffff));
 }
 .card:hover .name {
   text-decoration: underline;

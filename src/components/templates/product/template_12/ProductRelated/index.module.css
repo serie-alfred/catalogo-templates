@@ -106,8 +106,8 @@ section.crossSellingShelf12 [data-fs-product-shelf] {
 }
 
 .arrowPrev {
-  border: 1px solid color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #3b1f33)) 10%, #ffffff);
-  background-color: #ffffff;
+  border: 1px solid color-mix(in srgb, var(--showcase-text, var(--text-primary-color, #3b1f33)) 10%, var(--showcase-surface-bg, #ffffff));
+  background-color: var(--showcase-surface-bg, #ffffff);
   color: var(--showcase-text, var(--text-primary-color, #3b1f33));
 }
 

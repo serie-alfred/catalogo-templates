@@ -9,7 +9,7 @@
   flex-direction: column;
   min-width: 0;
   border: 1px solid var(--spot-text, var(--text-primary-color, #0a0a0a));
-  background-color: #ffffff;
+  background-color: var(--spot-bg, #ffffff);
   color: var(--spot-text, var(--text-primary-color, #0a0a0a));
   font-family: var(--spot-title-font, var(--font-primary, 'Geist', system-ui, sans-serif));
   line-height: normal;
@@ -165,11 +165,11 @@
 }
 
 .priceOut {
-  color: var(--spot-unavailable, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff));
+  color: var(--spot-unavailable, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0a0a0a)) 62%, var(--spot-bg, #ffffff)));
 }
 
 .installment {
-  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0a0a0a)) 62%, #ffffff));
+  color: var(--spot-installments, color-mix(in srgb, var(--spot-text, var(--text-primary-color, #0a0a0a)) 62%, var(--spot-bg, #ffffff)));
   font-family: var(--spot-font, var(--font-secundary, 'Geist Mono', monospace));
   font-size: 11px;
 }

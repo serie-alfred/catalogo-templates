@@ -5,7 +5,7 @@
 
 .bannerMain10 {
   width: 100%;
-  background-color: #f2f4f7;
+  background-color: var(--banner-main-section-bg, #f2f4f7);
   color: var(--text-primary-color, #101828);
   font-family: var(--banner-main-font, var(--font-secundary, 'Archivo', system-ui, sans-serif));
   font-weight: 400;
@@ -160,7 +160,7 @@
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--banner-main-arrow-bg, #ffffff);
   color: var(--text-primary-color, #101828);
   box-shadow: 0 1px 3px rgba(16, 24, 40, 0.08);
   transform: translateY(-50%);
@@ -193,7 +193,7 @@
   width: 8px;
   height: 8px;
   border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.55);
+  background-color: color-mix(in srgb, var(--banner-main-text, var(--text-color-base, #ffffff)) 55%, transparent);
   transition: width 0.2s ease;
 }
 
@@ -239,7 +239,8 @@
 .toneOutline {
   gap: 10px;
   min-height: 306px;
-  border: 1px solid color-mix(in srgb, var(--text-primary-color, #101828) 11%, #ffffff);
+  border: 1px solid color-mix(in srgb, var(--text-primary-color, #101828) 11%, var(--banner-main-promo-bg, #ffffff));
+  background-color: var(--banner-main-promo-bg, #ffffff);
   color: var(--banner-main-promo-text, var(--text-primary-color, #101828));
 }
 .toneOutline .promoArt {

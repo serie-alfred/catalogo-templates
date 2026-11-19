@@ -119,7 +119,7 @@
   height: 52px;
   border: 2px solid var(--showcase-text, var(--text-primary-color, #2a2350));
   border-radius: 50%;
-  background-color: #ffffff;
+  background-color: var(--showcase-arrow-bg, #ffffff);
   color: var(--showcase-text, var(--text-primary-color, #2a2350));
   box-shadow: 0 4px 0 var(--showcase-text, var(--text-primary-color, #2a2350));
 }
@@ -240,7 +240,7 @@
   padding: 0 22px;
   border: 2px solid var(--banner-side-text, var(--text-tertiary-color, #2a2350));
   border-radius: 999px;
-  background-color: #ffffff;
+  background-color: var(--banner-side-cta-bg, #ffffff);
   color: var(--banner-side-text, var(--text-primary-color, #2a2350));
   box-shadow: 0 4px 0 var(--banner-side-text, var(--text-tertiary-color, #2a2350));
   font-family: var(--showcase-title-font, var(--font-primary, 'Fredoka', system-ui, sans-serif));
