@@ -33,8 +33,8 @@ There is no test runner. Verification is `yarn funil` — the stages in [scripts
 - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `CONTACT_EMAIL` — used by [src/app/gerador/api/send-email/route.ts](src/app/gerador/api/send-email/route.ts) (Nodemailer; sends the exported layout JSON as an attachment).
 - `GOOGLE_FONTS_API_KEY` — used by [src/app/gerador/api/fonts/route.ts](src/app/gerador/api/fonts/route.ts) to proxy the Google Fonts list.
 - `KV_REST_API_URL`, `KV_REST_API_TOKEN` — Vercel KV, used by [src/lib/previewStore.ts](src/lib/previewStore.ts) for the shareable preview. Without `KV_REST_API_URL` the store falls back to `.preview-store/` on disk (dev only).
-- `CRON_SECRET` — optional; when set, [/api/keep-alive](src/app/api/keep-alive/route.ts) requires `Authorization: Bearer <CRON_SECRET>` from the Vercel cron.
-- `ETEMAS_LOGIN_USER`, `ETEMAS_LOGIN_PASSWORD`, `ETEMAS_SESSION_SECRET` — o login da agência (ver **Login** abaixo). O segredo precisa de 32+ caracteres. **Em produção, sem as três o /gerador fica FECHADO** — cadastre antes de publicar.
+- `CRON_SECRET` — optional; when set, [/api/keep-alive](src/app/api/keep-alive/route.ts) requires `Authorization: Bearer <CRON_SECRET>` from the Vercel cron (which also keeps the free Supabase project from pausing).
+- `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (`sb_publishable_…`), `SUPABASE_SECRET_KEY` (`sb_secret_…`, **só servidor**) — o login (Supabase Auth com 2FA obrigatório, ver **Login** abaixo). **Em produção, sem as três o /gerador fica FECHADO** — cadastre antes de publicar.
 - `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP` — `1` põe a Nuvemshop no `/gerador` (ver **Nuvemshop** abaixo). **Não cadastre na Vercel** até a fase 6 do contrato da plataforma; é embutida no build.
 - Do site público: `COMERCIAIS` (rodízio do WhatsApp) e `NEXT_PUBLIC_GTM_ID`/`_GA4_ID`/`_META_PIXEL_ID` (ver **Site público**).
 
@@ -44,15 +44,17 @@ Só os nomes; os valores ficam com o time e **nunca** entram no repo (ele é pú
 
 | Variável | Para quê | Obrigatória |
 | --- | --- | --- |
-| `ETEMAS_LOGIN_USER` | usuário da conta da agência (a administradora; as de convidado ficam no KV, ver **Login**) | sim — sem ela o editor fecha |
-| `ETEMAS_LOGIN_PASSWORD` | senha dessa conta (trocar invalida as sessões abertas) | sim |
-| `ETEMAS_SESSION_SECRET` | assina o cookie de sessão; 32+ caracteres aleatórios (ex.: `openssl rand -base64 48`) | sim |
+| `NEXT_PUBLIC_SUPABASE_URL` | URL do projeto Supabase do login (ver **Login**) | sim — sem ela o editor fecha |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | chave pública (`sb_publishable_…`): a sessão do usuário | sim |
+| `SUPABASE_SECRET_KEY` | chave secreta (`sb_secret_…`): tabela `contas` e administração dos usuários. **Só servidor** — nunca `NEXT_PUBLIC_` | sim |
 | `KV_REST_API_URL` + `KV_REST_API_TOKEN` (ou `UPSTASH_REDIS_REST_URL` + `_TOKEN`) | preview, histórico de temas e o limite de tentativas do login | já cadastradas |
 | `GOOGLE_FONTS_API_KEY` | catálogo do Google Fonts no seletor | já cadastrada |
-| `CRON_SECRET` | fecha o `/api/keep-alive` para quem não é o cron | recomendada |
+| `CRON_SECRET` | fecha o `/api/keep-alive` (que também mantém o Supabase acordado) para quem não é o cron | recomendada |
 
-Depois de cadastrar, faça um novo deploy (variável nova não chega a um deploy antigo). Para conferir sem
-o painel: `/login` em produção diz "Acesso fechado" e lista os NOMES do que falta, nunca os valores.
+As `ETEMAS_LOGIN_USER`/`_PASSWORD`/`_SESSION_SECRET` do login antigo não são mais lidas: apague-as.
+Depois de cadastrar, faça um novo deploy (variável nova não chega a um deploy antigo) — as
+`NEXT_PUBLIC_*` são embutidas no build. Para conferir sem o painel: `/login` em produção diz
+"Acesso fechado" e lista os NOMES do que falta, nunca os valores.
 
 ## Architecture
 
@@ -791,10 +793,11 @@ Alongside export, the topbar has a **Pré-visualizar** button ([PreviewButton](s
 
 Rail destination **"Temas salvos"** (`[data-rail-target="salvos"]`, after "Por template", in every
 mode) → [PanelSavedThemes](src/components/gerador/EditorLeftPanel/PanelSavedThemes/index.tsx). One
-history behind the login, **filtered by owner**: each theme records `dono` (the account that created
-it); the agency sees and touches every theme, a guest account only its own (`podeMexer`, applied in
+history behind the login, **filtered by owner**: each theme records `dono` (the Supabase user id of the
+account that created it); the agency sees and touches every theme, a guest account only its own (`podeMexer`, applied in
 every route — another account's theme answers 404, not 403). Themes saved before the accounts have no
-`dono` and belong to the agency. A guest also cannot save a theme of a platform outside its account
+`dono` and belong to the agency, and so do those saved by the guests of the old KV login (their `dono`
+is a username, which no Supabase id matches). A guest also cannot save a theme of a platform outside its account
 (403). Saving sends `estadoAtual()` — the
 `EstadoDoEditor` ([types/estadoEditor.ts](src/types/estadoEditor.ts)): the preview snapshot + the LP
 always + `editorMode` + `wakeToken`. First save creates the theme, the next ones append versions
@@ -816,28 +819,56 @@ version.
 
 ### Login
 
-Two kinds of account: the **agency** (`admin`, the three env vars — sees everything, the only one
-that manages accounts) and **guest** accounts (`convidado`, for stakeholders — created by the agency
-at `/gerador/contas`, stored in the KV, each limited to some platforms). [src/lib/auth.ts](src/lib/auth.ts)
-(Web Crypto only: it runs in the Edge middleware and in the Node routes) +
-[src/middleware.ts](src/middleware.ts) (`matcher: /gerador`, `/gerador/:path*`) +
-[src/lib/contas.ts](src/lib/contas.ts) (the guest accounts) + [src/lib/contaAtual.ts](src/lib/contaAtual.ts)
-(who is asking, checked in full).
+**Supabase Auth, with mandatory 2FA (TOTP).** Only an `aal2` session (password + authenticator-app
+code) reaches the editor. Two kinds of account: the **agency** (`admin` — sees everything, the only
+one that manages accounts) and **guest** accounts (`convidado`, for stakeholders — invited by the
+agency at `/gerador/contas`, each limited to some platforms). The user (e-mail, password, factor)
+lives in Supabase Auth; the **profile** lives in the table `public.contas`
+([supabase/migrations/](supabase/migrations/): `user_id → auth.users on delete cascade`, `papel`,
+`plataformas text[]`, `nome`, `ativo`, `criado_em`), with **RLS on and no policies** — only the
+server, with the secret key, reads or writes it. The migration seeds `acessos@seriea.digital` as
+`admin`. Files: [src/lib/auth.ts](src/lib/auth.ts) (env and modes only; Edge-safe) +
+[src/middleware.ts](src/middleware.ts) + [src/lib/supabase/](src/lib/supabase/) (`servidor.ts`:
+the user's session from cookies, publishable key; `admin.ts`: the secret key, `server-only`) +
+[src/lib/contas.ts](src/lib/contas.ts) (profiles and the admin operations) +
+[src/lib/contaAtual.ts](src/lib/contaAtual.ts) (who is asking, checked in full).
 
-- **Two layers, because the Edge can't read the KV** (the dev KV is a file). The middleware checks
-  the cookie's signature and expiry (and, for the agency, its stamp — see below). Everything the
-  editor does also goes through `contaAtual()` in Node: the `/gerador` layout (which is now
-  **dynamic**: it reads the cookie and, for a guest, the KV), every `/gerador/api/*` route
-  (`exigirConta`), `/api/auth/estado`, the `/login` redirect and the "Editar" of the `/p`. That
-  layer is where a revoked guest is caught. Never check a guest with `lerSessao` alone: the
-  `/login` did that and looped with the editor layout (valid signature → editor → revoked → login).
-- **Guest accounts** (`conta:{usuario}` + sorted set `contas`): password in PBKDF2-SHA256
-  (210k iterations, salt per account, Web Crypto), never returned by the API (`publica()`). A random
-  **stamp** (`carimbo`) goes signed into the cookie and is compared on every request: a new password
-  or deactivating the account changes it, so its open sessions drop. **Platforms are NOT in the
-  cookie**: `contaAtual` reads them from the KV each time, so changing them applies on the next load
-  of the editor without a new login. A guest login also runs PBKDF2 for an unknown user (fake salt),
-  so the response time doesn't reveal which users exist.
+- **Two layers.** The middleware (Edge; matcher `/gerador`, `/gerador/:path*`, `/login`, `/auth/:path*`)
+  refreshes the session cookies (the `@supabase/ssr` recipe — a page can't write cookies, and a
+  rotated refresh token that isn't stored is burnt) and, under `/gerador`, requires a JWT with
+  `aal: 'aal2'` (`getClaims`, verified against the project's JWKS): pages go to `/login?next=…`, APIs
+  answer 401. It does **not** read the table. Everything the editor does also goes through
+  `contaAtual()` in Node — the `/gerador` layout (dynamic), every `/gerador/api/*` (`exigirConta`),
+  `/api/auth/estado`, the `/login` and the "Editar" of the `/p`: JWT `aal2` + a row in `contas`
+  that is **ativo**. That is where a deactivated or deleted account is caught, even with a JWT
+  still valid. A missing table makes `contaAtual` null (nobody gets in) and the `/login` says the
+  migration hasn't run (`[data-login-bloqueio="sem-tabela"]`).
+- **The `/login` is one page with steps**, picked by `estadoDoAcesso()`: no session → e-mail +
+  password (`POST /api/auth/login`, `signInWithPassword`, native form); `aal1` with a verified TOTP
+  factor → the code (`[data-login-etapa="codigo"]`); `aal1` without one → **enrolment**
+  (`[data-login-etapa="cadastro-2fa"]`: `mfa.enroll` on render, after removing half-done unverified
+  factors — QR code + manual key); `aal2` with an active account → redirect to `next`; `aal2`
+  without one → "Sem acesso" with the reason. The code goes to `POST /api/auth/mfa`
+  (`challengeAndVerify`), by `fetch` from [FormDoCodigo](src/components/acesso/FormDoCodigo.tsx):
+  reloading the enrolment page would generate a new QR. 10 failures (password **or** code) per IP in
+  15 min block (counter `login-falhas:<ip>` in the KV, [limiteDoLogin.ts](src/lib/limiteDoLogin.ts);
+  without a database the login works without the limit). `next` only accepts a path of this origin
+  (`destinoSeguro`). **Logout**: `POST /api/auth/logout` (`signOut({ scope: 'local' })`; the rail's
+  "Sair" and the "Usar outra conta" of the login).
+- **E-mail links** land on `/auth/callback?next=…`, which handles the three formats: `token_hash` +
+  `type` (`verifyOtp`; the most robust — works in any browser, if the e-mail template uses
+  `{{ .TokenHash }}`), `code` (PKCE: the "esqueci a senha" requested by this browser) and the
+  **fragment** `#access_token=…` (implicit flow: invites and "reenviar acesso" from the panel, requested
+  by the server) — the fragment never reaches the server, so the callback redirects to
+  `/auth/confirmar`, which reads it, wipes it from the address bar and posts it to
+  `/api/auth/sessao` (same origin only; `setSession` checks the token before writing cookies).
+  Every redirect URL must be in the project's **Redirect URLs** (`<origin>/auth/**`).
+- **Forgot password**: `/login` → `/auth/esqueci` → `POST /api/auth/esqueci`
+  (`resetPasswordForEmail`, always the same "se o e-mail tiver acesso…" answer) → e-mail →
+  `/auth/callback?next=/auth/nova-senha` → `POST /api/auth/senha` (`updateUser`). A user with a
+  verified factor also types the code there: Supabase only changes the password of an MFA account in
+  an `aal2` session, and an e-mail link alone must not be enough to take an account. The invite uses
+  the same form at `/auth/definir-senha` (no factor yet), then the `/login` enrols the app.
 - **What a guest's platforms restrict**: the editor receives `conta` from the layout
   (`LayoutProvider conta` → `useLayoutGenerator(conta)` → `plataformasDisponiveis`): the
   `PlatformSelect` lists only those, a new tab enters on `ENTRADA_PADRAO` if its platform is
@@ -845,46 +876,50 @@ at `/gerador/contas`, stored in the KV, each limited to some platforms). [src/li
   complete there, else the first complete one), and hydration / `carregarEstado` drop a platform
   outside the account (`sanitizePlatform(value, permitidas)`). **The server refuses it too** (403):
   create/re-save preview, send-email (the config's `platform` is the track — `plataformaDaTrilha`)
-  and saved themes. The e-mail subject says which account sent the config.
+  and saved themes. Platforms are read from the table on every request, so a change applies on the
+  next load of the editor without a new login. The e-mail subject says which account (e-mail) sent
+  the config. `ContaAtual` = `{ id (Supabase user id), usuario (e-mail), papel, plataformas }`.
 - **Panel** `/gerador/contas` (route group `(admin)`, its own root layout — the editor's would
-  mount the hook and touch the tab's state): create (user, optional name, password with "Gerar",
-  platforms), toggle platforms, new password, deactivate/reactivate, delete. The password is shown
-  once, to copy. API: `GET/POST /gerador/api/contas`, `PATCH/DELETE /gerador/api/contas/{usuario}`,
-  agency only (`exigirConta({ admin: true })`; the middleware already sends a guest away from
-  `/gerador/contas*` and `/gerador/api/contas*`). The rail shows a "Contas" link
-  (`[data-contas-link]`) at its foot for the agency, only with the login on.
-- **Testing the login locally** without stopping the dev on 5503: `next.config.ts` reads
-  `NEXT_DIST_DIR` (two `next dev` on the same `.next` collide):
-  `NEXT_DIST_DIR=.next-login ETEMAS_LOGIN_USER=… ETEMAS_LOGIN_PASSWORD=… ETEMAS_SESSION_SECRET=… yarn next dev -p 5512`.
-  `next dev` then adds `.next-login/types/**/*.ts` to `tsconfig.json` — revert that before
-  committing. Without KV vars, accounts go to `.preview-store/kv.json` (never production).
+  mount the hook and touch the tab's state): **invite** (e-mail, optional name, platforms →
+  `auth.admin.inviteUserByEmail` with redirect to `/auth/callback?next=/auth/definir-senha` + the
+  row; the row failing deletes the user), toggle platforms, **reenviar acesso** (invite again if the
+  person never signed in, otherwise a password-reset e-mail), **zerar 2FA** (`auth.admin.mfa.deleteFactor`
+  — lost phone), deactivate/reactivate (`ativo` + ban in Auth, `ban_duration`), delete
+  (`auth.admin.deleteUser`; the row cascades). The agency never sees or sets a password. API:
+  `GET/POST /gerador/api/contas`, `PATCH/POST/DELETE /gerador/api/contas/{id}` (POST `{ acao:
+  'reenviar' | 'zerar-2fa' }`), agency only (`exigirConta({ admin: true })`). The agency's own row is
+  not listed nor editable there (SQL only). The rail shows a "Contas" link (`[data-contas-link]`) at
+  its foot for the agency, only with the login on.
+- **Migrating from the old login**: the KV guest accounts (`conta:*`, PBKDF2) are no longer read —
+  re-invite each person by e-mail in the panel. The `ETEMAS_LOGIN_*` env vars are dead.
+- **Keep-alive**: the free Supabase project pauses after 7 days without activity; the daily cron
+  (`vercel.json`, `/api/keep-alive`) also does a light query with the secret key (count of `contas`,
+  or one Auth user when the table is missing) and answers ok/error per service.
 
 - **Protected**: everything under `/gerador` — editor, the canvas iframe (`/gerador/frame-mobile`),
   `/gerador/import-log` and all `/gerador/api/*` (create/re-save preview, history, send-email, fonts).
-  Pages redirect to `/login?next=<path+query>` (so "Editar" from a preview survives the login); APIs
-  answer 401 JSON.
 - **Public on purpose**: `/` (home), `/p/...`, `GET /api/preview/{id}`, `/api/keep-alive` (cron),
-  `/login`, `/api/auth/*`, and **files of `public/` under `/gerador/`** (checkout fixtures,
+  `/login`, `/auth/*`, `/api/auth/*`, and **files of `public/` under `/gerador/`** (checkout fixtures,
   `familia08/`, `footer08/` — the `/p` loads them): the rule is "last segment has an extension"; no
   app route has a dot.
-- **Session**: cookie `etemas_sessao` = `v2.<base64url({u, p, c, e})>.<HMAC-SHA256(secret, "v2.<payload>")>`
-  (user, role, stamp, expiry), httpOnly, `sameSite: lax`, `secure` in production, 7 days. The
-  agency's stamp is `sha256(admin|user|password)` from the env, recomputed by the middleware —
-  changing user, password or secret drops every agency session; a guest's stamp is the KV one (above).
-  No session list in the database. The old v1 cookie is rejected (one new login after the deploy).
-- **Login** (`POST /api/auth/login`, native form, works without JS): the agency first — user AND
-  password always both compared, in constant time over their SHA-256 (`credenciaisConferem`) —, then
-  a guest account (`autenticarConvidado`; without a database only the agency gets in); 10 failures per IP in 15 min
-  block (counter `login-falhas:<ip>` in the KV; without a database the login works without the limit);
-  `next` only accepts a path of this origin (`destinoSeguro` rejects `//host` and `/\host`). **Logout**:
-  `POST /api/auth/logout` (the rail's "Sair", at its foot).
-- **Modes** (`modoAuth`): `ligado` (the three vars, secret ≥ 32 chars); **`fechado`** — production
-  without them: nobody gets in, pages go to `/login`, which says "Acesso fechado" and lists the missing
-  NAMES, APIs answer 503; **`desligado-dev`** — development without them: no login, a warning in the
-  terminal (once) and an icon at the foot of the rail (`[data-login-desligado]`, from
-  `GET /api/auth/estado`). In that mode `contaAtual` treats everyone as the agency with every
-  platform — that's how `yarn dev` and the funil run. To test the login locally, put the three vars in `.env.development.local` (ignored by
-  git; `.env.local` is TRACKED in this repo — never put credentials there).
+- **Modes** (`modoAuth`): `ligado` (the three vars); **`fechado`** — production without them:
+  nobody gets in, pages go to `/login`, which says "Acesso fechado" and lists the missing NAMES, APIs
+  answer 503; **`desligado-dev`** — development without them: no login, a warning in the terminal
+  (once) and an icon at the foot of the rail (`[data-login-desligado]`, from `GET /api/auth/estado`).
+  In that mode `contaAtual` treats everyone as the agency with every platform — that's how the funil
+  runs. **With the vars in `.env.development.local` the login is ON in dev too**: to run the funil,
+  blank them for that server (`env NEXT_PUBLIC_SUPABASE_URL= NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+  SUPABASE_SECRET_KEY= yarn next dev -p <porta>`; Next doesn't override a variable already in the
+  environment). Credentials go only in `.env.development.local` (ignored by git); `.env.local` is
+  TRACKED in this repo — never put credentials there.
+- **Testing the login end to end**: `FUNIL_BASE_URL=http://localhost:<porta> yarn login:e2e`
+  ([scripts/login-e2e.mjs](scripts/login-e2e.mjs)) against a dev with the login on. It creates a
+  TEMPORARY user (random password; with the table, its row as guest with Tray only), enrols TOTP
+  through the UI computing the codes itself (RFC 6238), checks the guest's platform and the 403s,
+  the reset link (token_hash and fragment, without sending e-mail) and "esqueci a senha", and deletes
+  the user at the end. A second `next dev` needs its own `NEXT_DIST_DIR` (`next.config.ts` reads it),
+  and `next dev` then adds `<dist>/types/**/*.ts` to `tsconfig.json` — revert that before committing.
+  The Redirect URLs only allow the configured ports: on another port, test e-mail links up to the send.
 
 ### Modo Checkout (VTEX)
 

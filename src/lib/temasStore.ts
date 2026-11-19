@@ -6,9 +6,11 @@ import type { EstadoDoEditor } from '@/types/estadoEditor';
  * Histórico de temas, atrás do login. Cada tema tem nome, DONO e uma lista de
  * versões; cada versão é o `EstadoDoEditor` inteiro, como a aba estava ao salvar.
  *
- * Dono: o usuário que criou o tema. A agência vê e mexe em todos; uma conta de
- * convidado, só nos seus (`podeMexer`, aplicado nas rotas). Tema de antes das
- * contas não tem dono e é da agência.
+ * Dono: o id (Supabase Auth) da conta que criou o tema. A agência vê e mexe em
+ * todos; uma conta de convidado, só nos seus (`podeMexer`, aplicado nas rotas).
+ * Tema de antes das contas não tem dono e é da agência — e os salvos pelas
+ * contas de convidado do login antigo (dono = nome de usuário, não um id)
+ * também ficam só com a agência.
  *
  * Chaves (prefixo `tema` para não colidir com `preview:` no mesmo banco):
  *   - `temas` ............... sorted set: id → atualizadoEm (ordem da lista)
@@ -33,16 +35,16 @@ export interface TemaResumo {
   criadoEm: number;
   atualizadoEm: number;
   versoes: VersaoResumo[];
-  /** Quem criou; ausente = da agência (temas de antes das contas). */
+  /** Id da conta que criou; ausente = da agência (temas de antes das contas). */
   dono?: string;
 }
 
 /** A conta pode ver/salvar/apagar este tema? A agência, sempre. */
 export function podeMexer(
   tema: TemaResumo,
-  conta: { usuario: string; papel: 'admin' | 'convidado' }
+  conta: { id: string; papel: 'admin' | 'convidado' }
 ): boolean {
-  return conta.papel === 'admin' || tema.dono === conta.usuario;
+  return conta.papel === 'admin' || (!!tema.dono && tema.dono === conta.id);
 }
 
 const MAX_VERSOES = 50;
@@ -67,7 +69,7 @@ export function idDeTemaValido(id: string): boolean {
 
 /** Os temas que a conta enxerga (todos, para a agência). */
 export async function listarTemas(conta: {
-  usuario: string;
+  id: string;
   papel: 'admin' | 'convidado';
 }): Promise<TemaResumo[]> {
   const kv = await getKv();

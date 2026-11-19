@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { exigirConta } from '@/lib/contaAtual';
-import { criarConta, listarContas } from '@/lib/contas';
+import { convidarConta, listarContas } from '@/lib/contas';
 import { erroDasContas } from './erros';
 
 // As contas mudam a cada ação do painel: nada de cache.
@@ -17,7 +17,10 @@ export async function GET() {
   }
 }
 
-/** Conta nova: `{ usuario, nome?, senha, plataformas }` (só a agência). */
+/**
+ * Convida: `{ email, nome?, plataformas }` (só a agência). O Supabase manda o
+ * e-mail do convite; o link volta a esta origem (/auth/callback).
+ */
 export async function POST(request: Request) {
   const g = await exigirConta({ admin: true });
   if ('resposta' in g) return g.resposta;
@@ -26,14 +29,12 @@ export async function POST(request: Request) {
       string,
       unknown
     >;
-    const conta = await criarConta({
-      usuario: body.usuario,
-      nome: body.nome,
-      senha: body.senha,
-      plataformas: body.plataformas,
-    });
+    const conta = await convidarConta(
+      { email: body.email, nome: body.nome, plataformas: body.plataformas },
+      new URL(request.url).origin
+    );
     return NextResponse.json({ conta }, { status: 201 });
   } catch (error) {
-    return erroDasContas(error, 'criar a conta');
+    return erroDasContas(error, 'convidar');
   }
 }
