@@ -54,7 +54,7 @@ import { findChrome, BASE_URL, lerLayouts } from './lib/util.mjs';
 // Os pares moram na lib porque o estágio 1 também os confere.
 import { PARES } from './lib/fidelidade.mjs';
 // A paleta fora do [data-role] e sob :hover — a segunda leitura, ver a lib.
-import { medirPaleta, compararPaleta } from './lib/fidelidade-paleta.mjs';
+import { medirPaleta, compararPaleta, autotesteSobra } from './lib/fidelidade-paleta.mjs';
 
 const STARTER_URL = process.env.FUNIL_STARTER_URL ?? 'http://localhost:3000';
 const TOL = 0.5;
@@ -578,8 +578,12 @@ async function medirCatalogo(browser, par, mobile, paleta) {
   }
 }
 
-function comparar(origem, clone, rotulo, falhas, textoLivre = []) {
+function comparar(origem, clone, rotulo, falhas, textoLivre = [], reservados = [], reservaUsada = new Set()) {
   const livre = new Set(textoLivre);
+  // `espacoReservado` do par: papéis cuja caixa o clone enche com um aviso que a
+  // origem não tem (o widget de terceiro só existe na loja) — existir só no clone e a
+  // altura são dispensadas; largura e posição continuam valendo.
+  const reserva = new Set(reservados);
   // papel livre entra por papel + ordem; o resto, por papel + texto — e o
   // repetido, por papel + texto + a ordem entre os iguais. Sem o ordinal o Map
   // guardava só o último de cada grupo, e os outros nunca eram comparados.
@@ -613,7 +617,11 @@ function comparar(origem, clone, rotulo, falhas, textoLivre = []) {
   for (const k of mapO.keys())
     if (!mapC.has(k)) falhas.push(`${rotulo}: nó "${k}" existe na origem e não no clone`);
   for (const k of mapC.keys())
-    if (!mapO.has(k)) falhas.push(`${rotulo}: nó "${k}" existe no clone e não na origem`);
+    if (!mapO.has(k)) {
+      const papel = k.replace(/#\d+$/, '');
+      if (reserva.has(papel)) reservaUsada.add(papel);
+      else falhas.push(`${rotulo}: nó "${k}" existe no clone e não na origem`);
+    }
 
   for (const [k, o] of mapO) {
     const c = mapC.get(k);
@@ -621,8 +629,12 @@ function comparar(origem, clone, rotulo, falhas, textoLivre = []) {
     // geometria dispensada onde o texto diverge por contrato
     if (!livre.has(o.role))
       for (const eixo of ['w', 'h', 'dx', 'dy']) {
-        asserts++;
         const d = Math.abs(o[eixo] - c[eixo]);
+        if (eixo === 'h' && reserva.has(o.role)) {
+          if (d > TOL) reservaUsada.add(o.role);
+          continue;
+        }
+        asserts++;
         if (d > TOL)
           falhas.push(`${rotulo}: ${k} · ${eixo} ${o[eixo]} → ${c[eixo]} (Δ ${d.toFixed(2)}px)`);
       }
@@ -662,6 +674,13 @@ let naoMedidas = 0;
 // Placar próprio da paleta: o de `data-role` continua comparável entre rodadas.
 const falhasPaleta = [];
 let totalPaleta = 0;
+// A dispensa de `paletaDeUmLado` antes de qualquer tela: as telas reais só
+// exercitam o ramo que dispensa, e o que reprova nunca seria visto.
+{
+  const t = autotesteSobra();
+  totalPaleta += t.total;
+  falhasPaleta.push(...t.falhas);
+}
 try {
   // FIDELIDADE_SO=<Nome> roda um par só — é para iterar durante a migração.
   // O funil nunca seta a variável, então o placar dele continua vendo os N pares.
@@ -682,6 +701,7 @@ try {
     // As divergências conhecidas de paleta que alguma tela do par usou — a
     // dispensa que nenhuma usou reprova no fim do par, como toda dispensa aqui.
     const dispensasUsadas = new Set();
+    const reservaUsada = new Set();
     let telasMedidas = 0;
     for (const [rot, largura, mobile] of telas) {
       const rotulo = `${par.starter}/${rot}`;
@@ -705,7 +725,7 @@ try {
           await medirCatalogo(browser, par, mobile, paleta);
         const { nos: origem, mapas: mapasO } =
           await medirStarter(browser, par.starter, largura, altura, paleta, textos);
-        const n = comparar(origem, clone, rotulo, falhas, par.textoLivre);
+        const n = comparar(origem, clone, rotulo, falhas, par.textoLivre, par.espacoReservado?.roles, reservaUsada);
         total += n;
         const np = compararPaleta(mapasO, mapasC, rotulo, falhasPaleta, paleta, {
           deUmLado: par.paletaDeUmLado,
@@ -731,6 +751,15 @@ try {
       }
     }
     // Só dá para dizer que a dispensa sobrou se todas as telas do par mediram.
+    // O mesmo para `espacoReservado`: papel que não ficou só no clone nem divergiu na altura
+    // em nenhuma tela é dispensa que sobrou (o espaço reservado saiu ou a origem o alcançou).
+    for (const papel of par.espacoReservado?.roles ?? [])
+      if (!reservaUsada.has(papel) && telasMedidas === telas.length) {
+        total++;
+        falhas.push(
+          `${par.starter}: o espaço reservado "${papel}" não divergiu em nenhuma tela — tire de espacoReservado no par`
+        );
+      }
     for (const [k, motivo] of Object.entries(par.paletaDeUmLado ?? {})) {
       if (dispensasUsadas.has(k))
         console.log(`  ⏳ ${par.starter}: ${k} só de um lado — ${motivo}`);
