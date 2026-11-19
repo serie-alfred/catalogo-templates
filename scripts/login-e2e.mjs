@@ -132,7 +132,14 @@ try {
   const ir = (u, opts = {}) =>
     aba.goto(`${BASE}${u}`, { waitUntil: "networkidle2", timeout: 90000, ...opts });
   const caminho = () => new URL(aba.url()).pathname;
-  const tem = sel => aba.$(sel).then(Boolean);
+  // Espera o seletor (até 15 s) em vez de uma consulta só: depois de um submit a
+  // página pode navegar de novo (redirect, recompilação do dev) e uma consulta
+  // no meio disso derruba o contexto ("Execution context was destroyed").
+  const tem = sel =>
+    aba
+      .waitForSelector(sel, { timeout: 15000 })
+      .then(Boolean)
+      .catch(() => false);
   const texto = () =>
     aba
       .evaluate(() => document.body.innerText.replace(/\s+/g, " ").slice(0, 240))
