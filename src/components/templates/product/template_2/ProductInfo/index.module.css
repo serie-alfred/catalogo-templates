@@ -41,6 +41,9 @@
   transition: all .3s;
 }
 
+.favoriteButton svg {
+  fill: currentColor;
+}
 
 .listaCorVariacao .listaItem .color {
   background: #6a6a6a;
@@ -307,8 +310,12 @@
   margin-right: 3px;
 }
 
-.product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars svg path {
-  fill: var(--prod-info-rating, #B8B8B8);
+.starOff {
+  fill: color-mix(in srgb, var(--prod-info-text, #000) 28%, #fff);
+}
+
+.starOn {
+  fill: var(--prod-info-rating, #121212);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__stars span {
@@ -1092,7 +1099,7 @@
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form label input::placeholder {
-  color: #68686E;
+  color: color-mix(in srgb, var(--prod-info-text, #000) 55%, transparent);
 }
 
 .product__info .info__container .info__row .info__right .info__content .content__positon .content__inner .content__shipping .shipping__form .shipping__send {

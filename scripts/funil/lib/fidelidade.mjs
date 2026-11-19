@@ -44,6 +44,43 @@ import { itens } from './util.mjs';
  * imagem). Sem isto, tela com 0 asserções de paleta reprova; com isto, reprova a
  * tela que tiver alguma.
  */
+/**
+ * O card das vitrines 08 (a família não tem card próprio: vale o 01). No starter é o
+ * `ProductCard01` em CSS module (classes `.tag-new`, `.product-buy`…); na réplica, o
+ * `Spot01` da família 01, com CSS global — o leitor de paleta nomeia nó pela classe do
+ * módulo, então os mesmos nós saem como `.slide>div>div>…` de um lado e `.tag-new>span`
+ * do outro. É o card da família 01, que nenhum par cobre; a comparação dele não é daqui.
+ */
+const CARD01_DE_OUTRA_CLASSE =
+  'o card é o 01 (ProductCard01 em CSS module × Spot01 em CSS global): o leitor de paleta nomeia nó pela classe do módulo, então o mesmo nó tem chave diferente em cada lado. O card é da família 01; nenhum par o cobre.';
+const CARD01_ORIGEM = [
+  '.tag-new>span',
+  '.tag-discount>span',
+  '.stars>span',
+  '.product-title>h3>a',
+  '.price-before',
+  '.price-before>abbr',
+  '.price-before>span',
+  '.price-promotion>abbr',
+  '.price-promotion>span',
+  '.product-payment>span',
+  '.product-buy>button',
+];
+const CARD01_REPLICA = [
+  '.slide>div>div>div>div>div>span',
+  '.slide>div>div>div>div>span',
+  '.slide>div>div>div>div>h3>a',
+  '.slide>div>div>div>div>div>div>div',
+  '.slide>div>div>div>div>div>div>div>abbr',
+  '.slide>div>div>div>div>div>div>div>span',
+  '.slide>div>div>div>div>div>div>div>div>abbr',
+  '.slide>div>div>div>div>div>div>div>div>span',
+  '.slide>div>div>div>div>a',
+];
+const paletaDoCard01 = Object.fromEntries(
+  [...CARD01_ORIGEM, ...CARD01_REPLICA].map(k => [k, CARD01_DE_OUTRA_CLASSE])
+);
+
 export const PARES = [
   // Família 17 (Pet). A marca em texto da origem é "SERIE//A" aqui (ver `textoLivre`
   // acima), no header e no rodapé. O contador anda, como na 09 a 16.
@@ -267,8 +304,8 @@ export const PARES = [
     textoLivre: ['cd-unit'],
   },
   { starter: 'Categories08', id: '08', layoutKey: 'categories', pagina: 'home' },
-  { starter: 'ProductShelfCustom08', id: '08', layoutKey: 'showcase', pagina: 'home' },
-  { starter: 'ProductShelfBanner08', id: '08', layoutKey: 'bannerSide', pagina: 'home' },
+  { starter: 'ProductShelfCustom08', id: '08', layoutKey: 'showcase', pagina: 'home', paletaDeUmLado: paletaDoCard01 },
+  { starter: 'ProductShelfBanner08', id: '08', layoutKey: 'bannerSide', pagina: 'home', paletaDeUmLado: paletaDoCard01 },
   { starter: 'Editorial08', id: '08', layoutKey: 'editorial', pagina: 'home' },
   { starter: 'BenefitsStrip08', id: '08', layoutKey: 'ruler', pagina: 'home' },
   { starter: 'Newsletter08', id: '08', layoutKey: 'newsletter', pagina: 'home' },
@@ -306,7 +343,25 @@ export const PARES = [
   { starter: 'CategoryTitle06', id: '06', layoutKey: 'categoryTitle', pagina: 'category' },
   { starter: 'MainCategory06', id: '06', layoutKey: 'categoryMain', pagina: 'category' },
   { starter: 'CategorySeoFaq06', id: '06', layoutKey: 'categoryDescription', pagina: 'category' },
-  { starter: 'TrustvoxReviews06', id: '06', layoutKey: 'productReviews', pagina: 'product' },
+  {
+    starter: 'TrustvoxReviews06',
+    id: '06',
+    layoutKey: 'productReviews',
+    pagina: 'product',
+    // O miolo do acordeão é o widget do Trustvox (script de terceiro: só existe na loja
+    // publicada, e fabricar avaliação seria inventar dado de comércio). A origem entrega o
+    // host vazio (0 de altura, fora da medição); a réplica põe nele um espaço reservado com
+    // aviso (88d72f1), que dá altura ao host, ao painel e ao quadro. Existir só na réplica e
+    // a altura desses 3 papéis são dispensadas; largura e posição continuam valendo.
+    espacoReservado: { roles: ['tvx-host', 'tvx-panel', 'tvx-outer'] },
+    paletaDeUmLado: {
+      '.reserva': 'o quadro tracejado do espaço reservado ao widget do Trustvox: só existe na réplica (ver espacoReservado)',
+      '.reservaEstrelas': 'as estrelas do espaço reservado ao widget do Trustvox: só da réplica',
+      '.reservaLinha': 'as linhas cinza do espaço reservado ao widget do Trustvox: só da réplica',
+      '.reservaCurta.reservaLinha': 'a linha curta do espaço reservado ao widget do Trustvox: só da réplica',
+      '.reservaNota': 'o aviso "As avaliações do Trustvox aparecem aqui, na loja": só da réplica',
+    },
+  },
   { starter: 'CategoryTabs06', id: '06', layoutKey: 'categoryTabs', pagina: 'home' },
   // `soDesktop`: a origem tem um guarda `min-width: 1025px` e NÃO renderiza nada
   // abaixo disso — medir o mobile seria comparar vazio com vazio, e a espera por
@@ -365,12 +420,47 @@ export const PARES = [
     pagina: 'common',
     // O contador da sacola: na origem é o carrinho de exemplo (`mockCart`, 1
     // item); na réplica, o "99" do Figma. Mesmo selo, número diferente.
-    textoLivre: ['hd-badge'],
+    // O logo: o starter desenha o asterisco (SVG, 32×32) e a réplica o texto SERIE//A.
+    textoLivre: ['hd-badge', 'hd-logo'],
+    paletaDeUmLado: {
+      '.logoText':
+        'a marca sem logo enviado: a réplica mostra o texto SERIE//A (decisão de 13/11, 8d36c7d: o preview público não leva o símbolo do modelo) e o starter, o asterisco do Figma (SVG). O nó `.logoText` só existe na réplica.',
+      '.ico>svg>svg>path':
+        'o `path` do asterisco do logo (fill var(--header-text)) é o 1º `.ico>svg>svg>path` do starter; a réplica não o desenha (SERIE//A em texto), e o `path` da sacola, que tem a mesma chave, não pinta fill.',
+    },
   },
-  { starter: 'Footer08', id: '08', layoutKey: 'footer', pagina: 'common' },
+  {
+    starter: 'Footer08',
+    id: '08',
+    layoutKey: 'footer',
+    pagina: 'common',
+    // O logo: o starter desenha o asterisco (SVG) e a réplica o texto SERIE//A.
+    textoLivre: ['ft-logo'],
+    paletaDeUmLado: {
+      '.logoText':
+        'a marca sem logo enviado: a réplica mostra o texto SERIE//A (decisão de 13/11, 8d36c7d: o preview público não leva o símbolo do modelo) e o starter, o asterisco do Figma (SVG). O nó `.logoText` só existe na réplica.',
+    },
+  },
   // Portes de 13/10 ("portar todas as famílias"): seções que só existiam na Tray/Wake
   // ganharam o lado VTEX no starter, com o markup e os data-role da réplica.
-  { starter: 'Header02', id: '02', layoutKey: 'header', pagina: 'common', textoLivre: ['hd-cart-count'] },
+  {
+    starter: 'Header02',
+    id: '02',
+    layoutKey: 'header',
+    pagina: 'common',
+    textoLivre: ['hd-cart-count'],
+    // O painel do submenu (hover do 1º item) é o mesmo nó nos dois lados, com o mesmo
+    // fundo (`--header-submenu-bg`, branco); só o NOME da chave muda: o leitor nomeia nó
+    // pelas classes do módulo, e a réplica tem classes que o SCSS do starter não define
+    // (`submenu__wrapper`) e um `ul` do 3º nível estilizado por caminho, sem classe própria
+    // (no starter ele é `.subMenu`).
+    paletaDeUmLado: {
+      '.submenuWrapper': 'o painel do submenu: o starter só tem a classe `.submenuWrapper`; a réplica, `.submenuWrapper.submenu__wrapper`. Mesmo nó, mesmo fundo.',
+      '.submenuWrapper.submenu__wrapper': 'o mesmo painel do submenu, com as duas classes que a réplica define.',
+      '.subMenu': 'o `ul` do 3º nível: no starter tem a classe `.subMenu`; na réplica é estilizado por caminho (`.submenuInner > ul > li ul`), sem classe de módulo. Mesmo nó, mesmo fundo.',
+      '.submenuInner.submenu__inner>ul>li>ul': 'o mesmo `ul` do 3º nível, nomeado pelo caminho porque a réplica não lhe dá classe de módulo.',
+    },
+  },
   { starter: 'Footer02', id: '02', layoutKey: 'footer', pagina: 'common' },
   { starter: 'BannerFull02', id: '02', layoutKey: 'bannerFull', pagina: 'home', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
   { starter: 'BannerFullCategory02', id: '04', layoutKey: 'bannerFull', pagina: 'category', semPaleta: 'banner só de imagem: nenhum nó pinta cor ou fonte' },
@@ -414,7 +504,7 @@ export const PARES = [
   },
   { starter: 'ProductInfo02', id: '02', layoutKey: 'productInfo', pagina: 'product' },
   { starter: 'MultiCategories04', id: '04', layoutKey: 'categories', pagina: 'home' },
-  { starter: 'Ruler04', id: '04', layoutKey: 'ruler', pagina: 'home', semPaleta: 'régua de selos em imagem: nenhum nó pinta cor ou fonte' },
+  { starter: 'Ruler04', id: '04', layoutKey: 'ruler', pagina: 'home' },
   { starter: 'BannerSolo04', id: '01', layoutKey: 'bannerSolo', pagina: 'home' },
   { starter: 'SpecialOffers04', id: '01', layoutKey: 'specialOffers', pagina: 'home' },
   { starter: 'HomeCombined04', id: '01', layoutKey: 'homeCombined', pagina: 'home' },

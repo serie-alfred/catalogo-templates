@@ -286,7 +286,9 @@
   display: block;
   font-weight: 800;
   font-size: 32px;
-  line-height: 1;
+  /* A caixa do logo tem 48px de altura (a do <img> e a do símbolo do starter): com
+     `line-height: 1` o texto media 32 e subia tudo o que vem abaixo 16px. */
+  line-height: 48px;
   letter-spacing: -0.02em;
   white-space: nowrap;
   color: inherit;

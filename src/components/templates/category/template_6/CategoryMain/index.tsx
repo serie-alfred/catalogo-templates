@@ -400,7 +400,6 @@ function FilterDrawer({
         role="dialog"
         aria-modal="true"
         aria-label={ROTULO_FILTRO}
-        data-role="filter-drawer"
       >
         <div className={styles.head}>
           <span className={styles.headTitle}>{ROTULO_FILTRO}</span>
@@ -409,7 +408,6 @@ function FilterDrawer({
               type="button"
               className={styles.clear}
               onClick={onClearAll}
-              data-role="filter-clear"
             >
               {ROTULO_LIMPAR} ({activeCount})
             </button>
@@ -420,7 +418,6 @@ function FilterDrawer({
             className={styles.close}
             onClick={onClose}
             aria-label="Fechar filtros"
-            data-role="filter-close"
           >
             <svg
               width="18"

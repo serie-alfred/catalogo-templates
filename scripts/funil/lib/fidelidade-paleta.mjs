@@ -46,9 +46,13 @@ export function paletaB(paleta) {
 }
 
 /**
- * Mapa `{ chave: { propriedade: [registros] } }` de tudo que pinta dentro de
- * `raiz`. Registro = o valor com a paleta do estágio, seguido de ` ⇢ <valor com
- * a paleta B>` quando o valor acompanha o tema. Roda na página: autocontido.
+ * `{ mapa, nos }` de tudo que pinta dentro de `raiz`. `mapa` é
+ * `{ chave: { propriedade: [registros] } }`, com UM registro por nó que pinta a
+ * propriedade (repetido, se vários nós pintam igual: a multiplicidade é o que a
+ * dispensa de `deUmLado` confere). Registro = o valor com a paleta do estágio,
+ * seguido de ` ⇢ <valor com a paleta B>` quando o valor acompanha o tema. `nos` é
+ * `{ chave: quantos nós visíveis têm a chave }`, pinte ele o que pintar.
+ * Roda na página: autocontido.
  */
 export const mapearPaleta = ({ raiz: seletor, paletaB }) => {
   const raiz = document.querySelector(seletor);
@@ -95,12 +99,17 @@ export const mapearPaleta = ({ raiz: seletor, paletaB }) => {
   const alvos = [...raiz.querySelectorAll('*')].filter(
     el => !PULA.has(el.tagName) && el.getClientRects().length
   );
-  const ler = () =>
+  const nos = {};
+  const conta = k => {
+    nos[k] = (nos[k] ?? 0) + 1;
+  };
+  const ler = contando =>
     alvos.map(el => {
       const lido = new Map();
       const cs = getComputedStyle(el);
       if (cs.visibility !== 'visible') return lido;
       const k = chave(el);
+      if (contando) conta(k);
       const texto =
         CAMPO.has(el.tagName) ||
         [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
@@ -109,15 +118,18 @@ export const mapearPaleta = ({ raiz: seletor, paletaB }) => {
       for (const ps of ['::before', '::after']) {
         const cp = getComputedStyle(el, ps);
         if (cp.content === 'none' || cp.content === 'normal') continue;
+        if (contando) conta(`${k}${ps}`);
         // conteúdo em string pinta texto; `url()` e `""` não
         for (const [p, v] of pintura(cp, /^["'].+["']$/.test(cp.content), false))
           lido.set(`${k}${ps}\u0000${p}`, v);
       }
-      if (CAMPO.has(el.tagName) && el.getAttribute('placeholder'))
+      if (CAMPO.has(el.tagName) && el.getAttribute('placeholder')) {
+        if (contando) conta(`${k}::placeholder`);
         lido.set(`${k}::placeholder\u0000color`, getComputedStyle(el, '::placeholder').color);
+      }
       return lido;
     });
-  const a = ler();
+  const a = ler(true);
   // Mesma forma da injeção do estágio (`*` com !important): esta vem depois e
   // vence por ordem; sai logo em seguida e a paleta do estágio volta a valer.
   const b2 = document.createElement('style');
@@ -125,7 +137,7 @@ export const mapearPaleta = ({ raiz: seletor, paletaB }) => {
     .map(([k, v]) => `${k}: ${v} !important;`)
     .join('')}}`;
   document.head.appendChild(b2);
-  const b = ler();
+  const b = ler(false);
   b2.remove();
   const mapa = {};
   a.forEach((lido, i) => {
@@ -133,11 +145,10 @@ export const mapearPaleta = ({ raiz: seletor, paletaB }) => {
       const [k, p] = kp.split('\u0000');
       const vb = b[i].get(kp) ?? va;
       const registro = vb === va ? va : `${va} ⇢ ${vb}`;
-      const lista = ((mapa[k] ??= {})[p] ??= []);
-      if (!lista.includes(registro)) lista.push(registro);
+      ((mapa[k] ??= {})[p] ??= []).push(registro);
     }
   });
-  return mapa;
+  return { mapa, nos };
 };
 
 /**
@@ -187,14 +198,94 @@ export const emularHover = () => {
  */
 export async function medirPaleta(f, raiz, paleta) {
   const arg = { raiz, paletaB: paletaB(paleta) };
-  const repouso = await f.evaluate(mapearPaleta, arg);
+  const r = await f.evaluate(mapearPaleta, arg);
   const regras = await f.evaluate(emularHover);
-  const hover = await f.evaluate(mapearPaleta, arg);
-  return { repouso, hover, regras };
+  const h = await f.evaluate(mapearPaleta, arg);
+  return {
+    repouso: r?.mapa ?? null,
+    hover: h?.mapa ?? null,
+    regras,
+    nos: { repouso: r?.nos ?? {}, hover: h?.nos ?? {} },
+  };
 }
 
-const igual = (a = [], b = []) =>
-  a.length === b.length && [...a].sort().join('\n') === [...b].sort().join('\n');
+/** Mesmas leituras, sem contar repetição: a comparação geral é por conjunto. */
+const igual = (a = [], b = []) => {
+  const A = new Set(a);
+  const B = new Set(b);
+  return A.size === B.size && [...A].every(r => B.has(r));
+};
+
+/** Multiconjunto `{ registro: ocorrências }`. */
+const contagem = (v = []) => {
+  const m = new Map();
+  for (const r of v) m.set(r, (m.get(r) ?? 0) + 1);
+  return m;
+};
+
+/**
+ * A dispensa de `deUmLado` para chave que existe dos DOIS lados (o nó de um lado
+ * só colide no nome com um nó comum — o `path` do asterisco do Header08 × o da
+ * sacola). Recebe as leituras de uma propriedade (um registro por nó, com
+ * repetição) e quantos nós cada lado tem na chave, e diz:
+ *
+ * - `'igual'`: os multiconjuntos batem — nada a dispensar;
+ * - `'dispensa'`: um lado tem TODAS as leituras do outro, com a mesma
+ *   multiplicidade, e a sobra (≥1) cabe nos nós que só ele tem (nós a mais ≥
+ *   sobra) — é a leitura do nó de um lado só;
+ * - `'reprova'`: qualquer outra coisa — cada lado tem uma leitura que o outro não
+ *   tem (um nó comum mudou de cor ou de fonte), ou a sobra não se explica por nó
+ *   a mais (os dois lados têm os mesmos nós e um deles deixou de pintar).
+ *
+ * Por conjunto, `{a, x}` ⊇ `{x}` deixava passar o nó comum que mudou justamente
+ * para a cor do nó de um lado só; contando, `{a:3, x:1}` × `{x:3}` reprova.
+ */
+export function sobraDeUmLado(vo = [], vc = [], nosO = 0, nosC = 0) {
+  const O = contagem(vo);
+  const C = contagem(vc);
+  const sobra = (maior, menor) => {
+    let s = 0;
+    for (const [r, n] of menor) if ((maior.get(r) ?? 0) < n) return -1;
+    for (const [r, n] of maior) s += n - (menor.get(r) ?? 0);
+    return s;
+  };
+  const sO = sobra(O, C);
+  const sC = sobra(C, O);
+  if (sO === 0 && sC === 0) return 'igual';
+  if (sO > 0 && nosO - nosC >= sO) return 'dispensa';
+  if (sC > 0 && nosC - nosO >= sC) return 'dispensa';
+  return 'reprova';
+}
+
+/**
+ * Autoteste da `sobraDeUmLado`, pelo motivo do `autotesteCopias` (`contrato.mjs`):
+ * as telas reais só exercitam a dispensa legítima, e o ramo que reprova nunca
+ * seria visto. Devolve `{ total, falhas }`, para entrar no placar da paleta.
+ */
+export function autotesteSobra() {
+  const fill = 'rgb(1, 2, 3) ⇢ rgb(0, 0, 101)';
+  const x = 'rgb(9, 9, 9) ⇢ rgb(0, 0, 102)';
+  const y = 'rgb(8, 8, 8) ⇢ rgb(0, 0, 103)';
+  const a = 'rgb(7, 7, 7)';
+  const casos = [
+    // Header08 '.ico>svg>svg>path': o asterisco (só no starter) pinta fill, a sacola não
+    ['Header08: fill só do asterisco, 2 nós × 1', [fill], [], 2, 1, 'dispensa'],
+    ['[x,x] × [x] com um nó a mais', [x, x], [x], 2, 1, 'dispensa'],
+    ['[x,x] × [x] com os mesmos nós', [x, x], [x], 2, 2, 'reprova'],
+    ['[x,x] × [x] com o nó a mais do lado errado', [x, x], [x], 1, 2, 'reprova'],
+    ['[x] × [y]', [x], [y], 2, 1, 'reprova'],
+    ['nó comum foi para a cor do de um lado só: [a,a,a,x] × [x,x,x]', [a, a, a, x], [x, x, x], 4, 3, 'reprova'],
+    ['sobra 2 com 1 nó a mais', [x, x, x], [x], 3, 2, 'reprova'],
+    ['réplica com o nó a mais', [x], [x, y], 1, 2, 'dispensa'],
+    ['mesmo multiconjunto', [x, x], [x, x], 3, 2, 'igual'],
+  ];
+  const falhas = [];
+  for (const [nome, vo, vc, nO, nC, esperado] of casos) {
+    const v = sobraDeUmLado(vo, vc, nO, nC);
+    if (v !== esperado) falhas.push(`autoteste da paleta: ${nome} deu "${v}", esperado "${esperado}"`);
+  }
+  return { total: casos.length, falhas };
+}
 
 const acompanha = r => r.includes(' ⇢ ');
 
@@ -236,8 +327,11 @@ export function compararPaleta(
   const nomes = new Map(
     Object.entries(paleta).map(([k, v]) => [v.startsWith('rgb(') ? v : face(v), k])
   );
-  const lista = (v, erro) =>
-    v.length ? `"${v.map(r => legivel(r, nomes)).join(' | ')}"` : erro;
+  const lista = (v, erro) => {
+    if (!v.length) return erro;
+    const n = contagem(v);
+    return `"${[...n].map(([r, q]) => `${legivel(r, nomes)}${q > 1 ? ` ×${q}` : ''}`).join(' | ')}"`;
+  };
   if (!origem.repouso || !clone.repouso) {
     falhas.push(`${rotulo}: paleta sem raiz do componente (${origem.repouso ? 'clone' : 'origem'})`);
     return { repouso: 1, hover: 0, umLado: 0, dispensadas: new Set() };
@@ -245,7 +339,8 @@ export function compararPaleta(
   for (const [lado, m] of [['origem', origem], ['clone', clone]])
     if (!m.regras) falhas.push(`${rotulo}: nenhuma regra de :hover emulada na ${lado}`);
 
-  const contar = (o, c, onde, soMudou) => {
+  const dispensadas = new Set();
+  const contar = (o, c, onde, nosO = {}, nosC = {}, soMudou) => {
     let n = 0;
     for (const [k, po] of Object.entries(o)) {
       const pc = c[k];
@@ -256,7 +351,14 @@ export function compararPaleta(
         if (soMudou && !soMudou(k, p)) continue;
         if (!vo.some(acompanha) && !vc.some(acompanha)) continue;
         n++;
-        if (!igual(vo, vc))
+        // Chave de `deUmLado` que existe dos dois lados: confere por multiconjunto
+        // e pelos nós a mais (ver `sobraDeUmLado`); as outras, por conjunto.
+        const v = k in deUmLado ? sobraDeUmLado(vo, vc, nosO[k], nosC[k]) : null;
+        if (v === 'dispensa') {
+          dispensadas.add(k);
+          continue;
+        }
+        if (v === 'reprova' || (v === null && !igual(vo, vc)))
           falhas.push(
             `${rotulo}${onde}: ${k} · ${p} ${lista(vo, '(não pinta)')} → ${lista(vc, '(não pinta)')}`
           );
@@ -267,14 +369,20 @@ export function compararPaleta(
   const mudou = m => (k, p) => !igual(m.repouso[k]?.[p], m.hover?.[k]?.[p]);
   const mO = mudou(origem);
   const mC = mudou(clone);
-  const repouso = contar(origem.repouso, clone.repouso, '');
-  const hover = contar(origem.hover ?? {}, clone.hover ?? {}, ' :hover', (k, p) => mO(k, p) || mC(k, p));
+  const repouso = contar(origem.repouso, clone.repouso, '', origem.nos?.repouso, clone.nos?.repouso);
+  const hover = contar(
+    origem.hover ?? {},
+    clone.hover ?? {},
+    ' :hover',
+    origem.nos?.hover,
+    clone.nos?.hover,
+    (k, p) => mO(k, p) || mC(k, p)
+  );
 
   // A chave de um lado só que pinta com o tema — cada uma é uma asserção
   // reprovada, salvo a divergência conhecida de `deUmLado`. A leitura sob
   // :hover só acrescenta o nó que o hover revela.
   let umLado = 0;
-  const dispensadas = new Set();
   const vistas = new Set();
   const semPar = (a, b, lado, onde) => {
     for (const [k, ps] of Object.entries(a ?? {})) {

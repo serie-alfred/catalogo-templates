@@ -205,6 +205,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--header-bg", label: "Fundo do header", type: "color", default: "#000000", group: "Header", inheritsLabel: "cor primária da marca" },
         { cssVar: "--header-text", label: "Texto do login e do carrinho", type: "color", default: "#ffffff", group: "Header", inheritsLabel: "cor primária de contraste da marca" },
         { cssVar: "--header-field-bg", label: "Fundo do campo de busca", type: "color", default: "#ffffff", group: "Busca" },
+        { cssVar: "--header-field-text", label: "Texto digitado na busca (e placeholder)", type: "color", default: "#000000", group: "Busca" },
         { cssVar: "--header-nav-bg", label: "Fundo do menu principal", type: "color", default: "#dd1838", group: "Menu", inheritsLabel: "cor secundária da marca" },
         { cssVar: "--header-nav-text", label: "Texto do menu principal", type: "color", default: "#ffffff", group: "Menu", inheritsLabel: "cor secundária de contraste da marca" },
         { cssVar: "--header-submenu-bg", label: "Fundo do submenu", type: "color", default: "#ffffff", group: "Menu", previewNote: "Aparece com o submenu aberto." },
@@ -2812,7 +2813,7 @@ export const LAYOUTS: Layouts = {
       ] },
       { id: "02", selection: "product-info", key: "info02b3c4d5e", image: "productInfo/ProductInfo02.webp", imageSource: "design", mobile: "", title: "Título Template 2", description: "Descrição Template 2", template: "2", pagina: ["product"], component: "ProductInfo02", path: "organisms/ProductInfo02", platforms: ['Tray', 'Wake', 'Wake 2.0', 'VTEX', 'Nuvemshop'], backgroundVars: ["primary", "secondary", "tertiary"], variablesSchema: [
         { cssVar: "--prod-info-muted", label: "Texto do SKU, das avaliações e do preço \"de\"", type: "color", default: "#6a6a6a", group: "Produto" },
-        { cssVar: "--prod-info-rating", label: "Ícone das estrelas de avaliação", type: "color", default: "#B8B8B8", group: "Produto" },
+        { cssVar: "--prod-info-rating", label: "Ícone das estrelas de avaliação", type: "color", default: "#121212", group: "Produto", previewNote: "Pinta só as estrelas acesas, até a nota do produto; no preview o produto não tem avaliação, e as 5 aparecem apagadas (na cor do texto)." },
         { cssVar: "--prod-info-title", label: "Texto dos títulos (produto, variações e frete)", type: "color", default: "#000000", group: "Produto" },
         { cssVar: "--prod-info-price", label: "Texto do preço", type: "color", default: "#000000", group: "Produto" },
         { cssVar: "--prod-info-text", label: "Texto do botão Favoritos e das variações (tamanho)", type: "color", default: "#000000", group: "Produto" },

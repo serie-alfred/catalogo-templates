@@ -134,7 +134,7 @@ const CategoryMain = () => {
                 >
                   <path
                     d="M8 10L12 14L16 10"
-                    stroke="#141414"
+                    stroke="currentColor"
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -176,7 +176,7 @@ const CategoryMain = () => {
                 >
                   <path
                     d="M8 10L12 14L16 10"
-                    stroke="#141414"
+                    stroke="currentColor"
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -222,7 +222,7 @@ const CategoryMain = () => {
                 >
                   <path
                     d="M8 10L12 14L16 10"
-                    stroke="#141414"
+                    stroke="currentColor"
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -263,7 +263,7 @@ const CategoryMain = () => {
                 >
                   <path
                     d="M8 10L12 14L16 10"
-                    stroke="#141414"
+                    stroke="currentColor"
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -305,7 +305,7 @@ const CategoryMain = () => {
                   >
                     <path
                       d="M8 10L12 14L16 10"
-                      stroke="#141414"
+                      stroke="currentColor"
                       strokeWidth="1.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"

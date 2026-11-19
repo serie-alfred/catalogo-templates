@@ -125,8 +125,11 @@
   letter-spacing: 0.24px;
 }
 
+/* Espaçamento das estrelas = `.stars` do ProductCard01 do starter (10px em cima, 4px
+   embaixo, que somem sob os 15px de cima do título; o contador desce 1px). Era o 15px 0
+   do spot da Tray, e o card saía 4px mais alto que o da loja VTEX (vitrines 08, 19/11). */
 .spot .product-wrapper .product-content .product-stars {
-  margin: 15px 0;
+  margin: 10px 0 4px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -137,12 +140,12 @@
   font-weight: 400;
   font-size: 12px;
   color: var(--spot-rating-text, #525252);
+  margin-top: 1px;
   margin-left: 3px;
-  position: relative;
-  top: 0.5px;
 }
 
 .spot .product-wrapper .product-content .product-title {
+  margin-top: 15px;
   margin-bottom: 15px;
 }
 

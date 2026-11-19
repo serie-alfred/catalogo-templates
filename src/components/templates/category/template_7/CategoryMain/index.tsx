@@ -135,8 +135,11 @@ const paraCard07 = (p: Produto): ProdutoCard07 => ({
   price: `R$ ${fmt(p.price)}`,
   flag: p.flag,
   flagVariant: p.flagVariant === 'sale' ? 'sale' : 'gold',
-  installment: p.parcela,
-  pix: p.pix,
+  // desktop: textos cheios da origem (formatInstallment / formatPix withDiscount); mobile: compactos
+  installment: p.parcela ? p.parcela.replace(/^(\d+×) (R\$ [\d.,]+)$/, '$1 de $2 sem juros') : undefined,
+  pix: p.pix ? `${p.pix} · 5% off` : undefined,
+  installmentCompact: p.parcela,
+  pixCompact: p.pix,
 });
 
 /**
@@ -473,7 +476,7 @@ export default function CategoryMain() {
           <div className={styles.mGrid} data-role="m-grid">
             {PRODUTOS.map((p, i) => (
               <CardDaLoja key={p.id ?? i} familia="Spot07">
-                <ProductCard07 produto={paraCard07(p)} />
+                <ProductCard07 produto={paraCard07(p)} variant="mobile" />
               </CardDaLoja>
             ))}
           </div>
