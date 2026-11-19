@@ -22,6 +22,10 @@ alter table public.contas enable row level security;
 -- Nada de acesso direto pelos papéis da API (a chave secreta usa service_role).
 revoke all on table public.contas from anon, authenticated;
 
+-- Projetos novos do Supabase não concedem nada a tabela criada pelo SQL Editor, nem ao
+-- service_role: sem isto, até o servidor (chave secreta) toma 42501 "permission denied".
+grant select, insert, update, delete on table public.contas to service_role;
+
 comment on table public.contas is
   'Perfis do /gerador do E-temas (papel, plataformas, ativo). RLS sem políticas: só o servidor, com a chave secreta.';
 
