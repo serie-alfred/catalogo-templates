@@ -204,7 +204,7 @@
   form
   .searchKey {
   background-color: var(--header-field-bg, #ffffff);
-  color: var(--header-text, var(--text-color-base, #ffffff));
+  color: var(--header-field-text, #000000);
   font-family: var(--header-body-font, var(--font-secundary, 'Poppins', Arial, Helvetica, sans-serif));
   border: none;
   border-radius: 120px;
@@ -256,7 +256,7 @@
   .search
   form
   .searchKey::-moz-placeholder {
-  color: #000;
+  color: var(--header-field-text, #000000);
 }
 
 .header
@@ -267,7 +267,7 @@
   .search
   form
   .searchKey::placeholder {
-  color: #000;
+  color: var(--header-field-text, #000000);
 }
 
 .header
