@@ -217,6 +217,9 @@ try {
     if (temTabela) {
       r.ok(`${quando}: o convidado chega ao editor`, caminho() === "/gerador", `${aba.url()} | ${await texto()}`);
       await aba.waitForSelector("[data-rail-target]", { timeout: 60000 }).catch(() => null);
+      await aba
+        .waitForFunction(() => sessionStorage.getItem("layoutPlatform"), { timeout: 60000 })
+        .catch(() => null);
       const plataforma = await aba.evaluate(() => sessionStorage.getItem("layoutPlatform"));
       r.ok(`${quando}: o editor abre na plataforma da conta (Tray)`, /Tray/.test(plataforma ?? ""), String(plataforma));
       const estado = await aba.evaluate(() => fetch("/api/auth/estado").then(x => x.json()));
@@ -305,7 +308,10 @@ try {
 
   // 7. esqueci a senha (e-mail inexistente: nada sai, a tela é a mesma)
   await ir("/login");
-  await Promise.all([aba.waitForNavigation({ waitUntil: "networkidle2" }), aba.click("[data-login-esqueci]")]);
+  const hrefEsqueci = await aba.$eval("[data-login-esqueci]", a => a.getAttribute("href")).catch(() => null);
+  r.ok("o link do /login leva a /auth/esqueci", hrefEsqueci === "/auth/esqueci", String(hrefEsqueci));
+  await ir("/auth/esqueci");
+  await aba.waitForSelector("[data-esqueci-form] #email", { timeout: 30000 });
   await aba.type("#email", `ninguem-${crypto.randomBytes(3).toString("hex")}@example.com`);
   await Promise.all([
     aba.waitForNavigation({ waitUntil: "networkidle2", timeout: 90000 }),
