@@ -64,7 +64,7 @@ section.crossSellingShelf09 [data-fs-product-shelf] {
 .productShowcase09 *::after {
   box-sizing: border-box;
 }
-.productShowcase09 :where(ul) {
+.productShowcase09 :where(ul):where(:not(.slide *)) {
   margin: 0;
   padding: 0;
   list-style: none;
