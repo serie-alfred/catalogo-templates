@@ -19,22 +19,22 @@
   box-sizing: border-box;
 }
 
-:where(.mainCategory16) :where(h1, h2, p) {
+:where(.mainCategory16) :where(h1, h2, p):where(:not(.gridItem *)) {
   margin: 0;
 }
 
-:where(.mainCategory16) :where(ul) {
+:where(.mainCategory16) :where(ul):where(:not(.gridItem *)) {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-:where(.mainCategory16) :where(a) {
+:where(.mainCategory16) :where(a):where(:not(.gridItem *)) {
   color: inherit;
   text-decoration: none;
 }
 
-:where(.mainCategory16) :where(button) {
+:where(.mainCategory16) :where(button):where(:not(.gridItem *)) {
   margin: 0;
   padding: 0;
   border: 0;
@@ -44,11 +44,11 @@
   cursor: pointer;
 }
 
-:where(.mainCategory16) :where(input, select) {
+:where(.mainCategory16) :where(input, select):where(:not(.gridItem *)) {
   font: inherit;
 }
 
-:where(.mainCategory16) :where(button, a, select, input):focus-visible {
+:where(.mainCategory16) :where(button, a, select, input):where(:not(.gridItem *)):focus-visible {
   outline: 3px solid var(--cat-main-accent, var(--background-primary-color, #5b4bdb));
   outline-offset: 2px;
 }

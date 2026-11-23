@@ -19,15 +19,15 @@
 .productShelf09 *::after {
   box-sizing: border-box;
 }
-.productShelf09 :where(h2, p) {
+.productShelf09 :where(h2, p):where(:not(.slide *)) {
   margin: 0;
 }
-.productShelf09 :where(ul) {
+.productShelf09 :where(ul):where(:not(.slide *)) {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-:where(.productShelf09) :where(a) {
+:where(.productShelf09) :where(a):where(:not(.slide *)) {
   color: inherit;
   text-decoration: none;
 }

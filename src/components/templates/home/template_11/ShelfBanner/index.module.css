@@ -20,19 +20,19 @@
 .productShelf11 *::after {
   box-sizing: border-box;
 }
-.productShelf11 :where(h2, p) {
+.productShelf11 :where(h2, p):where(:not(.slide *)) {
   margin: 0;
   color: inherit;
 }
-:where(.productShelf11) :where(a) {
+:where(.productShelf11) :where(a):where(:not(.slide *)) {
   color: inherit;
   text-decoration: none;
 }
-:where(.productShelf11) :where(a):hover {
+:where(.productShelf11) :where(a):where(:not(.slide *)):hover {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-:where(.productShelf11) :where(button) {
+:where(.productShelf11) :where(button):where(:not(.slide *)) {
   margin: 0;
   padding: 0;
   border: 0;
@@ -41,7 +41,7 @@
   font: inherit;
   cursor: pointer;
 }
-.productShelf11 :where(ul) {
+.productShelf11 :where(ul):where(:not(.slide *)) {
   margin: 0;
   padding: 0;
   list-style: none;

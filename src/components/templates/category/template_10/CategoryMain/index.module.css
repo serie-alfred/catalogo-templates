@@ -20,15 +20,15 @@
 .mainCategory10 *::after {
   box-sizing: border-box;
 }
-.mainCategory10 :where(.inner, .panel) :where(h1, h2, p) {
+.mainCategory10 :where(.inner, .panel) :where(h1, h2, p):where(:not(.gridItem *)) {
   margin: 0;
 }
-.mainCategory10 :where(.inner, .panel) :where(ul) {
+.mainCategory10 :where(.inner, .panel) :where(ul):where(:not(.gridItem *)) {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-:where(.mainCategory10) :where(.inner, .panel) :where(a) {
+:where(.mainCategory10) :where(.inner, .panel) :where(a):where(:not(.gridItem *)) {
   color: inherit;
   text-decoration: none;
 }
