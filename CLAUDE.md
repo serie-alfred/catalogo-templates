@@ -34,6 +34,7 @@ There is no test runner. Verification is `yarn funil` — the stages in [scripts
 - `GOOGLE_FONTS_API_KEY` — used by [src/app/gerador/api/fonts/route.ts](src/app/gerador/api/fonts/route.ts) to proxy the Google Fonts list.
 - `KV_REST_API_URL`, `KV_REST_API_TOKEN` — Vercel KV, used by [src/lib/previewStore.ts](src/lib/previewStore.ts) for the shareable preview. Without `KV_REST_API_URL` the store falls back to `.preview-store/` on disk (dev only).
 - `CRON_SECRET` — optional; when set, [/api/keep-alive](src/app/api/keep-alive/route.ts) requires `Authorization: Bearer <CRON_SECRET>` from the Vercel cron.
+- `BLOB_READ_WRITE_TOKEN` — o Vercel Blob das imagens do conteúdo do cliente ([src/lib/midiasStore.ts](src/lib/midiasStore.ts)); a Vercel cadastra sozinha ao ligar um Blob store ao projeto. Sem ela, em dev as imagens vão para `.preview-store/midias/`; em produção o envio responde 503 dizendo o que falta.
 - `ETEMAS_LOGIN_USER`, `ETEMAS_LOGIN_PASSWORD`, `ETEMAS_SESSION_SECRET` — o login da agência (ver **Login** abaixo). O segredo precisa de 32+ caracteres. **Em produção, sem as três o /gerador fica FECHADO** — cadastre antes de publicar.
 - `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP` — `1` põe a Nuvemshop no `/gerador` (ver **Nuvemshop** abaixo). **Não cadastre na Vercel** até a fase 6 do contrato da plataforma; é embutida no build.
 - Do site público: `COMERCIAIS` (rodízio do WhatsApp) e `NEXT_PUBLIC_GTM_ID`/`_GA4_ID`/`_META_PIXEL_ID` (ver **Site público**).
@@ -50,6 +51,7 @@ Só os nomes; os valores ficam com o time e **nunca** entram no repo (ele é pú
 | `KV_REST_API_URL` + `KV_REST_API_TOKEN` (ou `UPSTASH_REDIS_REST_URL` + `_TOKEN`) | preview, histórico de temas e o limite de tentativas do login | já cadastradas |
 | `GOOGLE_FONTS_API_KEY` | catálogo do Google Fonts no seletor | já cadastrada |
 | `CRON_SECRET` | fecha o `/api/keep-alive` para quem não é o cron | recomendada |
+| `BLOB_READ_WRITE_TOKEN` | imagens que o CS sobe no conteúdo do cliente (Vercel Blob; cadastrada ao ligar o Blob store ao projeto) | para o upload funcionar em produção |
 
 Depois de cadastrar, faça um novo deploy (variável nova não chega a um deploy antigo). Para conferir sem
 o painel: `/login` em produção diz "Acesso fechado" e lista os NOMES do que falta, nunca os valores.
@@ -249,8 +251,9 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
   (`campos.generated.json`, também do `yarn derivar:conteudo`: a `interface …Conteudo` de cada peça),
   com o valor de partida do mock (`conteudoPadrao`) e o nível 1 por cima, pelo mesmo
   `resolverConteudo`. O schema (744 KB) vem por import dinâmico. Campo mudado ganha "Voltar ao
-  padrão"; lista vem inteira a cada edição (adicionar, remover, duplicar, mover). Imagem por URL até o
-  upload (fase 1.2).
+  padrão"; lista vem inteira a cada edição (adicionar, remover, duplicar, mover). Imagem: "Enviar
+  imagem" (prepara no navegador — WebP, ≤ 2400 px, `src/utils/imagem.ts` — e sobe para
+  `/gerador/api/midias`, que confere os bytes e recusa SVG) ou cola a URL. Ver `BLOB_READ_WRITE_TOKEN`.
 - **Migrados**: a família 09 inteira (as 21 peças com schema), em `FAMILIAS_MIGRADAS` do
   `1-conteudo`. Nas peças de PLP/PDP o CMS só tem rótulos e opções: produto, categoria e contagem
   continuam os de exemplo até a fase de produtos.

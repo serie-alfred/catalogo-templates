@@ -39,6 +39,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@lottiefiles/dotlottie-react": "^0.14.4",
     "@vercel/analytics": "1.5.0",
+    "@vercel/blob": "^2.9.0",
     "@vercel/kv": "^3.0.0",
     "brace-expansion": "^2.1.7",
     "html2canvas-pro": "^2.4.0",

@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Copy, Plus, Trash2 } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { ChevronDown, ChevronUp, Copy, Plus, Trash2, Upload } from 'lucide-react';
 
+import { enviarImagem } from '@/services/midiaService';
 import type { CampoDoSchema, ValorDeConteudo } from '@/types/conteudo';
+import { larguraMaximaDoCampo } from '@/utils/imagem';
 
 import styles from './index.module.css';
 
@@ -125,29 +127,7 @@ export default function Campo({ chave, schema, valor, onChange, id }: CampoProps
 
     case 'imagem':
       return (
-        <div className={styles.campo} data-tipo={tipo}>
-          {cabecalho}
-          <div className={styles.imagem}>
-            {texto && IMAGEM_VALIDA.test(texto.trim()) ? (
-              <img className={styles.miniatura} src={texto} alt="" />
-            ) : (
-              <span className={styles.miniaturaVazia} aria-hidden="true" />
-            )}
-            <input
-              id={id}
-              className={styles.input}
-              type="text"
-              value={texto}
-              placeholder="https://… (URL da imagem)"
-              onChange={e => onChange(e.target.value)}
-            />
-          </div>
-          {texto && !IMAGEM_VALIDA.test(texto.trim()) ? (
-            <p className={styles.aviso}>A imagem precisa de uma URL https:// (ou /caminho).</p>
-          ) : (
-            <p className={styles.dica}>Por enquanto, cole a URL. O envio do arquivo chega na próxima etapa.</p>
-          )}
-        </div>
+        <CampoImagem chave={chave} schema={schema} valor={valor} onChange={onChange} id={id} cabecalho={cabecalho} />
       );
 
     case 'opcao':
@@ -232,6 +212,84 @@ export default function Campo({ chave, schema, valor, onChange, id }: CampoProps
     case 'lista':
       return <Lista chave={chave} schema={schema} valor={valor} onChange={onChange} id={id} />;
   }
+}
+
+/**
+ * Imagem: enviar um arquivo (preparado no navegador e subido para
+ * `/gerador/api/midias`) ou colar uma URL. A miniatura mostra o que está valendo.
+ */
+function CampoImagem({
+  chave,
+  valor,
+  onChange,
+  id,
+  cabecalho,
+}: CampoProps & { cabecalho: React.ReactNode }) {
+  const texto = typeof valor === 'string' ? valor : '';
+  const arquivoRef = useRef<HTMLInputElement>(null);
+  const [enviando, setEnviando] = useState(false);
+  const [erro, setErro] = useState('');
+
+  const aoEscolher = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const arquivo = e.target.files?.[0];
+    e.target.value = '';
+    if (!arquivo) return;
+    setErro('');
+    setEnviando(true);
+    try {
+      onChange(await enviarImagem(arquivo, larguraMaximaDoCampo(chave)));
+    } catch (falha) {
+      setErro(falha instanceof Error ? falha.message : 'Falha no envio.');
+    } finally {
+      setEnviando(false);
+    }
+  };
+
+  const urlValida = !!texto && IMAGEM_VALIDA.test(texto.trim());
+
+  return (
+    <div className={styles.campo} data-tipo="imagem">
+      {cabecalho}
+      <div className={styles.imagem}>
+        {urlValida ? (
+          <img className={styles.miniatura} src={texto} alt="" />
+        ) : (
+          <span className={styles.miniaturaVazia} aria-hidden="true" />
+        )}
+        <input
+          id={id}
+          className={styles.input}
+          type="text"
+          value={texto}
+          placeholder="https://… ou envie um arquivo"
+          onChange={ev => onChange(ev.target.value)}
+        />
+      </div>
+      <input
+        ref={arquivoRef}
+        type="file"
+        accept="image/png,image/jpeg,image/webp,image/gif,image/avif"
+        hidden
+        onChange={aoEscolher}
+        data-enviar-imagem={chave}
+      />
+      <button
+        type="button"
+        className={styles.enviar}
+        onClick={() => arquivoRef.current?.click()}
+        disabled={enviando}
+      >
+        <Upload size={14} /> {enviando ? 'Enviando…' : urlValida ? 'Trocar imagem' : 'Enviar imagem'}
+      </button>
+      {erro ? (
+        <p className={styles.aviso} role="alert">
+          {erro}
+        </p>
+      ) : texto && !urlValida ? (
+        <p className={styles.aviso}>A imagem precisa de uma URL https:// (ou /caminho).</p>
+      ) : null}
+    </div>
+  );
 }
 
 /** Lista do schema: itens recolhíveis, com subir, descer, duplicar e remover. */

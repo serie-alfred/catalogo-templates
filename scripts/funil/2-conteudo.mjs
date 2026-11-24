@@ -18,7 +18,9 @@
  *
  * Cobre a família 09 (migrada inteira); cresce com a migração.
  */
-import { BASE_URL, espera, itens, relatorio } from './lib/util.mjs';
+import path from 'node:path';
+
+import { BASE_URL, RAIZ, espera, itens, relatorio } from './lib/util.mjs';
 import { abrirBrowser, novaAba, semear } from './lib/editor.mjs';
 
 const r = relatorio('2-conteudo · o conteúdo do CS no canvas e no /p');
@@ -414,6 +416,61 @@ try {
       (await textoDoCanvas()).includes('MARCADOR-PAINEL-BENEFICIO') ? 'o item continua no canvas' : ''
     );
   }
+
+  // ── upload de imagem (dev: .preview-store/midias, servida por /api/midias) ─
+  await selecionar('Countdown09');
+  const arquivoDaImagem = '[data-campo-conteudo="imageDesktop"] input[data-enviar-imagem]';
+  const temUpload = await page.waitForSelector(arquivoDaImagem, { timeout: 8000 }).then(() => true).catch(() => false);
+  r.ok('upload: o campo de imagem do contador tem o envio de arquivo', temUpload);
+  if (temUpload) {
+    await (await page.$(arquivoDaImagem)).uploadFile(path.join(RAIZ, 'public/images/templates/09.webp'));
+    const url = await page
+      .waitForFunction(
+        () => {
+          const v = document.querySelector('[data-campo-conteudo="imageDesktop"] input[type="text"]')?.value ?? '';
+          return /^\/api\/midias\/[0-9a-f-]{36}\.webp$/.test(v) ? v : null;
+        },
+        { timeout: 20000, polling: 200 }
+      )
+      .then(h => h.jsonValue())
+      .catch(() => null);
+    r.ok('upload: o campo recebe a URL da imagem enviada (WebP)', url, String(url));
+    if (url) {
+      // A imagem do contador é `lazy`: rola a seção para a janela do iframe.
+      await page.evaluate(alvo => {
+        document
+          .querySelector('iframe')
+          .contentDocument.querySelector(`[data-section-uid="${alvo}"]`)
+          ?.scrollIntoView({ block: 'center' });
+      }, uidDe.Countdown09);
+      r.ok(
+        'upload: a imagem enviada aparece e carrega no canvas',
+        await esperarNoCanvas(alvo => {
+          const img = document
+            .querySelector('iframe')
+            .contentDocument.querySelector('[data-selection="countdown"] [data-role="cd-image"] img');
+          return img?.getAttribute('src') === alvo && img.complete && img.naturalWidth > 0;
+        }, url)
+      );
+      const resposta = await fetch(`${BASE_URL}${url}`);
+      r.ok(
+        'upload: /api/midias serve image/webp, público, com CORS',
+        resposta.status === 200 &&
+          resposta.headers.get('content-type') === 'image/webp' &&
+          resposta.headers.get('access-control-allow-origin') === '*',
+        `${resposta.status} ${resposta.headers.get('content-type')}`
+      );
+    }
+  }
+  // Pelo Node, não pela página: o 415 esperado viraria erro de console do editor.
+  const formSvg = new FormData();
+  formSvg.append(
+    'arquivo',
+    new Blob(['<svg xmlns="http://www.w3.org/2000/svg"><script>alert(1)</script></svg>'], { type: 'image/svg+xml' }),
+    'x.svg'
+  );
+  const svg = (await fetch(`${BASE_URL}/gerador/api/midias`, { method: 'POST', body: formSvg })).status;
+  r.ok('upload: o servidor recusa SVG (confere os bytes, não o tipo declarado)', svg === 415, `HTTP ${svg}`);
 
   r.ok('o editor sem erro de página', erros.length === 0, erros.join(' | '));
 } finally {
