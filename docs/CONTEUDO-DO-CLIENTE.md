@@ -20,7 +20,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ a fazer · ⛔ espera uma ação 
 | 0.4 | Família 09: as 21 peças com schema lendo pelo hook e expondo o mock (`conteudoPadrao`) | Claude | ✅ |
 | 0.5 | A 09 em `FAMILIAS_MIGRADAS` (trava de regressão) e o `2-conteudo` cobrindo home, categoria e produto | Claude | ✅ |
 | 0.6 | Achado: aviso de hidratação de `useId` no `/p` (CategoryDescription09, ProductInfo09), intermitente, **já existe na `main`** sem conteúdo (3/6 cargas da categoria). Não é desta branch | Matheus decide: corrigir à parte ou depois | ⛔ |
-| 1.1 | Aba **Conteúdo** no painel da direita (texto, textarea, lista, booleano, número, opção, link), ao lado de **Estilo** | Claude | 🔄 |
+| 1.1 | Aba **Conteúdo** no painel da direita (texto, textarea, lista, booleano, número, opção, link, imagem por URL), ao lado de **Estilo** | Claude | ✅ |
 | 1.2 | Upload de imagem com fallback local em dev (sem precisar do Blob) | Claude | ⏳ |
 | 1.3 | Upload em produção pelo Vercel Blob (`@vercel/blob`) | Claude | ⛔ 1.4 |
 | 1.4 | Confirmar a conta da Vercel no **Pro** e criar um **Blob store** ligado ao projeto (Storage → Blob; a Vercel cadastra o `BLOB_READ_WRITE_TOKEN`) | Matheus | ⛔ |
@@ -41,7 +41,7 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ a fazer · ⛔ espera uma ação 
 
 | Marco | O que você testa | Onde | Depende de |
 | --- | --- | --- | --- |
-| T1 | Editar textos e listas da família 09 na aba Conteúdo, ver no canvas e no `/p` | dev do worktree (5514) | 0.5 + 1.1 |
+| T1 | Editar textos e listas da família 09 na aba Conteúdo, ver no canvas e no `/p` (imagem só por URL) | dev do worktree (5514) | ✅ **pronto** |
 | T2 | Subir imagens (banner, categoria, marca) na família 09 | dev do worktree (5514) | 1.2 |
 | T3 | O mesmo em produção (deploy de preview da branch) | Vercel | 1.3 + 1.4 + push |
 | T4 | Todas as famílias editáveis | dev do worktree (5514) | 1.5 + 2.4 |

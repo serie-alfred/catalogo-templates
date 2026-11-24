@@ -15,17 +15,69 @@
  * Um checkout do starter em outro lugar (worktree, clone na ponta do origin)
  * entra por `DERIVAR_STARTER`, a raiz do repo, como no `derivar:css`. O estágio
  * `1-conteudo` do funil importa `derivarConteudo` e compara com o arquivo.
+ *
+ * Grava também `src/data/conteudo/campos.generated.json`: para cada peça que já lê
+ * pelo `useConteudoDaSecao`, os campos da `interface …Conteudo` dela — o que a
+ * réplica DESENHA. É a lista que o painel Conteúdo mostra (o conteúdo é só preview:
+ * campo sem efeito na tela não entra). Sai da réplica, não do starter, e o
+ * `1-conteudo` reprova o arquivo desatualizado.
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 
-import { FASTSTORE_STARTER, RAIZ, itens } from './funil/lib/util.mjs';
+import { FASTSTORE_STARTER, RAIZ, itens, ler } from './funil/lib/util.mjs';
 
 export const ARQUIVO_SCHEMAS = path.join(
   RAIZ,
   'src/data/conteudo/schemas.generated.json'
 );
+export const ARQUIVO_CAMPOS = path.join(RAIZ, 'src/data/conteudo/campos.generated.json');
+
+/** Componente → arquivo da réplica, pelas linhas de import do TemplateRegistry. */
+export function arquivosDasReplicas() {
+  return new Map(
+    [
+      ...ler(path.join(RAIZ, 'src/utils/templateRegistry.ts')).matchAll(
+        /^import\s+(\w+)\s+from\s+'@\/components\/templates\/([^']+)';/gm
+      ),
+    ].map(([, nome, rel]) => [nome, path.join(RAIZ, 'src/components/templates', rel, 'index.tsx')])
+  );
+}
+
+/** Campos de primeiro nível da `interface …Conteudo` do arquivo (sem os aninhados). */
+export function camposDoTipo(fonte) {
+  const semComentario = fonte.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
+  const inicio = /interface\s+\w*Conteudo\s*\{/.exec(semComentario);
+  if (!inicio) return null;
+  let profundidade = 0;
+  let topo = '';
+  for (let i = inicio.index + inicio[0].length; i < semComentario.length; i++) {
+    const ch = semComentario[i];
+    if ('{(['.includes(ch)) profundidade++;
+    else if ('})]'.includes(ch)) {
+      if (profundidade === 0) break;
+      profundidade--;
+    } else if (profundidade === 0) topo += ch;
+  }
+  return [...topo.matchAll(/(\w+)\??\s*:/g)].map(m => m[1]);
+}
+
+/** O conteúdo de campos.generated.json: peça migrada → campos que ela desenha. */
+export function derivarCampos() {
+  const componentes = {};
+  for (const [nome, arquivo] of [...arquivosDasReplicas()].sort(([a], [b]) => a.localeCompare(b))) {
+    const fonte = ler(arquivo);
+    if (!fonte.includes('useConteudoDaSecao(')) continue;
+    const campos = camposDoTipo(fonte);
+    if (campos) componentes[nome] = campos;
+  }
+  return {
+    $gerado:
+      'yarn derivar:conteudo, da interface …Conteudo de cada réplica que lê pelo useConteudoDaSecao. Não edite à mão.',
+    componentes,
+  };
+}
 
 /** As chaves de JSON Schema que os manifests usam (levantadas em 23/11/2026). */
 const CHAVES = [
@@ -121,5 +173,11 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   console.log(
     `${Object.keys(dados.componentes).length} componentes com schema (${campos} campos), ` +
       `${dados.semSchema.length} sem → ${path.relative(RAIZ, ARQUIVO_SCHEMAS)}`
+  );
+
+  const desenhados = derivarCampos();
+  fs.writeFileSync(ARQUIVO_CAMPOS, serializar(desenhados));
+  console.log(
+    `${Object.keys(desenhados.componentes).length} peças leem pelo hook → ${path.relative(RAIZ, ARQUIVO_CAMPOS)}`
   );
 }

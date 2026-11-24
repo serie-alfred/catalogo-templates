@@ -30,10 +30,13 @@ const doCatalogo = componente => {
   return item;
 };
 let uid = 0;
+/** uid de cada seção semeada, pelo componente (o teste do painel seleciona por ele). */
+const uidDe = {};
 const secao = (componente, content) => {
   const item = doCatalogo(componente);
+  uidDe[componente] = `conteudo-${++uid}`;
   return {
-    uid: `conteudo-${++uid}`,
+    uid: uidDe[componente],
     id: item.id,
     layoutKey: item.layoutKey,
     pagina: item.pagina[0],
@@ -312,6 +315,103 @@ try {
       'o ?rev=1 devolve só a revisão',
       typeof rev.rev === 'number' && rev.rev > 0 && Object.keys(rev).length === 1,
       JSON.stringify(rev)
+    );
+  }
+
+  // ── a aba Conteúdo do painel da direita ─────────────────────────────────
+  // A aba do /p ficou na frente: em segundo plano o headless não pinta quadros,
+  // e o `click` do puppeteer (que espera um quadro para rolar até o alvo) trava.
+  await page.bringToFront();
+  const textoDoCanvas = () =>
+    page.evaluate(() => document.querySelector('iframe').contentDocument.body.innerText);
+  const esperarNoCanvas = (fn, ...args) =>
+    page
+      .waitForFunction(fn, { timeout: 8000, polling: 150 }, ...args)
+      .then(() => true)
+      .catch(() => false);
+  const selecionar = async componente => {
+    const frame = await (await page.$('iframe')).contentFrame();
+    await frame.click(`[data-section-uid="${uidDe[componente]}"]`);
+    await espera(400);
+  };
+
+  // O balão do link do Pré-visualizar abre sobre o topo da coluna da direita, onde
+  // ficam as abas: fecha (Esc e clique no rail) antes de clicar.
+  await page.keyboard.press('Escape');
+  await page.mouse.click(20, 400);
+  await page.click('[data-aba-direita="conteudo"]');
+  r.ok(
+    'painel: a aba Conteúdo fica selecionada',
+    await page
+      .waitForSelector('[data-aba-direita="conteudo"][aria-selected="true"]', { timeout: 5000 })
+      .then(() => true)
+      .catch(() => false)
+  );
+  // O pop-up da 09 nasce aberto e cobre o canvas inteiro: o clique na vitrine
+  // cairia nele. O "Agora não" fecha (o handler do template roda no canvas).
+  const canvas = await (await page.$('iframe')).contentFrame();
+  await canvas.click('[data-role="pn-dismiss"]').catch(() => {});
+  await espera(300);
+  await selecionar('Showcase09');
+  const campoTitulo = '[data-campo-conteudo="title"] input';
+  const temCampo = await page.waitForSelector(campoTitulo, { timeout: 15000 }).then(() => true).catch(() => false);
+  const oQuePainelMostra = () =>
+    page
+      .$eval('#painel-direito-corpo', el => el.innerText.replace(/\s+/g, ' ').slice(0, 160))
+      .catch(e => `sem painel (${e.message})`);
+  r.ok('painel: a aba Conteúdo mostra os campos da vitrine selecionada', temCampo, temCampo ? '' : await oQuePainelMostra());
+  if (temCampo) {
+    r.ok(
+      'painel: o campo parte do valor da seção',
+      (await page.$eval(campoTitulo, el => el.value)) === 'MARCADOR-SC-TITULO'
+    );
+    await page.click(campoTitulo, { clickCount: 3 });
+    await page.type(campoTitulo, 'MARCADOR-PAINEL-TITULO');
+    r.ok(
+      'painel: digitar no campo muda o canvas',
+      await esperarNoCanvas(() =>
+        document.querySelector('iframe').contentDocument.body.innerText.includes('MARCADOR-PAINEL-TITULO')
+      )
+    );
+    await page.click('[data-campo-conteudo="title"] button');
+    r.ok(
+      'painel: "Voltar ao padrão" devolve o título do mock',
+      await esperarNoCanvas(() => {
+        const t = document.querySelector('iframe').contentDocument.body.innerText;
+        return t.includes('Mais') && !t.includes('MARCADOR-PAINEL-TITULO') && !t.includes('MARCADOR-SC-TITULO');
+      })
+    );
+  }
+
+  await selecionar('Ruler09');
+  const adicionar = '[data-campo-conteudo="benefits"] button[class*="adicionar"]';
+  const temLista = await page.waitForSelector(adicionar, { timeout: 8000 }).then(() => true).catch(() => false);
+  r.ok('painel: a régua mostra a lista de benefícios', temLista);
+  if (temLista) {
+    const itens = () =>
+      page.evaluate(
+        () => document.querySelector('iframe').contentDocument.querySelectorAll('[data-selection="ruler"] [data-role="rl-item"]').length
+      );
+    await page.click(adicionar);
+    await page.type('[data-campo-conteudo="benefits"] input[id$="-title"]', 'MARCADOR-PAINEL-BENEFICIO');
+    r.ok(
+      'painel: adicionar um item na lista aparece no canvas',
+      await esperarNoCanvas(() =>
+        document.querySelector('iframe').contentDocument.body.innerText.includes('MARCADOR-PAINEL-BENEFICIO')
+      ),
+      `${await itens()} itens`
+    );
+    // Desfazer: o foco sai do campo (fecha a entrada do histórico) e Ctrl+Z volta um passo.
+    await page.click('[data-aba-direita="conteudo"]');
+    await page.keyboard.down('Control');
+    await page.keyboard.press('z');
+    await page.keyboard.up('Control');
+    r.ok(
+      'painel: Ctrl+Z desfaz o item adicionado',
+      await esperarNoCanvas(
+        () => !document.querySelector('iframe').contentDocument.body.innerText.includes('MARCADOR-PAINEL-BENEFICIO')
+      ),
+      (await textoDoCanvas()).includes('MARCADOR-PAINEL-BENEFICIO') ? 'o item continua no canvas' : ''
     );
   }
 

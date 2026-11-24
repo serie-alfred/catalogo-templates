@@ -24,7 +24,15 @@ import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 
 import { FASTSTORE_STARTER, RAIZ, itens, ler, relatorio } from './lib/util.mjs';
-import { ARQUIVO_SCHEMAS, derivarConteudo, serializar } from '../derivar-conteudo.mjs';
+import {
+  ARQUIVO_CAMPOS,
+  ARQUIVO_SCHEMAS,
+  arquivosDasReplicas,
+  camposDoTipo,
+  derivarCampos,
+  derivarConteudo,
+  serializar,
+} from '../derivar-conteudo.mjs';
 
 /** Famílias cuja migração terminou: todo componente com schema lê pelo hook. */
 const FAMILIAS_MIGRADAS = ['9'];
@@ -47,6 +55,11 @@ if (fs.existsSync(path.join(starter, 'src/components'))) {
 } else {
   console.log('  ⏳ schema não conferido contra o starter: sem faststore.starter ao lado');
 }
+r.ok(
+  'campos.generated.json é o das réplicas de agora (yarn derivar:conteudo sem diff)',
+  ler(ARQUIVO_CAMPOS).replace(/\r\n/g, '\n') === serializar(derivarCampos()),
+  'uma réplica mudou o tipo …Conteudo ou passou a ler pelo hook: rode yarn derivar:conteudo'
+);
 
 // ── 2. regras do resolvedor e do sanitizador ───────────────────────────────
 const TESTE = `
@@ -97,33 +110,10 @@ try {
 }
 
 // ── 3. quem lê pelo hook tem schema, e os campos do tipo existem nele ──────
-/** Componente → arquivo, pelas linhas de import do TemplateRegistry. */
-const arquivoDe = new Map(
-  [...ler(path.join(RAIZ, 'src/utils/templateRegistry.ts')).matchAll(
-    /^import\s+(\w+)\s+from\s+'@\/components\/templates\/([^']+)';/gm
-  )].map(([, nome, rel]) => [nome, path.join(RAIZ, 'src/components/templates', rel, 'index.tsx')])
-);
-
-/** Campos de primeiro nível da `interface …Conteudo` do arquivo (sem os aninhados). */
-function camposDoTipo(fonte) {
-  const semComentario = fonte.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
-  const inicio = /interface\s+\w*Conteudo\s*\{/.exec(semComentario);
-  if (!inicio) return null;
-  let profundidade = 0;
-  let topo = '';
-  for (let i = inicio.index + inicio[0].length; i < semComentario.length; i++) {
-    const ch = semComentario[i];
-    if ('{(['.includes(ch)) profundidade++;
-    else if ('})]'.includes(ch)) {
-      if (profundidade === 0) break;
-      profundidade--;
-    } else if (profundidade === 0) topo += ch;
-  }
-  return [...topo.matchAll(/(\w+)\??\s*:/g)].map(m => m[1]);
-}
-
+// O parser e o mapa componente → arquivo são os do `derivar-conteudo.mjs`: a
+// mesma leitura que gera o campos.generated.json do painel.
 const migrados = new Set();
-for (const [nome, arquivo] of arquivoDe) {
+for (const [nome, arquivo] of arquivosDasReplicas()) {
   const fonte = ler(arquivo);
   if (!fonte.includes('useConteudoDaSecao(')) continue;
   migrados.add(nome);

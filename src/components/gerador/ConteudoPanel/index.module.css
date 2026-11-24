@@ -1,0 +1,301 @@
+/* A aba Conteúdo do painel da direita. Mesmos tokens e medidas do painel de
+   variáveis (ComponentVariablesPanel): caixas com borda inset, 16px de respiro,
+   rótulo 14/600. */
+
+.painel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.vazio {
+  margin: 0;
+  padding: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ed-gray-400);
+}
+
+.campos {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Um campo de primeiro nível: a caixa com borda, como os grupos de variáveis. */
+.campoDaSecao {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  box-shadow: inset 0 0 0 1px var(--ed-gray-000);
+}
+
+/* Campo que o CS mudou: um filete azul à esquerda, sem mexer na caixa. */
+.personalizado {
+  box-shadow:
+    inset 0 0 0 1px var(--ed-gray-000),
+    inset 3px 0 0 var(--ed-blue-ink);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.campoLinha {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.rotulo {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ed-gray-800);
+}
+
+/* A caixa do LpNameField/SelectPage: borda inset, raio 12. */
+.input {
+  width: 100%;
+  min-width: 0;
+  padding: 9px 12px;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px var(--ed-gray-000);
+  background: var(--ed-bg-00);
+  font: inherit;
+  font-size: 14px;
+  color: var(--ed-gray-800);
+  outline: none;
+}
+
+.input:focus {
+  box-shadow: inset 0 0 0 1px var(--ed-blue-ink);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 72px;
+  line-height: 1.45;
+}
+
+.check {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--ed-blue-ink);
+}
+
+.dica,
+.aviso {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.dica {
+  color: var(--ed-gray-400);
+}
+
+.aviso {
+  color: #b42318;
+}
+
+.imagem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.miniatura,
+.miniaturaVazia {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: var(--ed-bg-01);
+  box-shadow: inset 0 0 0 1px var(--ed-gray-000);
+}
+
+.grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 12px;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px var(--ed-gray-000);
+}
+
+.grupo > legend {
+  padding: 0 4px;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.listaTopo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contagem {
+  min-width: 22px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--ed-bg-01);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--ed-gray-600);
+}
+
+.itens {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  border-radius: 12px;
+  box-shadow: inset 0 0 0 1px var(--ed-gray-000);
+  background: var(--ed-bg-00);
+}
+
+.itemTopo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 4px 4px 0;
+}
+
+.itemTitulo {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  padding: 6px 10px;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ed-gray-800);
+  cursor: pointer;
+}
+
+.itemAcoes {
+  display: flex;
+  flex: none;
+}
+
+.itemAcoes button {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--ed-gray-600);
+  cursor: pointer;
+}
+
+.itemAcoes button:hover:not(:disabled) {
+  background: var(--ed-bg-01);
+}
+
+.itemAcoes button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.itemCampos {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 4px 12px 12px;
+}
+
+.adicionar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px dashed var(--ed-bg-02);
+  border-radius: 12px;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ed-gray-600);
+  cursor: pointer;
+}
+
+.adicionar:hover:not(:disabled) {
+  background: var(--ed-bg-01);
+}
+
+.adicionar:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.voltar {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ed-blue-ink);
+  cursor: pointer;
+}
+
+.voltar:hover {
+  text-decoration: underline;
+}
+
+.rodape {
+  padding: 16px;
+}
+
+/* O "Restaurar padrão" do painel de variáveis. */
+.restaurar {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--ed-bg-02);
+  border-radius: 12px;
+  background: var(--ed-bg-00);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ed-gray-600);
+  cursor: pointer;
+}
+
+.restaurar:hover:not(:disabled) {
+  background: var(--ed-bg-01);
+}
+
+.restaurar:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

@@ -242,6 +242,15 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
 - O contexto da seção (`SecaoConteudoContext`, [src/context/ConteudoContext.tsx](src/context/ConteudoContext.tsx))
   é posto pelo `ThemeRenderer`, fora do `LayoutContext` — não depende do cast do
   `SeededLayoutProvider`. O memo da seção compara `content` por referência.
+- **Painel** ([ConteudoPanel](src/components/gerador/ConteudoPanel/index.tsx)): a aba **Conteúdo** do
+  painel da direita, ao lado de **Estilo** (as variáveis; `EditorRightPanel`, `[data-aba-direita]`).
+  Abre em Estilo — o painel de sempre, que os estágios do funil esperam — e a escolha fica no
+  `localStorage` (`painelDireitoAba`). Mostra os campos do schema que a réplica desenha
+  (`campos.generated.json`, também do `yarn derivar:conteudo`: a `interface …Conteudo` de cada peça),
+  com o valor de partida do mock (`conteudoPadrao`) e o nível 1 por cima, pelo mesmo
+  `resolverConteudo`. O schema (744 KB) vem por import dinâmico. Campo mudado ganha "Voltar ao
+  padrão"; lista vem inteira a cada edição (adicionar, remover, duplicar, mover). Imagem por URL até o
+  upload (fase 1.2).
 - **Migrados**: a família 09 inteira (as 21 peças com schema), em `FAMILIAS_MIGRADAS` do
   `1-conteudo`. Nas peças de PLP/PDP o CMS só tem rótulos e opções: produto, categoria e contagem
   continuam os de exemplo até a fase de produtos.

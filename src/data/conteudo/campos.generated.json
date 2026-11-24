@@ -1,0 +1,212 @@
+{
+  "$gerado": "yarn derivar:conteudo, da interface …Conteudo de cada réplica que lê pelo useConteudoDaSecao. Não edite à mão.",
+  "componentes": {
+    "BannerGrid09": [
+      "eyebrow",
+      "note",
+      "banners"
+    ],
+    "BannerMain09": [
+      "slides"
+    ],
+    "Brand09": [
+      "eyebrow",
+      "viewAllLabel",
+      "viewAllUrl",
+      "brands"
+    ],
+    "Categories09": [
+      "title",
+      "titleEmphasis",
+      "viewAllLabel",
+      "viewAllUrl",
+      "itemLinkLabel",
+      "categories"
+    ],
+    "CategoryDescription09": [
+      "titlePrefix",
+      "faqTitle",
+      "readMoreLabel",
+      "readLessLabel"
+    ],
+    "CategoryMain09": [
+      "countLabel",
+      "filterLabel",
+      "sortLabel",
+      "sortPrefix",
+      "clearLabel",
+      "clearAllLabel",
+      "applyLabel",
+      "resultsLabel",
+      "progressLabel",
+      "loadMoreLabel",
+      "emptyEyebrow",
+      "emptyTitle",
+      "emptyText",
+      "emptyPrimaryLabel",
+      "emptyPrimaryUrl",
+      "emptySecondaryLabel",
+      "emptySecondaryUrl"
+    ],
+    "CategoryTitle09": [
+      "allLabel"
+    ],
+    "ClientReview09": [
+      "eyebrow",
+      "reviews"
+    ],
+    "Countdown09": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "text",
+      "endDate",
+      "ctaLabel",
+      "ctaUrl",
+      "daysLabel",
+      "hoursLabel",
+      "minutesLabel",
+      "secondsLabel",
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt"
+    ],
+    "Editorial09": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "text",
+      "ctaLabel",
+      "url",
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt",
+      "posts"
+    ],
+    "Footer09": [
+      "columns",
+      "contactTitle",
+      "contactLines",
+      "contactHours",
+      "socials",
+      "brandName",
+      "brandUrl",
+      "payments",
+      "legal"
+    ],
+    "Header09": [
+      "topbarMessages",
+      "logo",
+      "logoAlt",
+      "brandName",
+      "searchPlaceholder",
+      "accountLabel",
+      "accountMobileLabel",
+      "wishlistLabel",
+      "wishlistUrl",
+      "cartLabel",
+      "helpLabel",
+      "helpUrl",
+      "menu",
+      "viewAllLabel"
+    ],
+    "HelpFloat09": [
+      "buttonLabel",
+      "title",
+      "titleEmphasis",
+      "helpItems",
+      "footerText"
+    ],
+    "Newsletter09": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "text",
+      "namePlaceholder",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl"
+    ],
+    "PopupNews09": [
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt",
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "text",
+      "coupon",
+      "namePlaceholder",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "dismissLabel",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl"
+    ],
+    "ProductDescription09": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "specsLabel",
+      "hiddenSpecs"
+    ],
+    "ProductInfo09": [
+      "newLabel",
+      "refLabel",
+      "colorLabel",
+      "sizeLabel",
+      "sizeGuideLabel",
+      "soldOutText",
+      "notifyLabel",
+      "notifyNamePlaceholder",
+      "notifyEmailPlaceholder",
+      "notifySubmitLabel",
+      "notifySuccess",
+      "buyLabel",
+      "shippingLabel",
+      "cepPlaceholder",
+      "cepButtonLabel",
+      "cepHelpLabel",
+      "cepHelpUrl",
+      "accordions"
+    ],
+    "ProductReviews09": [
+      "title",
+      "countLabel",
+      "starSingular",
+      "starPlural",
+      "writeLabel",
+      "moreLabel",
+      "pageSize",
+      "pageSizeMobile",
+      "formRatingLabel",
+      "formTitleLabel",
+      "formTextLabel",
+      "formNameLabel",
+      "formSubmitLabel",
+      "formSuccess"
+    ],
+    "Ruler09": [
+      "benefits"
+    ],
+    "ShelfBanner09": [
+      "title",
+      "titleEmphasis",
+      "tagLabel",
+      "banner"
+    ],
+    "Showcase09": [
+      "title",
+      "titleEmphasis",
+      "subtitle",
+      "viewAllLabel",
+      "viewAllUrl",
+      "tagLabel"
+    ]
+  }
+}

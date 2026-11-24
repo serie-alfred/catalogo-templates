@@ -12,6 +12,7 @@
 import puppeteer from 'puppeteer-core';
 import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
 
 import { irParaRail } from './lib/editor.mjs';
 import { arvore, caminho, filhos } from './lib/geometria.mjs';
@@ -178,7 +179,9 @@ const DESVIOS_DO_REDESIGN = {
   painelDir: { h: -64, w: -156, x: 156, y: 64 },
   'painelDir.grupo1': { w: -156, x: 156 },
   'painelDir.grupo1.titulo': { w: -140, x: 148 },
-  'painelDir.grupo1.rotulo': { x: 148, y: -8 },
+  // y: -8 do redesign + 54 da barra de abas Conteúdo | Estilo (24/11/2026: margem 12 +
+  // padding 4 + aba 34 + padding 4), que fica acima do 1º grupo e o Figma não desenha.
+  'painelDir.grupo1.rotulo': { x: 148, y: 46 },
   'painelDir.grupo1.swatch': { x: 148 },
   'painelDir.grupo1.hex': { x: 148 },
   // ── destino Variáveis globais ──
@@ -231,7 +234,8 @@ const DESVIOS_DO_REDESIGN = {
 };
 
 const CHROME = findChrome();
-const FIG = new URL('./figma/', import.meta.url).pathname;
+// fileURLToPath, não .pathname: no Windows o .pathname dá C:\C:\…%20… (ver lib/util.mjs).
+const FIG = fileURLToPath(new URL('./figma/', import.meta.url));
 const load = f => JSON.parse(readFileSync(`${FIG}${f}.json`, 'utf8'));
 const find = (rows, name, nth = 0) => rows.filter(r2 => r2.name === name)[nth];
 
@@ -1152,14 +1156,14 @@ r.ok(
 // despercebido porque tinha fallback inline: a tela ficava com uma cor
 // plausível que ninguém escolheu.
 const tokensCss = readFileSync(
-  new URL('../../src/styles/editor-tokens.css', import.meta.url).pathname,
+  fileURLToPath(new URL('../../src/styles/editor-tokens.css', import.meta.url)),
   'utf8'
 );
 const definidos = new Set(
   [...tokensCss.matchAll(/^\s*(--ed-[a-z0-9-]+)\s*:/gm)].map(m => m[1])
 );
 const fonte = execSync("grep -rhoE 'var\\(--ed-[a-z0-9-]+' src/ || true", {
-  cwd: new URL('../../', import.meta.url).pathname,
+  cwd: fileURLToPath(new URL('../../', import.meta.url)),
   encoding: 'utf8',
 });
 const usados = new Set(
@@ -1173,7 +1177,7 @@ r.ok(
 );
 const comFallback = execSync(
   "grep -rhoE 'var\\(--ed-[a-z0-9-]+,' src/ || true",
-  { cwd: new URL('../../', import.meta.url).pathname, encoding: 'utf8' }
+  { cwd: fileURLToPath(new URL('../../', import.meta.url)), encoding: 'utf8' }
 ).trim();
 r.ok(
   'nenhum var(--ed-*) com fallback inline',
