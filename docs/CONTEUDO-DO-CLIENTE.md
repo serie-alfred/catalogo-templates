@@ -5,49 +5,51 @@ o que já está no código está resumido em **Conteúdo do cliente** no [CLAUDE
 
 ## Andamento
 
-Branch `feat/conteudo-do-cliente`, desenvolvida no worktree `../catalogo-templates-conteudo` (a pasta
-`catalogo-templates` continua na `main`). Dev do worktree: `yarn next dev -p 5514` → http://localhost:5514.
+Branch , desenvolvida no worktree  (a pasta
+ continua na ). Dev do worktree: yarn run v1.22.22
+$ "C:UsersMathues SilvaDocumentsProjetosProdutoscatalogo-templates-conteudo
+ode_modules.bin
+ext" dev -p 5514[?25h
+Done in 2.85s. → http://localhost:5514.
+Imagens em produção: **Vercel Blob no plano Pro** (decidido em 24/11/2026).
+
+**Feito:** base do conteúdo em 3 níveis,  leve, funil /, família 09 inteira
+editável (21 peças), aba **Conteúdo** no painel da direita, upload de imagem (dev local; produção no Blob).
 
 Legenda: ✅ feito · 🔄 em andamento · ⏳ a fazer · ⛔ espera uma ação do Matheus.
 
-### O que é de quem
+### O que falta, por quê e de quem
 
-| # | Item | Quem | Status |
-| --- | --- | --- | --- |
-| 0.1 | Base: tipos, `resolverConteudo`, `useConteudoDaSecao`, `content` na seção, sanitização, `derivar:conteudo` | Claude | ✅ |
-| 0.2 | `?rev=1` do preview lendo só a revisão (chave própria no KV) | Claude | ✅ |
-| 0.3 | Funil `1-conteudo` e `2-conteudo` | Claude | ✅ |
-| 0.4 | Família 09: as 21 peças com schema lendo pelo hook e expondo o mock (`conteudoPadrao`) | Claude | ✅ |
-| 0.5 | A 09 em `FAMILIAS_MIGRADAS` (trava de regressão) e o `2-conteudo` cobrindo home, categoria e produto | Claude | ✅ |
-| 0.6 | Achado: aviso de hidratação de `useId` no `/p` (CategoryDescription09, ProductInfo09), intermitente, **já existe na `main`** sem conteúdo (3/6 cargas da categoria). Não é desta branch | Matheus decide: corrigir à parte ou depois | ⛔ |
-| 1.1 | Aba **Conteúdo** no painel da direita (texto, textarea, lista, booleano, número, opção, link, imagem por URL), ao lado de **Estilo** | Claude | ✅ |
-| 1.2 | Upload de imagem: preparada no navegador (WebP, ≤ 2400 px), gravada em `.preview-store/midias/` no dev, SVG recusado pelos bytes | Claude | ✅ |
-| 1.3 | Upload em produção pelo Vercel Blob (`@vercel/blob`): código pronto, só falta o Blob store para testar | Claude | ⛔ 1.4 |
-| 1.4 | Confirmar a conta da Vercel no **Pro** e criar um **Blob store** ligado ao projeto (Storage → Blob; a Vercel cadastra o `BLOB_READ_WRITE_TOKEN`) | Matheus | ⛔ |
-| 1.5 | Migrar as famílias 10–17 (~190 peças) | Claude | ⏳ |
-| 1.6 | Decidir se a 1.5 vai com agentes Sonnet, uma família por agente (mais rápido, custa tokens) ou à mão, em sequência | Matheus | ⛔ |
-| 2.1 | Conteúdo da loja (menus, avisos, contato, redes, banners, categorias) com fallback em arquivo no dev | Claude | ⏳ |
-| 2.2 | Mergear o `feat/login-supabase` (traz o projeto e o cliente do Supabase) | Matheus | ⛔ |
-| 2.3 | Rodar a migração SQL do conteúdo no SQL Editor do Supabase (eu entrego o arquivo) | Matheus | ⛔ 2.1 |
-| 2.4 | Migrar as famílias 01–08 (~100 peças, renomeando campos para os do starter) | Claude | ⏳ |
-| 3.1 | Produtos: manual, a partir dos exemplos, planilha CSV/XLSX, coleções nas vitrines, cards/PLP/PDP com o produto | Claude | ⏳ |
-| 3.2 | Uma planilha real (ou de exemplo) de produtos de um cliente, para o teste | Matheus | ⏳ |
-| 4.1 | Importar produtos da loja atual pela URL | Claude | ⏳ |
-| 4.2 | Duas ou três URLs de lojas de clientes (VTEX, Shopify, Nuvemshop…) para o teste | Matheus | ⏳ |
-| 5.1 | Arquivamento em 3 meses, limpeza de imagens sem uso, backup noturno, uso do banco no painel | Claude | ⏳ |
-| — | Revisar a branch, decidir push/PR e o merge na `main` | Matheus | a cada marco |
+| # | O que falta | Por quê | Quem | Status |
+| --- | --- | --- | --- | --- |
+| 1.4 | Assinar o **Vercel Pro**, criar um **Blob store** e ligá-lo ao projeto (Storage → Blob → Connect, ambientes Production e Preview); a Vercel cadastra o  | Uso comercial pede o Pro pelos termos; sem o store o upload em produção responde 503 | Matheus | ⛔ |
+| 1.7 | Autorizar o **push** da branch (a Vercel gera um deploy de preview só dela, sem tocar a produção) | Nada saiu da máquina até agora: o upload real e o T3 só existem num deploy | Matheus | ⛔ |
+| 1.3 | Conferir o upload no deploy de preview (Blob, CORS no PNG do export) e ajustar | O código do Blob está pronto, mas só roda com o token | Claude | ⛔ 1.4 + 1.7 |
+| 1.6 | Decidir como migrar as famílias 10–17: agentes Sonnet em paralelo (uma família por agente; mais rápido, mais tokens) ou em sequência | É trabalho mecânico e repetitivo (~190 peças); muda o prazo e o custo | Matheus | ⛔ |
+| 1.5 | Migrar as famílias 10–17 | Hoje só a 09 é editável; o CS precisa de qualquer template | Claude | ⏳ 1.6 |
+| 2.1 | **Conteúdo da loja**: menus, avisos, contato, redes, dados legais, banners, categorias — preenchidos uma vez e ligados às peças (vínculos) | Hoje cada seção guarda o próprio conteúdo: trocar de template perde o menu; o cliente tem UM menu | Claude | 🔄 próximo |
+| 2.2 | Mergear o  | O conteúdo da loja e os produtos ficam no Supabase do login; sem ele só funcionam no dev (arquivo local) | Matheus | ⛔ |
+| 2.3 | Rodar a migração SQL do conteúdo no SQL Editor do Supabase (eu entrego o arquivo, no padrão da ) | Cria as tabelas; o código não cria tabela sozinho | Matheus | ⛔ 2.1 |
+| 2.4 | Migrar as famílias 01–08 (~100 peças) | Nelas os nomes de campo são os da Tray, não os do starter: é peça a peça | Claude | ⏳ |
+| 3.1 | Produtos: cadastro manual, a partir dos exemplos, planilha CSV/XLSX, coleções nas vitrines; cards, PLP e PDP com o produto do cliente | Hoje vitrines e PDP mostram os produtos de exemplo | Claude | ⏳ |
+| 3.2 | Uma planilha de produtos de um cliente (real ou de exemplo) | Testar com dados de verdade (nomes longos, fotos, preços) | Matheus | ⏳ |
+| 4.1 | Importar produtos pela URL da loja atual do cliente | O mais rápido para quem está migrando de plataforma | Claude | ⏳ |
+| 4.2 | Duas ou três URLs de lojas de clientes (VTEX, Shopify, Nuvemshop…) | Cada plataforma expõe os produtos de um jeito | Matheus | ⏳ |
+| 5.1 | Arquivamento em 3 meses, limpeza de imagens sem uso, backup noturno, uso do banco no painel | Manter o Supabase Free e o Blob enxutos sem quebrar links de cliente | Claude | ⏳ |
+| 0.6 | Decidir o aviso de hidratação de  no  (CategoryDescription09, ProductInfo09) | Já existe na , intermitente (3/6 cargas); não é desta branch | Matheus | ⛔ |
+| — | Revisar a branch e decidir PR e merge na  | O repo é seu; eu não abro PR nem faço merge sem você pedir | Matheus | a cada marco |
 
 ### Quando você testa
 
-| Marco | O que você testa | Onde | Depende de |
+| Marco | O que você testa | Onde | Quando |
 | --- | --- | --- | --- |
-| T1 | Editar textos e listas da família 09 na aba Conteúdo, ver no canvas e no `/p` (imagem só por URL) | dev do worktree (5514) | ✅ **pronto** |
-| T2 | Subir imagens (banner, categoria, marca) na família 09 | dev do worktree (5514) | ✅ **pronto** |
-| T3 | O mesmo em produção (deploy de preview da branch) | Vercel | 1.3 + 1.4 + push |
-| T4 | Todas as famílias editáveis | dev do worktree (5514) | 1.5 + 2.4 |
-| T5 | Menus e contato da loja que ficam ao trocar o template | dev (arquivo local); produção depois de 2.2 + 2.3 | 2.1 |
-| T6 | Produtos do cliente nas vitrines, PLP e PDP | dev do worktree (5514) | 3.1 + 3.2 |
-| T7 | Importar produtos pela URL da loja atual | dev do worktree (5514) | 4.1 + 4.2 |
+| T1 | Textos e listas da família 09 na aba Conteúdo, no canvas e no  | dev do worktree (5514) | ✅ **agora** |
+| T2 | Imagens na família 09 (enviar arquivo) | dev do worktree (5514) | ✅ **agora** |
+| T3 | Upload e preview num deploy de verdade | link de preview da Vercel | assim que 1.4 + 1.7 (eu confiro antes de passar) |
+| T5 | Menus, contato e banners da loja que ficam ao trocar de template | dev (5514); produção depois de 2.2 + 2.3 | ao fim da 2.1, a próxima entrega |
+| T4 | Famílias 10–17 editáveis (depois as 01–08) | dev (5514) | depois da 1.6 + 1.5 (01–08: 2.4) |
+| T6 | Produtos do cliente nas vitrines, PLP e PDP | dev (5514) | depois da 3.1 (com a 3.2) |
+| T7 | Importar produtos pela URL | dev (5514) | depois da 4.1 (com a 4.2) |
 
 ## Contexto
 
