@@ -6,6 +6,8 @@ import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { selectionsForPage } from '@/utils/previewRender';
 import { SecaoUidContext } from '@/hooks/useAbrirNoCanvas';
+import { SecaoConteudoContext } from '@/context/ConteudoContext';
+import type { ConteudoDaSecao } from '@/types/conteudo';
 
 interface ThemeRendererProps {
   selections: LayoutSelection[];
@@ -39,6 +41,9 @@ interface SecaoProps {
   selection: string;
   componentKey: string;
   variaveis?: Record<string, string>;
+  /** Nível 1 do conteúdo (src/types/conteudo.ts). Comparado por referência:
+   *  o hook troca o objeto inteiro a cada edição, nunca o muta. */
+  conteudo?: ConteudoDaSecao;
   selecionada: boolean;
   sticky: boolean;
   isMobile: boolean;
@@ -64,11 +69,16 @@ const Secao = React.memo(
     selection,
     componentKey,
     variaveis,
+    conteudo,
     selecionada,
     sticky,
     isMobile,
   }: SecaoProps) {
     const Component = TemplateRegistry[componentKey];
+    const doConteudo = React.useMemo(
+      () => ({ componente: componentKey, conteudo }),
+      [componentKey, conteudo]
+    );
 
     return (
       // .preview-template: marcador estável da subárvore do template, usado
@@ -87,7 +97,11 @@ const Secao = React.memo(
              abrir o carrinho/painel DELE (useAbrirNoCanvas). Contexto não vira
              DOM: o markup da seção é o mesmo de antes. */
           <SecaoUidContext.Provider value={uid}>
-            <Component isMobile={isMobile} />
+            {/* O conteúdo da seção (useConteudoDaSecao) — também contexto, então
+                o markup da seção continua o mesmo. */}
+            <SecaoConteudoContext.Provider value={doConteudo}>
+              <Component isMobile={isMobile} />
+            </SecaoConteudoContext.Provider>
           </SecaoUidContext.Provider>
         ) : (
           /* Componente fora do `TemplateRegistry`. Isto costumava renderizar
@@ -123,6 +137,7 @@ const Secao = React.memo(
     a.selecionada === b.selecionada &&
     a.sticky === b.sticky &&
     a.isMobile === b.isMobile &&
+    a.conteudo === b.conteudo &&
     mesmasVariaveis(a.variaveis, b.variaveis)
 );
 
@@ -184,6 +199,7 @@ function ThemeRenderer({
             selection={layoutItem.selection}
             componentKey={layoutItem.component}
             variaveis={item.variables}
+            conteudo={item.content}
             selecionada={item.uid === selectedUid}
             sticky={item.layoutKey === 'header' && stickyHeader}
             isMobile={isMobile}

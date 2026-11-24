@@ -209,6 +209,42 @@ A `LayoutItem` may declare `variablesSchema: ComponentVariable[]` ([src/data/lay
 
 The downstream **template-generator** reads each entry's `variables` and injects them into the component's SCSS, which must consume them via the chained-fallback convention `var(--header-topbar-bg, var(--background-secundary-color, #122161))` (individual var → global token → hardcoded default). Keep `cssVar` names in sync with that SCSS.
 
+### Conteúdo do cliente (`content`, em construção)
+
+O CS sobe o conteúdo real do cliente (textos, imagens, listas, menus e, depois, produtos) e o preview
+mostra a loja com ele. **Só preview**: o `config.json` não leva conteúdo. O plano aprovado (fases,
+Supabase + Vercel Blob, custos) está em [docs/CONTEUDO-DO-CLIENTE.md](docs/CONTEUDO-DO-CLIENTE.md).
+Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
+
+- **Nível 1 — seção**: `LayoutSelection.content`, esparso, nas chaves do schema do componente
+  (`setConteudoDaSecao`/`resetConteudoDaSecao`). Vai no tema, no undo e no snapshot do preview; a
+  hidratação passa por `sanitizarConteudo` (só JSON, sem URL `javascript:`/`data:`; "Data: 25/11" passa).
+- **Nível 2 — loja**: ainda não existe (fase 2 do plano).
+- **Nível 3 — mock**: o `MOCK` do componente (= `mock.ts` do starter).
+
+- **Schema**: `yarn derivar:conteudo` copia o `section.schema` dos manifests do starter para
+  `src/data/conteudo/schemas.generated.json` (275 componentes com schema; 44 sem — cards,
+  breadcrumbs e relacionados, que vivem do catálogo da plataforma). Não edite à mão. O arquivo tem
+  744 KB e só pode entrar no bundle por import dinâmico (o formulário da fase 1).
+- **Template**: lê conteúdo SÓ por `useConteudoDaSecao(MOCK)` — `const MOCK: XConteudo = {…}` com os
+  nomes de campo do schema; a `interface XConteudo` é o contrato (o `1-conteudo` reprova campo que não
+  existe no schema). Migrar um componente é também desenhar os campos do schema que a réplica não
+  desenhava (imagens, URLs, campos condicionais), espelhando o `index.tsx` do starter.
+- **Mescla** (`resolverConteudo`, [src/utils/conteudo.ts](src/utils/conteudo.ts)): por chave de
+  primeiro nível, como o `withMock` do starter — lista e objeto vêm inteiros. Diferença deliberada:
+  campo presente e vazio fica vazio (o CS consegue apagar um texto, como no Design Studio da Wake);
+  valor com forma diferente da do mock é ignorado.
+- **Troca no lugar** (singleton, vitrines): o nível 1 vai junto (`levarConteudo`); duplicar copia;
+  trocar de plataforma mantém (a seção sobrevive inteira).
+- O contexto da seção (`SecaoConteudoContext`, [src/context/ConteudoContext.tsx](src/context/ConteudoContext.tsx))
+  é posto pelo `ThemeRenderer`, fora do `LayoutContext` — não depende do cast do
+  `SeededLayoutProvider`. O memo da seção compara `content` por referência.
+- **Migrados** (piloto da família 09): Header09, BannerMain09, Ruler09, Showcase09, ShelfBanner09,
+  Newsletter09. Família inteira migrada entra em `FAMILIAS_MIGRADAS` do `1-conteudo`.
+- **Funil**: `1-conteudo` (schema = starter, regras do resolvedor rodando o `.ts` no Node, campos do
+  tipo × schema) e `2-conteudo` (marcadores únicos no canvas e no `/p`, campo vazio, lista, imagem,
+  `javascript:` barrado, `?rev=1` leve).
+
 ### Modo LP (Wake, Wake 2.0, VTEX e Nuvemshop)
 
 Uma **área à parte**, como o modo Checkout: o rail ganha o alternador **Landing page**
@@ -782,7 +818,9 @@ Alongside export, the topbar has a **Pré-visualizar** button ([PreviewButton](s
   `updatePreview`). **Previews never expire** (since 03/11/2026: the link is what goes to the client, and a 3-day TTL killed a sold theme's link); `getPreview` reads with `GETEX PERSIST`, so a key saved with the old TTL turns permanent on its first read. The open `/p` refreshes
   (`router.refresh()`, [PreviewLive](src/components/preview/PreviewLive/index.tsx)) by two paths:
   BroadcastChannel `etemas-preview` from the editor in the same browser (instant), and polling
-  `GET /api/preview/{id}?rev=1` every 5 s while the tab is visible (other browsers). The snapshot
+  `GET /api/preview/{id}?rev=1` every 5 s while the tab is visible (other browsers) — which reads
+  only the `preview:{id}:rev` key, written in the same `MSET` as the snapshot (until 23/11/2026 it
+  downloaded the whole snapshot, base64 logo included, to return one number). The snapshot
   carries `rev` (ms of the last save). No WebSocket/SSE: serverless doesn't keep connections and the
   KV is already the single source. Opening a saved theme unlinks the preview (the link belonged to the
   previous theme). `/p/{id}` alone redirects to `/p/{id}/home`. The link stays public.

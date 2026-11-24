@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -8,16 +9,27 @@ import styles from './index.module.css';
  * Espelha `organisms/BannerMain09` do faststore.starter (família 09, Editorial;
  * desenho `BannerMain09`). Mesmo markup, mesmas classes, mesmos `data-role` e as
  * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de
- * lá: três slides sem arte (vale o fundo de placeholder da mídia).
+ * lá (três slides sem arte: vale o fundo de placeholder da mídia), por baixo do
+ * que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  */
 
+/** Um slide: os campos de `slides[]` no `section.schema` do BannerMain09. */
 interface Slide {
-  eyebrow: string;
-  title: string;
-  titleEmphasis: string;
-  text: string;
-  primaryLabel: string;
-  secondaryLabel: string;
+  eyebrow?: string;
+  title?: string;
+  titleEmphasis?: string;
+  text?: string;
+  primaryLabel?: string;
+  primaryUrl?: string;
+  secondaryLabel?: string;
+  secondaryUrl?: string;
+  imageDesktop?: string;
+  imageMobile?: string;
+  imageAlt?: string;
+}
+
+interface BannerMain09Conteudo {
+  slides: Slide[];
 }
 
 const BASE: Slide = {
@@ -29,7 +41,9 @@ const BASE: Slide = {
   secondaryLabel: 'Lookbook',
 };
 
-const SLIDES: Slide[] = [BASE, { ...BASE, eyebrow: 'Alfaiataria' }, { ...BASE, eyebrow: 'Linho' }];
+const MOCK: BannerMain09Conteudo = {
+  slides: [BASE, { ...BASE, eyebrow: 'Alfaiataria' }, { ...BASE, eyebrow: 'Linho' }],
+};
 
 const Seta = ({ dir, size = 20 }: { dir: 'prev' | 'next'; size?: number }) => (
   <svg
@@ -48,11 +62,14 @@ const Seta = ({ dir, size = 20 }: { dir: 'prev' | 'next'; size?: number }) => (
 const dois = (n: number) => String(n).padStart(2, '0');
 
 export default function BannerMain09() {
+  const { slides } = useConteudoDaSecao(MOCK);
   const [atual, setAtual] = useState(0);
   const toqueX = useRef<number | null>(null);
-  const total = SLIDES.length;
+
+  if (!slides.length) return null;
+  const total = slides.length;
   const ir = (i: number) => setAtual((i + total) % total);
-  const s = SLIDES[Math.min(atual, total - 1)];
+  const s = slides[Math.min(atual, total - 1)];
 
   return (
     <div className={styles.bannerMain09Box}>
@@ -74,64 +91,96 @@ export default function BannerMain09() {
           <div className={styles.content}>
             <div className={styles.spacer} aria-hidden="true" />
             <div className={styles.copy} aria-live="polite">
-              <span className={styles.eyebrow} data-role="bm-eyebrow">
-                <span className={styles.eyebrowRule} aria-hidden="true" />
-                {s.eyebrow}
-              </span>
-              <h2 className={styles.title} data-role="bm-title">
-                {s.title} <em>{s.titleEmphasis}</em>
-              </h2>
-              <p className={styles.text} data-role="bm-text">
-                {s.text}
-              </p>
-              <div className={styles.ctas}>
-                <a className={styles.primary} href="#" data-role="bm-cta">
-                  {s.primaryLabel} <Seta dir="next" size={16} />
-                </a>
-                <a className={styles.secondary} href="#" data-role="bm-cta-secondary">
-                  {s.secondaryLabel}
-                </a>
-              </div>
+              {s.eyebrow && (
+                <span className={styles.eyebrow} data-role="bm-eyebrow">
+                  <span className={styles.eyebrowRule} aria-hidden="true" />
+                  {s.eyebrow}
+                </span>
+              )}
+              {(s.title || s.titleEmphasis) && (
+                <h2 className={styles.title} data-role="bm-title">
+                  {s.title} {s.titleEmphasis && <em>{s.titleEmphasis}</em>}
+                </h2>
+              )}
+              {s.text && (
+                <p className={styles.text} data-role="bm-text">
+                  {s.text}
+                </p>
+              )}
+              {(s.primaryLabel || s.secondaryLabel) && (
+                <div className={styles.ctas}>
+                  {s.primaryLabel && (
+                    <a className={styles.primary} href={s.primaryUrl || '#'} data-role="bm-cta">
+                      {s.primaryLabel} <Seta dir="next" size={16} />
+                    </a>
+                  )}
+                  {s.secondaryLabel && (
+                    <a
+                      className={styles.secondary}
+                      href={s.secondaryUrl || '#'}
+                      data-role="bm-cta-secondary"
+                    >
+                      {s.secondaryLabel}
+                    </a>
+                  )}
+                </div>
+              )}
             </div>
-            <div className={styles.nav} data-role="bm-nav">
-              <span className={styles.count}>
-                {dois(atual + 1)} <span className={styles.muted}>/ {dois(total)}</span>
-              </span>
-              <div className={styles.bars}>
-                {SLIDES.map((_, i) => (
+            {total > 1 && (
+              <div className={styles.nav} data-role="bm-nav">
+                <span className={styles.count}>
+                  {dois(atual + 1)} <span className={styles.muted}>/ {dois(total)}</span>
+                </span>
+                <div className={styles.bars}>
+                  {slides.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      className={`${styles.bar}${i === atual ? ` ${styles.barOn}` : ''}`}
+                      onClick={() => ir(i)}
+                      aria-label={`Ir para o slide ${i + 1}`}
+                      aria-current={i === atual}
+                    >
+                      <span />
+                    </button>
+                  ))}
+                </div>
+                <div className={styles.arrows}>
                   <button
-                    key={i}
                     type="button"
-                    className={`${styles.bar}${i === atual ? ` ${styles.barOn}` : ''}`}
-                    onClick={() => ir(i)}
-                    aria-label={`Ir para o slide ${i + 1}`}
-                    aria-current={i === atual}
+                    className={styles.arrow}
+                    onClick={() => ir(atual - 1)}
+                    aria-label="Slide anterior"
                   >
-                    <span />
+                    <Seta dir="prev" />
                   </button>
-                ))}
+                  <button
+                    type="button"
+                    className={styles.arrow}
+                    onClick={() => ir(atual + 1)}
+                    aria-label="Próximo slide"
+                  >
+                    <Seta dir="next" />
+                  </button>
+                </div>
               </div>
-              <div className={styles.arrows}>
-                <button
-                  type="button"
-                  className={styles.arrow}
-                  onClick={() => ir(atual - 1)}
-                  aria-label="Slide anterior"
-                >
-                  <Seta dir="prev" />
-                </button>
-                <button
-                  type="button"
-                  className={styles.arrow}
-                  onClick={() => ir(atual + 1)}
-                  aria-label="Próximo slide"
-                >
-                  <Seta dir="next" />
-                </button>
-              </div>
-            </div>
+            )}
           </div>
-          <div className={styles.media} data-role="bm-image" />
+          <div className={styles.media} data-role="bm-image">
+            {(s.imageDesktop || s.imageMobile) && (
+              <picture>
+                {s.imageMobile && <source media="(max-width: 960px)" srcSet={s.imageMobile} />}
+                <img
+                  src={s.imageDesktop || s.imageMobile}
+                  alt={s.imageAlt ?? ''}
+                  width={1120}
+                  height={680}
+                  loading={atual === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                />
+              </picture>
+            )}
+          </div>
         </div>
       </section>
     </div>

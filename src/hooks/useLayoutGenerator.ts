@@ -63,6 +63,8 @@ import {
   loadComponentFonts,
   loadGoogleFont,
 } from '@/utils/googleFont';
+import type { ConteudoDaSecao, ValorDeConteudo } from '@/types/conteudo';
+import { levarConteudo } from '@/utils/conteudo';
 
 /** Os destinos do rail de navegação do editor: os quatro do Figma e o
  *  "Por template" (escolher uma família inteira, utils/templatesCompletos.ts). */
@@ -108,6 +110,12 @@ export interface LayoutSelection {
   pagina: string;
   /** Overrides de cor/fonte por instância: { [cssVar]: valor escolhido }. */
   variables?: Record<string, string>;
+  /**
+   * Nível 1 do conteúdo (textos, imagens, listas) por instância, nas chaves do
+   * schema do componente. Esparso: campo ausente herda. Só preview — o export
+   * NÃO o leva ao config.json. Ver src/types/conteudo.ts.
+   */
+  content?: ConteudoDaSecao;
 }
 
 export const MAX_PER_PAGE = 101;
@@ -468,6 +476,47 @@ export function useLayoutGenerator(conta?: ContaAtual) {
   const resetItemVariables = (uid: string) => {
     setSelections(prev =>
       prev.map(s => (s.uid === uid ? { ...s, variables: {} } : s))
+    );
+  };
+
+  /**
+   * Grava um campo de conteúdo (Nível 1) de uma seção. `undefined` tira o campo
+   * e ele volta a herdar; qualquer outro valor vale, inclusive `''` e `[]`
+   * (ver `resolverConteudo`). Lista e objeto vão inteiros: o painel copia o
+   * valor resolvido antes de mexer num item. Objeto novo a cada gravação — o
+   * memo do ThemeRenderer compara `content` por referência.
+   */
+  const setConteudoDaSecao = (
+    uid: string,
+    campo: string,
+    valor: ValorDeConteudo | undefined
+  ) => {
+    setSelections(prev =>
+      prev.map(s => {
+        if (s.uid !== uid) return s;
+        if (valor === undefined) {
+          if (!s.content || !(campo in s.content)) return s;
+          const { [campo]: _apagado, ...resto } = s.content;
+          void _apagado;
+          if (Object.keys(resto).length) return { ...s, content: resto };
+          const { content: _vazio, ...semConteudo } = s;
+          void _vazio;
+          return semConteudo;
+        }
+        return { ...s, content: { ...(s.content ?? {}), [campo]: valor } };
+      })
+    );
+  };
+
+  /** Volta todo o conteúdo de uma seção ao herdado (loja → mock). */
+  const resetConteudoDaSecao = (uid: string) => {
+    setSelections(prev =>
+      prev.map(s => {
+        if (s.uid !== uid || !s.content) return s;
+        const { content: _apagado, ...semConteudo } = s;
+        void _apagado;
+        return semConteudo;
+      })
     );
   };
 
@@ -1255,9 +1304,10 @@ export function useLayoutGenerator(conta?: ContaAtual) {
 
         // 3) Existe showcase DIFERENTE → substituir TODOS os showcases mantendo suas páginas
         // (não checa MAX_PER_PAGE, pois é substituição 1-para-1, a contagem por página não aumenta)
+        // O conteúdo que o CS escreveu em cada uma (título, "Ver tudo"…) vai junto.
         const replaced = prev.map(s => {
           if (isShowcaseEntry(s)) {
-            return nova(s.pagina); // mantemos a página de cada showcase existente
+            return { ...nova(s.pagina), ...levarConteudo(s) }; // mantemos a página de cada showcase existente
           }
           return s;
         });
@@ -1293,7 +1343,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
           // volta a ser coerente.
           return prev.map(s =>
             ocupaOSlot(s)
-              ? nova(s.pagina) // mantém a página de quem estava lá
+              ? { ...nova(s.pagina), ...levarConteudo(s) } // mantém a página e o conteúdo de quem estava lá
               : s
           );
         }
@@ -2338,6 +2388,8 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     comecarDoZero,
     setItemVariable,
     resetItemVariables,
+    setConteudoDaSecao,
+    resetConteudoDaSecao,
     railTarget,
     setRailTarget,
     editorMode,

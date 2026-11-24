@@ -29,6 +29,9 @@ export async function captureAndDownloadScreenshot(
   const canvas = await html2canvas(element, {
     backgroundColor: null,
     scale,
+    // Imagem de outro domínio (o Vercel Blob do conteúdo do cliente) só entra no
+    // PNG se for pedida com CORS; sem isto o html2canvas a deixa de fora.
+    useCORS: true,
     ignoreElements: node =>
       (node.tagName === 'IMG' || node.tagName === 'IFRAME') &&
       !element.contains(node),

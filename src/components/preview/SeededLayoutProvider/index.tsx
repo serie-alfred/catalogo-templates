@@ -74,6 +74,8 @@ export default function SeededLayoutProvider({
         setHoveredUid: noop,
         setItemVariable: noop,
         resetItemVariables: noop,
+        setConteudoDaSecao: noop,
+        resetConteudoDaSecao: noop,
         exportFeedback: null,
         dismissExportFeedback: noop,
         // Modo Checkout: fora do editor ninguém entra nele (o /p/{id}/checkout

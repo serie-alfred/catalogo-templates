@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import CartSidebar09, { CART_09_QUANTIDADE } from '@/components/templates/_shared/CartSidebar09';
 import { FONTES_09, PRODUTOS_09 } from '@/components/templates/common/template_9/Spot';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
@@ -16,8 +17,12 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * direita; navegação de categorias (com submenu) centralizada. Mobile: menu + busca,
  * marca e sacola; o menu abre a lista de categorias com conta, favoritos e atendimento.
  *
+ * Conteúdo: o MOCK abaixo por baixo do que o CS subir (`useConteudoDaSecao`, campos
+ * do schema de lá).
+ *
  * Divergências deliberadas:
- *  - Logo: o que o usuário enviou no /gerador; sem ele, a marca em texto do catálogo.
+ *  - Logo: o da seção (campo `logo` do schema), senão o que o usuário enviou no
+ *    /gerador; sem nenhum, `brandName` ou a marca em texto do catálogo.
  *  - Busca sem GraphQL: as sugestões filtram uma lista fixa (os itens do menu e os
  *    produtos de exemplo da família 09); enviar só fecha as sugestões.
  *  - Sacola: contador e gaveta (`_shared/CartSidebar09`) com itens de exemplo. A gaveta
@@ -32,12 +37,30 @@ type Header09MenuItem = {
   children?: { label: string; url: string }[];
 };
 
-const MOCK = {
+/** O conteúdo da seção: os campos do `section.schema` do Header09. */
+interface Header09Conteudo {
+  topbarMessages: { text: string; url?: string }[];
+  logo?: string;
+  logoAlt?: string;
+  brandName?: string;
+  searchPlaceholder?: string;
+  accountLabel?: string;
+  accountMobileLabel?: string;
+  wishlistLabel?: string;
+  wishlistUrl?: string;
+  cartLabel?: string;
+  helpLabel?: string;
+  helpUrl?: string;
+  menu: Header09MenuItem[];
+  viewAllLabel?: string;
+}
+
+const MOCK: Header09Conteudo = {
   topbarMessages: [
     { text: 'Frete grátis acima de R$ 399' },
     { text: 'Troca fácil em 30 dias' },
     { text: 'Até 6x sem juros' },
-  ] as { text: string; url?: string }[],
+  ],
   searchPlaceholder: 'O que você procura?',
   accountLabel: 'Entrar',
   accountMobileLabel: 'Entrar ou criar conta',
@@ -54,7 +77,8 @@ const MOCK = {
     { label: 'Casa', url: '/casa' },
     { label: 'Edições', url: '/edicoes' },
     { label: 'Sale', url: '/sale', highlight: true },
-  ] as Header09MenuItem[],
+  ],
+  viewAllLabel: 'Ver tudo',
 };
 
 const svg = (w: number, children: React.ReactNode) => (
@@ -99,12 +123,13 @@ const Ico = {
   ),
 };
 
-const TERMOS_09 = MOCK.menu.map(m => m.label);
-
 export default function Header09() {
-  const { logo } = useLayout();
+  const { logo: logoDaLoja } = useLayout();
   const {
     topbarMessages,
+    logo: logoDaSecao,
+    logoAlt,
+    brandName,
     searchPlaceholder,
     accountLabel,
     accountMobileLabel,
@@ -114,7 +139,11 @@ export default function Header09() {
     helpLabel,
     helpUrl,
     menu,
-  } = MOCK;
+    viewAllLabel,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDaSecao || logoDaLoja;
+  // As sugestões da busca filtram os rótulos do menu que a seção mostra.
+  const termosDoMenu = menu.map(m => m.label);
 
   const [cartOpen, setCartOpen] = useState(false);
   useAbrirNoCanvas('carrinho', setCartOpen);
@@ -129,7 +158,7 @@ export default function Header09() {
 
   const termoLimpo = termo.trim().toLowerCase();
   const curto = termoLimpo.length < 2;
-  const termos = curto ? [] : TERMOS_09.filter(t => t.toLowerCase().includes(termoLimpo));
+  const termos = curto ? [] : termosDoMenu.filter(t => t.toLowerCase().includes(termoLimpo));
   const produtos = curto ? [] : PRODUTOS_09.filter(p => p.name.toLowerCase().includes(termoLimpo));
   const temSugestao = sugestoesAbertas && (termos.length > 0 || produtos.length > 0);
 
@@ -217,7 +246,7 @@ export default function Header09() {
 
   const marca = (
     <a className={styles.logo} href="/" aria-label="Página inicial" data-role="hd-logo">
-      {logo ? <img src={logo} alt="Logo" height={34} /> : 'SERIE//A'}
+      {logo ? <img src={logo} alt={logoAlt || 'Logo'} height={34} /> : brandName || 'SERIE//A'}
     </a>
   );
 
@@ -364,7 +393,7 @@ export default function Header09() {
                           <ul className={styles.drawerSub}>
                             {item.url && (
                               <li>
-                                <a href={item.url}>Ver tudo</a>
+                                <a href={item.url}>{viewAllLabel || 'Ver tudo'}</a>
                               </li>
                             )}
                             {item.children.map((c, j) => (

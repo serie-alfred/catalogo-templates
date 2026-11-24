@@ -1,6 +1,7 @@
 import { LAYOUTS, type LayoutKey } from '@/data/layoutData';
 import type { EditorMode, LayoutSelection } from '@/hooks/useLayoutGenerator';
 import { NUVEMSHOP_LIGADA, PLATFORMS, type Platform } from '@/types/platform';
+import { sanitizarConteudo } from '@/utils/conteudo';
 
 /** O LayoutItem por trás de uma selection, ou null se a entrada é lixo. */
 function resolve(selection: LayoutSelection) {
@@ -57,16 +58,28 @@ export function partitionByPlatform(
  * `layoutSelections` é lido do localStorage com `JSON.parse` e sem nenhuma
  * validação. Um catálogo que mudou entre sessões — item renomeado, removido —
  * deixava linhas fantasma que o painel listava e o export ignorava em silêncio.
+ *
+ * O `content` (Nível 1 do conteúdo) passa por `sanitizarConteudo`: só JSON, sem
+ * URL `javascript:`/`data:`. Sobrando nada, a chave sai.
  */
 export function sanitizeSelections(value: unknown): LayoutSelection[] {
   if (!Array.isArray(value)) return [];
-  return value.filter((entry): entry is LayoutSelection => {
-    if (!entry || typeof entry !== 'object') return false;
-    const { uid, id, layoutKey } = entry as Partial<LayoutSelection>;
-    if (typeof uid !== 'string' || typeof id !== 'string') return false;
-    if (typeof layoutKey !== 'string') return false;
-    return !!LAYOUTS[layoutKey as LayoutKey]?.items.some(i => i.id === id);
-  });
+  return value
+    .filter((entry): entry is LayoutSelection => {
+      if (!entry || typeof entry !== 'object') return false;
+      const { uid, id, layoutKey } = entry as Partial<LayoutSelection>;
+      if (typeof uid !== 'string' || typeof id !== 'string') return false;
+      if (typeof layoutKey !== 'string') return false;
+      return !!LAYOUTS[layoutKey as LayoutKey]?.items.some(i => i.id === id);
+    })
+    .map(entry => {
+      if (entry.content === undefined) return entry;
+      const content = sanitizarConteudo(entry.content);
+      if (content) return { ...entry, content };
+      const { content: _invalido, ...semConteudo } = entry;
+      void _invalido;
+      return semConteudo;
+    });
 }
 
 /**

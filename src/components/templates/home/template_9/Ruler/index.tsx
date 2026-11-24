@@ -1,13 +1,15 @@
 import React from 'react';
 
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
 /**
  * Espelha `molecules/BenefitsStrip09` do faststore.starter (família 09, Editorial;
  * desenho `Ruler09`). Mesmo markup, mesmas classes, mesmos `data-role` e as mesmas
- * vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá, por
+ * baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  */
 
 type Icone = 'truck' | 'exchange' | 'card' | 'shield';
@@ -41,38 +43,63 @@ const ICONES: Record<Icone, React.ReactNode> = {
   ),
 };
 
-const BENEFICIOS: { icon: Icone; title: string; text: string }[] = [
-  { icon: 'truck', title: 'Frete grátis acima de R$ 399', text: 'Para todo o Brasil' },
-  { icon: 'exchange', title: 'Troca fácil em 30 dias', text: 'Solicite pelo site' },
-  { icon: 'card', title: 'Até 6x sem juros', text: 'No cartão de crédito' },
-  { icon: 'shield', title: 'Compra segura', text: 'Ambiente protegido' },
-];
+/** O conteúdo da seção: os campos do `section.schema` do BenefitsStrip09. */
+interface Ruler09Conteudo {
+  benefits: { icon?: Icone; title?: string; text?: string; url?: string }[];
+}
+
+const MOCK: Ruler09Conteudo = {
+  benefits: [
+    { icon: 'truck', title: 'Frete grátis acima de R$ 399', text: 'Para todo o Brasil' },
+    { icon: 'exchange', title: 'Troca fácil em 30 dias', text: 'Solicite pelo site' },
+    { icon: 'card', title: 'Até 6x sem juros', text: 'No cartão de crédito' },
+    { icon: 'shield', title: 'Compra segura', text: 'Ambiente protegido' },
+  ],
+};
 
 export default function Ruler09() {
+  const { benefits } = useConteudoDaSecao(MOCK);
+  if (!benefits.length) return null;
+
   return (
     <div className={styles.benefitsStrip09Box}>
       <section className={styles.benefitsStrip09} aria-label="Benefícios" data-role="rl-root">
         <link rel="stylesheet" href={FONTES_09} />
         <div className={styles.inner}>
           <ul className={styles.list}>
-            {BENEFICIOS.map(b => (
-              <li key={b.title} className={styles.item} data-role="rl-item">
-                <svg
-                  className={styles.icon}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  aria-hidden="true"
-                >
-                  {ICONES[b.icon]}
-                </svg>
-                <span className={styles.copy}>
-                  <span className={styles.title}>{b.title}</span>
-                  <span className={styles.text}>{b.text}</span>
-                </span>
-              </li>
-            ))}
+            {benefits.map((b, i) => {
+              const corpo = (
+                <>
+                  {b.icon && ICONES[b.icon] && (
+                    <svg
+                      className={styles.icon}
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.2"
+                      aria-hidden="true"
+                    >
+                      {ICONES[b.icon]}
+                    </svg>
+                  )}
+                  <span className={styles.copy}>
+                    {b.title && <span className={styles.title}>{b.title}</span>}
+                    {b.text && <span className={styles.text}>{b.text}</span>}
+                  </span>
+                </>
+              );
+              return (
+                <li key={i} className={styles.item} data-role="rl-item">
+                  {b.url ? (
+                    <a className={styles.link} href={b.url}>
+                      {corpo}
+                    </a>
+                  ) : (
+                    corpo
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       </section>
