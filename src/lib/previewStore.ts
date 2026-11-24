@@ -69,6 +69,12 @@ interface PreviewStore {
   save(id: string, snapshot: PreviewSnapshot): Promise<void>;
   get(id: string): Promise<PreviewSnapshot | null>;
   /**
+   * Só a revisão — é o que o /p aberto consulta a cada 5 s. No KV ela tem
+   * chave própria: ler o snapshot inteiro para devolver um número custava, por
+   * consulta, o tamanho do tema em banda do Upstash (logo em base64 incluído).
+   */
+  getRev(id: string): Promise<number | null>;
+  /**
    * Escreve uma chave trivial só para registrar atividade no backend. Existe por
    * causa do plano Free do Upstash, que apaga o banco após 14 dias sem nenhuma
    * requisição (ver src/app/api/keep-alive/route.ts).
@@ -78,6 +84,9 @@ interface PreviewStore {
 
 // Prefixo das chaves no KV, para não colidir com outros usos do banco.
 const KV_PREFIX = 'preview:';
+
+/** A revisão de um preview mora ao lado dele: `preview:{id}:rev`. */
+const chaveDaRev = (id: string) => `${KV_PREFIX}${id}:rev`;
 
 // TTL da chave do keep-alive: 30 dias, folgado sobre a janela de 14 dias.
 const KEEP_ALIVE_TTL_SECONDS = 60 * 60 * 24 * 30;
@@ -104,6 +113,11 @@ const fileStore: PreviewStore = {
     } catch {
       return null;
     }
+  },
+  async getRev(id) {
+    // Em dev o arquivo é local: ler inteiro não custa nada.
+    const snapshot = await this.get(id);
+    return snapshot ? (snapshot.rev ?? 0) : null;
   },
   async ping() {
     // Em dev não há nada para manter vivo; garantir a pasta já basta como no-op.
@@ -150,7 +164,12 @@ const kvStore: PreviewStore = {
     const kv = createClient(kvCredentials()!);
     // Sem prazo: o preview é o link que vai para o cliente, e um tema vendido
     // não pode sumir. (Até 03/11/2026 expirava 3 dias depois da última edição.)
-    await kv.set(`${KV_PREFIX}${id}`, snapshot);
+    // O snapshot e a revisão no MESMO comando (MSET é atômico): o polling nunca
+    // vê uma revisão nova com o tema velho.
+    await kv.mset({
+      [`${KV_PREFIX}${id}`]: snapshot,
+      [chaveDaRev(id)]: snapshot.rev ?? 0,
+    });
   },
   async get(id) {
     const { createClient } = await import('@vercel/kv');
@@ -167,6 +186,18 @@ const kvStore: PreviewStore = {
       console.error('GETEX recusado, lendo com GET:', error);
       return (await kv.get<PreviewSnapshot>(chave)) ?? null;
     }
+  },
+  async getRev(id) {
+    const { createClient } = await import('@vercel/kv');
+    const kv = createClient(kvCredentials()!);
+    const rev = await kv.get<number>(chaveDaRev(id));
+    if (typeof rev === 'number') return rev;
+    // Preview gravado antes da chave própria: lê o snapshot UMA vez e cria a
+    // chave, para as próximas consultas já saírem leves.
+    const snapshot = await this.get(id);
+    if (!snapshot) return null;
+    await kv.set(chaveDaRev(id), snapshot.rev ?? 0);
+    return snapshot.rev ?? 0;
   },
   async ping() {
     const { createClient } = await import('@vercel/kv');
@@ -242,6 +273,11 @@ export async function updatePreview(
 /** Recupera um snapshot pelo ID, ou null se inexistente/expirado. */
 export function getPreview(id: string): Promise<PreviewSnapshot | null> {
   return getStore().get(id);
+}
+
+/** Só a revisão de um preview (o polling do /p), ou null se ele não existe. */
+export function getPreviewRev(id: string): Promise<number | null> {
+  return getStore().getRev(id);
 }
 
 /**
