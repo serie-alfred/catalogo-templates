@@ -13,7 +13,8 @@ import styles from './index.module.css';
  * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de
  * lá, por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  * Sem envio de verdade (a mutation fica no starter): enviar mostra a mensagem de
- * sucesso, para o cliente ver o texto dela no preview.
+ * sucesso, para o cliente ver o texto dela no preview. Por isso o tipo não traz o
+ * `errorMessage` (o 1-conteudo o lista como não desenhado).
  */
 
 interface Newsletter09Conteudo {
@@ -25,7 +26,6 @@ interface Newsletter09Conteudo {
   emailPlaceholder?: string;
   buttonLabel?: string;
   successMessage?: string;
-  errorMessage?: string;
   privacyPrefix?: string;
   privacyLabel?: string;
   privacyUrl?: string;
@@ -40,7 +40,6 @@ const MOCK: Newsletter09Conteudo = {
   emailPlaceholder: 'Seu e-mail',
   buttonLabel: 'Assinar',
   successMessage: 'Pronto! Você vai receber as novidades primeiro.',
-  errorMessage: 'Não foi possível concluir agora. Tente de novo em instantes.',
   privacyPrefix: 'Ao assinar, você concorda com a',
   privacyLabel: 'Política de Privacidade',
   privacyUrl: '/politica-de-privacidade',
@@ -153,3 +152,6 @@ export default function Newsletter09() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Newsletter09.conteudoPadrao = MOCK;

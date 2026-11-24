@@ -34,3 +34,6 @@ export default function Showcase09() {
   const c = useConteudoDaSecao(MOCK);
   return <ProductShelf09 variant="full" styles={styles} {...c} />;
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Showcase09.conteudoPadrao = MOCK;

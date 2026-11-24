@@ -4,6 +4,7 @@ import React, { useId, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/CategorySeoFaq09` do faststore.starter (família 09, Editorial;
@@ -13,17 +14,28 @@ import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
  * Lá o conteúdo vem, por categoria, dos banners HTML do Intelligent Search (áreas "one"
  * e "two"), lido pelo caminho da PLP; aqui é o exemplo do mock.ts de lá, no mesmo
  * formato HTML, passado pelos mesmos leitores (`separarTitulo`, `lerPerguntas`). Sem
- * GraphQL e sem o `view_promotion` (preview não emite evento).
+ * GraphQL e sem o `view_promotion` (preview não emite evento). Os rótulos são do CMS e
+ * vêm do `useConteudoDaSecao`; o texto da categoria entra com a categoria em destaque
+ * da loja (fase de produtos).
  */
 interface Pergunta {
   q: string;
   a: string;
 }
 
-const TITLE_PREFIX = 'Sobre';
-const FAQ_TITLE = 'Perguntas frequentes';
-const READ_MORE = 'Ler mais';
-const READ_LESS = 'Ler menos';
+interface CategoryDescription09Conteudo {
+  titlePrefix?: string;
+  faqTitle?: string;
+  readMoreLabel?: string;
+  readLessLabel?: string;
+}
+
+const MOCK: CategoryDescription09Conteudo = {
+  titlePrefix: 'Sobre',
+  faqTitle: 'Perguntas frequentes',
+  readMoreLabel: 'Ler mais',
+  readLessLabel: 'Ler menos',
+};
 
 const NOME = 'Vestidos';
 const SOBRE_HTML =
@@ -82,6 +94,7 @@ const Sinal = ({ aberto }: { aberto: boolean }) => (
 );
 
 export default function CategoryDescription09() {
+  const { titlePrefix, faqTitle, readMoreLabel, readLessLabel } = useConteudoDaSecao(MOCK);
   const [aberto, setAberto] = useState(false);
   const [faqAberta, setFaqAberta] = useState<number | null>(0);
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
@@ -95,7 +108,7 @@ export default function CategoryDescription09() {
             <h2 className={styles.title} data-role="cd-title">
               {titulo || (
                 <>
-                  {TITLE_PREFIX} <em>{NOME.toLocaleLowerCase('pt-BR')}</em>
+                  {titlePrefix} <em>{NOME.toLocaleLowerCase('pt-BR')}</em>
                 </>
               )}
             </h2>
@@ -114,14 +127,14 @@ export default function CategoryDescription09() {
                 onClick={() => setAberto(v => !v)}
                 data-role="cd-more"
               >
-                <span>{aberto ? READ_LESS : READ_MORE}</span>
+                <span>{aberto ? readLessLabel || 'Ler menos' : readMoreLabel || 'Ler mais'}</span>
                 <Chevron />
               </button>
             )}
           </div>
 
           <div className={styles.faq} data-role="cd-faq">
-            <span className={styles.faqTitle}>{FAQ_TITLE}</span>
+            {faqTitle && <span className={styles.faqTitle}>{faqTitle}</span>}
             <div className={styles.faqList}>
               {PERGUNTAS.map((p, i) => {
                 const on = faqAberta === i;
@@ -160,3 +173,6 @@ export default function CategoryDescription09() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryDescription09.conteudoPadrao = MOCK;

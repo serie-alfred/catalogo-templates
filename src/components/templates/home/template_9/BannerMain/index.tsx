@@ -186,3 +186,6 @@ export default function BannerMain09() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerMain09.conteudoPadrao = MOCK;

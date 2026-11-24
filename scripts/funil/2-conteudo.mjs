@@ -2,18 +2,21 @@
  * Estágio 2-conteudo — o conteúdo que o CS sobe chega à tela?
  *
  * Semeia na aba seções com `content` (Nível 1, src/types/conteudo.ts) cheio de
- * MARCADORES únicos e confere, no canvas (o iframe do editor) e no /p:
+ * MARCADORES únicos e confere, no canvas (o iframe do editor, home) e no /p
+ * (home, categoria e produto):
  *
- *  - cada marcador aparece no DOM da seção certa (o template lê o campo);
+ *  - cada marcador aparece no DOM (o template lê o campo);
  *  - o texto do mock que o conteúdo substituiu sumiu;
  *  - campo presente e vazio fica vazio; lista vem com o tamanho do conteúdo
- *    (um slide só esconde a navegação do banner);
+ *    (um slide só esconde a navegação do banner, um banner só esconde a pilha);
  *  - imagem e link usam a URL do conteúdo, e `javascript:` não passa: some na
  *    hidratação (sessionStorage) e o link volta ao do mock;
- *  - o /p mostra o mesmo conteúdo, e o `?rev=1` devolve SÓ a revisão (o
- *    polling não baixa mais o snapshot inteiro).
+ *  - regras próprias de peça: data final passada zera o contador, forma de
+ *    pagamento fora da lista some, `hiddenSpecs` esconde a especificação, e
+ *    `pageSize: 0` não quebra a paginação das avaliações;
+ *  - o `?rev=1` devolve SÓ a revisão (o polling não baixa o snapshot inteiro).
  *
- * Cobre os componentes já migrados (o piloto da família 09); cresce com eles.
+ * Cobre a família 09 (migrada inteira); cresce com a migração.
  */
 import { BASE_URL, espera, itens, relatorio } from './lib/util.mjs';
 import { abrirBrowser, novaAba, semear } from './lib/editor.mjs';
@@ -45,6 +48,12 @@ const selecoes = [
     menu: [{ label: 'MARCADOR-HD-MENU', url: '/marcador' }],
     brandName: 'MARCADOR-HD-MARCA',
   }),
+  secao('Footer09', {
+    columns: [{ title: 'MARCADOR-FT-COLUNA', links: [{ label: 'MARCADOR-FT-LINK', url: '/x' }] }],
+    payments: [{ method: 'pix' }, { method: 'bitcoin' }],
+    legal: 'MARCADOR-FT-LEGAL',
+    brandName: 'MARCADOR-FT-MARCA',
+  }),
   secao('BannerMain09', {
     slides: [
       {
@@ -69,61 +78,96 @@ const selecoes = [
       },
     ],
   }),
-  secao('Showcase09', {
-    title: 'MARCADOR-SC-TITULO',
-    viewAllLabel: 'MARCADOR-SC-VERTUDO',
-  }),
-  secao('ShelfBanner09', {
-    banner: { title: 'MARCADOR-SB-BANNER', ctaLabel: 'MARCADOR-SB-CTA' },
-  }),
+  secao('Showcase09', { title: 'MARCADOR-SC-TITULO', viewAllLabel: 'MARCADOR-SC-VERTUDO' }),
+  secao('ShelfBanner09', { banner: { title: 'MARCADOR-SB-BANNER', ctaLabel: 'MARCADOR-SB-CTA' } }),
   secao('Newsletter09', {
     eyebrow: '',
     title: 'MARCADOR-NL-TITULO',
     buttonLabel: 'MARCADOR-NL-BOTAO',
     privacyUrl: 'javascript:alert(1)',
   }),
+  secao('Brand09', { brands: [{ name: 'MARCADOR-BR-MARCA', url: '/marca' }] }),
+  secao('Countdown09', { title: 'MARCADOR-CD-TITULO', endDate: '2000-01-01T00:00:00Z' }),
+  secao('Editorial09', { posts: [{ title: 'MARCADOR-ED-POST', image: IMAGEM, url: '/post' }] }),
+  secao('BannerGrid09', { banners: [{ title: 'MARCADOR-BG-BANNER', imageDesktop: IMAGEM }] }),
+  secao('Categories09', { categories: [{ name: 'MARCADOR-CA-CATEGORIA', image: IMAGEM }] }),
+  secao('ClientReview09', {
+    reviews: [{ text: 'MARCADOR-CR-TEXTO', author: 'MARCADOR-CR-AUTORA', rating: 4 }],
+  }),
+  secao('HelpFloat09', { buttonLabel: 'MARCADOR-HF-BOTAO' }),
+  secao('PopupNews09', { title: 'MARCADOR-PN-TITULO' }),
+  secao('CategoryTitle09', { allLabel: 'MARCADOR-CTT-TODOS' }),
+  // O "Filtrar" só existe no botão e no painel do mobile; a contagem é do desktop.
+  secao('CategoryMain09', { countLabel: 'MARCADOR-CM-PRODUTOS' }),
+  secao('CategoryDescription09', { faqTitle: 'MARCADOR-CDS-FAQ' }),
+  secao('ProductInfo09', { buyLabel: 'MARCADOR-PI-COMPRAR' }),
+  secao('ProductDescription09', { specsLabel: 'MARCADOR-PD-SPECS', hiddenSpecs: 'composicao' }),
+  secao('ProductReviews09', { title: 'MARCADOR-PR-TITULO', pageSize: 0 }),
 ];
-const MARCADORES = [
-  'MARCADOR-HD-AVISO',
-  'MARCADOR-HD-MENU',
-  'MARCADOR-HD-MARCA',
-  'MARCADOR-BM-CHAMADA',
-  'MARCADOR-BM-TITULO',
-  'MARCADOR-BM-ITALICO',
-  'MARCADOR-BM-TEXTO',
-  'MARCADOR-BM-CTA',
-  'MARCADOR-RL-TITULO',
-  'MARCADOR-RL-TEXTO',
-  'MARCADOR-SC-TITULO',
-  'MARCADOR-SC-VERTUDO',
-  'MARCADOR-SB-BANNER',
-  'MARCADOR-SB-CTA',
-  'MARCADOR-NL-TITULO',
-  'MARCADOR-NL-BOTAO',
-];
+
+/** Marcadores por página do /p; os de `common` (header, rodapé) valem nas três. */
+const COMUNS = ['MARCADOR-HD-AVISO', 'MARCADOR-HD-MENU', 'MARCADOR-HD-MARCA', 'MARCADOR-FT-COLUNA', 'MARCADOR-FT-LINK', 'MARCADOR-FT-LEGAL', 'MARCADOR-FT-MARCA'];
+const MARCADORES = {
+  home: [
+    ...COMUNS,
+    'MARCADOR-BM-CHAMADA',
+    'MARCADOR-BM-TITULO',
+    'MARCADOR-BM-ITALICO',
+    'MARCADOR-BM-TEXTO',
+    'MARCADOR-BM-CTA',
+    'MARCADOR-RL-TITULO',
+    'MARCADOR-RL-TEXTO',
+    'MARCADOR-SC-TITULO',
+    'MARCADOR-SC-VERTUDO',
+    'MARCADOR-SB-BANNER',
+    'MARCADOR-SB-CTA',
+    'MARCADOR-NL-TITULO',
+    'MARCADOR-NL-BOTAO',
+    'MARCADOR-BR-MARCA',
+    'MARCADOR-CD-TITULO',
+    'MARCADOR-ED-POST',
+    'MARCADOR-BG-BANNER',
+    'MARCADOR-CA-CATEGORIA',
+    'MARCADOR-CR-TEXTO',
+    'MARCADOR-CR-AUTORA',
+    'MARCADOR-HF-BOTAO',
+    'MARCADOR-PN-TITULO',
+  ],
+  categoria: [...COMUNS, 'MARCADOR-CTT-TODOS', 'MARCADOR-CM-PRODUTOS', 'MARCADOR-CDS-FAQ'],
+  produto: [...COMUNS, 'MARCADOR-PI-COMPRAR', 'MARCADOR-PD-SPECS', 'MARCADOR-PR-TITULO'],
+};
 
 /** O que a tela mostra, lido de um documento (o do iframe ou o do /p). */
 const ler = doc => {
   const naSecao = (selection, seletor) =>
     doc.querySelector(`[data-selection="${selection}"] ${seletor}`);
-  const img = naSecao('banner-main', '[data-role="bm-image"] img');
+  const todas = (selection, seletor) =>
+    doc.querySelectorAll(`[data-selection="${selection}"] ${seletor}`);
+  const imagem = img =>
+    img
+      ? { src: img.getAttribute('src'), alt: img.getAttribute('alt'), carregou: img.complete && img.naturalWidth > 0 }
+      : null;
   return {
     texto: doc.body.innerText,
-    itensDaRegua: doc.querySelectorAll('[data-selection="ruler"] [data-role="rl-item"]').length,
+    itensDaRegua: todas('ruler', '[data-role="rl-item"]').length,
     linkDaRegua: naSecao('ruler', '[data-role="rl-item"] a')?.getAttribute('href') ?? null,
     navDoBanner: !!naSecao('banner-main', '[data-role="bm-nav"]'),
-    imagem: img
-      ? { src: img.getAttribute('src'), alt: img.getAttribute('alt'), carregou: img.complete && img.naturalWidth > 0 }
-      : null,
+    imagem: imagem(naSecao('banner-main', '[data-role="bm-image"] img')),
     ctaDoBanner: naSecao('banner-main', '[data-role="bm-cta"]')?.getAttribute('href') ?? null,
     chamadaDaNews: !!naSecao('newsletter', '[data-role="nl-eyebrow"]'),
     linkDaPrivacidade: naSecao('newsletter', 'p a')?.getAttribute('href') ?? null,
+    contador: [...todas('countdown', '[data-role="cd-timer"] [aria-hidden="true"] span:first-child')].map(s => s.textContent),
+    postsDoEditorial: todas('editorial', '[data-role="ed-post"]').length,
+    imagemDoPost: imagem(naSecao('editorial', '[data-role="ed-post"] img')),
+    bannersDaGrade: todas('banner-grid', '[data-role="bg-banner"]').length,
+    imagemDaCategoria: imagem(naSecao('categories', '[data-role="ct-item"] img')),
+    pagamentos: [...doc.querySelectorAll('[data-role="ft-payments"] li')].map(li => li.textContent.trim()),
   };
 };
 
-const conferir = (onde, tela) => {
-  const faltam = MARCADORES.filter(m => !tela.texto.includes(m));
-  r.ok(`${onde}: os ${MARCADORES.length} marcadores aparecem`, faltam.length === 0, faltam.join(', '));
+const conferirHome = (onde, tela) => {
+  const faltam = MARCADORES.home.filter(m => !tela.texto.includes(m));
+  r.ok(`${onde}: os ${MARCADORES.home.length} marcadores da home aparecem`, faltam.length === 0, faltam.join(', '));
   r.ok(
     `${onde}: o texto do mock substituído sumiu`,
     !tela.texto.includes('Troca fácil em 30 dias') && !tela.texto.includes('Mais desejados'),
@@ -144,6 +188,29 @@ const conferir = (onde, tela) => {
     tela.linkDaPrivacidade === '/politica-de-privacidade',
     tela.linkDaPrivacidade
   );
+  r.ok(
+    `${onde}: data final passada zera o contador`,
+    tela.contador.length === 4 && tela.contador.every(v => v === '00'),
+    JSON.stringify(tela.contador)
+  );
+  // A miniatura é `loading="lazy"` e fica fora da janela do iframe: confere a URL,
+  // não o carregamento (o do banner principal, que é eager, prova que carrega).
+  r.ok(
+    `${onde}: editorial com um post e a imagem do conteúdo`,
+    tela.postsDoEditorial === 1 && tela.imagemDoPost?.src === IMAGEM,
+    `${tela.postsDoEditorial} posts · ${JSON.stringify(tela.imagemDoPost)}`
+  );
+  r.ok(`${onde}: grade com um banner só (sem a pilha)`, tela.bannersDaGrade === 1, `${tela.bannersDaGrade} banners`);
+  r.ok(
+    `${onde}: a imagem da categoria é a do conteúdo`,
+    tela.imagemDaCategoria?.src === IMAGEM && tela.imagemDaCategoria?.alt === 'MARCADOR-CA-CATEGORIA',
+    JSON.stringify(tela.imagemDaCategoria)
+  );
+  r.ok(
+    `${onde}: forma de pagamento fora da lista some`,
+    JSON.stringify(tela.pagamentos) === '["Pix"]',
+    JSON.stringify(tela.pagamentos)
+  );
 };
 
 const browser = await abrirBrowser();
@@ -151,6 +218,7 @@ try {
   const { page, erros } = await novaAba(browser);
   await semear(page, { plataforma: 'VTEX', selecoes });
 
+  const naHome = selecoes.filter(s => s.pagina === 'home').length;
   const frame = await page
     .waitForFunction(
       n => {
@@ -158,23 +226,20 @@ try {
         return (doc?.querySelectorAll('[data-section-uid]').length ?? 0) >= n;
       },
       { timeout: 60000, polling: 250 },
-      selecoes.filter(s => s.pagina !== 'common').length
+      naHome
     )
     .then(() => true)
     .catch(() => false);
-  r.ok('o canvas montou as seções semeadas', frame);
+  r.ok('o canvas montou as seções semeadas da home', frame);
   await espera(1500);
 
-  const noCanvas = await page.evaluate(
-    `(${ler.toString()})(document.querySelector('iframe').contentDocument)`
-  );
-  conferir('canvas', noCanvas);
+  conferirHome('canvas', await page.evaluate(`(${ler.toString()})(document.querySelector('iframe').contentDocument)`));
 
   const guardado = await page.evaluate(() => JSON.parse(sessionStorage.getItem('layoutSelections') ?? '[]'));
-  const news = guardado.find(s => s.uid === selecoes.at(-1).uid);
+  const news = guardado.find(s => s.content?.title === 'MARCADOR-NL-TITULO');
   r.ok(
     'a hidratação guarda o conteúdo e tira o javascript:',
-    news?.content?.title === 'MARCADOR-NL-TITULO' && !('privacyUrl' in (news?.content ?? {})),
+    news && !('privacyUrl' in news.content),
     JSON.stringify(news?.content)
   );
 
@@ -206,15 +271,40 @@ try {
 
   if (link) {
     const { page: aba, erros: errosDoP } = await novaAba(browser);
-    let resp = await aba.goto(link, { waitUntil: 'networkidle2', timeout: 60000 });
-    if (resp?.status() !== 200) {
-      await espera(3000); // a rota do /p compila sob demanda no dev
-      resp = await aba.goto(link, { waitUntil: 'networkidle2', timeout: 60000 });
+    const abrir = async url => {
+      let resp = await aba.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+      if (resp?.status() !== 200) {
+        await espera(3000); // a rota do /p compila sob demanda no dev
+        resp = await aba.goto(url, { waitUntil: 'networkidle2', timeout: 60000 });
+      }
+      await espera(1200);
+      return resp?.status();
+    };
+    const base = link.replace(/\/[a-z]+$/, '');
+
+    r.ok('o /p/home abre', (await abrir(`${base}/home`)) === 200, `${base}/home`);
+    conferirHome('/p/home', await aba.evaluate(`(${ler.toString()})(document)`));
+
+    for (const pagina of ['categoria', 'produto']) {
+      const status = await abrir(`${base}/${pagina}`);
+      const texto = await aba.evaluate(() => document.body.innerText);
+      const faltam = MARCADORES[pagina].filter(m => !texto.includes(m));
+      r.ok(`/p/${pagina}: abre e os ${MARCADORES[pagina].length} marcadores aparecem`, status === 200 && faltam.length === 0, `HTTP ${status} · ${faltam.join(', ')}`);
+      if (pagina === 'produto') {
+        r.ok('/p/produto: hiddenSpecs esconde "Composição"', !texto.includes('Composição') && texto.includes('Forro'));
+        const paginas = await aba.evaluate(() => document.body.innerText.match(/Infinity|NaN/g)?.length ?? 0);
+        r.ok('/p/produto: pageSize 0 não quebra a paginação', paginas === 0, `${paginas} ocorrências de Infinity/NaN`);
+      }
     }
-    r.ok(`o /p abre (HTTP ${resp?.status()})`, resp?.status() === 200, link);
-    await espera(1500);
-    conferir('/p', await aba.evaluate(`(${ler.toString()})(document)`));
-    r.ok('o /p sem erro de página', errosDoP.length === 0, errosDoP.join(' | '));
+    // Aviso de hidratação por `useId` no /p (CategoryDescription09, ProductInfo09):
+    // existe na `main` SEM conteúdo nenhum, intermitente (3/6 cargas da categoria em
+    // 24/11/2026). Fica visível aqui, mas não reprova este estágio.
+    const HIDRATACAO = /hydrated but some attributes/;
+    const conhecidos = errosDoP.filter(e => HIDRATACAO.test(e));
+    if (conhecidos.length)
+      console.log(`  ⏳ ${conhecidos.length} aviso(s) de hidratação de useId no /p — pré-existente na main, fora deste escopo`);
+    const outros = errosDoP.filter(e => !HIDRATACAO.test(e));
+    r.ok('o /p sem erro de página (fora o aviso de hidratação conhecido)', outros.length === 0, outros.join(' | '));
 
     const id = /\/p\/([A-Za-z0-9]+)\//.exec(link)?.[1];
     const rev = await fetch(`${BASE_URL}/api/preview/${id}?rev=1`).then(x => x.json());

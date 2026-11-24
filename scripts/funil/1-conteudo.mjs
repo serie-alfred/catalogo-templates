@@ -27,7 +27,7 @@ import { FASTSTORE_STARTER, RAIZ, itens, ler, relatorio } from './lib/util.mjs';
 import { ARQUIVO_SCHEMAS, derivarConteudo, serializar } from '../derivar-conteudo.mjs';
 
 /** Famílias cuja migração terminou: todo componente com schema lê pelo hook. */
-const FAMILIAS_MIGRADAS = [];
+const FAMILIAS_MIGRADAS = ['9'];
 
 const r = relatorio('1-conteudo · schema do starter, resolvedor e migração');
 
@@ -127,6 +127,11 @@ for (const [nome, arquivo] of arquivoDe) {
   const fonte = ler(arquivo);
   if (!fonte.includes('useConteudoDaSecao(')) continue;
   migrados.add(nome);
+  r.ok(
+    `${nome}: expõe o mock para o painel (\`${nome}.conteudoPadrao = MOCK\`)`,
+    /\.conteudoPadrao\s*=\s*MOCK;/.test(fonte),
+    'sem ele o painel Conteúdo não sabe o valor de partida dos campos'
+  );
   const schema = schemas.componentes[nome]?.schema;
   if (!r.ok(`${nome}: lê pelo hook e tem schema`, schema, 'componente sem section.schema no starter')) continue;
   const campos = camposDoTipo(fonte);

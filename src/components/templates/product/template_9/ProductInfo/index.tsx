@@ -1,6 +1,7 @@
 import React, { useId, useRef, useState } from 'react';
 
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -15,6 +16,9 @@ import styles from './index.module.css';
  * uma cor só). Como no palco do starter: sem nota, sem Pix (o plano de exemplo não
  * tem entrada Pix) e o CEP não calcula. `useState` fica para tamanho, slide,
  * acordeões, avise-me e guia de medidas.
+ *
+ * Os rótulos e os acordeões são do CMS e vêm do `useConteudoDaSecao`; o produto é o de
+ * exemplo até o produto em destaque da loja existir (fase de produtos).
  */
 
 const BRL = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -29,7 +33,29 @@ const GUIDE = `data:image/svg+xml;utf8,${encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360"><rect width="640" height="360" fill="#F7F4EF"/><g font-family="sans-serif" font-size="16" fill="#1D1B18"><text x="32" y="56">Tamanho</text><text x="200" y="56">Busto</text><text x="340" y="56">Cintura</text><text x="480" y="56">Quadril</text><text x="32" y="112">PP</text><text x="200" y="112">80</text><text x="340" y="112">62</text><text x="480" y="112">88</text><text x="32" y="168">P</text><text x="200" y="168">84</text><text x="340" y="168">66</text><text x="480" y="168">92</text><text x="32" y="224">M</text><text x="200" y="224">88</text><text x="340" y="224">70</text><text x="480" y="224">96</text><text x="32" y="280">G</text><text x="200" y="280">94</text><text x="340" y="280">76</text><text x="480" y="280">102</text><text x="32" y="336">GG</text><text x="200" y="336">100</text><text x="340" y="336">82</text><text x="480" y="336">108</text></g></svg>'
 )}`;
 
-const MOCK = {
+/** Os campos do `section.schema` do ProductDetails09 que a réplica desenha. */
+interface ProductInfo09Conteudo {
+  newLabel?: string;
+  refLabel?: string;
+  colorLabel?: string;
+  sizeLabel?: string;
+  sizeGuideLabel?: string;
+  soldOutText?: string;
+  notifyLabel?: string;
+  notifyNamePlaceholder?: string;
+  notifyEmailPlaceholder?: string;
+  notifySubmitLabel?: string;
+  notifySuccess?: string;
+  buyLabel?: string;
+  shippingLabel?: string;
+  cepPlaceholder?: string;
+  cepButtonLabel?: string;
+  cepHelpLabel?: string;
+  cepHelpUrl?: string;
+  accordions: { title?: string; text?: string }[];
+}
+
+const MOCK: ProductInfo09Conteudo = {
   newLabel: 'Novidade',
   refLabel: 'Ref.',
   colorLabel: 'Cor',
@@ -119,7 +145,7 @@ const PlusMinus = ({ open }: { open: boolean }) => (
 );
 
 export default function ProductInfo09() {
-  const m = MOCK;
+  const m = useConteudoDaSecao(MOCK);
   const uid = useId();
   const [activeSize, setActiveSize] = useState('M');
   const [openAcc, setOpenAcc] = useState<number[]>([0]);
@@ -426,3 +452,6 @@ export default function ProductInfo09() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo09.conteudoPadrao = MOCK;

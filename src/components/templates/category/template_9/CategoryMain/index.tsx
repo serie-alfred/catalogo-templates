@@ -10,6 +10,7 @@ import {
 } from '@/components/templates/common/template_9/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/MainCategory09` do faststore.starter (família 09, Editorial;
@@ -27,6 +28,11 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * quando a lista de produtos sai vazia. Lá isso só acontece numa busca sem resultado
  * (ou no palco, pela prop `stageEmptyTerm`); aqui `TERMO_VAZIO` faz o papel da prop
  * do palco — vazio, o canvas mostra a grade.
+ *
+ * Os rótulos são do CMS e vêm do `useConteudoDaSecao`; produtos, facetas e contagem são
+ * os de exemplo até a categoria em destaque da loja existir (fase de produtos). O tipo
+ * não traz `pageSize` nem `specFacetKey`: a grade de exemplo não pagina nem escolhe a
+ * faceta de especificação (o 1-conteudo os lista como não desenhados).
  */
 
 interface FacetValue {
@@ -51,25 +57,48 @@ interface Selected {
   value: string;
 }
 
-/* ── rótulos (o mock.ts de lá) ── */
-const COUNT_LABEL = 'produtos';
-const FILTER_LABEL = 'Filtrar';
-const SORT_LABEL = 'Ordenar';
-const SORT_PREFIX = 'Ordenar:';
-const CLEAR_LABEL = 'Limpar';
-const CLEAR_ALL_LABEL = 'Limpar tudo';
-const APPLY_LABEL = 'Aplicar';
-const RESULTS_LABEL = 'Ver {total} resultados';
-const PROGRESS_LABEL = 'Você viu {shown} de {total} produtos';
-const LOAD_MORE_LABEL = 'Carregar mais';
-const EMPTY_EYEBROW = 'Busca';
-const EMPTY_TITLE = 'Nenhum resultado para';
-const EMPTY_TEXT =
-  'Confira a grafia das palavras ou tente um termo mais geral, como “vestido verde”.';
-const EMPTY_PRIMARY_LABEL = 'Voltar para a página inicial';
-const EMPTY_PRIMARY_URL = '/';
-const EMPTY_SECONDARY_LABEL = 'Ver novidades';
-const EMPTY_SECONDARY_URL = '/';
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+interface CategoryMain09Conteudo {
+  countLabel: string;
+  filterLabel: string;
+  sortLabel: string;
+  sortPrefix: string;
+  clearLabel: string;
+  clearAllLabel: string;
+  applyLabel: string;
+  /** `{total}` vira a contagem. */
+  resultsLabel: string;
+  /** `{shown}` e `{total}` viram as contagens. */
+  progressLabel: string;
+  loadMoreLabel: string;
+  emptyEyebrow: string;
+  emptyTitle: string;
+  emptyText: string;
+  emptyPrimaryLabel: string;
+  emptyPrimaryUrl: string;
+  emptySecondaryLabel: string;
+  emptySecondaryUrl: string;
+}
+
+const MOCK: CategoryMain09Conteudo = {
+  countLabel: 'produtos',
+  filterLabel: 'Filtrar',
+  sortLabel: 'Ordenar',
+  sortPrefix: 'Ordenar:',
+  clearLabel: 'Limpar',
+  clearAllLabel: 'Limpar tudo',
+  applyLabel: 'Aplicar',
+  resultsLabel: 'Ver {total} resultados',
+  progressLabel: 'Você viu {shown} de {total} produtos',
+  loadMoreLabel: 'Carregar mais',
+  emptyEyebrow: 'Busca',
+  emptyTitle: 'Nenhum resultado para',
+  emptyText: 'Confira a grafia das palavras ou tente um termo mais geral, como “vestido verde”.',
+  emptyPrimaryLabel: 'Voltar para a página inicial',
+  emptyPrimaryUrl: '/',
+  emptySecondaryLabel: 'Ver novidades',
+  emptySecondaryUrl: '/',
+};
 
 /**
  * Só no catálogo — o papel da prop `stageEmptyTerm` do palco de lá: com um termo, a
@@ -291,6 +320,26 @@ function FacetOptions09({
 }
 
 export default function CategoryMain09() {
+  // Os nomes de antes, para o markup abaixo continuar igual ao de lá.
+  const {
+    countLabel: COUNT_LABEL,
+    filterLabel: FILTER_LABEL,
+    sortLabel: SORT_LABEL,
+    sortPrefix: SORT_PREFIX,
+    clearLabel: CLEAR_LABEL,
+    clearAllLabel: CLEAR_ALL_LABEL,
+    applyLabel: APPLY_LABEL,
+    resultsLabel: RESULTS_LABEL,
+    progressLabel: PROGRESS_LABEL,
+    loadMoreLabel: LOAD_MORE_LABEL,
+    emptyEyebrow: EMPTY_EYEBROW,
+    emptyTitle: EMPTY_TITLE,
+    emptyText: EMPTY_TEXT,
+    emptyPrimaryLabel: EMPTY_PRIMARY_LABEL,
+    emptyPrimaryUrl: EMPTY_PRIMARY_URL,
+    emptySecondaryLabel: EMPTY_SECONDARY_LABEL,
+    emptySecondaryUrl: EMPTY_SECONDARY_URL,
+  } = useConteudoDaSecao(MOCK);
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
   const facets = FACETS;
 
@@ -694,3 +743,6 @@ export default function CategoryMain09() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryMain09.conteudoPadrao = MOCK;

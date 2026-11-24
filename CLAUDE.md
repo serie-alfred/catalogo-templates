@@ -229,7 +229,10 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
 - **Template**: lê conteúdo SÓ por `useConteudoDaSecao(MOCK)` — `const MOCK: XConteudo = {…}` com os
   nomes de campo do schema; a `interface XConteudo` é o contrato (o `1-conteudo` reprova campo que não
   existe no schema). Migrar um componente é também desenhar os campos do schema que a réplica não
-  desenhava (imagens, URLs, campos condicionais), espelhando o `index.tsx` do starter.
+  desenhava (imagens, URLs, campos condicionais), espelhando o `index.tsx` do starter. Campo do schema
+  que o preview não desenha (atraso do pop-up, mensagem de erro de envio) fica FORA do tipo: o
+  `1-conteudo` o lista como ℹ️, e é essa a lista do que ainda não tem efeito na tela. No fim do arquivo,
+  `XNN.conteudoPadrao = MOCK;` expõe o mock para o painel mostrar o valor de partida de cada campo.
 - **Mescla** (`resolverConteudo`, [src/utils/conteudo.ts](src/utils/conteudo.ts)): por chave de
   primeiro nível, como o `withMock` do starter — lista e objeto vêm inteiros. Diferença deliberada:
   campo presente e vazio fica vazio (o CS consegue apagar um texto, como no Design Studio da Wake);
@@ -239,11 +242,15 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
 - O contexto da seção (`SecaoConteudoContext`, [src/context/ConteudoContext.tsx](src/context/ConteudoContext.tsx))
   é posto pelo `ThemeRenderer`, fora do `LayoutContext` — não depende do cast do
   `SeededLayoutProvider`. O memo da seção compara `content` por referência.
-- **Migrados** (piloto da família 09): Header09, BannerMain09, Ruler09, Showcase09, ShelfBanner09,
-  Newsletter09. Família inteira migrada entra em `FAMILIAS_MIGRADAS` do `1-conteudo`.
+- **Migrados**: a família 09 inteira (as 21 peças com schema), em `FAMILIAS_MIGRADAS` do
+  `1-conteudo`. Nas peças de PLP/PDP o CMS só tem rótulos e opções: produto, categoria e contagem
+  continuam os de exemplo até a fase de produtos.
 - **Funil**: `1-conteudo` (schema = starter, regras do resolvedor rodando o `.ts` no Node, campos do
-  tipo × schema) e `2-conteudo` (marcadores únicos no canvas e no `/p`, campo vazio, lista, imagem,
-  `javascript:` barrado, `?rev=1` leve).
+  tipo × schema, `conteudoPadrao`) e `2-conteudo` (marcadores únicos no canvas e no `/p` — home,
+  categoria e produto —, campo vazio, lista, imagem, `javascript:` barrado, data passada, pagamento
+  fora da lista, `hiddenSpecs`, `?rev=1` leve). O aviso de hidratação de `useId` no `/p`
+  (CategoryDescription09, ProductInfo09) é intermitente e **existe na `main`** sem conteúdo: o estágio
+  o mostra como ⏳ e não reprova.
 
 ### Modo LP (Wake, Wake 2.0, VTEX e Nuvemshop)
 

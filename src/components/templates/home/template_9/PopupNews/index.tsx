@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -10,12 +11,34 @@ import styles from './index.module.css';
  * Espelha `organisms/PopupNews09` do faststore.starter (família 09, Editorial;
  * desenho `PopupNews09` / `PopupNews09-mobile`). Mesmo markup, mesmas classes,
  * mesmos `data-role`; o CSS é derivado do SCSS de lá, com o @media (overlay fixo).
+ * Conteúdo = o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`).
  *
  * O que sai: a mutação de cadastro, o analytics, o atraso de abertura e o
  * localStorage que suprime o pop-up. No canvas ele já nasce ABERTO; o fechar só
- * esconde (estado local) e o envio mostra a mensagem de sucesso.
+ * esconde (estado local) e o envio mostra a mensagem de sucesso. Por isso o tipo não
+ * traz `delaySeconds` nem `dismissDays` (o 1-conteudo os lista como não desenhados).
  */
-const CONTEUDO = {
+interface PopupNews09Conteudo {
+  imageDesktop?: string;
+  imageMobile?: string;
+  imageAlt?: string;
+  eyebrow?: string;
+  title?: string;
+  titleEmphasis?: string;
+  /** `{cupom}` no texto vira o cupom em destaque. */
+  text?: string;
+  coupon?: string;
+  namePlaceholder?: string;
+  emailPlaceholder?: string;
+  buttonLabel?: string;
+  successMessage?: string;
+  dismissLabel?: string;
+  privacyPrefix?: string;
+  privacyLabel?: string;
+  privacyUrl?: string;
+}
+
+const MOCK: PopupNews09Conteudo = {
   eyebrow: 'Newsletter',
   title: '10% na primeira',
   titleEmphasis: 'compra',
@@ -47,6 +70,9 @@ const Fechar = () => (
 
 export default function PopupNews09() {
   const {
+    imageDesktop,
+    imageMobile,
+    imageAlt,
     eyebrow,
     title,
     titleEmphasis,
@@ -60,7 +86,7 @@ export default function PopupNews09() {
     privacyPrefix,
     privacyLabel,
     privacyUrl,
-  } = CONTEUDO;
+  } = useConteudoDaSecao(MOCK);
 
   const [aberto, setAberto] = useState(true);
   const [nome, setNome] = useState('');
@@ -77,8 +103,8 @@ export default function PopupNews09() {
 
   if (!aberto) return null;
 
-  const [antes, depois] = text.split('{cupom}');
-  const temCupom = text.includes('{cupom}') && !!coupon;
+  const [antes, depois] = (text ?? '').split('{cupom}');
+  const temCupom = !!text?.includes('{cupom}') && !!coupon;
 
   return (
     <div className={styles.popupNews09} data-role="pn-root">
@@ -92,6 +118,12 @@ export default function PopupNews09() {
         aria-labelledby="pn09-titulo"
       >
         <div className={styles.media} data-role="pn-image">
+          {(imageDesktop || imageMobile) && (
+            <picture>
+              {imageMobile && <source media="(max-width: 960px)" srcSet={imageMobile} />}
+              <img src={imageDesktop || imageMobile} alt={imageAlt ?? ''} width={760} height={1160} />
+            </picture>
+          )}
           <button
             type="button"
             className={`${styles.close} ${styles.closeMob}`}
@@ -205,3 +237,6 @@ export default function PopupNews09() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+PopupNews09.conteudoPadrao = MOCK;

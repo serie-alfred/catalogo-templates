@@ -1,6 +1,7 @@
 import React, { useId, useState } from 'react';
 
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -12,9 +13,31 @@ import styles from './index.module.css';
  * de lá. Conteúdo = o `mock.ts` de lá. Sai o `usePDP`, o Reviews and Ratings e o
  * ramo do widget Trustvox. O corte desktop/mobile da lista, que lá sai de um
  * `matchMedia`, aqui sai do `isMobile` do renderer (o mesmo 960px).
+ *
+ * Os rótulos e o tamanho da página são do CMS e vêm do `useConteudoDaSecao`; as
+ * avaliações são as de exemplo (o preview não tem Reviews and Ratings). O tipo não traz
+ * `emptyText` nem `formError`: o exemplo sempre tem avaliações e o envio sempre dá certo
+ * (o 1-conteudo os lista como não desenhados).
  */
 
-const MOCK = {
+interface ProductReviews09Conteudo {
+  title?: string;
+  countLabel?: string;
+  starSingular?: string;
+  starPlural?: string;
+  writeLabel?: string;
+  moreLabel?: string;
+  pageSize: number;
+  pageSizeMobile: number;
+  formRatingLabel?: string;
+  formTitleLabel?: string;
+  formTextLabel?: string;
+  formNameLabel?: string;
+  formSubmitLabel?: string;
+  formSuccess?: string;
+}
+
+const MOCK: ProductReviews09Conteudo = {
   title: 'Avaliações',
   countLabel: 'avaliações',
   starSingular: 'estrela',
@@ -109,7 +132,10 @@ function pageList(current: number, total: number): Array<number | '…'> {
 }
 
 export default function ProductReviews09({ isMobile = false }: { isMobile?: boolean }) {
-  const m = MOCK;
+  const m = useConteudoDaSecao(MOCK);
+  // 0 ou fração vindos do CS virariam Infinity páginas: inteiro de 1 para cima.
+  const pageSize = Math.max(1, Math.round(m.pageSize) || MOCK.pageSize);
+  const pageSizeMobile = Math.max(1, Math.round(m.pageSizeMobile) || MOCK.pageSizeMobile);
   const uid = useId();
   const [page, setPage] = useState(1);
   const [mobilePages, setMobilePages] = useState(1);
@@ -126,9 +152,9 @@ export default function ProductReviews09({ isMobile = false }: { isMobile?: bool
     { stars: 2, count: SUMMARY.starsTwo },
     { stars: 1, count: SUMMARY.starsOne },
   ];
-  const reviews = REVIEWS.slice(0, isMobile ? mobilePages * m.pageSizeMobile : m.pageSize);
-  const totalPages = Math.max(1, Math.ceil(LIST_TOTAL / m.pageSize));
-  const hasMore = mobilePages * m.pageSizeMobile < LIST_TOTAL;
+  const reviews = REVIEWS.slice(0, isMobile ? mobilePages * pageSizeMobile : pageSize);
+  const totalPages = Math.max(1, Math.ceil(LIST_TOTAL / pageSize));
+  const hasMore = mobilePages * pageSizeMobile < LIST_TOTAL;
 
   return (
     <div className={styles.productReviews09Box}>
@@ -310,3 +336,6 @@ export default function ProductReviews09({ isMobile = false }: { isMobile?: bool
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductReviews09.conteudoPadrao = MOCK;

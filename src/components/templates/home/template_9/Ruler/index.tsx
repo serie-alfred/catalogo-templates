@@ -106,3 +106,6 @@ export default function Ruler09() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Ruler09.conteudoPadrao = MOCK;

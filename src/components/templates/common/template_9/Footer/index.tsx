@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
@@ -8,14 +9,16 @@ import styles from './index.module.css';
 /**
  * Espelha `organisms/Footer09` do faststore.starter (família 09, Editorial; desenho
  * `Footer09` / `Footer09-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e
- * as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá,
+ * por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  *
  * Colunas de links + "Atendimento" (contato, horário e redes em texto), a marca gigante,
  * formas de pagamento em etiquetas de texto e a linha legal. Mobile: as colunas viram
  * acordeão (a primeira aberta).
  *
- * Divergência deliberada: a marca é o logo que o usuário enviou no /gerador; sem ele, a
- * marca em texto do catálogo. Razão social e CNPJ são genéricos.
+ * Divergência deliberada: a marca é o logo que o usuário enviou no /gerador; sem ele, o
+ * `brandName` do CS ou a marca em texto do catálogo (o mock não traz "Sua Marca").
+ * Razão social e CNPJ são marcadores.
  */
 
 type Footer09Social = 'youtube' | 'instagram' | 'x' | 'linkedin' | 'facebook';
@@ -41,7 +44,20 @@ const ROTULO_PAGAMENTO: Record<Footer09Payment, string> = {
   pix: 'Pix',
 };
 
-const MOCK = {
+/** O conteúdo da seção: os campos do `section.schema` do Footer09. */
+interface Footer09Conteudo {
+  columns: { title?: string; links?: { label?: string; url?: string; highlight?: boolean }[] }[];
+  contactTitle?: string;
+  contactLines: { text?: string; url?: string }[];
+  contactHours?: string;
+  socials: { network?: Footer09Social; url?: string }[];
+  brandName?: string;
+  brandUrl?: string;
+  payments: { method?: Footer09Payment }[];
+  legal?: string;
+}
+
+const MOCK: Footer09Conteudo = {
   columns: [
     {
       title: 'Institucional',
@@ -70,17 +86,24 @@ const MOCK = {
         { label: 'Sale', url: '/sale', highlight: true },
       ],
     },
-  ] as { title: string; links: { label: string; url: string; highlight?: boolean }[] }[],
+  ],
   contactTitle: 'Atendimento',
-  contactLines: [{ text: '[0000-0000]' }, { text: '[e-mail de atendimento]' }] as { text: string; url?: string }[],
+  contactLines: [{ text: '[0000-0000]' }, { text: '[e-mail de atendimento]' }],
   contactHours: 'Seg a sex, 9h às 18h',
   socials: [
     { network: 'instagram', url: 'https://www.instagram.com/' },
     { network: 'facebook', url: 'https://www.facebook.com/' },
     { network: 'youtube', url: 'https://www.youtube.com/' },
-  ] as { network: Footer09Social; url: string }[],
+  ],
   brandUrl: '/',
-  payments: ['visa', 'mastercard', 'elo', 'amex', 'pix', 'boleto'] as Footer09Payment[],
+  payments: [
+    { method: 'visa' },
+    { method: 'mastercard' },
+    { method: 'elo' },
+    { method: 'amex' },
+    { method: 'pix' },
+    { method: 'boleto' },
+  ],
   legal: '© 2026 [RAZÃO SOCIAL] · CNPJ [00.000.000/0001-00] · [Endereço completo]',
 };
 
@@ -122,8 +145,22 @@ const Sinal = ({ aberto }: { aberto: boolean }) => (
 
 export default function Footer09() {
   const logo = useLogoDoRodape();
-  const { columns, contactTitle, contactLines, contactHours, socials, brandUrl, payments, legal } = MOCK;
+  const {
+    columns,
+    contactTitle,
+    contactLines,
+    contactHours,
+    socials,
+    brandName,
+    brandUrl,
+    payments,
+    legal,
+  } = useConteudoDaSecao(MOCK);
   const [aberta, setAberta] = useState<number | null>(0);
+
+  // Rede ou pagamento fora da lista do schema não tem rótulo: some, como no starter.
+  const redes = socials.filter(s => s.network && ROTULO_REDE[s.network] && s.url);
+  const pagamentos = payments.filter(p => p.method && ROTULO_PAGAMENTO[p.method]);
 
   return (
     <div className={styles.footer09Box}>
@@ -150,7 +187,7 @@ export default function Footer09() {
                     </button>
                   </h2>
                   <ul id={id} className={styles.links}>
-                    {col.links.map((l, j) => (
+                    {(col.links ?? []).map((l, j) => (
                       <li key={j}>
                         <a
                           className={`${styles.link}${l.highlight ? ` ${styles.accent}` : ''}`}
@@ -166,48 +203,61 @@ export default function Footer09() {
               );
             })}
 
-            <div className={styles.contact} data-role="ft-contact">
-              <h2 className={styles.contactTitle}>{contactTitle}</h2>
-              <ul className={styles.contactList}>
-                {contactLines.map((c, i) => (
-                  <li key={i}>{c.url ? <a href={c.url}>{c.text}</a> : c.text}</li>
-                ))}
-                <li className={styles.muted}>{contactHours}</li>
-                <li className={styles.socials}>
-                  {socials.map((s, i) => (
-                    <a
-                      key={i}
-                      className={styles.social}
-                      href={s.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      data-role="ft-social"
-                    >
-                      <span>{ROTULO_REDE[s.network]}</span>
-                    </a>
+            {(contactTitle || contactLines.length > 0 || contactHours || redes.length > 0) && (
+              <div className={styles.contact} data-role="ft-contact">
+                {contactTitle && <h2 className={styles.contactTitle}>{contactTitle}</h2>}
+                <ul className={styles.contactList}>
+                  {contactLines.map((c, i) => (
+                    <li key={i}>{c.url ? <a href={c.url}>{c.text}</a> : c.text}</li>
                   ))}
-                </li>
-              </ul>
-            </div>
+                  {contactHours && <li className={styles.muted}>{contactHours}</li>}
+                  {redes.length > 0 && (
+                    <li className={styles.socials}>
+                      {redes.map((s, i) => (
+                        <a
+                          key={i}
+                          className={styles.social}
+                          href={s.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          data-role="ft-social"
+                        >
+                          <span>{ROTULO_REDE[s.network as Footer09Social]}</span>
+                        </a>
+                      ))}
+                    </li>
+                  )}
+                </ul>
+              </div>
+            )}
           </div>
 
-          <a className={styles.brand} href={brandUrl} aria-label="Página inicial" data-role="ft-brand">
-            {logo ? <img src={logo} alt="Logo" /> : 'SERIE//A'}
+          <a
+            className={styles.brand}
+            href={brandUrl || '/'}
+            aria-label={`${brandName || 'Página inicial'}${brandName ? ', página inicial' : ''}`}
+            data-role="ft-brand"
+          >
+            {logo ? <img src={logo} alt="Logo" /> : brandName || 'SERIE//A'}
           </a>
         </div>
 
         <div className={styles.bottom}>
           <div className={styles.bottomInner}>
-            <ul className={styles.payments} aria-label="Formas de pagamento" data-role="ft-payments">
-              {payments.map((p, i) => (
-                <li key={i} className={styles.payment}>
-                  {ROTULO_PAGAMENTO[p]}
-                </li>
-              ))}
-            </ul>
-            <p className={styles.legal} data-role="ft-legal">
-              {legal}
-            </p>
+            {pagamentos.length > 0 && (
+              <ul className={styles.payments} aria-label="Formas de pagamento" data-role="ft-payments">
+                {pagamentos.map((p, i) => (
+                  <li key={i} className={styles.payment}>
+                    {ROTULO_PAGAMENTO[p.method as Footer09Payment]}
+                  </li>
+                ))}
+              </ul>
+            )}
+            {legal && (
+              <p className={styles.legal} data-role="ft-legal">
+                {legal}
+              </p>
+            )}
             <Credit />
           </div>
         </div>
@@ -215,3 +265,6 @@ export default function Footer09() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Footer09.conteudoPadrao = MOCK;

@@ -36,3 +36,6 @@ export default function ShelfBanner09() {
   const c = useConteudoDaSecao(MOCK);
   return <ProductShelf09 variant="banner" styles={styles} {...c} />;
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ShelfBanner09.conteudoPadrao = MOCK;

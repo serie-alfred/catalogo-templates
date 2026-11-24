@@ -4,15 +4,18 @@ import React, { useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/CategoryTitle09` do faststore.starter (família 09, Editorial;
  * desenho `CategoryTitle09`): nome da categoria, contagem e chips de subcategoria em
  * texto. Mesmo markup, classes e `data-role`; o CSS é derivado do SCSS de lá.
  *
- * Lá nome, contagem e chips vêm do contexto da PLP (breadcrumb, totalCount, facet do
- * nível abaixo); aqui são o exemplo do mock.ts de lá. O chip, que lá troca o filtro pela
- * store de busca, aqui só marca o ativo num `useState`.
+ * O único campo de CMS é o rótulo do chip "Todos" (`useConteudoDaSecao`). Lá nome,
+ * contagem e chips vêm do contexto da PLP (breadcrumb, totalCount, facet do nível
+ * abaixo); aqui são o exemplo do mock.ts de lá, até a categoria em destaque da loja
+ * existir (fase de produtos). O chip, que lá troca o filtro pela store de busca, aqui
+ * só marca o ativo num `useState`.
  */
 interface Subcat {
   value: string;
@@ -20,7 +23,12 @@ interface Subcat {
   quantity?: number;
 }
 
-const ALL_LABEL = 'Todos';
+interface CategoryTitle09Conteudo {
+  allLabel?: string;
+}
+
+const MOCK: CategoryTitle09Conteudo = { allLabel: 'Todos' };
+
 const TITULO = 'Vestidos';
 const TOTAL = 128;
 const SUBCATS: Subcat[] = [
@@ -31,6 +39,7 @@ const SUBCATS: Subcat[] = [
 ];
 
 export default function CategoryTitle09() {
+  const { allLabel } = useConteudoDaSecao(MOCK);
   const [ativa, setAtiva] = useState('');
 
   const escolher = (e: React.MouseEvent, value: string) => {
@@ -58,7 +67,7 @@ export default function CategoryTitle09() {
                 onClick={(e) => escolher(e, '')}
                 data-role="ct-chip"
               >
-                {ALL_LABEL}
+                {allLabel || 'Todos'}
               </a>
             </li>
             {SUBCATS.map((s) => {
@@ -86,3 +95,6 @@ export default function CategoryTitle09() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryTitle09.conteudoPadrao = MOCK;

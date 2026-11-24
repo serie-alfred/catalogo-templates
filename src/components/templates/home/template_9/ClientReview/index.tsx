@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -10,17 +11,23 @@ import styles from './index.module.css';
  * Espelha `organisms/ClientReview09` do faststore.starter (família 09, Editorial;
  * desenho `ClientReview09`). Mesmo markup, mesmas classes, mesmos `data-role` e as
  * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de
- * lá (cinco depoimentos iguais; nome e cidade são marcadores do desenho).
+ * lá (cinco depoimentos iguais; nome e cidade são marcadores do desenho), por baixo
+ * do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  */
 
 type Review = {
-  text: string;
-  rating: number;
-  author: string;
-  productPrefix: string;
-  productName: string;
-  productUrl: string;
+  text?: string;
+  rating?: number;
+  author?: string;
+  productPrefix?: string;
+  productName?: string;
+  productUrl?: string;
 };
+
+interface ClientReview09Conteudo {
+  eyebrow?: string;
+  reviews: Review[];
+}
 
 const REVIEW: Review = {
   text: 'Comprei o vestido de linho pensando no verão e acabei usando o ano inteiro. O caimento é exatamente o da foto.',
@@ -31,7 +38,10 @@ const REVIEW: Review = {
   productUrl: '#',
 };
 
-const REVIEWS: Review[] = [REVIEW, REVIEW, REVIEW, REVIEW, REVIEW];
+const MOCK: ClientReview09Conteudo = {
+  eyebrow: 'Quem veste',
+  reviews: [REVIEW, REVIEW, REVIEW, REVIEW, REVIEW],
+};
 
 const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
   <svg
@@ -64,22 +74,31 @@ const Estrela = ({ cheia }: { cheia: boolean }) => (
 const dois = (n: number) => String(n).padStart(2, '0');
 
 export default function ClientReview09() {
+  const { eyebrow, reviews } = useConteudoDaSecao(MOCK);
   const [atual, setAtual] = useState(0);
-  const total = REVIEWS.length;
-  const r = REVIEWS[Math.min(atual, total - 1)];
-  const nota = Math.max(0, Math.min(5, Math.round(r.rating)));
+  if (!reviews.length) return null;
+
+  const total = reviews.length;
+  const r = reviews[Math.min(atual, total - 1)];
+  const nota = Math.max(0, Math.min(5, Math.round(Number(r.rating) || 0)));
   const ir = (i: number) => setAtual((i + total) % total);
 
   return (
     <div className={styles.clientReview09Box}>
-      <section className={styles.clientReview09} aria-label="Quem veste" data-role="cr-root">
+      <section
+        className={styles.clientReview09}
+        aria-label={eyebrow || 'Depoimentos'}
+        data-role="cr-root"
+      >
         <link rel="stylesheet" href={FONTES_09} />
         <div className={styles.inner}>
-          <span className={styles.eyebrow} data-role="cr-eyebrow">
-            <span className={styles.rule} aria-hidden="true" />
-            Quem veste
-            <span className={styles.rule} aria-hidden="true" />
-          </span>
+          {eyebrow && (
+            <span className={styles.eyebrow} data-role="cr-eyebrow">
+              <span className={styles.rule} aria-hidden="true" />
+              {eyebrow}
+              <span className={styles.rule} aria-hidden="true" />
+            </span>
+          )}
           <figure className={styles.figure} aria-live="polite">
             <blockquote className={styles.quote} data-role="cr-quote">
               “{r.text}”
@@ -95,13 +114,17 @@ export default function ClientReview09() {
                   </span>
                 </>
               )}
-              <span className={styles.author} data-role="cr-author">
-                {r.author}
-              </span>
-              <span className={styles.product}>
-                {`${r.productPrefix} `}
-                <a href={r.productUrl}>{r.productName}</a>
-              </span>
+              {r.author && (
+                <span className={styles.author} data-role="cr-author">
+                  {r.author}
+                </span>
+              )}
+              {r.productName && (
+                <span className={styles.product}>
+                  {r.productPrefix && `${r.productPrefix} `}
+                  {r.productUrl ? <a href={r.productUrl}>{r.productName}</a> : r.productName}
+                </span>
+              )}
             </figcaption>
           </figure>
           {total > 1 && (
@@ -132,3 +155,6 @@ export default function ClientReview09() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ClientReview09.conteudoPadrao = MOCK;

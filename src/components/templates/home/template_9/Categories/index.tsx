@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -8,10 +9,33 @@ import styles from './index.module.css';
  * Espelha `molecules/Categories09` do faststore.starter (família 09, Editorial;
  * desenho `Categories09`). Mesmo markup, mesmas classes, mesmos `data-role` e as
  * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de
- * lá: cinco categorias sem foto (vale o fundo de placeholder da mídia).
+ * lá (cinco categorias sem foto: vale o fundo de placeholder da mídia), por baixo
+ * do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  */
 
-const CATEGORIAS = ['Vestidos', 'Camisas', 'Alfaiataria', 'Tricô', 'Acessórios'];
+interface Categories09Conteudo {
+  title?: string;
+  titleEmphasis?: string;
+  viewAllLabel?: string;
+  viewAllUrl?: string;
+  itemLinkLabel?: string;
+  categories: { name?: string; url?: string; image?: string; imageAlt?: string }[];
+}
+
+const MOCK: Categories09Conteudo = {
+  title: 'Compre por',
+  titleEmphasis: 'categoria',
+  viewAllLabel: 'Ver todas',
+  viewAllUrl: '/s',
+  itemLinkLabel: 'Ver',
+  categories: [
+    { name: 'Vestidos', url: '/vestidos' },
+    { name: 'Camisas', url: '/camisas' },
+    { name: 'Alfaiataria', url: '/alfaiataria' },
+    { name: 'Tricô', url: '/trico' },
+    { name: 'Acessórios', url: '/acessorios' },
+  ],
+};
 
 const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
   <svg
@@ -28,6 +52,8 @@ const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function Categories09() {
+  const { title, titleEmphasis, viewAllLabel, viewAllUrl, itemLinkLabel, categories } =
+    useConteudoDaSecao(MOCK);
   const railRef = useRef<HTMLUListElement>(null);
   const [inicio, setInicio] = useState(true);
   const [fim, setFim] = useState(true);
@@ -44,12 +70,14 @@ export default function Categories09() {
     const win = railRef.current?.ownerDocument.defaultView ?? window;
     win.addEventListener('resize', medir);
     return () => win.removeEventListener('resize', medir);
-  }, [medir]);
+  }, [medir, categories.length]);
 
   const passo = (dir: 1 | -1) => {
     const el = railRef.current;
     if (el) el.scrollBy({ left: dir * el.clientWidth, behavior: 'smooth' });
   };
+
+  if (!categories.length) return null;
 
   return (
     <div className={styles.categories09Box}>
@@ -57,13 +85,17 @@ export default function Categories09() {
         <link rel="stylesheet" href={FONTES_09} />
         <div className={styles.inner}>
           <div className={styles.head}>
-            <h2 className={styles.title} data-role="ct-title">
-              Compre por <em>categoria</em>
-            </h2>
+            {(title || titleEmphasis) && (
+              <h2 className={styles.title} data-role="ct-title">
+                {title} {titleEmphasis && <em>{titleEmphasis}</em>}
+              </h2>
+            )}
             <div className={styles.actions}>
-              <a className={styles.viewAll} href="#" data-role="ct-view-all">
-                <span>Ver todas</span>
-              </a>
+              {viewAllLabel && (
+                <a className={styles.viewAll} href={viewAllUrl || '#'} data-role="ct-view-all">
+                  <span>{viewAllLabel}</span>
+                </a>
+              )}
               <button
                 type="button"
                 className={styles.arrow}
@@ -85,13 +117,24 @@ export default function Categories09() {
             </div>
           </div>
           <ul ref={railRef} className={styles.rail} onScroll={medir}>
-            {CATEGORIAS.map(nome => (
-              <li key={nome} className={styles.item} data-role="ct-item">
-                <a className={styles.card} href="#">
-                  <span className={styles.media} />
+            {categories.map((c, i) => (
+              <li key={i} className={styles.item} data-role="ct-item">
+                <a className={styles.card} href={c.url || '#'}>
+                  <span className={styles.media}>
+                    {c.image && (
+                      <img
+                        src={c.image}
+                        alt={c.imageAlt || c.name || ''}
+                        width={240}
+                        height={300}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    )}
+                  </span>
                   <span className={styles.label}>
-                    <span className={styles.name}>{nome}</span>
-                    <span className={styles.see}>Ver</span>
+                    <span className={styles.name}>{c.name}</span>
+                    {itemLinkLabel && <span className={styles.see}>{itemLinkLabel}</span>}
                   </span>
                 </a>
               </li>
@@ -102,3 +145,6 @@ export default function Categories09() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Categories09.conteudoPadrao = MOCK;

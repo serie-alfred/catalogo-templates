@@ -446,3 +446,6 @@ export default function Header09() {
     </>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header09.conteudoPadrao = MOCK;

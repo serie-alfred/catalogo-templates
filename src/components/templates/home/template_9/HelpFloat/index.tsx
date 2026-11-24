@@ -5,11 +5,13 @@ import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
 
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Réplica de `organisms/HelpFloatButton09` do faststore.starter: mesmo markup, classes e
  * `data-role`; CSS derivado do SCSS de lá (com @media: botão fixo na viewport). Conteúdo =
- * o mock.ts de lá, inline. O painel abre por clique, como na origem.
+ * o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de
+ * lá). O painel abre por clique, como na origem.
  *
  * HelpFloatButton09 — ajuda flutuante da família 09 (Editorial; desenho `HelpFloat09` /
  * `HelpFloat09-mobile`). Botão "Ajuda" fixo no canto inferior direito que abre um painel
@@ -20,7 +22,7 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  */
 export type HelpFloat09Icon = 'whatsapp' | 'exchange' | 'truck';
 
-interface HelpFloatButton09Props {
+interface HelpFloat09Conteudo {
   buttonLabel?: string;
   title?: string;
   /** Trecho do título em itálico, logo depois de `title`. */
@@ -35,7 +37,7 @@ interface HelpFloatButton09Props {
   footerText?: string;
 }
 
-const CONTEUDO: HelpFloatButton09Props = {
+const MOCK: HelpFloat09Conteudo = {
   buttonLabel: 'Ajuda',
   title: 'Como podemos',
   titleEmphasis: 'ajudar?',
@@ -118,7 +120,7 @@ export default function HelpFloat09() {
     titleEmphasis,
     helpItems = [],
     footerText,
-  } = CONTEUDO;
+  } = useConteudoDaSecao(MOCK);
   const [aberto, setAberto] = useState(false);
   useAbrirNoCanvas('ajuda', setAberto);
 
@@ -213,3 +215,6 @@ export default function HelpFloat09() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+HelpFloat09.conteudoPadrao = MOCK;

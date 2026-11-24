@@ -5,16 +5,49 @@ o que já está no código está resumido em **Conteúdo do cliente** no [CLAUDE
 
 ## Andamento
 
-- **Fase 0 — feito (23/11/2026)**: `rev` do preview em chave própria (`preview:{id}:rev`, no mesmo `MSET`
-  do snapshot); tipos (`src/types/conteudo.ts`); `yarn derivar:conteudo`; `resolverConteudo`/`sanitizarConteudo`/
-  `levarConteudo`; `SecaoConteudoContext` + `useConteudoDaSecao`; `LayoutSelection.content` com
-  `setConteudoDaSecao`/`resetConteudoDaSecao`, sanitizado na hidratação e levado na troca no lugar;
-  `useCORS` no export; funil `1-conteudo` e `2-conteudo`; piloto com 6 peças da família 09 (Header,
-  BannerMain, Ruler, Showcase, ShelfBanner, Newsletter).
-- **Fase 0 — falta**: as outras 15 peças com schema da família 09 (aí ela entra em `FAMILIAS_MIGRADAS`);
-  migração SQL e libs do Supabase com fallback de dev (esperam o merge do `feat/login-supabase`); upload ao
-  Blob (pede `yarn add @vercel/blob` e o Blob store ligado ao projeto).
-- Fases 1 a 5: não começadas.
+Branch `feat/conteudo-do-cliente`, desenvolvida no worktree `../catalogo-templates-conteudo` (a pasta
+`catalogo-templates` continua na `main`). Dev do worktree: `yarn next dev -p 5514` → http://localhost:5514.
+
+Legenda: ✅ feito · 🔄 em andamento · ⏳ a fazer · ⛔ espera uma ação do Matheus.
+
+### O que é de quem
+
+| # | Item | Quem | Status |
+| --- | --- | --- | --- |
+| 0.1 | Base: tipos, `resolverConteudo`, `useConteudoDaSecao`, `content` na seção, sanitização, `derivar:conteudo` | Claude | ✅ |
+| 0.2 | `?rev=1` do preview lendo só a revisão (chave própria no KV) | Claude | ✅ |
+| 0.3 | Funil `1-conteudo` e `2-conteudo` | Claude | ✅ |
+| 0.4 | Família 09: as 21 peças com schema lendo pelo hook e expondo o mock (`conteudoPadrao`) | Claude | ✅ |
+| 0.5 | A 09 em `FAMILIAS_MIGRADAS` (trava de regressão) e o `2-conteudo` cobrindo home, categoria e produto | Claude | ✅ |
+| 0.6 | Achado: aviso de hidratação de `useId` no `/p` (CategoryDescription09, ProductInfo09), intermitente, **já existe na `main`** sem conteúdo (3/6 cargas da categoria). Não é desta branch | Matheus decide: corrigir à parte ou depois | ⛔ |
+| 1.1 | Aba **Conteúdo** no painel da direita (texto, textarea, lista, booleano, número, opção, link), ao lado de **Estilo** | Claude | 🔄 |
+| 1.2 | Upload de imagem com fallback local em dev (sem precisar do Blob) | Claude | ⏳ |
+| 1.3 | Upload em produção pelo Vercel Blob (`@vercel/blob`) | Claude | ⛔ 1.4 |
+| 1.4 | Confirmar a conta da Vercel no **Pro** e criar um **Blob store** ligado ao projeto (Storage → Blob; a Vercel cadastra o `BLOB_READ_WRITE_TOKEN`) | Matheus | ⛔ |
+| 1.5 | Migrar as famílias 10–17 (~190 peças) | Claude | ⏳ |
+| 1.6 | Decidir se a 1.5 vai com agentes Sonnet, uma família por agente (mais rápido, custa tokens) ou à mão, em sequência | Matheus | ⛔ |
+| 2.1 | Conteúdo da loja (menus, avisos, contato, redes, banners, categorias) com fallback em arquivo no dev | Claude | ⏳ |
+| 2.2 | Mergear o `feat/login-supabase` (traz o projeto e o cliente do Supabase) | Matheus | ⛔ |
+| 2.3 | Rodar a migração SQL do conteúdo no SQL Editor do Supabase (eu entrego o arquivo) | Matheus | ⛔ 2.1 |
+| 2.4 | Migrar as famílias 01–08 (~100 peças, renomeando campos para os do starter) | Claude | ⏳ |
+| 3.1 | Produtos: manual, a partir dos exemplos, planilha CSV/XLSX, coleções nas vitrines, cards/PLP/PDP com o produto | Claude | ⏳ |
+| 3.2 | Uma planilha real (ou de exemplo) de produtos de um cliente, para o teste | Matheus | ⏳ |
+| 4.1 | Importar produtos da loja atual pela URL | Claude | ⏳ |
+| 4.2 | Duas ou três URLs de lojas de clientes (VTEX, Shopify, Nuvemshop…) para o teste | Matheus | ⏳ |
+| 5.1 | Arquivamento em 3 meses, limpeza de imagens sem uso, backup noturno, uso do banco no painel | Claude | ⏳ |
+| — | Revisar a branch, decidir push/PR e o merge na `main` | Matheus | a cada marco |
+
+### Quando você testa
+
+| Marco | O que você testa | Onde | Depende de |
+| --- | --- | --- | --- |
+| T1 | Editar textos e listas da família 09 na aba Conteúdo, ver no canvas e no `/p` | dev do worktree (5514) | 0.5 + 1.1 |
+| T2 | Subir imagens (banner, categoria, marca) na família 09 | dev do worktree (5514) | 1.2 |
+| T3 | O mesmo em produção (deploy de preview da branch) | Vercel | 1.3 + 1.4 + push |
+| T4 | Todas as famílias editáveis | dev do worktree (5514) | 1.5 + 2.4 |
+| T5 | Menus e contato da loja que ficam ao trocar o template | dev (arquivo local); produção depois de 2.2 + 2.3 | 2.1 |
+| T6 | Produtos do cliente nas vitrines, PLP e PDP | dev do worktree (5514) | 3.1 + 3.2 |
+| T7 | Importar produtos pela URL da loja atual | dev do worktree (5514) | 4.1 + 4.2 |
 
 ## Contexto
 
