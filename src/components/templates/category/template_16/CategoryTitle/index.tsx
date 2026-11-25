@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -10,8 +12,9 @@ import styles from './index.module.css';
  * inclinado, as subcategorias em pílulas brancas com a quantidade e a onda creme no pé (hex fixo
  * de ilustração). Mesmo markup, classes e `data-role`; o CSS é derivado do SCSS de lá.
  *
- * Lá nome, contagem e chips vêm do contexto da PLP; aqui são o exemplo do mock.ts de lá. O chip,
- * que lá troca o filtro pela store de busca, aqui alterna num `useState`.
+ * O único campo de CMS é o rótulo da contagem (`useConteudoDaSecao`). Lá nome, contagem e chips
+ * vêm do contexto da PLP; aqui são o exemplo do mock.ts de lá. O chip, que lá troca o filtro pela
+ * store de busca, aqui alterna num `useState`.
  */
 const FONTES =
   'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap';
@@ -22,7 +25,12 @@ interface Subcat {
   quantity?: number;
 }
 
-const COUNT_LABEL = 'produtos';
+interface CategoryTitle16Conteudo {
+  countLabel?: string;
+}
+
+const MOCK: CategoryTitle16Conteudo = { countLabel: 'produtos' };
+
 const TITULO = 'Brinquedos';
 const TOTAL = 248;
 const SUBCATS: Subcat[] = [
@@ -35,6 +43,7 @@ const SUBCATS: Subcat[] = [
 ];
 
 export default function CategoryTitle16() {
+  const { countLabel: COUNT_LABEL } = useConteudoDaSecao(MOCK);
   const [ativa, setAtiva] = useState('');
 
   const escolher = (e: React.MouseEvent, value: string) => {
@@ -89,3 +98,6 @@ export default function CategoryTitle16() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryTitle16.conteudoPadrao = MOCK;

@@ -1,16 +1,17 @@
 import React from 'react'
+
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao'
+
 import styles from './index.module.css'
 
 /**
  * Espelha `molecules/BenefitsStrip16` do faststore.starter (família 16, Infantil). Mesmo markup, mesmas classes,
  * mesmos `data-role` e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo =
- * o mock.ts de lá. A seção fica dentro do envelope `.benefitsStrip16Box` (container das @container).
+ * o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá). A seção fica dentro do envelope `.benefitsStrip16Box` (container das @container).
  */
 
-// Conteúdo do mock.ts do starter.
-// Mock de validação local — exibido quando o CMS não envia conteúdo (MOCK_ENABLED).
 // Textos literais do desenho `Ruler16`.
-const benefitsStrip16Mock: BenefitsStrip16Props = {
+const MOCK: Ruler16Conteudo = {
   benefits: [
     { icon: 'truck', title: 'Frete grátis', text: 'nas compras acima de R$ 199' },
     { icon: 'card', title: 'Até 6x sem juros', text: 'no cartão de crédito' },
@@ -29,9 +30,9 @@ const benefitsStrip16Mock: BenefitsStrip16Props = {
  * Os textos são do CMS ("Até 6x sem juros" é texto do lojista, não cálculo).
  * Apresentacional — sem evento de analytics e sem valor de commerce.
  */
-export type BenefitsStrip16Icon = 'truck' | 'card' | 'exchange' | 'shield' | 'gift' | 'star'
+type BenefitsStrip16Icon = 'truck' | 'card' | 'exchange' | 'shield' | 'gift' | 'star'
 
-export interface BenefitsStrip16Benefit {
+interface BenefitsStrip16Benefit {
   icon?: BenefitsStrip16Icon
   /** Título em Fredoka (ex.: "Frete grátis"). */
   title?: string
@@ -41,8 +42,8 @@ export interface BenefitsStrip16Benefit {
   url?: string
 }
 
-export interface BenefitsStrip16Props {
-  benefits?: BenefitsStrip16Benefit[]
+interface Ruler16Conteudo {
+  benefits: BenefitsStrip16Benefit[]
 }
 
 const FONTES = 'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap'
@@ -84,7 +85,7 @@ const ICONES: Record<BenefitsStrip16Icon, React.ReactNode> = {
 }
 
 export default function Ruler16() {
-  const { benefits = [] } = benefitsStrip16Mock
+  const { benefits } = useConteudoDaSecao(MOCK)
   if (!benefits.length) return null
 
   return (
@@ -126,3 +127,6 @@ export default function Ruler16() {
     </div>
   )
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Ruler16.conteudoPadrao = MOCK;

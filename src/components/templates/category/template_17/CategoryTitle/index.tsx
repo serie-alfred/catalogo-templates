@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -10,8 +12,9 @@ import styles from './index.module.css';
  * contagem na cor primária ao lado, a descrição curta (só desktop) e as subcategorias em pílulas
  * claras com a quantidade. Mesmo markup, classes e `data-role`; o CSS é derivado do SCSS de lá.
  *
- * Lá nome, contagem, descrição e chips vêm do contexto da PLP; aqui são o exemplo do mock.ts de lá
- * (o que o palco mostra). O chip, que lá troca o filtro pela store de busca, aqui alterna num
+ * O único campo de CMS é o rótulo da contagem (`countLabel`, por baixo do que o CS subir via
+ * `useConteudoDaSecao`). Lá nome, contagem, descrição e chips vêm do contexto da PLP; aqui são o
+ * exemplo do mock.ts de lá (o que o palco mostra). O chip, que lá troca o filtro pela store de busca, aqui alterna num
  * `useState`.
  */
 const FONTES =
@@ -23,7 +26,12 @@ interface Subcat {
   quantity?: number;
 }
 
-const COUNT_LABEL = 'produtos';
+interface CategoryTitle17Conteudo {
+  countLabel?: string;
+}
+
+const MOCK: CategoryTitle17Conteudo = { countLabel: 'produtos' };
+
 const TITULO = 'Ração';
 const TOTAL = 486;
 const DESCRICAO =
@@ -38,6 +46,7 @@ const SUBCATS: Subcat[] = [
 ];
 
 export default function CategoryTitle17() {
+  const { countLabel } = useConteudoDaSecao(MOCK);
   const [ativa, setAtiva] = useState('');
 
   const escolher = (e: React.MouseEvent, value: string) => {
@@ -59,7 +68,7 @@ export default function CategoryTitle17() {
               {TITULO}
             </h1>
             <p className={styles.count} data-role="ct-count">
-              {TOTAL.toLocaleString('pt-BR')} {COUNT_LABEL}
+              {TOTAL.toLocaleString('pt-BR')} {countLabel || 'produtos'}
             </p>
           </div>
           <p className={styles.description} data-role="ct-description">
@@ -99,3 +108,6 @@ export default function CategoryTitle17() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryTitle17.conteudoPadrao = MOCK;

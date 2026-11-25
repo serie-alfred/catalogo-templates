@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -42,11 +44,13 @@ const slide: BannerMain15Slide = {
   imageAlt: 'Descobrir a Coleção Lumière',
 };
 
-const SLIDES: BannerMain15Slide[] = [
-  slide,
-  { ...slide, eyebrow: 'Alta joalheria' },
-  { ...slide, eyebrow: 'Relojoaria' },
-];
+interface BannerMain15Conteudo {
+  slides: BannerMain15Slide[];
+}
+
+const MOCK: BannerMain15Conteudo = {
+  slides: [slide, { ...slide, eyebrow: 'Alta joalheria' }, { ...slide, eyebrow: 'Relojoaria' }],
+};
 
 const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" aria-hidden="true">
@@ -57,7 +61,7 @@ const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
 const dois = (n: number) => String(n).padStart(2, '0');
 
 export default function BannerMain15() {
-  const slides = SLIDES;
+  const { slides } = useConteudoDaSecao(MOCK);
   const [atual, setAtual] = useState(0);
   const toqueX = useRef<number | null>(null);
 
@@ -177,3 +181,6 @@ export default function BannerMain15() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerMain15.conteudoPadrao = MOCK;

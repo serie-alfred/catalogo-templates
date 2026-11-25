@@ -4,6 +4,7 @@ import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/CategorySeoFaq11` do faststore.starter (família 11, Grade; desenho
@@ -14,19 +15,32 @@ import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
  * Lá o conteúdo vem, por categoria, dos banners HTML do Intelligent Search (áreas "one" e
  * "two"), lido pelo caminho da PLP; aqui é o mock de contexto de lá, no mesmo formato HTML,
  * passado pelos mesmos leitores (`separarTitulo`, `lerPerguntas`). Sem GraphQL e sem o
- * `view_promotion` (preview não emite evento).
+ * `view_promotion` (preview não emite evento). Os rótulos são do CMS e vêm do
+ * `useConteudoDaSecao`; o texto da categoria entra com a categoria em destaque da loja
+ * (fase de produtos).
  */
 interface Pergunta {
   q: string;
   a: string;
 }
 
+/** O conteúdo da seção: os campos do `section.schema` do CategoryDescription11. */
+interface CategoryDescription11Conteudo {
+  aboutEyebrow?: string;
+  aboutTitle?: string;
+  faqEyebrow?: string;
+  readMoreLabel?: string;
+  readLessLabel?: string;
+}
+
 /* ── rótulos (o mock.ts de lá) ── */
-const ABOUT_EYEBROW = 'Sobre a categoria';
-const ABOUT_TITLE = 'Como escolher {categoria}';
-const FAQ_EYEBROW = 'Perguntas frequentes';
-const READ_MORE = 'Ler mais';
-const READ_LESS = 'Ler menos';
+const MOCK: CategoryDescription11Conteudo = {
+  aboutEyebrow: 'Sobre a categoria',
+  aboutTitle: 'Como escolher {categoria}',
+  faqEyebrow: 'Perguntas frequentes',
+  readMoreLabel: 'Ler mais',
+  readLessLabel: 'Ler menos',
+};
 
 /* ── contexto de exemplo (o mock.ts de lá) ── */
 const NOME = 'Iluminação';
@@ -98,6 +112,13 @@ const Ico = ({
 );
 
 export default function CategoryDescription11() {
+  const {
+    aboutEyebrow: ABOUT_EYEBROW,
+    aboutTitle: ABOUT_TITLE,
+    faqEyebrow: FAQ_EYEBROW,
+    readMoreLabel: READ_MORE,
+    readLessLabel: READ_LESS,
+  } = useConteudoDaSecao(MOCK);
   const { titulo, corpo } = useMemo(() => separarTitulo(SOBRE_HTML), []);
   const perguntas = useMemo(() => lerPerguntas(FAQ_HTML), []);
 
@@ -128,20 +149,22 @@ export default function CategoryDescription11() {
 
   const temSobre = !!semTags(corpo);
   const temFaq = perguntas.length > 0 || !!semTags(FAQ_HTML);
-  const tituloSobre = titulo || comCategoria(ABOUT_TITLE, NOME);
+  const tituloSobre = titulo || comCategoria(ABOUT_TITLE || '', NOME);
 
   return (
     <div className={styles.categorySeoFaq11Box}>
       <link rel="stylesheet" href={FONTES_11} />
       <section
         className={styles.categorySeoFaq11}
-        aria-label={ABOUT_EYEBROW}
+        aria-label={ABOUT_EYEBROW || 'Sobre a categoria'}
         data-role="cd-root"
       >
         <div className={styles.box}>
           {temSobre && (
             <div className={styles.about} data-role="cd-about">
-              <span className={styles.eyebrow}>[{ABOUT_EYEBROW}]</span>
+              {ABOUT_EYEBROW && (
+                <span className={styles.eyebrow}>[{ABOUT_EYEBROW}]</span>
+              )}
               {tituloSobre && (
                 <h2 className={styles.aboutTitle} data-role="cd-title">
                   {tituloSobre}
@@ -163,7 +186,7 @@ export default function CategoryDescription11() {
                   onClick={() => setAberto(v => !v)}
                   data-role="cd-more"
                 >
-                  {aberto ? READ_LESS : READ_MORE}
+                  {aberto ? READ_LESS || 'Ler menos' : READ_MORE || 'Ler mais'}
                   <Ico size={16}>
                     <path d={aberto ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6'} />
                   </Ico>
@@ -174,7 +197,9 @@ export default function CategoryDescription11() {
 
           {temFaq && (
             <div className={styles.faq} data-role="cd-faq">
-              <span className={styles.faqHead}>[{FAQ_EYEBROW}]</span>
+              {FAQ_EYEBROW && (
+                <span className={styles.faqHead}>[{FAQ_EYEBROW}]</span>
+              )}
               {perguntas.length > 0 ? (
                 perguntas.map((p, i) => {
                   const on = faqAberta === i;
@@ -228,3 +253,6 @@ export default function CategoryDescription11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryDescription11.conteudoPadrao = MOCK;

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
@@ -14,12 +15,13 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  */
 type HelpFloat10Icon = 'whatsapp' | 'truck' | 'exchange' | 'phone';
 
-interface HelpFloatButton10Props {
+/** O conteúdo da seção: os campos do `section.schema` do HelpFloatButton10. */
+interface HelpFloatButton10Conteudo {
   bubbleText?: string;
   title?: string;
   subtitle?: string;
   /** Com `url` o item é link; sem `url`, texto. */
-  helpItems?: {
+  helpItems: {
     icon?: HelpFloat10Icon;
     label?: string;
     detail?: string;
@@ -29,7 +31,7 @@ interface HelpFloatButton10Props {
 }
 
 // Conteúdo do mock.ts do starter (colchetes são do desenho: a loja preenche).
-const CONTEUDO: HelpFloatButton10Props = {
+const MOCK: HelpFloatButton10Conteudo = {
   bubbleText: 'Precisa de ajuda?',
   title: 'Atendimento',
   subtitle: 'Como podemos te ajudar?',
@@ -117,7 +119,8 @@ const Ajuda = () =>
   );
 
 export default function HelpFloatButton10() {
-  const { bubbleText, title, subtitle, helpItems = [], footerText } = CONTEUDO;
+  const { bubbleText, title, subtitle, helpItems, footerText } =
+    useConteudoDaSecao(MOCK);
   const [aberto, setAberto] = useState(false);
   useAbrirNoCanvas('ajuda', setAberto);
 
@@ -247,3 +250,6 @@ export default function HelpFloatButton10() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+HelpFloatButton10.conteudoPadrao = MOCK;

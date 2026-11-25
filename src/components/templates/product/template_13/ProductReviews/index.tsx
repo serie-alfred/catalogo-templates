@@ -4,6 +4,7 @@ import React, { useId, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/ProductReviews13` do faststore.starter (família 13, Noturno; desenho
@@ -16,6 +17,11 @@ import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
  * desenho repetidas em 3 páginas de 3. Sai: `usePDP`, a moldura do Trustvox (lá só com a loja
  * configurada) e o Reviews and Ratings (consulta e envio; o envio dá sucesso local, como no
  * palco de lá).
+ *
+ * Os rótulos e o tamanho da página são do CMS e vêm do `useConteudoDaSecao`; as avaliações são as
+ * de exemplo até o produto em destaque da loja existir (fase de produtos). O tipo não traz
+ * `emptyText` nem `formError`: o exemplo sempre tem avaliações e o envio sempre dá certo (o
+ * 1-conteudo os lista como não desenhados).
  */
 
 type Review13 = {
@@ -28,8 +34,28 @@ type Review13 = {
   location: string;
 };
 
-/* ── rótulos (o mock.ts de lá) ── */
-const L = {
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+
+/** O conteúdo da seção: os campos do `section.schema` do ProductReviews13. */
+interface ProductReviews13Conteudo {
+  title?: string;
+  countLabel?: string;
+  starSingular?: string;
+  starPlural?: string;
+  writeLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+  /** Avaliações por página (1 a 20). */
+  pageSize: number;
+  formRatingLabel?: string;
+  formTitleLabel?: string;
+  formTextLabel?: string;
+  formNameLabel?: string;
+  formSubmitLabel?: string;
+  formSuccess?: string;
+}
+
+const MOCK: ProductReviews13Conteudo = {
   title: 'Avaliações',
   countLabel: 'avaliações',
   starSingular: 'estrela',
@@ -37,6 +63,7 @@ const L = {
   writeLabel: 'Escrever avaliação',
   prevLabel: 'Página anterior',
   nextLabel: 'Próxima página',
+  pageSize: 3,
   formRatingLabel: 'Sua nota',
   formTitleLabel: 'Título',
   formTextLabel: 'Sua avaliação',
@@ -44,7 +71,6 @@ const L = {
   formSubmitLabel: 'Enviar avaliação',
   formSuccess: 'Valeu! Sua avaliação aparece aqui depois da moderação.',
 };
-const PER_PAGE = 3;
 
 /* ── dados de exemplo (o mock.ts de lá) ── */
 const SUMMARY = { average: 4.8, totalCount: 312, starsFive: 256, starsFour: 44, starsThree: 12, starsTwo: 0, starsOne: 0 };
@@ -113,6 +139,9 @@ const pageWindow = (current: number, total: number) => {
 };
 
 export default function ProductReviews13() {
+  const { pageSize, ...L } = useConteudoDaSecao(MOCK);
+  // Número do CS que vira divisor da paginação: nunca menos que 1.
+  const PER_PAGE = Math.max(1, Math.round(pageSize) || MOCK.pageSize);
   const uid = useId();
   const [page, setPage] = useState(1);
   const [formOpen, setFormOpen] = useState(false);
@@ -151,9 +180,11 @@ export default function ProductReviews13() {
       <section id="avaliacoes" className={styles.productReviews13} aria-label={L.title} data-role="rv-root">
         <link rel="stylesheet" href={FONTES_13} />
         <div className={styles.inner}>
-          <h2 className={styles.title} data-role="rv-title">
-            {L.title}
-          </h2>
+          {L.title && (
+            <h2 className={styles.title} data-role="rv-title">
+              {L.title}
+            </h2>
+          )}
 
           <div className={styles.body}>
             <aside className={styles.summary} data-role="rv-summary">
@@ -292,3 +323,6 @@ export default function ProductReviews13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductReviews13.conteudoPadrao = MOCK;

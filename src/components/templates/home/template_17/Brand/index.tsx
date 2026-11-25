@@ -1,6 +1,7 @@
-import React from 'react'
-import { FONTES_17 as FONTES } from '@/components/templates/common/template_17/Spot'
-import styles from './index.module.css'
+import React from 'react';
+import { FONTES_17 as FONTES } from '@/components/templates/common/template_17/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import styles from './index.module.css';
 
 /**
  * Espelha `molecules/Brands17` do faststore.starter (família 17, Pet; desenho `Brand17` /
@@ -16,21 +17,22 @@ import styles from './index.module.css'
  */
 
 interface Brands17Brand {
-  name?: string
-  url?: string
+  name?: string;
+  url?: string;
   /** Logo (opcional; sem logo vale o nome). */
-  logo?: string
+  logo?: string;
 }
 
-interface Brands17Props {
-  title?: string
-  viewAllLabel?: string
-  viewAllUrl?: string
-  brands?: Brands17Brand[]
+/** O conteúdo da seção: os campos do `section.schema` do Brands17. */
+interface Brands17Conteudo {
+  title?: string;
+  viewAllLabel?: string;
+  viewAllUrl?: string;
+  brands: Brands17Brand[];
 }
 
 // Conteúdo do mock.ts do starter (nomes do desenho; sem logo: vale o nome).
-const brands17Mock: Brands17Props = {
+const MOCK: Brands17Conteudo = {
   title: 'Marcas que os pets amam',
   viewAllLabel: 'Ver todas as marcas',
   viewAllUrl: '/marcas',
@@ -42,18 +44,27 @@ const brands17Mock: Brands17Props = {
     { name: 'Aquaviva', url: '/aquaviva' },
     { name: 'Pena Leve', url: '/pena-leve' },
   ],
-}
-
+};
 
 const Chevron = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+  <svg
+    width="16"
+    height="16"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
     <path d="m9 6 6 6-6 6" />
   </svg>
-)
+);
 
 export default function Brand17() {
-  const { title, viewAllLabel, viewAllUrl, brands = [] } = brands17Mock
-  if (!brands.length) return null
+  const { title, viewAllLabel, viewAllUrl, brands } = useConteudoDaSecao(MOCK);
+  if (!brands.length) return null;
 
   const verTodas = (className: string, role: string) =>
     viewAllLabel && (
@@ -61,11 +72,15 @@ export default function Brand17() {
         {viewAllLabel}
         <Chevron />
       </a>
-    )
+    );
 
   return (
     <div className={styles.brands17Box}>
-      <section className={styles.brands17} aria-label={title || 'Marcas'} data-role="br-root">
+      <section
+        className={styles.brands17}
+        aria-label={title || 'Marcas'}
+        data-role="br-root"
+      >
         <link rel="stylesheet" href={FONTES} />
         <div className={styles.inner}>
           {(title || viewAllLabel) && (
@@ -81,8 +96,22 @@ export default function Brand17() {
           <ul className={styles.list}>
             {brands.map((b, i) => (
               <li key={i} className={styles.item} data-role="br-item">
-                <a className={styles.brand} href={b.url || '#'} aria-label={b.logo ? b.name : undefined}>
-                  {b.logo ? <img src={b.logo} alt="" height={48} loading="lazy" decoding="async" /> : b.name}
+                <a
+                  className={styles.brand}
+                  href={b.url || '#'}
+                  aria-label={b.logo ? b.name : undefined}
+                >
+                  {b.logo ? (
+                    <img
+                      src={b.logo}
+                      alt=""
+                      height={48}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  ) : (
+                    b.name
+                  )}
                 </a>
               </li>
             ))}
@@ -91,5 +120,8 @@ export default function Brand17() {
         </div>
       </section>
     </div>
-  )
+  );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Brand17.conteudoPadrao = MOCK;

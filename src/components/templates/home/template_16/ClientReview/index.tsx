@@ -1,17 +1,18 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
+
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao'
+
 import styles from './index.module.css'
 
 /**
  * Espelha `organisms/ClientReview16` do faststore.starter (família 16, Infantil). Mesmo markup, mesmas classes,
  * mesmos `data-role` e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo =
- * o mock.ts de lá. A seção fica dentro do envelope `.clientReview16Box` (container das @container).
+ * o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá). A seção fica dentro do envelope `.clientReview16Box` (container das @container).
  */
 
-// Conteúdo do mock.ts do starter.
-// Mock de validação local — exibido quando o CMS não envia conteúdo (MOCK_ENABLED).
 // Textos do desenho `ClientReview16` (o desenho traz "[Nome] · [Cidade]" de placeholder; aqui
 // vão nomes de exemplo). Sem foto: valem os pastéis.
-const clientReview16Mock: ClientReview16Props = {
+const MOCK: ClientReview16Conteudo = {
   title: 'Recadinhos das famílias',
   reviews: [
     {
@@ -51,7 +52,7 @@ const clientReview16Mock: ClientReview16Props = {
  * Apresentacional — sem evento de analytics e sem valor de commerce (a nota é texto do CMS, não
  * uma média calculada).
  */
-export interface ClientReview16Review {
+interface ClientReview16Review {
   /** Nota de 1 a 5 (opcional; vazio esconde as estrelas). */
   rating?: number
   text?: string
@@ -64,9 +65,9 @@ export interface ClientReview16Review {
   image?: string
 }
 
-export interface ClientReview16Props {
+interface ClientReview16Conteudo {
   title?: string
-  reviews?: ClientReview16Review[]
+  reviews: ClientReview16Review[]
 }
 
 const FONTES = 'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap'
@@ -90,7 +91,7 @@ const Chevron = ({ dir }: { dir: 'prev' | 'next' }) => (
 )
 
 export default function ClientReview16() {
-  const { title, reviews = [] } = clientReview16Mock
+  const { title, reviews } = useConteudoDaSecao(MOCK)
   const railRef = useRef<HTMLDivElement>(null)
   const [trilho, setTrilho] = useState({ inicio: true, fim: true, paginas: 1, atual: 0 })
 
@@ -174,3 +175,6 @@ export default function ClientReview16() {
     </div>
   )
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ClientReview16.conteudoPadrao = MOCK;

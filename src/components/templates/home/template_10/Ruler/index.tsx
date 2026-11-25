@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -25,13 +26,14 @@ interface BenefitsStrip10Benefit {
   url?: string;
 }
 
-interface BenefitsStrip10Props {
-  benefits?: BenefitsStrip10Benefit[];
+/** O conteúdo da seção: os campos do `section.schema` do BenefitsStrip10. */
+interface Ruler10Conteudo {
+  benefits: BenefitsStrip10Benefit[];
 }
 
 // Conteúdo do mock.ts do starter.
 // Textos literais do desenho `Ruler10`.
-const MOCK: BenefitsStrip10Props = {
+const MOCK: Ruler10Conteudo = {
   benefits: [
     {
       icon: 'truck',
@@ -91,7 +93,7 @@ const ICONES: Record<BenefitsStrip10Icon, React.ReactNode> = {
 };
 
 export default function Ruler10() {
-  const { benefits = [] } = MOCK;
+  const { benefits } = useConteudoDaSecao(MOCK);
   const railRef = useRef<HTMLUListElement>(null);
   const [atual, setAtual] = useState(0);
 
@@ -171,3 +173,6 @@ export default function Ruler10() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Ruler10.conteudoPadrao = MOCK;

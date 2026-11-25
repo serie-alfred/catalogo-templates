@@ -4,6 +4,7 @@ import React, { useId, useMemo, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/CategorySeoFaq14` do faststore.starter (família 14, Esportiva; desenho
@@ -14,17 +15,27 @@ import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
  *
  * Lá o conteúdo vem, por categoria, dos banners HTML do Intelligent Search (áreas "one" e
  * "two"); aqui é o mock de contexto de lá, no mesmo formato HTML, passado pelos mesmos leitores
- * (`separar`, `lerPerguntas`). Sem GraphQL e sem o `view_promotion`.
+ * (`separar`, `lerPerguntas`). Sem GraphQL e sem o `view_promotion`. Os três rótulos do schema
+ * vêm do CS (`useConteudoDaSecao`); o texto e as perguntas entram com a categoria em destaque
+ * da loja (fase de produtos).
  */
 interface Pergunta {
   q: string;
   a: string;
 }
 
+interface CategoryDescription14Conteudo {
+  eyebrow?: string;
+  aboutTitle?: string;
+  faqTitle?: string;
+}
+
 /* ── rótulos (o mock.ts de lá) ── */
-const EYEBROW = 'Guia da categoria';
-const ABOUT_TITLE = '{Categoria} para cada ritmo';
-const FAQ_TITLE = 'Perguntas frequentes';
+const MOCK: CategoryDescription14Conteudo = {
+  eyebrow: 'Guia da categoria',
+  aboutTitle: '{Categoria} para cada ritmo',
+  faqTitle: 'Perguntas frequentes',
+};
 
 /* ── contexto de exemplo (o mock.ts de lá) ── */
 const NOME = 'Corrida';
@@ -83,6 +94,7 @@ const comCategoria = (tpl: string, nome: string) =>
   tpl.replace(/\{categoria\}/g, nome.toLocaleLowerCase('pt-BR')).replace(/\{Categoria\}/g, nome);
 
 export default function CategoryDescription14() {
+  const { eyebrow: EYEBROW, aboutTitle: ABOUT_TITLE, faqTitle: FAQ_TITLE } = useConteudoDaSecao(MOCK);
   const { titulo, corpo, link } = useMemo(() => separar(SOBRE_HTML), []);
   const perguntas = useMemo(() => lerPerguntas(FAQ_HTML), []);
 
@@ -91,7 +103,7 @@ export default function CategoryDescription14() {
 
   const temSobre = !!semTags(corpo);
   const temFaq = perguntas.length > 0 || !!semTags(FAQ_HTML);
-  const tituloSobre = titulo || comCategoria(ABOUT_TITLE, NOME);
+  const tituloSobre = titulo || comCategoria(ABOUT_TITLE || '', NOME);
   const idTitulo = `${uid}-titulo`;
 
   return (
@@ -180,3 +192,6 @@ export default function CategoryDescription14() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryDescription14.conteudoPadrao = MOCK;

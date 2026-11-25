@@ -5,6 +5,7 @@ import CartSidebar11, {
 } from '@/components/templates/_shared/CartSidebar11';
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
@@ -12,7 +13,8 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 /**
  * Espelha `organisms/Header11` do faststore.starter (família 11, Grade; desenho
  * `Header11` / `Header11-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e
- * as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá,
+ * por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  *
  * Régua de mensagens em mono caixa-alta; a linha principal é uma grade de células entre
  * filetes: marca, menu numerado (01, 02…), busca, "Entrar", "Favoritos" e o carrinho no
@@ -21,8 +23,9 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * "Favoritos".
  *
  * Divergências deliberadas:
- *  - Logo: o que o usuário enviou no /gerador; sem ele, a marca em texto do catálogo
- *    (com o sobrescrito do mock), dentro do mesmo `.logo` / `data-role="hd-logo"`.
+ *  - Logo: o da seção (campo `logo` do schema), senão o que o usuário enviou no
+ *    /gerador; sem nenhum, `brandName` ou a marca em texto do catálogo (com o
+ *    sobrescrito do mock), dentro do mesmo `.logo` / `data-role="hd-logo"`.
  *  - Busca sem GraphQL: as sugestões filtram uma lista fixa (os itens do menu e os
  *    produtos de exemplo da vitrine 11); enviar só fecha as sugestões.
  *  - Carrinho: contador e gaveta (`_shared/CartSidebar11`) com o item de exemplo. A
@@ -37,14 +40,29 @@ type Header11MenuItem = {
   children?: { label?: string; url?: string }[];
 };
 
-const MOCK = {
+/** O conteúdo da seção: os campos do `section.schema` do Header11. */
+interface Header11Conteudo {
+  topbarMessages: { text?: string; url?: string }[];
+  logo?: string;
+  logoAlt?: string;
+  brandName?: string;
+  brandSup?: string;
+  menu: Header11MenuItem[];
+  searchPlaceholder?: string;
+  accountLabel?: string;
+  wishlistLabel?: string;
+  wishlistUrl?: string;
+  cartLabel?: string;
+  viewAllLabel?: string;
+}
+
+const MOCK: Header11Conteudo = {
   topbarMessages: [
     { text: 'Frete grátis acima de R$ 500' },
     { text: 'Entrega em 48h nas capitais' },
     { text: 'Troca em 30 dias' },
     { text: 'Showroom SP · seg a sáb' },
-  ] as { text?: string; url?: string }[],
-  brandName: 'SERIE//A',
+  ],
   brandSup: '®',
   menu: [
     { label: 'Loja', url: '/loja' },
@@ -52,7 +70,7 @@ const MOCK = {
     { label: 'Mobiliário', url: '/mobiliario' },
     { label: 'Objetos', url: '/objetos' },
     { label: 'Journal', url: '/journal' },
-  ] as Header11MenuItem[],
+  ],
   searchPlaceholder: 'Buscar',
   accountLabel: 'Entrar',
   wishlistLabel: 'Favoritos',
@@ -70,8 +88,6 @@ const PRODUTOS_BUSCA_11 = [
   { slug: 'banco-madeira-macica', name: 'Banco Madeira Maciça' },
   { slug: 'prateleira-modular', name: 'Prateleira Modular' },
 ];
-
-const TERMOS_11 = MOCK.menu.map(m => m.label ?? '').filter(Boolean);
 
 const svg = (w: number, children: React.ReactNode) => (
   <svg
@@ -120,9 +136,11 @@ const Ico = {
 const ordinal = (i: number) => String(i + 1).padStart(2, '0');
 
 export default function Header11() {
-  const { logo } = useLayout();
+  const { logo: logoDaLoja } = useLayout();
   const {
     topbarMessages,
+    logo: logoDaSecao,
+    logoAlt,
     brandName,
     brandSup,
     menu,
@@ -131,7 +149,11 @@ export default function Header11() {
     wishlistLabel,
     wishlistUrl,
     cartLabel,
-  } = MOCK;
+    viewAllLabel,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDaSecao || logoDaLoja;
+  // As sugestões da busca filtram os rótulos do menu que a seção mostra.
+  const termosDoMenu = menu.map(m => m.label ?? '').filter(Boolean);
 
   const [cartOpen, setCartOpen] = useState(false);
   useAbrirNoCanvas('carrinho', setCartOpen);
@@ -146,7 +168,7 @@ export default function Header11() {
   const curto = termoLimpo.length < 2;
   const termos = curto
     ? []
-    : TERMOS_11.filter(t => t.toLowerCase().includes(termoLimpo));
+    : termosDoMenu.filter(t => t.toLowerCase().includes(termoLimpo));
   const produtos = curto
     ? []
     : PRODUTOS_BUSCA_11.filter(p => p.name.toLowerCase().includes(termoLimpo));
@@ -293,10 +315,10 @@ export default function Header11() {
               data-role="hd-logo"
             >
               {logo ? (
-                <img src={logo} alt="Logo" height={32} />
+                <img src={logo} alt={logoAlt || 'Logo'} height={32} />
               ) : (
                 <>
-                  {brandName}
+                  {brandName || 'SERIE//A'}
                   {brandSup && <sup className={styles.logoSup}>{brandSup}</sup>}
                 </>
               )}
@@ -403,7 +425,7 @@ export default function Header11() {
                           <ul className={styles.drawerSub}>
                             {item.url && (
                               <li>
-                                <a href={item.url}>Ver tudo</a>
+                                <a href={item.url}>{viewAllLabel || 'Ver tudo'}</a>
                               </li>
                             )}
                             {item.children.map((c, j) => (
@@ -450,3 +472,6 @@ export default function Header11() {
     </>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header11.conteudoPadrao = MOCK;

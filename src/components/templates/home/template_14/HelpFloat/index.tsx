@@ -4,11 +4,13 @@ import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
 
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/HelpFloatButton14` do faststore.starter (família 14, Esportiva; desenho
  * `HelpFloat14` / `HelpFloat14-mobile`): mesmo markup, classes e `data-role`; CSS derivado
- * do SCSS de lá (com @media: botão fixo na viewport). Conteúdo = o mock.ts de lá, inline.
+ * do SCSS de lá (com @media: botão fixo na viewport). Conteúdo = o mock.ts de lá, por baixo do
+ * que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  * Fechado: o paralelogramo marinho com o balão no canto inferior direito; aberto, o painel
  * branco com a cabeça marinho, o horário, o fechar e os atalhos com ícone, apoio e seta. O
  * painel abre por clique, como na origem. Sem divergência deliberada.
@@ -21,7 +23,7 @@ type HelpFloatButton14Icon =
   | 'size'
   | 'email';
 
-interface HelpFloatButton14Props {
+interface HelpFloat14Conteudo {
   /** Nome acessível do botão. */
   buttonLabel?: string;
   /** Título do painel. */
@@ -78,7 +80,7 @@ const ICONE: Record<Exclude<HelpFloatButton14Icon, 'none'>, React.ReactNode> = {
 };
 
 // Conteúdo do mock.ts do starter.
-const CONTEUDO: HelpFloatButton14Props = {
+const MOCK: HelpFloat14Conteudo = {
   buttonLabel: 'Ajuda',
   title: 'Precisa de ajuda?',
   scheduleText: 'Seg a sex · 8h às 20h',
@@ -117,7 +119,7 @@ const CONTEUDO: HelpFloatButton14Props = {
 };
 
 export default function HelpFloat14() {
-  const { buttonLabel, title, scheduleText, helpItems = [] } = CONTEUDO;
+  const { buttonLabel, title, scheduleText, helpItems = [] } = useConteudoDaSecao(MOCK);
   const [aberto, setAberto] = useState(false);
   useAbrirNoCanvas('ajuda', setAberto);
 
@@ -239,3 +241,6 @@ export default function HelpFloat14() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+HelpFloat14.conteudoPadrao = MOCK;

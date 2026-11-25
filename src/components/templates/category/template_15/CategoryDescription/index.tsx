@@ -4,6 +4,7 @@ import React, { useId, useMemo, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/CategorySeoFaq15` do faststore.starter (família 15, Luxo; desenho
@@ -15,7 +16,8 @@ import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
  * Lá o conteúdo vem, por categoria, dos banners HTML do Intelligent Search (áreas "one" e
  * "two"), lido pelo caminho da PLP; aqui é o mock de contexto de lá, no mesmo formato HTML,
  * passado pelos mesmos leitores (`separar`, `lerPerguntas`). Sem GraphQL e sem o
- * `view_promotion` (preview não emite evento).
+ * `view_promotion` (preview não emite evento). Os rótulos são do CMS e vêm do
+ * `useConteudoDaSecao`; o texto da categoria entra com a categoria em destaque da loja.
  */
 interface Pergunta {
   q: string;
@@ -23,9 +25,17 @@ interface Pergunta {
 }
 
 /* ── rótulos (o mock.ts de lá) ── */
-const ABOUT_EYEBROW = 'Sobre os {categoria}';
-const ABOUT_TITLE = '{Categoria} da maison';
-const FAQ_TITLE = 'Perguntas frequentes';
+interface CategoryDescription15Conteudo {
+  aboutEyebrow?: string;
+  aboutTitle?: string;
+  faqTitle?: string;
+}
+
+const MOCK: CategoryDescription15Conteudo = {
+  aboutEyebrow: 'Sobre os {categoria}',
+  aboutTitle: '{Categoria} da maison',
+  faqTitle: 'Perguntas frequentes',
+};
 
 /* ── contexto de exemplo (o mock.ts de lá) ── */
 const NOME = 'Anéis';
@@ -94,14 +104,15 @@ const comCategoria = (tpl: string, nome: string) =>
   tpl.replace(/\{categoria\}/g, nome.toLocaleLowerCase('pt-BR')).replace(/\{Categoria\}/g, nome);
 
 export default function CategoryDescription15() {
+  const { aboutEyebrow, aboutTitle, faqTitle } = useConteudoDaSecao(MOCK);
   const { titulo, corpo, link } = useMemo(() => separar(SOBRE_HTML), []);
   const perguntas = useMemo(() => lerPerguntas(FAQ_HTML), []);
 
   const [faqAberta, setFaqAberta] = useState<number | null>(0);
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
 
-  const tituloSobre = titulo || comCategoria(ABOUT_TITLE, NOME);
-  const chamada = comCategoria(ABOUT_EYEBROW, NOME);
+  const tituloSobre = titulo || comCategoria(aboutTitle ?? '', NOME);
+  const chamada = comCategoria(aboutEyebrow ?? '', NOME);
   const idTitulo = `${uid}-titulo`;
 
   return (
@@ -130,7 +141,7 @@ export default function CategoryDescription15() {
           </div>
 
           <div className={styles.faq} data-role="cd-faq">
-            <h3 className={styles.faqTitle}>{FAQ_TITLE}</h3>
+            <h3 className={styles.faqTitle}>{faqTitle}</h3>
             <div className={styles.faqList}>
               {perguntas.map((p, i) => {
                 const on = faqAberta === i;
@@ -180,3 +191,6 @@ export default function CategoryDescription15() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryDescription15.conteudoPadrao = MOCK;

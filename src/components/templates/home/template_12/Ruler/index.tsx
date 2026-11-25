@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -26,13 +27,19 @@ interface BenefitsStrip12Benefit {
   url?: string;
 }
 
+interface Ruler12Conteudo {
+  benefits: BenefitsStrip12Benefit[];
+}
+
 // Conteúdo do mock.ts do starter (textos literais do desenho `Ruler12`).
-const BENEFITS: BenefitsStrip12Benefit[] = [
-  { icon: 'truck', title: 'Frete grátis', text: 'acima de R$ 150' },
-  { icon: 'gift', title: 'Amostra grátis', text: 'em todo pedido' },
-  { icon: 'card', title: '3x sem juros', text: 'no cartão de crédito' },
-  { icon: 'leaf', title: 'Cruelty free', text: 'sem testes em animais' },
-];
+const MOCK: Ruler12Conteudo = {
+  benefits: [
+    { icon: 'truck', title: 'Frete grátis', text: 'acima de R$ 150' },
+    { icon: 'gift', title: 'Amostra grátis', text: 'em todo pedido' },
+    { icon: 'card', title: '3x sem juros', text: 'no cartão de crédito' },
+    { icon: 'leaf', title: 'Cruelty free', text: 'sem testes em animais' },
+  ],
+};
 
 const ICONES: Record<BenefitsStrip12Icon, React.ReactNode> = {
   truck: (
@@ -77,7 +84,7 @@ const ICONES: Record<BenefitsStrip12Icon, React.ReactNode> = {
 };
 
 export default function Ruler12() {
-  const benefits = BENEFITS;
+  const { benefits } = useConteudoDaSecao(MOCK);
   if (!benefits.length) return null;
 
   return (
@@ -132,3 +139,6 @@ export default function Ruler12() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Ruler12.conteudoPadrao = MOCK;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -15,11 +16,34 @@ import styles from './index.module.css';
  * O que sai: a mutação de cadastro, o analytics, o atraso de abertura e o localStorage
  * que suprime o pop-up. No canvas ele já nasce ABERTO; o fechar só esconde (estado
  * local) e o envio mostra a mensagem de sucesso. Sem arte (o mock de lá também não tem):
- * vale a coluna grafite de placeholder.
+ * vale a coluna grafite de placeholder. Por isso o tipo não traz `delaySeconds` nem
+ * `dismissDays` (o 1-conteudo os lista como não desenhados).
+ *
+ * Conteúdo: o MOCK abaixo por baixo do que o CS subir (`useConteudoDaSecao`, campos do
+ * schema de lá).
  */
 
-// Conteúdo do mock.ts do starter.
-const CONTEUDO = {
+/** O conteúdo da seção: os campos do `section.schema` do PopupNews13. */
+interface PopupNews13Conteudo {
+  imageDesktop?: string;
+  imageMobile?: string;
+  imageAlt?: string;
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+  nameLabel?: string;
+  namePlaceholder?: string;
+  emailLabel?: string;
+  emailPlaceholder?: string;
+  buttonLabel?: string;
+  successMessage?: string;
+  privacyPrefix?: string;
+  privacyLabel?: string;
+  privacyUrl?: string;
+  dismissLabel?: string;
+}
+
+const MOCK: PopupNews13Conteudo = {
   imageDesktop: '',
   imageMobile: '',
   imageAlt: '',
@@ -57,7 +81,7 @@ export default function PopupNews13() {
     privacyLabel,
     privacyUrl,
     dismissLabel,
-  } = CONTEUDO;
+  } = useConteudoDaSecao(MOCK);
 
   const [aberto, setAberto] = useState(true);
   const [nome, setNome] = useState('');
@@ -215,3 +239,6 @@ export default function PopupNews13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+PopupNews13.conteudoPadrao = MOCK;

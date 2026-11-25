@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
@@ -7,14 +8,16 @@ import styles from './index.module.css';
 /**
  * Espelha `organisms/Footer15` do faststore.starter (família 15, Luxo; desenho `Footer15` /
  * `Footer15-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as mesmas vars de
- * Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá, por baixo do que o CS
+ * subir (`useConteudoDaSecao`, campos do schema de lá).
  *
  * Fundo escuro: a marca em serifa espaçada, o ornamento dourado (fio · diamante · fio) e a
  * frase em itálico; entre fios, as colunas de links e o "Contato"; no pé, os pagamentos em
  * etiquetas e a linha legal. Mobile: as colunas em acordeão (a primeira aberta).
  *
- * Divergência deliberada: com logo enviado no /gerador, ele entra no lugar da marca em texto
- * (mesmo `.brand` / `data-role="ft-brand"`); lá a marca é só texto (`brandName`).
+ * Divergência deliberada: a marca é o logo que o usuário enviou no /gerador; sem ele, o
+ * `brandName` do CS ou a marca em texto do catálogo (`SERIE//A`; o mock não traz "Sua Marca").
+ * Razão social e CNPJ são marcadores.
  */
 
 type Footer15Social = 'youtube' | 'instagram' | 'x' | 'linkedin' | 'facebook';
@@ -29,7 +32,8 @@ type Footer15Payment =
   | 'boleto'
   | 'pix';
 
-interface Footer15Props {
+/** O conteúdo da seção: os campos do `section.schema` do Footer15. */
+interface Footer15Conteudo {
   brandName?: string;
   brandUrl?: string;
   /** Frase em itálico sob o ornamento. */
@@ -151,7 +155,7 @@ export default function Footer15() {
     socials = [],
     payments = [],
     legal,
-  } = FOOTER_15;
+  } = useConteudoDaSecao(MOCK);
   const [aberta, setAberta] = useState<number | null>(0);
 
   const redes = socials.filter(
@@ -175,41 +179,37 @@ export default function Footer15() {
       <footer className={styles.footer15} data-role="ft-root">
         <link rel="stylesheet" href={FONTES_15} />
         <div className={styles.inner}>
-          {(brandName || tagline) && (
-            <div className={styles.head} data-role="ft-brand-block">
-              {brandName && (
-                <a
-                  className={styles.brand}
-                  href={brandUrl || '/'}
-                  aria-label={`${brandName}, página inicial`}
-                  data-role="ft-brand"
-                >
-                  {logo ? <img src={logo} alt="Logo" /> : brandName}
-                </a>
-              )}
-              <span className={styles.ornament} aria-hidden="true">
-                <span className={styles.fio} />
-                <svg
-                  className={styles.diamond}
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                >
-                  <path d="M6 4h12l3 5-9 11L3 9z" />
-                  <path d="M3 9h18" />
-                </svg>
-                <span className={styles.fio} />
-              </span>
-              {tagline && (
-                <p className={styles.tagline} data-role="ft-tagline">
-                  {tagline}
-                </p>
-              )}
-            </div>
-          )}
+          <div className={styles.head} data-role="ft-brand-block">
+            <a
+              className={styles.brand}
+              href={brandUrl || '/'}
+              aria-label={`${brandName || 'Página inicial'}${brandName ? ', página inicial' : ''}`}
+              data-role="ft-brand"
+            >
+              {logo ? <img src={logo} alt="Logo" /> : brandName || 'SERIE//A'}
+            </a>
+            <span className={styles.ornament} aria-hidden="true">
+              <span className={styles.fio} />
+              <svg
+                className={styles.diamond}
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.2"
+              >
+                <path d="M6 4h12l3 5-9 11L3 9z" />
+                <path d="M3 9h18" />
+              </svg>
+              <span className={styles.fio} />
+            </span>
+            {tagline && (
+              <p className={styles.tagline} data-role="ft-tagline">
+                {tagline}
+              </p>
+            )}
+          </div>
 
           <div className={styles.grid}>
             {columns.length > 0 && (
@@ -344,8 +344,7 @@ export default function Footer15() {
   );
 }
 
-const FOOTER_15: Footer15Props = {
-  brandName: 'Sua Marca',
+const MOCK: Footer15Conteudo = {
   brandUrl: '/',
   tagline: 'Joias, relógios e perfumes escolhidos para atravessar o tempo.',
   columns: [
@@ -402,5 +401,8 @@ const FOOTER_15: Footer15Props = {
     { method: 'pix' },
   ],
   legal:
-    '© 2026 [SUA MARCA] · [RAZÃO SOCIAL] · CNPJ [00.000.000/0001-00] · [Endereço completo]',
+    '© 2026 [RAZÃO SOCIAL] · CNPJ [00.000.000/0001-00] · [Endereço completo]',
 };
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Footer15.conteudoPadrao = MOCK;

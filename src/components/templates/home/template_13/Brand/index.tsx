@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -11,15 +12,20 @@ import styles from './index.module.css';
  * marcadores do desenho; sem logo). A célula verde que o desenho pinta na 3ª é o `:hover`
  * da classe `.cell` (desktop), que o CSS derivado já traz: em repouso nenhuma fica verde,
  * igual ao palco de lá.
+ *
+ * Conteúdo: o MOCK abaixo por baixo do que o CS subir (`useConteudoDaSecao`, campos do
+ * schema de lá).
  */
-interface Brands13Brand {
-  name?: string;
-  url?: string;
-  logo?: string;
+
+/** O conteúdo da seção: os campos do `section.schema` do Brand13. */
+interface Brand13Conteudo {
+  title?: string;
+  viewAllLabel?: string;
+  viewAllUrl?: string;
+  brands: { name?: string; url?: string; logo?: string }[];
 }
 
-// Conteúdo do mock.ts do starter.
-const MOCK = {
+const MOCK: Brand13Conteudo = {
   title: 'Colabs',
   viewAllLabel: 'Ver todas',
   viewAllUrl: '/s',
@@ -30,11 +36,11 @@ const MOCK = {
     { name: '[Colab 04]', url: '/s' },
     { name: '[Colab 05]', url: '/s' },
     { name: '[Colab 06]', url: '/s' },
-  ] as Brands13Brand[],
+  ],
 };
 
 export default function Brand13() {
-  const { title, viewAllLabel, viewAllUrl, brands } = MOCK;
+  const { title, viewAllLabel, viewAllUrl, brands } = useConteudoDaSecao(MOCK);
   if (!brands.length) return null;
 
   return (
@@ -90,3 +96,6 @@ export default function Brand13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Brand13.conteudoPadrao = MOCK;

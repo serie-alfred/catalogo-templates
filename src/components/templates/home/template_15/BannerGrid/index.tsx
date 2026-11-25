@@ -2,6 +2,8 @@ import React from 'react';
 
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -21,14 +23,23 @@ interface Banner15 {
   imageAlt?: string;
 }
 
-const EYEBROW = 'Presentes';
-const TITLE = 'Para cada';
-const TITLE_EMPHASIS = 'ocasião';
-const BANNERS: Banner15[] = [
+interface BannerGrid15Conteudo {
+  eyebrow?: string;
+  title?: string;
+  titleEmphasis?: string;
+  banners: Banner15[];
+}
+
+const MOCK: BannerGrid15Conteudo = {
+  eyebrow: 'Presentes',
+  title: 'Para cada',
+  titleEmphasis: 'ocasião',
+  banners: [
   { eyebrow: 'Noivado', title: 'Solitários que dizem', titleEmphasis: 'sim', ctaLabel: 'Explorar', url: '/s', imageAlt: 'Noivado' },
   { eyebrow: 'Para ele', title: 'Relógios com alma mecânica', ctaLabel: 'Explorar', url: '/s', imageAlt: 'Para ele' },
   { eyebrow: 'Rituais', title: 'Perfumes e cuidados de assinatura', ctaLabel: 'Explorar', url: '/s', imageAlt: 'Rituais' },
-];
+  ],
+};
 
 function Banner({ b, main }: { b: Banner15; main: boolean }) {
   return (
@@ -70,20 +81,25 @@ function Banner({ b, main }: { b: Banner15; main: boolean }) {
 }
 
 export default function BannerGrid15() {
-  const banners = BANNERS;
+  const { eyebrow, title, titleEmphasis, banners } = useConteudoDaSecao(MOCK);
+  if (!banners.length) return null;
   const [principal, ...demais] = banners;
 
   return (
     <div className={styles.bannerGrid15Box}>
-      <section className={styles.bannerGrid15} aria-label={`${TITLE} ${TITLE_EMPHASIS}`} data-role="bg-root">
+      <section className={styles.bannerGrid15} aria-label={[title, titleEmphasis].filter(Boolean).join(' ') || 'Destaques'} data-role="bg-root">
         <link rel="stylesheet" href={FONTES_15} />
         <div className={styles.inner}>
-          <div className={styles.head}>
-            <span className={styles.eyebrow}>{EYEBROW}</span>
-            <h2 className={styles.title} data-role="bg-heading">
-              {TITLE} <em>{TITLE_EMPHASIS}</em>
-            </h2>
-          </div>
+          {(eyebrow || title || titleEmphasis) && (
+            <div className={styles.head}>
+              {eyebrow && <span className={styles.eyebrow}>{eyebrow}</span>}
+              {(title || titleEmphasis) && (
+                <h2 className={styles.title} data-role="bg-heading">
+                  {title} {titleEmphasis && <em>{titleEmphasis}</em>}
+                </h2>
+              )}
+            </div>
+          )}
           <div className={styles.grid}>
             <Banner b={principal} main />
             {demais.length > 0 && (
@@ -99,3 +115,6 @@ export default function BannerGrid15() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerGrid15.conteudoPadrao = MOCK;

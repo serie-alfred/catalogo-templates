@@ -2,6 +2,8 @@ import React from 'react';
 
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -18,12 +20,18 @@ interface Beneficio {
   url?: string;
 }
 
-const BENEFICIOS: Beneficio[] = [
+interface Ruler15Conteudo {
+  benefits: Beneficio[];
+}
+
+const MOCK: Ruler15Conteudo = {
+  benefits: [
   { icon: 'gift', title: 'Embalagem presente', text: 'Estojo e cartão escrito à mão' },
   { icon: 'shield', title: 'Entrega segura', text: 'Seguro total e rastreio' },
   { icon: 'card', title: 'Até 10x sem juros', text: 'Em todos os cartões' },
   { icon: 'diamond', title: 'Certificado', text: 'Garantia de origem das pedras' },
-];
+  ],
+};
 
 const ICONES: Record<Icone, React.ReactNode> = {
   gift: <path d="M4 11h16v9H4zM3 7h18v4H3zM12 7v13M12 7c-2-3-5-3-5-1s3 1 5 1c2 0 5 1 5-1s-3-2-5 1" />,
@@ -48,7 +56,9 @@ const ICONES: Record<Icone, React.ReactNode> = {
 };
 
 export default function Ruler15() {
-  const benefits = BENEFICIOS;
+  const { benefits } = useConteudoDaSecao(MOCK);
+  if (!benefits.length) return null;
+
   return (
     <div className={styles.benefitsStrip15Box}>
       <section className={styles.benefitsStrip15} aria-label="Benefícios" data-role="rl-root">
@@ -95,3 +105,6 @@ export default function Ruler15() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Ruler15.conteudoPadrao = MOCK;

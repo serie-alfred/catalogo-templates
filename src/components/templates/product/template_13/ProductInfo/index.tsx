@@ -4,6 +4,7 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/ProductDetails13` do faststore.starter (família 13, Noturno; desenho
@@ -25,6 +26,12 @@ import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
  * alterna no estado local), a nota do Reviews and Ratings, a simulação de frete, a mutation do
  * "Avise-me" (o envio dá sucesso local, como no palco de lá) e o analytics. As cores, que lá
  * levam ao slug do SKU, aqui apontam para `#`.
+ *
+ * Os rótulos e as abas são do CMS e vêm do `useConteudoDaSecao`; o produto é o de exemplo até o
+ * produto em destaque da loja existir (fase de produtos). A aba com `specName` lê o texto da
+ * especificação do produto de exemplo, como o starter lê a do produto real. O tipo não traz
+ * `showQuantity`: o desenho não tem seletor de quantidade e a réplica não o desenha (o
+ * 1-conteudo o lista como não desenhado).
  */
 
 const BRL = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -59,8 +66,33 @@ const block = (hex: string, w: number, h = w) =>
     `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect width="${w}" height="${h}" fill="${hex}"/></svg>`
   )}`;
 
-/* ── rótulos (o mock.ts de lá) ── */
-const L = {
+/* ── rótulos e abas (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+
+/** O conteúdo da seção: os campos do `section.schema` do ProductInfo13. */
+interface ProductInfo13Conteudo {
+  badge?: string;
+  codeLabel?: string;
+  ratingCountLabel?: string;
+  sizeGuideLabel?: string;
+  soldOutText?: string;
+  notifyLabel?: string;
+  notifyNamePlaceholder?: string;
+  notifyEmailPlaceholder?: string;
+  notifySubmitLabel?: string;
+  notifySuccess?: string;
+  buyLabel?: string;
+  mobileBuyLabel?: string;
+  mobileSelectedLabel?: string;
+  soldOutButtonLabel?: string;
+  favoriteLabel?: string;
+  shippingLabel?: string;
+  cepPlaceholder?: string;
+  cepButtonLabel?: string;
+  /** Com `specName`, o texto vem da especificação do produto; sem ela, do `text`. */
+  accordions: { title?: string; text?: string; specName?: string }[];
+}
+
+const MOCK: ProductInfo13Conteudo = {
   badge: 'Drop 07',
   codeLabel: 'Cód.',
   ratingCountLabel: 'avaliações',
@@ -79,6 +111,11 @@ const L = {
   shippingLabel: 'Calcular frete',
   cepPlaceholder: '00000-000',
   cepButtonLabel: 'Calcular',
+  accordions: [
+    { title: 'Detalhes', specName: 'Detalhes' },
+    { title: 'Entrega', text: 'Enviamos para todo o Brasil. O prazo e o valor aparecem no cálculo de frete acima.' },
+    { title: 'Trocas', text: 'A primeira troca é grátis em até 30 dias depois do recebimento.' },
+  ],
 };
 
 /* ── produto de exemplo (o mock.ts de lá, já resolvido) ── */
@@ -107,18 +144,42 @@ const AXIS_FROM_URL = '41';
 const GUIDE_URL = `data:image/svg+xml;utf8,${encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="#F4F4F0"/><rect width="1200" height="89" fill="#C8FF2E"/><rect y="88" width="1200" height="2" fill="#D6D6D2"/><rect y="177" width="1200" height="2" fill="#D6D6D2"/><rect y="266" width="1200" height="2" fill="#D6D6D2"/><rect y="355" width="1200" height="2" fill="#D6D6D2"/><rect y="443" width="1200" height="2" fill="#D6D6D2"/><rect y="532" width="1200" height="2" fill="#D6D6D2"/><rect y="621" width="1200" height="2" fill="#D6D6D2"/><rect y="710" width="1200" height="2" fill="#D6D6D2"/><g font-family="sans-serif" font-size="30" fill="#0D0D0D" text-anchor="middle"><text x="200" y="55" font-weight="700">Tamanho (BR)</text><text x="600" y="55" font-weight="700">Pé (cm)</text><text x="1000" y="55" font-weight="700">EUA</text><text x="200" y="144">37</text><text x="600" y="144">24,0</text><text x="1000" y="144">5,5</text><text x="200" y="233">38</text><text x="600" y="233">24,7</text><text x="1000" y="233">6</text><text x="200" y="322">39</text><text x="600" y="322">25,3</text><text x="1000" y="322">7</text><text x="200" y="410">40</text><text x="600" y="410">26,0</text><text x="1000" y="410">7,5</text><text x="200" y="499">41</text><text x="600" y="499">26,7</text><text x="1000" y="499">8,5</text><text x="200" y="588">42</text><text x="600" y="588">27,3</text><text x="1000" y="588">9</text><text x="200" y="677">43</text><text x="600" y="677">28,0</text><text x="1000" y="677">10</text><text x="200" y="766">44</text><text x="600" y="766">28,7</text><text x="1000" y="766">10,5</text></g></svg>'
 )}`;
-const ACCORDIONS = [
+/** As especificações do produto de exemplo que uma aba pode nomear (`specName`). */
+const PROPRIEDADES = [
   {
-    title: 'Detalhes',
-    lines: [
+    name: 'Detalhes',
+    values: [
       'Cabedal em mesh técnico com detalhes refletivos',
       'Entressola de espuma de alta resposta',
       'Solado de borracha com tração em piso molhado',
     ],
   },
-  { title: 'Entrega', lines: ['Enviamos para todo o Brasil. O prazo e o valor aparecem no cálculo de frete acima.'] },
-  { title: 'Trocas', lines: ['A primeira troca é grátis em até 30 dias depois do recebimento.'] },
 ];
+
+/** Como o starter compara nomes: sem acento, sem caixa, sem espaço nas pontas. */
+const norm = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim()
+    .toLowerCase();
+
+/** Abas: o texto do CMS, ou o da especificação do produto nomeada nele (uma linha por item). */
+function abasDe(accordions: ProductInfo13Conteudo['accordions']) {
+  return accordions
+    .map(a => {
+      const spec = a.specName ? PROPRIEDADES.find(p => norm(p.name) === norm(a.specName ?? '')) : undefined;
+      const text = (spec?.values ?? []).filter(Boolean).join('\n').trim() || String(a.text ?? '').trim();
+      return {
+        title: String(a.title ?? '').trim(),
+        lines: text
+          .split(/\r?\n/)
+          .map(l => l.replace(/^\s*[-•]\s*/, '').trim())
+          .filter(Boolean),
+      };
+    })
+    .filter(a => a.title && a.lines.length);
+}
 const SHIPPING = [
   { id: 'normal', friendlyName: 'Normal', price: 1990, estimate: '7bd' },
   { id: 'expressa', friendlyName: 'Expressa', price: 3490, estimate: '2bd' },
@@ -165,6 +226,8 @@ const Stars = ({ avg }: { avg: number }) => (
 );
 
 export default function ProductInfo13() {
+  const { accordions, ...L } = useConteudoDaSecao(MOCK);
+  const abas = abasDe(accordions);
   const uid = useId();
 
   const [selAxis, setSelAxis] = useState<string | null>(null);
@@ -595,8 +658,9 @@ export default function ProductInfo13() {
                 )}
               </form>
 
+              {abas.length > 0 && (
               <div className={styles.accordions} data-role="pdp-accordions">
-                {ACCORDIONS.map((a, i) => {
+                {abas.map((a, i) => {
                   const open = openAcc === i;
                   return (
                     <React.Fragment key={`${a.title}-${i}`}>
@@ -628,6 +692,7 @@ export default function ProductInfo13() {
                 })}
                 <span className={styles.accRule} aria-hidden="true" />
               </div>
+              )}
             </div>
           </div>
         </div>
@@ -656,7 +721,7 @@ export default function ProductInfo13() {
                   {svg(20, <path d="M6 6l12 12M18 6 6 18" />)}
                 </button>
               </div>
-              <img className={styles.guideImg} src={GUIDE_URL} alt={`${L.sizeGuideLabel} — ${PRODUCT_NAME}`} />
+              <img className={styles.guideImg} src={GUIDE_URL} alt={`${L.sizeGuideLabel || ''} — ${PRODUCT_NAME}`} />
             </div>
           </div>
         )}
@@ -664,3 +729,6 @@ export default function ProductInfo13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo13.conteudoPadrao = MOCK;

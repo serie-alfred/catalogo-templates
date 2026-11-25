@@ -9,13 +9,16 @@ import {
 } from '@/components/templates/common/template_15/Spot';
 import { useLayout } from '@/context/LayoutContext';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
 /**
  * Espelha `organisms/Header15` do faststore.starter (família 15, Luxo; desenho `Header15` /
  * `Header15-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as mesmas vars de
- * Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá, por baixo do que o CS
+ * subir (`useConteudoDaSecao`, campos do schema de lá).
  *
  * Faixa escura com a mensagem e o presente; a busca em fio à esquerda, a marca em serifa
  * espaçada no centro com o fio dourado e "Joalheria", e conta, favoritos e a sacola com o
@@ -24,8 +27,9 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * sacola; o menu abre a lista grande em serifa e, no pé, "Sua conta".
  *
  * Divergências deliberadas:
- *  - Logo: o que o usuário enviou no /gerador; sem ele, a marca em texto do mock de lá
- *    ("Sua Marca"), no mesmo `.logo` / `data-role="hd-logo"`.
+ *  - Logo: o `logo` do CS, ou o que o usuário enviou no /gerador; sem nenhum, `brandName`
+ *    ou a marca em texto do catálogo (`SERIE//A`, nunca uma marca de demonstração), no
+ *    mesmo `.logo` / `data-role="hd-logo"`.
  *  - Busca sem GraphQL: as sugestões filtram uma lista fixa (os itens do menu e os
  *    produtos de exemplo do card 15); enviar só fecha a faixa.
  *  - Conta sem `ProfileChallenge`: o link de conta, sem sessão.
@@ -46,7 +50,7 @@ interface Header15MenuItem {
   children?: { label?: string; url?: string }[];
 }
 
-interface Header15Props {
+interface Header15Conteudo {
   /** Mensagens da faixa do topo; no mobile só a 1ª. */
   topbarMessages?: { text?: string; url?: string }[];
   /** Imagem do logo. Vazio: a marca em texto (`brandName`). */
@@ -69,6 +73,8 @@ interface Header15Props {
   helpLabel?: string;
   helpUrl?: string;
   menu?: Header15MenuItem[];
+  /** Rótulo do "Ver tudo" do acordeão do menu mobile. */
+  viewAllLabel?: string;
 }
 
 const svg = (w: number, children: React.ReactNode, className?: string) => (
@@ -125,9 +131,10 @@ const Ico = {
 };
 
 export default function Header15() {
-  const { logo } = useLayout();
+  const { logo: logoDaLoja } = useLayout();
   const {
     topbarMessages = [],
+    logo: logoDaSecao,
     logoAlt,
     brandName,
     brandTagline,
@@ -141,7 +148,10 @@ export default function Header15() {
     helpLabel,
     helpUrl,
     menu = [],
-  } = MOCK;
+    viewAllLabel,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDaSecao || logoDaLoja;
+  const termosDoMenu = menu.map(m => m.label ?? '').filter(Boolean);
 
   const [cartOpen, setCartOpen] = useState(false);
   useAbrirNoCanvas('carrinho', setCartOpen);
@@ -159,7 +169,7 @@ export default function Header15() {
   const curto = termoLimpo.length < 2;
   const termos = curto
     ? []
-    : TERMOS_15.filter(t => t.toLowerCase().includes(termoLimpo)).map(
+    : termosDoMenu.filter(t => t.toLowerCase().includes(termoLimpo)).map(
         value => ({ value })
       );
   const produtos = curto
@@ -274,7 +284,7 @@ export default function Header15() {
       {logo ? (
         <img src={logo} alt="Logo" height={34} />
       ) : (
-        <span className={styles.logoText}>{brandName}</span>
+        <span className={styles.logoText}>{brandName || 'SERIE//A'}</span>
       )}
       <span className={styles.logoRule} aria-hidden="true">
         <span className={styles.fio} />
@@ -490,7 +500,7 @@ export default function Header15() {
                             <ul className={styles.drawerSub}>
                               {item.url && (
                                 <li>
-                                  <a href={item.url}>Ver tudo</a>
+                                  <a href={item.url}>{viewAllLabel || 'Ver tudo'}</a>
                                 </li>
                               )}
                               {item.children.map((c, j) => (
@@ -551,9 +561,8 @@ export default function Header15() {
 }
 
 // Conteúdo do mock.ts do starter.
-const MOCK: Header15Props = {
+const MOCK: Header15Conteudo = {
   topbarMessages: [{ text: 'Entrega segura e embalagem presente' }],
-  brandName: 'Sua Marca',
   brandTagline: 'Joalheria',
   searchPlaceholder: 'Buscar joias, relógios e perfumes',
   accountLabel: 'Entrar na minha conta',
@@ -572,6 +581,8 @@ const MOCK: Header15Props = {
     { label: 'Presentes', url: '/presentes' },
     { label: 'Coleções', url: '/colecoes', highlight: true },
   ],
+  viewAllLabel: 'Ver tudo',
 };
 
-const TERMOS_15 = (MOCK.menu ?? []).map(m => m.label ?? '').filter(Boolean);
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header15.conteudoPadrao = MOCK;

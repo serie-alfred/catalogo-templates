@@ -2,6 +2,8 @@
 
 import React, { useEffect, useId, useRef, useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -11,7 +13,9 @@ import styles from './index.module.css';
  * "Ver mais avaliações"). Mesmo markup, classes e `data-role`; o CSS é derivado do SCSS de lá.
  *
  * Lá a nota e a lista vêm do Reviews and Ratings (ou do widget do Trustvox); aqui são o exemplo do
- * mock.ts de lá. O formulário abre e "envia" só localmente.
+ * mock.ts de lá. O formulário abre e "envia" só localmente. Os rótulos e o tamanho da página são
+ * do CMS (`useConteudoDaSecao`). O tipo não traz `emptyText` nem `formError`: o exemplo sempre
+ * tem avaliações e o envio sempre dá certo.
  */
 const FONTES =
   'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap';
@@ -26,7 +30,26 @@ interface Review16 {
   location: string;
 }
 
-const L = {
+interface ProductReviews16Conteudo {
+  title?: string;
+  countLabel?: string;
+  starSingular?: string;
+  starPlural?: string;
+  writeLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+  pageSize: number;
+  mobilePageSize: number;
+  moreLabel?: string;
+  formRatingLabel?: string;
+  formTitleLabel?: string;
+  formTextLabel?: string;
+  formNameLabel?: string;
+  formSubmitLabel?: string;
+  formSuccess?: string;
+}
+
+const MOCK: ProductReviews16Conteudo = {
   title: 'O que as famílias acharam',
   countLabel: 'avaliações',
   starSingular: 'estrela',
@@ -34,6 +57,8 @@ const L = {
   writeLabel: 'Escrever avaliação',
   prevLabel: 'Página anterior',
   nextLabel: 'Próxima página',
+  pageSize: 3,
+  mobilePageSize: 2,
   moreLabel: 'Ver mais avaliações',
   formRatingLabel: 'Sua nota',
   formTitleLabel: 'Título',
@@ -42,8 +67,6 @@ const L = {
   formSubmitLabel: 'Enviar avaliação',
   formSuccess: 'Obrigado! Sua avaliação aparece aqui depois da moderação.',
 };
-const PER_PAGE = 3;
-const MOBILE_PER = 2;
 const SUMMARY = { average: 4.8, totalCount: 128, starsFive: 105, starsFour: 18, starsThree: 5, starsTwo: 0, starsOne: 0 };
 const BASE = [
   { rating: 5, title: 'Macio e quentinho', text: 'Comprei o tamanho 4 para minha filha de 3 anos e ficou com folguinha para crescer. O algodão é bem macio.' },
@@ -94,6 +117,10 @@ const pageWindow = (current: number, total: number) => {
 };
 
 export default function ProductReviews16() {
+  const L = useConteudoDaSecao(MOCK);
+  // 0 ou fração vindos do CS virariam Infinity páginas: inteiro de 1 para cima.
+  const PER_PAGE = Math.max(1, Math.round(L.pageSize) || MOCK.pageSize);
+  const MOBILE_PER = Math.max(1, Math.round(L.mobilePageSize) || MOCK.mobilePageSize);
   const uid = useId();
   const [page, setPage] = useState(1);
   const [formOpen, setFormOpen] = useState(false);
@@ -101,7 +128,7 @@ export default function ProductReviews16() {
   const [enviado, setEnviado] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
   const [mobile, setMobile] = useState(false);
-  const [shown, setShown] = useState(MOBILE_PER);
+  const [cliques, setCliques] = useState(0);
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 960px)');
     const sync = () => setMobile(mq.matches);
@@ -120,7 +147,7 @@ export default function ProductReviews16() {
     { stars: 1, count: SUMMARY.starsOne },
   ];
   const from = mobile ? 0 : (page - 1) * PER_PAGE;
-  const to = mobile ? shown : from + PER_PAGE;
+  const to = mobile ? MOBILE_PER * (1 + cliques) : from + PER_PAGE;
   const reviews = REVIEWS.slice(from, to);
   const pages = Math.max(1, Math.ceil(REVIEWS.length / PER_PAGE));
   const hasMore = mobile && reviews.length < REVIEWS.length;
@@ -251,7 +278,7 @@ export default function ProductReviews16() {
               ))}
 
               {hasMore && (
-                <button type="button" className={styles.more} onClick={() => setShown(n => n + MOBILE_PER)} data-role="rv-more">
+                <button type="button" className={styles.more} onClick={() => setCliques(n => n + 1)} data-role="rv-more">
                   {L.moreLabel}
                 </button>
               )}
@@ -288,3 +315,6 @@ export default function ProductReviews16() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductReviews16.conteudoPadrao = MOCK;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
@@ -8,7 +9,8 @@ import styles from './index.module.css';
 /**
  * Espelha `organisms/Footer14` do faststore.starter (família 14, Esportiva; desenho
  * `Footer14` / `Footer14-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as
- * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá, por baixo
+ * do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  *
  * Fundo marinho com a faixa lima no topo; a marca (a barra vira o traço lima inclinado) com
  * o texto sobre a loja e as redes em paralelogramos lima; as colunas de links com título em
@@ -17,8 +19,9 @@ import styles from './index.module.css';
  * empilhado.
  *
  * Divergências deliberadas:
- *  - Logo: o que o usuário enviou no /gerador; sem ele, a marca em texto do catálogo
- *    ("SERIE/A", a barra virando o traço de destaque, como a "/" de lá), no mesmo
+ *  - Logo: o da seção (campo `logo` do schema), senão o do rodapé que o usuário enviou no
+ *    /gerador (`useLogoDoRodape`); sem nenhum, `brandName` do CS ou a marca em texto do
+ *    catálogo ("SERIE/A", a barra virando o traço de destaque, como a "/" de lá), no mesmo
  *    `.logo` / `data-role="ft-logo"`.
  *  - Links de mock (`href` de exemplo), sem navegação real.
  */
@@ -46,15 +49,27 @@ const ROTULO_PAGAMENTO: Record<Footer14Payment, string> = {
   pix: 'Pix',
 };
 
-const MOCK = {
-  brandName: 'SERIE/A',
+interface Footer14Conteudo {
+  logo?: string;
+  logoAlt?: string;
+  brandName?: string;
+  aboutText?: string;
+  socials?: { network?: Footer14Social; url?: string }[];
+  columns?: { title?: string; links?: { label?: string; url?: string }[] }[];
+  contactTitle?: string;
+  contactLines?: { text?: string; url?: string }[];
+  payments?: { method?: Footer14Payment }[];
+  copyright?: string;
+}
+
+const MOCK: Footer14Conteudo = {
   aboutText: 'Equipamento para quem treina de verdade: corrida, academia, futebol, ciclismo e suplementação.',
   socials: [
     { network: 'instagram', url: 'https://instagram.com/' },
     { network: 'youtube', url: 'https://youtube.com/' },
     { network: 'facebook', url: 'https://facebook.com/' },
     { network: 'x', url: 'https://x.com/' },
-  ] as { network?: Footer14Social; url?: string }[],
+  ],
   columns: [
     {
       title: 'Loja',
@@ -94,7 +109,7 @@ const MOCK = {
     { text: 'WhatsApp [00 00000-0000]' },
     { text: 'Seg a sex · 8h às 20h' },
     { text: '[contato@suamarca.com.br]', url: 'mailto:contato@suamarca.com.br' },
-  ] as { text?: string; url?: string }[],
+  ],
   payments: [
     { method: 'visa' },
     { method: 'mastercard' },
@@ -103,7 +118,7 @@ const MOCK = {
     { method: 'hipercard' },
     { method: 'pix' },
     { method: 'boleto' },
-  ] as { method?: Footer14Payment }[],
+  ],
   copyright: '© 2026 [SUA MARCA] · [RAZÃO SOCIAL] · CNPJ [00.000.000/0001-00] · [Endereço completo]',
 };
 
@@ -187,8 +202,21 @@ const Credit = () => (
 )
 
 export default function Footer14() {
-  const logo = useLogoDoRodape();
-  const { brandName, aboutText, socials, columns, contactTitle, contactLines, payments, copyright } = MOCK;
+  const {
+    logo: logoDaSecao,
+    logoAlt,
+    brandName: marca,
+    aboutText,
+    socials = [],
+    columns = [],
+    contactTitle,
+    contactLines = [],
+    payments = [],
+    copyright,
+  } = useConteudoDaSecao(MOCK);
+  const logoDoRodape = useLogoDoRodape();
+  const logo = logoDaSecao || logoDoRodape;
+  const brandName = marca || 'SERIE/A';
 
   const [aberto, setAberto] = useState<number | null>(null);
 
@@ -205,7 +233,7 @@ export default function Footer14() {
         <div className={styles.grid}>
           <div className={styles.brand}>
             <a className={styles.logo} href="/" aria-label={`${brandName.replace('/', ' ')}, página inicial`} data-role="ft-logo">
-              {logo ? <img src={logo} alt="Logo" height={30} loading="lazy" /> : <Marca nome={brandName} />}
+              {logo ? <img src={logo} alt={logoAlt || 'Logo'} height={30} loading="lazy" /> : <Marca nome={brandName} />}
             </a>
             {aboutText && <p className={styles.about}>{aboutText}</p>}
             {redes.length > 0 && (
@@ -300,3 +328,6 @@ export default function Footer14() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Footer14.conteudoPadrao = MOCK;

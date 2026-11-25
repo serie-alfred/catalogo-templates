@@ -30,6 +30,7 @@ import {
   selectedLabel,
 } from './facets';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/MainCategory10` do faststore.starter (família 10, Varejo;
@@ -51,10 +52,42 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * do palco — vazio, o canvas mostra a grade.
  */
 
-/* ── rótulos (o mock.ts de lá) ── */
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ──
+ * Ficam de fora `pageSize` e `specFacetKey`: a grade de exemplo tem 12 produtos e a
+ * faceta de especificação é a do exemplo (`memoria-interna`). */
 const PAGE_SIZE = 12;
 const SPEC_FACET_KEY = 'memoria-interna';
-const L = {
+
+/** O conteúdo da seção: os campos do `section.schema` do MainCategory10. */
+interface CategoryMain10Conteudo {
+  countLabel?: string;
+  filterLabel?: string;
+  sortLabel?: string;
+  sortPrefix?: string;
+  perPageLabel?: string;
+  activeLabel?: string;
+  clearLabel?: string;
+  clearAllLabel?: string;
+  /** `{faceta}` vira o nome da faceta. */
+  searchPlaceholder?: string;
+  /** `{n}` e `{faceta}`. */
+  showMoreLabel?: string;
+  showLessLabel?: string;
+  minLabel?: string;
+  maxLabel?: string;
+  /** `{total}` vira a contagem. */
+  resultsLabel?: string;
+  /** `{page}` e `{pages}`. */
+  pageLabel?: string;
+  emptyTitle?: string;
+  emptyText?: string;
+  emptyPrimaryLabel?: string;
+  emptyPrimaryUrl?: string;
+  emptySecondaryLabel?: string;
+  emptySecondaryUrl?: string;
+}
+
+const MOCK: CategoryMain10Conteudo = {
   countLabel: 'produtos encontrados',
   filterLabel: 'Filtrar',
   sortLabel: 'Ordenar',
@@ -222,8 +255,8 @@ const SORT_OPTIONS: Array<[string, string]> = [
 
 const LIST_LIMIT = 5;
 
-const fill = (tpl: string, vars: Record<string, number | string>) =>
-  tpl.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
+const fill = (tpl: string | undefined, vars: Record<string, number | string>) =>
+  (tpl ?? '').replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
 const digits = (s: string) => Number(String(s).replace(/\D/g, '')) || 0;
 
 /* ── o que o @faststore/sdk faz com a lista de facetas ── */
@@ -292,11 +325,11 @@ const Close = ({ size = 16, w = 2.2 }: { size?: number; w?: number }) => (
 );
 
 type Labels = {
-  searchPlaceholder: string;
-  showMoreLabel: string;
-  showLessLabel: string;
-  minLabel: string;
-  maxLabel: string;
+  searchPlaceholder?: string;
+  showMoreLabel?: string;
+  showLessLabel?: string;
+  minLabel?: string;
+  maxLabel?: string;
 };
 
 /** Opções de uma faceta: as mesmas na coluna do desktop e no acordeão do mobile. */
@@ -507,6 +540,7 @@ function priceSelectedOf(f: Facet10, raw: RawFacet10[]) {
 }
 
 export default function CategoryMain10() {
+  const L = useConteudoDaSecao(MOCK);
   const BASE_PAGE = PAGE_SIZE;
   const perPageOptions = useMemo(
     () =>
@@ -812,22 +846,28 @@ export default function CategoryMain10() {
                 term ? ` “${term}”` : null
               )}
               {L.emptyText && <p className={styles.emptyText}>{L.emptyText}</p>}
-              <div className={styles.emptyActions}>
-                <a
-                  className={styles.emptyPrimary}
-                  href={L.emptyPrimaryUrl}
-                  data-role="cm-empty-primary"
-                >
-                  {L.emptyPrimaryLabel}
-                </a>
-                <a
-                  className={styles.emptySecondary}
-                  href={L.emptySecondaryUrl}
-                  data-role="cm-empty-secondary"
-                >
-                  {L.emptySecondaryLabel}
-                </a>
-              </div>
+              {(L.emptyPrimaryLabel || L.emptySecondaryLabel) && (
+                <div className={styles.emptyActions}>
+                  {L.emptyPrimaryLabel && (
+                    <a
+                      className={styles.emptyPrimary}
+                      href={L.emptyPrimaryUrl || '#'}
+                      data-role="cm-empty-primary"
+                    >
+                      {L.emptyPrimaryLabel}
+                    </a>
+                  )}
+                  {L.emptySecondaryLabel && (
+                    <a
+                      className={styles.emptySecondary}
+                      href={L.emptySecondaryUrl || '#'}
+                      data-role="cm-empty-secondary"
+                    >
+                      {L.emptySecondaryLabel}
+                    </a>
+                  )}
+                </div>
+              )}
             </section>
           ) : (
             <div className={styles.layout}>
@@ -1075,3 +1115,6 @@ export default function CategoryMain10() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryMain10.conteudoPadrao = MOCK;

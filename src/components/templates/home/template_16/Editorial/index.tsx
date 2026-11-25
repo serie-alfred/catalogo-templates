@@ -1,16 +1,17 @@
 import React from 'react'
+
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao'
+
 import styles from './index.module.css'
 
 /**
  * Espelha `organisms/Editorial16` do faststore.starter (família 16, Infantil). Mesmo markup, mesmas classes,
  * mesmos `data-role` e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo =
- * o mock.ts de lá. A seção fica dentro do envelope `.editorial16Box` (container das @container).
+ * o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá). A seção fica dentro do envelope `.editorial16Box` (container das @container).
  */
 
-// Conteúdo do mock.ts do starter.
-// Mock de validação local — exibido quando o CMS não envia conteúdo (MOCK_ENABLED).
 // Textos literais do desenho `Editorial16`. Sem arte: o desenho também não tem (valem os pastéis).
-const editorial16Mock: Editorial16Props = {
+const MOCK: Editorial16Conteudo = {
   title: 'Diário dos pequenos',
   viewAllLabel: 'Ver todas as dicas',
   viewAllUrl: '/s',
@@ -49,7 +50,7 @@ const editorial16Mock: Editorial16Props = {
  * Arte desktop e mobile em campos separados em todas as matérias (contrato §2).
  * Apresentacional — sem evento de analytics e sem valor de commerce.
  */
-export interface Editorial16Story {
+interface Editorial16Story {
   /** Chamada em pílula (ex.: "Brincar e aprender"). */
   eyebrow?: string
   title?: string
@@ -61,11 +62,11 @@ export interface Editorial16Story {
   imageAlt?: string
 }
 
-export interface Editorial16Props {
+interface Editorial16Conteudo {
   title?: string
   viewAllLabel?: string
   viewAllUrl?: string
-  stories?: Editorial16Story[]
+  stories: Editorial16Story[]
 }
 
 const FONTES = 'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap'
@@ -79,7 +80,7 @@ const Arte = ({ s, w, h }: { s: Editorial16Story; w: number; h: number }) =>
   ) : null
 
 export default function Editorial16() {
-  const { title, viewAllLabel, viewAllUrl, stories = [] } = editorial16Mock
+  const { title, viewAllLabel, viewAllUrl, stories } = useConteudoDaSecao(MOCK)
   if (!stories.length) return null
   const [destaque, ...demais] = stories
 
@@ -137,3 +138,6 @@ export default function Editorial16() {
     </div>
   )
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Editorial16.conteudoPadrao = MOCK;

@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
-import CartSidebar12, { CART_12_QUANTIDADE } from '@/components/templates/_shared/CartSidebar12';
+import CartSidebar12, {
+  CART_12_QUANTIDADE,
+} from '@/components/templates/_shared/CartSidebar12';
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
 import { useLayout } from '@/context/LayoutContext';
 
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/Header12` do faststore.starter (família 12, Suave; desenho
  * `Header12` / `Header12-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as
- * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá, por
+ * baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  *
  * Régua rosada com o presente, a mensagem e "Ver regras"; abaixo, a barra branca em
  * pílula: a marca em serifa, o menu em pílulas (o item destaque na cor de acento), a busca
@@ -19,8 +23,9 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * "Entrar"/"Favoritos" e o link da régua no pé.
  *
  * Divergências deliberadas:
- *  - Logo: o que o usuário enviou no /gerador; sem ele, a marca em texto do catálogo,
- *    dentro do mesmo `.logo` / `data-role="hd-logo"`.
+ *  - Logo: o da seção (campo `logo` do schema), senão o que o usuário enviou no /gerador;
+ *    sem nenhum, `brandName` ou a marca em texto do catálogo, dentro do mesmo `.logo` /
+ *    `data-role="hd-logo"`.
  *  - Busca sem GraphQL: as sugestões filtram uma lista fixa (os itens do menu e os
  *    produtos de exemplo do card 12); enviar só fecha as sugestões.
  *  - Carrinho: contador e gaveta (`_shared/CartSidebar12`) com o item de exemplo. A gaveta
@@ -36,12 +41,28 @@ type Header12MenuItem = {
   children?: { label?: string; url?: string }[];
 };
 
-const MOCK = {
+interface Header12Conteudo {
+  topbarText?: string;
+  topbarLinkLabel?: string;
+  topbarLinkMenuLabel?: string;
+  topbarLinkUrl?: string;
+  logo?: string;
+  logoAlt?: string;
+  brandName?: string;
+  menu: Header12MenuItem[];
+  searchPlaceholder?: string;
+  accountLabel?: string;
+  wishlistLabel?: string;
+  wishlistUrl?: string;
+  cartLabel?: string;
+  viewAllLabel?: string;
+}
+
+const MOCK: Header12Conteudo = {
   topbarText: 'Ganhe uma amostra em compras acima de R$ 150',
   topbarLinkLabel: 'Ver regras',
   topbarLinkMenuLabel: 'Ver regras da amostra grátis',
   topbarLinkUrl: '/regras-amostra-gratis',
-  brandName: 'SERIE//A',
   menu: [
     { label: 'Skincare', url: '/skincare' },
     { label: 'Maquiagem', url: '/maquiagem' },
@@ -49,23 +70,25 @@ const MOCK = {
     { label: 'Corpo e banho', url: '/corpo-e-banho' },
     { label: 'Kits', url: '/kits' },
     { label: 'Ofertas', url: '/ofertas', highlight: true },
-  ] as Header12MenuItem[],
+  ],
   searchPlaceholder: 'Buscar produto',
   accountLabel: 'Entrar',
   wishlistLabel: 'Favoritos',
   wishlistUrl: '/wishlist',
   cartLabel: 'Sacola',
+  viewAllLabel: 'Ver tudo',
 };
 
 // Produtos de exemplo do card 12, só para as sugestões da busca terem o que mostrar.
 const PRODUTOS_BUSCA_12 = [
-  { slug: 'protetor-solar-fps-50-toque-seco', name: 'Protetor Solar FPS 50 Toque Seco 40 ml' },
+  {
+    slug: 'protetor-solar-fps-50-toque-seco',
+    name: 'Protetor Solar FPS 50 Toque Seco 40 ml',
+  },
   { slug: 'serum-vitamina-c-10', name: 'Sérum Vitamina C 10% 30 ml' },
   { slug: 'agua-micelar-200-ml', name: 'Água Micelar 200 ml' },
   { slug: 'mascara-capilar-nutricao', name: 'Máscara Capilar Nutrição 250 g' },
 ];
-
-const TERMOS_12 = MOCK.menu.map(m => m.label ?? '').filter(Boolean);
 
 const svg = (w: number, children: React.ReactNode, join = false) => (
   <svg
@@ -112,9 +135,24 @@ const Ico = {
         <path d="M4 21c0-4 3.6-6 8-6s8 2 8 6" />
       </>
     ),
-  heart: (w: number) => svg(w, <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" />, true),
+  heart: (w: number) =>
+    svg(
+      w,
+      <path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" />,
+      true
+    ),
   bag: (
-    <svg className={styles.bagIcon} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" aria-hidden="true">
+    <svg
+      className={styles.bagIcon}
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
       <path d="M5 8h14l-1 12H6L5 8z" />
       <path d="M9 8V6a3 3 0 0 1 6 0v2" />
     </svg>
@@ -123,20 +161,26 @@ const Ico = {
 };
 
 export default function Header12() {
-  const { logo } = useLayout();
+  const { logo: logoDaLoja } = useLayout();
   const {
     topbarText,
     topbarLinkLabel,
     topbarLinkMenuLabel,
     topbarLinkUrl,
-    brandName,
+    logo: logoDaSecao,
+    logoAlt,
+    brandName: marca,
     menu,
     searchPlaceholder,
     accountLabel,
     wishlistLabel,
     wishlistUrl,
     cartLabel,
-  } = MOCK;
+    viewAllLabel,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDaSecao || logoDaLoja;
+  const brandName = marca || 'SERIE//A';
+  const termosDoMenu = menu.map(m => m.label ?? '').filter(Boolean);
 
   const [cartOpen, setCartOpen] = useState(false);
   useAbrirNoCanvas('carrinho', setCartOpen);
@@ -149,9 +193,14 @@ export default function Header12() {
 
   const termoLimpo = termo.trim().toLowerCase();
   const curto = termoLimpo.length < 2;
-  const termos = curto ? [] : TERMOS_12.filter(t => t.toLowerCase().includes(termoLimpo));
-  const produtos = curto ? [] : PRODUTOS_BUSCA_12.filter(p => p.name.toLowerCase().includes(termoLimpo));
-  const temSugestao = sugestoesAbertas && (termos.length > 0 || produtos.length > 0);
+  const termos = curto
+    ? []
+    : termosDoMenu.filter(t => t.toLowerCase().includes(termoLimpo));
+  const produtos = curto
+    ? []
+    : PRODUTOS_BUSCA_12.filter(p => p.name.toLowerCase().includes(termoLimpo));
+  const temSugestao =
+    sugestoesAbertas && (termos.length > 0 || produtos.length > 0);
 
   useEffect(() => {
     if (!gaveta) return;
@@ -176,14 +225,28 @@ export default function Header12() {
     setGaveta(v => (busca ? true : !v));
   };
 
-  const conta = (conteudo: React.ReactNode, className: string, rotulo?: string) => (
-    <a className={className} href="/account" aria-label={rotulo} data-role="hd-account">
+  const conta = (
+    conteudo: React.ReactNode,
+    className: string,
+    rotulo?: string
+  ) => (
+    <a
+      className={className}
+      href="/account"
+      aria-label={rotulo}
+      data-role="hd-account"
+    >
       {conteudo}
     </a>
   );
 
   const busca = (className: string, onde: string) => (
-    <form className={className} role="search" onSubmit={buscar} data-role="hd-search">
+    <form
+      className={className}
+      role="search"
+      onSubmit={buscar}
+      data-role="hd-search"
+    >
       <label className={styles.searchField}>
         {/* Envio pelo Enter (form role="search"); a lupa do desenho é decorativa. */}
         {Ico.search(18)}
@@ -209,7 +272,12 @@ export default function Header12() {
             <ul className={styles.suggestList}>
               {termos.slice(0, 5).map(t => (
                 <li key={t}>
-                  <button type="button" className={styles.suggestItem} onMouseDown={e => e.preventDefault()} onClick={() => irPara(t)}>
+                  <button
+                    type="button"
+                    className={styles.suggestItem}
+                    onMouseDown={e => e.preventDefault()}
+                    onClick={() => irPara(t)}
+                  >
                     {Ico.search(16)}
                     {t}
                   </button>
@@ -245,11 +313,18 @@ export default function Header12() {
 
           {topbarText && (
             <div className={styles.topbar} data-role="hd-topbar">
-              <span className={`${styles.topbarIcon} ${styles.dsk}`}>{Ico.gift(16)}</span>
-              <span className={`${styles.topbarIcon} ${styles.mob}`}>{Ico.gift(14)}</span>
+              <span className={`${styles.topbarIcon} ${styles.dsk}`}>
+                {Ico.gift(16)}
+              </span>
+              <span className={`${styles.topbarIcon} ${styles.mob}`}>
+                {Ico.gift(14)}
+              </span>
               <span>{topbarText}</span>
               {topbarLinkLabel && topbarLinkUrl && (
-                <a className={`${styles.topbarLink} ${styles.dsk}`} href={topbarLinkUrl}>
+                <a
+                  className={`${styles.topbarLink} ${styles.dsk}`}
+                  href={topbarLinkUrl}
+                >
                   {topbarLinkLabel}
                 </a>
               )}
@@ -269,12 +344,25 @@ export default function Header12() {
               {gaveta ? Ico.close : Ico.menu}
             </button>
 
-            <a className={styles.logo} href="/" aria-label={brandName || 'Página inicial'} data-role="hd-logo">
-              {logo ? <img src={logo} alt="Logo" height={32} /> : brandName}
+            <a
+              className={styles.logo}
+              href="/"
+              aria-label={logoAlt || brandName}
+              data-role="hd-logo"
+            >
+              {logo ? (
+                <img src={logo} alt={logoAlt || 'Logo'} height={32} />
+              ) : (
+                brandName
+              )}
             </a>
 
             {menu.length > 0 && (
-              <nav className={`${styles.nav} ${styles.dsk}`} aria-label="Categorias" data-role="hd-nav">
+              <nav
+                className={`${styles.nav} ${styles.dsk}`}
+                aria-label="Categorias"
+                data-role="hd-nav"
+              >
                 <ul className={styles.navList}>
                   {menu.map((item, i) => (
                     <li key={i} className={styles.navEntry}>
@@ -289,7 +377,10 @@ export default function Header12() {
                         <ul className={styles.submenu} data-role="hd-submenu">
                           {item.children.map((c, j) => (
                             <li key={j}>
-                              <a className={styles.submenuItem} href={c.url || '#'}>
+                              <a
+                                className={styles.submenuItem}
+                                href={c.url || '#'}
+                              >
                                 {c.label}
                               </a>
                             </li>
@@ -314,11 +405,26 @@ export default function Header12() {
               >
                 {Ico.search(18)}
               </button>
-              {conta(Ico.user(20), `${styles.round} ${styles.dsk}`, accountLabel || 'Minha conta')}
-              <a className={`${styles.round} ${styles.dsk}`} href={wishlistUrl || '#'} aria-label={wishlistLabel || 'Favoritos'} data-role="hd-wishlist">
+              {conta(
+                Ico.user(20),
+                `${styles.round} ${styles.dsk}`,
+                accountLabel || 'Minha conta'
+              )}
+              <a
+                className={`${styles.round} ${styles.dsk}`}
+                href={wishlistUrl || '#'}
+                aria-label={wishlistLabel || 'Favoritos'}
+                data-role="hd-wishlist"
+              >
                 {Ico.heart(20)}
               </a>
-              <button type="button" className={`${styles.round} ${styles.cart}`} onClick={() => setCartOpen(true)} aria-label={rotuloCarrinho} data-role="hd-cart">
+              <button
+                type="button"
+                className={`${styles.round} ${styles.cart}`}
+                onClick={() => setCartOpen(true)}
+                aria-label={rotuloCarrinho}
+                data-role="hd-cart"
+              >
                 {Ico.bag}
                 <span className={styles.cartCount} data-role="hd-badge">
                   {totalItems > 99 ? '99+' : totalItems}
@@ -329,7 +435,12 @@ export default function Header12() {
 
           {gaveta && (
             <div className={styles.drawerWrap}>
-              <nav id="hd12-menu" className={styles.drawer} aria-label="Menu" data-role="hd-drawer">
+              <nav
+                id="hd12-menu"
+                className={styles.drawer}
+                aria-label="Menu"
+                data-role="hd-drawer"
+              >
                 {busca(styles.drawerSearch, 'menu')}
                 <ul className={styles.drawerList}>
                   {menu.map((item, i) => (
@@ -343,13 +454,19 @@ export default function Header12() {
                             onClick={() => setAberto(aberto === i ? null : i)}
                           >
                             {item.label}
-                            <span className={`${styles.chevron}${aberto === i ? ` ${styles.chevronOpen}` : ''}`}>{Ico.chevron}</span>
+                            <span
+                              className={`${styles.chevron}${aberto === i ? ` ${styles.chevronOpen}` : ''}`}
+                            >
+                              {Ico.chevron}
+                            </span>
                           </button>
                           {aberto === i && (
                             <ul className={styles.drawerSub}>
                               {item.url && (
                                 <li>
-                                  <a href={item.url}>Ver tudo</a>
+                                  <a href={item.url}>
+                                    {viewAllLabel || 'Ver tudo'}
+                                  </a>
                                 </li>
                               )}
                               {item.children.map((c, j) => (
@@ -361,7 +478,10 @@ export default function Header12() {
                           )}
                         </>
                       ) : (
-                        <a className={`${styles.drawerItem}${item.highlight ? ` ${styles.navHighlight}` : ''}`} href={item.url || '#'}>
+                        <a
+                          className={`${styles.drawerItem}${item.highlight ? ` ${styles.navHighlight}` : ''}`}
+                          href={item.url || '#'}
+                        >
                           {item.label}
                           <span className={styles.chevron}>{Ico.chevron}</span>
                         </a>
@@ -393,7 +513,14 @@ export default function Header12() {
         </header>
       </div>
 
-      <CartSidebar12 open={cartOpen} onClose={() => setCartOpen(false)} onTotalChange={setTotalItems} />
+      <CartSidebar12
+        open={cartOpen}
+        onClose={() => setCartOpen(false)}
+        onTotalChange={setTotalItems}
+      />
     </>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header12.conteudoPadrao = MOCK;

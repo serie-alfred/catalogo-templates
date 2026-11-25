@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/CategoryTitle11` do faststore.starter (família 11, Grade; desenho
@@ -11,7 +12,8 @@ import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
  * faixa de filetes com os chips de subcategoria em texto ("Todos" + cada subcategoria com a
  * quantidade). Mesmo markup, classes e `data-role`; o CSS é derivado do SCSS de lá.
  *
- * Lá nome, contagem e chips vêm do contexto da PLP (breadcrumb, totalCount, facet do nível
+ * O único campo de CMS é o rótulo do chip "Todos" (`useConteudoDaSecao`). Lá nome,
+ * contagem e chips vêm do contexto da PLP (breadcrumb, totalCount, facet do nível
  * abaixo); aqui são o exemplo do mock.ts de lá. O chip, que lá troca o filtro pela store de
  * busca (clicar de novo no ativo volta à categoria inteira), aqui faz o mesmo num `useState`.
  * Como lá fora de contexto, o "Todos" (valor vazio) nasce ativo.
@@ -22,7 +24,13 @@ interface Subcat {
   quantity?: number;
 }
 
-const ALL_LABEL = 'Todos';
+/** O conteúdo da seção: os campos do `section.schema` do CategoryTitle11. */
+interface CategoryTitle11Conteudo {
+  allLabel?: string;
+}
+
+const MOCK: CategoryTitle11Conteudo = { allLabel: 'Todos' };
+
 const TITULO = 'Iluminação';
 const TOTAL = 48;
 const SUBCATS: Subcat[] = [
@@ -34,6 +42,7 @@ const SUBCATS: Subcat[] = [
 ];
 
 export default function CategoryTitle11() {
+  const { allLabel } = useConteudoDaSecao(MOCK);
   const [ativa, setAtiva] = useState('');
 
   const escolher = (e: React.MouseEvent, value: string) => {
@@ -42,7 +51,7 @@ export default function CategoryTitle11() {
   };
 
   const chips: Subcat[] = [
-    { value: '', label: ALL_LABEL, quantity: TOTAL },
+    { value: '', label: allLabel || 'Todos', quantity: TOTAL },
     ...SUBCATS,
   ];
 
@@ -97,3 +106,6 @@ export default function CategoryTitle11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryTitle11.conteudoPadrao = MOCK;

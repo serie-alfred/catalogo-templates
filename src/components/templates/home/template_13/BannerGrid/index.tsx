@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -9,6 +10,9 @@ import styles from './index.module.css';
  * `BannerGrid13` / `BannerGrid13-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`
  * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá
  * (sem arte: valem os grafites de placeholder do CSS).
+ *
+ * Conteúdo: o MOCK abaixo por baixo do que o CS subir (`useConteudoDaSecao`, campos do
+ * schema de lá).
  */
 interface BannerGrid13Banner {
   eyebrow?: string;
@@ -20,30 +24,18 @@ interface BannerGrid13Banner {
   imageAlt?: string;
 }
 
-// Conteúdo do mock.ts do starter.
-const BANNERS: BannerGrid13Banner[] = [
-  {
-    eyebrow: '01',
-    title: 'Corrida',
-    ctaLabel: 'Comprar',
-    url: '/s',
-    imageAlt: 'Corrida',
-  },
-  {
-    eyebrow: '02',
-    title: 'Skate',
-    ctaLabel: 'Comprar',
-    url: '/s',
-    imageAlt: 'Skate',
-  },
-  {
-    eyebrow: '03',
-    title: 'Street',
-    ctaLabel: 'Comprar',
-    url: '/s',
-    imageAlt: 'Street',
-  },
-];
+/** O conteúdo da seção: os campos do `section.schema` do BannerGrid13. */
+interface BannerGrid13Conteudo {
+  banners: BannerGrid13Banner[];
+}
+
+const MOCK: BannerGrid13Conteudo = {
+  banners: [
+    { eyebrow: '01', title: 'Corrida', ctaLabel: 'Comprar', url: '/s', imageAlt: 'Corrida' },
+    { eyebrow: '02', title: 'Skate', ctaLabel: 'Comprar', url: '/s', imageAlt: 'Skate' },
+    { eyebrow: '03', title: 'Street', ctaLabel: 'Comprar', url: '/s', imageAlt: 'Street' },
+  ],
+};
 
 const Seta = () => (
   <svg
@@ -59,7 +51,7 @@ const Seta = () => (
 );
 
 export default function BannerGrid13() {
-  const banners = BANNERS;
+  const { banners } = useConteudoDaSecao(MOCK);
   if (!banners.length) return null;
 
   return (
@@ -116,3 +108,6 @@ export default function BannerGrid13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerGrid13.conteudoPadrao = MOCK;

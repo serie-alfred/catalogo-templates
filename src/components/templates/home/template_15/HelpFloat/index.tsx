@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 
@@ -21,7 +23,7 @@ type HelpFloat15Icon =
   | 'exchange'
   | 'truck';
 
-interface HelpFloatButton15Props {
+interface HelpFloat15Conteudo {
   /** Nome acessível do botão flutuante ("Ajuda"). */
   buttonLabel?: string;
   title?: string;
@@ -90,7 +92,7 @@ const ICONES: Record<HelpFloat15Icon, React.ReactNode> = {
 };
 
 export default function HelpFloat15() {
-  const { buttonLabel, title, subtitle, helpItems = [] } = CONTEUDO;
+  const { buttonLabel, title, subtitle, helpItems = [] } = useConteudoDaSecao(MOCK);
   const [aberto, setAberto] = useState(false);
   useAbrirNoCanvas('ajuda', setAberto);
   const botaoRef = useRef<HTMLButtonElement>(null);
@@ -204,7 +206,7 @@ export default function HelpFloat15() {
 }
 
 // Conteúdo do mock.ts do starter.
-const CONTEUDO: HelpFloatButton15Props = {
+const MOCK: HelpFloat15Conteudo = {
   buttonLabel: 'Ajuda',
   title: 'Concierge',
   subtitle: 'Seg a sáb · 10h às 19h',
@@ -219,3 +221,6 @@ const CONTEUDO: HelpFloatButton15Props = {
     { icon: 'faq', label: 'Perguntas frequentes', url: '/institucional/ajuda' },
   ],
 };
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+HelpFloat15.conteudoPadrao = MOCK;

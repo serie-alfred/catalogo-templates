@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -13,7 +14,7 @@ import styles from './index.module.css';
 
 // Conteúdo do mock.ts do starter.
 // Textos literais do desenho `Brand10` (marcas como marcadores, sem logo).
-const MOCK: Brands10Props = {
+const MOCK: Brands10Conteudo = {
   title: 'Marcas parceiras',
   viewAllLabel: 'Ver todas',
   viewAllUrl: '/marcas',
@@ -29,15 +30,16 @@ interface Brands10Brand {
   logo?: string;
 }
 
-interface Brands10Props {
+/** O conteúdo da seção: os campos do `section.schema` do Brands10. */
+interface Brands10Conteudo {
   title?: string;
   viewAllLabel?: string;
   viewAllUrl?: string;
-  brands?: Brands10Brand[];
+  brands: Brands10Brand[];
 }
 
 export default function Brand10() {
-  const { title, viewAllLabel, viewAllUrl, brands = [] } = MOCK;
+  const { title, viewAllLabel, viewAllUrl, brands } = useConteudoDaSecao(MOCK);
   if (!brands.length) return null;
 
   return (
@@ -106,3 +108,6 @@ export default function Brand10() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Brand10.conteudoPadrao = MOCK;

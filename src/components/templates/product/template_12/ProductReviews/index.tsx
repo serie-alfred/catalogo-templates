@@ -4,6 +4,7 @@ import React, { useId, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/ProductReviews12` do faststore.starter (família 12, Suave; desenho
@@ -26,8 +27,28 @@ interface Review12 {
   reviewDateTime?: string;
 }
 
-/* ── rótulos (o mock.ts de lá) ── */
-const L = {
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+/** `formError` fica de fora: o envio daqui nunca falha, então a mensagem não aparece. */
+interface ProductReviews12Conteudo {
+  /** Avaliações por vez (1 a 20). */
+  pageSize: number;
+  title: string;
+  countLabel: string;
+  starSingular: string;
+  starPlural: string;
+  writeLabel: string;
+  emptyText: string;
+  moreLabel: string;
+  formRatingLabel: string;
+  formTitleLabel: string;
+  formTextLabel: string;
+  formNameLabel: string;
+  formSubmitLabel: string;
+  formSuccess: string;
+}
+
+const MOCK: ProductReviews12Conteudo = {
+  pageSize: 3,
   title: 'Avaliações',
   countLabel: 'avaliações',
   starSingular: 'estrela',
@@ -42,7 +63,6 @@ const L = {
   formSubmitLabel: 'Enviar avaliação',
   formSuccess: 'Obrigada! Sua avaliação aparece aqui depois da moderação.',
 };
-const PER_PAGE = 3;
 
 /* ── resumo e avaliações (o mock.ts de lá) ── */
 const SUMMARY = {
@@ -129,8 +149,13 @@ const initials = (name?: string) =>
     .join('');
 
 export default function ProductReviews12() {
+  const { pageSize: pageSizeCs, ...L } = useConteudoDaSecao(MOCK);
+  const perPage = Math.max(
+    1,
+    Math.min(20, Math.round(pageSizeCs) || MOCK.pageSize)
+  );
   const uid = useId();
-  const [shown, setShown] = useState(PER_PAGE);
+  const [pages, setPages] = useState(1);
   const [formOpen, setFormOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [reviewTitle, setReviewTitle] = useState('');
@@ -148,7 +173,7 @@ export default function ProductReviews12() {
     { stars: 2, count: SUMMARY.starsTwo },
     { stars: 1, count: SUMMARY.starsOne },
   ];
-  const reviews = REVIEWS.slice(0, shown);
+  const reviews = REVIEWS.slice(0, pages * perPage);
   const hasMore = reviews.length < REVIEWS.length;
 
   const toggleForm = () => {
@@ -379,7 +404,7 @@ export default function ProductReviews12() {
                 <button
                   type="button"
                   className={styles.more}
-                  onClick={() => setShown(s => s + PER_PAGE)}
+                  onClick={() => setPages(p => p + 1)}
                   data-role="rv-more"
                 >
                   {L.moreLabel}
@@ -392,3 +417,6 @@ export default function ProductReviews12() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductReviews12.conteudoPadrao = MOCK;

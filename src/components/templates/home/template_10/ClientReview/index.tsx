@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -15,39 +16,53 @@ import styles from './index.module.css';
  */
 
 interface Review {
-  rating: number;
-  title: string;
-  text: string;
-  productName: string;
-  author: string;
+  rating?: number;
+  title?: string;
+  text?: string;
+  productName?: string;
+  productUrl?: string;
+  productImage?: string;
+  author?: string;
 }
 
-const TITLE = 'O que nossos clientes dizem';
-const TEXT = 'Depoimentos enviados para o nosso atendimento.';
+/** O conteúdo da seção: os campos do `section.schema` do ClientReview10. */
+interface ClientReview10Conteudo {
+  title?: string;
+  text?: string;
+  reviews: Review[];
+}
+
 const AUTOR = '[Nome do cliente] · [Cidade, UF]';
-const REVIEWS: Review[] = [
-  {
-    rating: 5,
-    title: 'Chegou antes do prazo',
-    text: 'Comprei a air fryer numa terça e chegou na quinta. Bem embalada e funcionando perfeitamente.',
-    productName: 'Air Fryer 5,5 L Digital 1500 W Inox',
-    author: AUTOR,
-  },
-  {
-    rating: 5,
-    title: 'Ótimo custo-benefício',
-    text: 'A imagem é excelente para o preço e a configuração inicial foi simples.',
-    productName: 'Smart TV 55" 4K UHD com Wi-Fi',
-    author: AUTOR,
-  },
-  {
-    rating: 5,
-    title: 'Troca resolvida pelo site',
-    text: 'Precisei trocar a cor do fone e o processo foi todo online, sem complicação.',
-    productName: 'Fone Bluetooth com Cancelamento de Ruído',
-    author: AUTOR,
-  },
-];
+const MOCK: ClientReview10Conteudo = {
+  title: 'O que nossos clientes dizem',
+  text: 'Depoimentos enviados para o nosso atendimento.',
+  reviews: [
+    {
+      rating: 5,
+      title: 'Chegou antes do prazo',
+      text: 'Comprei a air fryer numa terça e chegou na quinta. Bem embalada e funcionando perfeitamente.',
+      productName: 'Air Fryer 5,5 L Digital 1500 W Inox',
+      productUrl: '/air-fryer-5-5l-digital-inox/p',
+      author: AUTOR,
+    },
+    {
+      rating: 5,
+      title: 'Ótimo custo-benefício',
+      text: 'A imagem é excelente para o preço e a configuração inicial foi simples.',
+      productName: 'Smart TV 55" 4K UHD com Wi-Fi',
+      productUrl: '/smart-tv-55-4k-uhd-wifi/p',
+      author: AUTOR,
+    },
+    {
+      rating: 5,
+      title: 'Troca resolvida pelo site',
+      text: 'Precisei trocar a cor do fone e o processo foi todo online, sem complicação.',
+      productName: 'Fone Bluetooth com Cancelamento de Ruído',
+      productUrl: '/fone-bluetooth-cancelamento-ruido/p',
+      author: AUTOR,
+    },
+  ],
+};
 
 const STAR =
   'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z';
@@ -67,6 +82,7 @@ const Chevron = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function ClientReview10() {
+  const { title, text, reviews } = useConteudoDaSecao(MOCK);
   const railRef = useRef<HTMLUListElement>(null);
   const [estado, setEstado] = useState({ inicio: true, fim: true, atual: 0 });
 
@@ -103,23 +119,29 @@ export default function ClientReview10() {
       });
   };
 
+  if (!reviews.length) return null;
+
   return (
     <div className={styles.clientReview10Box}>
       <section
         className={styles.clientReview10}
-        aria-label={TITLE}
+        aria-label={title || 'Depoimentos'}
         data-role="rv-root"
       >
         <link rel="stylesheet" href={FONTES_10} />
         <div className={styles.inner}>
           <div className={styles.head}>
             <div className={styles.heading}>
-              <h2 className={styles.title} data-role="rv-title">
-                {TITLE}
-              </h2>
-              <p className={styles.text} data-role="rv-text">
-                {TEXT}
-              </p>
+              {title && (
+                <h2 className={styles.title} data-role="rv-title">
+                  {title}
+                </h2>
+              )}
+              {text && (
+                <p className={styles.text} data-role="rv-text">
+                  {text}
+                </p>
+              )}
             </div>
             <div className={styles.arrows}>
               <button
@@ -143,47 +165,76 @@ export default function ClientReview10() {
             </div>
           </div>
           <ul ref={railRef} className={styles.list} onScroll={medir}>
-            {REVIEWS.map(r => {
-              const nota = Math.max(0, Math.min(5, Math.round(r.rating)));
+            {reviews.map((r, i) => {
+              const nota = Math.max(
+                0,
+                Math.min(5, Math.round(Number(r.rating) || 0))
+              );
               return (
-                <li key={r.title} className={styles.card} data-role="rv-item">
-                  <span
-                    className={styles.stars}
-                    role="img"
-                    aria-label={`Nota ${nota} de 5`}
-                  >
-                    {[1, 2, 3, 4, 5].map(n => (
-                      <svg
-                        key={n}
-                        viewBox="0 0 24 24"
-                        fill={n <= nota ? 'currentColor' : 'none'}
-                        stroke={n <= nota ? 'none' : 'currentColor'}
-                        strokeWidth="1.6"
-                        aria-hidden="true"
-                      >
-                        <path d={STAR} />
-                      </svg>
-                    ))}
-                  </span>
-                  <strong className={styles.reviewTitle}>{r.title}</strong>
-                  <p className={styles.reviewText}>{r.text}</p>
-                  <div className={styles.foot}>
-                    <span className={styles.thumb} />
-                    <span className={styles.meta}>
-                      <a className={styles.product} href="#">
-                        {r.productName}
-                      </a>
-                      <span className={styles.author}>{r.author}</span>
+                <li key={i} className={styles.card} data-role="rv-item">
+                  {nota > 0 && (
+                    <span
+                      className={styles.stars}
+                      role="img"
+                      aria-label={`Nota ${nota} de 5`}
+                    >
+                      {[1, 2, 3, 4, 5].map(n => (
+                        <svg
+                          key={n}
+                          viewBox="0 0 24 24"
+                          fill={n <= nota ? 'currentColor' : 'none'}
+                          stroke={n <= nota ? 'none' : 'currentColor'}
+                          strokeWidth="1.6"
+                          aria-hidden="true"
+                        >
+                          <path d={STAR} />
+                        </svg>
+                      ))}
                     </span>
-                  </div>
+                  )}
+                  {r.title && (
+                    <strong className={styles.reviewTitle}>{r.title}</strong>
+                  )}
+                  {r.text && <p className={styles.reviewText}>{r.text}</p>}
+                  {(r.productName || r.author) && (
+                    <div className={styles.foot}>
+                      <span className={styles.thumb}>
+                        {r.productImage && (
+                          <img
+                            src={r.productImage}
+                            alt=""
+                            width={44}
+                            height={44}
+                            loading="lazy"
+                            decoding="async"
+                          />
+                        )}
+                      </span>
+                      <span className={styles.meta}>
+                        {r.productName &&
+                          (r.productUrl ? (
+                            <a className={styles.product} href={r.productUrl}>
+                              {r.productName}
+                            </a>
+                          ) : (
+                            <span className={styles.product}>
+                              {r.productName}
+                            </span>
+                          ))}
+                        {r.author && (
+                          <span className={styles.author}>{r.author}</span>
+                        )}
+                      </span>
+                    </div>
+                  )}
                 </li>
               );
             })}
           </ul>
           <div className={styles.dots} aria-hidden="true">
-            {REVIEWS.map((r, i) => (
+            {reviews.map((_, i) => (
               <span
-                key={r.title}
+                key={i}
                 className={`${styles.dot}${i === estado.atual ? ` ${styles.dotOn}` : ''}`}
               />
             ))}
@@ -193,3 +244,6 @@ export default function ClientReview10() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ClientReview10.conteudoPadrao = MOCK;

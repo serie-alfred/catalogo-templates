@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import CartSidebar13, { CART_13_QUANTIDADE } from '@/components/templates/_shared/CartSidebar13';
 import { FONTES_13, PRODUTOS_13 } from '@/components/templates/common/template_13/Spot';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useFitaEmPixels } from '@/hooks/useFitaEmPixels';
 
 import styles from './index.module.css';
@@ -19,10 +20,13 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * favoritos, conta e a "Bag (N)" no bloco verde. Mobile: menu, marca, busca e "(N)"; o menu
  * abre a tela inteira com a lista grande, setas e, no pé, conta, favoritos e ajuda.
  *
+ * Conteúdo: o MOCK abaixo por baixo do que o CS subir (`useConteudoDaSecao`, campos
+ * do schema de lá).
+ *
  * Divergências deliberadas:
- *  - Logo: o que o usuário enviou no /gerador; sem ele, a marca em texto do catálogo
- *    ("SERIE//A", as barras na cor de destaque, como a "/" de lá), no mesmo `.logo` /
- *    `data-role="hd-logo"`.
+ *  - Logo: o da seção (campo `logo` do schema), senão o que o usuário enviou no
+ *    /gerador; sem nenhum, `brandName` ou a marca em texto do catálogo ("SERIE//A", as
+ *    barras na cor de destaque, como a "/" de lá), no mesmo `.logo` / `data-role="hd-logo"`.
  *  - Busca sem GraphQL: as sugestões filtram uma lista fixa (os itens do menu e os
  *    produtos de exemplo do card 13); enviar só fecha a faixa.
  *  - Carrinho: contador e gaveta (`_shared/CartSidebar13`) com o item de exemplo. A gaveta
@@ -39,9 +43,25 @@ type Header13MenuItem = {
   children?: { label?: string; url?: string }[];
 };
 
-const MOCK = {
+/** O conteúdo da seção: os campos do `section.schema` do Header13. */
+interface Header13Conteudo {
+  topbarItems: { text?: string }[];
+  logo?: string;
+  logoAlt?: string;
+  brandName?: string;
+  menu: Header13MenuItem[];
+  searchPlaceholder?: string;
+  accountLabel?: string;
+  wishlistLabel?: string;
+  wishlistUrl?: string;
+  helpLabel?: string;
+  helpUrl?: string;
+  cartLabel?: string;
+  viewAllLabel?: string;
+}
+
+const MOCK: Header13Conteudo = {
   topbarItems: [{ text: 'Drop 07' }, { text: 'Frete grátis acima de R$ 299' }, { text: 'Até 6x sem juros' }, { text: 'Troca grátis' }],
-  brandName: 'SERIE//A',
   menu: [
     { label: 'Drops', url: '/drops', marker: true },
     { label: 'Roupas', url: '/roupas' },
@@ -49,7 +69,7 @@ const MOCK = {
     { label: 'Acessórios', url: '/acessorios' },
     { label: 'Colabs', url: '/colabs' },
     { label: 'Outlet', url: '/outlet', highlight: true },
-  ] as Header13MenuItem[],
+  ],
   searchPlaceholder: 'Buscar',
   accountLabel: 'Entrar / Cadastrar',
   wishlistLabel: 'Favoritos',
@@ -57,9 +77,8 @@ const MOCK = {
   helpLabel: 'Ajuda',
   helpUrl: '/ajuda',
   cartLabel: 'Bag',
+  viewAllLabel: 'Ver tudo',
 };
-
-const TERMOS_13 = MOCK.menu.map(m => m.label ?? '').filter(Boolean);
 
 const svg = (w: number, children: React.ReactNode, sw = '1.8', className?: string) => (
   <svg className={className} width={w} height={w} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={sw} aria-hidden="true">
@@ -125,9 +144,11 @@ function Marca({ nome }: { nome: string }) {
 }
 
 export default function Header13() {
-  const { logo } = useLayout();
+  const { logo: logoDaLoja } = useLayout();
   const {
     topbarItems,
+    logo: logoDaSecao,
+    logoAlt,
     brandName,
     menu,
     searchPlaceholder,
@@ -137,7 +158,12 @@ export default function Header13() {
     helpLabel,
     helpUrl,
     cartLabel,
-  } = MOCK;
+    viewAllLabel,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDaSecao || logoDaLoja;
+  const nomeDaMarca = brandName || 'SERIE//A';
+  // As sugestões da busca filtram os rótulos do menu que a seção mostra.
+  const termosDoMenu = menu.map(m => m.label ?? '').filter(Boolean);
 
   const [cartOpen, setCartOpen] = useState(false);
   useAbrirNoCanvas('carrinho', setCartOpen);
@@ -152,7 +178,7 @@ export default function Header13() {
 
   const termoLimpo = termo.trim().toLowerCase();
   const curto = termoLimpo.length < 2;
-  const termos = curto ? [] : TERMOS_13.filter(t => t.toLowerCase().includes(termoLimpo)).map(value => ({ value }));
+  const termos = curto ? [] : termosDoMenu.filter(t => t.toLowerCase().includes(termoLimpo)).map(value => ({ value }));
   const produtos = curto ? [] : PRODUTOS_13.filter(p => p.name.toLowerCase().includes(termoLimpo));
   const temSugestao = sugestoesAbertas && (termos.length > 0 || produtos.length > 0);
 
@@ -197,7 +223,7 @@ export default function Header13() {
   // menos uma cobrirem 3000px de tela. A largura de uma volta é estimada por baixo (7px por
   // letra + 40px por mensagem, com a estrela); a velocidade fica em ~45px/s. A mesma conta
   // está no header_view.html da Wake.
-  const fitaPx = mensagens.reduce((soma, m) => soma + m.text.length * 7 + 40, 0);
+  const fitaPx = mensagens.reduce((soma, m) => soma + (m.text ?? '').length * 7 + 40, 0);
   const voltas = Math.min(40, Math.max(3, Math.ceil(3000 / Math.max(fitaPx, 1)) + 1));
   const fitaDur = Math.max(6, Math.ceil(fitaPx / 45));
   // Distância medida de uma volta, em pixels inteiros: a animação anda um pixel por passo e
@@ -254,8 +280,8 @@ export default function Header13() {
                 {gaveta ? Ico.close : Ico.menu}
               </button>
 
-              <a className={styles.logo} href="/" aria-label={brandName || 'Página inicial'} data-role="hd-logo">
-                {logo ? <img src={logo} alt="Logo" height={32} /> : <Marca nome={brandName} />}
+              <a className={styles.logo} href="/" aria-label={nomeDaMarca} data-role="hd-logo">
+                {logo ? <img src={logo} alt={logoAlt || 'Logo'} height={32} /> : <Marca nome={nomeDaMarca} />}
               </a>
 
               {menu.length > 0 && (
@@ -390,7 +416,7 @@ export default function Header13() {
                             <ul className={styles.drawerSub}>
                               {item.url && (
                                 <li>
-                                  <a href={item.url}>Ver tudo</a>
+                                  <a href={item.url}>{viewAllLabel || 'Ver tudo'}</a>
                                 </li>
                               )}
                               {item.children.map((c, j) => (
@@ -439,3 +465,6 @@ export default function Header13() {
     </>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header13.conteudoPadrao = MOCK;

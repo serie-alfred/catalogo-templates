@@ -1,13 +1,15 @@
 import React from 'react';
 
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
 /**
  * Espelha `molecules/BenefitsStrip11` do faststore.starter (família 11, Grade; desenho
  * `Ruler11` / `Ruler11-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as
- * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá,
+ * por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  * A numeração "[01]" é a posição do item na lista (decoração).
  */
 type BenefitsStrip11Icon =
@@ -26,12 +28,12 @@ interface BenefitsStrip11Benefit {
   url?: string;
 }
 
-interface BenefitsStrip11Props {
-  benefits?: BenefitsStrip11Benefit[];
+interface Ruler11Conteudo {
+  benefits: BenefitsStrip11Benefit[];
 }
 
 // Conteúdo do mock.ts do starter (textos literais do desenho `Ruler11`).
-const MOCK: BenefitsStrip11Props = {
+const MOCK: Ruler11Conteudo = {
   benefits: [
     {
       icon: 'truck',
@@ -89,7 +91,7 @@ const ICONES: Record<BenefitsStrip11Icon, React.ReactNode> = {
 const dois = (n: number) => String(n).padStart(2, '0');
 
 export default function Ruler11() {
-  const { benefits = [] } = MOCK;
+  const { benefits } = useConteudoDaSecao(MOCK);
   if (!benefits.length) return null;
 
   return (
@@ -142,3 +144,6 @@ export default function Ruler11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Ruler11.conteudoPadrao = MOCK;

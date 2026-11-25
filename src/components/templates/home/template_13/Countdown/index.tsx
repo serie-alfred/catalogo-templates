@@ -1,6 +1,9 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useState } from 'react';
 
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -8,12 +11,18 @@ import styles from './index.module.css';
  * Espelha `organisms/Countdown13` do faststore.starter (família 13, Noturno; desenho
  * `Countdown13` / `Countdown13-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`
  * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
- * Divergência deliberada: a contagem é ESTÁTICA (os valores do desenho, 02:14:36:09), não a
- * conta até a `endDate` do mock — preview e thumbs saem iguais em qualquer dia, e não
- * "vencem". Sem arte: vale o grafite de placeholder do CSS.
+ * Divergência deliberada: sem `endDate` (o mock daqui não tem), a contagem parte da montagem
+ * com o tempo que o desenho mostra (02:14:36:09), para o card não "vencer". Com o `endDate`
+ * do CS, conta até ele, como o starter. Sem arte: vale o grafite de placeholder do CSS.
+ *
+ * Conteúdo: o MOCK abaixo por baixo do que o CS subir (`useConteudoDaSecao`, campos do
+ * schema de lá).
  */
-interface Countdown13Props {
+
+/** O conteúdo da seção: os campos do `section.schema` do Countdown13. */
+interface Countdown13Conteudo {
   title?: string;
+  endDate?: string;
   daysLabel?: string;
   hoursLabel?: string;
   minutesLabel?: string;
@@ -28,8 +37,7 @@ interface Countdown13Props {
   imageAlt?: string;
 }
 
-// Conteúdo do mock.ts do starter (textos literais do desenho `Countdown13`).
-const MOCK: Countdown13Props = {
+const MOCK: Countdown13Conteudo = {
   title: 'Drop 08 chega em',
   daysLabel: 'Dias',
   hoursLabel: 'Horas',
@@ -43,8 +51,20 @@ const MOCK: Countdown13Props = {
   imageAlt: 'Ver o Drop 08',
 };
 
-// Contagem fixa (a do desenho).
-const TEMPO = { d: 2, h: 14, m: 36, s: 9 };
+// 2 dias, 14 h, 36 min e 9 s a partir da montagem: é o que o desenho mostra.
+const DURACAO = ((2 * 24 + 14) * 3600 + 36 * 60 + 9) * 1000;
+
+type Restante = { d: number; h: number; m: number; s: number };
+
+function restante(fim: number): Restante {
+  const s = Math.floor(Math.max(0, fim - Date.now()) / 1000);
+  return {
+    d: Math.floor(s / 86400),
+    h: Math.floor((s % 86400) / 3600),
+    m: Math.floor((s % 3600) / 60),
+    s: s % 60,
+  };
+}
 
 const dois = (n: number) => String(n).padStart(2, '0');
 
@@ -65,6 +85,7 @@ const Seta = () => (
 export default function Countdown13() {
   const {
     title,
+    endDate,
     daysLabel,
     hoursLabel,
     minutesLabel,
@@ -77,8 +98,17 @@ export default function Countdown13() {
     imageDesktop,
     imageMobile,
     imageAlt,
-  } = MOCK;
-  const tempo = TEMPO;
+  } = useConteudoDaSecao(MOCK);
+  const [daMontagem] = useState(() => Date.now() + DURACAO);
+  const doConteudo = endDate ? Date.parse(endDate) : NaN;
+  const fim = Number.isFinite(doConteudo) ? doConteudo : daMontagem;
+  const [tempo, setTempo] = useState<Restante>(() => restante(fim));
+
+  useEffect(() => {
+    setTempo(restante(fim));
+    const id = window.setInterval(() => setTempo(restante(fim)), 1000);
+    return () => window.clearInterval(id);
+  }, [fim]);
 
   const unidades = [
     { v: tempo.d, label: daysLabel || 'Dias', sr: 'dias' },
@@ -172,3 +202,6 @@ export default function Countdown13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Countdown13.conteudoPadrao = MOCK;

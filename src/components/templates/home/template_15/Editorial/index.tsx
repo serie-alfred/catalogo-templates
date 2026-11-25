@@ -2,6 +2,8 @@ import React from 'react';
 
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -21,12 +23,22 @@ interface Historia {
   imageAlt?: string;
 }
 
-const EYEBROW = 'Histórias';
-const TITLE = 'O';
-const TITLE_EMPHASIS = 'Journal';
-const VIEW_ALL_LABEL = 'Ver todas as histórias';
-const VIEW_ALL_URL = '/s';
-const HISTORIAS: Historia[] = [
+interface Editorial15Conteudo {
+  eyebrow?: string;
+  title?: string;
+  titleEmphasis?: string;
+  viewAllLabel?: string;
+  viewAllUrl?: string;
+  stories: Historia[];
+}
+
+const MOCK: Editorial15Conteudo = {
+  eyebrow: 'Histórias',
+  title: 'O',
+  titleEmphasis: 'Journal',
+  viewAllLabel: 'Ver todas as histórias',
+  viewAllUrl: '/s',
+  stories: [
   {
     eyebrow: 'Ateliê',
     title: 'Do esboço ao polimento: as 60 horas de um solitário',
@@ -49,7 +61,8 @@ const HISTORIAS: Historia[] = [
     url: '/s',
     imageAlt: 'Perfumaria',
   },
-];
+  ],
+};
 
 function Arte({ s, w, h }: { s: Historia; w: number; h: number }) {
   if (!s.imageDesktop && !s.imageMobile) return null;
@@ -62,25 +75,29 @@ function Arte({ s, w, h }: { s: Historia; w: number; h: number }) {
 }
 
 export default function Editorial15() {
-  const [destaque, ...demais] = HISTORIAS;
-  const viewAllLabel = VIEW_ALL_LABEL;
-  const viewAllUrl = VIEW_ALL_URL;
+  const { eyebrow, title, titleEmphasis, viewAllLabel, viewAllUrl, stories } = useConteudoDaSecao(MOCK);
+  if (!stories.length) return null;
+  const [destaque, ...demais] = stories;
 
   return (
     <div className={styles.editorial15Box}>
-      <section className={styles.editorial15} aria-label={`${TITLE} ${TITLE_EMPHASIS}`} data-role="ed-root">
+      <section className={styles.editorial15} aria-label={[title, titleEmphasis].filter(Boolean).join(' ') || 'Editorial'} data-role="ed-root">
         <link rel="stylesheet" href={FONTES_15} />
         <div className={styles.inner}>
           <div className={styles.head}>
             <div className={styles.heading}>
-              <span className={styles.eyebrow}>{EYEBROW}</span>
-              <h2 className={styles.title} data-role="ed-title">
-                {TITLE} <em>{TITLE_EMPHASIS}</em>
-              </h2>
+              {eyebrow && <span className={styles.eyebrow}>{eyebrow}</span>}
+              {(title || titleEmphasis) && (
+                <h2 className={styles.title} data-role="ed-title">
+                  {title} {titleEmphasis && <em>{titleEmphasis}</em>}
+                </h2>
+              )}
             </div>
-            <a className={`${styles.viewAll} ${styles.dsk}`} href={viewAllUrl || '#'} data-role="ed-view-all">
-              {viewAllLabel}
-            </a>
+            {viewAllLabel && (
+              <a className={`${styles.viewAll} ${styles.dsk}`} href={viewAllUrl || '#'} data-role="ed-view-all">
+                {viewAllLabel}
+              </a>
+            )}
           </div>
           <div className={styles.body}>
             <a className={styles.featured} href={destaque.url || '#'} data-role="ed-featured">
@@ -118,11 +135,16 @@ export default function Editorial15() {
               </div>
             )}
           </div>
-          <a className={`${styles.viewAll} ${styles.mob}`} href={viewAllUrl || '#'}>
-            {viewAllLabel}
-          </a>
+          {viewAllLabel && (
+            <a className={`${styles.viewAll} ${styles.mob}`} href={viewAllUrl || '#'}>
+              {viewAllLabel}
+            </a>
+          )}
         </div>
       </section>
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Editorial15.conteudoPadrao = MOCK;

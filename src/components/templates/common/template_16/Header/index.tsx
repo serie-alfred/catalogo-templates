@@ -7,11 +7,13 @@ import { useLayout } from '@/context/LayoutContext';
 
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/Header16` do faststore.starter (família 16, Infantil; desenho
  * `Header16` / `Header16-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as
- * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá, por baixo
+ * do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  *
  * Régua amarela com as vantagens; a barra creme com a marca e a bolinha coral, a busca em
  * pílula com a lupa no círculo de destaque, conta, favoritos e a "Sacola" em pílula com o
@@ -19,8 +21,9 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * sacola; o menu abre a tela com a busca, a lista em cartões com bolinha e Entrar/Favoritos.
  *
  * Divergências deliberadas:
- *  - Logo: o que o usuário enviou no /gerador; sem ele, a marca em texto do mock ("sua
- *    marca", genérica) com a bolinha, no mesmo `.logo` / `data-role="hd-logo"`.
+ *  - Logo: o da seção (campo `logo` do schema), senão o que o usuário enviou no /gerador;
+ *    sem nenhum, o `brandName` do CS ou a marca em texto do catálogo (`SERIE//A`; o mock não
+ *    traz marca de demonstração) com a bolinha, no mesmo `.logo` / `data-role="hd-logo"`.
  *  - Busca sem GraphQL: as sugestões filtram os rótulos do menu; enviar só fecha a gaveta.
  *  - Carrinho: contador e gaveta (`_shared/CartSidebar16`) com o item de exemplo. A gaveta
  *    fica FORA do envelope `.header16Box`: o container-type dele prenderia a camada fixa.
@@ -54,14 +57,14 @@ interface Header16MenuItem {
   children?: { label?: string; url?: string }[];
 }
 
-interface Header16Props {
+interface Header16Conteudo {
   /** Vantagens da régua; o mobile mostra só a primeira, como no desenho. */
-  topbarItems?: Header16TopbarItem[];
+  topbarItems: Header16TopbarItem[];
   /** Imagem do logo. Vazio: a marca em texto (`brandName`) com a bolinha. */
   logo?: string;
   logoAlt?: string;
   brandName?: string;
-  menu?: Header16MenuItem[];
+  menu: Header16MenuItem[];
   searchPlaceholder?: string;
   /** Placeholder da busca dentro do menu mobile; vazio usa `searchPlaceholder`. */
   searchPlaceholderMenu?: string;
@@ -69,18 +72,19 @@ interface Header16Props {
   wishlistLabel?: string;
   wishlistUrl?: string;
   cartLabel?: string;
+  /** Link do pé de cada submenu no mobile (ex.: "Ver tudo"). */
+  viewAllLabel?: string;
 }
 
 const FONTES =
   'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap';
 
-const MOCK: Header16Props = {
+const MOCK: Header16Conteudo = {
   topbarItems: [
     { text: 'Frete grátis acima de R$ 199', icon: 'truck' },
     { text: 'Até 6x sem juros', icon: 'card' },
     { text: 'Primeira troca grátis', icon: 'exchange' },
   ],
-  brandName: 'SERIE//A',
   menu: [
     {
       label: 'Brinquedos',
@@ -117,9 +121,8 @@ const MOCK: Header16Props = {
   wishlistLabel: 'Favoritos',
   wishlistUrl: '/wishlist',
   cartLabel: 'Sacola',
+  viewAllLabel: 'Ver tudo',
 };
-
-const TERMOS_16 = (MOCK.menu ?? []).map(m => m.label ?? '').filter(Boolean);
 
 const svg = (
   w: number,
@@ -217,18 +220,21 @@ const Ico = {
 export default function Header16() {
   const { logo: logoEnviado } = useLayout();
   const {
-    topbarItems = [],
+    topbarItems,
+    logo: logoDaSecao,
     logoAlt,
     brandName,
-    menu = [],
+    menu,
     searchPlaceholder,
     searchPlaceholderMenu,
     accountLabel,
     wishlistLabel,
     wishlistUrl,
     cartLabel,
-  } = MOCK;
-  const logo = logoEnviado || undefined;
+    viewAllLabel,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDaSecao || logoEnviado || undefined;
+  const TERMOS_16 = menu.map(m => m.label ?? '').filter(Boolean);
 
   const [cartOpen, setCartOpen] = useState(false);
   useAbrirNoCanvas('carrinho', setCartOpen);
@@ -429,10 +435,10 @@ export default function Header16() {
               data-role="hd-logo"
             >
               {logo ? (
-                <img src={logo} alt="Logo" height={40} />
+                <img src={logo} alt={logoAlt || 'Logo'} height={40} />
               ) : (
                 <>
-                  {brandName}
+                  {brandName || 'SERIE//A'}
                   <span className={styles.logoDot} aria-hidden="true" />
                 </>
               )}
@@ -570,7 +576,7 @@ export default function Header16() {
                               <ul className={styles.drawerSub}>
                                 {item.url && (
                                   <li>
-                                    <a href={item.url}>Ver tudo</a>
+                                    <a href={item.url}>{viewAllLabel || 'Ver tudo'}</a>
                                   </li>
                                 )}
                                 {item.children.map((c, j) => (
@@ -623,3 +629,6 @@ export default function Header16() {
     </>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header16.conteudoPadrao = MOCK;

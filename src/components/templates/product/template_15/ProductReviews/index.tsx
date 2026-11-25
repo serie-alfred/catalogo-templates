@@ -4,6 +4,7 @@ import React, { useId, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/ProductReviews15` do faststore.starter (família 15, Luxo; desenho
@@ -17,6 +18,10 @@ import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
  * desenho repetidas em 3 páginas de 3. Sai: `usePDP`, a moldura do Trustvox (lá só com a loja
  * configurada) e o Reviews and Ratings (consulta e envio; o envio dá sucesso local, como no
  * palco de lá).
+ *
+ * Os rótulos e o tamanho da página são do CMS e vêm do `useConteudoDaSecao`; as avaliações são
+ * as de exemplo. O tipo não traz `emptyText` nem `formError`: o exemplo sempre tem avaliações e o
+ * envio sempre dá certo.
  */
 
 type Review15 = {
@@ -29,22 +34,40 @@ type Review15 = {
   location: string;
 };
 
-const EYEBROW = 'Opiniões';
-const TITLE = 'Avaliações';
-const COUNT_LABEL = 'avaliações';
-const STAR_SINGULAR = 'estrela';
-const STAR_PLURAL = 'estrelas';
-const WRITE_LABEL = 'Escrever avaliação';
-const PREV_LABEL = 'Página anterior';
-const NEXT_LABEL = 'Próxima página';
-const PER_PAGE = 3;
-const FORM = {
-  rating: 'Sua nota',
-  title: 'Título',
-  text: 'Sua avaliação',
-  name: 'Seu nome',
-  submit: 'Enviar avaliação',
-  success: 'Obrigado. A sua avaliação aparece aqui depois da moderação.',
+interface ProductReviews15Conteudo {
+  eyebrow?: string;
+  title?: string;
+  countLabel?: string;
+  starSingular?: string;
+  starPlural?: string;
+  writeLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+  pageSize: number;
+  formRatingLabel?: string;
+  formTitleLabel?: string;
+  formTextLabel?: string;
+  formNameLabel?: string;
+  formSubmitLabel?: string;
+  formSuccess?: string;
+}
+
+const MOCK: ProductReviews15Conteudo = {
+  eyebrow: 'Opiniões',
+  title: 'Avaliações',
+  countLabel: 'avaliações',
+  starSingular: 'estrela',
+  starPlural: 'estrelas',
+  writeLabel: 'Escrever avaliação',
+  prevLabel: 'Página anterior',
+  nextLabel: 'Próxima página',
+  pageSize: 3,
+  formRatingLabel: 'Sua nota',
+  formTitleLabel: 'Título',
+  formTextLabel: 'Sua avaliação',
+  formNameLabel: 'Seu nome',
+  formSubmitLabel: 'Enviar avaliação',
+  formSuccess: 'Obrigado. A sua avaliação aparece aqui depois da moderação.',
 };
 
 const SUMMARY = { average: 4.9, totalCount: 128, starsFive: 113, starsFour: 11, starsThree: 4, starsTwo: 0, starsOne: 0 };
@@ -114,6 +137,24 @@ const pageWindow = (current: number, total: number) => {
 };
 
 export default function ProductReviews15() {
+  const m = useConteudoDaSecao(MOCK);
+  const {
+    eyebrow,
+    title,
+    countLabel,
+    starSingular,
+    starPlural,
+    writeLabel,
+    prevLabel,
+    nextLabel,
+    formRatingLabel,
+    formTitleLabel,
+    formTextLabel,
+    formNameLabel,
+    formSubmitLabel,
+    formSuccess,
+  } = m;
+  const perPage = Math.max(1, Math.round(m.pageSize) || MOCK.pageSize);
   const uid = useId();
   const [page, setPage] = useState(1);
   const [formOpen, setFormOpen] = useState(false);
@@ -133,9 +174,9 @@ export default function ProductReviews15() {
     { stars: 2, count: SUMMARY.starsTwo },
     { stars: 1, count: SUMMARY.starsOne },
   ];
-  const from = (page - 1) * PER_PAGE;
-  const reviews = REVIEWS.slice(from, from + PER_PAGE);
-  const pages = Math.max(1, Math.ceil(REVIEWS.length / PER_PAGE));
+  const from = (page - 1) * perPage;
+  const reviews = REVIEWS.slice(from, from + perPage);
+  const pages = Math.max(1, Math.ceil(REVIEWS.length / perPage));
 
   const goPage = (n: number) => {
     setPage(Math.max(1, Math.min(pages, n)));
@@ -149,15 +190,19 @@ export default function ProductReviews15() {
 
   return (
     <div className={styles.productReviews15Box}>
-      <section id="avaliacoes" className={styles.productReviews15} aria-label={TITLE} data-role="rv-root">
+      <section id="avaliacoes" className={styles.productReviews15} aria-label={title || 'Avaliações'} data-role="rv-root">
         <link rel="stylesheet" href={FONTES_15} />
         <div className={styles.inner}>
-          <div className={styles.head} data-role="rv-head">
-            <span className={styles.eyebrow}>{EYEBROW}</span>
-            <h2 className={styles.title} data-role="rv-title">
-              {TITLE}
-            </h2>
-          </div>
+          {(eyebrow || title) && (
+            <div className={styles.head} data-role="rv-head">
+              {eyebrow && <span className={styles.eyebrow}>{eyebrow}</span>}
+              {title && (
+                <h2 className={styles.title} data-role="rv-title">
+                  {title}
+                </h2>
+              )}
+            </div>
+          )}
 
           <div className={styles.body}>
             <aside className={styles.summary} data-role="rv-summary">
@@ -169,7 +214,7 @@ export default function ProductReviews15() {
                   <span className={styles.srOnly}>Nota média {decimal(avg)} de 5</span>
                   <Stars n={Math.round(avg)} of={5} className={styles.starsBig} />
                   <span className={styles.avgCount}>
-                    {count(total)} {COUNT_LABEL}
+                    {count(total)} {countLabel}
                   </span>
                 </span>
               </div>
@@ -182,7 +227,7 @@ export default function ProductReviews15() {
                         {d.stars}
                         <span className={styles.srOnly}>
                           {' '}
-                          {d.stars === 1 ? STAR_SINGULAR : STAR_PLURAL}: {pct}%
+                          {d.stars === 1 ? starSingular : starPlural}: {pct}%
                         </span>
                       </span>
                       <span className={styles.bar} aria-hidden="true">
@@ -200,25 +245,25 @@ export default function ProductReviews15() {
                 aria-controls={`${uid}-form`}
                 data-role="rv-write"
               >
-                {WRITE_LABEL}
+                {writeLabel}
               </button>
 
               {formOpen && (
                 <form id={`${uid}-form`} className={styles.form} onSubmit={onSubmit} data-role="rv-form">
                   {sent ? (
                     <p className={styles.formOk} role="status">
-                      {FORM.success}
+                      {formSuccess}
                     </p>
                   ) : (
                     <>
                       <fieldset className={styles.rate}>
-                        <legend className={styles.label}>{FORM.rating}</legend>
+                        <legend className={styles.label}>{formRatingLabel}</legend>
                         <div className={styles.rateStars}>
                           {[1, 2, 3, 4, 5].map(n => (
                             <label key={n} className={styles.rateStar}>
                               <input type="radio" name={`${uid}-rating`} value={n} checked={rating === n} onChange={() => setRating(n)} required />
                               <span className={styles.srOnly}>
-                                {n} {n === 1 ? STAR_SINGULAR : STAR_PLURAL}
+                                {n} {n === 1 ? starSingular : starPlural}
                               </span>
                               <Star filled={n <= rating} />
                             </label>
@@ -226,19 +271,19 @@ export default function ProductReviews15() {
                         </div>
                       </fieldset>
                       <label className={styles.field}>
-                        <span className={styles.label}>{FORM.title}</span>
+                        <span className={styles.label}>{formTitleLabel}</span>
                         <input type="text" required maxLength={120} value={reviewTitle} onChange={e => setReviewTitle(e.target.value)} />
                       </label>
                       <label className={styles.field}>
-                        <span className={styles.label}>{FORM.text}</span>
+                        <span className={styles.label}>{formTextLabel}</span>
                         <textarea required rows={4} maxLength={2000} value={reviewText} onChange={e => setReviewText(e.target.value)} />
                       </label>
                       <label className={styles.field}>
-                        <span className={styles.label}>{FORM.name}</span>
+                        <span className={styles.label}>{formNameLabel}</span>
                         <input type="text" required autoComplete="name" maxLength={80} value={reviewName} onChange={e => setReviewName(e.target.value)} />
                       </label>
                       <button type="submit" className={styles.submit} disabled={rating < 1}>
-                        {FORM.submit}
+                        {formSubmitLabel}
                       </button>
                     </>
                   )}
@@ -267,7 +312,7 @@ export default function ProductReviews15() {
               {pages > 1 && (
                 <nav className={styles.pager} aria-label="Páginas de avaliações" data-role="rv-pager">
                   {page > 1 && (
-                    <button type="button" className={styles.pagerBtn} onClick={() => goPage(page - 1)} aria-label={PREV_LABEL}>
+                    <button type="button" className={styles.pagerBtn} onClick={() => goPage(page - 1)} aria-label={prevLabel}>
                       <Arrow dir="prev" />
                     </button>
                   )}
@@ -283,7 +328,7 @@ export default function ProductReviews15() {
                     </button>
                   ))}
                   {page < pages && (
-                    <button type="button" className={styles.pagerBtn} onClick={() => goPage(page + 1)} aria-label={NEXT_LABEL}>
+                    <button type="button" className={styles.pagerBtn} onClick={() => goPage(page + 1)} aria-label={nextLabel}>
                       <Arrow dir="next" />
                     </button>
                   )}
@@ -296,3 +341,6 @@ export default function ProductReviews15() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductReviews15.conteudoPadrao = MOCK;

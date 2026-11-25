@@ -4,6 +4,8 @@ import React, { useId, useRef, useState } from 'react';
 
 import { FONTES_17 } from '@/components/templates/common/template_17/Spot';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -23,15 +25,44 @@ import styles from './index.module.css';
  * Como no palco de lá, trocar o peso é local e mostra o preço do SKU escolhido; a parcela e o Pix
  * são só do SKU do produto de exemplo (o plano de pagamento é do SKU da página). Compra, favorito,
  * Avise-me e CEP não chamam nada: só alternam estado local.
+ *
+ * Os rótulos e os acordeões são do CMS e vêm do `useConteudoDaSecao`; o produto é o de exemplo até
+ * o produto em destaque da loja existir (fase de produtos). Ficam fora do tipo `soldOutButtonLabel`
+ * (o botão de comprar não troca para esgotado: a pílula esgotada não se escolhe) e o `specName` de
+ * cada acordeão (diz de qual especificação do produto vem o texto; o exemplo já vem resolvido).
  */
 const embalagem = (hex: string) =>
   `data:image/svg+xml;utf8,${encodeURIComponent(
     `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800"><rect x="200" y="80" width="400" height="680" rx="17" fill="${hex}"/></svg>`
   )}`;
-const BRL = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const BRL = new Intl.NumberFormat('pt-BR', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
 const money = (n: number) => `R$ ${BRL.format(n)}`;
 
-const L = {
+interface ProductInfo17Conteudo {
+  codeLabel?: string;
+  ratingCountLabel?: string;
+  /** Aceita `{valor}`: os pesos esgotados. */
+  soldOutText?: string;
+  notifyLabel?: string;
+  notifyNamePlaceholder?: string;
+  notifyEmailPlaceholder?: string;
+  notifySubmitLabel?: string;
+  notifySuccess?: string;
+  buyLabel?: string;
+  favoriteLabel?: string;
+  shippingLabel?: string;
+  cepPlaceholder?: string;
+  cepButtonLabel?: string;
+  /** Preço da opção de entrega sem custo. Vazio = "Grátis". */
+  freeShippingLabel?: string;
+  /** Texto com uma linha por parágrafo (várias linhas viram lista). */
+  accordions: { title?: string; text?: string }[];
+}
+
+const MOCK: ProductInfo17Conteudo = {
   codeLabel: 'Cód.',
   ratingCountLabel: 'avaliações',
   soldOutText: 'O pacote de {valor} esgotou?',
@@ -46,60 +77,76 @@ const L = {
   cepPlaceholder: '00000-000',
   cepButtonLabel: 'Calcular',
   freeShippingLabel: 'Sem custo',
+  accordions: [
+    {
+      title: 'Indicação',
+      text: 'Para cães adultos de porte médio e grande, a partir de 12 meses. Ajuda a manter o peso ideal, a pelagem brilhante e as fezes firmes.',
+    },
+    {
+      title: 'Composição',
+      text: 'Farinha de vísceras de frango, arroz quebrado, milho integral moído, gordura de frango, polpa de beterraba, óleo de peixe, cloreto de sódio, vitaminas e minerais.',
+    },
+    {
+      title: 'Níveis de garantia',
+      text: 'Umidade (máx.) 10%\nProteína bruta (mín.) 26%\nExtrato etéreo (mín.) 14%\nMatéria fibrosa (máx.) 3,5%',
+    },
+    {
+      title: 'Modo de usar',
+      text: 'Faça a transição em 7 dias, misturando a ração nova à antiga.\nOfereça a quantidade da tabela da embalagem, dividida em duas refeições.\nDeixe água fresca sempre à vontade.',
+    },
+  ],
 };
 const PRODUCT_NAME = 'Ração Premium Cães Adultos Frango e Arroz 15 kg';
 const BRAND = 'Nobre Pet';
-const IMAGES = ['#D8CFC0', '#CFC4B2', '#D9D3C6', '#C9D2CE', '#DDD5C5'].map((hex, i) => ({
-  url: embalagem(hex) + `#${i}`,
-  alternateName: `Ração Premium Cães Adultos Frango e Arroz — foto ${i + 1}`,
-}));
+const IMAGES = ['#D8CFC0', '#CFC4B2', '#D9D3C6', '#C9D2CE', '#DDD5C5'].map(
+  (hex, i) => ({
+    url: embalagem(hex) + `#${i}`,
+    alternateName: `Ração Premium Cães Adultos Frango e Arroz — foto ${i + 1}`,
+  })
+);
 const RATING = { average: 4.9, totalCount: 214 };
 const AXIS = 'Peso';
 // O peso da embalagem: valor, código do SKU, preço, preço "de" e estoque (o de 1 kg esgotou).
 const PESOS = [
-  { value: '1 kg', sku: 'NP-CA-FA01', price: 39.9, listPrice: 46.9, available: false },
-  { value: '3 kg', sku: 'NP-CA-FA03', price: 109.9, listPrice: 129.9, available: true },
-  { value: '10,1 kg', sku: 'NP-CA-FA10', price: 249.9, listPrice: 289.9, available: true },
-  { value: '15 kg', sku: 'NP-CA-FA15', price: 329.9, listPrice: 389.9, available: true },
+  {
+    value: '1 kg',
+    sku: 'NP-CA-FA01',
+    price: 39.9,
+    listPrice: 46.9,
+    available: false,
+  },
+  {
+    value: '3 kg',
+    sku: 'NP-CA-FA03',
+    price: 109.9,
+    listPrice: 129.9,
+    available: true,
+  },
+  {
+    value: '10,1 kg',
+    sku: 'NP-CA-FA10',
+    price: 249.9,
+    listPrice: 289.9,
+    available: true,
+  },
+  {
+    value: '15 kg',
+    sku: 'NP-CA-FA15',
+    price: 329.9,
+    listPrice: 389.9,
+    available: true,
+  },
 ];
 const ATUAL = '15 kg';
 const SOLD = PESOS.filter(p => !p.available);
 // O plano do SKU de 15 kg (availableInstallments de lá, já resolvido): 6x sem juros e o Pix.
 const BEST = { installmentNumber: 6, installmentValue: 54.98 };
 const PIX = 316.7;
-const SHIPPING = [
-  { id: 'normal', label: 'Entrega padrão · até 5 dias úteis', price: 'R$ 18,90', free: false },
-  { id: 'expressa', label: 'Entrega expressa · até 1 dia útil', price: 'R$ 29,90', free: false },
-  { id: 'retirada', label: 'Retirar na loja · [Loja Centro] em 2 h', price: L.freeShippingLabel, free: true },
-];
-const ACCORDIONS = [
-  {
-    title: 'Indicação',
-    lines: [
-      'Para cães adultos de porte médio e grande, a partir de 12 meses. Ajuda a manter o peso ideal, a pelagem brilhante e as fezes firmes.',
-    ],
-  },
-  {
-    title: 'Composição',
-    lines: [
-      'Farinha de vísceras de frango, arroz quebrado, milho integral moído, gordura de frango, polpa de beterraba, óleo de peixe, cloreto de sódio, vitaminas e minerais.',
-    ],
-  },
-  {
-    title: 'Níveis de garantia',
-    lines: ['Umidade (máx.) 10%', 'Proteína bruta (mín.) 26%', 'Extrato etéreo (mín.) 14%', 'Matéria fibrosa (máx.) 3,5%'],
-  },
-  {
-    title: 'Modo de usar',
-    lines: [
-      'Faça a transição em 7 dias, misturando a ração nova à antiga.',
-      'Ofereça a quantidade da tabela da embalagem, dividida em duas refeições.',
-      'Deixe água fresca sempre à vontade.',
-    ],
-  },
-];
-
-const svg = (size: number, body: React.ReactNode, extra: Record<string, unknown> = {}) => (
+const svg = (
+  size: number,
+  body: React.ReactNode,
+  extra: Record<string, unknown> = {}
+) => (
   <svg
     width={size}
     height={size}
@@ -115,8 +162,10 @@ const svg = (size: number, body: React.ReactNode, extra: Record<string, unknown>
     {body}
   </svg>
 );
-const HEART = 'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z';
-const STAR = 'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z';
+const HEART =
+  'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z';
+const STAR =
+  'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z';
 const BAG = (
   <>
     <path d="M5 8h14l-1 12H6L5 8z" />
@@ -150,7 +199,14 @@ const PLUS = <path d="M12 5v14M5 12h14" />;
 const Stars = ({ avg }: { avg: number }) => (
   <span className={styles.stars} aria-hidden="true">
     {[0, 1, 2, 3, 4].map(i => (
-      <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill="currentColor" opacity={avg >= i + 0.5 ? 1 : 0.28}>
+      <svg
+        key={i}
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        opacity={avg >= i + 0.5 ? 1 : 0.28}
+      >
         <path d={STAR} />
       </svg>
     ))}
@@ -159,9 +215,12 @@ const Stars = ({ avg }: { avg: number }) => (
 
 /** "1 kg" / "1 kg e 3 kg" / "1 kg, 3 kg e 10,1 kg". */
 const joinValues = (values: string[]) =>
-  values.length <= 1 ? values.join('') : `${values.slice(0, -1).join(', ')} e ${values[values.length - 1]}`;
+  values.length <= 1
+    ? values.join('')
+    : `${values.slice(0, -1).join(', ')} e ${values[values.length - 1]}`;
 
 export default function ProductInfo17() {
+  const L = useConteudoDaSecao(MOCK);
   const uid = useId();
   const [selAxis, setSelAxis] = useState(ATUAL);
   const [qty, setQty] = useState(1);
@@ -174,20 +233,58 @@ export default function ProductInfo17() {
   const railRef = useRef<HTMLDivElement>(null);
   const notifyRef = useRef<HTMLFormElement>(null);
 
-  const current = PESOS.find(p => p.value === selAxis) ?? PESOS[PESOS.length - 1];
+  const current =
+    PESOS.find(p => p.value === selAxis) ?? PESOS[PESOS.length - 1];
   const { sku, price, listPrice } = current;
-  const discount = listPrice > price && price > 0 ? Math.round(((listPrice - price) / listPrice) * 100) : 0;
+  const discount =
+    listPrice > price && price > 0
+      ? Math.round(((listPrice - price) / listPrice) * 100)
+      : 0;
   // O plano de pagamento é só do SKU do produto de exemplo (como no palco de lá).
   const ownPlan = current.value === ATUAL;
   const best = ownPlan ? BEST : null;
   const pixValue = ownPlan && PIX < price ? PIX : null;
   const notifyFor = SOLD[0]?.value ?? null;
-  const soldQuestion = L.soldOutText.replace(/\{valor\}/g, joinValues(SOLD.map(o => o.value)));
+  const SHIPPING = [
+    {
+      id: 'normal',
+      label: 'Entrega padrão · até 5 dias úteis',
+      price: 'R$ 18,90',
+      free: false,
+    },
+    {
+      id: 'expressa',
+      label: 'Entrega expressa · até 1 dia útil',
+      price: 'R$ 29,90',
+      free: false,
+    },
+    {
+      id: 'retirada',
+      label: 'Retirar na loja · [Loja Centro] em 2 h',
+      price: L.freeShippingLabel || 'Grátis',
+      free: true,
+    },
+  ];
+  // Acordeão sem título ou sem texto some; cada linha do texto é um item (como o starter).
+  const ACCORDIONS = L.accordions
+    .map(a => ({
+      title: String(a?.title ?? '').trim(),
+      lines: String(a?.text ?? '')
+        .split(/\r?\n/)
+        .map(l => l.replace(/^\s*[-•]\s*/, '').trim())
+        .filter(Boolean),
+    }))
+    .filter(a => a.title && a.lines.length);
+  const soldQuestion = (L.soldOutText ?? '').replace(
+    /\{valor\}/g,
+    joinValues(SOLD.map(o => o.value))
+  );
   const axisId = `${uid}-peso`;
 
   const onRailScroll = () => {
     const el = railRef.current;
-    if (el && el.clientWidth) setSlide(Math.round(el.scrollLeft / el.clientWidth));
+    if (el && el.clientWidth)
+      setSlide(Math.round(el.scrollLeft / el.clientWidth));
   };
   const goTo = (i: number) => {
     const el = railRef.current;
@@ -207,14 +304,22 @@ export default function ProductInfo17() {
 
   return (
     <div className={styles.productDetails17Box}>
-      <section className={styles.productDetails17} aria-label={PRODUCT_NAME} data-role="pdp-root">
+      <section
+        className={styles.productDetails17}
+        aria-label={PRODUCT_NAME}
+        data-role="pdp-root"
+      >
         <link rel="stylesheet" href={FONTES_17} />
         <div className={styles.inner}>
           <div className={styles.main}>
             {/* ── galeria (sem zoom, sem vídeo) ── */}
             <div className={styles.gallery} data-role="pdp-gallery">
               <div className={styles.stage}>
-                <div ref={railRef} className={styles.rail} onScroll={onRailScroll}>
+                <div
+                  ref={railRef}
+                  className={styles.rail}
+                  onScroll={onRailScroll}
+                >
                   {IMAGES.map((img, i) => (
                     <div key={img.url} className={styles.photo}>
                       <span className={styles.frame}>
@@ -231,7 +336,10 @@ export default function ProductInfo17() {
                   ))}
                 </div>
                 {discount > 0 && (
-                  <span className={styles.photoTag} data-role="pdp-photo-discount">
+                  <span
+                    className={styles.photoTag}
+                    data-role="pdp-photo-discount"
+                  >
                     -{discount}%
                   </span>
                 )}
@@ -254,24 +362,40 @@ export default function ProductInfo17() {
                   {svg(20, <path d="m9 6 6 6-6 6" />, { strokeWidth: 2 })}
                 </button>
               </div>
-              <div className={styles.thumbs} role="group" aria-label="Imagens do produto">
+              <div
+                className={styles.thumbs}
+                role="group"
+                aria-label="Imagens do produto"
+              >
                 {IMAGES.map((img, i) => (
                   <button
                     key={img.url}
                     type="button"
                     className={`${styles.thumb}${i === slide ? ` ${styles.thumbOn}` : ''}`}
                     onClick={() => goTo(i)}
-                    aria-label={i === slide ? `Imagem ${i + 1}, atual` : `Imagem ${i + 1}`}
+                    aria-label={
+                      i === slide ? `Imagem ${i + 1}, atual` : `Imagem ${i + 1}`
+                    }
                     aria-current={i === slide ? 'true' : undefined}
                     data-role="pdp-thumb"
                   >
-                    <img src={img.url} alt="" width={120} height={120} loading="lazy" decoding="async" />
+                    <img
+                      src={img.url}
+                      alt=""
+                      width={120}
+                      height={120}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </button>
                 ))}
               </div>
               <div className={styles.dots} aria-hidden="true">
                 {IMAGES.map((img, i) => (
-                  <span key={img.url} className={`${styles.dot}${i === slide ? ` ${styles.dotOn}` : ''}`} />
+                  <span
+                    key={img.url}
+                    className={`${styles.dot}${i === slide ? ` ${styles.dotOn}` : ''}`}
+                  />
                 ))}
               </div>
             </div>
@@ -286,13 +410,20 @@ export default function ProductInfo17() {
                   {PRODUCT_NAME}
                 </h1>
                 <div className={styles.meta}>
-                  <a className={styles.rating} href="#avaliacoes" data-role="pdp-rating">
+                  <a
+                    className={styles.rating}
+                    href="#avaliacoes"
+                    data-role="pdp-rating"
+                  >
                     <Stars avg={RATING.average} />
                     <span className={styles.srOnly}>Nota </span>
-                    <span className={styles.ratingAvg}>{RATING.average.toFixed(1).replace('.', ',')}</span>
+                    <span className={styles.ratingAvg}>
+                      {RATING.average.toFixed(1).replace('.', ',')}
+                    </span>
                     <span className={styles.srOnly}> de 5, </span>
                     <span className={styles.ratingCount}>
-                      {RATING.totalCount.toLocaleString('pt-BR')} {L.ratingCountLabel}
+                      {RATING.totalCount.toLocaleString('pt-BR')}{' '}
+                      {L.ratingCountLabel}
                     </span>
                   </a>
                   <span data-role="pdp-code">
@@ -318,8 +449,12 @@ export default function ProductInfo17() {
                   {money(price)}
                 </span>
                 {best && (
-                  <span className={styles.installment} data-role="pdp-installment">
-                    ou {best.installmentNumber}x de {money(best.installmentValue)} sem juros
+                  <span
+                    className={styles.installment}
+                    data-role="pdp-installment"
+                  >
+                    ou {best.installmentNumber}x de{' '}
+                    {money(best.installmentValue)} sem juros
                   </span>
                 )}
                 {pixValue !== null && (
@@ -335,7 +470,11 @@ export default function ProductInfo17() {
                 <p className={styles.legend} id={axisId}>
                   {AXIS}: <strong>{current.value}</strong>
                 </p>
-                <div className={styles.pills} role="group" aria-labelledby={axisId}>
+                <div
+                  className={styles.pills}
+                  role="group"
+                  aria-labelledby={axisId}
+                >
                   {PESOS.map(o => {
                     if (!o.available) {
                       return (
@@ -406,7 +545,11 @@ export default function ProductInfo17() {
               {/* ── quantidade + favoritar; embaixo, a compra de largura total ── */}
               <div className={styles.buyArea} data-role="pdp-buy-area">
                 <div className={styles.buyRow}>
-                  <div className={styles.qty} role="group" aria-label="Quantidade">
+                  <div
+                    className={styles.qty}
+                    role="group"
+                    aria-label="Quantidade"
+                  >
                     <button
                       type="button"
                       onClick={() => setQty(q => Math.max(1, q - 1))}
@@ -418,7 +561,11 @@ export default function ProductInfo17() {
                     <span className={styles.qtyValue} aria-live="polite">
                       {qty}
                     </span>
-                    <button type="button" onClick={() => setQty(q => Math.min(99, q + 1))} aria-label="Aumentar quantidade">
+                    <button
+                      type="button"
+                      onClick={() => setQty(q => Math.min(99, q + 1))}
+                      aria-label="Aumentar quantidade"
+                    >
                       {svg(18, PLUS, { strokeWidth: 2 })}
                     </button>
                   </div>
@@ -429,11 +576,19 @@ export default function ProductInfo17() {
                     aria-pressed={isFav}
                     data-role="pdp-favorite"
                   >
-                    {svg(18, <path d={HEART} />, isFav ? { fill: 'currentColor' } : {})}
+                    {svg(
+                      18,
+                      <path d={HEART} />,
+                      isFav ? { fill: 'currentColor' } : {}
+                    )}
                     <span>{L.favoriteLabel}</span>
                   </button>
                 </div>
-                <button type="button" className={styles.buy} data-role="pdp-buy">
+                <button
+                  type="button"
+                  className={styles.buy}
+                  data-role="pdp-buy"
+                >
                   {svg(20, BAG)}
                   <span>{L.buyLabel}</span>
                 </button>
@@ -475,7 +630,10 @@ export default function ProductInfo17() {
                         placeholder={L.notifyNamePlaceholder}
                       />
                       <div className={styles.fieldRow}>
-                        <label className={styles.srOnly} htmlFor={`${uid}-nmail`}>
+                        <label
+                          className={styles.srOnly}
+                          htmlFor={`${uid}-nmail`}
+                        >
                           {L.notifyEmailPlaceholder}
                         </label>
                         <input
@@ -495,7 +653,11 @@ export default function ProductInfo17() {
                 </form>
               )}
 
-              <form className={styles.shipping} onSubmit={e => e.preventDefault()} data-role="pdp-shipping">
+              <form
+                className={styles.shipping}
+                onSubmit={e => e.preventDefault()}
+                data-role="pdp-shipping"
+              >
                 <label className={styles.shipLabel} htmlFor={`${uid}-cep`}>
                   {svg(20, TRUCK)}
                   {L.shippingLabel}
@@ -512,18 +674,28 @@ export default function ProductInfo17() {
                     value={cep}
                     onChange={e => {
                       const d = e.target.value.replace(/\D/g, '').slice(0, 8);
-                      setCep(d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d);
+                      setCep(
+                        d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d
+                      );
                     }}
                   />
                   <button type="submit" className={styles.cepButton}>
                     {L.cepButtonLabel}
                   </button>
                 </div>
-                <ul className={styles.shipList} aria-live="polite" data-role="pdp-shipping-options">
+                <ul
+                  className={styles.shipList}
+                  aria-live="polite"
+                  data-role="pdp-shipping-options"
+                >
                   {SHIPPING.map(o => (
                     <li key={o.id} className={styles.shipRow}>
                       <span>{o.label}</span>
-                      <span className={o.free ? styles.shipFree : styles.shipPrice}>{o.price}</span>
+                      <span
+                        className={o.free ? styles.shipFree : styles.shipPrice}
+                      >
+                        {o.price}
+                      </span>
                     </li>
                   ))}
                 </ul>
@@ -574,3 +746,6 @@ export default function ProductInfo17() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo17.conteudoPadrao = MOCK;

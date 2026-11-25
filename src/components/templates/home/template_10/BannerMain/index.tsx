@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -49,9 +50,10 @@ interface BannerMain10Promo {
   imageAlt?: string;
 }
 
-interface BannerMain10Props {
-  slides?: BannerMain10Slide[];
-  promos?: BannerMain10Promo[];
+/** O conteúdo da seção: os campos do `section.schema` do BannerMain10. */
+interface BannerMain10Conteudo {
+  slides: BannerMain10Slide[];
+  promos: BannerMain10Promo[];
 }
 
 // Conteúdo do mock.ts do starter.
@@ -69,7 +71,7 @@ const slide = {
   imageAlt: 'Ofertas da semana',
 };
 
-const MOCK: BannerMain10Props = {
+const MOCK: BannerMain10Conteudo = {
   slides: [slide, slide, slide, slide, slide],
   promos: [
     {
@@ -138,7 +140,7 @@ const ICONES: Record<
 };
 
 export default function BannerMain10() {
-  const { slides = [], promos = [] } = MOCK;
+  const { slides, promos } = useConteudoDaSecao(MOCK);
   const [atual, setAtual] = useState(0);
   const toqueX = useRef<number | null>(null);
 
@@ -341,3 +343,6 @@ export default function BannerMain10() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerMain10.conteudoPadrao = MOCK;

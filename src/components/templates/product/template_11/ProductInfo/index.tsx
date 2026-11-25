@@ -7,6 +7,7 @@ import {
   FONTES_11,
   referencia11,
 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/ProductDetails11` do faststore.starter (família 11, Grade; desenho
@@ -29,6 +30,12 @@ import {
  * simulação de frete, a mutation do "Avise-me" (o envio dá sucesso local, como no palco
  * de lá) e o analytics. Ficam de fora, porque com o mock do starter nunca renderizam: o
  * guia de medidas (sem a especificação) e o diálogo dele.
+ *
+ * Os rótulos, as opções (`highlightSpecs`, `showSummary`, `hideQuantity`) e os selos de
+ * confiança são do CMS e vêm do `useConteudoDaSecao`; produto, preço, fotos e variações são
+ * os de exemplo até o produto em destaque da loja existir (fase de produtos). O tipo não
+ * traz `sizeGuideLabel`: com o produto de exemplo não há especificação de guia de medidas,
+ * então o link e o diálogo dele não renderizam (o 1-conteudo o lista como não desenhado).
  */
 
 const BRL = new Intl.NumberFormat('pt-BR', {
@@ -70,9 +77,39 @@ const block = (hex: string, size: number) =>
     `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><rect width="${size}" height="${size}" fill="${hex}"/></svg>`
   )}`;
 
-/* ── rótulos (o mock.ts de lá) ── */
-const L = {
+type TrustIcon = 'truck' | 'exchange' | 'shield' | 'card' | 'invoice';
+
+/** O conteúdo da seção: os campos do `section.schema` do ProductInfo11. */
+interface ProductInfo11Conteudo {
+  refLabel?: string;
+  /** Especificações da coluna de compra, pelo nome e na ordem ("Dimensões, Material"). */
+  highlightSpecs?: string;
+  showSummary?: boolean;
+  soldOutText?: string;
+  notifyLabel?: string;
+  notifyNamePlaceholder?: string;
+  notifyEmailPlaceholder?: string;
+  notifySubmitLabel?: string;
+  notifySuccess?: string;
+  buyLabel?: string;
+  mobileBuyLabel?: string;
+  soldOutButtonLabel?: string;
+  favoriteLabel?: string;
+  mobileFavoriteLabel?: string;
+  hideQuantity?: boolean;
+  shippingLabel?: string;
+  cepPlaceholder?: string;
+  cepButtonLabel?: string;
+  cepHelpLabel?: string;
+  cepHelpUrl?: string;
+  trustItems: { icon?: TrustIcon; title?: string; text?: string }[];
+}
+
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+const MOCK: ProductInfo11Conteudo = {
   refLabel: 'Ref.',
+  highlightSpecs: 'Dimensões, Material, Potência, Garantia',
+  showSummary: true,
   soldOutText: 'esgotado.',
   notifyLabel: 'Avise-me quando chegar',
   notifyNamePlaceholder: 'Seu nome',
@@ -89,17 +126,24 @@ const L = {
   cepButtonLabel: 'Calcular',
   cepHelpLabel: 'Não sei meu CEP',
   cepHelpUrl: 'https://buscacepinter.correios.com.br/app/endereco/index.php',
+  trustItems: [
+    {
+      icon: 'truck',
+      title: 'Entrega em 48h nas capitais',
+      text: 'Frete grátis acima de R$ 500',
+    },
+    { icon: 'exchange', title: 'Troca em 30 dias', text: 'Coleta no endereço' },
+    { icon: 'shield', title: 'Pagamento seguro', text: 'Cartão, Pix ou boleto' },
+  ],
 };
-type TrustIcon = 'truck' | 'exchange' | 'shield' | 'card' | 'invoice';
-const TRUST: Array<{ icon: TrustIcon; title: string; text: string }> = [
-  {
-    icon: 'truck',
-    title: 'Entrega em 48h nas capitais',
-    text: 'Frete grátis acima de R$ 500',
-  },
-  { icon: 'exchange', title: 'Troca em 30 dias', text: 'Coleta no endereço' },
-  { icon: 'shield', title: 'Pagamento seguro', text: 'Cartão, Pix ou boleto' },
-];
+
+/** Como o starter compara nomes: sem acento, sem caixa, sem espaço nas pontas. */
+const norm = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .trim()
+    .toLowerCase();
 
 /* ── produto de exemplo (o mock.ts de lá, já resolvido) ── */
 const PRODUCT_NAME = 'Luminária de Mesa Arco';
@@ -142,6 +186,7 @@ const COLORS = FINISHES.map((value, i) => ({
 /** O 2º eixo de variação (tamanho, voltagem…), na cor da página: o mock de lá não tem. */
 const AXIS_NAME: string = '';
 const AXIS: Array<{ value: string; available: boolean; sku?: string }> = [];
+/** As especificações do produto de exemplo; `highlightSpecs` escolhe e ordena. */
 const HIGHLIGHTS = [
   { name: 'Dimensões', value: '45 × 18 × 52 cm' },
   { name: 'Material', value: 'Aço e alumínio' },
@@ -213,6 +258,9 @@ const TRUST_ICONS: Record<TrustIcon, React.ReactNode> = {
 };
 
 export default function ProductInfo11() {
+  // `L`, o nome de antes, para o markup abaixo continuar igual ao de lá.
+  const { highlightSpecs, showSummary, hideQuantity, trustItems, ...L } =
+    useConteudoDaSecao(MOCK);
   const uid = useId();
   const [selAxis, setSelAxis] = useState<string | null>(null);
   const [notifyOpen, setNotifyOpen] = useState(false);
@@ -275,6 +323,12 @@ export default function ProductInfo11() {
   const activeColorLabel = COLORS.find(c => c.active)?.value ?? '';
   const colsClass = (n: number) => styles[`cols${Math.min(Math.max(n, 1), 3)}`];
   const shippingRows = cepSent ? SHIPPING : [];
+  const destaques = String(highlightSpecs ?? '')
+    .split(',')
+    .map(n => n.trim())
+    .filter(Boolean)
+    .map(n => HIGHLIGHTS.find(h => norm(h.name) === norm(n)))
+    .filter((h): h is (typeof HIGHLIGHTS)[number] => !!h);
 
   const onRailScroll = () => {
     const el = railRef.current;
@@ -438,9 +492,11 @@ export default function ProductInfo11() {
                     {money(pixValue)} no Pix
                   </span>
                 )}
-                <p className={styles.summary} data-role="pdp-summary">
-                  {SUMMARY}
-                </p>
+                {showSummary && SUMMARY && (
+                  <p className={styles.summary} data-role="pdp-summary">
+                    {SUMMARY}
+                  </p>
+                )}
               </div>
 
               <div
@@ -546,7 +602,7 @@ export default function ProductInfo11() {
               )}
               {/* ── quantidade + compra (desktop) e favoritar ── */}
               <div className={styles.buyBlock} data-role="pdp-buy-row">
-                {inStock && (
+                {!hideQuantity && inStock && (
                   <div
                     className={styles.qty}
                     role="group"
@@ -664,14 +720,16 @@ export default function ProductInfo11() {
                 )}
               </div>
 
-              <dl className={styles.specs} data-role="pdp-highlights">
-                {HIGHLIGHTS.map(h => (
-                  <div key={h.name} className={styles.specRow}>
-                    <dt>{h.name}</dt>
-                    <dd>{h.value}</dd>
-                  </div>
-                ))}
-              </dl>
+              {destaques.length > 0 && (
+                <dl className={styles.specs} data-role="pdp-highlights">
+                  {destaques.map(h => (
+                    <div key={h.name} className={styles.specRow}>
+                      <dt>{h.name}</dt>
+                      <dd>{h.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
 
               <form
                 className={styles.shipping}
@@ -730,17 +788,27 @@ export default function ProductInfo11() {
             </div>
           </div>
 
-          <ul className={styles.trust} data-role="pdp-trust">
-            {TRUST.map((t, i) => (
-              <li key={`${t.title}-${i}`} className={styles.trustItem}>
-                {svg(22, TRUST_ICONS[t.icon], { className: styles.trustIcon })}
-                <span className={styles.trustCopy}>
-                  <span className={styles.trustTitle}>{t.title}</span>
-                  <span className={styles.trustText}>{t.text}</span>
-                </span>
-              </li>
-            ))}
-          </ul>
+          {trustItems.length > 0 && (
+            <ul className={styles.trust} data-role="pdp-trust">
+              {trustItems.map((t, i) =>
+                t.title || t.text ? (
+                  <li key={`${t.title}-${i}`} className={styles.trustItem}>
+                    {svg(22, TRUST_ICONS[t.icon ?? 'shield'] ?? TRUST_ICONS.shield, {
+                      className: styles.trustIcon,
+                    })}
+                    <span className={styles.trustCopy}>
+                      {t.title && (
+                        <span className={styles.trustTitle}>{t.title}</span>
+                      )}
+                      {t.text && (
+                        <span className={styles.trustText}>{t.text}</span>
+                      )}
+                    </span>
+                  </li>
+                ) : null
+              )}
+            </ul>
+          )}
         </div>
 
         {/* ── barra de compra do mobile: o botão de compra do mobile (gruda no rodapé) ── */}
@@ -759,3 +827,6 @@ export default function ProductInfo11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo11.conteudoPadrao = MOCK;

@@ -4,6 +4,7 @@ import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/CategorySeoFaq10` do faststore.starter (família 10, Varejo;
@@ -21,11 +22,23 @@ interface Pergunta {
   a: string;
 }
 
-/* ── rótulos (o mock.ts de lá) ── */
-const FAQ_TITLE = 'Perguntas frequentes sobre {categoria}';
-const ABOUT_TITLE = '{Categoria} com o melhor preço';
-const READ_MORE = 'Ver mais';
-const READ_LESS = 'Ver menos';
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+/** O conteúdo da seção: os campos do `section.schema` do CategorySeoFaq10. */
+interface CategoryDescription10Conteudo {
+  /** `{categoria}` vira o nome da categoria em minúsculas. */
+  faqTitle?: string;
+  /** `{Categoria}` vira o nome da categoria. */
+  aboutTitle?: string;
+  readMoreLabel?: string;
+  readLessLabel?: string;
+}
+
+const MOCK: CategoryDescription10Conteudo = {
+  faqTitle: 'Perguntas frequentes sobre {categoria}',
+  aboutTitle: '{Categoria} com o melhor preço',
+  readMoreLabel: 'Ver mais',
+  readLessLabel: 'Ver menos',
+};
 
 /* ── contexto de exemplo (o mock.ts de lá) ── */
 const NOME = 'Smartphones';
@@ -69,8 +82,8 @@ function lerPerguntas(html: string): Pergunta[] {
   return out.filter(p => p.q);
 }
 
-const comCategoria = (tpl: string, nome: string) =>
-  tpl
+const comCategoria = (tpl: string | undefined, nome: string) =>
+  (tpl ?? '')
     .replace(/\{categoria\}/g, nome.toLocaleLowerCase('pt-BR'))
     .replace(/\{Categoria\}/g, nome);
 
@@ -103,6 +116,12 @@ const Chevron = ({ up }: { up: boolean }) => (
 );
 
 export default function CategoryDescription10() {
+  const {
+    faqTitle: FAQ_TITLE,
+    aboutTitle: ABOUT_TITLE,
+    readMoreLabel: READ_MORE,
+    readLessLabel: READ_LESS,
+  } = useConteudoDaSecao(MOCK);
   const nome = NOME;
   const { titulo, corpo } = useMemo(() => separarTitulo(SOBRE_HTML), []);
   const perguntas = useMemo(() => lerPerguntas(FAQ_HTML), []);
@@ -130,7 +149,10 @@ export default function CategoryDescription10() {
     // e o ResizeObserver não avisa. Mede de novo quando as fontes chegam.
     let vivo = true;
     document.fonts?.ready.then(() => vivo && medir());
-    if (typeof ResizeObserver === 'undefined') return () => { vivo = false };
+    if (typeof ResizeObserver === 'undefined')
+      return () => {
+        vivo = false;
+      };
     const ro = new ResizeObserver(medir);
     ro.observe(el);
     return () => {
@@ -247,3 +269,6 @@ export default function CategoryDescription10() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryDescription10.conteudoPadrao = MOCK;

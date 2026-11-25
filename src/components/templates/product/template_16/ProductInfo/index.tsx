@@ -2,6 +2,8 @@
 
 import React, { useId, useRef, useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -20,6 +22,12 @@ import styles from './index.module.css';
  * do mock.ts de lá, já resolvido (as fotos são os blocos pastel do mock, SVG inline sem rede).
  * Compra, favorito, Avise-me e CEP não chamam nada: só alternam estado local. O guia de medidas
  * abre o mesmo diálogo com a tabela de exemplo.
+ *
+ * Os rótulos, o `hideQuantity` e os acordeões são do CMS e vêm do `useConteudoDaSecao`; o produto é
+ * o de exemplo. Fora do tipo: `ageSpecName` (diz QUAL especificação do produto é a faixa etária) e
+ * `soldOutButtonLabel` (rótulo do botão de compra com o SKU esgotado; o exemplo abre num tamanho
+ * em estoque). No acordeão, o `text` do CMS vale por cima da especificação do produto de exemplo
+ * (`specName`), para o cliente ver o texto que digitou; lá a especificação do produto vence.
  */
 const FONTES =
   'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap';
@@ -31,7 +39,29 @@ const block = (hex: string, w: number, h = w) =>
 const BRL = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const money = (n: number) => `R$ ${BRL.format(n)}`;
 
-const L = {
+interface ProductInfo16Conteudo {
+  counterOfLabel?: string;
+  codeLabel?: string;
+  ratingCountLabel?: string;
+  sizeGuideLabel?: string;
+  soldOutText?: string;
+  notifyLabel?: string;
+  notifyShortLabel?: string;
+  notifyNamePlaceholder?: string;
+  notifyEmailPlaceholder?: string;
+  notifySubmitLabel?: string;
+  notifySuccess?: string;
+  buyLabel?: string;
+  favoriteLabel?: string;
+  hideQuantity?: boolean;
+  shippingLabel?: string;
+  cepPlaceholder?: string;
+  cepButtonLabel?: string;
+  /** `text` com uma linha por item; `specName` aponta uma especificação do produto de exemplo. */
+  accordions: { title?: string; text?: string; specName?: string }[];
+}
+
+const MOCK: ProductInfo16Conteudo = {
   counterOfLabel: 'de',
   codeLabel: 'Cód.',
   ratingCountLabel: 'avaliações',
@@ -45,9 +75,17 @@ const L = {
   notifySuccess: 'Prontinho! Avisamos por e-mail quando o tamanho voltar.',
   buyLabel: 'Adicionar à sacola',
   favoriteLabel: 'Salvar nos favoritos',
+  hideQuantity: false,
   shippingLabel: 'Calcular frete',
   cepPlaceholder: '00000-000',
   cepButtonLabel: 'Calcular',
+  accordions: [
+    { title: 'Detalhes', specName: 'Detalhes' },
+    {
+      title: 'Entrega e trocas',
+      text: 'Enviamos para todo o Brasil; o prazo aparece no cálculo de frete.\nA primeira troca é grátis em até 30 dias.',
+    },
+  ],
 };
 const PRODUCT_NAME = 'Pijama Algodão Estrelinhas';
 const BRAND = 'Sua Marca';
@@ -76,20 +114,11 @@ const SHIPPING = [
   { id: 'expressa', label: 'Expressa · até 2 dias úteis', price: 'R$ 27,90', free: false },
   { id: 'retirada', label: 'Retirar na loja · [Loja Centro]', price: 'Grátis', free: true },
 ];
-const ACCORDIONS = [
-  {
-    title: 'Detalhes',
-    lines: [
-      '100% algodão, macio e respirável',
-      'Estampa de estrelinhas que não desbota na lavagem',
-      'Punhos e barra com elástico suave',
-    ],
-  },
-  {
-    title: 'Entrega e trocas',
-    lines: ['Enviamos para todo o Brasil; o prazo aparece no cálculo de frete.', 'A primeira troca é grátis em até 30 dias.'],
-  },
-];
+// Especificações do produto de exemplo que um acordeão pode apontar (`specName`).
+const ESPECIFICACOES: Record<string, string> = {
+  Detalhes:
+    '100% algodão, macio e respirável\nEstampa de estrelinhas que não desbota na lavagem\nPunhos e barra com elástico suave',
+};
 // Guia de medidas de exemplo: a mesma tabela desenhada do mock.ts de lá.
 const GUIDE_URL = `data:image/svg+xml;utf8,${encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="#FFFFFF"/><rect width="1200" height="133" fill="#E8E3F3"/><rect y="132" width="1200" height="2" fill="#E3DEF0"/><rect y="266" width="1200" height="2" fill="#E3DEF0"/><rect y="399" width="1200" height="2" fill="#E3DEF0"/><rect y="532" width="1200" height="2" fill="#E3DEF0"/><rect y="666" width="1200" height="2" fill="#E3DEF0"/><g font-family="sans-serif" font-size="30" fill="#2A2350" text-anchor="middle"><text x="120" y="77" font-weight="700">Tamanho</text><text x="360" y="77" font-weight="700">Idade</text><text x="600" y="77" font-weight="700">Altura (cm)</text><text x="840" y="77" font-weight="700">Busto (cm)</text><text x="1080" y="77" font-weight="700">Cintura (cm)</text><text x="120" y="210">2</text><text x="360" y="210">2 anos</text><text x="600" y="210">86–92</text><text x="840" y="210">52</text><text x="1080" y="210">50</text><text x="120" y="344">4</text><text x="360" y="344">4 anos</text><text x="600" y="344">98–104</text><text x="840" y="344">56</text><text x="1080" y="344">52</text><text x="120" y="477">6</text><text x="360" y="477">6 anos</text><text x="600" y="477">110–116</text><text x="840" y="477">60</text><text x="1080" y="477">54</text><text x="120" y="610">8</text><text x="360" y="610">8 anos</text><text x="600" y="610">122–128</text><text x="840" y="610">64</text><text x="1080" y="610">57</text><text x="120" y="744">10</text><text x="360" y="744">10 anos</text><text x="600" y="744">134–140</text><text x="840" y="744">68</text><text x="1080" y="744">60</text></g></svg>'
@@ -151,6 +180,7 @@ const Stars = ({ avg }: { avg: number }) => (
 );
 
 export default function ProductInfo16() {
+  const { accordions, hideQuantity, ...L } = useConteudoDaSecao(MOCK);
   const uid = useId();
   const [selAxis, setSelAxis] = useState('4');
   const [qty, setQty] = useState(1);
@@ -166,6 +196,18 @@ export default function ProductInfo16() {
   const selected = SIZES.find(s => s.value === selAxis);
   const sku = selected?.sku ?? '[SKU-0000]';
   const notifyFor = SOLD[0]?.value ?? null;
+  const ACCORDIONS = accordions
+    .map(a => {
+      const texto = String(a.text ?? '').trim() || (a.specName ? ESPECIFICACOES[a.specName] : '') || '';
+      return {
+        title: a.title ?? '',
+        lines: texto
+          .split('\n')
+          .map(l => l.trim())
+          .filter(Boolean),
+      };
+    })
+    .filter(a => a.title && a.lines.length);
 
   const onRailScroll = () => {
     const el = railRef.current;
@@ -372,17 +414,19 @@ export default function ProductInfo16() {
               </div>
 
               <div className={styles.buyRow} data-role="pdp-buy-row">
-                <div className={styles.qty} role="group" aria-label="Quantidade">
-                  <button type="button" onClick={() => setQty(q => Math.max(1, q - 1))} aria-label="Diminuir quantidade" disabled={qty <= 1}>
-                    {svg(16, MINUS, { strokeWidth: 2.6 })}
-                  </button>
-                  <span className={styles.qtyValue} aria-live="polite">
-                    {qty}
-                  </span>
-                  <button type="button" onClick={() => setQty(q => Math.min(99, q + 1))} aria-label="Aumentar quantidade">
-                    {svg(16, PLUS, { strokeWidth: 2.6 })}
-                  </button>
-                </div>
+                {!hideQuantity && (
+                  <div className={styles.qty} role="group" aria-label="Quantidade">
+                    <button type="button" onClick={() => setQty(q => Math.max(1, q - 1))} aria-label="Diminuir quantidade" disabled={qty <= 1}>
+                      {svg(16, MINUS, { strokeWidth: 2.6 })}
+                    </button>
+                    <span className={styles.qtyValue} aria-live="polite">
+                      {qty}
+                    </span>
+                    <button type="button" onClick={() => setQty(q => Math.min(99, q + 1))} aria-label="Aumentar quantidade">
+                      {svg(16, PLUS, { strokeWidth: 2.6 })}
+                    </button>
+                  </div>
+                )}
                 <button type="button" className={styles.buy} data-role="pdp-buy">
                   <span className={styles.buyIcon}>{svg(20, BAG, { strokeWidth: 2.2 })}</span>
                   <span>{L.buyLabel}</span>
@@ -511,3 +555,6 @@ export default function ProductInfo16() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo16.conteudoPadrao = MOCK;

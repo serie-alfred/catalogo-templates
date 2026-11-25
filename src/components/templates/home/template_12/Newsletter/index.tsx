@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -11,11 +12,29 @@ import styles from './index.module.css';
  * (sem arte: vale o arco de placeholder).
  *
  * Divergência deliberada: sem a mutação de cadastro e sem analytics; o envio só mostra a
- * mensagem de sucesso (o estado de erro fica no markup, mas não acontece aqui).
+ * mensagem de sucesso. Por isso o tipo não traz o `errorMessage` (o 1-conteudo o lista como
+ * não desenhado) e o estado de erro saiu do markup.
  */
 
+interface Newsletter12Conteudo {
+  title?: string;
+  text?: string;
+  nameLabel?: string;
+  namePlaceholder?: string;
+  emailLabel?: string;
+  emailPlaceholder?: string;
+  buttonLabel?: string;
+  successMessage?: string;
+  privacyPrefix?: string;
+  privacyLabel?: string;
+  privacyUrl?: string;
+  imageDesktop?: string;
+  imageMobile?: string;
+  imageAlt?: string;
+}
+
 // Conteúdo do mock.ts do starter.
-const MOCK = {
+const MOCK: Newsletter12Conteudo = {
   title: 'Ganhe 10% na primeira compra',
   text: 'Receba dicas de rotina e os lançamentos em primeira mão. O cupom chega no seu e-mail.',
   nameLabel: 'Nome',
@@ -24,7 +43,6 @@ const MOCK = {
   emailPlaceholder: 'seu@email.com',
   buttonLabel: 'Quero meu cupom',
   successMessage: 'Pronto! O seu cupom já está a caminho do seu e-mail.',
-  errorMessage: 'Não deu para cadastrar agora. Tente de novo em instantes.',
   privacyPrefix: 'Ao se cadastrar, você aceita a',
   privacyLabel: 'Política de Privacidade',
   privacyUrl: '#',
@@ -43,18 +61,17 @@ export default function Newsletter12() {
     emailPlaceholder,
     buttonLabel,
     successMessage,
-    errorMessage,
     privacyPrefix,
     privacyLabel,
     privacyUrl,
     imageDesktop,
     imageMobile,
     imageAlt,
-  } = MOCK;
+  } = useConteudoDaSecao(MOCK);
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
-  const [estado, setEstado] = useState<'idle' | 'ok' | 'erro'>('idle');
+  const [estado, setEstado] = useState<'idle' | 'ok'>('idle');
 
   function enviar(e: React.FormEvent) {
     e.preventDefault();
@@ -66,12 +83,16 @@ export default function Newsletter12() {
 
   const cabeca = (
     <div className={styles.head}>
-      <h2 className={styles.title} data-role="nl-title">
-        {title}
-      </h2>
-      <p className={styles.text} data-role="nl-text">
-        {text}
-      </p>
+      {title && (
+        <h2 className={styles.title} data-role="nl-title">
+          {title}
+        </h2>
+      )}
+      {text && (
+        <p className={styles.text} data-role="nl-text">
+          {text}
+        </p>
+      )}
     </div>
   );
 
@@ -101,7 +122,7 @@ export default function Newsletter12() {
                 {cabeca}
                 <div className={styles.fields}>
                   <label className={styles.field}>
-                    {nameLabel}
+                    {nameLabel || 'Nome'}
                     <input
                       className={styles.input}
                       type="text"
@@ -114,7 +135,7 @@ export default function Newsletter12() {
                     />
                   </label>
                   <label className={styles.field}>
-                    {emailLabel}
+                    {emailLabel || 'E-mail'}
                     <input
                       className={styles.input}
                       type="email"
@@ -129,15 +150,18 @@ export default function Newsletter12() {
                 </div>
                 <div className={styles.actions}>
                   <button type="submit" className={styles.submit} data-role="nl-submit">
-                    {buttonLabel}
+                    {buttonLabel || 'Quero meu cupom'}
                   </button>
-                  <span className={styles.privacy}>
-                    {privacyPrefix} <a href={privacyUrl}>{privacyLabel}</a>.
-                  </span>
-                  {estado === 'erro' && (
-                    <p className={styles.feedback} role="alert">
-                      {errorMessage}
-                    </p>
+                  {(privacyPrefix || privacyLabel) && (
+                    <span className={styles.privacy}>
+                      {privacyPrefix}
+                      {privacyLabel && (
+                        <>
+                          {' '}
+                          <a href={privacyUrl || '#'}>{privacyLabel}</a>.
+                        </>
+                      )}
+                    </span>
                   )}
                 </div>
               </form>
@@ -148,3 +172,6 @@ export default function Newsletter12() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Newsletter12.conteudoPadrao = MOCK;

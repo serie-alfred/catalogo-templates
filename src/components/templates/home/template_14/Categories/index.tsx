@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -8,21 +9,20 @@ import styles from './index.module.css';
  * Espelha `molecules/Categories14` do faststore.starter (família 14, Esportiva; desenho
  * `Categories14` / `Categories14-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e
  * as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá, sem
- * foto (o desenho também não tem: vale o cinza-azulado da posição).
+ * foto (o desenho também não tem: vale o cinza-azulado da posição), por baixo do que o CS subir
+ * (`useConteudoDaSecao`, campos do schema de lá).
  */
-interface Categories14Category {
-  name?: string;
-  url?: string;
-  /** Foto da categoria (vertical 3:4, 600 × 800). */
-  image?: string;
-  imageAlt?: string;
-}
-
-interface Categories14Props {
+interface Categories14Conteudo {
   title?: string;
   viewAllLabel?: string;
   viewAllUrl?: string;
-  categories?: Categories14Category[];
+  categories: {
+    name?: string;
+    url?: string;
+    /** Foto da categoria (vertical 3:4, 600 × 800). */
+    image?: string;
+    imageAlt?: string;
+  }[];
 }
 
 const Seta = ({ className }: { className?: string }) => (
@@ -40,7 +40,7 @@ const Seta = ({ className }: { className?: string }) => (
 );
 
 // Conteúdo do mock.ts do starter.
-const CONTEUDO: Categories14Props = {
+const MOCK: Categories14Conteudo = {
   title: 'Escolha sua modalidade',
   viewAllLabel: 'Ver todas',
   viewAllUrl: '/s',
@@ -55,7 +55,7 @@ const CONTEUDO: Categories14Props = {
 };
 
 export default function Categories14() {
-  const { title, viewAllLabel, viewAllUrl, categories = [] } = CONTEUDO;
+  const { title, viewAllLabel, viewAllUrl, categories } = useConteudoDaSecao(MOCK);
   if (!categories.length) return null;
 
   return (
@@ -125,3 +125,6 @@ export default function Categories14() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Categories14.conteudoPadrao = MOCK;

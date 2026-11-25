@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -9,16 +10,20 @@ import styles from './index.module.css';
  * `Categories13` / `Categories13-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`
  * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá
  * (sem foto: valem os grafites de placeholder do CSS).
+ *
+ * Conteúdo: o MOCK abaixo por baixo do que o CS subir (`useConteudoDaSecao`, campos do
+ * schema de lá).
  */
-interface Categories13Category {
-  name?: string;
-  url?: string;
-  image?: string;
-  imageAlt?: string;
+
+/** O conteúdo da seção: os campos do `section.schema` do Categories13. */
+interface Categories13Conteudo {
+  title?: string;
+  viewAllLabel?: string;
+  viewAllUrl?: string;
+  categories: { name?: string; url?: string; image?: string; imageAlt?: string }[];
 }
 
-// Conteúdo do mock.ts do starter.
-const MOCK = {
+const MOCK: Categories13Conteudo = {
   title: 'Compre por categoria',
   viewAllLabel: 'Ver tudo',
   viewAllUrl: '/s',
@@ -27,7 +32,7 @@ const MOCK = {
     { name: 'Roupas', url: '/s' },
     { name: 'Acessórios', url: '/s' },
     { name: 'Outlet', url: '/s' },
-  ] as Categories13Category[],
+  ],
 };
 
 const SetaDiagonal = () => (
@@ -43,7 +48,7 @@ const SetaDiagonal = () => (
 );
 
 export default function Categories13() {
-  const { title, viewAllLabel, viewAllUrl, categories } = MOCK;
+  const { title, viewAllLabel, viewAllUrl, categories } = useConteudoDaSecao(MOCK);
   if (!categories.length) return null;
 
   return (
@@ -101,3 +106,6 @@ export default function Categories13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Categories13.conteudoPadrao = MOCK;

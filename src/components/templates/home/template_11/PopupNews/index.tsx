@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -13,14 +14,38 @@ import styles from './index.module.css';
  * "Inscrever", a política e "Agora não". Mobile: folha presa ao pé da tela, com a régua,
  * a arte baixa e o formulário.
  *
+ * Conteúdo = o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`, campos do
+ * schema de lá). Por isso o tipo não traz `delaySeconds` nem `dismissDays` (o 1-conteudo
+ * os lista como não desenhados).
+ *
  * O que sai: a mutação de cadastro, o analytics, o atraso de abertura e o localStorage
  * que suprime o pop-up. No canvas ele já nasce ABERTO; o fechar só esconde (estado
  * local) e o envio mostra a mensagem de sucesso. Sem arte (o mock de lá também não tem):
  * vale o bloco cinza do `.media`.
  */
 
+/** O conteúdo da seção: os campos do `section.schema` do PopupNews11. */
+interface PopupNews11Conteudo {
+  imageDesktop?: string;
+  imageMobile?: string;
+  imageAlt?: string;
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+  nameLabel?: string;
+  namePlaceholder?: string;
+  emailLabel?: string;
+  emailPlaceholder?: string;
+  buttonLabel?: string;
+  successMessage?: string;
+  privacyPrefix?: string;
+  privacyLabel?: string;
+  privacyUrl?: string;
+  dismissLabel?: string;
+}
+
 // Conteúdo do mock.ts do starter.
-const CONTEUDO = {
+const MOCK: PopupNews11Conteudo = {
   eyebrow: '[Journal]',
   title: 'Receba o Journal',
   text: 'Lançamentos, edições limitadas e textos sobre design de interiores. Uma vez por mês.',
@@ -52,6 +77,9 @@ const svg = (children: React.ReactNode) => (
 
 export default function PopupNews11() {
   const {
+    imageDesktop,
+    imageMobile,
+    imageAlt,
     eyebrow,
     title,
     text,
@@ -65,7 +93,7 @@ export default function PopupNews11() {
     privacyLabel,
     privacyUrl,
     dismissLabel,
-  } = CONTEUDO;
+  } = useConteudoDaSecao(MOCK);
 
   const [aberto, setAberto] = useState(true);
   const [nome, setNome] = useState('');
@@ -94,7 +122,21 @@ export default function PopupNews11() {
         aria-modal="true"
         aria-labelledby="pn11-titulo"
       >
-        <div className={styles.media} data-role="pn-image" />
+        <div className={styles.media} data-role="pn-image">
+          {(imageDesktop || imageMobile) && (
+            <picture>
+              {imageMobile && (
+                <source media="(max-width: 960px)" srcSet={imageMobile} />
+              )}
+              <img
+                src={imageDesktop || imageMobile}
+                alt={imageAlt ?? ''}
+                width={880}
+                height={1120}
+              />
+            </picture>
+          )}
+        </div>
 
         <div className={styles.side}>
           <div className={styles.bar}>
@@ -198,3 +240,6 @@ export default function PopupNews11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+PopupNews11.conteudoPadrao = MOCK;

@@ -2,6 +2,7 @@ import React from 'react';
 
 import styles from './index.module.css';
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `molecules/ProductDescription12` do faststore.starter (família 12, Suave; desenho
@@ -11,12 +12,25 @@ import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
  *
  * Conteúdo = o `mock.ts` de lá (títulos + produto de exemplo), já resolvido como o starter
  * resolve: as especificações viram ativos ("Título: texto"), passos e resultados. Sai o `usePDP`.
+ *
+ * Só os quatro títulos são do CMS (`useConteudoDaSecao`). Os nomes de especificação
+ * (`activesSpecName`…) dizem de qual spec do produto sai cada bloco: o produto aqui é o de
+ * exemplo, então ficam fora do tipo.
  */
 
-const TITLE = 'Sobre o produto';
-const ACTIVES_TITLE = 'Ativos em destaque';
-const HOWTO_TITLE = 'Como usar';
-const RESULTS_TITLE = 'Resultados';
+interface ProductDescription12Conteudo {
+  title?: string;
+  activesTitle?: string;
+  howToTitle?: string;
+  resultsTitle?: string;
+}
+
+const MOCK: ProductDescription12Conteudo = {
+  title: 'Sobre o produto',
+  activesTitle: 'Ativos em destaque',
+  howToTitle: 'Como usar',
+  resultsTitle: 'Resultados',
+};
 
 const DESCRIPTION_HTML =
   '<p>[Descrição do produto cadastrada na plataforma. Sérum leve, de absorção rápida, com vitamina C estabilizada a 10% para uso diário.]</p>' +
@@ -52,6 +66,8 @@ const split = (line: string) => {
 };
 
 export default function ProductDescription12() {
+  const { title, activesTitle, howToTitle, resultsTitle } =
+    useConteudoDaSecao(MOCK);
   const actives = ACTIVES.map(split);
   const results = RESULTS.map(split);
 
@@ -59,20 +75,22 @@ export default function ProductDescription12() {
     <div className={styles.productDescription12Box}>
       <section
         className={styles.productDescription12}
-        aria-label={TITLE}
+        aria-label={title || 'Sobre o produto'}
         data-role="pd-root"
       >
         <link rel="stylesheet" href={FONTES_12} />
         <div className={styles.inner}>
           <div className={styles.intro} data-role="pd-intro">
-            <h2 className={styles.title}>{TITLE}</h2>
+            {title && <h2 className={styles.title}>{title}</h2>}
             <div
               className={styles.html}
               dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }}
             />
           </div>
 
-          <h3 className={styles.sectionTitle}>{ACTIVES_TITLE}</h3>
+          {activesTitle && (
+            <h3 className={styles.sectionTitle}>{activesTitle}</h3>
+          )}
           <div className={styles.cards} data-role="pd-actives">
             {actives.map((a, i) => (
               <article
@@ -87,7 +105,7 @@ export default function ProductDescription12() {
 
           <div className={styles.boxes}>
             <div className={styles.box} data-role="pd-howto">
-              <h3 className={styles.boxTitle}>{HOWTO_TITLE}</h3>
+              {howToTitle && <h3 className={styles.boxTitle}>{howToTitle}</h3>}
               <ol className={styles.steps}>
                 {STEPS.map((s, i) => (
                   <li key={`${s}-${i}`} className={styles.step}>
@@ -100,7 +118,9 @@ export default function ProductDescription12() {
               </ol>
             </div>
             <div className={styles.box} data-role="pd-results">
-              <h3 className={styles.boxTitle}>{RESULTS_TITLE}</h3>
+              {resultsTitle && (
+                <h3 className={styles.boxTitle}>{resultsTitle}</h3>
+              )}
               <ul className={styles.results}>
                 {results.map((r, i) => (
                   <li key={`${r.title}-${i}`} className={styles.result}>
@@ -119,3 +139,6 @@ export default function ProductDescription12() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductDescription12.conteudoPadrao = MOCK;

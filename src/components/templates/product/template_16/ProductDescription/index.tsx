@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -9,13 +11,33 @@ import styles from './index.module.css';
  * tracejadas e a imagem da descrição ao lado. Mesmo markup, classes e `data-role`; o CSS é
  * derivado do SCSS de lá.
  *
- * Lá descrição, destaques, ficha e imagem vêm do produto da PDP; aqui são o exemplo do mock.ts de
- * lá (a imagem é o bloco lilás de exemplo, um SVG inline sem rede).
+ * O `title` e o `hiddenSpecs` são do CMS e vêm do `useConteudoDaSecao`. Lá descrição, destaques,
+ * ficha e imagem vêm do produto da PDP; aqui são o exemplo do mock.ts de lá (a imagem é o bloco
+ * lilás de exemplo, um SVG inline sem rede). `featuresSpecName` e `imageSpecName` dizem QUAL
+ * especificação do produto vira os destaques e a imagem: sem produto real, não têm o que mostrar.
  */
 const FONTES =
   'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap';
 
-const TITLE = 'Feito para noites tranquilas';
+interface ProductDescription16Conteudo {
+  title?: string;
+  /** Especificações a esconder, separadas por vírgula ("Detalhes, Garantia"). */
+  hiddenSpecs?: string;
+}
+
+const MOCK: ProductDescription16Conteudo = {
+  title: 'Feito para noites tranquilas',
+  hiddenSpecs: 'Detalhes',
+};
+
+/** Como o starter compara nomes: sem acento, sem caixa, sem espaço nas pontas. */
+const norm = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .trim()
+    .toLowerCase();
+
 const NOME = 'Pijama Algodão Estrelinhas';
 const DESCRICAO =
   'O Pijama Estrelinhas é de algodão macio, com modelagem folgada para a criança se mexer à vontade na cama. A estampa é feita com tinta à base d’água, que não pesa no tecido e não desbota.';
@@ -36,13 +58,22 @@ const IMAGEM = `data:image/svg+xml;utf8,${encodeURIComponent(
 )}`;
 
 export default function ProductDescription16() {
+  const { title: TITLE, hiddenSpecs } = useConteudoDaSecao(MOCK);
+  const escondidas = new Set(
+    String(hiddenSpecs ?? '')
+      .split(',')
+      .map(norm)
+      .filter(Boolean)
+  );
+  const specs = SPECS.filter(s => !escondidas.has(norm(s.name)));
+
   return (
     <div className={styles.productDescription16Box}>
-      <section className={styles.productDescription16} aria-label={TITLE} data-role="pd-root">
+      <section className={styles.productDescription16} aria-label={TITLE || 'Descrição do produto'} data-role="pd-root">
         <link rel="stylesheet" href={FONTES} />
         <div className={styles.inner}>
           <div className={styles.head} data-role="pd-head">
-            <h2 className={styles.title}>{TITLE}</h2>
+            {TITLE && <h2 className={styles.title}>{TITLE}</h2>}
             <div className={styles.intro} data-role="pd-description">
               <p>{DESCRICAO}</p>
             </div>
@@ -64,7 +95,7 @@ export default function ProductDescription16() {
 
           <div className={styles.bottom}>
             <dl className={styles.specs} data-role="pd-specs">
-              {SPECS.map(s => (
+              {specs.map(s => (
                 <div key={s.name} className={styles.spec}>
                   <dt>{s.name}</dt>
                   <dd>{s.value}</dd>
@@ -72,7 +103,7 @@ export default function ProductDescription16() {
               ))}
             </dl>
             <figure className={styles.figure} data-role="pd-image">
-              <img src={IMAGEM} alt={`${TITLE} — ${NOME}`} width={1200} height={600} loading="lazy" decoding="async" />
+              <img src={IMAGEM} alt={TITLE ? `${TITLE} — ${NOME}` : ''} width={1200} height={600} loading="lazy" decoding="async" />
             </figure>
           </div>
         </div>
@@ -80,3 +111,6 @@ export default function ProductDescription16() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductDescription16.conteudoPadrao = MOCK;

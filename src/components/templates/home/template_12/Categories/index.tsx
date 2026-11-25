@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -19,23 +20,29 @@ interface Categories12Category {
   badge?: string;
 }
 
+interface Categories12Conteudo {
+  title?: string;
+  subtitle?: string;
+  categories: Categories12Category[];
+}
+
 // Conteúdo do mock.ts do starter (textos literais do desenho `Categories12`).
-const TITLE = 'Explore por categoria';
-const SUBTITLE = 'Tudo para a sua rotina de autocuidado, do rosto aos pés.';
-const CATEGORIES: Categories12Category[] = [
-  { name: 'Novidades', url: '/s', badge: 'Novo' },
-  { name: 'Skincare', url: '/s' },
-  { name: 'Maquiagem', url: '/s' },
-  { name: 'Cabelos', url: '/s' },
-  { name: 'Corpo', url: '/s' },
-  { name: 'Kits', url: '/s' },
-  { name: 'Infantil', url: '/s' },
-];
+const MOCK: Categories12Conteudo = {
+  title: 'Explore por categoria',
+  subtitle: 'Tudo para a sua rotina de autocuidado, do rosto aos pés.',
+  categories: [
+    { name: 'Novidades', url: '/s', badge: 'Novo' },
+    { name: 'Skincare', url: '/s' },
+    { name: 'Maquiagem', url: '/s' },
+    { name: 'Cabelos', url: '/s' },
+    { name: 'Corpo', url: '/s' },
+    { name: 'Kits', url: '/s' },
+    { name: 'Infantil', url: '/s' },
+  ],
+};
 
 export default function Categories12() {
-  const title = TITLE;
-  const subtitle = SUBTITLE;
-  const categories = CATEGORIES;
+  const { title, subtitle, categories } = useConteudoDaSecao(MOCK);
   if (!categories.length) return null;
 
   return (
@@ -96,3 +103,6 @@ export default function Categories12() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Categories12.conteudoPadrao = MOCK;

@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 
 import styles from './index.module.css';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import {
   FONTES_16,
   ProductCard16,
@@ -45,14 +46,43 @@ import {
  * O card é o ProductCard16 sem estrelas (lá o palco passa `rating: null`). O estado vazio da
  * busca (desenho `SearchEmpty16`) mora AQUI, como lá: renderiza quando a lista sai vazia;
  * `TERMO_VAZIO` faz o papel da prop `stageEmptyTerm` do palco — vazio, o canvas mostra a grade.
+ *
+ * Os rótulos, o `ageTitle` e os `priceSteps` são do CMS e vêm do `useConteudoDaSecao`; produtos,
+ * facetas e contagem são os de exemplo. O tipo não traz `pageSize` nem `specFacetKey`: a grade de
+ * exemplo mostra os 9 produtos e a faceta de idade é a do mock (constantes `PAGE` e
+ * `SPEC_FACET_KEY`).
  */
 
 /** O papel do `stageEmptyTerm` do palco: com um termo, a réplica mostra o estado vazio. */
 const TERMO_VAZIO: string = '';
 
-const mainCategory16Mock = {
-  pageSize: 9,
-  specFacetKey: 'faixa-etaria',
+interface CategoryMain16Conteudo {
+  ageTitle?: string;
+  priceSteps?: string;
+  countLabel?: string;
+  filterLabel?: string;
+  filterTitle?: string;
+  sortLabel?: string;
+  sortMobileLabel?: string;
+  clearLabel?: string;
+  clearAllLabel?: string;
+  showMoreLabel?: string;
+  showLessLabel?: string;
+  priceUpToLabel?: string;
+  priceBetweenLabel?: string;
+  priceOverLabel?: string;
+  resultsLabel?: string;
+  emptyCountLabel?: string;
+  emptyTitle?: string;
+  emptyFilterTitle?: string;
+  emptyText?: string;
+  emptyPrimaryLabel?: string;
+  emptyPrimaryUrl?: string;
+  emptySecondaryLabel?: string;
+  emptySecondaryUrl?: string;
+}
+
+const MOCK: CategoryMain16Conteudo = {
   ageTitle: 'Compre por idade',
   priceSteps: '80, 150, 250',
   countLabel: 'produtos',
@@ -401,10 +431,12 @@ function FacetBody16({
   );
 }
 
+/** Produtos de exemplo por página (a grade de exemplo mostra os 9) e a faceta de idade do mock. */
+const PAGE = 9;
+const SPEC_FACET_KEY = 'faixa-etaria';
+
 export default function CategoryMain16() {
   const {
-    pageSize: pageSizeProp,
-    specFacetKey,
     ageTitle,
     priceSteps,
     countLabel,
@@ -428,12 +460,8 @@ export default function CategoryMain16() {
     emptyPrimaryUrl,
     emptySecondaryLabel,
     emptySecondaryUrl,
-  } = mainCategory16Mock;
+  } = useConteudoDaSecao(MOCK);
   const stageEmptyTerm = TERMO_VAZIO;
-  const PAGE =
-    pageSizeProp && pageSizeProp > 0
-      ? Math.min(Math.round(pageSizeProp), 50)
-      : 12;
 
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
   const stageEmpty = !!stageEmptyTerm;
@@ -458,8 +486,8 @@ export default function CategoryMain16() {
   const loading = false;
   const rawFacets: RawFacet16[] = mockFacets16;
   const facets = useMemo(
-    () => pickFacets(rawFacets, 0, specFacetKey),
-    [rawFacets, specFacetKey]
+    () => pickFacets(rawFacets, 0, SPEC_FACET_KEY),
+    [rawFacets]
   );
   const priceFacet = facets.find(f => f.kind === 'price');
   const specFacet = facets.find(f => f.spec);
@@ -991,3 +1019,6 @@ export default function CategoryMain16() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryMain16.conteudoPadrao = MOCK;

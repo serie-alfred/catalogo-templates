@@ -5,6 +5,7 @@ import CartSidebar10, {
 } from '@/components/templates/_shared/CartSidebar10';
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
@@ -41,14 +42,33 @@ type Header10MenuItem = {
   children?: { label?: string; url?: string }[];
 };
 
-const MOCK = {
+/** O conteúdo da seção: os campos do `section.schema` do Header10. */
+interface Header10Conteudo {
+  topbarText?: string;
+  serviceLinks: { label?: string; url?: string; icon?: Header10LinkIcon }[];
+  logo?: string;
+  logoAlt?: string;
+  brandMark?: string;
+  brandName?: string;
+  searchPlaceholder?: string;
+  accountLabel?: string;
+  wishlistLabel?: string;
+  wishlistUrl?: string;
+  cartLabel?: string;
+  departmentsLabel?: string;
+  menuTitle?: string;
+  menu: Header10MenuItem[];
+  viewAllLabel?: string;
+}
+
+const MOCK: Header10Conteudo = {
   topbarText: 'Frete grátis para todo o Brasil acima de R$ 199',
   serviceLinks: [
     { label: 'Lojas físicas', url: '/lojas', icon: 'store' },
     { label: 'Acompanhe seu pedido', url: '/account/orders', icon: 'truck' },
     { label: 'Televendas [0000-0000]', url: 'tel:00000000', icon: 'phone' },
     { label: 'Venda conosco', url: '/venda-conosco', icon: 'none' },
-  ] as { label?: string; url?: string; icon?: Header10LinkIcon }[],
+  ],
   brandMark: 'S',
   brandName: 'SERIE//A',
   searchPlaceholder: 'Busque por produto, marca ou categoria',
@@ -67,7 +87,8 @@ const MOCK = {
     { label: 'Casa', url: '/casa' },
     { label: 'Games', url: '/games' },
     { label: 'Cupons', url: '/cupons', alignEnd: true },
-  ] as Header10MenuItem[],
+  ],
+  viewAllLabel: 'Ver tudo',
 };
 
 // Produtos de exemplo da vitrine 10 (mock do `molecules/ProductShelf10`), só para as
@@ -183,13 +204,13 @@ const ICONE_SERVICO: Record<
   ),
 };
 
-const TERMOS_10 = MOCK.menu.map(m => m.label ?? '').filter(Boolean);
-
 export default function Header10() {
-  const { logo } = useLayout();
+  const { logo: logoDaLoja } = useLayout();
   const {
     topbarText,
     serviceLinks,
+    logo: logoDaSecao,
+    logoAlt,
     brandMark,
     brandName,
     searchPlaceholder,
@@ -200,7 +221,11 @@ export default function Header10() {
     departmentsLabel,
     menuTitle,
     menu,
-  } = MOCK;
+    viewAllLabel,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDaSecao || logoDaLoja;
+  // As sugestões da busca filtram os rótulos do menu que a seção mostra.
+  const termosDoMenu = menu.map(m => m.label ?? '').filter(Boolean);
 
   const [cartOpen, setCartOpen] = useState(false);
   useAbrirNoCanvas('carrinho', setCartOpen);
@@ -217,7 +242,7 @@ export default function Header10() {
   const curto = termoLimpo.length < 2;
   const termos = curto
     ? []
-    : TERMOS_10.filter(t => t.toLowerCase().includes(termoLimpo));
+    : termosDoMenu.filter(t => t.toLowerCase().includes(termoLimpo));
   const produtos = curto
     ? []
     : PRODUTOS_BUSCA_10.filter(p => p.name.toLowerCase().includes(termoLimpo));
@@ -323,11 +348,11 @@ export default function Header10() {
             <a
               className={styles.logo}
               href="/"
-              aria-label={brandName || 'Página inicial'}
+              aria-label={logoAlt || brandName || 'Página inicial'}
               data-role="hd-logo"
             >
               {logo ? (
-                <img src={logo} alt="Logo" height={38} />
+                <img src={logo} alt="" height={38} />
               ) : (
                 <>
                   {brandMark && (
@@ -580,7 +605,7 @@ export default function Header10() {
                           <ul className={styles.drawerSub}>
                             {item.url && (
                               <li>
-                                <a href={item.url}>Ver tudo</a>
+                                <a href={item.url || '#'}>{viewAllLabel}</a>
                               </li>
                             )}
                             {item.children.map((c, j) => (
@@ -632,3 +657,6 @@ export default function Header10() {
     </>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header10.conteudoPadrao = MOCK;

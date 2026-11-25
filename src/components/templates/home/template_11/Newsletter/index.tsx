@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
 /**
  * Espelha `organisms/Newsletter11` do faststore.starter (família 11, Grade; desenho
  * `Newsletter11` / `Newsletter11-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`
- * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá,
+ * por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  *
  * Divergência deliberada: sem a mutação de cadastro e sem analytics; o envio só mostra a
- * mensagem de sucesso (o estado de erro fica no markup, mas não acontece aqui).
+ * mensagem de sucesso. Por isso o tipo não traz o `errorMessage` (o 1-conteudo o lista
+ * como não desenhado).
  */
-interface Newsletter11Props {
+interface Newsletter11Conteudo {
   eyebrow?: string;
   title?: string;
   note?: string;
@@ -23,14 +26,13 @@ interface Newsletter11Props {
   emailPlaceholder?: string;
   buttonLabel?: string;
   successMessage?: string;
-  errorMessage?: string;
   privacyPrefix?: string;
   privacyLabel?: string;
   privacyUrl?: string;
 }
 
 // Conteúdo do mock.ts do starter.
-const MOCK: Newsletter11Props = {
+const MOCK: Newsletter11Conteudo = {
   eyebrow: '[08] Journal por e-mail',
   title: 'Newsletter',
   note: '1 e-mail por mês. Sem spam.',
@@ -41,7 +43,6 @@ const MOCK: Newsletter11Props = {
   emailPlaceholder: 'nome@email.com',
   buttonLabel: 'Inscrever',
   successMessage: 'Inscrição feita. O próximo e-mail chega no começo do mês.',
-  errorMessage: 'Não deu para inscrever agora. Tente de novo em instantes.',
   privacyPrefix: 'Ao se inscrever, você concorda com a',
   privacyLabel: 'Política de Privacidade',
   privacyUrl: '/institucional/privacidade',
@@ -59,16 +60,15 @@ export default function Newsletter11() {
     emailPlaceholder,
     buttonLabel,
     successMessage,
-    errorMessage,
     privacyPrefix,
     privacyLabel,
     privacyUrl,
-  } = MOCK;
+  } = useConteudoDaSecao(MOCK);
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const enviando = false;
-  const [estado, setEstado] = useState<'idle' | 'ok' | 'erro'>('idle');
+  const [estado, setEstado] = useState<'idle' | 'ok'>('idle');
 
   function enviar(e: React.FormEvent) {
     e.preventDefault();
@@ -186,11 +186,6 @@ export default function Newsletter11() {
                   <path d="M5 12h14M13 6l6 6-6 6" />
                 </svg>
               </button>
-              {estado === 'erro' && (
-                <p className={styles.feedback} role="alert">
-                  {errorMessage}
-                </p>
-              )}
               {privacidade(styles.privacyForm)}
             </form>
           )}
@@ -201,3 +196,6 @@ export default function Newsletter11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Newsletter11.conteudoPadrao = MOCK;

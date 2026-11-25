@@ -2,6 +2,8 @@
 
 import React, { useEffect, useId, useRef, useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -11,7 +13,10 @@ import styles from './index.module.css';
  * `data-role`; o CSS é derivado do SCSS de lá.
  *
  * Lá o texto e as perguntas vêm dos banners do Intelligent Search (áreas "one" e "two"); aqui são
- * o exemplo do mock.ts de lá, já separados em título, blocos e pares pergunta/resposta.
+ * o exemplo do mock.ts de lá, já separados em título, blocos e pares pergunta/resposta. Só os
+ * rótulos são do CMS (`useConteudoDaSecao`). Divergência: lá o `aboutTitle` só vale quando o
+ * banner não traz `<h2>`; aqui o exemplo do banner não tem `h2` separado, então o `aboutTitle`
+ * (com `{categoria}` trocado pelo nome de exemplo) é o título, para o cliente ver o texto dele.
  */
 const FONTES =
   'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap';
@@ -19,8 +24,24 @@ const FONTES =
 const VISIVEIS_DESK = 2;
 const VISIVEIS_MOB = 1;
 
-const FAQ_TITLE = 'Perguntas frequentes';
-const TITULO = 'Brinquedos que crescem junto com a criança';
+interface CategoryDescription16Conteudo {
+  aboutTitle?: string;
+  faqTitle?: string;
+  readMoreLabel?: string;
+  readLessLabel?: string;
+}
+
+const MOCK: CategoryDescription16Conteudo = {
+  aboutTitle: 'Brinquedos que crescem junto com a criança',
+  faqTitle: 'Perguntas frequentes',
+  readMoreLabel: 'Ler mais',
+  readLessLabel: 'Ler menos',
+};
+
+const NOME = 'Brinquedos';
+const comCategoria = (tpl: string, nome: string) =>
+  tpl.replace(/\{categoria\}/g, nome.toLocaleLowerCase('pt-BR')).replace(/\{Categoria\}/g, nome);
+
 const PARAGRAFOS = [
   'Da primeira pelúcia ao primeiro kit de montar, a seleção de brinquedos da [SUA MARCA] reúne opções para cada fase: estímulo sensorial para os bebês, faz de conta para os pequenos e desafios de lógica para quem já está na escola.',
   'Todos os brinquedos têm selo do Inmetro e indicação de faixa etária na página do produto. Use o filtro de idade para chegar mais rápido no presente certo.',
@@ -46,6 +67,8 @@ const Ico = ({ size, children }: { size: number; children: React.ReactNode }) =>
 );
 
 export default function CategoryDescription16() {
+  const { aboutTitle, faqTitle, readMoreLabel, readLessLabel } = useConteudoDaSecao(MOCK);
+  const TITULO = comCategoria(aboutTitle || '', NOME);
   const [aberto, setAberto] = useState(false);
   const [blocos, setBlocos] = useState(0);
   const [faqAberta, setFaqAberta] = useState<number | null>(0);
@@ -61,13 +84,15 @@ export default function CategoryDescription16() {
 
   return (
     <div className={styles.categorySeoFaq16Box}>
-      <section className={styles.categorySeoFaq16} aria-label={TITULO} data-role="cd-root">
+      <section className={styles.categorySeoFaq16} aria-label={TITULO || faqTitle || 'Sobre a categoria'} data-role="cd-root">
         <link rel="stylesheet" href={FONTES} />
         <div className={styles.box}>
           <div className={styles.about} data-role="cd-about">
-            <h2 className={styles.aboutTitle} data-role="cd-title">
-              {TITULO}
-            </h2>
+            {TITULO && (
+              <h2 className={styles.aboutTitle} data-role="cd-title">
+                {TITULO}
+              </h2>
+            )}
             <div
               id={`${uid}-texto`}
               ref={textoRef}
@@ -87,13 +112,13 @@ export default function CategoryDescription16() {
                 onClick={() => setAberto(v => !v)}
                 data-role="cd-more"
               >
-                {aberto ? 'Ler menos' : 'Ler mais'}
+                {aberto ? readLessLabel || 'Ler menos' : readMoreLabel || 'Ler mais'}
               </button>
             )}
           </div>
 
           <div className={styles.faq} data-role="cd-faq">
-            <h2 className={styles.faqTitle}>{FAQ_TITLE}</h2>
+            {faqTitle && <h2 className={styles.faqTitle}>{faqTitle}</h2>}
             {PERGUNTAS.map((p, i) => {
               const on = faqAberta === i;
               return (
@@ -135,3 +160,6 @@ export default function CategoryDescription16() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryDescription16.conteudoPadrao = MOCK;

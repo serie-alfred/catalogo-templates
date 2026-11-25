@@ -6,11 +6,117 @@
       "note",
       "banners"
     ],
+    "BannerGrid10": [
+      "banners"
+    ],
+    "BannerGrid11": [
+      "sectionNumber",
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "banners",
+      "manifesto"
+    ],
+    "BannerGrid12": [
+      "banners"
+    ],
+    "BannerGrid13": [
+      "banners"
+    ],
+    "BannerGrid14": [
+      "banners"
+    ],
+    "BannerGrid15": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "banners"
+    ],
+    "BannerGrid16": [
+      "banners"
+    ],
+    "BannerGrid17": [
+      "banners"
+    ],
     "BannerMain09": [
+      "slides"
+    ],
+    "BannerMain10": [
+      "slides",
+      "promos"
+    ],
+    "BannerMain11": [
+      "slides"
+    ],
+    "BannerMain12": [
+      "slides"
+    ],
+    "BannerMain13": [
+      "slides"
+    ],
+    "BannerMain14": [
+      "slides"
+    ],
+    "BannerMain15": [
+      "slides"
+    ],
+    "BannerMain16": [
+      "slides"
+    ],
+    "BannerMain17": [
       "slides"
     ],
     "Brand09": [
       "eyebrow",
+      "viewAllLabel",
+      "viewAllUrl",
+      "brands"
+    ],
+    "Brand10": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "brands"
+    ],
+    "Brand11": [
+      "sectionNumber",
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "brands"
+    ],
+    "Brand12": [
+      "title",
+      "brands"
+    ],
+    "Brand13": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "brands"
+    ],
+    "Brand14": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "brands"
+    ],
+    "Brand15": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "viewAllLabel",
+      "viewAllUrl",
+      "brands"
+    ],
+    "Brand16": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "brands"
+    ],
+    "Brand17": [
+      "title",
       "viewAllLabel",
       "viewAllUrl",
       "brands"
@@ -23,8 +129,105 @@
       "itemLinkLabel",
       "categories"
     ],
+    "Categories10": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "categories"
+    ],
+    "Categories11": [
+      "sectionNumber",
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "categories"
+    ],
+    "Categories12": [
+      "title",
+      "subtitle",
+      "categories"
+    ],
+    "Categories13": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "categories"
+    ],
+    "Categories14": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "categories"
+    ],
+    "Categories15": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "linkLabel",
+      "categories"
+    ],
+    "Categories16": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "categories"
+    ],
+    "Categories17": [
+      "eyebrow",
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "categories"
+    ],
     "CategoryDescription09": [
       "titlePrefix",
+      "faqTitle",
+      "readMoreLabel",
+      "readLessLabel"
+    ],
+    "CategoryDescription10": [
+      "faqTitle",
+      "aboutTitle",
+      "readMoreLabel",
+      "readLessLabel"
+    ],
+    "CategoryDescription11": [
+      "aboutEyebrow",
+      "aboutTitle",
+      "faqEyebrow",
+      "readMoreLabel",
+      "readLessLabel"
+    ],
+    "CategoryDescription12": [
+      "aboutEyebrow",
+      "aboutTitle",
+      "faqTitle",
+      "readMoreLabel",
+      "readLessLabel"
+    ],
+    "CategoryDescription13": [
+      "aboutTitle",
+      "faqTitle"
+    ],
+    "CategoryDescription14": [
+      "eyebrow",
+      "aboutTitle",
+      "faqTitle"
+    ],
+    "CategoryDescription15": [
+      "aboutEyebrow",
+      "aboutTitle",
+      "faqTitle"
+    ],
+    "CategoryDescription16": [
+      "aboutTitle",
+      "faqTitle",
+      "readMoreLabel",
+      "readLessLabel"
+    ],
+    "CategoryDescription17": [
+      "eyebrow",
+      "aboutTitle",
       "faqTitle",
       "readMoreLabel",
       "readLessLabel"
@@ -48,11 +251,277 @@
       "emptySecondaryLabel",
       "emptySecondaryUrl"
     ],
+    "CategoryMain10": [
+      "countLabel",
+      "filterLabel",
+      "sortLabel",
+      "sortPrefix",
+      "perPageLabel",
+      "activeLabel",
+      "clearLabel",
+      "clearAllLabel",
+      "searchPlaceholder",
+      "showMoreLabel",
+      "showLessLabel",
+      "minLabel",
+      "maxLabel",
+      "resultsLabel",
+      "pageLabel",
+      "emptyTitle",
+      "emptyText",
+      "emptyPrimaryLabel",
+      "emptyPrimaryUrl",
+      "emptySecondaryLabel",
+      "emptySecondaryUrl"
+    ],
+    "CategoryMain11": [
+      "countLabel",
+      "filterLabel",
+      "sortLabel",
+      "columnsLabel",
+      "clearLabel",
+      "clearAllLabel",
+      "minLabel",
+      "maxLabel",
+      "resultsLabel",
+      "progressLabel",
+      "loadMoreLabel",
+      "emptyEyebrow",
+      "emptyCountLabel",
+      "emptyTitle",
+      "emptyText",
+      "emptyPrimaryLabel",
+      "emptyPrimaryUrl",
+      "emptySecondaryLabel",
+      "emptySecondaryUrl"
+    ],
+    "CategoryMain12": [
+      "specFacetKey",
+      "priceSteps",
+      "countLabel",
+      "filterLabel",
+      "filterTitle",
+      "sortLabel",
+      "clearLabel",
+      "clearAllLabel",
+      "searchPlaceholder",
+      "showMoreLabel",
+      "showLessLabel",
+      "priceUpToLabel",
+      "priceBetweenLabel",
+      "priceOverLabel",
+      "selectedOneLabel",
+      "selectedManyLabel",
+      "resultsLabel",
+      "progressLabel",
+      "loadMoreLabel",
+      "emptyTitle",
+      "emptyText",
+      "emptyPrimaryLabel",
+      "emptyPrimaryUrl",
+      "emptySecondaryLabel",
+      "emptySecondaryUrl"
+    ],
+    "CategoryMain13": [
+      "priceSteps",
+      "countLabel",
+      "hideFiltersLabel",
+      "showFiltersLabel",
+      "densityLabel",
+      "filterLabel",
+      "filterTitle",
+      "sortLabel",
+      "clearLabel",
+      "clearAllLabel",
+      "sizeChipLabel",
+      "showMoreLabel",
+      "showLessLabel",
+      "priceUpToLabel",
+      "priceBetweenLabel",
+      "priceOverLabel",
+      "resultsLabel",
+      "progressLabel",
+      "loadMoreLabel",
+      "emptyEyebrow",
+      "emptyTitle",
+      "emptyText",
+      "emptyPrimaryLabel",
+      "emptyPrimaryUrl",
+      "emptySecondaryLabel",
+      "emptySecondaryUrl"
+    ],
+    "CategoryMain14": [
+      "priceSteps",
+      "specAllLabel",
+      "countLabel",
+      "filterLabel",
+      "sortLabel",
+      "clearLabel",
+      "clearAllLabel",
+      "sizeChipLabel",
+      "showMoreLabel",
+      "showLessLabel",
+      "priceUpToLabel",
+      "priceBetweenLabel",
+      "priceOverLabel",
+      "resultsLabel",
+      "rangeLabel",
+      "emptyArtBig",
+      "emptyArtSmall",
+      "emptyEyebrow",
+      "emptyTitle",
+      "emptyText",
+      "emptyPrimaryLabel",
+      "emptyPrimaryUrl",
+      "emptySecondaryLabel",
+      "emptySecondaryUrl"
+    ],
+    "CategoryMain15": [
+      "specFacetKey",
+      "countLabel",
+      "filterByLabel",
+      "filterLabel",
+      "sortLabel",
+      "clearLabel",
+      "clearAllLabel",
+      "resultsLabel",
+      "sizeTitle",
+      "sizeGuideLabel",
+      "sizeGuideUrl",
+      "progressLabel",
+      "loadMoreLabel",
+      "emptyEyebrow",
+      "emptyTitle",
+      "emptyText",
+      "emptyPrimaryLabel",
+      "emptyPrimaryUrl",
+      "emptySecondaryLabel",
+      "emptySecondaryUrl"
+    ],
+    "CategoryMain16": [
+      "ageTitle",
+      "priceSteps",
+      "countLabel",
+      "filterLabel",
+      "filterTitle",
+      "sortLabel",
+      "sortMobileLabel",
+      "clearLabel",
+      "clearAllLabel",
+      "showMoreLabel",
+      "showLessLabel",
+      "priceUpToLabel",
+      "priceBetweenLabel",
+      "priceOverLabel",
+      "resultsLabel",
+      "emptyCountLabel",
+      "emptyTitle",
+      "emptyFilterTitle",
+      "emptyText",
+      "emptyPrimaryLabel",
+      "emptyPrimaryUrl",
+      "emptySecondaryLabel",
+      "emptySecondaryUrl"
+    ],
+    "CategoryMain17": [
+      "pageSize",
+      "speciesLabel",
+      "specFacetKey",
+      "priceSteps",
+      "countLabel",
+      "filterLabel",
+      "sortLabel",
+      "clearLabel",
+      "clearAllLabel",
+      "showMoreLabel",
+      "showLessLabel",
+      "priceUpToLabel",
+      "priceBetweenLabel",
+      "priceOverLabel",
+      "resultsLabel",
+      "progressLabel",
+      "loadMoreLabel",
+      "soldOutText",
+      "emptyCountLabel",
+      "emptyTitle",
+      "emptyFilterTitle",
+      "emptyText",
+      "emptyPrimaryLabel",
+      "emptyPrimaryUrl",
+      "emptySecondaryLabel",
+      "emptySecondaryUrl"
+    ],
     "CategoryTitle09": [
       "allLabel"
     ],
+    "CategoryTitle10": [
+      "countLabel"
+    ],
+    "CategoryTitle11": [
+      "allLabel"
+    ],
+    "CategoryTitle12": [
+      "allLabel",
+      "countLabel"
+    ],
+    "CategoryTitle13": [
+      "allLabel",
+      "countLabel"
+    ],
+    "CategoryTitle14": [
+      "allLabel",
+      "countLabel"
+    ],
+    "CategoryTitle15": [
+      "allLabel",
+      "countLabel"
+    ],
+    "CategoryTitle16": [
+      "countLabel"
+    ],
+    "CategoryTitle17": [
+      "countLabel"
+    ],
     "ClientReview09": [
       "eyebrow",
+      "reviews"
+    ],
+    "ClientReview10": [
+      "title",
+      "text",
+      "reviews"
+    ],
+    "ClientReview11": [
+      "sectionNumber",
+      "title",
+      "reviews"
+    ],
+    "ClientReview12": [
+      "title",
+      "subtitle",
+      "reviews"
+    ],
+    "ClientReview13": [
+      "title",
+      "reviews"
+    ],
+    "ClientReview14": [
+      "title",
+      "aboutLabel",
+      "reviews"
+    ],
+    "ClientReview15": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "reviews"
+    ],
+    "ClientReview16": [
+      "title",
+      "reviews"
+    ],
+    "ClientReview17": [
+      "title",
       "reviews"
     ],
     "Countdown09": [
@@ -71,6 +540,133 @@
       "imageMobile",
       "imageAlt"
     ],
+    "Countdown10": [
+      "title",
+      "text",
+      "endDate",
+      "ctaLabel",
+      "ctaUrl",
+      "daysLabel",
+      "hoursLabel",
+      "minutesLabel",
+      "secondsLabel",
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt"
+    ],
+    "Countdown11": [
+      "eyebrow",
+      "title",
+      "timerLabel",
+      "endDate",
+      "daysLabel",
+      "hoursLabel",
+      "minutesLabel",
+      "secondsLabel",
+      "ctaLabel",
+      "ctaCaption",
+      "ctaUrl",
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt"
+    ],
+    "Countdown12": [
+      "eyebrow",
+      "title",
+      "endDate",
+      "daysLabel",
+      "hoursLabel",
+      "minutesLabel",
+      "secondsLabel",
+      "highlightTitle",
+      "text",
+      "ctaLabel",
+      "ctaUrl",
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt"
+    ],
+    "Countdown13": [
+      "title",
+      "endDate",
+      "daysLabel",
+      "hoursLabel",
+      "minutesLabel",
+      "secondsLabel",
+      "highlightTitle",
+      "text",
+      "ctaLabel",
+      "ctaUrl",
+      "url",
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt"
+    ],
+    "Countdown14": [
+      "eyebrow",
+      "title",
+      "timerLabel",
+      "endDate",
+      "daysLabel",
+      "hoursLabel",
+      "minutesLabel",
+      "secondsLabel",
+      "text",
+      "ctaLabel",
+      "ctaUrl",
+      "url",
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt"
+    ],
+    "Countdown15": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "text",
+      "endDate",
+      "ctaLabel",
+      "ctaUrl",
+      "daysLabel",
+      "hoursLabel",
+      "minutesLabel",
+      "secondsLabel",
+      "url",
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt"
+    ],
+    "Countdown16": [
+      "title",
+      "endDate",
+      "daysLabel",
+      "hoursLabel",
+      "minutesLabel",
+      "secondsLabel",
+      "text",
+      "ctaLabel",
+      "ctaUrl",
+      "url",
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt"
+    ],
+    "Countdown17": [
+      "eyebrow",
+      "title",
+      "endDate",
+      "daysLabel",
+      "hoursLabel",
+      "minutesLabel",
+      "secondsLabel",
+      "text",
+      "ctaLabel",
+      "ctaUrl",
+      "url",
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt"
+    ],
     "Editorial09": [
       "eyebrow",
       "title",
@@ -83,6 +679,73 @@
       "imageAlt",
       "posts"
     ],
+    "Editorial10": [
+      "title",
+      "text",
+      "viewAllLabel",
+      "viewAllUrl",
+      "posts"
+    ],
+    "Editorial11": [
+      "sectionNumber",
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "featuredDate",
+      "featuredTag",
+      "featuredTitle",
+      "featuredText",
+      "ctaLabel",
+      "url",
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt",
+      "posts"
+    ],
+    "Editorial12": [
+      "eyebrow",
+      "title",
+      "text",
+      "steps"
+    ],
+    "Editorial13": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "stories"
+    ],
+    "Editorial14": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "stories"
+    ],
+    "Editorial15": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "viewAllLabel",
+      "viewAllUrl",
+      "stories"
+    ],
+    "Editorial16": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "stories"
+    ],
+    "Editorial17": [
+      "eyebrow",
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "readLabel",
+      "stories",
+      "helpTitle",
+      "helpText",
+      "helpLabel",
+      "helpUrl"
+    ],
     "Footer09": [
       "columns",
       "contactTitle",
@@ -93,6 +756,136 @@
       "brandUrl",
       "payments",
       "legal"
+    ],
+    "Footer10": [
+      "serviceCards",
+      "columns",
+      "appTitle",
+      "appText",
+      "appBadges",
+      "socials",
+      "paymentsTitle",
+      "payments",
+      "securityTitle",
+      "seals",
+      "legalLines"
+    ],
+    "Footer11": [
+      "logo",
+      "logoAlt",
+      "brandName",
+      "brandSup",
+      "socials",
+      "sealImage",
+      "sealLabel",
+      "sealUrl",
+      "columns",
+      "contactTitle",
+      "contactLines",
+      "contactNote",
+      "newsletterLabel",
+      "newsletterTitle",
+      "namePlaceholder",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl",
+      "copyright",
+      "legalText",
+      "payments",
+      "backToTopLabel"
+    ],
+    "Footer12": [
+      "logo",
+      "logoAlt",
+      "brandName",
+      "aboutText",
+      "socials",
+      "columns",
+      "contactTitle",
+      "contactNote",
+      "whatsappLabel",
+      "whatsappUrl",
+      "contactLines",
+      "payments",
+      "seals",
+      "copyright",
+      "legalLinks"
+    ],
+    "Footer13": [
+      "logo",
+      "logoAlt",
+      "brandName",
+      "aboutText",
+      "socials",
+      "columns",
+      "contactTitle",
+      "contactLines",
+      "payments",
+      "copyright"
+    ],
+    "Footer14": [
+      "logo",
+      "logoAlt",
+      "brandName",
+      "aboutText",
+      "socials",
+      "columns",
+      "contactTitle",
+      "contactLines",
+      "payments",
+      "copyright"
+    ],
+    "Footer15": [
+      "brandName",
+      "brandUrl",
+      "tagline",
+      "columns",
+      "contactTitle",
+      "contactLines",
+      "contactHours",
+      "contactLinks",
+      "socials",
+      "payments",
+      "legal"
+    ],
+    "Footer16": [
+      "logo",
+      "logoAlt",
+      "brandName",
+      "aboutText",
+      "socials",
+      "columns",
+      "contactTitle",
+      "phoneLabel",
+      "phoneUrl",
+      "whatsappLabel",
+      "whatsappUrl",
+      "scheduleText",
+      "emailLabel",
+      "emailUrl",
+      "payments",
+      "copyright"
+    ],
+    "Footer17": [
+      "logo",
+      "logoAlt",
+      "brandName",
+      "aboutText",
+      "socials",
+      "columns",
+      "contactTitle",
+      "phoneLabel",
+      "phoneUrl",
+      "whatsappLabel",
+      "whatsappUrl",
+      "scheduleText",
+      "emailLabel",
+      "emailUrl",
+      "payments",
+      "copyright"
     ],
     "Header09": [
       "topbarMessages",
@@ -110,6 +903,131 @@
       "menu",
       "viewAllLabel"
     ],
+    "Header10": [
+      "topbarText",
+      "serviceLinks",
+      "logo",
+      "logoAlt",
+      "brandMark",
+      "brandName",
+      "searchPlaceholder",
+      "accountLabel",
+      "wishlistLabel",
+      "wishlistUrl",
+      "cartLabel",
+      "departmentsLabel",
+      "menuTitle",
+      "menu",
+      "viewAllLabel"
+    ],
+    "Header11": [
+      "topbarMessages",
+      "logo",
+      "logoAlt",
+      "brandName",
+      "brandSup",
+      "menu",
+      "searchPlaceholder",
+      "accountLabel",
+      "wishlistLabel",
+      "wishlistUrl",
+      "cartLabel",
+      "viewAllLabel"
+    ],
+    "Header12": [
+      "topbarText",
+      "topbarLinkLabel",
+      "topbarLinkMenuLabel",
+      "topbarLinkUrl",
+      "logo",
+      "logoAlt",
+      "brandName",
+      "menu",
+      "searchPlaceholder",
+      "accountLabel",
+      "wishlistLabel",
+      "wishlistUrl",
+      "cartLabel",
+      "viewAllLabel"
+    ],
+    "Header13": [
+      "topbarItems",
+      "logo",
+      "logoAlt",
+      "brandName",
+      "menu",
+      "searchPlaceholder",
+      "accountLabel",
+      "wishlistLabel",
+      "wishlistUrl",
+      "helpLabel",
+      "helpUrl",
+      "cartLabel",
+      "viewAllLabel"
+    ],
+    "Header14": [
+      "topbarItems",
+      "logo",
+      "logoAlt",
+      "brandName",
+      "menu",
+      "searchPlaceholder",
+      "accountLabel",
+      "wishlistLabel",
+      "wishlistUrl",
+      "drawerLinks",
+      "cartLabel",
+      "viewAllLabel"
+    ],
+    "Header15": [
+      "topbarMessages",
+      "logo",
+      "logoAlt",
+      "brandName",
+      "brandTagline",
+      "searchPlaceholder",
+      "accountLabel",
+      "accountTitle",
+      "accountMobileLabel",
+      "wishlistLabel",
+      "wishlistUrl",
+      "cartLabel",
+      "helpLabel",
+      "helpUrl",
+      "menu",
+      "viewAllLabel"
+    ],
+    "Header16": [
+      "topbarItems",
+      "logo",
+      "logoAlt",
+      "brandName",
+      "menu",
+      "searchPlaceholder",
+      "searchPlaceholderMenu",
+      "accountLabel",
+      "wishlistLabel",
+      "wishlistUrl",
+      "cartLabel",
+      "viewAllLabel"
+    ],
+    "Header17": [
+      "topbarItems",
+      "logo",
+      "logoAlt",
+      "brandName",
+      "menu",
+      "searchPlaceholder",
+      "accountGreeting",
+      "accountLabel",
+      "accountMenuLabel",
+      "wishlistLabel",
+      "wishlistUrl",
+      "helpLabel",
+      "helpUrl",
+      "cartLabel",
+      "viewAllLabel"
+    ],
     "HelpFloat09": [
       "buttonLabel",
       "title",
@@ -117,12 +1035,179 @@
       "helpItems",
       "footerText"
     ],
+    "HelpFloat10": [
+      "bubbleText",
+      "title",
+      "subtitle",
+      "helpItems",
+      "footerText"
+    ],
+    "HelpFloat11": [
+      "title",
+      "titleTag",
+      "scheduleText",
+      "helpItems"
+    ],
+    "HelpFloat12": [
+      "buttonLabel",
+      "title",
+      "scheduleText",
+      "helpItems"
+    ],
+    "HelpFloat13": [
+      "buttonLabel",
+      "title",
+      "scheduleText",
+      "helpItems"
+    ],
+    "HelpFloat14": [
+      "buttonLabel",
+      "title",
+      "scheduleText",
+      "helpItems"
+    ],
+    "HelpFloat15": [
+      "buttonLabel",
+      "title",
+      "subtitle",
+      "helpItems"
+    ],
+    "HelpFloat16": [
+      "buttonLabel",
+      "title",
+      "scheduleText",
+      "helpItems"
+    ],
+    "HelpFloat17": [
+      "buttonLabel",
+      "title",
+      "scheduleText",
+      "helpItems",
+      "ctaLabel",
+      "ctaUrl"
+    ],
     "Newsletter09": [
       "eyebrow",
       "title",
       "titleEmphasis",
       "text",
       "namePlaceholder",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl"
+    ],
+    "Newsletter10": [
+      "title",
+      "titleHighlight",
+      "titleAfter",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl",
+      "privacySuffix"
+    ],
+    "Newsletter11": [
+      "eyebrow",
+      "title",
+      "note",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl"
+    ],
+    "Newsletter12": [
+      "title",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl",
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt"
+    ],
+    "Newsletter13": [
+      "title",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl"
+    ],
+    "Newsletter14": [
+      "title",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl",
+      "privacySuffix"
+    ],
+    "Newsletter15": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl"
+    ],
+    "Newsletter16": [
+      "badge",
+      "title",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl"
+    ],
+    "Newsletter17": [
+      "title",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
       "emailPlaceholder",
       "buttonLabel",
       "successMessage",
@@ -148,11 +1233,216 @@
       "privacyLabel",
       "privacyUrl"
     ],
+    "PopupNews10": [
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt",
+      "eyebrow",
+      "title",
+      "subtitle",
+      "couponLabel",
+      "coupon",
+      "couponHint",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl",
+      "dismissLabel"
+    ],
+    "PopupNews11": [
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt",
+      "eyebrow",
+      "title",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl",
+      "dismissLabel"
+    ],
+    "PopupNews12": [
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt",
+      "eyebrow",
+      "title",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl",
+      "dismissLabel"
+    ],
+    "PopupNews13": [
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt",
+      "eyebrow",
+      "title",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl",
+      "dismissLabel"
+    ],
+    "PopupNews14": [
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt",
+      "eyebrow",
+      "title",
+      "titleHighlight",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl",
+      "dismissLabel"
+    ],
+    "PopupNews15": [
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt",
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "text",
+      "coupon",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "dismissLabel",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl"
+    ],
+    "PopupNews16": [
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt",
+      "sealTitle",
+      "sealText",
+      "title",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl",
+      "dismissLabel"
+    ],
+    "PopupNews17": [
+      "imageDesktop",
+      "imageMobile",
+      "imageAlt",
+      "eyebrow",
+      "title",
+      "text",
+      "nameLabel",
+      "namePlaceholder",
+      "emailLabel",
+      "emailPlaceholder",
+      "buttonLabel",
+      "successMessage",
+      "privacyPrefix",
+      "privacyLabel",
+      "privacyUrl",
+      "dismissLabel"
+    ],
     "ProductDescription09": [
       "eyebrow",
       "title",
       "titleEmphasis",
       "specsLabel",
+      "hiddenSpecs"
+    ],
+    "ProductDescription10": [
+      "descriptionTabLabel",
+      "specsTabLabel",
+      "extraTabLabel",
+      "extraTabText",
+      "initialTab",
+      "specsTitle",
+      "brandLabel",
+      "hiddenSpecs",
+      "boxTitle",
+      "boxSpecName",
+      "infoTitle",
+      "infoText"
+    ],
+    "ProductDescription11": [
+      "title",
+      "descriptionLabel",
+      "drawingLabel",
+      "materialsLabel",
+      "hiddenSpecs"
+    ],
+    "ProductDescription12": [
+      "title",
+      "activesTitle",
+      "howToTitle",
+      "resultsTitle"
+    ],
+    "ProductDescription13": [
+      "title",
+      "hiddenSpecs"
+    ],
+    "ProductDescription14": [
+      "title",
+      "featuresSpecName",
+      "specsTitle",
+      "imageSpecName",
+      "hiddenSpecs"
+    ],
+    "ProductDescription15": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "hiddenSpecs"
+    ],
+    "ProductDescription16": [
+      "title",
+      "hiddenSpecs"
+    ],
+    "ProductDescription17": [
+      "title",
+      "specsTitle",
       "hiddenSpecs"
     ],
     "ProductInfo09": [
@@ -175,6 +1465,173 @@
       "cepHelpUrl",
       "accordions"
     ],
+    "ProductInfo10": [
+      "codeLabel",
+      "ratingCountLabel",
+      "highlightSpecs",
+      "installmentsLinkLabel",
+      "pixText",
+      "soldOutText",
+      "notifyLabel",
+      "notifyNamePlaceholder",
+      "notifyEmailPlaceholder",
+      "notifySubmitLabel",
+      "notifySuccess",
+      "buyLabel",
+      "mobileBuyLabel",
+      "soldOutButtonLabel",
+      "hideQuantity",
+      "shippingLabel",
+      "cepPlaceholder",
+      "cepButtonLabel",
+      "cepHelpLabel",
+      "cepHelpUrl",
+      "trustItems"
+    ],
+    "ProductInfo11": [
+      "refLabel",
+      "highlightSpecs",
+      "showSummary",
+      "soldOutText",
+      "notifyLabel",
+      "notifyNamePlaceholder",
+      "notifyEmailPlaceholder",
+      "notifySubmitLabel",
+      "notifySuccess",
+      "buyLabel",
+      "mobileBuyLabel",
+      "soldOutButtonLabel",
+      "favoriteLabel",
+      "mobileFavoriteLabel",
+      "hideQuantity",
+      "shippingLabel",
+      "cepPlaceholder",
+      "cepButtonLabel",
+      "cepHelpLabel",
+      "cepHelpUrl",
+      "trustItems"
+    ],
+    "ProductInfo12": [
+      "codeLabel",
+      "ratingCountLabel",
+      "soldOutText",
+      "notifyLabel",
+      "notifyNamePlaceholder",
+      "notifyEmailPlaceholder",
+      "notifySubmitLabel",
+      "notifySuccess",
+      "buyLabel",
+      "mobileBuyLabel",
+      "soldOutButtonLabel",
+      "favoriteLabel",
+      "hideQuantity",
+      "perks",
+      "shippingLabel",
+      "cepPlaceholder",
+      "cepButtonLabel",
+      "cepHelpLabel",
+      "cepHelpUrl",
+      "accordions"
+    ],
+    "ProductInfo13": [
+      "badge",
+      "codeLabel",
+      "ratingCountLabel",
+      "sizeGuideLabel",
+      "soldOutText",
+      "notifyLabel",
+      "notifyNamePlaceholder",
+      "notifyEmailPlaceholder",
+      "notifySubmitLabel",
+      "notifySuccess",
+      "buyLabel",
+      "mobileBuyLabel",
+      "mobileSelectedLabel",
+      "soldOutButtonLabel",
+      "favoriteLabel",
+      "shippingLabel",
+      "cepPlaceholder",
+      "cepButtonLabel",
+      "accordions"
+    ],
+    "ProductInfo14": [
+      "showBrandLine",
+      "codeLabel",
+      "ratingCountLabel",
+      "highlightsSpecName",
+      "sizeGuideLabel",
+      "sizeTableCaption",
+      "soldOutText",
+      "notifyLabel",
+      "notifyNamePlaceholder",
+      "notifyEmailPlaceholder",
+      "notifySubmitLabel",
+      "notifySuccess",
+      "buyLabel",
+      "favoriteLabel",
+      "showQuantity",
+      "shippingLabel",
+      "cepPlaceholder",
+      "cepButtonLabel",
+      "accordions"
+    ],
+    "ProductInfo15": [
+      "codeLabel",
+      "ratingCountLabel",
+      "sizeGuideLabel",
+      "soldOutText",
+      "soldOutTextMobile",
+      "notifyLabel",
+      "notifyNamePlaceholder",
+      "notifyEmailPlaceholder",
+      "notifySubmitLabel",
+      "notifySuccess",
+      "buyLabel",
+      "favoriteLabel",
+      "hideQuantity",
+      "shippingLabel",
+      "cepPlaceholder",
+      "cepButtonLabel",
+      "shippingNote",
+      "accordions"
+    ],
+    "ProductInfo16": [
+      "counterOfLabel",
+      "codeLabel",
+      "ratingCountLabel",
+      "sizeGuideLabel",
+      "soldOutText",
+      "notifyLabel",
+      "notifyShortLabel",
+      "notifyNamePlaceholder",
+      "notifyEmailPlaceholder",
+      "notifySubmitLabel",
+      "notifySuccess",
+      "buyLabel",
+      "favoriteLabel",
+      "hideQuantity",
+      "shippingLabel",
+      "cepPlaceholder",
+      "cepButtonLabel",
+      "accordions"
+    ],
+    "ProductInfo17": [
+      "codeLabel",
+      "ratingCountLabel",
+      "soldOutText",
+      "notifyLabel",
+      "notifyNamePlaceholder",
+      "notifyEmailPlaceholder",
+      "notifySubmitLabel",
+      "notifySuccess",
+      "buyLabel",
+      "favoriteLabel",
+      "shippingLabel",
+      "cepPlaceholder",
+      "cepButtonLabel",
+      "freeShippingLabel",
+      "accordions"
+    ],
     "ProductReviews09": [
       "title",
       "countLabel",
@@ -191,7 +1648,168 @@
       "formSubmitLabel",
       "formSuccess"
     ],
+    "ProductReviews10": [
+      "title",
+      "countLabel",
+      "starSingular",
+      "starPlural",
+      "writeLabel",
+      "moreLabel",
+      "pageSize",
+      "formRatingLabel",
+      "formTitleLabel",
+      "formTextLabel",
+      "formNameLabel",
+      "formSubmitLabel",
+      "formSuccess"
+    ],
+    "ProductReviews11": [
+      "title",
+      "countLabel",
+      "starSingular",
+      "starPlural",
+      "writeLabel",
+      "dateLabel",
+      "customerLabel",
+      "ratingLabel",
+      "reviewLabel",
+      "prevLabel",
+      "nextLabel",
+      "pageSize",
+      "mobilePageSize",
+      "formRatingLabel",
+      "formTitleLabel",
+      "formTextLabel",
+      "formNameLabel",
+      "formSubmitLabel",
+      "formSuccess"
+    ],
+    "ProductReviews12": [
+      "pageSize",
+      "title",
+      "countLabel",
+      "starSingular",
+      "starPlural",
+      "writeLabel",
+      "emptyText",
+      "moreLabel",
+      "formRatingLabel",
+      "formTitleLabel",
+      "formTextLabel",
+      "formNameLabel",
+      "formSubmitLabel",
+      "formSuccess"
+    ],
+    "ProductReviews13": [
+      "title",
+      "countLabel",
+      "starSingular",
+      "starPlural",
+      "writeLabel",
+      "prevLabel",
+      "nextLabel",
+      "pageSize",
+      "formRatingLabel",
+      "formTitleLabel",
+      "formTextLabel",
+      "formNameLabel",
+      "formSubmitLabel",
+      "formSuccess"
+    ],
+    "ProductReviews14": [
+      "title",
+      "countLabel",
+      "starSingular",
+      "starPlural",
+      "writeLabel",
+      "prevLabel",
+      "nextLabel",
+      "pageSize",
+      "formRatingLabel",
+      "formTitleLabel",
+      "formTextLabel",
+      "formNameLabel",
+      "formSubmitLabel",
+      "formSuccess"
+    ],
+    "ProductReviews15": [
+      "eyebrow",
+      "title",
+      "countLabel",
+      "starSingular",
+      "starPlural",
+      "writeLabel",
+      "prevLabel",
+      "nextLabel",
+      "pageSize",
+      "formRatingLabel",
+      "formTitleLabel",
+      "formTextLabel",
+      "formNameLabel",
+      "formSubmitLabel",
+      "formSuccess"
+    ],
+    "ProductReviews16": [
+      "title",
+      "countLabel",
+      "starSingular",
+      "starPlural",
+      "writeLabel",
+      "prevLabel",
+      "nextLabel",
+      "pageSize",
+      "mobilePageSize",
+      "moreLabel",
+      "formRatingLabel",
+      "formTitleLabel",
+      "formTextLabel",
+      "formNameLabel",
+      "formSubmitLabel",
+      "formSuccess"
+    ],
+    "ProductReviews17": [
+      "title",
+      "countLabel",
+      "starSingular",
+      "starPlural",
+      "writeLabel",
+      "prevLabel",
+      "nextLabel",
+      "pageSize",
+      "mobilePageSize",
+      "moreLabel",
+      "formRatingLabel",
+      "formTitleLabel",
+      "formTextLabel",
+      "formNameLabel",
+      "formSubmitLabel",
+      "formSuccess"
+    ],
     "Ruler09": [
+      "benefits"
+    ],
+    "Ruler10": [
+      "benefits"
+    ],
+    "Ruler11": [
+      "benefits"
+    ],
+    "Ruler12": [
+      "benefits"
+    ],
+    "Ruler13": [
+      "benefits"
+    ],
+    "Ruler14": [
+      "benefits"
+    ],
+    "Ruler15": [
+      "benefits"
+    ],
+    "Ruler16": [
+      "benefits"
+    ],
+    "Ruler17": [
       "benefits"
     ],
     "ShelfBanner09": [
@@ -200,9 +1818,113 @@
       "tagLabel",
       "banner"
     ],
+    "ShelfBanner10": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "tagLabel",
+      "banner"
+    ],
+    "ShelfBanner11": [
+      "sectionNumber",
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "tagLabel",
+      "banner"
+    ],
+    "ShelfBanner12": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "tagLabel",
+      "banner"
+    ],
+    "ShelfBanner13": [
+      "title",
+      "tagLabel",
+      "banner"
+    ],
+    "ShelfBanner14": [
+      "title",
+      "tagLabel",
+      "banner"
+    ],
+    "ShelfBanner15": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "tagLabel",
+      "banner"
+    ],
+    "ShelfBanner16": [
+      "title",
+      "tagLabel",
+      "banner"
+    ],
+    "ShelfBanner17": [
+      "title",
+      "tagLabel",
+      "banner"
+    ],
     "Showcase09": [
       "title",
       "titleEmphasis",
+      "subtitle",
+      "viewAllLabel",
+      "viewAllUrl",
+      "tagLabel"
+    ],
+    "Showcase10": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "tagLabel"
+    ],
+    "Showcase11": [
+      "sectionNumber",
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "subtitle",
+      "tagLabel"
+    ],
+    "Showcase12": [
+      "title",
+      "subtitle",
+      "viewAllLabel",
+      "viewAllUrl",
+      "tagLabel"
+    ],
+    "Showcase13": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "tagLabel"
+    ],
+    "Showcase14": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "tagLabel"
+    ],
+    "Showcase15": [
+      "eyebrow",
+      "title",
+      "titleEmphasis",
+      "viewAllLabel",
+      "viewAllUrl",
+      "tagLabel"
+    ],
+    "Showcase16": [
+      "title",
+      "subtitle",
+      "viewAllLabel",
+      "viewAllUrl",
+      "tagLabel"
+    ],
+    "Showcase17": [
+      "title",
       "subtitle",
       "viewAllLabel",
       "viewAllUrl",

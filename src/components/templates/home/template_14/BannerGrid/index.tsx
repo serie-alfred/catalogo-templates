@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -8,7 +9,8 @@ import styles from './index.module.css';
  * Espelha `molecules/BannerGrid14` do faststore.starter (família 14, Esportiva; desenho
  * `BannerGrid14` / `BannerGrid14-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e
  * as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá, sem
- * arte (vale o placeholder por posição, como no desenho).
+ * arte (vale o placeholder por posição, como no desenho), por baixo do que o CS subir
+ * (`useConteudoDaSecao`, campos do schema de lá).
  */
 interface BannerGrid14Banner {
   /** Chamada acima do título (ex.: "Desafio 10K"). */
@@ -22,12 +24,12 @@ interface BannerGrid14Banner {
   imageAlt?: string;
 }
 
-interface BannerGrid14Props {
-  banners?: BannerGrid14Banner[];
+interface BannerGrid14Conteudo {
+  banners: BannerGrid14Banner[];
 }
 
 // Conteúdo do mock.ts do starter.
-const CONTEUDO: BannerGrid14Props = {
+const MOCK: BannerGrid14Conteudo = {
   banners: [
     {
       eyebrow: 'Desafio 10K',
@@ -55,7 +57,7 @@ const CONTEUDO: BannerGrid14Props = {
 };
 
 export default function BannerGrid14() {
-  const { banners = [] } = CONTEUDO;
+  const { banners } = useConteudoDaSecao(MOCK);
   const lista = banners.slice(0, 3);
   if (!lista.length) return null;
 
@@ -134,3 +136,6 @@ export default function BannerGrid14() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerGrid14.conteudoPadrao = MOCK;

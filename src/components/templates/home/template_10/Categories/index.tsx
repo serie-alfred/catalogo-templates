@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -17,11 +18,12 @@ interface Categories10Item {
   imageAlt?: string;
 }
 
-interface Categories10Props {
+/** O conteúdo da seção: os campos do `section.schema` do Categories10. */
+interface Categories10Conteudo {
   title?: string;
   viewAllLabel?: string;
   viewAllUrl?: string;
-  categories?: Categories10Item[];
+  categories: Categories10Item[];
 }
 
 // Conteúdo do mock.ts do starter.
@@ -30,7 +32,7 @@ interface Categories10Props {
 // também não tem (vale o placeholder).
 const dep = (name: string, url: string) => ({ name, url, imageAlt: '' });
 
-const MOCK: Categories10Props = {
+const MOCK: Categories10Conteudo = {
   title: 'Departamentos',
   viewAllLabel: 'Ver todos',
   viewAllUrl: '/s',
@@ -63,7 +65,8 @@ const Chevron = ({ dir, size }: { dir: 'prev' | 'next'; size: number }) => (
 );
 
 export default function Categories10() {
-  const { title, viewAllLabel, viewAllUrl, categories = [] } = MOCK;
+  const { title, viewAllLabel, viewAllUrl, categories } =
+    useConteudoDaSecao(MOCK);
   const railRef = useRef<HTMLUListElement>(null);
   const [inicio, setInicio] = useState(true);
   const [fim, setFim] = useState(true);
@@ -166,3 +169,6 @@ export default function Categories10() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Categories10.conteudoPadrao = MOCK;

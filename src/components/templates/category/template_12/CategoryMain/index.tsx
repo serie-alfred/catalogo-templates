@@ -17,6 +17,7 @@ import {
   type Produto12,
 } from '@/components/templates/common/template_12/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import {
   type Facet12,
   type PriceBucket12,
@@ -49,11 +50,48 @@ import {
  * canvas mostra a grade.
  */
 
-/* ── rótulos (o mock.ts de lá) ── */
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+/**
+ * `pageSize` fica de fora: a grade de exemplo mostra os 9 produtos do mock (`PAGE`),
+ * não pagina de verdade. Produtos, facetas e contagem seguem os de exemplo.
+ */
+interface CategoryMain12Conteudo {
+  specFacetKey?: string;
+  /** Limites das faixas de preço, separados por vírgula. */
+  priceSteps?: string;
+  countLabel: string;
+  filterLabel: string;
+  filterTitle: string;
+  sortLabel: string;
+  clearLabel: string;
+  clearAllLabel: string;
+  /** `{faceta}` vira o nome da faceta. */
+  searchPlaceholder: string;
+  showMoreLabel: string;
+  showLessLabel: string;
+  priceUpToLabel: string;
+  priceBetweenLabel: string;
+  priceOverLabel: string;
+  selectedOneLabel: string;
+  selectedManyLabel: string;
+  /** `{total}` vira a contagem. */
+  resultsLabel: string;
+  /** `{shown}` e `{total}` viram as contagens. */
+  progressLabel: string;
+  loadMoreLabel: string;
+  emptyTitle: string;
+  emptyText: string;
+  emptyPrimaryLabel: string;
+  emptyPrimaryUrl: string;
+  emptySecondaryLabel: string;
+  emptySecondaryUrl: string;
+}
+
 const PAGE = 9;
-const SPEC_FACET_KEY = 'tipo-de-pele';
-const PRICE_STEPS = '50, 100, 200';
-const L = {
+
+const MOCK: CategoryMain12Conteudo = {
+  specFacetKey: 'tipo-de-pele',
+  priceSteps: '50, 100, 200',
   countLabel: 'produtos',
   filterLabel: 'Filtrar',
   filterTitle: 'Filtrar',
@@ -422,6 +460,8 @@ function FacetBody12({
 }
 
 export default function CategoryMain12() {
+  // Os rótulos mantêm o nome antigo (`L`) dentro da função: o resto do arquivo os lê assim.
+  const { specFacetKey, priceSteps, ...L } = useConteudoDaSecao(MOCK);
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
 
   const term = TERMO_VAZIO;
@@ -433,18 +473,27 @@ export default function CategoryMain12() {
 
   const products: Produto12[] = stageEmpty ? [] : PRODUTOS.slice(0, PAGE);
   const totalCount = stageEmpty ? 0 : TOTAL;
-  const facets = useMemo(() => pickFacets(FACETAS, 0, SPEC_FACET_KEY), []);
+  const facets = useMemo(
+    () => pickFacets(FACETAS, 0, specFacetKey),
+    [specFacetKey]
+  );
   const priceFacet = facets.find(f => f.kind === 'price');
   const buckets = useMemo(
     () =>
       priceFacet
-        ? priceBuckets(PRICE_STEPS, priceFacet, {
+        ? priceBuckets(priceSteps, priceFacet, {
             upTo: L.priceUpToLabel,
             between: L.priceBetweenLabel,
             over: L.priceOverLabel,
           })
         : [],
-    [priceFacet]
+    [
+      priceFacet,
+      priceSteps,
+      L.priceUpToLabel,
+      L.priceBetweenLabel,
+      L.priceOverLabel,
+    ]
   );
   // Preço sem faixas configuradas não tem o que mostrar.
   const shownFacets = facets.filter(
@@ -834,3 +883,6 @@ export default function CategoryMain12() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryMain12.conteudoPadrao = MOCK;

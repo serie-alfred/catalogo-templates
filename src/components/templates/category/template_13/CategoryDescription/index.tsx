@@ -4,6 +4,7 @@ import React, { useId, useMemo, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/CategorySeoFaq13` do faststore.starter (família 13, Noturno; desenho
@@ -14,16 +15,26 @@ import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
  * Lá o conteúdo vem, por categoria, dos banners HTML do Intelligent Search (áreas "one" e
  * "two"), lido pelo caminho da PLP; aqui é o mock de contexto de lá, no mesmo formato HTML,
  * passado pelos mesmos leitores (`separar`, `lerPerguntas`). Sem GraphQL e sem o
- * `view_promotion` (preview não emite evento).
+ * `view_promotion` (preview não emite evento). Os dois títulos são do CMS e vêm do
+ * `useConteudoDaSecao`; o texto e as perguntas entram com a categoria em destaque da loja
+ * (fase de produtos).
  */
 interface Pergunta {
   q: string;
   a: string;
 }
 
+/** O conteúdo da seção: os campos do `section.schema` do CategoryDescription13. */
+interface CategoryDescription13Conteudo {
+  aboutTitle?: string;
+  faqTitle?: string;
+}
+
 /* ── rótulos (o mock.ts de lá) ── */
-const ABOUT_TITLE = '{Categoria} da loja';
-const FAQ_TITLE = 'Perguntas frequentes';
+const MOCK: CategoryDescription13Conteudo = {
+  aboutTitle: '{Categoria} da loja',
+  faqTitle: 'Perguntas frequentes',
+};
 
 /* ── contexto de exemplo (o mock.ts de lá) ── */
 const NOME = 'Tênis';
@@ -82,6 +93,7 @@ const comCategoria = (tpl: string, nome: string) =>
   tpl.replace(/\{categoria\}/g, nome.toLocaleLowerCase('pt-BR')).replace(/\{Categoria\}/g, nome);
 
 export default function CategoryDescription13() {
+  const { aboutTitle: ABOUT_TITLE = '', faqTitle: FAQ_TITLE = '' } = useConteudoDaSecao(MOCK);
   const { titulo, corpo, link } = useMemo(() => separar(SOBRE_HTML), []);
   const perguntas = useMemo(() => lerPerguntas(FAQ_HTML), []);
 
@@ -99,7 +111,7 @@ export default function CategoryDescription13() {
     <div className={styles.categorySeoFaq13Box}>
       <section
         className={styles.categorySeoFaq13}
-        {...(temSobre && tituloSobre ? { 'aria-labelledby': idTitulo } : { 'aria-label': FAQ_TITLE })}
+        {...(temSobre && tituloSobre ? { 'aria-labelledby': idTitulo } : { 'aria-label': FAQ_TITLE || 'Sobre a categoria' })}
         data-role="cd-root"
       >
         <link rel="stylesheet" href={FONTES_13} />
@@ -122,7 +134,7 @@ export default function CategoryDescription13() {
 
           {temFaq && (
             <div className={styles.faq} data-role="cd-faq">
-              <h3 className={styles.faqTitle}>{FAQ_TITLE}</h3>
+              {FAQ_TITLE && <h3 className={styles.faqTitle}>{FAQ_TITLE}</h3>}
               {perguntas.length > 0 ? (
                 <div className={styles.faqList}>
                   {perguntas.map((p, i) => {
@@ -170,3 +182,6 @@ export default function CategoryDescription13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryDescription13.conteudoPadrao = MOCK;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
@@ -7,14 +8,17 @@ import styles from './index.module.css';
 /**
  * Espelha `organisms/Footer16` do faststore.starter (família 16, Infantil; desenho
  * `Footer16` / `Footer16-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as
- * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá, por baixo
+ * do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  *
  * Painel escuro com a onda creme no topo (ilustração, hex fixo: desvio aprovado); a marca com
  * a bolinha, o texto e as redes; as colunas com título na cor de destaque; o atendimento; as
  * formas de pagamento em pílulas e a linha legal. Mobile: as colunas viram acordeão.
  *
- * Divergência deliberada: logo = o que o usuário enviou no /gerador; sem ele, a marca em texto
- * do mock ("sua marca", genérica) com a bolinha, no mesmo `.logo` / `data-role="ft-logo"`.
+ * Divergência deliberada: logo = o da seção (campo `logo` do schema), senão o que o usuário
+ * enviou no /gerador; sem nenhum, o `brandName` do CS ou a marca em texto do catálogo
+ * (`SERIE//A`; o mock não traz marca de demonstração) com a bolinha, no mesmo `.logo` /
+ * `data-role="ft-logo"`.
  */
 
 type Footer16Social = 'youtube' | 'instagram' | 'x' | 'linkedin' | 'facebook';
@@ -29,14 +33,14 @@ type Footer16Payment =
   | 'boleto'
   | 'pix';
 
-interface Footer16Props {
+interface Footer16Conteudo {
   /** Imagem do logo. Vazio: a marca em texto (`brandName`) com a bolinha. */
   logo?: string;
   logoAlt?: string;
   brandName?: string;
   aboutText?: string;
-  socials?: { network?: Footer16Social; url?: string }[];
-  columns?: { title?: string; links?: { label?: string; url?: string }[] }[];
+  socials: { network?: Footer16Social; url?: string }[];
+  columns: { title?: string; links?: { label?: string; url?: string }[] }[];
   contactTitle?: string;
   phoneLabel?: string;
   /** Link do telefone (ex.: tel:+55…); vazio = texto. */
@@ -47,7 +51,7 @@ interface Footer16Props {
   emailLabel?: string;
   /** Link do e-mail (ex.: mailto:…); vazio = texto. */
   emailUrl?: string;
-  payments?: { method?: Footer16Payment }[];
+  payments: { method?: Footer16Payment }[];
   copyright?: string;
 }
 
@@ -138,8 +142,7 @@ const talvezLink = (
     <span className={className}>{texto}</span>
   );
 
-const MOCK: Footer16Props = {
-  brandName: 'SERIE//A',
+const MOCK: Footer16Conteudo = {
   aboutText:
     'Brinquedos, roupinhas e livros escolhidos com carinho para cada fase da infância.',
   socials: [
@@ -236,13 +239,13 @@ const Credit = () => (
 
 export default function Footer16() {
   const logoEnviado = useLogoDoRodape();
-  const logo = logoEnviado || undefined;
   const {
+    logo: logoDaSecao,
     logoAlt,
     brandName,
     aboutText,
-    socials = [],
-    columns = [],
+    socials,
+    columns,
     contactTitle,
     phoneLabel,
     phoneUrl,
@@ -251,9 +254,10 @@ export default function Footer16() {
     scheduleText,
     emailLabel,
     emailUrl,
-    payments = [],
+    payments,
     copyright,
-  } = MOCK;
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDaSecao || logoEnviado || undefined;
 
   const [aberto, setAberto] = useState<number | null>(0);
 
@@ -297,10 +301,10 @@ export default function Footer16() {
               data-role="ft-logo"
             >
               {logo ? (
-                <img src={logo} alt="Logo" height={40} loading="lazy" />
+                <img src={logo} alt={logoAlt || 'Logo'} height={40} loading="lazy" />
               ) : (
                 <>
-                  {brandName}
+                  {brandName || 'SERIE//A'}
                   <span className={styles.logoDot} aria-hidden="true" />
                 </>
               )}
@@ -436,3 +440,6 @@ export default function Footer16() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Footer16.conteudoPadrao = MOCK;

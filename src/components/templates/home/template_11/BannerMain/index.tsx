@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -8,7 +9,8 @@ import styles from './index.module.css';
  * Espelha `organisms/BannerMain11` do faststore.starter (família 11, Grade; desenho
  * `BannerMain11` / `BannerMain11-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`
  * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá
- * (3 banners, sem arte: vale o placeholder do CSS). Sem autoplay: abas, setas e arraste.
+ * (3 banners, sem arte: vale o placeholder do CSS), por baixo do que o CS subir
+ * (`useConteudoDaSecao`, campos do schema de lá). Sem autoplay: abas, setas e arraste.
  */
 interface BannerMain11Slide {
   eyebrow?: string;
@@ -23,8 +25,8 @@ interface BannerMain11Slide {
   imageAlt?: string;
 }
 
-interface BannerMain11Props {
-  slides?: BannerMain11Slide[];
+interface BannerMain11Conteudo {
+  slides: BannerMain11Slide[];
 }
 
 // Conteúdo do mock.ts do starter.
@@ -36,7 +38,7 @@ const base = {
   note: 'Coleção N°04 · peças numeradas',
 };
 
-const MOCK: BannerMain11Props = {
+const MOCK: BannerMain11Conteudo = {
   slides: [
     {
       ...base,
@@ -78,7 +80,7 @@ const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
 const dois = (n: number) => String(n).padStart(2, '0');
 
 export default function BannerMain11() {
-  const { slides = [] } = MOCK;
+  const { slides } = useConteudoDaSecao(MOCK);
   const [atual, setAtual] = useState(0);
   const toqueX = useRef<number | null>(null);
 
@@ -215,3 +217,6 @@ export default function BannerMain11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerMain11.conteudoPadrao = MOCK;

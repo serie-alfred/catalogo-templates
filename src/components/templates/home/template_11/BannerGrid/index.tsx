@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -8,7 +9,8 @@ import styles from './index.module.css';
  * Espelha `molecules/BannerGrid11` do faststore.starter (família 11, Grade; desenho
  * `BannerGrid11` / `BannerGrid11-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`
  * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá
- * (sem arte: vale o placeholder do CSS). O manifesto entra depois do 1º banner.
+ * (sem arte: vale o placeholder do CSS), por baixo do que o CS subir
+ * (`useConteudoDaSecao`, campos do schema de lá). O manifesto entra depois do 1º banner.
  */
 interface BannerGrid11Banner {
   title?: string;
@@ -28,17 +30,17 @@ interface BannerGrid11Manifesto {
   caption?: string;
 }
 
-interface BannerGrid11Props {
+interface BannerGrid11Conteudo {
   sectionNumber?: string;
   title?: string;
   viewAllLabel?: string;
   viewAllUrl?: string;
-  banners?: BannerGrid11Banner[];
+  banners: BannerGrid11Banner[];
   manifesto?: BannerGrid11Manifesto;
 }
 
 // Conteúdo do mock.ts do starter.
-const MOCK: BannerGrid11Props = {
+const MOCK: BannerGrid11Conteudo = {
   sectionNumber: '03',
   title: 'Ambientes',
   viewAllLabel: 'Ver todos',
@@ -118,9 +120,9 @@ export default function BannerGrid11() {
     title,
     viewAllLabel,
     viewAllUrl,
-    banners = [],
+    banners,
     manifesto,
-  } = MOCK;
+  } = useConteudoDaSecao(MOCK);
   const temManifesto =
     !!manifesto &&
     !!(manifesto.text || manifesto.eyebrow || manifesto.linkLabel);
@@ -213,3 +215,6 @@ export default function BannerGrid11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerGrid11.conteudoPadrao = MOCK;

@@ -4,6 +4,7 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/ProductDetails15` do faststore.starter (família 15, Luxo; desenho
@@ -24,6 +25,10 @@ import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
  * só alterna no estado local), a nota do Reviews and Ratings, a simulação de frete, a mutation
  * do "Avise-me" (o envio dá sucesso local, como no palco de lá) e o analytics. As cores, que lá
  * levam ao slug do SKU, aqui apontam para `#`.
+ *
+ * Rótulos, opções e acordeões vêm do `useConteudoDaSecao`; o produto (nome, marca, preço, fotos,
+ * cores e aros) segue o de exemplo. `soldOutButtonLabel` fica fora do tipo: o exemplo sempre
+ * tem o aro escolhido em estoque, então o botão de compra nunca vira "Avise-me quando chegar".
  */
 
 const block = (hex: string, w: number, h: number) =>
@@ -31,43 +36,77 @@ const block = (hex: string, w: number, h: number) =>
     `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}"><rect width="${w}" height="${h}" fill="${hex}"/></svg>`
   )}`;
 
-const CODE_LABEL = 'Ref.';
-const RATING_COUNT_LABEL = 'avaliações';
-const SIZE_GUIDE_LABEL = 'Guia de medidas';
-const SOLD_OUT_TEXT = 'O aro {tamanhos} esgotou?';
-const SOLD_OUT_TEXT_MOBILE = 'Seu aro esgotou?';
-const NOTIFY = {
-  label: 'Avise-me',
-  name: 'Seu nome',
-  email: 'Seu e-mail',
-  submit: 'Avisar',
-  success: 'Pronto. Avisaremos por e-mail assim que o seu aro voltar ao ateliê.',
+interface ProductInfo15Conteudo {
+  codeLabel?: string;
+  ratingCountLabel?: string;
+  sizeGuideLabel?: string;
+  /** `{tamanhos}` vira a lista dos esgotados. */
+  soldOutText?: string;
+  /** Vazio = o texto do desktop. */
+  soldOutTextMobile?: string;
+  notifyLabel?: string;
+  notifyNamePlaceholder?: string;
+  notifyEmailPlaceholder?: string;
+  notifySubmitLabel?: string;
+  notifySuccess?: string;
+  buyLabel?: string;
+  favoriteLabel?: string;
+  hideQuantity?: boolean;
+  shippingLabel?: string;
+  cepPlaceholder?: string;
+  cepButtonLabel?: string;
+  shippingNote?: string;
+  /** `specName` aponta uma especificação do produto; quando o produto a tem, ela vence o `text`. */
+  accordions: { title?: string; text?: string; specName?: string }[];
+}
+
+const MOCK: ProductInfo15Conteudo = {
+  codeLabel: 'Ref.',
+  ratingCountLabel: 'avaliações',
+  sizeGuideLabel: 'Guia de medidas',
+  soldOutText: 'O aro {tamanhos} esgotou?',
+  soldOutTextMobile: 'Seu aro esgotou?',
+  notifyLabel: 'Avise-me',
+  notifyNamePlaceholder: 'Seu nome',
+  notifyEmailPlaceholder: 'Seu e-mail',
+  notifySubmitLabel: 'Avisar',
+  notifySuccess: 'Pronto. Avisaremos por e-mail assim que o seu aro voltar ao ateliê.',
+  buyLabel: 'Adicionar à sacola',
+  favoriteLabel: 'Salvar nos favoritos',
+  shippingLabel: 'Calcular frete',
+  cepPlaceholder: '00000-000',
+  cepButtonLabel: 'Calcular',
+  shippingNote: 'Entrega segura com seguro total · até 5 dias úteis',
+  accordions: [
+    {
+      title: 'Descrição',
+      text: 'Solitário clássico de seis garras em ouro amarelo 18k, com diamante de lapidação brilhante. Um desenho que valoriza a pedra e acompanha a vida inteira.',
+    },
+    { title: 'Detalhes da peça', specName: 'Detalhes da peça' },
+    {
+      title: 'Entrega e embalagem',
+      text: 'Enviamos com seguro total para todo o Brasil, no estojo da maison. O prazo e o valor aparecem no cálculo de frete acima.',
+    },
+    {
+      title: 'Garantia e cuidados',
+      text: 'Garantia contra defeitos de fabricação. Guarde a peça no estojo e evite contato com perfume e cloro.',
+    },
+  ],
 };
-const BUY_LABEL = 'Adicionar à sacola';
-const FAVORITE_LABEL = 'Salvar nos favoritos';
-const SHIPPING = {
-  label: 'Calcular frete',
-  placeholder: '00000-000',
-  button: 'Calcular',
-  note: 'Entrega segura com seguro total · até 5 dias úteis',
+
+/** As especificações do produto de exemplo (o que `specName` do acordeão procura). */
+const ESPECIFICACOES: Record<string, string[]> = {
+  'Detalhes da peça': ['Ouro amarelo 18k (liga 750)', 'Diamante de lapidação brilhante', 'Seis garras'],
 };
-const ACCORDIONS = [
-  {
-    title: 'Descrição',
-    lines: [
-      'Solitário clássico de seis garras em ouro amarelo 18k, com diamante de lapidação brilhante. Um desenho que valoriza a pedra e acompanha a vida inteira.',
-    ],
-  },
-  { title: 'Detalhes da peça', lines: ['Ouro amarelo 18k (liga 750)', 'Diamante de lapidação brilhante', 'Seis garras'] },
-  {
-    title: 'Entrega e embalagem',
-    lines: ['Enviamos com seguro total para todo o Brasil, no estojo da maison. O prazo e o valor aparecem no cálculo de frete acima.'],
-  },
-  {
-    title: 'Garantia e cuidados',
-    lines: ['Garantia contra defeitos de fabricação. Guarde a peça no estojo e evite contato com perfume e cloro.'],
-  },
-];
+
+/** Como o starter compara nomes: sem acento, sem caixa, sem espaço nas pontas. */
+const norm = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .trim()
+    .toLowerCase();
+
 const SHIP_OPTIONS = [
   { id: 'segura', name: 'Entrega segura', eta: 'até 5 dias úteis', price: 'Grátis' },
   { id: 'expressa', name: 'Expressa com seguro', eta: 'até 2 dias úteis', price: 'R$ 49,00' },
@@ -140,6 +179,26 @@ const Stars = ({ avg }: { avg: number }) => (
 );
 
 export default function ProductInfo15() {
+  const {
+    codeLabel,
+    ratingCountLabel,
+    sizeGuideLabel,
+    soldOutText,
+    soldOutTextMobile,
+    notifyLabel,
+    notifyNamePlaceholder,
+    notifyEmailPlaceholder,
+    notifySubmitLabel,
+    notifySuccess,
+    buyLabel,
+    favoriteLabel,
+    hideQuantity,
+    shippingLabel,
+    cepPlaceholder,
+    cepButtonLabel,
+    shippingNote,
+    accordions,
+  } = useConteudoDaSecao(MOCK);
   const uid = useId();
   const [selAxis, setSelAxis] = useState<string | null>(null);
   const [qty, setQty] = useState(1);
@@ -222,8 +281,22 @@ export default function ProductInfo15() {
   const activeColorLabel = COLORS.find(c => c.active)?.value ?? '';
   const showNotify = notifyOpen || !inStock;
   const soldList = joinOr(soldOutOptions.map(o => o.value));
-  const soldQuestion = SOLD_OUT_TEXT.replace('{tamanhos}', soldList);
-  const soldQuestionMobile = SOLD_OUT_TEXT_MOBILE.replace('{tamanhos}', soldList);
+  const soldQuestion = String(soldOutText ?? '').replace('{tamanhos}', soldList);
+  const soldQuestionMobile = soldOutTextMobile ? String(soldOutTextMobile).replace('{tamanhos}', soldList) : '';
+  // Acordeões: o texto do CS, ou o da especificação do produto de exemplo que o CS nomeia.
+  const accItems = accordions
+    .map(a => {
+      const doProduto = a?.specName ? (ESPECIFICACOES[Object.keys(ESPECIFICACOES).find(k => norm(k) === norm(a.specName as string)) ?? ''] ?? []) : [];
+      const text = doProduto.join('\n').trim() || String(a?.text ?? '').trim();
+      return {
+        title: String(a?.title ?? '').trim(),
+        lines: text
+          .split(/\r?\n/)
+          .map(l => l.replace(/^\s*[-•]\s*/, '').trim())
+          .filter(Boolean),
+      };
+    })
+    .filter(a => a.title && a.lines.length);
 
   const favButton = (extra: string) => (
     <button
@@ -231,7 +304,7 @@ export default function ProductInfo15() {
       className={`${styles.fav} ${extra}`}
       onClick={() => setIsFav(v => !v)}
       aria-pressed={isFav}
-      aria-label={FAVORITE_LABEL}
+      aria-label={favoriteLabel}
       data-role="pdp-favorite"
     >
       {svg(20, <path d={HEART} />, isFav ? { fill: 'currentColor' } : {})}
@@ -309,11 +382,12 @@ export default function ProductInfo15() {
                     <Stars avg={RATING.average} />
                     <span className={styles.srOnly}>Nota {RATING.average.toFixed(1).replace('.', ',')} de 5, </span>
                     <span className={styles.ratingCount}>
-                      {RATING.totalCount.toLocaleString('pt-BR')} {RATING_COUNT_LABEL}
+                      {RATING.totalCount.toLocaleString('pt-BR')} {ratingCountLabel}
                     </span>
                   </a>
                   <span data-role="pdp-code">
-                    {CODE_LABEL} {sku}
+                    {codeLabel ? `${codeLabel} ` : ''}
+                    {sku}
                   </span>
                 </div>
               </div>
@@ -369,17 +443,19 @@ export default function ProductInfo15() {
                     <span id={`${uid}-axis`}>{AXIS_NAME}: </span>
                     <span className={styles.legendValue}>{activeAxis}</span>
                   </p>
-                  <button
-                    ref={guideTriggerRef}
-                    type="button"
-                    className={styles.guide}
-                    onClick={() => setGuideOpen(true)}
-                    aria-haspopup="dialog"
-                    data-role="pdp-size-guide"
-                  >
-                    <span className={styles.guideIcon}>{svg(16, RULER)}</span>
-                    {SIZE_GUIDE_LABEL}
-                  </button>
+                  {sizeGuideLabel && (
+                    <button
+                      ref={guideTriggerRef}
+                      type="button"
+                      className={styles.guide}
+                      onClick={() => setGuideOpen(true)}
+                      aria-haspopup="dialog"
+                      data-role="pdp-size-guide"
+                    >
+                      <span className={styles.guideIcon}>{svg(16, RULER)}</span>
+                      {sizeGuideLabel}
+                    </button>
+                  )}
                 </div>
                 <div className={styles.sizes} role="group" aria-labelledby={`${uid}-axis`}>
                   {AXIS.map(o =>
@@ -411,7 +487,7 @@ export default function ProductInfo15() {
                     )
                   )}
                 </div>
-                {soldOutOptions.length > 0 && inStock && (
+                {soldOutOptions.length > 0 && inStock && notifyLabel && (
                   <button
                     type="button"
                     className={styles.soldNote}
@@ -423,10 +499,10 @@ export default function ProductInfo15() {
                     <span className={styles.bell}>{svg(16, BELL)}</span>
                     {/* Texto num <span> comum (não flex): o espaço entre as palavras não some. */}
                     <span className={styles.soldText}>
-                      <span className={styles.dsk}>{soldQuestion}</span>
-                      <span className={styles.mob}>{soldQuestionMobile}</span>
+                      <span className={soldQuestionMobile ? styles.dsk : undefined}>{soldQuestion}</span>
+                      {soldQuestionMobile && <span className={styles.mob}>{soldQuestionMobile}</span>}
                     </span>
-                    <span className={styles.notifyLink}>{NOTIFY.label}</span>
+                    <span className={styles.notifyLink}>{notifyLabel}</span>
                   </button>
                 )}
               </div>
@@ -435,12 +511,12 @@ export default function ProductInfo15() {
                 <form id={`${uid}-notify`} ref={notifyRef} className={styles.notify} onSubmit={onNotify} data-role="pdp-notify">
                   {notifySent ? (
                     <p className={styles.notifyOk} role="status">
-                      {NOTIFY.success}
+                      {notifySuccess}
                     </p>
                   ) : (
                     <>
                       <p className={styles.legend}>
-                        {NOTIFY.label}
+                        {notifyLabel}
                         {notifyFor ? ` · ${notifyFor}` : ''}
                       </p>
                       {inStock && soldOutOptions.length > 1 && (
@@ -459,32 +535,32 @@ export default function ProductInfo15() {
                         </div>
                       )}
                       <label className={styles.field}>
-                        <span className={styles.srOnly}>{NOTIFY.name}</span>
+                        <span className={styles.srOnly}>{notifyNamePlaceholder}</span>
                         <input
                           className={styles.input}
                           type="text"
                           autoComplete="name"
                           required
-                          placeholder={NOTIFY.name}
+                          placeholder={notifyNamePlaceholder}
                           value={notifyName}
                           onChange={e => setNotifyName(e.target.value)}
                         />
                       </label>
                       <div className={styles.lineRow}>
                         <label className={styles.field}>
-                          <span className={styles.srOnly}>{NOTIFY.email}</span>
+                          <span className={styles.srOnly}>{notifyEmailPlaceholder}</span>
                           <input
                             className={styles.input}
                             type="email"
                             autoComplete="email"
                             required
-                            placeholder={NOTIFY.email}
+                            placeholder={notifyEmailPlaceholder}
                             value={notifyEmail}
                             onChange={e => setNotifyEmail(e.target.value)}
                           />
                         </label>
                         <button type="submit" className={styles.lineButton}>
-                          {NOTIFY.submit}
+                          {notifySubmitLabel}
                         </button>
                       </div>
                     </>
@@ -495,7 +571,7 @@ export default function ProductInfo15() {
               {/* ── quantidade + coração (desktop) e o botão de compra ── */}
               <div className={styles.buyBlock} data-role="pdp-buy-row">
                 <div className={styles.buyTop}>
-                  {inStock && (
+                  {!hideQuantity && inStock && (
                     <div className={styles.qty} role="group" aria-label="Quantidade">
                       <button type="button" onClick={() => setQty(q => Math.max(1, q - 1))} aria-label="Diminuir quantidade" disabled={qty <= 1}>
                         {svg(14, MINUS, { strokeWidth: 1.5 })}
@@ -512,13 +588,13 @@ export default function ProductInfo15() {
                 </div>
                 <button type="button" className={styles.buy} data-role="pdp-buy">
                   <span className={styles.buyIcon}>{svg(17, BAG)}</span>
-                  <span>{BUY_LABEL}</span>
+                  <span>{buyLabel}</span>
                 </button>
               </div>
 
               <form className={styles.shipping} onSubmit={onCep} data-role="pdp-shipping">
                 <label className={styles.legend} htmlFor={`${uid}-cep`}>
-                  {SHIPPING.label}
+                  {shippingLabel}
                 </label>
                 <div className={styles.lineRow}>
                   <input
@@ -528,12 +604,12 @@ export default function ProductInfo15() {
                     inputMode="numeric"
                     autoComplete="postal-code"
                     maxLength={9}
-                    placeholder={SHIPPING.placeholder}
+                    placeholder={cepPlaceholder}
                     value={cep}
                     onChange={e => setCep(formatCep(e.target.value))}
                   />
                   <button type="submit" className={styles.lineButton}>
-                    {SHIPPING.button}
+                    {cepButtonLabel}
                   </button>
                 </div>
                 {cepSent && (
@@ -548,13 +624,15 @@ export default function ProductInfo15() {
                     ))}
                   </ul>
                 )}
-                <span className={styles.shippingNote} data-role="pdp-shipping-note">
-                  {SHIPPING.note}
-                </span>
+                {shippingNote && (
+                  <span className={styles.shippingNote} data-role="pdp-shipping-note">
+                    {shippingNote}
+                  </span>
+                )}
               </form>
 
               <div className={styles.accordions} data-role="pdp-accordions">
-                {ACCORDIONS.map((a, i) => {
+                {accItems.map((a, i) => {
                   const open = openAcc.includes(i);
                   return (
                     <div key={`${a.title}-${i}`} className={styles.acc}>
@@ -591,14 +669,14 @@ export default function ProductInfo15() {
 
         {guideOpen && (
           <div className={styles.overlay} onClick={() => setGuideOpen(false)}>
-            <div className={styles.dialog} role="dialog" aria-modal="true" aria-label={SIZE_GUIDE_LABEL} onClick={e => e.stopPropagation()}>
+            <div className={styles.dialog} role="dialog" aria-modal="true" aria-label={sizeGuideLabel} onClick={e => e.stopPropagation()}>
               <div className={styles.dialogHead}>
-                <span className={styles.legend}>{SIZE_GUIDE_LABEL}</span>
+                <span className={styles.legend}>{sizeGuideLabel}</span>
                 <button ref={guideCloseRef} type="button" className={styles.close} onClick={() => setGuideOpen(false)} aria-label="Fechar">
                   {svg(20, <path d="M6 6l12 12M18 6 6 18" />)}
                 </button>
               </div>
-              <img className={styles.guideImg} src={GUIDE_URL} alt={`${SIZE_GUIDE_LABEL} — ${PRODUCT_NAME}`} />
+              <img className={styles.guideImg} src={GUIDE_URL} alt={`${sizeGuideLabel} — ${PRODUCT_NAME}`} />
             </div>
           </div>
         )}
@@ -606,3 +684,6 @@ export default function ProductInfo15() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo15.conteudoPadrao = MOCK;

@@ -1,14 +1,16 @@
 import React, { useRef, useState } from 'react'
+
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao'
+
 import styles from './index.module.css'
 
 /**
  * Espelha `organisms/BannerMain16` do faststore.starter (família 16, Infantil). Mesmo markup, mesmas classes,
  * mesmos `data-role` e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo =
- * o mock.ts de lá. A seção fica dentro do envelope `.bannerMain16Box` (container das @container).
+ * o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
+ * A seção fica dentro do envelope `.bannerMain16Box` (container das @container).
  */
 
-// Conteúdo do mock.ts do starter.
-// Mock de validação local — exibido quando o CMS não envia conteúdo (MOCK_ENABLED).
 // Textos do desenho `BannerMain16` (3 banners, como os pontos do desenho). Sem arte: o desenho
 // também não tem (vale o fundo de placeholder da caixa).
 const base = {
@@ -22,14 +24,6 @@ const base = {
   stickerTop: 'até',
   stickerValue: '30%',
   stickerBottom: 'off',
-}
-
-const bannerMain16Mock: BannerMain16Props = {
-  slides: [
-    { ...base, title: 'Mochila pronta, aventura garantida', imageAlt: 'Ver a coleção Volta às aulas' },
-    { ...base, title: 'Estojo cheio, ideia brilhando', imageAlt: 'Ver os estojos' },
-    { ...base, title: 'Lancheira divertida, recreio feliz', imageAlt: 'Ver as lancheiras' },
-  ],
 }
 
 
@@ -48,7 +42,7 @@ const bannerMain16Mock: BannerMain16Props = {
  * Apresentacional — sem evento de analytics: o schema não tem IDs estáveis de promoção, então
  * nada de `view_promotion`/`select_promotion` (gap sinalizado, não fabricado).
  */
-export interface BannerMain16Slide {
+interface BannerMain16Slide {
   /** Selo branco acima do título (ex.: "Volta às aulas 2027"). */
   eyebrow?: string
   title?: string
@@ -69,8 +63,16 @@ export interface BannerMain16Slide {
   stickerBottom?: string
 }
 
-export interface BannerMain16Props {
-  slides?: BannerMain16Slide[]
+interface BannerMain16Conteudo {
+  slides: BannerMain16Slide[]
+}
+
+const MOCK: BannerMain16Conteudo = {
+  slides: [
+    { ...base, title: 'Mochila pronta, aventura garantida', imageAlt: 'Ver a coleção Volta às aulas' },
+    { ...base, title: 'Estojo cheio, ideia brilhando', imageAlt: 'Ver os estojos' },
+    { ...base, title: 'Lancheira divertida, recreio feliz', imageAlt: 'Ver as lancheiras' },
+  ],
 }
 
 const FONTES = 'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap'
@@ -88,7 +90,7 @@ const Chevron = ({ dir }: { dir: 'prev' | 'next' }) => (
 )
 
 export default function BannerMain16() {
-  const { slides = [] } = bannerMain16Mock
+  const { slides } = useConteudoDaSecao(MOCK)
   const [atual, setAtual] = useState(0)
   const toqueX = useRef<number | null>(null)
 
@@ -210,3 +212,6 @@ export default function BannerMain16() {
     </div>
   )
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerMain16.conteudoPadrao = MOCK;

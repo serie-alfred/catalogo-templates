@@ -4,6 +4,7 @@ import React, { useId, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/ProductDetails12` do faststore.starter (família 12, Suave; desenho
@@ -30,7 +31,13 @@ import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
  * sucesso local, como no palco de lá) e o analytics. Ficam de fora, porque com o mock do
  * starter nunca renderizam: a variação de cor (o produto só tem Tamanho), o guia de
  * medidas e o diálogo dele (sem a especificação), o "Não sei meu CEP" (sem rótulo no mock)
- * e a linha do Pix.
+ * e a linha do Pix. O "Não sei meu CEP" (`cepHelpLabel` + `cepHelpUrl`) passou a ser
+ * desenhado quando o CS preenche os dois, como lá; o guia de medidas continua de fora (sua
+ * imagem é uma especificação do produto de exemplo, que não a tem).
+ *
+ * Os rótulos, as vantagens e os acordeões são do CMS e vêm do `useConteudoDaSecao`. O
+ * `specName` do acordeão (texto vindo de uma especificação do produto) fica fora do tipo: o
+ * produto é o de exemplo, então o texto é o do `text`.
  */
 
 const BRL = new Intl.NumberFormat('pt-BR', {
@@ -72,8 +79,34 @@ const block = (hex: string, size: number) =>
     `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><rect width="${size}" height="${size}" fill="${hex}"/></svg>`
   )}`;
 
-/* ── rótulos (o mock.ts de lá) ── */
-const L = {
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+type PerkIcon = 'truck' | 'gift' | 'exchange' | 'shield' | 'card';
+
+interface ProductInfo12Conteudo {
+  codeLabel?: string;
+  ratingCountLabel?: string;
+  soldOutText?: string;
+  notifyLabel?: string;
+  notifyNamePlaceholder?: string;
+  notifyEmailPlaceholder?: string;
+  notifySubmitLabel?: string;
+  notifySuccess?: string;
+  buyLabel?: string;
+  /** Vazio = o mesmo de `buyLabel`. */
+  mobileBuyLabel?: string;
+  soldOutButtonLabel?: string;
+  favoriteLabel?: string;
+  hideQuantity?: boolean;
+  perks: { icon?: PerkIcon; text?: string }[];
+  shippingLabel?: string;
+  cepPlaceholder?: string;
+  cepButtonLabel?: string;
+  cepHelpLabel?: string;
+  cepHelpUrl?: string;
+  accordions: { title?: string; text?: string }[];
+}
+
+const MOCK: ProductInfo12Conteudo = {
   codeLabel: 'Cód.',
   ratingCountLabel: 'avaliações',
   soldOutText: 'esgotado.',
@@ -89,23 +122,22 @@ const L = {
   shippingLabel: 'Calcular frete',
   cepPlaceholder: '00000-000',
   cepButtonLabel: 'Calcular',
+  perks: [
+    { icon: 'truck', text: 'Frete grátis acima de R$ 150' },
+    { icon: 'gift', text: 'Amostra grátis no pedido' },
+  ],
+  accordions: [
+    {
+      title: 'Como usar',
+      text: 'Aplique de 4 a 5 gotas no rosto limpo, pela manhã, antes do hidratante. Finalize com protetor solar.',
+    },
+    { title: 'Ingredientes', text: '[Lista INCI completa do produto]' },
+    {
+      title: 'Benefícios',
+      text: '[Benefícios do produto, da especificação cadastrada]',
+    },
+  ],
 };
-type PerkIcon = 'truck' | 'gift' | 'exchange' | 'shield' | 'card';
-const PERKS: Array<{ icon: PerkIcon; text: string }> = [
-  { icon: 'truck', text: 'Frete grátis acima de R$ 150' },
-  { icon: 'gift', text: 'Amostra grátis no pedido' },
-];
-const ACCORDIONS = [
-  {
-    title: 'Como usar',
-    text: 'Aplique de 4 a 5 gotas no rosto limpo, pela manhã, antes do hidratante. Finalize com protetor solar.',
-  },
-  { title: 'Ingredientes', text: '[Lista INCI completa do produto]' },
-  {
-    title: 'Benefícios',
-    text: '[Benefícios do produto, da especificação cadastrada]',
-  },
-];
 
 /* ── produto de exemplo (o mock.ts de lá, já resolvido) ── */
 const PRODUCT_NAME = 'Sérum Vitamina C 10%';
@@ -226,6 +258,8 @@ const Stars = ({ avg, className }: { avg: number; className: string }) => (
 );
 
 export default function ProductInfo12() {
+  const { perks, accordions, hideQuantity, cepHelpLabel, cepHelpUrl, ...L } =
+    useConteudoDaSecao(MOCK);
   const uid = useId();
   const [selAxis, setSelAxis] = useState<string | null>(null);
   const [notifyOpen, setNotifyOpen] = useState(false);
@@ -242,6 +276,13 @@ export default function ProductInfo12() {
   const [cepSent, setCepSent] = useState(false);
   const railRef = useRef<HTMLDivElement>(null);
 
+  // Acordeão sem título ou sem texto não aparece, como no starter.
+  const accItems = accordions
+    .map(a => ({
+      title: String(a.title ?? '').trim(),
+      text: String(a.text ?? '').trim(),
+    }))
+    .filter(a => a.title && a.text);
   const images = IMAGES;
   const price = PRICE;
   const listPrice = LIST_PRICE;
@@ -526,7 +567,7 @@ export default function ProductInfo12() {
 
               {/* ── quantidade + compra (desktop) ── */}
               <div className={styles.buyRow} data-role="pdp-buy-row">
-                {inStock && (
+                {inStock && !hideQuantity && (
                   <div
                     className={styles.qty}
                     role="group"
@@ -630,14 +671,20 @@ export default function ProductInfo12() {
                 </form>
               )}
 
-              <ul className={styles.perks} data-role="pdp-perks">
-                {PERKS.map((p, i) => (
-                  <li key={`${p.text}-${i}`} className={styles.perk}>
-                    {svg(18, PERK_ICONS[p.icon])}
-                    {p.text}
-                  </li>
-                ))}
-              </ul>
+              {perks.some(p => p.text) && (
+                <ul className={styles.perks} data-role="pdp-perks">
+                  {perks.map((p, i) =>
+                    p.text ? (
+                      <li key={`${p.text}-${i}`} className={styles.perk}>
+                        {p.icon &&
+                          PERK_ICONS[p.icon] &&
+                          svg(18, PERK_ICONS[p.icon])}
+                        {p.text}
+                      </li>
+                    ) : null
+                  )}
+                </ul>
+              )}
 
               <form
                 className={styles.shipping}
@@ -663,6 +710,16 @@ export default function ProductInfo12() {
                     {L.cepButtonLabel}
                   </button>
                 </div>
+                {cepHelpLabel && cepHelpUrl && (
+                  <a
+                    className={styles.cepHelp}
+                    href={cepHelpUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {cepHelpLabel}
+                  </a>
+                )}
                 {shippingRows.length > 0 && (
                   <ul
                     className={styles.shipList}
@@ -686,36 +743,38 @@ export default function ProductInfo12() {
                 )}
               </form>
 
-              <div className={styles.accordions} data-role="pdp-accordions">
-                {ACCORDIONS.map((a, i) => {
-                  const open = openAcc.includes(i);
-                  return (
-                    <div key={`${a.title}-${i}`} className={styles.acc}>
-                      <button
-                        type="button"
-                        className={styles.accBtn}
-                        aria-expanded={open}
-                        aria-controls={`${uid}-acc-${i}`}
-                        id={`${uid}-accb-${i}`}
-                        onClick={() => toggleAcc(i)}
-                        data-role="pdp-accordion"
-                      >
-                        {a.title}
-                        {svg(18, open ? MINUS : PLUS)}
-                      </button>
-                      <div
-                        id={`${uid}-acc-${i}`}
-                        role="region"
-                        aria-labelledby={`${uid}-accb-${i}`}
-                        className={styles.accPanel}
-                        hidden={!open}
-                      >
-                        <p>{a.text}</p>
+              {accItems.length > 0 && (
+                <div className={styles.accordions} data-role="pdp-accordions">
+                  {accItems.map((a, i) => {
+                    const open = openAcc.includes(i);
+                    return (
+                      <div key={`${a.title}-${i}`} className={styles.acc}>
+                        <button
+                          type="button"
+                          className={styles.accBtn}
+                          aria-expanded={open}
+                          aria-controls={`${uid}-acc-${i}`}
+                          id={`${uid}-accb-${i}`}
+                          onClick={() => toggleAcc(i)}
+                          data-role="pdp-accordion"
+                        >
+                          {a.title}
+                          {svg(18, open ? MINUS : PLUS)}
+                        </button>
+                        <div
+                          id={`${uid}-acc-${i}`}
+                          role="region"
+                          aria-labelledby={`${uid}-accb-${i}`}
+                          className={styles.accPanel}
+                          hidden={!open}
+                        >
+                          <p>{a.text}</p>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -740,3 +799,6 @@ export default function ProductInfo12() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo12.conteudoPadrao = MOCK;

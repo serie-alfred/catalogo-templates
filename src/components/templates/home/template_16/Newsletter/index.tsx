@@ -1,16 +1,21 @@
 import React, { useState } from 'react'
+
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao'
+
 import styles from './index.module.css'
 
 /**
  * Espelha `organisms/Newsletter16` do faststore.starter (família 16, Infantil). Mesmo markup, mesmas classes,
  * mesmos `data-role` e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo =
- * o mock.ts de lá. A seção fica dentro do envelope `.newsletter16Box` (container das @container).
+ * o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
+ * A seção fica dentro do envelope `.newsletter16Box` (container das @container).
+ *
+ * Sem envio de verdade (a mutation fica no starter): enviar mostra a mensagem de sucesso, para o
+ * cliente ver o texto dela no preview. Por isso o tipo não traz o `errorMessage`.
  */
 
-// Conteúdo do mock.ts do starter.
-// Mock de validação local — exibido quando o CMS não envia conteúdo (MOCK_ENABLED).
 // Textos literais do desenho `Newsletter16`.
-const newsletter16Mock: Newsletter16Props = {
+const MOCK: Newsletter16Conteudo = {
   badge: '10% na\n1ª compra',
   title: 'Entre para o clubinho',
   text: 'Novidades, dicas de brincadeira e um cupom de boas-vindas no seu e-mail. Prometemos não lotar a caixa.',
@@ -20,7 +25,6 @@ const newsletter16Mock: Newsletter16Props = {
   emailPlaceholder: 'voce@email.com',
   buttonLabel: 'Quero entrar',
   successMessage: 'Oba! Você já faz parte do clubinho. O cupom chega no seu e-mail.',
-  errorMessage: 'Não deu para cadastrar agora. Tente de novo em instantes.',
   privacyPrefix: 'Ao se cadastrar, você concorda com a',
   privacyLabel: 'Política de Privacidade',
   privacyUrl: '/institucional/privacidade',
@@ -37,7 +41,7 @@ const newsletter16Mock: Newsletter16Props = {
  * Contrato §4: exatamente nome e e-mail → `subscribeNewsletter` (entidade NW); cupom só como
  * texto do CMS (o selo). Analytics: `generate_lead` só no sucesso real.
  */
-export interface Newsletter16Props {
+interface Newsletter16Conteudo {
   /** Selo amarelo (ex.: "10% na\n1ª compra"; a quebra de linha vale). Vazio esconde. */
   badge?: string
   title?: string
@@ -48,7 +52,6 @@ export interface Newsletter16Props {
   emailPlaceholder?: string
   buttonLabel?: string
   successMessage?: string
-  errorMessage?: string
   /** Ex.: "Ao se cadastrar, você concorda com a". */
   privacyPrefix?: string
   privacyLabel?: string
@@ -68,11 +71,10 @@ export default function Newsletter16() {
     emailPlaceholder,
     buttonLabel,
     successMessage,
-    errorMessage,
     privacyPrefix,
     privacyLabel,
     privacyUrl,
-  } = newsletter16Mock
+  } = useConteudoDaSecao(MOCK)
 
   const [nome, setNome] = useState('')
   const [email, setEmail] = useState('')
@@ -170,11 +172,6 @@ export default function Newsletter16() {
                 )}
               </p>
             )}
-            {estado === 'erro' && (
-              <p className={styles.feedback} role="alert">
-                {errorMessage}
-              </p>
-            )}
           </form>
         )}
       </div>
@@ -188,3 +185,6 @@ export default function Newsletter16() {
     </div>
   )
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Newsletter16.conteudoPadrao = MOCK;

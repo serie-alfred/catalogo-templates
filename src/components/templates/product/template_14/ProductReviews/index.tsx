@@ -4,6 +4,7 @@ import React, { useId, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/ProductReviews14` do faststore.starter (família 14, Esportiva; desenho
@@ -17,6 +18,9 @@ import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
  * desenho repetidas em 3 páginas de 3. Sai: `usePDP`, a moldura do Trustvox (lá só com a loja
  * configurada) e o Reviews and Ratings (consulta e envio; o envio dá sucesso local, como no
  * palco de lá).
+ *
+ * Os rótulos e o tamanho da página são do CMS e vêm do `useConteudoDaSecao`. O tipo não traz
+ * `emptyText` nem `formError`: o exemplo sempre tem avaliações e o envio sempre dá certo.
  */
 
 type Review14 = {
@@ -29,8 +33,27 @@ type Review14 = {
   location: string;
 };
 
-/* ── rótulos (o mock.ts de lá) ── */
-const L = {
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+interface ProductReviews14Conteudo {
+  title?: string;
+  countLabel?: string;
+  starSingular?: string;
+  starPlural?: string;
+  /** Vazio = sem o botão. */
+  writeLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+  /** Avaliações por página (1 a 20). */
+  pageSize?: number;
+  formRatingLabel?: string;
+  formTitleLabel?: string;
+  formTextLabel?: string;
+  formNameLabel?: string;
+  formSubmitLabel?: string;
+  formSuccess?: string;
+}
+
+const MOCK: ProductReviews14Conteudo = {
   title: 'Avaliações',
   countLabel: 'avaliações',
   starSingular: 'estrela',
@@ -38,6 +61,7 @@ const L = {
   writeLabel: 'Escrever avaliação',
   prevLabel: 'Página anterior',
   nextLabel: 'Próxima página',
+  pageSize: 3,
   formRatingLabel: 'Sua nota',
   formTitleLabel: 'Título',
   formTextLabel: 'Sua avaliação',
@@ -45,7 +69,6 @@ const L = {
   formSubmitLabel: 'Enviar avaliação',
   formSuccess: 'Valeu! Sua avaliação aparece aqui depois da moderação.',
 };
-const PER_PAGE = 3;
 
 const SUMMARY = { average: 4.8, totalCount: 212, starsFive: 165, starsFour: 32, starsThree: 9, starsTwo: 4, starsOne: 2 };
 
@@ -120,8 +143,9 @@ const pageWindow = (current: number, total: number) => {
 };
 
 export default function ProductReviews14() {
+  const L = useConteudoDaSecao(MOCK);
   const uid = useId();
-  const [page, setPage] = useState(1);
+  const [pagina, setPage] = useState(1);
   const [formOpen, setFormOpen] = useState(false);
   const [rating, setRating] = useState(0);
   const [sent, setSent] = useState(false);
@@ -136,9 +160,11 @@ export default function ProductReviews14() {
     { stars: 2, count: SUMMARY.starsTwo },
     { stars: 1, count: SUMMARY.starsOne },
   ];
-  const from = (page - 1) * PER_PAGE;
-  const reviews = REVIEWS.slice(from, from + PER_PAGE);
-  const pages = Math.max(1, Math.ceil(REVIEWS.length / PER_PAGE));
+  const perPage = Math.min(20, Math.max(1, Math.round(L.pageSize ?? 0) || (MOCK.pageSize as number)));
+  const pages = Math.max(1, Math.ceil(REVIEWS.length / perPage));
+  const page = Math.min(pagina, pages);
+  const from = (page - 1) * perPage;
+  const reviews = REVIEWS.slice(from, from + perPage);
 
   const goPage = (n: number) => {
     setPage(Math.max(1, Math.min(pages, n)));
@@ -152,12 +178,14 @@ export default function ProductReviews14() {
 
   return (
     <div className={styles.productReviews14Box}>
-      <section id="avaliacoes" className={styles.productReviews14} aria-label={L.title} data-role="rv-root">
+      <section id="avaliacoes" className={styles.productReviews14} aria-label={L.title || 'Avaliações'} data-role="rv-root">
         <link rel="stylesheet" href={FONTES_14} />
         <div className={styles.inner}>
-          <h2 className={styles.title} data-role="rv-title">
-            {L.title}
-          </h2>
+          {L.title && (
+            <h2 className={styles.title} data-role="rv-title">
+              {L.title}
+            </h2>
+          )}
 
           <div className={styles.body}>
             <aside className={styles.summary} data-role="rv-summary">
@@ -195,18 +223,20 @@ export default function ProductReviews14() {
                   );
                 })}
               </ul>
-              <button
-                type="button"
-                className={styles.write}
-                onClick={() => setFormOpen(o => !o)}
-                aria-expanded={formOpen}
-                aria-controls={`${uid}-form`}
-                data-role="rv-write"
-              >
-                {L.writeLabel}
-              </button>
+              {L.writeLabel && (
+                <button
+                  type="button"
+                  className={styles.write}
+                  onClick={() => setFormOpen(o => !o)}
+                  aria-expanded={formOpen}
+                  aria-controls={`${uid}-form`}
+                  data-role="rv-write"
+                >
+                  {L.writeLabel}
+                </button>
+              )}
 
-              {formOpen && (
+              {L.writeLabel && formOpen && (
                 <form id={`${uid}-form`} className={styles.form} onSubmit={onSubmit} data-role="rv-form">
                   {sent ? (
                     <p className={styles.formOk} role="status">
@@ -270,7 +300,7 @@ export default function ProductReviews14() {
               {pages > 1 && (
                 <nav className={styles.pager} aria-label="Páginas de avaliações" data-role="rv-pager">
                   {page > 1 && (
-                    <button type="button" className={styles.pagerBtn} onClick={() => goPage(page - 1)} aria-label={L.prevLabel}>
+                    <button type="button" className={styles.pagerBtn} onClick={() => goPage(page - 1)} aria-label={L.prevLabel || 'Página anterior'}>
                       <Arrow dir="prev" />
                     </button>
                   )}
@@ -286,7 +316,7 @@ export default function ProductReviews14() {
                     </button>
                   ))}
                   {page < pages && (
-                    <button type="button" className={styles.pagerBtn} onClick={() => goPage(page + 1)} aria-label={L.nextLabel}>
+                    <button type="button" className={styles.pagerBtn} onClick={() => goPage(page + 1)} aria-label={L.nextLabel || 'Próxima página'}>
                       <Arrow dir="next" />
                     </button>
                   )}
@@ -299,3 +329,6 @@ export default function ProductReviews14() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductReviews14.conteudoPadrao = MOCK;

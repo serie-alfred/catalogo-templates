@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -16,8 +17,36 @@ import styles from './index.module.css';
  * local) e o envio mostra a mensagem de sucesso. Sem arte (o mock de lá também não tem).
  */
 
+/**
+ * O conteúdo da seção: os campos do `section.schema` do PopupNews10. Ficam de fora
+ * `delaySeconds` e `dismissDays` (atraso de abertura e dias sem reaparecer): no canvas
+ * o pop-up já nasce aberto.
+ */
+interface PopupNews10Conteudo {
+  imageDesktop?: string;
+  imageMobile?: string;
+  imageAlt?: string;
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+  couponLabel?: string;
+  coupon?: string;
+  couponHint?: string;
+  text?: string;
+  nameLabel?: string;
+  namePlaceholder?: string;
+  emailLabel?: string;
+  emailPlaceholder?: string;
+  buttonLabel?: string;
+  successMessage?: string;
+  privacyPrefix?: string;
+  privacyLabel?: string;
+  privacyUrl?: string;
+  dismissLabel?: string;
+}
+
 // Conteúdo do mock.ts do starter.
-const CONTEUDO = {
+const MOCK: PopupNews10Conteudo = {
   eyebrow: 'Primeira compra',
   title: 'GANHE 10% OFF',
   subtitle: 'em todo o site, inclusive em ofertas.',
@@ -53,6 +82,9 @@ const Fechar = () => (
 
 export default function PopupNews10() {
   const {
+    imageDesktop,
+    imageMobile,
+    imageAlt,
     eyebrow,
     title,
     subtitle,
@@ -70,7 +102,7 @@ export default function PopupNews10() {
     privacyLabel,
     privacyUrl,
     dismissLabel,
-  } = CONTEUDO;
+  } = useConteudoDaSecao(MOCK);
 
   const [aberto, setAberto] = useState(true);
   const [nome, setNome] = useState('');
@@ -108,6 +140,22 @@ export default function PopupNews10() {
         >
           <Fechar />
         </button>
+
+        {(imageDesktop || imageMobile) && (
+          <div className={styles.media} data-role="pn-image">
+            <picture>
+              {imageMobile && (
+                <source media="(max-width: 960px)" srcSet={imageMobile} />
+              )}
+              <img
+                src={imageDesktop || imageMobile}
+                alt={imageAlt ?? ''}
+                width={1120}
+                height={400}
+              />
+            </picture>
+          </div>
+        )}
 
         <div className={styles.hero}>
           {eyebrow && (
@@ -209,3 +257,6 @@ export default function PopupNews10() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+PopupNews10.conteudoPadrao = MOCK;

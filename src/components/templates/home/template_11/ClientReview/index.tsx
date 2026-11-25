@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -8,7 +9,8 @@ import styles from './index.module.css';
  * Espelha `organisms/ClientReview11` do faststore.starter (família 11, Grade; desenho
  * `ClientReview11` / `ClientReview11-mobile`). Mesmo markup, mesmas classes, mesmos
  * `data-role` e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o
- * mock.ts de lá (sem miniatura da peça: vale o placeholder do CSS). o nome da peça sai sem
+ * mock.ts de lá (sem miniatura da peça: vale o placeholder do CSS), por baixo do que o
+ * CS subir (`useConteudoDaSecao`, campos do schema de lá). O nome da peça sai sem
  * classe, como lá (não tem regra no desenho).
  */
 interface ClientReview11Review {
@@ -21,16 +23,16 @@ interface ClientReview11Review {
   productImage?: string;
 }
 
-interface ClientReview11Props {
+interface ClientReview11Conteudo {
   sectionNumber?: string;
   title?: string;
-  reviews?: ClientReview11Review[];
+  reviews: ClientReview11Review[];
 }
 
 // Conteúdo do mock.ts do starter.
 const author = '[Nome do cliente] · [Cidade, UF]';
 
-const MOCK: ClientReview11Props = {
+const MOCK: ClientReview11Conteudo = {
   sectionNumber: '06',
   title: 'Quem já tem em casa',
   reviews: [
@@ -86,7 +88,7 @@ function nota(rating?: number) {
 }
 
 export default function ClientReview11() {
-  const { sectionNumber, title, reviews = [] } = MOCK;
+  const { sectionNumber, title, reviews } = useConteudoDaSecao(MOCK);
   const railRef = useRef<HTMLDivElement>(null);
   const [trilho, setTrilho] = useState({ inicio: true, fim: true });
 
@@ -234,3 +236,6 @@ export default function ClientReview11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ClientReview11.conteudoPadrao = MOCK;

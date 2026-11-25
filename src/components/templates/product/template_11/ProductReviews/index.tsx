@@ -4,6 +4,7 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/ProductReviews11` do faststore.starter (família 11, Grade; desenho
@@ -17,6 +18,11 @@ import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
  * widget de terceiros); o formulário abre e "envia" só no estado local, como lá no palco.
  * A página tem 5 avaliações no desktop e 3 no mobile, decidido pelo `matchMedia` do
  * documento (no canvas, o do iframe).
+ *
+ * Os rótulos e o tamanho da página são do CMS e vêm do `useConteudoDaSecao`; as avaliações
+ * são as de exemplo (o preview não tem Reviews and Ratings). O tipo não traz `emptyText`
+ * nem `formError`: o exemplo sempre tem avaliações e o envio sempre dá certo (o
+ * 1-conteudo os lista como não desenhados).
  */
 interface Review11 {
   id?: string;
@@ -27,22 +33,48 @@ interface Review11 {
   reviewDateTime?: string;
 }
 
-/* ── rótulos (o mock.ts de lá) ── */
-const L = {
+/** O conteúdo da seção: os campos do `section.schema` do ProductReviews11. */
+interface ProductReviews11Conteudo {
+  title?: string;
+  countLabel?: string;
+  starSingular?: string;
+  starPlural?: string;
+  writeLabel?: string;
+  dateLabel?: string;
+  customerLabel?: string;
+  ratingLabel?: string;
+  reviewLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+  pageSize?: number;
+  mobilePageSize?: number;
+  formRatingLabel?: string;
+  formTitleLabel?: string;
+  formTextLabel?: string;
+  formNameLabel?: string;
+  formSubmitLabel?: string;
+  formSuccess?: string;
+}
+
+/** Avaliações por página (desktop e mobile) quando o CS não manda um número válido. */
+const POR_PAGINA = 5;
+const POR_PAGINA_MOBILE = 3;
+
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+const MOCK: ProductReviews11Conteudo = {
   title: 'Avaliações',
   countLabel: 'avaliações',
   starSingular: 'estrela',
   starPlural: 'estrelas',
   writeLabel: 'Escrever avaliação',
-  emptyText: 'Este produto ainda não tem avaliações. Conte o que achou.',
   dateLabel: 'Data',
   customerLabel: 'Cliente',
   ratingLabel: 'Nota',
   reviewLabel: 'Avaliação',
   prevLabel: 'Anterior',
   nextLabel: 'Próxima',
-  pageSize: 5,
-  mobilePageSize: 3,
+  pageSize: POR_PAGINA,
+  mobilePageSize: POR_PAGINA_MOBILE,
   formRatingLabel: 'Sua nota',
   formTitleLabel: 'Título',
   formTextLabel: 'Sua avaliação',
@@ -150,6 +182,8 @@ const pageWindow = (current: number, total: number) => {
 };
 
 export default function ProductReviews11() {
+  // `L`, o nome de antes, para o markup abaixo continuar igual ao de lá.
+  const { pageSize, mobilePageSize, ...L } = useConteudoDaSecao(MOCK);
   const uid = useId();
 
   const [mobile, setMobile] = useState(false);
@@ -160,7 +194,9 @@ export default function ProductReviews11() {
     mq.addEventListener('change', on);
     return () => mq.removeEventListener('change', on);
   }, []);
-  const perPage = mobile ? L.mobilePageSize : L.pageSize;
+  const perPage = mobile
+    ? Math.max(1, Math.round(Number(mobilePageSize)) || POR_PAGINA_MOBILE)
+    : Math.max(1, Math.round(Number(pageSize)) || POR_PAGINA);
 
   const [page, setPage] = useState(1);
   const [formOpen, setFormOpen] = useState(false);
@@ -422,3 +458,6 @@ export default function ProductReviews11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductReviews11.conteudoPadrao = MOCK;

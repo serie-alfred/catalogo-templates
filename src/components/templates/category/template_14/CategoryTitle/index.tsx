@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/CategoryTitle14` do faststore.starter (família 14, Esportiva; desenho
@@ -13,8 +14,9 @@ import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
  * lima inclinado (forma, `aria-hidden`). Mesmo markup, classes e `data-role`; o CSS é derivado
  * do SCSS de lá.
  *
- * Lá nome, contagem e chips vêm do contexto da PLP; aqui são o exemplo do mock.ts de lá. Sem
- * chip "Todos" (o desenho não tem) e nenhum chip nasce ativo. O chip, que lá troca o filtro
+ * Os campos de CMS são os dois rótulos (`useConteudoDaSecao`): o texto depois da contagem e o
+ * chip "Todos" (vazio = sem ele, como no desenho). Lá nome, contagem e chips vêm do contexto da
+ * PLP; aqui são o exemplo do mock.ts de lá. Nenhum chip nasce ativo. O chip, que lá troca o filtro
  * pela store de busca, aqui alterna num `useState`.
  */
 interface Subcat {
@@ -23,7 +25,13 @@ interface Subcat {
   quantity?: number;
 }
 
-const COUNT_LABEL = 'produtos';
+interface CategoryTitle14Conteudo {
+  allLabel?: string;
+  countLabel?: string;
+}
+
+const MOCK: CategoryTitle14Conteudo = { countLabel: 'produtos' };
+
 const TITULO = 'Corrida';
 const TOTAL = 186;
 const SUBCATS: Subcat[] = [
@@ -36,12 +44,15 @@ const SUBCATS: Subcat[] = [
 ];
 
 export default function CategoryTitle14() {
+  const { allLabel, countLabel } = useConteudoDaSecao(MOCK);
   const [ativa, setAtiva] = useState<string | null>(null);
 
   const escolher = (e: React.MouseEvent, value: string) => {
     e.preventDefault();
     setAtiva(a => (value && value !== a ? value : null));
   };
+
+  const chips: Subcat[] = allLabel ? [{ value: '', label: allLabel }, ...SUBCATS] : SUBCATS;
 
   return (
     <div className={styles.categoryTitle14Box}>
@@ -57,15 +68,16 @@ export default function CategoryTitle14() {
               {TITULO}
             </h1>
             <p className={styles.count} data-role="ct-count">
-              {TOTAL.toLocaleString('pt-BR')} {COUNT_LABEL}
+              {TOTAL.toLocaleString('pt-BR')}
+              {countLabel ? ` ${countLabel}` : ''}
             </p>
           </div>
           <nav className={styles.chips} aria-label="Subcategorias" data-role="ct-chips">
             <ul className={styles.chipList}>
-              {SUBCATS.map(s => {
-                const on = ativa === s.value;
+              {chips.map(s => {
+                const on = s.value ? ativa === s.value : !ativa;
                 return (
-                  <li key={s.value} className={styles.chipItem}>
+                  <li key={s.value || '_todos'} className={styles.chipItem}>
                     <a
                       className={`${styles.chip}${on ? ` ${styles.chipActive}` : ''}`}
                       href="#"
@@ -88,3 +100,6 @@ export default function CategoryTitle14() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryTitle14.conteudoPadrao = MOCK;

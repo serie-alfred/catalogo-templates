@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -22,35 +23,41 @@ interface BannerGrid12Banner {
 }
 
 // Conteúdo do mock.ts do starter (textos literais do desenho `BannerGrid12`).
-const BANNERS: BannerGrid12Banner[] = [
-  {
-    eyebrow: 'Skincare',
-    title: 'Pele radiante',
-    text: 'Vitamina C e niacinamida para um brilho que vem de dentro.',
-    ctaLabel: 'Comprar skincare',
-    url: '/s',
-    imageAlt: 'Pele radiante',
-  },
-  {
-    eyebrow: 'Corpo e banho',
-    title: 'Um ritual sem pressa',
-    text: 'Óleos, loções e esfoliantes para cuidar do corpo todo.',
-    ctaLabel: 'Ver corpo e banho',
-    url: '/s',
-    imageAlt: 'Um ritual sem pressa',
-  },
-  {
-    eyebrow: 'Cabelos',
-    title: 'Fios fortes e macios',
-    text: 'Máscaras e finalizadores para todo tipo de cabelo.',
-    ctaLabel: 'Ver cabelos',
-    url: '/s',
-    imageAlt: 'Fios fortes e macios',
-  },
-];
+interface BannerGrid12Conteudo {
+  banners: BannerGrid12Banner[];
+}
+
+const MOCK: BannerGrid12Conteudo = {
+  banners: [
+    {
+      eyebrow: 'Skincare',
+      title: 'Pele radiante',
+      text: 'Vitamina C e niacinamida para um brilho que vem de dentro.',
+      ctaLabel: 'Comprar skincare',
+      url: '/s',
+      imageAlt: 'Pele radiante',
+    },
+    {
+      eyebrow: 'Corpo e banho',
+      title: 'Um ritual sem pressa',
+      text: 'Óleos, loções e esfoliantes para cuidar do corpo todo.',
+      ctaLabel: 'Ver corpo e banho',
+      url: '/s',
+      imageAlt: 'Um ritual sem pressa',
+    },
+    {
+      eyebrow: 'Cabelos',
+      title: 'Fios fortes e macios',
+      text: 'Máscaras e finalizadores para todo tipo de cabelo.',
+      ctaLabel: 'Ver cabelos',
+      url: '/s',
+      imageAlt: 'Fios fortes e macios',
+    },
+  ],
+};
 
 export default function BannerGrid12() {
-  const banners = BANNERS;
+  const { banners } = useConteudoDaSecao(MOCK);
   if (!banners.length) return null;
 
   return (
@@ -105,3 +112,6 @@ export default function BannerGrid12() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerGrid12.conteudoPadrao = MOCK;

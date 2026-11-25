@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import CartSidebar14, { CART_14_QUANTIDADE } from '@/components/templates/_shared/CartSidebar14';
 import { FONTES_14, PRODUTOS_14 } from '@/components/templates/common/template_14/Spot';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useFitaEmPixels } from '@/hooks/useFitaEmPixels';
 
 import styles from './index.module.css';
@@ -11,7 +12,8 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 /**
  * Espelha `organisms/Header14` do faststore.starter (família 14, Esportiva; desenho
  * `Header14` / `Header14-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as
- * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá, por baixo
+ * do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  *
  * Faixa marinho no topo com as mensagens em Saira itálica correndo de lado (para com
  * `prefers-reduced-motion`: desvio aprovado da 14), separadas por raios; abaixo, a barra
@@ -22,9 +24,9 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * grande (marcador = traço vermelho), setas e, no pé, a conta e os links de ajuda.
  *
  * Divergências deliberadas:
- *  - Logo: o que o usuário enviou no /gerador; sem ele, a marca em texto do catálogo
- *    ("SERIE/A", a barra virando o traço de destaque, como a "/" de lá), no mesmo
- *    `.logo` / `data-role="hd-logo"`.
+ *  - Logo: o da seção (campo `logo` do schema), senão o que o usuário enviou no /gerador;
+ *    sem nenhum, `brandName` do CS ou a marca em texto do catálogo ("SERIE/A", a barra
+ *    virando o traço de destaque, como a "/" de lá), no mesmo `.logo` / `data-role="hd-logo"`.
  *  - Busca sem GraphQL: as sugestões filtram uma lista fixa (os itens do menu e os
  *    produtos de exemplo do card 14); enviar só fecha.
  *  - Carrinho: contador e gaveta (`_shared/CartSidebar14`) com o item de exemplo. A gaveta
@@ -43,14 +45,29 @@ type Header14MenuItem = {
 
 type Header14DrawerIcon = 'none' | 'orders' | 'help';
 
-const MOCK = {
+interface Header14Conteudo {
+  topbarItems?: { text?: string }[];
+  logo?: string;
+  logoAlt?: string;
+  brandName?: string;
+  menu?: Header14MenuItem[];
+  searchPlaceholder?: string;
+  accountLabel?: string;
+  wishlistLabel?: string;
+  wishlistUrl?: string;
+  drawerLinks?: { label?: string; url?: string; icon?: Header14DrawerIcon }[];
+  cartLabel?: string;
+  /** Texto do link "Ver tudo" do submenu no menu mobile. */
+  viewAllLabel?: string;
+}
+
+const MOCK: Header14Conteudo = {
   topbarItems: [
     { text: 'Frete grátis acima de R$ 299' },
     { text: 'Até 10x sem juros' },
     { text: 'Troca grátis em 30 dias' },
     { text: 'Retire na loja em 2 h' },
   ],
-  brandName: 'SERIE/A',
   menu: [
     { label: 'Corrida', url: '/corrida', marker: true },
     { label: 'Treino', url: '/treino' },
@@ -58,7 +75,7 @@ const MOCK = {
     { label: 'Ciclismo', url: '/ciclismo' },
     { label: 'Suplementos', url: '/suplementos' },
     { label: 'Ofertas', url: '/ofertas', highlight: true },
-  ] as Header14MenuItem[],
+  ],
   searchPlaceholder: 'Buscar tênis, whey, garrafa…',
   accountLabel: 'Entrar ou cadastrar',
   wishlistLabel: 'Favoritos',
@@ -66,11 +83,10 @@ const MOCK = {
   drawerLinks: [
     { label: 'Meus pedidos', url: '/account/orders', icon: 'orders' },
     { label: 'Central de ajuda', url: '/ajuda', icon: 'help' },
-  ] as { label?: string; url?: string; icon?: Header14DrawerIcon }[],
+  ],
   cartLabel: 'Sacola',
+  viewAllLabel: 'Ver tudo',
 };
-
-const TERMOS_14 = MOCK.menu.map(m => m.label ?? '').filter(Boolean);
 
 const svg = (w: number, children: React.ReactNode, sw = '2', className?: string) => (
   <svg className={className} width={w} height={w} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={sw} strokeLinecap="square" aria-hidden="true">
@@ -140,8 +156,24 @@ function Marca({ nome }: { nome: string }) {
 }
 
 export default function Header14() {
-  const { logo } = useLayout();
-  const { topbarItems, brandName, menu, searchPlaceholder, accountLabel, wishlistLabel, wishlistUrl, drawerLinks, cartLabel } = MOCK;
+  const { logo: logoDaLoja } = useLayout();
+  const {
+    topbarItems = [],
+    logo: logoDaSecao,
+    logoAlt,
+    brandName: marca,
+    menu = [],
+    searchPlaceholder,
+    accountLabel,
+    wishlistLabel,
+    wishlistUrl,
+    drawerLinks = [],
+    cartLabel,
+    viewAllLabel,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDaSecao || logoDaLoja;
+  const brandName = marca || 'SERIE/A';
+  const TERMOS_14 = menu.map(m => m.label ?? '').filter(Boolean);
 
   const [cartOpen, setCartOpen] = useState(false);
   useAbrirNoCanvas('carrinho', setCartOpen);
@@ -301,7 +333,7 @@ export default function Header14() {
               </button>
 
               <a className={styles.logo} href="/" aria-label={`${brandName.replace('/', ' ')}, página inicial`} data-role="hd-logo">
-                {logo ? <img src={logo} alt="Logo" height={30} /> : <Marca nome={brandName} />}
+                {logo ? <img src={logo} alt={logoAlt || 'Logo'} height={30} /> : <Marca nome={brandName} />}
               </a>
 
               {menu.length > 0 && (
@@ -401,7 +433,7 @@ export default function Header14() {
                               <ul className={styles.drawerSub}>
                                 {item.url && (
                                   <li>
-                                    <a href={item.url}>Ver tudo</a>
+                                    <a href={item.url}>{viewAllLabel || 'Ver tudo'}</a>
                                   </li>
                                 )}
                                 {item.children.map((c, j) => (
@@ -447,3 +479,6 @@ export default function Header14() {
     </>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header14.conteudoPadrao = MOCK;

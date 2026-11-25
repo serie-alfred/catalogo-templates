@@ -2,6 +2,7 @@ import React from 'react';
 
 import styles from './index.module.css';
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `molecules/ProductDescription13` do faststore.starter (família 13, Noturno; desenho
@@ -14,9 +15,25 @@ import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
  * resolve: a especificação "Tecnologia" vira os cartões ("Título: texto"), a "Imagem da
  * descrição" vira a figura (o bloco grafite em data URI do mock) e as demais especificações
  * viram a ficha, menos a escondida no CMS ("Detalhes") e o guia de medidas. Sai o `usePDP`.
+ *
+ * O título e o `hiddenSpecs` são do CMS e vêm do `useConteudoDaSecao`. O tipo não traz
+ * `featuresSpecName` nem `imageSpecName`: dizem qual especificação do produto vira os cartões
+ * e a figura, e o produto de exemplo já vem resolvido (o 1-conteudo os lista como não
+ * desenhados).
  */
 
-const TITLE = 'Tecnologia';
+/** O conteúdo da seção: os campos do `section.schema` do ProductDescription13. */
+interface ProductDescription13Conteudo {
+  title?: string;
+  /** Especificações a esconder, separadas por vírgula ("Detalhes, Gênero"). */
+  hiddenSpecs?: string;
+}
+
+const MOCK: ProductDescription13Conteudo = {
+  title: 'Tecnologia',
+  hiddenSpecs: 'Detalhes',
+};
+
 const PRODUCT_NAME = 'Tênis Runner V2 Preto/Lima';
 const DESCRIPTION_HTML =
   '<p>O Runner V2 foi desenhado para quilômetros no asfalto e para a volta pra casa depois do rolê.</p>';
@@ -37,6 +54,14 @@ const IMAGE_URL = `data:image/svg+xml;utf8,${encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600"><rect width="1200" height="600" fill="#1E1E1E"/></svg>'
 )}`;
 
+/** Como o starter compara nomes: sem acento, sem caixa, sem espaço nas pontas. */
+const norm = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .trim()
+    .toLowerCase();
+
 const two = (n: number) => String(n).padStart(2, '0');
 
 /** "Título: texto" → { title, text }; sem ":" fica só o título. */
@@ -46,15 +71,23 @@ const split = (line: string) => {
 };
 
 export default function ProductDescription13() {
+  const { title: TITLE = '', hiddenSpecs } = useConteudoDaSecao(MOCK);
   const features = FEATURES.map(split);
+  const escondidas = new Set(
+    String(hiddenSpecs ?? '')
+      .split(',')
+      .map(norm)
+      .filter(Boolean)
+  );
+  const specs = SPECS.filter(s => !escondidas.has(norm(s.name)));
 
   return (
     <div className={styles.productDescription13Box}>
-      <section className={styles.productDescription13} aria-label={TITLE} data-role="pd-root">
+      <section className={styles.productDescription13} aria-label={TITLE || 'Descrição'} data-role="pd-root">
         <link rel="stylesheet" href={FONTES_13} />
         <div className={styles.inner}>
           <div className={styles.head} data-role="pd-head">
-            <h2 className={styles.title}>{TITLE}</h2>
+            {TITLE && <h2 className={styles.title}>{TITLE}</h2>}
             <div className={styles.intro} data-role="pd-description" dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }} />
           </div>
 
@@ -73,16 +106,18 @@ export default function ProductDescription13() {
           </div>
 
           <div className={styles.bottom}>
-            <dl className={styles.specs} data-role="pd-specs">
-              {SPECS.map(s => (
-                <div key={s.name} className={styles.spec}>
-                  <dt>{s.name}</dt>
-                  <dd>{s.value}</dd>
-                </div>
-              ))}
-            </dl>
+            {specs.length > 0 && (
+              <dl className={styles.specs} data-role="pd-specs">
+                {specs.map(s => (
+                  <div key={s.name} className={styles.spec}>
+                    <dt>{s.name}</dt>
+                    <dd>{s.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
             <figure className={styles.figure} data-role="pd-image">
-              <img src={IMAGE_URL} alt={`${TITLE} — ${PRODUCT_NAME}`} width={1200} height={600} loading="lazy" decoding="async" />
+              <img src={IMAGE_URL} alt={TITLE ? `${TITLE} — ${PRODUCT_NAME}` : PRODUCT_NAME} width={1200} height={600} loading="lazy" decoding="async" />
             </figure>
           </div>
         </div>
@@ -90,3 +125,6 @@ export default function ProductDescription13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductDescription13.conteudoPadrao = MOCK;

@@ -87,7 +87,7 @@ export default function ConteudoPanel() {
     return (
       <p className={styles.vazio}>
         <strong>{layoutItem.title}</strong> ainda não tem conteúdo editável. As peças estão ficando
-        editáveis família por família — hoje, a família 09 inteira.
+        editáveis família por família — hoje, as famílias 09 a 17.
       </p>
     );
   }

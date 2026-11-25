@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useFitaEmPixels } from '@/hooks/useFitaEmPixels';
 
 import styles from './index.module.css';
@@ -8,27 +9,28 @@ import styles from './index.module.css';
 /**
  * Espelha `molecules/BenefitsStrip14` do faststore.starter (família 14, Esportiva; desenho
  * `Ruler14` / `Ruler14-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as
- * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá, por
+ * baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  * A faixa corre de lado com a lista quatro vezes (as cópias `aria-hidden`; -50% = duas listas,
  * que cobrem uma tela de 2560px) e para com
  * `prefers-reduced-motion` — desvio aprovado da 14, igual a lá.
  */
 type BenefitsStrip14Icon = 'truck' | 'card' | 'exchange' | 'store' | 'clock';
 
-interface BenefitsStrip14Benefit {
-  icon?: BenefitsStrip14Icon;
-  text?: string;
-  url?: string;
+interface Ruler14Conteudo {
+  benefits: { icon?: BenefitsStrip14Icon; text?: string; url?: string }[];
 }
 
 // Conteúdo do mock.ts do starter.
-const BENEFITS: BenefitsStrip14Benefit[] = [
-  { icon: 'truck', text: 'Frete grátis acima de R$ 299' },
-  { icon: 'card', text: 'Até 10x sem juros' },
-  { icon: 'exchange', text: 'Troca grátis em 30 dias' },
-  { icon: 'store', text: 'Retire na loja em 2 h' },
-  { icon: 'clock', text: 'Envio em 24 h úteis' },
-];
+const MOCK: Ruler14Conteudo = {
+  benefits: [
+    { icon: 'truck', text: 'Frete grátis acima de R$ 299' },
+    { icon: 'card', text: 'Até 10x sem juros' },
+    { icon: 'exchange', text: 'Troca grátis em 30 dias' },
+    { icon: 'store', text: 'Retire na loja em 2 h' },
+    { icon: 'clock', text: 'Envio em 24 h úteis' },
+  ],
+};
 
 const ICONES: Record<BenefitsStrip14Icon, React.ReactNode> = {
   truck: (
@@ -60,10 +62,12 @@ const ICONES: Record<BenefitsStrip14Icon, React.ReactNode> = {
 };
 
 export default function Ruler14() {
-  const itens = BENEFITS.filter(b => b.text);
+  const { benefits } = useConteudoDaSecao(MOCK);
+  const itens = benefits.filter(b => b.text);
   // A animação anda meia fita (2 das 4 listas): em pixels inteiros, os ícones não tremem.
   const fitaRef = useRef<HTMLDivElement>(null);
   const fitaPx = useFitaEmPixels(fitaRef, 2);
+  if (!itens.length) return null;
 
   const lista = (copia: boolean) => (
     <ul className={styles.list} aria-hidden={copia || undefined}>
@@ -132,3 +136,6 @@ export default function Ruler14() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Ruler14.conteudoPadrao = MOCK;

@@ -3,6 +3,7 @@
 import React, { useId, useState } from 'react';
 
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -14,6 +15,10 @@ import styles from './index.module.css';
  * Conteúdo = o exemplo do palco do `mock.ts` de lá (o que o starter desenha sem
  * PDP). Sai o `usePDP`, o Reviews and Ratings e o ramo do widget Trustvox; o envio
  * do formulário só confirma, como o starter faz no exemplo.
+ *
+ * Os rótulos e o tamanho da página são do CMS e vêm do `useConteudoDaSecao`; nota,
+ * distribuição e avaliações são o exemplo de lá. Ficam fora `emptyText` (a lista de
+ * exemplo nunca é vazia) e `formError` (o envio só confirma).
  */
 
 interface Review {
@@ -25,7 +30,25 @@ interface Review {
   reviewDateTime: string;
 }
 
-const MOCK = {
+/** O conteúdo da seção: os campos do `section.schema` do ProductReviews10. */
+interface ProductReviews10Conteudo {
+  title?: string;
+  countLabel?: string;
+  starSingular?: string;
+  starPlural?: string;
+  writeLabel?: string;
+  moreLabel?: string;
+  /** Avaliações por página; vira o passo do "Ver mais". */
+  pageSize?: number;
+  formRatingLabel?: string;
+  formTitleLabel?: string;
+  formTextLabel?: string;
+  formNameLabel?: string;
+  formSubmitLabel?: string;
+  formSuccess?: string;
+}
+
+const MOCK: ProductReviews10Conteudo = {
   title: 'Avaliações',
   countLabel: 'avaliações',
   starSingular: 'estrela',
@@ -78,7 +101,8 @@ const REVIEWS: Review[] = [
   },
 ];
 
-const STAR_PATH = 'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z';
+const STAR_PATH =
+  'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z';
 const Stars = ({ value, size }: { value: number; size: number }) => (
   <span className={styles.stars} aria-hidden="true">
     {[1, 2, 3, 4, 5].map(n => (
@@ -99,12 +123,29 @@ const Stars = ({ value, size }: { value: number; size: number }) => (
 
 const formatDate = (raw: string) => {
   const d = new Date(raw);
-  return Number.isNaN(d.getTime()) ? raw : d.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+  return Number.isNaN(d.getTime())
+    ? raw
+    : d.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 };
 const average = (n: number) => n.toFixed(1).replace('.', ',');
 const count = (n: number) => n.toLocaleString('pt-BR');
 
 export default function ProductReviews10() {
+  const {
+    title,
+    countLabel,
+    starSingular,
+    starPlural,
+    writeLabel,
+    moreLabel,
+    pageSize: pageSizeDoCs,
+    formRatingLabel,
+    formTitleLabel,
+    formTextLabel,
+    formNameLabel,
+    formSubmitLabel,
+    formSuccess,
+  } = useConteudoDaSecao(MOCK);
   const uid = useId();
   const [pages, setPages] = useState(1);
   const [formOpen, setFormOpen] = useState(false);
@@ -123,7 +164,9 @@ export default function ProductReviews10() {
     { stars: 2, count: SUMMARY.starsTwo },
     { stars: 1, count: SUMMARY.starsOne },
   ];
-  const size = pages * MOCK.pageSize;
+  // O número vem do CS: um passo inteiro, de no mínimo 1.
+  const pageSize = Math.max(1, Math.round(pageSizeDoCs ?? 0) || 3);
+  const size = pages * pageSize;
   const reviews = REVIEWS.slice(0, size);
   const hasMore = size < total;
 
@@ -135,11 +178,16 @@ export default function ProductReviews10() {
 
   return (
     <div className={styles.productReviews10Box}>
-      <section id="avaliacoes" className={styles.productReviews10} aria-label={MOCK.title} data-role="rv-root">
+      <section
+        id="avaliacoes"
+        className={styles.productReviews10}
+        aria-label={title}
+        data-role="rv-root"
+      >
         <link rel="stylesheet" href={FONTES_10} />
         <div className={styles.inner}>
           <h2 className={styles.title} data-role="rv-title">
-            {MOCK.title}
+            {title}
           </h2>
           <div className={styles.cols}>
             <div className={styles.summary} data-role="rv-summary">
@@ -148,10 +196,12 @@ export default function ProductReviews10() {
                   {average(avg)}
                 </span>
                 <span className={styles.averageMeta}>
-                  <span className={styles.srOnly}>Nota média {average(avg)} de 5</span>
+                  <span className={styles.srOnly}>
+                    Nota média {average(avg)} de 5
+                  </span>
                   <Stars value={Math.round(avg)} size={20} />
                   <span className={styles.muted}>
-                    {count(total)} {MOCK.countLabel}
+                    {count(total)} {countLabel}
                   </span>
                 </span>
               </div>
@@ -161,14 +211,24 @@ export default function ProductReviews10() {
                     <span className={styles.distLabel}>
                       <span aria-hidden="true">{d.stars}</span>
                       <span className={styles.srOnly}>
-                        {d.stars} {d.stars === 1 ? MOCK.starSingular : MOCK.starPlural}
+                        {d.stars} {d.stars === 1 ? starSingular : starPlural}
                       </span>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <svg
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        aria-hidden="true"
+                      >
                         <path d={STAR_PATH} />
                       </svg>
                     </span>
                     <span className={styles.bar} aria-hidden="true">
-                      <span style={{ width: `${Math.round((d.count / total) * 100)}%` }} />
+                      <span
+                        style={{
+                          width: `${Math.round((d.count / total) * 100)}%`,
+                        }}
+                      />
                     </span>
                     <span className={styles.distCount}>{count(d.count)}</span>
                   </li>
@@ -183,19 +243,26 @@ export default function ProductReviews10() {
                 aria-controls={`${uid}-form`}
                 data-role="rv-write"
               >
-                {MOCK.writeLabel}
+                {writeLabel}
               </button>
 
               {formOpen && (
-                <form id={`${uid}-form`} className={styles.form} onSubmit={onSubmit} data-role="rv-form">
+                <form
+                  id={`${uid}-form`}
+                  className={styles.form}
+                  onSubmit={onSubmit}
+                  data-role="rv-form"
+                >
                   {enviado ? (
                     <p className={styles.formOk} role="status">
-                      {MOCK.formSuccess}
+                      {formSuccess}
                     </p>
                   ) : (
                     <>
                       <fieldset className={styles.rate}>
-                        <legend className={styles.label}>{MOCK.formRatingLabel}</legend>
+                        <legend className={styles.label}>
+                          {formRatingLabel}
+                        </legend>
                         <div className={styles.rateStars}>
                           {[1, 2, 3, 4, 5].map(n => (
                             <label key={n} className={styles.rateStar}>
@@ -208,7 +275,7 @@ export default function ProductReviews10() {
                                 required
                               />
                               <span className={styles.srOnly}>
-                                {n} {n === 1 ? MOCK.starSingular : MOCK.starPlural}
+                                {n} {n === 1 ? starSingular : starPlural}
                               </span>
                               <svg
                                 width="26"
@@ -226,7 +293,7 @@ export default function ProductReviews10() {
                         </div>
                       </fieldset>
                       <label className={styles.field}>
-                        <span className={styles.label}>{MOCK.formTitleLabel}</span>
+                        <span className={styles.label}>{formTitleLabel}</span>
                         <input
                           type="text"
                           required
@@ -236,7 +303,7 @@ export default function ProductReviews10() {
                         />
                       </label>
                       <label className={styles.field}>
-                        <span className={styles.label}>{MOCK.formTextLabel}</span>
+                        <span className={styles.label}>{formTextLabel}</span>
                         <textarea
                           required
                           rows={4}
@@ -246,7 +313,7 @@ export default function ProductReviews10() {
                         />
                       </label>
                       <label className={styles.field}>
-                        <span className={styles.label}>{MOCK.formNameLabel}</span>
+                        <span className={styles.label}>{formNameLabel}</span>
                         <input
                           type="text"
                           required
@@ -256,8 +323,12 @@ export default function ProductReviews10() {
                           onChange={e => setReviewName(e.target.value)}
                         />
                       </label>
-                      <button type="submit" className={styles.submit} disabled={rating < 1}>
-                        {MOCK.formSubmitLabel}
+                      <button
+                        type="submit"
+                        className={styles.submit}
+                        disabled={rating < 1}
+                      >
+                        {formSubmitLabel}
                       </button>
                     </>
                   )}
@@ -268,9 +339,15 @@ export default function ProductReviews10() {
             <div className={styles.list} data-role="rv-list">
               {reviews.map(r => {
                 const nota = Math.max(0, Math.min(5, Math.round(r.rating)));
-                const meta = [r.reviewerName, formatDate(r.reviewDateTime)].filter(Boolean).join(' · ');
+                const meta = [r.reviewerName, formatDate(r.reviewDateTime)]
+                  .filter(Boolean)
+                  .join(' · ');
                 return (
-                  <article key={r.id} className={styles.review} data-role="rv-review">
+                  <article
+                    key={r.id}
+                    className={styles.review}
+                    data-role="rv-review"
+                  >
                     <div className={styles.reviewTop}>
                       <span className={styles.srOnly}>Nota {nota} de 5</span>
                       <Stars value={nota} size={16} />
@@ -289,7 +366,7 @@ export default function ProductReviews10() {
                   onClick={() => setPages(n => n + 1)}
                   data-role="rv-more"
                 >
-                  {MOCK.moreLabel}
+                  {moreLabel}
                 </button>
               )}
             </div>
@@ -299,3 +376,6 @@ export default function ProductReviews10() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductReviews10.conteudoPadrao = MOCK;

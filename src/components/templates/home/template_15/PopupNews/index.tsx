@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -17,7 +19,7 @@ import styles from './index.module.css';
  * e o envio mostra a mensagem de sucesso. Sem arte (o mock de lá também não tem): vale o
  * fundo de placeholder.
  */
-interface PopupNews15Props {
+interface PopupNews15Conteudo {
   imageDesktop?: string;
   imageMobile?: string;
   imageAlt?: string;
@@ -75,7 +77,7 @@ export default function PopupNews15() {
     privacyPrefix,
     privacyLabel,
     privacyUrl,
-  } = CONTEUDO;
+  } = useConteudoDaSecao(MOCK);
 
   const [aberto, setAberto] = useState(true);
   const [nome, setNome] = useState('');
@@ -232,7 +234,7 @@ export default function PopupNews15() {
 }
 
 // Conteúdo do mock.ts do starter.
-const CONTEUDO: PopupNews15Props = {
+const MOCK: PopupNews15Conteudo = {
   eyebrow: 'Primeira visita',
   title: 'Seja bem-vinda à',
   titleEmphasis: 'maison',
@@ -249,3 +251,6 @@ const CONTEUDO: PopupNews15Props = {
   privacyLabel: 'Política de Privacidade',
   privacyUrl: '/institucional/privacidade',
 };
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+PopupNews15.conteudoPadrao = MOCK;

@@ -4,6 +4,8 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 
 import { FONTES_17 } from '@/components/templates/common/template_17/Spot';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -18,6 +20,10 @@ import styles from './index.module.css';
  * Lá a nota e a lista vêm do Reviews and Ratings (ou, com Trustvox, só a moldura com o widget);
  * aqui são o exemplo do mock.ts de lá (a casca sem Trustvox). O formulário abre e "envia" só
  * localmente, como o mock de lá.
+ *
+ * Os rótulos e o tamanho da página são do CMS e vêm do `useConteudoDaSecao`; as avaliações são as
+ * de exemplo. O tipo não traz `emptyText` nem `formError`: o exemplo sempre tem avaliações e o
+ * envio sempre dá certo.
  */
 interface Review17 {
   id: string;
@@ -29,7 +35,26 @@ interface Review17 {
   location: string;
 }
 
-const L = {
+interface ProductReviews17Conteudo {
+  title?: string;
+  countLabel?: string;
+  starSingular?: string;
+  starPlural?: string;
+  writeLabel?: string;
+  prevLabel?: string;
+  nextLabel?: string;
+  pageSize: number;
+  mobilePageSize: number;
+  moreLabel?: string;
+  formRatingLabel?: string;
+  formTitleLabel?: string;
+  formTextLabel?: string;
+  formNameLabel?: string;
+  formSubmitLabel?: string;
+  formSuccess?: string;
+}
+
+const MOCK: ProductReviews17Conteudo = {
   title: 'O que os tutores dizem',
   countLabel: 'avaliações',
   starSingular: 'estrela',
@@ -37,6 +62,8 @@ const L = {
   writeLabel: 'Escrever avaliação',
   prevLabel: 'Página anterior',
   nextLabel: 'Próxima página',
+  pageSize: 3,
+  mobilePageSize: 2,
   moreLabel: 'Ver mais avaliações',
   formRatingLabel: 'Sua nota',
   formTitleLabel: 'Título',
@@ -45,10 +72,16 @@ const L = {
   formSubmitLabel: 'Enviar avaliação',
   formSuccess: 'Obrigado! Sua avaliação aparece aqui depois da moderação.',
 };
-const PER_PAGE = 3;
-const MOBILE_PER = 2;
 // Média e distribuição do desenho: 4,9 em 214, com as barras de 86% · 10% · 3% · 1% · 0.
-const SUMMARY = { average: 4.9, totalCount: 214, starsFive: 184, starsFour: 21, starsThree: 6, starsTwo: 3, starsOne: 0 };
+const SUMMARY = {
+  average: 4.9,
+  totalCount: 214,
+  starsFive: 184,
+  starsFour: 21,
+  starsThree: 6,
+  starsTwo: 3,
+  starsOne: 0,
+};
 const BASE = [
   {
     rating: 5,
@@ -74,10 +107,15 @@ const BASE = [
 ];
 // Repetidas para a paginação ter páginas (como no mock de lá).
 const REVIEWS: Review17[] = [0, 1, 2].flatMap(p =>
-  BASE.map((r, i) => ({ ...r, id: `r${p * 3 + i + 1}`, reviewDateTime: '2026-10-14T12:00:00Z' }))
+  BASE.map((r, i) => ({
+    ...r,
+    id: `r${p * 3 + i + 1}`,
+    reviewDateTime: '2026-10-14T12:00:00Z',
+  }))
 );
 
-const STAR_PATH = 'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z';
+const STAR_PATH =
+  'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z';
 /** Cinco estrelas: as `n` primeiras cheias, as outras só com o contorno (como no desenho). */
 const Stars = ({ n, className }: { n: number; className: string }) => (
   <span className={className} aria-hidden="true">
@@ -87,7 +125,14 @@ const Stars = ({ n, className }: { n: number; className: string }) => (
           <path d={STAR_PATH} />
         </svg>
       ) : (
-        <svg key={i} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
+        <svg
+          key={i}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinejoin="round"
+        >
           <path d={STAR_PATH} />
         </svg>
       )
@@ -138,6 +183,13 @@ const pageWindow = (current: number, total: number) => {
 };
 
 export default function ProductReviews17() {
+  const L = useConteudoDaSecao(MOCK);
+  // Número do CS que vira divisor/paginação: inteiro >= 1, senão o padrão.
+  const PER_PAGE = Math.max(1, Math.round(L.pageSize) || MOCK.pageSize);
+  const MOBILE_PER = Math.max(
+    1,
+    Math.round(L.mobilePageSize) || MOCK.mobilePageSize
+  );
   const uid = useId();
   const [page, setPage] = useState(1);
   const [formOpen, setFormOpen] = useState(false);
@@ -146,7 +198,7 @@ export default function ProductReviews17() {
   const listRef = useRef<HTMLDivElement>(null);
   // Desktop pagina; mobile soma blocos ("Ver mais"). No canvas o iframe É a janela da loja.
   const [mobile, setMobile] = useState(false);
-  const [shown, setShown] = useState(MOBILE_PER);
+  const [blocos, setBlocos] = useState(1);
   useEffect(() => {
     const mq = window.matchMedia('(max-width: 960px)');
     const sync = () => setMobile(mq.matches);
@@ -165,7 +217,7 @@ export default function ProductReviews17() {
     { stars: 1, count: SUMMARY.starsOne },
   ];
   const from = mobile ? 0 : (page - 1) * PER_PAGE;
-  const to = mobile ? shown : from + PER_PAGE;
+  const to = mobile ? blocos * MOBILE_PER : from + PER_PAGE;
   const reviews = REVIEWS.slice(from, to);
   const pages = Math.max(1, Math.ceil(REVIEWS.length / PER_PAGE));
   const hasMore = mobile && reviews.length < REVIEWS.length;
@@ -177,12 +229,19 @@ export default function ProductReviews17() {
 
   return (
     <div className={styles.productReviews17Box}>
-      <section id="avaliacoes" className={styles.productReviews17} aria-label={L.title} data-role="rv-root">
+      <section
+        id="avaliacoes"
+        className={styles.productReviews17}
+        aria-label={L.title || 'Avaliações'}
+        data-role="rv-root"
+      >
         <link rel="stylesheet" href={FONTES_17} />
         <div className={styles.inner}>
-          <h2 className={styles.title} data-role="rv-title">
-            {L.title}
-          </h2>
+          {L.title && (
+            <h2 className={styles.title} data-role="rv-title">
+              {L.title}
+            </h2>
+          )}
 
           <div className={styles.body}>
             <aside className={styles.summary} data-role="rv-summary">
@@ -191,27 +250,41 @@ export default function ProductReviews17() {
                   {decimal(avg)}
                 </span>
                 <span className={styles.avgSide}>
-                  <span className={styles.srOnly}>Nota média {decimal(avg)} de 5</span>
+                  <span className={styles.srOnly}>
+                    Nota média {decimal(avg)} de 5
+                  </span>
                   <Stars n={Math.round(avg)} className={styles.starsBig} />
                   <span className={styles.avgCount}>
                     {count(total)} {L.countLabel}
                   </span>
                 </span>
               </div>
-              <ul className={styles.dist} aria-label="Distribuição das notas" data-role="rv-distribution">
+              <ul
+                className={styles.dist}
+                aria-label="Distribuição das notas"
+                data-role="rv-distribution"
+              >
                 {dist.map(d => {
                   const pct = Math.round((d.count / total) * 100);
                   return (
                     <li key={d.stars} className={styles.distItem}>
                       <span className={styles.distLabel}>
                         {d.stars}
-                        <span className={styles.srOnly}> {d.stars === 1 ? L.starSingular : L.starPlural}</span>
+                        <span className={styles.srOnly}>
+                          {' '}
+                          {d.stars === 1 ? L.starSingular : L.starPlural}
+                        </span>
                       </span>
                       <span className={styles.distStar}>
                         <Star filled size={14} />
                       </span>
                       <span className={styles.bar} aria-hidden="true">
-                        {pct > 0 && <span className={styles.barFill} style={{ width: `${pct}%` }} />}
+                        {pct > 0 && (
+                          <span
+                            className={styles.barFill}
+                            style={{ width: `${pct}%` }}
+                          />
+                        )}
                       </span>
                       <span className={styles.distPct}>{pct}%</span>
                     </li>
@@ -246,7 +319,9 @@ export default function ProductReviews17() {
                   ) : (
                     <>
                       <fieldset className={styles.rate}>
-                        <legend className={styles.label}>{L.formRatingLabel}</legend>
+                        <legend className={styles.label}>
+                          {L.formRatingLabel}
+                        </legend>
                         <div className={styles.rateStars}>
                           {[1, 2, 3, 4, 5].map(n => (
                             <label key={n} className={styles.rateStar}>
@@ -276,9 +351,18 @@ export default function ProductReviews17() {
                       </label>
                       <label className={styles.field}>
                         <span className={styles.label}>{L.formNameLabel}</span>
-                        <input type="text" required autoComplete="name" maxLength={80} />
+                        <input
+                          type="text"
+                          required
+                          autoComplete="name"
+                          maxLength={80}
+                        />
                       </label>
-                      <button type="submit" className={styles.submit} disabled={rating < 1}>
+                      <button
+                        type="submit"
+                        className={styles.submit}
+                        disabled={rating < 1}
+                      >
                         {L.formSubmitLabel}
                       </button>
                     </>
@@ -289,11 +373,19 @@ export default function ProductReviews17() {
 
             <div ref={listRef} className={styles.list} data-role="rv-list">
               {reviews.map(r => (
-                <article key={r.id} className={styles.review} data-role="rv-review">
+                <article
+                  key={r.id}
+                  className={styles.review}
+                  data-role="rv-review"
+                >
                   <div className={styles.reviewTop}>
-                    <span className={styles.srOnly}>{r.rating} de 5 estrelas</span>
+                    <span className={styles.srOnly}>
+                      {r.rating} de 5 estrelas
+                    </span>
                     <Stars n={r.rating} className={styles.starsSmall} />
-                    <span className={styles.date}>{formatDate(r.reviewDateTime)}</span>
+                    <span className={styles.date}>
+                      {formatDate(r.reviewDateTime)}
+                    </span>
                   </div>
                   <h3 className={styles.reviewTitle}>{r.title}</h3>
                   <p className={styles.reviewText}>{r.text}</p>
@@ -304,7 +396,11 @@ export default function ProductReviews17() {
               ))}
 
               {pages > 1 && (
-                <nav className={styles.pager} aria-label="Páginas de avaliações" data-role="rv-pager">
+                <nav
+                  className={styles.pager}
+                  aria-label="Páginas de avaliações"
+                  data-role="rv-pager"
+                >
                   {page > 1 && (
                     <button
                       type="button"
@@ -342,7 +438,12 @@ export default function ProductReviews17() {
           </div>
 
           {hasMore && (
-            <button type="button" className={styles.more} onClick={() => setShown(n => n + MOBILE_PER)} data-role="rv-more">
+            <button
+              type="button"
+              className={styles.more}
+              onClick={() => setBlocos(n => n + 1)}
+              data-role="rv-more"
+            >
               {L.moreLabel}
             </button>
           )}
@@ -351,3 +452,6 @@ export default function ProductReviews17() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductReviews17.conteudoPadrao = MOCK;

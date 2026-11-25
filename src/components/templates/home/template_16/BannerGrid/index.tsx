@@ -1,16 +1,17 @@
 import React from 'react'
+
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao'
+
 import styles from './index.module.css'
 
 /**
  * Espelha `molecules/BannerGrid16` do faststore.starter (família 16, Infantil). Mesmo markup, mesmas classes,
  * mesmos `data-role` e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo =
- * o mock.ts de lá. A seção fica dentro do envelope `.bannerGrid16Box` (container das @container).
+ * o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá). A seção fica dentro do envelope `.bannerGrid16Box` (container das @container).
  */
 
-// Conteúdo do mock.ts do starter.
-// Mock de validação local — exibido quando o CMS não envia conteúdo (MOCK_ENABLED).
 // Textos literais do desenho `BannerGrid16`. Sem arte: o desenho também não tem (valem os pastéis).
-const bannerGrid16Mock: BannerGrid16Props = {
+const MOCK: BannerGrid16Conteudo = {
   banners: [
     {
       eyebrow: '3 a 8 anos',
@@ -52,7 +53,7 @@ const bannerGrid16Mock: BannerGrid16Props = {
  * Apresentacional — sem evento de analytics (sem IDs de promoção: `view_promotion` não entra, gap
  * sinalizado) e sem valor de commerce.
  */
-export interface BannerGrid16Banner {
+interface BannerGrid16Banner {
   /** Texto da bolha inclinada (ex.: "3 a 8 anos"). Vazio esconde. */
   eyebrow?: string
   title?: string
@@ -64,8 +65,8 @@ export interface BannerGrid16Banner {
   imageAlt?: string
 }
 
-export interface BannerGrid16Props {
-  banners?: BannerGrid16Banner[]
+interface BannerGrid16Conteudo {
+  banners: BannerGrid16Banner[]
 }
 
 const FONTES = 'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap'
@@ -81,7 +82,7 @@ const Seta = () => (
 const TONS = [styles.tom0, styles.tom1, styles.tom2]
 
 export default function BannerGrid16() {
-  const { banners = [] } = bannerGrid16Mock
+  const { banners } = useConteudoDaSecao(MOCK)
   if (!banners.length) return null
 
   return (
@@ -125,3 +126,6 @@ export default function BannerGrid16() {
     </div>
   )
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerGrid16.conteudoPadrao = MOCK;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -8,7 +9,8 @@ import styles from './index.module.css';
  * Espelha `molecules/Categories11` do faststore.starter (família 11, Grade; desenho
  * `Categories11` / `Categories11-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`
  * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá
- * (sem arte: vale o placeholder do CSS). A linha em foco (hover/teclado; a 1ª ao abrir)
+ * (sem arte: vale o placeholder do CSS), por baixo do que o CS subir
+ * (`useConteudoDaSecao`, campos do schema de lá). A linha em foco (hover/teclado; a 1ª ao abrir)
  * fica invertida, como lá.
  */
 interface Categories11Category {
@@ -18,16 +20,16 @@ interface Categories11Category {
   imageAlt?: string;
 }
 
-interface Categories11Props {
+interface Categories11Conteudo {
   sectionNumber?: string;
   title?: string;
   viewAllLabel?: string;
   viewAllUrl?: string;
-  categories?: Categories11Category[];
+  categories: Categories11Category[];
 }
 
 // Conteúdo do mock.ts do starter.
-const MOCK: Categories11Props = {
+const MOCK: Categories11Conteudo = {
   sectionNumber: '01',
   title: 'Categorias',
   viewAllLabel: 'Ver tudo',
@@ -63,8 +65,8 @@ export default function Categories11() {
     title,
     viewAllLabel,
     viewAllUrl,
-    categories = [],
-  } = MOCK;
+    categories,
+  } = useConteudoDaSecao(MOCK);
   const [foco, setFoco] = useState(0);
 
   if (!categories.length) return null;
@@ -159,3 +161,6 @@ export default function Categories11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Categories11.conteudoPadrao = MOCK;

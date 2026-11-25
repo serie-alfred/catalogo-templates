@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { FONTES_17 as FONTES } from '@/components/templates/common/template_17/Spot'
-import styles from './index.module.css'
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { FONTES_17 as FONTES } from '@/components/templates/common/template_17/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import styles from './index.module.css';
 
 /**
  * Espelha `organisms/ClientReview17` do faststore.starter (família 17, Pet; desenho
@@ -18,22 +19,23 @@ import styles from './index.module.css'
 
 interface ClientReview17Review {
   /** Nota de 1 a 5 (opcional; vazio esconde as estrelas). */
-  rating?: number
-  text?: string
-  author?: string
+  rating?: number;
+  text?: string;
+  author?: string;
   /** Linha de apoio sob o nome. */
-  detail?: string
+  detail?: string;
   /** Foto no recorte orgânico (opcional). */
-  image?: string
+  image?: string;
 }
 
-interface ClientReview17Props {
-  title?: string
-  reviews?: ClientReview17Review[]
+/** O conteúdo da seção: os campos do `section.schema` do ClientReview17. */
+interface ClientReview17Conteudo {
+  title?: string;
+  reviews: ClientReview17Review[];
 }
 
 // Conteúdo do mock.ts do starter (textos do desenho; sem foto: vale o recorte neutro).
-const clientReview17Mock: ClientReview17Props = {
+const MOCK: ClientReview17Conteudo = {
   title: 'Quem tem pet, aprova',
   reviews: [
     {
@@ -55,61 +57,93 @@ const clientReview17Mock: ClientReview17Props = {
       detail: 'Tutora do Thor, labrador de 6 anos',
     },
   ],
-}
+};
 
-
-const STAR = 'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z'
+const STAR =
+  'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z';
 
 const Stars = ({ nota }: { nota: number }) => (
   <span className={styles.stars} role="img" aria-label={`Nota ${nota} de 5`}>
-    {[0, 1, 2, 3, 4].map((i) => (
-      <svg key={i} className={nota >= i + 0.5 ? undefined : styles.starOff} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    {[0, 1, 2, 3, 4].map(i => (
+      <svg
+        key={i}
+        className={nota >= i + 0.5 ? undefined : styles.starOff}
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
         <path d={STAR} />
       </svg>
     ))}
   </span>
-)
+);
 
 const Chevron = ({ dir }: { dir: 'prev' | 'next' }) => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
     <path d={dir === 'next' ? 'm9 6 6 6-6 6' : 'm15 6-6 6 6 6'} />
   </svg>
-)
+);
 
 export default function ClientReview17() {
-  const { title, reviews = [] } = clientReview17Mock
-  const railRef = useRef<HTMLDivElement>(null)
-  const [trilho, setTrilho] = useState({ inicio: true, fim: true, paginas: 1, atual: 0 })
+  const { title, reviews } = useConteudoDaSecao(MOCK);
+  const railRef = useRef<HTMLDivElement>(null);
+  const [trilho, setTrilho] = useState({
+    inicio: true,
+    fim: true,
+    paginas: 1,
+    atual: 0,
+  });
 
   const medir = useCallback(() => {
-    const el = railRef.current
-    if (!el || !el.clientWidth) return
-    const fim = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1
-    const paginas = Math.max(1, Math.ceil((el.scrollWidth - 1) / el.clientWidth))
+    const el = railRef.current;
+    if (!el || !el.clientWidth) return;
+    const fim = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
+    const paginas = Math.max(
+      1,
+      Math.ceil((el.scrollWidth - 1) / el.clientWidth)
+    );
     setTrilho({
       inicio: el.scrollLeft <= 1,
       fim,
       paginas,
-      atual: fim ? paginas - 1 : Math.min(paginas - 1, Math.round(el.scrollLeft / el.clientWidth)),
-    })
-  }, [])
+      atual: fim
+        ? paginas - 1
+        : Math.min(paginas - 1, Math.round(el.scrollLeft / el.clientWidth)),
+    });
+  }, []);
   useEffect(() => {
-    medir()
-    window.addEventListener('resize', medir)
-    return () => window.removeEventListener('resize', medir)
-  }, [medir, reviews.length])
+    medir();
+    window.addEventListener('resize', medir);
+    return () => window.removeEventListener('resize', medir);
+  }, [medir, reviews.length]);
 
   const passo = (dir: 1 | -1) =>
     railRef.current?.scrollBy({
       left: dir * railRef.current.clientWidth,
-      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-    })
+      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? 'auto'
+        : 'smooth',
+    });
 
-  if (!reviews.length) return null
+  if (!reviews.length) return null;
 
   return (
     <div className={styles.clientReview17Box}>
-      <section className={styles.clientReview17} aria-label={title || 'Depoimentos'} data-role="cr-root">
+      <section
+        className={styles.clientReview17}
+        aria-label={title || 'Depoimentos'}
+        data-role="cr-root"
+      >
         <link rel="stylesheet" href={FONTES} />
         <div className={styles.inner}>
           <div className={styles.head}>
@@ -119,27 +153,61 @@ export default function ClientReview17() {
               </h2>
             )}
             <div className={styles.arrows}>
-              <button type="button" className={styles.arrow} onClick={() => passo(-1)} disabled={trilho.inicio} aria-label="Depoimentos anteriores">
+              <button
+                type="button"
+                className={styles.arrow}
+                onClick={() => passo(-1)}
+                disabled={trilho.inicio}
+                aria-label="Depoimentos anteriores"
+              >
                 <Chevron dir="prev" />
               </button>
-              <button type="button" className={`${styles.arrow} ${styles.arrowNext}`} onClick={() => passo(1)} disabled={trilho.fim} aria-label="Próximos depoimentos">
+              <button
+                type="button"
+                className={`${styles.arrow} ${styles.arrowNext}`}
+                onClick={() => passo(1)}
+                disabled={trilho.fim}
+                aria-label="Próximos depoimentos"
+              >
                 <Chevron dir="next" />
               </button>
             </div>
           </div>
-          <div ref={railRef} className={styles.rail} onScroll={medir} data-role="cr-list">
+          <div
+            ref={railRef}
+            className={styles.rail}
+            onScroll={medir}
+            data-role="cr-list"
+          >
             {reviews.map((r, i) => (
               <figure key={i} className={styles.card} data-role="cr-card">
-                {!!r.rating && <Stars nota={Math.min(5, Math.max(0, Number(r.rating)))} />}
-                {r.text && <blockquote className={styles.quote}>{r.text}</blockquote>}
+                {!!r.rating && (
+                  <Stars nota={Math.min(5, Math.max(0, Number(r.rating)))} />
+                )}
+                {r.text && (
+                  <blockquote className={styles.quote}>{r.text}</blockquote>
+                )}
                 {(r.author || r.detail) && (
                   <figcaption className={styles.who}>
                     <span className={styles.avatar} aria-hidden="true">
-                      {r.image && <img src={r.image} alt="" width={96} height={96} loading="lazy" decoding="async" />}
+                      {r.image && (
+                        <img
+                          src={r.image}
+                          alt=""
+                          width={96}
+                          height={96}
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      )}
                     </span>
                     <span className={styles.whoCopy}>
-                      {r.author && <span className={styles.author}>{r.author}</span>}
-                      {r.detail && <span className={styles.detail}>{r.detail}</span>}
+                      {r.author && (
+                        <span className={styles.author}>{r.author}</span>
+                      )}
+                      {r.detail && (
+                        <span className={styles.detail}>{r.detail}</span>
+                      )}
                     </span>
                   </figcaption>
                 )}
@@ -149,12 +217,18 @@ export default function ClientReview17() {
           {trilho.paginas > 1 && (
             <div className={styles.dots} aria-hidden="true">
               {Array.from({ length: trilho.paginas }).map((_, i) => (
-                <span key={i} className={`${styles.dot}${i === trilho.atual ? ` ${styles.dotOn}` : ''}`} />
+                <span
+                  key={i}
+                  className={`${styles.dot}${i === trilho.atual ? ` ${styles.dotOn}` : ''}`}
+                />
               ))}
             </div>
           )}
         </div>
       </section>
     </div>
-  )
+  );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ClientReview17.conteudoPadrao = MOCK;

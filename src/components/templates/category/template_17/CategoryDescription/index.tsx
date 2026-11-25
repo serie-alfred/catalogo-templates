@@ -2,6 +2,8 @@
 
 import React, { useEffect, useId, useRef, useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -13,6 +15,11 @@ import styles from './index.module.css';
  * Lá o texto e as perguntas vêm dos banners do Intelligent Search (áreas "one" e "two"); aqui são
  * o exemplo do mock.ts de lá, já separados em título, blocos e pares pergunta/resposta (o `<h2>`
  * inicial vira o título, como o `separar` de lá faz).
+ *
+ * Os rótulos são do CMS e vêm do `useConteudoDaSecao`. Divergência: lá o `<h2>` do banner vence o
+ * `aboutTitle`, que só vale sem ele; aqui o `aboutTitle` é o título (o mock traz o do exemplo, sem
+ * `{categoria}`), para o cliente ver o que edita. O texto e as perguntas entram com a categoria em
+ * destaque da loja (fase de produtos).
  */
 const FONTES =
   'https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap';
@@ -21,9 +28,22 @@ const FONTES =
 const VISIVEIS_DESK = 2;
 const VISIVEIS_MOB = 1;
 
-const EYEBROW = 'Guia de compra';
-const FAQ_TITLE = 'Perguntas frequentes';
-const TITULO = 'Como escolher a ração certa para o seu pet';
+interface CategoryDescription17Conteudo {
+  eyebrow?: string;
+  aboutTitle?: string;
+  faqTitle?: string;
+  readMoreLabel?: string;
+  readLessLabel?: string;
+}
+
+const MOCK: CategoryDescription17Conteudo = {
+  eyebrow: 'Guia de compra',
+  aboutTitle: 'Como escolher a ração certa para o seu pet',
+  faqTitle: 'Perguntas frequentes',
+  readMoreLabel: 'Ler mais',
+  readLessLabel: 'Ler menos',
+};
+
 const PARAGRAFOS = [
   'A ração ideal depende da espécie, da idade, do porte e do nível de atividade. Filhotes precisam de mais energia e cálcio; adultos castrados, de menos calorias; pets sênior, de proteína de fácil digestão e apoio às articulações.',
   'Use os filtros de categoria, marca, porte e preço para chegar mais rápido à opção certa e compare a tabela de níveis de garantia na página de cada produto.',
@@ -77,6 +97,8 @@ const Ico = ({
 );
 
 export default function CategoryDescription17() {
+  const { eyebrow, aboutTitle, faqTitle, readMoreLabel, readLessLabel } =
+    useConteudoDaSecao(MOCK);
   const [aberto, setAberto] = useState(false);
   const [blocos, setBlocos] = useState(0);
   const [faqAberta, setFaqAberta] = useState<number | null>(0);
@@ -98,25 +120,29 @@ export default function CategoryDescription17() {
     <div className={styles.categorySeoFaq17Box}>
       <section
         className={styles.categorySeoFaq17}
-        aria-label={TITULO}
+        aria-label={aboutTitle || faqTitle || 'Sobre a categoria'}
         data-role="cd-root"
       >
         <link rel="stylesheet" href={FONTES} />
         <div className={styles.box}>
           <div className={styles.about} data-role="cd-about">
-            <span className={styles.eyebrow} data-role="cd-eyebrow">
-              <Ico size={18} w={1.8}>
-                <ellipse cx="5.5" cy="10" rx="2" ry="2.6" />
-                <ellipse cx="9.5" cy="5.5" rx="2" ry="2.6" />
-                <ellipse cx="14.5" cy="5.5" rx="2" ry="2.6" />
-                <ellipse cx="18.5" cy="10" rx="2" ry="2.6" />
-                <path d="M12 11.5c-3 0-6 3.6-6 6.2 0 1.9 1.6 2.8 3.2 2.3.9-.3 1.8-.6 2.8-.6s1.9.3 2.8.6c1.6.5 3.2-.4 3.2-2.3 0-2.6-3-6.2-6-6.2z" />
-              </Ico>
-              {EYEBROW}
-            </span>
-            <h2 className={styles.aboutTitle} data-role="cd-title">
-              {TITULO}
-            </h2>
+            {eyebrow && (
+              <span className={styles.eyebrow} data-role="cd-eyebrow">
+                <Ico size={18} w={1.8}>
+                  <ellipse cx="5.5" cy="10" rx="2" ry="2.6" />
+                  <ellipse cx="9.5" cy="5.5" rx="2" ry="2.6" />
+                  <ellipse cx="14.5" cy="5.5" rx="2" ry="2.6" />
+                  <ellipse cx="18.5" cy="10" rx="2" ry="2.6" />
+                  <path d="M12 11.5c-3 0-6 3.6-6 6.2 0 1.9 1.6 2.8 3.2 2.3.9-.3 1.8-.6 2.8-.6s1.9.3 2.8.6c1.6.5 3.2-.4 3.2-2.3 0-2.6-3-6.2-6-6.2z" />
+                </Ico>
+                {eyebrow}
+              </span>
+            )}
+            {aboutTitle && (
+              <h2 className={styles.aboutTitle} data-role="cd-title">
+                {aboutTitle}
+              </h2>
+            )}
             <div
               id={`${uid}-texto`}
               ref={textoRef}
@@ -136,7 +162,9 @@ export default function CategoryDescription17() {
                 onClick={() => setAberto(v => !v)}
                 data-role="cd-more"
               >
-                {aberto ? 'Ler menos' : 'Ler mais'}
+                {aberto
+                  ? readLessLabel || 'Ler menos'
+                  : readMoreLabel || 'Ler mais'}
                 <Ico size={16}>
                   <path d={aberto ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6'} />
                 </Ico>
@@ -145,7 +173,7 @@ export default function CategoryDescription17() {
           </div>
 
           <div className={styles.faq} data-role="cd-faq">
-            <h2 className={styles.faqTitle}>{FAQ_TITLE}</h2>
+            {faqTitle && <h2 className={styles.faqTitle}>{faqTitle}</h2>}
             <div className={styles.faqList}>
               {PERGUNTAS.map((p, i) => {
                 const on = faqAberta === i;
@@ -193,3 +221,6 @@ export default function CategoryDescription17() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryDescription17.conteudoPadrao = MOCK;

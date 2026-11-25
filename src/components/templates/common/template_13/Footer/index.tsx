@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
@@ -9,14 +10,16 @@ import styles from './index.module.css';
  * Espelha `organisms/Footer13` do faststore.starter (família 13, Noturno; desenho
  * `Footer13` / `Footer13-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as
  * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá
- * (razão social e CNPJ entre colchetes, como no desenho).
+ * (razão social e CNPJ entre colchetes, como no desenho), por baixo do que o CS subir
+ * (`useConteudoDaSecao`, campos do schema de lá).
  *
  * No topo, as redes em letras gigantes com a seta em verde; a marca com o texto, as colunas
  * de links com título em verde e o atendimento; no pé, as formas de pagamento em etiquetas
  * e o copyright. Mobile: redes 2 × 2 e colunas + atendimento em acordeão (o 1º aberto).
  *
  * Divergências deliberadas:
- *  - Logo: o que o usuário enviou no /gerador; sem ele, a marca em texto do catálogo
+ *  - Logo: o da seção (campo `logo` do schema), senão o que o usuário enviou no /gerador
+ *    (`useLogoDoRodape`); sem nenhum, `brandName` ou a marca em texto do catálogo
  *    ("SERIE//A", as barras na cor de destaque), dentro do mesmo `.logo` / `data-role="ft-logo"`.
  */
 
@@ -32,7 +35,8 @@ type Footer13Payment =
   | 'boleto'
   | 'pix';
 
-interface Footer13Props {
+/** O conteúdo da seção: os campos do `section.schema` do Footer13. */
+interface Footer13Conteudo {
   /** Imagem do logo. Vazio: a marca em texto (`brandName`; a "/" sai na cor de destaque). */
   logo?: string;
   logoAlt?: string;
@@ -47,8 +51,7 @@ interface Footer13Props {
   copyright?: string;
 }
 
-const MOCK: Footer13Props = {
-  brandName: 'SERIE//A',
+const MOCK: Footer13Conteudo = {
   aboutText: 'Drops semanais e peças em edição limitada. Quando acaba, acabou.',
   socials: [
     { network: 'instagram', url: 'https://instagram.com/' },
@@ -223,8 +226,9 @@ const Credit = () => (
 )
 
 export default function Footer13() {
-  const logo = useLogoDoRodape();
+  const logoDoRodape = useLogoDoRodape();
   const {
+    logo: logoDaSecao,
     logoAlt,
     brandName,
     aboutText,
@@ -234,7 +238,8 @@ export default function Footer13() {
     contactLines = [],
     payments = [],
     copyright,
-  } = MOCK;
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDaSecao || logoDoRodape;
 
   const [aberto, setAberto] = useState<number | null>(0);
   const redesRef = useRef<HTMLDivElement>(null);
@@ -319,13 +324,13 @@ export default function Footer13() {
             <a
               className={styles.logo}
               href="/"
-              aria-label={logoAlt || brandName || 'Página inicial'}
+              aria-label={logoAlt || brandName || 'SERIE//A'}
               data-role="ft-logo"
             >
               {logo ? (
-                <img src={logo} alt="Logo" height={34} loading="lazy" />
+                <img src={logo} alt={logoAlt || 'Logo'} height={34} loading="lazy" />
               ) : (
-                <Marca nome={brandName ?? ''} />
+                <Marca nome={brandName || 'SERIE//A'} />
               )}
             </a>
             {aboutText && <p className={styles.about}>{aboutText}</p>}
@@ -400,3 +405,6 @@ export default function Footer13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Footer13.conteudoPadrao = MOCK;

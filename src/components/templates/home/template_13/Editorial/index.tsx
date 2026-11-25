@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -9,7 +10,11 @@ import styles from './index.module.css';
  * `Editorial13` / `Editorial13-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`
  * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá
  * (a 1ª matéria é o destaque; sem arte: valem os grafites de placeholder do CSS).
+ *
+ * Conteúdo: o MOCK abaixo por baixo do que o CS subir (`useConteudoDaSecao`, campos do
+ * schema de lá).
  */
+/** Uma matéria, como o schema a declara. */
 interface Editorial13Story {
   eyebrow?: string;
   title?: string;
@@ -20,8 +25,15 @@ interface Editorial13Story {
   imageAlt?: string;
 }
 
-// Conteúdo do mock.ts do starter.
-const MOCK = {
+/** O conteúdo da seção: os campos do `section.schema` do Editorial13. */
+interface Editorial13Conteudo {
+  title?: string;
+  viewAllLabel?: string;
+  viewAllUrl?: string;
+  stories: Editorial13Story[];
+}
+
+const MOCK: Editorial13Conteudo = {
   title: 'Cultura',
   viewAllLabel: 'Ver todas as matérias',
   viewAllUrl: '/s',
@@ -45,7 +57,7 @@ const MOCK = {
       url: '/s',
       imageAlt: '',
     },
-  ] as Editorial13Story[],
+  ],
 };
 
 const Seta = () => (
@@ -94,7 +106,7 @@ function Arte({
 }
 
 export default function Editorial13() {
-  const { title, viewAllLabel, viewAllUrl, stories } = MOCK;
+  const { title, viewAllLabel, viewAllUrl, stories } = useConteudoDaSecao(MOCK);
   if (!stories.length) return null;
   const [destaque, ...demais] = stories;
 
@@ -182,3 +194,6 @@ export default function Editorial13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Editorial13.conteudoPadrao = MOCK;

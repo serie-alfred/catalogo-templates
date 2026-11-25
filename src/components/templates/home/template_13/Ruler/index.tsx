@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -8,6 +9,9 @@ import styles from './index.module.css';
  * Espelha `molecules/BenefitsStrip13` do faststore.starter (família 13, Noturno; desenho
  * `Ruler13` / `Ruler13-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as
  * mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ *
+ * Conteúdo: o MOCK abaixo por baixo do que o CS subir (`useConteudoDaSecao`, campos do
+ * schema de lá).
  */
 type BenefitsStrip13Icon = 'truck' | 'card' | 'exchange' | 'store';
 
@@ -17,13 +21,19 @@ interface BenefitsStrip13Benefit {
   url?: string;
 }
 
-// Conteúdo do mock.ts do starter.
-const BENEFITS: BenefitsStrip13Benefit[] = [
-  { icon: 'truck', text: 'Frete grátis acima de R$ 299' },
-  { icon: 'card', text: '6x sem juros' },
-  { icon: 'exchange', text: 'Troca grátis em 30 dias' },
-  { icon: 'store', text: 'Retire na loja' },
-];
+/** O conteúdo da seção: os campos do `section.schema` do Ruler13. */
+interface Ruler13Conteudo {
+  benefits: BenefitsStrip13Benefit[];
+}
+
+const MOCK: Ruler13Conteudo = {
+  benefits: [
+    { icon: 'truck', text: 'Frete grátis acima de R$ 299' },
+    { icon: 'card', text: '6x sem juros' },
+    { icon: 'exchange', text: 'Troca grátis em 30 dias' },
+    { icon: 'store', text: 'Retire na loja' },
+  ],
+};
 
 const ICONES: Record<BenefitsStrip13Icon, React.ReactNode> = {
   truck: (
@@ -69,7 +79,8 @@ const Asterisco = () => (
 );
 
 export default function Ruler13() {
-  const itens = BENEFITS.filter(b => b.text);
+  const { benefits } = useConteudoDaSecao(MOCK);
+  const itens = benefits.filter(b => b.text);
   if (!itens.length) return null;
 
   return (
@@ -123,3 +134,6 @@ export default function Ruler13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Ruler13.conteudoPadrao = MOCK;

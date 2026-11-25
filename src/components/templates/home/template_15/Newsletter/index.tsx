@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -14,7 +16,23 @@ import styles from './index.module.css';
  * mostra a mensagem de sucesso; o envelope `.newsletter15Box` é o container das `@container`.
  */
 
-const M = {
+interface Newsletter15Conteudo {
+  eyebrow?: string;
+  title?: string;
+  titleEmphasis?: string;
+  text?: string;
+  nameLabel?: string;
+  namePlaceholder?: string;
+  emailLabel?: string;
+  emailPlaceholder?: string;
+  buttonLabel?: string;
+  successMessage?: string;
+  privacyPrefix?: string;
+  privacyLabel?: string;
+  privacyUrl?: string;
+}
+
+const MOCK: Newsletter15Conteudo = {
   eyebrow: 'Correspondência',
   title: 'Cartas da',
   titleEmphasis: 'maison',
@@ -27,9 +45,25 @@ const M = {
   successMessage: 'Inscrição confirmada. A próxima carta chega no seu e-mail.',
   privacyPrefix: 'Ao assinar, você concorda com a',
   privacyLabel: 'Política de Privacidade',
+  privacyUrl: '#',
 };
 
 export default function Newsletter15() {
+  const {
+    eyebrow,
+    title,
+    titleEmphasis,
+    text,
+    nameLabel,
+    namePlaceholder,
+    emailLabel,
+    emailPlaceholder,
+    buttonLabel,
+    successMessage,
+    privacyPrefix,
+    privacyLabel,
+    privacyUrl,
+  } = useConteudoDaSecao(MOCK);
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [ok, setOk] = useState(false);
@@ -40,66 +74,79 @@ export default function Newsletter15() {
     setOk(true);
   };
 
+  const titulo = [title, titleEmphasis].filter(Boolean).join(' ');
+
   return (
     <div className={styles.newsletter15Box}>
-      <section className={styles.newsletter15} aria-label={`${M.title} ${M.titleEmphasis}`} data-role="nl-root">
+      <section className={styles.newsletter15} aria-label={titulo || eyebrow || 'Newsletter'} data-role="nl-root">
         <link rel="stylesheet" href={FONTES_15} />
         <div className={styles.inner}>
           <div className={styles.head}>
-            <span className={styles.eyebrow} data-role="nl-eyebrow">
-              <span className={styles.rule} aria-hidden="true" />
-              {M.eyebrow}
-              <span className={styles.rule} aria-hidden="true" />
-            </span>
-            <h2 className={styles.title} data-role="nl-title">
-              {M.title} <em>{M.titleEmphasis}</em>
-            </h2>
-            <p className={styles.text} data-role="nl-text">
-              {M.text}
-            </p>
+            {eyebrow && (
+              <span className={styles.eyebrow} data-role="nl-eyebrow">
+                <span className={styles.rule} aria-hidden="true" />
+                {eyebrow}
+                <span className={styles.rule} aria-hidden="true" />
+              </span>
+            )}
+            {titulo && (
+              <h2 className={styles.title} data-role="nl-title">
+                {title} {titleEmphasis && <em>{titleEmphasis}</em>}
+              </h2>
+            )}
+            {text && (
+              <p className={styles.text} data-role="nl-text">
+                {text}
+              </p>
+            )}
           </div>
           <form className={styles.form} onSubmit={enviar} data-role="nl-form">
             {ok ? (
               <p className={styles.feedback} role="status">
-                {M.successMessage}
+                {successMessage}
               </p>
             ) : (
               <>
                 <label className={`${styles.field} ${styles.fieldName}`}>
-                  {M.nameLabel}
+                  {nameLabel || 'Nome'}
                   <input
                     type="text"
                     name="name"
                     autoComplete="name"
                     required
-                    placeholder={M.namePlaceholder}
+                    placeholder={namePlaceholder}
                     value={nome}
                     onChange={e => setNome(e.target.value)}
                   />
                 </label>
                 <label className={`${styles.field} ${styles.fieldEmail}`}>
-                  {M.emailLabel}
+                  {emailLabel || 'E-mail'}
                   <input
                     type="email"
                     name="email"
                     autoComplete="email"
                     required
-                    placeholder={M.emailPlaceholder}
+                    placeholder={emailPlaceholder}
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                   />
                 </label>
                 <button type="submit" className={styles.submit} data-role="nl-submit">
-                  {M.buttonLabel}
+                  {buttonLabel || 'Assinar'}
                 </button>
               </>
             )}
-            <p className={styles.privacy}>
-              {M.privacyPrefix} <a href="#">{M.privacyLabel}</a>.
-            </p>
+            {(privacyPrefix || privacyLabel) && (
+              <p className={styles.privacy}>
+                {privacyPrefix} {privacyLabel && <a href={privacyUrl || '#'}>{privacyLabel}</a>}.
+              </p>
+            )}
           </form>
         </div>
       </section>
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Newsletter15.conteudoPadrao = MOCK;

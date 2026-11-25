@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 
 import styles from './index.module.css';
 import { FONTES_13, ProductCard13, produto13, type Produto13 } from '@/components/templates/common/template_13/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import {
   type Facet13,
   type PriceBucket13,
@@ -37,13 +38,57 @@ import {
  * lista de produtos sai vazia. Lá isso só acontece numa busca sem resultado (ou no palco,
  * pela prop `stageEmptyTerm`); aqui `TERMO_VAZIO` faz o papel da prop do palco — vazio, o
  * canvas mostra a grade.
+ *
+ * Os rótulos são do CMS e vêm do `useConteudoDaSecao`; produtos, facetas e contagem são os
+ * de exemplo até a categoria em destaque da loja existir (fase de produtos). O tipo não traz
+ * `pageSize` nem `specFacetKey`: a grade de exemplo não pagina nem escolhe a faceta de
+ * especificação (o 1-conteudo os lista como não desenhados).
  */
 
-/* ── rótulos (o mock.ts de lá) ── */
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
 const PAGE = 9;
 const SPEC_FACET_KEY = '';
-const PRICE_STEPS = '300, 500, 800';
-const L = {
+
+/** O conteúdo da seção: os campos do `section.schema` do CategoryMain13. */
+interface CategoryMain13Conteudo {
+  /** Limites das faixas de preço, separados por vírgula. */
+  priceSteps: string;
+  countLabel: string;
+  hideFiltersLabel: string;
+  showFiltersLabel: string;
+  densityLabel: string;
+  filterLabel: string;
+  filterTitle: string;
+  sortLabel: string;
+  clearLabel: string;
+  clearAllLabel: string;
+  /** `{valor}` vira o tamanho. */
+  sizeChipLabel: string;
+  /** `{n}` e `{faceta}` viram a quantidade e o nome da faceta. */
+  showMoreLabel: string;
+  showLessLabel: string;
+  /** `{max}`. */
+  priceUpToLabel: string;
+  /** `{min}` e `{max}`. */
+  priceBetweenLabel: string;
+  /** `{min}`. */
+  priceOverLabel: string;
+  /** `{total}` vira a contagem. */
+  resultsLabel: string;
+  /** `{shown}` e `{total}` viram as contagens. */
+  progressLabel: string;
+  loadMoreLabel: string;
+  emptyEyebrow: string;
+  emptyTitle: string;
+  emptyText: string;
+  emptyPrimaryLabel: string;
+  emptyPrimaryUrl: string;
+  emptySecondaryLabel: string;
+  emptySecondaryUrl: string;
+}
+
+const MOCK: CategoryMain13Conteudo = {
+  priceSteps: '300, 500, 800',
   countLabel: 'produtos',
   hideFiltersLabel: 'Ocultar filtros',
   showFiltersLabel: 'Mostrar filtros',
@@ -287,6 +332,7 @@ function FacetBody13({
 }
 
 export default function CategoryMain13() {
+  const L = useConteudoDaSecao(MOCK);
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
 
   const term = TERMO_VAZIO;
@@ -307,7 +353,7 @@ export default function CategoryMain13() {
   const buckets = useMemo(
     () =>
       priceFacet
-        ? priceBuckets(PRICE_STEPS, priceFacet, {
+        ? priceBuckets(L.priceSteps, priceFacet, {
             upTo: L.priceUpToLabel,
             between: L.priceBetweenLabel,
             over: L.priceOverLabel,
@@ -667,3 +713,6 @@ export default function CategoryMain13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryMain13.conteudoPadrao = MOCK;

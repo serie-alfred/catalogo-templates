@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -18,8 +19,32 @@ import styles from './index.module.css';
  * vale o arco de placeholder.
  */
 
+/**
+ * Campos do schema que a réplica desenha. `delaySeconds` e `dismissDays` ficam de fora
+ * (o pop-up nasce aberto no canvas e não lembra o "Agora não"); idem a mensagem de erro,
+ * que o envio local nunca produz.
+ */
+interface PopupNews12Conteudo {
+  imageDesktop?: string;
+  imageMobile?: string;
+  imageAlt?: string;
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+  nameLabel?: string;
+  namePlaceholder?: string;
+  emailLabel?: string;
+  emailPlaceholder?: string;
+  buttonLabel?: string;
+  successMessage?: string;
+  privacyPrefix?: string;
+  privacyLabel?: string;
+  privacyUrl?: string;
+  dismissLabel?: string;
+}
+
 // Conteúdo do mock.ts do starter.
-const CONTEUDO = {
+const MOCK: PopupNews12Conteudo = {
   eyebrow: 'Primeira compra',
   title: 'Ganhe 10% na primeira compra',
   text: 'Cadastre-se e receba o cupom no seu e-mail, junto com as novidades da marca.',
@@ -37,6 +62,9 @@ const CONTEUDO = {
 
 export default function PopupNews12() {
   const {
+    imageDesktop,
+    imageMobile,
+    imageAlt,
     eyebrow,
     title,
     text,
@@ -50,7 +78,7 @@ export default function PopupNews12() {
     privacyLabel,
     privacyUrl,
     dismissLabel,
-  } = CONTEUDO;
+  } = useConteudoDaSecao(MOCK);
 
   const [aberto, setAberto] = useState(true);
   const [nome, setNome] = useState('');
@@ -80,8 +108,25 @@ export default function PopupNews12() {
         aria-modal="true"
         aria-labelledby="pn12-titulo"
       >
-        <div className={styles.media} data-role="pn-image">
-          <span className={styles.arch}></span>
+        <div
+          className={`${styles.media}${imageMobile ? ` ${styles.mediaMobile}` : ''}`}
+          data-role="pn-image"
+        >
+          <span className={styles.arch}>
+            {(imageDesktop || imageMobile) && (
+              <picture>
+                {imageMobile && (
+                  <source media="(max-width: 960px)" srcSet={imageMobile} />
+                )}
+                <img
+                  src={imageDesktop || imageMobile}
+                  alt={imageAlt ?? ''}
+                  width={600}
+                  height={880}
+                />
+              </picture>
+            )}
+          </span>
         </div>
 
         <div className={styles.side}>
@@ -204,3 +249,6 @@ export default function PopupNews12() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+PopupNews12.conteudoPadrao = MOCK;

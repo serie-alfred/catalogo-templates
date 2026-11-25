@@ -3,6 +3,7 @@
 import React, { useId, useRef, useState } from 'react';
 
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -26,15 +27,28 @@ import styles from './index.module.css';
  * Sai: `usePDP`, `useBuyButton`, `useWishList`, a nota do Reviews and Ratings, a
  * simulação de frete, a mutation do "Avise-me" (o envio dá sucesso local, como no
  * palco de lá) e o analytics. Fica de fora, porque com o mock do starter nunca
- * renderiza: o guia de medidas (o produto não tem a especificação).
+ * renderiza: o guia de medidas (o produto não tem a especificação), e por isso
+ * `sizeGuideLabel` do schema também fica fora do conteúdo.
+ *
+ * Os rótulos, os destaques (`highlightSpecs`), o seletor de quantidade, o link do CEP
+ * e os selos de confiança são do CMS e vêm do `useConteudoDaSecao`; produto, preço,
+ * variações e frete são o exemplo de lá.
  */
 
-const BRL = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const BRL = new Intl.NumberFormat('pt-BR', {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
 const money = (n: number) => `R$ ${BRL.format(n)}`;
 
 /** O mesmo `formatShippingPrice` do `utils/shipping` do starter (centavos). */
 const shipPrice = (cents: number) =>
-  cents > 0 ? (cents / 100).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) : 'Grátis';
+  cents > 0
+    ? (cents / 100).toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+      })
+    : 'Grátis';
 
 const block = (hex: string, size: number) =>
   `data:image/svg+xml;utf8,${encodeURIComponent(
@@ -49,7 +63,11 @@ const LIST = 2299;
 const DISCOUNT = Math.round((1 - PRICE / LIST) * 100);
 const RATING = { average: 4.8, totalCount: 1284 };
 const PIX = 1709.05;
-const BEST = { installmentNumber: 10, installmentValue: 179.9, installmentInterest: 0 };
+const BEST = {
+  installmentNumber: 10,
+  installmentValue: 179.9,
+  installmentInterest: 0,
+};
 const PLANS = [
   { installmentNumber: 1, installmentValue: 1799, installmentInterest: 0 },
   { installmentNumber: 2, installmentValue: 899.5, installmentInterest: 0 },
@@ -57,7 +75,15 @@ const PLANS = [
   { installmentNumber: 10, installmentValue: 179.9, installmentInterest: 0 },
 ];
 
-const IMAGES = ['#EEF1F5', '#E7ECF3', '#F3F4F6', '#E9EEF6', '#EDEFF2', '#EEF1F5', '#E7ECF3'].map((hex, i) => ({
+const IMAGES = [
+  '#EEF1F5',
+  '#E7ECF3',
+  '#F3F4F6',
+  '#E9EEF6',
+  '#EDEFF2',
+  '#EEF1F5',
+  '#E7ECF3',
+].map((hex, i) => ({
   url: block(hex, 800) + `#${i}`,
   alternateName: `Smartphone X5 Preto — foto ${i + 1}`,
 }));
@@ -65,7 +91,12 @@ const IMAGES = ['#EEF1F5', '#E7ECF3', '#F3F4F6', '#E9EEF6', '#EDEFF2', '#EEF1F5'
 const COLORS = [
   { value: 'Preto', label: 'Preto', active: true, src: block('#E4E7EC', 80) },
   { value: 'Azul', label: 'Azul', active: false, src: block('#E7ECF3', 80) },
-  { value: 'Grafite', label: 'Grafite', active: false, src: block('#F3F4F6', 80) },
+  {
+    value: 'Grafite',
+    label: 'Grafite',
+    active: false,
+    src: block('#F3F4F6', 80),
+  },
 ];
 const AXIS_NAME = 'Armazenamento';
 const AXIS_OPTIONS = ['128 GB', '256 GB'];
@@ -77,22 +108,75 @@ const AXIS = AXIS_OPTIONS.map((value, i) => ({
   sku: i === 0 ? SKU : `000000${i}`,
 }));
 
-const HIGHLIGHTS = [
+/** Especificações do produto de exemplo; os destaques escolhem daqui pelo nome. */
+const PROPERTIES = [
   { name: 'Tela', value: '6,7"' },
   { name: 'Armazenamento', value: '128 GB' },
   { name: 'Conexão', value: '5G' },
   { name: 'Bateria', value: '5.000 mAh' },
 ];
 
+/** Como o starter compara nomes: sem acento, sem caixa, sem espaço nas pontas. */
+const norm = (s: string | undefined) =>
+  String(s ?? '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .trim()
+    .toLowerCase();
+
 const SHIPPING = [
-  { id: 'normal', friendlyName: 'Normal', price: 1990, eta: 'até 5 dias úteis' },
-  { id: 'expressa', friendlyName: 'Expressa', price: 3490, eta: 'até 2 dias úteis' },
-  { id: 'retirada', friendlyName: 'Retirar na loja', price: 0, eta: 'até 2 horas' },
+  {
+    id: 'normal',
+    friendlyName: 'Normal',
+    price: 1990,
+    eta: 'até 5 dias úteis',
+  },
+  {
+    id: 'expressa',
+    friendlyName: 'Expressa',
+    price: 3490,
+    eta: 'até 2 dias úteis',
+  },
+  {
+    id: 'retirada',
+    friendlyName: 'Retirar na loja',
+    price: 0,
+    eta: 'até 2 horas',
+  },
 ];
 
-const MOCK = {
+type TrustIcon = 'shield' | 'exchange' | 'invoice' | 'truck' | 'card';
+
+/** O conteúdo da seção: os campos do `section.schema` do ProductDetails10. */
+interface ProductInfo10Conteudo {
+  codeLabel?: string;
+  ratingCountLabel?: string;
+  /** Nomes das especificações em destaque, separados por vírgula, na ordem. */
+  highlightSpecs?: string;
+  installmentsLinkLabel?: string;
+  pixText?: string;
+  soldOutText?: string;
+  notifyLabel?: string;
+  notifyNamePlaceholder?: string;
+  notifyEmailPlaceholder?: string;
+  notifySubmitLabel?: string;
+  notifySuccess?: string;
+  buyLabel?: string;
+  mobileBuyLabel?: string;
+  soldOutButtonLabel?: string;
+  hideQuantity?: boolean;
+  shippingLabel?: string;
+  cepPlaceholder?: string;
+  cepButtonLabel?: string;
+  cepHelpLabel?: string;
+  cepHelpUrl?: string;
+  trustItems: { icon?: TrustIcon; text?: string }[];
+}
+
+const MOCK: ProductInfo10Conteudo = {
   codeLabel: 'Cód.',
   ratingCountLabel: 'avaliações',
+  highlightSpecs: 'Tela, Armazenamento, Conexão, Bateria',
   installmentsLinkLabel: 'ver parcelamento',
   pixText: 'à vista, com aprovação na hora',
   soldOutText: 'esgotado.',
@@ -104,16 +188,29 @@ const MOCK = {
   buyLabel: 'Adicionar ao carrinho',
   mobileBuyLabel: 'Adicionar',
   soldOutButtonLabel: 'Avise-me quando chegar',
+  hideQuantity: false,
   shippingLabel: 'Calcular frete e prazo',
   cepPlaceholder: '00000-000',
   cepButtonLabel: 'Calcular',
   cepHelpLabel: 'Não sei meu CEP',
-  postalCode: '01310-100',
+  cepHelpUrl: 'https://buscacepinter.correios.com.br/app/endereco/index.php',
+  trustItems: [
+    { icon: 'shield', text: 'Compra segura' },
+    { icon: 'exchange', text: 'Troca em até 7 dias' },
+    { icon: 'invoice', text: 'Nota fiscal' },
+  ],
 };
+
+/** CEP de exemplo do campo de frete (o do palco de lá; não é campo do CMS). */
+const CEP_EXEMPLO = '01310-100';
 
 const THUMBS = 4;
 
-const svg = (size: number, body: React.ReactNode, extra: React.SVGProps<SVGSVGElement> = {}) => (
+const svg = (
+  size: number,
+  body: React.ReactNode,
+  extra: React.SVGProps<SVGSVGElement> = {}
+) => (
   <svg
     width={size}
     height={size}
@@ -127,8 +224,10 @@ const svg = (size: number, body: React.ReactNode, extra: React.SVGProps<SVGSVGEl
     {body}
   </svg>
 );
-const STAR = 'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z';
-const HEART = 'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z';
+const STAR =
+  'M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z';
+const HEART =
+  'M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z';
 const CART = (
   <>
     <circle cx="9" cy="20" r="1.5" />
@@ -136,29 +235,59 @@ const CART = (
     <path d="M2 3h3l2.5 12h12l2-8H6.2" />
   </>
 );
-const TRUST: Array<{ text: string; icon: React.ReactNode }> = [
-  { text: 'Compra segura', icon: <path d="M12 3 5 6v6c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3z" /> },
-  {
-    text: 'Troca em até 7 dias',
-    icon: (
-      <>
-        <path d="M4 9h12a4 4 0 0 1 0 8H8" />
-        <path d="m8 5-4 4 4 4" />
-      </>
-    ),
-  },
-  {
-    text: 'Nota fiscal',
-    icon: (
-      <>
-        <rect x="5" y="3" width="14" height="18" rx="2" />
-        <path d="M9 8h6M9 12h6M9 16h4" />
-      </>
-    ),
-  },
-];
+const TRUST_ICONS: Record<TrustIcon, React.ReactNode> = {
+  shield: <path d="M12 3 5 6v6c0 4 3 7 7 9 4-2 7-5 7-9V6l-7-3z" />,
+  exchange: (
+    <>
+      <path d="M4 9h12a4 4 0 0 1 0 8H8" />
+      <path d="m8 5-4 4 4 4" />
+    </>
+  ),
+  invoice: (
+    <>
+      <rect x="5" y="3" width="14" height="18" rx="2" />
+      <path d="M9 8h6M9 12h6M9 16h4" />
+    </>
+  ),
+  truck: (
+    <>
+      <path d="M3 6h11v10H3zM14 10h4l3 3v3h-7" />
+      <circle cx="7" cy="18" r="1.5" />
+      <circle cx="17" cy="18" r="1.5" />
+    </>
+  ),
+  card: (
+    <>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="M3 10h18" />
+    </>
+  ),
+};
 
 export default function ProductInfo10() {
+  const {
+    codeLabel,
+    ratingCountLabel,
+    highlightSpecs,
+    installmentsLinkLabel,
+    pixText,
+    soldOutText,
+    notifyLabel,
+    notifyNamePlaceholder,
+    notifyEmailPlaceholder,
+    notifySubmitLabel,
+    notifySuccess,
+    buyLabel,
+    mobileBuyLabel,
+    soldOutButtonLabel,
+    hideQuantity,
+    shippingLabel,
+    cepPlaceholder,
+    cepButtonLabel,
+    cepHelpLabel,
+    cepHelpUrl,
+    trustItems,
+  } = useConteudoDaSecao(MOCK);
   const uid = useId();
   const [selAxis, setSelAxis] = useState<string | null>(null);
   const [notifyOpen, setNotifyOpen] = useState(false);
@@ -171,12 +300,13 @@ export default function ProductInfo10() {
   const [allThumbs, setAllThumbs] = useState(false);
   const [plansOpen, setPlansOpen] = useState(false);
   const [isFav, setIsFav] = useState(false);
-  const [cep, setCep] = useState(MOCK.postalCode);
+  const [cep, setCep] = useState(CEP_EXEMPLO);
   const railRef = useRef<HTMLDivElement>(null);
 
   const onRailScroll = () => {
     const el = railRef.current;
-    if (el && el.clientWidth) setSlide(Math.round(el.scrollLeft / el.clientWidth));
+    if (el && el.clientWidth)
+      setSlide(Math.round(el.scrollLeft / el.clientWidth));
   };
   const goTo = (i: number) => {
     const el = railRef.current;
@@ -186,11 +316,15 @@ export default function ProductInfo10() {
 
   /* ── variação: a opção da página (a 1ª) se tiver estoque, senão a 1ª com estoque ── */
   const defaultAxis =
-    (AXIS.find(o => o.value === AXIS_OPTIONS[0])?.available ? AXIS_OPTIONS[0] : undefined) ??
+    (AXIS.find(o => o.value === AXIS_OPTIONS[0])?.available
+      ? AXIS_OPTIONS[0]
+      : undefined) ??
     AXIS.find(o => o.available)?.value ??
     null;
   const activeAxis = selAxis ?? defaultAxis;
-  const selected = activeAxis ? AXIS.find(o => o.value === activeAxis) : undefined;
+  const selected = activeAxis
+    ? AXIS.find(o => o.value === activeAxis)
+    : undefined;
   const soldOutOptions = AXIS.filter(o => !o.available);
   const inStock = !!selected?.available;
   const sku = selected?.sku ?? SKU;
@@ -199,7 +333,8 @@ export default function ProductInfo10() {
   const pixValue = inStock ? PIX : null;
 
   /* ── avise-me: o envio dá sucesso local, como no palco de lá ── */
-  const notifyFor = notifyTarget ?? (inStock ? soldOutOptions[0]?.value : activeAxis) ?? null;
+  const notifyFor =
+    notifyTarget ?? (inStock ? soldOutOptions[0]?.value : activeAxis) ?? null;
   const openNotify = (value?: string | null) => {
     setNotifyTarget(value ?? null);
     setNotifyOpen(true);
@@ -212,15 +347,29 @@ export default function ProductInfo10() {
 
   const showPlus = IMAGES.length > THUMBS + 1 && !allThumbs;
   const thumbs = showPlus ? IMAGES.slice(0, THUMBS) : IMAGES;
-  const code10 = sku ? `${MOCK.codeLabel ? `${MOCK.codeLabel} ` : ''}${sku}` : '';
+  const code10 = sku ? `${codeLabel ? `${codeLabel} ` : ''}${sku}` : '';
   const avgText = RATING.average.toFixed(1).replace('.', ',');
   const activeColorLabel = COLORS.find(c => c.active)?.label ?? '';
 
+  // Destaques: as especificações do produto, na ordem do CMS (só as que ele tem).
+  const highlights = highlightSpecs
+    ? highlightSpecs
+        .split(',')
+        .map(n => n.trim())
+        .filter(Boolean)
+        .map(n => PROPERTIES.find(x => norm(x.name) === norm(n)))
+        .filter((x): x is { name: string; value: string } => !!x)
+    : [];
+
   const buyButton = (extra: string, label?: string) =>
     inStock ? (
-      <button type="button" className={`${styles.buy} ${extra}`} data-role="pdp-buy">
+      <button
+        type="button"
+        className={`${styles.buy} ${extra}`}
+        data-role="pdp-buy"
+      >
         {svg(20, CART, { strokeWidth: 2 })}
-        {label || MOCK.buyLabel}
+        {label || buyLabel}
       </button>
     ) : (
       <button
@@ -231,30 +380,42 @@ export default function ProductInfo10() {
         aria-controls={`${uid}-notify`}
         data-role="pdp-buy"
       >
-        {MOCK.soldOutButtonLabel || MOCK.notifyLabel}
+        {soldOutButtonLabel || notifyLabel}
       </button>
     );
 
-  const highlightList = (extra: string) => (
-    <ul className={`${styles.highlights} ${extra}`} data-role="pdp-highlights">
-      {HIGHLIGHTS.map(h => (
-        <li key={h.name} className={styles.highlight}>
-          <span className={styles.highlightName}>{h.name}</span>
-          <strong className={styles.highlightValue}>{h.value}</strong>
-        </li>
-      ))}
-    </ul>
-  );
+  const highlightList = (extra: string) =>
+    highlights.length > 0 && (
+      <ul
+        className={`${styles.highlights} ${extra}`}
+        data-role="pdp-highlights"
+      >
+        {highlights.map(h => (
+          <li key={h.name} className={styles.highlight}>
+            <span className={styles.highlightName}>{h.name}</span>
+            <strong className={styles.highlightValue}>{h.value}</strong>
+          </li>
+        ))}
+      </ul>
+    );
 
   return (
     <div className={styles.productDetails10Box}>
-      <section className={styles.productDetails10} aria-label={PRODUCT_NAME} data-role="pdp-root">
+      <section
+        className={styles.productDetails10}
+        aria-label={PRODUCT_NAME}
+        data-role="pdp-root"
+      >
         <link rel="stylesheet" href={FONTES_10} />
         <div className={styles.inner}>
           {/* ── coluna da galeria (sem zoom, sem vídeo) + destaques no desktop ── */}
           <div className={styles.left}>
             <div className={styles.galleryCard} data-role="pdp-gallery">
-              <div className={styles.thumbs} role="group" aria-label="Imagens do produto">
+              <div
+                className={styles.thumbs}
+                role="group"
+                aria-label="Imagens do produto"
+              >
                 {thumbs.map((img, i) => (
                   <button
                     key={img.url}
@@ -265,7 +426,14 @@ export default function ProductInfo10() {
                     aria-current={i === slide ? 'true' : undefined}
                     data-role="pdp-thumb"
                   >
-                    <img src={img.url} alt="" width={76} height={76} loading="lazy" decoding="async" />
+                    <img
+                      src={img.url}
+                      alt=""
+                      width={76}
+                      height={76}
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </button>
                 ))}
                 {showPlus && (
@@ -281,7 +449,11 @@ export default function ProductInfo10() {
                 )}
               </div>
               <div className={styles.stage}>
-                <div ref={railRef} className={styles.rail} onScroll={onRailScroll}>
+                <div
+                  ref={railRef}
+                  className={styles.rail}
+                  onScroll={onRailScroll}
+                >
                   {IMAGES.map((img, i) => (
                     <div key={img.url} className={styles.photo}>
                       <img
@@ -306,14 +478,23 @@ export default function ProductInfo10() {
                   className={`${styles.fav}${isFav ? ` ${styles.favOn}` : ''}`}
                   onClick={() => setIsFav(f => !f)}
                   aria-pressed={isFav}
-                  aria-label={isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}
+                  aria-label={
+                    isFav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'
+                  }
                   data-role="pdp-favorite"
                 >
-                  {svg(20, <path d={HEART} />, isFav ? { fill: 'currentColor' } : {})}
+                  {svg(
+                    20,
+                    <path d={HEART} />,
+                    isFav ? { fill: 'currentColor' } : {}
+                  )}
                 </button>
                 <div className={styles.dots} aria-hidden="true">
                   {IMAGES.map((img, i) => (
-                    <span key={img.url} className={i === slide ? styles.dotOn : undefined} />
+                    <span
+                      key={img.url}
+                      className={i === slide ? styles.dotOn : undefined}
+                    />
                   ))}
                 </div>
               </div>
@@ -343,7 +524,9 @@ export default function ProductInfo10() {
                     width="16"
                     height="16"
                     viewBox="0 0 24 24"
-                    fill={n <= Math.round(RATING.average) ? 'currentColor' : 'none'}
+                    fill={
+                      n <= Math.round(RATING.average) ? 'currentColor' : 'none'
+                    }
                     stroke="currentColor"
                     strokeWidth="1.6"
                   >
@@ -356,7 +539,7 @@ export default function ProductInfo10() {
                 {avgText}
               </strong>
               <a className={styles.ratingLink} href="#avaliacoes">
-                {RATING.totalCount.toLocaleString('pt-BR')} {MOCK.ratingCountLabel}
+                {RATING.totalCount.toLocaleString('pt-BR')} {ratingCountLabel}
               </a>
             </div>
 
@@ -366,7 +549,9 @@ export default function ProductInfo10() {
                   <s className={styles.listPrice} data-role="pdp-list-price">
                     de {money(LIST)}
                   </s>
-                  {discount > 0 && <span className={styles.tag}>-{discount}%</span>}
+                  {discount > 0 && (
+                    <span className={styles.tag}>-{discount}%</span>
+                  )}
                 </div>
               )}
               <span className={styles.price} data-role="pdp-price">
@@ -389,20 +574,26 @@ export default function ProductInfo10() {
                       aria-controls={`${uid}-plans`}
                       data-role="pdp-installments-link"
                     >
-                      {MOCK.installmentsLinkLabel}
+                      {installmentsLinkLabel}
                     </button>
                   </span>
                 </p>
               )}
               {plansOpen && best && (
-                <ul id={`${uid}-plans`} className={styles.plans} data-role="pdp-installments">
+                <ul
+                  id={`${uid}-plans`}
+                  className={styles.plans}
+                  data-role="pdp-installments"
+                >
                   {PLANS.map(p => (
                     <li key={p.installmentNumber}>
                       <span>
                         {p.installmentNumber}x de {money(p.installmentValue)}
                       </span>
                       <span className={styles.plansMeta}>
-                        {p.installmentInterest === 0 ? 'sem juros' : 'com juros'}
+                        {p.installmentInterest === 0
+                          ? 'sem juros'
+                          : 'com juros'}
                       </span>
                     </li>
                   ))}
@@ -418,8 +609,10 @@ export default function ProductInfo10() {
                     </>
                   )}
                   <span className={styles.pixCopy}>
-                    <strong className={styles.pixValue}>{money(pixValue)} no Pix</strong>
-                    <span className={styles.pixText}>{MOCK.pixText}</span>
+                    <strong className={styles.pixValue}>
+                      {money(pixValue)} no Pix
+                    </strong>
+                    <span className={styles.pixText}>{pixText}</span>
                   </span>
                 </div>
               )}
@@ -439,7 +632,14 @@ export default function ProductInfo10() {
                     data-role="pdp-swatch"
                   >
                     <span className={styles.swatch}>
-                      <img src={c.src} alt="" width={40} height={40} loading="lazy" decoding="async" />
+                      <img
+                        src={c.src}
+                        alt=""
+                        width={40}
+                        height={40}
+                        loading="lazy"
+                        decoding="async"
+                      />
                     </span>
                     {c.label}
                   </a>
@@ -453,7 +653,11 @@ export default function ProductInfo10() {
                   {AXIS_NAME}
                 </strong>
               </div>
-              <div className={styles.axisRow} role="group" aria-labelledby={`${uid}-axis`}>
+              <div
+                className={styles.axisRow}
+                role="group"
+                aria-labelledby={`${uid}-axis`}
+              >
                 {AXIS.map(o =>
                   o.available ? (
                     <button
@@ -486,35 +690,50 @@ export default function ProductInfo10() {
               {/* Bloco comum (não flex): o espaço entre o texto e o link não some. */}
               {soldOutOptions.length > 0 && inStock && (
                 <p className={styles.soldNote} data-role="pdp-sold-out-note">
-                  {soldOutOptions.map(o => o.value).join(', ')} {MOCK.soldOutText}{' '}
+                  {soldOutOptions.map(o => o.value).join(', ')} {soldOutText}{' '}
                   <button
                     type="button"
                     className={styles.inlineLink}
-                    onClick={() => openNotify(soldOutOptions.length === 1 ? soldOutOptions[0].value : null)}
+                    onClick={() =>
+                      openNotify(
+                        soldOutOptions.length === 1
+                          ? soldOutOptions[0].value
+                          : null
+                      )
+                    }
                     aria-expanded={notifyOpen}
                     aria-controls={`${uid}-notify`}
                     data-role="pdp-notify-link"
                   >
-                    {MOCK.notifyLabel}
+                    {notifyLabel}
                   </button>
                 </p>
               )}
             </div>
 
             {(notifyOpen || !inStock) && (
-              <form id={`${uid}-notify`} className={styles.notify} onSubmit={onNotify} data-role="pdp-notify">
+              <form
+                id={`${uid}-notify`}
+                className={styles.notify}
+                onSubmit={onNotify}
+                data-role="pdp-notify"
+              >
                 {notifyOk ? (
                   <p className={styles.notifyOk} role="status">
-                    {MOCK.notifySuccess}
+                    {notifySuccess}
                   </p>
                 ) : (
                   <>
                     <p className={styles.notifyTitle}>
-                      {MOCK.notifyLabel}
+                      {notifyLabel}
                       {notifyFor ? ` · ${notifyFor}` : ''}
                     </p>
                     {inStock && soldOutOptions.length > 1 && (
-                      <div className={styles.axisRow} role="group" aria-label={AXIS_NAME}>
+                      <div
+                        className={styles.axisRow}
+                        role="group"
+                        aria-label={AXIS_NAME}
+                      >
                         {soldOutOptions.map(o => (
                           <button
                             key={o.value}
@@ -530,29 +749,33 @@ export default function ProductInfo10() {
                     )}
                     <div className={styles.fieldRow}>
                       <label className={styles.field}>
-                        <span className={styles.srOnly}>{MOCK.notifyNamePlaceholder}</span>
+                        <span className={styles.srOnly}>
+                          {notifyNamePlaceholder}
+                        </span>
                         <input
                           type="text"
                           autoComplete="name"
                           required
-                          placeholder={MOCK.notifyNamePlaceholder}
+                          placeholder={notifyNamePlaceholder}
                           value={notifyName}
                           onChange={e => setNotifyName(e.target.value)}
                         />
                       </label>
                       <label className={styles.field}>
-                        <span className={styles.srOnly}>{MOCK.notifyEmailPlaceholder}</span>
+                        <span className={styles.srOnly}>
+                          {notifyEmailPlaceholder}
+                        </span>
                         <input
                           type="email"
                           autoComplete="email"
                           required
-                          placeholder={MOCK.notifyEmailPlaceholder}
+                          placeholder={notifyEmailPlaceholder}
                           value={notifyEmail}
                           onChange={e => setNotifyEmail(e.target.value)}
                         />
                       </label>
                       <button type="submit" className={styles.darkBtn}>
-                        {MOCK.notifySubmitLabel}
+                        {notifySubmitLabel}
                       </button>
                     </div>
                   </>
@@ -562,9 +785,16 @@ export default function ProductInfo10() {
 
             {highlightList(styles.onlyMobile)}
 
-            <div className={`${styles.buyRow} ${styles.onlyDesktop}`} data-role="pdp-buy-row">
-              {inStock && (
-                <div className={styles.qty} role="group" aria-label="Quantidade">
+            <div
+              className={`${styles.buyRow} ${styles.onlyDesktop}`}
+              data-role="pdp-buy-row"
+            >
+              {!hideQuantity && inStock && (
+                <div
+                  className={styles.qty}
+                  role="group"
+                  aria-label="Quantidade"
+                >
                   <button
                     type="button"
                     onClick={() => setQty(q => Math.max(1, q - 1))}
@@ -588,9 +818,12 @@ export default function ProductInfo10() {
 
             <div className={styles.shipping} data-role="pdp-shipping">
               <label className={styles.groupLabel} htmlFor={`${uid}-cep`}>
-                {MOCK.shippingLabel}
+                {shippingLabel}
               </label>
-              <form className={styles.fieldRow} onSubmit={e => e.preventDefault()}>
+              <form
+                className={styles.fieldRow}
+                onSubmit={e => e.preventDefault()}
+              >
                 <input
                   id={`${uid}-cep`}
                   className={styles.input}
@@ -598,24 +831,37 @@ export default function ProductInfo10() {
                   inputMode="numeric"
                   autoComplete="postal-code"
                   maxLength={9}
-                  placeholder={MOCK.cepPlaceholder}
+                  placeholder={cepPlaceholder}
                   value={cep}
                   onChange={e => setCep(e.target.value)}
                 />
                 <button type="submit" className={styles.darkBtn}>
-                  {MOCK.cepButtonLabel}
+                  {cepButtonLabel}
                 </button>
               </form>
-              <a className={`${styles.cepHelp} ${styles.onlyDesktop}`} href="#">
-                {MOCK.cepHelpLabel}
-              </a>
-              <table className={styles.shipTable} aria-live="polite" data-role="pdp-shipping-options">
+              {cepHelpLabel && cepHelpUrl && (
+                <a
+                  className={`${styles.cepHelp} ${styles.onlyDesktop}`}
+                  href={cepHelpUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {cepHelpLabel}
+                </a>
+              )}
+              <table
+                className={styles.shipTable}
+                aria-live="polite"
+                data-role="pdp-shipping-options"
+              >
                 <tbody>
                   {SHIPPING.map(o => (
                     <tr key={o.id}>
                       <td className={styles.shipName}>{o.friendlyName}</td>
                       <td className={styles.shipEta}>{o.eta}</td>
-                      <td className={`${styles.shipPrice}${o.price > 0 ? '' : ` ${styles.shipFree}`}`}>
+                      <td
+                        className={`${styles.shipPrice}${o.price > 0 ? '' : ` ${styles.shipFree}`}`}
+                      >
                         {shipPrice(o.price)}
                       </td>
                     </tr>
@@ -624,14 +870,22 @@ export default function ProductInfo10() {
               </table>
             </div>
 
-            <ul className={styles.trust} data-role="pdp-trust">
-              {TRUST.map(t => (
-                <li key={t.text}>
-                  {svg(20, t.icon, { className: styles.trustIcon })}
-                  {t.text}
-                </li>
-              ))}
-            </ul>
+            {trustItems.length > 0 && (
+              <ul className={styles.trust} data-role="pdp-trust">
+                {trustItems.map((t, i) =>
+                  t?.text ? (
+                    <li key={`${t.text}-${i}`}>
+                      {svg(
+                        20,
+                        TRUST_ICONS[t.icon ?? 'shield'] ?? TRUST_ICONS.shield,
+                        { className: styles.trustIcon }
+                      )}
+                      {t.text}
+                    </li>
+                  ) : null
+                )}
+              </ul>
+            )}
           </div>
         </div>
 
@@ -639,11 +893,16 @@ export default function ProductInfo10() {
         <div className={styles.mobileBar} data-role="pdp-mobile-bar">
           <span className={styles.mobilePrice}>
             <strong className={styles.mobilePriceValue}>{money(PRICE)}</strong>
-            {pixValue !== null && <span className={styles.mobilePix}>{money(pixValue)} no Pix</span>}
+            {pixValue !== null && (
+              <span className={styles.mobilePix}>{money(pixValue)} no Pix</span>
+            )}
           </span>
-          {buyButton(styles.buyMobile, MOCK.mobileBuyLabel)}
+          {buyButton(styles.buyMobile, mobileBuyLabel)}
         </div>
       </section>
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo10.conteudoPadrao = MOCK;

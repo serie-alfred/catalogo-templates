@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -16,28 +17,39 @@ interface Brands12Brand {
   logo?: string;
 }
 
-// Conteúdo do mock.ts do starter.
-const TITLE = 'Marcas que amamos';
-const BRANDS: Brands12Brand[] = [
-  { name: '[Marca 01]', url: '#' },
-  { name: '[Marca 02]', url: '#' },
-  { name: '[Marca 03]', url: '#' },
-  { name: '[marca 04]', url: '#' },
-  { name: '[MARCA 05]', url: '#' },
-  { name: '[Marca 06]', url: '#' },
-];
+interface Brand12Conteudo {
+  title?: string;
+  brands: Brands12Brand[];
+}
+
+const MOCK: Brand12Conteudo = {
+  title: 'Marcas que amamos',
+  brands: [
+    { name: '[Marca 01]', url: '#' },
+    { name: '[Marca 02]', url: '#' },
+    { name: '[Marca 03]', url: '#' },
+    { name: '[marca 04]', url: '#' },
+    { name: '[MARCA 05]', url: '#' },
+    { name: '[Marca 06]', url: '#' },
+  ],
+};
 
 export default function Brand12() {
+  const { title, brands } = useConteudoDaSecao(MOCK);
+  if (!brands.length) return null;
+
   return (
     <div className={styles.brands12Box}>
-      <section className={styles.brands12} aria-label={TITLE} data-role="br-root">
+      <section className={styles.brands12} aria-label={title || 'Marcas'} data-role="br-root">
         <link rel="stylesheet" href={FONTES_12} />
         <div className={styles.inner}>
-          <h2 className={styles.title} data-role="br-title">
-            {TITLE}
-          </h2>
+          {title && (
+            <h2 className={styles.title} data-role="br-title">
+              {title}
+            </h2>
+          )}
           <ul className={styles.list}>
-            {BRANDS.map((b, i) => (
+            {brands.map((b, i) => (
               <li key={i} className={styles.item} data-role="br-item">
                 <a className={styles.pill} href={b.url || '#'}>
                   {b.logo ? (
@@ -54,3 +66,6 @@ export default function Brand12() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Brand12.conteudoPadrao = MOCK;

@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -22,10 +24,18 @@ type Review = {
   productName?: string;
 };
 
-const EYEBROW = 'Depoimentos';
-const TITLE = 'Palavras de quem';
-const TITLE_EMPHASIS = 'escolheu';
-const REVIEWS: Review[] = [
+interface ClientReview15Conteudo {
+  eyebrow?: string;
+  title?: string;
+  titleEmphasis?: string;
+  reviews: Review[];
+}
+
+const MOCK: ClientReview15Conteudo = {
+  eyebrow: 'Depoimentos',
+  title: 'Palavras de quem',
+  titleEmphasis: 'escolheu',
+  reviews: [
   {
     rating: 5,
     text: 'Pedi o solitário para o noivado e chegou num estojo impecável, com cartão escrito à mão. Ela chorou antes de abrir.',
@@ -47,7 +57,8 @@ const REVIEWS: Review[] = [
     location: '[Cidade]',
     productName: 'Eau de Parfum Ambre Nuit 100 ml',
   },
-];
+  ],
+};
 
 const Estrela = () => (
   <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -62,8 +73,9 @@ const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function ClientReview15() {
+  const { eyebrow, title, titleEmphasis, reviews } = useConteudoDaSecao(MOCK);
   const [atual, setAtual] = useState(0);
-  const reviews = REVIEWS;
+  if (!reviews.length) return null;
   const total = reviews.length;
   const ir = (i: number) => setAtual((i + total) % total);
   // Três por vez no desktop, um no mobile: a janela começa no atual e dá a volta na lista.
@@ -71,15 +83,19 @@ export default function ClientReview15() {
 
   return (
     <div className={styles.clientReview15Box}>
-      <section className={styles.clientReview15} aria-label={`${TITLE} ${TITLE_EMPHASIS}`} data-role="cr-root">
+      <section className={styles.clientReview15} aria-label={[title, titleEmphasis].filter(Boolean).join(' ') || 'Depoimentos'} data-role="cr-root">
         <link rel="stylesheet" href={FONTES_15} />
         <div className={styles.inner}>
-          <div className={styles.head}>
-            <span className={styles.eyebrow}>{EYEBROW}</span>
-            <h2 className={styles.title} data-role="cr-title">
-              {TITLE} <em>{TITLE_EMPHASIS}</em>
-            </h2>
-          </div>
+          {(eyebrow || title || titleEmphasis) && (
+            <div className={styles.head}>
+              {eyebrow && <span className={styles.eyebrow}>{eyebrow}</span>}
+              {(title || titleEmphasis) && (
+                <h2 className={styles.title} data-role="cr-title">
+                  {title} {titleEmphasis && <em>{titleEmphasis}</em>}
+                </h2>
+              )}
+            </div>
+          )}
           <div className={styles.grid} aria-live="polite">
             {janela.map(i => {
               const r = reviews[i];
@@ -133,3 +149,6 @@ export default function ClientReview15() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ClientReview15.conteudoPadrao = MOCK;

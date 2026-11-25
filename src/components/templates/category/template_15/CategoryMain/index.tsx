@@ -15,6 +15,7 @@ import {
   priceLabel,
 } from './facets';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/MainCategory15` do faststore.starter (família 15, Luxo; desenhos
@@ -41,11 +42,39 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * lista de produtos sai vazia. Lá isso só acontece numa busca sem resultado (ou no palco, pela
  * prop `stageEmptyTerm`); aqui `TERMO_VAZIO` faz o papel da prop do palco — vazio, o canvas
  * mostra a grade.
+ *
+ * Os rótulos são do CMS e vêm do `useConteudoDaSecao`; produtos, facetas e contagem são os de
+ * exemplo. O tipo não traz `pageSize`: a grade de exemplo não pagina (o 1-conteudo o lista como
+ * não desenhado). `specFacetKey` entra: escolhe a faceta de especificação que vira filtro.
  */
 
-/* ── rótulos (o mock.ts de lá) ── */
-const L = {
-  pageSize: 9,
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+interface CategoryMain15Conteudo {
+  specFacetKey?: string;
+  countLabel?: string;
+  filterByLabel?: string;
+  filterLabel?: string;
+  sortLabel?: string;
+  clearLabel?: string;
+  clearAllLabel?: string;
+  /** `{total}` vira a contagem. */
+  resultsLabel?: string;
+  sizeTitle?: string;
+  sizeGuideLabel?: string;
+  sizeGuideUrl?: string;
+  /** `{shown}` e `{total}` viram as contagens. */
+  progressLabel?: string;
+  loadMoreLabel?: string;
+  emptyEyebrow?: string;
+  emptyTitle?: string;
+  emptyText?: string;
+  emptyPrimaryLabel?: string;
+  emptyPrimaryUrl?: string;
+  emptySecondaryLabel?: string;
+  emptySecondaryUrl?: string;
+}
+
+const MOCK: CategoryMain15Conteudo = {
   specFacetKey: 'material',
   countLabel: 'peças',
   filterByLabel: 'Filtrar por',
@@ -248,6 +277,8 @@ function FacetOptions15({
 }
 
 export default function CategoryMain15() {
+  // O `L` de antes, para o markup abaixo continuar igual ao de lá.
+  const L = useConteudoDaSecao(MOCK);
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
   const term = TERMO_VAZIO;
   const stageEmpty = !!term;
@@ -258,7 +289,7 @@ export default function CategoryMain15() {
 
   const products: Produto15[] = stageEmpty ? [] : PRODUTOS;
   const totalCount = stageEmpty ? 0 : TOTAL;
-  const facets = useMemo(() => pickFacets(FACETAS, 0, L.specFacetKey), []);
+  const facets = useMemo(() => pickFacets(FACETAS, 0, L.specFacetKey ?? ''), [L.specFacetKey]);
 
   const commit = (nextUser: Selected15[]) => setMockSelected(nextUser);
   const facetOf = (key: string) => facets.find(f => f.key === key);
@@ -361,7 +392,7 @@ export default function CategoryMain15() {
   const openFacetObj = openKey ? facetOf(openKey) : undefined;
   const temBarra = !isEmpty || userCount > 0;
   const contagem = `${totalCount.toLocaleString('pt-BR')}${L.countLabel ? ` ${L.countLabel}` : ''}`;
-  const verPecas = fill(L.resultsLabel, { total: totalCount.toLocaleString('pt-BR') });
+  const verPecas = fill(L.resultsLabel ?? '', { total: totalCount.toLocaleString('pt-BR') });
 
   const sortMenu = sortOpen && (
     <div className={styles.sortMenu} role="listbox" aria-label={L.sortLabel} data-role="sort-menu">
@@ -577,7 +608,7 @@ export default function CategoryMain15() {
 
           {!isEmpty && totalCount > 0 && (
             <div className={styles.more} data-role="cm-more">
-              <span className={styles.progressText}>{fill(L.progressLabel, { shown, total: totalCount })}</span>
+              <span className={styles.progressText}>{fill(L.progressLabel ?? '', { shown, total: totalCount })}</span>
               <span className={styles.progress} aria-hidden="true">
                 <span style={{ width: `${Math.min(100, (shown / totalCount) * 100)}%` }} />
               </span>
@@ -651,3 +682,6 @@ export default function CategoryMain15() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryMain15.conteudoPadrao = MOCK;

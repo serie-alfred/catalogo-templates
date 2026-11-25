@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 
 import styles from './index.module.css';
 import { FONTES_14, ProductCard14, produto14, type Produto14 } from '@/components/templates/common/template_14/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import {
   type Facet14,
   type PriceBucket14,
@@ -39,13 +40,52 @@ import {
  * lista de produtos sai vazia. Lá isso só acontece numa busca sem resultado (ou no palco,
  * pela prop `stageEmptyTerm`); aqui `TERMO_VAZIO` faz o papel da prop do palco — vazio, o
  * canvas mostra a grade.
+ *
+ * Os rótulos, as faixas de preço (`priceSteps`) e o estado vazio são do CMS e vêm do
+ * `useConteudoDaSecao`; o tipo não traz `pageSize` nem `specFacetKey`: a grade de exemplo não
+ * pagina pelo número do CS nem escolhe a especificação (as facetas são as do exemplo).
  */
 
-/* ── rótulos (o mock.ts de lá) ── */
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+interface CategoryMain14Conteudo {
+  /** Limites das faixas de preço, separados por vírgula (ex.: "150, 300, 600"). */
+  priceSteps?: string;
+  specAllLabel?: string;
+  countLabel?: string;
+  filterLabel?: string;
+  sortLabel?: string;
+  clearLabel?: string;
+  clearAllLabel?: string;
+  /** `{valor}` vira o tamanho. */
+  sizeChipLabel?: string;
+  /** `{n}` e `{faceta}`. */
+  showMoreLabel?: string;
+  showLessLabel?: string;
+  /** `{max}`. */
+  priceUpToLabel?: string;
+  /** `{min}` e `{max}`. */
+  priceBetweenLabel?: string;
+  /** `{min}`. */
+  priceOverLabel?: string;
+  /** `{total}`. */
+  resultsLabel?: string;
+  /** `{from}`, `{to}` e `{total}`. */
+  rangeLabel?: string;
+  emptyArtBig?: string;
+  emptyArtSmall?: string;
+  emptyEyebrow?: string;
+  emptyTitle?: string;
+  emptyText?: string;
+  emptyPrimaryLabel?: string;
+  emptyPrimaryUrl?: string;
+  emptySecondaryLabel?: string;
+  emptySecondaryUrl?: string;
+}
+
 const PAGE = 9;
 const SPEC_FACET_KEY = 'modalidade';
-const PRICE_STEPS = '150, 300, 600';
-const L = {
+const MOCK: CategoryMain14Conteudo = {
+  priceSteps: '150, 300, 600',
   specAllLabel: 'Todas',
   countLabel: 'produtos',
   filterLabel: 'Filtrar',
@@ -181,7 +221,7 @@ const SORT_OPTIONS: Array<[string, string]> = [
 /** Quantos valores a lista mostra antes do "Ver mais" (o desenho mostra até 5). */
 const LIMIT_LIST = 6;
 
-const fill = (tpl: string, vars: Record<string, number | string>) => tpl.replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
+const fill = (tpl: string | undefined, vars: Record<string, number | string>) => (tpl ?? '').replace(/\{(\w+)\}/g, (_, k) => String(vars[k] ?? ''));
 
 /* ── toggleFacet/setFacet do @faststore/sdk, equivalentes ── */
 const toggleFacet = (list: Selected14[], f: Selected14) =>
@@ -306,6 +346,7 @@ function FacetBody14({
 }
 
 export default function CategoryMain14() {
+  const L = useConteudoDaSecao(MOCK);
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
   const term = TERMO_VAZIO;
   const stageEmpty = !!term;
@@ -324,9 +365,13 @@ export default function CategoryMain14() {
   const buckets = useMemo(
     () =>
       priceFacet
-        ? priceBuckets(PRICE_STEPS, priceFacet, { upTo: L.priceUpToLabel, between: L.priceBetweenLabel, over: L.priceOverLabel })
+        ? priceBuckets(L.priceSteps, priceFacet, {
+            upTo: L.priceUpToLabel || '',
+            between: L.priceBetweenLabel || '',
+            over: L.priceOverLabel || '',
+          })
         : [],
-    [priceFacet]
+    [priceFacet, L]
   );
   const shownFacets = facets.filter(f => f.kind !== 'price' || buckets.length > 0);
   const specFacet = shownFacets.find(f => f.kind === 'spec');
@@ -392,7 +437,11 @@ export default function CategoryMain14() {
   const atual = Math.min(page, pages - 1) + 1;
   const from = totalCount ? (atual - 1) * PAGE + 1 : 0;
   const to = Math.min(totalCount, (atual - 1) * PAGE + products.length);
-  const labels = { showMoreLabel: L.showMoreLabel, showLessLabel: L.showLessLabel, specAllLabel: L.specAllLabel };
+  const labels = {
+    showMoreLabel: L.showMoreLabel || '',
+    showLessLabel: L.showLessLabel || '',
+    specAllLabel: L.specAllLabel || '',
+  };
   const chipLabel = (s: Selected14) => {
     const label = selectedLabel(s, facets, buckets);
     const f = facets.find(x => x.key === s.key);
@@ -467,17 +516,23 @@ export default function CategoryMain14() {
           term ? ` “${term}”` : null
         )}
         {L.emptyText && <p className={styles.emptyText}>{L.emptyText}</p>}
-        <div className={styles.emptyActions}>
-          <a className={styles.emptyPrimary} href={L.emptyPrimaryUrl} data-role="cm-empty-primary">
-            {L.emptyPrimaryLabel}
-            <Ico w={2.4}>
-              <path d="M4 12h15M13 6l6 6-6 6" />
-            </Ico>
-          </a>
-          <a className={styles.emptySecondary} href={L.emptySecondaryUrl} data-role="cm-empty-secondary">
-            {L.emptySecondaryLabel}
-          </a>
-        </div>
+        {(L.emptyPrimaryLabel || L.emptySecondaryLabel) && (
+          <div className={styles.emptyActions}>
+            {L.emptyPrimaryLabel && (
+              <a className={styles.emptyPrimary} href={L.emptyPrimaryUrl || '/'} data-role="cm-empty-primary">
+                {L.emptyPrimaryLabel}
+                <Ico w={2.4}>
+                  <path d="M4 12h15M13 6l6 6-6 6" />
+                </Ico>
+              </a>
+            )}
+            {L.emptySecondaryLabel && (
+              <a className={styles.emptySecondary} href={L.emptySecondaryUrl || '/'} data-role="cm-empty-secondary">
+                {L.emptySecondaryLabel}
+              </a>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -572,9 +627,11 @@ export default function CategoryMain14() {
               </div>
             )}
             <div className={styles.sort}>
-              <label className={styles.sortLabel} htmlFor={`${uid}-sort`}>
-                {L.sortLabel}
-              </label>
+              {L.sortLabel && (
+                <label className={styles.sortLabel} htmlFor={`${uid}-sort`}>
+                  {L.sortLabel}
+                </label>
+              )}
               {sortSelect(`${uid}-sort`)}
             </div>
           </div>
@@ -582,10 +639,12 @@ export default function CategoryMain14() {
           <div className={styles.layout}>
             {asideFacets.length > 0 && (
               <aside className={styles.aside} aria-label={L.filterLabel} data-role="cm-aside">
-                <h2 className={styles.asideTitle}>
-                  <Sliders />
-                  {L.filterLabel}
-                </h2>
+                {L.filterLabel && (
+                  <h2 className={styles.asideTitle}>
+                    <Sliders />
+                    {L.filterLabel}
+                  </h2>
+                )}
                 {asideFacets.map(f => (
                   <fieldset key={f.key} className={`${styles.facet}${f.kind === 'pills' ? ` ${styles.facetPills}` : ''}`} data-role="cm-facet">
                     <legend className={styles.facetTitle}>{f.label}</legend>
@@ -654,9 +713,11 @@ export default function CategoryMain14() {
                           )}
                         </div>
                       )}
-                      <span className={styles.rangeText}>
-                        {fill(L.rangeLabel, { from: from.toLocaleString('pt-BR'), to: to.toLocaleString('pt-BR'), total })}
-                      </span>
+                      {L.rangeLabel && (
+                        <span className={styles.rangeText}>
+                          {fill(L.rangeLabel, { from: from.toLocaleString('pt-BR'), to: to.toLocaleString('pt-BR'), total })}
+                        </span>
+                      )}
                     </nav>
                   )}
                 </>
@@ -719,3 +780,6 @@ export default function CategoryMain14() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryMain14.conteudoPadrao = MOCK;

@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -10,7 +12,12 @@ import styles from './index.module.css';
  * `data-role` e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o
  * mock.ts de lá (perfil e cidade são marcadores do desenho; sem foto: vale o grafite).
  * Trilho de rolagem nativa com setas e régua de traços, como lá.
+ *
+ * Conteúdo: o MOCK abaixo por baixo do que o CS subir (`useConteudoDaSecao`, campos do
+ * schema de lá).
  */
+
+/** Um depoimento, como o schema o declara. */
 interface ClientReview13Review {
   rating?: number;
   text?: string;
@@ -20,9 +27,15 @@ interface ClientReview13Review {
   image?: string;
 }
 
-// Conteúdo do mock.ts do starter.
 const quem = { author: '[@perfil]', location: '[Cidade]', rating: 5 };
-const MOCK = {
+
+/** O conteúdo da seção: os campos do `section.schema` do ClientReview13. */
+interface ClientReview13Conteudo {
+  title?: string;
+  reviews: ClientReview13Review[];
+}
+
+const MOCK: ClientReview13Conteudo = {
   title: 'Quem usa, aprova',
   reviews: [
     {
@@ -40,7 +53,7 @@ const MOCK = {
       text: 'Moletom pesado e caimento oversized do jeito que eu queria. Já lavei várias vezes e não deformou.',
       productName: 'Moletom Oversized',
     },
-  ] as ClientReview13Review[],
+  ],
 };
 
 const STAR =
@@ -81,7 +94,7 @@ const Chevron = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function ClientReview13() {
-  const { title, reviews } = MOCK;
+  const { title, reviews } = useConteudoDaSecao(MOCK);
   const railRef = useRef<HTMLDivElement>(null);
   const [trilho, setTrilho] = useState({ inicio: true, fim: true, atual: 0 });
 
@@ -232,3 +245,6 @@ export default function ClientReview13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ClientReview13.conteudoPadrao = MOCK;

@@ -4,6 +4,7 @@ import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
 
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/HelpFloatButton12` do faststore.starter (família 12, Suave; desenho
@@ -15,18 +16,18 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * divergência deliberada.
  */
 
-interface HelpFloatButton12Props {
+interface HelpFloat12Conteudo {
   /** Rótulo do botão fechado (o "Ajuda" do desenho). */
   buttonLabel?: string;
   /** Título do painel. */
   title?: string;
   scheduleText?: string;
   /** Com `url` o item é link; sem `url`, texto. `highlight` pinta o item na cor de destaque. */
-  helpItems?: { label?: string; url?: string; highlight?: boolean }[];
+  helpItems: { label?: string; url?: string; highlight?: boolean }[];
 }
 
 // Conteúdo do mock.ts do starter.
-const CONTEUDO: HelpFloatButton12Props = {
+const MOCK: HelpFloat12Conteudo = {
   buttonLabel: 'Ajuda',
   title: 'Como podemos ajudar?',
   scheduleText: 'Atendimento de seg a sex, das 9h às 18h',
@@ -78,7 +79,7 @@ const Interno = () => svg(16, <path d="m9 6 6 6-6 6" />);
 const externo = (url: string) => /^(https?:|mailto:|tel:|\/\/)/i.test(url);
 
 export default function HelpFloat12() {
-  const { buttonLabel, title, scheduleText, helpItems = [] } = CONTEUDO;
+  const { buttonLabel, title, scheduleText, helpItems } = useConteudoDaSecao(MOCK);
   const [aberto, setAberto] = useState(false);
   useAbrirNoCanvas('ajuda', setAberto);
 
@@ -186,3 +187,6 @@ export default function HelpFloat12() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+HelpFloat12.conteudoPadrao = MOCK;

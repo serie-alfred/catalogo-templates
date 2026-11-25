@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/CategoryTitle13` do faststore.starter (família 13, Noturno; desenho
@@ -15,6 +16,9 @@ import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
  * abaixo); aqui são o exemplo do mock.ts de lá. Sem chip "Todos" (o desenho não tem) e, como
  * lá fora de contexto, nenhum chip nasce ativo. O chip, que lá troca o filtro pela store de
  * busca, aqui alterna num `useState`.
+ *
+ * O único campo de CMS são os dois rótulos (`useConteudoDaSecao`): o do chip "Todos" (o
+ * desenho não tem; sem `allLabel` o chip não nasce) e o texto depois da contagem.
  */
 interface Subcat {
   value: string;
@@ -22,7 +26,14 @@ interface Subcat {
   quantity?: number;
 }
 
-const COUNT_LABEL = 'produtos';
+/** O conteúdo da seção: os campos do `section.schema` do CategoryTitle13. */
+interface CategoryTitle13Conteudo {
+  allLabel?: string;
+  countLabel?: string;
+}
+
+const MOCK: CategoryTitle13Conteudo = { countLabel: 'produtos' };
+
 const TITULO = 'Tênis';
 const TOTAL = 212;
 const SUBCATS: Subcat[] = [
@@ -34,12 +45,16 @@ const SUBCATS: Subcat[] = [
 ];
 
 export default function CategoryTitle13() {
+  const { allLabel, countLabel } = useConteudoDaSecao(MOCK);
   const [ativa, setAtiva] = useState<string | null>(null);
 
   const escolher = (e: React.MouseEvent, value: string) => {
     e.preventDefault();
-    setAtiva(a => (value && value !== a ? value : null));
+    setAtiva(a => (value === '' || value !== a ? value : null));
   };
+
+  // O chip "Todos" (a categoria inteira) só existe com `allLabel`, como no starter.
+  const chips: Subcat[] = allLabel ? [{ value: '', label: allLabel }, ...SUBCATS] : SUBCATS;
 
   return (
     <div className={styles.categoryTitle13Box}>
@@ -51,15 +66,16 @@ export default function CategoryTitle13() {
               {TITULO}
             </h1>
             <p className={styles.count} data-role="ct-count">
-              {TOTAL.toLocaleString('pt-BR')} {COUNT_LABEL}
+              {TOTAL.toLocaleString('pt-BR')}
+              {countLabel ? ` ${countLabel}` : ''}
             </p>
           </div>
           <nav className={styles.chips} aria-label="Subcategorias" data-role="ct-chips">
             <ul className={styles.chipList}>
-              {SUBCATS.map(s => {
+              {chips.map(s => {
                 const on = ativa === s.value;
                 return (
-                  <li key={s.value} className={styles.chipItem}>
+                  <li key={s.value || '_todos'} className={styles.chipItem}>
                     <a
                       className={`${styles.chip}${on ? ` ${styles.chipActive}` : ''}`}
                       href="#"
@@ -82,3 +98,6 @@ export default function CategoryTitle13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryTitle13.conteudoPadrao = MOCK;

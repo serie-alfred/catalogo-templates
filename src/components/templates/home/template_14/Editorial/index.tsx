@@ -2,6 +2,7 @@ import React from 'react';
 
 import styles from './index.module.css';
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/Editorial14` do faststore.starter (família 14, Esportiva; desenho
@@ -10,7 +11,8 @@ import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
  * vermelho, o título, o texto e o link; os demais empilhados ao lado com o número vermelho da
  * posição. Mesmo markup, classes e `data-role`; CSS derivado do SCSS.
  *
- * Conteúdo = o mock.ts de lá, sem arte (vale o placeholder por posição, como lá).
+ * Conteúdo = o mock.ts de lá, sem arte (vale o placeholder por posição, como lá), por baixo do
+ * que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  */
 type Story = {
   eyebrow?: string;
@@ -25,9 +27,19 @@ type Story = {
   imageAlt?: string;
 };
 
-const TITLE = 'Treine com a gente';
-const VIEW_ALL = 'Ver todos os guias';
-const STORIES: Story[] = [
+interface Editorial14Conteudo {
+  title?: string;
+  viewAllLabel?: string;
+  viewAllUrl?: string;
+  /** A 1ª é o destaque. */
+  stories: Story[];
+}
+
+const MOCK: Editorial14Conteudo = {
+  title: 'Treine com a gente',
+  viewAllLabel: 'Ver todos os guias',
+  viewAllUrl: '/s',
+  stories: [
   {
     eyebrow: 'Plano de treino',
     title: 'Do zero aos 10 km: o plano completo para iniciantes',
@@ -35,12 +47,13 @@ const STORIES: Story[] = [
     linkLabel: 'Ler o guia',
     plateTitle: '10 km',
     plateText: 'em 8 semanas',
-    url: '#',
+    url: '/s',
     imageAlt: 'Corredora em treino de rua',
   },
-  { eyebrow: 'Hidratação', title: 'Quanto beber antes, durante e depois do treino', url: '#' },
-  { eyebrow: 'Suplementos', title: 'Whey isolado ou concentrado: qual escolher', url: '#' },
-];
+  { eyebrow: 'Hidratação', title: 'Quanto beber antes, durante e depois do treino', url: '/s' },
+  { eyebrow: 'Suplementos', title: 'Whey isolado ou concentrado: qual escolher', url: '/s' },
+  ],
+};
 
 const Seta = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="square" aria-hidden="true">
@@ -65,22 +78,30 @@ const Chamada = ({ texto }: { texto?: string }) =>
   ) : null;
 
 export default function Editorial14() {
-  const [destaque, ...demais] = STORIES;
+  const { title, viewAllLabel, viewAllUrl, stories } = useConteudoDaSecao(MOCK);
+  if (!stories.length) return null;
+  const [destaque, ...demais] = stories;
 
   return (
     <div className={styles.editorial14Box}>
-      <section className={styles.editorial14} aria-label={TITLE} data-role="ed-root">
+      <section className={styles.editorial14} aria-label={title || 'Editorial'} data-role="ed-root">
         <link rel="stylesheet" href={FONTES_14} />
         <div className={styles.inner}>
-          <div className={styles.head}>
-            <h2 className={styles.title} data-role="ed-title">
-              {TITLE}
-            </h2>
-            <a className={styles.viewAll} href="#" data-role="ed-view-all">
-              {VIEW_ALL}
-              <Seta className={styles.viewAllIcon} />
-            </a>
-          </div>
+          {(title || viewAllLabel) && (
+            <div className={styles.head}>
+              {title && (
+                <h2 className={styles.title} data-role="ed-title">
+                  {title}
+                </h2>
+              )}
+              {viewAllLabel && (
+                <a className={styles.viewAll} href={viewAllUrl || '#'} data-role="ed-view-all">
+                  {viewAllLabel}
+                  <Seta className={styles.viewAllIcon} />
+                </a>
+              )}
+            </div>
+          )}
           <div className={styles.grid}>
             <a className={styles.featured} href={destaque.url || '#'} data-role="ed-featured">
               <span className={styles.featuredArt}>
@@ -102,6 +123,7 @@ export default function Editorial14() {
                 </span>
               )}
             </a>
+            {demais.length > 0 && (
             <ul className={styles.side}>
               {demais.map((s, i) => (
                 <li key={i} className={styles.sideItem}>
@@ -120,9 +142,13 @@ export default function Editorial14() {
                 </li>
               ))}
             </ul>
+            )}
           </div>
         </div>
       </section>
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Editorial14.conteudoPadrao = MOCK;

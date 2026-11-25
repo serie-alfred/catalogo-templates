@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/CategoryTitle12` do faststore.starter (família 12, Suave; desenho
@@ -21,8 +22,16 @@ interface Subcat {
   quantity?: number;
 }
 
-const ALL_LABEL = 'Todos';
-const COUNT_LABEL = 'produtos';
+interface CategoryTitle12Conteudo {
+  allLabel?: string;
+  countLabel?: string;
+}
+
+const MOCK: CategoryTitle12Conteudo = {
+  allLabel: 'Todos',
+  countLabel: 'produtos',
+};
+
 const TITULO = 'Skincare';
 const TOTAL = 128;
 const SUBCATS: Subcat[] = [
@@ -35,6 +44,7 @@ const SUBCATS: Subcat[] = [
 ];
 
 export default function CategoryTitle12() {
+  const { allLabel, countLabel } = useConteudoDaSecao(MOCK);
   const [ativa, setAtiva] = useState('');
 
   const escolher = (e: React.MouseEvent, value: string) => {
@@ -43,7 +53,9 @@ export default function CategoryTitle12() {
   };
 
   // "Todos" sem quantidade, como no desenho (a contagem total já está embaixo do título).
-  const chips: Subcat[] = [{ value: '', label: ALL_LABEL }, ...SUBCATS];
+  const chips: Subcat[] = allLabel
+    ? [{ value: '', label: allLabel }, ...SUBCATS]
+    : SUBCATS;
 
   return (
     <div className={styles.categoryTitle12Box}>
@@ -59,40 +71,46 @@ export default function CategoryTitle12() {
               {TITULO}
             </h1>
             <p className={styles.count} data-role="ct-count">
-              {TOTAL.toLocaleString('pt-BR')} {COUNT_LABEL}
+              {TOTAL.toLocaleString('pt-BR')}
+              {countLabel ? ` ${countLabel}` : ''}
             </p>
           </div>
-          <nav
-            className={styles.chips}
-            aria-label="Subcategorias"
-            data-role="ct-chips"
-          >
-            <ul className={styles.chipList}>
-              {chips.map(s => {
-                const on = ativa === s.value;
-                return (
-                  <li key={s.value || '_todos'} className={styles.chipItem}>
-                    <a
-                      className={`${styles.chip}${on ? ` ${styles.chipActive}` : ''}`}
-                      href="#"
-                      aria-current={on ? 'page' : undefined}
-                      onClick={e => escolher(e, s.value)}
-                      data-role="ct-chip"
-                    >
-                      {s.label}
-                      {typeof s.quantity === 'number' && (
-                        <span className={styles.chipQty}>
-                          {s.quantity.toLocaleString('pt-BR')}
-                        </span>
-                      )}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+          {chips.length > 0 && (
+            <nav
+              className={styles.chips}
+              aria-label="Subcategorias"
+              data-role="ct-chips"
+            >
+              <ul className={styles.chipList}>
+                {chips.map(s => {
+                  const on = ativa === s.value;
+                  return (
+                    <li key={s.value || '_todos'} className={styles.chipItem}>
+                      <a
+                        className={`${styles.chip}${on ? ` ${styles.chipActive}` : ''}`}
+                        href="#"
+                        aria-current={on ? 'page' : undefined}
+                        onClick={e => escolher(e, s.value)}
+                        data-role="ct-chip"
+                      >
+                        {s.label}
+                        {typeof s.quantity === 'number' && (
+                          <span className={styles.chipQty}>
+                            {s.quantity.toLocaleString('pt-BR')}
+                          </span>
+                        )}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          )}
         </div>
       </section>
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryTitle12.conteudoPadrao = MOCK;

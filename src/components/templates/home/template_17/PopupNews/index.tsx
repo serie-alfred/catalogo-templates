@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { FONTES_17 as FONTES } from '@/components/templates/common/template_17/Spot'
-import styles from './index.module.css'
+import React, { useState } from 'react';
+import { FONTES_17 as FONTES } from '@/components/templates/common/template_17/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import styles from './index.module.css';
 
 /**
  * Espelha `organisms/PopupNews17` do faststore.starter (família 17, Pet; desenho `PopupNews17` /
@@ -16,30 +17,30 @@ import styles from './index.module.css'
  * local) e o envio mostra a mensagem de sucesso.
  */
 
-interface PopupNews17Props {
-  imageDesktop?: string
-  imageMobile?: string
-  imageAlt?: string
+/** O conteúdo da seção: os campos do `section.schema` do PopupNews17. */
+interface PopupNews17Conteudo {
+  imageDesktop?: string;
+  imageMobile?: string;
+  imageAlt?: string;
   /** Etiqueta tangerina com a patinha, acima do título. Vazio esconde. */
-  eyebrow?: string
-  title?: string
-  text?: string
-  nameLabel?: string
-  namePlaceholder?: string
-  emailLabel?: string
-  emailPlaceholder?: string
-  buttonLabel?: string
-  successMessage?: string
-  privacyPrefix?: string
-  privacyLabel?: string
-  privacyUrl?: string
-  dismissLabel?: string
-  delaySeconds?: number
-  dismissDays?: number
+  eyebrow?: string;
+  title?: string;
+  text?: string;
+  nameLabel?: string;
+  namePlaceholder?: string;
+  emailLabel?: string;
+  emailPlaceholder?: string;
+  buttonLabel?: string;
+  successMessage?: string;
+  privacyPrefix?: string;
+  privacyLabel?: string;
+  privacyUrl?: string;
+  dismissLabel?: string;
 }
 
-// Conteúdo do mock.ts do starter (textos do desenho; sem arte: vale o recorte neutro).
-const popupNews17Mock: PopupNews17Props = {
+// Conteúdo do mock.ts do starter (textos do desenho; sem arte: vale o recorte neutro). Fora do tipo:
+// `delaySeconds` e `dismissDays` (o pop-up do catálogo nasce aberto e não lembra o dispensar).
+const MOCK: PopupNews17Conteudo = {
   eyebrow: 'Boas-vindas',
   title: '10% na primeira compra do seu pet',
   text: 'Cadastre-se e receba o cupom BEMVINDO10 no e-mail, junto com dicas de cuidado e as ofertas da semana.',
@@ -53,10 +54,7 @@ const popupNews17Mock: PopupNews17Props = {
   privacyLabel: 'Política de Privacidade',
   privacyUrl: '/politica-de-privacidade',
   dismissLabel: 'Agora não',
-  delaySeconds: 3,
-  dismissDays: 7,
-}
-
+};
 
 export default function PopupNews17() {
   const {
@@ -76,34 +74,47 @@ export default function PopupNews17() {
     privacyLabel,
     privacyUrl,
     dismissLabel,
-  } = popupNews17Mock
+  } = useConteudoDaSecao(MOCK);
 
-  const [aberto, setAberto] = useState(true)
-  const [nome, setNome] = useState('')
-  const [email, setEmail] = useState('')
-  const [estado, setEstado] = useState<'idle' | 'ok' | 'erro'>('idle')
-  const motivo = ''
-  const enviando = false
-  const fechar = () => setAberto(false)
+  const [aberto, setAberto] = useState(true);
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [estado, setEstado] = useState<'idle' | 'ok' | 'erro'>('idle');
+  const motivo = '';
+  const enviando = false;
+  const fechar = () => setAberto(false);
 
   function enviar(e: React.FormEvent) {
-    e.preventDefault()
-    if (!nome.trim() || !email.trim()) return
-    setEstado('ok')
+    e.preventDefault();
+    if (!nome.trim() || !email.trim()) return;
+    setEstado('ok');
   }
 
-  if (!aberto) return null
+  if (!aberto) return null;
 
   return (
     <div className={styles.popupNews17} data-role="pn-root">
       <link rel="stylesheet" href={FONTES} />
       <div className={styles.overlay} onClick={fechar} aria-hidden="true" />
-      <section tabIndex={-1} className={styles.dialog} role="dialog" aria-modal="true" aria-labelledby="pn17-titulo">
+      <section
+        tabIndex={-1}
+        className={styles.dialog}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="pn17-titulo"
+      >
         <div className={styles.media} data-role="pn-image">
           {imageDesktop || imageMobile ? (
             <picture>
-              {imageMobile && <source media="(max-width: 960px)" srcSet={imageMobile} />}
-              <img src={imageDesktop || imageMobile} alt={imageAlt ?? ''} width={680} height={1040} />
+              {imageMobile && (
+                <source media="(max-width: 960px)" srcSet={imageMobile} />
+              )}
+              <img
+                src={imageDesktop || imageMobile}
+                alt={imageAlt ?? ''}
+                width={680}
+                height={1040}
+              />
             </picture>
           ) : (
             // Sem arte: o recorte orgânico neutro do desenho.
@@ -111,8 +122,22 @@ export default function PopupNews17() {
           )}
         </div>
 
-        <button type="button" className={styles.close} onClick={fechar} aria-label="Fechar">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+        <button
+          type="button"
+          className={styles.close}
+          onClick={fechar}
+          aria-label="Fechar"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            aria-hidden="true"
+          >
             <path d="M6 6l12 12M18 6 6 18" />
           </svg>
         </button>
@@ -120,7 +145,17 @@ export default function PopupNews17() {
         <div className={styles.side}>
           {eyebrow && (
             <span className={styles.eyebrow} data-role="pn-eyebrow">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
                 <ellipse cx="5.5" cy="10" rx="2" ry="2.6" />
                 <ellipse cx="9.5" cy="5.5" rx="2" ry="2.6" />
                 <ellipse cx="14.5" cy="5.5" rx="2" ry="2.6" />
@@ -159,7 +194,7 @@ export default function PopupNews17() {
                     required
                     placeholder={namePlaceholder}
                     value={nome}
-                    onChange={(e) => setNome(e.target.value)}
+                    onChange={e => setNome(e.target.value)}
                   />
                 </label>
                 <label className={styles.field}>
@@ -173,15 +208,21 @@ export default function PopupNews17() {
                     required
                     placeholder={emailPlaceholder}
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={e => setEmail(e.target.value)}
                   />
                 </label>
                 {estado === 'erro' && (
                   <p className={styles.feedback} role="alert">
-                    {motivo || 'Não foi possível concluir a inscrição. Tente novamente.'}
+                    {motivo ||
+                      'Não foi possível concluir a inscrição. Tente novamente.'}
                   </p>
                 )}
-                <button type="submit" className={styles.submit} disabled={enviando} data-role="pn-button">
+                <button
+                  type="submit"
+                  className={styles.submit}
+                  disabled={enviando}
+                  data-role="pn-button"
+                >
                   {buttonLabel}
                 </button>
               </>
@@ -194,7 +235,12 @@ export default function PopupNews17() {
               </p>
             )}
             {dismissLabel && (
-              <button type="button" className={styles.dismiss} onClick={fechar} data-role="pn-dismiss">
+              <button
+                type="button"
+                className={styles.dismiss}
+                onClick={fechar}
+                data-role="pn-dismiss"
+              >
                 {dismissLabel}
               </button>
             )}
@@ -202,5 +248,8 @@ export default function PopupNews17() {
         </div>
       </section>
     </div>
-  )
+  );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+PopupNews17.conteudoPadrao = MOCK;

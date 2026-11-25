@@ -2,6 +2,8 @@ import React from 'react';
 
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -17,38 +19,51 @@ interface Categoria {
   imageAlt?: string;
 }
 
-const EYEBROW = 'O universo da maison';
-const TITLE = 'Compre por';
-const TITLE_EMPHASIS = 'categoria';
-const LINK_LABEL = 'Ver';
-const CATEGORIAS: Categoria[] = [
-  { name: 'Joias', url: '/s' },
-  { name: 'Relógios', url: '/s' },
-  { name: 'Perfumes', url: '/s' },
-  { name: 'Beleza', url: '/s' },
-];
+interface Categories15Conteudo {
+  eyebrow?: string;
+  title?: string;
+  titleEmphasis?: string;
+  linkLabel?: string;
+  categories: Categoria[];
+}
+
+const MOCK: Categories15Conteudo = {
+  eyebrow: 'O universo da maison',
+  title: 'Compre por',
+  titleEmphasis: 'categoria',
+  linkLabel: 'Ver',
+  categories: [
+    { name: 'Joias', url: '/s' },
+    { name: 'Relógios', url: '/s' },
+    { name: 'Perfumes', url: '/s' },
+    { name: 'Beleza', url: '/s' },
+  ],
+};
 
 export default function Categories15() {
-  const eyebrow = EYEBROW;
-  const title = TITLE;
-  const titleEmphasis = TITLE_EMPHASIS;
-  const linkLabel = LINK_LABEL;
-  const categories = CATEGORIAS;
+  const { eyebrow, title, titleEmphasis, linkLabel, categories } = useConteudoDaSecao(MOCK);
+  if (!categories.length) return null;
 
   return (
     <div className={styles.categories15Box}>
       <section className={styles.categories15} aria-label={[title, titleEmphasis].filter(Boolean).join(' ') || 'Categorias'} data-role="cat-root">
         <link rel="stylesheet" href={FONTES_15} />
         <div className={styles.inner}>
-          <div className={styles.head}>
-            <span className={styles.eyebrow} data-role="cat-eyebrow">
-              {eyebrow}
-            </span>
-            <h2 className={styles.title} data-role="cat-title">
-              {title} <em>{titleEmphasis}</em>
-            </h2>
-            <span className={styles.headRule} aria-hidden="true" />
-          </div>
+          {(eyebrow || title || titleEmphasis) && (
+            <div className={styles.head}>
+              {eyebrow && (
+                <span className={styles.eyebrow} data-role="cat-eyebrow">
+                  {eyebrow}
+                </span>
+              )}
+              {(title || titleEmphasis) && (
+                <h2 className={styles.title} data-role="cat-title">
+                  {title} {titleEmphasis && <em>{titleEmphasis}</em>}
+                </h2>
+              )}
+              <span className={styles.headRule} aria-hidden="true" />
+            </div>
+          )}
           <ul className={styles.grid} data-role="cat-list">
             {categories.map((c, i) => (
               <li key={i} className={styles.item}>
@@ -78,3 +93,6 @@ export default function Categories15() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Categories15.conteudoPadrao = MOCK;

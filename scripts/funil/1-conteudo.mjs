@@ -35,7 +35,7 @@ import {
 } from '../derivar-conteudo.mjs';
 
 /** Famílias cuja migração terminou: todo componente com schema lê pelo hook. */
-const FAMILIAS_MIGRADAS = ['9'];
+const FAMILIAS_MIGRADAS = ['9', '10', '11', '12', '13', '14', '15', '16', '17'];
 
 const r = relatorio('1-conteudo · schema do starter, resolvedor e migração');
 

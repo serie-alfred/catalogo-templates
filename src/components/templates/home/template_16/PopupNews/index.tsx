@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
  * Espelha `organisms/PopupNews16` do faststore.starter (família 16, Infantil; desenho
  * `PopupNews16` / `PopupNews16-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`;
- * o CSS é derivado do SCSS de lá, com o @media (overlay fixo). Desktop: modal creme com filete
+ * o CSS é derivado do SCSS de lá, com o @media (overlay fixo). Conteúdo = o mock.ts de lá,
+ * por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá). Desktop: modal creme com filete
  * e sombra chapada, a arte à esquerda com o selo coral inclinado e, à direita, o fechar
  * redondo, o título, o texto, Nome e E-mail em pílulas, "Quero meu cupom", a política e
  * "Agora não". Mobile: folha presa ao pé da tela.
@@ -16,7 +19,7 @@ import styles from './index.module.css';
  * placeholder do CSS.
  */
 
-interface PopupNews16Props {
+interface PopupNews16Conteudo {
   imageDesktop?: string;
   imageMobile?: string;
   imageAlt?: string;
@@ -35,13 +38,11 @@ interface PopupNews16Props {
   privacyLabel?: string;
   privacyUrl?: string;
   dismissLabel?: string;
-  delaySeconds?: number;
-  dismissDays?: number;
 }
 
 const FONTES =
   'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap';
-const MOCK: PopupNews16Props = {
+const MOCK: PopupNews16Conteudo = {
   sealTitle: '10%',
   sealText: 'off',
   title: 'Ganhe 10% na primeira compra',
@@ -56,8 +57,6 @@ const MOCK: PopupNews16Props = {
   privacyLabel: 'Política de Privacidade',
   privacyUrl: '/politica-de-privacidade',
   dismissLabel: 'Agora não',
-  delaySeconds: 3,
-  dismissDays: 7,
 };
 
 export default function PopupNews16() {
@@ -79,7 +78,7 @@ export default function PopupNews16() {
     privacyLabel,
     privacyUrl,
     dismissLabel,
-  } = MOCK;
+  } = useConteudoDaSecao(MOCK);
 
   const [aberto, setAberto] = useState(true);
   const [nome, setNome] = useState('');
@@ -238,3 +237,6 @@ export default function PopupNews16() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+PopupNews16.conteudoPadrao = MOCK;

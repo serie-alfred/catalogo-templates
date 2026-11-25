@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -10,7 +11,12 @@ import styles from './index.module.css';
  * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá
  * (3 banners, sem arte: vale o grafite de placeholder do CSS). Sem autoplay: setas,
  * segmentos e arraste, como lá.
+ *
+ * Conteúdo: o MOCK abaixo por baixo do que o CS subir (`useConteudoDaSecao`, campos do
+ * schema de lá).
  */
+
+/** Um banner do carrossel, como o schema o declara. */
 interface BannerMain13Slide {
   eyebrow?: string;
   title?: string;
@@ -26,7 +32,6 @@ interface BannerMain13Slide {
   imageAlt?: string;
 }
 
-// Conteúdo do mock.ts do starter.
 const base = {
   eyebrow: 'Disponível agora',
   text: 'Nylon técnico, detalhes refletivos e o novo Runner V2. Edição limitada, sem reposição.',
@@ -37,16 +42,18 @@ const base = {
   url: '/s',
 };
 
-const SLIDES: BannerMain13Slide[] = [
-  { ...base, title: 'Drop', titleAccent: '07', imageAlt: 'Ver o Drop 07' },
-  { ...base, title: 'Runner', titleAccent: 'V2', imageAlt: 'Ver o Runner V2' },
-  {
-    ...base,
-    title: 'Noite',
-    titleAccent: 'Fria',
-    imageAlt: 'Ver a coleção Noite Fria',
-  },
-];
+/** O conteúdo da seção: os campos do `section.schema` do BannerMain13. */
+interface BannerMain13Conteudo {
+  slides: BannerMain13Slide[];
+}
+
+const MOCK: BannerMain13Conteudo = {
+  slides: [
+    { ...base, title: 'Drop', titleAccent: '07', imageAlt: 'Ver o Drop 07' },
+    { ...base, title: 'Runner', titleAccent: 'V2', imageAlt: 'Ver o Runner V2' },
+    { ...base, title: 'Noite', titleAccent: 'Fria', imageAlt: 'Ver a coleção Noite Fria' },
+  ],
+};
 
 const Seta = () => (
   <svg
@@ -77,7 +84,7 @@ const Chevron = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function BannerMain13() {
-  const slides = SLIDES;
+  const { slides } = useConteudoDaSecao(MOCK);
   const [atual, setAtual] = useState(0);
   const toqueX = useRef<number | null>(null);
 
@@ -229,3 +236,6 @@ export default function BannerMain13() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerMain13.conteudoPadrao = MOCK;

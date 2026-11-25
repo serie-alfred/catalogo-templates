@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react';
 
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/HelpFloatButton16` do faststore.starter (família 16, Infantil; desenho
  * `HelpFloat16` / `HelpFloat16-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`; o
  * CSS é derivado do SCSS de lá, com o @media (camada fixa na viewport). O botão redondo de
  * destaque com o balão "?" no canto inferior direito; aberto, o painel arredondado com a
- * cabeça na cor de destaque e os atalhos em cartões. Conteúdo = o mock.ts de lá.
+ * cabeça na cor de destaque e os atalhos em cartões. Conteúdo = o mock.ts de lá,
+ * por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  */
 
 type HelpFloatButton16Icon =
@@ -21,14 +23,14 @@ type HelpFloatButton16Icon =
   | 'help'
   | 'none';
 
-interface HelpFloatButton16Props {
+interface HelpFloat16Conteudo {
   /** Nome do botão para leitores de tela (o desenho só mostra o ícone). */
   buttonLabel?: string;
   /** Título do painel. */
   title?: string;
   scheduleText?: string;
   /** Com `url` o item é link; sem `url`, texto. `highlight` troca o fundo pela borda. */
-  helpItems?: {
+  helpItems: {
     label?: string;
     url?: string;
     icon?: HelpFloatButton16Icon;
@@ -114,7 +116,7 @@ const Balao = () =>
 const Fechar = () => svg(18, <path d="M6 6l12 12M18 6 6 18" />, '2.6');
 const Seta = () => svg(18, <path d="m9 6 6 6-6 6" />, '2.4');
 
-const MOCK: HelpFloatButton16Props = {
+const MOCK: HelpFloat16Conteudo = {
   buttonLabel: 'Ajuda',
   title: 'Posso ajudar?',
   scheduleText: 'Seg a sex · 9h às 18h',
@@ -132,7 +134,7 @@ const MOCK: HelpFloatButton16Props = {
 };
 
 export default function HelpFloat16() {
-  const { buttonLabel, title, scheduleText, helpItems = [] } = MOCK;
+  const { buttonLabel, title, scheduleText, helpItems } = useConteudoDaSecao(MOCK);
   const [aberto, setAberto] = useState(false);
   useAbrirNoCanvas('ajuda', setAberto);
 
@@ -244,3 +246,6 @@ export default function HelpFloat16() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+HelpFloat16.conteudoPadrao = MOCK;

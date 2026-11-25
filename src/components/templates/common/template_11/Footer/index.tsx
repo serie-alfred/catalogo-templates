@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
@@ -44,7 +45,8 @@ const Credit = () => (
 /**
  * Espelha `organisms/Footer11` do faststore.starter (família 11, Grade; desenho
  * `Footer11` / `Footer11-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e
- * as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
+ * as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá,
+ * por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  *
  * Grade de filetes: a marca grande, as redes em células quadradas e o selo; as colunas de
  * links numeradas ([01] Loja…), o contato e a newsletter "[05] Journal" (nome + e-mail);
@@ -53,8 +55,10 @@ const Credit = () => (
  * selo desce para a faixa legal.
  *
  * Divergências deliberadas:
- *  - Logo: o que o usuário enviou no /gerador; sem ele, a marca em texto do catálogo
- *    (com o sobrescrito do mock), dentro do mesmo `.logo` / `data-role="ft-logo"`.
+ *  - Logo: o da seção (campo `logo` do schema), senão o do rodapé do /gerador; sem
+ *    nenhum, `brandName` ou a marca em texto do catálogo (com o sobrescrito do mock),
+ *    dentro do mesmo `.logo` / `data-role="ft-logo"`.
+ *  - Razão social e CNPJ são marcadores, não uma empresa inventada.
  *  - Newsletter sem GraphQL: o envio só mostra a mensagem de sucesso.
  *  - "Voltar ao topo" não rola a página: no canvas rolaria o editor.
  */
@@ -71,7 +75,10 @@ type Footer11Payment =
   | 'boleto'
   | 'pix';
 
-interface Footer11Props {
+/** O conteúdo da seção: os campos do `section.schema` do Footer11. */
+interface Footer11Conteudo {
+  logo?: string;
+  logoAlt?: string;
   brandName?: string;
   brandSup?: string;
   socials?: { network?: Footer11Social; url?: string }[];
@@ -97,8 +104,7 @@ interface Footer11Props {
   backToTopLabel?: string;
 }
 
-const MOCK: Footer11Props = {
-  brandName: 'SERIE//A',
+const MOCK: Footer11Conteudo = {
   brandSup: '®',
   socials: [
     { network: 'instagram', url: 'https://instagram.com/' },
@@ -246,8 +252,10 @@ const Sinal = ({ aberto }: { aberto: boolean }) =>
 const ordinal = (i: number) => String(i + 1).padStart(2, '0');
 
 export default function Footer11() {
-  const logo = useLogoDoRodape();
+  const logoDoRodape = useLogoDoRodape();
   const {
+    logo: logoDaSecao,
+    logoAlt,
     brandName,
     brandSup,
     socials = [],
@@ -271,7 +279,8 @@ export default function Footer11() {
     legalText,
     payments = [],
     backToTopLabel,
-  } = MOCK;
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDaSecao || logoDoRodape;
 
   const [aberto, setAberto] = useState<number | null>(0);
   const [nome, setNome] = useState('');
@@ -367,14 +376,14 @@ export default function Footer11() {
             <a
               className={styles.logo}
               href="/"
-              aria-label={brandName || 'Página inicial'}
+              aria-label={logoAlt || brandName || 'Página inicial'}
               data-role="ft-logo"
             >
               {logo ? (
                 <img src={logo} alt="Logo" height={48} />
               ) : (
                 <>
-                  {brandName}
+                  {brandName || 'SERIE//A'}
                   {brandSup && <sup className={styles.logoSup}>{brandSup}</sup>}
                 </>
               )}
@@ -541,3 +550,6 @@ export default function Footer11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Footer11.conteudoPadrao = MOCK;

@@ -4,6 +4,7 @@ import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/CategorySeoFaq12` do faststore.starter (família 12, Suave; desenho
@@ -21,12 +22,23 @@ interface Pergunta {
   a: string;
 }
 
-/* ── rótulos (o mock.ts de lá) ── */
-const ABOUT_EYEBROW = 'Guia';
-const ABOUT_TITLE = 'Como escolher {categoria}';
-const FAQ_TITLE = 'Perguntas frequentes';
-const READ_MORE = 'Ler mais';
-const READ_LESS = 'Ler menos';
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+interface CategoryDescription12Conteudo {
+  aboutEyebrow?: string;
+  /** Título do texto quando o HTML não traz `<h2>`; `{categoria}` vira o nome. */
+  aboutTitle?: string;
+  faqTitle?: string;
+  readMoreLabel?: string;
+  readLessLabel?: string;
+}
+
+const MOCK: CategoryDescription12Conteudo = {
+  aboutEyebrow: 'Guia',
+  aboutTitle: 'Como escolher {categoria}',
+  faqTitle: 'Perguntas frequentes',
+  readMoreLabel: 'Ler mais',
+  readLessLabel: 'Ler menos',
+};
 
 /* ── contexto de exemplo (o mock.ts de lá) ── */
 const NOME = 'Séruns';
@@ -119,6 +131,8 @@ const Ico = ({
 );
 
 export default function CategoryDescription12() {
+  const { aboutEyebrow, aboutTitle, faqTitle, readMoreLabel, readLessLabel } =
+    useConteudoDaSecao(MOCK);
   const { titulo, corpo, link } = useMemo(() => separar(SOBRE_HTML), []);
   const perguntas = useMemo(() => lerPerguntas(FAQ_HTML), []);
 
@@ -145,7 +159,10 @@ export default function CategoryDescription12() {
     // e o ResizeObserver não avisa. Mede de novo quando as fontes chegam.
     let vivo = true;
     document.fonts?.ready.then(() => vivo && medir());
-    if (typeof ResizeObserver === 'undefined') return () => { vivo = false };
+    if (typeof ResizeObserver === 'undefined')
+      return () => {
+        vivo = false;
+      };
     const ro = new ResizeObserver(medir);
     ro.observe(el);
     return () => {
@@ -156,14 +173,14 @@ export default function CategoryDescription12() {
 
   const temSobre = !!semTags(corpo);
   const temFaq = perguntas.length > 0 || !!semTags(FAQ_HTML);
-  const tituloSobre = titulo || comCategoria(ABOUT_TITLE, NOME);
+  const tituloSobre = titulo || comCategoria(aboutTitle || '', NOME);
   const recolhido = temMais && !aberto;
 
   return (
     <div className={styles.categorySeoFaq12Box}>
       <section
         className={styles.categorySeoFaq12}
-        aria-label={tituloSobre || FAQ_TITLE}
+        aria-label={tituloSobre || faqTitle || 'Sobre a categoria'}
         data-role="cd-root"
       >
         <link rel="stylesheet" href={FONTES_12} />
@@ -173,7 +190,9 @@ export default function CategoryDescription12() {
               className={`${styles.about}${recolhido ? ` ${styles.aboutClamped}` : ''}`}
               data-role="cd-about"
             >
-              <span className={styles.eyebrow}>{ABOUT_EYEBROW}</span>
+              {aboutEyebrow && (
+                <span className={styles.eyebrow}>{aboutEyebrow}</span>
+              )}
               {tituloSobre && (
                 <h2 className={styles.aboutTitle} data-role="cd-title">
                   {tituloSobre}
@@ -208,7 +227,9 @@ export default function CategoryDescription12() {
                   onClick={() => setAberto(v => !v)}
                   data-role="cd-more"
                 >
-                  {aberto ? READ_LESS : READ_MORE}
+                  {aberto
+                    ? readLessLabel || 'Ler menos'
+                    : readMoreLabel || 'Ler mais'}
                   <Ico size={16}>
                     <path d={aberto ? 'm6 15 6-6 6 6' : 'm6 9 6 6 6-6'} />
                   </Ico>
@@ -219,7 +240,7 @@ export default function CategoryDescription12() {
 
           {temFaq && (
             <div className={styles.faq} data-role="cd-faq">
-              <h2 className={styles.faqTitle}>{FAQ_TITLE}</h2>
+              {faqTitle && <h2 className={styles.faqTitle}>{faqTitle}</h2>}
               {perguntas.length > 0 ? (
                 perguntas.map((p, i) => {
                   const on = faqAberta === i;
@@ -272,3 +293,6 @@ export default function CategoryDescription12() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryDescription12.conteudoPadrao = MOCK;

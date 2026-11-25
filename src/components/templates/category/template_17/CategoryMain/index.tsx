@@ -16,6 +16,7 @@ import {
   type Produto17,
 } from '@/components/templates/common/template_17/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import {
   type Facet17,
   type PriceBucket17,
@@ -48,12 +49,45 @@ import {
  * O card é o ProductCard17 com as notas do desenho (lá o palco injeta `mockRatings17`). O estado
  * vazio da busca (desenho `SearchEmpty17`) mora AQUI, como lá: renderiza quando a lista sai vazia;
  * `TERMO_VAZIO` faz o papel da prop `stageEmptyTerm` do palco — vazio, o canvas mostra a grade.
+ *
+ * Os rótulos, as opções (`specFacetKey`, `priceSteps`, `pageSize`) e os textos do estado vazio são do
+ * CMS e vêm do `useConteudoDaSecao`; produtos, facetas, escopo e contagem seguem os de exemplo.
  */
 
 /** O papel do `stageEmptyTerm` do palco: com um termo, a réplica mostra o estado vazio. */
 const TERMO_VAZIO: string = '';
 
-const mainCategory17Mock = {
+/** O conteúdo da seção: os campos do `section.schema` do MainCategory17. */
+interface CategoryMain17Conteudo {
+  pageSize?: number;
+  speciesLabel?: string;
+  specFacetKey?: string;
+  priceSteps?: string;
+  countLabel?: string;
+  filterLabel?: string;
+  sortLabel?: string;
+  clearLabel?: string;
+  clearAllLabel?: string;
+  showMoreLabel?: string;
+  showLessLabel?: string;
+  priceUpToLabel?: string;
+  priceBetweenLabel?: string;
+  priceOverLabel?: string;
+  resultsLabel?: string;
+  progressLabel?: string;
+  loadMoreLabel?: string;
+  soldOutText?: string;
+  emptyCountLabel?: string;
+  emptyTitle?: string;
+  emptyFilterTitle?: string;
+  emptyText?: string;
+  emptyPrimaryLabel?: string;
+  emptyPrimaryUrl?: string;
+  emptySecondaryLabel?: string;
+  emptySecondaryUrl?: string;
+}
+
+const MOCK: CategoryMain17Conteudo = {
   pageSize: 12,
   speciesLabel: 'Compre por pet',
   specFacetKey: 'porte',
@@ -592,7 +626,7 @@ export default function CategoryMain17() {
     emptyPrimaryUrl,
     emptySecondaryLabel,
     emptySecondaryUrl,
-  } = mainCategory17Mock;
+  } = useConteudoDaSecao(MOCK);
   const stageEmptyTerm = TERMO_VAZIO;
   const PAGE =
     pageSizeProp && pageSizeProp > 0
@@ -1099,3 +1133,6 @@ export default function CategoryMain17() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryMain17.conteudoPadrao = MOCK;

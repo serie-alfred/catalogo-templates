@@ -29,6 +29,7 @@ import {
   valueLabel,
 } from './facets';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/MainCategory11` do faststore.starter (família 11, Grade; desenhos
@@ -49,12 +50,43 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * lista de produtos sai vazia. Lá isso só acontece numa busca sem resultado (ou no palco,
  * pela prop `stageEmptyTerm`); aqui `TERMO_VAZIO` faz o papel da prop do palco — vazio, o
  * canvas mostra a grade.
+ *
+ * Os rótulos são do CMS e vêm do `useConteudoDaSecao`; produtos, facetas e contagem são os
+ * de exemplo até a categoria em destaque da loja existir (fase de produtos). O tipo não
+ * traz `pageSize` nem `specFacetKey`: a grade de exemplo não pagina nem escolhe a faceta
+ * de especificação (o 1-conteudo os lista como não desenhados).
  */
 
-/* ── rótulos (o mock.ts de lá) ── */
 const PAGE = 12;
 const SPEC_FACET_KEY = 'acabamento';
-const L = {
+
+/** O conteúdo da seção: os rótulos do `section.schema` do CategoryMain11. */
+interface CategoryMain11Conteudo {
+  countLabel?: string;
+  filterLabel?: string;
+  sortLabel?: string;
+  columnsLabel?: string;
+  clearLabel?: string;
+  clearAllLabel?: string;
+  minLabel?: string;
+  maxLabel?: string;
+  /** `{total}` vira a contagem. */
+  resultsLabel?: string;
+  /** `{shown}` e `{total}` viram as contagens. */
+  progressLabel?: string;
+  loadMoreLabel?: string;
+  emptyEyebrow?: string;
+  emptyCountLabel?: string;
+  emptyTitle?: string;
+  emptyText?: string;
+  emptyPrimaryLabel?: string;
+  emptyPrimaryUrl?: string;
+  emptySecondaryLabel?: string;
+  emptySecondaryUrl?: string;
+}
+
+/* ── rótulos (o mock.ts de lá; o CS muda pelo useConteudoDaSecao) ── */
+const MOCK: CategoryMain11Conteudo = {
   countLabel: 'produtos',
   filterLabel: 'Filtros',
   sortLabel: 'Ordenar',
@@ -386,6 +418,8 @@ function priceSelectedOf(f: Facet11, raw: RawFacet11[]) {
 }
 
 export default function CategoryMain11() {
+  // `L`, o nome de antes, para o markup abaixo continuar igual ao de lá.
+  const L = useConteudoDaSecao(MOCK);
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
 
   const term = TERMO_VAZIO;
@@ -616,7 +650,7 @@ export default function CategoryMain11() {
                     {L.emptyPrimaryLabel && (
                       <a
                         className={`${styles.emptyLink} ${styles.emptyPrimary}`}
-                        href={L.emptyPrimaryUrl}
+                        href={L.emptyPrimaryUrl || '#'}
                         data-role="cm-empty-primary"
                       >
                         {L.emptyPrimaryLabel}
@@ -626,7 +660,7 @@ export default function CategoryMain11() {
                     {L.emptySecondaryLabel && (
                       <a
                         className={styles.emptyLink}
-                        href={L.emptySecondaryUrl}
+                        href={L.emptySecondaryUrl || '#'}
                         data-role="cm-empty-secondary"
                       >
                         {L.emptySecondaryLabel}
@@ -655,7 +689,7 @@ export default function CategoryMain11() {
           {!isEmpty && totalCount > 0 && (
             <div className={styles.more} data-role="cm-more">
               <span className={styles.progressText}>
-                {fill(L.progressLabel, { shown, total })}
+                {fill(L.progressLabel || '', { shown, total })}
                 <span className={styles.progress} aria-hidden="true">
                   <span
                     style={{
@@ -745,8 +779,8 @@ export default function CategoryMain11() {
                             <PriceBody11
                               facet={f}
                               value={priceSelected(f)}
-                              minLabel={L.minLabel}
-                              maxLabel={L.maxLabel}
+                              minLabel={L.minLabel || 'Mínimo'}
+                              maxLabel={L.maxLabel || 'Máximo'}
                               onApply={(lo, hi) => setPrice(f.key, lo, hi)}
                             />
                           ) : (
@@ -797,7 +831,7 @@ export default function CategoryMain11() {
                   onClick={closePanel}
                   data-role="m-filter-results"
                 >
-                  {fill(L.resultsLabel, { total })}
+                  {fill(L.resultsLabel || '', { total })}
                   <ArrowRight />
                 </button>
               </div>
@@ -808,3 +842,6 @@ export default function CategoryMain11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryMain11.conteudoPadrao = MOCK;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -10,12 +11,12 @@ import styles from './index.module.css';
  * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá.
  *
  * Divergência deliberada: sem a mutação de cadastro e sem analytics; o envio só mostra a
- * mensagem de sucesso (o estado de erro fica no markup, mas não acontece aqui).
+ * mensagem de sucesso (o erro de envio não existe aqui).
  */
 
 // Conteúdo do mock.ts do starter.
 // Textos literais do desenho `Newsletter10` (o cupom é texto do CMS, como manda o contrato).
-const MOCK: Newsletter10Props = {
+const MOCK: Newsletter10Conteudo = {
   title: 'Cadastre-se e ganhe',
   titleHighlight: '10% OFF',
   titleAfter: 'na primeira compra',
@@ -26,13 +27,16 @@ const MOCK: Newsletter10Props = {
   emailPlaceholder: 'seuemail@exemplo.com',
   buttonLabel: 'Quero meu cupom',
   successMessage: 'Pronto! Seu cupom chega no e-mail cadastrado.',
-  errorMessage: 'Não foi possível concluir o cadastro. Tente de novo.',
   privacyPrefix: 'Ao se cadastrar, você concorda com a',
   privacyLabel: 'Política de privacidade',
   privacyUrl: '/politica-de-privacidade',
   privacySuffix: 'Cancele quando quiser.',
 };
-interface Newsletter10Props {
+/**
+ * O conteúdo da seção: os campos do `section.schema` do Newsletter10. Fica de fora
+ * `errorMessage`: o cadastro não acontece aqui, então o erro de envio nunca aparece.
+ */
+interface Newsletter10Conteudo {
   title?: string;
   /** Trecho do título em destaque (fundo no acento), logo depois de `title`. */
   titleHighlight?: string;
@@ -45,7 +49,6 @@ interface Newsletter10Props {
   emailPlaceholder?: string;
   buttonLabel?: string;
   successMessage?: string;
-  errorMessage?: string;
   /** Ex.: "Ao se cadastrar, você concorda com a". */
   privacyPrefix?: string;
   privacyLabel?: string;
@@ -66,17 +69,16 @@ export default function Newsletter10() {
     emailPlaceholder,
     buttonLabel,
     successMessage,
-    errorMessage,
     privacyPrefix,
     privacyLabel,
     privacyUrl,
     privacySuffix,
-  } = MOCK;
+  } = useConteudoDaSecao(MOCK);
 
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const enviando = false;
-  const [estado, setEstado] = useState<'idle' | 'ok' | 'erro'>('idle');
+  const [estado, setEstado] = useState<'idle' | 'ok'>('idle');
 
   function enviar(e: React.FormEvent) {
     e.preventDefault();
@@ -183,11 +185,6 @@ export default function Newsletter10() {
                   {buttonLabel}
                 </button>
               </div>
-              {estado === 'erro' && (
-                <p className={styles.feedback} role="alert">
-                  {errorMessage}
-                </p>
-              )}
               {privacidade}
             </form>
           )}
@@ -196,3 +193,6 @@ export default function Newsletter10() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Newsletter10.conteudoPadrao = MOCK;

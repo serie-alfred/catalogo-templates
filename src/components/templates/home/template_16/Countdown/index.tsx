@@ -1,30 +1,22 @@
 import React, { useEffect, useState } from 'react'
+
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao'
+
 import styles from './index.module.css'
 
 /**
  * Espelha `organisms/Countdown16` do faststore.starter (família 16, Infantil). Mesmo markup, mesmas classes,
  * mesmos `data-role` e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo =
- * o mock.ts de lá. A seção fica dentro do envelope `.countdown16Box` (container das @container).
+ * o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
+ * A seção fica dentro do envelope `.countdown16Box` (container das @container).
+ *
+ * Divergência deliberada: sem `endDate` (o mock daqui não tem), a contagem parte da montagem
+ * com um tempo fixo, para o card não envelhecer. Com o `endDate` do CS, conta até ele, como o
+ * starter.
  */
 
-// Conteúdo do mock.ts do starter.
-// Mock de validação local — exibido quando o CMS não envia conteúdo (MOCK_ENABLED).
-// Textos literais do desenho `Countdown16`. A data fica no fim de 2026 para o palco mostrar a
-// contagem. Sem arte: o desenho também não tem (vale o placeholder lilás).
-const countdown16Mock: Countdown16Props = {
-  title: 'A Semana da Criança acaba em',
-  endDate: '2026-12-31T23:59:59-03:00',
-  daysLabel: 'dias',
-  hoursLabel: 'horas',
-  minutesLabel: 'min',
-  secondsLabel: 'seg',
-  text: 'Brinquedos, livros e roupinhas com preço de festa. Depois do domingo, os preços voltam ao normal.',
-  ctaLabel: 'Aproveitar agora',
-  ctaUrl: '/s',
-  url: '/s',
-  imageAlt: 'Ver a Semana da Criança',
-}
-
+// 2 dias, 14 h, 36 min e 9 s a partir da montagem (o mesmo tempo da família 09).
+const DURACAO = ((2 * 24 + 14) * 3600 + 36 * 60 + 9) * 1000
 
 /**
  * Countdown16 — contador da família 16 (Infantil; desenho `Countdown16` / `Countdown16-mobile`).
@@ -39,7 +31,7 @@ const countdown16Mock: Countdown16Props = {
  *
  * Apresentacional — sem evento de analytics (sem entidade de commerce nem lead).
  */
-export interface Countdown16Props {
+interface Countdown16Conteudo {
   title?: string
   /** Fim da contagem, ISO 8601 (ex.: 2026-10-12T23:59:59-03:00). */
   endDate?: string
@@ -57,14 +49,27 @@ export interface Countdown16Props {
   imageAlt?: string
 }
 
+// Textos literais do desenho `Countdown16`. Sem `endDate` (ver acima) e sem arte: o desenho
+// também não tem (vale o placeholder lilás).
+const MOCK: Countdown16Conteudo = {
+  title: 'A Semana da Criança acaba em',
+  daysLabel: 'dias',
+  hoursLabel: 'horas',
+  minutesLabel: 'min',
+  secondsLabel: 'seg',
+  text: 'Brinquedos, livros e roupinhas com preço de festa. Depois do domingo, os preços voltam ao normal.',
+  ctaLabel: 'Aproveitar agora',
+  ctaUrl: '/s',
+  url: '/s',
+  imageAlt: 'Ver a Semana da Criança',
+}
+
 const FONTES = 'https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap'
 
 type Restante = { d: number; h: number; m: number; s: number }
 
-function restante(endDate?: string): Restante {
-  const fim = endDate ? Date.parse(endDate) : NaN
-  const ms = Number.isFinite(fim) ? Math.max(0, fim - Date.now()) : 0
-  const s = Math.floor(ms / 1000)
+function restante(fim: number): Restante {
+  const s = Math.floor(Math.max(0, fim - Date.now()) / 1000)
   return { d: Math.floor(s / 86400), h: Math.floor((s % 86400) / 3600), m: Math.floor((s % 3600) / 60), s: s % 60 }
 }
 
@@ -91,14 +96,17 @@ export default function Countdown16() {
     imageDesktop,
     imageMobile,
     imageAlt,
-  } = countdown16Mock
-  const [tempo, setTempo] = useState<Restante>(() => restante(endDate))
+  } = useConteudoDaSecao(MOCK)
+  const [daMontagem] = useState(() => Date.now() + DURACAO)
+  const doConteudo = endDate ? Date.parse(endDate) : NaN
+  const fim = Number.isFinite(doConteudo) ? doConteudo : daMontagem
+  const [tempo, setTempo] = useState<Restante>(() => restante(fim))
 
   useEffect(() => {
-    setTempo(restante(endDate))
-    const id = window.setInterval(() => setTempo(restante(endDate)), 1000)
+    setTempo(restante(fim))
+    const id = window.setInterval(() => setTempo(restante(fim)), 1000)
     return () => window.clearInterval(id)
-  }, [endDate])
+  }, [fim])
 
   const unidades = [
     { v: tempo.d, label: daysLabel || 'dias', sr: 'dias' },
@@ -173,3 +181,6 @@ export default function Countdown16() {
     </div>
   )
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Countdown16.conteudoPadrao = MOCK;

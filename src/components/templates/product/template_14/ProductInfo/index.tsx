@@ -4,6 +4,7 @@ import React, { useId, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `organisms/ProductDetails14` do faststore.starter (família 14, Esportiva; desenho
@@ -25,7 +26,36 @@ import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
  * no estado local), a nota do Reviews and Ratings, a simulação de frete (o "Calcular" não
  * consulta nada), a mutation do "Avise-me" (o envio dá sucesso local, como no palco de lá) e o
  * analytics. As cores, que lá levam ao slug do SKU, aqui não navegam.
+ *
+ * Os rótulos, os dois interruptores (marca · categoria, quantidade), a especificação dos
+ * destaques e os acordeões são do CMS e vêm do `useConteudoDaSecao`; o produto, o preço e as
+ * opções são os de exemplo. O tipo não traz `soldOutButtonLabel`: o tamanho escolhido nunca é um
+ * esgotado (os esgotados vêm desabilitados), então o botão de compra é sempre o de compra.
  */
+
+interface ProductInfo14Conteudo {
+  showBrandLine?: boolean;
+  codeLabel?: string;
+  ratingCountLabel?: string;
+  /** Nome da especificação com os destaques ("Número: legenda", até 3). Vazio = sem as caixas. */
+  highlightsSpecName?: string;
+  sizeGuideLabel?: string;
+  sizeTableCaption?: string;
+  soldOutText?: string;
+  notifyLabel?: string;
+  notifyNamePlaceholder?: string;
+  notifyEmailPlaceholder?: string;
+  notifySubmitLabel?: string;
+  notifySuccess?: string;
+  buyLabel?: string;
+  favoriteLabel?: string;
+  showQuantity?: boolean;
+  shippingLabel?: string;
+  cepPlaceholder?: string;
+  cepButtonLabel?: string;
+  /** O primeiro abre aberto. Com `specName` achado no produto, o texto vem dele. */
+  accordions?: { title?: string; text?: string; specName?: string }[];
+}
 
 const BRL = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const money = (n: number) => `R$ ${BRL.format(n)}`;
@@ -52,10 +82,12 @@ const formatPostalCode = (v: string) => {
   return d.length > 5 ? `${d.slice(0, 5)}-${d.slice(5)}` : d;
 };
 
-/* ── o mock.ts de lá, resolvido ── */
-const L = {
+/* ── o mock.ts de lá ── */
+const MOCK: ProductInfo14Conteudo = {
+  showBrandLine: true,
   codeLabel: 'Cód.',
   ratingCountLabel: 'avaliações',
+  highlightsSpecName: 'Destaques',
   sizeGuideLabel: 'Tabela de medidas',
   sizeTableCaption: 'Comprimento do pé',
   soldOutText: 'Seu número esgotou?',
@@ -69,6 +101,12 @@ const L = {
   shippingLabel: 'Calcular frete',
   cepPlaceholder: '00000-000',
   cepButtonLabel: 'Calcular',
+  showQuantity: true,
+  accordions: [
+    { title: 'Detalhes', specName: 'Detalhes' },
+    { title: 'Entrega', text: 'Enviamos para todo o Brasil. O prazo e o valor aparecem no cálculo de frete.' },
+    { title: 'Trocas e devoluções', text: 'A primeira troca é grátis em até 30 dias depois do recebimento.' },
+  ],
 };
 
 const block = (hex: string, w: number, h = w) =>
@@ -103,23 +141,38 @@ const SIZE_TABLE: Array<[string, string[]]> = [
   ['BR', ['38', '39', '40', '41', '42', '43', '44']],
   ['cm', ['24,5', '25,2', '25,9', '26,5', '27,2', '27,9', '28,5']],
 ];
-const HIGHLIGHTS: Array<[string, string]> = [
-  ['248 g', 'peso no tamanho 41'],
-  ['8 mm', 'de drop'],
-  ['35 mm', 'de altura no calcanhar'],
-];
-const ACCORDIONS = [
+/** As especificações do produto de exemplo que o CMS pode apontar (destaques e acordeões). */
+const PROPERTIES: { name: string; values: string[] }[] = [
+  { name: 'Destaques', values: ['248 g: peso no tamanho 41', '8 mm: de drop', '35 mm: de altura no calcanhar'] },
   {
-    title: 'Detalhes',
-    lines: [
+    name: 'Detalhes',
+    values: [
       'Cabedal em mesh técnico respirável com reforço no calcanhar',
       'Entressola de espuma de alta resposta',
       'Solado de borracha com tração para asfalto molhado',
     ],
   },
-  { title: 'Entrega', lines: ['Enviamos para todo o Brasil. O prazo e o valor aparecem no cálculo de frete.'] },
-  { title: 'Trocas e devoluções', lines: ['A primeira troca é grátis em até 30 dias depois do recebimento.'] },
 ];
+
+/** Como o starter compara nomes: sem acento, sem caixa, sem espaço nas pontas. */
+const norm = (s: string) =>
+  String(s ?? '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .trim()
+    .toLowerCase();
+
+const linesOf = (name: string): string[] =>
+  (PROPERTIES.find(p => norm(p.name) === norm(name))?.values ?? [])
+    .flatMap(v => String(v ?? '').split(/\r?\n/))
+    .map(v => v.trim())
+    .filter(Boolean);
+
+/** "Título: texto" → [título, texto]; sem ":" fica só o primeiro. */
+const splitPair = (line: string): [string, string] => {
+  const i = line.indexOf(':');
+  return i > 0 ? [line.slice(0, i).trim(), line.slice(i + 1).trim()] : [line.trim(), ''];
+};
 const SHIPPING = {
   postalCode: '01310-100',
   options: [
@@ -179,6 +232,7 @@ const Stars = ({ avg }: { avg: number }) => (
 );
 
 export default function ProductInfo14() {
+  const L = useConteudoDaSecao(MOCK);
   const uid = useId();
   const [selAxis, setSelAxis] = useState<string | null>(null);
   const [qty, setQty] = useState(1);
@@ -222,6 +276,23 @@ export default function ProductInfo14() {
   const showNotify = notifyOpen || !inStock;
   const tableId = `${uid}-sizes`;
   const shippingRows = cep ? SHIPPING.options : [];
+  const brandLine = L.showBrandLine ? BRAND_LINE : '';
+  const highlights = L.highlightsSpecName ? linesOf(L.highlightsSpecName).map(splitPair).slice(0, 3) : [];
+  const accItems = (L.accordions ?? [])
+    .map(a => {
+      const fromSpec = a?.specName ? linesOf(a.specName) : [];
+      const lines = fromSpec.length
+        ? fromSpec
+        : String(a?.text ?? '')
+            .split(/\r?\n/)
+            .map(l => l.trim())
+            .filter(Boolean);
+      return {
+        title: String(a?.title ?? '').trim(),
+        lines: lines.map(l => l.replace(/^\s*[-•]\s*/, '').trim()).filter(Boolean),
+      };
+    })
+    .filter(a => a.title && a.lines.length);
 
   return (
     <div className={styles.productDetails14Box}>
@@ -257,9 +328,11 @@ export default function ProductInfo14() {
             {/* ── coluna de compra ── */}
             <div className={styles.info}>
               <div className={styles.head}>
-                <span className={styles.brandLine} data-role="pdp-brand">
-                  {BRAND_LINE}
-                </span>
+                {brandLine && (
+                  <span className={styles.brandLine} data-role="pdp-brand">
+                    {brandLine}
+                  </span>
+                )}
                 <h1 className={styles.title} data-role="pdp-title">
                   {PRODUCT_NAME}
                 </h1>
@@ -458,7 +531,7 @@ export default function ProductInfo14() {
               {/* ── quantidade + favoritar, e o botão de compra em largura total ── */}
               <div className={styles.buyBox} data-role="pdp-buy-row">
                 <div className={styles.buyTools}>
-                  {inStock && (
+                  {L.showQuantity && inStock && (
                     <div className={styles.qty} role="group" aria-label="Quantidade">
                       <button type="button" onClick={() => setQty(q => Math.max(1, q - 1))} aria-label="Diminuir quantidade" disabled={qty <= 1}>
                         {svg(18, MINUS, { strokeWidth: 2.4 })}
@@ -528,17 +601,21 @@ export default function ProductInfo14() {
             </div>
 
             {/* ── destaques + acordeões (sob a galeria no desktop; no fim no mobile) ── */}
+            {(highlights.length > 0 || accItems.length > 0) && (
             <div className={styles.extras}>
+              {highlights.length > 0 && (
               <ul className={styles.highlights} data-role="pdp-highlights">
-                {HIGHLIGHTS.map(([value, caption], i) => (
+                {highlights.map(([value, caption], i) => (
                   <li key={`${value}-${i}`} className={styles.highlight}>
                     <span className={styles.highlightValue}>{value}</span>
                     {caption && <span className={styles.highlightCaption}>{caption}</span>}
                   </li>
                 ))}
               </ul>
+              )}
+              {accItems.length > 0 && (
               <div className={styles.accordions} data-role="pdp-accordions">
-                {ACCORDIONS.map((a, i) => {
+                {accItems.map((a, i) => {
                   const open = openAcc === i;
                   return (
                     <div key={`${a.title}-${i}`} className={styles.acc}>
@@ -571,10 +648,15 @@ export default function ProductInfo14() {
                   );
                 })}
               </div>
+              )}
             </div>
+            )}
           </div>
         </div>
       </section>
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo14.conteudoPadrao = MOCK;

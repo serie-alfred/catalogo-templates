@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -8,7 +9,8 @@ import styles from './index.module.css';
  * Espelha `organisms/Editorial11` do faststore.starter (família 11, Grade; desenho
  * `Editorial11` / `Editorial11-mobile`). Mesmo markup, mesmas classes, mesmos `data-role`
  * e as mesmas vars de Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá
- * (sem arte: vale o placeholder do CSS). o `<ol>` sai sem classe, como lá
+ * (sem arte: vale o placeholder do CSS), por baixo do que o CS subir
+ * (`useConteudoDaSecao`, campos do schema de lá). O `<ol>` sai sem classe, como lá
  * (o `:where(ol)` da raiz zera a lista).
  */
 interface Editorial11Post {
@@ -18,7 +20,7 @@ interface Editorial11Post {
   url?: string;
 }
 
-interface Editorial11Props {
+interface Editorial11Conteudo {
   sectionNumber?: string;
   title?: string;
   viewAllLabel?: string;
@@ -32,11 +34,11 @@ interface Editorial11Props {
   imageDesktop?: string;
   imageMobile?: string;
   imageAlt?: string;
-  posts?: Editorial11Post[];
+  posts: Editorial11Post[];
 }
 
 // Conteúdo do mock.ts do starter.
-const MOCK: Editorial11Props = {
+const MOCK: Editorial11Conteudo = {
   sectionNumber: '05',
   title: 'Journal',
   viewAllLabel: 'Todos os textos',
@@ -106,8 +108,8 @@ export default function Editorial11() {
     imageDesktop,
     imageMobile,
     imageAlt,
-    posts = [],
-  } = MOCK;
+    posts,
+  } = useConteudoDaSecao(MOCK);
 
   const temDestaque = !!(
     featuredTitle ||
@@ -246,3 +248,6 @@ export default function Editorial11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Editorial11.conteudoPadrao = MOCK;

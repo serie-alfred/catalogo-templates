@@ -5,6 +5,7 @@ import {
   FONTES_11,
   referencia11,
 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /**
  * Espelha `molecules/ProductDescription11` do faststore.starter (família 11, Grade; desenho
@@ -16,12 +17,31 @@ import {
  * Conteúdo = o `mock.ts` de lá (rótulos + produto de exemplo), já resolvido como o starter
  * resolve: as especificações "Desenho técnico" e "Materiais" saem da ficha e viram o bloco
  * do desenho (o mesmo bloco liso em data URI do mock) e a lista numerada. Sai o `usePDP`.
+ *
+ * Os rótulos e o `hiddenSpecs` são do CMS e vêm do `useConteudoDaSecao`. Descrição, ficha,
+ * desenho e materiais são do produto: até o produto em destaque da loja existir (fase de
+ * produtos), o produto de exemplo do `mock.ts` de lá. O tipo não traz `drawingSpecName` nem
+ * `materialsSpecName`: eles dizem qual especificação do produto real vira o desenho e os
+ * materiais, e o exemplo já vem resolvido (o 1-conteudo os lista como não desenhados).
  */
 
-const TITLE = 'Descrição e ficha técnica';
-const DESCRIPTION_LABEL = 'Descrição';
-const DRAWING_LABEL = 'Desenho técnico';
-const MATERIALS_LABEL = 'Materiais';
+interface ProductDescription11Conteudo {
+  title?: string;
+  descriptionLabel?: string;
+  drawingLabel?: string;
+  materialsLabel?: string;
+  /** Especificações a esconder da ficha, separadas por vírgula ("Peso, Cabo"). */
+  hiddenSpecs?: string;
+}
+
+const MOCK: ProductDescription11Conteudo = {
+  title: 'Descrição e ficha técnica',
+  descriptionLabel: 'Descrição',
+  drawingLabel: 'Desenho técnico',
+  materialsLabel: 'Materiais',
+  hiddenSpecs: '',
+};
+
 const SKU = '024';
 
 // O "desenho técnico" do exemplo: um bloco liso (no ar é a imagem da especificação do produto).
@@ -54,28 +74,49 @@ const MATERIALS = [
 
 const two = (n: number) => String(n).padStart(2, '0');
 
+/** Como o starter compara nomes: sem acento, sem caixa, sem espaço nas pontas. */
+const norm = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .trim()
+    .toLowerCase();
+
 export default function ProductDescription11() {
+  const { title, descriptionLabel, drawingLabel, materialsLabel, hiddenSpecs } =
+    useConteudoDaSecao(MOCK);
   const ref = referencia11(SKU);
+  const escondidas = new Set(
+    String(hiddenSpecs ?? '')
+      .split(',')
+      .map(norm)
+      .filter(Boolean)
+  );
+  const specs = SPECS.filter(s => !escondidas.has(norm(s.name)));
 
   return (
     <div className={styles.productDescription11Box}>
       <link rel="stylesheet" href={FONTES_11} />
       <section
         className={styles.productDescription11}
-        aria-label={TITLE}
+        aria-label={title || 'Detalhes do produto'}
         data-role="pd-root"
       >
         <div className={styles.box}>
-          <div className={styles.headRow}>
-            <h2 className={styles.title} data-role="pd-title">
-              <span className={styles.ref}>[{ref}]</span>
-              {TITLE}
-            </h2>
-          </div>
+          {(title || ref) && (
+            <div className={styles.headRow}>
+              <h2 className={styles.title} data-role="pd-title">
+                {ref && <span className={styles.ref}>[{ref}]</span>}
+                {title}
+              </h2>
+            </div>
+          )}
           <div className={styles.cols}>
             <div className={styles.left}>
               <div className={styles.description} data-role="pd-description">
-                <span className={styles.label}>{DESCRIPTION_LABEL}</span>
+                {descriptionLabel && (
+                  <span className={styles.label}>{descriptionLabel}</span>
+                )}
                 <div
                   className={styles.html}
                   dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }}
@@ -84,28 +125,34 @@ export default function ProductDescription11() {
               <figure className={styles.drawing} data-role="pd-drawing">
                 <img
                   src={DRAWING_URL}
-                  alt={DRAWING_LABEL}
+                  alt={drawingLabel || ''}
                   width={1200}
                   height={900}
                   loading="lazy"
                   decoding="async"
                 />
-                <figcaption className={styles.drawingLabel}>
-                  {DRAWING_LABEL}
-                </figcaption>
+                {drawingLabel && (
+                  <figcaption className={styles.drawingLabel}>
+                    {drawingLabel}
+                  </figcaption>
+                )}
               </figure>
             </div>
             <div className={styles.right}>
-              <dl className={styles.specs} data-role="pd-specs">
-                {SPECS.map(s => (
-                  <div key={s.name} className={styles.spec}>
-                    <dt>{s.name}</dt>
-                    <dd>{s.value}</dd>
-                  </div>
-                ))}
-              </dl>
+              {specs.length > 0 && (
+                <dl className={styles.specs} data-role="pd-specs">
+                  {specs.map(s => (
+                    <div key={s.name} className={styles.spec}>
+                      <dt>{s.name}</dt>
+                      <dd>{s.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
               <div className={styles.materials} data-role="pd-materials">
-                <span className={styles.label}>{MATERIALS_LABEL}</span>
+                {materialsLabel && (
+                  <span className={styles.label}>{materialsLabel}</span>
+                )}
                 <ol className={styles.materialList}>
                   {MATERIALS.map((m, i) => (
                     <li key={`${m}-${i}`}>
@@ -124,3 +171,6 @@ export default function ProductDescription11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductDescription11.conteudoPadrao = MOCK;

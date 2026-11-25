@@ -1,6 +1,7 @@
-import React from 'react'
-import { FONTES_17 } from '@/components/templates/common/template_17/Spot'
-import styles from './index.module.css'
+import React from 'react';
+import { FONTES_17 } from '@/components/templates/common/template_17/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import styles from './index.module.css';
 
 /**
  * Espelha `molecules/BenefitsStrip17` do faststore.starter (família 17, Pet). Mesmo markup, mesmas classes,
@@ -9,31 +10,47 @@ import styles from './index.module.css'
  * Sem divergência deliberada.
  */
 
-export type BenefitsStrip17Icon = 'store' | 'truck' | 'card' | 'pix' | 'exchange' | 'shield' | 'gift'
+export type BenefitsStrip17Icon =
+  | 'store'
+  | 'truck'
+  | 'card'
+  | 'pix'
+  | 'exchange'
+  | 'shield'
+  | 'gift';
 
 export interface BenefitsStrip17Benefit {
-  icon?: BenefitsStrip17Icon
+  icon?: BenefitsStrip17Icon;
   /** Título em Bricolage (ex.: "Retire na loja em 2 h"). */
-  title?: string
+  title?: string;
   /** Linha de apoio (ex.: "Pedido pronto no balcão"); só no desktop, como no desenho. */
-  text?: string
+  text?: string;
   /** Opcional: o benefício vira link. */
-  url?: string
+  url?: string;
 }
 
-export interface BenefitsStrip17Props {
-  benefits?: BenefitsStrip17Benefit[]
+/** O conteúdo da seção: os campos do `section.schema` do BenefitsStrip17. */
+interface BenefitsStrip17Conteudo {
+  benefits: BenefitsStrip17Benefit[];
 }
 
 // Conteúdo do mock.ts do starter (textos literais do desenho `Ruler17`).
-const benefitsStrip17Mock: BenefitsStrip17Props = {
+const MOCK: BenefitsStrip17Conteudo = {
   benefits: [
-    { icon: 'store', title: 'Retire na loja em 2 h', text: 'Pedido pronto no balcão' },
+    {
+      icon: 'store',
+      title: 'Retire na loja em 2 h',
+      text: 'Pedido pronto no balcão',
+    },
     { icon: 'card', title: 'Até 6x sem juros', text: 'Em todo o site' },
     { icon: 'pix', title: 'Desconto no Pix', text: 'Aprovação na hora' },
-    { icon: 'exchange', title: 'Troca fácil', text: 'Até 7 dias após a entrega' },
+    {
+      icon: 'exchange',
+      title: 'Troca fácil',
+      text: 'Até 7 dias após a entrega',
+    },
   ],
-}
+};
 
 const ICONES: Record<BenefitsStrip17Icon, React.ReactNode> = {
   store: (
@@ -81,25 +98,38 @@ const ICONES: Record<BenefitsStrip17Icon, React.ReactNode> = {
       <path d="M12 8c-2-4-6-3-5 0M12 8c2-4 6-3 5 0" />
     </>
   ),
-}
+};
 
 const Patinha = ({ className }: { className: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden="true"
+  >
     <ellipse cx="5.5" cy="10" rx="2" ry="2.6" />
     <ellipse cx="9.5" cy="5.5" rx="2" ry="2.6" />
     <ellipse cx="14.5" cy="5.5" rx="2" ry="2.6" />
     <ellipse cx="18.5" cy="10" rx="2" ry="2.6" />
     <path d="M12 11.5c-3 0-6 3.6-6 6.2 0 1.9 1.6 2.8 3.2 2.3.9-.3 1.8-.6 2.8-.6s1.9.3 2.8.6c1.6.5 3.2-.4 3.2-2.3 0-2.6-3-6.2-6-6.2z" />
   </svg>
-)
+);
 
 export default function Ruler17() {
-  const { benefits = [] } = benefitsStrip17Mock
-  if (!benefits.length) return null
+  const { benefits } = useConteudoDaSecao(MOCK);
+  if (!benefits.length) return null;
 
   return (
     <div className={styles.benefitsStrip17Box}>
-      <section className={styles.benefitsStrip17} aria-label="Benefícios" data-role="rl-root">
+      <section
+        className={styles.benefitsStrip17}
+        aria-label="Benefícios"
+        data-role="rl-root"
+      >
         <link rel="stylesheet" href={FONTES_17} />
         <div className={styles.inner}>
           <Patinha className={styles.paw} />
@@ -109,17 +139,27 @@ export default function Ruler17() {
                 <>
                   <span className={styles.badge} aria-hidden="true">
                     {b.icon && ICONES[b.icon] && (
-                      <svg className={styles.icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <svg
+                        className={styles.icon}
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.8"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
                         {ICONES[b.icon]}
                       </svg>
                     )}
                   </span>
                   <span className={styles.copy}>
-                    {b.title && <strong className={styles.title}>{b.title}</strong>}
+                    {b.title && (
+                      <strong className={styles.title}>{b.title}</strong>
+                    )}
                     {b.text && <span className={styles.text}>{b.text}</span>}
                   </span>
                 </>
-              )
+              );
               return (
                 <li key={i} className={styles.item} data-role="rl-item">
                   {b.url ? (
@@ -130,11 +170,14 @@ export default function Ruler17() {
                     <div className={styles.row}>{corpo}</div>
                   )}
                 </li>
-              )
+              );
             })}
           </ul>
         </div>
       </section>
     </div>
-  )
+  );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Ruler17.conteudoPadrao = MOCK;

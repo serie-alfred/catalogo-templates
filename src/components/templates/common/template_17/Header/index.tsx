@@ -5,6 +5,7 @@ import CartSidebar17, {
 } from '@/components/templates/_shared/CartSidebar17';
 import { FONTES_17 } from '@/components/templates/common/template_17/Spot';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
@@ -23,8 +24,8 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * Entrar, Favoritos e Central de ajuda.
  *
  * Divergências deliberadas:
- *  - Logo: o que o usuário enviou no /gerador; sem ele, a marca em texto do mock ("SERIE//A",
- *    genérica) com a patinha, no mesmo `.logo` / `data-role="hd-logo"`.
+ *  - Logo: o da seção (campo `logo` do schema), senão o que o usuário enviou no /gerador; sem
+ *    nenhum, `brandName` ou a marca em texto do mock ("SERIE//A", genérica) com a patinha, no mesmo `.logo` / `data-role="hd-logo"`.
  *  - Busca sem GraphQL: as sugestões filtram os rótulos do menu; enviar só fecha a gaveta.
  *  - Carrinho: contador e gaveta (`_shared/CartSidebar17`) com os itens do desenho. A gaveta
  *    fica FORA do envelope `.header17Box`: o container-type dele prenderia a camada fixa.
@@ -57,7 +58,8 @@ interface Header17MenuItem {
   children?: { label?: string; url?: string }[];
 }
 
-interface Header17Props {
+/** O conteúdo da seção: os campos do `section.schema` do Header17. */
+interface Header17Conteudo {
   /** Mensagens da régua; o mobile mostra só a primeira, como no desenho. */
   topbarItems?: Header17TopbarItem[];
   /** Imagem do logo. Vazio: a marca em texto (`brandName`) com a patinha. */
@@ -76,11 +78,12 @@ interface Header17Props {
   helpLabel?: string;
   helpUrl?: string;
   cartLabel?: string;
+  /** Link "ver tudo" no pé de cada submenu. */
+  viewAllLabel?: string;
 }
 
-
 // O mock.ts do starter, com a marca genérica no lugar da de exemplo.
-const MOCK: Header17Props = {
+const MOCK: Header17Conteudo = {
   topbarItems: [
     { text: 'Retire na loja em 2 h', icon: 'store' },
     { text: 'Parcele em até 6x sem juros', icon: 'card' },
@@ -122,9 +125,8 @@ const MOCK: Header17Props = {
   helpLabel: 'Central de ajuda',
   helpUrl: '/ajuda',
   cartLabel: 'Sacola',
+  viewAllLabel: 'Ver tudo',
 };
-
-const TERMOS_17 = (MOCK.menu ?? []).map(m => m.label ?? '').filter(Boolean);
 
 const svg = (
   w: number,
@@ -241,6 +243,7 @@ export default function Header17() {
   const { logo: logoEnviado } = useLayout();
   const {
     topbarItems = [],
+    logo: logoDaSecao,
     logoAlt,
     brandName,
     menu = [],
@@ -253,8 +256,11 @@ export default function Header17() {
     helpLabel,
     helpUrl,
     cartLabel,
-  } = MOCK;
-  const logo = logoEnviado || undefined;
+    viewAllLabel,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDaSecao || logoEnviado || undefined;
+  // As sugestões da busca filtram os rótulos do menu que a seção mostra.
+  const termosDoMenu = menu.map(m => m.label ?? '').filter(Boolean);
 
   const [cartOpen, setCartOpen] = useState(false);
   useAbrirNoCanvas('carrinho', setCartOpen);
@@ -272,9 +278,9 @@ export default function Header17() {
   const curto = termoLimpo.length < 2;
   const termos: { value: string }[] = curto
     ? []
-    : TERMOS_17.filter(t =>
-        t.toLowerCase().includes(termoLimpo.toLowerCase())
-      ).map(value => ({ value }));
+    : termosDoMenu
+        .filter(t => t.toLowerCase().includes(termoLimpo.toLowerCase()))
+        .map(value => ({ value }));
   const produtos: { id: string; name: string }[] = [];
   const temSugestao = termos.length > 0 || produtos.length > 0;
 
@@ -462,7 +468,7 @@ export default function Header17() {
               data-role="hd-logo"
             >
               {logo ? (
-                <img src={logo} alt="Logo" height={40} />
+                <img src={logo} alt={logoAlt || 'Logo'} height={40} />
               ) : (
                 <>
                   <span className={styles.logoMark} aria-hidden="true">
@@ -593,7 +599,9 @@ export default function Header17() {
                             <ul className={styles.drawerSub}>
                               {item.url && (
                                 <li>
-                                  <a href={item.url}>Ver tudo</a>
+                                  <a href={item.url}>
+                                    {viewAllLabel || 'Ver tudo'}
+                                  </a>
                                 </li>
                               )}
                               {item.children.map((c, j) => (
@@ -655,3 +663,6 @@ export default function Header17() {
     </>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header17.conteudoPadrao = MOCK;

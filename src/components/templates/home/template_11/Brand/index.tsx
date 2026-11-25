@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { FONTES_11 } from '@/components/templates/common/template_11/Spot';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -8,7 +9,8 @@ import styles from './index.module.css';
  * Espelha `molecules/Brands11` do faststore.starter (família 11, Grade; desenho `Brand11` /
  * `Brand11-mobile`). Mesmo markup, mesmas classes, mesmos `data-role` e as mesmas vars de
  * Nível 1; o CSS é derivado do SCSS de lá. Conteúdo = o mock.ts de lá (sem logo: vale o
- * nome em texto, como no desenho).
+ * nome em texto, como no desenho), por baixo do que o CS subir (`useConteudoDaSecao`,
+ * campos do schema de lá).
  */
 interface Brands11Brand {
   name?: string;
@@ -17,16 +19,16 @@ interface Brands11Brand {
   logo?: string;
 }
 
-interface Brands11Props {
+interface Brand11Conteudo {
   sectionNumber?: string;
   title?: string;
   viewAllLabel?: string;
   viewAllUrl?: string;
-  brands?: Brands11Brand[];
+  brands: Brands11Brand[];
 }
 
 // Conteúdo do mock.ts do starter.
-const MOCK: Brands11Props = {
+const MOCK: Brand11Conteudo = {
   sectionNumber: '07',
   title: 'Designers',
   viewAllLabel: 'Ver todos',
@@ -38,7 +40,7 @@ const MOCK: Brands11Props = {
 };
 
 export default function Brand11() {
-  const { sectionNumber, title, viewAllLabel, viewAllUrl, brands = [] } = MOCK;
+  const { sectionNumber, title, viewAllLabel, viewAllUrl, brands } = useConteudoDaSecao(MOCK);
   if (!brands.length) return null;
 
   return (
@@ -123,3 +125,6 @@ export default function Brand11() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Brand11.conteudoPadrao = MOCK;
