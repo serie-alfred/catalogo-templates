@@ -668,7 +668,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--spot-wishlist-bg", label: "Fundo do favorito", type: "color", default: "#ffffff", group: "Card", previewNote: "Vazio, segue o Fundo do card." },
         { cssVar: "--spot-tag-bg", label: "Fundo do selo de desconto", type: "color", default: "#dce6da", group: "Selo", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--spot-tag-text", label: "Texto do selo de desconto", type: "color", default: "#3b1f33", group: "Selo", inheritsLabel: "cor terciária de contraste da marca" },
-        { cssVar: "--spot-badge-bg", label: "Fundo do selo da vitrine", type: "color", default: "#dce6da", group: "Selo", inheritsLabel: "cor terciária da marca", previewNote: "Só aparece nas vitrines que têm um rótulo fixo preenchido (ex.: \"Novo\"); o selo de desconto tem campo próprio acima." },
+        { cssVar: "--spot-badge-bg", label: "Fundo do selo da vitrine", type: "color", default: "#dce6da", group: "Selo", inheritsLabel: "cor terciária da marca", previewNote: "O selo \"Novo\" do card Padrão. Na loja, aparece nas vitrines com rótulo fixo preenchido." },
         { cssVar: "--spot-badge-text", label: "Texto do selo da vitrine", type: "color", default: "#3b1f33", group: "Selo", inheritsLabel: "cor terciária de contraste da marca" },
         { cssVar: "--spot-soldout-bg", label: "Fundo do selo Esgotado", type: "color", default: "#ffffff", group: "Selo" },
         { cssVar: "--spot-soldout-text", label: "Texto do selo Esgotado", type: "color", default: "#3b1f33", group: "Selo", inheritsLabel: "cor base do texto" },
