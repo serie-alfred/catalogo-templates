@@ -59,7 +59,7 @@
 .title {
   font-family: var(--brands-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 36px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   line-height: 0.95;
   letter-spacing: -0.01em;
@@ -74,7 +74,7 @@
   min-height: 44px;
   font-family: var(--brands-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 16px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
   text-decoration: underline;
@@ -111,7 +111,7 @@
   color: color-mix(in srgb, var(--brands-text, var(--text-primary-color, #0b1b33)) 70%, var(--brands-bg, #ffffff));
   font-family: var(--brands-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 20px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-align: center;
   text-transform: uppercase;

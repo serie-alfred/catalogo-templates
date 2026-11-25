@@ -150,5 +150,7 @@ export function buildThemeStyle(
     '--font-primary': pilhaDaFonte(f.fontPrimary),
     '--font-secundary': pilhaDaFonte(f.fontSecondary),
     '--font-tertiary': pilhaDaFonte(f.fontTertiary),
+    // O itálico dos destaques: os templates escrevem `font-style: var(--font-italic, italic)`.
+    '--font-italic': f.fontItalic === 'normal' ? 'normal' : 'italic',
   } as React.CSSProperties;
 }

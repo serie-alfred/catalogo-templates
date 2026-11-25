@@ -71,6 +71,7 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
     fontPrimary,
     fontSecondary,
     fontTertiary,
+    fontItalic,
     undo,
     redo,
     duplicateSection,
@@ -171,7 +172,7 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
         colorPrimaryText,
         colorSecondaryText,
       },
-      fonts: { fontPrimary, fontSecondary, fontTertiary },
+      fonts: { fontPrimary, fontSecondary, fontTertiary, fontItalic },
     }),
     [
       colorPrimary,
@@ -187,6 +188,7 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
       fontPrimary,
       fontSecondary,
       fontTertiary,
+      fontItalic,
     ]
   );
 

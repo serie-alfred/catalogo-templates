@@ -71,7 +71,7 @@
   font-size: 13px;
   font-weight: 400;
   line-height: 1.5;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   color: var(--editorial-quote-color, var(--text-color-secundary, #faf8f4));
 }
 

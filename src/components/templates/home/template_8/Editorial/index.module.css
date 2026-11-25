@@ -117,7 +117,7 @@
 
 .aboutEyebrow {
   font-size: 16px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 600;
   line-height: normal;
   text-transform: uppercase;

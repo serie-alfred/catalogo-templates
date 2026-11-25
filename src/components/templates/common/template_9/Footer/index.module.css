@@ -118,7 +118,7 @@
   border-top: 1px solid color-mix(in srgb, var(--footer-text, var(--text-color-footer, #1d1b18)) 16%, var(--footer-bg, var(--background-footer, #f7f4ef)));
   font-family: var(--footer-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: clamp(64px, 14vw, 196px);
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 300;
   line-height: 0.92;
   letter-spacing: -0.035em;

@@ -33,7 +33,7 @@ section.crossSellingShelf14.crossSellingShelf14.crossSellingShelf14 > h2 {
   color: var(--showcase-title-color, var(--text-primary-color, #0b1b33));
   font-family: var(--showcase-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 48px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   line-height: 0.95;
   letter-spacing: -0.01em;

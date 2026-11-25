@@ -75,7 +75,7 @@
   line-height: 1.1;
 }
 .title em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .subtitle {
@@ -233,7 +233,7 @@
   line-height: 1.05;
 }
 .bannerTitle em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .bannerCta {

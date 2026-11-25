@@ -56,7 +56,7 @@
   line-height: 1.05;
 }
 .title em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .intro {
@@ -99,7 +99,7 @@
   color: var(--prod-desc-accent, var(--background-primary-color-safe, #7a5f1c));
   font-family: var(--prod-desc-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
   font-size: 40px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   line-height: 1;
 }
 

@@ -671,6 +671,17 @@ do zero" (`mostrarInicio` / `comecarDoZero` in the hook).
 in the store it asks `confirm` and empties the store on every page (colors and fonts stay) — one undo
 step — and goes to "Componentes" without the invite; reloading that empty tab shows the invite.
 
+### Itálico liga/desliga (`--font-italic`)
+
+Tipografia → **Itálico nos destaques** (`fontItalic` no hook: `'italic' | 'normal'`). O token
+`--font-italic` sai do `buildThemeStyle`; toda regra de itálico dos templates é
+`font-style: var(--font-italic, italic)` (165 regras, famílias 05, 07–09, 12, 14, 15, 17) e o `<em>`/`<i>`
+sem regra própria lê o token pelo `storefront.css`. Vai nas fontes do `ThemeDoc` (undo), do snapshot
+(opcional: snapshot antigo = itálico), da mensagem `theme` do iframe e do `config.json` (`fontItalic` nas
+variáveis Tray/Wake e VTEX). **Regra nova de itálico num template: escreva com o token**, ou o `1-italico`
+reprova. Para o TEMA GERADO respeitar, o SCSS do starter, os portes do global-templates e o generator
+precisam ler o mesmo token (pendente).
+
 ### Font selector
 
 [FontSelector](src/components/gerador/FontSelector/index.tsx) opens the list on click/focus, without

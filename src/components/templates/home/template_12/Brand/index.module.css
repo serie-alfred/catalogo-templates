@@ -96,7 +96,7 @@
 }
 
 .item:nth-child(5n+3) .pill {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .item:nth-child(5n+4) .pill {

@@ -27,3 +27,29 @@
   background: var(--ed-blue-50);
   box-shadow: inset 0 -1px 0 var(--ed-gray-000);
 }
+
+/* "Itálico nos destaques": a caixa de marcar com o rótulo ao lado. */
+.italico {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--ed-gray-600);
+  cursor: pointer;
+}
+
+.italico input {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  accent-color: var(--ed-blue-ink);
+}
+
+.dica {
+  margin: -8px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ed-gray-400);
+}

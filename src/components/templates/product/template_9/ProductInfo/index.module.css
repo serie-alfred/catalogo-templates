@@ -133,7 +133,7 @@
   letter-spacing: -0.015em;
 }
 .title em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .muted12 {

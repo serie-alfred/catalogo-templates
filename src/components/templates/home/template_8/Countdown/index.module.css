@@ -62,7 +62,7 @@
 .countdownTitle {
   font-family: var(--countdown-title-font, var(--font-primary, 'Inter', sans-serif));
   font-size: 24px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   line-height: 1.03;
   letter-spacing: -0.48px;

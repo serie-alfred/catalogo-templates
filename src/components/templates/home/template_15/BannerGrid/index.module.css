@@ -72,7 +72,7 @@
 }
 .title em,
 .cardTitle em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .title {

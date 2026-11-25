@@ -64,7 +64,7 @@
   color: var(--showcase-title-color, var(--text-primary-color, #0b1b33));
   font-family: var(--showcase-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 48px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   line-height: 0.95;
   letter-spacing: -0.01em;
@@ -85,7 +85,7 @@
   min-height: 44px;
   font-family: var(--showcase-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 16px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
   text-decoration: underline;
@@ -249,7 +249,7 @@
   color: var(--text-color-base, #ffffff);
   font-family: var(--showcase-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 13px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
   clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
@@ -258,7 +258,7 @@
 .bannerTitle {
   font-family: var(--showcase-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 40px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   line-height: 0.9;
   text-transform: uppercase;
@@ -277,7 +277,7 @@
   min-height: 44px;
   font-family: var(--showcase-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 17px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
   text-decoration: underline;

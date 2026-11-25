@@ -83,7 +83,7 @@
 .title {
   font-family: var(--countdown-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 60px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   line-height: 0.9;
   letter-spacing: -0.01em;
@@ -94,7 +94,7 @@
   margin-top: 10px;
   font-family: var(--countdown-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 18px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -119,7 +119,7 @@
 .num {
   font-family: var(--countdown-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 60px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   line-height: 0.95;
   text-transform: uppercase;
@@ -136,7 +136,7 @@
   color: color-mix(in srgb, var(--countdown-text, var(--text-color-secundary, #ffffff)) 80%, var(--countdown-bg, var(--background-secundary-color, #0b1b33)));
   font-family: var(--countdown-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 40px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
 }
 
@@ -161,7 +161,7 @@
   color: var(--countdown-accent-text, var(--background-secundary-color, #0b1b33));
   font-family: var(--countdown-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 19px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
   clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);

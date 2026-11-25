@@ -82,7 +82,7 @@
   line-height: 0.95;
   font-family: var(--cat-desc-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 44px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -114,7 +114,7 @@
   text-underline-offset: 6px;
   font-family: var(--cat-desc-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 17px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -130,7 +130,7 @@
   margin: 0 0 8px !important;
   font-family: var(--cat-desc-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 28px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   text-transform: uppercase;
 }

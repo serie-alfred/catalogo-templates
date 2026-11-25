@@ -642,6 +642,12 @@ export function useLayoutGenerator(conta?: ContaAtual) {
   const [fontTertiary, setFontTertiary] = useState(
     TEMA_INICIAL.fonts.fontTertiary
   );
+  /**
+   * O itálico do desenho (`--font-italic`): 'normal' desliga o itálico de todos os
+   * destaques dos templates (títulos com <em>, frases em itálico). Vai no tema e
+   * no config (`fontItalic`); não troca a fonte, só o estilo.
+   */
+  const [fontItalic, setFontItalic] = useState<'italic' | 'normal'>('italic');
 
   const [logo, setLogo] = useState<string>('');
   const logoCheckout = logoReduzido.valor;
@@ -954,7 +960,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
         colorPrimaryText,
         colorSecondaryText,
       },
-      { fontPrimary, fontSecondary, fontTertiary }
+      { fontPrimary, fontSecondary, fontTertiary, fontItalic }
     ) as Record<string, string>;
 
     for (const [name, value] of Object.entries(vars)) {
@@ -974,6 +980,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     fontPrimary,
     fontSecondary,
     fontTertiary,
+    fontItalic,
   ]);
 
   useEffect(() => {
@@ -985,12 +992,13 @@ export function useLayoutGenerator(conta?: ContaAtual) {
           fontPrimary,
           fontSecondary,
           fontTertiary,
+          fontItalic,
         })
       );
     } catch (e) {
       console.error('Erro ao salvar fontes:', e);
     }
-  }, [hydrated, fontPrimary, fontSecondary, fontTertiary]);
+  }, [hydrated, fontPrimary, fontSecondary, fontTertiary, fontItalic]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -1144,6 +1152,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
         setFontPrimary(parsed.fontPrimary || 'Roboto');
         setFontSecondary(parsed.fontSecondary || 'Poppins');
         setFontTertiary(parsed.fontTertiary || 'Open Sans');
+        setFontItalic(parsed.fontItalic === 'normal' ? 'normal' : 'italic');
       }
     } catch (e) {
       console.error('Erro ao carregar fontes:', e);
@@ -1444,6 +1453,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     fontPrimary,
     fontSecondary,
     fontTertiary,
+    fontItalic,
     colorPrimary,
     colorSecondary,
     colorTertiary,
@@ -1480,6 +1490,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       },
       { fontPrimary, fontSecondary, fontTertiary }
     ),
+    fontItalic,
     colorSecondaryBackgroundSafe: colorSafeOnWhite(colorSecondaryBackground),
     colorTertiaryBackgroundSafe: colorSafeOnWhite(colorTertiaryBackground),
   });
@@ -1930,7 +1941,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
         colorPrimaryText,
         colorSecondaryText,
       },
-      fonts: { fontPrimary, fontSecondary, fontTertiary },
+      fonts: { fontPrimary, fontSecondary, fontTertiary, fontItalic },
       // Os papéis do checkout entram no histórico: desfazer uma cor do checkout
       // é o mesmo gesto que desfazer uma cor global.
       checkout: checkout.variables,
@@ -1954,6 +1965,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       fontPrimary,
       fontSecondary,
       fontTertiary,
+      fontItalic,
     ]
   );
 
@@ -1974,6 +1986,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     setFontPrimary(doc.fonts.fontPrimary);
     setFontSecondary(doc.fonts.fontSecondary);
     setFontTertiary(doc.fonts.fontTertiary);
+    setFontItalic(doc.fonts.fontItalic === 'normal' ? 'normal' : 'italic');
     setCheckout(prev => ({ ...prev, variables: doc.checkout ?? {} }));
     setConteudoLoja(doc.conteudoLoja ?? null);
   }, []);
@@ -2009,7 +2022,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       colorPrimaryText,
       colorSecondaryText,
     },
-    fonts: { fontPrimary, fontSecondary, fontTertiary },
+    fonts: { fontPrimary, fontSecondary, fontTertiary, fontItalic },
     logo,
     footerLogo,
     favicon,
@@ -2124,6 +2137,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       setFontPrimary(f.fontPrimary || 'Roboto');
       setFontSecondary(f.fontSecondary || 'Poppins');
       setFontTertiary(f.fontTertiary || 'Open Sans');
+      setFontItalic(f.fontItalic === 'normal' ? 'normal' : 'italic');
       setLogo(typeof doc.logo === 'string' ? doc.logo : '');
       setFooterLogo(typeof doc.footerLogo === 'string' ? doc.footerLogo : '');
       setFavicon(typeof doc.favicon === 'string' ? doc.favicon : '');
@@ -2397,6 +2411,8 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     setFontSecondary,
     fontTertiary,
     setFontTertiary,
+    fontItalic,
+    setFontItalic,
     logo,
     setLogo,
     footerLogo,

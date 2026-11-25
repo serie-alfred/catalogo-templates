@@ -138,7 +138,7 @@
   letter-spacing: -0.02em;
 }
 .title em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .text {

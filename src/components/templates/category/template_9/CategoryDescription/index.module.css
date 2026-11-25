@@ -62,7 +62,7 @@
   line-height: 1.08;
 }
 .title em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .text {

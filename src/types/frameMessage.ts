@@ -26,6 +26,8 @@ export interface FrameFonts {
   fontPrimary: string;
   fontSecondary: string;
   fontTertiary: string;
+  /** 'normal' desliga o itálico dos destaques (`--font-italic`). Ausente = itálico. */
+  fontItalic?: string;
 }
 
 export const FRAME_PARENT = 'gerador' as const;

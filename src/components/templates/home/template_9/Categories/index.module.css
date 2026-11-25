@@ -71,7 +71,7 @@
   letter-spacing: -0.01em;
 }
 .title em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .actions {
@@ -169,7 +169,7 @@
 .name {
   font-family: var(--categories-title-font, var(--font-primary, 'Fraunces', Georgia, serif));
   font-size: 20px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .see {

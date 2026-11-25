@@ -418,7 +418,7 @@
     line-height: 1;
   }
   .accent .drawerLabel {
-    font-style: italic;
+    font-style: var(--font-italic, italic);
   }
   .chevron,
   .chevronOpen {

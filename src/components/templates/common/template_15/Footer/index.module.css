@@ -98,7 +98,7 @@
   color: color-mix(in srgb, var(--footer-text, var(--text-color-footer, #faf8f4)) 72%, var(--footer-bg, var(--background-footer, #1a1714)));
   font-family: var(--footer-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
   font-size: 20px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   line-height: 1.45;
 }
 .grid {

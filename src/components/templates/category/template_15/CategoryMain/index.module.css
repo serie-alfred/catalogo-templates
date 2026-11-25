@@ -399,7 +399,7 @@
   line-height: 1.1;
 }
 .emptyTitle em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .emptyText {

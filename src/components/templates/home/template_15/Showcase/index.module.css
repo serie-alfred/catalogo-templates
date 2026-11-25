@@ -91,7 +91,7 @@
   line-height: 1.05;
 }
 .title em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .tools {
@@ -240,7 +240,7 @@
   line-height: 1.08;
 }
 .bannerTitle em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .bannerText {

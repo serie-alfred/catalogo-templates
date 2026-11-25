@@ -74,7 +74,7 @@
   letter-spacing: -0.02em;
 }
 .title em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .text {
@@ -121,7 +121,7 @@
   border-left: 1px solid color-mix(in srgb, var(--countdown-text, var(--text-primary-color, #1d1b18)) 16%, var(--countdown-bg, #f7f4ef));
 }
 .unit:last-child .value {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .value {

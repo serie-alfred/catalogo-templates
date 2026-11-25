@@ -156,7 +156,7 @@
   bottom: 18px;
   font-family: var(--pdp-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
   font-size: 18px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   line-height: normal;
 }
 .counter span {

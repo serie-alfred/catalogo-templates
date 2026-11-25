@@ -115,7 +115,7 @@
 }
 
 .item:nth-child(6n+2) .brand {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 600;
   letter-spacing: 0.04em;
 }

@@ -365,7 +365,7 @@
   letter-spacing: -0.015em;
 }
 .emptyTitle em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .emptyText {

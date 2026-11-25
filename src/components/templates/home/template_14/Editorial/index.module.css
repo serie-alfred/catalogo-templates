@@ -63,7 +63,7 @@
   color: var(--editorial-text, var(--text-primary-color, #0b1b33));
   font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 48px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   line-height: 0.95;
   letter-spacing: -0.01em;
@@ -78,7 +78,7 @@
   gap: 8px;
   min-height: 44px;
   font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
   text-decoration: underline;
@@ -136,7 +136,7 @@
   color: var(--editorial-bg, var(--text-color-base, #f1f4f8));
   font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 64px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   line-height: 0.9;
   text-transform: uppercase;
@@ -171,7 +171,7 @@
 .featuredTitle {
   font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 36px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   line-height: 0.95;
   text-transform: uppercase;
@@ -224,7 +224,7 @@
   color: var(--editorial-accent, var(--background-primary-color, #e4002b));
   font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 64px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   line-height: 1;
   text-transform: uppercase;
@@ -239,7 +239,7 @@
 .storyTitle {
   font-family: var(--editorial-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 22px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   line-height: 1.05;
   text-transform: uppercase;

@@ -96,7 +96,7 @@
 .card__badge span {
   font-family: var(--spot-font, var(--font-secundary, 'Poppins', sans-serif));
   font-weight: 800;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-size: 10px;
   line-height: 1;
   color: var(--spot-badge-text, #ffffff);

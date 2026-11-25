@@ -40,6 +40,7 @@ começa com uma CÓPIA do conteúdo da loja, não com o mesmo documento.
 | 2.4 | Migrar as famílias 01–08 (85 peças + TextArea) | Nelas os nomes de campo eram os da Tray: renomeados para os do schema, peça a peça | Claude | ✅ |
 | 3.1 | Produtos da loja: cadastro no painel (fotos em WebP, preço, "de", parcelas, esgotado, selo, descrição, ficha, variações por tipo), replicados em toda vitrine, grade, relacionados e PDP | Antes vitrines e PDP mostravam os produtos de exemplo | Claude | 🔄 piloto na 09 pronto; demais famílias em andamento; planilha depois |
 | 3.2 | Uma planilha de produtos de um cliente (real ou de exemplo) | Testar com dados de verdade (nomes longos, fotos, preços) | Matheus | ⏳ |
+| 3.3 | **Itálico liga/desliga** nos destaques dos templates (Tipografia) | Templates com itálico que o cliente não usa (ou o contrário) | Claude | ✅ no catálogo e no config; ⏳ starter, global-templates e generator |
 | 4.1 | Importar produtos pela URL da loja atual do cliente | O mais rápido para quem está migrando de plataforma | Claude | ⏳ |
 | 4.2 | Duas ou três URLs de lojas de clientes (VTEX, Shopify, Nuvemshop…) | Cada plataforma expõe os produtos de um jeito | Matheus | ⏳ |
 | 5.1 | Arquivamento em 3 meses, limpeza de imagens sem uso, backup noturno, uso do banco no painel | Manter o Supabase Free e o Blob enxutos sem quebrar links de cliente | Claude | ⏳ |

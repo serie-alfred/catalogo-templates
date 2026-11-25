@@ -17,6 +17,8 @@ export default function PanelTypography() {
     setFontPrimary,
     fontSecondary,
     setFontSecondary,
+    fontItalic,
+    setFontItalic,
     editorMode,
   } = useLayout();
 
@@ -60,6 +62,23 @@ export default function PanelTypography() {
           />
         </section>
       ))}
+      {/* O itálico do desenho (`--font-italic`): vale para todo destaque em
+          itálico dos templates (títulos com <em>, frases), não para a fonte. */}
+      <section className={styles.block} data-italico="">
+        <h3 className={styles.title}>Itálico nos destaques</h3>
+        <label className={styles.italico}>
+          <input
+            type="checkbox"
+            checked={fontItalic !== 'normal'}
+            disabled={naLp}
+            onChange={e => setFontItalic(e.target.checked ? 'italic' : 'normal')}
+          />
+          <span>Usar itálico onde o template destaca palavras e títulos</span>
+        </label>
+        <p className={styles.dica}>
+          Desligado, os destaques ficam na mesma fonte, sem itálico.
+        </p>
+      </section>
     </div>
   );
 }

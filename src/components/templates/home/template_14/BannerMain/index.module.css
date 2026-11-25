@@ -115,7 +115,7 @@
   color: var(--banner-main-bg, var(--background-secundary-color, #0b1b33));
   font-family: var(--banner-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 15px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
   clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
@@ -124,7 +124,7 @@
 .title {
   font-family: var(--banner-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 104px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   line-height: 0.86;
   letter-spacing: -0.015em;
@@ -166,7 +166,7 @@
 .statValue {
   font-family: var(--banner-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 44px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   line-height: 1;
   text-transform: uppercase;
@@ -194,7 +194,7 @@
   color: var(--banner-main-button-text, var(--text-color-base, #ffffff));
   font-family: var(--banner-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 20px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
   clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
@@ -206,7 +206,7 @@
   min-height: 44px;
   font-family: var(--banner-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 18px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
   text-decoration: underline;
@@ -228,7 +228,7 @@
 .counter {
   font-family: var(--banner-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 22px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   text-transform: uppercase;
 }

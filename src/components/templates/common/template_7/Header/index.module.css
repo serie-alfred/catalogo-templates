@@ -356,7 +356,7 @@ terracota #C07A5A) = hex inline. */
   font-family: var(--header-font, var(--font-primary, 'Cormorant Garamond', serif));
   font-size: 12px;
   line-height: 1.5;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   color: var(--header-mega-quote, #faf8f4);
 }
 

@@ -50,7 +50,7 @@
   display: flex;
   font-family: var(--ruler-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 21px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   letter-spacing: 0.01em;
   text-transform: uppercase;

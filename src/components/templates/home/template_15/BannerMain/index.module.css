@@ -102,7 +102,7 @@
   line-height: 0.98;
 }
 .title em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .text {
@@ -147,7 +147,7 @@
 .count {
   font-family: var(--banner-main-title-font, var(--font-primary, 'Cormorant Garamond', Georgia, serif));
   font-size: 20px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .muted {

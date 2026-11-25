@@ -94,7 +94,7 @@
   background-color: color-mix(in srgb, var(--cat-main-text, var(--text-primary-color, #0b1b33)) 6%, var(--cat-main-bg, #ffffff));
   font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 22px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   text-transform: uppercase;
   clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
@@ -117,7 +117,7 @@
 .count {
   font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 20px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -211,7 +211,7 @@
   margin: 12px 0 2px !important;
   font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 26px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -237,7 +237,7 @@
   padding: 0 0 10px;
   font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 18px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -345,7 +345,7 @@
 .pageNum {
   font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 18px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
   clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
@@ -395,7 +395,7 @@
   line-height: 0.8;
   font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 300px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -418,7 +418,7 @@
   color: var(--text-color-base, #ffffff);
   font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 14px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
   clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);
@@ -428,7 +428,7 @@
   line-height: 0.95;
   font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 52px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -456,7 +456,7 @@
   padding: 0 32px;
   font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 18px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -502,7 +502,7 @@
   line-height: 1;
   font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 28px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   text-transform: uppercase;
 }
@@ -542,7 +542,7 @@
   text-align: left;
   font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 19px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -589,7 +589,7 @@
   height: 56px;
   font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 17px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
 }
@@ -667,7 +667,7 @@
     color: var(--cat-main-bg, var(--text-color-base, #ffffff)) !important;
     font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
     font-size: 16px;
-    font-style: italic;
+    font-style: var(--font-italic, italic);
     font-weight: 800;
     text-transform: uppercase;
   }
@@ -691,7 +691,7 @@
     padding: 0 16px;
     font-family: var(--cat-main-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
     font-size: 17px;
-    font-style: italic;
+    font-style: var(--font-italic, italic);
     font-weight: 800;
     text-transform: uppercase;
   }

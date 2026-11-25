@@ -100,7 +100,7 @@
   gap: 10px;
   font-family: var(--cart-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 30px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 900;
   line-height: 1;
   text-transform: uppercase;
@@ -230,7 +230,7 @@
 .linePrice {
   font-family: var(--cart-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 21px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
   white-space: nowrap;
@@ -249,7 +249,7 @@
   align-items: baseline;
   justify-content: space-between;
   font-family: var(--cart-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   text-transform: uppercase;
 }
 
@@ -279,7 +279,7 @@
   color: var(--cart-button-text, var(--text-color-base, #ffffff));
   font-family: var(--cart-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 20px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
   clip-path: polygon(14px 0, 100% 0, calc(100% - 14px) 100%, 0 100%);
@@ -296,7 +296,7 @@
   height: 44px;
   font-family: var(--cart-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 15px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 700;
   text-decoration: underline;
   text-transform: uppercase;
@@ -316,7 +316,7 @@
 .emptyText {
   font-family: var(--cart-title-font, var(--font-primary, 'Saira', system-ui, sans-serif));
   font-size: 24px;
-  font-style: italic;
+  font-style: var(--font-italic, italic);
   font-weight: 800;
   text-transform: uppercase;
 }

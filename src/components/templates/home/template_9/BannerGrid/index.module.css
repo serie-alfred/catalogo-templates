@@ -130,7 +130,7 @@
   font-weight: 300;
 }
 .title em {
-  font-style: italic;
+  font-style: var(--font-italic, italic);
 }
 
 .big .title {

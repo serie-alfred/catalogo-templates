@@ -38,6 +38,17 @@
 }
 
 /*
+ * O liga/desliga do itálico (Tipografia → "Itálico nos destaques"): o <em> e o
+ * <i> sem regra própria são itálicos pelo navegador, então também leem o token.
+ * Sem o token, `italic` — o mesmo de sempre. Regra do template que diga outra
+ * coisa para o <em> (mesma especificidade, carregada depois) continua vencendo.
+ */
+.preview-template em,
+.preview-template i {
+  font-style: var(--font-italic, italic);
+}
+
+/*
  * O "Card de Produto" sozinho (visão "Todas as páginas", a única que o mostra)
  * fica na largura de um card de vitrine, centralizado. Sem isto o card esticava
  * para a página inteira: a foto quadrada virava um bloco de 1200px de altura.

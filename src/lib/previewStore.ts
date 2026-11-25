@@ -27,6 +27,8 @@ export interface PreviewSnapshot {
     fontPrimary: string;
     fontSecondary: string;
     fontTertiary: string;
+    /** 'normal' desliga o itálico dos destaques. Opcional: snapshot antigo = itálico. */
+    fontItalic?: 'italic' | 'normal';
   };
   logo: string;
   /**

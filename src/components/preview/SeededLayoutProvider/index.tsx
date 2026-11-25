@@ -73,6 +73,8 @@ export default function SeededLayoutProvider({
         collapseAllSections: noop,
         setHoveredUid: noop,
         conteudoLoja: null,
+        fontItalic: 'italic',
+        setFontItalic: noop,
         setCampoDaLoja: noop,
         limparConteudoLoja: noop,
         setItemVariable: noop,
