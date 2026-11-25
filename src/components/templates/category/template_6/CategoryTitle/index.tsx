@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 
 import { LayoutContext } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 
@@ -16,14 +17,25 @@ import styles from './index.module.css';
  * por portal no `[data-role="breadcrumb"]`) e outra para a linha do título —
  * e o CSS escolhe qual aparece. Sem seção de trilha na página, a da trilha nem
  * chega a existir e a do título vale nos dois breakpoints: é esse o caso aqui.
+ *
+ * Do CS vem só o rótulo (`countLabel`, nome do `section.schema`); a categoria e a
+ * contagem seguem as de exemplo. `countInBreadcrumb` fica fora: não há trilha aqui.
  */
-const conteudo = {
-  title: 'Sneakers',
-  totalCount: 128,
+interface CategoryTitleConteudo {
+  countLabel?: string;
+}
+
+const MOCK: CategoryTitleConteudo = {
   countLabel: 'Produtos encontrados',
 };
 
+const conteudo = {
+  title: 'Sneakers',
+  totalCount: 128,
+};
+
 export default function CategoryTitle() {
+  const { countLabel } = useConteudoDaSecao(MOCK);
   /* O Category Main 06 já traz a trilha, o título e a contagem (o MainCategory06 da
      origem desenha os três). Com ele na mesma página de categoria, esta seção sai de
      cena — senão título e contagem aparecem duas vezes. Sozinha, ela vale. */
@@ -40,9 +52,12 @@ export default function CategoryTitle() {
           {conteudo.title}
         </h1>
         <span className={styles.count} data-role="plp-count">
-          {conteudo.totalCount} {conteudo.countLabel}
+          {conteudo.totalCount} {countLabel}
         </span>
       </section>
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryTitle.conteudoPadrao = MOCK;

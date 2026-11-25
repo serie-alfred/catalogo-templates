@@ -2,6 +2,7 @@ import React from 'react';
 
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -12,9 +13,9 @@ import styles from './index.module.css';
  * CSS é derivado do SCSS de lá. Sai o `usePDP`.
  *
  * Os rótulos e o `hiddenSpecs` são do CMS e vêm do `useConteudoDaSecao`. A descrição e
- * as especificações são do produto: até o produto em destaque da loja existir (fase de
- * produtos), o produto de exemplo do `mock.ts` de lá (a imagem da descrição é o SVG de
- * uma cor só de lá).
+ * as especificações são do produto: o 1º da loja (`useProdutosDaLoja`, o mesmo da PDP)
+ * quando o CS cadastrou — a descrição em texto puro, um parágrafo por bloco —; senão o
+ * produto de exemplo do `mock.ts` de lá (a imagem da descrição é o SVG de uma cor só).
  */
 
 interface ProductDescription09Conteudo {
@@ -68,7 +69,10 @@ export default function ProductDescription09() {
       .map(norm)
       .filter(Boolean)
   );
-  const specs = SPECS.filter(s => !escondidas.has(norm(s.name)));
+  const produto = useProdutosDaLoja()?.[0];
+  const specs = (produto ? produto.specs : SPECS).filter(s => !escondidas.has(norm(s.name)));
+  // Texto do CS, nunca HTML: o /p é público. Linha em branco separa parágrafos.
+  const paragrafos = produto?.description.split(/\n\s*\n/).filter(p => p.trim()) ?? [];
 
   return (
     <div className={styles.productDescription09Box}>
@@ -82,7 +86,19 @@ export default function ProductDescription09() {
                 {title} {titleEmphasis && <em>{titleEmphasis}</em>}
               </h2>
             )}
-            <div className={styles.html} dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }} />
+            {produto ? (
+              paragrafos.length > 0 && (
+                <div className={styles.html}>
+                  {paragrafos.map((p, i) => (
+                    <p key={i} style={{ whiteSpace: 'pre-line' }}>
+                      {p.trim()}
+                    </p>
+                  ))}
+                </div>
+              )
+            ) : (
+              <div className={styles.html} dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }} />
+            )}
           </article>
           {specs.length > 0 && (
             <div className={styles.specs} data-role="pd-specs">

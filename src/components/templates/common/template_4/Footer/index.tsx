@@ -4,13 +4,32 @@ import React, { useState } from 'react';
 
 import styles from './index.module.css';
 import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 // Preview estático do Footer04 (MANU) — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Footer04 (gerado via /from-faststore).
 
-const data = {
-  brandName: 'MANU',
-  brandTagline: 'EST. 2018',
+/** O conteúdo da seção: os campos do `section.schema` do Footer04 que a réplica desenha. */
+interface Footer04Conteudo {
+  brandName?: string;
+  brandDescription?: string;
+  address?: string;
+  socials: { label?: string; url?: string }[];
+  columns: {
+    title?: string;
+    links: { name?: string; url?: string; highlight?: boolean }[];
+  }[];
+  newsletterPlaceholder?: string;
+  newsletterButtonLabel?: string;
+  newsletterTitle?: string;
+  newsletterSubtitle?: string;
+  copyright?: string;
+  legalLinks: { name?: string; url?: string }[];
+  paymentMethods?: string;
+  paymentSeals?: string;
+}
+
+const MOCK: Footer04Conteudo = {
   brandDescription: 'Alfaiataria contemporânea para o homem moderno.',
   // Só marcadores para a loja preencher: nada de endereço ou razão social inventados (o mesmo
   // texto do ft04_endereco / ft04_copyright da Wake).
@@ -57,6 +76,8 @@ const data = {
   ],
   newsletterPlaceholder: 'seu@email.com',
   newsletterButtonLabel: 'Entrar',
+  newsletterTitle: 'Assine a newsletter',
+  newsletterSubtitle: 'Novidades, lançamentos e ofertas exclusivas no seu e-mail.',
   copyright: '© 2026 [SUA MARCA]. Todos os direitos reservados.',
   legalLinks: [
     { name: 'Política de Privacidade', url: '#' },
@@ -140,7 +161,8 @@ const Credit = () => (
 
 export default function Footer04() {
   const logo = useLogoDoRodape();
-  const addressLines = data.address.split('\n');
+  const data = useConteudoDaSecao(MOCK);
+  const addressLines = (data.address ?? '').split('\n');
   const [openCols, setOpenCols] = useState<number[]>([]);
   const toggleCol = (i: number) =>
     setOpenCols(prev =>
@@ -171,10 +193,12 @@ export default function Footer04() {
         {/* Newsletter desktop — input + botão na mesma linha (oculto no mobile). */}
         <div className={styles.desktopNewsletter}>
           <div className={styles.dnlText}>
-            <span className={styles.dnlTitle}>Assine a newsletter</span>
-            <span className={styles.dnlSub}>
-              Novidades, lançamentos e ofertas exclusivas no seu e-mail.
-            </span>
+            {data.newsletterTitle && (
+              <span className={styles.dnlTitle}>{data.newsletterTitle}</span>
+            )}
+            {data.newsletterSubtitle && (
+              <span className={styles.dnlSub}>{data.newsletterSubtitle}</span>
+            )}
           </div>
           <form className={styles.dnlForm} onSubmit={e => e.preventDefault()}>
             <input
@@ -196,28 +220,34 @@ export default function Footer04() {
               {logo ? (
                 <img src={logo} alt="Logo" className={styles.logoImg} />
               ) : (
-                <strong className={styles.logoName}>SERIE//A</strong>
+                <strong className={styles.logoName}>
+                  {data.brandName || 'SERIE//A'}
+                </strong>
               )}
             </a>
-            <p className={styles.brandDescription}>{data.brandDescription}</p>
-            <address className={styles.brandAddress}>
-              {addressLines.map((line, i) => (
-                <React.Fragment key={i}>
-                  {line}
-                  {i < addressLines.length - 1 && <br />}
-                </React.Fragment>
-              ))}
-            </address>
+            {data.brandDescription && (
+              <p className={styles.brandDescription}>{data.brandDescription}</p>
+            )}
+            {data.address && (
+              <address className={styles.brandAddress}>
+                {addressLines.map((line, i) => (
+                  <React.Fragment key={i}>
+                    {line}
+                    {i < addressLines.length - 1 && <br />}
+                  </React.Fragment>
+                ))}
+              </address>
+            )}
             <div className={styles.socialLinks}>
-              {data.socials.map((social, i) => (
+              {data.socials.filter(social => social.label).map((social, i) => (
                 <a
                   key={i}
-                  href={social.url}
+                  href={social.url || '#'}
                   aria-label={social.label}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {socialIconFor(social.label)}
+                  {socialIconFor(social.label ?? '')}
                 </a>
               ))}
             </div>
@@ -246,11 +276,9 @@ export default function Footer04() {
                   {column.links.map((link, j) => (
                     <a
                       key={j}
-                      href={link.url}
+                      href={link.url || '#'}
                       className={
-                        'highlight' in link && link.highlight
-                          ? styles.linkHighlight
-                          : undefined
+                        link.highlight ? styles.linkHighlight : undefined
                       }
                     >
                       {link.name}
@@ -263,11 +291,13 @@ export default function Footer04() {
         </div>
 
         <div className={styles.bottom}>
-          <div className={styles.copyright}>{data.copyright}</div>
+          {data.copyright && (
+            <div className={styles.copyright}>{data.copyright}</div>
+          )}
           <div className={styles.legalLinks}>
             {data.legalLinks.map((link, i) => (
               <React.Fragment key={i}>
-                <a href={link.url}>{link.name}</a>
+                <a href={link.url || '#'}>{link.name}</a>
                 {i < data.legalLinks.length - 1 && (
                   <span className={styles.legalSep} aria-hidden="true">
                     ·
@@ -277,8 +307,12 @@ export default function Footer04() {
             ))}
           </div>
           <div className={styles.payment}>
-            <div className={styles.paymentMethods}>{data.paymentMethods}</div>
-            <div className={styles.paymentSeals}>{data.paymentSeals}</div>
+            {data.paymentMethods && (
+              <div className={styles.paymentMethods}>{data.paymentMethods}</div>
+            )}
+            {data.paymentSeals && (
+              <div className={styles.paymentSeals}>{data.paymentSeals}</div>
+            )}
           </div>
           <Credit />
         </div>
@@ -286,3 +320,6 @@ export default function Footer04() {
     </footer>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Footer04.conteudoPadrao = MOCK;

@@ -1,6 +1,49 @@
 {
   "$gerado": "yarn derivar:conteudo, da interface …Conteudo de cada réplica que lê pelo useConteudoDaSecao. Não edite à mão.",
   "componentes": {
+    "BannerCarousel06": [
+      "sectionTitle",
+      "cards"
+    ],
+    "BannerDuplo02": [
+      "title",
+      "banners"
+    ],
+    "BannerFull01": [
+      "desktopSrc",
+      "mobileSrc",
+      "href",
+      "alt",
+      "width",
+      "height"
+    ],
+    "BannerFull02": [
+      "desktopSrc",
+      "mobileSrc",
+      "alt",
+      "href"
+    ],
+    "BannerFull05": [
+      "desktopImage",
+      "mobileImage",
+      "alt",
+      "link"
+    ],
+    "BannerFullCategory02": [
+      "desktopSrc",
+      "mobileSrc",
+      "alt",
+      "href"
+    ],
+    "BannerGrid01": [
+      "sectionTitle",
+      "mainBanner",
+      "secondaryBanners"
+    ],
+    "BannerGrid06": [
+      "sectionTitle",
+      "cards"
+    ],
     "BannerGrid09": [
       "eyebrow",
       "note",
@@ -38,6 +81,23 @@
     "BannerGrid17": [
       "banners"
     ],
+    "BannerMain01": [
+      "desktopSlides",
+      "mobileSlides"
+    ],
+    "BannerMain06": [
+      "banners"
+    ],
+    "BannerMain07": [
+      "banners"
+    ],
+    "BannerMain08": [
+      "eyebrow",
+      "title",
+      "titleMobile",
+      "description",
+      "image"
+    ],
     "BannerMain09": [
       "slides"
     ],
@@ -65,6 +125,74 @@
     ],
     "BannerMain17": [
       "slides"
+    ],
+    "BannerSide01": [
+      "leftImg",
+      "leftLink",
+      "leftTitle",
+      "leftWidth",
+      "leftHeight",
+      "rightImg",
+      "rightLink",
+      "rightTitle",
+      "rightWidth",
+      "rightHeight"
+    ],
+    "BannerSide02": [
+      "title",
+      "text",
+      "src",
+      "alt",
+      "href"
+    ],
+    "BannerSide06": [
+      "cards"
+    ],
+    "BannerSolo04": [
+      "image",
+      "alt",
+      "link",
+      "title",
+      "text",
+      "ctaLabel",
+      "ctaUrl"
+    ],
+    "BannerSoloLeft05": [
+      "image",
+      "alt",
+      "title",
+      "description",
+      "buttonLabel",
+      "link"
+    ],
+    "BannerSoloLeft07": [
+      "image",
+      "quote",
+      "eyebrow",
+      "title",
+      "body",
+      "linkLabel",
+      "linkUrl"
+    ],
+    "BannerTop01": [
+      "desktopImage",
+      "mobileImage",
+      "alt",
+      "link",
+      "width",
+      "height"
+    ],
+    "BannerTriple05": [
+      "banners"
+    ],
+    "BannerTriple06": [
+      "banners"
+    ],
+    "BannerTripleSwiper05": [
+      "banners"
+    ],
+    "Brand01": [
+      "brands"
     ],
     "Brand09": [
       "eyebrow",
@@ -120,6 +248,26 @@
       "viewAllLabel",
       "viewAllUrl",
       "brands"
+    ],
+    "BuySize06": [
+      "sectionTitle",
+      "sizes",
+      "allLabel",
+      "allLink"
+    ],
+    "Categories01": [
+      "title",
+      "categories"
+    ],
+    "Categories07": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl",
+      "categories",
+      "categoriesMobile"
+    ],
+    "Categories08": [
+      "categories"
     ],
     "Categories09": [
       "title",
@@ -179,6 +327,11 @@
       "viewAllUrl",
       "categories"
     ],
+    "CategoryDescription06": [
+      "faqTitle",
+      "readMoreLabel",
+      "readLessLabel"
+    ],
     "CategoryDescription09": [
       "titlePrefix",
       "faqTitle",
@@ -231,6 +384,18 @@
       "faqTitle",
       "readMoreLabel",
       "readLessLabel"
+    ],
+    "CategoryMain02": [
+      "pageSize"
+    ],
+    "CategoryMain06": [
+      "filterLabel",
+      "sortLabel",
+      "colorSwatches"
+    ],
+    "CategoryMain07": [
+      "subtitle",
+      "resultsNoun"
     ],
     "CategoryMain09": [
       "countLabel",
@@ -451,6 +616,13 @@
       "emptySecondaryLabel",
       "emptySecondaryUrl"
     ],
+    "CategoryTabs06": [
+      "title",
+      "tabs"
+    ],
+    "CategoryTitle06": [
+      "countLabel"
+    ],
     "CategoryTitle09": [
       "allLabel"
     ],
@@ -481,6 +653,20 @@
     ],
     "CategoryTitle17": [
       "countLabel"
+    ],
+    "CategoryTriple06": [
+      "slides"
+    ],
+    "ClientReview06": [
+      "title",
+      "subtitle",
+      "reviews"
+    ],
+    "ClientReview07": [
+      "number",
+      "subtitle",
+      "rating",
+      "starCount"
     ],
     "ClientReview09": [
       "eyebrow",
@@ -523,6 +709,13 @@
     "ClientReview17": [
       "title",
       "reviews"
+    ],
+    "Countdown08": [
+      "label",
+      "titleStart",
+      "titleHighlight",
+      "endDate",
+      "note"
     ],
     "Countdown09": [
       "eyebrow",
@@ -667,6 +860,14 @@
       "imageMobile",
       "imageAlt"
     ],
+    "Editorial08": [
+      "eyebrowStart",
+      "eyebrowHighlight",
+      "title",
+      "text",
+      "collage",
+      "banners"
+    ],
     "Editorial09": [
       "eyebrow",
       "title",
@@ -745,6 +946,147 @@
       "helpText",
       "helpLabel",
       "helpUrl"
+    ],
+    "Footer01": [
+      "institucionalTitle",
+      "institucionalMenu",
+      "atendimentoTitle",
+      "whatsapp",
+      "phone",
+      "email",
+      "redesSociaisTitle",
+      "socialFacebook",
+      "socialTwitter",
+      "pagamentoTitle",
+      "paymentMethods",
+      "segurancaTitle",
+      "securitySeals",
+      "copyright"
+    ],
+    "Footer02": [
+      "logo",
+      "logoAlt",
+      "brandName",
+      "newsletterTitle",
+      "emailPlaceholder",
+      "buttonLabel",
+      "institutionalTitle",
+      "institutionalLinks",
+      "socialTitle",
+      "socials",
+      "paymentTitle",
+      "payments",
+      "sealsTitle",
+      "seals",
+      "copyright"
+    ],
+    "Footer03": [
+      "brandName",
+      "brandDescription",
+      "socialInstagram",
+      "socialTiktok",
+      "socialYoutube",
+      "socialPinterest",
+      "benefits",
+      "institucionalTitle",
+      "institucionalMenu",
+      "atendimentoTitle",
+      "atendimentoMenu",
+      "categoriasTitle",
+      "categoriasMenu",
+      "policiesTitle",
+      "policiesMenu",
+      "newsletterEyebrow",
+      "newsletterTitle",
+      "newsletterSubtitle",
+      "paymentMethods",
+      "copyright",
+      "cnpj",
+      "newsletterButtonLabel",
+      "newsletterSuccessTitle",
+      "newsletterSuccessText",
+      "pagamentoTitle",
+      "selo1Label",
+      "selo2Label",
+      "selo3Label"
+    ],
+    "Footer04": [
+      "brandName",
+      "brandDescription",
+      "address",
+      "socials",
+      "columns",
+      "newsletterPlaceholder",
+      "newsletterButtonLabel",
+      "newsletterTitle",
+      "newsletterSubtitle",
+      "copyright",
+      "legalLinks",
+      "paymentMethods",
+      "paymentSeals"
+    ],
+    "Footer05": [
+      "newsletterEyebrow",
+      "newsletterTitle",
+      "newsletterDescription",
+      "newsletterNamePlaceholder",
+      "newsletterEmailPlaceholder",
+      "newsletterButtonLabel",
+      "newsletterConsentText",
+      "brandName",
+      "brandDescription",
+      "columns",
+      "contactTitle",
+      "contactItems",
+      "socials",
+      "copyright",
+      "paymentMethods"
+    ],
+    "Footer06": [
+      "newsletterSubtitle",
+      "newsletterTitle",
+      "newsletterNamePlaceholder",
+      "newsletterEmailPlaceholder",
+      "newsletterButtonLabel",
+      "newsletterSuccessMessage",
+      "socialTitle",
+      "socials",
+      "columns",
+      "seals",
+      "copyright"
+    ],
+    "Footer07": [
+      "logoSrc",
+      "logoAlt",
+      "brandName",
+      "brandTagline",
+      "brandDescription",
+      "nlEyebrow",
+      "nlEyebrowMobile",
+      "nlTitle",
+      "nlTitleMobile",
+      "nlNote",
+      "nlBenefit",
+      "nlPlaceholder",
+      "nlPlaceholderMobile",
+      "nlButtonLabel",
+      "successMessage",
+      "columns",
+      "paymentBrands",
+      "copyright"
+    ],
+    "Footer08": [
+      "logo",
+      "logoAlt",
+      "text",
+      "socialTitle",
+      "socials",
+      "columns",
+      "paymentTitle",
+      "payments",
+      "sealsTitle",
+      "seals",
+      "legal"
     ],
     "Footer09": [
       "columns",
@@ -887,6 +1229,104 @@
       "payments",
       "copyright"
     ],
+    "Header01": [
+      "logo",
+      "topbar",
+      "helpLink",
+      "menu"
+    ],
+    "Header02": [
+      "logo",
+      "logoAlt",
+      "logoText",
+      "welcomeText",
+      "whatsapp",
+      "whatsappLabel",
+      "youtubeUrl",
+      "instagramUrl",
+      "twitterUrl",
+      "linkedinUrl",
+      "facebookUrl",
+      "searchPlaceholder",
+      "contactUrl",
+      "contactLabel",
+      "loginLabel",
+      "cartLabel",
+      "drawerLoginLabel",
+      "helpLabel",
+      "helpUrl",
+      "menu"
+    ],
+    "Header03": [
+      "logo",
+      "topbar",
+      "search",
+      "menu"
+    ],
+    "Header04": [
+      "announcementMessages",
+      "brandName",
+      "navItems",
+      "megaColumns",
+      "megaImage",
+      "searchPlaceholder",
+      "quickSearch",
+      "mobileNavItems",
+      "benefitStripItems"
+    ],
+    "Header05": [
+      "servicePromo",
+      "serviceLinks",
+      "brandName",
+      "searchPlaceholder",
+      "favoritesLabel",
+      "favoritesCount",
+      "favoritesUrl",
+      "accountLabel",
+      "cartLabel",
+      "categories",
+      "megaColumnTitle",
+      "megaLinks",
+      "megaPromos",
+      "simpleMenuTitle",
+      "simpleLinks",
+      "searchSuggestions",
+      "mobileNavItems"
+    ],
+    "Header06": [
+      "topbarMessages",
+      "logoSrc",
+      "navItems",
+      "mobileLinks",
+      "searchPlaceholder",
+      "quickSearch",
+      "storesUrl",
+      "wishlistUrl"
+    ],
+    "Header07": [
+      "logoSrc",
+      "logoAlt",
+      "topbarNotices",
+      "searchPlaceholder",
+      "mobileSearchPlaceholder",
+      "accountUrl",
+      "wishlistUrl",
+      "whatsappUrl",
+      "navItems",
+      "drawerBenefits",
+      "whatsappLabel"
+    ],
+    "Header08": [
+      "logo",
+      "logoAlt",
+      "menu",
+      "searchPlaceholder",
+      "contactUrl",
+      "contactLabel",
+      "accountLabel",
+      "cartLabel",
+      "mobileMenuLabel"
+    ],
     "Header09": [
       "topbarMessages",
       "logo",
@@ -1028,6 +1468,10 @@
       "cartLabel",
       "viewAllLabel"
     ],
+    "HelpFloat06": [
+      "helpLabel",
+      "helpItems"
+    ],
     "HelpFloat09": [
       "buttonLabel",
       "title",
@@ -1085,6 +1529,52 @@
       "helpItems",
       "ctaLabel",
       "ctaUrl"
+    ],
+    "HomeCarousel06": [
+      "categories"
+    ],
+    "HomeCombined04": [
+      "title",
+      "text",
+      "avatars",
+      "avatarsText",
+      "ctaLabel",
+      "ctaUrl",
+      "verticalImage",
+      "verticalAlt",
+      "verticalLink",
+      "horizontalImage",
+      "horizontalAlt",
+      "horizontalLink",
+      "discountTitle",
+      "discountText",
+      "discountCtaLabel",
+      "discountCtaUrl"
+    ],
+    "MultiCategories04": [
+      "title",
+      "description",
+      "cards"
+    ],
+    "Newsletter07": [
+      "eyebrow",
+      "eyebrowMobile",
+      "title",
+      "titleMobile",
+      "description",
+      "placeholder",
+      "placeholderMobile",
+      "buttonLabel",
+      "note",
+      "successMessage"
+    ],
+    "Newsletter08": [
+      "title",
+      "text",
+      "formTitle",
+      "namePlaceholder",
+      "emailPlaceholder",
+      "buttonLabel"
     ],
     "Newsletter09": [
       "eyebrow",
@@ -1214,6 +1704,15 @@
       "privacyPrefix",
       "privacyLabel",
       "privacyUrl"
+    ],
+    "PopupNews06": [
+      "title",
+      "highlight",
+      "image",
+      "imageAlt",
+      "finePrint",
+      "submitLabel",
+      "successMessage"
     ],
     "PopupNews09": [
       "imageDesktop",
@@ -1385,6 +1884,15 @@
       "privacyUrl",
       "dismissLabel"
     ],
+    "ProductDescription07": [
+      "descEyebrow",
+      "descTitle",
+      "specsEyebrow",
+      "careTitle",
+      "faqTitle",
+      "faqItems",
+      "deliveryInfo"
+    ],
     "ProductDescription09": [
       "eyebrow",
       "title",
@@ -1444,6 +1952,64 @@
       "title",
       "specsTitle",
       "hiddenSpecs"
+    ],
+    "ProductInfo01": [
+      "trustMessage"
+    ],
+    "ProductInfo02": [
+      "skuLabel",
+      "offerTagLabel",
+      "newTagLabel",
+      "installmentPrefix",
+      "installmentOf",
+      "withInterestLabel",
+      "paymentMethodsLabel",
+      "colorsTitle",
+      "sizesTitle",
+      "favoriteLabel",
+      "buyLabel",
+      "shippingTitle",
+      "shippingPlaceholder",
+      "shippingButton",
+      "noCepLabel",
+      "noCepUrl"
+    ],
+    "ProductInfo03": [
+      "descriptionTitle",
+      "colorLabel",
+      "sizeLabel",
+      "inStockLabel",
+      "outOfStockLabel",
+      "noReviewsLabel",
+      "addToCartLabel",
+      "buyNowLabel",
+      "trustBadges",
+      "extraAccordion"
+    ],
+    "ProductInfo06": [
+      "barText",
+      "consulteLabel",
+      "fretePillBold",
+      "fretePillText",
+      "cepPlaceholder",
+      "cepButtonLabel",
+      "envioIconUrl",
+      "envioBold",
+      "envioText",
+      "trocaIconUrl",
+      "trocaBold",
+      "trocaText",
+      "aviseMeLabel",
+      "buyLabel",
+      "shareInstagramUrl"
+    ],
+    "ProductInfo07": [
+      "eyebrow",
+      "trustMessage",
+      "benefits",
+      "consultoraLabel",
+      "addToCartLabel",
+      "otherPaymentLabel"
     ],
     "ProductInfo09": [
       "newLabel",
@@ -1632,6 +2198,10 @@
       "freeShippingLabel",
       "accordions"
     ],
+    "ProductReviews06": [
+      "title",
+      "startExpanded"
+    ],
     "ProductReviews09": [
       "title",
       "countLabel",
@@ -1785,6 +2355,25 @@
       "formSubmitLabel",
       "formSuccess"
     ],
+    "Ruler01": [
+      "benefits"
+    ],
+    "Ruler02": [
+      "benefits"
+    ],
+    "Ruler04": [
+      "seals"
+    ],
+    "Ruler05": [
+      "benefits"
+    ],
+    "Ruler07": [
+      "benefits",
+      "benefitsMobile"
+    ],
+    "Ruler08": [
+      "benefits"
+    ],
     "Ruler09": [
       "benefits"
     ],
@@ -1811,6 +2400,13 @@
     ],
     "Ruler17": [
       "benefits"
+    ],
+    "ShelfBanner08": [
+      "title",
+      "subtitle",
+      "viewAllLabel",
+      "viewAllUrl",
+      "banner"
     ],
     "ShelfBanner09": [
       "title",
@@ -1866,6 +2462,47 @@
       "title",
       "tagLabel",
       "banner"
+    ],
+    "ShopByRoom07": [
+      "eyebrow",
+      "title",
+      "rooms"
+    ],
+    "Showcase01": [
+      "title"
+    ],
+    "Showcase02": [
+      "title",
+      "productsLimit"
+    ],
+    "Showcase03": [
+      "title",
+      "link",
+      "viewAllLabel"
+    ],
+    "Showcase04": [
+      "title",
+      "link",
+      "viewAllLabel"
+    ],
+    "Showcase05": [
+      "title",
+      "link",
+      "viewAllLabel"
+    ],
+    "Showcase06": [
+      "title"
+    ],
+    "Showcase07": [
+      "title",
+      "viewAllLabel",
+      "viewAllUrl"
+    ],
+    "Showcase08": [
+      "title",
+      "subtitle",
+      "viewAllLabel",
+      "viewAllUrl"
     ],
     "Showcase09": [
       "title",
@@ -1929,6 +2566,16 @@
       "viewAllLabel",
       "viewAllUrl",
       "tagLabel"
+    ],
+    "SpecialOffers04": [
+      "title",
+      "text",
+      "ctaLabel",
+      "ctaUrl",
+      "cards"
+    ],
+    "TextArea": [
+      "html"
     ]
   }
 }

@@ -1,67 +1,47 @@
 import React from 'react';
+
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
+/**
+ * Conteúdo: os nomes do `section.schema` do HomeCarousel06 do starter
+ * (`categories[]`: `img`, `title`, `link`), com o mock por baixo do que o CS subir.
+ */
+interface HomeCarouselConteudo {
+  categories: { img?: string; title?: string; link?: string }[];
+}
+
+const MOCK: HomeCarouselConteudo = {
+  categories: [
+    { title: 'Categoria 1', link: '#', img: 'https://placehold.co/250x250' },
+    { title: 'Categoria 2', link: '#', img: 'https://placehold.co/250x250' },
+    { title: 'Categoria 3', link: '#', img: 'https://placehold.co/250x250' },
+    { title: 'Categoria 4', link: '#', img: 'https://placehold.co/250x250' },
+    { title: 'Categoria 5', link: '#', img: 'https://placehold.co/250x250' },
+    { title: 'Categoria 6', link: '#', img: 'https://placehold.co/250x250' },
+    { title: 'Categoria 7', link: '#', img: 'https://placehold.co/250x250' },
+    { title: 'Categoria 8', link: '#', img: 'https://placehold.co/250x250' },
+  ],
+};
+
 export default function HomeCarousel() {
-  const categories = [
-    {
-      position: 1,
-      title: 'Categoria 1',
-      link: '#',
-      img: 'https://placehold.co/250x250',
-    },
-    {
-      position: 2,
-      title: 'Categoria 2',
-      link: '#',
-      img: 'https://placehold.co/250x250',
-    },
-    {
-      position: 3,
-      title: 'Categoria 3',
-      link: '#',
-      img: 'https://placehold.co/250x250',
-    },
-    {
-      position: 4,
-      title: 'Categoria 4',
-      link: '#',
-      img: 'https://placehold.co/250x250',
-    },
-    {
-      position: 5,
-      title: 'Categoria 5',
-      link: '#',
-      img: 'https://placehold.co/250x250',
-    },
-    {
-      position: 6,
-      title: 'Categoria 6',
-      link: '#',
-      img: 'https://placehold.co/250x250',
-    },
-    {
-      position: 7,
-      title: 'Categoria 7',
-      link: '#',
-      img: 'https://placehold.co/250x250',
-    },
-    {
-      position: 8,
-      title: 'Categoria 8',
-      link: '#',
-      img: 'https://placehold.co/250x250',
-    },
-  ];
+  const { categories } = useConteudoDaSecao(MOCK);
+  const items = categories.filter(c => c && (c.img || c.title));
+
+  if (!items.length) return null;
 
   return (
     <section className={styles.carouselContainer} data-role="hc-root">
       <div className="component__container">
         <div className={styles.swiper}>
           <div className={styles.swiperWrapper}>
-            {categories.map((cat, index) => (
+            {items.map((cat, index) => (
               <div key={index} className={styles.swiperSlide}>
-                <a href={cat.link} className={styles.rulerItem} data-role="hc-item">
-                  <img src={cat.img} alt={cat.title} data-role="hc-img" />
+                <a href={cat.link || '#'} className={styles.rulerItem} data-role="hc-item">
+                  {cat.img && (
+                    <img src={cat.img} alt={cat.title ?? ''} data-role="hc-img" />
+                  )}
                   <span data-role="hc-title">{cat.title}</span>
                 </a>
               </div>
@@ -74,3 +54,6 @@ export default function HomeCarousel() {
     </section>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+HomeCarousel.conteudoPadrao = MOCK;

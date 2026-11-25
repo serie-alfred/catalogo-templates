@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import { ICO_PAGAMENTO, ICO_SOCIAL } from './icons';
@@ -10,7 +11,9 @@ import styles from './index.module.css';
  * A" (Figma 7316:17345 / 7316:17390). Mesmo markup, classes, `data-role` e vars de
  * Nível 1. A régua de benefícios e a newsletter do Figma são blocos da LP
  * BlackFriday01. A linha legal leva placeholders (no Figma é a de outra empresa).
- * Logo: o que o usuário enviou no /gerador; sem ele, a marca do modelo (asterisco).
+ * Logo: o do CS, senão o que o usuário enviou no /gerador; sem ele, a marca em texto
+ * SERIE//A (o asterisco do modelo saiu). Conteúdo = o mock.ts de lá, por baixo do que
+ * o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  */
 
 const FONTES =
@@ -19,7 +22,7 @@ const FONTES =
 const IMG = '/gerador/footer08';
 
 const REDES = ['youtube', 'instagram', 'x', 'linkedin', 'facebook'] as const;
-const ROTULO_REDE = {
+const ROTULO_REDE: Record<string, string> = {
   youtube: 'YouTube',
   instagram: 'Instagram',
   x: 'X',
@@ -27,41 +30,69 @@ const ROTULO_REDE = {
   facebook: 'Facebook',
 };
 
-const PAGAMENTOS = [
-  ['visa', 'Visa'],
-  ['mastercard', 'Mastercard'],
-  ['diners', 'Diners Club'],
-  ['hipercard', 'Hipercard'],
-  ['elo', 'Elo'],
-  ['amex', 'American Express'],
-  ['aura', 'Aura'],
-  ['boleto', 'Boleto'],
-  ['pix', 'Pix'],
-] as const;
+const ROTULO_PAGAMENTO: Record<string, string> = {
+  visa: 'Visa',
+  mastercard: 'Mastercard',
+  diners: 'Diners Club',
+  hipercard: 'Hipercard',
+  elo: 'Elo',
+  amex: 'American Express',
+  aura: 'Aura',
+  boleto: 'Boleto',
+  pix: 'Pix',
+};
 
-const COLUNAS = [
-  [
-    'Site map',
-    'Institucional',
-    'Terms & conditions',
-    'Cookie policy',
-    'Cookie policy',
-  ],
-  [
-    'Cookie policy',
-    'Privacy policy',
-    'Site map',
-    'Terms & conditions',
-    'Cookie policy',
-  ],
-];
+interface Footer08Conteudo {
+  logo?: string;
+  logoAlt?: string;
+  text?: string;
+  socialTitle?: string;
+  socials: { network?: string; url?: string }[];
+  columns: { title?: string; links: { label?: string; url?: string }[] }[];
+  paymentTitle?: string;
+  payments: { method?: string }[];
+  sealsTitle?: string;
+  seals: { image?: string; alt?: string; width?: number }[];
+  legal?: string;
+}
 
-const SELOS = [
-  { src: `${IMG}/yourviews.png`, alt: 'Yourviews', width: 29 },
-  { src: `${IMG}/google-reviews.png`, alt: 'Google Reviews', width: 76 },
-  { src: `${IMG}/clearsale.png`, alt: 'Clear Sale', width: 52 },
-  { src: `${IMG}/letsencrypt.svg`, alt: "Let's Encrypt", width: 40 },
-];
+const institucional = (labels: string[]) => ({
+  title: 'Institucional',
+  links: labels.map(label => ({ label, url: '#' })),
+});
+
+const MOCK: Footer08Conteudo = {
+  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nBlandit maecenas volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit maecenas volutpat.',
+  socialTitle: 'Redes Sociais',
+  socials: REDES.map(network => ({ network, url: '#' })),
+  columns: [
+    institucional([
+      'Site map',
+      'Institucional',
+      'Terms & conditions',
+      'Cookie policy',
+      'Cookie policy',
+    ]),
+    institucional([
+      'Cookie policy',
+      'Privacy policy',
+      'Site map',
+      'Terms & conditions',
+      'Cookie policy',
+    ]),
+  ],
+  paymentTitle: 'Pagamento',
+  payments: Object.keys(ROTULO_PAGAMENTO).map(method => ({ method })),
+  sealsTitle: 'selos',
+  seals: [
+    { image: `${IMG}/yourviews.png`, alt: 'Yourviews', width: 29 },
+    { image: `${IMG}/google-reviews.png`, alt: 'Google Reviews', width: 76 },
+    { image: `${IMG}/clearsale.png`, alt: 'Clear Sale', width: 52 },
+    { image: `${IMG}/letsencrypt.svg`, alt: "Let's Encrypt", width: 40 },
+  ],
+  legal:
+    'RAZÃO SOCIAL DA LOJA LTDA - CNPJ: 00.000.000/0000-00 © Todos os direitos reservados. Os preços exibidos nessa loja são fictícios e servem apenas para demonstração\nTecnologia da plataforma',
+};
 
 /** Crédito padrão da agência na barra legal: "Desenvolvido por:" + logo SÉRIE//A. Fixo, fora do CMS. */
 const Credit = () => (
@@ -112,7 +143,28 @@ const Svg = ({
 );
 
 export default function Footer08() {
-  const logo = useLogoDoRodape();
+  const logoDoRodape = useLogoDoRodape();
+  const {
+    logo: logoDoConteudo,
+    logoAlt,
+    text,
+    socialTitle,
+    socials,
+    columns,
+    paymentTitle,
+    payments,
+    sealsTitle,
+    seals,
+    legal,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDoConteudo || logoDoRodape;
+  // Só o que tem rótulo e ícone: rede ou bandeira que a réplica não conhece sai.
+  const redes = socials.filter(
+    s => s.network && ROTULO_REDE[s.network] && ICO_SOCIAL[s.network]
+  );
+  const pagamentos = payments.filter(
+    p => p.method && ROTULO_PAGAMENTO[p.method] && ICO_PAGAMENTO[p.method]
+  );
   // O envelope é o container das regras mobile: a raiz também tem regra mobile, e
   // uma @container não estiliza o próprio container.
   return (
@@ -129,48 +181,66 @@ export default function Footer08() {
                 data-role="ft-logo"
               >
                 {logo ? (
-                  <img src={logo} alt="Logo" height={48} loading="lazy" />
+                  <img
+                    src={logo}
+                    alt={logoAlt || 'Logo'}
+                    height={48}
+                    loading="lazy"
+                  />
                 ) : (
                   <span className={styles.logoText}>SERIE//A</span>
                 )}
               </a>
-              <p className={styles.text} data-role="ft-text">
-                {
-                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nBlandit maecenas volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Blandit maecenas volutpat.'
-                }
-              </p>
+              {text && (
+                <p className={styles.text} data-role="ft-text">
+                  {text}
+                </p>
+              )}
             </div>
-            <div className={styles.social}>
-              <p className={styles.heading} data-role="ft-heading">
-                Redes Sociais
-              </p>
-              <ul className={styles.socialList}>
-                {REDES.map(r => (
-                  <li key={r}>
-                    <a
-                      className={styles.socialLink}
-                      href="#"
-                      aria-label={ROTULO_REDE[r]}
-                      data-role="ft-social"
-                    >
-                      <Svg svg={ICO_SOCIAL[r]} className={styles.ico} />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            {redes.length > 0 && (
+              <div className={styles.social}>
+                {socialTitle && (
+                  <p className={styles.heading} data-role="ft-heading">
+                    {socialTitle}
+                  </p>
+                )}
+                <ul className={styles.socialList}>
+                  {redes.map((r, i) => (
+                    <li key={i}>
+                      <a
+                        className={styles.socialLink}
+                        href={r.url || '#'}
+                        aria-label={ROTULO_REDE[r.network as string]}
+                        data-role="ft-social"
+                      >
+                        <Svg
+                          svg={ICO_SOCIAL[r.network as string]}
+                          className={styles.ico}
+                        />
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
           <nav className={styles.columns} aria-label="Links do rodapé">
-            {COLUNAS.map((links, i) => (
+            {columns.map((col, i) => (
               <div key={i} className={styles.column}>
-                <p className={styles.heading} data-role="ft-heading">
-                  Institucional
-                </p>
+                {col.title && (
+                  <p className={styles.heading} data-role="ft-heading">
+                    {col.title}
+                  </p>
+                )}
                 <ul className={styles.links}>
-                  {links.map((l, j) => (
+                  {col.links.map((l, j) => (
                     <li key={j}>
-                      <a className={styles.link} href="#" data-role="ft-link">
-                        {l}
+                      <a
+                        className={styles.link}
+                        href={l.url || '#'}
+                        data-role="ft-link"
+                      >
+                        {l.label}
                       </a>
                     </li>
                   ))}
@@ -181,50 +251,63 @@ export default function Footer08() {
         </div>
 
         <div className={styles.bottom}>
-          <div className={styles.payments}>
-            <p className={styles.subheading} data-role="ft-subheading">
-              Pagamento
+          {pagamentos.length > 0 && (
+            <div className={styles.payments}>
+              {paymentTitle && (
+                <p className={styles.subheading} data-role="ft-subheading">
+                  {paymentTitle}
+                </p>
+              )}
+              <ul className={styles.paymentList}>
+                {pagamentos.map((p, i) => (
+                  <li key={i} data-role="ft-payment">
+                    <Svg
+                      svg={ICO_PAGAMENTO[p.method as string]}
+                      className={styles.ico}
+                      label={ROTULO_PAGAMENTO[p.method as string]}
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {seals.length > 0 && (
+            <div className={styles.seals}>
+              {sealsTitle && (
+                <p className={styles.subheading} data-role="ft-subheading">
+                  {sealsTitle}
+                </p>
+              )}
+              <ul className={styles.sealList}>
+                {seals.map((s, i) =>
+                  s.image ? (
+                    <li key={i} data-role="ft-seal">
+                      {/* `style`: o `img { width: 100% }` global do catálogo anula o atributo. */}
+                      <img
+                        className={styles.seal}
+                        src={s.image}
+                        alt={s.alt ?? ''}
+                        width={s.width}
+                        height={32}
+                        style={s.width ? { width: s.width } : undefined}
+                      />
+                    </li>
+                  ) : null
+                )}
+              </ul>
+            </div>
+          )}
+          {legal && (
+            <p className={styles.legal} data-role="ft-legal">
+              {legal}
             </p>
-            <ul className={styles.paymentList}>
-              {PAGAMENTOS.map(([k, rotulo]) => (
-                <li key={k} data-role="ft-payment">
-                  <Svg
-                    svg={ICO_PAGAMENTO[k]}
-                    className={styles.ico}
-                    label={rotulo}
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className={styles.seals}>
-            <p className={styles.subheading} data-role="ft-subheading">
-              selos
-            </p>
-            <ul className={styles.sealList}>
-              {SELOS.map(s => (
-                <li key={s.alt} data-role="ft-seal">
-                  {/* `style`: o `img { width: 100% }` global do catálogo anula o atributo. */}
-                  <img
-                    className={styles.seal}
-                    src={s.src}
-                    alt={s.alt}
-                    width={s.width}
-                    height={32}
-                    style={{ width: s.width }}
-                  />
-                </li>
-              ))}
-            </ul>
-          </div>
-          <p className={styles.legal} data-role="ft-legal">
-            {
-              'RAZÃO SOCIAL DA LOJA LTDA - CNPJ: 00.000.000/0000-00 © Todos os direitos reservados. Os preços exibidos nessa loja são fictícios e servem apenas para demonstração\nTecnologia da plataforma'
-            }
-          </p>
+          )}
           <Credit />
         </div>
       </footer>
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Footer08.conteudoPadrao = MOCK;

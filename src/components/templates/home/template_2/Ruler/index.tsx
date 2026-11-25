@@ -1,18 +1,29 @@
 // RulerBanner.jsx
 import React from 'react';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 type RulerIcon = 'entrega' | 'cartao' | 'seguranca' | 'troca' | 'promocao';
 
 // Um ícone por benefício, como o bloco ruler_02 da Wake (o lojista escolhe o ícone de cada um no
 // Design Studio; estes são os padrões da posição).
-const rulerItems: { title: string; text: string; icon: RulerIcon; type?: string }[] = [
-  { title: 'Entrega Expressa', text: 'para todo o Brasil', icon: 'entrega', type: 'shipping' },
-  { title: 'Parcele em até 10x', text: 'sem juros no cartão', icon: 'cartao' },
-  { title: 'Compra Segura', text: 'site 100% protegido', icon: 'seguranca' },
-  { title: 'Troca Fácil', text: 'em até 30 dias', icon: 'troca' },
-  { title: '10% OFF 1ª Compra', text: 'bônus primeira compra', icon: 'promocao' },
-];
+const ICONE_DA_POSICAO: RulerIcon[] = ['entrega', 'cartao', 'seguranca', 'troca', 'promocao'];
+
+/** O conteúdo da seção: os campos do `section.schema` do Ruler02 que a réplica desenha. */
+interface Ruler02Conteudo {
+  benefits: { title?: string; text?: string }[];
+}
+
+const MOCK: Ruler02Conteudo = {
+  benefits: [
+    { title: 'Entrega Expressa', text: 'para todo o Brasil' },
+    { title: 'Parcele em até 10x', text: 'sem juros no cartão' },
+    { title: 'Compra Segura', text: 'site 100% protegido' },
+    { title: 'Troca Fácil', text: 'em até 30 dias' },
+    { title: '10% OFF 1ª Compra', text: 'bônus primeira compra' },
+  ],
+};
 
 const TRACO = {
   stroke: 'currentColor',
@@ -75,6 +86,11 @@ function RulerIconSvg({ icon }: { icon: RulerIcon }) {
 }
 
 export default function Ruler() {
+  const { benefits } = useConteudoDaSecao(MOCK);
+  const rulerItems = benefits.filter(b => b && (b.title || b.text));
+
+  if (!rulerItems.length) return null;
+
   return (
     <div className={styles.homeRuler} data-role="ruler">
       <div className={`${styles.rulerContainer} component__container`}>
@@ -83,15 +99,15 @@ export default function Ruler() {
             {rulerItems.map((item, index) => (
               <div className={styles.swiper__slide} key={index} data-role="ruler-item">
                 <div
-                  className={`${styles.rulerItem} ${item.type ? styles[item.type] : ''}`}
+                  className={`${styles.rulerItem} ${index === 0 ? styles.shipping : ''}`}
                 >
                   <div className={styles.itemIcon} data-role="ruler-icon">
-                    <RulerIconSvg icon={item.icon} />
+                    <RulerIconSvg icon={ICONE_DA_POSICAO[index % ICONE_DA_POSICAO.length]} />
                   </div>
 
                   <div className={styles.itemText}>
                     <span data-role="ruler-text">
-                      <b data-role="ruler-title">{item.title}</b>
+                      {item.title && <b data-role="ruler-title">{item.title}</b>}
                       {item.text}
                     </span>
                   </div>
@@ -140,3 +156,6 @@ export default function Ruler() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Ruler.conteudoPadrao = MOCK;

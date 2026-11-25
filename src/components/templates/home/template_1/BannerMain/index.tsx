@@ -4,38 +4,48 @@ import type { Swiper as SwiperType } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
+/** Um slide: os campos de `desktopSlides[]` / `mobileSlides[]` no `section.schema` do BannerMain01. */
 interface SlideItem {
-  link: string;
-  target: string;
-  image: string;
-  label: string;
-  width: number;
-  height: number;
+  link?: string;
+  target?: string;
+  image?: string;
+  label?: string;
+  width?: number;
+  height?: number;
 }
 
-const slidesDesktop: SlideItem[] = [
-  {
-    link: '#',
-    target: '_blank',
-    image: 'https://placehold.co/1920x400',
-    label: 'Banner Desktop',
-    width: 1200,
-    height: 400,
-  },
-];
+/** O conteúdo da seção: os campos do `section.schema` do BannerMain01. */
+interface BannerMain01Conteudo {
+  desktopSlides: SlideItem[];
+  mobileSlides: SlideItem[];
+}
 
-const slidesMobile: SlideItem[] = [
-  {
-    link: '#',
-    target: '_blank',
-    image: 'https://placehold.co/390x460',
-    label: 'Banner Mobile',
-    width: 600,
-    height: 300,
-  },
-];
+const MOCK: BannerMain01Conteudo = {
+  desktopSlides: [
+    {
+      link: '#',
+      target: '_blank',
+      image: 'https://placehold.co/1920x400',
+      label: 'Banner Desktop',
+      width: 1200,
+      height: 400,
+    },
+  ],
+  mobileSlides: [
+    {
+      link: '#',
+      target: '_blank',
+      image: 'https://placehold.co/390x460',
+      label: 'Banner Mobile',
+      width: 600,
+      height: 300,
+    },
+  ],
+};
 
 // Loop/autoplay do Swiper precisam de mais de um slide; replica o mock
 // existente até ter ao menos 3 quando só há um banner cadastrado.
@@ -63,10 +73,10 @@ function BannerSlider({ slides }: { slides: SlideItem[] }) {
       >
         {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-            <a href={slide.link} target={slide.target}>
+            <a href={slide.link || '#'} target={slide.target}>
               <img
                 src={slide.image}
-                alt={slide.label}
+                alt={slide.label ?? ''}
                 width={slide.width}
                 height={slide.height}
                 fetchPriority="high"
@@ -137,8 +147,9 @@ function BannerSlider({ slides }: { slides: SlideItem[] }) {
 }
 
 export default function BannerMain() {
-  const desktopSlides = ensureSlides(slidesDesktop);
-  const mobileSlides = ensureSlides(slidesMobile);
+  const conteudo = useConteudoDaSecao(MOCK);
+  const desktopSlides = ensureSlides(conteudo.desktopSlides);
+  const mobileSlides = ensureSlides(conteudo.mobileSlides);
 
   if (!desktopSlides.length && !mobileSlides.length) return null;
 
@@ -168,3 +179,6 @@ export default function BannerMain() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerMain.conteudoPadrao = MOCK;

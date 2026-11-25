@@ -6,9 +6,11 @@ import styles from './index.module.css';
 import {
   FONTES_09,
   ProductCard09,
+  deProduto09,
   type Produto09,
 } from '@/components/templates/common/template_9/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
@@ -348,8 +350,11 @@ export default function CategoryMain09() {
   const [mockSelected, setMockSelected] = useState<Selected[]>(SELECTED_INICIAL);
   const [sort, setSort] = useState(SORT_INICIAL);
   const userFacets: Selected[] = stageEmpty ? [] : mockSelected;
-  const products: Produto09[] = stageEmpty ? [] : PRODUTOS;
-  const totalCount = stageEmpty ? 0 : TOTAL;
+  // Com produtos da loja, a grade mostra todos eles e a contagem é a deles (sem
+  // "carregar mais"); as facetas continuam as de exemplo, só de desenho.
+  const daLoja = useProdutosDaLoja();
+  const products: Produto09[] = stageEmpty ? [] : daLoja ? daLoja.map(deProduto09) : PRODUTOS;
+  const totalCount = stageEmpty ? 0 : daLoja ? daLoja.length : TOTAL;
 
   const commit = (nextUser: Selected[]) => setMockSelected(nextUser);
   const facetOf = (key: string) => facets.find(f => f.key === key);
@@ -650,8 +655,8 @@ export default function CategoryMain09() {
             <ul className={styles.grid} data-role="cm-grid">
               {products.map((p, i) => (
                 <li key={p.id ?? i} className={styles.gridItem}>
-                  <CardDaLoja familia="Spot09">
-                    <ProductCard09 product={p} />
+                  <CardDaLoja familia="Spot09" produto={daLoja?.[i]}>
+                    <ProductCard09 product={p} badge={daLoja?.[i]?.badge} />
                   </CardDaLoja>
                 </li>
               ))}

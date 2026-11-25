@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, type SyntheticEvent } from 'react';
+import React, { useState, type SyntheticEvent } from 'react';
 
 import styles from './index.module.css';
 import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 /** Crédito padrão da agência (bloco "Desenvolvido por: SÉRIE//A"). Conteúdo fixo, fora do CMS. */
 const Credit = () => (
@@ -81,8 +82,141 @@ const ColChevron = () => (
   </div>
 );
 
+/** Os ícones que o campo `icon` dos benefícios aceita (os que a réplica desenha). */
+const ICONES_DE_BENEFICIO: Record<string, React.ReactNode> = {
+  truck: (
+    <svg viewBox="0 0 24 24">
+        <path d="M3 7h11v8H3z" />
+        <path d="M14 10h4l3 3v2h-7" />
+        <circle cx="7" cy="17.5" r="1.6" />
+        <circle cx="17" cy="17.5" r="1.6" />
+    </svg>
+  ),
+  return: (
+    <svg viewBox="0 0 24 24">
+        <path d="M4 11a8 8 0 0 1 14-5.3" />
+        <path d="M18 3v4h-4" />
+        <path d="M20 13a8 8 0 0 1-14 5.3" />
+        <path d="M6 21v-4h4" />
+    </svg>
+  ),
+  shield: (
+    <svg viewBox="0 0 24 24">
+        <path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z" />
+        <path d="m9.5 12.2 1.8 1.8 3.5-3.7" />
+    </svg>
+  ),
+  headset: (
+    <svg viewBox="0 0 24 24">
+        <path d="M4 13a8 8 0 0 1 16 0v3a3 3 0 0 1-3 3h-1v-6h4" />
+        <path d="M4 13v3a3 3 0 0 0 3 3h1v-6H4" />
+    </svg>
+  ),
+  calendar: (
+    <svg viewBox="0 0 24 24">
+        <path d="M5 5h14v14H5z" />
+        <path d="M3 9h18" />
+        <path d="M9 3v4" />
+        <path d="M15 3v4" />
+        <path d="m12 13 1.2 2.5 2.8.4-2 2 .5 2.7-2.5-1.3-2.5 1.3.5-2.7-2-2 2.8-.4Z" />
+    </svg>
+  ),
+};
+
+/** O conteúdo da seção: os campos do `section.schema` do Footer03 que a réplica desenha. */
+interface Footer03Conteudo {
+  brandName?: string;
+  brandDescription?: string;
+  socialInstagram?: string;
+  socialTiktok?: string;
+  socialYoutube?: string;
+  socialPinterest?: string;
+  benefits: { icon?: string; title?: string; subtitle?: string }[];
+  institucionalTitle?: string;
+  institucionalMenu: { name?: string; url?: string }[];
+  atendimentoTitle?: string;
+  atendimentoMenu: { name?: string; url?: string }[];
+  categoriasTitle?: string;
+  categoriasMenu: { name?: string; url?: string; isHighlight?: boolean }[];
+  policiesTitle?: string;
+  policiesMenu: { name?: string; url?: string }[];
+  newsletterEyebrow?: string;
+  newsletterTitle?: string;
+  newsletterSubtitle?: string;
+  paymentMethods: { label?: string; isHighlight?: boolean }[];
+  copyright?: string;
+  cnpj?: string;
+  newsletterButtonLabel?: string;
+  newsletterSuccessTitle?: string;
+  newsletterSuccessText?: string;
+  pagamentoTitle?: string;
+  selo1Label?: string;
+  selo2Label?: string;
+  selo3Label?: string;
+}
+
+const L = (name: string): { name: string; url: string } => ({ name, url: '#' });
+
+const MOCK: Footer03Conteudo = {
+  brandDescription:
+    'Moda masculina streetwear com estética urbana, acabamento premium e atitude contemporânea. Feita em pequenas tiragens, em São\u00a0Paulo.',
+  socialInstagram: '#',
+  socialTiktok: '#',
+  socialYoutube: '#',
+  socialPinterest: '#',
+  benefits: [
+    { icon: 'truck', title: 'Frete grátis acima de R$ 350', subtitle: 'Para todo o Brasil, em compras à vista ou em até 6×.' },
+    { icon: 'return', title: 'Troca fácil em 30 dias', subtitle: 'Devolução simples e rápida em qualquer Correios.' },
+    { icon: 'shield', title: 'Compra 100% segura', subtitle: 'Criptografia SSL, dados protegidos e antifraude.' },
+    { icon: 'headset', title: 'Atendimento especializado', subtitle: 'Time fluente em fits, tamanhos e novos drops.' },
+    { icon: 'calendar', title: 'Drops toda semana', subtitle: 'Coleções limitadas, todas as quintas, às 19h.' },
+  ],
+  institucionalTitle: 'Institucional',
+  institucionalMenu: ['Sobre a marca', 'Nossa história', 'Lojas e showroom', 'Trabalhe conosco', 'Blog · Diário BRAND', 'Imprensa', 'Sustentabilidade'].map(L),
+  atendimentoTitle: 'Atendimento',
+  atendimentoMenu: ['Central de atendimento', 'Trocas e devoluções', 'Política de entrega', 'Dúvidas frequentes', 'Rastrear pedido', 'Guia de tamanhos', 'Fale conosco'].map(L),
+  categoriasTitle: 'Categorias',
+  categoriasMenu: [
+    ...['Novidades', 'Camisetas', 'Moletons', 'Calças', 'Jaquetas', 'Acessórios'].map(L),
+    { name: 'Sale', url: '#', isHighlight: true },
+  ],
+  policiesTitle: 'Políticas',
+  policiesMenu: ['Política de privacidade', 'Termos de uso', 'Política de cookies', 'Política de troca', 'LGPD'].map(L),
+  newsletterEyebrow: 'Newsletter',
+  newsletterTitle: 'Fique por dentro dos novos drops',
+  newsletterSubtitle:
+    'Receba lançamentos, ofertas exclusivas e novidades da marca em primeira mão — todas as quintas, antes de irem ao ar.',
+  paymentMethods: [
+    { label: 'VISA' },
+    { label: 'MASTERCARD' },
+    { label: 'AMEX' },
+    { label: 'ELO' },
+    { label: 'HIPER' },
+    { label: 'PIX', isHighlight: true },
+    { label: 'BOLETO' },
+  ],
+  copyright: '© 2026 BRAND. Todos os direitos reservados.',
+  // Só marcadores para a loja preencher: nada de razão social, CNPJ ou endereço inventados.
+  cnpj: '[RAZÃO SOCIAL] · CNPJ [00.000.000/0001-00] · [Endereço completo]',
+  newsletterButtonLabel: 'Cadastrar',
+  newsletterSuccessTitle: 'Pronto.',
+  newsletterSuccessText: 'Você está na lista do próximo drop.',
+  pagamentoTitle: 'Pagamento',
+  selo1Label: 'SSL · Certificado',
+  selo2Label: 'Compra protegida',
+  selo3Label: 'Pagamento criptografado',
+};
+
 const FooterNovo = () => {
   const logo = useLogoDoRodape();
+  const {
+    brandName, brandDescription, socialInstagram, socialTiktok, socialYoutube, socialPinterest,
+    benefits, institucionalTitle, institucionalMenu, atendimentoTitle, atendimentoMenu,
+    categoriasTitle, categoriasMenu, policiesTitle, policiesMenu,
+    newsletterEyebrow, newsletterTitle, newsletterSubtitle, paymentMethods,
+    copyright, cnpj, newsletterButtonLabel, newsletterSuccessTitle, newsletterSuccessText,
+    pagamentoTitle, selo1Label, selo2Label, selo3Label,
+  } = useConteudoDaSecao(MOCK);
   const [open, setOpen] = useState<Record<string, boolean>>({
     institucional: true,
     atendimento: true,
@@ -104,89 +238,19 @@ const FooterNovo = () => {
     <footer className={styles.siteFooter} role="contentinfo">
       <section className={styles.benefits} aria-label="Benefícios da loja">
         <div className={styles.benefitsInner}>
-          <article className={styles.benefit}>
-            <span className={styles.benefitIcon}>
-              <svg viewBox="0 0 24 24">
-                <path d="M3 7h11v8H3z" />
-                <path d="M14 10h4l3 3v2h-7" />
-                <circle cx="7" cy="17.5" r="1.6" />
-                <circle cx="17" cy="17.5" r="1.6" />
-              </svg>
-            </span>
-            <div>
-              <p className={styles.benefitTitle}>
-                Frete grátis acima de R$ 350
-              </p>
-              <p className={styles.benefitSub}>
-                Para todo o Brasil, em compras à vista ou em até 6×.
-              </p>
-            </div>
-          </article>
-
-          <article className={styles.benefit}>
-            <span className={styles.benefitIcon}>
-              <svg viewBox="0 0 24 24">
-                <path d="M4 11a8 8 0 0 1 14-5.3" />
-                <path d="M18 3v4h-4" />
-                <path d="M20 13a8 8 0 0 1-14 5.3" />
-                <path d="M6 21v-4h4" />
-              </svg>
-            </span>
-            <div>
-              <p className={styles.benefitTitle}>Troca fácil em 30 dias</p>
-              <p className={styles.benefitSub}>
-                Devolução simples e rápida em qualquer Correios.
-              </p>
-            </div>
-          </article>
-
-          <article className={styles.benefit}>
-            <span className={styles.benefitIcon}>
-              <svg viewBox="0 0 24 24">
-                <path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z" />
-                <path d="m9.5 12.2 1.8 1.8 3.5-3.7" />
-              </svg>
-            </span>
-            <div>
-              <p className={styles.benefitTitle}>Compra 100% segura</p>
-              <p className={styles.benefitSub}>
-                Criptografia SSL, dados protegidos e antifraude.
-              </p>
-            </div>
-          </article>
-
-          <article className={styles.benefit}>
-            <span className={styles.benefitIcon}>
-              <svg viewBox="0 0 24 24">
-                <path d="M4 13a8 8 0 0 1 16 0v3a3 3 0 0 1-3 3h-1v-6h4" />
-                <path d="M4 13v3a3 3 0 0 0 3 3h1v-6H4" />
-              </svg>
-            </span>
-            <div>
-              <p className={styles.benefitTitle}>Atendimento especializado</p>
-              <p className={styles.benefitSub}>
-                Time fluente em fits, tamanhos e novos drops.
-              </p>
-            </div>
-          </article>
-
-          <article className={styles.benefit}>
-            <span className={styles.benefitIcon}>
-              <svg viewBox="0 0 24 24">
-                <path d="M5 5h14v14H5z" />
-                <path d="M3 9h18" />
-                <path d="M9 3v4" />
-                <path d="M15 3v4" />
-                <path d="m12 13 1.2 2.5 2.8.4-2 2 .5 2.7-2.5-1.3-2.5 1.3.5-2.7-2-2 2.8-.4Z" />
-              </svg>
-            </span>
-            <div>
-              <p className={styles.benefitTitle}>Drops toda semana</p>
-              <p className={styles.benefitSub}>
-                Coleções limitadas, todas as quintas, às 19h.
-              </p>
-            </div>
-          </article>
+          {benefits.map((b, i) => (
+            <article key={i} className={styles.benefit}>
+              {b.icon && ICONES_DE_BENEFICIO[b.icon] && (
+                <span className={styles.benefitIcon}>
+                  {ICONES_DE_BENEFICIO[b.icon]}
+                </span>
+              )}
+              <div>
+                {b.title && <p className={styles.benefitTitle}>{b.title}</p>}
+                {b.subtitle && <p className={styles.benefitSub}>{b.subtitle}</p>}
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -196,19 +260,18 @@ const FooterNovo = () => {
             <a href="#" className={styles.brandLogo}>
               {logo ? (
                 <img src={logo} alt="Logo" className={styles.brandLogoImg} />
+              ) : brandName ? (
+                brandName
               ) : (
                 <>
                   SERIE<span>{'//'}</span>A
                 </>
               )}
             </a>
-            <p>
-              Moda masculina streetwear com estética urbana, acabamento premium
-              e atitude contemporânea. Feita em pequenas tiragens, em
-              São&nbsp;Paulo.
-            </p>
+            {brandDescription && <p>{brandDescription}</p>}
             <div className={styles.socials} aria-label="Redes sociais">
-              <a href="#" aria-label="Instagram">
+              {socialInstagram && (
+              <a href={socialInstagram} aria-label="Instagram">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -228,7 +291,9 @@ const FooterNovo = () => {
                   />
                 </svg>
               </a>
-              <a href="#" aria-label="TikTok">
+              )}
+              {socialTiktok && (
+              <a href={socialTiktok} aria-label="TikTok">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -241,7 +306,9 @@ const FooterNovo = () => {
                   <path d="M14 4c.4 2.5 2.4 4.3 5 4.5" />
                 </svg>
               </a>
-              <a href="#" aria-label="YouTube">
+              )}
+              {socialYoutube && (
+              <a href={socialYoutube} aria-label="YouTube">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -254,7 +321,9 @@ const FooterNovo = () => {
                   <path d="m10 9.5 5 2.5-5 2.5z" fill="currentColor" />
                 </svg>
               </a>
-              <a href="#" aria-label="Pinterest">
+              )}
+              {socialPinterest && (
+              <a href={socialPinterest} aria-label="Pinterest">
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
@@ -268,6 +337,7 @@ const FooterNovo = () => {
                   <path d="M10.6 12 9 21" />
                 </svg>
               </a>
+              )}
             </div>
           </div>
 
@@ -277,32 +347,18 @@ const FooterNovo = () => {
             onToggle={handleToggle('institucional')}
           >
             <summary className={styles.colHead}>
-              <span>Institucional</span>
+              <span>{institucionalTitle}</span>
               <ColChevron />
             </summary>
 
             <ul className={styles.colList}>
-              <li>
-                <a href="#">Sobre a marca</a>
-              </li>
-              <li>
-                <a href="#">Nossa história</a>
-              </li>
-              <li>
-                <a href="#">Lojas e showroom</a>
-              </li>
-              <li>
-                <a href="#">Trabalhe conosco</a>
-              </li>
-              <li>
-                <a href="#">Blog · Diário BRAND</a>
-              </li>
-              <li>
-                <a href="#">Imprensa</a>
-              </li>
-              <li>
-                <a href="#">Sustentabilidade</a>
-              </li>
+              {institucionalMenu.map((item, i) => (
+                <li key={i}>
+                  <a href={item.url || '#'}>
+                    {item.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </details>
 
@@ -312,31 +368,17 @@ const FooterNovo = () => {
             onToggle={handleToggle('atendimento')}
           >
             <summary className={styles.colHead}>
-              <span>Atendimento</span>
+              <span>{atendimentoTitle}</span>
               <ColChevron />
             </summary>
-            <ul className={`${styles.colList}`}>
-              <li>
-                <a href="#">Central de atendimento</a>
-              </li>
-              <li>
-                <a href="#">Trocas e devoluções</a>
-              </li>
-              <li>
-                <a href="#">Política de entrega</a>
-              </li>
-              <li>
-                <a href="#">Dúvidas frequentes</a>
-              </li>
-              <li>
-                <a href="#">Rastrear pedido</a>
-              </li>
-              <li>
-                <a href="#">Guia de tamanhos</a>
-              </li>
-              <li>
-                <a href="#">Fale conosco</a>
-              </li>
+            <ul className={styles.colList}>
+              {atendimentoMenu.map((item, i) => (
+                <li key={i}>
+                  <a href={item.url || '#'}>
+                    {item.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </details>
 
@@ -346,33 +388,18 @@ const FooterNovo = () => {
             onToggle={handleToggle('categorias')}
           >
             <summary className={styles.colHead}>
-              <span>Categorias</span>
+              <span>{categoriasTitle}</span>
               <ColChevron />
             </summary>
             <ul className={styles.colList}>
-              <li>
-                <a href="#">Novidades</a>
-              </li>
-              <li>
-                <a href="#">Camisetas</a>
-              </li>
-              <li>
-                <a href="#">Moletons</a>
-              </li>
-              <li>
-                <a href="#">Calças</a>
-              </li>
-              <li>
-                <a href="#">Jaquetas</a>
-              </li>
-              <li>
-                <a href="#">Acessórios</a>
-              </li>
-              <li>
-                <a href="#" className={styles.colSale}>
-                  Sale
-                </a>
-              </li>
+              {categoriasMenu.map((item, i) => (
+                <li key={i}>
+                  <a href={item.url || '#'}
+                    className={item.isHighlight ? styles.colSale : undefined}>
+                    {item.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </details>
 
@@ -382,35 +409,24 @@ const FooterNovo = () => {
             onToggle={handleToggle('politicas')}
           >
             <summary className={styles.colHead}>
-              <span>Políticas</span>
+              <span>{policiesTitle}</span>
               <ColChevron />
             </summary>
             <ul className={styles.colList}>
-              <li>
-                <a href="#">Política de privacidade</a>
-              </li>
-              <li>
-                <a href="#">Termos de uso</a>
-              </li>
-              <li>
-                <a href="#">Política de cookies</a>
-              </li>
-              <li>
-                <a href="#">Política de troca</a>
-              </li>
-              <li>
-                <a href="#">LGPD</a>
-              </li>
+              {policiesMenu.map((item, i) => (
+                <li key={i}>
+                  <a href={item.url || '#'}>
+                    {item.name}
+                  </a>
+                </li>
+              ))}
             </ul>
           </details>
 
           <div className={styles.nl}>
-            <p className={styles.nlEyebrow}>Newsletter</p>
-            <h3 className={styles.nlTitle}>Fique por dentro dos novos drops</h3>
-            <p className={styles.nlSub}>
-              Receba lançamentos, ofertas exclusivas e novidades da marca em
-              primeira mão — todas as quintas, antes de irem ao ar.
-            </p>
+            {newsletterEyebrow && <p className={styles.nlEyebrow}>{newsletterEyebrow}</p>}
+            {newsletterTitle && <h3 className={styles.nlTitle}>{newsletterTitle}</h3>}
+            {newsletterSubtitle && <p className={styles.nlSub}>{newsletterSubtitle}</p>}
             <form className={styles.nlForm} id="nl-form">
               <input
                 className={styles.nlInput}
@@ -421,7 +437,7 @@ const FooterNovo = () => {
                 required
               />
               <button type="submit" className={styles.nlBtn}>
-                <p>Cadastrar</p>
+                <p>{newsletterButtonLabel}</p>
                 <svg viewBox="0 0 24 24">
                   <path d="M5 12h14" />
                   <path d="m13 6 6 6-6 6" />
@@ -438,7 +454,7 @@ const FooterNovo = () => {
                 <path d="M5 12.5 10 17l9-9.5" />
               </svg>
               <span className={styles.nlSuccessTxt}>
-                <b>Pronto.</b> Você está na lista do próximo drop.
+                <b>{newsletterSuccessTitle}</b> {newsletterSuccessText}
               </span>
             </div>
             <p className={styles.nlLegal}>
@@ -453,41 +469,31 @@ const FooterNovo = () => {
       <section className={styles.trust}>
         <div className={styles.trustInner}>
           <div className={styles.trustGroup}>
-            <span className={styles.trustLabel}>Pagamento</span>
+            <span className={styles.trustLabel}>{pagamentoTitle}</span>
             <div className={styles.payRow}>
-              <span className={styles.payChip}>
-                <span className={styles.payChipLbl}>VISA</span>
-              </span>
-              <span className={styles.payChip}>
-                <svg viewBox="0 0 30 18" width="22" height="13">
-                  <circle cx="11" cy="9" r="6" fill="#000" />
-                  <circle cx="19" cy="9" r="6" fill="#e73888" opacity=".95" />
-                  <path
-                    d="M15 4.6a6 6 0 0 1 0 8.8 6 6 0 0 1 0-8.8Z"
-                    fill="#000"
-                    opacity=".6"
-                  />
-                </svg>
-              </span>
-              <span className={styles.payChip}>
-                <span className={styles.payChipLbl}>AMEX</span>
-              </span>
-              <span className={styles.payChip}>
-                <span className={styles.payChipLbl}>ELO</span>
-              </span>
-              <span className={styles.payChip}>
-                <span className={styles.payChipLbl}>HIPER</span>
-              </span>
-              <span className={styles.payChip}>
-                <span
-                  className={`${styles.payChipLbl} ${styles.payChipLblRose}`}
-                >
-                  PIX
-                </span>
-              </span>
-              <span className={styles.payChip}>
-                <span className={styles.payChipLbl}>BOLETO</span>
-              </span>
+              {paymentMethods
+                .filter(m => m.label)
+                .map((m, i) => (
+                  <span key={i} className={styles.payChip}>
+                    {(m.label ?? '').toUpperCase().startsWith('MASTER') ? (
+                      <svg viewBox="0 0 30 18" width="22" height="13">
+                        <circle cx="11" cy="9" r="6" fill="#000" />
+                        <circle cx="19" cy="9" r="6" fill="#e73888" opacity=".95" />
+                        <path
+                          d="M15 4.6a6 6 0 0 1 0 8.8 6 6 0 0 1 0-8.8Z"
+                          fill="#000"
+                          opacity=".6"
+                        />
+                      </svg>
+                    ) : (
+                      <span
+                        className={`${styles.payChipLbl} ${m.isHighlight ? styles.payChipLblRose : ''}`}
+                      >
+                        {m.label}
+                      </span>
+                    )}
+                  </span>
+                ))}
             </div>
           </div>
           <div className={styles.secRow}>
@@ -503,7 +509,7 @@ const FooterNovo = () => {
                 <rect x="5" y="10" width="14" height="9" rx="2" />
                 <path d="M8 10V7a4 4 0 0 1 8 0v3" />
               </svg>
-              SSL · Certificado
+              {selo1Label}
             </span>
             <span className={styles.secRowCell}>
               <svg
@@ -517,7 +523,7 @@ const FooterNovo = () => {
                 <path d="M12 3 5 6v6c0 4.5 3 7.5 7 9 4-1.5 7-4.5 7-9V6l-7-3Z" />
                 <path d="m9.5 12.2 1.8 1.8 3.5-3.7" />
               </svg>
-              Compra protegida
+              {selo2Label}
             </span>
             <span className={styles.secRowCell}>
               <svg
@@ -532,7 +538,7 @@ const FooterNovo = () => {
                 <path d="M3.5 9h17" />
                 <path d="M7 13h3" />
               </svg>
-              Pagamento criptografado
+              {selo3Label}
             </span>
           </div>
         </div>
@@ -540,14 +546,10 @@ const FooterNovo = () => {
 
       <section className={styles.legal}>
         <div className={styles.legalInner}>
-          <span className={styles.legalBrand}>
-            © 2026 BRAND<span>.</span> Todos os direitos reservados.
-          </span>
+          {copyright && <span className={styles.legalBrand}>{copyright}</span>}
           {/* Só marcadores para a loja preencher: nada de razão social, CNPJ ou endereço
               inventados (o mesmo texto do ft03_legal da Wake). */}
-          <span className={styles.legalCnpj}>
-            [RAZÃO SOCIAL] · CNPJ [00.000.000/0001-00] · [Endereço completo]
-          </span>
+          {cnpj && <span className={styles.legalCnpj}>{cnpj}</span>}
           <Credit />
         </div>
       </section>
@@ -556,3 +558,6 @@ const FooterNovo = () => {
 };
 
 export default FooterNovo;
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+FooterNovo.conteudoPadrao = MOCK;

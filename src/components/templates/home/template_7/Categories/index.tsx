@@ -4,6 +4,8 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
 import 'swiper/css';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -12,11 +14,22 @@ import styles from './index.module.css';
  * diferentes por breakpoint.
  *
  * O mock da origem não manda `image`, então os cards ficam no gradiente de
- * fallback — mesma coisa aqui, para os dois lados baterem.
+ * fallback — mesma coisa aqui, para os dois lados baterem; com a arte do CS, ela
+ * vira o fundo do card (como no starter). Conteúdo = o mock.ts de lá, por baixo
+ * do que o CS subir (`useConteudoDaSecao`, campos do schema de lá).
  */
 interface CategoryItem {
-  label: string;
-  url: string;
+  label?: string;
+  url?: string;
+  image?: string;
+}
+
+interface Categories07Conteudo {
+  title?: string;
+  viewAllLabel?: string;
+  viewAllUrl?: string;
+  categories: CategoryItem[];
+  categoriesMobile: CategoryItem[];
 }
 
 // A partir daqui o grid de 6 colunas fixas passaria a espremer os cards (o CMS
@@ -76,7 +89,7 @@ function CategoriesCarousel({ children }: { children: ReactNode[] }) {
   );
 }
 
-const conteudo = {
+const MOCK: Categories07Conteudo = {
   title: 'Nossa curadoria',
   viewAllLabel: 'Ver todos →',
   viewAllUrl: '/categorias',
@@ -87,13 +100,13 @@ const conteudo = {
     { label: 'Banho', url: '/banho' },
     { label: 'Decoração', url: '/decoracao' },
     { label: 'Infantil', url: '/infantil' },
-  ] as CategoryItem[],
+  ],
   categoriesMobile: [
     { label: 'Tapetes', url: '/tapetes' },
     { label: 'Cama', url: '/cama' },
     { label: 'Banho', url: '/banho' },
     { label: 'Decoração', url: '/decoracao' },
-  ] as CategoryItem[],
+  ],
 };
 
 function Card({
@@ -112,8 +125,12 @@ function Card({
   labelRole: string;
 }) {
   return (
-    <a className={styles.card} href={c.url} data-role={cardRole}>
-      <div className={imgClass} data-role={imgRole}>
+    <a className={styles.card} href={c.url || '#'} data-role={cardRole}>
+      <div
+        className={imgClass}
+        data-role={imgRole}
+        style={c.image ? { backgroundImage: `url(${c.image})` } : undefined}
+      >
         <span className={styles.scrim} aria-hidden="true" />
       </div>
       <p className={labelClass} data-role={labelRole}>
@@ -124,24 +141,31 @@ function Card({
 }
 
 export default function Categories() {
+  const { title, viewAllLabel, viewAllUrl, categories, categoriesMobile } =
+    useConteudoDaSecao(MOCK);
+
   return (
     <div className={styles.categories07Root}>
       <div className={styles.desktop}>
         <div className={styles.header} data-role="cat-header">
-          <h2 className={styles.title} data-role="cat-title">
-            {conteudo.title}
-          </h2>
-          <a
-            className={styles.viewAll}
-            href={conteudo.viewAllUrl}
-            data-role="cat-viewall"
-          >
-            {conteudo.viewAllLabel}
-          </a>
+          {title && (
+            <h2 className={styles.title} data-role="cat-title">
+              {title}
+            </h2>
+          )}
+          {viewAllLabel && (
+            <a
+              className={styles.viewAll}
+              href={viewAllUrl || '#'}
+              data-role="cat-viewall"
+            >
+              {viewAllLabel}
+            </a>
+          )}
         </div>
-        {conteudo.categories.length >= CAROUSEL_THRESHOLD ? (
+        {categories.length >= CAROUSEL_THRESHOLD ? (
           <CategoriesCarousel>
-            {conteudo.categories.map((c, i) => (
+            {categories.map((c, i) => (
               <Card
                 key={i}
                 c={c}
@@ -155,7 +179,7 @@ export default function Categories() {
           </CategoriesCarousel>
         ) : (
           <div className={styles.grid} data-role="cat-grid">
-            {conteudo.categories.map((c, i) => (
+            {categories.map((c, i) => (
               <Card
                 key={i}
                 c={c}
@@ -172,11 +196,13 @@ export default function Categories() {
 
       <div className={styles.mobile}>
         <div className={styles.mSection} data-role="m-cat">
-          <h2 className={styles.mTitle} data-role="m-cat-title">
-            {conteudo.title}
-          </h2>
+          {title && (
+            <h2 className={styles.mTitle} data-role="m-cat-title">
+              {title}
+            </h2>
+          )}
           <div className={styles.mGrid} data-role="m-cat-grid">
-            {conteudo.categoriesMobile.map((c, i) => (
+            {categoriesMobile.map((c, i) => (
               <Card
                 key={i}
                 c={c}
@@ -193,3 +219,6 @@ export default function Categories() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Categories.conteudoPadrao = MOCK;

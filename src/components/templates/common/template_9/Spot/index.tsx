@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
+
 import styles from './index.module.css';
 
 /**
@@ -224,8 +227,35 @@ export function ProductCard09({
   );
 }
 
+/**
+ * Um produto da LOJA (`useProdutosDaLoja`) no formato deste card. As vitrines, a
+ * PLP e os relacionados da 09 usam o mesmo, e o `CardDaLoja` o usa quando o card
+ * escolhido é este e a lista é de outra família.
+ */
+export function deProduto09(p: ProdutoNormal): Produto09 {
+  return {
+    id: p.id,
+    name: p.name,
+    price: p.price,
+    listPrice: p.listPrice,
+    installments: p.installments,
+    installmentValue: p.installmentValue,
+    inStock: p.inStock,
+    image: p.images[0],
+    hoverImage: p.images[1],
+  };
+}
+
 /** O item do catálogo: os três estados do desenho lado a lado (3 colunas; 2 no mobile). */
-export default function Spot09({ soCard = false }: { soCard?: boolean }) {
+export default function Spot09({
+  soCard = false,
+  produto,
+}: {
+  soCard?: boolean;
+  /** O produto da loja do slot (via `CardDaLoja`), numa lista de outra família. */
+  produto?: ProdutoNormal;
+}) {
+  const daLoja = useProdutosDaLoja();
   // Dentro de uma lista (vitrine, grade, relacionados) de qualquer família o spot é só o
   // card (`CardDaLoja`), sem o quadro do desenho nem envelope de container: as
   // @container do card respondem à largura da lista, como as @media na loja.
@@ -233,14 +263,17 @@ export default function Spot09({ soCard = false }: { soCard?: boolean }) {
     return (
       <>
         <link rel="stylesheet" href={FONTES_09} />
-        <ProductCard09 product={PRODUTOS_09[0]} />
+        <ProductCard09 product={produto ? deProduto09(produto) : PRODUTOS_09[0]} />
       </>
     );
+  // No item do catálogo ("Todas as páginas"), os três primeiros produtos da loja
+  // ocupam o lugar dos três estados de exemplo.
+  const produtos = daLoja ? daLoja.slice(0, 3).map(deProduto09) : PRODUTOS_09;
   return (
     <div className={styles.productCard09Box}>
       <link rel="stylesheet" href={FONTES_09} />
       <div className={styles.spotStage}>
-        {PRODUTOS_09.map(p => (
+        {produtos.map(p => (
           <ProductCard09 key={p.id} product={p} />
         ))}
       </div>

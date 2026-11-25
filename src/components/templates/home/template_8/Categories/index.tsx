@@ -1,11 +1,14 @@
 import React from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
  * Espelha `molecules/Categories08` do faststore.starter (família 08, Figma "Templates - Serie A").
  * Mesmo markup, mesmas classes, mesmos `data-role` e as mesmas vars de Nível 1; o CSS
- * é derivado do SCSS de lá (`yarn derivar:css`). Conteúdo = o mock.ts de lá. O
+ * é derivado do SCSS de lá (`yarn derivar:css`). Conteúdo = o mock.ts de lá, por
+ * baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá). O
  * envelope `.…Box` é o container das regras mobile (a raiz e o bloco são o mesmo
  * elemento, e uma @container não estiliza o próprio container).
  */
@@ -15,15 +18,32 @@ const RETRATO = '/gerador/familia08/ph-card.png';
 const FONTES =
   'https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap';
 
-const CATEGORIAS = [
-  {
-    title: 'Looks\nfemininos',
-    subtitle: 'Estilo e ofertas para\ntodas as ocasiões',
-  },
-  { title: 'Looks\nMasculinos', subtitle: 'Essenciais Com\naté 70% OFF' },
-  { title: 'Acessórios', subtitle: 'O toque final\npara o seu look' },
-  { title: 'Calçados', subtitle: 'Conforto e estilo\nem grandes ofertas' },
-];
+interface Categories08Conteudo {
+  categories: {
+    image?: string;
+    title?: string;
+    subtitle?: string;
+    buttonLabel?: string;
+    url?: string;
+  }[];
+}
+
+const categoria = (title: string, subtitle: string) => ({
+  image: RETRATO,
+  title,
+  subtitle,
+  buttonLabel: 'Ver Produtos',
+  url: '#',
+});
+
+const MOCK: Categories08Conteudo = {
+  categories: [
+    categoria('Looks\nfemininos', 'Estilo e ofertas para\ntodas as ocasiões'),
+    categoria('Looks\nMasculinos', 'Essenciais Com\naté 70% OFF'),
+    categoria('Acessórios', 'O toque final\npara o seu look'),
+    categoria('Calçados', 'Conforto e estilo\nem grandes ofertas'),
+  ],
+};
 
 const ArrowRight = () => (
   <svg
@@ -58,6 +78,9 @@ const ArrowRight = () => (
 );
 
 export default function Categories08() {
+  const { categories } = useConteudoDaSecao(MOCK);
+  if (!categories.length) return null;
+
   return (
     <div className={styles.categories08Box}>
       <section
@@ -70,31 +93,39 @@ export default function Categories08() {
           crossOrigin="anonymous"
         />
         <link rel="stylesheet" href={FONTES} />
-        {CATEGORIAS.map(c => (
+        {categories.map((c, i) => (
           <a
-            key={c.title}
+            key={i}
             className={styles.category}
-            href="#"
+            href={c.url || '#'}
             data-role="ct-card"
           >
-            <img
-              className={styles.categoryImg}
-              src={RETRATO}
-              alt=""
-              width={292}
-              height={340}
-            />
+            {c.image && (
+              <img
+                className={styles.categoryImg}
+                src={c.image}
+                alt=""
+                width={292}
+                height={340}
+              />
+            )}
             <div className={styles.categoryContent}>
-              <p className={styles.categoryTitle} data-role="ct-title">
-                {c.title}
-              </p>
-              <p className={styles.categoryText} data-role="ct-text">
-                {c.subtitle}
-              </p>
-              <span className={styles.categoryButton} data-role="ct-button">
-                <span>Ver Produtos</span>
-                <ArrowRight />
-              </span>
+              {c.title && (
+                <p className={styles.categoryTitle} data-role="ct-title">
+                  {c.title}
+                </p>
+              )}
+              {c.subtitle && (
+                <p className={styles.categoryText} data-role="ct-text">
+                  {c.subtitle}
+                </p>
+              )}
+              {c.buttonLabel && (
+                <span className={styles.categoryButton} data-role="ct-button">
+                  <span>{c.buttonLabel}</span>
+                  <ArrowRight />
+                </span>
+              )}
             </div>
           </a>
         ))}
@@ -102,3 +133,6 @@ export default function Categories08() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Categories08.conteudoPadrao = MOCK;

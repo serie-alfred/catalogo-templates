@@ -2,12 +2,15 @@
 
 import React, { useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
  * Espelha `molecules/BenefitsStrip08` do faststore.starter (família 08, Figma "Templates - Serie A").
  * Mesmo markup, mesmas classes, mesmos `data-role` e as mesmas vars de Nível 1; o CSS
- * é derivado do SCSS de lá (`yarn derivar:css`). Conteúdo = o mock.ts de lá. O
+ * é derivado do SCSS de lá (`yarn derivar:css`). Conteúdo = o mock.ts de lá, por
+ * baixo do que o CS subir (`useConteudoDaSecao`, campos do schema de lá). O
  * envelope `.…Box` é o container das regras mobile (a raiz e o bloco são o mesmo
  * elemento, e uma @container não estiliza o próprio container).
  */
@@ -15,7 +18,16 @@ import styles from './index.module.css';
 const FONTES =
   'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap';
 
-const BENEFICIOS = [0, 1, 2, 3];
+interface Ruler08Conteudo {
+  benefits: { title?: string; subtitle?: string }[];
+}
+
+const MOCK: Ruler08Conteudo = {
+  benefits: [0, 1, 2, 3].map(() => ({
+    title: 'Frete Grátis',
+    subtitle: 'Bônus primeira compra',
+  })),
+};
 
 const Chevron = ({ dir }: { dir: 'prev' | 'next' }) => (
   <svg
@@ -40,9 +52,12 @@ const Chevron = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function Ruler08() {
+  const { benefits } = useConteudoDaSecao(MOCK);
+  const n = benefits.length;
   const [atual, setAtual] = useState(0);
-  const ir = (passo: number) =>
-    setAtual(i => (i + passo + BENEFICIOS.length) % BENEFICIOS.length);
+  const ir = (passo: number) => setAtual(i => (i + passo + n) % n);
+
+  if (!n) return null;
 
   return (
     <div className={styles.benefitsStrip08Box}>
@@ -57,39 +72,50 @@ export default function Ruler08() {
           crossOrigin="anonymous"
         />
         <link rel="stylesheet" href={FONTES} />
-        <button
-          type="button"
-          className={styles.benefitsArrow}
-          aria-label="Benefício anterior"
-          onClick={() => ir(-1)}
-        >
-          <Chevron dir="prev" />
-        </button>
+        {n > 1 && (
+          <button
+            type="button"
+            className={styles.benefitsArrow}
+            aria-label="Benefício anterior"
+            onClick={() => ir(-1)}
+          >
+            <Chevron dir="prev" />
+          </button>
+        )}
         <ul className={styles.benefitsList}>
-          {BENEFICIOS.map(i => (
+          {benefits.map((b, i) => (
             <li
               key={i}
               className={`${styles.benefit}${i === atual ? ` ${styles.benefitAtual}` : ''}`}
               data-role="bs-item"
             >
-              <p className={styles.benefitTitle} data-role="bs-title">
-                Frete Grátis
-              </p>
-              <p className={styles.benefitText} data-role="bs-text">
-                Bônus primeira compra
-              </p>
+              {b.title && (
+                <p className={styles.benefitTitle} data-role="bs-title">
+                  {b.title}
+                </p>
+              )}
+              {b.subtitle && (
+                <p className={styles.benefitText} data-role="bs-text">
+                  {b.subtitle}
+                </p>
+              )}
             </li>
           ))}
         </ul>
-        <button
-          type="button"
-          className={styles.benefitsArrow}
-          aria-label="Próximo benefício"
-          onClick={() => ir(1)}
-        >
-          <Chevron dir="next" />
-        </button>
+        {n > 1 && (
+          <button
+            type="button"
+            className={styles.benefitsArrow}
+            aria-label="Próximo benefício"
+            onClick={() => ir(1)}
+          >
+            <Chevron dir="next" />
+          </button>
+        )}
       </section>
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Ruler08.conteudoPadrao = MOCK;

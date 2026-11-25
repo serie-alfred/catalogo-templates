@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -9,11 +11,21 @@ import styles from './index.module.css';
  *
  * A seta do link vem de um `::after` com data-URI, como na origem: nó de texto
  * mudaria a caixa e a contagem de filhos.
+ *
+ * Conteúdo: os nomes do `section.schema` do starter (`sectionTitle`, `sizes[]`,
+ * `allLabel`, `allLink`), com o mock por baixo do que o CS subir.
  */
+interface BuySizeConteudo {
+  sectionTitle?: string;
+  sizes: { label?: string; link?: string }[];
+  allLabel?: string;
+  allLink?: string;
+}
+
 const sizeLink = (n: number) =>
   `/calcados?initialMap=c&initialQuery=calcados&map=category-1,tamanho&query=/calcados/${n}&searchState=`;
 
-const conteudo = {
+const MOCK: BuySizeConteudo = {
   sectionTitle: 'Compre por tamanho',
   sizes: Array.from({ length: 14 }, (_, i) => ({
     label: String(34 + i),
@@ -24,22 +36,29 @@ const conteudo = {
 };
 
 export default function BuySize() {
+  const { sectionTitle, sizes, allLabel, allLink } = useConteudoDaSecao(MOCK);
+
+  if (!sectionTitle && !sizes.length) return null;
+
   return (
     <div className={styles.outer}>
       <div className={styles.wrapper} data-role="bsz-wrapper">
-        <div className={styles.titleRow} data-role="bsz-title-row">
-          <h2 className={styles.title} data-role="bsz-title">
-            {conteudo.sectionTitle}
-          </h2>
-        </div>
+        {sectionTitle && (
+          <div className={styles.titleRow} data-role="bsz-title-row">
+            <h2 className={styles.title} data-role="bsz-title">
+              {sectionTitle}
+            </h2>
+          </div>
+        )}
 
+        {sizes.length > 0 && (
         <div className={styles.contentCol} data-role="bsz-content">
           <div className={styles.chipsRow} data-role="bsz-chips">
-            {conteudo.sizes.map((size, index) => (
+            {sizes.map((size, index) => (
               <a
                 key={index}
                 className={styles.chip}
-                href={size.link}
+                href={size.link || '#'}
                 data-role="bsz-chip"
               >
                 <span className={styles.chipLabel} data-role="bsz-chip-label">
@@ -49,17 +68,23 @@ export default function BuySize() {
             ))}
           </div>
         </div>
+        )}
 
-        <a
-          className={styles.allLink}
-          href={conteudo.allLink}
-          data-role="bsz-all-link"
-        >
-          <span className={styles.allLabel} data-role="bsz-all-label">
-            {conteudo.allLabel}
-          </span>
-        </a>
+        {allLabel && (
+          <a
+            className={styles.allLink}
+            href={allLink || '#'}
+            data-role="bsz-all-link"
+          >
+            <span className={styles.allLabel} data-role="bsz-all-label">
+              {allLabel}
+            </span>
+          </a>
+        )}
       </div>
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BuySize.conteudoPadrao = MOCK;

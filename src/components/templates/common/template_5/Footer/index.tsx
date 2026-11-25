@@ -4,12 +4,35 @@ import React, { useState } from 'react';
 
 import styles from './index.module.css';
 import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 // Preview estático do Footer05 (SÉRIE//A) — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Footer05 (gerado via /from-faststore).
 // Newsletter como formulário não-interativo (readOnly); colunas sempre abertas.
 
-const data = {
+/** O conteúdo da seção: os campos do `section.schema` do Footer05 que a réplica desenha. */
+interface Footer05Conteudo {
+  newsletterEyebrow?: string;
+  newsletterTitle?: string;
+  newsletterDescription?: string;
+  newsletterNamePlaceholder?: string;
+  newsletterEmailPlaceholder?: string;
+  newsletterButtonLabel?: string;
+  newsletterConsentText?: string;
+  brandName?: string;
+  brandDescription?: string;
+  columns: {
+    title?: string;
+    links: { name?: string; url?: string }[];
+  }[];
+  contactTitle?: string;
+  contactItems: { label?: string; detail?: string }[];
+  socials: { label?: string; url?: string }[];
+  copyright?: string;
+  paymentMethods: string[];
+}
+
+const MOCK: Footer05Conteudo = {
   newsletterEyebrow: 'Inbox / SÉRIE//A',
   newsletterTitle: 'Novidades antes de todo mundo.',
   newsletterDescription:
@@ -19,7 +42,6 @@ const data = {
   newsletterButtonLabel: 'Quero receber',
   newsletterConsentText:
     'Quero receber novidades, ofertas e comunicações da SÉRIE//A. Posso cancelar a qualquer momento.',
-  brandName: 'SERIE//A',
   brandDescription:
     'Uma loja de departamentos feita para escolhas simples, produtos relevantes e uma compra sem atrito.',
   columns: [
@@ -135,6 +157,7 @@ const Credit = () => (
 
 export default function Footer05() {
   const logo = useLogoDoRodape();
+  const data = useConteudoDaSecao(MOCK);
   const [open, setOpen] = useState<string[]>([]);
   const toggle = (key: string) =>
     setOpen(prev =>
@@ -147,9 +170,15 @@ export default function Footer05() {
       <section className={styles.newsletter}>
         <div className={styles.newsletterInner}>
           <div className={styles.nlText}>
-            <p className={styles.eyebrow}>{data.newsletterEyebrow}</p>
-            <h2 className={styles.nlTitle}>{data.newsletterTitle}</h2>
-            <p className={styles.nlDesc}>{data.newsletterDescription}</p>
+            {data.newsletterEyebrow && (
+              <p className={styles.eyebrow}>{data.newsletterEyebrow}</p>
+            )}
+            {data.newsletterTitle && (
+              <h2 className={styles.nlTitle}>{data.newsletterTitle}</h2>
+            )}
+            {data.newsletterDescription && (
+              <p className={styles.nlDesc}>{data.newsletterDescription}</p>
+            )}
           </div>
 
           <form className={styles.nlForm} onSubmit={e => e.preventDefault()}>
@@ -185,10 +214,12 @@ export default function Footer05() {
               {logo ? (
                 <img src={logo} alt="Logo" className={styles.brandLogoImg} />
               ) : (
-                <Wordmark name={data.brandName} />
+                <Wordmark name={data.brandName || 'SERIE//A'} />
               )}
             </a>
-            <p className={styles.brandDesc}>{data.brandDescription}</p>
+            {data.brandDescription && (
+              <p className={styles.brandDesc}>{data.brandDescription}</p>
+            )}
           </div>
 
           {data.columns.map((col, i) => {
@@ -213,7 +244,7 @@ export default function Footer05() {
                 <ul className={styles.colList}>
                   {col.links.map((link, j) => (
                     <li key={j}>
-                      <a href={link.url}>{link.name}</a>
+                      <a href={link.url || '#'}>{link.name}</a>
                     </li>
                   ))}
                 </ul>
@@ -245,8 +276,8 @@ export default function Footer05() {
                 ))}
               </ul>
               <div className={styles.socials} aria-label="Redes sociais">
-                {data.socials.map((social, i) => (
-                  <a key={i} href={social.url} aria-label={social.label}>
+                {data.socials.filter(social => social.label).map((social, i) => (
+                  <a key={i} href={social.url || '#'} aria-label={social.label}>
                     {social.label}
                   </a>
                 ))}
@@ -262,7 +293,7 @@ export default function Footer05() {
           <span className={styles.copyright}>{data.copyright}</span>
           <Credit />
           <div className={styles.paymentRow} aria-label="Formas de pagamento">
-            {data.paymentMethods.map((method, i) => (
+            {data.paymentMethods.filter(Boolean).map((method, i) => (
               <span key={i} className={styles.payChip}>
                 {method}
               </span>
@@ -273,3 +304,6 @@ export default function Footer05() {
     </footer>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Footer05.conteudoPadrao = MOCK;

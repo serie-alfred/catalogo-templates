@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import CardDaLoja from '@/components/templates/CardDaLoja';
 import { ProductCard06, type ProdutoCard06 as Produto } from '@/components/templates/common/template_6/Spot/ProductCard06';
 
@@ -54,10 +55,43 @@ const TRILHA = [
   { item: '/calcados', name: 'Calçados' },
   { item: '/calcados/sneakers', name: 'Sneakers' },
 ];
+/**
+ * Do CS vêm só os rótulos e as opções, com os nomes do `section.schema` do
+ * MainCategory06 do starter: `filterLabel`, `sortLabel` e as amostras de cor do
+ * filtro (`colorSwatches`, o `utils/colorSwatches` da origem). Categoria, trilha,
+ * produtos e contagem seguem os de exemplo. Ficam fora do tipo `loadMoreLabel` e
+ * `emptyLabel` (não há "Mostrar mais" nem estado vazio na réplica), o bloco de SEO
+ * e o FAQ, `title`, `collectionId`/`collectionUrl` e as chaves de ocultar.
+ */
+interface CategoryMainConteudo {
+  filterLabel?: string;
+  sortLabel?: string;
+  colorSwatches: { name?: string; hex?: string }[];
+}
+
+const MOCK: CategoryMainConteudo = {
+  filterLabel: 'Filtros',
+  sortLabel: 'Ordenar por',
+  colorSwatches: [
+    { name: 'Marinho', hex: '#293C71' },
+    { name: 'Bege', hex: '#C1B9B0' },
+    { name: 'Vermelho', hex: '#ff0000' },
+    { name: 'Mostarda', hex: '#CEA436' },
+    { name: 'Rose', hex: '#fbc398' },
+    { name: 'Marrom', hex: '#964b00' },
+    { name: 'Verde', hex: '#008000' },
+    { name: 'Chumbo', hex: '#595D60' },
+    { name: 'Gelo', hex: '#C6C3C9' },
+    { name: 'Caqui', hex: '#483B34' },
+    { name: 'Preto', hex: '#000' },
+    { name: 'Bordô', hex: '#5C1A2E' },
+    { name: 'Branco', hex: '#FFFFFF' },
+    { name: 'Cinza', hex: '#808080' },
+  ],
+};
+
 const TITULO = 'Sneakers';
 const TOTAL = 204;
-const ROTULO_FILTRO = 'Filtros';
-const ROTULO_ORDENAR = 'Ordenar por';
 const ROTULO_FILTRAR = 'Filtrar por';
 const ROTULO_LIMPAR = 'Limpar';
 
@@ -120,23 +154,7 @@ const FACETAS: Faceta[] = [
   },
 ];
 
-/* `utils/colorSwatches` da origem: o default e a resolução (direta, composta, por palavra) */
-const AMOSTRAS: [string, string][] = [
-  ['Marinho', '#293C71'],
-  ['Bege', '#C1B9B0'],
-  ['Vermelho', '#ff0000'],
-  ['Mostarda', '#CEA436'],
-  ['Rose', '#fbc398'],
-  ['Marrom', '#964b00'],
-  ['Verde', '#008000'],
-  ['Chumbo', '#595D60'],
-  ['Gelo', '#C6C3C9'],
-  ['Caqui', '#483B34'],
-  ['Preto', '#000'],
-  ['Bordô', '#5C1A2E'],
-  ['Branco', '#FFFFFF'],
-  ['Cinza', '#808080'],
-];
+/* `utils/colorSwatches` da origem: a resolução (direta, composta, por palavra) sobre o mapa de `colorSwatches` */
 const normalizarCor = (raw: string) =>
   raw
     .normalize('NFD')
@@ -144,15 +162,18 @@ const normalizarCor = (raw: string) =>
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
-const MAPA_AMOSTRAS = new Map(AMOSTRAS.map(([n, h]) => [normalizarCor(n), h]));
-function amostraDe(label: string, value: string): string | null {
+function amostraDe(
+  mapa: Map<string, string>,
+  label: string,
+  value: string
+): string | null {
   const direta =
-    MAPA_AMOSTRAS.get(normalizarCor(label)) ??
-    MAPA_AMOSTRAS.get(normalizarCor(value));
+    mapa.get(normalizarCor(label)) ??
+    mapa.get(normalizarCor(value));
   if (direta) return direta;
   const partes = label
     .split(/\s*[/|+]\s*|\s+e\s+/i)
-    .map(p => MAPA_AMOSTRAS.get(normalizarCor(p)))
+    .map(p => mapa.get(normalizarCor(p)))
     .filter(Boolean) as string[];
   if (partes.length > 1) {
     const passo = 100 / partes.length;
@@ -160,7 +181,7 @@ function amostraDe(label: string, value: string): string | null {
   }
   if (partes.length === 1) return partes[0];
   for (const palavra of normalizarCor(label).split(' ')) {
-    const achou = MAPA_AMOSTRAS.get(palavra);
+    const achou = mapa.get(palavra);
     if (achou) return achou;
   }
   return null;
@@ -321,6 +342,20 @@ function FilterDrawer({
   onClearAll: () => void;
   precoSel: { min: number; max: number } | null;
 }) {
+  const {
+    filterLabel: ROTULO_FILTRO,
+    sortLabel: ROTULO_ORDENAR,
+    colorSwatches,
+  } = useConteudoDaSecao(MOCK);
+  const mapaAmostras = useMemo(
+    () =>
+      new Map(
+        colorSwatches
+          .filter(c => c.name && c.hex)
+          .map(c => [normalizarCor(c.name as string), c.hex as string])
+      ),
+    [colorSwatches]
+  );
   const [fechados, setFechados] = useState<Record<string, boolean>>({});
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -507,7 +542,7 @@ function FilterDrawer({
                         {(faceta.values ?? []).map(v => {
                           const cor =
                             variante === 'color'
-                              ? amostraDe(v.label, v.value)
+                              ? amostraDe(mapaAmostras, v.label, v.value)
                               : null;
                           return (
                             <li key={v.value} className={styles.valueItem}>
@@ -563,6 +598,7 @@ function FilterDrawer({
 }
 
 export default function CategoryMain() {
+  const { filterLabel: ROTULO_FILTRO } = useConteudoDaSecao(MOCK);
   // densidade do grid: `false` = 4 col no desktop / 2 no mobile (padrão da origem);
   // `true` = 3 / 1. Ver ColumnToggle acima.
   const [menosColunas, setMenosColunas] = useState(false);
@@ -687,3 +723,6 @@ export default function CategoryMain() {
     </>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryMain.conteudoPadrao = MOCK;

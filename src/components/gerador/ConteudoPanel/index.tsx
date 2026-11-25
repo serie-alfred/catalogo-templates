@@ -8,6 +8,7 @@ import camposDasReplicas from '@/data/conteudo/campos.generated.json';
 import type { CampoDoSchema, SchemaDeConteudo, ValorDeConteudo } from '@/types/conteudo';
 import { resolverConteudo, sanitizarConteudoLoja } from '@/utils/conteudo';
 import { projetarLoja, ROTULO_DO_SLOT } from '@/utils/conteudoLoja';
+import { pedirFocoNaLoja } from '@/utils/focoNaLoja';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import Campo from './Campo';
 
@@ -48,6 +49,10 @@ export function conteudoPadraoDe(componente: string): Record<string, unknown> | 
 }
 
 const DESENHADOS = (camposDasReplicas as { componentes: Record<string, string[]> }).componentes;
+
+/** As peças que desenham produtos (os da loja, `useProdutosDaLoja`). */
+const MOSTRA_PRODUTOS =
+  /^(Spot|Showcase|ShelfBanner|CategoryMain|ProductRelated|ProductInfo|ProductDescription)\d+$/;
 
 export default function ConteudoPanel() {
   const {
@@ -94,13 +99,32 @@ export default function ConteudoPanel() {
     );
   }
 
+  // Peças que mostram produtos: os produtos são os da loja, não um campo da seção.
+  const avisoDeProdutos = MOSTRA_PRODUTOS.test(layoutItem.component) && (
+    <p className={styles.daLoja} data-produtos-da-loja style={{ padding: '16px 16px 0' }}>
+      Os produtos desta seção são os do Conteúdo da loja: valem para toda vitrine, grade,
+      relacionados e página de produto, no formato do card escolhido.{' '}
+      <button
+        type="button"
+        onClick={() => {
+          setRailTarget('loja');
+          pedirFocoNaLoja('produtos');
+        }}
+      >
+        Editar produtos
+      </button>
+    </p>
+  );
+
   const mock = conteudoPadraoDe(layoutItem.component);
   const desenhados = DESENHADOS[layoutItem.component];
   if (!mock || !desenhados) {
+    // O card de produto (Spot) não tem conteúdo próprio: só os produtos da loja.
+    if (avisoDeProdutos) return <div className={styles.painel}>{avisoDeProdutos}</div>;
     return (
       <p className={styles.vazio}>
-        <strong>{layoutItem.title}</strong> ainda não tem conteúdo editável. As peças estão ficando
-        editáveis família por família — hoje, as famílias 09 a 17.
+        <strong>{layoutItem.title}</strong> não tem conteúdo próprio: o que ela mostra vem do
+        catálogo da plataforma (produtos, trilha de navegação).
       </p>
     );
   }
@@ -118,6 +142,7 @@ export default function ConteudoPanel() {
     ? Object.entries(schema.properties).filter(([chave]) => desenhados.includes(chave))
     : [];
   if (!campos.length) {
+    if (avisoDeProdutos) return <div className={styles.painel}>{avisoDeProdutos}</div>;
     return (
       <p className={styles.vazio}>
         <strong>{layoutItem.title}</strong> não tem campos de conteúdo.
@@ -135,6 +160,7 @@ export default function ConteudoPanel() {
 
   return (
     <div className={styles.painel} aria-label="Editar conteúdo da seção">
+      {avisoDeProdutos}
       <div className={styles.campos}>
         {campos.map(([chave, filho]) => {
           const personalizado = chave in nivel1;

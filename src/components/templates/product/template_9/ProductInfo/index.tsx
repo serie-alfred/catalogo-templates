@@ -1,7 +1,9 @@
-import React, { useId, useRef, useState } from 'react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
 
 import styles from './index.module.css';
 
@@ -17,8 +19,11 @@ import styles from './index.module.css';
  * tem entrada Pix) e o CEP não calcula. `useState` fica para tamanho, slide,
  * acordeões, avise-me e guia de medidas.
  *
- * Os rótulos e os acordeões são do CMS e vêm do `useConteudoDaSecao`; o produto é o de
- * exemplo até o produto em destaque da loja existir (fase de produtos).
+ * Os rótulos e os acordeões são do CMS e vêm do `useConteudoDaSecao`. O produto é o 1º
+ * da loja (`useProdutosDaLoja`) quando o CS cadastrou; senão o de exemplo. Cada
+ * variação dele vira um seletor no estilo do TIPO: texto → os botões de tamanho, cor
+ * e imagem → as miniaturas (cor = um quadro da cor; imagem = a miniatura enviada).
+ * Produto sem variação não mostra seletor nenhum.
  */
 
 const BRL = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -108,7 +113,81 @@ const SIZES = ['PP', 'P', 'M', 'G', 'GG'].map((value, i) => ({
   sku: `90010${i}`,
   available: value !== 'GG',
 }));
-const SOLD_OUT = SIZES.filter(s => !s.available);
+
+/* ── o que a PDP desenha: o produto de exemplo ou o 1º da loja ── */
+type OpcaoDaPdp = { label: string; src: string; available: boolean; sku: string };
+type VariacaoDaPdp = {
+  /** '' = o rótulo do CMS (`colorLabel` / `sizeLabel`). */
+  name: string;
+  tipo: 'texto' | 'cor' | 'imagem';
+  options: OpcaoDaPdp[];
+  /** A opção que nasce escolhida. */
+  inicial: number;
+};
+type VistaDaPdp = {
+  name: string;
+  /** A 2ª parte vai em itálico (o desenho do exemplo); o da loja é uma parte só. */
+  titleParts: [string, string?];
+  price: number;
+  listPrice: number;
+  best: { n: number; v: number } | null;
+  images: { url: string; alt: string }[];
+  variacoes: VariacaoDaPdp[];
+};
+
+const EXEMPLO: VistaDaPdp = {
+  name: PRODUCT_NAME,
+  titleParts: [TITLE_PARTS[0], TITLE_PARTS[1]],
+  price: PRICE,
+  listPrice: PRICE,
+  best: BEST,
+  images: IMAGES,
+  variacoes: [
+    {
+      name: '',
+      tipo: 'cor',
+      options: COLORS.map(c => ({ label: c.label, src: c.src, available: true, sku: '' })),
+      inicial: Math.max(0, COLORS.findIndex(c => c.active)),
+    },
+    {
+      name: '',
+      tipo: 'texto',
+      options: SIZES.map(z => ({ label: z.value, src: '', available: z.available, sku: z.sku })),
+      inicial: SIZES.findIndex(z => z.value === 'M'),
+    },
+  ],
+};
+
+/** Hex aceito no quadro da cor (vai para dentro de um SVG); fora disso, cinza. */
+const HEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+
+function daLoja(p: ProdutoNormal): VistaDaPdp {
+  const fotos = p.images.length ? p.images : [svg(600, 800, '#E6DED2')];
+  return {
+    name: p.name,
+    titleParts: [p.name],
+    price: p.price,
+    listPrice: p.listPrice,
+    best: p.installments ? { n: p.installments, v: p.installmentValue } : null,
+    images: fotos.map((url, i) => ({ url, alt: `${p.name} — foto ${i + 1}` })),
+    variacoes: p.variants.map(v => ({
+      name: v.name,
+      tipo: v.tipo,
+      options: v.options.map((o, i) => ({
+        label: o.label || `Opção ${i + 1}`,
+        src:
+          v.tipo === 'imagem'
+            ? o.swatchImage || svg(44, 58, '#D8CCBC')
+            : v.tipo === 'cor'
+              ? svg(44, 58, HEX.test(o.color) ? o.color : '#D8CCBC')
+              : '',
+        available: o.available,
+        sku: '',
+      })),
+      inicial: Math.max(0, v.options.findIndex(o => o.available)),
+    })),
+  };
+}
 
 const Heart = ({ filled }: { filled: boolean }) => (
   <svg
@@ -147,7 +226,8 @@ const PlusMinus = ({ open }: { open: boolean }) => (
 export default function ProductInfo09() {
   const m = useConteudoDaSecao(MOCK);
   const uid = useId();
-  const [activeSize, setActiveSize] = useState('M');
+  /** A opção escolhida de cada variação (índice), quando o cliente clicou. */
+  const [escolhas, setEscolhas] = useState<Record<number, number>>({});
   const [openAcc, setOpenAcc] = useState<number[]>([0]);
   const [slide, setSlide] = useState(0);
   const [isFav, setIsFav] = useState(false);
@@ -157,9 +237,23 @@ export default function ProductInfo09() {
   const [cep, setCep] = useState('');
   const galleryRef = useRef<HTMLDivElement>(null);
 
-  const selected = SIZES.find(s => s.value === activeSize);
-  const ref = `${m.refLabel} ${selected?.sku ?? ''}`;
-  const activeColorLabel = COLORS.find(c => c.active)?.label ?? '';
+  const daLojaLista = useProdutosDaLoja();
+  const vista = useMemo(
+    () => (daLojaLista ? daLoja(daLojaLista[0]) : EXEMPLO),
+    [daLojaLista]
+  );
+  // Outro produto: as escolhas e o slide do anterior não valem mais.
+  useEffect(() => {
+    setEscolhas({});
+    setSlide(0);
+  }, [vista]);
+
+  const escolhida = (vi: number) =>
+    vista.variacoes[vi]?.options[escolhas[vi] ?? vista.variacoes[vi].inicial];
+  const escolher = (vi: number, oi: number) => setEscolhas(e => ({ ...e, [vi]: oi }));
+  const primeiraDeTexto = vista.variacoes.findIndex(v => v.tipo === 'texto');
+  const sku = primeiraDeTexto >= 0 ? (escolhida(primeiraDeTexto)?.sku ?? '') : '';
+  const ref = sku ? `${m.refLabel} ${sku}` : '';
 
   const onGalleryScroll = () => {
     const el = galleryRef.current;
@@ -190,11 +284,11 @@ export default function ProductInfo09() {
   return (
     <div className={styles.productDetails09Box}>
       <link rel="stylesheet" href={FONTES_09} />
-      <section className={styles.productDetails09} aria-label={PRODUCT_NAME} data-role="pdp-root">
+      <section className={styles.productDetails09} aria-label={vista.name} data-role="pdp-root">
         <div className={styles.inner}>
           <div className={styles.galleryWrap} data-role="pdp-gallery">
             <div ref={galleryRef} className={styles.gallery} onScroll={onGalleryScroll}>
-              {IMAGES.map((img, i) => (
+              {vista.images.map((img, i) => (
                 <div key={img.url} className={styles.photo}>
                   <img
                     src={img.url}
@@ -209,7 +303,7 @@ export default function ProductInfo09() {
             </div>
             {favButton(styles.favOnPhoto)}
             <div className={styles.dashes} aria-hidden="true">
-              {IMAGES.map((img, i) => (
+              {vista.images.map((img, i) => (
                 <span key={img.url} className={i === slide ? styles.dashOn : undefined} />
               ))}
             </div>
@@ -221,106 +315,134 @@ export default function ProductInfo09() {
                 {m.newLabel}
               </span>
               <h1 className={styles.title} data-role="pdp-title">
-                {TITLE_PARTS[0]} <em>{TITLE_PARTS[1]}</em>
+                {vista.titleParts[0]} {vista.titleParts[1] && <em>{vista.titleParts[1]}</em>}
               </h1>
-              <span className={styles.muted12} data-role="pdp-ref">
-                {ref}
-              </span>
+              {ref && (
+                <span className={styles.muted12} data-role="pdp-ref">
+                  {ref}
+                </span>
+              )}
               <div className={styles.prices} data-role="pdp-prices">
                 <span className={styles.priceRow}>
+                  {vista.listPrice > vista.price && (
+                    <s className={styles.listPrice} data-role="pdp-list-price">
+                      {money(vista.listPrice)}
+                    </s>
+                  )}
                   <span className={styles.price} data-role="pdp-price">
-                    {money(PRICE)}
+                    {money(vista.price)}
                   </span>
                 </span>
-                <span className={styles.installment} data-role="pdp-installment">
-                  ou {BEST.n}x de {money(BEST.v)} sem juros
-                </span>
-              </div>
-            </div>
-
-            <div className={styles.colors} data-role="pdp-colors">
-              <span className={styles.label}>
-                {m.colorLabel}: <span className={styles.labelValue}>{activeColorLabel}</span>
-              </span>
-              <div className={styles.swatches}>
-                {COLORS.map(c => (
-                  <a
-                    key={c.label}
-                    className={`${styles.swatch}${c.active ? ` ${styles.swatchOn}` : ''}`}
-                    href="#"
-                    aria-current={c.active ? 'true' : undefined}
-                    aria-label={c.active ? `${c.label}, selecionada` : c.label}
-                    data-role="pdp-swatch"
-                  >
-                    <img src={c.src} alt="" width={44} height={58} loading="lazy" decoding="async" />
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.sizes} data-role="pdp-sizes">
-              <div className={styles.sizesHead}>
-                <span className={styles.label} id={`${uid}-size`}>
-                  {m.sizeLabel}
-                </span>
-                <button
-                  type="button"
-                  className={styles.guide}
-                  onClick={() => setGuideOpen(true)}
-                  aria-haspopup="dialog"
-                  data-role="pdp-size-guide"
-                >
-                  <Ruler />
-                  {m.sizeGuideLabel}
-                </button>
-              </div>
-              <div className={styles.sizeGrid} role="group" aria-labelledby={`${uid}-size`}>
-                {SIZES.map(s =>
-                  s.available ? (
-                    <button
-                      key={s.value}
-                      type="button"
-                      className={`${styles.size}${s.value === activeSize ? ` ${styles.sizeOn}` : ''}`}
-                      aria-pressed={s.value === activeSize}
-                      onClick={() => {
-                        setActiveSize(s.value);
-                        setNotifyOpen(false);
-                      }}
-                      data-role="pdp-size"
-                    >
-                      {s.value}
-                    </button>
-                  ) : (
-                    <button
-                      key={s.value}
-                      type="button"
-                      className={`${styles.size} ${styles.sizeOut}`}
-                      aria-label={`${s.value}, esgotado`}
-                      disabled
-                      data-role="pdp-size-out"
-                    >
-                      {s.value}
-                    </button>
-                  )
+                {vista.best && (
+                  <span className={styles.installment} data-role="pdp-installment">
+                    ou {vista.best.n}x de {money(vista.best.v)} sem juros
+                  </span>
                 )}
               </div>
-              <span className={styles.muted12} data-role="pdp-sold-out-note">
-                {SOLD_OUT.map(s => s.value).join(', ')} {m.soldOutText}{' '}
-                <button
-                  type="button"
-                  className={styles.inlineLink}
-                  onClick={() => {
-                    setNotifyOpen(true);
-                    setNotifyOk(false);
-                  }}
-                  aria-expanded={notifyOpen}
-                  aria-controls={`${uid}-notify`}
-                  data-role="pdp-notify-link"
-                >
-                  {m.notifyLabel}
-                </button>
-              </span>
             </div>
+
+            {vista.variacoes.map((v, vi) => {
+              const atual = escolhida(vi);
+              if (v.tipo !== 'texto')
+                return (
+                  <div key={vi} className={styles.colors} data-role="pdp-colors" data-variacao={v.tipo}>
+                    <span className={styles.label}>
+                      {v.name || m.colorLabel}: <span className={styles.labelValue}>{atual?.label}</span>
+                    </span>
+                    <div className={styles.swatches}>
+                      {v.options.map((o, oi) => {
+                        const on = o === atual;
+                        return (
+                          <a
+                            key={oi}
+                            className={`${styles.swatch}${on ? ` ${styles.swatchOn}` : ''}`}
+                            href="#"
+                            onClick={e => {
+                              e.preventDefault();
+                              escolher(vi, oi);
+                            }}
+                            aria-current={on ? 'true' : undefined}
+                            aria-label={`${o.label}${on ? ', selecionada' : ''}${o.available ? '' : ', esgotada'}`}
+                            data-role="pdp-swatch"
+                          >
+                            <img src={o.src} alt="" width={44} height={58} loading="lazy" decoding="async" />
+                          </a>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              const esgotadas = v.options.filter(o => !o.available);
+              return (
+                <div key={vi} className={styles.sizes} data-role="pdp-sizes" data-variacao="texto">
+                  <div className={styles.sizesHead}>
+                    <span className={styles.label} id={`${uid}-var${vi}`}>
+                      {v.name || m.sizeLabel}
+                    </span>
+                    {vi === primeiraDeTexto && (
+                      <button
+                        type="button"
+                        className={styles.guide}
+                        onClick={() => setGuideOpen(true)}
+                        aria-haspopup="dialog"
+                        data-role="pdp-size-guide"
+                      >
+                        <Ruler />
+                        {m.sizeGuideLabel}
+                      </button>
+                    )}
+                  </div>
+                  <div className={styles.sizeGrid} role="group" aria-labelledby={`${uid}-var${vi}`}>
+                    {v.options.map((o, oi) =>
+                      o.available ? (
+                        <button
+                          key={oi}
+                          type="button"
+                          className={`${styles.size}${o === atual ? ` ${styles.sizeOn}` : ''}`}
+                          aria-pressed={o === atual}
+                          onClick={() => {
+                            escolher(vi, oi);
+                            setNotifyOpen(false);
+                          }}
+                          data-role="pdp-size"
+                        >
+                          {o.label}
+                        </button>
+                      ) : (
+                        <button
+                          key={oi}
+                          type="button"
+                          className={`${styles.size} ${styles.sizeOut}`}
+                          aria-label={`${o.label}, esgotado`}
+                          disabled
+                          data-role="pdp-size-out"
+                        >
+                          {o.label}
+                        </button>
+                      )
+                    )}
+                  </div>
+                  {esgotadas.length > 0 && (
+                    <span className={styles.muted12} data-role="pdp-sold-out-note">
+                      {esgotadas.map(o => o.label).join(', ')} {m.soldOutText}{' '}
+                      <button
+                        type="button"
+                        className={styles.inlineLink}
+                        onClick={() => {
+                          setNotifyOpen(true);
+                          setNotifyOk(false);
+                        }}
+                        aria-expanded={notifyOpen}
+                        aria-controls={`${uid}-notify`}
+                        data-role="pdp-notify-link"
+                      >
+                        {m.notifyLabel}
+                      </button>
+                    </span>
+                  )}
+                </div>
+              );
+            })}
 
             {notifyOpen && (
               <form
@@ -419,10 +541,12 @@ export default function ProductInfo09() {
 
         <div className={styles.mobileBar} data-role="pdp-mobile-bar">
           <span className={styles.mobilePrice}>
-            <span className={styles.mobilePriceValue}>{money(PRICE)}</span>
-            <span className={styles.mobileInstallment}>
-              {BEST.n}x de {money(BEST.v)}
-            </span>
+            <span className={styles.mobilePriceValue}>{money(vista.price)}</span>
+            {vista.best && (
+              <span className={styles.mobileInstallment}>
+                {vista.best.n}x de {money(vista.best.v)}
+              </span>
+            )}
           </span>
           {buyButton(styles.buyMobile)}
         </div>
@@ -444,7 +568,7 @@ export default function ProductInfo09() {
                   </svg>
                 </button>
               </div>
-              <img className={styles.guideImg} src={GUIDE} alt={`${m.sizeGuideLabel} — ${PRODUCT_NAME}`} />
+              <img className={styles.guideImg} src={GUIDE} alt={`${m.sizeGuideLabel} — ${vista.name}`} />
             </div>
           </div>
         )}

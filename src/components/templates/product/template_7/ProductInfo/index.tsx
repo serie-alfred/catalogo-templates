@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -22,7 +24,21 @@ import styles from './index.module.css';
  * As imagens têm `url` vazia na origem de propósito ("o SCSS aplica o
  * gradiente-placeholder, mesmo look da origem"), então aqui elas não existem:
  * pôr um placeholder criaria uma imagem que o original não tem.
+ *
+ * Conteúdo: só os rótulos e os textos do CMS (`useConteudoDaSecao`, campos do schema
+ * do ProductDetails07) vêm do hook; produto, preço, tamanhos e estampas continuam os
+ * de exemplo. `consultoraWhatsapp`/`consultoraMessage` ficam fora: o link do WhatsApp
+ * é só `#` no preview.
  */
+interface ProductInfo07Conteudo {
+  eyebrow?: string;
+  trustMessage?: string;
+  benefits: string[];
+  consultoraLabel?: string;
+  addToCartLabel?: string;
+  otherPaymentLabel?: string;
+}
+
 const COR_HEX: Record<string, string> = {
   citrino: '#D4C090',
   grafite: '#2C2420',
@@ -38,7 +54,6 @@ const ESTAMPA_ATIVA = 'citrino';
 
 const PRODUTO = {
   nome: 'Tapete para Sala Belga Essence Clássico 2,00m × 2,50m',
-  eyebrow: 'Tapete Belga · Coleção Essence',
   preco: 779.9,
   parcelaN: 10,
   parcelaValor: 77.99,
@@ -54,16 +69,20 @@ const PRODUTO = {
   ],
 };
 
-const BENEFICIOS = [
-  'Combina com vários ambientes',
-  'Estampa clássica e atemporal',
-  'Conforto e durabilidade',
-  'Acabamento com franjas',
-];
-
-const CONFIANCA =
-  'Compra segura, parcelamento sem juros e atendimento especializado';
-const CONSULTORA = 'Comprar com uma consultora';
+const MOCK: ProductInfo07Conteudo = {
+  eyebrow: 'Tapete Belga · Coleção Essence',
+  trustMessage:
+    'Compra segura, parcelamento sem juros e atendimento especializado',
+  benefits: [
+    'Combina com vários ambientes',
+    'Estampa clássica e atemporal',
+    'Conforto e durabilidade',
+    'Acabamento com franjas',
+  ],
+  consultoraLabel: 'Comprar com uma consultora',
+  addToCartLabel: 'Adicionar à Sacola',
+  otherPaymentLabel: 'Outras formas de pagamento →',
+};
 
 const fmt = (n: number) => n.toFixed(2).replace('.', ',');
 
@@ -91,6 +110,14 @@ function Stars({ average, size }: { average: number; size: number }) {
 }
 
 export default function ProductInfo() {
+  const {
+    eyebrow,
+    trustMessage: CONFIANCA,
+    benefits: BENEFICIOS,
+    consultoraLabel: CONSULTORA,
+    addToCartLabel,
+    otherPaymentLabel,
+  } = useConteudoDaSecao(MOCK);
   const [qty, setQty] = useState(1);
   const [activeImg, setActiveImg] = useState(0);
 
@@ -141,9 +168,11 @@ export default function ProductInfo() {
             </div>
 
             <div className={styles.purchase} data-role="purchase">
-              <p className={styles.eyebrow} data-role="eyebrow">
-                {PRODUTO.eyebrow}
-              </p>
+              {eyebrow && (
+                <p className={styles.eyebrow} data-role="eyebrow">
+                  {eyebrow}
+                </p>
+              )}
               <h1 className={styles.title} data-role="title">
                 {PRODUTO.nome}
               </h1>
@@ -176,9 +205,11 @@ export default function ProductInfo() {
                     </span>
                   </p>
                 </div>
-                <a className={styles.otherPay} href="#pagamento">
-                  Outras formas de pagamento →
-                </a>
+                {otherPaymentLabel && (
+                  <a className={styles.otherPay} href="#pagamento">
+                    {otherPaymentLabel}
+                  </a>
+                )}
               </div>
 
               <div className={styles.size} data-role="size">
@@ -239,17 +270,19 @@ export default function ProductInfo() {
                   </button>
                 </div>
                 <button type="button" className={styles.ctaBuy} data-role="cta-buy">
-                  Adicionar à Sacola
+                  {addToCartLabel}
                 </button>
               </div>
 
-              <button
-                type="button"
-                className={styles.ctaConsultora}
-                data-role="cta-consultora"
-              >
-                {CONSULTORA}
-              </button>
+              {CONSULTORA && (
+                <button
+                  type="button"
+                  className={styles.ctaConsultora}
+                  data-role="cta-consultora"
+                >
+                  {CONSULTORA}
+                </button>
+              )}
 
               <div className={styles.trust} data-role="trust">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
@@ -298,9 +331,11 @@ export default function ProductInfo() {
           </div>
 
           <div className={styles.mInfo} data-role="m-info">
-            <p className={styles.mEyebrow} data-role="m-eyebrow">
-              {PRODUTO.eyebrow}
-            </p>
+            {eyebrow && (
+              <p className={styles.mEyebrow} data-role="m-eyebrow">
+                {eyebrow}
+              </p>
+            )}
             <p className={styles.mTitle} data-role="m-title" role="heading" aria-level={1}>
               {PRODUTO.nome}
             </p>
@@ -384,7 +419,7 @@ export default function ProductInfo() {
 
           <div className={styles.mStickyCta} data-role="m-sticky-cta">
             <button type="button" className={styles.mCtaBuy}>
-              Adicionar à Sacola
+              {addToCartLabel}
             </button>
             <a
               className={styles.mWaBtn}
@@ -403,3 +438,6 @@ export default function ProductInfo() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo.conteudoPadrao = MOCK;

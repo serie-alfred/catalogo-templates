@@ -6,58 +6,59 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
+
+/** O conteúdo da seção: os campos do `section.schema` do Brands01. */
+interface Brands01Conteudo {
+  brands: { title?: string; link?: string; img?: string }[];
+}
 
 // Mock base (mantido do catálogo). Ciclado para ~10 slides para o carrossel rolar.
 const baseBrands = [
   {
-    position: 1,
     title: 'Marca 1',
     link: 'https://exemplo.com/marca1',
     img: 'https://placehold.co/180x100',
   },
   {
-    position: 2,
     title: 'Marca 2',
     link: 'https://exemplo.com/marca2',
     img: 'https://placehold.co/180x100',
   },
   {
-    position: 3,
     title: 'Marca 3',
     link: 'https://exemplo.com/marca3',
     img: 'https://placehold.co/180x100',
   },
   {
-    position: 4,
     title: 'Marca 4',
     link: 'https://exemplo.com/marca4',
     img: 'https://placehold.co/180x100',
   },
   {
-    position: 5,
     title: 'Marca 5',
     link: 'https://exemplo.com/marca5',
     img: 'https://placehold.co/180x100',
   },
   {
-    position: 6,
     title: 'Marca 6',
     link: 'https://exemplo.com/marca6',
     img: 'https://placehold.co/180x100',
   },
   {
-    position: 7,
     title: 'Marca 7',
     link: 'https://exemplo.com/marca6',
     img: 'https://placehold.co/180x100',
   },
 ];
 
-const brands = Array.from({ length: 10 }).map((_, index) => {
-  const brand = baseBrands[index % baseBrands.length];
-  return { ...brand, position: index + 1 };
-});
+const MOCK: Brands01Conteudo = {
+  brands: Array.from({ length: 10 }).map(
+    (_, index) => baseBrands[index % baseBrands.length]
+  ),
+};
 
 // Espelha molecules/Brands01 do faststore.starter:
 // Swiper com Navigation, slidesPerView 2/3/5/6 por breakpoint e spaceBetween crescente.
@@ -68,6 +69,7 @@ const BREAKPOINTS = {
 };
 
 export default function Brands() {
+  const { brands } = useConteudoDaSecao(MOCK);
   const swiperRef = useRef<SwiperType | null>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -76,6 +78,8 @@ export default function Brands() {
     setIsBeginning(swiper.isBeginning);
     setIsEnd(swiper.isEnd);
   };
+
+  if (!brands.length) return null;
 
   return (
     <div className={styles.homeBrands}>
@@ -95,19 +99,16 @@ export default function Brands() {
             onSlideChange={syncNavState}
             onBreakpoint={syncNavState}
           >
-            {brands.map(brand => (
-              <SwiperSlide
-                key={brand.position}
-                className={styles.swiper__slide}
-              >
+            {brands.map((brand, i) => (
+              <SwiperSlide key={i} className={styles.swiper__slide}>
                 <div className={styles.brandsItem}>
-                  <a href={brand.link}>
+                  <a href={brand.link || '#'}>
                     <div className={styles.brandsImage}>
                       <img
                         src={brand.img}
                         width="180"
                         height="100"
-                        alt={`Marca ${brand.title}`}
+                        alt={`Marca ${brand.title ?? ''}`}
                         loading="lazy"
                       />
                     </div>
@@ -167,3 +168,6 @@ export default function Brands() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Brands.conteudoPadrao = MOCK;

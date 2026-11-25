@@ -1,10 +1,68 @@
 import React, { useState } from 'react';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import styles from './index.module.css';
+
+/** O conteúdo da seção: os rótulos do `section.schema` do ProductInfo02 que a réplica desenha (produto, preço e cores são de exemplo). */
+interface ProductInfo02Conteudo {
+  skuLabel?: string;
+  offerTagLabel?: string;
+  newTagLabel?: string;
+  installmentPrefix?: string;
+  installmentOf?: string;
+  withInterestLabel?: string;
+  paymentMethodsLabel?: string;
+  colorsTitle?: string;
+  sizesTitle?: string;
+  favoriteLabel?: string;
+  buyLabel?: string;
+  shippingTitle?: string;
+  shippingPlaceholder?: string;
+  shippingButton?: string;
+  noCepLabel?: string;
+  noCepUrl?: string;
+}
+
+const MOCK: ProductInfo02Conteudo = {
+  skuLabel: 'SKU:',
+  offerTagLabel: 'OFERTA',
+  newTagLabel: 'Novo',
+  installmentPrefix: 'Em',
+  installmentOf: 'de',
+  withInterestLabel: 'com juros',
+  paymentMethodsLabel: 'Ver todas as formas de pagamentos',
+  colorsTitle: 'Cores disponíveis',
+  sizesTitle: 'Escolha Tamanho',
+  favoriteLabel: 'Adicionar aos Favoritos',
+  buyLabel: 'Adicionar ao carrinho',
+  shippingTitle: 'Calcule seu frete',
+  shippingPlaceholder: '00000-000',
+  shippingButton: 'Calcular',
+  noCepLabel: 'Não sei meu CEP',
+  noCepUrl: 'https://buscacepinter.correios.com.br/app/endereco/index.php',
+};
 
 // A nota do mock do starter (`mockRating.average` do ProductInfo02): nenhuma estrela acesa.
 const NOTA_MOCK = 0;
 
 const ProductInfo = () => {
+  const {
+    skuLabel,
+    offerTagLabel,
+    newTagLabel,
+    installmentPrefix,
+    installmentOf,
+    withInterestLabel,
+    paymentMethodsLabel,
+    colorsTitle,
+    sizesTitle,
+    favoriteLabel,
+    buyLabel,
+    shippingTitle,
+    shippingPlaceholder,
+    shippingButton,
+    noCepLabel,
+    noCepUrl,
+  } = useConteudoDaSecao(MOCK);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('G');
   const [cep, setCep] = useState('');
@@ -142,7 +200,7 @@ const ProductInfo = () => {
                   <h1 className={styles.productName} data-role="title">{product.name}</h1>
                   <div className={styles.info__container_inf}>
                     <span className={styles.content__sku} data-role="sku">
-                      SKU: <b>{product.sku}</b>
+                      {skuLabel} <b>{product.sku}</b>
                     </span>
                     <div className={styles.content__stars} data-role="rating">
                       {/* Como no starter: estrela acesa (.starOn, --prod-info-rating) até a nota e
@@ -160,12 +218,16 @@ const ProductInfo = () => {
                  
 
                   <div className={styles.content__productTag} data-role="tags">
-                    <div className={styles.tagFeatured} data-role="tag-offer">
-                      <span>OFERTA</span>
-                    </div>
-                    <div className={styles.tagNew} data-role="tag-new">
-                      <span>Novo</span>
-                    </div>
+                    {offerTagLabel && (
+                      <div className={styles.tagFeatured} data-role="tag-offer">
+                        <span>{offerTagLabel}</span>
+                      </div>
+                    )}
+                    {newTagLabel && (
+                      <div className={styles.tagNew} data-role="tag-new">
+                        <span>{newTagLabel}</span>
+                      </div>
+                    )}
                   </div>
 
                   <div className={styles.content__price} data-role="price-block">
@@ -184,19 +246,21 @@ const ProductInfo = () => {
                           R$ <span>{product.price}</span>
                         </span>
                         <div className={styles.infoPreco} data-role="installment">
-                          <span className={styles.precoParc}>Em 10x</span>
-                          <span className={styles.precoParc}> de </span>
+                          <span className={styles.precoParc}>
+                            {installmentPrefix ? `${installmentPrefix} 10x` : '10x'}
+                          </span>
+                          <span className={styles.precoParc}> {installmentOf} </span>
                           <span className={styles.precoParc}>
                             {product.installment}
                           </span>
-                          <span className={styles.precoParc}> com juros </span>
+                          <span className={styles.precoParc}> {withInterestLabel} </span>
                         </div>
                       </div>
                     </div>
 
                     <div className={styles.produtoFormasPagamento}>
                       <a className={styles.showPaymentMethods} data-role="payment-link">
-                        Ver todas as formas de pagamentos
+                        {paymentMethodsLabel}
                       </a>
                     </div>
                   </div>
@@ -204,7 +268,7 @@ const ProductInfo = () => {
                   <div className={styles.corVariacao} data-role="variations">
                     <div className={styles.menuVars}>
                       <div className={styles.textoVariacao}>
-                        <h2 data-role="colors-title">Cores disponíveis</h2>
+                        <h2 data-role="colors-title">{colorsTitle}</h2>
                       </div>
                       <ul className={styles.listaCorVariacao}>
                         <li className={`${styles.listaItem} ${styles.selected}`} data-role="color-option">
@@ -217,7 +281,7 @@ const ProductInfo = () => {
                     </div>
                     <div className={styles.menuVars}>
                       <div className={styles.textoVariacao}>
-                        <h2 data-role="sizes-title">Escolha Tamanho</h2>
+                        <h2 data-role="sizes-title">{sizesTitle}</h2>
                       </div>
                       <ul className={styles.listaCorVariacao}>
                         {product.sizes.map(size => (
@@ -236,7 +300,7 @@ const ProductInfo = () => {
 
                   <div className={styles.favoriteButton} data-role="favorite">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
-                    Adicionar aos Favoritos
+                    {favoriteLabel}
                   </div>
 
                   <div className={styles.productFormBox} data-role="buy-box">
@@ -300,7 +364,7 @@ const ProductInfo = () => {
                           <path d="M9 18H14" stroke="white" strokeWidth="1.5" strokeLinecap="round"></path>
                           <path d="M4 4H4.805C5.59223 4 6.27845 4.50748 6.46938 5.23088L8.94877 14.6247C9.07406 15.0994 8.96683 15.6023 8.65687 15.9938L7.86011 17" stroke="white" strokeWidth="1.5" strokeLinecap="round"></path>
                         </svg>
-                          Adicionar ao carrinho
+                          {buyLabel}
                         </span>
                       </button>
                     </div>
@@ -308,7 +372,7 @@ const ProductInfo = () => {
 
                   <div className={styles.content__shipping} data-role="shipping">
                     <span className={styles.shipping__title} data-role="shipping-title">
-                    Calcule seu frete
+                    {shippingTitle}
                     </span>
 
                     <form className={styles.shipping__form}>
@@ -319,22 +383,22 @@ const ProductInfo = () => {
                           data-role="cep-input"
                           value={formatCep(cep)}
                           onChange={handleCepChange}
-                          placeholder="00000-000"
+                          placeholder={shippingPlaceholder}
                         />
                       </label>
                       <button className={styles.shipping__send} type="button" data-role="shipping-submit">
-                        Calcular
+                        {shippingButton}
                       </button>
                     </form>
 
                     <a
-                      href="https://buscacepinter.correios.com.br/app/endereco/index.php"
+                      href={noCepUrl || '#'}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={styles.noCep}
                       data-role="no-cep"
                     >
-                      Não sei meu CEP
+                      {noCepLabel}
                     </a>
 
                     <div className={styles.shippingResults} data-role="shipping-results"></div>
@@ -350,3 +414,6 @@ const ProductInfo = () => {
 };
 
 export default ProductInfo;
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo.conteudoPadrao = MOCK;

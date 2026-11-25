@@ -38,6 +38,7 @@ export const ROTULO_DO_SLOT: Record<SlotDaLoja, string> = {
   selos: 'Selos',
   banners: 'Banners principais',
   categorias: 'Categorias',
+  produtos: 'Produtos',
 };
 
 type Objeto = { [chave: string]: ValorDeConteudo };
@@ -195,20 +196,24 @@ function listaDaLoja(
 
 /* ── Linha legal e contato ─────────────────────────────────────────────── */
 
-function partesLegais(loja: ConteudoLoja, comEndereco: boolean) {
+function partesLegais(
+  loja: ConteudoLoja,
+  comEndereco: boolean,
+  semCnpj = false
+) {
   const razao = texto(loja.dadosLegais?.razaoSocial);
   const cnpj = texto(loja.dadosLegais?.cnpj);
   if (!razao && !cnpj) return null;
   return [
     razao,
-    cnpj && `CNPJ ${cnpj}`,
+    cnpj && !semCnpj ? `CNPJ ${cnpj}` : '',
     comEndereco ? texto(loja.contato?.endereco) : '',
   ].filter(Boolean);
 }
 
 /** "© 2026 Marca · Razão Social · CNPJ … · Endereço" — só com razão social ou CNPJ preenchidos. */
-function linhaLegal(loja: ConteudoLoja) {
-  const partes = partesLegais(loja, true);
+function linhaLegal(loja: ConteudoLoja, semCnpj = false) {
+  const partes = partesLegais(loja, true, semCnpj);
   if (!partes) return undefined;
   const marca = texto(loja.nomeDaLoja);
   const comMarca =
@@ -253,6 +258,58 @@ function ehWhatsapp(item: Record<string, unknown>) {
     /whatsapp/i.test(texto(item.label))
   );
 }
+
+/* ── Nomes para as peças que desenham rótulo (famílias 01–08) ────────── */
+
+const NOME_DA_REDE: Record<string, string> = {
+  instagram: 'Instagram',
+  facebook: 'Facebook',
+  youtube: 'YouTube',
+  x: 'X',
+  linkedin: 'LinkedIn',
+};
+
+const NOME_DO_METODO: Record<string, string> = {
+  visa: 'Visa',
+  mastercard: 'Mastercard',
+  elo: 'Elo',
+  amex: 'American Express',
+  hipercard: 'Hipercard',
+  diners: 'Diners',
+  aura: 'Aura',
+  pix: 'Pix',
+  boleto: 'Boleto',
+};
+
+/** Os campos de texto (URL) de cada rede nas peças antigas: `socialFacebook`, `facebookUrl`… */
+const CAMPOS_DE_REDE: Record<string, string[]> = {
+  instagram: ['socialInstagram', 'instagramUrl'],
+  facebook: ['socialFacebook', 'facebookUrl'],
+  youtube: ['socialYoutube', 'youtubeUrl'],
+  x: ['socialTwitter', 'twitterUrl'],
+  linkedin: ['socialLinkedin', 'linkedinUrl'],
+};
+
+/** As redes da loja com o nome para mostrar (`socials[label,url]` das famílias 04–06). */
+const redesComNome = (loja: ConteudoLoja) =>
+  objetos(loja.redes).map(r => ({
+    ...r,
+    label: NOME_DA_REDE[String(r.network)] ?? '',
+  }));
+
+/** As bandeiras da loja com o nome (`payments[name]`, `paymentMethods[label]`). */
+const pagamentosComNome = (loja: ConteudoLoja) =>
+  objetos(loja.pagamentos).map(p => {
+    const nome = NOME_DO_METODO[String(p.method)] ?? '';
+    return { ...p, label: nome, name: nome };
+  });
+
+/**
+ * A lista da peça desenha imagem por item (bandeira, selo): a loja não tem a
+ * imagem, então a lista da peça fica — melhor o desenho de exemplo que ícone quebrado.
+ */
+const temImagem = (lista: unknown) =>
+  objetos(lista).some(i => 'image' in i || 'src' in i);
 
 /* ── Os vínculos ───────────────────────────────────────────────────────── */
 
@@ -331,14 +388,16 @@ const VINCULOS: Vinculo[] = [
     campo: 'socials',
     slot: 'redes',
     projetar: (loja, mock) =>
-      listaDaLoja(loja.redes, mock.socials, 'network', 'url'),
+      listaDaLoja(redesComNome(loja), mock.socials, 'network', 'url'),
   },
   {
     de: FOOTER,
     campo: 'payments',
     slot: 'pagamentos',
     projetar: (loja, mock) =>
-      listaDaLoja(loja.pagamentos, mock.payments, 'method'),
+      temImagem(mock.payments)
+        ? undefined
+        : listaDaLoja(pagamentosComNome(loja), mock.payments, 'method'),
   },
   {
     de: FOOTER,
@@ -432,7 +491,7 @@ const VINCULOS: Vinculo[] = [
     campo: 'copyright',
     slot: 'dadosLegais',
     projetar: (loja, mock) => {
-      if (!('legalText' in mock)) return linhaLegal(loja);
+      if (!('legalText' in mock)) return linhaLegal(loja, 'cnpj' in mock);
       const marca = texto(loja.nomeDaLoja);
       return partesLegais(loja, false) && marca
         ? `© ${new Date().getFullYear()} ${marca}`
@@ -449,7 +508,7 @@ const VINCULOS: Vinculo[] = [
     de: FOOTER,
     campo: 'legal',
     slot: 'dadosLegais',
-    projetar: linhaLegal,
+    projetar: loja => linhaLegal(loja),
   },
   {
     // A 1ª linha é a legal; as outras (aviso de preços) continuam as do mock.
@@ -496,7 +555,9 @@ const VINCULOS: Vinculo[] = [
         ehWhatsapp(item)
           ? ({
               ...item,
-              url: linkDoWhatsapp(zap),
+              ...('href' in item
+                ? { href: linkDoWhatsapp(zap) }
+                : { url: linkDoWhatsapp(zap) }),
               ...('detail' in item ? { detail: zap } : {}),
             } as Objeto)
           : (item as Objeto)
@@ -513,6 +574,139 @@ const VINCULOS: Vinculo[] = [
         .filter(Boolean);
       return partes.length ? partes.join(' · ') : undefined;
     },
+  },
+
+  /* ── Nomes das famílias 01–08 (origem Tray) ── */
+  ...['navItems', 'mobileNavItems'].map(
+    (campo): Vinculo => ({
+      de: HEADER,
+      campo,
+      slot: 'menuPrincipal',
+      projetar: (loja, mock) =>
+        listaDaLoja(loja.menuPrincipal, mock[campo], 'label'),
+    })
+  ),
+  {
+    // O menu do Header05 se chama `categories`.
+    de: /^Header0[1-8]$/,
+    campo: 'categories',
+    slot: 'menuPrincipal',
+    projetar: (loja, mock) =>
+      listaDaLoja(loja.menuPrincipal, mock.categories, 'label'),
+  },
+  {
+    de: HEADER,
+    campo: 'topbarNotices',
+    slot: 'avisos',
+    projetar: (loja, mock) =>
+      listaDaLoja(loja.avisos, mock.topbarNotices, 'text'),
+  },
+  {
+    // Lista de textos soltos (Header04).
+    de: HEADER,
+    campo: 'announcementMessages',
+    slot: 'avisos',
+    projetar: loja => {
+      const textos = objetos(loja.avisos)
+        .map(a => texto(a.text))
+        .filter(Boolean);
+      return textos.length ? textos : undefined;
+    },
+  },
+  {
+    de: HEADER,
+    campo: 'logoText',
+    slot: 'nomeDaLoja',
+    projetar: loja => texto(loja.nomeDaLoja) || undefined,
+    semMock: true,
+  },
+  ...(
+    [
+      ['whatsapp', 'whatsapp'],
+      ['phone', 'telefone'],
+      ['email', 'email'],
+      ['address', 'endereco'],
+    ] as const
+  ).map(
+    ([campo, chave]): Vinculo => ({
+      de: HEADER_OU_FOOTER,
+      campo,
+      slot: 'contato',
+      projetar: loja => texto(loja.contato?.[chave]) || undefined,
+    })
+  ),
+  {
+    de: FOOTER,
+    campo: 'contactItems',
+    slot: 'contato',
+    projetar: (loja, mock) => {
+      const c = loja.contato ?? {};
+      const itens = (
+        [
+          ['WhatsApp', c.whatsapp],
+          ['Telefone', c.telefone],
+          ['E-mail', c.email],
+          ['Endereço', c.endereco],
+          ['Horário', c.horario],
+        ] as const
+      )
+        .map(([label, valor]) => ({ label, detail: texto(valor) }))
+        .filter(i => i.detail);
+      return itens.length
+        ? projetarLista(itens, objetos(mock.contactItems))
+        : undefined;
+    },
+  },
+  // Uma URL por rede (`socialFacebook`, `instagramUrl`…): rede que a loja não
+  // tem fica vazia — a lista de redes da loja é A lista.
+  ...Object.entries(CAMPOS_DE_REDE).flatMap(([rede, campos]) =>
+    campos.map(
+      (campo): Vinculo => ({
+        de: HEADER_OU_FOOTER,
+        campo,
+        slot: 'redes',
+        projetar: loja => {
+          const redes = objetos(loja.redes).filter(r => texto(r.url));
+          if (!redes.length) return undefined;
+          return texto(redes.find(r => r.network === rede)?.url);
+        },
+      })
+    )
+  ),
+  ...['institucionalMenu', 'institutionalLinks'].map(
+    (campo): Vinculo => ({
+      de: FOOTER,
+      campo,
+      slot: 'linksLegais',
+      projetar: (loja, mock) =>
+        listaDaLoja(loja.linksLegais, mock[campo], 'label'),
+    })
+  ),
+  {
+    // Bandeiras como texto: lista de nomes (Footer05) ou de rótulos (Footer03).
+    de: FOOTER,
+    campo: 'paymentMethods',
+    slot: 'pagamentos',
+    projetar: (loja, mock) => {
+      const comNome = pagamentosComNome(loja).filter(p => p.label);
+      if (!comNome.length) return undefined;
+      const doMock = mock.paymentMethods;
+      if (!Array.isArray(doMock)) return undefined;
+      if (doMock.every(x => typeof x === 'string'))
+        return comNome.map(p => p.label);
+      return temImagem(doMock)
+        ? undefined
+        : projetarLista(
+            comNome.map(p => ({ label: p.label })),
+            objetos(doMock)
+          );
+    },
+  },
+  {
+    de: FOOTER,
+    campo: 'cnpj',
+    slot: 'dadosLegais',
+    projetar: loja => texto(loja.dadosLegais?.cnpj) || undefined,
   },
 ];
 

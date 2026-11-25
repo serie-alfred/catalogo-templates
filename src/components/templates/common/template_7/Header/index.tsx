@@ -5,6 +5,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
 import { buildSearchSuggestions } from '@/components/templates/_shared/searchSuggestions';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
@@ -24,6 +25,10 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  *  • `useCart`/`useCartToggleButton`/`useCartInstance` → estado local + 1 item;
  *  • o wordmark da marca → `useLayout().logo` com fallback "SERIE//A", como
  *    manda o /from-faststore: o catálogo é público e mostra a marca do usuário.
+ *
+ * Conteúdo = o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`,
+ * campos do schema de lá); o `logoSrc` do CS vale mais que o logo do /gerador.
+ * `megaImage.src` fica fora do tipo: o markup do mega menu não desenha imagem.
  *
  * O mini-cart usa o `_shared/CartSidebar01` na variante 01, a mesma do Header01
  * (a Wake usa a sacola da família 01 nas famílias 01 a 08). O texto abaixo
@@ -45,7 +50,7 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 const MAX_SUGGESTIONS = 5;
 
 interface MegaLink {
-  name: string;
+  name?: string;
   url?: string;
   highlight?: boolean;
 }
@@ -64,7 +69,7 @@ interface MegaImage {
 }
 
 interface NavItem {
-  label: string;
+  label?: string;
   url?: string;
   highlight?: boolean;
   hasMega?: boolean;
@@ -72,14 +77,29 @@ interface NavItem {
   megaImage?: MegaImage;
 }
 
-const conteudo = {
-  topbarMessages: [
-    '✦ Mais de 100 mil ambientes transformados com conforto e estilo',
-    '✦ Frete grátis Sul e Sudeste acima de R$699',
-    '✦ Até 10× sem juros no cartão',
-    '✦ 5% de desconto no Pix',
+interface Header07Conteudo {
+  logoSrc?: string;
+  logoAlt?: string;
+  topbarNotices: { text?: string }[];
+  searchPlaceholder?: string;
+  mobileSearchPlaceholder?: string;
+  accountUrl?: string;
+  wishlistUrl?: string;
+  whatsappUrl?: string;
+  navItems: NavItem[];
+  drawerBenefits: { text?: string }[];
+  whatsappLabel?: string;
+}
+
+const MOCK: Header07Conteudo = {
+  topbarNotices: [
+    { text: '✦ Mais de 100 mil ambientes transformados com conforto e estilo' },
+    { text: '✦ Frete grátis Sul e Sudeste acima de R$699' },
+    { text: '✦ Até 10× sem juros no cartão' },
+    { text: '✦ 5% de desconto no Pix' },
   ],
   searchPlaceholder: 'Buscar produtos...',
+  mobileSearchPlaceholder: 'Buscar produtos...',
   accountUrl: '/account',
   wishlistUrl: '/favoritos',
   whatsappUrl: 'https://wa.me/5511999999999',
@@ -137,19 +157,22 @@ const conteudo = {
     { label: 'Decoração', url: '/decoracao' },
     { label: 'Infantil', url: '/infantil' },
     { label: 'Marcas', url: '/marcas' },
-  ] as NavItem[],
+  ],
   drawerBenefits: [
     { text: 'Frete grátis Sul/Sudeste acima de R$699' },
     { text: 'Até 10× sem juros · 5% de desconto no Pix' },
   ],
-  sugestoesPadrao: [
-    'tapete sala',
-    'jogo de cama',
-    'toalha de banho',
-    'manta sofá',
-    'tapete quarto',
-  ],
+  whatsappLabel: 'Atendimento WhatsApp',
 };
+
+/** Sugestões de busca sem termo digitado: não são campo do schema. */
+const SUGESTOES_PADRAO = [
+  'tapete sala',
+  'jogo de cama',
+  'toalha de banho',
+  'manta sofá',
+  'tapete quarto',
+];
 
 // ── Ícones (traçado do design) ───────────────────────────────────────────────
 const SearchIcon = ({ s = 14 }: { s?: number }) => (
@@ -231,7 +254,24 @@ const WhatsFloatIcon = () => (
 );
 
 export default function Header() {
-  const { logo } = useLayout();
+  const { logo: logoDaLoja } = useLayout();
+  const {
+    logoSrc,
+    logoAlt,
+    topbarNotices,
+    searchPlaceholder,
+    mobileSearchPlaceholder,
+    accountUrl,
+    wishlistUrl,
+    whatsappUrl,
+    navItems,
+    drawerBenefits,
+    whatsappLabel,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoSrc || logoDaLoja;
+  const topbarMessages = topbarNotices
+    .map(n => n.text)
+    .filter((t): t is string => !!t);
 
   const [cartOpen, setCartOpen] = useState(false);
   useAbrirNoCanvas('carrinho', setCartOpen);
@@ -240,7 +280,7 @@ export default function Header() {
   // topbar rotativa (mobile)
   const [tbIndex, setTbIndex] = useState(0);
   useEffect(() => {
-    const n = conteudo.topbarMessages.length;
+    const n = topbarMessages.length;
     if (n <= 1) return;
     if (
       typeof window !== 'undefined' &&
@@ -249,7 +289,7 @@ export default function Header() {
       return;
     const id = setInterval(() => setTbIndex(i => (i + 1) % n), 3000);
     return () => clearInterval(id);
-  }, []);
+  }, [topbarMessages.length]);
 
   const [activeMega, setActiveMega] = useState<number | null>(null);
   const closeMega = useCallback(() => setActiveMega(null), []);
@@ -260,7 +300,7 @@ export default function Header() {
 
   const sugestoes = buildSearchSuggestions(
     term,
-    conteudo.sugestoesPadrao,
+    SUGESTOES_PADRAO,
     MAX_SUGGESTIONS
   );
   const showSuggest = searchOpen && sugestoes.length > 0;
@@ -308,7 +348,7 @@ export default function Header() {
     return (
       <a className={styles.logo} href="/" aria-label="Página inicial" data-role={logoRole}>
         <span className={styles.brandName} data-role={nameRole}>
-          {logo ? <img src={logo} alt="Logo" className={styles.brandLogo} /> : 'SERIE//A'}
+          {logo ? <img src={logo} alt={logoAlt || 'Logo'} className={styles.brandLogo} /> : 'SERIE//A'}
         </span>
         {/* Como no starter: a tagline só acompanha a marca em texto; com logo, sai. */}
         {!logo && (
@@ -328,7 +368,7 @@ export default function Header() {
         {/* ══ DESKTOP ══ */}
         <div className={styles.desktop} onMouseLeave={closeMega}>
           <div className={styles.topbar} data-role="topbar" aria-label="Avisos da loja">
-            {conteudo.topbarMessages.map((m, i) => (
+            {topbarMessages.map((m, i) => (
               <span key={i} className={styles.topbarGroup}>
                 {i > 0 && (
                   <span className={styles.topbarSep} aria-hidden="true">
@@ -347,7 +387,7 @@ export default function Header() {
               <BrandLogo variant="d" />
 
               <nav className={styles.nav} data-role="nav" aria-label="Menu principal">
-                {conteudo.navItems.map((item, i) =>
+                {navItems.map((item, i) =>
                   item.hasMega ? (
                     <button
                       key={i}
@@ -383,11 +423,11 @@ export default function Header() {
                 >
                   <SearchIcon s={14} />
                   <span className={styles.searchText} data-role="search-text">
-                    {conteudo.searchPlaceholder}
+                    {searchPlaceholder}
                   </span>
                 </button>
                 <a
-                  href={conteudo.wishlistUrl}
+                  href={wishlistUrl || '#'}
                   className={styles.iconBtn}
                   data-role="wishlist-btn"
                   aria-label="Favoritos"
@@ -418,7 +458,7 @@ export default function Header() {
               </div>
             </header>
 
-            {conteudo.navItems.map((item, i) =>
+            {navItems.map((item, i) =>
               item.hasMega ? (
                 <div
                   key={i}
@@ -482,7 +522,7 @@ export default function Header() {
         <div className={styles.mobile}>
           <div className={styles.mTopbar} data-role="m-topbar" aria-label="Avisos da loja">
             <span className={styles.mTopbarMsg} data-role="m-topbar-msg">
-              {conteudo.topbarMessages[tbIndex]}
+              {topbarMessages[tbIndex % (topbarMessages.length || 1)]}
             </span>
           </div>
 
@@ -545,7 +585,7 @@ export default function Header() {
             <input
               ref={searchRef}
               type="search"
-              placeholder={conteudo.searchPlaceholder}
+              placeholder={searchPlaceholder}
               value={term}
               onChange={e => setTerm(e.target.value)}
             />
@@ -622,12 +662,14 @@ export default function Header() {
             aria-label="Buscar"
           >
             <SearchIcon s={13} />
-            <span className={styles.mSearchText}>{conteudo.searchPlaceholder}</span>
+            <span className={styles.mSearchText}>
+              {mobileSearchPlaceholder || searchPlaceholder}
+            </span>
           </button>
         </div>
 
         <nav className={styles.drawerNav} aria-label="Menu mobile">
-          {conteudo.navItems.map((item, i) =>
+          {navItems.map((item, i) =>
             item.hasMega ? (
               <div
                 key={i}
@@ -726,7 +768,7 @@ export default function Header() {
 
           <div className={styles.drawerAccount}>
             <a
-              href={conteudo.accountUrl}
+              href={accountUrl || '#'}
               className={styles.drawerAccountRow}
               onClick={() => setDrawerOpen(false)}
             >
@@ -734,7 +776,7 @@ export default function Header() {
               <span>Minha conta</span>
             </a>
             <a
-              href={conteudo.wishlistUrl}
+              href={wishlistUrl || '#'}
               className={styles.drawerAccountRow}
               onClick={() => setDrawerOpen(false)}
             >
@@ -742,17 +784,17 @@ export default function Header() {
               <span>Favoritos</span>
             </a>
             <a
-              href={conteudo.whatsappUrl}
+              href={whatsappUrl || '#'}
               className={styles.drawerAccountRow}
               onClick={() => setDrawerOpen(false)}
             >
               <WhatsIcon />
-              <span>Atendimento WhatsApp</span>
+              <span>{whatsappLabel}</span>
             </a>
           </div>
 
           <div className={styles.drawerBenefits}>
-            {conteudo.drawerBenefits.map((b, i) => (
+            {drawerBenefits.map((b, i) => (
               <div key={i} className={styles.drawerBenefit}>
                 {i === 0 ? <TruckMini /> : <CardMini />}
                 <span>{b.text}</span>
@@ -766,7 +808,7 @@ export default function Header() {
           agora fixo na tela inteira. FORA da `.headerShell`: o `container-type`
           dela faria o `position: fixed` ancorar no header em vez da viewport. */}
       <a
-        href={conteudo.whatsappUrl}
+        href={whatsappUrl || '#'}
         className={styles.whatsappFloat}
         target="_blank"
         rel="noopener noreferrer"
@@ -793,3 +835,6 @@ export default function Header() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header.conteudoPadrao = MOCK;

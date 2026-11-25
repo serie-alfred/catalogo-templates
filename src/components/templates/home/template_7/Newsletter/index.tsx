@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import type { FormEvent } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -12,8 +14,23 @@ import styles from './index.module.css';
  *
  * O submit é o mesmo stub da origem (lá ele só dispara `generate_lead`); aqui
  * troca para a mensagem de sucesso e não emite evento — preview não rastreia.
+ * Conteúdo = o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`,
+ * campos do schema de lá).
  */
-const conteudo = {
+interface Newsletter07Conteudo {
+  eyebrow?: string;
+  eyebrowMobile?: string;
+  title?: string;
+  titleMobile?: string;
+  description?: string;
+  placeholder?: string;
+  placeholderMobile?: string;
+  buttonLabel?: string;
+  note?: string;
+  successMessage?: string;
+}
+
+const MOCK: Newsletter07Conteudo = {
   eyebrow: 'Clube VIP',
   eyebrowMobile: 'Clube VIP',
   title: 'Receba inspirações e ofertas exclusivas',
@@ -28,6 +45,18 @@ const conteudo = {
 };
 
 export default function Newsletter() {
+  const {
+    eyebrow,
+    eyebrowMobile,
+    title,
+    titleMobile,
+    description,
+    placeholder,
+    placeholderMobile,
+    buttonLabel,
+    note,
+    successMessage,
+  } = useConteudoDaSecao(MOCK);
   const [email, setEmail] = useState('');
   const [done, setDone] = useState(false);
 
@@ -42,19 +71,25 @@ export default function Newsletter() {
       <div className={styles.desktop}>
         <div className={styles.section} data-role="nl-section">
           <div className={styles.text} data-role="nl-text">
-            <p className={styles.eyebrow} data-role="nl-eyebrow">
-              {conteudo.eyebrow}
-            </p>
-            <h2 className={styles.title} data-role="nl-title">
-              {conteudo.title}
-            </h2>
-            <p className={styles.desc} data-role="nl-desc">
-              {conteudo.description}
-            </p>
+            {eyebrow && (
+              <p className={styles.eyebrow} data-role="nl-eyebrow">
+                {eyebrow}
+              </p>
+            )}
+            {title && (
+              <h2 className={styles.title} data-role="nl-title">
+                {title}
+              </h2>
+            )}
+            {description && (
+              <p className={styles.desc} data-role="nl-desc">
+                {description}
+              </p>
+            )}
           </div>
           <div>
             {done ? (
-              <p className={styles.success}>{conteudo.successMessage}</p>
+              <p className={styles.success}>{successMessage}</p>
             ) : (
               <>
                 <form
@@ -67,22 +102,24 @@ export default function Newsletter() {
                     data-role="nl-input"
                     type="email"
                     required
-                    placeholder={conteudo.placeholder}
+                    placeholder={placeholder}
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    aria-label={conteudo.placeholder}
+                    aria-label={placeholder}
                   />
                   <button
                     className={styles.button}
                     data-role="nl-button"
                     type="submit"
                   >
-                    {conteudo.buttonLabel}
+                    {buttonLabel}
                   </button>
                 </form>
-                <p className={styles.note} data-role="nl-note">
-                  {conteudo.note}
-                </p>
+                {note && (
+                  <p className={styles.note} data-role="nl-note">
+                    {note}
+                  </p>
+                )}
               </>
             )}
           </div>
@@ -91,14 +128,18 @@ export default function Newsletter() {
 
       <div className={styles.mobile}>
         <div className={styles.mSection} data-role="m-nl-section">
-          <p className={styles.mEyebrow} data-role="m-nl-eyebrow">
-            {conteudo.eyebrowMobile}
-          </p>
-          <h2 className={styles.mTitle} data-role="m-nl-title">
-            {conteudo.titleMobile}
-          </h2>
+          {eyebrowMobile && (
+            <p className={styles.mEyebrow} data-role="m-nl-eyebrow">
+              {eyebrowMobile}
+            </p>
+          )}
+          {titleMobile && (
+            <h2 className={styles.mTitle} data-role="m-nl-title">
+              {titleMobile}
+            </h2>
+          )}
           {done ? (
-            <p className={styles.success}>{conteudo.successMessage}</p>
+            <p className={styles.success}>{successMessage}</p>
           ) : (
             <form
               className={styles.mForm}
@@ -110,17 +151,17 @@ export default function Newsletter() {
                 data-role="m-nl-input"
                 type="email"
                 required
-                placeholder={conteudo.placeholderMobile}
+                placeholder={placeholderMobile}
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                aria-label={conteudo.placeholderMobile}
+                aria-label={placeholderMobile}
               />
               <button
                 className={styles.button}
                 data-role="m-nl-button"
                 type="submit"
               >
-                {conteudo.buttonLabel}
+                {buttonLabel}
               </button>
             </form>
           )}
@@ -129,3 +170,6 @@ export default function Newsletter() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Newsletter.conteudoPadrao = MOCK;

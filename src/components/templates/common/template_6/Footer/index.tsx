@@ -2,6 +2,8 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -21,27 +23,57 @@ import styles from './index.module.css';
  * - razão social e CNPJ são genéricos (ver `copyright`).
  */
 
+/**
+ * Conteúdo: os nomes e a forma do `section.schema` do Footer06 do starter
+ * (`newsletter*`, `socialTitle`, `socials[]`, `columns[]`, `seals[]`,
+ * `copyright`), com o mock por baixo do que o CS subir (`useConteudoDaSecao`).
+ * O rodapé 06 não mostra o logo do usuário, então não há `logo` aqui.
+ */
 interface ColumnLink {
-  name: string;
+  name?: string;
+  url?: string;
   highlight?: boolean;
 }
 
 interface Column {
-  title: string;
+  title?: string;
   text?: string;
-  links: ColumnLink[];
+  links?: ColumnLink[];
 }
 
 interface Seal {
-  src: string;
-  alt: string;
+  src?: string;
+  alt?: string;
   url?: string;
-  /** proporção da imagem da origem: a caixa sai certa antes de ela carregar */
-  width: number;
-  height: number;
 }
 
-const data = {
+interface Social {
+  label?: string;
+  url?: string;
+}
+
+interface Footer06Conteudo {
+  newsletterSubtitle?: string;
+  newsletterTitle?: string;
+  newsletterNamePlaceholder?: string;
+  newsletterEmailPlaceholder?: string;
+  newsletterButtonLabel?: string;
+  newsletterSuccessMessage?: string;
+  socialTitle?: string;
+  socials: Social[];
+  columns: Column[];
+  seals: Seal[];
+  copyright?: string;
+}
+
+/** Proporção da imagem da origem, por posição: a caixa sai certa antes de ela carregar. */
+const CAIXA_DOS_SELOS = [
+  { width: 27, height: 37 },
+  { width: 36, height: 37 },
+  { width: 48, height: 46 },
+];
+
+const MOCK: Footer06Conteudo = {
   newsletterSubtitle: 'Fique por dentro de todas as novidades',
   newsletterTitle: 'Assine nossa Newsletter',
   newsletterNamePlaceholder: 'Nome',
@@ -49,40 +81,45 @@ const data = {
   newsletterButtonLabel: 'Enviar',
   newsletterSuccessMessage: 'Cadastro enviado com sucesso.',
   socialTitle: 'Siga-nos',
-  socials: ['Instagram', 'Facebook', 'TikTok', 'YouTube'],
+  socials: [
+    { label: 'Instagram', url: '#' },
+    { label: 'Facebook', url: '#' },
+    { label: 'TikTok', url: '#' },
+    { label: 'YouTube', url: '#' },
+  ],
   columns: [
     {
       title: 'Institucional',
       links: [
-        { name: 'Sobre nós' },
-        { name: 'Uso e conservação' },
-        { name: 'Tecnologias' },
-        { name: 'Outono / Inverno' },
-        { name: 'Nossas Lojas' },
-        { name: 'Mapa do site' },
+        { name: 'Sobre nós', url: '#' },
+        { name: 'Uso e conservação', url: '#' },
+        { name: 'Tecnologias', url: '#' },
+        { name: 'Outono / Inverno', url: '#' },
+        { name: 'Nossas Lojas', url: '#' },
+        { name: 'Mapa do site', url: '#' },
       ],
     },
     {
       title: 'Central de Ajuda',
       links: [
-        { name: 'Clube' },
-        { name: 'Política de Entrega' },
-        { name: 'Rastreie seu pedido' },
-        { name: 'Trocas e devoluções' },
-        { name: 'Segurança e Privacidade' },
+        { name: 'Clube', url: '#' },
+        { name: 'Política de Entrega', url: '#' },
+        { name: 'Rastreie seu pedido', url: '#' },
+        { name: 'Trocas e devoluções', url: '#' },
+        { name: 'Segurança e Privacidade', url: '#' },
       ],
     },
     {
       title: 'Atendimento',
       text: 'Segunda a Sexta: 08h às 16h',
-      links: [{ name: 'WhatsApp', highlight: true }],
+      links: [{ name: 'WhatsApp', url: '#', highlight: true }],
     },
-  ] as Column[],
+  ],
   seals: [
-    { src: 'https://placehold.co/54x74?text=Selo', alt: 'Selo de segurança', width: 27, height: 37 },
-    { src: 'https://placehold.co/72x74?text=Selo', alt: 'Selo de avaliação', width: 36, height: 37 },
-    { src: 'https://placehold.co/96x92?text=Selo', alt: 'Selo de navegação segura', width: 48, height: 46 },
-  ] as Seal[],
+    { src: 'https://placehold.co/54x74?text=Selo', alt: 'Selo de segurança' },
+    { src: 'https://placehold.co/72x74?text=Selo', alt: 'Selo de avaliação' },
+    { src: 'https://placehold.co/96x92?text=Selo', alt: 'Selo de navegação segura' },
+  ],
   // 60 caracteres DE PROPÓSITO, o mesmo tamanho do copyright do mock da origem. A barra
   // de baixo divide a sobra entre selos e logos (`flex: 1` nas duas pontas), e no
   // mobile o texto quebra em duas linhas: o 2-fidelidade mede em fonte-sonda
@@ -187,6 +224,19 @@ const PLATFORM_LOGOS = [
 ];
 
 export default function Footer06() {
+  const {
+    newsletterSubtitle,
+    newsletterTitle,
+    newsletterNamePlaceholder,
+    newsletterEmailPlaceholder,
+    newsletterButtonLabel,
+    newsletterSuccessMessage,
+    socialTitle,
+    socials,
+    columns,
+    seals,
+    copyright,
+  } = useConteudoDaSecao(MOCK);
   const wrapperRef = useRef<HTMLElement>(null);
   // A origem decide o accordion pela largura do PRÓPRIO rodapé, não pela viewport:
   // é o que vale também aqui, onde o canvas troca desktop/mobile por CSS.
@@ -232,14 +282,16 @@ export default function Footer06() {
     setEmail('');
   };
 
-  const renderSeal = (seal: Seal, i: number) =>
-    seal.url ? (
+  const renderSeal = (seal: Seal, i: number) => {
+    const caixa = CAIXA_DOS_SELOS[i] ?? CAIXA_DOS_SELOS[1];
+    return seal.url ? (
       <a key={i} href={seal.url} target="_blank" rel="noopener noreferrer" data-role="seal">
-        <img loading="lazy" src={seal.src} alt={seal.alt} width={seal.width} height={seal.height} />
+        <img loading="lazy" src={seal.src} alt={seal.alt ?? ''} width={caixa.width} height={caixa.height} />
       </a>
     ) : (
-      <img key={i} loading="lazy" src={seal.src} alt={seal.alt} width={seal.width} height={seal.height} data-role="seal" />
+      <img key={i} loading="lazy" src={seal.src} alt={seal.alt ?? ''} width={caixa.width} height={caixa.height} data-role="seal" />
     );
+  };
 
   return (
     <footer className={styles.footer} ref={wrapperRef} data-role="footer">
@@ -247,13 +299,13 @@ export default function Footer06() {
       <div className={styles.newsletter} data-role="newsletter">
         {submitted ? (
           <p className={styles.nlSuccess} role="status" aria-live="polite" data-role="nl-success">
-            {data.newsletterSuccessMessage}
+            {newsletterSuccessMessage}
           </p>
         ) : (
           <div className={styles.newsletterInner} data-role="nl-inner">
             <div className={styles.newsletterText} data-role="nl-text">
-              <span data-role="nl-subtitle">{data.newsletterSubtitle}</span>
-              <strong data-role="nl-title">{data.newsletterTitle}</strong>
+              {newsletterSubtitle && <span data-role="nl-subtitle">{newsletterSubtitle}</span>}
+              {newsletterTitle && <strong data-role="nl-title">{newsletterTitle}</strong>}
             </div>
             <form className={styles.newsletterForm} data-role="nl-form" onSubmit={handleSubmit}>
               <input
@@ -261,7 +313,7 @@ export default function Footer06() {
                 className={styles.field}
                 data-role="nl-input"
                 type="text"
-                placeholder={data.newsletterNamePlaceholder}
+                placeholder={newsletterNamePlaceholder}
                 aria-label="Nome"
                 value={name}
                 onChange={e => {
@@ -275,7 +327,7 @@ export default function Footer06() {
                 className={styles.field}
                 data-role="nl-input"
                 type="email"
-                placeholder={data.newsletterEmailPlaceholder}
+                placeholder={newsletterEmailPlaceholder}
                 aria-label="E-mail"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
@@ -283,7 +335,7 @@ export default function Footer06() {
                 required
               />
               <button type="submit" className={styles.newsletterBtn} data-role="nl-button">
-                {data.newsletterButtonLabel}
+                {newsletterButtonLabel}
               </button>
             </form>
           </div>
@@ -293,25 +345,25 @@ export default function Footer06() {
       {/* SOCIAL + COLUNAS */}
       <div className={styles.body} data-role="body">
         <div className={styles.social} data-role="social">
-          <h3 data-role="social-title">{data.socialTitle}</h3>
+          {socialTitle && <h3 data-role="social-title">{socialTitle}</h3>}
           <div className={styles.socialLinks} data-role="social-links">
-            {data.socials.map((label, i) => (
+            {socials.filter(r => r.label).map((rede, i) => (
               <a
                 key={i}
-                href="#"
-                aria-label={label}
+                href={rede.url || '#'}
+                aria-label={rede.label}
                 target="_blank"
                 rel="noopener noreferrer"
                 data-role="social-link"
               >
-                {socialIconFor(label)}
+                {socialIconFor(rede.label ?? '')}
               </a>
             ))}
           </div>
         </div>
 
         <div className={styles.columns} data-role="columns">
-          {data.columns.map((column, index) => {
+          {columns.map((column, index) => {
             const open = openIndex === index;
             const groupClasses = [styles.group, open ? styles.groupOpen : '']
               .filter(Boolean)
@@ -346,10 +398,10 @@ export default function Footer06() {
                       {column.text}
                     </p>
                   )}
-                  {column.links.map((link, j) => (
+                  {(column.links ?? []).map((link, j) => (
                     <a
                       key={j}
-                      href="#"
+                      href={link.url || '#'}
                       className={link.highlight ? styles.linkHighlight : undefined}
                       data-role="col-link"
                     >
@@ -367,10 +419,10 @@ export default function Footer06() {
       <div className={styles.bottom} data-role="bottom">
         <div className={styles.bottomInner} data-role="bottom-inner">
           <div className={styles.seals} data-role="seals">
-            {data.seals.map((seal, i) => renderSeal(seal, i))}
+            {seals.filter(seal => seal.src).map((seal, i) => renderSeal(seal, i))}
           </div>
           <div className={styles.copyright} data-role="copyright">
-            {data.copyright}
+            {copyright}
           </div>
           <div className={styles.platformLogos} data-role="platform-logos">
             {PLATFORM_LOGOS.map(({ url, Logo }) => (
@@ -385,3 +437,6 @@ export default function Footer06() {
     </footer>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Footer06.conteudoPadrao = MOCK;

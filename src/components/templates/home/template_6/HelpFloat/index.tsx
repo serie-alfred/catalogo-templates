@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -35,66 +37,75 @@ const Icone = ({ children }: { children: React.ReactNode }) => (
   </svg>
 );
 
+/** Desenhos do ícone padrão, por posição na lista (item sem `icon` do CS). */
+const ICONES_PADRAO: React.ReactNode[] = [
+  <>
+    <path d="M3 17l1.2-3.3A7 7 0 1 1 7 16.2L3 17z" />
+    <path d="M7.5 7.2c.3-.5.8-.5 1.1-.2l.7 1.2c.2.3.1.6-.1.8l-.4.4c.4.9 1.1 1.6 2 2l.4-.4c.2-.2.5-.3.8-.1l1.2.7c.3.3.3.8-.2 1.1-.9.6-2 .5-3-.1a6.2 6.2 0 0 1-2.4-2.4c-.6-1-.7-2.1-.1-3z" />
+  </>,
+  <>
+    <path d="M3 8h11a3 3 0 0 1 0 6H6" />
+    <path d="M6 5L3 8l3 3" />
+  </>,
+  <>
+    <rect x="2" y="6" width="11" height="8" />
+    <path d="M13 9h3l2 3v2h-5z" />
+    <circle cx="5.5" cy="15.5" r="1.5" />
+    <circle cx="15" cy="15.5" r="1.5" />
+  </>,
+  <>
+    <circle cx="10" cy="10" r="7" />
+    <path d="M10 6v4l3 2" />
+  </>,
+];
+
+/**
+ * Conteúdo: os nomes do `section.schema` do HelpFloatButton06 do starter
+ * (`helpLabel`, `helpItems[]`), com o mock por baixo do que o CS subir
+ * (`useConteudoDaSecao`). `icon` é a URL de uma arte própria; vazio, vale o
+ * desenho padrão acima. `info` é o nome antigo de `content`.
+ */
 interface Item {
-  label: string;
-  icon: React.ReactNode;
+  label?: string;
+  icon?: string;
   href?: string;
   expandable?: boolean;
   content?: string;
+  info?: string;
 }
 
-const conteudo = {
+interface HelpFloatConteudo {
+  helpLabel?: string;
+  helpItems: Item[];
+}
+
+const MOCK: HelpFloatConteudo = {
   helpLabel: 'ajuda',
   helpItems: [
     {
       label: 'Fale no WhatsApp',
-      icon: (
-        <>
-          <path d="M3 17l1.2-3.3A7 7 0 1 1 7 16.2L3 17z" />
-          <path d="M7.5 7.2c.3-.5.8-.5 1.1-.2l.7 1.2c.2.3.1.6-.1.8l-.4.4c.4.9 1.1 1.6 2 2l.4-.4c.2-.2.5-.3.8-.1l1.2.7c.3.3.3.8-.2 1.1-.9.6-2 .5-3-.1a6.2 6.2 0 0 1-2.4-2.4c-.6-1-.7-2.1-.1-3z" />
-        </>
-      ),
       // o número da origem era a linha de atendimento REAL do cliente; aqui vai o
       // placeholder que o resto do catálogo usa (template_2/Header, template_7/Header)
       href: 'https://api.whatsapp.com/send/?phone=5511999999999',
     },
     {
       label: 'Trocas e devoluções',
-      icon: (
-        <>
-          <path d="M3 8h11a3 3 0 0 1 0 6H6" />
-          <path d="M6 5L3 8l3 3" />
-        </>
-      ),
       href: 'https://sualoja.troque.app.br/',
     },
     {
       label: 'Rastrear pedido',
-      icon: (
-        <>
-          <rect x="2" y="6" width="11" height="8" />
-          <path d="M13 9h3l2 3v2h-5z" />
-          <circle cx="5.5" cy="15.5" r="1.5" />
-          <circle cx="15" cy="15.5" r="1.5" />
-        </>
-      ),
       href: 'https://sualoja.cademeupedido.com.br/',
     },
     {
       label: 'horário',
-      icon: (
-        <>
-          <circle cx="10" cy="10" r="7" />
-          <path d="M10 6v4l3 2" />
-        </>
-      ),
       expandable: true,
       content: 'Atendimento (Seg. à Sex.) - 08h às 16h',
     },
-  ] as Item[],
+  ],
 };
 
 export default function HelpFloat() {
+  const { helpLabel, helpItems } = useConteudoDaSecao(MOCK);
   const [open, setOpen] = useState(false);
   const [openTab, setOpenTab] = useState<number | null>(null);
 
@@ -115,8 +126,8 @@ export default function HelpFloat() {
         aria-expanded={open}
         aria-label={
           open
-            ? `Recolher ${conteudo.helpLabel}`
-            : `Expandir ${conteudo.helpLabel}`
+            ? `Recolher ${helpLabel}`
+            : `Expandir ${helpLabel}`
         }
       >
         <svg
@@ -136,7 +147,7 @@ export default function HelpFloat() {
           />
         </svg>
         <span className={styles.mobileTabLabel} data-role="help-mobile-label">
-          {conteudo.helpLabel}
+          {helpLabel}
         </span>
       </button>
 
@@ -147,8 +158,8 @@ export default function HelpFloat() {
         aria-expanded={open}
         aria-label={
           open
-            ? `Recolher ${conteudo.helpLabel}`
-            : `Expandir ${conteudo.helpLabel}`
+            ? `Recolher ${helpLabel}`
+            : `Expandir ${helpLabel}`
         }
       >
         <svg
@@ -169,13 +180,28 @@ export default function HelpFloat() {
           />
         </svg>
         <span className={styles.header06Label} data-role="help-header-label">
-          {conteudo.helpLabel}
+          {helpLabel}
         </span>
       </button>
 
       <ul className={styles.list} data-role="help-list">
-        {conteudo.helpItems.map((item, i) => {
-          const isTab = !item.href && Boolean(item.content);
+        {helpItems.map((item, i) => {
+          const content = item.content ?? item.info;
+          const isTab =
+            !item.href && Boolean(content) && (item.expandable ?? true);
+          const icone = item.icon ? (
+            <img
+              className={styles.icon}
+              src={item.icon}
+              alt=""
+              aria-hidden="true"
+              width={20}
+              height={20}
+              loading="lazy"
+            />
+          ) : (
+            <Icone>{ICONES_PADRAO[i] ?? ICONES_PADRAO[0]}</Icone>
+          );
           const tabOpen = openTab === i;
 
           return (
@@ -189,7 +215,7 @@ export default function HelpFloat() {
                   rel="noopener noreferrer"
                   title={item.label}
                 >
-                  <Icone>{item.icon}</Icone>
+                  {icone}
                   <span className={styles.itemLabel} data-role="help-item-label">
                     {item.label}
                   </span>
@@ -205,7 +231,7 @@ export default function HelpFloat() {
                     aria-controls={`helpfloat-tab-${i}`}
                     title={item.label}
                   >
-                    <Icone>{item.icon}</Icone>
+                    {icone}
                     <span
                       className={styles.itemLabel}
                       data-role="help-item-label"
@@ -235,7 +261,7 @@ export default function HelpFloat() {
                       id={`helpfloat-tab-${i}`}
                       className={styles.tabPanel}
                     >
-                      <p className={styles.tabText}>{item.content}</p>
+                      <p className={styles.tabText}>{content}</p>
                     </div>
                   )}
                 </>
@@ -245,7 +271,7 @@ export default function HelpFloat() {
                   data-role="help-item-link"
                   title={item.label}
                 >
-                  <Icone>{item.icon}</Icone>
+                  {icone}
                   <span className={styles.itemLabel} data-role="help-item-label">
                     {item.label}
                   </span>
@@ -258,3 +284,6 @@ export default function HelpFloat() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+HelpFloat.conteudoPadrao = MOCK;

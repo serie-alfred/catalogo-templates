@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -11,14 +13,19 @@ import styles from './index.module.css';
  * A origem alterna desktop/mobile por `@media`; aqui vira `@container`, porque o
  * que manda no gerador é a largura do canvas (1440 / 375), não a da janela. Os
  * `data-role` são os mesmos da origem de propósito: é por eles que o portão de
- * fidelidade casa nó a nó os dois lados.
+ * fidelidade casa nó a nó os dois lados. Conteúdo = o mock.ts de lá, por baixo do
+ * que o CS subir (`useConteudoDaSecao`, campos do schema de lá); `icon` é
+ * truck | card | shield | pix, e outro valor cai no caminhão.
  */
-type BenefitIcon = 'truck' | 'card' | 'shield' | 'pix';
-
 interface BenefitItem {
-  icon: BenefitIcon;
-  title: string;
-  subtitle: string;
+  icon?: string;
+  title?: string;
+  subtitle?: string;
+}
+
+interface Ruler07Conteudo {
+  benefits: BenefitItem[];
+  benefitsMobile: BenefitItem[];
 }
 
 const benefits: BenefitItem[] = [
@@ -35,7 +42,9 @@ const benefitsMobile: BenefitItem[] = [
   { icon: 'pix', title: '5% no Pix', subtitle: 'Desconto imediato' },
 ];
 
-function Icon({ icon, size }: { icon: BenefitIcon; size: number }) {
+const MOCK: Ruler07Conteudo = { benefits, benefitsMobile };
+
+function Icon({ icon, size }: { icon?: string; size: number }) {
   if (icon === 'pix') {
     return (
       <span
@@ -86,22 +95,29 @@ function Icon({ icon, size }: { icon: BenefitIcon; size: number }) {
 }
 
 export default function Ruler() {
+  const { benefits: itens, benefitsMobile: itensMobile } =
+    useConteudoDaSecao(MOCK);
+
   return (
     <div className={styles.benefitsStrip07Root}>
       <div className={styles.desktop}>
         <div className={styles.strip} data-role="bstrip">
-          {benefits.map((b, i) => (
+          {itens.map((b, i) => (
             <div className={styles.benefit} data-role="benefit" key={i}>
               <span className={styles.icon}>
                 <Icon icon={b.icon} size={28} />
               </span>
               <div>
-                <p className={styles.bTitle} data-role="b-title">
-                  {b.title}
-                </p>
-                <p className={styles.bSubtitle} data-role="b-subtitle">
-                  {b.subtitle}
-                </p>
+                {b.title && (
+                  <p className={styles.bTitle} data-role="b-title">
+                    {b.title}
+                  </p>
+                )}
+                {b.subtitle && (
+                  <p className={styles.bSubtitle} data-role="b-subtitle">
+                    {b.subtitle}
+                  </p>
+                )}
               </div>
             </div>
           ))}
@@ -110,18 +126,22 @@ export default function Ruler() {
 
       <div className={styles.mobile}>
         <div className={styles.mStrip} data-role="m-bstrip">
-          {benefitsMobile.map((b, i) => (
+          {itensMobile.map((b, i) => (
             <div className={styles.mBenefit} data-role="m-benefit" key={i}>
               <span className={styles.mIcon}>
                 <Icon icon={b.icon} size={20} />
               </span>
               <div>
-                <p className={styles.mBTitle} data-role="m-b-title">
-                  {b.title}
-                </p>
-                <p className={styles.mBSubtitle} data-role="m-b-subtitle">
-                  {b.subtitle}
-                </p>
+                {b.title && (
+                  <p className={styles.mBTitle} data-role="m-b-title">
+                    {b.title}
+                  </p>
+                )}
+                {b.subtitle && (
+                  <p className={styles.mBSubtitle} data-role="m-b-subtitle">
+                    {b.subtitle}
+                  </p>
+                )}
               </div>
             </div>
           ))}
@@ -130,3 +150,6 @@ export default function Ruler() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Ruler.conteudoPadrao = MOCK;

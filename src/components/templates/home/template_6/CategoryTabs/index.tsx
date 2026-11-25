@@ -5,6 +5,8 @@ import type { Swiper as SwiperType } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -18,49 +20,55 @@ import styles from './index.module.css';
  * nenhum template daqui aponta para o CDN de uma loja.
  *
  * Trocar de aba troca a lista e volta o carrossel para o começo, como na origem.
+ *
+ * Conteúdo: os nomes do `section.schema` do starter (`title`, `tabs[]`: `label`,
+ * `buttonText`), com o mock por baixo do que o CS subir (`useConteudoDaSecao`). Os
+ * modelos de cada aba são produtos de exemplo (a coleção é da plataforma), então
+ * ficam fora do tipo, junto com `collectionId`, `collectionUrl`, `numberOfItems` e
+ * `sort`. Aba a mais do que modelos de exemplo reaproveita os de exemplo em ciclo.
  */
+interface CategoryTabsConteudo {
+  title?: string;
+  tabs: { label?: string; buttonText?: string }[];
+}
+
+const MOCK: CategoryTabsConteudo = {
+  title: 'Compre Por Categoria',
+  tabs: [
+    { label: 'BOTAS', buttonText: 'Ver modelo' },
+    { label: 'SAPATÊNIS', buttonText: 'Ver modelo' },
+    { label: 'SAPATOS', buttonText: 'Ver modelo' },
+  ],
+};
+
 const foto = (rotulo: string, tom: string) =>
   `https://placehold.co/500x500/${tom}/8a8a8a?text=${encodeURIComponent(rotulo)}`;
 
 type Modelo = { id: string; nome: string; img: string; hover?: string };
 
-const ABAS: Array<{ label: string; botao: string; modelos: Modelo[] }> = [
-  {
-    label: 'BOTAS',
-    botao: 'Ver modelo',
-    modelos: [
+const MODELOS: Modelo[][] = [
+  [
       { id: 'b1', nome: 'Bota Columbia 8641-727B', img: foto('Bota 1', 'ececec') },
       { id: 'b2', nome: 'Bota Columbia 8640-727A', img: foto('Bota 2', 'e6e6e6') },
       { id: 'b3', nome: 'Bota Atenas 9816-517E', img: foto('Bota 3', 'e0e0e0'), hover: foto('Bota 3 verso', 'd6d6d6') },
       { id: 'b4', nome: 'Bota Fluence 5542-559J', img: foto('Bota 4', 'dadada'), hover: foto('Bota 4 verso', 'd0d0d0') },
       { id: 'b5', nome: 'Bota Cross 9932-517A', img: foto('Bota 5', 'd4d4d4') },
-    ],
-  },
-  {
-    label: 'SAPATÊNIS',
-    botao: 'Ver modelo',
-    modelos: [
+  ],
+  [
       { id: 's1', nome: 'Sapatênis Esportivo Milan 7970-720B', img: foto('Sapatenis 1', 'ececec') },
       { id: 's2', nome: 'Sapatênis Esportivo Milan 7970-720D', img: foto('Sapatenis 2', 'e6e6e6') },
       { id: 's3', nome: 'Sapatênis Esportivo Vox 8057-617D', img: foto('Sapatenis 3', 'e0e0e0') },
       { id: 's4', nome: 'Sapatênis Esportivo Star 1055B', img: foto('Sapatenis 4', 'dadada'), hover: foto('Sapatenis 4 verso', 'd0d0d0') },
       { id: 's5', nome: 'Sapatênis Esportivo Pulse 2262C', img: foto('Sapatenis 5', 'd4d4d4'), hover: foto('Sapatenis 5 verso', 'cacaca') },
-    ],
-  },
-  {
-    label: 'SAPATOS',
-    botao: 'Ver modelo',
-    modelos: [
+  ],
+  [
       { id: 'c1', nome: 'Sapato Casual Austin 5168-675I', img: foto('Sapato 1', 'ececec') },
       { id: 'c2', nome: 'Sapato Casual Modena 3167-719J', img: foto('Sapato 2', 'e6e6e6'), hover: foto('Sapato 2 verso', 'dcdcdc') },
       { id: 'c3', nome: 'Sapato Casual Forest 6707-715H', img: foto('Sapato 3', 'e0e0e0'), hover: foto('Sapato 3 verso', 'd6d6d6') },
       { id: 'c4', nome: 'Sapato Casual Melnik 5286-645G', img: foto('Sapato 4', 'dadada') },
       { id: 'c5', nome: 'Sapato Casual Fluence 5540-559G', img: foto('Sapato 5', 'd4d4d4'), hover: foto('Sapato 5 verso', 'cacaca') },
-    ],
-  },
+  ],
 ];
-
-const TITULO = 'Compre Por Categoria';
 
 const BREAKPOINTS = {
   0: { slidesPerView: 1, spaceBetween: 0 },
@@ -68,33 +76,39 @@ const BREAKPOINTS = {
 };
 
 export default function CategoryTabs() {
+  const { title, tabs } = useConteudoDaSecao(MOCK);
   const [abaAtiva, setAbaAtiva] = useState(0);
   const [slideAtivo, setSlideAtivo] = useState(0);
   const swiperRef = useRef<SwiperType | null>(null);
 
-  const aba = ABAS[abaAtiva];
-  const modelos = aba.modelos;
+  const ativa = Math.min(abaAtiva, Math.max(0, tabs.length - 1));
+  const aba = tabs[ativa];
+  const modelos = MODELOS[ativa % MODELOS.length];
 
   const trocarAba = (i: number) => {
     setAbaAtiva(i);
     setSlideAtivo(0);
   };
 
+  if (!title && !tabs.length) return null;
+
   return (
     /* wrapper só do catálogo: carrega o container-type das @container */
     <div className={styles.tabsWrap}>
       <section className={styles.row} data-role="tabs-root">
         <div className={styles.header06Col}>
-          <h2 className={styles.title} data-role="tabs-title">{TITULO}</h2>
+          {title && (
+            <h2 className={styles.title} data-role="tabs-title">{title}</h2>
+          )}
 
-          <div className={styles.tabsRow} role="tablist" aria-label={TITULO} data-role="tabs-row">
-            {ABAS.map((t, i) => (
+          <div className={styles.tabsRow} role="tablist" aria-label={title} data-role="tabs-row">
+            {tabs.map((t, i) => (
               <button
-                key={t.label}
+                key={i}
                 type="button"
                 role="tab"
-                aria-selected={i === abaAtiva}
-                className={`${styles.tab} ${i === abaAtiva ? styles.tabActive : ''}`}
+                aria-selected={i === ativa}
+                className={`${styles.tab} ${i === ativa ? styles.tabActive : ''}`}
                 data-role="tab"
                 onClick={() => trocarAba(i)}
               >
@@ -108,7 +122,7 @@ export default function CategoryTabs() {
 
         <div className={styles.sliderZone} data-role="tabs-slider">
           <Swiper
-            key={abaAtiva}
+            key={ativa}
             className={styles.swiper}
             slidesPerView={1}
             spaceBetween={0}
@@ -148,7 +162,7 @@ export default function CategoryTabs() {
                         )}
                       </div>
                       <div className={styles.cta}>
-                        <p className={styles.ctaLabel} data-role="tab-cta">{aba.botao}</p>
+                        <p className={styles.ctaLabel} data-role="tab-cta">{aba?.buttonText}</p>
                       </div>
                     </div>
                   </a>
@@ -174,3 +188,6 @@ export default function CategoryTabs() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryTabs.conteudoPadrao = MOCK;

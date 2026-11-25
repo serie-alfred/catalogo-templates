@@ -7,6 +7,7 @@ import { useLayout } from '@/context/LayoutContext';
 import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
 import { buildSearchSuggestions } from '@/components/templates/_shared/searchSuggestions';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 // Preview do Header04 (MANU) — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Header04 (gerado via /from-faststore).
@@ -18,14 +19,38 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 // interação é a mesma: o canvas ficou 100% interativo quando o drag-and-drop
 // saiu dele para o painel de seções.
 
-const data = {
+/** O conteúdo da seção: os campos do `section.schema` do Header04 que a réplica desenha. */
+interface Header04Conteudo {
+  announcementMessages: string[];
+  brandName?: string;
+  navItems: { label?: string; url?: string; hasMega?: boolean }[];
+  megaColumns: {
+    title?: string;
+    links: { name?: string; url?: string }[];
+  }[];
+  megaImage?: {
+    src?: string;
+    alt?: string;
+    label?: string;
+    linkLabel?: string;
+    url?: string;
+  };
+  searchPlaceholder?: string;
+  quickSearch: string[];
+  mobileNavItems: {
+    label?: string;
+    url?: string;
+    sublinks: { name?: string; url?: string }[];
+  }[];
+  benefitStripItems: string[];
+}
+
+const MOCK: Header04Conteudo = {
   announcementMessages: [
     'Frete grátis para todo o Brasil · Pedidos acima de R$ 349',
     'Entrega em até 3 dias úteis · Embalagem exclusiva de presente',
     'Alfaiataria sob medida disponível · Agende sua consulta',
   ],
-  brandName: 'MANU',
-  brandTagline: 'EST. 2018',
   navItems: [
     { label: 'Coleções', url: '#', hasMega: true },
     { label: 'Ternos & Blazers', url: '#', hasMega: true },
@@ -152,6 +177,8 @@ const ArrowIcon = () => <span className={styles.arrow}>&rarr;</span>;
 
 export default function Header04() {
   const { logo } = useLayout();
+  const data = useConteudoDaSecao(MOCK);
+  const megaImage = data.megaImage;
 
   // ── Pre-header rotativo + fechável ──
   const [preIndex, setPreIndex] = useState(0);
@@ -177,7 +204,7 @@ export default function Header04() {
   );
 
   useEffect(() => {
-    if (preheaderClosed || paused) return;
+    if (preheaderClosed || paused || !messages.length) return;
     preTimerRef.current = setInterval(() => {
       setPreIndex(curr => {
         const next = (curr + 1) % messages.length;
@@ -286,7 +313,7 @@ export default function Header04() {
       {logo ? (
         <img src={logo} alt="Logo" className={styles.logoImg} />
       ) : (
-        <strong>SERIE//A</strong>
+        <strong>{data.brandName || 'SERIE//A'}</strong>
       )}
     </a>
   );
@@ -369,7 +396,7 @@ export default function Header04() {
                     {item.label} &middot;
                   </button>
                 ) : (
-                  <a key={i} href={item.url} onClick={preventNav}>
+                  <a key={i} href={item.url || '#'} onClick={preventNav}>
                     {item.label}
                   </a>
                 )
@@ -432,7 +459,7 @@ export default function Header04() {
               {col.links.map((link, j) => (
                 <a
                   key={j}
-                  href={link.url}
+                  href={link.url || '#'}
                   onClick={e => {
                     preventNav(e);
                     closeMega();
@@ -443,19 +470,21 @@ export default function Header04() {
               ))}
             </div>
           ))}
+          {megaImage && (
           <div className={`${styles.megaCol} ${styles.megaImage}`}>
-            <img loading="lazy" src={data.megaImage.src} alt={data.megaImage.alt} />
-            <div className={styles.label}>{data.megaImage.label}</div>
+            <img loading="lazy" src={megaImage.src} alt={megaImage.alt} />
+            <div className={styles.label}>{megaImage.label}</div>
             <a
-              href={data.megaImage.url}
+              href={megaImage.url || '#'}
               onClick={e => {
                 preventNav(e);
                 closeMega();
               }}
             >
-              {data.megaImage.linkLabel} <ArrowIcon />
+              {megaImage.linkLabel} <ArrowIcon />
             </a>
           </div>
+          )}
         </div>
       </div>
 
@@ -537,7 +566,7 @@ export default function Header04() {
                 </button>
                 <div className={styles.mobileSub}>
                   {item.sublinks.map((sub, j) => (
-                    <a key={j} href={sub.url} onClick={preventNav}>
+                    <a key={j} href={sub.url || '#'} onClick={preventNav}>
                       {sub.name}
                     </a>
                   ))}
@@ -547,7 +576,7 @@ export default function Header04() {
               <a
                 key={i}
                 className={styles.mobileNavLink}
-                href={item.url}
+                href={item.url || '#'}
                 onClick={preventNav}
               >
                 {item.label}
@@ -582,3 +611,6 @@ export default function Header04() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header04.conteudoPadrao = MOCK;

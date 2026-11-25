@@ -35,7 +35,7 @@ import {
 } from '../derivar-conteudo.mjs';
 
 /** Famílias cuja migração terminou: todo componente com schema lê pelo hook. */
-const FAMILIAS_MIGRADAS = ['9', '10', '11', '12', '13', '14', '15', '16', '17'];
+const FAMILIAS_MIGRADAS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17'];
 
 const r = relatorio('1-conteudo · schema do starter, resolvedor e migração');
 
@@ -117,6 +117,7 @@ const url = n => ${JSON.stringify(pathToFileURL(path.join(RAIZ, 'src/utils')).hr
 const { projetarLoja, linkDoWhatsapp, linkDoTelefone, ROTULO_DO_SLOT, SLOTS_VINCULADOS, VINCULOS_RESUMO } = await import(url('conteudoLoja.ts'));
 const { sanitizarConteudoLoja, resolverConteudo } = await import(url('conteudo.ts'));
 const { partirDaPagina } = await import(url('lojaDaPagina.ts'));
+const { produtosDaLoja, normalizarProduto, MAX_PRODUTOS } = await import(url('produtos.ts'));
 const casos = [];
 const ok = (nome, cond, det = '') => casos.push({ nome, ok: !!cond, det: String(det) });
 const ano = new Date().getFullYear();
@@ -180,6 +181,40 @@ const schemaBanners = { type: 'array', items: { type: 'object', properties: { ti
 const ini = partirDaPagina('banners', schemaBanners, [{ componente: 'Header09', titulo: 'Header 09', conteudo: HEADER }, { componente: 'BannerMain09', titulo: 'Banner 09', conteudo: { slides: [{ title: 'T', primaryLabel: 'P', primaryUrl: '/p', icon: 'x', imageDesktop: '/a' }] } }]);
 ok('começar com o da página: acha a seção certa e converte para a loja', ini?.titulo === 'Banner 09' && ini.valor[0].ctaLabel === 'P' && ini.valor[0].ctaUrl === '/p' && !('icon' in ini.valor[0]), JSON.stringify(ini));
 ok('começar com o da página: slot sem seção que o mostre dá null', partirDaPagina('categorias', schemaBanners, []) === null && partirDaPagina('contato', schemaBanners, []) === null);
+// Os nomes das famílias 01–08 (origem Tray) também recebem a loja.
+const L08 = { versao: 1, nomeDaLoja: 'Loja X', menuPrincipal: [{ label: 'Roupas', url: '/r', children: [{ label: 'Saias', url: '/s' }] }], avisos: [{ text: 'Frete' }], contato: { whatsapp: '(11) 98888-7777', telefone: '(11) 3333-4444', email: 'oi@x.com' }, redes: [{ network: 'facebook', url: 'https://fb/x' }], pagamentos: [{ method: 'pix' }, { method: 'visa' }], linksLegais: [{ label: 'Privacidade', url: '/p' }], dadosLegais: { razaoSocial: 'R Ltda', cnpj: '1' } };
+const h06 = projetarLoja('Header06', L08, { navItems: [{ label: 'a', url: '#', hasMega: true, highlight: false, megaColumns: [] }], topbarMessages: [{ text: 'x', icon: 'truck' }] }).conteudo;
+ok('01–08: navItems do header recebem o menu principal (hasMega vira false)', h06?.navItems?.[0].label === 'Roupas' && h06.navItems[0].hasMega === false && h06.topbarMessages?.[0].icon === 'truck', JSON.stringify(h06));
+ok('01–08: mobileNavItems com os subitens em sublinks', projetarLoja('Header04', L08, { mobileNavItems: [{ label: 'a', url: '#', sublinks: [{ label: 'b', url: '#' }] }] }).conteudo?.mobileNavItems?.[0].sublinks?.[0].label === 'Saias');
+ok('01–08: avisos como textos soltos e topbarNotices', JSON.stringify(projetarLoja('Header04', L08, { announcementMessages: ['x'] }).conteudo?.announcementMessages) === '["Frete"]' && projetarLoja('Header07', L08, { topbarNotices: [{ text: 'x' }] }).conteudo?.topbarNotices?.[0].text === 'Frete');
+const f01 = projetarLoja('Footer01', L08, { whatsapp: 'x', phone: 'x', email: 'x', socialFacebook: 'x', socialTwitter: 'x', institucionalMenu: [{ name: 'a', url: '#' }], paymentMethods: [{ src: '/v.png', alt: 'Visa' }], copyright: 'x' }).conteudo;
+ok('01–08: contato e redes como textos soltos; rede que a loja não tem fica vazia', f01?.whatsapp === '(11) 98888-7777' && f01.phone === '(11) 3333-4444' && f01.email === 'oi@x.com' && f01.socialFacebook === 'https://fb/x' && f01.socialTwitter === '', JSON.stringify(f01));
+ok('01–08: institucionalMenu recebe os links legais (label → name)', f01?.institucionalMenu?.[0].name === 'Privacidade');
+ok('01–08: bandeiras com imagem na peça ficam as do mock', !('paymentMethods' in (f01 ?? {})) && !('payments' in (projetarLoja('Footer02', L08, { payments: [{ name: 'a', image: '/a.png' }] }).conteudo ?? {})));
+ok('01–08: bandeiras como nomes (Footer05) e rótulos (Footer03)', JSON.stringify(projetarLoja('Footer05', L08, { paymentMethods: ['A'] }).conteudo?.paymentMethods) === '["Pix","Visa"]' && projetarLoja('Footer03', L08, { paymentMethods: [{ label: 'a', isHighlight: false }] }).conteudo?.paymentMethods?.[1].label === 'Visa');
+const f03 = projetarLoja('Footer03', L08, { copyright: 'x', cnpj: 'x' }).conteudo;
+ok('01–08: com campo de CNPJ próprio, a linha legal não repete o CNPJ', f03?.cnpj === '1' && !f03.copyright.includes('CNPJ'), JSON.stringify(f03));
+ok('01–08: socials com rótulo (Footer04–06) ganham o nome da rede', projetarLoja('Footer04', L08, { socials: [{ label: 'a', url: '#' }] }).conteudo?.socials?.[0].label === 'Facebook');
+ok('01–08: contactItems (Footer05) com rótulo e detalhe', projetarLoja('Footer05', L08, { contactItems: [{ label: 'a', detail: 'b' }] }).conteudo?.contactItems?.[0].detail === '(11) 98888-7777');
+ok('01–08: ajuda flutuante 06 (href) abre o WhatsApp da loja', projetarLoja('HelpFloat06', L08, { helpItems: [{ label: 'WhatsApp', icon: '', href: '#' }] }).conteudo?.helpItems?.[0].href === 'https://wa.me/5511988887777');
+// Produtos da loja (src/utils/produtos.ts): o que o CS cadastra pela metade sai completo.
+ok('produtos: loja sem produto (ou só linhas em branco) dá null — as peças ficam com os de exemplo', produtosDaLoja(null) === null && produtosDaLoja({ versao: 1, produtos: [] }) === null && produtosDaLoja({ versao: 1, produtos: [{ price: 10 }, { name: '  ' }] }) === null);
+const pr = normalizarProduto({ name: 'Tênis', price: 300, listPrice: 400, installments: 3, images: [{ productImage: '/a.webp' }, {}, { productImage: '/b.webp' }] }, 0);
+ok('produtos: preço "de" maior fica; parcela sai do preço; fotos vazias saem', pr.listPrice === 400 && pr.installmentValue === 100 && pr.images.join() === '/a.webp,/b.webp' && pr.inStock && pr.id === 'loja-1', JSON.stringify(pr));
+const pr2 = normalizarProduto({ name: 'X', price: 300, listPrice: 200, installments: 1, soldOut: true }, 4);
+ok('produtos: "de" menor que o preço vira o preço; 1x é sem parcelamento; esgotado', pr2.listPrice === 300 && pr2.installments === 0 && !pr2.inStock && pr2.id === 'loja-5');
+ok('produtos: sem nome ganha "Produto N"; número inválido vira 0', normalizarProduto({ price: -5, images: [{ productImage: '/x' }] }, 2).name === 'Produto 3' && normalizarProduto({ price: 'abc' }, 0).price === 0);
+const vr = normalizarProduto({ name: 'V', variants: [
+  { name: 'Tamanho', options: [{ label: 'P' }, { label: 'M', soldOut: true }] },
+  { name: 'Cor', options: [{ label: 'Preto', color: '#000' }] },
+  { name: 'Estampa', options: [{ label: 'Floral', swatchImage: '/f.webp' }] },
+  { name: 'Vazia', options: [{}] },
+  { name: 'Forçada', tipo: 'texto', options: [{ label: 'A', color: '#fff' }] },
+] }, 0).variants;
+ok('produtos: sem tipo, a opção decide (texto, cor, imagem); variação sem opção some; tipo escolhido vence', vr.length === 4 && vr.map(v => v.tipo).join() === 'texto,cor,imagem,texto', JSON.stringify(vr.map(v => v.tipo)));
+ok('produtos: opção esgotada marcada', vr[0].options[1].available === false && vr[0].options[0].available === true);
+ok('produtos: especificação sem nome ou valor sai', normalizarProduto({ name: 'S', specs: [{ name: 'A', value: '1' }, { name: 'B' }, { value: '2' }] }, 0).specs.length === 1);
+ok('produtos: teto de ' + MAX_PRODUTOS + ' por loja', produtosDaLoja({ versao: 1, produtos: Array.from({ length: MAX_PRODUTOS + 20 }, (_, i) => ({ name: 'P' + i })) }).length === MAX_PRODUTOS);
 process.stdout.write(JSON.stringify({ casos, vinculos: VINCULOS_RESUMO, rotulos: Object.keys(ROTULO_DO_SLOT) }));
 `;
 try {

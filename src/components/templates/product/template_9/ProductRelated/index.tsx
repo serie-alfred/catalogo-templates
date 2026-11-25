@@ -3,9 +3,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   FONTES_09,
   ProductCard09,
+  deProduto09,
   type Produto09,
 } from '@/components/templates/common/template_9/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -41,6 +43,12 @@ const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function ProductRelated09() {
+  // Os da loja, menos o primeiro (é ele que a PDP mostra), quando há mais de um.
+  const daLoja = useProdutosDaLoja();
+  const daPdp = daLoja && daLoja.length > 1 ? daLoja.slice(1) : daLoja;
+  const itens = daPdp
+    ? daPdp.map(produto => ({ produto, card: deProduto09(produto) }))
+    : PRODUTOS.map(card => ({ produto: undefined, card }));
   const railRef = useRef<HTMLUListElement>(null);
   const [trilho, setTrilho] = useState({ inicio: true, fim: true, largura: 1, esquerda: 0 });
 
@@ -59,7 +67,7 @@ export default function ProductRelated09() {
     medir();
     window.addEventListener('resize', medir);
     return () => window.removeEventListener('resize', medir);
-  }, [medir]);
+  }, [medir, itens.length]);
 
   const passo = (dir: 1 | -1) => {
     const el = railRef.current;
@@ -94,10 +102,10 @@ export default function ProductRelated09() {
               </button>
             </div>
             <ul ref={railRef} className={styles.rail} onScroll={medir} data-role="rel-list">
-              {PRODUTOS.map(p => (
-                <li key={p.id} className={styles.slide}>
-                  <CardDaLoja familia="Spot09">
-                    <ProductCard09 product={p} />
+              {itens.map(({ produto, card }) => (
+                <li key={card.id} className={styles.slide}>
+                  <CardDaLoja familia="Spot09" produto={produto}>
+                    <ProductCard09 product={card} badge={produto?.badge} />
                   </CardDaLoja>
                 </li>
               ))}

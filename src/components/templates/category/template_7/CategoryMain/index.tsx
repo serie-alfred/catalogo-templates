@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 import CardDaLoja from '@/components/templates/CardDaLoja';
 import { ProductCard07, type ProdutoCard07 } from '@/components/templates/common/template_7/Spot';
@@ -29,7 +31,18 @@ import { ProductCard07, type ProdutoCard07 } from '@/components/templates/common
  *
  * O card da grade é o da loja (`CardDaLoja`): sem Card de Produto escolhido, ou com o
  * Spot07, o ProductCard07 (common/template_7/Spot), como o starter.
+ *
+ * Conteúdo: só os rótulos do CMS (`useConteudoDaSecao`, campos do schema do
+ * MainCategory07): o subtítulo e o substantivo do contador. Categoria, filtros,
+ * contagem e produtos continuam os de exemplo. `sizeGuideTitle`/`sizeGuideArea`
+ * (o guia de tamanhos não é replicado) e `cardCtaLabel` (o card é o da loja) ficam
+ * fora do tipo.
  */
+interface CategoryMain07Conteudo {
+  subtitle?: string;
+  resultsNoun?: string;
+}
+
 interface Produto {
   id: string;
   title: string;
@@ -60,9 +73,11 @@ interface Facet {
 
 const TITULO = 'Tapetes';
 const TOTAL = 248;
-const SUBSTANTIVO = 'produtos';
-const SUBTITULO =
-  'Escolha tapetes para sala, quarto, banheiro, cozinha, corredores e entrada com curadoria de materiais, formatos e medidas.';
+const MOCK: CategoryMain07Conteudo = {
+  subtitle:
+    'Escolha tapetes para sala, quarto, banheiro, cozinha, corredores e entrada com curadoria de materiais, formatos e medidas.',
+  resultsNoun: 'produtos',
+};
 
 const SUBCATEGORIAS: ValorFacet[] = [
   { value: 'tapete-para-sala', label: 'Tapete para Sala' },
@@ -195,6 +210,8 @@ function PriceRange({ min, max }: { min: number; max: number }) {
 }
 
 export default function CategoryMain() {
+  const { subtitle: SUBTITULO, resultsNoun: SUBSTANTIVO } =
+    useConteudoDaSecao(MOCK);
   const [colapsado, setColapsado] = useState<ReadonlySet<string>>(() => new Set());
   const [ordem, setOrdem] = useState('orders_desc');
   const [subcatsAtivas, setSubcatsAtivas] = useState<ReadonlySet<string>>(() => new Set());
@@ -249,9 +266,11 @@ export default function CategoryMain() {
             <h1 className={styles.title} data-role="title">
               {TITULO}
             </h1>
-            <p className={styles.subtitle} data-role="subtitle">
-              {SUBTITULO}
-            </p>
+            {SUBTITULO && (
+              <p className={styles.subtitle} data-role="subtitle">
+                {SUBTITULO}
+              </p>
+            )}
             <div className={styles.chips} data-role="chips">
               {SUBCATEGORIAS.map(s => (
                 <button
@@ -543,3 +562,6 @@ export default function CategoryMain() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryMain.conteudoPadrao = MOCK;

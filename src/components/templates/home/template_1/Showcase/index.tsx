@@ -11,6 +11,16 @@ import Spot from '../../../common/template_1/Spot';
 import { LAYOUTS } from '@/data/layoutData';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
+/** O conteúdo da seção: os campos do `section.schema` do ProductShelfCustom01 que a réplica desenha. */
+interface Showcase01Conteudo {
+  title?: string;
+}
+
+const MOCK: Showcase01Conteudo = {
+  title: 'Título',
+};
 
 // Espelha organisms/ProductShelfCustom01 do faststore.starter:
 // Swiper com Pagination, slidesPerView 2/3/4 por breakpoint e setas custom.
@@ -22,6 +32,7 @@ const BREAKPOINTS = {
 
 export default function Showcase() {
   const { selections } = useLayout();
+  const { title } = useConteudoDaSecao(MOCK);
   const swiperRef = useRef<SwiperType | null>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -54,9 +65,11 @@ export default function Showcase() {
   return (
     <div className={styles.home__showcase}>
       <div className={`${styles.showcase__container} component__container`}>
-        <div className={styles.showcase__title}>
-          <h2>Título</h2>
-        </div>
+        {title && (
+          <div className={styles.showcase__title}>
+            <h2>{title}</h2>
+          </div>
+        )}
 
         <div className={styles.showcase__wrapper}>
           <Swiper
@@ -138,3 +151,6 @@ export default function Showcase() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Showcase.conteudoPadrao = MOCK;

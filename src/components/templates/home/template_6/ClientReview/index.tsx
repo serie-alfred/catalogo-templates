@@ -1,29 +1,49 @@
 import React from 'react';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
+/**
+ * Conteúdo: os nomes do `section.schema` do ClientReview06 do starter (`title`,
+ * `subtitle`, `reviews[]`: `img`, `desc`, `name`), com o mock por baixo do que o
+ * CS subir (`useConteudoDaSecao`).
+ */
+interface ClientReviewConteudo {
+  title?: string;
+  subtitle?: string;
+  reviews: { img?: string; desc?: string; name?: string }[];
+}
+
+const MOCK: ClientReviewConteudo = {
+  title: 'Depoimentos',
+  subtitle: 'O que dizem sobre nós',
+  reviews: [
+    {
+      img: 'https://agenciaseriedesign2.fbitsstatic.net/media/imgperson2.png?v=202505281457',
+      desc: 'Excelente atendimento na NutriFlex! Comprei meus suplementos lá e fiquei impressionado com a qualidade e variedade. Já virei cliente fiel!',
+      name: 'Camila M.',
+    },
+    {
+      img: 'https://agenciaseriedesign2.fbitsstatic.net/media/imgperson1.png?v=202505281457',
+      desc: 'Amo a NutriFlex! Suas opções de suplementos são incríveis, sempre encontro o que preciso para potencializar meus treinos. Recomendo demais!',
+      name: 'Teodoro D.',
+    },
+    {
+      img: 'https://agenciaseriedesign2.fbitsstatic.net/media/imgperson2.png?v=202505281457',
+      desc: 'Excelente atendimento na NutriFlex! Comprei meus suplementos lá e fiquei impressionado com a qualidade e variedade. Já virei cliente fiel!',
+      name: 'Camila M.',
+    },
+    {
+      img: 'https://agenciaseriedesign2.fbitsstatic.net/media/imgperson1.png?v=202505281457',
+      desc: 'Amo a NutriFlex! Suas opções de suplementos são incríveis, sempre encontro o que preciso para potencializar meus treinos. Recomendo demais!',
+      name: 'Teodoro D.',
+    },
+  ],
+};
+
 export default function ClientReview() {
-  const reviews = [
-    {
-      img: 'https://agenciaseriedesign2.fbitsstatic.net/media/imgperson2.png?v=202505281457',
-      desc: 'Excelente atendimento na NutriFlex! Comprei meus suplementos lá e fiquei impressionado com a qualidade e variedade. Já virei cliente fiel!',
-      name: 'Camila M.',
-    },
-    {
-      img: 'https://agenciaseriedesign2.fbitsstatic.net/media/imgperson1.png?v=202505281457',
-      desc: 'Amo a NutriFlex! Suas opções de suplementos são incríveis, sempre encontro o que preciso para potencializar meus treinos. Recomendo demais!',
-      name: 'Teodoro D.',
-    },
-    {
-      img: 'https://agenciaseriedesign2.fbitsstatic.net/media/imgperson2.png?v=202505281457',
-      desc: 'Excelente atendimento na NutriFlex! Comprei meus suplementos lá e fiquei impressionado com a qualidade e variedade. Já virei cliente fiel!',
-      name: 'Camila M.',
-    },
-    {
-      img: 'https://agenciaseriedesign2.fbitsstatic.net/media/imgperson1.png?v=202505281457',
-      desc: 'Amo a NutriFlex! Suas opções de suplementos são incríveis, sempre encontro o que preciso para potencializar meus treinos. Recomendo demais!',
-      name: 'Teodoro D.',
-    },
-  ];
+  const { title, subtitle, reviews } = useConteudoDaSecao(MOCK);
+  const items = reviews.filter(r => r && (r.desc || r.name));
 
   const StarIcon = () => (
     <svg
@@ -40,18 +60,26 @@ export default function ClientReview() {
     </svg>
   );
 
+  if (!items.length && !title) return null;
+
   return (
     <section className={styles.reviewContainer} data-role="cr-root">
-      <p className={styles.titleReview} data-role="cr-title">Depoimentos</p>
-      <span className={styles.subtitleReview} data-role="cr-subtitle">O que dizem sobre nós</span>
+      {title && (
+        <p className={styles.titleReview} data-role="cr-title">{title}</p>
+      )}
+      {subtitle && (
+        <span className={styles.subtitleReview} data-role="cr-subtitle">{subtitle}</span>
+      )}
 
       <div className={`${styles.review} component__container`}>
         <div className={`${styles.swiper}`}>
           <div className={`${styles.swiper__wrapper}`}>
-            {reviews.map((review, index) => (
+            {items.map((review, index) => (
               <div key={index} className={`${styles.swiper__slide}`}>
                 <div className={styles.reviewItem} data-role="cr-item">
-                  <img src={review.img} alt={`imagem de ${review.name}`} data-role="cr-photo" />
+                  {review.img && (
+                    <img src={review.img} alt={`imagem de ${review.name ?? ''}`} data-role="cr-photo" />
+                  )}
                   <div className={styles.stars} data-role="cr-stars">
                     <div className={styles.stars__inner}>
                       {[...Array(5)].map((_, i) => (
@@ -70,3 +98,6 @@ export default function ClientReview() {
     </section>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ClientReview.conteudoPadrao = MOCK;

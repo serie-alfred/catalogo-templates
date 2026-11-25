@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 import {
   ICO_BAG,
@@ -21,6 +22,8 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
  * Espelha `organisms/Header08` do faststore.starter — header do "Templates - Serie
  * A" (Figma 7316:17346 / 7316:19143). Mesmo markup, classes, `data-role` e vars de
  * Nível 1. O logo é o que o usuário enviou no /gerador; sem ele, a marca em texto SERIE//A.
+ * Conteúdo = o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`,
+ * campos do schema de lá); o `logo` do CS vale mais que o do /gerador.
  * O contador mostra o "99" do Figma (no starter é o carrinho de verdade). O ícone da
  * sacola abre o CartSidebar01, o mesmo do Header01 (a Wake usa a sacola da família 01).
  */
@@ -28,11 +31,44 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 const FONTES =
   'https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap';
 
-const MENU = [
-  { label: 'Produto', submenu: ['Novidades', 'Mais vendidos', 'Ofertas'] },
-  { label: 'Novidades', submenu: [] },
-  { label: 'Blog', submenu: [] },
-];
+// `viewAllLabel` (o "Ver tudo" da gaveta) fica fora: a réplica não tem gaveta.
+interface Header08Conteudo {
+  logo?: string;
+  logoAlt?: string;
+  menu: {
+    label?: string;
+    url?: string;
+    children?: { label?: string; url?: string }[];
+  }[];
+  searchPlaceholder?: string;
+  contactUrl?: string;
+  contactLabel?: string;
+  accountLabel?: string;
+  cartLabel?: string;
+  mobileMenuLabel?: string;
+}
+
+const MOCK: Header08Conteudo = {
+  menu: [
+    {
+      label: 'Produto',
+      url: '#',
+      children: [
+        { label: 'Novidades', url: '#' },
+        { label: 'Mais vendidos', url: '#' },
+        { label: 'Ofertas', url: '#' },
+      ],
+    },
+    { label: 'Novidades', url: '#' },
+    { label: 'Blog', url: '#' },
+  ],
+  searchPlaceholder: 'Buscar seu produto',
+  contactUrl: '#',
+  contactLabel: 'Atendimento',
+  accountLabel: 'Minha conta',
+  cartLabel: 'Carrinho',
+  mobileMenuLabel: 'Menu',
+};
 
 const Ico = ({ svg, className }: { svg: string; className?: string }) => (
   <span
@@ -43,7 +79,19 @@ const Ico = ({ svg, className }: { svg: string; className?: string }) => (
 );
 
 export default function Header08() {
-  const { logo } = useLayout();
+  const { logo: logoDaLoja } = useLayout();
+  const {
+    logo: logoDoConteudo,
+    logoAlt,
+    menu,
+    searchPlaceholder,
+    contactUrl,
+    contactLabel,
+    accountLabel,
+    cartLabel,
+    mobileMenuLabel,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoDoConteudo || logoDaLoja;
   // Mini-cart: o mesmo CartSidebar01 do Header01.
   const [cartOpen, setCartOpen] = useState(false);
   useAbrirNoCanvas('carrinho', setCartOpen);
@@ -56,7 +104,7 @@ export default function Header08() {
       data-role="hd-logo"
     >
       {logo ? (
-        <img src={logo} alt="Logo" height={32} />
+        <img src={logo} alt={logoAlt || 'Logo'} height={32} />
       ) : (
         <span className={styles.logoText}>SERIE//A</span>
       )}
@@ -76,20 +124,24 @@ export default function Header08() {
 
       <div className={styles.bar} data-role="hd-bar">
         <nav className={styles.menu} aria-label="Menu principal">
-          {MENU.map(item => (
-            <div key={item.label} className={styles.menuEntry}>
-              <a className={styles.menuItem} href="#" data-role="hd-menu-item">
+          {menu.map((item, i) => (
+            <div key={i} className={styles.menuEntry}>
+              <a
+                className={styles.menuItem}
+                href={item.url || '#'}
+                data-role="hd-menu-item"
+              >
                 <span>{item.label}</span>
-                {item.submenu.length > 0 && (
+                {!!item.children?.length && (
                   <Ico svg={ICO_CHEVRON} className={styles.chevron} />
                 )}
               </a>
-              {item.submenu.length > 0 && (
+              {!!item.children?.length && (
                 <ul className={styles.submenu}>
-                  {item.submenu.map(c => (
-                    <li key={c}>
-                      <a className={styles.submenuItem} href="#">
-                        {c}
+                  {item.children.map((c, j) => (
+                    <li key={j}>
+                      <a className={styles.submenuItem} href={c.url || '#'}>
+                        {c.label}
                       </a>
                     </li>
                   ))}
@@ -107,13 +159,13 @@ export default function Header08() {
             onSubmit={e => e.preventDefault()}
           >
             <label className={styles.srOnly} htmlFor="hd08-busca">
-              Buscar seu produto
+              {searchPlaceholder}
             </label>
             <input
               id="hd08-busca"
               className={styles.searchInput}
               type="search"
-              placeholder="Buscar seu produto"
+              placeholder={searchPlaceholder}
             />
             <button
               type="submit"
@@ -125,8 +177,8 @@ export default function Header08() {
           </form>
           <a
             className={styles.iconButton}
-            href="#"
-            aria-label="Atendimento"
+            href={contactUrl || '#'}
+            aria-label={contactLabel}
             data-role="hd-contact"
           >
             <Ico svg={ICO_CHAT} />
@@ -134,7 +186,7 @@ export default function Header08() {
           <a
             className={styles.iconButton}
             href="#"
-            aria-label="Minha conta"
+            aria-label={accountLabel}
             data-role="hd-account"
           >
             <Ico svg={ICO_USER} />
@@ -142,7 +194,7 @@ export default function Header08() {
           <button
             type="button"
             className={styles.iconButton}
-            aria-label="Carrinho"
+            aria-label={cartLabel}
             data-role="hd-cart"
             onClick={() => setCartOpen(true)}
           >
@@ -162,7 +214,7 @@ export default function Header08() {
             data-role="hd-menu-button"
           >
             <Ico svg={ICO_MENU} />
-            <span>Menu</span>
+            <span>{mobileMenuLabel}</span>
           </button>
         </div>
         <div className={styles.center}>{marca}</div>
@@ -178,7 +230,7 @@ export default function Header08() {
           <button
             type="button"
             className={styles.iconButton}
-            aria-label="Carrinho"
+            aria-label={cartLabel}
             data-role="hd-mcart"
             onClick={() => setCartOpen(true)}
           >
@@ -196,3 +248,6 @@ export default function Header08() {
     </>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header08.conteudoPadrao = MOCK;

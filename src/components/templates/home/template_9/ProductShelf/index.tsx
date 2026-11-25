@@ -1,8 +1,14 @@
 'use client';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { ProductCard09, FONTES_09, type Produto09 } from '@/components/templates/common/template_9/Spot';
+import {
+  ProductCard09,
+  FONTES_09,
+  deProduto09,
+  type Produto09,
+} from '@/components/templates/common/template_9/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 /**
  * Espelha `molecules/ProductShelf09` do faststore.starter — o núcleo das duas
@@ -12,7 +18,9 @@ import CardDaLoja from '@/components/templates/CardDaLoja';
  *
  * A folha mora em cada réplica (Showcase, ShelfBanner) — uma por item do
  * catálogo — e chega aqui por prop; as duas saem do mesmo SCSS.
- * Produtos = o mock.ts do núcleo de lá (sem foto: vale o placeholder).
+ * Produtos = os da loja (`useProdutosDaLoja`), quando o CS cadastrou; senão o
+ * mock.ts do núcleo de lá (sem foto: vale o placeholder). O selo do produto vence
+ * o `tagLabel` da vitrine.
  * O card é o da loja (`CardDaLoja`): sem
  * Card de Produto escolhido, ou com o Spot09, o ProductCard09.
  */
@@ -85,6 +93,10 @@ export default function ProductShelf09({
   banner,
 }: ProductShelf09Props) {
   const listName = [title, titleEmphasis].filter(Boolean).join(' ');
+  const daLoja = useProdutosDaLoja();
+  const itens = daLoja
+    ? daLoja.map(produto => ({ produto, card: deProduto09(produto) }))
+    : PRODUTOS.map(card => ({ produto: undefined, card }));
 
   const railRef = useRef<HTMLUListElement>(null);
   const [trilho, setTrilho] = useState({ inicio: true, fim: true, largura: 1, esquerda: 0 });
@@ -102,7 +114,7 @@ export default function ProductShelf09({
     medir();
     window.addEventListener('resize', medir);
     return () => window.removeEventListener('resize', medir);
-  }, [medir]);
+  }, [medir, itens.length]);
   const passo = (dir: 1 | -1) => {
     const el = railRef.current;
     if (el)
@@ -149,10 +161,10 @@ export default function ProductShelf09({
 
   const lista = (
     <ul ref={railRef} className={styles.rail} onScroll={medir} data-role="sh-list">
-      {PRODUTOS.map(prod => (
-        <li key={prod.id} className={styles.slide}>
-          <CardDaLoja familia="Spot09">
-            <ProductCard09 product={prod} badge={tagLabel} />
+      {itens.map(({ produto, card }) => (
+        <li key={card.id} className={styles.slide}>
+          <CardDaLoja familia="Spot09" produto={produto}>
+            <ProductCard09 product={card} badge={produto?.badge || tagLabel} />
           </CardDaLoja>
         </li>
       ))}

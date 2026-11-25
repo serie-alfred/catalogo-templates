@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import styles from './index.module.css';
 
 /**
@@ -44,15 +45,98 @@ const product = {
     'https://placehold.co/640x800/e7e7e7/8c8c8c?text=5',
   ],
   badges: ['-25%', 'NOVO'],
-  accordion: [
-    {
-      title: 'Descrição',
-      content:
+  description:
         'Tênis desenvolvido para o dia a dia urbano, unindo conforto e durabilidade. Cabedal em couro sintético com detalhes em mesh respirável, entressola em EVA de alta densidade e solado de borracha antiderrapante para máxima aderência.',
-    },
+};
+
+/** O conteúdo da seção: os campos do `section.schema` do ProductDetails02 (só os textos). */
+interface ProductInfo03Conteudo {
+  descriptionTitle?: string;
+  colorLabel?: string;
+  sizeLabel?: string;
+  inStockLabel?: string;
+  outOfStockLabel?: string;
+  noReviewsLabel?: string;
+  addToCartLabel?: string;
+  buyNowLabel?: string;
+  trustBadges: { icon?: string; text?: string }[];
+  extraAccordion: { title?: string; content?: string }[];
+}
+
+const MOCK: ProductInfo03Conteudo = {
+  descriptionTitle: 'Descrição',
+  colorLabel: 'Cor:',
+  sizeLabel: 'Tamanho:',
+  inStockLabel: 'Em estoque',
+  outOfStockLabel: 'Produto indisponível',
+  noReviewsLabel: 'Sem avaliações',
+  addToCartLabel: 'Adicionar ao carrinho',
+  buyNowLabel: 'Comprar agora',
+  trustBadges: [
+    { icon: 'truck', text: 'Frete e devolução grátis' },
+    { icon: 'shield', text: '5 anos de proteção' },
+    { icon: 'refresh', text: '30 dias para troca' },
+  ],
+  extraAccordion: [
     { title: 'Composição', content: 'Cabedal: couro sintético. Forro: têxtil. Solado: borracha.' },
     { title: 'Cuidados', content: 'Limpe com pano úmido. Não utilize alvejante. Seque à sombra.' },
   ],
+};
+
+/** O ícone de cada selo de confiança (os três que o campo `icon` aceita). */
+const ICONES_DO_SELO: Record<string, React.ReactNode> = {
+  truck: (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M1 3h13v13H1z" />
+      <path d="M14 8h4l3 3v5h-7" />
+      <circle cx="6" cy="18.5" r="1.5" />
+      <circle cx="17" cy="18.5" r="1.5" />
+    </svg>
+  ),
+  shield: (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z" />
+      <path d="M9 12l2 2 4-4" />
+    </svg>
+  ),
+  refresh: (
+    <svg
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
+      <path d="M21 3v5h-5" />
+      <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
+      <path d="M3 21v-5h5" />
+    </svg>
+  ),
 };
 
 const Chevron = ({ up }: { up?: boolean }) => (
@@ -90,6 +174,23 @@ const Star = ({ filled }: { filled: boolean }) => (
 );
 
 const ProductInfo = () => {
+  const {
+    descriptionTitle,
+    colorLabel,
+    sizeLabel,
+    inStockLabel,
+    outOfStockLabel,
+    noReviewsLabel,
+    addToCartLabel,
+    buyNowLabel,
+    trustBadges,
+    extraAccordion,
+  } = useConteudoDaSecao(MOCK);
+  // A descrição é o produto de exemplo; o título e os blocos extras são do CMS.
+  const accordion = [
+    { title: descriptionTitle, content: product.description },
+    ...extraAccordion,
+  ];
   const [selectedColor, setSelectedColor] = useState(product.colors[0].value);
   const [selectedSize, setSelectedSize] = useState('40');
   const [openIndex, setOpenIndex] = useState(0);
@@ -259,7 +360,7 @@ const ProductInfo = () => {
                 ))}
               </span>
               <span>
-                {product.reviews > 0 ? `(${product.reviews}) avaliações` : 'Sem avaliações'}
+                {product.reviews > 0 ? `(${product.reviews}) avaliações` : noReviewsLabel}
               </span>
             </div>
 
@@ -281,7 +382,7 @@ const ProductInfo = () => {
           {/* ProductVariations02 — cor (swatches em foto) */}
           <div className={styles.colorVariations}>
             <span className={styles.colorLabel}>
-              <strong>Cor:</strong> {selectedColor}
+              <strong>{colorLabel}</strong> {selectedColor}
             </span>
 
             <div className={styles.colorGrid}>
@@ -303,7 +404,7 @@ const ProductInfo = () => {
           {/* ProductVariations02 — tamanho (pills) */}
           <div className={styles.productVariations}>
             <span className={styles.variationTitle}>
-              <strong>Tamanho:</strong> {selectedSize}
+              <strong>{sizeLabel}</strong> {selectedSize}
             </span>
 
             <ul className={styles.sizeList}>
@@ -321,83 +422,34 @@ const ProductInfo = () => {
 
           {/* Estoque */}
           <p className={styles.stock}>
-            {product.inStock ? 'Em estoque' : 'Produto indisponível'}
+            {product.inStock ? inStockLabel : outOfStockLabel}
           </p>
 
           {/* ProductBuy02 */}
           <div className={styles.productBuy}>
             <div className={styles.buttons}>
               <button type="button" className={styles.addToCart}>
-                Adicionar ao carrinho
+                {addToCartLabel}
               </button>
               <button type="button" className={styles.buyNow}>
-                Comprar agora
+                {buyNowLabel}
               </button>
             </div>
           </div>
 
           {/* Selos de confiança */}
           <ul className={styles.trustBadges}>
-            <li>
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M1 3h13v13H1z" />
-                <path d="M14 8h4l3 3v5h-7" />
-                <circle cx="6" cy="18.5" r="1.5" />
-                <circle cx="17" cy="18.5" r="1.5" />
-              </svg>
-              <span>Frete e devolução grátis</span>
-            </li>
-            <li>
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5l8-3z" />
-                <path d="M9 12l2 2 4-4" />
-              </svg>
-              <span>5 anos de proteção</span>
-            </li>
-            <li>
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M3 12a9 9 0 0 1 15-6.7L21 8" />
-                <path d="M21 3v5h-5" />
-                <path d="M21 12a9 9 0 0 1-15 6.7L3 16" />
-                <path d="M3 21v-5h5" />
-              </svg>
-              <span>30 dias para troca</span>
-            </li>
+            {trustBadges.map((badge, i) => (
+              <li key={i}>
+                {badge.icon && ICONES_DO_SELO[badge.icon]}
+                <span>{badge.text}</span>
+              </li>
+            ))}
           </ul>
 
           {/* ProductSpecsAccordion02 */}
           <div className={styles.accordion}>
-            {product.accordion.map((item, index) => {
+            {accordion.map((item, index) => {
               const isOpen = openIndex === index;
               return (
                 <div className={styles.accordionItem} key={index}>
@@ -444,3 +496,6 @@ const ProductInfo = () => {
 };
 
 export default ProductInfo;
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo.conteudoPadrao = MOCK;

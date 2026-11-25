@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -18,8 +20,24 @@ import styles from './index.module.css';
  *
  * A arte vinha do CDN de um cliente e virou `placehold.co` na mesma medida — o
  * catálogo é público.
+ *
+ * Conteúdo: os nomes do `section.schema` do starter, com o mock por baixo do que
+ * o CS subir (`useConteudoDaSecao`). `delayMs`, `storageKey` e `dismissDays` ficam
+ * fora do tipo: o preview nasce aberto e não lembra quem fechou.
  */
-const CONTEUDO = {
+interface PopupNewsConteudo {
+  title?: string;
+  /** o trecho do título que ganha destaque */
+  highlight?: string;
+  image?: string;
+  imageAlt?: string;
+  /** linhas separadas por quebra de linha */
+  finePrint?: string;
+  submitLabel?: string;
+  successMessage?: string;
+}
+
+const MOCK: PopupNewsConteudo = {
   title: 'Assine a nossa newsletter e ganhe 10% off',
   highlight: '10% off',
   image: 'https://placehold.co/650x996/e9e4dc/8a8a8a?text=Banner',
@@ -61,6 +79,15 @@ function useEhDesktop() {
 }
 
 export default function PopupNews() {
+  const {
+    title,
+    highlight,
+    image,
+    imageAlt,
+    finePrint,
+    submitLabel,
+    successMessage,
+  } = useConteudoDaSecao(MOCK);
   const ehDesktop = useEhDesktop();
   const [aberto, setAberto] = useState(true);
   const [enviado, setEnviado] = useState(false);
@@ -77,8 +104,6 @@ export default function PopupNews() {
   }, [enviado]);
 
   if (!ehDesktop || !aberto) return null;
-
-  const { title, highlight } = CONTEUDO;
 
   return (
     /* wrapper só do catálogo: carrega o container-type das @container */
@@ -108,18 +133,20 @@ export default function PopupNews() {
             </svg>
           </button>
 
-          <img
-            className={styles.image}
-            data-role="popup-image"
-            src={CONTEUDO.image}
-            alt={CONTEUDO.imageAlt}
-            loading="lazy"
-          />
+          {image && (
+            <img
+              className={styles.image}
+              data-role="popup-image"
+              src={image}
+              alt={imageAlt ?? ''}
+              loading="lazy"
+            />
+          )}
 
           <div className={`${styles.panel}${enviado ? ` ${styles.panelSuccess}` : ''}`}>
-            {!enviado && (
+            {!enviado && title && (
               <h2 className={styles.title} data-role="popup-title">
-                {title.includes(highlight) ? (
+                {title && highlight && title.includes(highlight) ? (
                   <>
                     {title.split(highlight)[0]}
                     <span className={styles.highlight}>{highlight}</span>
@@ -132,7 +159,7 @@ export default function PopupNews() {
             )}
 
             {enviado ? (
-              <p className={styles.success} role="status">{CONTEUDO.successMessage}</p>
+              <p className={styles.success} role="status">{successMessage}</p>
             ) : (
               <form
                 className={styles.form}
@@ -167,7 +194,7 @@ export default function PopupNews() {
                   ))}
                 </div>
                 <button type="submit" className={styles.submit} data-role="popup-submit">
-                  {CONTEUDO.submitLabel}
+                  {submitLabel}
                 </button>
               </form>
             )}
@@ -175,9 +202,9 @@ export default function PopupNews() {
 
           {/* `div`, não `p`, como na origem: lá o campo aceita HTML do CMS, e um `<p>`
               colado pelo editor dentro de outro `<p>` é aninhamento inválido */}
-          {!enviado && (
+          {!enviado && finePrint && (
             <div className={styles.finePrint} data-role="popup-fine">
-              {CONTEUDO.finePrint.split('\n').map((linha, i) => (
+              {finePrint.split('\n').map((linha, i) => (
                 <React.Fragment key={i}>
                   {i > 0 && <br />}
                   {linha}
@@ -190,3 +217,6 @@ export default function PopupNews() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+PopupNews.conteudoPadrao = MOCK;

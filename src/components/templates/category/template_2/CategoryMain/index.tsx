@@ -2,10 +2,21 @@ import React, { useState } from 'react';
 import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
 import { LAYOUTS } from '@/data/layoutData';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import Spot from '@/components/templates/common/template_2/Spot';
 
+/** O conteúdo da seção: os campos do `section.schema` do MainCategory02 (categoria, filtros e produtos são de exemplo). */
+interface CategoryMain02Conteudo {
+  pageSize?: number;
+}
+
+const MOCK: CategoryMain02Conteudo = {
+  pageSize: 12,
+};
+
 const CategoryMain = () => {
+  const { pageSize } = useConteudoDaSecao(MOCK);
   const [showFilters, setShowFilters] = useState(false);
   const [showSort, setShowSort] = useState(false);
   const { selections } = useLayout();
@@ -16,7 +27,9 @@ const CategoryMain = () => {
   // Dados fixos para substituir as variáveis Twig
   // 12 produtos: um card por posição da grade (a página da categoria do starter
   // mostra o mesmo número).
-  const products = Array.from({ length: 12 }, (_, i) => ({ id: i + 1 }));
+  // O CS escolhe quantos (produtos por página); sem valor válido, 12.
+  const total = Math.max(1, Math.min(Math.round(pageSize ?? 0) || 12, 50));
+  const products = Array.from({ length: total }, (_, i) => ({ id: i + 1 }));
 
   const brands = [
     { id: 1, name: 'Marca A', count: 12 },
@@ -591,7 +604,7 @@ const CategoryMain = () => {
                   <div className={styles.listOrder}>
                     <div className={styles.filterTotal} data-role="total">
                       <span>
-                        Mostrando <b>12</b> de 14
+                        Mostrando <b>{total}</b> de 14
                       </span>
                     </div>
 
@@ -664,3 +677,6 @@ const CategoryMain = () => {
 };
 
 export default CategoryMain;
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryMain.conteudoPadrao = MOCK;

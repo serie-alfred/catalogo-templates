@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -17,11 +19,23 @@ import styles from './index.module.css';
  *
  * O acordeão da origem vem do `@faststore/ui`; aqui ele é reescrito com os
  * mesmos atributos `data-fs-*`, porque é neles que o CSS se apoia.
+ *
+ * Do CS vêm o título e se o painel nasce aberto (`title`, `startExpanded`, nomes
+ * do `section.schema`); a moldura do widget segue a de exemplo.
  */
-const TITULO = 'Avaliações e comentários';
+interface ProductReviewsConteudo {
+  title?: string;
+  startExpanded?: boolean;
+}
+
+const MOCK: ProductReviewsConteudo = {
+  title: 'Avaliações e comentários',
+  startExpanded: true,
+};
 
 export default function ProductReviews() {
-  const [aberto, setAberto] = useState(true);
+  const { title: TITULO, startExpanded } = useConteudoDaSecao(MOCK);
+  const [aberto, setAberto] = useState(startExpanded !== false);
 
   return (
     /* wrapper só do catálogo: carrega o container-type das @container */
@@ -31,7 +45,7 @@ export default function ProductReviews() {
           <div
             data-fs-accordion
             data-testid="fs-accordion"
-            aria-label={TITULO}
+            aria-label={TITULO || undefined}
             className={styles.accordion}
           >
             <div data-fs-accordion-item data-testid="fs-accordion-item">
@@ -50,7 +64,9 @@ export default function ProductReviews() {
               >
                 <div data-fs-button-wrapper>
                   <span>
-                    <h2 className={styles.title} data-role="tvx-title">{TITULO}</h2>
+                    {TITULO && (
+                      <h2 className={styles.title} data-role="tvx-title">{TITULO}</h2>
+                    )}
                   </span>
                   <span data-fs-button-icon>
                     <span className={styles.sign} aria-hidden="true">
@@ -91,3 +107,6 @@ export default function ProductReviews() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductReviews.conteudoPadrao = MOCK;

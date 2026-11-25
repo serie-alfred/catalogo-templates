@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useLogoDoRodape } from '@/hooks/useLogoDoRodape';
 
 import styles from './index.module.css';
@@ -20,16 +21,43 @@ import styles from './index.module.css';
  *
  * O nome da marca NÃO vem da origem: o `/from-faststore` proíbe trazer o
  * wordmark do cliente para o catálogo, que é público. Vem de `useLogoDoRodape()`
- * com o fallback "SERIE//A", como em Header01/03/04/06.
+ * com o fallback "SERIE//A", como em Header01/03/04/06. O `logoSrc` do CS vale mais
+ * que o do /gerador; sem logo nenhum, o `brandName` do CS ou "SERIE//A".
+ *
+ * Conteúdo = o mock.ts de lá, por baixo do que o CS subir (`useConteudoDaSecao`,
+ * campos do schema de lá). A linha legal leva marcadores, nada de empresa ou CNPJ
+ * inventados. `paymentBrands` desenha só o `label` (as etiquetas de texto da
+ * origem); `image`/`alt` ficam fora porque o markup daqui não tem onde desenhá-los.
  */
 interface Link {
-  label: string;
+  label?: string;
   href?: string;
 }
 
 interface Column {
-  title: string;
+  title?: string;
   links: Link[];
+}
+
+interface Footer07Conteudo {
+  logoSrc?: string;
+  logoAlt?: string;
+  brandName?: string;
+  brandTagline?: string;
+  brandDescription?: string;
+  nlEyebrow?: string;
+  nlEyebrowMobile?: string;
+  nlTitle?: string;
+  nlTitleMobile?: string;
+  nlNote?: string;
+  nlBenefit?: string;
+  nlPlaceholder?: string;
+  nlPlaceholderMobile?: string;
+  nlButtonLabel?: string;
+  successMessage?: string;
+  columns: Column[];
+  paymentBrands: { label?: string }[];
+  copyright?: string;
 }
 
 // ── Assinaturas fixas (plataforma + agência) ─────────────────────────────────
@@ -100,7 +128,7 @@ const Credits = ({ role }: { role: string }) => (
   </div>
 )
 
-const conteudo = {
+const MOCK: Footer07Conteudo = {
   brandTagline: 'casa · conforto · estilo',
   brandDescription:
     'Curadoria de produtos têxteis e de decoração para transformar cada ambiente da sua casa.',
@@ -141,18 +169,47 @@ const conteudo = {
         { label: 'Termos de uso' },
       ],
     },
-  ] as Column[],
-  payments: ['Visa', 'Master', 'Pix', 'Boleto'],
-  // "Sua Marca" tem 9 letras DE PROPÓSITO, o mesmo tamanho do nome da marca no mock da
-  // origem. A barra de baixo é `space-between` com os créditos no meio: cada caractere
-  // a mais ou a menos no copyright desloca os créditos em meio caractere, e o 2-fidelidade
-  // mede em fonte-sonda monoespaçada. Com 8 letras ("Sua Loja") eram 3,3px de diferença.
+  ],
+  paymentBrands: [
+    { label: 'Visa' },
+    { label: 'Master' },
+    { label: 'Pix' },
+    { label: 'Boleto' },
+  ],
+  // Marcadores, não uma empresa: a loja preenche a razão social e o CNPJ dela.
   copyright:
-    '© 2026 Sua Marca. Todos os direitos reservados. CNPJ 00.000.000/0001-00',
+    '© 2026 [RAZÃO SOCIAL]. Todos os direitos reservados. CNPJ [00.000.000/0001-00]',
 };
 
 export default function Footer() {
-  const logo = useLogoDoRodape();
+  const logoDoRodape = useLogoDoRodape();
+  const {
+    logoSrc,
+    logoAlt,
+    brandName,
+    brandTagline,
+    brandDescription,
+    nlEyebrow,
+    nlEyebrowMobile,
+    nlTitle,
+    nlTitleMobile,
+    nlNote,
+    nlBenefit,
+    nlPlaceholder,
+    nlPlaceholderMobile,
+    nlButtonLabel,
+    successMessage,
+    columns,
+    paymentBrands,
+    copyright,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoSrc || logoDoRodape;
+  const marca = logo ? (
+    <img src={logo} alt={logoAlt || 'Logo'} className={styles.brandLogo} />
+  ) : (
+    brandName || 'SERIE//A'
+  );
+  const pagamentos = paymentBrands.filter(p => p.label);
   const [sentDesktop, setSentDesktop] = useState(false);
   const [sentMobile, setSentMobile] = useState(false);
 
@@ -170,9 +227,11 @@ export default function Footer() {
 
   const renderColumn = (col: Column, i: number) => (
     <div key={i} className={styles.col} data-role="col">
-      <p className={styles.colTitle} data-role="col-title">
-        {col.title}
-      </p>
+      {col.title && (
+        <p className={styles.colTitle} data-role="col-title">
+          {col.title}
+        </p>
+      )}
       <div className={styles.colLinks}>
         {col.links.map((l, j) => (
           <a
@@ -195,15 +254,21 @@ export default function Footer() {
         <div className={styles.desktop} data-role="footer">
           <div className={styles.newsletter} data-role="newsletter">
             <div className={styles.nlText}>
-              <p className={styles.nlEyebrow} data-role="nl-eyebrow">
-                {conteudo.nlEyebrow}
-              </p>
-              <h3 className={styles.nlTitle} data-role="nl-title">
-                {conteudo.nlTitle}
-              </h3>
-              <p className={styles.nlNote} data-role="nl-note">
-                {conteudo.nlNote}
-              </p>
+              {nlEyebrow && (
+                <p className={styles.nlEyebrow} data-role="nl-eyebrow">
+                  {nlEyebrow}
+                </p>
+              )}
+              {nlTitle && (
+                <h3 className={styles.nlTitle} data-role="nl-title">
+                  {nlTitle}
+                </h3>
+              )}
+              {nlNote && (
+                <p className={styles.nlNote} data-role="nl-note">
+                  {nlNote}
+                </p>
+              )}
             </div>
             <div className={styles.nlFormWrap}>
               <form
@@ -215,8 +280,8 @@ export default function Footer() {
                   className={styles.nlInput}
                   data-role="nl-input"
                   type="email"
-                  placeholder={conteudo.nlPlaceholder}
-                  aria-label={conteudo.nlEyebrow}
+                  placeholder={nlPlaceholder}
+                  aria-label={nlEyebrow}
                   required
                 />
                 <button
@@ -224,11 +289,11 @@ export default function Footer() {
                   data-role="nl-button"
                   type="submit"
                 >
-                  {conteudo.nlButtonLabel}
+                  {nlButtonLabel}
                 </button>
               </form>
               <p className={styles.nlBenefit} data-role="nl-benefit">
-                {sentDesktop ? conteudo.successMessage : conteudo.nlBenefit}
+                {sentDesktop ? successMessage : nlBenefit}
               </p>
             </div>
           </div>
@@ -236,31 +301,31 @@ export default function Footer() {
           <div className={styles.grid} data-role="grid">
             <div className={styles.brand} data-role="col">
               <div className={styles.brandName} data-role="brand-name">
-                {logo ? (
-                  <img src={logo} alt="Logo" className={styles.brandLogo} />
-                ) : (
-                  'SERIE//A'
-                )}
+                {marca}
               </div>
-              <div className={styles.brandTagline} data-role="brand-tagline">
-                {conteudo.brandTagline}
-              </div>
-              <p className={styles.brandDesc} data-role="brand-desc">
-                {conteudo.brandDescription}
-              </p>
+              {brandTagline && (
+                <div className={styles.brandTagline} data-role="brand-tagline">
+                  {brandTagline}
+                </div>
+              )}
+              {brandDescription && (
+                <p className={styles.brandDesc} data-role="brand-desc">
+                  {brandDescription}
+                </p>
+              )}
             </div>
-            {conteudo.columns.map(renderColumn)}
+            {columns.map(renderColumn)}
           </div>
 
           <div className={styles.bottom} data-role="bottom">
             <p className={styles.copyright} data-role="copyright">
-              {conteudo.copyright}
+              {copyright}
             </p>
             <Credits role="credits" />
             <div className={styles.payments} data-role="payments">
-              {conteudo.payments.map((p, i) => (
+              {pagamentos.map((p, i) => (
                 <span key={i} className={styles.payment} data-role="payment">
-                  {p}
+                  {p.label}
                 </span>
               ))}
             </div>
@@ -269,29 +334,35 @@ export default function Footer() {
 
         <div className={styles.mobile} data-role="footer">
           <div className={styles.brandNameM} data-role="m-brand-name">
-            {logo ? (
-              <img src={logo} alt="Logo" className={styles.brandLogo} />
-            ) : (
-              'SERIE//A'
-            )}
+            {marca}
           </div>
-          <div className={styles.brandTaglineM} data-role="m-brand-tagline">
-            {conteudo.brandTagline}
-          </div>
-          <p className={styles.brandDescM} data-role="m-brand-desc">
-            {conteudo.brandDescription}
-          </p>
+          {brandTagline && (
+            <div className={styles.brandTaglineM} data-role="m-brand-tagline">
+              {brandTagline}
+            </div>
+          )}
+          {brandDescription && (
+            <p className={styles.brandDescM} data-role="m-brand-desc">
+              {brandDescription}
+            </p>
+          )}
 
           <div className={styles.newsletterM} data-role="m-newsletter">
-            <p className={styles.nlEyebrowM} data-role="m-nl-eyebrow">
-              {conteudo.nlEyebrowMobile}
-            </p>
-            <h3 className={styles.nlTitleM} data-role="m-nl-title">
-              {conteudo.nlTitleMobile}
-            </h3>
-            <p className={styles.nlNoteM} data-role="m-nl-note">
-              {conteudo.nlNote}
-            </p>
+            {nlEyebrowMobile && (
+              <p className={styles.nlEyebrowM} data-role="m-nl-eyebrow">
+                {nlEyebrowMobile}
+              </p>
+            )}
+            {nlTitleMobile && (
+              <h3 className={styles.nlTitleM} data-role="m-nl-title">
+                {nlTitleMobile}
+              </h3>
+            )}
+            {nlNote && (
+              <p className={styles.nlNoteM} data-role="m-nl-note">
+                {nlNote}
+              </p>
+            )}
             <form
               className={styles.nlFormM}
               data-role="m-nl-form"
@@ -301,8 +372,8 @@ export default function Footer() {
                 className={styles.nlInputM}
                 data-role="m-nl-input"
                 type="email"
-                placeholder={conteudo.nlPlaceholderMobile}
-                aria-label={conteudo.nlEyebrowMobile}
+                placeholder={nlPlaceholderMobile}
+                aria-label={nlEyebrowMobile}
                 required
               />
               <button
@@ -310,20 +381,22 @@ export default function Footer() {
                 data-role="m-nl-button"
                 type="submit"
               >
-                {conteudo.nlButtonLabel}
+                {nlButtonLabel}
               </button>
             </form>
             <p className={styles.nlBenefitM} data-role="m-nl-benefit">
-              {sentMobile ? conteudo.successMessage : conteudo.nlBenefit}
+              {sentMobile ? successMessage : nlBenefit}
             </p>
           </div>
 
           <div className={styles.gridM} data-role="m-grid">
-            {conteudo.columns.map((col, i) => (
+            {columns.map((col, i) => (
               <div key={i} className={styles.colM} data-role="m-col">
-                <p className={styles.colTitleM} data-role="m-col-title">
-                  {col.title}
-                </p>
+                {col.title && (
+                  <p className={styles.colTitleM} data-role="m-col-title">
+                    {col.title}
+                  </p>
+                )}
                 <div className={styles.colLinksM}>
                   {col.links.map((l, j) => (
                     <a
@@ -342,14 +415,14 @@ export default function Footer() {
 
           <div className={styles.bottomM} data-role="m-bottom">
             <div className={styles.paymentsM} data-role="m-payments">
-              {conteudo.payments.map((p, i) => (
+              {pagamentos.map((p, i) => (
                 <span key={i} className={styles.paymentM} data-role="m-payment">
-                  {p}
+                  {p.label}
                 </span>
               ))}
             </div>
             <p className={styles.copyrightM} data-role="m-copyright">
-              {conteudo.copyright}
+              {copyright}
             </p>
           </div>
 
@@ -359,3 +432,6 @@ export default function Footer() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Footer.conteudoPadrao = MOCK;

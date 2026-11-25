@@ -11,6 +11,7 @@ import Spot from '../../../common/template_3/Spot';
 import { LAYOUTS } from '@/data/layoutData';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 // Espelha organisms/ProductShelfCustom03 do faststore.starter:
 // Swiper com Pagination, slidesPerView 1.5/3/4 por breakpoint e setas custom.
@@ -20,8 +21,22 @@ const BREAKPOINTS = {
   1024: { slidesPerView: 4 },
 };
 
+/** O conteúdo da seção: os campos do `section.schema` do Showcase03 que o cabeçalho desenha. */
+interface Showcase03Conteudo {
+  title?: string;
+  link?: string;
+  viewAllLabel?: string;
+}
+
+const MOCK: Showcase03Conteudo = {
+  title: 'Lorem Ipsum Dolor Sit',
+  link: '#',
+  viewAllLabel: 'Ver Todos',
+};
+
 export default function Showcase() {
   const { selections } = useLayout();
+  const { title, link, viewAllLabel } = useConteudoDaSecao(MOCK);
   const swiperRef = useRef<SwiperType | null>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -55,14 +70,16 @@ export default function Showcase() {
     <div className={styles.shelf}>
       <div className={`${styles.shelf__container} component__container`}>
         <div className={styles.shelf__header}>
-          <h2 className={styles.shelf__title}>Lorem Ipsum Dolor Sit</h2>
-          <a
-            className={styles.shelf__link}
-            href="#"
-            onClick={e => e.preventDefault()}
-          >
-            Ver Todos
-          </a>
+          {title && <h2 className={styles.shelf__title}>{title}</h2>}
+          {viewAllLabel && (
+            <a
+              className={styles.shelf__link}
+              href={link || '#'}
+              onClick={e => e.preventDefault()}
+            >
+              {viewAllLabel}
+            </a>
+          )}
         </div>
 
         <div className={styles.showcase__wrapper}>
@@ -145,3 +162,6 @@ export default function Showcase() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Showcase.conteudoPadrao = MOCK;

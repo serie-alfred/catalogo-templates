@@ -5,6 +5,8 @@ import type { Swiper as SwiperType } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -23,6 +25,13 @@ import styles from './index.module.css';
  * Fica o `useState` do slide ativo, do tamanho escolhido, do popover de
  * compartilhar e do modal do guia — é o que faz o preview responder ao clique —,
  * e o do carrossel de cores travado, que tira as setas como na origem.
+ *
+ * Do CS vêm só os rótulos e as opções, com os nomes do `section.schema` do
+ * ProductDetails06 do starter (`barText`, `consulteLabel`, `fretePill*`,
+ * `cep*`, `envio*`, `troca*`, `aviseMeLabel`, `buyLabel`, `shareInstagramUrl`);
+ * produto, preço, avaliação e fotos seguem os de exemplo. Ficam fora do tipo
+ * `cashbackText`, `aviseSuccessMsg`, `aviseSubtitle` e os ícones de compartilhar
+ * (sem lugar no markup), e o guia de medidas, que não é campo do schema.
  */
 const IMAGENS = [
   { url: 'https://placehold.co/800x800/efefef/999999?text=Foto+1', alternateName: 'Sapato — vista lateral' },
@@ -73,7 +82,25 @@ const ESPECIFICACOES = [
   { name: 'Peso do Produto', value: '1,040', icon: 'https://placehold.co/28x28/f4f4f4/999999?text=%20' },
 ];
 
-const CONTEUDO = {
+interface ProductInfoConteudo {
+  barText?: string;
+  consulteLabel?: string;
+  fretePillBold?: string;
+  fretePillText?: string;
+  cepPlaceholder?: string;
+  cepButtonLabel?: string;
+  envioIconUrl?: string;
+  envioBold?: string;
+  envioText?: string;
+  trocaIconUrl?: string;
+  trocaBold?: string;
+  trocaText?: string;
+  aviseMeLabel?: string;
+  buyLabel?: string;
+  shareInstagramUrl?: string;
+}
+
+const MOCK: ProductInfoConteudo = {
   barText: '🔥 Envio no mesmo dia, para pedidos feitos até 12h! ⏰',
   consulteLabel: 'Consulte prazo e valores',
   fretePillBold: 'Frete grátis',
@@ -86,11 +113,15 @@ const CONTEUDO = {
   trocaIconUrl: 'https://placehold.co/24x24/f4f4f4/999999?text=%20',
   trocaBold: 'Troca fácil',
   trocaText: 'em até 7 dias úteis.',
-  sizeGuideLabel: 'Guia de medidas',
   aviseMeLabel: 'AVISE-ME',
-  sizeGuideImage: 'https://placehold.co/600x461/f0f0f0/999999?text=Guia+de+medidas',
   buyLabel: 'COMPRAR AGORA',
   shareInstagramUrl: '#',
+};
+
+/** O guia de medidas não é campo do schema: segue fixo. */
+const GUIA = {
+  sizeGuideLabel: 'Guia de medidas',
+  sizeGuideImage: 'https://placehold.co/600x461/f0f0f0/999999?text=Guia+de+medidas',
 };
 
 const fmt = (n: number) => n.toFixed(2).replace('.', ',');
@@ -186,6 +217,7 @@ function AvisoDeForma() {
 
 /** `molecules/ShippingSimulator06` no estado vazio: sem CEP, é só o formulário. */
 function SimuladorDeFrete() {
+  const { cepPlaceholder, cepButtonLabel } = useConteudoDaSecao(MOCK);
   const [cep, setCep] = useState('');
   return (
     <div className={styles.container} data-role="shipping-simulator" data-variant="pdp">
@@ -200,12 +232,12 @@ function SimuladorDeFrete() {
           type="tel"
           inputMode="numeric"
           maxLength={9}
-          placeholder={CONTEUDO.cepPlaceholder}
+          placeholder={cepPlaceholder}
           value={cep}
           onChange={e => setCep(e.target.value)}
         />
         <button className={styles.button} data-role="calc-btn" type="submit">
-          {CONTEUDO.cepButtonLabel}
+          {cepButtonLabel}
         </button>
       </form>
     </div>
@@ -213,6 +245,22 @@ function SimuladorDeFrete() {
 }
 
 export default function ProductInfo() {
+  const {
+    barText,
+    consulteLabel,
+    fretePillBold,
+    fretePillText,
+    envioIconUrl,
+    envioBold,
+    envioText,
+    trocaIconUrl,
+    trocaBold,
+    trocaText,
+    aviseMeLabel,
+    buyLabel,
+    shareInstagramUrl,
+  } = useConteudoDaSecao(MOCK);
+  const { sizeGuideLabel, sizeGuideImage } = GUIA;
   const [activeIdx, setActiveIdx] = useState(0);
   const [selSize, setSelSize] = useState<string | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
@@ -235,11 +283,13 @@ export default function ProductInfo() {
     /* wrapper só do catálogo: carrega o container-type das @container */
     <div className={styles.pdp06RootWrap}>
       <div className={styles.pdp06Root}>
-        <div className={styles.bar} data-role="bar">
-          <p className={styles.barText} data-role="bar-text">
-            {CONTEUDO.barText}
-          </p>
-        </div>
+        {barText && (
+          <div className={styles.bar} data-role="bar">
+            <p className={styles.barText} data-role="bar-text">
+              {barText}
+            </p>
+          </div>
+        )}
 
         <div className={styles.main} data-role="pdp-main">
           {/* ── GALERIA ── */}
@@ -390,7 +440,7 @@ export default function ProductInfo() {
                           <a className={`${styles.shareTile} ${styles.shareWpp}`} href="#" aria-label="Compartilhar no WhatsApp" data-role="share-tile">
                             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 17l1.2-3.3A7 7 0 1 1 7 16.2L3 17z" /><path d="M7.5 7.2c.3-.5.8-.5 1.1-.2l.7 1.2c.2.3.1.6-.1.8l-.4.4c.4.9 1.1 1.6 2 2l.4-.4c.2-.2.5-.3.8-.1l1.2.7c.3.3.3.8-.2 1.1-.9.6-2 .5-3-.1a6.2 6.2 0 0 1-2.4-2.4c-.6-1-.7-2.1-.1-3z" /></svg>
                           </a>
-                          <a className={`${styles.shareTile} ${styles.shareInsta}`} href={CONTEUDO.shareInstagramUrl} aria-label="Abrir o Instagram da marca" data-role="share-tile">
+                          <a className={`${styles.shareTile} ${styles.shareInsta}`} href={shareInstagramUrl || '#'} aria-label="Abrir o Instagram da marca" data-role="share-tile">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" /><circle cx="12" cy="12" r="4" /></svg>
                           </a>
                           <a className={`${styles.shareTile} ${styles.shareFb}`} href="#" aria-label="Compartilhar no Facebook" data-role="share-tile">
@@ -517,7 +567,7 @@ export default function ProductInfo() {
                     >
                       <span className={styles.sizeText}>{s.label}</span>
                       {indisponivel && <span className={styles.sizeBell} aria-hidden="true" />}
-                      {indisponivel && <span className={styles.aviseBalloon} role="tooltip">{CONTEUDO.aviseMeLabel}</span>}
+                      {indisponivel && <span className={styles.aviseBalloon} role="tooltip">{aviseMeLabel}</span>}
                     </button>
                   );
                 })}
@@ -531,21 +581,21 @@ export default function ProductInfo() {
                 aria-haspopup="dialog"
               >
                 <GuiaIcon />
-                {CONTEUDO.sizeGuideLabel}
+                {sizeGuideLabel}
               </button>
               <AvisoDeForma />
             </div>
 
             <div className={styles.buyWrap}>
               <button type="button" className={styles.buy} data-role="buy">
-                {CONTEUDO.buyLabel}
+                {buyLabel}
               </button>
             </div>
 
             <div className={styles.shipRow}>
-              <p className={styles.consulte} data-role="consulte">{CONTEUDO.consulteLabel}</p>
+              <p className={styles.consulte} data-role="consulte">{consulteLabel}</p>
               <p className={styles.fretePill} data-role="frete-pill">
-                <strong>{CONTEUDO.fretePillBold}</strong> {CONTEUDO.fretePillText}
+                <strong>{fretePillBold}</strong> {fretePillText}
               </p>
             </div>
 
@@ -555,17 +605,17 @@ export default function ProductInfo() {
 
             <div className={styles.envioWrap}>
               <div className={`${styles.infoLine} ${styles.envioLine}`} data-role="envio-row">
-                <img className={styles.infoIcon} src={CONTEUDO.envioIconUrl} alt="" />
+                {envioIconUrl && <img className={styles.infoIcon} src={envioIconUrl} alt="" />}
                 <p className={styles.infoText}>
-                  <strong>{CONTEUDO.envioBold}</strong> {CONTEUDO.envioText}
+                  <strong>{envioBold}</strong> {envioText}
                 </p>
               </div>
             </div>
             <div className={styles.trocaWrap}>
               <div className={`${styles.infoLine} ${styles.trocaLine}`} data-role="troca-row">
-                <img className={styles.infoIcon} src={CONTEUDO.trocaIconUrl} alt="" />
+                {trocaIconUrl && <img className={styles.infoIcon} src={trocaIconUrl} alt="" />}
                 <p className={styles.infoText}>
-                  <strong>{CONTEUDO.trocaBold}</strong> {CONTEUDO.trocaText}
+                  <strong>{trocaBold}</strong> {trocaText}
                 </p>
               </div>
             </div>
@@ -601,7 +651,7 @@ export default function ProductInfo() {
               if (e.target === e.currentTarget) setGuideOpen(false);
             }}
           >
-            <div className={styles.guideModal} role="dialog" aria-modal="true" aria-label={CONTEUDO.sizeGuideLabel}>
+            <div className={styles.guideModal} role="dialog" aria-modal="true" aria-label={sizeGuideLabel}>
               <button
                 type="button"
                 className={styles.guideClose}
@@ -610,7 +660,7 @@ export default function ProductInfo() {
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" /></svg>
               </button>
-              <img className={styles.guideImg} src={CONTEUDO.sizeGuideImage} alt={`${CONTEUDO.sizeGuideLabel} — ${PRODUTO.nome}`} />
+              <img className={styles.guideImg} src={sizeGuideImage} alt={`${sizeGuideLabel} — ${PRODUTO.nome}`} />
             </div>
           </div>
         )}
@@ -618,3 +668,6 @@ export default function ProductInfo() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo.conteudoPadrao = MOCK;

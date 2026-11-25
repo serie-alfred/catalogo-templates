@@ -7,7 +7,17 @@ import 'swiper/css';
 import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import styles from './index.module.css';
+
+/** O conteúdo da seção: os campos do `section.schema` do ProductInfo01 (só o rótulo; produto e preço são de exemplo). */
+interface ProductInfo01Conteudo {
+  trustMessage?: string;
+}
+
+const MOCK: ProductInfo01Conteudo = {
+  trustMessage: '* Aqui sua compra é 100% segura, compre com tranquilidade.',
+};
 
 // Espelha molecules/ProductGallery01 do faststore.starter:
 // thumbs (vertical, FreeMode) sincronizados com a imagem principal.
@@ -21,6 +31,7 @@ const COLORS: { key: string; className?: string }[] = [
 ];
 
 const ProductInfo = () => {
+  const { trustMessage } = useConteudoDaSecao(MOCK);
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('G');
   const [selectedColor, setSelectedColor] = useState('default');
@@ -429,9 +440,7 @@ const ProductInfo = () => {
                         strokeWidth="1.5"
                       ></path>
                     </svg>
-                    <span>
-                      * Aqui sua compra é 100% segura, compre com tranquilidade.
-                    </span>
+                    {trustMessage && <span>{trustMessage}</span>}
                   </div>
 
                   <div className={styles.content__shipping}>
@@ -473,3 +482,6 @@ const ProductInfo = () => {
 };
 
 export default ProductInfo;
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductInfo.conteudoPadrao = MOCK;

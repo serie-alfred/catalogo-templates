@@ -6,9 +6,25 @@ import Spot from '@/components/templates/common/template_6/Spot';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { LAYOUTS } from '@/data/layoutData';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
+/**
+ * Conteúdo: o `title` do `section.schema` do Showcase06 do starter, com o mock por
+ * baixo do que o CS subir. O subtítulo não tem campo no schema e segue fixo;
+ * `collectionId`, `collectionUrl`, `numberOfItems` e `sort` ficam fora (os
+ * produtos do preview são os cards de exemplo).
+ */
+interface ShowcaseConteudo {
+  title?: string;
+}
+
+const MOCK: ShowcaseConteudo = {
+  title: 'Vitrine de Ofertas',
+};
 
 export default function Showcase() {
   const { selections } = useLayout();
+  const { title } = useConteudoDaSecao(MOCK);
 
   // Filtra os spots selecionados
   const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
@@ -16,7 +32,7 @@ export default function Showcase() {
     <div className={styles.homeShowcase}>
       <div className={`${styles.showcaseContainer} component__container`}>
         <div className={styles.showcaseTitle}>
-          <h2>Vitrine de Ofertas</h2>
+          {title && <h2>{title}</h2>}
           <span>Confira as novidades da semana</span>
         </div>
 
@@ -127,3 +143,6 @@ export default function Showcase() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Showcase.conteudoPadrao = MOCK;

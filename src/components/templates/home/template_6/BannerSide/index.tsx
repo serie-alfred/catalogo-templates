@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -11,34 +13,49 @@ import styles from './index.module.css';
  *    aponta para o CDN de um cliente (39 já usam placehold.co). A geometria não
  *    muda: `aspect-ratio: 512/531` no CSS é quem manda na altura.
  *  • analytics (view/select promotion) não vem: preview não emite evento.
+ *
+ * Conteúdo: os nomes do `section.schema` do starter (`cards[]`, com o parágrafo
+ * em `text`), com o mock por baixo do que o CS subir (`useConteudoDaSecao`).
  */
 interface Card {
-  img: string;
-  alt: string;
-  link: string;
-  /** duas linhas, separadas por <br> como na origem */
-  linhas: [string, string];
-  ctaLabel: string;
+  img?: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+  link?: string;
+  /** o parágrafo; uma quebra de linha vira <br>, como na origem */
+  text?: string;
+  ctaLabel?: string;
 }
 
-const cards: Card[] = [
+interface BannerSideConteudo {
+  cards: Card[];
+}
+
+const MOCK: BannerSideConteudo = {
+  cards: [
   {
     img: 'https://placehold.co/512x531/2b2b2b/f2f2f2?text=Best+Sellers',
     alt: 'Best Sellers',
     link: '/mais-vendidos',
-    linhas: ['Conforto e estilo aprovados por quem já usa.', 'Garanta o seu!'],
+    text: 'Conforto e estilo aprovados por quem já usa.\nGaranta o seu!',
     ctaLabel: 'Veja mais',
   },
   {
     img: 'https://placehold.co/512x531/3a3a3a/f2f2f2?text=Mochilas',
     alt: 'Mochilas',
     link: '/acessorios/mochilas',
-    linhas: ['Leve tudo com estilo!', 'Explore a coleção de mochilas.'],
+    text: 'Leve tudo com estilo!\nExplore a coleção de mochilas.',
     ctaLabel: 'Veja mais',
   },
-];
+  ],
+};
 
 export default function BannerSide() {
+  const { cards } = useConteudoDaSecao(MOCK);
+
+  if (!cards.length) return null;
+
   return (
     /* O wrapper não existe na origem: lá a raiz é a própria `.row`. Ele existe
        porque um elemento NÃO consulta o próprio container — sem um ancestral
@@ -46,36 +63,46 @@ export default function BannerSide() {
        mobile não trocaria de layout. É um <div> nu, sem caixa própria. */
     <div className={styles.bannerSide06Root}>
       <div className={styles.row} data-role="bs-row">
-        {cards.map((card, index) => (
+        {cards.slice(0, 2).map((card, index) => (
           <div key={index} className={styles.column} data-role="bs-column">
             <div className={styles.card} data-role="bs-card">
-              <a href={card.link}>
+              <a href={card.link || '#'}>
                 <img
                   className={styles.cardImg}
                   data-role="bs-card-img"
                   src={card.img}
-                  alt={card.alt}
-                  width={512}
-                  height={531}
+                  alt={card.alt ?? ''}
+                  width={card.width ?? 512}
+                  height={card.height ?? 531}
                   loading="lazy"
                 />
               </a>
             </div>
             <div className={styles.textCol} data-role="bs-text-col">
-              <p className={styles.text} data-role="bs-text">
-                {card.linhas[0]}
-                <br />
-                {card.linhas[1]}
-              </p>
-              <a
-                className={styles.vejaLink}
-                data-role="bs-veja-link"
-                href={card.link}
-              >
-                <span className={styles.vejaLabel} data-role="bs-veja-label">
-                  {card.ctaLabel}
-                </span>
-              </a>
+              {card.text && (
+                <p className={styles.text} data-role="bs-text">
+                  {card.text.split(/\\n|\r?\n/).map((linha, i) => (
+                    <React.Fragment key={i}>
+                      {i > 0 && <br />}
+                      {linha}
+                    </React.Fragment>
+                  ))}
+                </p>
+              )}
+              {card.ctaLabel && (
+                <a
+                  className={styles.vejaLink}
+                  data-role="bs-veja-link"
+                  href={card.link || '#'}
+                >
+                  <span
+                    className={styles.vejaLabel}
+                    data-role="bs-veja-label"
+                  >
+                    {card.ctaLabel}
+                  </span>
+                </a>
+              )}
             </div>
           </div>
         ))}
@@ -83,3 +110,6 @@ export default function BannerSide() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerSide.conteudoPadrao = MOCK;

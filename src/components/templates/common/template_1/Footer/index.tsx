@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './index.module.css';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import Newsletter from '../Newsletter';
 
 /** Crédito padrão da agência (bloco "Desenvolvido por: SÉRIE//A"). Conteúdo fixo, fora do CMS. */
@@ -32,26 +33,136 @@ const Credit = () => (
   </a>
 )
 
-export default function Footer() {
-  // Simulação dos dados que antes vinham do backend
-  const institucionalMenu = [
+/** O conteúdo da seção: os campos do `section.schema` do Footer01 que a réplica desenha. */
+interface Footer01Conteudo {
+  institucionalTitle?: string;
+  institucionalMenu: { name?: string; url?: string }[];
+  atendimentoTitle?: string;
+  whatsapp?: string;
+  phone?: string;
+  email?: string;
+  redesSociaisTitle?: string;
+  socialFacebook?: string;
+  socialTwitter?: string;
+  pagamentoTitle?: string;
+  paymentMethods: { src?: string; alt?: string }[];
+  segurancaTitle?: string;
+  securitySeals: { src?: string; alt?: string; link?: string }[];
+  copyright?: string;
+}
+
+const MOCK: Footer01Conteudo = {
+  institucionalTitle: 'Institucional',
+  institucionalMenu: [
     { url: '/sobre', name: 'Sobre nós' },
     { url: '/politica', name: 'Política de Privacidade' },
     { url: '/termos', name: 'Termos de Uso' },
-  ];
+  ],
+  atendimentoTitle: 'Atendimento',
+  whatsapp: '[(00) 00000-0000]',
+  phone: '[(00) 0000-0000]',
+  email: '[e-mail de atendimento]',
+  redesSociaisTitle: 'Redes Sociais',
+  socialFacebook: 'https://facebook.com/loja',
+  socialTwitter: 'https://twitter.com/loja',
+  pagamentoTitle: 'Pagamento',
+  paymentMethods: [
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/payment-visa.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+      alt: 'Bandeira de pagamento Visa',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/payment-mastercard.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+      alt: 'Bandeira de pagamento Mastercard',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/payment-diners.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+      alt: 'Bandeira de pagamento Diners Club',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/payment-american-express.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+      alt: 'Bandeira de pagamento American Express',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/payment-elo.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+      alt: 'Bandeira de pagamento Elo',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/payment-hipercard.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+      alt: 'Bandeira de pagamento Hipercard',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/payment-hiper.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+      alt: 'Bandeira de pagamento Hiper',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/payment-boleto.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+      alt: 'Bandeira de pagamento Boleto',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/payment-itau.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+      alt: 'Bandeira de pagamento Itaú',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/payment-bradesco.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+      alt: 'Bandeira de pagamento Bradesco',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/payment-banco-do-brasil.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+      alt: 'Bandeira de pagamento Banco do Brasil',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/payment-caixa.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260',
+      alt: 'Bandeira de pagamento Caixa',
+    },
+  ],
+  segurancaTitle: 'Segurança',
+  securitySeals: [
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/Yourviews.png?12972c5ad93a8bec3b7d26c01525438b1756923221',
+      alt: 'Selo de segurança do google safe',
+      link: '#',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/Let`s Encrypt.png?12972c5ad93a8bec3b7d26c01525438b1756923221',
+      alt: 'Selo de segurança do google safe',
+      link: '#',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/Clear Sale.png?12972c5ad93a8bec3b7d26c01525438b1756923221',
+      alt: 'Selo de segurança do google safe',
+      link: '#',
+    },
+    {
+      src: 'https://images.tcdn.com.br/files/426932/themes/253/img/Google%20Reviews.png?12972c5ad93a8bec3b7d26c01525438b1756923221',
+      alt: 'Selo de segurança do google safe',
+      link: '#',
+    },
+  ],
+  copyright:
+    '[RAZÃO SOCIAL] - CNPJ: [00.000.000/0001-00] © Todos os direitos reservados. Os preços exibidos nesta prévia são fictícios e servem apenas para demonstração.',
+};
 
-  const settings = {
-    whatsapp_number: '(11) 99999-9999',
-    telephone_number: '(11) 4002-8922',
-    email_contact: 'contato@loja.com',
-    social_facebook: 'https://facebook.com/loja',
-    social_twitter: 'https://twitter.com/loja',
-    social_instagram: 'https://instagram.com/loja',
-    social_linkedin: 'https://linkedin.com/company/loja',
-    social_youtube: 'https://youtube.com/loja',
-    text_footer:
-      'SUA LOJA LTDA - CNPJ: 00.000.000/0001-00 © Todos os direitos reservados. Os preços exibidos nesta prévia são fictícios e servem apenas para demonstração.',
-  };
+/** Só dígitos de um contato; sem eles (marcador de exemplo) o link fica vazio. */
+const digitos = (v?: string) => (v ?? '').replace(/D/g, '');
+
+export default function Footer() {
+  const {
+    institucionalTitle,
+    institucionalMenu,
+    atendimentoTitle,
+    whatsapp,
+    phone,
+    email,
+    redesSociaisTitle,
+    socialFacebook,
+    socialTwitter,
+    pagamentoTitle,
+    paymentMethods,
+    segurancaTitle,
+    securitySeals,
+    copyright,
+  } = useConteudoDaSecao(MOCK);
 
   return (
     <div className={styles.footer__main}>
@@ -62,11 +173,13 @@ export default function Footer() {
             <div className={`${styles.top__row} component__row`}>
               {/* Institucional */}
               <div className={styles.top__menu}>
-                <span className={styles.menu__title}>Institucional</span>
+                {institucionalTitle && (
+                  <span className={styles.menu__title}>{institucionalTitle}</span>
+                )}
                 <ul className={styles.institucionalMenu}>
                   {institucionalMenu.map((custom, i) => (
                     <li key={i}>
-                      <a href={custom.url}>{custom.name}</a>
+                      <a href={custom.url || '#'}>{custom.name}</a>
                     </li>
                   ))}
                 </ul>
@@ -75,50 +188,61 @@ export default function Footer() {
               {/* Atendimento */}
               <div className={`${styles.top__menu} ${styles.menu__contact}`}>
                 <div className={styles.menu__contatoSelos}>
-                  <span className={styles.menu__title}>Atendimento</span>
+                  {atendimentoTitle && (
+                    <span className={styles.menu__title}>{atendimentoTitle}</span>
+                  )}
                   <ul className={styles.menu__contactList}>
-                    <li>
-                      <a
-                        href={`https://api.whatsapp.com/send?phone=55${settings.whatsapp_number.replace(
-                          /\D/g,
-                          ''
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {settings.whatsapp_number}
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href={`tel:55${settings.telephone_number.replace(/\D/g, '')}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {settings.telephone_number}
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href={`mailto:${settings.email_contact}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {settings.email_contact}
-                      </a>
-                    </li>
+                    {whatsapp && (
+                      <li>
+                        <a
+                          href={
+                            digitos(whatsapp)
+                              ? `https://api.whatsapp.com/send?phone=55${digitos(whatsapp)}`
+                              : '#'
+                          }
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {whatsapp}
+                        </a>
+                      </li>
+                    )}
+                    {phone && (
+                      <li>
+                        <a
+                          href={digitos(phone) ? `tel:55${digitos(phone)}` : '#'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {phone}
+                        </a>
+                      </li>
+                    )}
+                    {email && (
+                      <li>
+                        <a
+                          href={`mailto:${email}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {email}
+                        </a>
+                      </li>
+                    )}
                   </ul>
                 </div>
               </div>
 
               {/* Redes sociais */}
               <div className={`${styles.top__menu} ${styles.menu__contact}`}>
-                <span className={styles.menu__title}>Redes Sociais</span>
+                {redesSociaisTitle && (
+                  <span className={styles.menu__title}>{redesSociaisTitle}</span>
+                )}
                 <ul className={styles.menu__social}>
-                  {settings.social_facebook && (
+                  {socialFacebook && (
                     <li>
                       <a
-                        href={settings.social_facebook}
+                        href={socialFacebook}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -140,10 +264,10 @@ export default function Footer() {
                     </li>
                   )}
 
-                  {settings.social_twitter && (
+                  {socialTwitter && (
                     <li>
                       <a
-                        href={settings.social_twitter}
+                        href={socialTwitter}
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -170,183 +294,39 @@ export default function Footer() {
 
               {/* Pagamento */}
               <div className={styles.top__menu}>
-                <span className={styles.menu__title}>Pagamento</span>
+                {pagamentoTitle && (
+                  <span className={styles.menu__title}>{pagamentoTitle}</span>
+                )}
                 <ul className={styles.menu__payment}>
-                  <li>
-                    <img
-                      className=""
-                      src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-visa.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      data-src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-visa.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      alt="Bandeira de pagamento Visa"
-                      width="45"
-                      height="36"
-                      loading="lazy"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      className=""
-                      src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-mastercard.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      data-src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-mastercard.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      alt="Bandeira de pagamento Mastercard"
-                      width="45"
-                      height="36"
-                      loading="lazy"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      className=""
-                      src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-diners.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      data-src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-diners.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      alt="Bandeira de pagamento Diners Club"
-                      width="45"
-                      height="36"
-                      loading="lazy"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      className=""
-                      src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-american-express.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      data-src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-american-express.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      alt="Bandeira de pagamento American Express"
-                      width="45"
-                      height="36"
-                      loading="lazy"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      className=""
-                      src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-elo.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      data-src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-elo.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      alt="Bandeira de pagamento Elo"
-                      width="45"
-                      height="36"
-                      loading="lazy"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      className=""
-                      src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-hipercard.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      data-src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-hipercard.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      alt="Bandeira de pagamento Hipercard"
-                      width="45"
-                      height="36"
-                      loading="lazy"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      className=""
-                      src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-hiper.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      data-src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-hiper.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      alt="Bandeira de pagamento Hiper"
-                      width="45"
-                      height="36"
-                      loading="lazy"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      className=""
-                      src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-boleto.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      data-src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-boleto.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      alt="Bandeira de pagamento Boleto"
-                      width="45"
-                      height="36"
-                      loading="lazy"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      className=""
-                      src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-itau.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      data-src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-itau.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      alt="Bandeira de pagamento Itaú"
-                      width="45"
-                      height="36"
-                      loading="lazy"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      className=""
-                      src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-bradesco.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      data-src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-bradesco.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      alt="Bandeira de pagamento Bradesco"
-                      width="45"
-                      height="36"
-                      loading="lazy"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      className=""
-                      src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-banco-do-brasil.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      data-src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-banco-do-brasil.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      alt="Bandeira de pagamento Banco do Brasil"
-                      width="45"
-                      height="36"
-                      loading="lazy"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      className=""
-                      src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-caixa.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      data-src="https://images.tcdn.com.br/files/426932/themes/253/img/payment-caixa.png?aa1b84b001bf453fcc6e2f6c5b6638fd1755872260"
-                      alt="Bandeira de pagamento Caixa"
-                      width="45"
-                      height="36"
-                      loading="lazy"
-                    />
-                  </li>
+                  {paymentMethods.map((p, i) => (
+                    <li key={i}>
+                      <img
+                        className=""
+                        src={p.src}
+                        data-src={p.src}
+                        alt={p.alt ?? ''}
+                        width="45"
+                        height="36"
+                        loading="lazy"
+                      />
+                    </li>
+                  ))}
                 </ul>
               </div>
 
               {/* Segurança */}
               <div className={styles.top__menu}>
-                <span className={styles.menu__title}>Segurança</span>
+                {segurancaTitle && (
+                  <span className={styles.menu__title}>{segurancaTitle}</span>
+                )}
                 <ul className={styles.menu__seals}>
-                  <li>
-                    <a href="#" target="_blank" rel="noopener noreferer">
-                      <img
-                        src="https://images.tcdn.com.br/files/426932/themes/253/img/Yourviews.png?12972c5ad93a8bec3b7d26c01525438b1756923221"
-                        alt="Selo de segurança do google safe"
-                        loading="lazy"
-                      />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" target="_blank" rel="noopener noreferer">
-                      <img
-                        src="https://images.tcdn.com.br/files/426932/themes/253/img/Let`s Encrypt.png?12972c5ad93a8bec3b7d26c01525438b1756923221"
-                        alt="Selo de segurança do google safe"
-                        loading="lazy"
-                      />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" target="_blank" rel="noopener noreferer">
-                      <img
-                        src="https://images.tcdn.com.br/files/426932/themes/253/img/Clear Sale.png?12972c5ad93a8bec3b7d26c01525438b1756923221"
-                        alt="Selo de segurança do google safe"
-                        loading="lazy"
-                      />
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#" target="_blank" rel="noopener noreferer">
-                      <img
-                        src="https://images.tcdn.com.br/files/426932/themes/253/img/Google%20Reviews.png?12972c5ad93a8bec3b7d26c01525438b1756923221"
-                        alt="Selo de segurança do google safe"
-                        loading="lazy"
-                      />
-                    </a>
-                  </li>
+                  {securitySeals.map((s, i) => (
+                    <li key={i}>
+                      <a href={s.link || '#'} target="_blank" rel="noopener noreferrer">
+                        <img src={s.src} alt={s.alt ?? ''} loading="lazy" />
+                      </a>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
@@ -357,9 +337,9 @@ export default function Footer() {
         <div className={styles.footer__bottom}>
           <div className={`${styles.bottom__container} component__container`}>
             <div className={`${styles.bottom__row} component__row`}>
-              {settings.text_footer && (
+              {copyright && (
                 <div className={styles.footer__copyright}>
-                  <span>{settings.text_footer}</span>
+                  <span>{copyright}</span>
                 </div>
               )}
 
@@ -373,3 +353,6 @@ export default function Footer() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Footer.conteudoPadrao = MOCK;

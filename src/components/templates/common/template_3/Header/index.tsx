@@ -8,6 +8,7 @@ import {
   buildSuggestionProducts,
 } from '@/components/templates/_shared/searchSuggestions';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 // Preview do Header03 — dados fixos, sem VTEX/GraphQL/hooks.
 // Origem: faststore.starter/src/components/organisms/Header03 + as molecules
@@ -20,84 +21,123 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 // canvas do gerador e no preview /p a interação é a mesma: o canvas ficou 100%
 // interativo quando o drag-and-drop saiu dele para o painel de seções.
 
-const data = {
-  topbarItems: [
-    'Frete grátis acima de R$ 350',
-    'Trocas fáceis em até 30 dias',
-    'Pagamento seguro',
-    'Novos drops toda semana',
-  ],
-  searchPlaceholder: 'Buscar produtos, coleções, drops…',
-  trendingLinks: [
-    { label: 'Oversized', link: '#' },
-    { label: 'Cargo', link: '#' },
-    { label: 'Corta-vento', link: '#' },
-    { label: 'Drop 06', link: '#' },
-  ],
-  topSearches: [
-    'camiseta oversized',
-    'moletom com capuz',
-    'calça cargo',
-    'jaqueta corta-vento',
-    'boné trucker',
-  ],
-  menu: [
-    {
-      label: 'Novidades',
-      link: '#',
-      itensLevel1: [
-        { label: 'Lançamentos da semana', link: '#' },
-        { label: 'Pré-venda', link: '#' },
-        { label: 'Últimas unidades', link: '#' },
-      ],
-    },
-    {
-      label: 'Camisetas',
-      link: '#',
-      itensLevel1: [
+/** Um item do menu em qualquer nível; o schema repete `label` + `link` + a lista do nível de baixo. */
+interface Header03Item3 {
+  label?: string;
+  link?: string;
+}
+interface Header03Item2 {
+  label?: string;
+  link?: string;
+  itensLevel3?: Header03Item3[];
+}
+interface Header03Item1 {
+  label?: string;
+  link?: string;
+  itensLevel2?: Header03Item2[];
+}
+interface Header03Item {
+  label?: string;
+  link?: string;
+  isSale?: boolean;
+  saleLabel?: string;
+  itensLevel1?: Header03Item1[];
+}
+
+/** O conteúdo da seção: os campos do `section.schema` do Header03 que a réplica desenha. */
+interface Header03Conteudo {
+  logo?: { text?: string; accentChar?: string };
+  topbar: { messages: { text?: string }[] };
+  search: { trendingLinks: { label?: string; link?: string }[] };
+  menu: { links: Header03Item[] };
+}
+
+// Sem campo no schema: o placeholder da busca e as buscas populares seguem fixos.
+const SEARCH_PLACEHOLDER = 'Buscar produtos, coleções, drops…';
+const TOP_SEARCHES = [
+  'camiseta oversized',
+  'moletom com capuz',
+  'calça cargo',
+  'jaqueta corta-vento',
+  'boné trucker',
+];
+
+const MOCK: Header03Conteudo = {
+  topbar: {
+    messages: [
+      { text: 'Frete grátis acima de R$ 350' },
+      { text: 'Trocas fáceis em até 30 dias' },
+      { text: 'Pagamento seguro' },
+      { text: 'Novos drops toda semana' },
+    ],
+  },
+  search: {
+    trendingLinks: [
+      { label: 'Oversized', link: '#' },
+      { label: 'Cargo', link: '#' },
+      { label: 'Corta-vento', link: '#' },
+      { label: 'Drop 06', link: '#' },
+    ],
+  },
+  menu: {
+    links: [
         {
-          label: 'Modelagem',
+          label: 'Novidades',
           link: '#',
-          itensLevel2: [
-            { label: 'Oversized', link: '#' },
-            { label: 'Regular', link: '#' },
-            { label: 'Cropped', link: '#' },
+          itensLevel1: [
+            { label: 'Lançamentos da semana', link: '#' },
+            { label: 'Pré-venda', link: '#' },
+            { label: 'Últimas unidades', link: '#' },
           ],
         },
         {
-          label: 'Estampas',
+          label: 'Camisetas',
           link: '#',
-          itensLevel2: [
-            { label: 'Lisas', link: '#' },
-            { label: 'Gráficas', link: '#' },
-            { label: 'Colaborações', link: '#' },
+          itensLevel1: [
+            {
+              label: 'Modelagem',
+              link: '#',
+              itensLevel2: [
+                { label: 'Oversized', link: '#' },
+                { label: 'Regular', link: '#' },
+                { label: 'Cropped', link: '#' },
+              ],
+            },
+            {
+              label: 'Estampas',
+              link: '#',
+              itensLevel2: [
+                { label: 'Lisas', link: '#' },
+                { label: 'Gráficas', link: '#' },
+                { label: 'Colaborações', link: '#' },
+              ],
+            },
+            { label: 'Ver tudo', link: '#' },
           ],
         },
-        { label: 'Ver tudo', link: '#' },
-      ],
-    },
-    {
-      label: 'Moletons',
-      link: '#',
-      itensLevel1: [
-        { label: 'Com capuz', link: '#' },
-        { label: 'Careca', link: '#' },
-        { label: 'Zíper', link: '#' },
-      ],
-    },
-    {
-      label: 'Calças',
-      link: '#',
-      itensLevel1: [
-        { label: 'Cargo', link: '#' },
-        { label: 'Jeans', link: '#' },
-        { label: 'Moletom', link: '#' },
-      ],
-    },
-    { label: 'Jaquetas', link: '#' },
-    { label: 'Acessórios', link: '#' },
-    { label: 'Sale', link: '#', isSale: true, saleLabel: 'até 50% off' },
-  ],
+        {
+          label: 'Moletons',
+          link: '#',
+          itensLevel1: [
+            { label: 'Com capuz', link: '#' },
+            { label: 'Careca', link: '#' },
+            { label: 'Zíper', link: '#' },
+          ],
+        },
+        {
+          label: 'Calças',
+          link: '#',
+          itensLevel1: [
+            { label: 'Cargo', link: '#' },
+            { label: 'Jeans', link: '#' },
+            { label: 'Moletom', link: '#' },
+          ],
+        },
+        { label: 'Jaquetas', link: '#' },
+        { label: 'Acessórios', link: '#' },
+        { label: 'Sale', link: '#', isSale: true, saleLabel: 'até 50% off' },
+    ],
+  },
 };
 
 // O preview não navega: os links existem (markup igual ao do tema) mas não saem
@@ -226,7 +266,27 @@ const BagGlyph = ({ className }: { className?: string }) => (
 );
 
 const HeaderNovo = () => {
-  const { logo } = useLayout();
+  const { logo: logoDaLoja } = useLayout();
+  const { logo: logoDaSecao, topbar, search, menu } = useConteudoDaSecao(MOCK);
+  const topbarItems = (topbar?.messages ?? [])
+    .map(m => m.text)
+    .filter((t): t is string => Boolean(t));
+  const trendingLinks = search?.trendingLinks ?? [];
+  const menuLinks = menu?.links ?? [];
+  // O logo enviado no /gerador; sem ele, o texto do CS ou a marca em texto do catálogo.
+  const logo = logoDaLoja;
+  const textoDaMarca = logoDaSecao?.text ? (
+    <>
+      {logoDaSecao.text}
+      {logoDaSecao.accentChar && (
+        <span className={styles.logoDot}>{logoDaSecao.accentChar}</span>
+      )}
+    </>
+  ) : (
+    <>
+      SERIE<span className={styles.logoDot}>{'//'}</span>A
+    </>
+  );
 
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -295,18 +355,16 @@ const HeaderNovo = () => {
   };
   const toggleL2 = (j: number) => setOpenL2(prev => (prev === j ? null : j));
 
-  const suggestions = buildSearchSuggestions(term, data.topSearches);
+  const suggestions = buildSearchSuggestions(term, TOP_SEARCHES);
   const suggestionProducts = term.trim() ? buildSuggestionProducts(term) : [];
 
-  const overlaySuggestions = buildSearchSuggestions(overlayTerm, data.topSearches);
+  const overlaySuggestions = buildSearchSuggestions(overlayTerm, TOP_SEARCHES);
   const overlayProducts = overlayTerm.trim() ? buildSuggestionProducts(overlayTerm) : [];
 
   const brand = logo ? (
     <img src={logo} alt="Logo" className={styles.logoImg} />
   ) : (
-    <>
-      SERIE<span className={styles.logoDot}>{'//'}</span>A
-    </>
+    textoDaMarca
   );
 
   // Marquee infinito: o track tem MARQUEE_GROUPS grupos idênticos e a animação
@@ -325,7 +383,7 @@ const HeaderNovo = () => {
             {Array.from({ length: MARQUEE_GROUPS }).map((_, group) => (
               <div key={group} className={styles.topbarGroup}>
                 {Array.from({ length: MARQUEE_REPEATS }).map((_, repeat) =>
-                  data.topbarItems.map((item, i) => (
+                  topbarItems.map((item, i) => (
                     <span
                       key={`${group}-${repeat}-${i}`}
                       className={styles.topbarItem}
@@ -357,7 +415,7 @@ const HeaderNovo = () => {
               <input
                 className={styles.searchInput}
                 type="search"
-                placeholder={data.searchPlaceholder}
+                placeholder={SEARCH_PLACEHOLDER}
                 aria-label="Buscar produtos"
                 value={term}
                 onChange={e => setTerm(e.target.value)}
@@ -390,10 +448,10 @@ const HeaderNovo = () => {
                   <div className={styles.searchTrending}>
                     <p className={styles.searchSectionTitle}>Em alta</p>
                     <div className={styles.searchTagList}>
-                      {data.trendingLinks.map((link, i) => (
+                      {trendingLinks.map((link, i) => (
                         <a
                           key={i}
-                          href={link.link}
+                          href={link.link || '#'}
                           className={styles.searchTag}
                           onClick={preventNav}
                         >
@@ -463,13 +521,13 @@ const HeaderNovo = () => {
         {/* ── NAV DESKTOP (dropdown L2/L3 por hover) ── */}
         <nav className={styles.nav} aria-label="Categorias">
           <ul className={styles.navList}>
-            {data.menu.map((item, i) => {
+            {menuLinks.map((item, i) => {
               const level1 = item.itensLevel1 ?? [];
               return (
                 <li key={i} className={styles.l1Item}>
                   <a
                     className={`${styles.navLink}${item.isSale ? ` ${styles.navLinkSale}` : ''}`}
-                    href={item.link}
+                    href={item.link || '#'}
                     onClick={preventNav}
                   >
                     {item.isSale && (
@@ -486,7 +544,7 @@ const HeaderNovo = () => {
                           const level2 = l2.itensLevel2 ?? [];
                           return (
                             <li key={j} className={styles.l2Item}>
-                              <a className={styles.l2Link} href={l2.link} onClick={preventNav}>
+                              <a className={styles.l2Link} href={l2.link || '#'} onClick={preventNav}>
                                 {l2.label}
                                 {level2.length > 0 && (
                                   <svg
@@ -509,7 +567,7 @@ const HeaderNovo = () => {
                                     <li key={k}>
                                       <a
                                         className={styles.l3Link}
-                                        href={l3.link}
+                                        href={l3.link || '#'}
                                         onClick={preventNav}
                                       >
                                         {l3.label}
@@ -610,9 +668,7 @@ const HeaderNovo = () => {
               {logo ? (
                 <img src={logo} alt="Logo" className={styles.ndLogoImg} />
               ) : (
-                <>
-                  SERIE<span className={styles.logoDot}>{'//'}</span>A
-                </>
+                textoDaMarca
               )}
             </span>
             <button
@@ -638,7 +694,7 @@ const HeaderNovo = () => {
           </div>
 
           <nav className={styles.ndNav}>
-            {data.menu.map((item, i) => {
+            {menuLinks.map((item, i) => {
               const level1 = item.itensLevel1 ?? [];
               const isOpenL1 = openL1 === i;
               return (
@@ -666,7 +722,7 @@ const HeaderNovo = () => {
                       </span>
                     </button>
                   ) : (
-                    <a href={item.link} className={styles.ndL1Row} onClick={preventNav}>
+                    <a href={item.link || '#'} className={styles.ndL1Row} onClick={preventNav}>
                       <span className={styles.ndL1Label}>
                         {item.isSale && (
                           <span className={styles.ndSaleDot} aria-hidden="true" />
@@ -702,7 +758,7 @@ const HeaderNovo = () => {
                               </button>
                             ) : (
                               <a
-                                href={l2.link}
+                                href={l2.link || '#'}
                                 className={styles.ndL2Row}
                                 onClick={preventNav}
                               >
@@ -715,7 +771,7 @@ const HeaderNovo = () => {
                                 {level2.map((l3, k) => (
                                   <a
                                     key={k}
-                                    href={l3.link}
+                                    href={l3.link || '#'}
                                     className={styles.ndL3Link}
                                     onClick={preventNav}
                                   >
@@ -784,7 +840,7 @@ const HeaderNovo = () => {
                   ref={overlayInputRef}
                   type="search"
                   className={styles.soInput}
-                  placeholder={data.searchPlaceholder}
+                  placeholder={SEARCH_PLACEHOLDER}
                   value={overlayTerm}
                   onChange={e => setOverlayTerm(e.target.value)}
                   autoComplete="off"
@@ -846,10 +902,10 @@ const HeaderNovo = () => {
               <>
                 <p className={styles.soLabel}>Em alta</p>
                 <div className={styles.soTags}>
-                  {data.trendingLinks.map((link, i) => (
+                  {trendingLinks.map((link, i) => (
                     <a
                       key={i}
-                      href={link.link}
+                      href={link.link || '#'}
                       className={styles.soTag}
                       onClick={preventNav}
                     >
@@ -870,3 +926,6 @@ const HeaderNovo = () => {
 };
 
 export default HeaderNovo;
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+HeaderNovo.conteudoPadrao = MOCK;

@@ -142,6 +142,56 @@ export interface CategoriaDaLoja {
   imageAlt?: string;
 }
 
+/**
+ * Como o produto varia, e portanto como a PDP desenha o seletor: botões de
+ * texto (tamanhos, voltagens), bolinhas/quadros de cor, ou miniaturas de
+ * imagem (estampas, acabamentos). Produto sem variação some com o seletor.
+ */
+export type TipoDeVariacao = 'texto' | 'cor' | 'imagem';
+
+export interface OpcaoDeVariacao {
+  label?: string;
+  /** Hex da cor (variação de cor). */
+  color?: string;
+  /** Miniatura (variação de imagem). */
+  swatchImage?: string;
+  /** Esgotada: a PDP a mostra riscada e oferece o "avise-me". Vazio = disponível. */
+  soldOut?: boolean;
+}
+
+export interface VariacaoDoProduto {
+  /** O nome que a PDP mostra ("Tamanho", "Cor", "Voltagem"). */
+  name?: string;
+  tipo?: TipoDeVariacao;
+  options?: OpcaoDeVariacao[];
+}
+
+/**
+ * Um produto do cliente, como o CS cadastra (tudo opcional: o formulário salva
+ * pela metade). Quem desenha lê a forma normalizada (`ProdutoNormal`,
+ * src/utils/produtos.ts), com os padrões aplicados.
+ */
+export interface ProdutoDaLoja {
+  name?: string;
+  images?: { productImage?: string }[];
+  price?: number;
+  /** Preço "de" (riscado); só aparece maior que o preço. */
+  listPrice?: number;
+  /** Parcelas sem juros; o valor de cada uma sai do preço quando não vem. */
+  installments?: number;
+  installmentValue?: number;
+  /** Esgotado (o card mostra o "Avise-me"). Vazio = em estoque: o checkbox nasce desmarcado. */
+  soldOut?: boolean;
+  brand?: string;
+  badge?: string;
+  url?: string;
+  /** Texto puro (sem HTML): o /p é público. Linha em branco separa parágrafos. */
+  description?: string;
+  /** A ficha técnica da página de produto ("Composição: 100% algodão"). */
+  specs?: { name?: string; value?: string }[];
+  variants?: VariacaoDoProduto[];
+}
+
 /** O conteúdo da loja do cliente (Nível 2). Campo ausente ou lista vazia = cada seção mostra o próprio. */
 export interface ConteudoLoja {
   versao: 1;
@@ -157,27 +207,10 @@ export interface ConteudoLoja {
   selos?: SeloDaLoja[];
   banners?: SlideDaLoja[];
   categorias?: CategoriaDaLoja[];
-}
-
-/** Produto canônico do cliente; cada card converte com o `deProduto` da família. */
-export interface Produto {
-  id: string;
-  name: string;
-  url?: string;
-  images: string[];
-  price: number;
-  listPrice?: number;
-  installments?: { count: number; value: number };
-  inStock: boolean;
-  brand?: string;
-  badge?: string;
-  categoryIds?: string[];
-  /** Texto puro (sem HTML): o /p é público. */
-  description?: string;
-  specs?: { name: string; value: string }[];
-  variants?: {
-    name: string;
-    options: { label: string; color?: string; available?: boolean }[];
-  }[];
-  rating?: { value: number; count: number };
+  /**
+   * Os produtos do cliente: toda vitrine, grade de categoria, relacionados e
+   * card os mostram, no formato do card escolhido; a PDP mostra o primeiro.
+   * Até 200 (é um preview).
+   */
+  produtos?: ProdutoDaLoja[];
 }

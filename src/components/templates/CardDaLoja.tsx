@@ -4,6 +4,7 @@ import React from 'react';
 import { useLayout } from '@/context/LayoutContext';
 import { LAYOUTS } from '@/data/layoutData';
 import { TemplateRegistry } from '@/utils/templateRegistry';
+import type { ProdutoNormal } from '@/utils/produtos';
 
 /**
  * O "Card de Produto" que a loja escolheu (`layoutKey: 'spot'`), para TODA lista de
@@ -18,6 +19,9 @@ import { TemplateRegistry } from '@/utils/templateRegistry';
  *   mock. As variáveis do Spot chegam a esse card pelo `data-spot` (ThemeRenderer).
  * - Outro card entra com `soCard` (só o card, sem o quadro do desenho do Spot) e as
  *   variáveis dele inline, como no CategoryMain01.
+ * - `produto` é o produto da LOJA daquele slot (`useProdutosDaLoja`): o card de outra
+ *   família o desenha no formato dele (`deProdutoNN`). Sem ele, o card mostra o
+ *   próprio produto de exemplo, como antes.
  */
 export function useCardDaLoja() {
   const { selections } = useLayout();
@@ -31,9 +35,12 @@ export function useCardDaLoja() {
 
 export default function CardDaLoja({
   familia,
+  produto,
   children,
 }: {
   familia?: string;
+  /** O produto da loja deste slot; ausente = a lista está com os de exemplo. */
+  produto?: ProdutoNormal;
   children: React.ReactNode;
 }) {
   const escolhido = useCardDaLoja();
@@ -48,7 +55,7 @@ export default function CardDaLoja({
         ...(variaveis as React.CSSProperties),
       }}
     >
-      <Card soCard />
+      <Card soCard produto={produto} />
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -7,9 +9,17 @@ import styles from './index.module.css';
  * centralizada: número grande, subtítulo, estrelas e nota.
  *
  * `data-role` idênticos aos da origem: é por eles que o estágio 2-fidelidade
- * casa os dois lados nó a nó.
+ * casa os dois lados nó a nó. Conteúdo = o mock.ts de lá, por baixo do que o CS
+ * subir (`useConteudoDaSecao`, campos do schema de lá).
  */
-const conteudo = {
+interface ClientReviewConteudo {
+  number?: string;
+  subtitle?: string;
+  rating?: string;
+  starCount?: number;
+}
+
+const MOCK: ClientReviewConteudo = {
   number: '+100 mil ambientes',
   subtitle: 'transformados com conforto, estilo e curadoria especializada',
   rating: '4,9 · mais de 12.000 avaliações',
@@ -33,24 +43,41 @@ function Star() {
 }
 
 export default function ClientReview() {
+  const { number, subtitle, rating, starCount } = useConteudoDaSecao(MOCK);
+  // O CS escreve o número à mão: só vale inteiro de 0 a 10.
+  const estrelas = Number.isFinite(starCount)
+    ? Math.max(0, Math.min(10, Math.floor(starCount as number)))
+    : 0;
+
   return (
     <div className={styles.socialProof07Root}>
       <div className={styles.section} data-role="sp-section">
-        <p className={styles.number} data-role="sp-number">
-          {conteudo.number}
-        </p>
-        <p className={styles.subtitle} data-role="sp-subtitle">
-          {conteudo.subtitle}
-        </p>
-        <div className={styles.stars} data-role="sp-stars">
-          {Array.from({ length: conteudo.starCount }).map((_, i) => (
-            <Star key={i} />
-          ))}
-          <span className={styles.rating} data-role="sp-rating">
-            {conteudo.rating}
-          </span>
-        </div>
+        {number && (
+          <p className={styles.number} data-role="sp-number">
+            {number}
+          </p>
+        )}
+        {subtitle && (
+          <p className={styles.subtitle} data-role="sp-subtitle">
+            {subtitle}
+          </p>
+        )}
+        {(estrelas > 0 || rating) && (
+          <div className={styles.stars} data-role="sp-stars">
+            {Array.from({ length: estrelas }).map((_, i) => (
+              <Star key={i} />
+            ))}
+            {rating && (
+              <span className={styles.rating} data-role="sp-rating">
+                {rating}
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ClientReview.conteudoPadrao = MOCK;

@@ -12,7 +12,8 @@ const TETO_DE_ENTRADA = 20 * 1024 * 1024;
 
 /** Largura máxima pelo nome do campo: arte mobile e logos não precisam de 2400 px. */
 export function larguraMaximaDoCampo(chave: string): number {
-  if (/mobile/i.test(chave)) return 1200;
+  if (/swatch/i.test(chave)) return 600;
+  if (/mobile|product|produto/i.test(chave)) return 1200;
   if (/logo|icon|seal|selo|payment|brand/i.test(chave)) return 800;
   return 2400;
 }

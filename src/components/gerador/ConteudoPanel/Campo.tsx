@@ -37,7 +37,8 @@ export function tipoDoCampo(schema: CampoDoSchema, chave: string): TipoDeCampo {
   if (schema.enum?.length) return 'opcao';
   const widget = schema.widget?.['ui:widget'];
   if (widget === 'image-uploader' || widget === 'media-gallery') return 'imagem';
-  if (widget === 'textarea' || schema.format === 'textarea') return 'textarea';
+  // `html` (TextArea): o preview o desenha como texto em blocos, nunca como HTML.
+  if (widget === 'textarea' || schema.format === 'textarea' || chave === 'html') return 'textarea';
   if (/(url|href|link)$/i.test(chave)) return 'link';
   return 'texto';
 }
@@ -121,7 +122,12 @@ export default function Campo({ chave, schema, valor, onChange, id }: CampoProps
             value={texto}
             onChange={e => onChange(e.target.value)}
           />
-          {schema.description && <p className={styles.dica}>{schema.description}</p>}
+          {(schema.description || chave === 'html') && (
+            <p className={styles.dica}>
+              {schema.description ??
+                'Texto, sem HTML: linha em branco separa parágrafos, e "# " no começo do bloco faz um título.'}
+            </p>
+          )}
         </div>
       );
 

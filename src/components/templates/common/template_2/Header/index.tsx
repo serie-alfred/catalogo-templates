@@ -3,28 +3,125 @@ import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
 import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
+/** Os três níveis do menu: `menu[]` > `children[]` > `children[]` no `section.schema` do Header02. */
+interface ItemDeMenu2 {
+  label?: string;
+  url?: string;
+}
+interface ItemDeMenu1 extends ItemDeMenu2 {
+  children?: ItemDeMenu2[];
+}
+interface ItemDeMenu extends ItemDeMenu2 {
+  children?: ItemDeMenu1[];
+}
+
+/** O conteúdo da seção: os campos do `section.schema` do Header02. */
+interface Header02Conteudo {
+  logo?: string;
+  logoAlt?: string;
+  logoText?: string;
+  welcomeText?: string;
+  whatsapp?: string;
+  whatsappLabel?: string;
+  youtubeUrl?: string;
+  instagramUrl?: string;
+  twitterUrl?: string;
+  linkedinUrl?: string;
+  facebookUrl?: string;
+  searchPlaceholder?: string;
+  contactUrl?: string;
+  contactLabel?: string;
+  loginLabel?: string;
+  cartLabel?: string;
+  drawerLoginLabel?: string;
+  helpLabel?: string;
+  helpUrl?: string;
+  menu: ItemDeMenu[];
+}
+
+const MOCK: Header02Conteudo = {
+  logoAlt: 'Logo',
+  welcomeText: 'Olá, seja bem-vindo(a)!',
+  whatsapp: '[(00) 00000-0000]',
+  whatsappLabel: 'Atendimento ao cliente:',
+  youtubeUrl: '#',
+  instagramUrl: '#',
+  twitterUrl: '#',
+  linkedinUrl: '#',
+  facebookUrl: '#',
+  searchPlaceholder: 'Buscar seu produto',
+  contactLabel: 'Contato',
+  loginLabel: 'Login',
+  cartLabel: 'Carrinho',
+  drawerLoginLabel: 'Entre ou Cadastre-se',
+  helpLabel: 'Precisa de ajuda',
+  helpUrl: '#',
+  menu: [
+    {
+      label: 'Categoria 1',
+      url: '#',
+      children: [
+        {
+          label: 'Submenu 1',
+          url: '#',
+          children: [
+            { label: 'Submenu 1.1', url: '#' },
+            { label: 'Submenu 1.2', url: '#' },
+            { label: 'Submenu 1.3', url: '#' },
+            { label: 'Submenu 1.4', url: '#' },
+            { label: 'Submenu 1.5', url: '#' },
+            { label: 'Submenu 1.6', url: '#' },
+            { label: 'Submenu 1.7', url: '#' },
+          ],
+        },
+        { label: 'Submenu 2', url: '#' },
+        { label: 'Submenu 3', url: '#' },
+      ],
+    },
+    { label: 'Categoria 2', url: '#' },
+    { label: 'Categoria 3', url: '#' },
+  ],
+};
+
+const formatarWhatsapp = (numero: string) =>
+  numero.replace(/(\d{2})(\d{2})(\d{5})(\d{4})/, '($1) $2 $3-$4');
 
 const Header = () => {
-  const { logo } = useLayout();
+  const { logo: logoDaLoja } = useLayout();
+  const {
+    logo: logoDoCs,
+    logoAlt,
+    logoText,
+    welcomeText,
+    whatsapp,
+    whatsappLabel,
+    youtubeUrl,
+    instagramUrl,
+    twitterUrl,
+    linkedinUrl,
+    facebookUrl,
+    searchPlaceholder,
+    contactUrl,
+    contactLabel,
+    loginLabel,
+    cartLabel,
+    drawerLoginLabel,
+    helpLabel,
+    helpUrl,
+    menu,
+  } = useConteudoDaSecao(MOCK);
   // Mini-cart: o mesmo CartSidebar01 do Header01 (a Wake usa o mesmo minicart nas duas famílias).
   const [cartOpen, setCartOpen] = useState(false);
   useAbrirNoCanvas('carrinho', setCartOpen);
-  // Dados fixos para substituir as variáveis Twig
-  const storeInfo = {
-    name: 'logo',
-    // Sem `|| '/logo.png'`: esse arquivo NÃO existe em public/, então sem logo
-    // carregado o componente pedia um 404 e mostrava ícone de imagem quebrada.
-    // O resto do catálogo cai num fallback de texto — este agora também.
-    logo,
-    whatsapp: '5511999999999', // Número formatado sem caracteres especiais
-    social: {
-      youtube: 'https://youtube.com/paulibras',
-      instagram: 'https://instagram.com/paulibras',
-      twitter: 'https://twitter.com/paulibras',
-      linkedin: 'https://linkedin.com/company/paulibras',
-      facebook: 'https://facebook.com/paulibras',
-    },
-  };
+  // O logo do CS vale mais; sem ele, o que o usuário enviou no /gerador. Sem `|| '/logo.png'`:
+  // esse arquivo NÃO existe em public/ (pediria um 404); o fallback é texto.
+  const logo = logoDoCs || logoDaLoja;
+  const digitos = (whatsapp ?? '').replace(/\D/g, '');
+  const linkWhatsapp = digitos
+    ? `https://api.whatsapp.com/send?phone=${digitos}`
+    : undefined;
 
   // Dados do carrinho (fixos)
   const cartInfo = {
@@ -71,32 +168,31 @@ const Header = () => {
                       strokeWidth="1.5"
                     />
                   </svg>
-                  Olá, seja bem-vindo(a)!
+                  {welcomeText}
                 </a>
               </div>
             </div>
 
             <div className={styles.topWhatsapp}>
-              <a
-                href={`https://api.whatsapp.com/send?phone=55${storeInfo.whatsapp}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Link do número de whatsapp da loja"
-                data-role="hd-top-whatsapp"
-              >
-                Atendimento ao cliente:{' '}
-                {storeInfo.whatsapp.replace(
-                  /(\d{2})(\d{2})(\d{5})(\d{4})/,
-                  '($1) $2 $3-$4'
-                )}
-              </a>
+              {whatsapp && (
+                <a
+                  href={linkWhatsapp || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Link do número de whatsapp da loja"
+                  data-role="hd-top-whatsapp"
+                >
+                  {whatsappLabel} {digitos ? formatarWhatsapp(digitos) : whatsapp}
+                </a>
+              )}
             </div>
 
             <div className={styles.topSocial}>
               <ul>
+                {youtubeUrl && (
                 <li>
                   <a
-                    href={storeInfo.social.youtube}
+                    href={youtubeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Link para a página do youtube da loja"
@@ -116,9 +212,11 @@ const Header = () => {
                     </svg>
                   </a>
                 </li>
+                )}
+                {instagramUrl && (
                 <li>
                   <a
-                    href={storeInfo.social.instagram}
+                    href={instagramUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Link para a página do instagram da loja"
@@ -140,9 +238,11 @@ const Header = () => {
                     </svg>
                   </a>
                 </li>
+                )}
+                {twitterUrl && (
                 <li>
                   <a
-                    href={storeInfo.social.twitter}
+                    href={twitterUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Link para a página do twitter da loja"
@@ -162,9 +262,11 @@ const Header = () => {
                     </svg>
                   </a>
                 </li>
+                )}
+                {linkedinUrl && (
                 <li>
                   <a
-                    href={storeInfo.social.linkedin}
+                    href={linkedinUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Link para a página do linkedin da loja"
@@ -186,9 +288,11 @@ const Header = () => {
                     </svg>
                   </a>
                 </li>
+                )}
+                {facebookUrl && (
                 <li>
                   <a
-                    href={storeInfo.social.facebook}
+                    href={facebookUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Link para a página do facebook da loja"
@@ -208,6 +312,7 @@ const Header = () => {
                     </svg>
                   </a>
                 </li>
+                )}
               </ul>
             </div>
           </div>
@@ -254,16 +359,16 @@ const Header = () => {
             <div className={styles.middleLogo}>
               <h1>
                 <a href="/" data-tray-tst="logotipo_loja" data-role="hd-logo">
-                  {storeInfo.logo ? (
+                  {logo ? (
                     <img
-                      src={storeInfo.logo}
-                      alt={`Logo`}
+                      src={logo}
+                      alt={logoAlt || logoText || 'Logo'}
                       width="184"
                       height="56"
                       fetchPriority="high"
                     />
                   ) : (
-                    <span className={styles.logoFallback}>SERIE//A</span>
+                    <span className={styles.logoFallback}>{logoText || 'SERIE//A'}</span>
                   )}
                 </a>
               </h1>
@@ -277,7 +382,7 @@ const Header = () => {
                     <input
                       className={styles.searchKey}
                       type="text"
-                      placeholder="Buscar seu produto"
+                      placeholder={searchPlaceholder}
                       name="palavra_busca"
                       data-tray-tst="busca_palavra"
                       data-role="hd-search-input"
@@ -321,7 +426,7 @@ const Header = () => {
             <div className={styles.middleConfig}>
               <div className={styles.configWhatsapp}>
                 <a
-                  href={`https://api.whatsapp.com/send?phone=55${storeInfo.whatsapp}`}
+                  href={contactUrl || linkWhatsapp || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Link do número de whatsapp da loja"
@@ -361,7 +466,7 @@ const Header = () => {
                       strokeLinecap="round"
                     />
                   </svg>
-                  Contato
+                  {contactLabel}
                 </a>
               </div>
 
@@ -397,7 +502,7 @@ const Header = () => {
                         strokeWidth="1.5"
                       />
                     </svg>
-                    Login
+                    {loginLabel}
                   </a>
                 </div>
               </div>
@@ -441,7 +546,7 @@ const Header = () => {
                       strokeLinecap="round"
                     />
                   </svg>
-                  <span className={styles.cartTitle} data-role="hd-cart-label">Carrinho</span>
+                  <span className={styles.cartTitle} data-role="hd-cart-label">{cartLabel}</span>
                   <span className={styles.cartNumber} data-cart="amount" data-role="hd-cart-count">
                     {cartInfo.amount}
                   </span>
@@ -457,176 +562,137 @@ const Header = () => {
         <div className={`${styles.bottom__container} component__container`}>
           <div className={`${styles.bottom__row} component__row`}>
             <div className={styles.bottom__login}>
-              <a href="#" data-role="hd-drawer-login">Entre ou Cadastre-se</a>
+              <a href="#" data-role="hd-drawer-login">{drawerLoginLabel}</a>
             </div>
 
             <div className={styles.bottom__whatsapp}>
-              <a href="#" target="_blank" rel="noopener noreferrer" data-role="hd-drawer-help">
-                Precisa de ajuda
+              <a
+                href={helpUrl || linkWhatsapp || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-role="hd-drawer-help"
+              >
+                {helpLabel}
               </a>
             </div>
 
             <div className={styles.bottom__menu}>
               <nav>
                 <ul>
-                  <li
-                    className={`${styles.t} ${styles.l1Item} ${styles.hasChild}`}
-                  >
-                    <a href="#" className={styles.l1ItemLink} data-role="hd-menu-item">
-                      Categoria 1
-                      <svg
-                        fill="none"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
+                  {menu.map((item, i) => {
+                    const level1 = item.children ?? [];
+                    if (!level1.length) {
+                      return (
+                        <li key={i}>
+                          <a href={item.url || '#'} data-role="hd-menu-item">
+                            {item.label}
+                          </a>
+                        </li>
+                      );
+                    }
+                    return (
+                      <li
+                        key={i}
+                        className={`${styles.t} ${styles.l1Item} ${styles.hasChild}`}
                       >
-                        <path
-                          d="M10 16L14 12L10 8"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="1.5"
-                        ></path>
-                      </svg>
-                    </a>
-                    <div className={`${styles.submenuWrapper} ${styles.submenu__wrapper}`}>
-                      <div
-                        className={`${styles.submenuContainer} ${styles.submenu__container} component__container`}
-                      >
-                        <div className={`${styles.submenuInner} ${styles.submenu__inner}`}>
-                          <ul
-                            className={`${styles.submenuL1} ${styles.sub1} ${styles.categoriesL2}`}
+                        <a
+                          href={item.url || '#'}
+                          className={styles.l1ItemLink}
+                          data-role="hd-menu-item"
+                        >
+                          {item.label}
+                          <svg
+  fill="none"
+  height="24"
+  viewBox="0 0 24 24"
+  width="24"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="M10 16L14 12L10 8"
+    stroke="currentColor"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth="1.5"
+  ></path>
+</svg>
+                        </a>
+                        <div className={`${styles.submenuWrapper} ${styles.submenu__wrapper}`}>
+                          <div
+                            className={`${styles.submenuContainer} ${styles.submenu__container} component__container`}
                           >
-                            <li
-                              className={`${styles.subItem} ${styles.hasChild}`}
-                            >
-                              <a href="#" className={styles.l2ItemLink} data-role="hd-submenu-item">
-                                Submenu 1
-                                <svg
-                                  fill="none"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M10 16L14 12L10 8"
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="1.5"
-                                  ></path>
-                                </svg>
-                              </a>
-
+                            <div className={`${styles.submenuInner} ${styles.submenu__inner}`}>
                               <ul
-                                className={`${styles.subMenu} ${styles.sub2} ${styles.categoriesL3}`}
+                                className={`${styles.submenuL1} ${styles.sub1} ${styles.categoriesL2}`}
                               >
-                                <li data-category-id="411">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-de-agua-natural"
-                                    className="l3-item-link"
-                                    data-role="hd-submenu-leaf"
-                                  >
-                                    Submenu 1.1
-                                  </a>
-                                </li>
-                                <li data-category-id="413">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-de-agua-gelada"
-                                    className="l3-item-link"
-                                    data-role="hd-submenu-leaf"
-                                  >
-                                    Submenu 1.2
-                                  </a>
-                                </li>
-                                <li data-category-id="415">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-de-agua-quente"
-                                    className="l3-item-link"
-                                    data-role="hd-submenu-leaf"
-                                  >
-                                    Submenu 1.3
-                                  </a>
-                                </li>
-                                <li data-category-id="417">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-bacteriologico"
-                                    className="l3-item-link"
-                                    data-role="hd-submenu-leaf"
-                                  >
-                                    Submenu 1.4
-                                  </a>
-                                </li>
-                                <li data-category-id="419">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-alcalino-ionziado"
-                                    className="l3-item-link"
-                                    data-role="hd-submenu-leaf"
-                                  >
-                                    Submenu 1.5
-                                  </a>
-                                </li>
-                                <li data-category-id="421">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-com-ozonio"
-                                    className="l3-item-link"
-                                    data-role="hd-submenu-leaf"
-                                  >
-                                    Submenu 1.6
-                                  </a>
-                                </li>
-                                <li data-category-id="423">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/com-ultravioleta"
-                                    className="l3-item-link"
-                                    data-role="hd-submenu-leaf"
-                                  >
-                                    Submenu 1.7
-                                  </a>
-                                </li>
+                                {level1.map((l2, j) => {
+                                  const level2 = l2.children ?? [];
+                                  if (!level2.length) {
+                                    return (
+                                      <li key={j} className="sub-item has-child">
+                                        <a
+                                          href={l2.url || '#'}
+                                          className="l2-item-link"
+                                          data-role="hd-submenu-item"
+                                        >
+                                          {l2.label}
+                                        </a>
+                                      </li>
+                                    );
+                                  }
+                                  return (
+                                    <li
+                                      key={j}
+                                      className={`${styles.subItem} ${styles.hasChild}`}
+                                    >
+                                      <a
+                                        href={l2.url || '#'}
+                                        className={styles.l2ItemLink}
+                                        data-role="hd-submenu-item"
+                                      >
+                                        {l2.label}
+                                        <svg
+            fill="none"
+            height="24"
+            viewBox="0 0 24 24"
+            width="24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M10 16L14 12L10 8"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.5"
+            ></path>
+          </svg>
+                                      </a>
+
+                                      <ul
+                                        className={`${styles.subMenu} ${styles.sub2} ${styles.categoriesL3}`}
+                                      >
+                                        {level2.map((l3, k) => (
+                                          <li key={k}>
+                                            <a
+                                              href={l3.url || '#'}
+                                              className="l3-item-link"
+                                              data-role="hd-submenu-leaf"
+                                            >
+                                              {l3.label}
+                                            </a>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </li>
+                                  );
+                                })}
                               </ul>
-                            </li>
-
-                            {/* Filtros de Água */}
-                            <li
-                              className="sub-item has-child"
-                              data-category-id="373"
-                            >
-                              <a
-                                href="https://parceiroseriedesign.commercesuite.com.br/filtros-de-agua"
-                                className="l2-item-link"
-                                data-role="hd-submenu-item"
-                              >
-                                Submenu 2
-                              </a>
-                            </li>
-
-                            {/* Osmose e Reversa */}
-                            <li
-                              className="sub-item has-child"
-                              data-category-id="377"
-                            >
-                              <a
-                                href="https://parceiroseriedesign.commercesuite.com.br/osmose-e-reversa"
-                                className="l2-item-link"
-                                data-role="hd-submenu-item"
-                              >
-                                Submenu 3
-                              </a>
-                            </li>
-                          </ul>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <a href="#" data-role="hd-menu-item">Categoria 2</a>
-                  </li>
-                  <li>
-                    <a href="#" data-role="hd-menu-item">Categoria 3</a>
-                  </li>
+                      </li>
+                    );
+                  })}
                 </ul>
               </nav>
             </div>
@@ -642,3 +708,6 @@ const Header = () => {
 };
 
 export default Header;
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header.conteudoPadrao = MOCK;

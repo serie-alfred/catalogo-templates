@@ -6,23 +6,33 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
+
+/** O conteúdo da seção: os campos do `section.schema` do Categories01. */
+interface Categories01Conteudo {
+  title?: string;
+  categories: { title?: string; link?: string; img?: string }[];
+}
 
 // Mock base (mantido do catálogo). Ciclado para ~10 slides para o carrossel rolar.
 const baseCategories = [
-  { id: 1, title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
-  { id: 2, title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
-  { id: 3, title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
-  { id: 4, title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
-  { id: 5, title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
-  { id: 6, title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
-  { id: 7, title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
+  { title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
+  { title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
+  { title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
+  { title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
+  { title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
+  { title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
+  { title: 'Categoria', link: '#', img: 'https://placehold.co/250x250' },
 ];
 
-const categories = Array.from({ length: 10 }).map((_, index) => {
-  const cat = baseCategories[index % baseCategories.length];
-  return { ...cat, id: index + 1 };
-});
+const MOCK: Categories01Conteudo = {
+  title: 'Categorias em Destaque',
+  categories: Array.from({ length: 10 }).map(
+    (_, index) => baseCategories[index % baseCategories.length]
+  ),
+};
 
 // Espelha molecules/Categories01 do faststore.starter:
 // Swiper com Navigation, slidesPerView 3/4/5/6 por breakpoint e spaceBetween crescente.
@@ -33,6 +43,7 @@ const BREAKPOINTS = {
 };
 
 export default function Categories() {
+  const { title, categories } = useConteudoDaSecao(MOCK);
   const swiperRef = useRef<SwiperType | null>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -42,12 +53,16 @@ export default function Categories() {
     setIsEnd(swiper.isEnd);
   };
 
+  if (!categories.length) return null;
+
   return (
     <div className={styles.homeCategories}>
       <div className={`${styles.categoriesContainer} component__container`}>
-        <div className={styles.categoriesTitle}>
-          <h2>Categorias em Destaque</h2>
-        </div>
+        {title && (
+          <div className={styles.categoriesTitle}>
+            <h2>{title}</h2>
+          </div>
+        )}
 
         <div className={styles.categoriesWrapper}>
           <Swiper
@@ -64,19 +79,19 @@ export default function Categories() {
             onSlideChange={syncNavState}
             onBreakpoint={syncNavState}
           >
-            {categories.map(cat => (
-              <SwiperSlide key={cat.id} className={styles.swiper__slide}>
+            {categories.map((cat, i) => (
+              <SwiperSlide key={i} className={styles.swiper__slide}>
                 <div className={styles.categoriesItem}>
-                  <a href={cat.link}>
+                  <a href={cat.link || '#'}>
                     <div className={styles.categoriesImage}>
                       <img
                         src={cat.img}
                         width="250"
                         height="250"
-                        alt={`Categoria - ${cat.title}`}
+                        alt={`Categoria - ${cat.title ?? ''}`}
                       />
                     </div>
-                    <h3>{cat.title}</h3>
+                    {cat.title && <h3>{cat.title}</h3>}
                   </a>
                 </div>
               </SwiperSlide>
@@ -133,3 +148,6 @@ export default function Categories() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Categories.conteudoPadrao = MOCK;

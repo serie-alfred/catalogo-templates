@@ -8,6 +8,7 @@ import {
   buildSuggestionProducts,
 } from '@/components/templates/_shared/searchSuggestions';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 // Preview do Header06 — dados fixos, sem VTEX/GraphQL/hooks.
 // Espelha faststore.starter/src/components/organisms/Header06 (index.tsx +
@@ -34,37 +35,97 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 // No canvas do gerador e no preview /p a interação é a mesma: o canvas ficou
 // 100% interativo quando o drag-and-drop saiu dele para o painel de seções.
 
+/**
+ * Conteúdo: os nomes e a forma do `section.schema` do Header06 do starter, com o
+ * mock por baixo do que o CS subir (`useConteudoDaSecao`). O texto da barra
+ * aceita só `<strong>`, como na origem. `icon` é a URL da arte do aviso; o valor
+ * `truck` pede o caminhão desenhado aqui (o preview não aponta para asset de
+ * cliente). `logoSrc` vale sobre o logo da loja. Ficam fora do tipo
+ * `freeShipping` (o mini-cart é o CartSidebar01, sem barra de frete), o
+ * `highlight` dos links do mega (negrito só no menu mobile, sem CSS aqui) e
+ * `linkLabel`/`altMobile` do banner do mega.
+ */
 interface TopbarMessage {
-  text: React.ReactNode;
-  icon?: boolean;
+  text?: string;
+  icon?: string;
 }
 
-const topbarMessages: TopbarMessage[] = [
-  { text: 'PIX Parcelado em 4x sem juros' },
-  {
-    text: (
-      <>
-        <strong>Frete Grátis</strong> Sul e Sudeste acima de <strong>R$249,90</strong>
-      </>
-    ),
-    icon: true,
-  },
-  { text: 'Frete Grátis Brasil acima de R$349,90*' },
-  { text: 'Cartão de crédito até 10x sem juros' },
-  {
-    text: (
-      <>
-        Use o cupom <strong>BEMVINDO10</strong> na primeira compra
-      </>
-    ),
-  },
-];
+interface MegaLink {
+  name?: string;
+  url?: string;
+}
 
-const data = {
+interface MegaColumn {
+  title?: string;
+  /** no mobile, promove os links a filhos diretos do item (sem o acordeão) */
+  mobileFlat?: boolean;
+  links?: MegaLink[];
+}
+
+interface MegaImage {
+  src?: string;
+  srcMobile?: string;
+  alt?: string;
+  altMobile?: string;
+  url?: string;
+}
+
+interface NavItem {
+  label?: string;
+  url?: string;
+  hasMega?: boolean;
+  highlight?: boolean;
+  megaColumns?: MegaColumn[];
+  megaImage?: MegaImage;
+}
+
+interface MobileLink {
+  label?: string;
+  url?: string;
+  /** track | chat | return | heart | pin | franchise */
+  icon?: string;
+}
+
+interface Header06Conteudo {
+  topbarMessages: TopbarMessage[];
+  logoSrc?: string;
+  navItems: NavItem[];
+  mobileLinks: MobileLink[];
+  searchPlaceholder?: string;
+  quickSearch: string[];
+  storesUrl?: string;
+  wishlistUrl?: string;
+}
+
+/** Departamentos usados nas buscas escopadas do autocomplete ("sapato Calçados"). */
+const DEPARTAMENTOS = ['Calçados', 'Acessórios'];
+
+/** Só `<strong>` vira negrito; qualquer outro texto entra como texto puro. */
+function textoDaBarra(texto: string): React.ReactNode[] {
+  return texto
+    .split(/(<strong>[\s\S]*?<\/strong>)/i)
+    .map((parte, i) =>
+      /^<strong>/i.test(parte) ? (
+        <strong key={i}>{parte.replace(/<\/?strong>/gi, '')}</strong>
+      ) : (
+        parte
+      )
+    );
+}
+
+const MOCK: Header06Conteudo = {
+  topbarMessages: [
+    { text: 'PIX Parcelado em 4x sem juros' },
+    {
+      text: '<strong>Frete Grátis</strong> Sul e Sudeste acima de <strong>R$249,90</strong>',
+      icon: 'truck',
+    },
+    { text: 'Frete Grátis Brasil acima de R$349,90*' },
+    { text: 'Cartão de crédito até 10x sem juros' },
+    { text: 'Use o cupom <strong>BEMVINDO10</strong> na primeira compra' },
+  ],
   searchPlaceholder: 'O que você procura?',
   quickSearch: ['Sapatênis', 'Sapatos', 'Botas', 'Sneakers', 'Mocassins'],
-  /** Departamentos usados nas buscas escopadas do autocomplete ("sapato Calçados"). */
-  departments: ['Calçados', 'Acessórios'],
   storesUrl: '#',
   wishlistUrl: '#',
   navItems: [
@@ -155,12 +216,12 @@ const data = {
     { label: 'SALE', url: '#', hasMega: false, highlight: true },
   ],
   mobileLinks: [
-    { label: 'Rastrear Pedido', url: '#', icon: 'track' as const },
-    { label: 'Fale Conosco', url: '#', icon: 'chat' as const },
-    { label: 'Trocas e Devoluções', url: '#', icon: 'return' as const },
-    { label: 'Favoritos', url: '#', icon: 'heart' as const },
-    { label: 'Nossas lojas', url: '#', icon: 'pin' as const },
-    { label: 'Seja um Franquiado', url: '#', icon: 'franchise' as const },
+    { label: 'Rastrear Pedido', url: '#', icon: 'track' },
+    { label: 'Fale Conosco', url: '#', icon: 'chat' },
+    { label: 'Trocas e Devoluções', url: '#', icon: 'return' },
+    { label: 'Favoritos', url: '#', icon: 'heart' },
+    { label: 'Nossas lojas', url: '#', icon: 'pin' },
+    { label: 'Seja um Franquiado', url: '#', icon: 'franchise' },
   ],
 };
 
@@ -284,9 +345,7 @@ const FranchiseIcon = () => (
   </svg>
 );
 
-type MobileLinkIconName = 'track' | 'chat' | 'return' | 'heart' | 'pin' | 'franchise';
-
-const MobileLinkIcon = ({ name }: { name?: MobileLinkIconName }) => {
+const MobileLinkIcon = ({ name }: { name?: string }) => {
   switch (name) {
     case 'chat':
       return <ChatIcon />;
@@ -304,7 +363,18 @@ const MobileLinkIcon = ({ name }: { name?: MobileLinkIconName }) => {
 };
 
 export default function Header06() {
-  const { logo } = useLayout();
+  const { logo: logoDaLoja } = useLayout();
+  const {
+    topbarMessages,
+    logoSrc,
+    navItems,
+    mobileLinks,
+    searchPlaceholder,
+    quickSearch,
+    storesUrl,
+    wishlistUrl,
+  } = useConteudoDaSecao(MOCK);
+  const logo = logoSrc || logoDaLoja;
 
   // ── Top-bar slider (deslize horizontal, loop contínuo via clone) ──
   // tbIndex vai de 0..messages.length; a posição `length` é o clone do 1º slide.
@@ -398,7 +468,7 @@ export default function Header06() {
 
   const typed = term.trim();
   const suggestionProducts = typed ? buildSuggestionProducts(term) : [];
-  const quickSuggestions = buildSearchSuggestions('', data.quickSearch);
+  const quickSuggestions = buildSearchSuggestions('', quickSearch);
 
   /**
    * Autocomplete — mesma estrutura da origem: "Buscar por «termo»", as buscas
@@ -416,7 +486,7 @@ export default function Header06() {
         Buscar por <span className={styles.searchQuoted}>&quot;{typed}&quot;</span>
       </button>
 
-      {data.departments.map(department => (
+      {DEPARTAMENTOS.map(department => (
         <button
           key={department}
           type="button"
@@ -483,6 +553,7 @@ export default function Header06() {
           (overlay de busca, drawer, mini-cart) ficam FORA dela. */}
       <div className={styles.headerShell}>
         {/* ── TOP-BAR (slider) ── */}
+        {msgs.length > 0 && (
         <div className={styles.topbar} aria-label="Avisos da loja">
           <div
             className={`${styles.topbarTrack}${tbNoAnim ? ` ${styles.noAnim}` : ''}`}
@@ -490,12 +561,25 @@ export default function Header06() {
           >
             {[...msgs, msgs[0]].map((m, i) => (
               <p key={i} className={styles.topbarSlide}>
-                {m.icon && <TopbarTruckIcon />}
-                <span>{m.text}</span>
+                {m.icon === 'truck' ? (
+                  <TopbarTruckIcon />
+                ) : (
+                  m.icon && (
+                    <img
+                      className={styles.topbarImg}
+                      src={m.icon}
+                      alt=""
+                      aria-hidden="true"
+                      height={20}
+                    />
+                  )
+                )}
+                <span>{textoDaBarra(m.text ?? '')}</span>
               </p>
             ))}
           </div>
         </div>
+        )}
 
         {/* ── HEADER PRINCIPAL + MEGA (hover CSS) ── */}
         <div className={styles.header06Stack}>
@@ -529,7 +613,7 @@ export default function Header06() {
               <Logo />
 
               <nav className={styles.desktopNav} aria-label="Menu principal">
-                {data.navItems.map((item, i) =>
+                {navItems.map((item, i) =>
                   item.hasMega ? (
                     <div key={i} className={styles.navItem}>
                       {/* No DESKTOP o item com mega NÃO navega — é só o gatilho do
@@ -542,13 +626,13 @@ export default function Header06() {
                           {(item.megaColumns ?? []).map((col, c) => (
                             <div key={c} className={styles.megaCol}>
                               {col.title && <h3>{col.title}</h3>}
-                              {col.links.map((link, l) => (
+                              {(col.links ?? []).map((link, l) => (
                                 <a
                                   key={l}
-                                  href={link.url}
+                                  href={link.url || '#'}
                                   onClick={preventNav}
                                   className={
-                                    link.name.toUpperCase() === 'VER TODOS'
+                                    (link.name ?? '').toUpperCase() === 'VER TODOS'
                                       ? styles.megaAll
                                       : undefined
                                   }
@@ -561,13 +645,13 @@ export default function Header06() {
                           {item.megaImage?.src && (
                             <a
                               className={styles.megaImage}
-                              href={item.megaImage.url}
+                              href={item.megaImage.url || '#'}
                               onClick={preventNav}
                             >
                               <img
                                 loading="lazy"
                                 src={item.megaImage.src}
-                                alt={item.megaImage.alt}
+                                alt={item.megaImage.alt ?? ''}
                               />
                             </a>
                           )}
@@ -577,7 +661,7 @@ export default function Header06() {
                   ) : (
                     <a
                       key={i}
-                      href={item.url}
+                      href={item.url || '#'}
                       onClick={preventNav}
                       className={item.highlight ? styles.navSale : undefined}
                     >
@@ -594,7 +678,7 @@ export default function Header06() {
               >
                 <input
                   type="search"
-                  placeholder={data.searchPlaceholder}
+                  placeholder={searchPlaceholder}
                   value={term}
                   onChange={e => setTerm(e.target.value)}
                   onFocus={() => setSearchFocused(true)}
@@ -617,7 +701,7 @@ export default function Header06() {
 
               <div className={styles.actions}>
                 <a
-                  href={data.storesUrl}
+                  href={storesUrl || '#'}
                   onClick={preventNav}
                   className={`${styles.iconBtn} ${styles.desktopOnly}`}
                   aria-label="Nossas lojas"
@@ -625,7 +709,7 @@ export default function Header06() {
                   <PinIcon />
                 </a>
                 <a
-                  href={data.wishlistUrl}
+                  href={wishlistUrl || '#'}
                   onClick={preventNav}
                   className={`${styles.iconBtn} ${styles.desktopOnly}`}
                   aria-label="Favoritos"
@@ -665,7 +749,7 @@ export default function Header06() {
           >
             <input
               type="search"
-              placeholder={data.searchPlaceholder}
+              placeholder={searchPlaceholder}
               value={term}
               onChange={e => setTerm(e.target.value)}
               onFocus={() => setSearchFocused(true)}
@@ -704,7 +788,7 @@ export default function Header06() {
             <input
               ref={mobileSearchRef}
               type="search"
-              placeholder={data.searchPlaceholder}
+              placeholder={searchPlaceholder}
               value={term}
               onChange={e => setTerm(e.target.value)}
             />
@@ -743,7 +827,7 @@ export default function Header06() {
           </button>
         </div>
         <nav className={styles.mobileNav} aria-label="Menu mobile">
-          {data.navItems.map((item, i) =>
+          {navItems.map((item, i) =>
             item.hasMega ? (
               <div
                 key={i}
@@ -753,7 +837,7 @@ export default function Header06() {
                 <div className={styles.mobileNavRow}>
                   <a
                     className={styles.mobileNavLabel}
-                    href={item.url}
+                    href={item.url || '#'}
                     onClick={preventNav}
                   >
                     {item.label}
@@ -771,7 +855,7 @@ export default function Header06() {
 
                 <div className={styles.mobileSub}>
                   {(item.megaColumns ?? []).map((col, c) =>
-                    col.title ? (
+                    col.title && !col.mobileFlat ? (
                       // Coluna com título → acordeão aninhado (nível 2)
                       <div
                         key={c}
@@ -788,8 +872,8 @@ export default function Header06() {
                           <ChevronIcon />
                         </button>
                         <div className={styles.mobileSubSub}>
-                          {col.links.map((link, l) => (
-                            <a key={l} href={link.url} onClick={preventNav}>
+                          {(col.links ?? []).map((link, l) => (
+                            <a key={l} href={link.url || '#'} onClick={preventNav}>
                               {link.name}
                             </a>
                           ))}
@@ -797,11 +881,11 @@ export default function Header06() {
                       </div>
                     ) : (
                       // Coluna sem título → links diretos
-                      col.links.map((link, l) => (
+                      (col.links ?? []).map((link, l) => (
                         <a
                           key={`${c}-${l}`}
                           className={styles.mobileSubLink}
-                          href={link.url}
+                          href={link.url || '#'}
                           onClick={preventNav}
                         >
                           {link.name}
@@ -811,16 +895,16 @@ export default function Header06() {
                   )}
 
                   {/* Banner do mega — versão MOBILE (srcMobile), no fim do item */}
-                  {item.megaImage && (
+                  {item.megaImage && (item.megaImage.srcMobile || item.megaImage.src) && (
                     <a
                       className={styles.mobileBanner}
-                      href={item.megaImage.url}
+                      href={item.megaImage.url || '#'}
                       onClick={preventNav}
                     >
                       <img
                         loading="lazy"
-                        src={item.megaImage.srcMobile}
-                        alt={item.megaImage.alt}
+                        src={item.megaImage.srcMobile || item.megaImage.src}
+                        alt={item.megaImage.altMobile ?? item.megaImage.alt ?? ''}
                       />
                     </a>
                   )}
@@ -830,7 +914,7 @@ export default function Header06() {
               <a
                 key={i}
                 className={`${styles.mobileNavLink}${item.highlight ? ` ${styles.navSale}` : ''}`}
-                href={item.url}
+                href={item.url || '#'}
                 onClick={preventNav}
               >
                 {item.label}
@@ -848,8 +932,8 @@ export default function Header06() {
           </a>
 
           <div className={styles.mobileLinks}>
-            {data.mobileLinks.map((link, i) => (
-              <a key={i} href={link.url} onClick={preventNav}>
+            {mobileLinks.map((link, i) => (
+              <a key={i} href={link.url || '#'} onClick={preventNav}>
                 <MobileLinkIcon name={link.icon} />
                 {link.label}
               </a>
@@ -863,3 +947,6 @@ export default function Header06() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header06.conteudoPadrao = MOCK;

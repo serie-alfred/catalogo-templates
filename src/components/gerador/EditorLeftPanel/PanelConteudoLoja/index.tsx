@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import { useLayout } from '@/context/LayoutContext';
 import { LAYOUTS } from '@/data/layoutData';
 import { GRUPOS_DA_LOJA, SCHEMA_DA_LOJA } from '@/data/conteudo/schemaDaLoja';
 import type { ConteudoDaSecao, ValorDeConteudo } from '@/types/conteudo';
 import { resolverConteudo } from '@/utils/conteudo';
+import { ouvirFocoNaLoja } from '@/utils/focoNaLoja';
 import { partirDaPagina, type SecaoDaPagina } from '@/utils/lojaDaPagina';
 import Campo from '../../ConteudoPanel/Campo';
 import { conteudoPadraoDe } from '../../ConteudoPanel';
@@ -47,6 +48,17 @@ export default function PanelConteudoLoja() {
   );
 
   const loja = (conteudoLoja ?? {}) as Record<string, ValorDeConteudo>;
+
+  // "Editar produtos" (e afins) vindo da aba Conteúdo: rola o slot para o topo.
+  useEffect(
+    () =>
+      ouvirFocoNaLoja(slot =>
+        document
+          .querySelector(`[data-slot-loja="${slot}"]`)
+          ?.scrollIntoView({ block: 'start' })
+      ),
+    []
+  );
 
   return (
     <div className={styles.wrap} data-painel-loja>

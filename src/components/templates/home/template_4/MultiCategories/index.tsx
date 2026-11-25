@@ -1,7 +1,61 @@
 import React from 'react';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import styles from './index.module.css';
 
+/** Um banner de categoria do schema do MultiCategories04. */
+interface MultiCategories04Card {
+  image?: string;
+  alt?: string;
+  title?: string;
+  description?: string;
+  link?: string;
+}
+
+/** O conteúdo da seção: os campos do `section.schema` do MultiCategories04. */
+interface MultiCategories04Conteudo {
+  title?: string;
+  description?: string;
+  cards: MultiCategories04Card[];
+}
+
+const MOCK: MultiCategories04Conteudo = {
+  title: 'Browse by rooms',
+  description:
+    'Sit massa etiam urna id. Non pulvinar aenean ultrices lectus vitae imperdiet vulputate a eu. Aliquet ullamcorper leo mi vel sit pretium euismod eget.',
+  cards: [
+    { image: 'https://placehold.co/580x456', alt: 'Living Room', title: 'Living Room', description: '15 products', link: '#' },
+    { image: 'https://placehold.co/570x278', alt: 'Bedroom', title: 'Bedroom', description: '24 products', link: '#' },
+    { image: 'https://placehold.co/275x275', alt: 'Walk-in Closet', title: 'Walk-in Closet', description: '30 products', link: '#' },
+    { image: 'https://placehold.co/275x275', alt: 'Kitchen', title: 'Kitchen', description: '24 products', link: '#' },
+  ],
+};
+
+/** O banner com selo de nome e contagem; o mosaico põe cada um no seu lugar. */
+function Card({ card }: { card?: MultiCategories04Card }) {
+  if (!card) return null;
+  return (
+    <div className={styles.bannerImageText} data-role="mc-card">
+      <a href={card.link || '#'}>
+        <img
+          src={card.image}
+          alt={card.alt ?? ''}
+          loading="lazy"
+          data-role="mc-card-image"
+        />
+      </a>
+      <div className={styles.bannerText}>
+        <div className={styles.containerBannerText}>
+          {card.title && <h2 data-role="mc-card-title">{card.title}</h2>}
+          {card.description && <p data-role="mc-card-text">{card.description}</p>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function MultiCategories() {
+  const { title, description, cards } = useConteudoDaSecao(MOCK);
+
   return (
     <section className={styles.homeBIR} data-role="mc-root">
       <div className={`${styles.roomBrowserSection} component__container`}>
@@ -9,53 +63,23 @@ export default function MultiCategories() {
           {/* Living Room */}
           <div className={styles.livingRoomContainer}>
             <div className={styles.roomBrowserHeader}>
-              <h3 className={styles.roomBrowserTitle} data-role="mc-title"> Browse by rooms</h3>
-              <div className={styles.roomBrowserDescription} data-role="mc-description">
-                Sit massa etiam urna id. Non pulvinar aenean ultrices lectus
-                vitae imperdiet vulputate a eu. Aliquet ullamcorper leo mi vel
-                sit pretium euismod eget.
-              </div>
+              {title && <h3 className={styles.roomBrowserTitle} data-role="mc-title">{title}</h3>}
+              {description && (
+                <div className={styles.roomBrowserDescription} data-role="mc-description">
+                  {description}
+                </div>
+              )}
             </div>
 
             <div className={styles.livingRoomImageWrapper}>
-              <div className={styles.bannerImageText} data-role="mc-card">
-                <a href="#">
-                  <img
-                    src="https://placehold.co/580x456"
-                    alt="Living Room"
-                    loading="lazy"
-                    data-role="mc-card-image"
-                  />
-                </a>
-                <div className={styles.bannerText}>
-                  <div className={styles.containerBannerText}>
-                    <h2 data-role="mc-card-title">Living Room</h2>
-                    <p data-role="mc-card-text">15 products</p>
-                  </div>
-                </div>
-              </div>
+              <Card card={cards[0]} />
             </div>
           </div>
 
           {/* Bedroom + Others */}
           <div className={styles.bedroomContainer}>
             <div className={styles.bedroomImageWrapper}>
-              <div className={styles.bannerImageText} data-role="mc-card">
-                <a href="#">
-                  <img
-                    src="https://placehold.co/570x278"
-                    alt="Bedroom"
-                    loading="lazy"
-                    data-role="mc-card-image"
-                  />
-                </a>
-                <div className={styles.bannerText}>
-                  <div className={styles.containerBannerText}>
-                    <h2 data-role="mc-card-title">Bedroom</h2>
-                    <p data-role="mc-card-text">24 products</p>
-                  </div>
-                </div>
-              </div>
+              <Card card={cards[1]} />
             </div>
 
             {/* Walk-in Closet + Kitchen */}
@@ -64,22 +88,7 @@ export default function MultiCategories() {
                 <div className={styles.walkInClosetColumn}>
                   <div className={styles.walkInClosetContainer}>
                     <div className={styles.walkInClosetImage}>
-                      <div className={styles.bannerImageText} data-role="mc-card">
-                        <a href="#">
-                          <img
-                            src="https://placehold.co/275x275"
-                            alt="Walk-in Closet"
-                            loading="lazy"
-                            data-role="mc-card-image"
-                          />
-                        </a>
-                        <div className={styles.bannerText}>
-                          <div className={styles.containerBannerText}>
-                            <h2 data-role="mc-card-title">Walk-in Closet</h2>
-                            <p data-role="mc-card-text">30 products</p>
-                          </div>
-                        </div>
-                      </div>
+                      <Card card={cards[2]} />
                     </div>
                   </div>
                 </div>
@@ -87,22 +96,7 @@ export default function MultiCategories() {
                 <div className={styles.kitchenColumn}>
                   <div className={styles.kitchenContainer}>
                     <div className={styles.kitchenImage}>
-                      <div className={styles.bannerImageText} data-role="mc-card">
-                        <a href="#">
-                          <img
-                            src="https://placehold.co/275x275"
-                            alt="Kitchen"
-                            loading="lazy"
-                            data-role="mc-card-image"
-                          />
-                        </a>
-                        <div className={styles.bannerText}>
-                          <div className={styles.containerBannerText}>
-                            <h2 data-role="mc-card-title">Kitchen</h2>
-                            <p data-role="mc-card-text">24 products</p>
-                          </div>
-                        </div>
-                      </div>
+                      <Card card={cards[3]} />
                     </div>
                   </div>
                 </div>
@@ -114,3 +108,6 @@ export default function MultiCategories() {
     </section>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+MultiCategories.conteudoPadrao = MOCK;

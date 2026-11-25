@@ -2,6 +2,8 @@
 
 import React, { useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -13,10 +15,22 @@ import styles from './index.module.css';
  *
  * O que sai: `usePDP` — a descrição e a ficha abaixo são as do `mock.ts` da origem.
  * `useState` fica para o FAQ e o acordeão, que é o que faz o preview parecer vivo.
+ *
+ * Conteúdo: só os rótulos, o título e o FAQ vêm do CMS (`useConteudoDaSecao`, campos
+ * do schema do ProductDescription07); os parágrafos, a ficha e o texto de cuidados são
+ * do produto de exemplo e ficam aqui.
  */
+interface ProductDescription07Conteudo {
+  descEyebrow?: string;
+  descTitle?: string;
+  specsEyebrow?: string;
+  careTitle?: string;
+  faqTitle?: string;
+  faqItems: { q?: string; a?: string }[];
+  deliveryInfo?: string;
+}
+
 const DESCRICAO = {
-  eyebrow: 'Sobre o produto',
-  titulo: 'Elegância clássica para sala ou quarto',
   paragrafos: [
     'Com superfície levemente aveludada e toque surpreendentemente suave, o Tapete Belga Essence Clássico é confeccionado com 70% de poliéster e 30% de algodão — uma composição pensada para durabilidade sem abrir mão do conforto.',
     'Seus arabescos florais, bordas contrastantes e acabamento com franjas elegantes criam um ponto de destaque em qualquer composição, sem perder a sofisticação que um ambiente bem decorado exige.',
@@ -25,21 +39,23 @@ const DESCRICAO = {
 };
 
 const ESPECIFICACOES = {
-  eyebrow: 'Especificações',
   cards: [
     { label: 'Composição', value: '70% Poliéster · 30% Algodão' },
     { label: 'Dimensões', value: '2,00m × 2,50m' },
     { label: 'Perfil', value: 'Baixo perfil · 6mm' },
     { label: 'Embalagem', value: '1 tapete enrolado' },
   ],
-  cuidadosTitulo: 'Cuidados e lavagem',
   cuidadosTexto:
     'Lavar à mão ou em máquina com programa delicado. Não usar alvejante. Secar à sombra. Não usar secadora.',
 };
 
-const FAQ = {
-  titulo: 'Dúvidas frequentes',
-  itens: [
+const MOCK: ProductDescription07Conteudo = {
+  descEyebrow: 'Sobre o produto',
+  descTitle: 'Elegância clássica para sala ou quarto',
+  specsEyebrow: 'Especificações',
+  careTitle: 'Cuidados e lavagem',
+  faqTitle: 'Dúvidas frequentes',
+  faqItems: [
     {
       q: 'Como escolher o tamanho certo?',
       a: 'Meça o espaço e deixe o tapete ultrapassar o sofá em pelo menos 20 cm de cada lado. Para salas de 20m² ou mais, o 2,00m × 2,50m é o padrão.',
@@ -53,12 +69,20 @@ const FAQ = {
       a: 'Enviamos para todo o Brasil. O prazo estimado aparece no carrinho após informar seu CEP, variando conforme a região.',
     },
   ],
+  deliveryInfo:
+    'Enviamos para todo o Brasil com rastreio. O prazo e o valor do frete aparecem no carrinho após você informar o CEP. Trocas em até 7 dias corridos após o recebimento.',
 };
 
-const ENTREGA =
-  'Enviamos para todo o Brasil com rastreio. O prazo e o valor do frete aparecem no carrinho após você informar o CEP. Trocas em até 7 dias corridos após o recebimento.';
-
 export default function ProductDescription07() {
+  const {
+    descEyebrow,
+    descTitle,
+    specsEyebrow,
+    careTitle,
+    faqTitle,
+    faqItems,
+    deliveryInfo,
+  } = useConteudoDaSecao(MOCK);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [openAcc, setOpenAcc] = useState<number | null>(null);
 
@@ -70,10 +94,10 @@ export default function ProductDescription07() {
       title: 'Composição e especificações',
       body: [
         ...ESPECIFICACOES.cards.map(s => `${s.label}: ${s.value}`),
-        `${ESPECIFICACOES.cuidadosTitulo}: ${ESPECIFICACOES.cuidadosTexto}`,
+        `${careTitle}: ${ESPECIFICACOES.cuidadosTexto}`,
       ].join('\n'),
     },
-    { title: 'Entrega e prazo', body: ENTREGA },
+    { title: 'Entrega e prazo', body: deliveryInfo },
   ];
 
   const alternar = (
@@ -96,10 +120,14 @@ export default function ProductDescription07() {
         <div className={styles.desktop}>
           <div className={styles.description} data-role="description">
             <div className={styles.descCol} data-role="desc-col">
-              <p className={styles.sectionEyebrow}>{DESCRICAO.eyebrow}</p>
-              <h2 className={styles.descTitle} data-role="desc-title">
-                {DESCRICAO.titulo}
-              </h2>
+              {descEyebrow && (
+                <p className={styles.sectionEyebrow}>{descEyebrow}</p>
+              )}
+              {descTitle && (
+                <h2 className={styles.descTitle} data-role="desc-title">
+                  {descTitle}
+                </h2>
+              )}
               {/* UM `desc-p` com os parágrafos dentro, como na origem: lá a descrição é o
                   HTML que a API entrega, injetado num bloco só. Os 16px entre eles vêm de
                   `.descP p + p`, declarado igual aqui e no starter. */}
@@ -110,7 +138,9 @@ export default function ProductDescription07() {
               </div>
             </div>
             <div className={styles.specsCol} data-role="specs-col">
-              <p className={styles.sectionEyebrow}>{ESPECIFICACOES.eyebrow}</p>
+              {specsEyebrow && (
+                <p className={styles.sectionEyebrow}>{specsEyebrow}</p>
+              )}
               <div className={styles.specsGrid} data-role="specs-grid">
                 {ESPECIFICACOES.cards.map((s, i) => (
                   <div key={i} className={styles.specCard} data-role="spec-card">
@@ -120,15 +150,17 @@ export default function ProductDescription07() {
                 ))}
               </div>
               <div className={styles.care} data-role="care">
-                <p className={styles.specLabel}>{ESPECIFICACOES.cuidadosTitulo}</p>
+                {careTitle && <p className={styles.specLabel}>{careTitle}</p>}
                 <p className={styles.careText}>{ESPECIFICACOES.cuidadosTexto}</p>
               </div>
               <div className={styles.faq} data-role="faq">
-                <p className={styles.sectionEyebrow}>{FAQ.titulo}</p>
-                {FAQ.itens.map((f, i) => (
+                {faqTitle && (
+                  <p className={styles.sectionEyebrow}>{faqTitle}</p>
+                )}
+                {faqItems.map((f, i) => (
                   <div
                     key={i}
-                    className={`${styles.faqItem} ${i === FAQ.itens.length - 1 ? styles.faqItemLast : ''}`}
+                    className={`${styles.faqItem} ${i === faqItems.length - 1 ? styles.faqItemLast : ''}`}
                     data-role="faq-item"
                   >
                     <div
@@ -196,3 +228,6 @@ export default function ProductDescription07() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+ProductDescription07.conteudoPadrao = MOCK;

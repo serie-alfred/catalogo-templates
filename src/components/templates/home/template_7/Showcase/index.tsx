@@ -5,9 +5,29 @@ import Spot from '../../../common/template_7/Spot';
 import { LAYOUTS } from '@/data/layoutData';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
+/**
+ * Conteúdo = o que a réplica mostra, por baixo do que o CS subir
+ * (`useConteudoDaSecao`, campos do schema do ProductShelfCustom07). `eyebrow` e
+ * `titleMobile` ficam fora (o markup daqui não tem onde desenhá-los) e
+ * `collectionId`/`collectionUrl` viram a coleção da loja na fase de produtos.
+ */
+interface Showcase07Conteudo {
+  title?: string;
+  viewAllLabel?: string;
+  viewAllUrl?: string;
+}
+
+const MOCK: Showcase07Conteudo = {
+  title: 'Lorem Ipsum Dolor Sit',
+  viewAllLabel: 'Ver Todos',
+  viewAllUrl: '/',
+};
 
 export default function Showcase() {
   const { selections } = useLayout();
+  const { title, viewAllLabel, viewAllUrl } = useConteudoDaSecao(MOCK);
 
   // Filtra os spots selecionados
   const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
@@ -16,8 +36,8 @@ export default function Showcase() {
     <div className={styles.home__showcase}>
       <div className={`${styles.showcase__container}`}>
         <div className={styles.showcase__title}>
-          <h2>Lorem Ipsum Dolor Sit</h2>
-          <a href="/">Ver Todos</a>
+          {title && <h2>{title}</h2>}
+          {viewAllLabel && <a href={viewAllUrl || '#'}>{viewAllLabel}</a>}
         </div>
 
         <div className={styles.showcase__wrapper}>
@@ -118,3 +138,6 @@ export default function Showcase() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Showcase.conteudoPadrao = MOCK;

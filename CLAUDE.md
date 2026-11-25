@@ -277,11 +277,18 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
   padrão"; lista vem inteira a cada edição (adicionar, remover, duplicar, mover). Imagem: "Enviar
   imagem" (prepara no navegador — WebP, ≤ 2400 px, `src/utils/imagem.ts` — e sobe para
   `/gerador/api/midias`, que confere os bytes e recusa SVG) ou cola a URL. Ver `BLOB_READ_WRITE_TOKEN`.
-- **Migrados**: as famílias 09 a 17 inteiras (189 peças, todas as com schema), em
+- **Migrados**: TODAS as peças com schema (275, famílias 01 a 17 e o TextArea), em
   `FAMILIAS_MIGRADAS` do `1-conteudo`. Nas peças de PLP/PDP o CMS só tem rótulos e opções: produto,
   categoria e contagem continuam os de exemplo até a fase de produtos. Os countdowns contam a partir da
   montagem (sem `endDate` no mock) e, com `endDate` do CS, até ela — o print `auto` muda a cada rodada.
-  Faltam as 01–08 (nomes de campo da Tray, peça a peça).
+  Nas 01–08 os campos da Tray viraram os do schema; o TextArea desenha `html` como TEXTO em blocos
+  ("# " faz título), nunca como HTML: o /p é público.
+- **Produtos da loja** (`ConteudoLoja.produtos`, até 200; `src/utils/produtos.ts` normaliza, hook
+  `useProdutosDaLoja`): toda lista (vitrine, grade, relacionados) e a PDP leem daqui e convertem com o
+  `deProdutoNN` do Spot da família; `CardDaLoja` repassa o `produto` ao card de outra família. Sem
+  produto cadastrado, cada peça fica com os de exemplo. A PDP mostra o 1º, e cada variação desenha o
+  seletor do TIPO (`texto` → botões, `cor`/`imagem` → miniaturas; sem variação, sem seletor). Piloto
+  na família 09; funil `2-produtos`.
 - **Funil**: `1-conteudo` (schema = starter, regras do resolvedor e da projeção da loja rodando os
   `.ts` no Node, campos do tipo × schema, `conteudoPadrao`, vínculos × schemas), `2-conteudo-loja`
   (a loja no canvas, no "Por template" 09 → 12, no painel e no /p) e `2-conteudo` (marcadores únicos no canvas e no `/p` — home,

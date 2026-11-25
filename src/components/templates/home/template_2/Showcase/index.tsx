@@ -6,18 +6,36 @@ import Spot from '@/components/templates/common/template_2/Spot';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { LAYOUTS } from '@/data/layoutData';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
+/** O conteúdo da seção: os campos do `section.schema` do ProductShelfCustom02 que a réplica desenha. */
+interface Showcase02Conteudo {
+  title?: string;
+  productsLimit?: number;
+}
+
+const MOCK: Showcase02Conteudo = {
+  title: 'Vitrine de Ofertas',
+  productsLimit: 4,
+};
 
 export default function Showcase() {
   const { selections } = useLayout();
+  const { title, productsLimit } = useConteudoDaSecao(MOCK);
+  // Quantos cards a vitrine mostra (o limite de produtos do CS; padrão 4).
+  const total = Math.max(1, Math.round(productsLimit ?? 0) || 4);
+  const posicoes = Array.from({ length: total }, (_, i) => i);
 
   // Filtra os spots selecionados
   const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
   return (
     <div className={styles.homeShowcase} data-role="showcase">
       <div className={`${styles.showcaseContainer} component__container`}>
-        <div className={styles.showcaseTitle}>
-          <h2 data-role="showcase-title">Vitrine de Ofertas</h2>
-        </div>
+        {title && (
+          <div className={styles.showcaseTitle}>
+            <h2 data-role="showcase-title">{title}</h2>
+          </div>
+        )}
 
         <div className={styles.showcaseWrapper}>
           <div className={`swiper ${styles.showcaseSwiper}`}>
@@ -33,7 +51,7 @@ export default function Showcase() {
                       TemplateRegistry[layoutItem.component];
 
                     return SpotComponent ? (
-                      [1, 2, 3, 4].map((_, index) => (
+                      posicoes.map(index => (
                         <div
                           key={`${spot?.uid}-${index}`}
                           className={styles.swiper__slide}
@@ -50,7 +68,7 @@ export default function Showcase() {
                       <></>
                     );
                   })
-                : [1, 2, 3, 4].map((_, index) => (
+                : posicoes.map(index => (
                     <div
                       key={`${index}`}
                       className={styles.swiper__slide}
@@ -128,3 +146,6 @@ export default function Showcase() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Showcase.conteudoPadrao = MOCK;

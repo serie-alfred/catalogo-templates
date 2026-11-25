@@ -6,6 +6,8 @@ import { Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -16,15 +18,28 @@ import styles from './index.module.css';
  * As artes são placeholders (o catálogo é público e não aponta para CDN de
  * cliente); `aspect-ratio` no CSS é quem manda na altura, então a caixa não
  * muda.
+ *
+ * Conteúdo: os nomes do `section.schema` do starter (`sectionTitle`, `cards[]`),
+ * com o mock por baixo do que o CS subir (`useConteudoDaSecao`). A analytics
+ * (`promotionId`/`promotionName`) fica fora: o preview não emite evento.
  */
 interface Card {
-  img: string;
-  alt: string;
-  title: string;
-  link: string;
+  img?: string;
+  alt?: string;
+  title?: string;
+  link?: string;
+  width?: number;
+  height?: number;
 }
 
-const cards: Card[] = [
+interface BannerGridConteudo {
+  sectionTitle?: string;
+  cards: Card[];
+}
+
+const MOCK: BannerGridConteudo = {
+  sectionTitle: 'Feito no Brasil, inspirado em você.',
+  cards: [
   {
     img: 'https://placehold.co/637x811/3a3a3a/f2f2f2?text=Tenis+Casuais',
     alt: 'Tênis casuais',
@@ -43,11 +58,11 @@ const cards: Card[] = [
     title: 'SAPATOS',
     link: '/calcados/sapatos',
   },
-];
-
-const sectionTitle = 'Feito no Brasil, inspirado em você.';
+  ],
+};
 
 export default function BannerGrid() {
+  const { sectionTitle, cards } = useConteudoDaSecao(MOCK);
   const swiperRef = useRef<SwiperType | null>(null);
   const prevRef = useRef<HTMLButtonElement>(null);
   const nextRef = useRef<HTMLButtonElement>(null);
@@ -64,16 +79,21 @@ export default function BannerGrid() {
     swiper.navigation.update();
   }, []);
 
+  if (!sectionTitle && !cards.length) return null;
+
   return (
     /* wrapper só do catálogo — ver o comentário no index.module.css */
     <div className={styles.bannerGrid06Root}>
       <div className={styles.wrapper} data-role="bg-wrapper">
-        <div className={styles.titleRow} data-role="bg-title-row">
-          <h2 className={styles.title} data-role="bg-title">
-            {sectionTitle}
-          </h2>
-        </div>
+        {sectionTitle && (
+          <div className={styles.titleRow} data-role="bg-title-row">
+            <h2 className={styles.title} data-role="bg-title">
+              {sectionTitle}
+            </h2>
+          </div>
+        )}
 
+        {cards.length > 0 && (
         <Swiper
           className={styles.slider}
           modules={[Navigation, Pagination]}
@@ -96,25 +116,30 @@ export default function BannerGrid() {
               <div className={styles.slideInner} data-role="bg-slide-inner">
                 <div className={styles.card} data-role="bg-card">
                   {/* o link cobre só a imagem; o texto sobreposto não é clicável */}
-                  <a className={styles.cardLink} href={card.link}>
+                  <a className={styles.cardLink} href={card.link || '#'}>
                     <img
                       className={styles.cardImg}
                       data-role="bg-card-img"
                       src={card.img}
-                      alt={card.alt}
-                      width={637}
-                      height={811}
+                      alt={card.alt ?? card.title ?? ''}
+                      width={card.width ?? 637}
+                      height={card.height ?? 811}
                       loading="lazy"
                     />
                   </a>
-                  <div
-                    className={styles.cardTextBox}
-                    data-role="bg-card-textbox"
-                  >
-                    <h4 className={styles.cardTitle} data-role="bg-card-title">
-                      {card.title}
-                    </h4>
-                  </div>
+                  {card.title && (
+                    <div
+                      className={styles.cardTextBox}
+                      data-role="bg-card-textbox"
+                    >
+                      <h4
+                        className={styles.cardTitle}
+                        data-role="bg-card-title"
+                      >
+                        {card.title}
+                      </h4>
+                    </div>
+                  )}
                 </div>
               </div>
             </SwiperSlide>
@@ -149,7 +174,11 @@ export default function BannerGrid() {
             </svg>
           </button>
         </Swiper>
+        )}
       </div>
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+BannerGrid.conteudoPadrao = MOCK;

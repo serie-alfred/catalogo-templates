@@ -8,6 +8,7 @@ import {
   buildSuggestionProducts,
 } from '@/components/templates/_shared/searchSuggestions';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
 // Preview do Header01 â origem: faststore.starter/src/components/organisms/Header01
 // (+ molecules NavBarSearch01 e MiniCartController01 e o mini-cart CartSidebar01).
@@ -16,28 +17,82 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 // gerador e no preview /p a interacao e a mesma: o canvas ficou 100% interativo
 // quando o drag-and-drop saiu dele para o painel de secoes.
 
-// Menu do drawer mobile: mesma arvore de 3 niveis do menu desktop.
-const MOBILE_MENU = [
-  {
-    label: 'Categoria 1',
-    link: '#',
-    itensLevel1: [
+/** Os três níveis do menu que a réplica desenha: `menu.links[]` > `itensLevel1[]` > `itensLevel2[]` no `section.schema` do Header01. */
+interface ItemDeMenu2 {
+  label?: string;
+  link?: string;
+}
+interface ItemDeMenu1 extends ItemDeMenu2 {
+  itensLevel2?: ItemDeMenu2[];
+}
+interface ItemDeMenu extends ItemDeMenu2 {
+  itensLevel1?: ItemDeMenu1[];
+}
+
+/** O conteúdo da seção: os campos do `section.schema` do Header01. */
+interface Header01Conteudo {
+  logo?: { src?: string; width?: number; height?: number; alt?: string };
+  topbar?: {
+    loginGreeting?: string;
+    contact?: { text?: string; link?: string };
+    socials?: {
+      youtube?: string;
+      instagram?: string;
+      twitter?: string;
+      linkedin?: string;
+      facebook?: string;
+    };
+  };
+  helpLink?: { text?: string; link?: string };
+  menu?: { links: ItemDeMenu[] };
+}
+
+// O menu desktop e o drawer mobile leem a mesma arvore de 3 niveis.
+const MOCK: Header01Conteudo = {
+  logo: { width: 184, height: 56, alt: 'Logo' },
+  topbar: {
+    loginGreeting: 'Olá, seja bem-vindo(a)!',
+    contact: {
+      text: 'Atendimento ao cliente: [(00) 00000-0000]',
+      link: '#',
+    },
+    socials: {
+      youtube: '#',
+      instagram: '#',
+      twitter: '#',
+      linkedin: '#',
+      facebook: '#',
+    },
+  },
+  helpLink: { text: 'Precisa de ajuda', link: '#' },
+  menu: {
+    links: [
       {
-        label: 'Submenu 1',
+        label: 'Categoria 1',
         link: '#',
-        itensLevel2: [
-          { label: 'Submenu 1.1', link: '#' },
-          { label: 'Submenu 1.2', link: '#' },
-          { label: 'Submenu 1.3', link: '#' },
+        itensLevel1: [
+          {
+            label: 'Submenu 1',
+            link: '#',
+            itensLevel2: [
+              { label: 'Submenu 1.1', link: '#' },
+              { label: 'Submenu 1.2', link: '#' },
+              { label: 'Submenu 1.3', link: '#' },
+              { label: 'Submenu 1.4', link: '#' },
+              { label: 'Submenu 1.5', link: '#' },
+              { label: 'Submenu 1.6', link: '#' },
+              { label: 'Submenu 1.7', link: '#' },
+            ],
+          },
+          { label: 'Submenu 2', link: '#' },
+          { label: 'Submenu 3', link: '#' },
         ],
       },
-      { label: 'Submenu 2', link: '#' },
-      { label: 'Submenu 3', link: '#' },
+      { label: 'Categoria 2', link: '#' },
+      { label: 'Categoria 3', link: '#' },
     ],
   },
-  { label: 'Categoria 2', link: '#' },
-  { label: 'Categoria 3', link: '#' },
-];
+};
 
 const TOP_SEARCHES = [
   'purificador de agua',
@@ -95,7 +150,11 @@ const SearchGlyph = () => (
 );
 
 export default function Header() {
-  const { logo } = useLayout();
+  const { logo: logoDaLoja } = useLayout();
+  const { logo: logoDoCs, topbar, helpLink, menu } = useConteudoDaSecao(MOCK);
+  // O logo do CS vale mais; sem ele, o que o usuário enviou no /gerador.
+  const logo = logoDoCs?.src || logoDaLoja;
+  const menuLinks = menu?.links ?? [];
   const isHome = true;
   const isLogged = false;
   const cartAmount = 1;
@@ -161,21 +220,33 @@ export default function Header() {
                 </a>
               ) : (
                 <a href="#">
-                  <span>Olá, seja bem-vindo(a)!</span>
+                  <span>{topbar?.loginGreeting}</span>
                 </a>
               )}
             </div>
 
             <div className={styles.top__whatsapp}>
-              <a href="#" target="_blank" rel="noopener noreferrer">
-                Atendimento ao cliente: (11) 99999-9999
-              </a>
+              {topbar?.contact?.text && (
+                <a
+                  href={topbar.contact.link || '#'}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {topbar.contact.text}
+                </a>
+              )}
             </div>
 
             <div className={styles.top__social}>
               <ul>
+                {topbar?.socials?.youtube && (
                 <li>
-                  <a href="#" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={topbar.socials.youtube}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="YouTube (abre em nova aba)"
+                  >
                     <svg
                       fill="none"
                       height="24"
@@ -190,8 +261,15 @@ export default function Header() {
                     </svg>
                   </a>
                 </li>
+                )}
+                {topbar?.socials?.instagram && (
                 <li>
-                  <a href="#" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={topbar.socials.instagram}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Instagram (abre em nova aba)"
+                  >
                     <svg
                       fill="none"
                       height="24"
@@ -208,8 +286,15 @@ export default function Header() {
                     </svg>
                   </a>
                 </li>
+                )}
+                {topbar?.socials?.twitter && (
                 <li>
-                  <a href="#" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={topbar.socials.twitter}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="X / Twitter (abre em nova aba)"
+                  >
                     <svg
                       fill="none"
                       height="24"
@@ -224,8 +309,15 @@ export default function Header() {
                     </svg>
                   </a>
                 </li>
+                )}
+                {topbar?.socials?.linkedin && (
                 <li>
-                  <a href="#" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={topbar.socials.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn (abre em nova aba)"
+                  >
                     <svg
                       fill="none"
                       height="24"
@@ -242,8 +334,15 @@ export default function Header() {
                     </svg>
                   </a>
                 </li>
+                )}
+                {topbar?.socials?.facebook && (
                 <li>
-                  <a href="#" target="_blank" rel="noopener noreferrer">
+                  <a
+                    href={topbar.socials.facebook}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Facebook (abre em nova aba)"
+                  >
                     <svg
                       fill="none"
                       height="24"
@@ -258,6 +357,7 @@ export default function Header() {
                     </svg>
                   </a>
                 </li>
+                )}
               </ul>
             </div>
           </div>
@@ -313,7 +413,12 @@ export default function Header() {
                 <h1>
                   <a href="#">
                     {logo ? (
-                      <img src={logo} alt="Logo" width="184" height="56" />
+                      <img
+                        src={logo}
+                        alt={logoDoCs?.alt || 'Logo'}
+                        width={logoDoCs?.width ?? 184}
+                        height={logoDoCs?.height ?? 56}
+                      />
                     ) : (
                       <span className={styles.logo__fallback}>SERIE//A</span>
                     )}
@@ -322,7 +427,12 @@ export default function Header() {
               ) : (
                 <a href="#">
                   {logo ? (
-                    <img src={logo} alt="Logo" width="184" height="56" />
+                    <img
+                        src={logo}
+                        alt={logoDoCs?.alt || 'Logo'}
+                        width={logoDoCs?.width ?? 184}
+                        height={logoDoCs?.height ?? 56}
+                      />
                   ) : (
                     <span className={styles.logo__fallback}>SERIE//A</span>
                   )}
@@ -436,7 +546,7 @@ export default function Header() {
             <div className={styles.middle__config}>
               <div className={styles.config__whatsapp}>
                 <a
-                  href="#"
+                  href={helpLink?.link || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Link do número de whatsapp da loja"
@@ -461,7 +571,7 @@ export default function Header() {
                       strokeLinecap="round"
                     />
                   </svg>
-                  Precisa de ajuda
+                  {helpLink?.text}
                   <svg
                     fill="none"
                     height="24"
@@ -633,164 +743,124 @@ export default function Header() {
             </div>
 
             <div className={styles.bottom__whatsapp}>
-              <a href="#" target="_blank" rel="noopener noreferrer">
-                Precisa de ajuda
+              <a
+                href={helpLink?.link || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {helpLink?.text}
               </a>
             </div>
 
             <div className={styles.bottom__menu}>
               <nav>
                 <ul>
-                  <li
-                    className={`${styles.t} ${styles.l1Item} ${styles.hasChild}`}
-                  >
-                    <a href="#" className={styles.l1ItemLink}>
-                      Categoria 1
-                      <svg
-                        className={styles.submenu__arrow}
-                        fill="none"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        width="24"
-                        xmlns="http://www.w3.org/2000/svg"
+                  {menuLinks.map((item, i) => {
+                    const level1 = item.itensLevel1 ?? [];
+                    if (!level1.length) {
+                      return (
+                        <li key={i}>
+                          <a href={item.link || '#'}>{item.label}</a>
+                        </li>
+                      );
+                    }
+                    return (
+                      <li
+                        key={i}
+                        className={`${styles.t} ${styles.l1Item} ${styles.hasChild}`}
                       >
-                        <path
-                          d="M10 16L14 12L10 8"
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="1.5"
-                        ></path>
-                      </svg>
-                    </a>
-                    <div className={styles.submenu__wrapper}>
-                      <div
-                        className={`${styles.submenu__container} component__container`}
-                      >
-                        <div className={styles.submenu__inner}>
-                          <ul
-                            className={`${styles.submenuL1} ${styles.sub1} ${styles.categoriesL2}`}
+                        <a href={item.link || '#'} className={styles.l1ItemLink}>
+                          {item.label}
+                          <svg
+                            className={styles.submenu__arrow}
+                            fill="none"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            width="24"
+                            xmlns="http://www.w3.org/2000/svg"
                           >
-                            <li
-                              className={`${styles.subItem} ${styles.hasChild}`}
-                            >
-                              <a href="#" className={styles.l2ItemLink}>
-                                Submenu 1
-                                <svg
-                                  fill="none"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  width="24"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                >
-                                  <path
-                                    d="M10 16L14 12L10 8"
-                                    stroke="currentColor"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="1.5"
-                                  />
-                                </svg>
-                              </a>
-
+                            <path
+                              d="M10 16L14 12L10 8"
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="1.5"
+                            ></path>
+                          </svg>
+                        </a>
+                        <div className={styles.submenu__wrapper}>
+                          <div
+                            className={`${styles.submenu__container} component__container`}
+                          >
+                            <div className={styles.submenu__inner}>
                               <ul
-                                className={`${styles.subMenu} ${styles.sub2} ${styles.categoriesL3}`}
+                                className={`${styles.submenuL1} ${styles.sub1} ${styles.categoriesL2}`}
                               >
-                                <li data-category-id="411">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-de-agua-natural"
-                                    className="l3-item-link"
-                                  >
-                                    Submenu 1.1
-                                  </a>
-                                </li>
-                                <li data-category-id="413">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-de-agua-gelada"
-                                    className="l3-item-link"
-                                  >
-                                    Submenu 1.2
-                                  </a>
-                                </li>
-                                <li data-category-id="415">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-de-agua-quente"
-                                    className="l3-item-link"
-                                  >
-                                    Submenu 1.3
-                                  </a>
-                                </li>
-                                <li data-category-id="417">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-bacteriologico"
-                                    className="l3-item-link"
-                                  >
-                                    Submenu 1.4
-                                  </a>
-                                </li>
-                                <li data-category-id="419">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-alcalino-ionziado"
-                                    className="l3-item-link"
-                                  >
-                                    Submenu 1.5
-                                  </a>
-                                </li>
-                                <li data-category-id="421">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/purificador-com-ozonio"
-                                    className="l3-item-link"
-                                  >
-                                    Submenu 1.6
-                                  </a>
-                                </li>
-                                <li data-category-id="423">
-                                  <a
-                                    href="https://parceiroseriedesign.commercesuite.com.br/filtros-e-purificadores-de-agua/purificador-de-agua/com-ultravioleta"
-                                    className="l3-item-link"
-                                  >
-                                    Submenu 1.7
-                                  </a>
-                                </li>
+                                {level1.map((l2, j) => {
+                                  const level2 = l2.itensLevel2 ?? [];
+                                  if (!level2.length) {
+                                    return (
+                                      <li key={j} className="sub-item has-child">
+                                        <a
+                                          href={l2.link || '#'}
+                                          className="l2-item-link"
+                                        >
+                                          {l2.label}
+                                        </a>
+                                      </li>
+                                    );
+                                  }
+                                  return (
+                                    <li
+                                      key={j}
+                                      className={`${styles.subItem} ${styles.hasChild}`}
+                                    >
+                                      <a
+                                        href={l2.link || '#'}
+                                        className={styles.l2ItemLink}
+                                      >
+                                        {l2.label}
+                                        <svg
+                                          fill="none"
+                                          height="24"
+                                          viewBox="0 0 24 24"
+                                          width="24"
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path
+                                            d="M10 16L14 12L10 8"
+                                            stroke="currentColor"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="1.5"
+                                          />
+                                        </svg>
+                                      </a>
+
+                                      <ul
+                                        className={`${styles.subMenu} ${styles.sub2} ${styles.categoriesL3}`}
+                                      >
+                                        {level2.map((l3, k) => (
+                                          <li key={k}>
+                                            <a
+                                              href={l3.link || '#'}
+                                              className="l3-item-link"
+                                            >
+                                              {l3.label}
+                                            </a>
+                                          </li>
+                                        ))}
+                                      </ul>
+                                    </li>
+                                  );
+                                })}
                               </ul>
-                            </li>
-
-                            {/* Filtros de Água */}
-                            <li
-                              className="sub-item has-child"
-                              data-category-id="373"
-                            >
-                              <a
-                                href="https://parceiroseriedesign.commercesuite.com.br/filtros-de-agua"
-                                className="l2-item-link"
-                              >
-                                Submenu 2
-                              </a>
-                            </li>
-
-                            {/* Osmose e Reversa */}
-                            <li
-                              className="sub-item has-child"
-                              data-category-id="377"
-                            >
-                              <a
-                                href="https://parceiroseriedesign.commercesuite.com.br/osmose-e-reversa"
-                                className="l2-item-link"
-                              >
-                                Submenu 3
-                              </a>
-                            </li>
-                          </ul>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <a href="#">Categoria 2</a>
-                  </li>
-                  <li>
-                    <a href="#">Categoria 3</a>
-                  </li>
+                      </li>
+                    );
+                  })}
                 </ul>
               </nav>
             </div>
@@ -845,13 +915,13 @@ export default function Header() {
             </a>
             <a href="#" className={styles.mobileTopLink} onClick={preventNav}>
               <SupportGlyph />
-              Precisa de ajuda
+              {helpLink?.text}
             </a>
           </div>
 
           <nav className={styles.mobileMenuNav}>
             <ul>
-              {MOBILE_MENU.map((item, i) => {
+              {menuLinks.map((item, i) => {
                 const level1 = item.itensLevel1 ?? [];
                 const isOpenL1 = openL1 === i;
                 return (
@@ -939,3 +1009,6 @@ export default function Header() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header.conteudoPadrao = MOCK;

@@ -2,6 +2,8 @@
 
 import React, { useMemo, useState } from 'react';
 
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+
 import styles from './index.module.css';
 
 /**
@@ -17,15 +19,30 @@ import styles from './index.module.css';
  * O corte é por BLOCO, não por altura: colapsado mostra só até o 2º parágrafo,
  * então nenhuma linha aparece pela metade — o resto só entra no DOM depois do
  * clique, igual à origem.
+ *
+ * Do CS vêm só os rótulos (nomes do `section.schema`: `faqTitle`, `readMoreLabel`,
+ * `readLessLabel`); o texto de SEO e as perguntas seguem os de exemplo, como a
+ * categoria. `seoHtml`, `seoTitle`, `showSeoTitle`, `faq[]` e as cores/tamanhos do
+ * texto ficam fora do tipo.
  */
+interface CategoryDescriptionConteudo {
+  faqTitle?: string;
+  readMoreLabel?: string;
+  readLessLabel?: string;
+}
+
+const MOCK: CategoryDescriptionConteudo = {
+  faqTitle: 'Perguntas frequentes',
+  readMoreLabel: 'saiba mais',
+  readLessLabel: 'ver menos',
+};
+
 const SEO_TITULO = 'Tênis casuais masculinos';
 
 const SEO_HTML =
   '<p>Conforto e estilo para o dia a dia. Nossa linha de tênis casuais reúne modelos em couro legítimo, solado leve e palmilha anatômica — feitos no Brasil para durar.</p>' +
   '<p>Encontre o seu por tamanho, cor ou linha, com troca fácil em 30 dias e frete grátis nas compras acima de R$ 350.</p>' +
   '<p>Todos os modelos passam por controle de qualidade peça a peça, com costura reforçada e acabamento revisado à mão antes do envio.</p>';
-
-const FAQ_TITULO = 'Perguntas frequentes';
 
 const FAQ = [
   {
@@ -41,9 +58,6 @@ const FAQ = [
     a: 'Sim. A primeira troca é gratuita em até 30 dias, com o produto sem uso e na embalagem original.',
   },
 ];
-
-const ROTULO_MAIS = 'saiba mais';
-const ROTULO_MENOS = 'ver menos';
 
 const Chevron = () => (
   <svg
@@ -61,6 +75,11 @@ const Chevron = () => (
 );
 
 export default function CategoryDescription() {
+  const {
+    faqTitle: FAQ_TITULO,
+    readMoreLabel: ROTULO_MAIS,
+    readLessLabel: ROTULO_MENOS,
+  } = useConteudoDaSecao(MOCK);
   const [aberto, setAberto] = useState(false);
   const [faqAberto, setFaqAberto] = useState<number | null>(null);
 
@@ -96,14 +115,16 @@ export default function CategoryDescription() {
                 aria-expanded={aberto}
                 onClick={() => setAberto(v => !v)}
               >
-                {aberto ? ROTULO_MENOS : ROTULO_MAIS}
+                {aberto ? ROTULO_MENOS || 'ver menos' : ROTULO_MAIS || 'saiba mais'}
               </button>
             )}
           </div>
         </div>
 
         <div className={styles.faqBlock} data-role="faq-block">
-          <h3 className={styles.faqTitle} data-role="faq-title">{FAQ_TITULO}</h3>
+          {FAQ_TITULO && (
+            <h3 className={styles.faqTitle} data-role="faq-title">{FAQ_TITULO}</h3>
+          )}
           <div className={styles.faqList} data-role="faq-list">
             {FAQ.map((entrada, i) => {
               const isOpen = faqAberto === i;
@@ -145,3 +166,6 @@ export default function CategoryDescription() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+CategoryDescription.conteudoPadrao = MOCK;

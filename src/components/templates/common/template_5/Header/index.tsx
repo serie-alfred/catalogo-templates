@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
+import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
 import { buildSearchSuggestions } from '@/components/templates/_shared/searchSuggestions';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
@@ -15,14 +16,44 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 // No canvas do gerador e no preview /p a interação é a mesma: o canvas ficou
 // 100% interativo quando o drag-and-drop saiu dele para o painel de seções.
 
-const data = {
+/** O conteúdo da seção: os campos do `section.schema` do Header05 que a réplica desenha. */
+interface Header05Conteudo {
+  servicePromo?: string;
+  serviceLinks: { name?: string; url?: string }[];
+  brandName?: string;
+  searchPlaceholder?: string;
+  favoritesLabel?: string;
+  favoritesCount?: number;
+  favoritesUrl?: string;
+  accountLabel?: string;
+  cartLabel?: string;
+  categories: {
+    label?: string;
+    url?: string;
+    menuType?: 'mega' | 'simple' | 'link';
+    sale?: boolean;
+  }[];
+  megaColumnTitle?: string;
+  megaLinks: { name?: string; url?: string }[];
+  megaPromos: { title?: string; subtitle?: string; url?: string }[];
+  simpleMenuTitle?: string;
+  simpleLinks: { name?: string; url?: string }[];
+  searchSuggestions: string[];
+  mobileNavItems: {
+    label?: string;
+    url?: string;
+    sale?: boolean;
+    sublinks?: { name?: string; url?: string }[];
+  }[];
+}
+
+const MOCK: Header05Conteudo = {
   servicePromo: 'FRETE GRÁTIS ACIMA DE R$ 299',
   serviceLinks: [
     { name: 'Nossas lojas', url: '#' },
     { name: 'Atendimento', url: '#' },
     { name: 'Acompanhar pedido', url: '#' },
   ],
-  brandName: 'SERIE//A',
   searchPlaceholder: 'Buscar produtos e marcas',
   favoritesLabel: 'Favoritos',
   favoritesCount: 2,
@@ -191,6 +222,8 @@ const BrandMark = ({ name }: { name: string }) => {
 
 export default function Header05() {
   const { logo } = useLayout();
+  const data = useConteudoDaSecao(MOCK);
+  const brandName = data.brandName || 'SERIE//A';
 
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -258,7 +291,7 @@ export default function Header05() {
   const brand = logo ? (
     <img src={logo} alt="Logo" className={styles.wordmarkImg} />
   ) : (
-    <BrandMark name={data.brandName} />
+    <BrandMark name={brandName} />
   );
 
   const renderMegaMenu = (open: boolean) => (
@@ -271,7 +304,7 @@ export default function Header05() {
           <p className={styles.menuHeading}>{data.megaColumnTitle}</p>
           <div className={styles.menuLinks}>
             {data.megaLinks.map((link, i) => (
-              <a key={i} href={link.url} onClick={preventNav}>
+              <a key={i} href={link.url || '#'} onClick={preventNav}>
                 {link.name}
                 {i === 0 && <span aria-hidden="true">→</span>}
               </a>
@@ -282,7 +315,7 @@ export default function Header05() {
           {data.megaPromos.map((promoItem, i) => (
             <a
               key={i}
-              href={promoItem.url}
+              href={promoItem.url || '#'}
               className={styles.promoCard}
               onClick={preventNav}
             >
@@ -306,7 +339,7 @@ export default function Header05() {
         <p className={styles.menuHeading}>{data.simpleMenuTitle}</p>
         <div className={styles.simpleGrid}>
           {data.simpleLinks.map((link, i) => (
-            <a key={i} href={link.url} onClick={preventNav}>
+            <a key={i} href={link.url || '#'} onClick={preventNav}>
               {link.name}
             </a>
           ))}
@@ -330,7 +363,7 @@ export default function Header05() {
             </div>
             <div className={styles.serviceLinks}>
               {data.serviceLinks.map((link, i) => (
-                <a key={i} href={link.url} onClick={preventNav}>
+                <a key={i} href={link.url || '#'} onClick={preventNav}>
                   {link.name}
                 </a>
               ))}
@@ -359,7 +392,7 @@ export default function Header05() {
                 className={styles.wordmark}
                 href="/"
                 onClick={preventNav}
-                aria-label={`${data.brandName}, página inicial`}
+                aria-label={`${brandName}, página inicial`}
               >
                 {brand}
               </a>
@@ -451,7 +484,7 @@ export default function Header05() {
                 className={styles.wordmark}
                 href="/"
                 onClick={preventNav}
-                aria-label={`${data.brandName}, página inicial`}
+                aria-label={`${brandName}, página inicial`}
               >
                 {brand}
               </a>
@@ -601,7 +634,7 @@ export default function Header05() {
                           className={`${styles.accordionPanel}${isOpen ? ` ${styles.menuOpen}` : ''}`}
                         >
                           {sublinks.map((sub, j) => (
-                            <a key={j} href={sub.url} onClick={preventNav}>
+                            <a key={j} href={sub.url || '#'} onClick={preventNav}>
                               {sub.name}
                             </a>
                           ))}
@@ -609,7 +642,7 @@ export default function Header05() {
                       </>
                     ) : (
                       <a
-                        href={item.url}
+                        href={item.url || '#'}
                         onClick={preventNav}
                         className={item.sale ? styles.mobileSaleLink : undefined}
                       >
@@ -633,3 +666,6 @@ export default function Header05() {
     </div>
   );
 }
+
+/** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
+Header05.conteudoPadrao = MOCK;
