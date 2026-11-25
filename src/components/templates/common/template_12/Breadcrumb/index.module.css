@@ -99,7 +99,7 @@
   padding: 10px 16px;
   border-radius: 999px;
   background-color: var(--breadcrumb-accent, var(--background-secundary-color, #f4dcd6));
-  color: var(--breadcrumb-text, var(--text-color-secundary, #3b1f33));
+  color: var(--breadcrumb-current-text, var(--text-color-secundary, #3b1f33));
   font-weight: 700;
 }
 
