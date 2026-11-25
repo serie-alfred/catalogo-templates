@@ -297,8 +297,8 @@
   height: 20px;
   padding: 0 4px;
   border-radius: 999px;
-  background-color: var(--header-topbar-bg, var(--background-secundary-color, #f4dcd6));
-  color: var(--header-text, var(--text-color-secundary, #3b1f33));
+  background-color: var(--header-badge-bg, var(--background-secundary-color, #f4dcd6));
+  color: var(--header-badge-text, var(--text-color-secundary, #3b1f33));
   font-size: 11px;
   font-weight: 700;
   line-height: 1;
