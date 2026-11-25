@@ -2,7 +2,7 @@
 
 import { createContext } from 'react';
 
-import type { ConteudoDaSecao } from '@/types/conteudo';
+import type { ConteudoDaSecao, ConteudoLoja } from '@/types/conteudo';
 
 /**
  * O conteúdo de UMA seção, posto pelo `ThemeRenderer` em volta de cada template.
@@ -24,3 +24,11 @@ export interface ConteudoDaSecaoNoContexto {
 
 export const SecaoConteudoContext =
   createContext<ConteudoDaSecaoNoContexto | null>(null);
+
+/**
+ * O conteúdo da LOJA (Nível 2), já sanitizado, posto pelo `ThemeRenderer` em
+ * volta da página inteira. Cada superfície o passa ao renderer: o canvas pela
+ * mensagem `content` do iframe, o palco do export pelo hook, o /p pelo
+ * snapshot. `null` = loja sem conteúdo, cada seção mostra o próprio.
+ */
+export const ConteudoLojaContext = createContext<ConteudoLoja | null>(null);

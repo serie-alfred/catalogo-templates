@@ -57,99 +57,106 @@ export interface SchemaDeConteudo extends CampoDoSchema {
   properties: Record<string, CampoDoSchema>;
 }
 
-/* ── Nível 2 (fase 2 e 3 do plano): contrato do conteúdo da loja ─────────── */
+/* ── Nível 2: o conteúdo da loja ─────────────────────────────────────────── */
+
+/*
+ * As chaves de PRIMEIRO nível falam a língua do CS (`menuPrincipal`, `contato`);
+ * as dos itens são as do starter (`label`, `url`, `children`, `network`,
+ * `method`), as mesmas dos schemas das famílias 09–17. Assim a projeção para
+ * uma seção (src/utils/conteudoLoja.ts) é quase sempre uma cópia, e o
+ * formulário da loja usa os mesmos campos do painel de uma seção.
+ *
+ * Mora no TEMA, como as cores: aba, undo, temas salvos e snapshot do preview.
+ * São poucos KB (as imagens são URLs do Blob). Os produtos, que pesam, ficam
+ * fora (fase 3).
+ */
 
 export interface LinkDaLoja {
-  label: string;
-  url: string;
+  label?: string;
+  url?: string;
 }
 
 export interface ItemDeMenu extends LinkDaLoja {
   highlight?: boolean;
   image?: string;
-  children?: ItemDeMenu[];
+  children?: LinkDaLoja[];
 }
 
 export interface GrupoDeLinks {
-  title: string;
-  links: LinkDaLoja[];
+  title?: string;
+  links?: (LinkDaLoja & { highlight?: boolean })[];
 }
 
-export interface ImagemDaLoja {
-  src: string;
-  alt?: string;
+export interface AvisoDaLoja {
+  text?: string;
   url?: string;
 }
 
+export interface ContatoDaLoja {
+  whatsapp?: string;
+  telefone?: string;
+  email?: string;
+  endereco?: string;
+  horario?: string;
+}
+
+/** As redes que os rodapés 08–17 desenham (o `enum` do schema deles). */
+export type RedeSocial = 'instagram' | 'facebook' | 'youtube' | 'x' | 'linkedin';
+
+/** As bandeiras do `enum` de `payments[].method` dos rodapés 08–17. */
+export type MetodoDePagamento =
+  | 'visa'
+  | 'mastercard'
+  | 'elo'
+  | 'amex'
+  | 'hipercard'
+  | 'diners'
+  | 'aura'
+  | 'pix'
+  | 'boleto';
+
+export interface SeloDaLoja {
+  image?: string;
+  label?: string;
+  url?: string;
+}
+
+/** Um slide do banner principal: a união dos campos das famílias 09–17. */
 export interface SlideDaLoja {
   imageDesktop?: string;
   imageMobile?: string;
   imageAlt?: string;
-  url?: string;
   eyebrow?: string;
   title?: string;
-  titleEmphasis?: string;
   text?: string;
   ctaLabel?: string;
+  ctaUrl?: string;
   secondaryLabel?: string;
   secondaryUrl?: string;
 }
 
 export interface CategoriaDaLoja {
-  id: string;
-  label: string;
+  name?: string;
   url?: string;
   image?: string;
-  children?: CategoriaDaLoja[];
+  imageAlt?: string;
 }
 
-export interface ColecaoDaLoja {
-  id: string;
-  nome: string;
-  produtoIds: string[];
-}
-
-export type RedeSocial =
-  | 'instagram'
-  | 'facebook'
-  | 'tiktok'
-  | 'youtube'
-  | 'pinterest'
-  | 'x'
-  | 'linkedin'
-  | 'whatsapp';
-
-/** O conteúdo da loja do cliente (Nível 2). Os campos de item seguem o vocabulário do starter. */
+/** O conteúdo da loja do cliente (Nível 2). Campo ausente ou lista vazia = cada seção mostra o próprio. */
 export interface ConteudoLoja {
   versao: 1;
   nomeDaLoja?: string;
-  avisos?: { text: string; url?: string }[];
-  menus?: {
-    principal?: ItemDeMenu[];
-    rodape?: GrupoDeLinks[];
-    institucional?: LinkDaLoja[];
-  };
-  contato?: {
-    whatsapp?: string;
-    phone?: string;
-    email?: string;
-    address?: string;
-    hours?: string;
-  };
-  redes?: Partial<Record<RedeSocial, string>>;
-  legal?: {
-    razaoSocial?: string;
-    cnpj?: string;
-    endereco?: string;
-    copyright?: string;
-  };
-  pagamentos?: ImagemDaLoja[];
-  selos?: ImagemDaLoja[];
-  bannersPrincipais?: SlideDaLoja[];
+  avisos?: AvisoDaLoja[];
+  menuPrincipal?: ItemDeMenu[];
+  menuRodape?: GrupoDeLinks[];
+  linksLegais?: LinkDaLoja[];
+  contato?: ContatoDaLoja;
+  redes?: { network?: RedeSocial; url?: string }[];
+  dadosLegais?: { razaoSocial?: string; cnpj?: string };
+  pagamentos?: { method?: MetodoDePagamento }[];
+  selos?: SeloDaLoja[];
+  banners?: SlideDaLoja[];
   categorias?: CategoriaDaLoja[];
-  colecoes?: ColecaoDaLoja[];
-  /** O que a PDP e a PLP do preview mostram. */
-  destaques?: { produtoId?: string; categoriaId?: string };
 }
 
 /** Produto canônico do cliente; cada card converte com o `deProduto` da família. */

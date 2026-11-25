@@ -32,13 +32,13 @@ export async function novaAba(browser) {
 }
 
 /** Semeia o sessionStorage (o trabalho é por aba) e recarrega. */
-export async function semear(page, { plataforma, selecoes = [], token = '' }) {
+export async function semear(page, { plataforma, selecoes = [], token = '', aba = {} }) {
   await page.goto(`${BASE_URL}/gerador`, {
     waitUntil: 'domcontentloaded',
     timeout: 90000,
   });
   await page.evaluate(
-    (p, s, t) => {
+    (p, s, t, extras) => {
       localStorage.clear();
       sessionStorage.clear();
       sessionStorage.setItem('layoutPlatform', p);
@@ -46,10 +46,13 @@ export async function semear(page, { plataforma, selecoes = [], token = '' }) {
       localStorage.setItem('panelLeftCollapsed', '0');
       localStorage.setItem('panelRightCollapsed', '0');
       if (t) sessionStorage.setItem('wakeToken', t);
+      // Outras chaves da aba (CHAVES_DA_ABA), já serializadas: ex. conteudoLoja.
+      for (const [chave, valor] of Object.entries(extras)) sessionStorage.setItem(chave, valor);
     },
     plataforma,
     JSON.stringify(selecoes),
-    token
+    token,
+    Object.fromEntries(Object.entries(aba).map(([k, v]) => [k, typeof v === 'string' ? v : JSON.stringify(v)]))
   );
   await page.goto(`${BASE_URL}/gerador`, {
     waitUntil: 'domcontentloaded',

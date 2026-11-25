@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo } from 'react';
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import type { FrameColors, FrameFonts } from '@/types/frameMessage';
+import type { ConteudoLoja } from '@/types/conteudo';
 import { loadComponentFonts, loadGoogleFont } from '@/utils/googleFont';
 import { buildThemeStyle } from '@/utils/themeStyle';
 import ThemeRenderer from '../ThemeRenderer';
@@ -18,6 +19,8 @@ interface SeededStorefrontProps {
   /** Página interna a renderizar: "home" | "category" | "product". */
   pagina: string;
   isMobile?: boolean;
+  /** O conteúdo da loja do snapshot (o ThemeRenderer sanitiza). */
+  conteudoLoja?: ConteudoLoja | null;
 }
 
 /**
@@ -34,6 +37,7 @@ export default function SeededStorefront({
   footerLogo = '',
   pagina,
   isMobile = false,
+  conteudoLoja = null,
 }: SeededStorefrontProps) {
   // Contexto semeado — os templates leem `logo`, `footerLogo` e `selections`
   // daqui (via useLayout), sem depender do estado local do editor.
@@ -64,6 +68,7 @@ export default function SeededStorefront({
           selections={selections}
           pagina={pagina}
           isMobile={isMobile}
+          conteudoLoja={conteudoLoja}
         />
       </div>
     </SeededLayoutProvider>

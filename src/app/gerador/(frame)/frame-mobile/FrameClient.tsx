@@ -27,12 +27,14 @@ import {
   type AlvoNoCanvas,
 } from '@/hooks/useAbrirNoCanvas';
 import type { Platform } from '@/types/platform';
+import type { ConteudoLoja } from '@/types/conteudo';
 
 interface Content {
   selections: LayoutSelection[];
   pagina: string;
   logo: string;
   footerLogo: string;
+  conteudoLoja: ConteudoLoja | null;
   isMobile: boolean;
   platform: Platform | null;
 }
@@ -112,6 +114,7 @@ export default function FrameClient() {
             pagina: data.pagina,
             logo: data.logo,
             footerLogo: data.footerLogo,
+            conteudoLoja: data.conteudoLoja ?? null,
             isMobile: data.isMobile,
             platform: data.platform ?? null,
           });
@@ -261,6 +264,7 @@ export default function FrameClient() {
             selections={content.selections}
             pagina={content.pagina}
             isMobile={content.isMobile}
+            conteudoLoja={content.conteudoLoja}
           />
         </EstadoNoCanvasContext.Provider>
       </div>

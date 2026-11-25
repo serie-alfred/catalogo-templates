@@ -33,8 +33,14 @@ import ThemeRenderer from '@/components/preview/ThemeRenderer';
  * e o html2canvas (que não implementa `clip-path`) fotografa o mesmo de antes.
  */
 export default function ExportStage() {
-  const { isCapturing, selections, selectedPage, desktopPreviewRef, mobilePreviewRef } =
-    useLayout();
+  const {
+    isCapturing,
+    selections,
+    selectedPage,
+    desktopPreviewRef,
+    mobilePreviewRef,
+    conteudoLoja,
+  } = useLayout();
 
   if (!isCapturing) return null;
 
@@ -58,6 +64,7 @@ export default function ExportStage() {
           pagina={selectedPage}
           isMobile={false}
           stickyHeader={false}
+          conteudoLoja={conteudoLoja}
         />
       </div>
       <div
@@ -69,6 +76,7 @@ export default function ExportStage() {
           pagina={selectedPage}
           isMobile
           stickyHeader={false}
+          conteudoLoja={conteudoLoja}
         />
       </div>
     </div>

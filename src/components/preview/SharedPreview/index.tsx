@@ -44,6 +44,7 @@ export default function SharedPreview({
         fonts={snapshot.fonts}
         logo={snapshot.logo}
         footerLogo={snapshot.footerLogo}
+        conteudoLoja={snapshot.conteudoLoja}
         pagina={pagina}
       />
       <PreviewNav

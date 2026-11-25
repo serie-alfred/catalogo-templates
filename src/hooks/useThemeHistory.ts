@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import type { ConteudoLoja } from '@/types/conteudo';
 import type { LayoutSelection } from './useLayoutGenerator';
 
 /**
@@ -25,6 +26,8 @@ export interface ThemeDoc {
   checkout?: Record<string, string>;
   /** A LP do modo LP (nome e seções). Opcional, como o checkout. */
   lp?: { nome: string; selections: LayoutSelection[] };
+  /** O conteúdo da loja (menus, contato…): poucos KB de texto e URLs. */
+  conteudoLoja?: ConteudoLoja | null;
 }
 
 /** Além disto, as entradas mais antigas são descartadas. */

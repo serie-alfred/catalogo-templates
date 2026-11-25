@@ -2,6 +2,7 @@ import 'server-only';
 import { promises as fs } from 'fs';
 import path from 'path';
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
+import type { ConteudoLoja } from '@/types/conteudo';
 
 /**
  * Snapshot serializável de um tema montado no /gerador. É o payload de um
@@ -39,6 +40,13 @@ export interface PreviewSnapshot {
    * gravados antes deste campo existir continuam válidos.
    */
   ogImage?: string;
+  /**
+   * O conteúdo da loja (menus, avisos, contato, redes, dados legais, banners,
+   * categorias), que as seções leem pelos vínculos. Opcional: snapshot sem ele
+   * mostra o conteúdo de cada seção. Chega ao /p, que é público: o
+   * ThemeRenderer o sanitiza antes de usar.
+   */
+  conteudoLoja?: ConteudoLoja;
   /**
    * O checkout VTEX (`faststore.checkout` do config): modelo, SHA do
    * checkout-vtex e os papéis. Só em VTEX, e opcional pelo mesmo motivo.

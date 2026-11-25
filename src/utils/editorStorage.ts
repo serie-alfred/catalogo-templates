@@ -31,6 +31,8 @@ export const CHAVES_DA_ABA = [
   'checkout',
   'lp',
   'wakeToken',
+  // O conteúdo da loja (menus, contato…), ver src/types/conteudo.ts.
+  'conteudoLoja',
   // Vínculos da aba: o tema do histórico em que ela salva e o preview que ela
   // mantém atualizado (ver useLayoutGenerator).
   'temaAtual',

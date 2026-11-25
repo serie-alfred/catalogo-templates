@@ -1,6 +1,7 @@
 import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import type { EstadoNoCanvas } from '@/hooks/useAbrirNoCanvas';
 import type { Platform } from '@/types/platform';
+import type { ConteudoLoja } from '@/types/conteudo';
 
 /**
  * Protocolo entre o editor (/gerador) e o documento do iframe mobile
@@ -66,6 +67,8 @@ export type ToFrame =
       logo: string;
       /** O logo dos rodapés; vazio = o `logo`. */
       footerLogo: string;
+      /** O conteúdo da loja (Nível 2); o ThemeRenderer do frame o sanitiza. */
+      conteudoLoja: ConteudoLoja | null;
       /** Repassado aos templates. O frame serve as duas visões. */
       isMobile: boolean;
       /** Para o badge de duplicar seguir a regra da plataforma (`podeDuplicar`). */

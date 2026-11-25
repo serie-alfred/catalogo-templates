@@ -109,6 +109,108 @@ try {
   r.ok('src/utils/conteudo.ts carrega no Node (só pode importar tipos)', false, String(erro.stderr || erro.message).split('\n')[0]);
 }
 
+// ── 2b. conteúdo da loja: a projeção para cada seção (os vínculos) ─────────
+// Mocks no formato das réplicas 09–17 (as chaves que elas desenham): o que a
+// loja preenche tem de chegar a cada peça no formato DELA.
+const TESTE_LOJA = `
+const url = n => ${JSON.stringify(pathToFileURL(path.join(RAIZ, 'src/utils')).href)} + '/' + n;
+const { projetarLoja, linkDoWhatsapp, linkDoTelefone, ROTULO_DO_SLOT, SLOTS_VINCULADOS, VINCULOS_RESUMO } = await import(url('conteudoLoja.ts'));
+const { sanitizarConteudoLoja, resolverConteudo } = await import(url('conteudo.ts'));
+const { partirDaPagina } = await import(url('lojaDaPagina.ts'));
+const casos = [];
+const ok = (nome, cond, det = '') => casos.push({ nome, ok: !!cond, det: String(det) });
+const ano = new Date().getFullYear();
+
+const HEADER = { brandName: 'X', topbarMessages: [{ text: 'a' }], menu: [{ label: 'M', url: '#', highlight: true, children: [{ label: 'c', url: '#' }] }] };
+ok('loja vazia não dá nada a seção nenhuma', !projetarLoja('Header09', null, HEADER).conteudo && !projetarLoja('Header09', { versao: 1 }, HEADER).conteudo);
+const menu = projetarLoja('Header09', { versao: 1, menuPrincipal: [{ label: 'Roupas', url: '/roupas', children: [{ label: 'Camisetas', url: '/c' }] }, { label: '  ' }] }, HEADER);
+ok('menu principal vira o menu do header, sem itens em branco', menu.conteudo?.menu?.length === 1 && menu.conteudo.menu[0].label === 'Roupas', JSON.stringify(menu.conteudo));
+ok('chave que o mock tem e a loja não sai com vazio do tipo (highlight: false)', menu.conteudo?.menu?.[0].highlight === false);
+ok('subitens vão no formato do mock', menu.conteudo?.menu?.[0].children?.[0].label === 'Camisetas');
+ok('a origem do campo é o slot (para o painel)', menu.origem.menu === 'menuPrincipal');
+ok('nome da loja chega ao header mesmo sem brandName no mock (as réplicas o deixam fora)', projetarLoja('Header12', { versao: 1, nomeDaLoja: 'Loja X' }, { menu: [] }).conteudo?.brandName === 'Loja X');
+ok('campo que a peça não desenha (fora do mock) não recebe nada',!projetarLoja('Header09', { versao: 1, menuPrincipal: [{ label: 'R' }] }, { brandName: 'X' }).conteudo);
+ok('vínculo vale só para o tipo de peça (menu num não-header fica)', !projetarLoja('Showcase09', { versao: 1, menuPrincipal: [{ label: 'R' }] }, HEADER).conteudo);
+ok('header com menu em objeto (famílias antigas) não recebe lista', !projetarLoja('Header01', { versao: 1, menuPrincipal: [{ label: 'R' }] }, { menu: { links: [] } }).conteudo);
+
+const H16 = { topbarItems: [{ text: 'a', icon: 'truck', url: '#' }, { text: 'b', icon: 'card', url: '#' }] };
+const av = projetarLoja('Header16', { versao: 1, avisos: [{ text: 'Frete grátis' }, { text: 'Troca fácil' }, { text: 'Pix' }] }, H16).conteudo;
+ok('aviso leva o ícone do item do mock na mesma posição', av?.topbarItems?.[0].icon === 'truck' && av.topbarItems[1].icon === 'card' && av.topbarItems[2].icon === 'truck', JSON.stringify(av));
+ok('aviso sem link sai com url vazia', av?.topbarItems?.[0].url === '');
+ok('topbarText (uma mensagem só) é o primeiro aviso', projetarLoja('Header12', { versao: 1, avisos: [{ text: '' }, { text: 'Primeiro', url: '/f' }] }, { topbarText: 'x', topbarLinkUrl: '#' }).conteudo?.topbarText === 'Primeiro');
+
+ok('WhatsApp vira wa.me com 55', linkDoWhatsapp('(11) 98888-7777') === 'https://wa.me/5511988887777' && linkDoWhatsapp('https://wa.me/1') === 'https://wa.me/1' && linkDoWhatsapp('abc') === '');
+ok('telefone vira tel:+55', linkDoTelefone('(11) 3333-4444') === 'tel:+551133334444');
+const contato = { telefone: '(11) 3333-4444', whatsapp: '(11) 98888-7777', email: 'oi@loja.com', endereco: 'Rua A, 1', horario: 'Seg a sex' };
+const F12 = { contactLines: [{ text: 'x', url: '#' }], whatsappLabel: 'x', whatsappUrl: '#' };
+const f12 = projetarLoja('Footer12', { versao: 1, contato }, F12).conteudo;
+ok('rodapé com campo de WhatsApp próprio não repete o WhatsApp nas linhas', f12 && !f12.contactLines.some(l => /WhatsApp/.test(l.text)) && f12.whatsappUrl === 'https://wa.me/5511988887777', JSON.stringify(f12));
+ok('linhas de contato com telefone (tel:), e-mail (mailto:) e endereço', f12?.contactLines.some(l => l.url === 'tel:+551133334444') && f12.contactLines.some(l => l.url === 'mailto:oi@loja.com') && f12.contactLines.some(l => l.text === 'Rua A, 1'));
+const f09 = projetarLoja('Footer09', { versao: 1, nomeDaLoja: 'Loja X', contato, dadosLegais: { razaoSocial: 'Loja X Ltda', cnpj: '12.345.678/0001-90' } }, { contactLines: [{ text: 'x' }], contactHours: 'x', legal: 'x', brandName: 'y' }).conteudo;
+ok('linha legal: © ano · marca · razão · CNPJ · endereço', f09?.legal === '© ' + ano + ' Loja X · Loja X Ltda · CNPJ 12.345.678/0001-90 · Rua A, 1', f09?.legal);
+ok('horário vai para o campo próprio, não para as linhas', f09?.contactHours === 'Seg a sex' && !f09.contactLines.some(l => l.text === 'Seg a sex'));
+ok('sem razão social nem CNPJ, a linha legal fica a do mock', !('legal' in (projetarLoja('Footer09', { versao: 1, nomeDaLoja: 'Loja X' }, { legal: 'x' }).conteudo ?? {})));
+const f11 = projetarLoja('Footer11', { versao: 1, nomeDaLoja: 'Loja X', dadosLegais: { razaoSocial: 'R Ltda', cnpj: '1' } }, { copyright: 'x', legalText: 'y' }).conteudo;
+ok('com legalText ao lado, copyright é só "© ano Marca"', f11?.copyright === '© ' + ano + ' Loja X' && f11.legalText === 'R Ltda · CNPJ 1', JSON.stringify(f11));
+const f10 = projetarLoja('Footer10', { versao: 1, dadosLegais: { cnpj: '1' } }, { legalLines: [{ text: 'a' }, { text: 'aviso de preços' }] }).conteudo;
+ok('legalLines: a 1ª linha é a legal, o resto continua o do mock', f10?.legalLines?.length === 2 && f10.legalLines[1].text === 'aviso de preços');
+const redes = projetarLoja('Footer09', { versao: 1, redes: [{ network: 'instagram', url: 'https://ig/x' }, { network: 'facebook' }], pagamentos: [{ method: 'pix' }, {}] }, { socials: [{ network: 'x', url: '#' }], payments: [{ method: 'visa' }] }).conteudo;
+ok('redes e pagamentos sem rótulo ficam de fora', redes?.socials?.length === 1 && redes.payments?.length === 1 && redes.payments[0].method === 'pix', JSON.stringify(redes));
+
+const B09 = { slides: [{ title: 'T', primaryLabel: 'P', primaryUrl: '#', imageDesktop: '/a', imageMobile: '/b', imageAlt: '' }] };
+const b = projetarLoja('BannerMain09', { versao: 1, banners: [{ title: 'Verão', ctaLabel: 'Comprar', ctaUrl: '/verao', imageDesktop: 'https://cdn/x.webp' }] }, B09).conteudo;
+ok('banner: ctaLabel/ctaUrl da loja viram primaryLabel/primaryUrl da 09', b?.slides?.[0].primaryLabel === 'Comprar' && b.slides[0].primaryUrl === '/verao', JSON.stringify(b));
+ok('banner sem imagem de celular usa a do computador', b?.slides?.[0].imageMobile === 'https://cdn/x.webp');
+ok('banner sem texto alternativo fica com alt vazio (decorativo), não com o do mock', b?.slides?.[0].imageAlt === '');
+const cat = projetarLoja('Categories09', { versao: 1, categorias: [{ name: 'Tênis', url: '/tenis' }] }, { categories: [{ name: 'a', url: '#', image: '/i', imageAlt: '' }] }).conteudo;
+ok('categoria sem texto alternativo usa o nome', cat?.categories?.[0].imageAlt === 'Tênis' && cat.categories[0].image === '');
+
+const HF = { helpItems: [{ icon: 'whatsapp', label: 'WhatsApp', detail: '[00]', url: 'https://wa.me/' }, { icon: 'truck', label: 'Rastrear', url: '/r' }], footerText: 'x' };
+const hf = projetarLoja('HelpFloat09', { versao: 1, contato }, HF).conteudo;
+ok('ajuda flutuante: o canal de WhatsApp abre o número da loja, os outros ficam', hf?.helpItems?.[0].url === 'https://wa.me/5511988887777' && hf.helpItems[0].detail === '(11) 98888-7777' && hf.helpItems[1].url === '/r', JSON.stringify(hf));
+ok('ajuda flutuante: rodapé com horário e telefone', hf?.footerText === 'Seg a sex · (11) 3333-4444');
+
+ok('a seção vence a loja (nível 1 por cima)', resolverConteudo(HEADER, menu.conteudo, { menu: [] }).menu.length === 0);
+const sl = sanitizarConteudoLoja({ versao: 9, nomeDaLoja: 'A', menuPrincipal: [{ label: 'x', url: 'javascript:alert(1)' }] });
+ok('sanitizar a loja tira javascript: e fixa versao 1', sl?.versao === 1 && sl.menuPrincipal[0].url === undefined, JSON.stringify(sl));
+ok('loja sem nada vira null', sanitizarConteudoLoja({ versao: 1 }) === null && sanitizarConteudoLoja('x') === null);
+ok('todo slot vinculado tem nome na tela', SLOTS_VINCULADOS.every(s => ROTULO_DO_SLOT[s]), SLOTS_VINCULADOS.filter(s => !ROTULO_DO_SLOT[s]).join(', '));
+
+const schemaBanners = { type: 'array', items: { type: 'object', properties: { title: {}, ctaLabel: {}, ctaUrl: {}, imageDesktop: {} } } };
+const ini = partirDaPagina('banners', schemaBanners, [{ componente: 'Header09', titulo: 'Header 09', conteudo: HEADER }, { componente: 'BannerMain09', titulo: 'Banner 09', conteudo: { slides: [{ title: 'T', primaryLabel: 'P', primaryUrl: '/p', icon: 'x', imageDesktop: '/a' }] } }]);
+ok('começar com o da página: acha a seção certa e converte para a loja', ini?.titulo === 'Banner 09' && ini.valor[0].ctaLabel === 'P' && ini.valor[0].ctaUrl === '/p' && !('icon' in ini.valor[0]), JSON.stringify(ini));
+ok('começar com o da página: slot sem seção que o mostre dá null', partirDaPagina('categorias', schemaBanners, []) === null && partirDaPagina('contato', schemaBanners, []) === null);
+process.stdout.write(JSON.stringify({ casos, vinculos: VINCULOS_RESUMO, rotulos: Object.keys(ROTULO_DO_SLOT) }));
+`;
+try {
+  const saida = JSON.parse(
+    execFileSync(process.execPath, ['--experimental-strip-types', '--input-type=module', '--eval', TESTE_LOJA], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    })
+  );
+  for (const c of saida.casos) r.ok(`loja: ${c.nome}`, c.ok, c.det);
+  // Todo vínculo aponta para um campo que existe no schema de alguma peça do
+  // tipo dele: um nome digitado errado no vínculo nunca casaria com nada.
+  for (const v of saida.vinculos) {
+    const de = new RegExp(v.de);
+    const existe = Object.entries(schemas.componentes).some(
+      ([nome, info]) => de.test(nome) && info.schema?.properties?.[v.campo]
+    );
+    r.ok(`loja: o vínculo ${v.campo} ← ${v.slot} casa com um campo de schema (${v.de})`, existe);
+  }
+  // O formulário da loja tem um campo para cada slot.
+  const fonteDoSchema = ler('src/data/conteudo/schemaDaLoja.ts');
+  const semCampo = saida.rotulos.filter(s => !new RegExp(`^  ${s}:`, 'm').test(fonteDoSchema));
+  r.ok('loja: todo slot tem campo no formulário (schemaDaLoja.ts)', semCampo.length === 0, semCampo.join(', '));
+} catch (erro) {
+  r.ok(
+    'src/utils/conteudoLoja.ts e lojaDaPagina.ts carregam no Node (só podem importar tipos)',
+    false,
+    String(erro.stderr || erro.message).split('\n').find(l => /Error/.test(l)) || String(erro.message).split('\n')[0]
+  );
+}
+
 // ── 3. quem lê pelo hook tem schema, e os campos do tipo existem nele ──────
 // O parser e o mapa componente → arquivo são os do `derivar-conteudo.mjs`: a
 // mesma leitura que gera o campos.generated.json do painel.

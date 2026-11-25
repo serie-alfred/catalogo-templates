@@ -63,8 +63,13 @@ import {
   loadComponentFonts,
   loadGoogleFont,
 } from '@/utils/googleFont';
-import type { ConteudoDaSecao, ValorDeConteudo } from '@/types/conteudo';
-import { levarConteudo } from '@/utils/conteudo';
+import type {
+  ConteudoDaSecao,
+  ConteudoLoja,
+  ValorDeConteudo,
+} from '@/types/conteudo';
+import { levarConteudo, sanitizarConteudoLoja } from '@/utils/conteudo';
+import type { SlotDaLoja } from '@/utils/conteudoLoja';
 
 /** Os destinos do rail de navegação do editor: os quatro do Figma e o
  *  "Por template" (escolher uma família inteira, utils/templatesCompletos.ts). */
@@ -74,7 +79,8 @@ export type RailTarget =
   | 'variaveis'
   | 'tipografia'
   | 'identidade'
-  | 'salvos';
+  | 'salvos'
+  | 'loja';
 
 /** O tema do histórico em que esta aba salva (ver PanelSavedThemes). */
 export interface TemaAtual {
@@ -520,6 +526,30 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     );
   };
 
+  /**
+   * Grava um slot do conteúdo da loja (`menuPrincipal`, `contato`…). Lista e
+   * objeto vão inteiros, como no Nível 1; `undefined` esvazia o slot e as
+   * seções voltam ao próprio conteúdo. Loja sem nenhum slot vira `null`.
+   */
+  const setCampoDaLoja = useCallback(
+    (slot: SlotDaLoja, valor: ValorDeConteudo | undefined) => {
+      setConteudoLoja(prev => {
+        const { versao: _versao, ...resto } = prev ?? { versao: 1 };
+        void _versao;
+        const proximo: Record<string, unknown> = { ...resto };
+        if (valor === undefined) delete proximo[slot];
+        else proximo[slot] = valor;
+        return Object.keys(proximo).length
+          ? ({ ...proximo, versao: 1 } as ConteudoLoja)
+          : null;
+      });
+    },
+    []
+  );
+
+  /** Esvazia o conteúdo da loja inteiro: cada seção volta ao próprio. */
+  const limparConteudoLoja = useCallback(() => setConteudoLoja(null), []);
+
   /** Papel do checkout (nível 1). Grava o que veio; o compose só lê o que é válido. */
   const setCheckoutVariable = useCallback((cssVar: string, value: string) => {
     setCheckout(prev => ({
@@ -622,6 +652,13 @@ export function useLayoutGenerator(conta?: ContaAtual) {
   const [footerLogo, setFooterLogo] = useState<string>('');
   /** Imagem de compartilhamento (og:image) do preview. Data URL, como as outras. */
   const [ogImage, setOgImage] = useState<string>('');
+  /**
+   * O conteúdo da loja (Nível 2, src/types/conteudo.ts): menus, avisos,
+   * contato, redes, dados legais, banners e categorias, que as seções leem
+   * pelos vínculos. Mora no tema, como as cores — sobrevive à troca de
+   * template e de plataforma e ao "Começar do zero". `null` = nada preenchido.
+   */
+  const [conteudoLoja, setConteudoLoja] = useState<ConteudoLoja | null>(null);
 
   /** false no SSR e no 1º render do cliente; vira true após hidratar do
    *  localStorage. Garante que o 1º render do cliente == servidor (sem
@@ -848,6 +885,13 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       }
       setLogo(estadoDaAba.get('logo') || '');
       setFooterLogo(estadoDaAba.get('footerLogo') || '');
+      try {
+        const storedLoja = estadoDaAba.get('conteudoLoja');
+        if (storedLoja)
+          setConteudoLoja(sanitizarConteudoLoja(JSON.parse(storedLoja)));
+      } catch (e) {
+        console.error('Conteúdo da loja guardado ilegível, ignorado:', e);
+      }
       setFavicon(estadoDaAba.get('favicon') || '');
       setOgImage(estadoDaAba.get('ogImage') || '');
       setWakeCustomValue(estadoDaAba.get('wakeToken') || '');
@@ -986,6 +1030,17 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       console.error('Erro ao salvar favicon:', e);
     }
   }, [favicon, hydrated]);
+
+  useEffect(() => {
+    if (!hydrated) return;
+    try {
+      if (conteudoLoja)
+        estadoDaAba.set('conteudoLoja', JSON.stringify(conteudoLoja));
+      else estadoDaAba.remove('conteudoLoja');
+    } catch (e) {
+      console.error('Erro ao salvar o conteúdo da loja:', e);
+    }
+  }, [conteudoLoja, hydrated]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -1879,9 +1934,11 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       // Os papéis do checkout entram no histórico: desfazer uma cor do checkout
       // é o mesmo gesto que desfazer uma cor global.
       checkout: checkout.variables,
+      conteudoLoja,
     }),
     [
       checkout.variables,
+      conteudoLoja,
       lojaSelections,
       lp,
       colorPrimary,
@@ -1918,6 +1975,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     setFontSecondary(doc.fonts.fontSecondary);
     setFontTertiary(doc.fonts.fontTertiary);
     setCheckout(prev => ({ ...prev, variables: doc.checkout ?? {} }));
+    setConteudoLoja(doc.conteudoLoja ?? null);
   }, []);
 
   const { undo, redo, canUndo, canRedo } = useThemeHistory(
@@ -1956,6 +2014,8 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     footerLogo,
     favicon,
     ogImage,
+    // Opcional no tipo, como o checkout: snapshot sem ele = loja sem conteúdo.
+    ...(conteudoLoja ? { conteudoLoja } : {}),
     // Opcional no tipo: snapshots de antes do checkout continuam válidos.
     ...(platform === 'VTEX' ? { checkout: blocoDoConfig(checkout) } : {}),
   });
@@ -2068,6 +2128,8 @@ export function useLayoutGenerator(conta?: ContaAtual) {
       setFooterLogo(typeof doc.footerLogo === 'string' ? doc.footerLogo : '');
       setFavicon(typeof doc.favicon === 'string' ? doc.favicon : '');
       setOgImage(typeof doc.ogImage === 'string' ? doc.ogImage : '');
+      // O conteúdo da loja é do tema: um tema sem ele abre com a loja vazia.
+      setConteudoLoja(sanitizarConteudoLoja(doc.conteudoLoja));
       setCheckout(prev =>
         sanitizeCheckout({
           model: doc.checkout?.model ?? prev.model,
@@ -2390,6 +2452,9 @@ export function useLayoutGenerator(conta?: ContaAtual) {
     resetItemVariables,
     setConteudoDaSecao,
     resetConteudoDaSecao,
+    conteudoLoja,
+    setCampoDaLoja,
+    limparConteudoLoja,
     railTarget,
     setRailTarget,
     editorMode,

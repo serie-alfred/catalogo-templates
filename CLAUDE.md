@@ -221,7 +221,30 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
 - **Nível 1 — seção**: `LayoutSelection.content`, esparso, nas chaves do schema do componente
   (`setConteudoDaSecao`/`resetConteudoDaSecao`). Vai no tema, no undo e no snapshot do preview; a
   hidratação passa por `sanitizarConteudo` (só JSON, sem URL `javascript:`/`data:`; "Data: 25/11" passa).
-- **Nível 2 — loja**: ainda não existe (fase 2 do plano).
+- **Nível 2 — loja** (`ConteudoLoja`, estado `conteudoLoja` do hook, `setCampoDaLoja`/`limparConteudoLoja`):
+  nome da loja, avisos, menu principal, menu do rodapé, links legais, contato, redes, dados legais,
+  pagamentos, selos, banners e categorias — o que o cliente tem UMA vez. **Mora no tema, como as
+  cores** (decisão de 25/11/2026, no lugar da tabela do Supabase do plano): chave `conteudoLoja` da aba,
+  `ThemeDoc` (undo), `PreviewSnapshot` (o /p e, por ele, os temas salvos). São poucos KB (imagens são
+  URLs do Blob); os PRODUTOS, que pesam, é que vão para o Supabase (fase 3). Sobrevive à troca de
+  template, de plataforma e ao "Começar do zero". Chaves de 1º nível na língua do CS, itens no
+  vocabulário do starter (`label`, `url`, `children`, `network`, `method`).
+  - **Vínculos** ([src/utils/conteudoLoja.ts](src/utils/conteudoLoja.ts), `projetarLoja`): campo da
+    seção ← slot da loja, por NOME de campo restrito ao tipo de peça (`menu` de `Headerd+` ←
+    `menuPrincipal`, `columns` de `Footerd+` ← `menuRodape`, `slides` de `BannerMaind+` ←
+    `banners`…). O formato de cada item sai do MOCK da peça (as chaves que ela desenha; o que falta
+    sai por sinônimo — `primaryLabel` ← `ctaLabel` — ou com vazio do tipo), não do schema: o render
+    não carrega os 744 KB. Contato vira `contactLines` sem repetir canal que a peça tem em campo
+    próprio (`whatsappUrl`, `phoneUrl`…), e dados legais viram a linha `© ano · marca · razão · CNPJ ·
+    endereço`. Slot vazio = nenhum vínculo. Ordem: `resolverConteudo(MOCK, loja, seção)`.
+  - **Render**: o `ThemeRenderer` recebe `conteudoLoja`, sanitiza (`sanitizarConteudoLoja`) e
+    o põe no `ConteudoLojaContext`; o `useConteudoDaSecao` projeta. Cada superfície passa: o canvas
+    pela mensagem `content` do iframe, o palco do export pelo hook, o /p pelo snapshot.
+  - **Painel** (rail **Conteúdo da loja**, `[data-rail-target="loja"]`, o último da lista; some no
+    checkout): `PanelConteudoLoja`, o formulário de `src/data/conteudo/schemaDaLoja.ts` desenhado
+    pelo mesmo `Campo` da aba Conteúdo. Slot vazio com uma seção que já o mostra oferece "Começar com
+    o do Header 09" (`src/utils/lojaDaPagina.ts`). Na aba Conteúdo de uma seção, campo vinculado diz
+    "Vem do conteúdo da loja (…)"; mudar ali é Nível 1 (só aquela seção) e o "Voltar" volta à loja.
 - **Nível 3 — mock**: o `MOCK` do componente (= `mock.ts` do starter).
 
 - **Schema**: `yarn derivar:conteudo` copia o `section.schema` dos manifests do starter para
@@ -254,11 +277,14 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
   padrão"; lista vem inteira a cada edição (adicionar, remover, duplicar, mover). Imagem: "Enviar
   imagem" (prepara no navegador — WebP, ≤ 2400 px, `src/utils/imagem.ts` — e sobe para
   `/gerador/api/midias`, que confere os bytes e recusa SVG) ou cola a URL. Ver `BLOB_READ_WRITE_TOKEN`.
-- **Migrados**: a família 09 inteira (as 21 peças com schema), em `FAMILIAS_MIGRADAS` do
-  `1-conteudo`. Nas peças de PLP/PDP o CMS só tem rótulos e opções: produto, categoria e contagem
-  continuam os de exemplo até a fase de produtos.
-- **Funil**: `1-conteudo` (schema = starter, regras do resolvedor rodando o `.ts` no Node, campos do
-  tipo × schema, `conteudoPadrao`) e `2-conteudo` (marcadores únicos no canvas e no `/p` — home,
+- **Migrados**: as famílias 09 a 17 inteiras (189 peças, todas as com schema), em
+  `FAMILIAS_MIGRADAS` do `1-conteudo`. Nas peças de PLP/PDP o CMS só tem rótulos e opções: produto,
+  categoria e contagem continuam os de exemplo até a fase de produtos. Os countdowns contam a partir da
+  montagem (sem `endDate` no mock) e, com `endDate` do CS, até ela — o print `auto` muda a cada rodada.
+  Faltam as 01–08 (nomes de campo da Tray, peça a peça).
+- **Funil**: `1-conteudo` (schema = starter, regras do resolvedor e da projeção da loja rodando os
+  `.ts` no Node, campos do tipo × schema, `conteudoPadrao`, vínculos × schemas), `2-conteudo-loja`
+  (a loja no canvas, no "Por template" 09 → 12, no painel e no /p) e `2-conteudo` (marcadores únicos no canvas e no `/p` — home,
   categoria e produto —, campo vazio, lista, imagem, `javascript:` barrado, data passada, pagamento
   fora da lista, `hiddenSpecs`, `?rev=1` leve). O aviso de hidratação de `useId` no `/p`
   (CategoryDescription09, ProductInfo09) é intermitente e **existe na `main`** sem conteúdo: o estágio

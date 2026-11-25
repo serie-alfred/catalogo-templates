@@ -57,6 +57,7 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
     platform,
     logo,
     footerLogo,
+    conteudoLoja,
     colorPrimary,
     colorSecondary,
     colorTertiary,
@@ -197,12 +198,21 @@ export default function PreviewFrame({ caixa }: { caixa: CaixaDoFrame }) {
       pagina: selectedPage,
       logo,
       footerLogo,
+      conteudoLoja,
       isMobile: isMobileView,
       platform,
     }),
     /* `selectedUid` SAIU daqui: mudar a seleção não pode custar uma republicação
        do tema inteiro. Vai no canal `selected`, aplicado imperativamente. */
-    [selections, selectedPage, logo, footerLogo, isMobileView, platform]
+    [
+      selections,
+      selectedPage,
+      logo,
+      footerLogo,
+      conteudoLoja,
+      isMobileView,
+      platform,
+    ]
   );
 
   // Handshake + eventos vindos do frame.

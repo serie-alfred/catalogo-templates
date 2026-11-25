@@ -8,6 +8,7 @@ import {
   LayoutTemplate,
   ShoppingCart,
   History,
+  Store,
   LogOut,
   ShieldOff,
   Users,
@@ -66,6 +67,14 @@ const ITEMS: { target: RailTarget; label: string; icon: React.ReactNode }[] = [
     label: 'Temas salvos',
     icon: <History width={20} height={20} />,
   },
+  // O conteúdo do cliente que vale para a loja inteira (PanelConteudoLoja). No
+  // fim da lista, pelo mesmo motivo do "Por template"; some no checkout, que
+  // não tem seções.
+  {
+    target: 'loja',
+    label: 'Conteúdo da loja',
+    icon: <Store width={20} height={20} />,
+  },
 ];
 
 export default function EditorRail({ className }: { className?: string }) {
@@ -95,7 +104,7 @@ export default function EditorRail({ className }: { className?: string }) {
 
   const itens = ITEMS.filter(
     i =>
-      !(noCheckout && i.target === 'componentes') &&
+      !(noCheckout && (i.target === 'componentes' || i.target === 'loja')) &&
       !((noCheckout || naLp) && i.target === 'templates')
   );
 

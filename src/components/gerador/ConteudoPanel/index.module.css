@@ -298,6 +298,28 @@
   text-decoration: underline;
 }
 
+/* "Vem do conteúdo da loja": a dica do campo, com o atalho para o painel. */
+.daLoja {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--ed-gray-400);
+}
+
+.daLoja button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--ed-blue-ink);
+  cursor: pointer;
+}
+
+.daLoja button:hover {
+  text-decoration: underline;
+}
+
 .rodape {
   padding: 16px;
 }

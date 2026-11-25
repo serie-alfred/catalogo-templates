@@ -6,8 +6,12 @@ import type { LayoutSelection } from '@/hooks/useLayoutGenerator';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { selectionsForPage } from '@/utils/previewRender';
 import { SecaoUidContext } from '@/hooks/useAbrirNoCanvas';
-import { SecaoConteudoContext } from '@/context/ConteudoContext';
-import type { ConteudoDaSecao } from '@/types/conteudo';
+import {
+  ConteudoLojaContext,
+  SecaoConteudoContext,
+} from '@/context/ConteudoContext';
+import type { ConteudoDaSecao, ConteudoLoja } from '@/types/conteudo';
+import { sanitizarConteudoLoja } from '@/utils/conteudo';
 
 interface ThemeRendererProps {
   selections: LayoutSelection[];
@@ -20,6 +24,12 @@ interface ThemeRendererProps {
   stickyHeader?: boolean;
   /** uid da seção destacada como selecionada (só o editor usa). */
   selectedUid?: string | null;
+  /**
+   * O conteúdo da loja (Nível 2): menus, avisos, contato… que as seções leem
+   * pelos vínculos (src/utils/conteudoLoja.ts). Sanitizado aqui, uma vez, para
+   * todas as superfícies — no /p ele vem do snapshot, que é público.
+   */
+  conteudoLoja?: ConteudoLoja | null;
 }
 
 /** Shallow compare de um Record<string,string>. As variáveis por instância são
@@ -159,8 +169,13 @@ function ThemeRenderer({
   isMobile = false,
   stickyHeader = true,
   selectedUid = null,
+  conteudoLoja = null,
 }: ThemeRendererProps) {
   const items = selectionsForPage(selections, pagina);
+  const loja = React.useMemo(
+    () => sanitizarConteudoLoja(conteudoLoja),
+    [conteudoLoja]
+  );
 
   /*
    * As variáveis do "Card de Produto" escolhido valem para TODO card daquele
@@ -183,7 +198,7 @@ function ThemeRenderer({
     .join('');
 
   return (
-    <>
+    <ConteudoLojaContext.Provider value={loja}>
       {estiloDosCards && <style data-cards-do-spot>{estiloDosCards}</style>}
       {items.map(item => {
         const layoutItem = LAYOUTS[item.layoutKey].items.find(
@@ -206,7 +221,7 @@ function ThemeRenderer({
           />
         );
       })}
-    </>
+    </ConteudoLojaContext.Provider>
   );
 }
 

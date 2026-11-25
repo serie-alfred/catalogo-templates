@@ -6,7 +6,8 @@ import { useLayout } from '@/context/LayoutContext';
 import { LAYOUTS } from '@/data/layoutData';
 import camposDasReplicas from '@/data/conteudo/campos.generated.json';
 import type { CampoDoSchema, SchemaDeConteudo, ValorDeConteudo } from '@/types/conteudo';
-import { resolverConteudo } from '@/utils/conteudo';
+import { resolverConteudo, sanitizarConteudoLoja } from '@/utils/conteudo';
+import { projetarLoja, ROTULO_DO_SLOT } from '@/utils/conteudoLoja';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import Campo from './Campo';
 
@@ -23,6 +24,9 @@ import styles from './index.module.css';
  * - O valor de partida de cada campo é o mock da peça (`XNN.conteudoPadrao`),
  *   com o que o CS já mudou por cima — o mesmo `resolverConteudo` do render.
  * - Mexeu num campo, ele fica "personalizado" e ganha o "Voltar ao padrão".
+ * - Campo que vem do conteúdo da LOJA (menu, contato…, ver conteudoLoja.ts)
+ *   diz de onde vem e leva ao "Conteúdo da loja"; mudar aqui vale só para esta
+ *   seção, e o "Voltar" devolve ao da loja.
  */
 
 type Schemas = Record<string, { path: string; schema: SchemaDeConteudo }>;
@@ -46,7 +50,16 @@ export function conteudoPadraoDe(componente: string): Record<string, unknown> | 
 const DESENHADOS = (camposDasReplicas as { componentes: Record<string, string[]> }).componentes;
 
 export default function ConteudoPanel() {
-  const { selectedUid, selections, setConteudoDaSecao, resetConteudoDaSecao } = useLayout();
+  const {
+    selectedUid,
+    selections,
+    setConteudoDaSecao,
+    resetConteudoDaSecao,
+    conteudoLoja,
+    setRailTarget,
+  } = useLayout();
+  // O mesmo filtro do ThemeRenderer: o painel mostra o que o canvas desenha.
+  const loja = useMemo(() => sanitizarConteudoLoja(conteudoLoja), [conteudoLoja]);
   const [schemas, setSchemas] = useState<Schemas | null>(null);
   const [falhou, setFalhou] = useState(false);
 
@@ -114,13 +127,18 @@ export default function ConteudoPanel() {
 
   const uid = selectedUid;
   const nivel1 = selection.content ?? {};
-  const valores = resolverConteudo(mock, nivel1) as Record<string, ValorDeConteudo | undefined>;
+  const daLoja = projetarLoja(layoutItem.component, loja, mock);
+  const valores = resolverConteudo(mock, daLoja.conteudo, nivel1) as Record<
+    string,
+    ValorDeConteudo | undefined
+  >;
 
   return (
     <div className={styles.painel} aria-label="Editar conteúdo da seção">
       <div className={styles.campos}>
         {campos.map(([chave, filho]) => {
           const personalizado = chave in nivel1;
+          const slot = daLoja.origem[chave];
           return (
             <div
               key={chave}
@@ -134,13 +152,22 @@ export default function ConteudoPanel() {
                 onChange={v => setConteudoDaSecao(uid, chave, v)}
                 id={`ct-${uid}-${chave}`}
               />
+              {slot && !personalizado && (
+                <p className={styles.daLoja} data-vem-da-loja={slot}>
+                  Vem do conteúdo da loja ({ROTULO_DO_SLOT[slot]}). Mudar aqui vale só para esta
+                  seção.{' '}
+                  <button type="button" onClick={() => setRailTarget('loja')}>
+                    Editar na loja
+                  </button>
+                </p>
+              )}
               {personalizado && (
                 <button
                   type="button"
                   className={styles.voltar}
                   onClick={() => setConteudoDaSecao(uid, chave, undefined)}
                 >
-                  Voltar ao padrão
+                  {slot ? 'Voltar ao conteúdo da loja' : 'Voltar ao padrão'}
                 </button>
               )}
             </div>

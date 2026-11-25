@@ -1,4 +1,8 @@
-import type { ConteudoDaSecao, ValorDeConteudo } from '@/types/conteudo';
+import type {
+  ConteudoDaSecao,
+  ConteudoLoja,
+  ValorDeConteudo,
+} from '@/types/conteudo';
 
 /**
  * Conteúdo em 3 níveis — a função ÚNICA que decide o que cada seção mostra.
@@ -61,6 +65,23 @@ export function sanitizarConteudo(valor: unknown): ConteudoDaSecao | undefined {
   if (!ehObjetoSimples(valor)) return undefined;
   const limpo = limpar(valor, 0) as ConteudoDaSecao;
   return Object.keys(limpo).length ? limpo : undefined;
+}
+
+/**
+ * O conteúdo da loja (Nível 2) vindo de fora: as mesmas regras do Nível 1 (é
+ * JSON do CS que chega da aba, do tema salvo e do snapshot público do /p).
+ * A forma de cada slot não é conferida aqui: a projeção para as seções
+ * (src/utils/conteudoLoja.ts) só aproveita o que reconhece. `null` quando não
+ * sobra nada.
+ */
+export function sanitizarConteudoLoja(valor: unknown): ConteudoLoja | null {
+  const limpo = sanitizarConteudo(valor);
+  if (!limpo) return null;
+  const { versao: _versao, ...resto } = limpo;
+  void _versao;
+  return Object.keys(resto).length
+    ? ({ ...resto, versao: 1 } as ConteudoLoja)
+    : null;
 }
 
 /** Mesma forma: lista com lista, objeto com objeto, primitivo do mesmo tipo. */

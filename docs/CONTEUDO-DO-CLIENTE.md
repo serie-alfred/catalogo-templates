@@ -9,23 +9,34 @@ Branch `feat/conteudo-do-cliente`, desenvolvida no worktree `../catalogo-templat
 `catalogo-templates` continua na `main`). Dev do worktree: `yarn next dev -p 5514` → http://localhost:5514.
 Imagens em produção: **Vercel Blob no plano Pro** (decidido em 24/11/2026).
 
-**Feito:** base do conteúdo em 3 níveis, `?rev=1` leve, funil `1-conteudo`/`2-conteudo`, família 09 inteira
-editável (21 peças), aba **Conteúdo** no painel da direita, upload de imagem (dev local; produção no Blob).
+**Feito:** base do conteúdo em 3 níveis, `?rev=1` leve, funil `1-conteudo`/`2-conteudo`, famílias **09 a 17**
+inteiras editáveis (189 peças; as 10–17 por agentes Sonnet, uma família por agente, em 24/11/2026), aba
+**Conteúdo** no painel da direita, upload de imagem (dev local; produção no Blob), e o **conteúdo da loja**
+(rail **Conteúdo da loja**: nome, avisos, menus, links legais, contato, redes, dados legais, pagamentos,
+selos, banners e categorias, que valem para toda peça que mostra aquilo e ficam ao trocar de template).
 
 Legenda: ✅ feito · 🔄 em andamento · ⏳ a fazer · ⛔ espera uma ação do Matheus.
+
+**Mudança no plano (25/11/2026): o conteúdo da loja mora no TEMA, não no Supabase.** É um documento de
+poucos KB (texto e URLs de imagem do Blob). No tema ele ganha sem código novo o que o plano previa
+construir à parte: desfazer, as versões dos temas salvos, o snapshot do `/p`, a troca de template e de
+plataforma; e funciona em produção assim que a branch subir, sem esperar o login Supabase nem uma
+migração SQL. O Supabase continua no plano para os **produtos** (centenas de itens por cliente, planilha,
+importação), que é onde o tamanho pesa. Efeito colateral aceito: um segundo tema do mesmo cliente
+começa com uma CÓPIA do conteúdo da loja, não com o mesmo documento.
 
 ### O que falta, por quê e de quem
 
 | # | O que falta | Por quê | Quem | Status |
 | --- | --- | --- | --- | --- |
-| 1.4 | Assinar o **Vercel Pro**, criar um **Blob store** e ligá-lo ao projeto (Storage → Blob → Connect, ambientes Production e Preview); a Vercel cadastra o `BLOB_READ_WRITE_TOKEN` | Uso comercial pede o Pro pelos termos; sem o store o upload em produção responde 503 | Matheus | ⛔ |
+| 1.4 | Assinar o **Vercel Pro**, criar um **Blob store** (acesso **Public**, região iad1) e ligá-lo ao projeto (Connect Project, ambientes Production e Preview); a Vercel cadastra o `BLOB_READ_WRITE_TOKEN` | Uso comercial pede o Pro pelos termos; sem o store o upload em produção responde 503. Público porque o `/p` abre sem login e o código grava com `access: 'public'` | Matheus | 🔄 |
 | 1.7 | Autorizar o **push** da branch (a Vercel gera um deploy de preview só dela, sem tocar a produção) | Nada saiu da máquina até agora: o upload real e o T3 só existem num deploy | Matheus | ⛔ |
 | 1.3 | Conferir o upload no deploy de preview (Blob, CORS no PNG do export) e ajustar | O código do Blob está pronto, mas só roda com o token | Claude | ⛔ 1.4 + 1.7 |
-| 1.6 | Decidir como migrar as famílias 10–17: agentes Sonnet em paralelo (uma família por agente; mais rápido, mais tokens) ou em sequência | É trabalho mecânico e repetitivo (~190 peças); muda o prazo e o custo | Matheus | ⛔ |
-| 1.5 | Migrar as famílias 10–17 | Hoje só a 09 é editável; o CS precisa de qualquer template | Claude | ⏳ 1.6 |
-| 2.1 | **Conteúdo da loja**: menus, avisos, contato, redes, dados legais, banners, categorias — preenchidos uma vez e ligados às peças (vínculos) | Hoje cada seção guarda o próprio conteúdo: trocar de template perde o menu; o cliente tem UM menu | Claude | 🔄 próximo |
-| 2.2 | Mergear o `feat/login-supabase` | O conteúdo da loja e os produtos ficam no Supabase do login; sem ele só funcionam no dev (arquivo local) | Matheus | ⛔ |
-| 2.3 | Rodar a migração SQL do conteúdo no SQL Editor do Supabase (eu entrego o arquivo, no padrão da `contas`) | Cria as tabelas; o código não cria tabela sozinho | Matheus | ⛔ 2.1 |
+| 1.6 | Decidir como migrar as famílias 10–17 | Trabalho mecânico (~170 peças) | Matheus | ✅ agentes Sonnet |
+| 1.5 | Migrar as famílias 10–17 | O CS precisa de qualquer template | Claude | ✅ |
+| 2.1 | **Conteúdo da loja**: menus, avisos, contato, redes, dados legais, banners, categorias — preenchidos uma vez e ligados às peças (vínculos), no rail **Conteúdo da loja** | Antes cada seção guardava o próprio conteúdo: trocar de template perdia o menu; o cliente tem UM menu | Claude | ✅ |
+| 2.2 | Mergear o `feat/login-supabase` | Os **produtos** (fase 3) ficam no Supabase do login. O conteúdo da loja não depende mais dele (ver abaixo) | Matheus | ⛔ (só para a fase 3) |
+| 2.3 | Rodar a migração SQL dos produtos no SQL Editor do Supabase (eu entrego o arquivo, no padrão da `contas`) | Cria as tabelas; o código não cria tabela sozinho | Matheus | ⛔ 3.1 |
 | 2.4 | Migrar as famílias 01–08 (~100 peças) | Nelas os nomes de campo são os da Tray, não os do starter: é peça a peça | Claude | ⏳ |
 | 3.1 | Produtos: cadastro manual, a partir dos exemplos, planilha CSV/XLSX, coleções nas vitrines; cards, PLP e PDP com o produto do cliente | Hoje vitrines e PDP mostram os produtos de exemplo | Claude | ⏳ |
 | 3.2 | Uma planilha de produtos de um cliente (real ou de exemplo) | Testar com dados de verdade (nomes longos, fotos, preços) | Matheus | ⏳ |
@@ -42,8 +53,8 @@ Legenda: ✅ feito · 🔄 em andamento · ⏳ a fazer · ⛔ espera uma ação 
 | T1 | Textos e listas da família 09 na aba Conteúdo, no canvas e no `/p` | dev do worktree (5514) | ✅ **agora** |
 | T2 | Imagens na família 09 (enviar arquivo) | dev do worktree (5514) | ✅ **agora** |
 | T3 | Upload e preview num deploy de verdade | link de preview da Vercel | assim que 1.4 + 1.7 (eu confiro antes de passar) |
-| T5 | Menus, contato e banners da loja que ficam ao trocar de template | dev (5514); produção depois de 2.2 + 2.3 | ao fim da 2.1, a próxima entrega |
-| T4 | Famílias 10–17 editáveis (depois as 01–08) | dev (5514) | depois da 1.6 + 1.5 (01–08: 2.4) |
+| T5 | Menus, contato e banners da loja que ficam ao trocar de template (rail **Conteúdo da loja**) | dev do worktree (5514); no deploy de preview depois do 1.7 | ✅ **agora** |
+| T4 | Famílias 10–17 editáveis (as 01–08 depois, na 2.4) | dev do worktree (5514) | ✅ **agora** |
 | T6 | Produtos do cliente nas vitrines, PLP e PDP | dev (5514) | depois da 3.1 (com a 3.2) |
 | T7 | Importar produtos pela URL | dev (5514) | depois da 4.1 (com a 4.2) |
 
