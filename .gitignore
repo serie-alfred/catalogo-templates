@@ -33,7 +33,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 # `.env*.local` e não só `.env`: foi pela brecha do `.env.local` que uma chave de API
-# de verdade entrou no repo — e este repositório é PÚBLICO no GitHub.
+# de verdade entrou no repo — e este repositório é PÚBLICO no GitHub. O `.env.local`
+# continuou versionado (regra de ignore não vale para arquivo já acompanhado) até
+# 25/11/2026, quando saiu do índice: a chave segue no histórico, troque-a no Google.
 .env
 .env*.local
 

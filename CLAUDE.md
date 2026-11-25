@@ -941,7 +941,10 @@ at `/gerador/contas`, stored in the KV, each limited to some platforms). [src/li
   terminal (once) and an icon at the foot of the rail (`[data-login-desligado]`, from
   `GET /api/auth/estado`). In that mode `contaAtual` treats everyone as the agency with every
   platform — that's how `yarn dev` and the funil run. To test the login locally, put the three vars in `.env.development.local` (ignored by
-  git; `.env.local` is TRACKED in this repo — never put credentials there).
+  git). `.env.local` is ignored too since 25/11/2026 — it was tracked until then, with a Google Fonts
+  key in it (still in the history: rotate that key). Either file switches the dev: login vars there
+  turn the login ON, and the funil expects it off; `BLOB_READ_WRITE_TOKEN` there sends dev uploads to
+  the real Blob store instead of `.preview-store/midias/`.
 
 ### Modo Checkout (VTEX)
 
