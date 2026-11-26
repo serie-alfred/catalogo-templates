@@ -241,7 +241,9 @@
 .navItem > button:hover,
 .navItem > a:hover,
 .navItem > button[aria-expanded=true] {
-  color: var(--header-accent, var(--background-secundary-color, #2f9e57));
+  text-decoration: underline;
+  text-decoration-color: var(--header-accent, var(--background-secundary-color, #2f9e57));
+  text-underline-offset: 4px;
 }
 .navItem.navItemSale > a {
   color: var(--h5-danger);
@@ -302,7 +304,9 @@
   font-size: 14px;
 }
 .menuLinks a:hover {
-  color: var(--header-accent, var(--background-secundary-color, #2f9e57));
+  text-decoration: underline;
+  text-decoration-color: var(--header-accent, var(--background-secundary-color, #2f9e57));
+  text-underline-offset: 4px;
 }
 .menuLinks a:first-child {
   font-weight: 650;
@@ -374,7 +378,6 @@
   font-size: 14px;
 }
 .simpleGrid a:hover {
-  color: var(--header-accent, var(--background-secundary-color, #2f9e57));
   border-color: var(--header-accent, var(--background-secundary-color, #2f9e57));
 }
 
