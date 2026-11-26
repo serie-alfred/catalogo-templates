@@ -5,7 +5,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useLayout } from '@/context/LayoutContext';
 import { LAYOUTS } from '@/data/layoutData';
 import camposDasReplicas from '@/data/conteudo/campos.generated.json';
-import type { CampoDoSchema, SchemaDeConteudo, ValorDeConteudo } from '@/types/conteudo';
+import type {
+  CampoDoSchema,
+  CategoriaDaPlp,
+  SchemaDeConteudo,
+  ValorDeConteudo,
+} from '@/types/conteudo';
 import { resolverConteudo, sanitizarConteudoLoja } from '@/utils/conteudo';
 import { projetarLoja, ROTULO_DO_SLOT } from '@/utils/conteudoLoja';
 import {
@@ -58,6 +63,14 @@ export function conteudoPadraoDe(componente: string): Record<string, unknown> | 
     | { conteudoPadrao?: Record<string, unknown> }
     | undefined;
   return peca?.conteudoPadrao ?? null;
+}
+
+/** A categoria de exemplo que a peça expõe (`XNN.categoriaPadrao`). */
+function categoriaPadraoDe(componente: string): CategoriaDaPlp {
+  const peca = TemplateRegistry[componente] as unknown as
+    | { categoriaPadrao?: CategoriaDaPlp }
+    | undefined;
+  return peca?.categoriaPadrao ?? {};
 }
 
 const DESENHADOS = (camposDasReplicas as { componentes: Record<string, string[]> }).componentes;
@@ -137,7 +150,9 @@ export default function ConteudoPanel() {
   const doCadastro = (avisoDeProdutos || daCategoria.length > 0) && (
     <>
       {avisoDeProdutos}
-      {daCategoria.length > 0 && <FichaDaCategoria campos={daCategoria} />}
+      {daCategoria.length > 0 && (
+        <FichaDaCategoria campos={daCategoria} padrao={categoriaPadraoDe(layoutItem.component)} />
+      )}
     </>
   );
 

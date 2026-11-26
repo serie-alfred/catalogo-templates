@@ -5,7 +5,7 @@ import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import styles from './index.module.css';
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
-import { faqEmHtml, paragrafosEmHtml } from '@/utils/categoriaDaLoja';
+import { faqEmHtml, paragrafosEmHtml, categoriaDoExemplo } from '@/utils/categoriaDaLoja';
 import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
 
 /**
@@ -290,3 +290,6 @@ export default function CategoryDescription10() {
 
 /** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
 CategoryDescription10.conteudoPadrao = MOCK;
+
+/** A categoria de exemplo, para o painel partir do que a tela mostra (FichaDaCategoria). */
+CategoryDescription10.categoriaPadrao = categoriaDoExemplo({ nome: NOME, sobreHtml: SOBRE_HTML, faqHtml: FAQ_HTML });

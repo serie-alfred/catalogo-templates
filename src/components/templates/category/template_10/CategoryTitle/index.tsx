@@ -7,6 +7,7 @@ import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
+import { categoriaDoExemplo } from '@/utils/categoriaDaLoja';
 
 /**
  * Espelha `organisms/CategoryTitle10` do faststore.starter (família 10, Varejo;
@@ -102,3 +103,6 @@ export default function CategoryTitle10() {
 
 /** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
 CategoryTitle10.conteudoPadrao = MOCK;
+
+/** A categoria de exemplo, para o painel partir do que a tela mostra (FichaDaCategoria). */
+CategoryTitle10.categoriaPadrao = categoriaDoExemplo({ nome: TITULO });

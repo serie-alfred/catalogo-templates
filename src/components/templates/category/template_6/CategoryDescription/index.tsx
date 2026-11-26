@@ -4,7 +4,7 @@ import React, { useMemo, useState } from 'react';
 
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
-import { paragrafosEmHtml } from '@/utils/categoriaDaLoja';
+import { paragrafosEmHtml, categoriaDoExemplo } from '@/utils/categoriaDaLoja';
 
 import styles from './index.module.css';
 
@@ -177,3 +177,6 @@ export default function CategoryDescription() {
 
 /** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
 CategoryDescription.conteudoPadrao = MOCK;
+
+/** A categoria de exemplo, para o painel partir do que a tela mostra (FichaDaCategoria). */
+CategoryDescription.categoriaPadrao = categoriaDoExemplo({ nome: SEO_TITULO, sobreHtml: SEO_HTML, perguntas: FAQ });

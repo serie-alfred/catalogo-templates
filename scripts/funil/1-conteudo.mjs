@@ -180,6 +180,10 @@ const injetaCategoria = Object.keys(daCategoria).filter(c => {
   return /__html:\s*categoria\b|__html:\s*\w*\.?paragrafos|__html:\s*f\.(answer|question)/.test(fonte);
 });
 r.ok('o texto da categoria da loja nunca vai cru para o HTML', !injetaCategoria.length, injetaCategoria.join(', '));
+const semExemplo = Object.keys(daCategoria).filter(
+  c => !ler(replicasDaCategoria.get(c) ?? '').includes('.categoriaPadrao = categoriaDoExemplo(')
+);
+r.ok('toda peça com categoria expõe o exemplo (categoriaPadrao) para o painel partir dele', !semExemplo.length, semExemplo.join(', '));
 
 // Com UM produto, o card da grade de categoria não pode ocupar a largura toda:
 // \`repeat(auto-fit, …1fr)\` estica o item sozinho (a família 10 fazia isso);

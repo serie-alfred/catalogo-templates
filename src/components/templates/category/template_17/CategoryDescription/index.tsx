@@ -4,6 +4,7 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
+import { categoriaDoExemplo } from '@/utils/categoriaDaLoja';
 
 import styles from './index.module.css';
 
@@ -232,3 +233,6 @@ export default function CategoryDescription17() {
 
 /** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
 CategoryDescription17.conteudoPadrao = MOCK;
+
+/** A categoria de exemplo, para o painel partir do que a tela mostra (FichaDaCategoria). */
+CategoryDescription17.categoriaPadrao = categoriaDoExemplo({ paragrafos: PARAGRAFOS, perguntas: PERGUNTAS });

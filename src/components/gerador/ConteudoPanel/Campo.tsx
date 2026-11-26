@@ -63,7 +63,7 @@ function comCampo(obj: Objeto, chave: string, valor: ValorDeConteudo | undefined
 function resumoDoItem(item: ValorDeConteudo, schema: CampoDoSchema, i: number) {
   if (typeof item === 'string' && item.trim()) return item;
   if (ehObjeto(item))
-    for (const chave of ['label', 'title', 'name', 'text', 'eyebrow', 'kicker', 'author', 'method', 'network']) {
+    for (const chave of ['label', 'title', 'name', 'question', 'text', 'eyebrow', 'kicker', 'author', 'method', 'network']) {
       const v = item[chave];
       if (typeof v === 'string' && v.trim()) return v;
     }

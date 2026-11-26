@@ -19,7 +19,14 @@ export type CampoDaCategoria = 'name' | 'description' | 'faq';
  * em toda plataforma — então se editam aqui mesmo, na categoria do Conteúdo da
  * loja (a mesma que o título, a descrição e a grade de toda família leem).
  */
-export default function FichaDaCategoria({ campos }: { campos: readonly CampoDaCategoria[] }) {
+export default function FichaDaCategoria({
+  campos,
+  padrao = {},
+}: {
+  campos: readonly CampoDaCategoria[];
+  /** A categoria de exemplo da peça (`XNN.categoriaPadrao`): o valor de partida. */
+  padrao?: CategoriaDaPlp;
+}) {
   const { conteudoLoja, setCampoDaLoja } = useLayout();
   const categoria: CategoriaDaPlp =
     conteudoLoja?.categoria && typeof conteudoLoja.categoria === 'object'
@@ -40,17 +47,22 @@ export default function FichaDaCategoria({ campos }: { campos: readonly CampoDaC
     <div className={styles.campos} data-ficha-da-categoria>
       <p className={styles.daLoja}>
         Do cadastro da categoria: vale para o título, a descrição e a grade da página de
-        categoria, em toda plataforma. Vazio, a de exemplo.
+        categoria, em toda plataforma.
       </p>
       {campos.map(campo => (
         <div key={campo} className={styles.campoDaSecao} data-campo-categoria={campo}>
           <Campo
             chave={campo}
             schema={CAMPOS_DA_CATEGORIA[campo]}
-            valor={categoria[campo] as ValorDeConteudo | undefined}
+            valor={(categoria[campo] ?? padrao[campo]) as ValorDeConteudo | undefined}
             onChange={v => mudar(campo, v)}
             id={`categoria-${campo}`}
           />
+          {campo in categoria && (
+            <button type="button" className={styles.voltar} onClick={() => mudar(campo, undefined)}>
+              Voltar ao exemplo
+            </button>
+          )}
         </div>
       ))}
     </div>

@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
+import { categoriaDoExemplo } from '@/utils/categoriaDaLoja';
 
 import styles from './index.module.css';
 
@@ -119,3 +120,6 @@ export default function CategoryTitle17() {
 
 /** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
 CategoryTitle17.conteudoPadrao = MOCK;
+
+/** A categoria de exemplo, para o painel partir do que a tela mostra (FichaDaCategoria). */
+CategoryTitle17.categoriaPadrao = categoriaDoExemplo({ nome: TITULO, paragrafos: [DESCRICAO] });

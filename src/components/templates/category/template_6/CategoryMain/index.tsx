@@ -7,6 +7,7 @@ import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
+import { categoriaDoExemplo } from '@/utils/categoriaDaLoja';
 import CardDaLoja from '@/components/templates/CardDaLoja';
 import { ProductCard06, deProduto06, type ProdutoCard06 as Produto } from '@/components/templates/common/template_6/Spot/ProductCard06';
 
@@ -734,3 +735,6 @@ export default function CategoryMain() {
 
 /** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
 CategoryMain.conteudoPadrao = MOCK;
+
+/** A categoria de exemplo, para o painel partir do que a tela mostra (FichaDaCategoria). */
+CategoryMain.categoriaPadrao = categoriaDoExemplo({ nome: TITULO });

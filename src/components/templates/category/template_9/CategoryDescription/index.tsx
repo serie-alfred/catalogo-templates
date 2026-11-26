@@ -6,6 +6,7 @@ import styles from './index.module.css';
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
+import { categoriaDoExemplo } from '@/utils/categoriaDaLoja';
 
 /**
  * Espelha `organisms/CategorySeoFaq09` do faststore.starter (família 09, Editorial;
@@ -215,3 +216,6 @@ export default function CategoryDescription09() {
 
 /** O mock da seção, para o painel Conteúdo mostrar o valor de partida de cada campo. */
 CategoryDescription09.conteudoPadrao = MOCK;
+
+/** A categoria de exemplo, para o painel partir do que a tela mostra (FichaDaCategoria). */
+CategoryDescription09.categoriaPadrao = categoriaDoExemplo({ nome: NOME, sobreHtml: SOBRE_HTML, faqHtml: FAQ_HTML });

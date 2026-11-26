@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './index.module.css';
 import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
-import { paragrafosEmHtml } from '@/utils/categoriaDaLoja';
+import { paragrafosEmHtml, categoriaDoExemplo } from '@/utils/categoriaDaLoja';
 
 const EXEMPLO = {
   name: 'Nome da Categoria',
@@ -41,3 +41,6 @@ const CategoryDescription = () => {
 };
 
 export default CategoryDescription;
+
+/** A categoria de exemplo, para o painel partir do que a tela mostra (FichaDaCategoria). */
+CategoryDescription.categoriaPadrao = categoriaDoExemplo({ nome: EXEMPLO.name, sobreHtml: EXEMPLO.small_description });
