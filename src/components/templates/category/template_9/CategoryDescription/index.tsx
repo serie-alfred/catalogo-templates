@@ -5,6 +5,7 @@ import React, { useId, useState } from 'react';
 import styles from './index.module.css';
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
 
 /**
  * Espelha `organisms/CategorySeoFaq09` do faststore.starter (família 09, Editorial;
@@ -95,6 +96,17 @@ const Sinal = ({ aberto }: { aberto: boolean }) => (
 
 export default function CategoryDescription09() {
   const { titlePrefix, faqTitle, readMoreLabel, readLessLabel } = useConteudoDaSecao(MOCK);
+  // A categoria da loja (Conteúdo da loja → Página de categoria): nome, texto e
+  // FAQ do cadastro. O que vem dela é TEXTO; o HTML de exemplo só vale sem ela.
+  const categoria = useCategoriaDaLoja();
+  const nome = categoria?.name || NOME;
+  const paragrafos = categoria?.paragrafos.length ? categoria.paragrafos : null;
+  const temMais = paragrafos
+    ? paragrafos.length > 1 || paragrafos.join(' ').length > 280
+    : TEM_MAIS;
+  const perguntas: (Pergunta & { texto?: boolean })[] = categoria?.faq.length
+    ? categoria.faq.map(f => ({ q: f.question, a: f.answer, texto: true }))
+    : PERGUNTAS;
   const [aberto, setAberto] = useState(false);
   const [faqAberta, setFaqAberta] = useState<number | null>(0);
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
@@ -106,19 +118,33 @@ export default function CategoryDescription09() {
         <div className={styles.inner}>
           <div className={styles.about} data-role="cd-about">
             <h2 className={styles.title} data-role="cd-title">
-              {titulo || (
+              {(categoria ? '' : titulo) || (
                 <>
-                  {titlePrefix} <em>{NOME.toLocaleLowerCase('pt-BR')}</em>
+                  {titlePrefix} <em>{nome.toLocaleLowerCase('pt-BR')}</em>
                 </>
               )}
             </h2>
-            <div
-              id={`${uid}-texto`}
-              className={`${styles.text}${aberto || !TEM_MAIS ? '' : ` ${styles.textClamped}`}`}
-              data-role="cd-text"
-              dangerouslySetInnerHTML={{ __html: corpo }}
-            />
-            {TEM_MAIS && (
+            {paragrafos ? (
+              <div
+                id={`${uid}-texto`}
+                className={`${styles.text}${aberto || !temMais ? '' : ` ${styles.textClamped}`}`}
+                data-role="cd-text"
+              >
+                {paragrafos.map((p, i) => (
+                  <p key={i} style={{ whiteSpace: 'pre-line' }}>
+                    {p}
+                  </p>
+                ))}
+              </div>
+            ) : (
+              <div
+                id={`${uid}-texto`}
+                className={`${styles.text}${aberto || !temMais ? '' : ` ${styles.textClamped}`}`}
+                data-role="cd-text"
+                dangerouslySetInnerHTML={{ __html: corpo }}
+              />
+            )}
+            {temMais && (
               <button
                 type="button"
                 className={`${styles.more}${aberto ? ` ${styles.moreOpen}` : ''}`}
@@ -136,7 +162,7 @@ export default function CategoryDescription09() {
           <div className={styles.faq} data-role="cd-faq">
             {faqTitle && <span className={styles.faqTitle}>{faqTitle}</span>}
             <div className={styles.faqList}>
-              {PERGUNTAS.map((p, i) => {
+              {perguntas.map((p, i) => {
                 const on = faqAberta === i;
                 return (
                   <div key={i} className={styles.faqItem} data-role="cd-faq-item">
@@ -154,15 +180,28 @@ export default function CategoryDescription09() {
                         <Sinal aberto={on} />
                       </button>
                     </h3>
-                    <div
-                      id={`${uid}-a${i}`}
-                      role="region"
-                      aria-labelledby={`${uid}-q${i}`}
-                      className={styles.answer}
-                      hidden={!on}
-                      data-role="cd-answer"
-                      dangerouslySetInnerHTML={{ __html: p.a }}
-                    />
+                    {p.texto ? (
+                      <div
+                        id={`${uid}-a${i}`}
+                        role="region"
+                        aria-labelledby={`${uid}-q${i}`}
+                        className={styles.answer}
+                        hidden={!on}
+                        data-role="cd-answer"
+                      >
+                        <p style={{ whiteSpace: 'pre-line' }}>{p.a}</p>
+                      </div>
+                    ) : (
+                      <div
+                        id={`${uid}-a${i}`}
+                        role="region"
+                        aria-labelledby={`${uid}-q${i}`}
+                        className={styles.answer}
+                        hidden={!on}
+                        data-role="cd-answer"
+                        dangerouslySetInnerHTML={{ __html: p.a }}
+                      />
+                    )}
                   </div>
                 );
               })}

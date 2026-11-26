@@ -247,6 +247,23 @@ export const SCHEMA_DA_LOJA: Record<SlotDaLoja, CampoDoSchema> = {
       maxItems: 200,
     }
   ),
+  categoria: {
+    type: 'object',
+    title: ROTULO_DO_SLOT.categoria,
+    description:
+      'A categoria que a página de categoria mostra. Nas plataformas vem do cadastro da categoria no painel.',
+    properties: {
+      name: texto('Nome da categoria', 'Ex.: Vestidos.'),
+      description: {
+        ...texto('Descrição', 'Sem HTML; linha em branco separa parágrafos.'),
+        widget: { 'ui:widget': 'textarea' },
+      },
+      faq: lista('Perguntas frequentes', 'Pergunta', {
+        question: texto('Pergunta'),
+        answer: { ...texto('Resposta'), widget: { 'ui:widget': 'textarea' } },
+      }),
+    },
+  },
 };
 
 /** Os blocos do painel, na ordem em que o CS costuma preencher. */
@@ -257,4 +274,5 @@ export const GRUPOS_DA_LOJA: { titulo: string; slots: SlotDaLoja[] }[] = [
   { titulo: 'Rodapé', slots: ['dadosLegais', 'pagamentos', 'selos'] },
   { titulo: 'Banners e categorias', slots: ['banners', 'categorias'] },
   { titulo: 'Produtos', slots: ['produtos'] },
+  { titulo: 'Página de categoria', slots: ['categoria'] },
 ];

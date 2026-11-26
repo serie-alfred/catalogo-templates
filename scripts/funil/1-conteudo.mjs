@@ -118,6 +118,7 @@ const { projetarLoja, linkDoWhatsapp, linkDoTelefone, ROTULO_DO_SLOT, SLOTS_VINC
 const { sanitizarConteudoLoja, resolverConteudo } = await import(url('conteudo.ts'));
 const { partirDaPagina } = await import(url('lojaDaPagina.ts'));
 const { produtosDaLoja, normalizarProduto, MAX_PRODUTOS } = await import(url('produtos.ts'));
+const { categoriaDaLoja } = await import(url('categoriaDaLoja.ts'));
 const casos = [];
 const ok = (nome, cond, det = '') => casos.push({ nome, ok: !!cond, det: String(det) });
 const ano = new Date().getFullYear();
@@ -197,6 +198,10 @@ ok('01–08: com campo de CNPJ próprio, a linha legal não repete o CNPJ', f03?
 ok('01–08: socials com rótulo (Footer04–06) ganham o nome da rede', projetarLoja('Footer04', L08, { socials: [{ label: 'a', url: '#' }] }).conteudo?.socials?.[0].label === 'Facebook');
 ok('01–08: contactItems (Footer05) com rótulo e detalhe', projetarLoja('Footer05', L08, { contactItems: [{ label: 'a', detail: 'b' }] }).conteudo?.contactItems?.[0].detail === '(11) 98888-7777');
 ok('01–08: ajuda flutuante 06 (href) abre o WhatsApp da loja', projetarLoja('HelpFloat06', L08, { helpItems: [{ label: 'WhatsApp', icon: '', href: '#' }] }).conteudo?.helpItems?.[0].href === 'https://wa.me/5511988887777');
+// A categoria da página de categoria (src/utils/categoriaDaLoja.ts).
+const plp = categoriaDaLoja({ versao: 1, categoria: { name: ' Vestidos ', description: 'Um.\\n\\n  \\nDois\\nlinha', faq: [{ question: 'P?', answer: 'R.' }, { question: 'sem resposta' }] } });
+ok('categoria: nome aparado, parágrafos por linha em branco, FAQ só com pergunta e resposta', plp?.name === 'Vestidos' && plp.paragrafos.length === 2 && plp.paragrafos[1] === 'Dois\\nlinha' && plp.faq.length === 1, JSON.stringify(plp));
+ok('categoria: sem nada preenchido dá null (as peças ficam com a de exemplo)', categoriaDaLoja({ versao: 1, categoria: { name: '  ', faq: [{}] } }) === null && categoriaDaLoja(null) === null);
 // Produtos da loja (src/utils/produtos.ts): o que o CS cadastra pela metade sai completo.
 ok('produtos: loja sem produto (ou só linhas em branco) dá null — as peças ficam com os de exemplo', produtosDaLoja(null) === null && produtosDaLoja({ versao: 1, produtos: [] }) === null && produtosDaLoja({ versao: 1, produtos: [{ price: 10 }, { name: '  ' }] }) === null);
 const pr = normalizarProduto({ name: 'Tênis', price: 300, listPrice: 400, installments: 3, images: [{ productImage: '/a.webp' }, {}, { productImage: '/b.webp' }] }, 0);

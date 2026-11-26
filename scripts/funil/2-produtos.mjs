@@ -51,9 +51,15 @@ const LOJA = {
     },
     { name: 'MARCADOR-PROD-DOIS', price: 89 },
   ],
+  // A categoria da página de categoria (nome, descrição, FAQ), do cadastro na plataforma.
+  categoria: {
+    name: 'MARCADOR-CAT-NOME',
+    description: 'MARCADOR-CAT-P1\n\nMARCADOR-CAT-P2 <b>sem html</b>',
+    faq: [{ question: 'MARCADOR-CAT-PERGUNTA', answer: 'MARCADOR-CAT-RESPOSTA' }],
+  },
 };
 
-const selecoes = ['Header09', 'Showcase09', 'Spot09', 'CategoryMain09', 'ProductInfo09', 'ProductDescription09', 'ProductRelated09', 'Footer09'].map(secao);
+const selecoes = ['Header09', 'Showcase09', 'Spot09', 'CategoryTitle09', 'CategoryMain09', 'CategoryDescription09', 'ProductInfo09', 'ProductDescription09', 'ProductRelated09', 'Footer09'].map(secao);
 
 const browser = await abrirBrowser();
 try {
@@ -150,6 +156,24 @@ try {
       plp.cards === 2 && plp.texto.includes('MARCADOR-PROD-UM') && plp.texto.includes('MARCADOR-PROD-DOIS'),
       `${plp.cards} cards`
     );
+    const cat = await aba.evaluate(() => {
+      const titulo = document.querySelector('[data-selection="category-title"]')?.textContent ?? '';
+      const desc = document.querySelector('[data-role="cd-root"]');
+      return {
+        titulo,
+        paragrafos: [...(desc?.querySelectorAll('[data-role="cd-text"] p') ?? [])].map(p => p.textContent.trim()),
+        negrito: !!desc?.querySelector('[data-role="cd-text"] b'),
+        tituloDaDescricao: desc?.querySelector('[data-role="cd-title"]')?.textContent ?? '',
+        faq: desc?.querySelector('[data-role="cd-faq"]')?.textContent ?? '',
+      };
+    });
+    r.ok('/p/categoria: o título é o nome da categoria da loja, com a contagem dos produtos (2)', cat.titulo.includes('MARCADOR-CAT-NOME') && cat.titulo.includes('(2)'), cat.titulo.slice(0, 80));
+    r.ok(
+      '/p/categoria: a descrição é a da categoria, em parágrafos de texto (sem HTML)',
+      cat.paragrafos.length === 2 && cat.paragrafos[1].includes('<b>sem html</b>') && !cat.negrito && cat.tituloDaDescricao.includes('marcador-cat-nome'),
+      JSON.stringify(cat.paragrafos)
+    );
+    r.ok('/p/categoria: o FAQ é o da categoria', cat.faq.includes('MARCADOR-CAT-PERGUNTA') && cat.faq.includes('MARCADOR-CAT-RESPOSTA'), cat.faq.slice(0, 80));
 
     await abrir(`${base}/produto`);
     const pdp = await aba.evaluate(() => {

@@ -39,6 +39,7 @@ export const ROTULO_DO_SLOT: Record<SlotDaLoja, string> = {
   banners: 'Banners principais',
   categorias: 'Categorias',
   produtos: 'Produtos',
+  categoria: 'Página de categoria',
 };
 
 type Objeto = { [chave: string]: ValorDeConteudo };

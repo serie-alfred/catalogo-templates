@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import styles from './index.module.css';
 import { FONTES_09 } from '@/components/templates/common/template_9/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 /**
  * Espelha `organisms/CategoryTitle09` do faststore.starter (família 09, Editorial;
@@ -40,6 +42,10 @@ const SUBCATS: Subcat[] = [
 
 export default function CategoryTitle09() {
   const { allLabel } = useConteudoDaSecao(MOCK);
+  // O nome é o da categoria da loja; a contagem, a dos produtos da loja (a mesma
+  // da grade). Sem eles, os de exemplo.
+  const nome = useCategoriaDaLoja()?.name || TITULO;
+  const total = useProdutosDaLoja()?.length ?? TOTAL;
   const [ativa, setAtiva] = useState('');
 
   const escolher = (e: React.MouseEvent, value: string) => {
@@ -53,9 +59,9 @@ export default function CategoryTitle09() {
       <header className={styles.categoryTitle09} data-role="ct-root">
         <div className={styles.inner}>
           <h1 className={styles.title} data-role="ct-title">
-            {TITULO}
+            {nome}
             <sup className={styles.count} data-role="ct-count">
-              ({TOTAL})
+              ({total})
             </sup>
           </h1>
           <ul className={styles.chips} aria-label="Subcategorias" data-role="ct-chips">

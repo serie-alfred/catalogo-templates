@@ -213,4 +213,17 @@ export interface ConteudoLoja {
    * Até 200 (é um preview).
    */
   produtos?: ProdutoDaLoja[];
+  /**
+   * A categoria que a página de categoria mostra: nome, descrição e perguntas
+   * frequentes. Nas plataformas isso vem do cadastro da categoria no painel,
+   * não do CMS da seção — por isso mora na loja, e toda família lê daqui.
+   */
+  categoria?: CategoriaDaPlp;
+}
+
+export interface CategoriaDaPlp {
+  name?: string;
+  /** Texto puro (o /p é público); linha em branco separa parágrafos. */
+  description?: string;
+  faq?: { question?: string; answer?: string }[];
 }
