@@ -15,6 +15,7 @@
     "thumbs:templates": "node scripts/thumbs/templates.mjs",
     "derivar:css": "node scripts/derivar-css.mjs",
     "derivar:conteudo": "node scripts/derivar-conteudo.mjs",
+    "derivar:editaveis": "node scripts/derivar-editaveis.mjs",
     "nivel1:tokens": "node scripts/nivel1-tokens.mjs",
     "alcance": "node scripts/funil/alcance.mjs"
   },

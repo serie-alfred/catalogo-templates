@@ -265,6 +265,7 @@ export default function FrameClient() {
             pagina={content.pagina}
             isMobile={content.isMobile}
             conteudoLoja={content.conteudoLoja}
+            platform={content.platform}
           />
         </EstadoNoCanvasContext.Provider>
       </div>

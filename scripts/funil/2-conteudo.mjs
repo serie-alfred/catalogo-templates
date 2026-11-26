@@ -21,7 +21,7 @@
 import path from 'node:path';
 
 import { BASE_URL, RAIZ, espera, itens, relatorio } from './lib/util.mjs';
-import { abrirBrowser, novaAba, semear } from './lib/editor.mjs';
+import { abrirBrowser, novaAba, semear, trocarPagina } from './lib/editor.mjs';
 
 const r = relatorio('2-conteudo · o conteúdo do CS no canvas e no /p');
 
@@ -474,6 +474,39 @@ try {
   );
   const svg = (await fetch(`${BASE_URL}/gerador/api/midias`, { method: 'POST', body: formSvg })).status;
   r.ok('upload: o servidor recusa SVG (confere os bytes, não o tipo declarado)', svg === 415, `HTTP ${svg}`);
+
+  // ── Só o que o lojista da plataforma muda (src/utils/editaveis.ts) ──────
+  // A PDP da Wake não tem Design Studio: o texto do CS no botão de comprar não
+  // chega à loja, então o canvas desenha o do tema e o painel não oferece o campo.
+  const wake = await novaAba(browser);
+  const pdpWake = secao('ProductInfo09', { buyLabel: 'MARCADOR-WAKE-COMPRAR' });
+  await semear(wake.page, { plataforma: 'Wake 2.0', selecoes: [pdpWake] });
+  await trocarPagina(wake.page, 'product');
+  const botaoNaWake = await wake.page
+    .waitForFunction(
+      u => document.querySelector('iframe')?.contentDocument?.querySelector(`[data-section-uid="${u}"]`)?.innerText,
+      { timeout: 60000, polling: 250 },
+      pdpWake.uid
+    )
+    .then(h => h.jsonValue())
+    .catch(() => '');
+  r.ok(
+    'Wake: a PDP desenha o botão fixo do tema, não o texto do CS',
+    botaoNaWake && !botaoNaWake.includes('MARCADOR-WAKE-COMPRAR') && /Adicionar à sacola/i.test(botaoNaWake),
+    botaoNaWake ? botaoNaWake.slice(0, 120) : 'a seção não montou'
+  );
+  await wake.page.click('[data-aba-direita="conteudo"]');
+  await (await (await wake.page.$('iframe')).contentFrame()).click(`[data-section-uid="${pdpWake.uid}"]`);
+  const painelNaWake = await wake.page
+    .waitForSelector('[data-sem-editaveis="Wake 2.0"]', { timeout: 15000 })
+    .then(() => wake.page.$$eval('[data-campo-conteudo]', l => l.length))
+    .catch(() => -1);
+  r.ok(
+    'Wake: o painel da PDP não oferece texto e diz que ele fica no tema',
+    painelNaWake === 0,
+    painelNaWake < 0 ? 'sem o aviso [data-sem-editaveis]' : `${painelNaWake} campos`
+  );
+  erros.push(...wake.erros);
 
   r.ok('o editor sem erro de página', erros.length === 0, erros.join(' | '));
 } finally {

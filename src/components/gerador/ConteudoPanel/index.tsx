@@ -8,6 +8,8 @@ import camposDasReplicas from '@/data/conteudo/campos.generated.json';
 import type { CampoDoSchema, SchemaDeConteudo, ValorDeConteudo } from '@/types/conteudo';
 import { resolverConteudo, sanitizarConteudoLoja } from '@/utils/conteudo';
 import { projetarLoja, ROTULO_DO_SLOT } from '@/utils/conteudoLoja';
+import { camposEditaveis } from '@/utils/editaveis';
+import { rotuloDaPlataforma } from '@/types/platform';
 import { pedirFocoNaLoja } from '@/utils/focoNaLoja';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import Campo from './Campo';
@@ -21,7 +23,9 @@ import styles from './index.module.css';
  * - Os campos são os do `section.schema` do starter (`schemas.generated.json`,
  *   744 KB, por isso carregado sob demanda), filtrados pelos que a réplica
  *   DESENHA (`campos.generated.json`): o conteúdo é só preview, e campo sem
- *   efeito na tela só confundiria o CS.
+ *   efeito na tela só confundiria o CS. E só os que o lojista da plataforma
+ *   escolhida consegue mudar depois (src/utils/editaveis.ts): o resto fica fixo
+ *   no tema, e oferecê-lo aqui seria prometer um texto que o cliente não troca.
  * - O valor de partida de cada campo é o mock da peça (`XNN.conteudoPadrao`),
  *   com o que o CS já mudou por cima — o mesmo `resolverConteudo` do render.
  * - Mexeu num campo, ele fica "personalizado" e ganha o "Voltar ao padrão".
@@ -62,6 +66,7 @@ export default function ConteudoPanel() {
     resetConteudoDaSecao,
     conteudoLoja,
     setRailTarget,
+    platform,
   } = useLayout();
   // O mesmo filtro do ThemeRenderer: o painel mostra o que o canvas desenha.
   const loja = useMemo(() => sanitizarConteudoLoja(conteudoLoja), [conteudoLoja]);
@@ -138,15 +143,34 @@ export default function ConteudoPanel() {
   }
 
   const schema = schemas[layoutItem.component]?.schema;
-  const campos: [string, CampoDoSchema][] = schema
+  const editaveis = camposEditaveis(platform, layoutItem.component);
+  const doSchema: [string, CampoDoSchema][] = schema
     ? Object.entries(schema.properties).filter(([chave]) => desenhados.includes(chave))
     : [];
+  const campos = editaveis
+    ? doSchema.filter(([chave]) => editaveis.includes(chave))
+    : doSchema;
   if (!campos.length) {
-    if (avisoDeProdutos) return <div className={styles.painel}>{avisoDeProdutos}</div>;
-    return (
-      <p className={styles.vazio}>
-        <strong>{layoutItem.title}</strong> não tem campos de conteúdo.
+    const fixos = doSchema.length > 0 && (
+      <p className={styles.vazio} data-sem-editaveis={platform ?? undefined}>
+        Em <strong>{rotuloDaPlataforma(platform ?? '')}</strong>, os textos de{' '}
+        <strong>{layoutItem.title}</strong> ficam no código do tema: o lojista não os muda
+        depois de publicado.
       </p>
+    );
+    if (avisoDeProdutos)
+      return (
+        <div className={styles.painel}>
+          {avisoDeProdutos}
+          {fixos}
+        </div>
+      );
+    return (
+      fixos || (
+        <p className={styles.vazio}>
+          <strong>{layoutItem.title}</strong> não tem campos de conteúdo.
+        </p>
+      )
     );
   }
 

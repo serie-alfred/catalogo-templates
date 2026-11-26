@@ -32,3 +32,11 @@ export const SecaoConteudoContext =
  * snapshot. `null` = loja sem conteúdo, cada seção mostra o próprio.
  */
 export const ConteudoLojaContext = createContext<ConteudoLoja | null>(null);
+
+/**
+ * A plataforma do tema, posta pelo `ThemeRenderer`: o conteúdo da seção só vale
+ * nos campos que o lojista dela consegue mudar (src/utils/editaveis.ts); nos
+ * outros o template desenha o mock, que é o texto fixo do tema. `null` = sem
+ * restrição.
+ */
+export const PlataformaContext = createContext<string | null>(null);

@@ -40,6 +40,7 @@ export default function ExportStage() {
     desktopPreviewRef,
     mobilePreviewRef,
     conteudoLoja,
+    platform,
   } = useLayout();
 
   if (!isCapturing) return null;
@@ -65,6 +66,7 @@ export default function ExportStage() {
           isMobile={false}
           stickyHeader={false}
           conteudoLoja={conteudoLoja}
+          platform={platform}
         />
       </div>
       <div
@@ -77,6 +79,7 @@ export default function ExportStage() {
           isMobile
           stickyHeader={false}
           conteudoLoja={conteudoLoja}
+          platform={platform}
         />
       </div>
     </div>

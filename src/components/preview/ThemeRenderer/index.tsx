@@ -8,6 +8,7 @@ import { selectionsForPage } from '@/utils/previewRender';
 import { SecaoUidContext } from '@/hooks/useAbrirNoCanvas';
 import {
   ConteudoLojaContext,
+  PlataformaContext,
   SecaoConteudoContext,
 } from '@/context/ConteudoContext';
 import type { ConteudoDaSecao, ConteudoLoja } from '@/types/conteudo';
@@ -30,6 +31,11 @@ interface ThemeRendererProps {
    * todas as superfícies — no /p ele vem do snapshot, que é público.
    */
   conteudoLoja?: ConteudoLoja | null;
+  /**
+   * A plataforma do tema: o conteúdo só vale nos campos que o lojista dela muda
+   * (src/utils/editaveis.ts). `null` = sem restrição.
+   */
+  platform?: string | null;
 }
 
 /** Shallow compare de um Record<string,string>. As variáveis por instância são
@@ -170,6 +176,7 @@ function ThemeRenderer({
   stickyHeader = true,
   selectedUid = null,
   conteudoLoja = null,
+  platform = null,
 }: ThemeRendererProps) {
   const items = selectionsForPage(selections, pagina);
   const loja = React.useMemo(
@@ -198,30 +205,32 @@ function ThemeRenderer({
     .join('');
 
   return (
-    <ConteudoLojaContext.Provider value={loja}>
-      {estiloDosCards && <style data-cards-do-spot>{estiloDosCards}</style>}
-      {items.map(item => {
-        const layoutItem = LAYOUTS[item.layoutKey].items.find(
-          it => it.id === item.id
-        );
-        if (!layoutItem) return null;
+    <PlataformaContext.Provider value={platform}>
+      <ConteudoLojaContext.Provider value={loja}>
+        {estiloDosCards && <style data-cards-do-spot>{estiloDosCards}</style>}
+        {items.map(item => {
+          const layoutItem = LAYOUTS[item.layoutKey].items.find(
+            it => it.id === item.id
+          );
+          if (!layoutItem) return null;
 
-        return (
-          <Secao
-            key={item.uid}
-            uid={item.uid}
-            titulo={layoutItem.title}
-            selection={layoutItem.selection}
-            componentKey={layoutItem.component}
-            variaveis={item.variables}
-            conteudo={item.content}
-            selecionada={item.uid === selectedUid}
-            sticky={item.layoutKey === 'header' && stickyHeader}
-            isMobile={isMobile}
-          />
-        );
-      })}
-    </ConteudoLojaContext.Provider>
+          return (
+            <Secao
+              key={item.uid}
+              uid={item.uid}
+              titulo={layoutItem.title}
+              selection={layoutItem.selection}
+              componentKey={layoutItem.component}
+              variaveis={item.variables}
+              conteudo={item.content}
+              selecionada={item.uid === selectedUid}
+              sticky={item.layoutKey === 'header' && stickyHeader}
+              isMobile={isMobile}
+            />
+          );
+        })}
+      </ConteudoLojaContext.Provider>
+    </PlataformaContext.Provider>
   );
 }
 

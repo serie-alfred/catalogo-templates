@@ -251,6 +251,22 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
   `src/data/conteudo/schemas.generated.json` (275 componentes com schema; 44 sem — cards,
   breadcrumbs e relacionados, que vivem do catálogo da plataforma). Não edite à mão. O arquivo tem
   744 KB e só pode entrar no bundle por import dinâmico (o formulário da fase 1).
+- **Só o que o lojista muda depois** (26/11/2026): campo que o lojista da plataforma escolhida
+  consegue trocar de algum jeito (CMS, Design Studio, painel do tema, Gestor de Menu, cadastro) fica
+  no painel; o que fica fixo no código do tema **some** — não há aviso por campo, e o preview desenha
+  o mock nele (`useConteudoDaSecao` filtra Nível 1 e loja). `yarn derivar:editaveis` gera
+  `src/data/conteudo/editaveis.generated.json` dos portes em `../global-templates`: **VTEX** não
+  entra (o painel é o CMS); **Wake** por pasta (`<selection>.schema.json` ou `global: true` = tudo;
+  sem bloco, só o menu de `menu_groups`; PDP e header não são bloco; o **rodapé** é exceção e fica
+  inteiro, como na VTEX, porque o cliente pede troca de texto e link depois; os globais — pop-up de
+  newsletter, ajuda flutuante — são Conteúdos da Wake e ficam inteiros); **Tray**
+  (`settings-content.html` + `settings.X|default('…')`) e **Nuvemshop** (settings do `.tpl`) por
+  campo: o texto do mock é o padrão do setting que o troca; imagem/link/data/menu pelo tipo de
+  setting da pasta; logo, nome, redes, pagamento e linha legal por evidência (`POR_EVIDENCIA`).
+  Lido por `src/utils/editaveis.ts`; o `ThemeRenderer` recebe `platform` em todas as superfícies.
+  Produtos e a categoria da loja (nome, descrição, FAQ) não passam pelo filtro: são cadastro, editáveis
+  em toda plataforma. Inventários que fundamentaram: `docs/INVENTARIO-EDITAVEL-{WAKE,TRAY,NUVEMSHOP}.md`.
+  Mexeu num porte ou num mock: rode o derivador (o `1-conteudo` reprova o arquivo velho).
 - **Template**: lê conteúdo SÓ por `useConteudoDaSecao(MOCK)` — `const MOCK: XConteudo = {…}` com os
   nomes de campo do schema; a `interface XConteudo` é o contrato (o `1-conteudo` reprova campo que não
   existe no schema). Migrar um componente é também desenhar os campos do schema que a réplica não

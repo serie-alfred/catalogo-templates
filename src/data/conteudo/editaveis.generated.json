@@ -1,0 +1,6535 @@
+{
+  "$gerado": "yarn derivar:editaveis, dos portes em global-templates (Wake: bloco/global/Gestor de Menu; Tray: painel do tema; Nuvemshop: settings). VTEX não entra: lá vale o schema do CMS inteiro. Não edite à mão.",
+  "componentes": {
+    "BannerCarousel06": {
+      "Tray": [
+        "sectionTitle",
+        "cards"
+      ],
+      "Wake 2.0": [
+        "sectionTitle",
+        "cards"
+      ],
+      "Nuvemshop": [
+        "sectionTitle",
+        "cards"
+      ]
+    },
+    "BannerDuplo02": {
+      "Tray": [],
+      "Wake 2.0": [
+        "title",
+        "banners"
+      ],
+      "Nuvemshop": [
+        "title",
+        "banners"
+      ]
+    },
+    "BannerFull01": {
+      "Tray": [
+        "desktopSrc",
+        "mobileSrc",
+        "alt"
+      ],
+      "Wake 2.0": [
+        "desktopSrc",
+        "mobileSrc",
+        "href",
+        "alt",
+        "width",
+        "height"
+      ],
+      "Nuvemshop": [
+        "desktopSrc",
+        "mobileSrc",
+        "alt"
+      ]
+    },
+    "BannerFull02": {
+      "Tray": [
+        "desktopSrc",
+        "mobileSrc",
+        "alt"
+      ],
+      "Wake 2.0": [
+        "desktopSrc",
+        "mobileSrc",
+        "alt",
+        "href"
+      ],
+      "Nuvemshop": [
+        "desktopSrc",
+        "mobileSrc",
+        "alt"
+      ]
+    },
+    "BannerFull05": {
+      "Tray": [
+        "desktopImage",
+        "mobileImage",
+        "alt"
+      ],
+      "Wake 2.0": [
+        "desktopImage",
+        "mobileImage",
+        "alt",
+        "link"
+      ],
+      "Nuvemshop": [
+        "desktopImage",
+        "mobileImage",
+        "alt"
+      ]
+    },
+    "BannerFullCategory02": {
+      "Tray": [],
+      "Wake 2.0": [
+        "desktopSrc",
+        "mobileSrc",
+        "alt",
+        "href"
+      ],
+      "Nuvemshop": [
+        "desktopSrc",
+        "mobileSrc",
+        "alt"
+      ]
+    },
+    "BannerGrid01": {
+      "Tray": [],
+      "Wake 2.0": [
+        "sectionTitle",
+        "mainBanner",
+        "secondaryBanners"
+      ],
+      "Nuvemshop": []
+    },
+    "BannerGrid06": {
+      "Tray": [
+        "sectionTitle"
+      ],
+      "Wake 2.0": [
+        "sectionTitle",
+        "cards"
+      ],
+      "Nuvemshop": [
+        "sectionTitle",
+        "cards"
+      ]
+    },
+    "BannerGrid09": {
+      "Tray": [
+        "eyebrow",
+        "note",
+        "banners"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "note",
+        "banners"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "note",
+        "banners"
+      ]
+    },
+    "BannerGrid10": {
+      "Tray": [
+        "banners"
+      ],
+      "Wake 2.0": [
+        "banners"
+      ],
+      "Nuvemshop": [
+        "banners"
+      ]
+    },
+    "BannerGrid11": {
+      "Tray": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "banners",
+        "manifesto"
+      ],
+      "Wake 2.0": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "banners",
+        "manifesto"
+      ],
+      "Nuvemshop": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "banners",
+        "manifesto"
+      ]
+    },
+    "BannerGrid12": {
+      "Tray": [
+        "banners"
+      ],
+      "Wake 2.0": [
+        "banners"
+      ],
+      "Nuvemshop": [
+        "banners"
+      ]
+    },
+    "BannerGrid13": {
+      "Tray": [
+        "banners"
+      ],
+      "Wake 2.0": [
+        "banners"
+      ],
+      "Nuvemshop": [
+        "banners"
+      ]
+    },
+    "BannerGrid14": {
+      "Tray": [
+        "banners"
+      ],
+      "Wake 2.0": [
+        "banners"
+      ],
+      "Nuvemshop": [
+        "banners"
+      ]
+    },
+    "BannerGrid15": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "banners"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "banners"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "banners"
+      ]
+    },
+    "BannerGrid16": {
+      "Tray": [
+        "banners"
+      ],
+      "Wake 2.0": [
+        "banners"
+      ],
+      "Nuvemshop": [
+        "banners"
+      ]
+    },
+    "BannerGrid17": {
+      "Tray": [
+        "banners"
+      ],
+      "Wake 2.0": [
+        "banners"
+      ],
+      "Nuvemshop": [
+        "banners"
+      ]
+    },
+    "BannerMain01": {
+      "Tray": [],
+      "Wake 2.0": [
+        "desktopSlides",
+        "mobileSlides"
+      ],
+      "Nuvemshop": []
+    },
+    "BannerMain06": {
+      "Tray": [],
+      "Wake 2.0": [
+        "banners"
+      ],
+      "Nuvemshop": []
+    },
+    "BannerMain07": {
+      "Tray": [],
+      "Wake 2.0": [
+        "banners"
+      ],
+      "Nuvemshop": []
+    },
+    "BannerMain08": {
+      "Tray": [
+        "eyebrow"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "titleMobile",
+        "description",
+        "image"
+      ],
+      "Nuvemshop": [
+        "eyebrow"
+      ]
+    },
+    "BannerMain09": {
+      "Tray": [
+        "slides"
+      ],
+      "Wake 2.0": [
+        "slides"
+      ],
+      "Nuvemshop": [
+        "slides"
+      ]
+    },
+    "BannerMain10": {
+      "Tray": [
+        "promos"
+      ],
+      "Wake 2.0": [
+        "slides",
+        "promos"
+      ],
+      "Nuvemshop": [
+        "promos"
+      ]
+    },
+    "BannerMain11": {
+      "Tray": [
+        "slides"
+      ],
+      "Wake 2.0": [
+        "slides"
+      ],
+      "Nuvemshop": [
+        "slides"
+      ]
+    },
+    "BannerMain12": {
+      "Tray": [
+        "slides"
+      ],
+      "Wake 2.0": [
+        "slides"
+      ],
+      "Nuvemshop": [
+        "slides"
+      ]
+    },
+    "BannerMain13": {
+      "Tray": [
+        "slides"
+      ],
+      "Wake 2.0": [
+        "slides"
+      ],
+      "Nuvemshop": [
+        "slides"
+      ]
+    },
+    "BannerMain14": {
+      "Tray": [
+        "slides"
+      ],
+      "Wake 2.0": [
+        "slides"
+      ],
+      "Nuvemshop": [
+        "slides"
+      ]
+    },
+    "BannerMain15": {
+      "Tray": [
+        "slides"
+      ],
+      "Wake 2.0": [
+        "slides"
+      ],
+      "Nuvemshop": [
+        "slides"
+      ]
+    },
+    "BannerMain16": {
+      "Tray": [
+        "slides"
+      ],
+      "Wake 2.0": [
+        "slides"
+      ],
+      "Nuvemshop": [
+        "slides"
+      ]
+    },
+    "BannerMain17": {
+      "Tray": [
+        "slides"
+      ],
+      "Wake 2.0": [
+        "slides"
+      ],
+      "Nuvemshop": [
+        "slides"
+      ]
+    },
+    "BannerSide01": {
+      "Tray": [
+        "leftImg",
+        "rightImg"
+      ],
+      "Wake 2.0": [
+        "leftImg",
+        "leftLink",
+        "leftTitle",
+        "leftWidth",
+        "leftHeight",
+        "rightImg",
+        "rightLink",
+        "rightTitle",
+        "rightWidth",
+        "rightHeight"
+      ],
+      "Nuvemshop": [
+        "leftImg",
+        "rightImg"
+      ]
+    },
+    "BannerSide02": {
+      "Tray": [
+        "src",
+        "alt"
+      ],
+      "Wake 2.0": [
+        "title",
+        "text",
+        "src",
+        "alt",
+        "href"
+      ],
+      "Nuvemshop": [
+        "title",
+        "text",
+        "src",
+        "alt",
+        "href"
+      ]
+    },
+    "BannerSide06": {
+      "Tray": [
+        "cards"
+      ],
+      "Wake 2.0": [
+        "cards"
+      ],
+      "Nuvemshop": [
+        "cards"
+      ]
+    },
+    "BannerSolo04": {
+      "Tray": [
+        "image",
+        "alt"
+      ],
+      "Wake 2.0": [
+        "image",
+        "alt",
+        "link",
+        "title",
+        "text",
+        "ctaLabel",
+        "ctaUrl"
+      ],
+      "Nuvemshop": [
+        "image",
+        "alt",
+        "link",
+        "title",
+        "text",
+        "ctaLabel",
+        "ctaUrl"
+      ]
+    },
+    "BannerSoloLeft05": {
+      "Tray": [
+        "image",
+        "alt"
+      ],
+      "Wake 2.0": [
+        "image",
+        "alt",
+        "title",
+        "description",
+        "buttonLabel",
+        "link"
+      ],
+      "Nuvemshop": [
+        "image",
+        "alt",
+        "title",
+        "description",
+        "buttonLabel",
+        "link"
+      ]
+    },
+    "BannerSoloLeft07": {
+      "Tray": [
+        "image"
+      ],
+      "Wake 2.0": [
+        "image",
+        "quote",
+        "eyebrow",
+        "title",
+        "body",
+        "linkLabel",
+        "linkUrl"
+      ],
+      "Nuvemshop": [
+        "image",
+        "quote",
+        "eyebrow",
+        "title",
+        "body",
+        "linkLabel",
+        "linkUrl"
+      ]
+    },
+    "BannerTop01": {
+      "Tray": [],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "desktopImage",
+        "mobileImage",
+        "alt"
+      ]
+    },
+    "BannerTriple05": {
+      "Tray": [],
+      "Wake 2.0": [
+        "banners"
+      ],
+      "Nuvemshop": [
+        "banners"
+      ]
+    },
+    "BannerTriple06": {
+      "Tray": [],
+      "Wake 2.0": [
+        "banners"
+      ],
+      "Nuvemshop": [
+        "banners"
+      ]
+    },
+    "BannerTripleSwiper05": {
+      "Tray": [],
+      "Wake 2.0": [
+        "banners"
+      ],
+      "Nuvemshop": [
+        "banners"
+      ]
+    },
+    "Brand01": {
+      "Tray": [],
+      "Wake 2.0": [
+        "brands"
+      ],
+      "Nuvemshop": []
+    },
+    "Brand09": {
+      "Tray": [
+        "eyebrow",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ]
+    },
+    "Brand10": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl"
+      ]
+    },
+    "Brand11": {
+      "Tray": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Wake 2.0": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Nuvemshop": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl"
+      ]
+    },
+    "Brand12": {
+      "Tray": [
+        "title",
+        "brands"
+      ],
+      "Wake 2.0": [
+        "title",
+        "brands"
+      ],
+      "Nuvemshop": [
+        "title",
+        "brands"
+      ]
+    },
+    "Brand13": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ]
+    },
+    "Brand14": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl"
+      ]
+    },
+    "Brand15": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "viewAllLabel",
+        "viewAllUrl"
+      ]
+    },
+    "Brand16": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl"
+      ]
+    },
+    "Brand17": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "brands"
+      ]
+    },
+    "BuySize06": {
+      "Tray": [
+        "sectionTitle",
+        "allLabel",
+        "allLink"
+      ],
+      "Wake 2.0": [
+        "sectionTitle",
+        "sizes",
+        "allLabel",
+        "allLink"
+      ],
+      "Nuvemshop": [
+        "sectionTitle",
+        "sizes",
+        "allLabel",
+        "allLink"
+      ]
+    },
+    "Categories01": {
+      "Tray": [],
+      "Wake 2.0": [
+        "title",
+        "categories"
+      ],
+      "Nuvemshop": []
+    },
+    "Categories07": {
+      "Tray": [
+        "title"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories",
+        "categoriesMobile"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories",
+        "categoriesMobile"
+      ]
+    },
+    "Categories08": {
+      "Tray": [
+        "categories"
+      ],
+      "Wake 2.0": [
+        "categories"
+      ],
+      "Nuvemshop": [
+        "categories"
+      ]
+    },
+    "Categories09": {
+      "Tray": [
+        "title",
+        "titleEmphasis",
+        "viewAllLabel",
+        "viewAllUrl",
+        "itemLinkLabel",
+        "categories"
+      ],
+      "Wake 2.0": [
+        "title",
+        "titleEmphasis",
+        "viewAllLabel",
+        "viewAllUrl",
+        "itemLinkLabel",
+        "categories"
+      ],
+      "Nuvemshop": [
+        "title",
+        "titleEmphasis",
+        "viewAllLabel",
+        "viewAllUrl",
+        "itemLinkLabel",
+        "categories"
+      ]
+    },
+    "Categories10": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ]
+    },
+    "Categories11": {
+      "Tray": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ],
+      "Wake 2.0": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ],
+      "Nuvemshop": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ]
+    },
+    "Categories12": {
+      "Tray": [
+        "title",
+        "subtitle",
+        "categories"
+      ],
+      "Wake 2.0": [
+        "title",
+        "subtitle",
+        "categories"
+      ],
+      "Nuvemshop": [
+        "title",
+        "subtitle",
+        "categories"
+      ]
+    },
+    "Categories13": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ]
+    },
+    "Categories14": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ]
+    },
+    "Categories15": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "linkLabel",
+        "categories"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "linkLabel",
+        "categories"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "linkLabel",
+        "categories"
+      ]
+    },
+    "Categories16": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ]
+    },
+    "Categories17": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "categories"
+      ]
+    },
+    "CategoryDescription06": {
+      "Tray": [
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Wake 2.0": [
+        "faqTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Nuvemshop": [
+        "readMoreLabel",
+        "readLessLabel"
+      ]
+    },
+    "CategoryDescription09": {
+      "Tray": [
+        "titlePrefix",
+        "faqTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Wake 2.0": [
+        "titlePrefix",
+        "faqTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Nuvemshop": [
+        "titlePrefix",
+        "faqTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ]
+    },
+    "CategoryDescription10": {
+      "Tray": [
+        "faqTitle",
+        "aboutTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Wake 2.0": [
+        "faqTitle",
+        "aboutTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Nuvemshop": [
+        "faqTitle",
+        "aboutTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ]
+    },
+    "CategoryDescription11": {
+      "Tray": [
+        "aboutEyebrow",
+        "aboutTitle",
+        "faqEyebrow",
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Wake 2.0": [
+        "aboutEyebrow",
+        "aboutTitle",
+        "faqEyebrow",
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Nuvemshop": [
+        "aboutEyebrow",
+        "aboutTitle",
+        "faqEyebrow",
+        "readMoreLabel",
+        "readLessLabel"
+      ]
+    },
+    "CategoryDescription12": {
+      "Tray": [
+        "aboutEyebrow",
+        "aboutTitle",
+        "faqTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Wake 2.0": [
+        "aboutEyebrow",
+        "aboutTitle",
+        "faqTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Nuvemshop": [
+        "aboutEyebrow",
+        "aboutTitle",
+        "faqTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ]
+    },
+    "CategoryDescription13": {
+      "Tray": [
+        "aboutTitle",
+        "faqTitle"
+      ],
+      "Wake 2.0": [
+        "aboutTitle",
+        "faqTitle"
+      ],
+      "Nuvemshop": [
+        "aboutTitle",
+        "faqTitle"
+      ]
+    },
+    "CategoryDescription14": {
+      "Tray": [
+        "eyebrow",
+        "aboutTitle",
+        "faqTitle"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "aboutTitle",
+        "faqTitle"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "aboutTitle",
+        "faqTitle"
+      ]
+    },
+    "CategoryDescription15": {
+      "Tray": [
+        "aboutEyebrow",
+        "aboutTitle",
+        "faqTitle"
+      ],
+      "Wake 2.0": [
+        "aboutEyebrow",
+        "aboutTitle",
+        "faqTitle"
+      ],
+      "Nuvemshop": [
+        "aboutEyebrow",
+        "aboutTitle",
+        "faqTitle"
+      ]
+    },
+    "CategoryDescription16": {
+      "Tray": [
+        "faqTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Wake 2.0": [
+        "aboutTitle",
+        "faqTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Nuvemshop": [
+        "faqTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ]
+    },
+    "CategoryDescription17": {
+      "Tray": [
+        "eyebrow",
+        "faqTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "aboutTitle",
+        "faqTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "faqTitle",
+        "readMoreLabel",
+        "readLessLabel"
+      ]
+    },
+    "CategoryMain02": {
+      "Tray": [],
+      "Wake 2.0": [
+        "pageSize"
+      ],
+      "Nuvemshop": []
+    },
+    "CategoryMain06": {
+      "Tray": [
+        "filterLabel"
+      ],
+      "Wake 2.0": [
+        "filterLabel",
+        "sortLabel",
+        "colorSwatches"
+      ],
+      "Nuvemshop": [
+        "filterLabel",
+        "sortLabel"
+      ]
+    },
+    "CategoryMain07": {
+      "Tray": [
+        "resultsNoun"
+      ],
+      "Wake 2.0": [
+        "subtitle",
+        "resultsNoun"
+      ],
+      "Nuvemshop": [
+        "resultsNoun"
+      ]
+    },
+    "CategoryMain09": {
+      "Tray": [
+        "countLabel",
+        "filterLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "applyLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyEyebrow",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Wake 2.0": [
+        "countLabel",
+        "filterLabel",
+        "sortLabel",
+        "sortPrefix",
+        "clearLabel",
+        "clearAllLabel",
+        "applyLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyEyebrow",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Nuvemshop": [
+        "countLabel",
+        "filterLabel",
+        "sortLabel",
+        "sortPrefix",
+        "clearLabel",
+        "clearAllLabel",
+        "applyLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyEyebrow",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ]
+    },
+    "CategoryMain10": {
+      "Tray": [
+        "countLabel",
+        "filterLabel",
+        "activeLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "searchPlaceholder",
+        "showMoreLabel",
+        "showLessLabel",
+        "minLabel",
+        "maxLabel",
+        "resultsLabel",
+        "pageLabel",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Wake 2.0": [
+        "countLabel",
+        "filterLabel",
+        "sortLabel",
+        "sortPrefix",
+        "perPageLabel",
+        "activeLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "searchPlaceholder",
+        "showMoreLabel",
+        "showLessLabel",
+        "minLabel",
+        "maxLabel",
+        "resultsLabel",
+        "pageLabel",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Nuvemshop": [
+        "countLabel",
+        "filterLabel",
+        "sortLabel",
+        "sortPrefix",
+        "activeLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "searchPlaceholder",
+        "showMoreLabel",
+        "showLessLabel",
+        "minLabel",
+        "maxLabel",
+        "resultsLabel",
+        "pageLabel",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ]
+    },
+    "CategoryMain11": {
+      "Tray": [
+        "countLabel",
+        "filterLabel",
+        "columnsLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "minLabel",
+        "maxLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyEyebrow",
+        "emptyCountLabel",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Wake 2.0": [
+        "countLabel",
+        "filterLabel",
+        "sortLabel",
+        "columnsLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "minLabel",
+        "maxLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyEyebrow",
+        "emptyCountLabel",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Nuvemshop": [
+        "countLabel",
+        "filterLabel",
+        "sortLabel",
+        "columnsLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "minLabel",
+        "maxLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyEyebrow",
+        "emptyCountLabel",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ]
+    },
+    "CategoryMain12": {
+      "Tray": [
+        "priceSteps",
+        "countLabel",
+        "filterLabel",
+        "filterTitle",
+        "clearLabel",
+        "clearAllLabel",
+        "searchPlaceholder",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "selectedOneLabel",
+        "selectedManyLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Wake 2.0": [
+        "specFacetKey",
+        "priceSteps",
+        "countLabel",
+        "filterLabel",
+        "filterTitle",
+        "sortLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "searchPlaceholder",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "selectedOneLabel",
+        "selectedManyLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Nuvemshop": [
+        "priceSteps",
+        "countLabel",
+        "filterLabel",
+        "filterTitle",
+        "sortLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "searchPlaceholder",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "selectedOneLabel",
+        "selectedManyLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ]
+    },
+    "CategoryMain13": {
+      "Tray": [
+        "priceSteps",
+        "countLabel",
+        "hideFiltersLabel",
+        "showFiltersLabel",
+        "densityLabel",
+        "filterLabel",
+        "filterTitle",
+        "clearLabel",
+        "clearAllLabel",
+        "sizeChipLabel",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyEyebrow",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Wake 2.0": [
+        "priceSteps",
+        "countLabel",
+        "hideFiltersLabel",
+        "showFiltersLabel",
+        "densityLabel",
+        "filterLabel",
+        "filterTitle",
+        "sortLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "sizeChipLabel",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyEyebrow",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Nuvemshop": [
+        "priceSteps",
+        "countLabel",
+        "hideFiltersLabel",
+        "showFiltersLabel",
+        "densityLabel",
+        "filterLabel",
+        "filterTitle",
+        "sortLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "sizeChipLabel",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyEyebrow",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ]
+    },
+    "CategoryMain14": {
+      "Tray": [
+        "priceSteps",
+        "specAllLabel",
+        "countLabel",
+        "filterLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "sizeChipLabel",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "resultsLabel",
+        "rangeLabel",
+        "emptyArtBig",
+        "emptyArtSmall",
+        "emptyEyebrow",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Wake 2.0": [
+        "priceSteps",
+        "specAllLabel",
+        "countLabel",
+        "filterLabel",
+        "sortLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "sizeChipLabel",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "resultsLabel",
+        "rangeLabel",
+        "emptyArtBig",
+        "emptyArtSmall",
+        "emptyEyebrow",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Nuvemshop": [
+        "priceSteps",
+        "specAllLabel",
+        "countLabel",
+        "filterLabel",
+        "sortLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "sizeChipLabel",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "resultsLabel",
+        "rangeLabel",
+        "emptyArtBig",
+        "emptyArtSmall",
+        "emptyEyebrow",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ]
+    },
+    "CategoryMain15": {
+      "Tray": [
+        "countLabel",
+        "filterByLabel",
+        "filterLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "resultsLabel",
+        "sizeTitle",
+        "sizeGuideLabel",
+        "sizeGuideUrl",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyEyebrow",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Wake 2.0": [
+        "specFacetKey",
+        "countLabel",
+        "filterByLabel",
+        "filterLabel",
+        "sortLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "resultsLabel",
+        "sizeTitle",
+        "sizeGuideLabel",
+        "sizeGuideUrl",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyEyebrow",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Nuvemshop": [
+        "countLabel",
+        "filterByLabel",
+        "filterLabel",
+        "sortLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "resultsLabel",
+        "sizeTitle",
+        "sizeGuideLabel",
+        "sizeGuideUrl",
+        "progressLabel",
+        "loadMoreLabel",
+        "emptyEyebrow",
+        "emptyTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ]
+    },
+    "CategoryMain16": {
+      "Tray": [
+        "ageTitle",
+        "priceSteps",
+        "countLabel",
+        "filterLabel",
+        "filterTitle",
+        "clearLabel",
+        "clearAllLabel",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "resultsLabel",
+        "emptyCountLabel",
+        "emptyTitle",
+        "emptyFilterTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Wake 2.0": [
+        "ageTitle",
+        "priceSteps",
+        "countLabel",
+        "filterLabel",
+        "filterTitle",
+        "sortLabel",
+        "sortMobileLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "resultsLabel",
+        "emptyCountLabel",
+        "emptyTitle",
+        "emptyFilterTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Nuvemshop": [
+        "ageTitle",
+        "priceSteps",
+        "countLabel",
+        "filterLabel",
+        "filterTitle",
+        "sortLabel",
+        "sortMobileLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "resultsLabel",
+        "emptyCountLabel",
+        "emptyTitle",
+        "emptyFilterTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ]
+    },
+    "CategoryMain17": {
+      "Tray": [
+        "speciesLabel",
+        "priceSteps",
+        "countLabel",
+        "filterLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "soldOutText",
+        "emptyCountLabel",
+        "emptyTitle",
+        "emptyFilterTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Wake 2.0": [
+        "pageSize",
+        "speciesLabel",
+        "specFacetKey",
+        "priceSteps",
+        "countLabel",
+        "filterLabel",
+        "sortLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "soldOutText",
+        "emptyCountLabel",
+        "emptyTitle",
+        "emptyFilterTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ],
+      "Nuvemshop": [
+        "speciesLabel",
+        "priceSteps",
+        "countLabel",
+        "filterLabel",
+        "sortLabel",
+        "clearLabel",
+        "clearAllLabel",
+        "showMoreLabel",
+        "showLessLabel",
+        "priceUpToLabel",
+        "priceBetweenLabel",
+        "priceOverLabel",
+        "resultsLabel",
+        "progressLabel",
+        "loadMoreLabel",
+        "soldOutText",
+        "emptyCountLabel",
+        "emptyTitle",
+        "emptyFilterTitle",
+        "emptyText",
+        "emptyPrimaryLabel",
+        "emptyPrimaryUrl",
+        "emptySecondaryLabel",
+        "emptySecondaryUrl"
+      ]
+    },
+    "CategoryTabs06": {
+      "Tray": [
+        "title",
+        "tabs"
+      ],
+      "Wake 2.0": [
+        "title",
+        "tabs"
+      ],
+      "Nuvemshop": [
+        "title",
+        "tabs"
+      ]
+    },
+    "CategoryTitle06": {
+      "Tray": [
+        "countLabel"
+      ],
+      "Wake 2.0": [
+        "countLabel"
+      ],
+      "Nuvemshop": [
+        "countLabel"
+      ]
+    },
+    "CategoryTitle09": {
+      "Tray": [
+        "allLabel"
+      ],
+      "Wake 2.0": [
+        "allLabel"
+      ],
+      "Nuvemshop": [
+        "allLabel"
+      ]
+    },
+    "CategoryTitle10": {
+      "Tray": [
+        "countLabel"
+      ],
+      "Wake 2.0": [
+        "countLabel"
+      ],
+      "Nuvemshop": [
+        "countLabel"
+      ]
+    },
+    "CategoryTitle11": {
+      "Tray": [
+        "allLabel"
+      ],
+      "Wake 2.0": [
+        "allLabel"
+      ],
+      "Nuvemshop": [
+        "allLabel"
+      ]
+    },
+    "CategoryTitle12": {
+      "Tray": [
+        "allLabel",
+        "countLabel"
+      ],
+      "Wake 2.0": [
+        "allLabel",
+        "countLabel"
+      ],
+      "Nuvemshop": [
+        "allLabel",
+        "countLabel"
+      ]
+    },
+    "CategoryTitle13": {
+      "Tray": [
+        "countLabel"
+      ],
+      "Wake 2.0": [
+        "allLabel",
+        "countLabel"
+      ],
+      "Nuvemshop": [
+        "countLabel"
+      ]
+    },
+    "CategoryTitle14": {
+      "Tray": [
+        "countLabel"
+      ],
+      "Wake 2.0": [
+        "allLabel",
+        "countLabel"
+      ],
+      "Nuvemshop": [
+        "countLabel"
+      ]
+    },
+    "CategoryTitle15": {
+      "Tray": [
+        "countLabel"
+      ],
+      "Wake 2.0": [
+        "allLabel",
+        "countLabel"
+      ],
+      "Nuvemshop": [
+        "countLabel"
+      ]
+    },
+    "CategoryTitle16": {
+      "Tray": [
+        "countLabel"
+      ],
+      "Wake 2.0": [
+        "countLabel"
+      ],
+      "Nuvemshop": [
+        "countLabel"
+      ]
+    },
+    "CategoryTitle17": {
+      "Tray": [
+        "countLabel"
+      ],
+      "Wake 2.0": [
+        "countLabel"
+      ],
+      "Nuvemshop": [
+        "countLabel"
+      ]
+    },
+    "CategoryTriple06": {
+      "Tray": [],
+      "Wake 2.0": [
+        "slides"
+      ],
+      "Nuvemshop": [
+        "slides"
+      ]
+    },
+    "ClientReview06": {
+      "Tray": [],
+      "Wake 2.0": [
+        "title",
+        "subtitle",
+        "reviews"
+      ],
+      "Nuvemshop": [
+        "title",
+        "subtitle",
+        "reviews"
+      ]
+    },
+    "ClientReview07": {
+      "Tray": [
+        "number",
+        "rating"
+      ],
+      "Wake 2.0": [
+        "number",
+        "subtitle",
+        "rating",
+        "starCount"
+      ],
+      "Nuvemshop": [
+        "number",
+        "rating"
+      ]
+    },
+    "ClientReview09": {
+      "Tray": [
+        "eyebrow"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "reviews"
+      ],
+      "Nuvemshop": [
+        "eyebrow"
+      ]
+    },
+    "ClientReview10": {
+      "Tray": [
+        "title",
+        "text",
+        "reviews"
+      ],
+      "Wake 2.0": [
+        "title",
+        "text",
+        "reviews"
+      ],
+      "Nuvemshop": [
+        "title",
+        "text",
+        "reviews"
+      ]
+    },
+    "ClientReview11": {
+      "Tray": [
+        "sectionNumber",
+        "title",
+        "reviews"
+      ],
+      "Wake 2.0": [
+        "sectionNumber",
+        "title",
+        "reviews"
+      ],
+      "Nuvemshop": [
+        "sectionNumber",
+        "title",
+        "reviews"
+      ]
+    },
+    "ClientReview12": {
+      "Tray": [
+        "title",
+        "subtitle",
+        "reviews"
+      ],
+      "Wake 2.0": [
+        "title",
+        "subtitle",
+        "reviews"
+      ],
+      "Nuvemshop": [
+        "title",
+        "subtitle",
+        "reviews"
+      ]
+    },
+    "ClientReview13": {
+      "Tray": [
+        "title",
+        "reviews"
+      ],
+      "Wake 2.0": [
+        "title",
+        "reviews"
+      ],
+      "Nuvemshop": [
+        "title",
+        "reviews"
+      ]
+    },
+    "ClientReview14": {
+      "Tray": [
+        "title",
+        "aboutLabel",
+        "reviews"
+      ],
+      "Wake 2.0": [
+        "title",
+        "aboutLabel",
+        "reviews"
+      ],
+      "Nuvemshop": [
+        "title",
+        "aboutLabel",
+        "reviews"
+      ]
+    },
+    "ClientReview15": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "reviews"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "reviews"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "reviews"
+      ]
+    },
+    "ClientReview16": {
+      "Tray": [
+        "title",
+        "reviews"
+      ],
+      "Wake 2.0": [
+        "title",
+        "reviews"
+      ],
+      "Nuvemshop": [
+        "title",
+        "reviews"
+      ]
+    },
+    "ClientReview17": {
+      "Tray": [
+        "title",
+        "reviews"
+      ],
+      "Wake 2.0": [
+        "title",
+        "reviews"
+      ],
+      "Nuvemshop": [
+        "title",
+        "reviews"
+      ]
+    },
+    "Countdown08": {
+      "Tray": [
+        "label",
+        "titleStart",
+        "titleHighlight",
+        "endDate"
+      ],
+      "Wake 2.0": [
+        "label",
+        "titleStart",
+        "titleHighlight",
+        "endDate",
+        "note"
+      ],
+      "Nuvemshop": [
+        "label",
+        "titleStart",
+        "titleHighlight",
+        "endDate"
+      ]
+    },
+    "Countdown09": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "endDate",
+        "ctaLabel",
+        "ctaUrl",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "endDate",
+        "ctaLabel",
+        "ctaUrl",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "endDate",
+        "ctaLabel",
+        "ctaUrl",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ]
+    },
+    "Countdown10": {
+      "Tray": [
+        "title",
+        "text",
+        "endDate",
+        "ctaLabel",
+        "ctaUrl",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Wake 2.0": [
+        "title",
+        "text",
+        "endDate",
+        "ctaLabel",
+        "ctaUrl",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Nuvemshop": [
+        "title",
+        "text",
+        "endDate",
+        "ctaLabel",
+        "ctaUrl",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ]
+    },
+    "Countdown11": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "timerLabel",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "ctaLabel",
+        "ctaCaption",
+        "ctaUrl",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "timerLabel",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "ctaLabel",
+        "ctaCaption",
+        "ctaUrl",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "timerLabel",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "ctaLabel",
+        "ctaCaption",
+        "ctaUrl",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ]
+    },
+    "Countdown12": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "highlightTitle",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "highlightTitle",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "highlightTitle",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ]
+    },
+    "Countdown13": {
+      "Tray": [
+        "title",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "highlightTitle",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Wake 2.0": [
+        "title",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "highlightTitle",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Nuvemshop": [
+        "title",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "highlightTitle",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ]
+    },
+    "Countdown14": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "timerLabel",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "timerLabel",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "timerLabel",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ]
+    },
+    "Countdown15": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "endDate",
+        "ctaLabel",
+        "ctaUrl",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "endDate",
+        "ctaLabel",
+        "ctaUrl",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "endDate",
+        "ctaLabel",
+        "ctaUrl",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ]
+    },
+    "Countdown16": {
+      "Tray": [
+        "title",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Wake 2.0": [
+        "title",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Nuvemshop": [
+        "title",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ]
+    },
+    "Countdown17": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "endDate",
+        "daysLabel",
+        "hoursLabel",
+        "minutesLabel",
+        "secondsLabel",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ]
+    },
+    "Editorial08": {
+      "Tray": [
+        "eyebrowStart",
+        "eyebrowHighlight",
+        "title",
+        "banners"
+      ],
+      "Wake 2.0": [
+        "eyebrowStart",
+        "eyebrowHighlight",
+        "title",
+        "text",
+        "collage",
+        "banners"
+      ],
+      "Nuvemshop": [
+        "eyebrowStart",
+        "eyebrowHighlight",
+        "title"
+      ]
+    },
+    "Editorial09": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "ctaLabel",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "posts"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "ctaLabel",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "posts"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "ctaLabel",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "posts"
+      ]
+    },
+    "Editorial10": {
+      "Tray": [
+        "title",
+        "text",
+        "viewAllLabel",
+        "viewAllUrl",
+        "posts"
+      ],
+      "Wake 2.0": [
+        "title",
+        "text",
+        "viewAllLabel",
+        "viewAllUrl",
+        "posts"
+      ],
+      "Nuvemshop": [
+        "title",
+        "text",
+        "viewAllLabel",
+        "viewAllUrl",
+        "posts"
+      ]
+    },
+    "Editorial11": {
+      "Tray": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "featuredDate",
+        "featuredTag",
+        "featuredTitle",
+        "featuredText",
+        "ctaLabel",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "posts"
+      ],
+      "Wake 2.0": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "featuredDate",
+        "featuredTag",
+        "featuredTitle",
+        "featuredText",
+        "ctaLabel",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "posts"
+      ],
+      "Nuvemshop": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "featuredDate",
+        "featuredTag",
+        "featuredTitle",
+        "featuredText",
+        "ctaLabel",
+        "url",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "posts"
+      ]
+    },
+    "Editorial12": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "text",
+        "steps"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "text",
+        "steps"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "text",
+        "steps"
+      ]
+    },
+    "Editorial13": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "stories"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "stories"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "stories"
+      ]
+    },
+    "Editorial14": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "stories"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "stories"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "stories"
+      ]
+    },
+    "Editorial15": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "viewAllLabel",
+        "viewAllUrl",
+        "stories"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "viewAllLabel",
+        "viewAllUrl",
+        "stories"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "viewAllLabel",
+        "viewAllUrl",
+        "stories"
+      ]
+    },
+    "Editorial16": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "stories"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "stories"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "stories"
+      ]
+    },
+    "Editorial17": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "readLabel",
+        "stories",
+        "helpTitle",
+        "helpText",
+        "helpLabel",
+        "helpUrl"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "readLabel",
+        "stories",
+        "helpTitle",
+        "helpText",
+        "helpLabel",
+        "helpUrl"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "readLabel",
+        "stories",
+        "helpTitle",
+        "helpText",
+        "helpLabel",
+        "helpUrl"
+      ]
+    },
+    "Footer01": {
+      "Tray": [
+        "institucionalTitle",
+        "atendimentoTitle",
+        "redesSociaisTitle",
+        "pagamentoTitle",
+        "paymentMethods",
+        "segurancaTitle"
+      ],
+      "Wake 2.0": [
+        "institucionalTitle",
+        "institucionalMenu",
+        "atendimentoTitle",
+        "whatsapp",
+        "phone",
+        "email",
+        "redesSociaisTitle",
+        "socialFacebook",
+        "socialTwitter",
+        "pagamentoTitle",
+        "paymentMethods",
+        "segurancaTitle",
+        "securitySeals",
+        "copyright"
+      ],
+      "Nuvemshop": [
+        "institucionalTitle",
+        "atendimentoTitle",
+        "redesSociaisTitle",
+        "pagamentoTitle",
+        "paymentMethods",
+        "segurancaTitle",
+        "copyright"
+      ]
+    },
+    "Footer02": {
+      "Tray": [],
+      "Wake 2.0": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "newsletterTitle",
+        "emailPlaceholder",
+        "buttonLabel",
+        "institutionalTitle",
+        "institutionalLinks",
+        "socialTitle",
+        "socials",
+        "paymentTitle",
+        "payments",
+        "sealsTitle",
+        "seals",
+        "copyright"
+      ],
+      "Nuvemshop": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "newsletterTitle",
+        "emailPlaceholder",
+        "buttonLabel",
+        "institutionalTitle",
+        "socialTitle",
+        "socials",
+        "paymentTitle",
+        "payments",
+        "sealsTitle",
+        "copyright"
+      ]
+    },
+    "Footer03": {
+      "Tray": [
+        "paymentMethods",
+        "newsletterButtonLabel",
+        "pagamentoTitle",
+        "selo1Label",
+        "selo2Label",
+        "selo3Label"
+      ],
+      "Wake 2.0": [
+        "brandName",
+        "brandDescription",
+        "socialInstagram",
+        "socialTiktok",
+        "socialYoutube",
+        "socialPinterest",
+        "benefits",
+        "institucionalTitle",
+        "institucionalMenu",
+        "atendimentoTitle",
+        "atendimentoMenu",
+        "categoriasTitle",
+        "categoriasMenu",
+        "policiesTitle",
+        "policiesMenu",
+        "newsletterEyebrow",
+        "newsletterTitle",
+        "newsletterSubtitle",
+        "paymentMethods",
+        "copyright",
+        "cnpj",
+        "newsletterButtonLabel",
+        "newsletterSuccessTitle",
+        "newsletterSuccessText",
+        "pagamentoTitle",
+        "selo1Label",
+        "selo2Label",
+        "selo3Label"
+      ],
+      "Nuvemshop": [
+        "brandName",
+        "benefits",
+        "institucionalTitle",
+        "atendimentoTitle",
+        "categoriasTitle",
+        "categoriasMenu",
+        "policiesTitle",
+        "newsletterEyebrow",
+        "newsletterTitle",
+        "newsletterSubtitle",
+        "paymentMethods",
+        "copyright",
+        "newsletterButtonLabel",
+        "newsletterSuccessTitle",
+        "pagamentoTitle",
+        "selo1Label",
+        "selo2Label",
+        "selo3Label"
+      ]
+    },
+    "Footer04": {
+      "Tray": [
+        "brandName",
+        "brandDescription",
+        "socials",
+        "columns",
+        "newsletterPlaceholder",
+        "newsletterButtonLabel",
+        "newsletterTitle",
+        "newsletterSubtitle",
+        "copyright",
+        "legalLinks",
+        "paymentMethods",
+        "paymentSeals"
+      ],
+      "Wake 2.0": [
+        "brandName",
+        "brandDescription",
+        "address",
+        "socials",
+        "columns",
+        "newsletterPlaceholder",
+        "newsletterButtonLabel",
+        "newsletterTitle",
+        "newsletterSubtitle",
+        "copyright",
+        "legalLinks",
+        "paymentMethods",
+        "paymentSeals"
+      ],
+      "Nuvemshop": [
+        "brandName",
+        "brandDescription",
+        "socials",
+        "columns",
+        "newsletterPlaceholder",
+        "newsletterButtonLabel",
+        "newsletterTitle",
+        "newsletterSubtitle",
+        "copyright",
+        "paymentMethods",
+        "paymentSeals"
+      ]
+    },
+    "Footer05": {
+      "Tray": [
+        "newsletterEyebrow",
+        "newsletterTitle",
+        "newsletterDescription",
+        "newsletterButtonLabel",
+        "brandName",
+        "brandDescription",
+        "columns",
+        "contactTitle",
+        "contactItems",
+        "socials",
+        "copyright",
+        "paymentMethods"
+      ],
+      "Wake 2.0": [
+        "newsletterEyebrow",
+        "newsletterTitle",
+        "newsletterDescription",
+        "newsletterNamePlaceholder",
+        "newsletterEmailPlaceholder",
+        "newsletterButtonLabel",
+        "newsletterConsentText",
+        "brandName",
+        "brandDescription",
+        "columns",
+        "contactTitle",
+        "contactItems",
+        "socials",
+        "copyright",
+        "paymentMethods"
+      ],
+      "Nuvemshop": [
+        "newsletterEyebrow",
+        "newsletterTitle",
+        "newsletterDescription",
+        "newsletterNamePlaceholder",
+        "newsletterEmailPlaceholder",
+        "newsletterButtonLabel",
+        "brandName",
+        "brandDescription",
+        "columns",
+        "contactTitle",
+        "contactItems",
+        "socials",
+        "copyright",
+        "paymentMethods"
+      ]
+    },
+    "Footer06": {
+      "Tray": [
+        "newsletterSubtitle",
+        "newsletterTitle",
+        "newsletterNamePlaceholder",
+        "newsletterEmailPlaceholder",
+        "newsletterButtonLabel",
+        "socialTitle",
+        "socials",
+        "columns",
+        "seals",
+        "copyright"
+      ],
+      "Wake 2.0": [
+        "newsletterSubtitle",
+        "newsletterTitle",
+        "newsletterNamePlaceholder",
+        "newsletterEmailPlaceholder",
+        "newsletterButtonLabel",
+        "newsletterSuccessMessage",
+        "socialTitle",
+        "socials",
+        "columns",
+        "seals",
+        "copyright"
+      ],
+      "Nuvemshop": [
+        "newsletterSubtitle",
+        "newsletterTitle",
+        "newsletterNamePlaceholder",
+        "newsletterEmailPlaceholder",
+        "newsletterButtonLabel",
+        "socialTitle",
+        "socials",
+        "columns",
+        "copyright"
+      ]
+    },
+    "Footer07": {
+      "Tray": [
+        "logoSrc",
+        "logoAlt",
+        "brandName",
+        "brandTagline",
+        "brandDescription",
+        "nlEyebrow",
+        "nlEyebrowMobile",
+        "nlTitle",
+        "nlTitleMobile",
+        "nlNote",
+        "nlBenefit",
+        "nlPlaceholder",
+        "nlPlaceholderMobile",
+        "nlButtonLabel",
+        "columns",
+        "paymentBrands",
+        "copyright"
+      ],
+      "Wake 2.0": [
+        "logoSrc",
+        "logoAlt",
+        "brandName",
+        "brandTagline",
+        "brandDescription",
+        "nlEyebrow",
+        "nlEyebrowMobile",
+        "nlTitle",
+        "nlTitleMobile",
+        "nlNote",
+        "nlBenefit",
+        "nlPlaceholder",
+        "nlPlaceholderMobile",
+        "nlButtonLabel",
+        "successMessage",
+        "columns",
+        "paymentBrands",
+        "copyright"
+      ],
+      "Nuvemshop": [
+        "logoAlt",
+        "brandName",
+        "brandTagline",
+        "brandDescription",
+        "nlEyebrow",
+        "nlEyebrowMobile",
+        "nlTitle",
+        "nlTitleMobile",
+        "nlNote",
+        "nlBenefit",
+        "nlPlaceholder",
+        "nlPlaceholderMobile",
+        "nlButtonLabel",
+        "columns",
+        "copyright"
+      ]
+    },
+    "Footer08": {
+      "Tray": [
+        "socials",
+        "columns"
+      ],
+      "Wake 2.0": [
+        "logo",
+        "logoAlt",
+        "text",
+        "socialTitle",
+        "socials",
+        "columns",
+        "paymentTitle",
+        "payments",
+        "sealsTitle",
+        "seals",
+        "legal"
+      ],
+      "Nuvemshop": [
+        "logo",
+        "logoAlt",
+        "socials",
+        "columns",
+        "payments",
+        "legal"
+      ]
+    },
+    "Footer09": {
+      "Tray": [
+        "columns",
+        "contactTitle",
+        "contactHours",
+        "brandName",
+        "brandUrl",
+        "payments",
+        "legal"
+      ],
+      "Wake 2.0": [
+        "columns",
+        "contactTitle",
+        "contactLines",
+        "contactHours",
+        "socials",
+        "brandName",
+        "brandUrl",
+        "payments",
+        "legal"
+      ],
+      "Nuvemshop": [
+        "columns",
+        "contactTitle",
+        "contactHours",
+        "socials",
+        "brandName",
+        "payments",
+        "legal"
+      ]
+    },
+    "Footer10": {
+      "Tray": [
+        "serviceCards",
+        "columns",
+        "appTitle",
+        "appText",
+        "appBadges",
+        "paymentsTitle",
+        "payments",
+        "securityTitle",
+        "seals",
+        "legalLines"
+      ],
+      "Wake 2.0": [
+        "serviceCards",
+        "columns",
+        "appTitle",
+        "appText",
+        "appBadges",
+        "socials",
+        "paymentsTitle",
+        "payments",
+        "securityTitle",
+        "seals",
+        "legalLines"
+      ],
+      "Nuvemshop": [
+        "serviceCards",
+        "columns",
+        "appTitle",
+        "appText",
+        "appBadges",
+        "socials",
+        "paymentsTitle",
+        "payments",
+        "securityTitle",
+        "seals",
+        "legalLines"
+      ]
+    },
+    "Footer11": {
+      "Tray": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "brandSup",
+        "sealImage",
+        "sealLabel",
+        "sealUrl",
+        "columns",
+        "contactTitle",
+        "contactNote",
+        "newsletterLabel",
+        "newsletterTitle",
+        "namePlaceholder",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "copyright",
+        "legalText",
+        "payments",
+        "backToTopLabel"
+      ],
+      "Wake 2.0": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "brandSup",
+        "socials",
+        "sealImage",
+        "sealLabel",
+        "sealUrl",
+        "columns",
+        "contactTitle",
+        "contactLines",
+        "contactNote",
+        "newsletterLabel",
+        "newsletterTitle",
+        "namePlaceholder",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "copyright",
+        "legalText",
+        "payments",
+        "backToTopLabel"
+      ],
+      "Nuvemshop": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "brandSup",
+        "socials",
+        "sealImage",
+        "sealLabel",
+        "sealUrl",
+        "columns",
+        "contactTitle",
+        "contactNote",
+        "newsletterLabel",
+        "newsletterTitle",
+        "namePlaceholder",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "copyright",
+        "payments",
+        "backToTopLabel"
+      ]
+    },
+    "Footer12": {
+      "Tray": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "aboutText",
+        "columns",
+        "contactTitle",
+        "contactNote",
+        "whatsappLabel",
+        "whatsappUrl",
+        "payments",
+        "seals",
+        "copyright"
+      ],
+      "Wake 2.0": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "aboutText",
+        "socials",
+        "columns",
+        "contactTitle",
+        "contactNote",
+        "whatsappLabel",
+        "whatsappUrl",
+        "contactLines",
+        "payments",
+        "seals",
+        "copyright",
+        "legalLinks"
+      ],
+      "Nuvemshop": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "aboutText",
+        "socials",
+        "columns",
+        "contactTitle",
+        "contactNote",
+        "payments",
+        "seals",
+        "copyright",
+        "legalLinks"
+      ]
+    },
+    "Footer13": {
+      "Tray": [
+        "brandName",
+        "aboutText",
+        "columns",
+        "contactTitle",
+        "payments",
+        "copyright"
+      ],
+      "Wake 2.0": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "aboutText",
+        "socials",
+        "columns",
+        "contactTitle",
+        "contactLines",
+        "payments",
+        "copyright"
+      ],
+      "Nuvemshop": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "aboutText",
+        "socials",
+        "columns",
+        "contactTitle",
+        "contactLines",
+        "payments",
+        "copyright"
+      ]
+    },
+    "Footer14": {
+      "Tray": [
+        "brandName",
+        "aboutText",
+        "columns",
+        "contactTitle",
+        "payments",
+        "copyright"
+      ],
+      "Wake 2.0": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "aboutText",
+        "socials",
+        "columns",
+        "contactTitle",
+        "contactLines",
+        "payments",
+        "copyright"
+      ],
+      "Nuvemshop": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "aboutText",
+        "socials",
+        "columns",
+        "contactTitle",
+        "contactLines",
+        "payments",
+        "copyright"
+      ]
+    },
+    "Footer15": {
+      "Tray": [
+        "brandName",
+        "brandUrl",
+        "tagline",
+        "columns",
+        "contactTitle",
+        "contactHours",
+        "payments"
+      ],
+      "Wake 2.0": [
+        "brandName",
+        "brandUrl",
+        "tagline",
+        "columns",
+        "contactTitle",
+        "contactLines",
+        "contactHours",
+        "contactLinks",
+        "socials",
+        "payments",
+        "legal"
+      ],
+      "Nuvemshop": [
+        "brandName",
+        "tagline",
+        "columns",
+        "contactTitle",
+        "contactHours",
+        "socials",
+        "payments",
+        "legal"
+      ]
+    },
+    "Footer16": {
+      "Tray": [
+        "brandName",
+        "aboutText",
+        "columns",
+        "contactTitle",
+        "phoneLabel",
+        "phoneUrl",
+        "whatsappLabel",
+        "whatsappUrl",
+        "scheduleText",
+        "emailLabel",
+        "emailUrl",
+        "payments",
+        "copyright"
+      ],
+      "Wake 2.0": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "aboutText",
+        "socials",
+        "columns",
+        "contactTitle",
+        "phoneLabel",
+        "phoneUrl",
+        "whatsappLabel",
+        "whatsappUrl",
+        "scheduleText",
+        "emailLabel",
+        "emailUrl",
+        "payments",
+        "copyright"
+      ],
+      "Nuvemshop": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "aboutText",
+        "socials",
+        "columns",
+        "contactTitle",
+        "scheduleText",
+        "payments",
+        "copyright"
+      ]
+    },
+    "Footer17": {
+      "Tray": [
+        "brandName",
+        "aboutText",
+        "columns",
+        "contactTitle",
+        "phoneLabel",
+        "phoneUrl",
+        "whatsappLabel",
+        "whatsappUrl",
+        "scheduleText",
+        "emailLabel",
+        "emailUrl",
+        "payments",
+        "copyright"
+      ],
+      "Wake 2.0": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "aboutText",
+        "socials",
+        "columns",
+        "contactTitle",
+        "phoneLabel",
+        "phoneUrl",
+        "whatsappLabel",
+        "whatsappUrl",
+        "scheduleText",
+        "emailLabel",
+        "emailUrl",
+        "payments",
+        "copyright"
+      ],
+      "Nuvemshop": [
+        "logo",
+        "logoAlt",
+        "brandName",
+        "aboutText",
+        "socials",
+        "columns",
+        "contactTitle",
+        "scheduleText",
+        "payments",
+        "copyright"
+      ]
+    },
+    "Header01": {
+      "Tray": [],
+      "Wake 2.0": [
+        "menu"
+      ],
+      "Nuvemshop": [
+        "logo",
+        "topbar",
+        "helpLink",
+        "menu"
+      ]
+    },
+    "Header02": {
+      "Tray": [],
+      "Wake 2.0": [
+        "menu"
+      ],
+      "Nuvemshop": [
+        "logo",
+        "logoAlt",
+        "welcomeText",
+        "whatsappLabel",
+        "searchPlaceholder",
+        "contactUrl",
+        "contactLabel",
+        "loginLabel",
+        "cartLabel",
+        "drawerLoginLabel",
+        "helpLabel",
+        "helpUrl",
+        "menu"
+      ]
+    },
+    "Header03": {
+      "Tray": [],
+      "Wake 2.0": [
+        "menu"
+      ],
+      "Nuvemshop": [
+        "logo",
+        "topbar",
+        "menu"
+      ]
+    },
+    "Header04": {
+      "Tray": [
+        "navItems",
+        "megaImage",
+        "searchPlaceholder",
+        "quickSearch",
+        "mobileNavItems",
+        "benefitStripItems"
+      ],
+      "Wake 2.0": [
+        "navItems",
+        "mobileNavItems"
+      ],
+      "Nuvemshop": [
+        "announcementMessages",
+        "brandName",
+        "navItems",
+        "megaImage",
+        "searchPlaceholder",
+        "quickSearch",
+        "mobileNavItems",
+        "benefitStripItems"
+      ]
+    },
+    "Header05": {
+      "Tray": [
+        "servicePromo",
+        "serviceLinks",
+        "brandName",
+        "searchPlaceholder",
+        "favoritesUrl",
+        "categories",
+        "megaLinks",
+        "megaPromos",
+        "simpleLinks",
+        "mobileNavItems"
+      ],
+      "Wake 2.0": [
+        "categories",
+        "mobileNavItems"
+      ],
+      "Nuvemshop": [
+        "servicePromo",
+        "serviceLinks",
+        "brandName",
+        "searchPlaceholder",
+        "accountLabel",
+        "cartLabel",
+        "categories",
+        "megaLinks",
+        "simpleLinks",
+        "mobileNavItems"
+      ]
+    },
+    "Header06": {
+      "Tray": [
+        "logoSrc",
+        "navItems",
+        "mobileLinks",
+        "searchPlaceholder"
+      ],
+      "Wake 2.0": [
+        "navItems"
+      ],
+      "Nuvemshop": [
+        "topbarMessages",
+        "logoSrc",
+        "navItems",
+        "mobileLinks",
+        "searchPlaceholder"
+      ]
+    },
+    "Header07": {
+      "Tray": [
+        "searchPlaceholder",
+        "mobileSearchPlaceholder",
+        "wishlistUrl",
+        "whatsappUrl",
+        "navItems",
+        "whatsappLabel"
+      ],
+      "Wake 2.0": [
+        "navItems"
+      ],
+      "Nuvemshop": [
+        "logoAlt",
+        "searchPlaceholder",
+        "mobileSearchPlaceholder",
+        "whatsappUrl",
+        "navItems",
+        "whatsappLabel"
+      ]
+    },
+    "Header08": {
+      "Tray": [
+        "menu"
+      ],
+      "Wake 2.0": [
+        "menu"
+      ],
+      "Nuvemshop": [
+        "logo",
+        "logoAlt",
+        "menu"
+      ]
+    },
+    "Header09": {
+      "Tray": [
+        "topbarMessages",
+        "brandName",
+        "searchPlaceholder",
+        "accountLabel",
+        "accountMobileLabel",
+        "cartLabel",
+        "helpLabel",
+        "helpUrl",
+        "menu",
+        "viewAllLabel"
+      ],
+      "Wake 2.0": [
+        "menu"
+      ],
+      "Nuvemshop": [
+        "topbarMessages",
+        "logo",
+        "logoAlt",
+        "brandName",
+        "searchPlaceholder",
+        "accountLabel",
+        "accountMobileLabel",
+        "cartLabel",
+        "helpLabel",
+        "helpUrl",
+        "menu",
+        "viewAllLabel"
+      ]
+    },
+    "Header10": {
+      "Tray": [
+        "topbarText",
+        "serviceLinks",
+        "brandMark",
+        "brandName",
+        "searchPlaceholder",
+        "accountLabel",
+        "cartLabel",
+        "departmentsLabel",
+        "menuTitle",
+        "menu",
+        "viewAllLabel"
+      ],
+      "Wake 2.0": [
+        "menu"
+      ],
+      "Nuvemshop": [
+        "topbarText",
+        "serviceLinks",
+        "logo",
+        "logoAlt",
+        "brandMark",
+        "brandName",
+        "searchPlaceholder",
+        "accountLabel",
+        "cartLabel",
+        "departmentsLabel",
+        "menuTitle",
+        "menu",
+        "viewAllLabel"
+      ]
+    },
+    "Header11": {
+      "Tray": [
+        "topbarMessages",
+        "brandName",
+        "brandSup",
+        "menu",
+        "searchPlaceholder",
+        "accountLabel",
+        "cartLabel"
+      ],
+      "Wake 2.0": [
+        "menu"
+      ],
+      "Nuvemshop": [
+        "topbarMessages",
+        "logo",
+        "logoAlt",
+        "brandName",
+        "brandSup",
+        "menu",
+        "searchPlaceholder",
+        "accountLabel",
+        "cartLabel"
+      ]
+    },
+    "Header12": {
+      "Tray": [
+        "topbarText",
+        "topbarLinkLabel",
+        "topbarLinkMenuLabel",
+        "topbarLinkUrl",
+        "brandName",
+        "menu",
+        "searchPlaceholder",
+        "accountLabel",
+        "cartLabel",
+        "viewAllLabel"
+      ],
+      "Wake 2.0": [
+        "menu"
+      ],
+      "Nuvemshop": [
+        "topbarText",
+        "topbarLinkLabel",
+        "topbarLinkMenuLabel",
+        "topbarLinkUrl",
+        "logo",
+        "logoAlt",
+        "brandName",
+        "menu",
+        "searchPlaceholder",
+        "accountLabel",
+        "cartLabel",
+        "viewAllLabel"
+      ]
+    },
+    "Header13": {
+      "Tray": [
+        "brandName",
+        "menu",
+        "searchPlaceholder",
+        "accountLabel",
+        "helpLabel",
+        "helpUrl",
+        "cartLabel",
+        "viewAllLabel"
+      ],
+      "Wake 2.0": [
+        "menu"
+      ],
+      "Nuvemshop": [
+        "topbarItems",
+        "logo",
+        "logoAlt",
+        "brandName",
+        "menu",
+        "searchPlaceholder",
+        "accountLabel",
+        "helpLabel",
+        "helpUrl",
+        "cartLabel",
+        "viewAllLabel"
+      ]
+    },
+    "Header14": {
+      "Tray": [
+        "brandName",
+        "menu",
+        "searchPlaceholder",
+        "accountLabel",
+        "cartLabel",
+        "viewAllLabel"
+      ],
+      "Wake 2.0": [
+        "menu"
+      ],
+      "Nuvemshop": [
+        "topbarItems",
+        "logo",
+        "logoAlt",
+        "brandName",
+        "menu",
+        "searchPlaceholder",
+        "accountLabel",
+        "drawerLinks",
+        "cartLabel",
+        "viewAllLabel"
+      ]
+    },
+    "Header15": {
+      "Tray": [
+        "topbarMessages",
+        "brandName",
+        "brandTagline",
+        "searchPlaceholder",
+        "accountLabel",
+        "accountTitle",
+        "accountMobileLabel",
+        "cartLabel",
+        "helpLabel",
+        "helpUrl",
+        "menu",
+        "viewAllLabel"
+      ],
+      "Wake 2.0": [
+        "menu"
+      ],
+      "Nuvemshop": [
+        "topbarMessages",
+        "logo",
+        "logoAlt",
+        "brandName",
+        "brandTagline",
+        "searchPlaceholder",
+        "accountLabel",
+        "accountTitle",
+        "accountMobileLabel",
+        "cartLabel",
+        "helpLabel",
+        "helpUrl",
+        "menu",
+        "viewAllLabel"
+      ]
+    },
+    "Header16": {
+      "Tray": [
+        "topbarItems",
+        "brandName",
+        "menu",
+        "searchPlaceholder",
+        "searchPlaceholderMenu",
+        "accountLabel",
+        "cartLabel",
+        "viewAllLabel"
+      ],
+      "Wake 2.0": [
+        "menu"
+      ],
+      "Nuvemshop": [
+        "topbarItems",
+        "logo",
+        "logoAlt",
+        "brandName",
+        "menu",
+        "searchPlaceholder",
+        "searchPlaceholderMenu",
+        "accountLabel",
+        "cartLabel",
+        "viewAllLabel"
+      ]
+    },
+    "Header17": {
+      "Tray": [
+        "topbarItems",
+        "brandName",
+        "menu",
+        "searchPlaceholder",
+        "accountGreeting",
+        "accountLabel",
+        "accountMenuLabel",
+        "helpLabel",
+        "helpUrl",
+        "cartLabel",
+        "viewAllLabel"
+      ],
+      "Wake 2.0": [
+        "menu"
+      ],
+      "Nuvemshop": [
+        "topbarItems",
+        "logo",
+        "logoAlt",
+        "brandName",
+        "menu",
+        "searchPlaceholder",
+        "accountGreeting",
+        "accountLabel",
+        "accountMenuLabel",
+        "helpLabel",
+        "helpUrl",
+        "cartLabel",
+        "viewAllLabel"
+      ]
+    },
+    "HelpFloat06": {
+      "Tray": [
+        "helpLabel",
+        "helpItems"
+      ],
+      "Wake 2.0": [
+        "helpLabel",
+        "helpItems"
+      ],
+      "Nuvemshop": [
+        "helpLabel",
+        "helpItems"
+      ]
+    },
+    "HelpFloat09": {
+      "Tray": [
+        "buttonLabel",
+        "title",
+        "titleEmphasis",
+        "helpItems",
+        "footerText"
+      ],
+      "Wake 2.0": [
+        "buttonLabel",
+        "title",
+        "titleEmphasis",
+        "helpItems",
+        "footerText"
+      ],
+      "Nuvemshop": [
+        "buttonLabel",
+        "title",
+        "titleEmphasis",
+        "helpItems",
+        "footerText"
+      ]
+    },
+    "HelpFloat10": {
+      "Tray": [
+        "bubbleText",
+        "title",
+        "subtitle",
+        "helpItems",
+        "footerText"
+      ],
+      "Wake 2.0": [
+        "bubbleText",
+        "title",
+        "subtitle",
+        "helpItems",
+        "footerText"
+      ],
+      "Nuvemshop": [
+        "bubbleText",
+        "title",
+        "subtitle",
+        "helpItems",
+        "footerText"
+      ]
+    },
+    "HelpFloat11": {
+      "Tray": [
+        "title",
+        "titleTag",
+        "scheduleText",
+        "helpItems"
+      ],
+      "Wake 2.0": [
+        "title",
+        "titleTag",
+        "scheduleText",
+        "helpItems"
+      ],
+      "Nuvemshop": [
+        "title",
+        "titleTag",
+        "scheduleText",
+        "helpItems"
+      ]
+    },
+    "HelpFloat12": {
+      "Tray": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems"
+      ],
+      "Wake 2.0": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems"
+      ],
+      "Nuvemshop": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems"
+      ]
+    },
+    "HelpFloat13": {
+      "Tray": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems"
+      ],
+      "Wake 2.0": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems"
+      ],
+      "Nuvemshop": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems"
+      ]
+    },
+    "HelpFloat14": {
+      "Tray": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems"
+      ],
+      "Wake 2.0": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems"
+      ],
+      "Nuvemshop": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems"
+      ]
+    },
+    "HelpFloat15": {
+      "Tray": [
+        "buttonLabel",
+        "title",
+        "subtitle",
+        "helpItems"
+      ],
+      "Wake 2.0": [
+        "buttonLabel",
+        "title",
+        "subtitle",
+        "helpItems"
+      ],
+      "Nuvemshop": [
+        "buttonLabel",
+        "title",
+        "subtitle",
+        "helpItems"
+      ]
+    },
+    "HelpFloat16": {
+      "Tray": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems"
+      ],
+      "Wake 2.0": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems"
+      ],
+      "Nuvemshop": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems"
+      ]
+    },
+    "HelpFloat17": {
+      "Tray": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems",
+        "ctaLabel",
+        "ctaUrl"
+      ],
+      "Wake 2.0": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems",
+        "ctaLabel",
+        "ctaUrl"
+      ],
+      "Nuvemshop": [
+        "buttonLabel",
+        "title",
+        "scheduleText",
+        "helpItems",
+        "ctaLabel",
+        "ctaUrl"
+      ]
+    },
+    "HomeCarousel06": {
+      "Tray": [],
+      "Wake 2.0": [
+        "categories"
+      ],
+      "Nuvemshop": [
+        "categories"
+      ]
+    },
+    "HomeCombined04": {
+      "Tray": [
+        "verticalImage",
+        "verticalAlt",
+        "horizontalImage",
+        "horizontalAlt"
+      ],
+      "Wake 2.0": [
+        "title",
+        "text",
+        "avatars",
+        "avatarsText",
+        "ctaLabel",
+        "ctaUrl",
+        "verticalImage",
+        "verticalAlt",
+        "verticalLink",
+        "horizontalImage",
+        "horizontalAlt",
+        "horizontalLink",
+        "discountTitle",
+        "discountText",
+        "discountCtaLabel",
+        "discountCtaUrl"
+      ],
+      "Nuvemshop": [
+        "title",
+        "text",
+        "avatars",
+        "avatarsText",
+        "ctaLabel",
+        "ctaUrl",
+        "verticalImage",
+        "verticalAlt",
+        "horizontalImage",
+        "horizontalAlt",
+        "discountTitle",
+        "discountText",
+        "discountCtaLabel",
+        "discountCtaUrl"
+      ]
+    },
+    "MultiCategories04": {
+      "Tray": [],
+      "Wake 2.0": [
+        "title",
+        "description",
+        "cards"
+      ],
+      "Nuvemshop": [
+        "title",
+        "description",
+        "cards"
+      ]
+    },
+    "Newsletter07": {
+      "Tray": [
+        "eyebrow",
+        "eyebrowMobile",
+        "title",
+        "titleMobile",
+        "description",
+        "placeholder",
+        "placeholderMobile",
+        "buttonLabel",
+        "note"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "eyebrowMobile",
+        "title",
+        "titleMobile",
+        "description",
+        "placeholder",
+        "placeholderMobile",
+        "buttonLabel",
+        "note",
+        "successMessage"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "eyebrowMobile",
+        "title",
+        "titleMobile",
+        "description",
+        "placeholder",
+        "placeholderMobile",
+        "buttonLabel",
+        "note",
+        "successMessage"
+      ]
+    },
+    "Newsletter08": {
+      "Tray": [
+        "title",
+        "text",
+        "formTitle",
+        "namePlaceholder",
+        "emailPlaceholder",
+        "buttonLabel"
+      ],
+      "Wake 2.0": [
+        "title",
+        "text",
+        "formTitle",
+        "namePlaceholder",
+        "emailPlaceholder",
+        "buttonLabel"
+      ],
+      "Nuvemshop": [
+        "title",
+        "text",
+        "formTitle",
+        "namePlaceholder",
+        "emailPlaceholder",
+        "buttonLabel"
+      ]
+    },
+    "Newsletter09": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "namePlaceholder",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "namePlaceholder",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "namePlaceholder",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ]
+    },
+    "Newsletter10": {
+      "Tray": [
+        "title",
+        "titleHighlight",
+        "titleAfter",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "privacySuffix"
+      ],
+      "Wake 2.0": [
+        "title",
+        "titleHighlight",
+        "titleAfter",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "privacySuffix"
+      ],
+      "Nuvemshop": [
+        "title",
+        "titleHighlight",
+        "titleAfter",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "privacySuffix"
+      ]
+    },
+    "Newsletter11": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "note",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "note",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "note",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ]
+    },
+    "Newsletter12": {
+      "Tray": [
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Wake 2.0": [
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ],
+      "Nuvemshop": [
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt"
+      ]
+    },
+    "Newsletter13": {
+      "Tray": [
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Wake 2.0": [
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Nuvemshop": [
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ]
+    },
+    "Newsletter14": {
+      "Tray": [
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "privacySuffix"
+      ],
+      "Wake 2.0": [
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "privacySuffix"
+      ],
+      "Nuvemshop": [
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "privacySuffix"
+      ]
+    },
+    "Newsletter15": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ]
+    },
+    "Newsletter16": {
+      "Tray": [
+        "badge",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Wake 2.0": [
+        "badge",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Nuvemshop": [
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ]
+    },
+    "Newsletter17": {
+      "Tray": [
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Wake 2.0": [
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Nuvemshop": [
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ]
+    },
+    "PopupNews06": {
+      "Tray": [
+        "highlight",
+        "image",
+        "imageAlt",
+        "submitLabel"
+      ],
+      "Wake 2.0": [
+        "title",
+        "highlight",
+        "image",
+        "imageAlt",
+        "finePrint",
+        "submitLabel",
+        "successMessage"
+      ],
+      "Nuvemshop": [
+        "highlight",
+        "image",
+        "imageAlt",
+        "submitLabel",
+        "successMessage"
+      ]
+    },
+    "PopupNews09": {
+      "Tray": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "coupon",
+        "namePlaceholder",
+        "emailPlaceholder",
+        "buttonLabel",
+        "dismissLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Wake 2.0": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "coupon",
+        "namePlaceholder",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "dismissLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Nuvemshop": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "coupon",
+        "namePlaceholder",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "dismissLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ]
+    },
+    "PopupNews10": {
+      "Tray": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "subtitle",
+        "couponLabel",
+        "coupon",
+        "couponHint",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Wake 2.0": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "subtitle",
+        "couponLabel",
+        "coupon",
+        "couponHint",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Nuvemshop": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "subtitle",
+        "couponLabel",
+        "coupon",
+        "couponHint",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ]
+    },
+    "PopupNews11": {
+      "Tray": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Wake 2.0": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Nuvemshop": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ]
+    },
+    "PopupNews12": {
+      "Tray": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Wake 2.0": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Nuvemshop": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ]
+    },
+    "PopupNews13": {
+      "Tray": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Wake 2.0": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Nuvemshop": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ]
+    },
+    "PopupNews14": {
+      "Tray": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "titleHighlight",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Wake 2.0": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "titleHighlight",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Nuvemshop": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "titleHighlight",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ]
+    },
+    "PopupNews15": {
+      "Tray": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "coupon",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "dismissLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Wake 2.0": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "coupon",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "dismissLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ],
+      "Nuvemshop": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "text",
+        "coupon",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "dismissLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl"
+      ]
+    },
+    "PopupNews16": {
+      "Tray": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "sealTitle",
+        "sealText",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Wake 2.0": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "sealTitle",
+        "sealText",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Nuvemshop": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "sealTitle",
+        "sealText",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ]
+    },
+    "PopupNews17": {
+      "Tray": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Wake 2.0": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "successMessage",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ],
+      "Nuvemshop": [
+        "imageDesktop",
+        "imageMobile",
+        "imageAlt",
+        "eyebrow",
+        "title",
+        "text",
+        "nameLabel",
+        "namePlaceholder",
+        "emailLabel",
+        "emailPlaceholder",
+        "buttonLabel",
+        "privacyPrefix",
+        "privacyLabel",
+        "privacyUrl",
+        "dismissLabel"
+      ]
+    },
+    "ProductDescription07": {
+      "Tray": [
+        "descEyebrow",
+        "specsEyebrow",
+        "faqTitle",
+        "faqItems"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "descEyebrow",
+        "specsEyebrow",
+        "careTitle",
+        "faqTitle",
+        "faqItems"
+      ]
+    },
+    "ProductDescription09": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "specsLabel"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "specsLabel"
+      ]
+    },
+    "ProductDescription10": {
+      "Tray": [
+        "descriptionTabLabel",
+        "specsTabLabel",
+        "extraTabLabel",
+        "extraTabText",
+        "initialTab",
+        "specsTitle",
+        "boxTitle",
+        "boxSpecName",
+        "infoTitle",
+        "infoText"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "descriptionTabLabel",
+        "specsTabLabel",
+        "extraTabLabel",
+        "extraTabText",
+        "initialTab",
+        "specsTitle",
+        "brandLabel",
+        "infoTitle",
+        "infoText"
+      ]
+    },
+    "ProductDescription11": {
+      "Tray": [
+        "title",
+        "descriptionLabel"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title",
+        "descriptionLabel"
+      ]
+    },
+    "ProductDescription12": {
+      "Tray": [
+        "title"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "ProductDescription13": {
+      "Tray": [
+        "title"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "ProductDescription14": {
+      "Tray": [
+        "title",
+        "specsTitle"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title",
+        "specsTitle"
+      ]
+    },
+    "ProductDescription15": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis"
+      ]
+    },
+    "ProductDescription16": {
+      "Tray": [
+        "title"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "ProductDescription17": {
+      "Tray": [
+        "title",
+        "specsTitle"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title",
+        "specsTitle"
+      ]
+    },
+    "ProductInfo01": {
+      "Tray": [
+        "trustMessage"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "trustMessage"
+      ]
+    },
+    "ProductInfo02": {
+      "Tray": [],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "skuLabel",
+        "offerTagLabel",
+        "installmentPrefix",
+        "installmentOf",
+        "withInterestLabel",
+        "paymentMethodsLabel",
+        "buyLabel",
+        "shippingTitle",
+        "shippingPlaceholder",
+        "shippingButton",
+        "noCepLabel"
+      ]
+    },
+    "ProductInfo03": {
+      "Tray": [
+        "trustBadges"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "descriptionTitle",
+        "colorLabel",
+        "sizeLabel",
+        "inStockLabel",
+        "outOfStockLabel",
+        "addToCartLabel",
+        "buyNowLabel",
+        "trustBadges",
+        "extraAccordion"
+      ]
+    },
+    "ProductInfo06": {
+      "Tray": [
+        "consulteLabel"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "consulteLabel",
+        "cepPlaceholder",
+        "cepButtonLabel"
+      ]
+    },
+    "ProductInfo07": {
+      "Tray": [
+        "trustMessage",
+        "benefits",
+        "consultoraLabel",
+        "addToCartLabel",
+        "otherPaymentLabel"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "trustMessage",
+        "benefits",
+        "consultoraLabel",
+        "addToCartLabel",
+        "otherPaymentLabel"
+      ]
+    },
+    "ProductInfo09": {
+      "Tray": [
+        "newLabel",
+        "refLabel",
+        "notifyLabel",
+        "buyLabel",
+        "shippingLabel",
+        "accordions"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "refLabel",
+        "sizeGuideLabel",
+        "soldOutText",
+        "buyLabel",
+        "shippingLabel",
+        "cepPlaceholder",
+        "cepButtonLabel",
+        "cepHelpLabel",
+        "accordions"
+      ]
+    },
+    "ProductInfo10": {
+      "Tray": [
+        "codeLabel",
+        "ratingCountLabel",
+        "notifyLabel",
+        "buyLabel",
+        "mobileBuyLabel",
+        "soldOutButtonLabel",
+        "shippingLabel",
+        "trustItems"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "codeLabel",
+        "installmentsLinkLabel",
+        "pixText",
+        "soldOutText",
+        "buyLabel",
+        "mobileBuyLabel",
+        "shippingLabel",
+        "cepPlaceholder",
+        "cepButtonLabel",
+        "cepHelpLabel",
+        "trustItems"
+      ]
+    },
+    "ProductInfo11": {
+      "Tray": [
+        "refLabel",
+        "notifyLabel",
+        "buyLabel",
+        "mobileBuyLabel",
+        "soldOutButtonLabel",
+        "shippingLabel",
+        "trustItems"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "refLabel",
+        "soldOutText",
+        "buyLabel",
+        "mobileBuyLabel",
+        "shippingLabel",
+        "cepPlaceholder",
+        "cepButtonLabel",
+        "cepHelpLabel",
+        "trustItems"
+      ]
+    },
+    "ProductInfo12": {
+      "Tray": [
+        "codeLabel",
+        "ratingCountLabel",
+        "notifyLabel",
+        "buyLabel",
+        "mobileBuyLabel",
+        "soldOutButtonLabel",
+        "perks",
+        "shippingLabel",
+        "accordions"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "codeLabel",
+        "soldOutText",
+        "buyLabel",
+        "mobileBuyLabel",
+        "perks",
+        "shippingLabel",
+        "cepPlaceholder",
+        "cepButtonLabel",
+        "accordions"
+      ]
+    },
+    "ProductInfo13": {
+      "Tray": [
+        "badge",
+        "codeLabel",
+        "ratingCountLabel",
+        "notifyLabel",
+        "buyLabel",
+        "mobileBuyLabel",
+        "soldOutButtonLabel",
+        "shippingLabel",
+        "accordions"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "badge",
+        "codeLabel",
+        "sizeGuideLabel",
+        "buyLabel",
+        "mobileBuyLabel",
+        "mobileSelectedLabel",
+        "shippingLabel",
+        "cepPlaceholder",
+        "cepButtonLabel",
+        "accordions"
+      ]
+    },
+    "ProductInfo14": {
+      "Tray": [
+        "codeLabel",
+        "ratingCountLabel",
+        "buyLabel",
+        "shippingLabel",
+        "accordions"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "codeLabel",
+        "sizeGuideLabel",
+        "buyLabel",
+        "shippingLabel",
+        "cepPlaceholder",
+        "cepButtonLabel",
+        "accordions"
+      ]
+    },
+    "ProductInfo15": {
+      "Tray": [
+        "codeLabel",
+        "ratingCountLabel",
+        "buyLabel",
+        "shippingLabel",
+        "shippingNote",
+        "accordions"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "codeLabel",
+        "sizeGuideLabel",
+        "buyLabel",
+        "shippingLabel",
+        "cepPlaceholder",
+        "cepButtonLabel",
+        "shippingNote",
+        "accordions"
+      ]
+    },
+    "ProductInfo16": {
+      "Tray": [
+        "counterOfLabel",
+        "codeLabel",
+        "ratingCountLabel",
+        "notifyLabel",
+        "buyLabel",
+        "shippingLabel",
+        "accordions"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "counterOfLabel",
+        "codeLabel",
+        "buyLabel",
+        "shippingLabel",
+        "cepPlaceholder",
+        "cepButtonLabel",
+        "accordions"
+      ]
+    },
+    "ProductInfo17": {
+      "Tray": [
+        "codeLabel",
+        "ratingCountLabel",
+        "notifyLabel",
+        "buyLabel",
+        "shippingLabel",
+        "accordions"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "codeLabel",
+        "buyLabel",
+        "shippingLabel",
+        "cepPlaceholder",
+        "cepButtonLabel",
+        "accordions"
+      ]
+    },
+    "ProductReviews06": {
+      "Tray": [
+        "title"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "ProductReviews09": {
+      "Tray": [
+        "title",
+        "countLabel",
+        "moreLabel"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "ProductReviews10": {
+      "Tray": [
+        "title",
+        "countLabel",
+        "moreLabel"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "ProductReviews11": {
+      "Tray": [
+        "title",
+        "countLabel",
+        "dateLabel",
+        "customerLabel",
+        "ratingLabel",
+        "reviewLabel",
+        "prevLabel",
+        "nextLabel"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "ProductReviews12": {
+      "Tray": [
+        "title",
+        "countLabel",
+        "moreLabel"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "ProductReviews13": {
+      "Tray": [
+        "title",
+        "countLabel",
+        "prevLabel",
+        "nextLabel"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "ProductReviews14": {
+      "Tray": [
+        "title",
+        "countLabel",
+        "prevLabel",
+        "nextLabel"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "ProductReviews15": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "countLabel",
+        "prevLabel",
+        "nextLabel"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "eyebrow",
+        "title"
+      ]
+    },
+    "ProductReviews16": {
+      "Tray": [
+        "title",
+        "countLabel",
+        "prevLabel",
+        "nextLabel",
+        "moreLabel"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "ProductReviews17": {
+      "Tray": [
+        "title",
+        "countLabel",
+        "prevLabel",
+        "nextLabel",
+        "moreLabel"
+      ],
+      "Wake 2.0": [],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "Ruler01": {
+      "Tray": [],
+      "Wake 2.0": [
+        "benefits"
+      ],
+      "Nuvemshop": []
+    },
+    "Ruler02": {
+      "Tray": [],
+      "Wake 2.0": [
+        "benefits"
+      ],
+      "Nuvemshop": [
+        "benefits"
+      ]
+    },
+    "Ruler04": {
+      "Tray": [],
+      "Wake 2.0": [
+        "seals"
+      ],
+      "Nuvemshop": [
+        "seals"
+      ]
+    },
+    "Ruler05": {
+      "Tray": [],
+      "Wake 2.0": [
+        "benefits"
+      ],
+      "Nuvemshop": [
+        "benefits"
+      ]
+    },
+    "Ruler07": {
+      "Tray": [],
+      "Wake 2.0": [
+        "benefits",
+        "benefitsMobile"
+      ],
+      "Nuvemshop": []
+    },
+    "Ruler08": {
+      "Tray": [
+        "benefits"
+      ],
+      "Wake 2.0": [
+        "benefits"
+      ],
+      "Nuvemshop": [
+        "benefits"
+      ]
+    },
+    "Ruler09": {
+      "Tray": [
+        "benefits"
+      ],
+      "Wake 2.0": [
+        "benefits"
+      ],
+      "Nuvemshop": [
+        "benefits"
+      ]
+    },
+    "Ruler10": {
+      "Tray": [
+        "benefits"
+      ],
+      "Wake 2.0": [
+        "benefits"
+      ],
+      "Nuvemshop": [
+        "benefits"
+      ]
+    },
+    "Ruler11": {
+      "Tray": [
+        "benefits"
+      ],
+      "Wake 2.0": [
+        "benefits"
+      ],
+      "Nuvemshop": [
+        "benefits"
+      ]
+    },
+    "Ruler12": {
+      "Tray": [
+        "benefits"
+      ],
+      "Wake 2.0": [
+        "benefits"
+      ],
+      "Nuvemshop": [
+        "benefits"
+      ]
+    },
+    "Ruler13": {
+      "Tray": [
+        "benefits"
+      ],
+      "Wake 2.0": [
+        "benefits"
+      ],
+      "Nuvemshop": [
+        "benefits"
+      ]
+    },
+    "Ruler14": {
+      "Tray": [
+        "benefits"
+      ],
+      "Wake 2.0": [
+        "benefits"
+      ],
+      "Nuvemshop": [
+        "benefits"
+      ]
+    },
+    "Ruler15": {
+      "Tray": [
+        "benefits"
+      ],
+      "Wake 2.0": [
+        "benefits"
+      ],
+      "Nuvemshop": [
+        "benefits"
+      ]
+    },
+    "Ruler16": {
+      "Tray": [
+        "benefits"
+      ],
+      "Wake 2.0": [
+        "benefits"
+      ],
+      "Nuvemshop": [
+        "benefits"
+      ]
+    },
+    "Ruler17": {
+      "Tray": [
+        "benefits"
+      ],
+      "Wake 2.0": [
+        "benefits"
+      ],
+      "Nuvemshop": [
+        "benefits"
+      ]
+    },
+    "ShelfBanner08": {
+      "Tray": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl",
+        "banner"
+      ],
+      "Wake 2.0": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl",
+        "banner"
+      ],
+      "Nuvemshop": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl"
+      ]
+    },
+    "ShelfBanner09": {
+      "Tray": [
+        "title",
+        "titleEmphasis",
+        "banner"
+      ],
+      "Wake 2.0": [
+        "title",
+        "titleEmphasis",
+        "tagLabel",
+        "banner"
+      ],
+      "Nuvemshop": [
+        "title",
+        "titleEmphasis",
+        "banner"
+      ]
+    },
+    "ShelfBanner10": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "banner"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel",
+        "banner"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "banner"
+      ]
+    },
+    "ShelfBanner11": {
+      "Tray": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "banner"
+      ],
+      "Wake 2.0": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel",
+        "banner"
+      ],
+      "Nuvemshop": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "banner"
+      ]
+    },
+    "ShelfBanner12": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "banner"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel",
+        "banner"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "banner"
+      ]
+    },
+    "ShelfBanner13": {
+      "Tray": [
+        "title",
+        "banner"
+      ],
+      "Wake 2.0": [
+        "title",
+        "tagLabel",
+        "banner"
+      ],
+      "Nuvemshop": [
+        "title",
+        "banner"
+      ]
+    },
+    "ShelfBanner14": {
+      "Tray": [
+        "title",
+        "banner"
+      ],
+      "Wake 2.0": [
+        "title",
+        "tagLabel",
+        "banner"
+      ],
+      "Nuvemshop": [
+        "title",
+        "banner"
+      ]
+    },
+    "ShelfBanner15": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "banner"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "tagLabel",
+        "banner"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "banner"
+      ]
+    },
+    "ShelfBanner16": {
+      "Tray": [
+        "title",
+        "banner"
+      ],
+      "Wake 2.0": [
+        "title",
+        "tagLabel",
+        "banner"
+      ],
+      "Nuvemshop": [
+        "title",
+        "banner"
+      ]
+    },
+    "ShelfBanner17": {
+      "Tray": [
+        "title",
+        "banner"
+      ],
+      "Wake 2.0": [
+        "title",
+        "tagLabel",
+        "banner"
+      ],
+      "Nuvemshop": [
+        "title",
+        "banner"
+      ]
+    },
+    "ShopByRoom07": {
+      "Tray": [],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "rooms"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "rooms"
+      ]
+    },
+    "Showcase01": {
+      "Tray": [],
+      "Wake 2.0": [
+        "title"
+      ],
+      "Nuvemshop": []
+    },
+    "Showcase02": {
+      "Tray": [],
+      "Wake 2.0": [
+        "title",
+        "productsLimit"
+      ],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "Showcase03": {
+      "Tray": [
+        "viewAllLabel"
+      ],
+      "Wake 2.0": [
+        "title",
+        "link",
+        "viewAllLabel"
+      ],
+      "Nuvemshop": [
+        "title",
+        "link",
+        "viewAllLabel"
+      ]
+    },
+    "Showcase04": {
+      "Tray": [
+        "title",
+        "link",
+        "viewAllLabel"
+      ],
+      "Wake 2.0": [
+        "title",
+        "link",
+        "viewAllLabel"
+      ],
+      "Nuvemshop": [
+        "title",
+        "link",
+        "viewAllLabel"
+      ]
+    },
+    "Showcase05": {
+      "Tray": [
+        "title",
+        "link",
+        "viewAllLabel"
+      ],
+      "Wake 2.0": [
+        "title",
+        "link",
+        "viewAllLabel"
+      ],
+      "Nuvemshop": [
+        "title",
+        "link",
+        "viewAllLabel"
+      ]
+    },
+    "Showcase06": {
+      "Tray": [],
+      "Wake 2.0": [
+        "title"
+      ],
+      "Nuvemshop": [
+        "title"
+      ]
+    },
+    "Showcase07": {
+      "Tray": [],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl"
+      ],
+      "Nuvemshop": []
+    },
+    "Showcase08": {
+      "Tray": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl"
+      ],
+      "Wake 2.0": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl"
+      ],
+      "Nuvemshop": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl"
+      ]
+    },
+    "Showcase09": {
+      "Tray": [
+        "title",
+        "titleEmphasis",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl"
+      ],
+      "Wake 2.0": [
+        "title",
+        "titleEmphasis",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ],
+      "Nuvemshop": [
+        "title",
+        "titleEmphasis",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl"
+      ]
+    },
+    "Showcase10": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl"
+      ]
+    },
+    "Showcase11": {
+      "Tray": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "subtitle"
+      ],
+      "Wake 2.0": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "subtitle",
+        "tagLabel"
+      ],
+      "Nuvemshop": [
+        "sectionNumber",
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "subtitle"
+      ]
+    },
+    "Showcase12": {
+      "Tray": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl"
+      ],
+      "Wake 2.0": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ],
+      "Nuvemshop": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl"
+      ]
+    },
+    "Showcase13": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ]
+    },
+    "Showcase14": {
+      "Tray": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ],
+      "Wake 2.0": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ],
+      "Nuvemshop": [
+        "title",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ]
+    },
+    "Showcase15": {
+      "Tray": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ],
+      "Wake 2.0": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ],
+      "Nuvemshop": [
+        "eyebrow",
+        "title",
+        "titleEmphasis",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ]
+    },
+    "Showcase16": {
+      "Tray": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ],
+      "Wake 2.0": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ],
+      "Nuvemshop": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ]
+    },
+    "Showcase17": {
+      "Tray": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl"
+      ],
+      "Wake 2.0": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl",
+        "tagLabel"
+      ],
+      "Nuvemshop": [
+        "title",
+        "subtitle",
+        "viewAllLabel",
+        "viewAllUrl"
+      ]
+    },
+    "SpecialOffers04": {
+      "Tray": [],
+      "Wake 2.0": [
+        "title",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "cards"
+      ],
+      "Nuvemshop": [
+        "title",
+        "text",
+        "ctaLabel",
+        "ctaUrl",
+        "cards"
+      ]
+    },
+    "TextArea": {
+      "Tray": [],
+      "Wake 2.0": [
+        "html"
+      ],
+      "Nuvemshop": []
+    }
+  }
+}

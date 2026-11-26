@@ -23,7 +23,15 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { pathToFileURL } from 'node:url';
 
-import { FASTSTORE_STARTER, RAIZ, itens, ler, relatorio } from './lib/util.mjs';
+import {
+  FASTSTORE_STARTER,
+  GLOBAL_TEMPLATES,
+  RAIZ,
+  itens,
+  ler,
+  relatorio,
+} from './lib/util.mjs';
+import { ARQUIVO_EDITAVEIS, derivarEditaveis } from '../derivar-editaveis.mjs';
 import {
   ARQUIVO_CAMPOS,
   ARQUIVO_SCHEMAS,
@@ -59,6 +67,84 @@ r.ok(
   'campos.generated.json é o das réplicas de agora (yarn derivar:conteudo sem diff)',
   ler(ARQUIVO_CAMPOS).replace(/\r\n/g, '\n') === serializar(derivarCampos()),
   'uma réplica mudou o tipo …Conteudo ou passou a ler pelo hook: rode yarn derivar:conteudo'
+);
+
+// ── 1b. o que o lojista edita em cada plataforma (yarn derivar:editaveis) ──
+const editaveis = JSON.parse(ler(ARQUIVO_EDITAVEIS) || '{"componentes":{}}').componentes;
+const desenhadosNoDisco = JSON.parse(ler(ARQUIVO_CAMPOS) || '{"componentes":{}}').componentes;
+if (fs.existsSync(path.join(process.env.DERIVAR_GLOBAL_TEMPLATES || GLOBAL_TEMPLATES, 'Wake'))) {
+  r.ok(
+    'editaveis.generated.json é o dos portes de agora (yarn derivar:editaveis sem diff)',
+    ler(ARQUIVO_EDITAVEIS).replace(/\r\n/g, '\n') === serializar(await derivarEditaveis()),
+    'um porte, um mock ou uma réplica mudou: rode yarn derivar:editaveis e revise o diff'
+  );
+} else {
+  console.log('  ⏳ editáveis não conferidos contra os portes: sem global-templates ao lado');
+}
+const foraDoPainel = Object.entries(editaveis).flatMap(([comp, porPlat]) =>
+  Object.entries(porPlat).flatMap(([p, lista]) =>
+    lista.filter(c => !desenhadosNoDisco[comp]?.includes(c)).map(c => `${comp}.${c} (${p})`)
+  )
+);
+r.ok('todo campo editável é um campo que o painel mostra', !foraDoPainel.length, foraDoPainel.join(', '));
+const naPagina = pagina =>
+  itens().filter(i => i.pagina[0] === pagina && editaveis[i.component]);
+const pdpWake = naPagina('product').filter(i => editaveis[i.component]['Wake 2.0']?.length);
+r.ok(
+  'Wake: nenhum campo da página de produto (sem Design Studio na PDP)',
+  !pdpWake.length,
+  pdpWake.map(i => i.component).join(', ')
+);
+const MENU = /^(menu|navItems|mobileNavItems|categories|columns)$/;
+const headerWake = itens()
+  .filter(i => i.selection === 'header' && editaveis[i.component]?.['Wake 2.0'])
+  .filter(i => editaveis[i.component]['Wake 2.0'].some(c => !MENU.test(c)));
+r.ok(
+  'Wake: no header só o menu (Gestor de Menu); o resto é do tema',
+  !headerWake.length,
+  headerWake.map(i => `${i.component}: ${editaveis[i.component]['Wake 2.0']}`).join(' | ')
+);
+const homeWakeParcial = naPagina('home').filter(
+  i => i.platforms.includes('Wake 2.0') &&
+    editaveis[i.component]['Wake 2.0'].length !== desenhadosNoDisco[i.component].length
+);
+r.ok(
+  'Wake: seção da home é bloco do Design Studio, todo campo editável',
+  !homeWakeParcial.length,
+  homeWakeParcial.map(i => i.component).join(', ')
+);
+const inteiroNaWake = sel =>
+  itens().filter(
+    i => (sel === 'global' ? i.global : i.selection === sel) &&
+      i.platforms.includes('Wake 2.0') && editaveis[i.component] &&
+      editaveis[i.component]['Wake 2.0'].length !== desenhadosNoDisco[i.component].length
+  );
+for (const [sel, nome] of [['footer', 'o rodapé (exceção: o cliente troca texto e link depois)'], ['global', 'os globais (pop-up, ajuda flutuante: Conteúdos da Wake)']]) {
+  const parciais = inteiroNaWake(sel);
+  r.ok(`Wake: ${nome} com todo campo editável`, !parciais.length, parciais.map(i => i.component).join(', '));
+}
+const caso = (comp, plat) => editaveis[comp]?.[plat] ?? [];
+r.ok(
+  'Nuvemshop: avaliações só com o título (o resto é do app de avaliação)',
+  JSON.stringify(caso('ProductReviews09', 'Nuvemshop')) === '["title"]',
+  caso('ProductReviews09', 'Nuvemshop')
+);
+r.ok(
+  'Nuvemshop: PDP com o botão de comprar, sem o "Avise-me" (não existe lá)',
+  caso('ProductInfo09', 'Nuvemshop').includes('buyLabel') &&
+    !caso('ProductInfo09', 'Nuvemshop').includes('notifyLabel'),
+  caso('ProductInfo09', 'Nuvemshop')
+);
+r.ok(
+  'Tray: header sem painel do tema (família 01) só com o menu (árvore de categorias)',
+  caso('Header01', 'Tray').every(c => MENU.test(c)),
+  caso('Header01', 'Tray')
+);
+r.ok(
+  'categoria igual nas três: os rótulos da descrição 09 são editáveis em todas',
+  ['Tray', 'Wake 2.0', 'Nuvemshop'].every(
+    p => caso('CategoryDescription09', p).length === desenhadosNoDisco.CategoryDescription09.length
+  )
 );
 
 // ── 2. regras do resolvedor e do sanitizador ───────────────────────────────

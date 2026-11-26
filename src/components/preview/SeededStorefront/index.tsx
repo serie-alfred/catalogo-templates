@@ -21,6 +21,8 @@ interface SeededStorefrontProps {
   isMobile?: boolean;
   /** O conteúdo da loja do snapshot (o ThemeRenderer sanitiza). */
   conteudoLoja?: ConteudoLoja | null;
+  /** A plataforma do tema (o conteúdo só vale no que o lojista dela muda). */
+  platform?: string | null;
 }
 
 /**
@@ -38,6 +40,7 @@ export default function SeededStorefront({
   pagina,
   isMobile = false,
   conteudoLoja = null,
+  platform = null,
 }: SeededStorefrontProps) {
   // Contexto semeado — os templates leem `logo`, `footerLogo` e `selections`
   // daqui (via useLayout), sem depender do estado local do editor.
@@ -69,6 +72,7 @@ export default function SeededStorefront({
           pagina={pagina}
           isMobile={isMobile}
           conteudoLoja={conteudoLoja}
+          platform={platform}
         />
       </div>
     </SeededLayoutProvider>
