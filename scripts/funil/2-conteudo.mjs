@@ -541,6 +541,47 @@ try {
   }
   erros.push(...wake.erros);
 
+  // ── A barra do topo é conteúdo do header, campo a campo como no tema ────
+  // Header01: na VTEX o CMS edita saudação, contato e redes; na Wake saudação e
+  // contato são fixos no tema e só as redes vêm das configurações da loja.
+  const TOPO = { topbar: { loginGreeting: 'MK-SAUDACAO', contact: { text: 'MK-CONTATO', link: '#' } } };
+  for (const plataforma of ['VTEX', 'Wake 2.0']) {
+    const aba = await novaAba(browser);
+    const h01 = secao('Header01', TOPO);
+    await semear(aba.page, { plataforma, selecoes: [h01] });
+    const texto = await aba.page
+      .waitForFunction(
+        u => document.querySelector('iframe')?.contentDocument?.querySelector(`[data-section-uid="${u}"]`)?.innerText,
+        { timeout: 60000, polling: 250 },
+        h01.uid
+      )
+      .then(h => h.jsonValue())
+      .catch(() => '');
+    const naTela = ['MK-SAUDACAO', 'MK-CONTATO'].filter(m => texto.includes(m));
+    if (plataforma === 'VTEX')
+      r.ok('VTEX: a saudação e o contato da barra do Header01 vêm do conteúdo do header', naTela.length === 2, naTela.join(', ') || texto.slice(0, 120));
+    else
+      r.ok('Wake: a saudação e o contato do Header01 ficam os do tema', naTela.length === 0, naTela.join(', '));
+    await aba.page.click('[data-aba-direita="conteudo"]');
+    // Clique no elemento, não no centro: no header o centro é o campo de busca.
+    await (await (await aba.page.$('iframe')).contentFrame()).$eval(`[data-section-uid="${h01.uid}"]`, el => el.click());
+    const subcampos = await aba.page
+      .waitForSelector('[data-campo-conteudo="topbar"]', { timeout: 15000 })
+      .then(() =>
+        aba.page.evaluate(() => {
+          const ids = [...document.querySelectorAll('[data-campo-conteudo="topbar"] [id]')].map(e => e.id);
+          const subs = ids.map(id => id.split('-topbar-')[1]?.split('-')[0]).filter(Boolean);
+          return [...new Set(subs)].sort().join(',');
+        })
+      )
+      .catch(e => `sem o campo topbar (${e.message.slice(0, 80)})`);
+    if (plataforma === 'VTEX')
+      r.ok('VTEX: o painel oferece toda a barra do topo (saudação, contato, redes)', /contact/.test(subcampos) && /loginGreeting/.test(subcampos) && /socials/.test(subcampos), subcampos);
+    else
+      r.ok('Wake: o painel oferece da barra só as redes', subcampos === 'socials', subcampos);
+    erros.push(...aba.erros);
+  }
+
   r.ok('o editor sem erro de página', erros.length === 0, erros.join(' | '));
 } finally {
   await browser.close();

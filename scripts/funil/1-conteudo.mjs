@@ -69,6 +69,26 @@ r.ok(
   'uma réplica mudou o tipo …Conteudo ou passou a ler pelo hook: rode yarn derivar:conteudo'
 );
 
+// ── 1a. escolha é lista, não texto ───────────────────────────────────────
+// O lojista escolhe ícone e rede de uma lista; nunca cola SVG nem digita um nome
+// que a peça precisa reconhecer (a régua 01 pedia "Ícone (SVG)" e o injetava).
+const textoQueDeviaSerLista = [];
+const varrer = (comp, no, pref) => {
+  for (const [k, v] of Object.entries(no.properties ?? {})) {
+    const rotulo = `${v.title ?? ''} ${v.description ?? ''}`;
+    if (v.type === 'string' && !v.enum && (/\bsvg\b/i.test(v.title ?? '') || /valores aceitos/i.test(rotulo)) && !v.widget)
+      textoQueDeviaSerLista.push(`${comp}.${pref}${k}`);
+    if (v.items) varrer(comp, v.items, `${pref}${k}[].`);
+    if (v.properties) varrer(comp, v, `${pref}${k}.`);
+  }
+};
+for (const [comp, { schema }] of Object.entries(schemas.componentes)) varrer(comp, schema, '');
+r.ok(
+  'nenhum campo de SVG livre nem de "valores aceitos" em texto (o schema oferece a lista)',
+  !textoQueDeviaSerLista.length,
+  textoQueDeviaSerLista.join(', ')
+);
+
 // ── 1b. o que o lojista edita em cada plataforma (yarn derivar:editaveis) ──
 const editaveis = JSON.parse(ler(ARQUIVO_EDITAVEIS) || '{"componentes":{}}').componentes;
 const desenhadosNoDisco = JSON.parse(ler(ARQUIVO_CAMPOS) || '{"componentes":{}}').componentes;
@@ -83,7 +103,7 @@ if (fs.existsSync(path.join(process.env.DERIVAR_GLOBAL_TEMPLATES || GLOBAL_TEMPL
 }
 const foraDoPainel = Object.entries(editaveis).flatMap(([comp, porPlat]) =>
   Object.entries(porPlat).flatMap(([p, lista]) =>
-    lista.filter(c => !desenhadosNoDisco[comp]?.includes(c)).map(c => `${comp}.${c} (${p})`)
+    lista.filter(c => !desenhadosNoDisco[comp]?.includes(c.split('.')[0])).map(c => `${comp}.${c} (${p})`)
   )
 );
 r.ok('todo campo editável é um campo que o painel mostra', !foraDoPainel.length, foraDoPainel.join(', '));
@@ -108,12 +128,14 @@ r.ok(
   !cadastroFaltando.length && ['ProductInfo09', 'ProductInfo12', 'ProductInfo17'].every(c => doProduto[c]?.includes('accordions')) && doProduto.ProductInfo09.includes('newLabel'),
   cadastroFaltando.join(', ') || JSON.stringify(doProduto)
 );
-const MENU = /^(menu|navItems|mobileNavItems|categories|columns)$/;
+// O menu (Gestor de Menu / árvore de categorias) e o que o HTML lê das configurações
+// da loja (`settings.social_*`, `settings.whatsapp_number`, `settings.logo`).
+const MENU = /^(menu|navItems|mobileNavItems|categories|columns|logo|whatsapp|socials?|topbar\.(socials|contact)|(youtube|instagram|twitter|linkedin|facebook)Url)$/;
 const headerWake = itens()
   .filter(i => i.selection === 'header' && editaveis[i.component]?.['Wake 2.0'])
   .filter(i => editaveis[i.component]['Wake 2.0'].some(c => !MENU.test(c)));
 r.ok(
-  'Wake: no header só o menu (Gestor de Menu); o resto é do tema',
+  'Wake: no header só o menu (Gestor de Menu) e o que vem das configurações da loja; o resto é do tema',
   !headerWake.length,
   headerWake.map(i => `${i.component}: ${editaveis[i.component]['Wake 2.0']}`).join(' | ')
 );
@@ -158,7 +180,7 @@ r.ok(
   caso('ProductInfo09', 'Nuvemshop')
 );
 r.ok(
-  'Tray: header sem painel do tema (família 01) só com o menu (árvore de categorias)',
+  'Tray: header sem painel do tema (família 01) só com o menu e as configurações da loja',
   caso('Header01', 'Tray').every(c => MENU.test(c)),
   caso('Header01', 'Tray')
 );
@@ -241,13 +263,12 @@ ok('a origem do campo é o slot (para o painel)', menu.origem.menu === 'menuPrin
 ok('nome da loja chega ao header mesmo sem brandName no mock (as réplicas o deixam fora)', projetarLoja('Header12', { versao: 1, nomeDaLoja: 'Loja X' }, { menu: [] }).conteudo?.brandName === 'Loja X');
 ok('campo que a peça não desenha (fora do mock) não recebe nada',!projetarLoja('Header09', { versao: 1, menuPrincipal: [{ label: 'R' }] }, { brandName: 'X' }).conteudo);
 ok('vínculo vale só para o tipo de peça (menu num não-header fica)', !projetarLoja('Showcase09', { versao: 1, menuPrincipal: [{ label: 'R' }] }, HEADER).conteudo);
-ok('header com menu em objeto (famílias antigas) não recebe lista', !projetarLoja('Header01', { versao: 1, menuPrincipal: [{ label: 'R' }] }, { menu: { links: [] } }).conteudo);
+const h03 = projetarLoja('Header03', { versao: 1, nomeDaLoja: 'Loja X', avisos: [{ text: 'A1' }, { text: 'A2' }], menuPrincipal: [{ label: 'M', url: '/m', children: [{ label: 'S', url: '/s' }] }] }, { topbar: { messages: [{ text: 'x' }] }, menu: { links: [{ label: 'x', link: '#', itensLevel1: [{ label: 'y', link: '#' }] }] } }).conteudo;
+const h01 = projetarLoja('Header01', { versao: 1, menuPrincipal: [{ label: 'R', url: '/r' }] }, { menu: { links: [{ label: 'x', url: '#' }] } }).conteudo;
+ok('header com menu em objeto (01, 03) recebe o menu no formato { links } do mock', h01?.menu?.links?.[0]?.label === 'R' && !Array.isArray(h01?.menu), JSON.stringify(h01?.menu));
+ok('a barra do topo não vem da loja (é conteúdo de cada header)', !('topbar' in (h03 ?? {})) && !h01?.topbar, JSON.stringify(h03?.topbar));
+ok('Header03: menu com link e submenu, nome em logo.text', h03?.menu?.links?.[0]?.link === '/m' && h03?.menu?.links?.[0]?.itensLevel1?.[0]?.label === 'S' && h03?.logo?.text === 'Loja X', JSON.stringify(h03));
 
-const H16 = { topbarItems: [{ text: 'a', icon: 'truck', url: '#' }, { text: 'b', icon: 'card', url: '#' }] };
-const av = projetarLoja('Header16', { versao: 1, avisos: [{ text: 'Frete grátis' }, { text: 'Troca fácil' }, { text: 'Pix' }] }, H16).conteudo;
-ok('aviso leva o ícone do item do mock na mesma posição', av?.topbarItems?.[0].icon === 'truck' && av.topbarItems[1].icon === 'card' && av.topbarItems[2].icon === 'truck', JSON.stringify(av));
-ok('aviso sem link sai com url vazia', av?.topbarItems?.[0].url === '');
-ok('topbarText (uma mensagem só) é o primeiro aviso', projetarLoja('Header12', { versao: 1, avisos: [{ text: '' }, { text: 'Primeiro', url: '/f' }] }, { topbarText: 'x', topbarLinkUrl: '#' }).conteudo?.topbarText === 'Primeiro');
 
 ok('WhatsApp vira wa.me com 55', linkDoWhatsapp('(11) 98888-7777') === 'https://wa.me/5511988887777' && linkDoWhatsapp('https://wa.me/1') === 'https://wa.me/1' && linkDoWhatsapp('abc') === '');
 ok('telefone vira tel:+55', linkDoTelefone('(11) 3333-4444') === 'tel:+551133334444');
@@ -292,10 +313,15 @@ ok('começar com o da página: acha a seção certa e converte para a loja', ini
 ok('começar com o da página: slot sem seção que o mostre dá null', partirDaPagina('categorias', schemaBanners, []) === null && partirDaPagina('contato', schemaBanners, []) === null);
 // Os nomes das famílias 01–08 (origem Tray) também recebem a loja.
 const L08 = { versao: 1, nomeDaLoja: 'Loja X', menuPrincipal: [{ label: 'Roupas', url: '/r', children: [{ label: 'Saias', url: '/s' }] }], avisos: [{ text: 'Frete' }], contato: { whatsapp: '(11) 98888-7777', telefone: '(11) 3333-4444', email: 'oi@x.com' }, redes: [{ network: 'facebook', url: 'https://fb/x' }], pagamentos: [{ method: 'pix' }, { method: 'visa' }], linksLegais: [{ label: 'Privacidade', url: '/p' }], dadosLegais: { razaoSocial: 'R Ltda', cnpj: '1' } };
-const h06 = projetarLoja('Header06', L08, { navItems: [{ label: 'a', url: '#', hasMega: true, highlight: false, megaColumns: [] }], topbarMessages: [{ text: 'x', icon: 'truck' }] }).conteudo;
-ok('01–08: navItems do header recebem o menu principal (hasMega vira false)', h06?.navItems?.[0].label === 'Roupas' && h06.navItems[0].hasMega === false && h06.topbarMessages?.[0].icon === 'truck', JSON.stringify(h06));
+const MEGA = { navItems: [{ label: 'a', url: '#', hasMega: true, highlight: false, megaColumns: [{ title: 'c', links: [{ label: 'l', url: '#' }] }] }], topbarMessages: [{ text: 'x', icon: 'truck' }] };
+const h06 = projetarLoja('Header06', { ...L08, menuPrincipal: [...L08.menuPrincipal, { label: 'Sem sub', url: '/x' }] }, MEGA).conteudo;
+ok('01–08: navItems recebem o menu; com subitens o megamenu abre (colunas = 2º nível)', h06?.navItems?.[0].label === 'Roupas' && h06.navItems[0].hasMega === true && h06.navItems[0].megaColumns?.[0].title === 'Saias' && h06.navItems[1].hasMega === false, JSON.stringify(h06?.navItems));
+const tresNiveis = { ...L08, menuPrincipal: [{ label: 'Roupas', url: '/r', children: [{ label: 'Saias', url: '/s', children: [{ label: 'Midi', url: '/m' }] }] }] };
+const mega3 = projetarLoja('Header07', tresNiveis, MEGA).conteudo?.navItems?.[0].megaColumns?.[0];
+ok('o 3º nível do menu vira os links da coluna do megamenu (06, 07)', mega3?.links?.[0]?.label === 'Midi', JSON.stringify(mega3));
+const h01n3 = projetarLoja('Header01', tresNiveis, { menu: { links: [{ label: 'x', link: '#', itensLevel1: [{ label: 'y', link: '#', itensLevel2: [{ label: 'z', link: '#' }] }] }] } }).conteudo;
+ok('o 3º nível do menu chega ao Header01 (itensLevel2)', h01n3?.menu?.links?.[0]?.itensLevel1?.[0]?.itensLevel2?.[0]?.label === 'Midi', JSON.stringify(h01n3?.menu));
 ok('01–08: mobileNavItems com os subitens em sublinks', projetarLoja('Header04', L08, { mobileNavItems: [{ label: 'a', url: '#', sublinks: [{ label: 'b', url: '#' }] }] }).conteudo?.mobileNavItems?.[0].sublinks?.[0].label === 'Saias');
-ok('01–08: avisos como textos soltos e topbarNotices', JSON.stringify(projetarLoja('Header04', L08, { announcementMessages: ['x'] }).conteudo?.announcementMessages) === '["Frete"]' && projetarLoja('Header07', L08, { topbarNotices: [{ text: 'x' }] }).conteudo?.topbarNotices?.[0].text === 'Frete');
 const f01 = projetarLoja('Footer01', L08, { whatsapp: 'x', phone: 'x', email: 'x', socialFacebook: 'x', socialTwitter: 'x', institucionalMenu: [{ name: 'a', url: '#' }], paymentMethods: [{ src: '/v.png', alt: 'Visa' }], copyright: 'x' }).conteudo;
 ok('01–08: contato e redes como textos soltos; rede que a loja não tem fica vazia', f01?.whatsapp === '(11) 98888-7777' && f01.phone === '(11) 3333-4444' && f01.email === 'oi@x.com' && f01.socialFacebook === 'https://fb/x' && f01.socialTwitter === '', JSON.stringify(f01));
 ok('01–08: institucionalMenu recebe os links legais (label → name)', f01?.institucionalMenu?.[0].name === 'Privacidade');

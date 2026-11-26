@@ -222,7 +222,7 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
   (`setConteudoDaSecao`/`resetConteudoDaSecao`). Vai no tema, no undo e no snapshot do preview; a
   hidratação passa por `sanitizarConteudo` (só JSON, sem URL `javascript:`/`data:`; "Data: 25/11" passa).
 - **Nível 2 — loja** (`ConteudoLoja`, estado `conteudoLoja` do hook, `setCampoDaLoja`/`limparConteudoLoja`):
-  nome da loja, avisos, menu principal, menu do rodapé, links legais, contato, redes, dados legais,
+  nome da loja, menu principal, menu do rodapé, links legais, contato, redes, dados legais,
   pagamentos, selos, banners e categorias — o que o cliente tem UMA vez. **Mora no tema, como as
   cores** (decisão de 25/11/2026, no lugar da tabela do Supabase do plano): chave `conteudoLoja` da aba,
   `ThemeDoc` (undo), `PreviewSnapshot` (o /p e, por ele, os temas salvos). São poucos KB (imagens são
@@ -237,6 +237,12 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
     não carrega os 744 KB. Contato vira `contactLines` sem repetir canal que a peça tem em campo
     próprio (`whatsappUrl`, `phoneUrl`…), e dados legais viram a linha `© ano · marca · razão · CNPJ ·
     endereço`. Slot vazio = nenhum vínculo. Ordem: `resolverConteudo(MOCK, loja, seção)`.
+    Cada família guarda o nome e o menu num formato: o menu do 01 e do 03 é `{ links }` (e o 3º nível,
+    `itensLevel2/3`), o do 06/07 abre o megamenu com o 2º nível como colunas (`megaColumns`, `hasMega`);
+    o nome do 03 é `logo.text`; onde o schema não tem campo de nome (01, 06, 07, 08), a marca em texto lê
+    `useNomeDaLoja()`. O `2-conteudo-loja` confere os 17 headers (nome, menu, 2º e 3º nível).
+    **A barra do topo NÃO é da loja** (27/11/2026, a pedido: depende demais de cada header — marquee,
+    vários textos): é conteúdo de cada header, no painel da seção, campo a campo como no tema.
   - **Render**: o `ThemeRenderer` recebe `conteudoLoja`, sanitiza (`sanitizarConteudoLoja`) e
     o põe no `ConteudoLojaContext`; o `useConteudoDaSecao` projeta. Cada superfície passa: o canvas
     pela mensagem `content` do iframe, o palco do export pelo hook, o /p pelo snapshot.
@@ -254,7 +260,11 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
 - **Só o que o lojista muda depois** (26/11/2026): campo que o lojista da plataforma escolhida
   consegue trocar de algum jeito (CMS, Design Studio, painel do tema, Gestor de Menu, cadastro) fica
   no painel; o que fica fixo no código do tema **some** — não há aviso por campo, e o preview desenha
-  o mock nele (`useConteudoDaSecao` filtra Nível 1 e loja). `yarn derivar:editaveis` gera
+  o mock nele (`useConteudoDaSecao` filtra o Nível 1; o conteúdo da LOJA passa sempre — nome, menu,
+  contato são dados da loja, que a implantação leva ao tema). Campo-objeto editável só em parte sai
+  como `campo.sub` (`topbar.socials`): o painel mostra só esses subcampos e o preview devolve os
+  outros ao mock (`soEditaveis(…, mock)`). Wake e Tray antigas: o que o HTML lê das configurações da
+  loja (`settings.social_*`, `settings.whatsapp_number`, `settings.logo`) conta como editável. `yarn derivar:editaveis` gera
   `src/data/conteudo/editaveis.generated.json` dos portes em `../global-templates`: **VTEX** não
   entra (o painel é o CMS); **Wake** por pasta (`<selection>.schema.json` ou `global: true` = tudo;
   sem bloco, só o menu de `menu_groups`; PDP e header não são bloco; o **rodapé** é exceção e fica
@@ -274,6 +284,14 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
   `ProductDescriptionNN` e as `ProductInfoNN` com ficha (`daFicha` no JSON) ganham, na aba Conteúdo,
   esses dois campos do 1º produto da loja (`FichaDoProduto`); sem produto, um atalho para cadastrar. Inventários que fundamentaram: `docs/INVENTARIO-EDITAVEL-{WAKE,TRAY,NUVEMSHOP}.md`.
   Mexeu num porte ou num mock: rode o derivador (o `1-conteudo` reprova o arquivo velho).
+- **Escolha é lista, não texto** (27/11/2026): ícone e rede social se escolhem de uma lista fixa
+  (`enum` no schema do starter), nunca se cola SVG nem se digita o nome — a régua 01 pedia "Ícone (SVG)"
+  e o injetava no /p público. A régua 01 usa as chaves `entrega/seguranca/promocao/troca` nas três
+  plataformas (`Ruler/icones.ts`, igual ao bloco da Wake; na Tray, radios no painel do tema); Footer03
+  (ícone) e Footer04/06 (rede) também. O `1-conteudo` reprova campo "SVG" ou "Valores aceitos" sem lista.
+- **Lista mostra o que existe** (27/11/2026): a peça desenha os itens da lista do painel, nem um a mais —
+  o Banner 01 repetia o único slide do mock até fazer 3. O `2-listas` semeia cada lista com 1 e com 3
+  itens e reprova quem inventa item (o letreiro do Header13 e a mensagem dupla do Header07 são de propósito).
 - **Template**: lê conteúdo SÓ por `useConteudoDaSecao(MOCK)` — `const MOCK: XConteudo = {…}` com os
   nomes de campo do schema; a `interface XConteudo` é o contrato (o `1-conteudo` reprova campo que não
   existe no schema). Migrar um componente é também desenhar os campos do schema que a réplica não

@@ -27,7 +27,6 @@ export type SlotDaLoja = Exclude<keyof ConteudoLoja, 'versao'>;
 /** O nome de cada slot na tela ("Usando o conteúdo da loja: Menu principal"). */
 export const ROTULO_DO_SLOT: Record<SlotDaLoja, string> = {
   nomeDaLoja: 'Nome da loja',
-  avisos: 'Avisos do topo',
   menuPrincipal: 'Menu principal',
   menuRodape: 'Menu do rodapé',
   linksLegais: 'Links legais',
@@ -101,6 +100,13 @@ const SINONIMOS: Record<string, string[]> = {
   url: ['href', 'ctaUrl'],
   href: ['url'],
   link: ['url'],
+  // Os níveis do menu: `itensLevel1/2/3` (Header01, Header03) e as colunas do
+  // megamenu (`megaColumns`, Header06/07; os `links` delas, abaixo) são os
+  // `children` da loja.
+  itensLevel1: ['children'],
+  itensLevel2: ['children'],
+  itensLevel3: ['children'],
+  megaColumns: ['children'],
   src: ['image', 'imageDesktop'],
   image: ['src'],
   alt: ['imageAlt', 'label'],
@@ -340,28 +346,6 @@ const VINCULOS: Vinculo[] = [
     projetar: loja => texto(loja.nomeDaLoja) || undefined,
     semMock: true,
   },
-  ...['topbarMessages', 'topbarItems'].map(
-    (campo): Vinculo => ({
-      de: HEADER,
-      campo,
-      slot: 'avisos',
-      projetar: (loja, mock) => listaDaLoja(loja.avisos, mock[campo], 'text'),
-    })
-  ),
-  {
-    de: HEADER,
-    campo: 'topbarText',
-    slot: 'avisos',
-    projetar: loja =>
-      texto(objetos(loja.avisos).find(a => texto(a.text))?.text) || undefined,
-  },
-  {
-    de: HEADER,
-    campo: 'topbarLinkUrl',
-    slot: 'avisos',
-    projetar: loja =>
-      texto(objetos(loja.avisos).find(a => texto(a.text))?.url) || undefined,
-  },
   {
     de: HEADER,
     campo: 'menu',
@@ -578,13 +562,40 @@ const VINCULOS: Vinculo[] = [
   },
 
   /* ── Nomes das famílias 01–08 (origem Tray) ── */
+  {
+    // Menu como objeto `{ links }` (Header01, Header03).
+    de: /^Header0[13]$/,
+    campo: 'menu',
+    slot: 'menuPrincipal',
+    projetar: (loja, mock) => {
+      const doMock = mock.menu as Objeto | undefined;
+      const links = listaDaLoja(loja.menuPrincipal, doMock?.links, 'label');
+      return links ? { ...doMock, links } : undefined;
+    },
+  },
+  {
+    // O "Nome da marca" do Header03 (`logo.text`, sem o caractere de destaque).
+    de: /^Header03$/,
+    campo: 'logo',
+    slot: 'nomeDaLoja',
+    projetar: loja => {
+      const nome = texto(loja.nomeDaLoja);
+      return nome ? { text: nome, accentChar: '' } : undefined;
+    },
+    semMock: true,
+  },
   ...['navItems', 'mobileNavItems'].map(
     (campo): Vinculo => ({
       de: HEADER,
       campo,
       slot: 'menuPrincipal',
       projetar: (loja, mock) =>
-        listaDaLoja(loja.menuPrincipal, mock[campo], 'label'),
+        listaDaLoja(loja.menuPrincipal, mock[campo], 'label')?.map(item =>
+          // O megamenu (06, 07) só abre com `hasMega`: liga quando há colunas.
+          'hasMega' in item
+            ? { ...item, hasMega: objetos(item.megaColumns).length > 0 }
+            : item
+        ),
     })
   ),
   {
@@ -594,25 +605,6 @@ const VINCULOS: Vinculo[] = [
     slot: 'menuPrincipal',
     projetar: (loja, mock) =>
       listaDaLoja(loja.menuPrincipal, mock.categories, 'label'),
-  },
-  {
-    de: HEADER,
-    campo: 'topbarNotices',
-    slot: 'avisos',
-    projetar: (loja, mock) =>
-      listaDaLoja(loja.avisos, mock.topbarNotices, 'text'),
-  },
-  {
-    // Lista de textos soltos (Header04).
-    de: HEADER,
-    campo: 'announcementMessages',
-    slot: 'avisos',
-    projetar: loja => {
-      const textos = objetos(loja.avisos)
-        .map(a => texto(a.text))
-        .filter(Boolean);
-      return textos.length ? textos : undefined;
-    },
   },
   {
     de: HEADER,

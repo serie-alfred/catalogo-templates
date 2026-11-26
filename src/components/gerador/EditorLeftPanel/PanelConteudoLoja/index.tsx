@@ -16,7 +16,7 @@ import styles from './index.module.css';
 
 /**
  * "Conteúdo da loja" (rail): o que o cliente tem UMA vez e todas as seções
- * mostram — menus, avisos, contato, redes, dados legais, pagamentos, selos,
+ * mostram — menus, contato, redes, dados legais, pagamentos, selos,
  * banners e categorias (o Nível 2, src/types/conteudo.ts).
  *
  * Cada slot chega às seções pelos vínculos (src/utils/conteudoLoja.ts): o menu

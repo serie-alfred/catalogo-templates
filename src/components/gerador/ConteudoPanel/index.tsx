@@ -8,7 +8,12 @@ import camposDasReplicas from '@/data/conteudo/campos.generated.json';
 import type { CampoDoSchema, SchemaDeConteudo, ValorDeConteudo } from '@/types/conteudo';
 import { resolverConteudo, sanitizarConteudoLoja } from '@/utils/conteudo';
 import { projetarLoja, ROTULO_DO_SLOT } from '@/utils/conteudoLoja';
-import { camposDaFicha, camposDoProduto, camposEditaveis } from '@/utils/editaveis';
+import {
+  camposDaFicha,
+  camposDoProduto,
+  camposEditaveis,
+  subcamposEditaveis,
+} from '@/utils/editaveis';
 import { rotuloDaPlataforma } from '@/types/platform';
 import { pedirFocoNaLoja } from '@/utils/focoNaLoja';
 import { TemplateRegistry } from '@/utils/templateRegistry';
@@ -152,9 +157,17 @@ export default function ConteudoPanel() {
   const doSchema: [string, CampoDoSchema][] = schema
     ? Object.entries(schema.properties).filter(([chave]) => desenhados.includes(chave))
     : [];
-  const campos = editaveis
-    ? doSchema.filter(([chave]) => editaveis.includes(chave))
-    : doSchema;
+  // Campo-objeto editável só em parte (a `topbar` do Header01 na Wake): o grupo
+  // mostra só os subcampos que o lojista muda; o `Campo` preserva os outros.
+  const campos: [string, CampoDoSchema][] = doSchema.flatMap(([chave, filho]) => {
+    const subs = subcamposEditaveis(editaveis, chave);
+    if (!subs) return [[chave, filho]];
+    if (!subs.length || !filho.properties) return [];
+    const properties = Object.fromEntries(
+      Object.entries(filho.properties).filter(([k]) => subs.includes(k))
+    );
+    return [[chave, { ...filho, properties }]];
+  });
   if (!campos.length) {
     const fixos = doSchema.length > 0 && (
       <p className={styles.vazio} data-sem-editaveis={platform ?? undefined}>

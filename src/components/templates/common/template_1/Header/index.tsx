@@ -1,6 +1,7 @@
 // Header.jsx
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './index.module.css';
+import { useNomeDaLoja } from '@/hooks/useNomeDaLoja';
 import { useLayout } from '@/context/LayoutContext';
 import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
 import {
@@ -151,6 +152,7 @@ const SearchGlyph = () => (
 
 export default function Header() {
   const { logo: logoDaLoja } = useLayout();
+  const nomeDaLoja = useNomeDaLoja();
   const { logo: logoDoCs, topbar, helpLink, menu } = useConteudoDaSecao(MOCK);
   // O logo do CS vale mais; sem ele, o que o usuário enviou no /gerador.
   const logo = logoDoCs?.src || logoDaLoja;
@@ -420,7 +422,7 @@ export default function Header() {
                         height={logoDoCs?.height ?? 56}
                       />
                     ) : (
-                      <span className={styles.logo__fallback}>SERIE//A</span>
+                      <span className={styles.logo__fallback}>{nomeDaLoja || 'SERIE//A'}</span>
                     )}
                   </a>
                 </h1>
@@ -434,7 +436,7 @@ export default function Header() {
                         height={logoDoCs?.height ?? 56}
                       />
                   ) : (
-                    <span className={styles.logo__fallback}>SERIE//A</span>
+                    <span className={styles.logo__fallback}>{nomeDaLoja || 'SERIE//A'}</span>
                   )}
                 </a>
               )}

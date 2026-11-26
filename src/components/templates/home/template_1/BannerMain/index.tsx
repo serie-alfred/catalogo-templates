@@ -24,13 +24,31 @@ interface BannerMain01Conteudo {
   mobileSlides: SlideItem[];
 }
 
+// Três banners, como o carrossel do desenho: o painel mostra os mesmos três que a
+// tela desenha (cada um se edita, duplica e apaga; trocar a imagem é trocar o link).
 const MOCK: BannerMain01Conteudo = {
   desktopSlides: [
     {
       link: '#',
       target: '_blank',
       image: 'https://placehold.co/1920x400',
-      label: 'Banner Desktop',
+      label: 'Banner Desktop 1',
+      width: 1200,
+      height: 400,
+    },
+    {
+      link: '#',
+      target: '_blank',
+      image: 'https://placehold.co/1920x400',
+      label: 'Banner Desktop 2',
+      width: 1200,
+      height: 400,
+    },
+    {
+      link: '#',
+      target: '_blank',
+      image: 'https://placehold.co/1920x400',
+      label: 'Banner Desktop 3',
       width: 1200,
       height: 400,
     },
@@ -40,20 +58,28 @@ const MOCK: BannerMain01Conteudo = {
       link: '#',
       target: '_blank',
       image: 'https://placehold.co/390x460',
-      label: 'Banner Mobile',
+      label: 'Banner Mobile 1',
+      width: 600,
+      height: 300,
+    },
+    {
+      link: '#',
+      target: '_blank',
+      image: 'https://placehold.co/390x460',
+      label: 'Banner Mobile 2',
+      width: 600,
+      height: 300,
+    },
+    {
+      link: '#',
+      target: '_blank',
+      image: 'https://placehold.co/390x460',
+      label: 'Banner Mobile 3',
       width: 600,
       height: 300,
     },
   ],
 };
-
-// Loop/autoplay do Swiper precisam de mais de um slide; replica o mock
-// existente até ter ao menos 3 quando só há um banner cadastrado.
-function ensureSlides(slides: SlideItem[]): SlideItem[] {
-  if (slides.length === 0) return slides;
-  if (slides.length >= 3) return slides;
-  return Array.from({ length: 3 }).map((_, index) => slides[index % slides.length]);
-}
 
 // Espelha organisms/BannerMain01 do faststore.starter:
 // Swiper com loop + observer e paginação/setas custom.
@@ -65,7 +91,8 @@ function BannerSlider({ slides }: { slides: SlideItem[] }) {
     <>
       <Swiper
         breakpointsBase="container"
-        loop
+        // Loop só com mais de um banner: com um, o Swiper o repetiria.
+        loop={slides.length > 1}
         observer
         observeParents
         onSwiper={setSwiper}
@@ -148,8 +175,7 @@ function BannerSlider({ slides }: { slides: SlideItem[] }) {
 
 export default function BannerMain() {
   const conteudo = useConteudoDaSecao(MOCK);
-  const desktopSlides = ensureSlides(conteudo.desktopSlides);
-  const mobileSlides = ensureSlides(conteudo.mobileSlides);
+  const { desktopSlides, mobileSlides } = conteudo;
 
   if (!desktopSlides.length && !mobileSlides.length) return null;
 

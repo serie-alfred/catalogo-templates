@@ -18,7 +18,6 @@ import type { SlotDaLoja } from './conteudoLoja';
 
 /** Onde cada slot mora numa peça: o tipo de peça e o(s) campo(s). */
 const FONTES: Partial<Record<SlotDaLoja, { de: RegExp; campos: string[] }>> = {
-  avisos: { de: /^Header\d+$/, campos: ['topbarMessages', 'topbarItems'] },
   menuPrincipal: { de: /^Header\d+$/, campos: ['menu'] },
   menuRodape: { de: /^Footer\d+$/, campos: ['columns'] },
   linksLegais: { de: /^Footer\d+$/, campos: ['legalLinks'] },

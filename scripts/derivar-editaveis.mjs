@@ -142,10 +142,20 @@ function tipoDoCampo(chave, schema) {
  * próprio (Tray: `*_marca`, `*_pagamentos`). A prova é procurada no painel da
  * Tray (`settings-content.html`) e no `.tpl` da Nuvemshop.
  */
+const SOCIAL_DA_LOJA = /settings\.social_(facebook|instagram|twitter|linkedin|youtube|tiktok|pinterest)/;
 const POR_EVIDENCIA = [
-  { campo: /^logo(Alt)?$/, Nuvemshop: /store\.logo|has_logo/, Tray: /name="\w*logo/ },
+  { campo: /^logo(Alt)?$/, Nuvemshop: /store\.logo|has_logo/, Tray: /name="\w*logo|settings\.logo\b/ },
   { campo: /^brand(Name|Mark)$/, Nuvemshop: /store\.name/, Tray: /name="\w*_marca/ },
-  { campo: /^socials?$/, Nuvemshop: /store\.(instagram|facebook)|rede_/, Tray: /name="\w*(instagram|redes|social)/ },
+  {
+    // As redes da loja: lista (`socials`) ou um link por rede (`instagramUrl`).
+    // Na Wake e na Tray antigas vêm das configurações da loja (`settings.social_*`).
+    campo: /^socials?$|^(youtube|instagram|twitter|linkedin|facebook|tiktok|pinterest)Url$/,
+    Nuvemshop: /store\.(instagram|facebook)|rede_/,
+    Tray: /name="\w*(instagram|redes|social)|settings\.social_(facebook|instagram|twitter|linkedin|youtube|tiktok|pinterest)/,
+    'Wake 2.0': SOCIAL_DA_LOJA,
+  },
+  // O WhatsApp/contato do topo das famílias antigas: o número das configurações da loja.
+  { campo: /^(whatsapp|contact)$/, Tray: /settings\.whatsapp_number/, 'Wake 2.0': /settings\.social_whatsapp\b/ },
   { campo: /^(payments|paymentMethods)$/, Nuvemshop: /pagamento|"visa"/, Tray: /name="\w*pagamento/ },
   // A linha legal tem marcadores ([RAZÃO SOCIAL]…) que o tema troca pelos dados da loja.
   { campo: /^(legal|copyright)$/, Nuvemshop: /"id": "(legal|copyright)"/, Tray: /name="\w*_(legal|copyright)/ },
@@ -188,14 +198,19 @@ function capacidades(plataforma, pasta, item) {
       item.selection === 'footer' ||
       arquivos.some(f => f.endsWith('.schema.json'));
     cap.menu = arquivos.some(f => f.endsWith('.html') && ler(f).includes('menu_groups'));
+    // O que o HTML lê das configurações da loja (redes, WhatsApp): `POR_EVIDENCIA`.
+    cap.fonte = arquivos.filter(f => f.endsWith('.html')).map(ler).join('\n');
     return cap;
   }
 
   if (plataforma === 'Tray') {
     const painel = path.join(pasta, 'settings-content.html');
+    // Sem painel do tema, o menu do header ainda é a árvore de categorias da loja.
+    cap.menu = arquivos.some(f => f.endsWith('.html') && /\bcategories\b/.test(ler(f)));
+    // As configurações da loja que o HTML lê (redes, WhatsApp, logo) valem mesmo sem painel.
+    cap.fonte = arquivos.filter(f => f.endsWith('.html')).map(ler).join('\n');
     if (!fs.existsSync(painel)) return cap;
     const html = ler(painel);
-    cap.fonte = html;
     for (const m of html.matchAll(/(?:placeholder|value)="([^"]*)"/g)) cap.textos.add(norm(decodificar(m[1])));
     for (const m of html.matchAll(/<textarea[^>]*>([\s\S]*?)<\/textarea>/g))
       for (const linha of decodificar(m[1]).split('\n')) cap.textos.add(norm(linha));
@@ -239,6 +254,75 @@ function capacidades(plataforma, pasta, item) {
     }
   }
   return cap;
+}
+
+/** Campo de 1º nível → o texto do valor dele no objeto literal do mock. */
+function valoresDoMock(objeto) {
+  const valores = {};
+  let profundidade = 0;
+  let chave = null;
+  let inicio = 0;
+  const fecha = fimDoValor => {
+    if (chave) valores[chave] = objeto.slice(inicio, fimDoValor).trim();
+    chave = null;
+  };
+  for (let i = 0; i < objeto.length; ) {
+    const c = objeto[i];
+    if (c === "'" || c === '"' || c === '`') {
+      let j = i + 1;
+      while (j < objeto.length && objeto[j] !== c) j += objeto[j] === '\\' ? 2 : 1;
+      i = j + 1;
+      continue;
+    }
+    if ('{(['.includes(c)) profundidade++;
+    else if ('})]'.includes(c)) profundidade--;
+    else if (profundidade === 0 && c === ',') fecha(i);
+    else if (profundidade === 0 && !chave) {
+      const m = /^(\w+)\s*:/.exec(objeto.slice(i));
+      if (m && /[\s,{]/.test(objeto[i - 1] ?? ',')) {
+        chave = m[1];
+        i += m[0].length;
+        inicio = i;
+        continue;
+      }
+    }
+    i++;
+  }
+  fecha(objeto.length);
+  return valores;
+}
+
+/**
+ * Os campos (de um nível) que a plataforma deixa o lojista trocar: texto em comum
+ * com o setting, menu, evidência (`POR_EVIDENCIA`) e imagem/link/data pelo tipo.
+ */
+function decidir(campos, folhas, props, cap, plataforma, deMenu) {
+  const editaveis = new Set();
+  // 1º os campos de texto (o link e o alt olham para eles).
+  for (const c of campos) {
+    if (deMenu.has(c)) {
+      if (cap.menu) editaveis.add(c);
+      continue;
+    }
+    const textos = (folhas[c] ?? []).map(norm).filter(Boolean);
+    if (textos.some(t => cap.textos.has(t))) editaveis.add(c);
+  }
+  for (const c of campos) {
+    if (editaveis.has(c) || deMenu.has(c)) continue;
+    const tipo = tipoDoCampo(c, props[c]);
+    const irmao = c.replace(/(Url|Href|Link|Alt)$/, '');
+    const temIrmao =
+      [irmao, `${irmao}Label`, `${irmao}Text`, `${irmao}Title`].some(
+        x => x !== c && editaveis.has(x)
+      ) || (/^(url|href|link)$/.test(c) && [...editaveis].some(x => /cta|Label$|^title$/.test(x)));
+    const evidencia = POR_EVIDENCIA.find(e => e.campo.test(c))?.[plataforma];
+    if (evidencia?.test(cap.fonte)) editaveis.add(c);
+    else if (tipo === 'imagem' && cap.imagem) editaveis.add(c);
+    else if (tipo === 'alt' && cap.imagem) editaveis.add(c);
+    else if (tipo === 'link' && cap.link && temIrmao) editaveis.add(c);
+    else if (tipo === 'data' && cap.data) editaveis.add(c);
+  }
+  return editaveis;
 }
 
 /* ── O casamento ──────────────────────────────────────────────────────── */
@@ -287,33 +371,24 @@ export async function derivarEditaveis(globalTemplates = process.env.DERIVAR_GLO
       const editaveis = new Set();
       if (cap?.tudo) campos.forEach(c => editaveis.add(c));
       else if (cap) {
-        // 1º os campos de texto (o link e o alt olham para eles).
+        decidir(campos, folhas, props, cap, plataforma, deMenu).forEach(c => editaveis.add(c));
+        // Campo-objeto (a `topbar` do Header01) que não é todo editável: decide por
+        // subcampo e grava `campo.sub` — o painel e o preview mostram só esses.
         for (const c of campos) {
-          if (deMenu.has(c)) {
-            if (cap.menu) editaveis.add(c);
-            continue;
-          }
-          const textos = (folhas[c] ?? []).map(norm).filter(Boolean);
-          if (textos.some(t => cap.textos.has(t))) editaveis.add(c);
-        }
-        for (const c of campos) {
-          if (editaveis.has(c) || deMenu.has(c)) continue;
-          const tipo = tipoDoCampo(c, props[c]);
-          const irmao = c.replace(/(Url|Href|Link|Alt)$/, '');
-          const temIrmao =
-            [irmao, `${irmao}Label`, `${irmao}Text`, `${irmao}Title`].some(
-              x => x !== c && editaveis.has(x)
-            ) || (/^(url|href|link)$/.test(c) && [...editaveis].some(x => /cta|Label$|^title$/.test(x)));
-          const evidencia = POR_EVIDENCIA.find(e => e.campo.test(c))?.[plataforma];
-          if (evidencia?.test(cap.fonte)) editaveis.add(c);
-          else if (tipo === 'imagem' && cap.imagem) editaveis.add(c);
-          else if (tipo === 'alt' && cap.imagem) editaveis.add(c);
-          else if (tipo === 'link' && cap.link && temIrmao) editaveis.add(c);
-          else if (tipo === 'data' && cap.data) editaveis.add(c);
+          const sub = props[c]?.properties;
+          if (editaveis.has(c) || props[c]?.type !== 'object' || !sub) continue;
+          const subcampos = Object.keys(sub);
+          const valor = (valoresDoMock(objeto ?? '')[c] ?? '').trim();
+          const interno = valor.startsWith('{') ? valor.slice(1, -1) : '';
+          const sim = decidir(subcampos, folhasDoMock(interno), sub, cap, plataforma, new Set());
+          if (sim.size === subcampos.length) editaveis.add(c);
+          else sim.forEach(k => editaveis.add(`${c}.${k}`));
         }
       }
       doCadastro.forEach(c => editaveis.add(c));
-      porPlataforma[plataforma] = campos.filter(c => editaveis.has(c));
+      porPlataforma[plataforma] = [...editaveis].sort(
+        (a, b) => campos.indexOf(a.split('.')[0]) - campos.indexOf(b.split('.')[0])
+      );
     }
     componentes[item.component] = porPlataforma;
   }

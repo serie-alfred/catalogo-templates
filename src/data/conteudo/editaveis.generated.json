@@ -222,13 +222,19 @@
       ]
     },
     "BannerGrid01": {
-      "Tray": [],
+      "Tray": [
+        "mainBanner.img",
+        "mainBanner.alt"
+      ],
       "Wake 2.0": [
         "sectionTitle",
         "mainBanner",
         "secondaryBanners"
       ],
-      "Nuvemshop": []
+      "Nuvemshop": [
+        "mainBanner.img",
+        "mainBanner.alt"
+      ]
     },
     "BannerGrid06": {
       "Tray": [
@@ -396,7 +402,10 @@
     },
     "BannerMain08": {
       "Tray": [
-        "eyebrow"
+        "eyebrow",
+        "image.desktop",
+        "image.mobile",
+        "image.alt"
       ],
       "Wake 2.0": [
         "eyebrow",
@@ -406,7 +415,10 @@
         "image"
       ],
       "Nuvemshop": [
-        "eyebrow"
+        "eyebrow",
+        "image.desktop",
+        "image.mobile",
+        "image.alt"
       ]
     },
     "BannerMain09": {
@@ -3033,6 +3045,7 @@
       "Tray": [
         "institucionalTitle",
         "atendimentoTitle",
+        "whatsapp",
         "redesSociaisTitle",
         "pagamentoTitle",
         "paymentMethods",
@@ -3065,7 +3078,11 @@
       ]
     },
     "Footer02": {
-      "Tray": [],
+      "Tray": [
+        "logo",
+        "logoAlt",
+        "socials"
+      ],
       "Wake 2.0": [
         "logo",
         "logoAlt",
@@ -3350,6 +3367,8 @@
     },
     "Footer08": {
       "Tray": [
+        "logo",
+        "logoAlt",
         "socials",
         "columns"
       ],
@@ -3380,6 +3399,7 @@
         "columns",
         "contactTitle",
         "contactHours",
+        "socials",
         "brandName",
         "brandUrl",
         "payments",
@@ -3413,6 +3433,7 @@
         "appTitle",
         "appText",
         "appBadges",
+        "socials",
         "paymentsTitle",
         "payments",
         "securityTitle",
@@ -3452,6 +3473,7 @@
         "logoAlt",
         "brandName",
         "brandSup",
+        "socials",
         "sealImage",
         "sealLabel",
         "sealUrl",
@@ -3530,6 +3552,7 @@
         "logoAlt",
         "brandName",
         "aboutText",
+        "socials",
         "columns",
         "contactTitle",
         "contactNote",
@@ -3573,8 +3596,11 @@
     },
     "Footer13": {
       "Tray": [
+        "logo",
+        "logoAlt",
         "brandName",
         "aboutText",
+        "socials",
         "columns",
         "contactTitle",
         "payments",
@@ -3607,8 +3633,11 @@
     },
     "Footer14": {
       "Tray": [
+        "logo",
+        "logoAlt",
         "brandName",
         "aboutText",
+        "socials",
         "columns",
         "contactTitle",
         "payments",
@@ -3647,6 +3676,7 @@
         "columns",
         "contactTitle",
         "contactHours",
+        "socials",
         "payments"
       ],
       "Wake 2.0": [
@@ -3675,8 +3705,11 @@
     },
     "Footer16": {
       "Tray": [
+        "logo",
+        "logoAlt",
         "brandName",
         "aboutText",
+        "socials",
         "columns",
         "contactTitle",
         "phoneLabel",
@@ -3722,8 +3755,11 @@
     },
     "Footer17": {
       "Tray": [
+        "logo",
+        "logoAlt",
         "brandName",
         "aboutText",
+        "socials",
         "columns",
         "contactTitle",
         "phoneLabel",
@@ -3768,8 +3804,14 @@
       ]
     },
     "Header01": {
-      "Tray": [],
+      "Tray": [
+        "logo",
+        "topbar.contact",
+        "topbar.socials",
+        "menu"
+      ],
       "Wake 2.0": [
+        "topbar.socials",
         "menu"
       ],
       "Nuvemshop": [
@@ -3780,8 +3822,24 @@
       ]
     },
     "Header02": {
-      "Tray": [],
+      "Tray": [
+        "logo",
+        "logoAlt",
+        "whatsapp",
+        "youtubeUrl",
+        "instagramUrl",
+        "twitterUrl",
+        "linkedinUrl",
+        "facebookUrl",
+        "menu"
+      ],
       "Wake 2.0": [
+        "whatsapp",
+        "youtubeUrl",
+        "instagramUrl",
+        "twitterUrl",
+        "linkedinUrl",
+        "facebookUrl",
         "menu"
       ],
       "Nuvemshop": [
@@ -3789,6 +3847,11 @@
         "logoAlt",
         "welcomeText",
         "whatsappLabel",
+        "youtubeUrl",
+        "instagramUrl",
+        "twitterUrl",
+        "linkedinUrl",
+        "facebookUrl",
         "searchPlaceholder",
         "contactUrl",
         "contactLabel",
@@ -3801,7 +3864,10 @@
       ]
     },
     "Header03": {
-      "Tray": [],
+      "Tray": [
+        "logo",
+        "menu"
+      ],
       "Wake 2.0": [
         "menu"
       ],
@@ -3885,6 +3951,7 @@
     },
     "Header07": {
       "Tray": [
+        "logoAlt",
         "searchPlaceholder",
         "mobileSearchPlaceholder",
         "wishlistUrl",
@@ -3906,6 +3973,8 @@
     },
     "Header08": {
       "Tray": [
+        "logo",
+        "logoAlt",
         "menu"
       ],
       "Wake 2.0": [
@@ -3920,6 +3989,8 @@
     "Header09": {
       "Tray": [
         "topbarMessages",
+        "logo",
+        "logoAlt",
         "brandName",
         "searchPlaceholder",
         "accountLabel",
@@ -3952,6 +4023,8 @@
       "Tray": [
         "topbarText",
         "serviceLinks",
+        "logo",
+        "logoAlt",
         "brandMark",
         "brandName",
         "searchPlaceholder",
@@ -3984,6 +4057,8 @@
     "Header11": {
       "Tray": [
         "topbarMessages",
+        "logo",
+        "logoAlt",
         "brandName",
         "brandSup",
         "menu",
@@ -4012,6 +4087,8 @@
         "topbarLinkLabel",
         "topbarLinkMenuLabel",
         "topbarLinkUrl",
+        "logo",
+        "logoAlt",
         "brandName",
         "menu",
         "searchPlaceholder",
@@ -4039,6 +4116,8 @@
     },
     "Header13": {
       "Tray": [
+        "logo",
+        "logoAlt",
         "brandName",
         "menu",
         "searchPlaceholder",
@@ -4067,6 +4146,8 @@
     },
     "Header14": {
       "Tray": [
+        "logo",
+        "logoAlt",
         "brandName",
         "menu",
         "searchPlaceholder",
@@ -4093,6 +4174,8 @@
     "Header15": {
       "Tray": [
         "topbarMessages",
+        "logo",
+        "logoAlt",
         "brandName",
         "brandTagline",
         "searchPlaceholder",
@@ -4128,6 +4211,8 @@
     "Header16": {
       "Tray": [
         "topbarItems",
+        "logo",
+        "logoAlt",
         "brandName",
         "menu",
         "searchPlaceholder",
@@ -4155,6 +4240,8 @@
     "Header17": {
       "Tray": [
         "topbarItems",
+        "logo",
+        "logoAlt",
         "brandName",
         "menu",
         "searchPlaceholder",
@@ -6028,7 +6115,9 @@
       ]
     },
     "Ruler01": {
-      "Tray": [],
+      "Tray": [
+        "benefits"
+      ],
       "Wake 2.0": [
         "benefits"
       ],
@@ -6198,7 +6287,10 @@
         "title",
         "subtitle",
         "viewAllLabel",
-        "viewAllUrl"
+        "viewAllUrl",
+        "banner.desktop",
+        "banner.mobile",
+        "banner.alt"
       ]
     },
     "ShelfBanner09": {

@@ -8431,7 +8431,25 @@
                 "icon": {
                   "type": "string",
                   "title": "Ícone",
-                  "description": "Valores aceitos: truck, return, shield, headset, calendar, star, heart"
+                  "description": "Escolha da lista.",
+                  "enum": [
+                    "truck",
+                    "return",
+                    "shield",
+                    "headset",
+                    "calendar",
+                    "star",
+                    "heart"
+                  ],
+                  "enumNames": [
+                    "Caminhão (entrega)",
+                    "Setas (troca)",
+                    "Escudo (segurança)",
+                    "Fone (atendimento)",
+                    "Calendário",
+                    "Estrela",
+                    "Coração"
+                  ]
                 },
                 "title": {
                   "type": "string",
@@ -8658,7 +8676,11 @@
                 "label": {
                   "type": "string",
                   "title": "Rede",
-                  "description": "Valores aceitos: Instagram, Pinterest"
+                  "description": "Escolha da lista.",
+                  "enum": [
+                    "Instagram",
+                    "Pinterest"
+                  ]
                 },
                 "url": {
                   "type": "string",
@@ -8964,7 +8986,13 @@
                 "label": {
                   "type": "string",
                   "title": "Rede",
-                  "description": "Valores aceitos: Instagram, Facebook, TikTok, YouTube"
+                  "description": "Escolha da lista.",
+                  "enum": [
+                    "Instagram",
+                    "Facebook",
+                    "TikTok",
+                    "YouTube"
+                  ]
                 },
                 "url": {
                   "type": "string",
@@ -18988,7 +19016,20 @@
               "properties": {
                 "icon": {
                   "type": "string",
-                  "title": "Ícone (SVG)"
+                  "title": "Ícone",
+                  "description": "Um dos ícones da régua. Vazio = o ícone padrão da posição (1 entrega, 2 compra segura, 3 desconto, 4 troca).",
+                  "enum": [
+                    "entrega",
+                    "seguranca",
+                    "promocao",
+                    "troca"
+                  ],
+                  "enumNames": [
+                    "Caminhão (entrega)",
+                    "Escudo com cifrão (compra segura)",
+                    "Etiqueta (desconto)",
+                    "Setas (troca)"
+                  ]
                 },
                 "title": {
                   "type": "string",

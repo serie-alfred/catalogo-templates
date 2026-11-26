@@ -22,8 +22,10 @@ import { camposEditaveis, soEditaveis } from '@/utils/editaveis';
  * O nível 1 é sanitizado aqui porque também chega do snapshot do /p, que é
  * público (ver `sanitizarConteudo`); a loja chega sanitizada do ThemeRenderer.
  *
- * Campo que o lojista da plataforma não muda (src/utils/editaveis.ts) fica com o
- * mock: é o texto fixo do tema, e o preview não pode mostrar outro.
+ * O Nível 1 (o que o CS digitou NA SEÇÃO) só vale nos campos que o lojista da
+ * plataforma muda depois (src/utils/editaveis.ts); nos outros fica o mock, o texto
+ * fixo do tema. O conteúdo da LOJA (nome, menu, contato…) passa sempre:
+ * são dados da loja, que a implantação leva ao tema em qualquer plataforma.
  */
 export function useConteudoDaSecao<T extends object>(mock: T): T {
   const secao = useContext(SecaoConteudoContext);
@@ -35,8 +37,8 @@ export function useConteudoDaSecao<T extends object>(mock: T): T {
     const editaveis = camposEditaveis(platform, componente);
     return resolverConteudo(
       mock,
-      soEditaveis(projetarLoja(componente, loja, mock).conteudo, editaveis),
-      soEditaveis(sanitizarConteudo(conteudo), editaveis)
+      projetarLoja(componente, loja, mock).conteudo,
+      soEditaveis(sanitizarConteudo(conteudo), editaveis, mock)
     );
   }, [mock, componente, loja, conteudo, platform]);
 }

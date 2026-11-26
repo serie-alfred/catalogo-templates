@@ -43,7 +43,7 @@ export interface PreviewSnapshot {
    */
   ogImage?: string;
   /**
-   * O conteúdo da loja (menus, avisos, contato, redes, dados legais, banners,
+   * O conteúdo da loja (menus, contato, redes, dados legais, banners,
    * categorias), que as seções leem pelos vínculos. Opcional: snapshot sem ele
    * mostra o conteúdo de cada seção. Chega ao /p, que é público: o
    * ThemeRenderer o sanitiza antes de usar.

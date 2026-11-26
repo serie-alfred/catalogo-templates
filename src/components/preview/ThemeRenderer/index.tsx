@@ -26,7 +26,7 @@ interface ThemeRendererProps {
   /** uid da seção destacada como selecionada (só o editor usa). */
   selectedUid?: string | null;
   /**
-   * O conteúdo da loja (Nível 2): menus, avisos, contato… que as seções leem
+   * O conteúdo da loja (Nível 2): menus, contato… que as seções leem
    * pelos vínculos (src/utils/conteudoLoja.ts). Sanitizado aqui, uma vez, para
    * todas as superfícies — no /p ele vem do snapshot, que é público.
    */

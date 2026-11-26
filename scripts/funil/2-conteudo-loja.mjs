@@ -4,7 +4,7 @@
  * Semeia a aba com seções da família 09 SEM conteúdo próprio e com um
  * `conteudoLoja` cheio de marcadores (src/types/conteudo.ts), e confere:
  *
- *  - no canvas, cada marcador aparece na peça que o vínculo diz (avisos e menu no
+ *  - no canvas, cada marcador aparece na peça que o vínculo diz (nome e menu no
  *    header, colunas, redes, pagamentos e linha legal no rodapé, banner,
  *    categorias, o WhatsApp da ajuda flutuante virando wa.me);
  *  - "Por template" (09 → 12) troca todas as peças e o conteúdo da loja fica: o
@@ -36,7 +36,6 @@ const ZAP = 'https://wa.me/5511988887777';
 const LOJA = {
   versao: 1,
   nomeDaLoja: 'MARCADOR-LJ-NOME',
-  avisos: [{ text: 'MARCADOR-LJ-AVISO' }],
   menuPrincipal: [
     { label: 'MARCADOR-LJ-MENU', url: '/m', children: [{ label: 'MARCADOR-LJ-SUB', url: '/s' }] },
   ],
@@ -86,11 +85,10 @@ try {
     );
 
   // ── 1. família 09: cada slot na peça certa ──────────────────────────────
-  r.ok('canvas: o conteúdo da loja chegou (aviso no header)', await canvasTem('MARCADOR-LJ-AVISO'));
+  r.ok('canvas: o conteúdo da loja chegou (menu no header)', await canvasTem('MARCADOR-LJ-MENU'));
   let tela = await noCanvas(page);
   const DA_09 = [
     'MARCADOR-LJ-NOME',
-    'MARCADOR-LJ-AVISO',
     'MARCADOR-LJ-MENU',
     'MARCADOR-LJ-SUB',
     'MARCADOR-LJ-COLUNA',
@@ -102,7 +100,7 @@ try {
     'MARCADOR-LJ-CATEGORIA',
   ];
   r.ok(`09: os ${DA_09.length} marcadores da loja aparecem`, faltando(tela, DA_09).length === 0, faltando(tela, DA_09).join(', '));
-  r.ok('09: o mock que a loja substituiu sumiu (aviso e coluna do rodapé)', !tela.texto.includes('Troca fácil em 30 dias') && !tela.texto.includes('Trabalhe conosco'));
+  r.ok('09: o mock que a loja substituiu sumiu (coluna do rodapé)', !tela.texto.includes('Trabalhe conosco'));
   r.ok('09: o WhatsApp da ajuda flutuante abre o número da loja', tela.zap);
   r.ok('09: a rede social do rodapé é a da loja', tela.instagram);
   r.ok('09: só as formas de pagamento da loja', JSON.stringify(tela.pagamentos) === '["Pix"]', JSON.stringify(tela.pagamentos));
@@ -121,7 +119,7 @@ try {
   await canvasTem('MARCADOR-LJ-MENU');
   await espera(800);
   tela = await noCanvas(page);
-  const DA_12 = ['MARCADOR-LJ-NOME', 'MARCADOR-LJ-AVISO', 'MARCADOR-LJ-MENU', 'MARCADOR-LJ-COLUNA', 'MARCADOR-LJ-RAZAO', 'MARCADOR-LJ-BANNER'];
+  const DA_12 = ['MARCADOR-LJ-NOME', 'MARCADOR-LJ-MENU', 'MARCADOR-LJ-COLUNA', 'MARCADOR-LJ-RAZAO', 'MARCADOR-LJ-BANNER'];
   r.ok(
     `12: o conteúdo da loja continua nas peças novas (${DA_12.length} marcadores)`,
     faltando(tela, DA_12).length === 0,
@@ -228,7 +226,7 @@ try {
     }
     await espera(1200);
     const noP = await aba.evaluate(`${LER}(document)`);
-    const NO_P = ['MARCADOR-LJ-NOME', 'MARCADOR-LJ-AVISO', 'MARCADOR-LJ-COLUNA', 'MARCADOR-LJ-RAZAO', 'MARCADOR-LJ-BANNER'];
+    const NO_P = ['MARCADOR-LJ-NOME', 'MARCADOR-LJ-COLUNA', 'MARCADOR-LJ-RAZAO', 'MARCADOR-LJ-BANNER'];
     r.ok(
       `/p/home: o conteúdo da loja aparece (${NO_P.length} marcadores e o wa.me)`,
       resp?.status() === 200 && faltando(noP, NO_P).length === 0 && noP.zap,
@@ -240,7 +238,47 @@ try {
   await page.bringToFront();
   await page.reload({ waitUntil: 'domcontentloaded' });
   await page.waitForSelector('.ed-shell', { timeout: 60000 });
-  r.ok('recarregar a aba mantém o conteúdo da loja', await canvasTem('MARCADOR-LJ-AVISO'));
+  r.ok('recarregar a aba mantém o conteúdo da loja', await canvasTem('MARCADOR-LJ-NOME'));
+
+  // ── Todo header recebe o nome e o menu da loja ─────────────────────────
+  // Cada família guarda o menu num formato (lista, objeto `{ links }`, colunas
+  // de megamenu): o vínculo de cada uma tem de existir. O 3º nível só nos
+  // headers que o desenham. (A barra do topo é conteúdo de cada header.)
+  const TRES_NIVEIS = new Set(['Header01', 'Header02', 'Header03', 'Header06', 'Header07']);
+  const LOJA_DOS_HEADERS = {
+    versao: 1,
+    nomeDaLoja: 'MKHDNOME',
+    menuPrincipal: [
+      { label: 'MKHDMENU', url: '/mk', children: [{ label: 'MKHDN2', url: '/n2', children: [{ label: 'MKHDN3', url: '/n3' }] }] },
+    ],
+  };
+  const faltamNosHeaders = [];
+  for (const h of itens().filter(i => i.selection === 'header' && i.platforms.includes('VTEX'))) {
+    await semear(page, {
+      plataforma: 'VTEX',
+      selecoes: [{ uid: `hd-${h.id}`, id: h.id, layoutKey: h.layoutKey, pagina: 'common' }],
+      aba: { conteudoLoja: LOJA_DOS_HEADERS },
+    });
+    const html = await page
+      .waitForFunction(
+        () => document.querySelector('iframe')?.contentDocument?.querySelector('[data-section-uid]')?.innerHTML.includes('MKHDMENU'),
+        { timeout: 30000, polling: 250 }
+      )
+      .then(() => page.evaluate(() => document.querySelector('iframe').contentDocument.querySelector('[data-section-uid]').innerHTML))
+      .catch(() => page.evaluate(() => document.querySelector('iframe')?.contentDocument?.querySelector('[data-section-uid]')?.innerHTML ?? ''));
+    const faltam = [
+      !html.includes('MKHDNOME') && 'nome',
+      !html.includes('MKHDMENU') && 'menu',
+      !html.includes('MKHDN2') && '2º nível',
+      TRES_NIVEIS.has(h.component) && !html.includes('MKHDN3') && '3º nível',
+    ].filter(Boolean);
+    if (faltam.length) faltamNosHeaders.push(`${h.component}: ${faltam.join(', ')}`);
+  }
+  r.ok(
+    'todo header (01 a 17) mostra o nome e o menu da loja, com o 2º e o 3º nível',
+    !faltamNosHeaders.length,
+    faltamNosHeaders.join(' | ')
+  );
 
   r.ok('o editor sem erro de página', erros.length === 0, erros.join(' | '));
 } finally {

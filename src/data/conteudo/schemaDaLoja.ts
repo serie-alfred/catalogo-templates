@@ -39,16 +39,6 @@ export const SCHEMA_DA_LOJA: Record<SlotDaLoja, CampoDoSchema> = {
     ROTULO_DO_SLOT.nomeDaLoja,
     'Aparece no header e no rodapé enquanto a loja não tem logo, e na linha legal do rodapé.'
   ),
-  avisos: lista(
-    ROTULO_DO_SLOT.avisos,
-    'Aviso',
-    { text: texto('Texto'), url: link('Link (opcional)') },
-    {
-      description:
-        'A faixa acima do header. Nas famílias com uma mensagem só, vale a primeira.',
-      maxItems: 6,
-    }
-  ),
   menuPrincipal: lista(ROTULO_DO_SLOT.menuPrincipal, 'Item do menu', {
     label: texto('Nome'),
     url: link(),
@@ -60,6 +50,12 @@ export const SCHEMA_DA_LOJA: Record<SlotDaLoja, CampoDoSchema> = {
     children: lista('Subitens', 'Subitem', {
       label: texto('Nome'),
       url: link(),
+      children: lista(
+        'Subitens do subitem',
+        'Subitem',
+        { label: texto('Nome'), url: link() },
+        { description: 'O 3º nível: só os headers com menu de três níveis o mostram.' }
+      ),
     }),
   }),
   menuRodape: lista(ROTULO_DO_SLOT.menuRodape, 'Coluna', {
@@ -272,7 +268,7 @@ export const SCHEMA_DA_LOJA: Record<SlotDaLoja, CampoDoSchema> = {
 
 /** Os blocos do painel, na ordem em que o CS costuma preencher. */
 export const GRUPOS_DA_LOJA: { titulo: string; slots: SlotDaLoja[] }[] = [
-  { titulo: 'Marca e avisos', slots: ['nomeDaLoja', 'avisos'] },
+  { titulo: 'Marca', slots: ['nomeDaLoja'] },
   { titulo: 'Menus', slots: ['menuPrincipal', 'menuRodape', 'linksLegais'] },
   { titulo: 'Contato e redes', slots: ['contato', 'redes'] },
   { titulo: 'Rodapé', slots: ['dadosLegais', 'pagamentos', 'selos'] },

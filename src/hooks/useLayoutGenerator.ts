@@ -659,7 +659,7 @@ export function useLayoutGenerator(conta?: ContaAtual) {
   /** Imagem de compartilhamento (og:image) do preview. Data URL, como as outras. */
   const [ogImage, setOgImage] = useState<string>('');
   /**
-   * O conteúdo da loja (Nível 2, src/types/conteudo.ts): menus, avisos,
+   * O conteúdo da loja (Nível 2, src/types/conteudo.ts): menus,
    * contato, redes, dados legais, banners e categorias, que as seções leem
    * pelos vínculos. Mora no tema, como as cores — sobrevive à troca de
    * template e de plataforma e ao "Começar do zero". `null` = nada preenchido.

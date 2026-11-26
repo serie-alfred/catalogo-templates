@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
 import { buildSearchSuggestions } from '@/components/templates/_shared/searchSuggestions';
+import { useNomeDaLoja } from '@/hooks/useNomeDaLoja';
 import { useLayout } from '@/context/LayoutContext';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
@@ -255,6 +256,7 @@ const WhatsFloatIcon = () => (
 
 export default function Header() {
   const { logo: logoDaLoja } = useLayout();
+  const nomeDaLoja = useNomeDaLoja();
   const {
     logoSrc,
     logoAlt,
@@ -348,7 +350,7 @@ export default function Header() {
     return (
       <a className={styles.logo} href="/" aria-label="Página inicial" data-role={logoRole}>
         <span className={styles.brandName} data-role={nameRole}>
-          {logo ? <img src={logo} alt={logoAlt || 'Logo'} className={styles.brandLogo} /> : 'SERIE//A'}
+          {logo ? <img src={logo} alt={logoAlt || 'Logo'} className={styles.brandLogo} /> : nomeDaLoja || 'SERIE//A'}
         </span>
         {/* Como no starter: a tagline só acompanha a marca em texto; com logo, sai. */}
         {!logo && (

@@ -76,20 +76,20 @@ export interface LinkDaLoja {
   url?: string;
 }
 
+/** Subitem do menu, com o 3º nível (os headers que desenham três níveis). */
+export interface SubitemDeMenu extends LinkDaLoja {
+  children?: LinkDaLoja[];
+}
+
 export interface ItemDeMenu extends LinkDaLoja {
   highlight?: boolean;
   image?: string;
-  children?: LinkDaLoja[];
+  children?: SubitemDeMenu[];
 }
 
 export interface GrupoDeLinks {
   title?: string;
   links?: (LinkDaLoja & { highlight?: boolean })[];
-}
-
-export interface AvisoDaLoja {
-  text?: string;
-  url?: string;
 }
 
 export interface ContatoDaLoja {
@@ -198,7 +198,6 @@ export interface ProdutoDaLoja {
 export interface ConteudoLoja {
   versao: 1;
   nomeDaLoja?: string;
-  avisos?: AvisoDaLoja[];
   menuPrincipal?: ItemDeMenu[];
   menuRodape?: GrupoDeLinks[];
   linksLegais?: LinkDaLoja[];

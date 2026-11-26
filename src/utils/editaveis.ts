@@ -46,15 +46,48 @@ export function camposEditaveis(
   return porPlataforma[platform === 'Wake' ? 'Wake 2.0' : platform] ?? null;
 }
 
-/** O objeto só com as chaves editáveis (o mesmo objeto quando não há restrição). */
+/**
+ * Os subcampos editáveis de um campo-objeto (`topbar.socials` → `socials`).
+ * `null` = o campo inteiro é editável; `[]` = nada dele é.
+ */
+export function subcamposEditaveis(
+  editaveis: readonly string[] | null,
+  campo: string
+): readonly string[] | null {
+  if (!editaveis || editaveis.includes(campo)) return null;
+  return editaveis
+    .filter(e => e.startsWith(`${campo}.`))
+    .map(e => e.slice(campo.length + 1));
+}
+
+const ehObjeto = (v: unknown): v is Record<string, unknown> =>
+  typeof v === 'object' && v !== null && !Array.isArray(v);
+
+/**
+ * O conteúdo só com o que é editável (o mesmo objeto quando não há restrição).
+ * Num campo-objeto editável só em parte, os subcampos fixos voltam ao `mock`: o
+ * objeto vem inteiro no resolvedor, e o que o tema não deixa trocar fica o dele.
+ */
 export function soEditaveis<T extends object>(
   conteudo: T | undefined,
-  editaveis: readonly string[] | null
+  editaveis: readonly string[] | null,
+  mock: object = {}
 ): T | undefined {
   if (!conteudo || !editaveis) return conteudo;
-  const chaves = Object.keys(conteudo);
-  if (chaves.every(k => editaveis.includes(k))) return conteudo;
-  return Object.fromEntries(
-    Object.entries(conteudo).filter(([k]) => editaveis.includes(k))
-  ) as T;
+  const doMock = mock as Record<string, unknown>;
+  const saida: Record<string, unknown> = {};
+  let mudou = false;
+  for (const [campo, valor] of Object.entries(conteudo)) {
+    const subs = subcamposEditaveis(editaveis, campo);
+    if (!subs) saida[campo] = valor;
+    else if (subs.length && ehObjeto(valor)) {
+      const base = ehObjeto(doMock[campo]) ? doMock[campo] : {};
+      saida[campo] = {
+        ...base,
+        ...Object.fromEntries(Object.entries(valor).filter(([k]) => subs.includes(k))),
+      };
+      mudou = true;
+    } else mudou = true;
+  }
+  return mudou ? (saida as T) : conteudo;
 }

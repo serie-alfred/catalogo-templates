@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import styles from './index.module.css';
+import { useNomeDaLoja } from '@/hooks/useNomeDaLoja';
 import { useLayout } from '@/context/LayoutContext';
 import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
 import {
@@ -364,6 +365,7 @@ const MobileLinkIcon = ({ name }: { name?: string }) => {
 
 export default function Header06() {
   const { logo: logoDaLoja } = useLayout();
+  const nomeDaLoja = useNomeDaLoja();
   const {
     topbarMessages,
     logoSrc,
@@ -541,7 +543,7 @@ export default function Header06() {
         <img src={logo} alt="Logo da loja" />
       ) : (
         <span className={styles.logoMark} role="img" aria-label="Logo da loja">
-          SERIE//A
+          {nomeDaLoja || 'SERIE//A'}
         </span>
       )}
     </a>

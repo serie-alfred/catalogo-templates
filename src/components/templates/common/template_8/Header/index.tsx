@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 
 import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
+import { useNomeDaLoja } from '@/hooks/useNomeDaLoja';
 import { useLayout } from '@/context/LayoutContext';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 
@@ -80,6 +81,7 @@ const Ico = ({ svg, className }: { svg: string; className?: string }) => (
 
 export default function Header08() {
   const { logo: logoDaLoja } = useLayout();
+  const nomeDaLoja = useNomeDaLoja();
   const {
     logo: logoDoConteudo,
     logoAlt,
@@ -106,7 +108,7 @@ export default function Header08() {
       {logo ? (
         <img src={logo} alt={logoAlt || 'Logo'} height={32} />
       ) : (
-        <span className={styles.logoText}>SERIE//A</span>
+        <span className={styles.logoText}>{nomeDaLoja || 'SERIE//A'}</span>
       )}
     </a>
   );
