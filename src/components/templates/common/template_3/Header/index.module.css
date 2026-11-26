@@ -196,10 +196,9 @@
   cursor: pointer;
 }
 .action:hover {
-  color: var(--header-accent, var(--background-secundary-color, #e73888));
+  background-color: color-mix(in srgb, currentColor 9%, transparent);
 }
 .action:hover .actionIcon {
-  color: var(--header-accent, var(--background-secundary-color, #e73888));
 }
 .action:focus-visible {
   outline: none;
@@ -379,8 +378,9 @@
   box-shadow: none;
   border: none;
 }
-.iconBtn svg:hover {
-  stroke: var(--header-accent, var(--background-secundary-color, #e73888));
+/* Hover: fundo tingido pela cor do texto, sem trocar a cor (destaque igual ao fundo apagava o ícone). */
+.iconBtn:hover {
+  background-color: color-mix(in srgb, currentColor 9%, transparent);
 }
 
 }
@@ -760,7 +760,6 @@
   transition: color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1), background-color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .ndTop .ndClose:hover {
-  color: var(--header-accent, var(--background-secundary-color, #e73888));
   background: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 5%, transparent);
 }
 
@@ -795,7 +794,9 @@
 }
 .ndNav .ndL1Row:hover,
 .ndNav .ndL1Row.ndL1Open {
-  color: var(--header-accent, var(--background-secundary-color, #e73888));
+  text-decoration: underline;
+  text-decoration-color: var(--header-accent, var(--background-secundary-color, #e73888));
+  text-underline-offset: 4px;
 }
 
 .ndL1Label {
@@ -833,7 +834,6 @@
 }
 .ndChevOpen {
   transform: rotate(90deg);
-  color: var(--header-accent, var(--background-secundary-color, #e73888));
 }
 
 .ndL2Panel {
@@ -867,7 +867,9 @@
 }
 .ndNav .ndL2Row:hover,
 .ndNav .ndL2Row.ndL2Open {
-  color: var(--header-accent, var(--background-secundary-color, #e73888));
+  text-decoration: underline;
+  text-decoration-color: var(--header-accent, var(--background-secundary-color, #e73888));
+  text-underline-offset: 4px;
 }
 
 .ndL2Label {
@@ -888,7 +890,9 @@
   transition: color 0.15s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .ndL3Link:hover {
-  color: var(--header-accent, var(--background-secundary-color, #e73888));
+  text-decoration: underline;
+  text-decoration-color: var(--header-accent, var(--background-secundary-color, #e73888));
+  text-underline-offset: 4px;
 }
 
 .ndFoot {
@@ -916,9 +920,10 @@
   color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 35%, transparent);
   transition: color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.ndFootLink:hover,
-.ndFootLink:hover svg {
-  color: var(--header-accent, var(--background-secundary-color, #e73888));
+.ndFootLink:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--header-accent, var(--background-secundary-color, #e73888));
+  text-underline-offset: 4px;
 }
 
 /* ---------- Overlay de busca mobile (SearchOverlay03) ---------- */
@@ -1027,7 +1032,9 @@
   transition: color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .soPanel .soCancel:hover {
-  color: var(--header-accent, var(--background-secundary-color, #e73888));
+  text-decoration: underline;
+  text-decoration-color: var(--header-accent, var(--background-secundary-color, #e73888));
+  text-underline-offset: 4px;
 }
 
 .soBody {
@@ -1071,9 +1078,10 @@
   color: color-mix(in srgb, var(--header-text, var(--text-color-base, #000000)) 35%, transparent);
   transition: color 0.2s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
-.soItem:hover,
-.soItem:hover svg {
-  color: var(--header-accent, var(--background-secundary-color, #e73888));
+.soItem:hover {
+  text-decoration: underline;
+  text-decoration-color: var(--header-accent, var(--background-secundary-color, #e73888));
+  text-underline-offset: 4px;
 }
 
 .soBody .soProductList {
