@@ -19,7 +19,9 @@ import styles from './index.module.css';
  * tem entrada Pix) e o CEP não calcula. `useState` fica para tamanho, slide,
  * acordeões, avise-me e guia de medidas.
  *
- * Os rótulos e os acordeões são do CMS e vêm do `useConteudoDaSecao`. O produto é o 1º
+ * Os rótulos e os acordeões são do CMS e vêm do `useConteudoDaSecao`. A tag é o selo do
+ * produto da loja (sem selo, sem tag) e o guia de medidas, a imagem dele; no exemplo,
+ * o `newLabel` e a tabela de exemplo. O produto é o 1º
  * da loja (`useProdutosDaLoja`) quando o CS cadastrou; senão o de exemplo. Cada
  * variação dele vira um seletor no estilo do TIPO: texto → os botões de tamanho, cor
  * e imagem → as miniaturas (cor = um quadro da cor; imagem = a miniatura enviada).
@@ -133,6 +135,10 @@ type VistaDaPdp = {
   best: { n: number; v: number } | null;
   images: { url: string; alt: string }[];
   variacoes: VariacaoDaPdp[];
+  /** O selo do produto da loja ('' = sem tag); null = o `newLabel` do CMS. */
+  tag: string | null;
+  /** A imagem do guia de medidas. */
+  guia: string;
 };
 
 const EXEMPLO: VistaDaPdp = {
@@ -156,6 +162,8 @@ const EXEMPLO: VistaDaPdp = {
       inicial: SIZES.findIndex(z => z.value === 'M'),
     },
   ],
+  tag: null,
+  guia: GUIDE,
 };
 
 /** Hex aceito no quadro da cor (vai para dentro de um SVG); fora disso, cinza. */
@@ -170,6 +178,8 @@ function daLoja(p: ProdutoNormal): VistaDaPdp {
     listPrice: p.listPrice,
     best: p.installments ? { n: p.installments, v: p.installmentValue } : null,
     images: fotos.map((url, i) => ({ url, alt: `${p.name} — foto ${i + 1}` })),
+    tag: p.badge,
+    guia: p.sizeGuide || GUIDE,
     variacoes: p.variants.map(v => ({
       name: v.name,
       tipo: v.tipo,
@@ -311,9 +321,11 @@ export default function ProductInfo09() {
 
           <div className={styles.info}>
             <div className={styles.head}>
-              <span className={styles.eyebrow} data-role="pdp-eyebrow">
-                {m.newLabel}
-              </span>
+              {(vista.tag ?? m.newLabel) && (
+                <span className={styles.eyebrow} data-role="pdp-eyebrow">
+                  {vista.tag ?? m.newLabel}
+                </span>
+              )}
               <h1 className={styles.title} data-role="pdp-title">
                 {vista.titleParts[0]} {vista.titleParts[1] && <em>{vista.titleParts[1]}</em>}
               </h1>
@@ -568,7 +580,7 @@ export default function ProductInfo09() {
                   </svg>
                 </button>
               </div>
-              <img className={styles.guideImg} src={GUIDE} alt={`${m.sizeGuideLabel} — ${vista.name}`} />
+              <img className={styles.guideImg} src={vista.guia} alt={`${m.sizeGuideLabel} — ${vista.name}`} />
             </div>
           </div>
         )}

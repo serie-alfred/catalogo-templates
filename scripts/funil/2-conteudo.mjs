@@ -478,11 +478,20 @@ try {
   // ── Só o que o lojista da plataforma muda (src/utils/editaveis.ts) ──────
   // A PDP da Wake não tem Design Studio: o texto do CS no botão de comprar não
   // chega à loja, então o canvas desenha o do tema e o painel não oferece o campo.
+  // A tag e os acordeões são do cadastro do produto: valem também na Wake.
   const wake = await novaAba(browser);
-  const pdpWake = secao('ProductInfo09', { buyLabel: 'MARCADOR-WAKE-COMPRAR' });
-  await semear(wake.page, { plataforma: 'Wake 2.0', selecoes: [pdpWake] });
+  const pdpWake = secao('ProductInfo09', {
+    buyLabel: 'MARCADOR-WAKE-COMPRAR',
+    accordions: [{ title: 'MARCADOR-WAKE-ACORDEAO', text: 'texto' }],
+  });
+  const descWake = secao('ProductDescription09', {});
+  await semear(wake.page, {
+    plataforma: 'Wake 2.0',
+    selecoes: [pdpWake, descWake],
+    aba: { conteudoLoja: { versao: 1, produtos: [{ name: 'MARCADOR-WAKE-PRODUTO', price: 100, description: 'antes' }] } },
+  });
   await trocarPagina(wake.page, 'product');
-  const botaoNaWake = await wake.page
+  const pdpNaWake = await wake.page
     .waitForFunction(
       u => document.querySelector('iframe')?.contentDocument?.querySelector(`[data-section-uid="${u}"]`)?.innerText,
       { timeout: 60000, polling: 250 },
@@ -492,20 +501,44 @@ try {
     .catch(() => '');
   r.ok(
     'Wake: a PDP desenha o botão fixo do tema, não o texto do CS',
-    botaoNaWake && !botaoNaWake.includes('MARCADOR-WAKE-COMPRAR') && /Adicionar à sacola/i.test(botaoNaWake),
-    botaoNaWake ? botaoNaWake.slice(0, 120) : 'a seção não montou'
+    pdpNaWake && !pdpNaWake.includes('MARCADOR-WAKE-COMPRAR') && /Adicionar à sacola/i.test(pdpNaWake),
+    pdpNaWake ? pdpNaWake.slice(0, 120) : 'a seção não montou'
+  );
+  r.ok(
+    'Wake: o acordeão da PDP (do cadastro do produto) mostra o texto do CS',
+    pdpNaWake.includes('MARCADOR-WAKE-ACORDEAO'),
+    pdpNaWake.slice(0, 120)
   );
   await wake.page.click('[data-aba-direita="conteudo"]');
   await (await (await wake.page.$('iframe')).contentFrame()).click(`[data-section-uid="${pdpWake.uid}"]`);
   const painelNaWake = await wake.page
-    .waitForSelector('[data-sem-editaveis="Wake 2.0"]', { timeout: 15000 })
-    .then(() => wake.page.$$eval('[data-campo-conteudo]', l => l.length))
-    .catch(() => -1);
+    .waitForSelector('[data-do-produto]', { timeout: 15000 })
+    .then(() => wake.page.$$eval('[data-campo-conteudo]', l => l.map(e => e.getAttribute('data-campo-conteudo')).join(',')))
+    .catch(() => 'sem a nota [data-do-produto]');
   r.ok(
-    'Wake: o painel da PDP não oferece texto e diz que ele fica no tema',
-    painelNaWake === 0,
-    painelNaWake < 0 ? 'sem o aviso [data-sem-editaveis]' : `${painelNaWake} campos`
+    'Wake: o painel da PDP oferece só a tag e os acordeões, com a nota de cadastro',
+    painelNaWake === 'newLabel,accordions',
+    painelNaWake
   );
+  // A descrição e a ficha vêm do cadastro do produto (na Wake, `product.informations`):
+  // a seção de descrição as oferece ali mesmo, editando o produto da loja.
+  await (await (await wake.page.$('iframe')).contentFrame()).click(`[data-section-uid="${descWake.uid}"]`);
+  const campoDaFicha = '[data-campo-ficha="description"] textarea';
+  const temFicha = await wake.page.waitForSelector(campoDaFicha, { timeout: 15000 }).then(() => true).catch(() => false);
+  r.ok('Wake: a seção de descrição oferece a descrição do produto no painel', temFicha);
+  if (temFicha) {
+    await wake.page.click(campoDaFicha, { clickCount: 3 });
+    await wake.page.type(campoDaFicha, 'MARCADOR-WAKE-DESCRICAO');
+    const naTela = await wake.page
+      .waitForFunction(
+        u => document.querySelector('iframe')?.contentDocument?.querySelector(`[data-section-uid="${u}"]`)?.innerText.includes('MARCADOR-WAKE-DESCRICAO'),
+        { timeout: 15000, polling: 250 },
+        descWake.uid
+      )
+      .then(() => true)
+      .catch(() => false);
+    r.ok('Wake: a descrição editada ali aparece na seção de descrição do canvas', naTela);
+  }
   erros.push(...wake.erros);
 
   r.ok('o editor sem erro de página', erros.length === 0, erros.join(' | '));

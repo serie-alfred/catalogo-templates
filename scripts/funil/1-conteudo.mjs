@@ -89,11 +89,24 @@ const foraDoPainel = Object.entries(editaveis).flatMap(([comp, porPlat]) =>
 r.ok('todo campo editável é um campo que o painel mostra', !foraDoPainel.length, foraDoPainel.join(', '));
 const naPagina = pagina =>
   itens().filter(i => i.pagina[0] === pagina && editaveis[i.component]);
-const pdpWake = naPagina('product').filter(i => editaveis[i.component]['Wake 2.0']?.length);
+const doProduto = JSON.parse(ler(ARQUIVO_EDITAVEIS) || '{}').doProduto ?? {};
+const pdpWake = naPagina('product').filter(i =>
+  (editaveis[i.component]['Wake 2.0'] ?? []).some(c => !doProduto[i.component]?.includes(c))
+);
 r.ok(
-  'Wake: nenhum campo da página de produto (sem Design Studio na PDP)',
+  'Wake: na página de produto só o que é do cadastro do produto (sem Design Studio na PDP)',
   !pdpWake.length,
-  pdpWake.map(i => i.component).join(', ')
+  pdpWake.map(i => `${i.component}: ${editaveis[i.component]['Wake 2.0']}`).join(' | ')
+);
+const cadastroFaltando = Object.entries(doProduto).flatMap(([comp, lista]) =>
+  Object.entries(editaveis[comp] ?? {}).flatMap(([p, ed]) =>
+    lista.filter(c => !ed.includes(c)).map(c => `${comp}.${c} (${p})`)
+  )
+);
+r.ok(
+  'o que é do cadastro do produto (tag, acordeões, descrição) é editável em toda plataforma',
+  !cadastroFaltando.length && ['ProductInfo09', 'ProductInfo12', 'ProductInfo17'].every(c => doProduto[c]?.includes('accordions')) && doProduto.ProductInfo09.includes('newLabel'),
+  cadastroFaltando.join(', ') || JSON.stringify(doProduto)
 );
 const MENU = /^(menu|navItems|mobileNavItems|categories|columns)$/;
 const headerWake = itens()
@@ -123,6 +136,15 @@ for (const [sel, nome] of [['footer', 'o rodapé (exceção: o cliente troca tex
   const parciais = inteiroNaWake(sel);
   r.ok(`Wake: ${nome} com todo campo editável`, !parciais.length, parciais.map(i => i.component).join(', '));
 }
+const daFicha = JSON.parse(ler(ARQUIVO_EDITAVEIS) || '{}').daFicha ?? {};
+const descricoesSemFicha = Object.keys(desenhadosNoDisco)
+  .filter(c => /^ProductDescription\d+$/.test(c))
+  .filter(c => !daFicha[c]?.includes('description'));
+r.ok(
+  'toda seção de descrição oferece a descrição do produto (cadastro) no painel',
+  !descricoesSemFicha.length && daFicha.ProductDescription09?.join() === 'description,specs',
+  descricoesSemFicha.join(', ') || JSON.stringify(daFicha.ProductDescription09)
+);
 const caso = (comp, plat) => editaveis[comp]?.[plat] ?? [];
 r.ok(
   'Nuvemshop: avaliações só com o título (o resto é do app de avaliação)',

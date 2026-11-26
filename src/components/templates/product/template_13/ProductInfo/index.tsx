@@ -859,7 +859,7 @@ export default function ProductInfo13() {
                   {svg(20, <path d="M6 6l12 12M18 6 6 18" />)}
                 </button>
               </div>
-              <img className={styles.guideImg} src={GUIDE_URL} alt={`${L.sizeGuideLabel || ''} — ${vista.name}`} />
+              <img className={styles.guideImg} src={daLojaLista?.[0]?.sizeGuide || GUIDE_URL} alt={`${L.sizeGuideLabel || ''} — ${vista.name}`} />
             </div>
           </div>
         )}

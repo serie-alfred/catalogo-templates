@@ -1,5 +1,130 @@
 {
   "$gerado": "yarn derivar:editaveis, dos portes em global-templates (Wake: bloco/global/Gestor de Menu; Tray: painel do tema; Nuvemshop: settings). VTEX não entra: lá vale o schema do CMS inteiro. Não edite à mão.",
+  "doProduto": {
+    "ProductDescription07": [
+      "descTitle",
+      "faqItems",
+      "deliveryInfo"
+    ],
+    "ProductDescription10": [
+      "extraTabLabel",
+      "extraTabText",
+      "infoTitle",
+      "infoText"
+    ],
+    "ProductInfo02": [
+      "offerTagLabel",
+      "newTagLabel"
+    ],
+    "ProductInfo03": [
+      "extraAccordion"
+    ],
+    "ProductInfo07": [
+      "eyebrow",
+      "benefits"
+    ],
+    "ProductInfo09": [
+      "newLabel",
+      "accordions"
+    ],
+    "ProductInfo12": [
+      "accordions"
+    ],
+    "ProductInfo13": [
+      "badge",
+      "accordions"
+    ],
+    "ProductInfo14": [
+      "sizeTableCaption",
+      "accordions"
+    ],
+    "ProductInfo15": [
+      "accordions"
+    ],
+    "ProductInfo16": [
+      "accordions"
+    ],
+    "ProductInfo17": [
+      "accordions"
+    ]
+  },
+  "daFicha": {
+    "ProductDescription01": [
+      "description",
+      "specs"
+    ],
+    "ProductDescription07": [
+      "description",
+      "specs"
+    ],
+    "ProductDescription09": [
+      "description",
+      "specs"
+    ],
+    "ProductDescription10": [
+      "description",
+      "specs"
+    ],
+    "ProductDescription11": [
+      "description",
+      "specs"
+    ],
+    "ProductDescription12": [
+      "description",
+      "specs"
+    ],
+    "ProductDescription13": [
+      "description",
+      "specs"
+    ],
+    "ProductDescription14": [
+      "description",
+      "specs"
+    ],
+    "ProductDescription15": [
+      "description",
+      "specs"
+    ],
+    "ProductDescription16": [
+      "description",
+      "specs"
+    ],
+    "ProductDescription17": [
+      "description",
+      "specs"
+    ],
+    "ProductInfo03": [
+      "description",
+      "specs"
+    ],
+    "ProductInfo04": [
+      "description",
+      "specs"
+    ],
+    "ProductInfo06": [
+      "description",
+      "specs"
+    ],
+    "ProductInfo10": [
+      "specs"
+    ],
+    "ProductInfo11": [
+      "description",
+      "specs"
+    ],
+    "ProductInfo13": [
+      "specs"
+    ],
+    "ProductInfo14": [
+      "specs"
+    ],
+    "ProductInfo15": [
+      "specs"
+    ],
+    "ProductInfo16": [
+      "specs"
+    ]
+  },
   "componentes": {
     "BannerCarousel06": {
       "Tray": [
@@ -5332,17 +5457,25 @@
     "ProductDescription07": {
       "Tray": [
         "descEyebrow",
+        "descTitle",
         "specsEyebrow",
         "faqTitle",
-        "faqItems"
+        "faqItems",
+        "deliveryInfo"
       ],
-      "Wake 2.0": [],
+      "Wake 2.0": [
+        "descTitle",
+        "faqItems",
+        "deliveryInfo"
+      ],
       "Nuvemshop": [
         "descEyebrow",
+        "descTitle",
         "specsEyebrow",
         "careTitle",
         "faqTitle",
-        "faqItems"
+        "faqItems",
+        "deliveryInfo"
       ]
     },
     "ProductDescription09": {
@@ -5373,7 +5506,12 @@
         "infoTitle",
         "infoText"
       ],
-      "Wake 2.0": [],
+      "Wake 2.0": [
+        "extraTabLabel",
+        "extraTabText",
+        "infoTitle",
+        "infoText"
+      ],
       "Nuvemshop": [
         "descriptionTabLabel",
         "specsTabLabel",
@@ -5469,11 +5607,18 @@
       ]
     },
     "ProductInfo02": {
-      "Tray": [],
-      "Wake 2.0": [],
+      "Tray": [
+        "offerTagLabel",
+        "newTagLabel"
+      ],
+      "Wake 2.0": [
+        "offerTagLabel",
+        "newTagLabel"
+      ],
       "Nuvemshop": [
         "skuLabel",
         "offerTagLabel",
+        "newTagLabel",
         "installmentPrefix",
         "installmentOf",
         "withInterestLabel",
@@ -5487,9 +5632,12 @@
     },
     "ProductInfo03": {
       "Tray": [
-        "trustBadges"
+        "trustBadges",
+        "extraAccordion"
       ],
-      "Wake 2.0": [],
+      "Wake 2.0": [
+        "extraAccordion"
+      ],
       "Nuvemshop": [
         "descriptionTitle",
         "colorLabel",
@@ -5515,14 +5663,19 @@
     },
     "ProductInfo07": {
       "Tray": [
+        "eyebrow",
         "trustMessage",
         "benefits",
         "consultoraLabel",
         "addToCartLabel",
         "otherPaymentLabel"
       ],
-      "Wake 2.0": [],
+      "Wake 2.0": [
+        "eyebrow",
+        "benefits"
+      ],
       "Nuvemshop": [
+        "eyebrow",
         "trustMessage",
         "benefits",
         "consultoraLabel",
@@ -5539,8 +5692,12 @@
         "shippingLabel",
         "accordions"
       ],
-      "Wake 2.0": [],
+      "Wake 2.0": [
+        "newLabel",
+        "accordions"
+      ],
       "Nuvemshop": [
+        "newLabel",
         "refLabel",
         "sizeGuideLabel",
         "soldOutText",
@@ -5613,7 +5770,9 @@
         "shippingLabel",
         "accordions"
       ],
-      "Wake 2.0": [],
+      "Wake 2.0": [
+        "accordions"
+      ],
       "Nuvemshop": [
         "codeLabel",
         "soldOutText",
@@ -5638,7 +5797,10 @@
         "shippingLabel",
         "accordions"
       ],
-      "Wake 2.0": [],
+      "Wake 2.0": [
+        "badge",
+        "accordions"
+      ],
       "Nuvemshop": [
         "badge",
         "codeLabel",
@@ -5656,14 +5818,19 @@
       "Tray": [
         "codeLabel",
         "ratingCountLabel",
+        "sizeTableCaption",
         "buyLabel",
         "shippingLabel",
         "accordions"
       ],
-      "Wake 2.0": [],
+      "Wake 2.0": [
+        "sizeTableCaption",
+        "accordions"
+      ],
       "Nuvemshop": [
         "codeLabel",
         "sizeGuideLabel",
+        "sizeTableCaption",
         "buyLabel",
         "shippingLabel",
         "cepPlaceholder",
@@ -5680,7 +5847,9 @@
         "shippingNote",
         "accordions"
       ],
-      "Wake 2.0": [],
+      "Wake 2.0": [
+        "accordions"
+      ],
       "Nuvemshop": [
         "codeLabel",
         "sizeGuideLabel",
@@ -5702,7 +5871,9 @@
         "shippingLabel",
         "accordions"
       ],
-      "Wake 2.0": [],
+      "Wake 2.0": [
+        "accordions"
+      ],
       "Nuvemshop": [
         "counterOfLabel",
         "codeLabel",
@@ -5722,7 +5893,9 @@
         "shippingLabel",
         "accordions"
       ],
-      "Wake 2.0": [],
+      "Wake 2.0": [
+        "accordions"
+      ],
       "Nuvemshop": [
         "codeLabel",
         "buyLabel",

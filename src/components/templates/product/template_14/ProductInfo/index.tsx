@@ -334,6 +334,8 @@ export default function ProductInfo14() {
 
   const daLojaLista = useProdutosDaLoja();
   const vista = useMemo(() => (daLojaLista ? daLoja(daLojaLista[0]) : EXEMPLO), [daLojaLista]);
+  // O guia de medidas do produto da loja (imagem); o de exemplo é a tabela abaixo.
+  const guiaDaLoja = daLojaLista?.[0]?.sizeGuide ?? '';
   // Outro produto: as escolhas e o slide do anterior não valem mais.
   useEffect(() => {
     setEscolhas({});
@@ -560,7 +562,7 @@ export default function ProductInfo14() {
                   <p className={styles.legend} id={`${uid}-axis`}>
                     {axisName}
                   </p>
-                  {vista.exemplo && (
+                  {(vista.exemplo || guiaDaLoja) && (
                   <button
                     type="button"
                     className={styles.guide}
@@ -604,7 +606,11 @@ export default function ProductInfo14() {
                     )
                   )}
                 </div>
-                {vista.exemplo && (
+                {guiaDaLoja ? (
+                <div id={tableId} className={styles.table} hidden={!tableOpen} data-role="pdp-size-table">
+                  <img src={guiaDaLoja} alt={`${L.sizeGuideLabel ?? ''} — ${vista.name}`} style={{ display: 'block', width: '100%', height: 'auto' }} />
+                </div>
+                ) : vista.exemplo && (
                 <div id={tableId} className={styles.table} hidden={!tableOpen} data-role="pdp-size-table">
                   <table>
                     <caption>{L.sizeTableCaption}</caption>

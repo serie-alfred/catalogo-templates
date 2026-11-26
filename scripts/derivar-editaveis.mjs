@@ -22,6 +22,13 @@
  *   têm texto em comum: valem se a pasta tem um setting daquele tipo (o link, se
  *   o rótulo ao lado for editável). Pasta sem painel = nada. Logo, nome, redes,
  *   pagamento e linha legal valem por evidência na pasta (`POR_EVIDENCIA`).
+ * - **Conteúdo do produto** (`DO_PRODUTO`): na PDP, a tag, os acordeões e os
+ *   textos descritivos vêm, na loja, do CADASTRO de cada produto — editáveis em
+ *   toda plataforma, mesmo onde a PDP não tem CMS (Wake). Saem também em
+ *   `doProduto`, para o painel dizer de onde vêm.
+ * - **A descrição e a ficha do produto** (`daFicha`): as peças da PDP que as
+ *   desenham (lidas do produto da loja) ganham os dois campos do produto no
+ *   painel da seção — na loja, vêm do cadastro em toda plataforma.
  *
  *   yarn derivar:editaveis
  *
@@ -144,6 +151,24 @@ const POR_EVIDENCIA = [
   { campo: /^(legal|copyright)$/, Nuvemshop: /"id": "(legal|copyright)"/, Tray: /name="\w*_(legal|copyright)/ },
 ];
 
+/**
+ * [peça, campos] que, na loja, são do cadastro do produto e não do tema. O resto
+ * da PDP (botões, frete, CEP, avise-me, política da loja) segue a plataforma.
+ */
+const DO_PRODUTO = [
+  // A tag do produto ("Novidade", "Novo", "Oferta", "Drop 07").
+  [/^ProductInfo(02|09|13)$/, /^(newLabel|newTagLabel|offerTagLabel|badge)$/],
+  // Os acordeões da descrição (descrição, composição, modo de usar, garantia…).
+  [/^ProductInfo\d+$/, /^(accordions|extraAccordion)$/],
+  // A legenda da tabela de medidas, que é do produto.
+  [/^ProductInfo14$/, /^sizeTableCaption$/],
+  // 07: a linha/coleção e os benefícios da peça; o título, o FAQ e a entrega da descrição.
+  [/^ProductInfo07$/, /^(eyebrow|benefits)$/],
+  [/^ProductDescription07$/, /^(descTitle|faqItems|deliveryInfo)$/],
+  // 10: a aba extra (garantia) e o quadro de garantia da descrição.
+  [/^ProductDescription10$/, /^(extraTab(Label|Text)|info(Title|Text))$/],
+];
+
 /* ── O lado da plataforma: o que a pasta deixa o lojista trocar ───────── */
 
 /**
@@ -233,6 +258,7 @@ export async function derivarEditaveis(globalTemplates = process.env.DERIVAR_GLO
   const menus = await camposDeMenu();
 
   const componentes = {};
+  const doProduto = {};
   for (const item of itens()) {
     const campos = desenhados[item.component];
     if (!campos?.length || componentes[item.component]) continue;
@@ -242,6 +268,10 @@ export async function derivarEditaveis(globalTemplates = process.env.DERIVAR_GLO
     const deMenu = new Set(
       menus.filter(v => new RegExp(v.de).test(item.component)).map(v => v.campo)
     );
+    const doCadastro = campos.filter(c =>
+      DO_PRODUTO.some(([peca, campo]) => peca.test(item.component) && campo.test(c))
+    );
+    if (doCadastro.length) doProduto[item.component] = doCadastro;
 
     const porPlataforma = {};
     for (const plataforma of PLATAFORMAS) {
@@ -282,18 +312,29 @@ export async function derivarEditaveis(globalTemplates = process.env.DERIVAR_GLO
           else if (tipo === 'data' && cap.data) editaveis.add(c);
         }
       }
+      doCadastro.forEach(c => editaveis.add(c));
       porPlataforma[plataforma] = campos.filter(c => editaveis.has(c));
     }
     componentes[item.component] = porPlataforma;
   }
 
-  const ordenado = Object.fromEntries(
-    Object.entries(componentes).sort(([a], [b]) => a.localeCompare(b))
-  );
+  // As peças da PDP que desenham a descrição ou a ficha do produto da loja.
+  const daFicha = {};
+  for (const [nome, arquivo] of replicas) {
+    if (!/^Product(Info|Description)\d+$/.test(nome)) continue;
+    const fonte = ler(arquivo);
+    if (!fonte.includes('useProdutosDaLoja')) continue;
+    const campos = ['description', 'specs'].filter(c => new RegExp(`\\.${c}\\b`).test(fonte));
+    if (campos.length) daFicha[nome] = campos;
+  }
+
+  const ordenar = o => Object.fromEntries(Object.entries(o).sort(([a], [b]) => a.localeCompare(b)));
   return {
     $gerado:
       'yarn derivar:editaveis, dos portes em global-templates (Wake: bloco/global/Gestor de Menu; Tray: painel do tema; Nuvemshop: settings). VTEX não entra: lá vale o schema do CMS inteiro. Não edite à mão.',
-    componentes: ordenado,
+    doProduto: ordenar(doProduto),
+    daFicha: ordenar(daFicha),
+    componentes: ordenar(componentes),
   };
 }
 

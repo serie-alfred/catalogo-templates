@@ -8,11 +8,12 @@ import camposDasReplicas from '@/data/conteudo/campos.generated.json';
 import type { CampoDoSchema, SchemaDeConteudo, ValorDeConteudo } from '@/types/conteudo';
 import { resolverConteudo, sanitizarConteudoLoja } from '@/utils/conteudo';
 import { projetarLoja, ROTULO_DO_SLOT } from '@/utils/conteudoLoja';
-import { camposEditaveis } from '@/utils/editaveis';
+import { camposDaFicha, camposDoProduto, camposEditaveis } from '@/utils/editaveis';
 import { rotuloDaPlataforma } from '@/types/platform';
 import { pedirFocoNaLoja } from '@/utils/focoNaLoja';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import Campo from './Campo';
+import FichaDoProduto from './FichaDoProduto';
 
 import styles from './index.module.css';
 
@@ -105,7 +106,9 @@ export default function ConteudoPanel() {
   }
 
   // Peças que mostram produtos: os produtos são os da loja, não um campo da seção.
+  const ficha = camposDaFicha(layoutItem.component);
   const avisoDeProdutos = MOSTRA_PRODUTOS.test(layoutItem.component) && (
+    <>
     <p className={styles.daLoja} data-produtos-da-loja style={{ padding: '16px 16px 0' }}>
       Os produtos desta seção são os do Conteúdo da loja: valem para toda vitrine, grade,
       relacionados e página de produto, no formato do card escolhido.{' '}
@@ -119,6 +122,8 @@ export default function ConteudoPanel() {
         Editar produtos
       </button>
     </p>
+      {ficha.length > 0 && <FichaDoProduto campos={ficha} />}
+    </>
   );
 
   const mock = conteudoPadraoDe(layoutItem.component);
@@ -153,7 +158,7 @@ export default function ConteudoPanel() {
   if (!campos.length) {
     const fixos = doSchema.length > 0 && (
       <p className={styles.vazio} data-sem-editaveis={platform ?? undefined}>
-        Em <strong>{rotuloDaPlataforma(platform ?? '')}</strong>, os textos de{' '}
+        Em <strong>{rotuloDaPlataforma(platform ?? '')}</strong>, os títulos e rótulos de{' '}
         <strong>{layoutItem.title}</strong> ficam no código do tema: o lojista não os muda
         depois de publicado.
       </p>
@@ -175,6 +180,7 @@ export default function ConteudoPanel() {
   }
 
   const uid = selectedUid;
+  const doProduto = camposDoProduto(layoutItem.component);
   const nivel1 = selection.content ?? {};
   const daLoja = projetarLoja(layoutItem.component, loja, mock);
   const valores = resolverConteudo(mock, daLoja.conteudo, nivel1) as Record<
@@ -202,6 +208,11 @@ export default function ConteudoPanel() {
                 onChange={v => setConteudoDaSecao(uid, chave, v)}
                 id={`ct-${uid}-${chave}`}
               />
+              {doProduto.includes(chave) && (
+                <p className={styles.daLoja} data-do-produto>
+                  Na loja, vem do cadastro de cada produto.
+                </p>
+              )}
               {slot && !personalizado && (
                 <p className={styles.daLoja} data-vem-da-loja={slot}>
                   Vem do conteúdo da loja ({ROTULO_DO_SLOT[slot]}). Mudar aqui vale só para esta

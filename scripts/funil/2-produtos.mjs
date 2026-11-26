@@ -33,6 +33,7 @@ const secao = componente => {
 };
 
 const FOTO = '/images/templates/09.webp';
+const GUIA = '/images/templates/10.webp';
 const LOJA = {
   versao: 1,
   produtos: [
@@ -44,6 +45,8 @@ const LOJA = {
       installments: 2,
       description: 'MARCADOR-PROD-DESC-1\n\nMARCADOR-PROD-DESC-2 <b>sem html</b>',
       specs: [{ name: 'MARCADOR-PROD-SPEC', value: 'Algodão' }],
+      badge: 'MARCADOR-PROD-SELO',
+      sizeGuide: GUIA,
       variants: [
         { name: 'MARCADOR-PROD-TAMANHO', tipo: 'texto', options: [{ label: 'P' }, { label: 'M' }, { label: 'G', soldOut: true }] },
         { name: 'MARCADOR-PROD-ESTAMPA', tipo: 'imagem', options: [{ label: 'Floral', swatchImage: FOTO }, { label: 'Liso', swatchImage: FOTO }] },
@@ -205,6 +208,19 @@ try {
       JSON.stringify(pdp.imagens)
     );
     r.ok('/p/produto: produto sem variação de cor não desenha o seletor de cor', pdp.cores === 0);
+    const tagEGuia = await aba.evaluate(async () => {
+      const tag = document.querySelector('[data-role="pdp-eyebrow"]')?.textContent.trim() ?? '';
+      const botao = document.querySelector('[data-role="pdp-size-guide"]');
+      botao?.click();
+      let img = null;
+      for (let i = 0; i < 20 && !img; i++) {
+        await new Promise(r => setTimeout(r, 100));
+        img = document.querySelector('[data-selection="product-info"] [role="dialog"] img');
+      }
+      return { tag, guia: img?.getAttribute('src') ?? (botao ? 'o diálogo não abriu' : 'sem o botão do guia') };
+    });
+    r.ok('/p/produto: a tag é o selo do produto da loja', tagEGuia.tag === 'MARCADOR-PROD-SELO', tagEGuia.tag);
+    r.ok('/p/produto: o guia de medidas abre a imagem do produto da loja', tagEGuia.guia === GUIA, tagEGuia.guia);
 
     const resto = await aba.evaluate(() => ({
       desc: [...document.querySelectorAll('[data-role="pd-description"] p')].map(p => p.textContent.trim()),

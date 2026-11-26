@@ -10,9 +10,30 @@ import dados from '@/data/conteudo/editaveis.generated.json';
  * `null` = sem restrição: VTEX (o painel é o schema do CMS), sem plataforma, ou
  * peça fora do mapa.
  */
-const MAPA = (
-  dados as unknown as { componentes: Record<string, Record<string, string[]>> }
-).componentes;
+const DADOS = dados as unknown as {
+  doProduto: Record<string, string[]>;
+  daFicha: Record<string, string[]>;
+  componentes: Record<string, Record<string, string[]>>;
+};
+const MAPA = DADOS.componentes;
+
+/**
+ * Os campos da peça que, na loja, vêm do CADASTRO de cada produto (a tag, os
+ * acordeões da descrição…): editáveis em toda plataforma, e o painel diz isso.
+ */
+export function camposDoProduto(componente: string): readonly string[] {
+  return DADOS.doProduto[componente] ?? [];
+}
+
+/**
+ * Os campos do PRODUTO da loja (`description`, `specs`) que a peça da PDP desenha:
+ * o painel da seção os oferece ali mesmo, editando o 1º produto (o da PDP).
+ */
+export function camposDaFicha(
+  componente: string
+): readonly ('description' | 'specs')[] {
+  return (DADOS.daFicha[componente] ?? []) as ('description' | 'specs')[];
+}
 
 export function camposEditaveis(
   platform: string | null | undefined,

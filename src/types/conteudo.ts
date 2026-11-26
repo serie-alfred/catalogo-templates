@@ -190,6 +190,8 @@ export interface ProdutoDaLoja {
   /** A ficha técnica da página de produto ("Composição: 100% algodão"). */
   specs?: { name?: string; value?: string }[];
   variants?: VariacaoDoProduto[];
+  /** A tabela de medidas que a página de produto abre (imagem). Vazio = a de exemplo. */
+  sizeGuide?: string;
 }
 
 /** O conteúdo da loja do cliente (Nível 2). Campo ausente ou lista vazia = cada seção mostra o próprio. */

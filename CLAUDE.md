@@ -265,7 +265,14 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
   setting da pasta; logo, nome, redes, pagamento e linha legal por evidência (`POR_EVIDENCIA`).
   Lido por `src/utils/editaveis.ts`; o `ThemeRenderer` recebe `platform` em todas as superfícies.
   Produtos e a categoria da loja (nome, descrição, FAQ) não passam pelo filtro: são cadastro, editáveis
-  em toda plataforma. Inventários que fundamentaram: `docs/INVENTARIO-EDITAVEL-{WAKE,TRAY,NUVEMSHOP}.md`.
+  em toda plataforma. Na PDP, o mesmo vale para o que na loja vem do **cadastro de cada produto**
+  (`DO_PRODUTO` no derivador: a tag, os acordeões, os textos descritivos da 07 e da 10), mesmo na
+  Wake; o painel marca esses campos com "Na loja, vem do cadastro de cada produto" (`doProduto` no
+  JSON). A tag da 09 (como a da 02 e da 13) é o selo do produto da loja, e o guia de medidas (06, 09,
+  13–16) abre a imagem `sizeGuide` do produto; sem ela, o de exemplo. A **descrição e a ficha** do
+  produto (na Wake, `product.informations`) se editam na própria seção que as desenha: toda
+  `ProductDescriptionNN` e as `ProductInfoNN` com ficha (`daFicha` no JSON) ganham, na aba Conteúdo,
+  esses dois campos do 1º produto da loja (`FichaDoProduto`); sem produto, um atalho para cadastrar. Inventários que fundamentaram: `docs/INVENTARIO-EDITAVEL-{WAKE,TRAY,NUVEMSHOP}.md`.
   Mexeu num porte ou num mock: rode o derivador (o `1-conteudo` reprova o arquivo velho).
 - **Template**: lê conteúdo SÓ por `useConteudoDaSecao(MOCK)` — `const MOCK: XConteudo = {…}` com os
   nomes de campo do schema; a `interface XConteudo` é o contrato (o `1-conteudo` reprova campo que não

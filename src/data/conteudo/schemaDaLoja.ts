@@ -240,6 +240,10 @@ export const SCHEMA_DA_LOJA: Record<SlotDaLoja, CampoDoSchema> = {
             'A página de produto desenha o seletor no estilo do tipo; sem variação, ele some.',
         }
       ),
+      sizeGuide: imagem(
+        'Guia de medidas',
+        'A tabela que o "Guia de medidas" da página de produto abre. Vazio: a de exemplo.'
+      ),
     },
     {
       description:

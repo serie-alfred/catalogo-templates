@@ -54,6 +54,8 @@ export interface ProdutoNormal {
   /** Só as linhas com nome e valor. */
   specs: { name: string; value: string }[];
   variants: VariacaoNormal[];
+  /** URL da imagem do guia de medidas; '' = a PDP mostra a de exemplo. */
+  sizeGuide: string;
 }
 
 const TIPOS: ReadonlySet<string> = new Set(['texto', 'cor', 'imagem']);
@@ -85,6 +87,7 @@ export function normalizarProduto(p: ProdutoDaLoja, i: number): ProdutoNormal {
     brand: texto(p.brand),
     badge: texto(p.badge),
     url: texto(p.url),
+    sizeGuide: texto(p.sizeGuide),
     description: texto(p.description),
     specs: lista<{ name?: unknown; value?: unknown }>(p.specs)
       .map(e => ({ name: texto(e?.name), value: texto(e?.value) }))
