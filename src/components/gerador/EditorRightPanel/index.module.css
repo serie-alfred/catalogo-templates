@@ -18,6 +18,12 @@
   background: var(--ed-bg-01);
 }
 
+/* A coluna trava a largura de todo filho direto (`.right > *`, para o painel
+   deslizar inteiro ao recolher); aqui a trava desconta as margens laterais. */
+.panel .abas {
+  width: calc(var(--ed-right-w) - 32px);
+}
+
 .aba {
   flex: 1;
   padding: 7px 8px;

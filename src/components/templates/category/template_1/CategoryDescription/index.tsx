@@ -1,11 +1,23 @@
 import React from 'react';
 import styles from './index.module.css';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
+import { paragrafosEmHtml } from '@/utils/categoriaDaLoja';
+
+const EXEMPLO = {
+  name: 'Nome da Categoria',
+  small_description:
+    "<p>Esta é uma descrição de exemplo para a categoria. Ela pode conter <a href='#'>links</a> e formatação HTML.</p>",
+};
 
 const CategoryDescription = () => {
+  // A categoria da loja (Conteúdo da loja → Página de categoria); o texto do CS vira
+  // HTML ESCAPADO (o /p é público). Sem ela, a de exemplo.
+  const loja = useCategoriaDaLoja();
   const category = {
-    name: 'Nome da Categoria',
-    small_description:
-      "<p>Esta é uma descrição de exemplo para a categoria. Ela pode conter <a href='#'>links</a> e formatação HTML.</p>",
+    name: loja?.name || EXEMPLO.name,
+    small_description: loja?.paragrafos.length
+      ? paragrafosEmHtml(loja.paragrafos)
+      : EXEMPLO.small_description,
   };
 
   return (

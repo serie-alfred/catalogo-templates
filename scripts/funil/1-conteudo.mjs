@@ -167,6 +167,30 @@ r.ok(
   !descricoesSemFicha.length && daFicha.ProductDescription09?.join() === 'description,specs',
   descricoesSemFicha.join(', ') || JSON.stringify(daFicha.ProductDescription09)
 );
+// A categoria (nome, descrição, FAQ) é do cadastro: toda peça de título e de
+// descrição de categoria a lê e o painel da seção a oferece (daCategoria). O texto
+// dela só chega ao HTML escapado (paragrafosEmHtml/faqEmHtml), nunca cru.
+const daCategoria = JSON.parse(ler(ARQUIVO_EDITAVEIS) || '{}').daCategoria ?? {};
+const pecasDeCategoria = [...new Set(itens().filter(i => /^category-(title|description)$/.test(i.selection)).map(i => i.component))];
+const semCategoria = pecasDeCategoria.filter(c => !daCategoria[c]);
+r.ok('toda peça de título e descrição de categoria lê a categoria da loja (e o painel a oferece)', !semCategoria.length, semCategoria.join(', '));
+const replicasDaCategoria = arquivosDasReplicas();
+const injetaCategoria = Object.keys(daCategoria).filter(c => {
+  const fonte = ler(replicasDaCategoria.get(c) ?? '');
+  return /__html:\s*categoria\b|__html:\s*\w*\.?paragrafos|__html:\s*f\.(answer|question)/.test(fonte);
+});
+r.ok('o texto da categoria da loja nunca vai cru para o HTML', !injetaCategoria.length, injetaCategoria.join(', '));
+
+// Com UM produto, o card da grade de categoria não pode ocupar a largura toda:
+// \`repeat(auto-fit, …1fr)\` estica o item sozinho (a família 10 fazia isso);
+// \`auto-fill\` mantém as colunas.
+const gradesQueEsticam = fs
+  .readdirSync(path.join(RAIZ, 'src/components/templates/category'))
+  .map(t => path.join(RAIZ, 'src/components/templates/category', t, 'CategoryMain/index.module.css'))
+  .filter(f => /repeat\(\s*auto-fit/.test(ler(f)))
+  .map(f => path.relative(RAIZ, f));
+r.ok('nenhuma grade de categoria estica um card único (auto-fill, não auto-fit)', !gradesQueEsticam.length, gradesQueEsticam.join(', '));
+
 const caso = (comp, plat) => editaveis[comp]?.[plat] ?? [];
 r.ok(
   'Nuvemshop: avaliações só com o título (o resto é do app de avaliação)',

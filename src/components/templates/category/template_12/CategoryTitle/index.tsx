@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import styles from './index.module.css';
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
 
 /**
  * Espelha `organisms/CategoryTitle12` do faststore.starter (família 12, Suave; desenho
@@ -44,6 +46,10 @@ const SUBCATS: Subcat[] = [
 ];
 
 export default function CategoryTitle12() {
+  // O nome é o da categoria da loja; a contagem, a dos produtos da loja (a mesma
+  // da grade). Sem eles, os de exemplo.
+  const nome = useCategoriaDaLoja()?.name || TITULO;
+  const total = useProdutosDaLoja()?.length ?? TOTAL;
   const { allLabel, countLabel } = useConteudoDaSecao(MOCK);
   const [ativa, setAtiva] = useState('');
 
@@ -68,10 +74,10 @@ export default function CategoryTitle12() {
         <div className={styles.inner}>
           <div className={styles.head}>
             <h1 className={styles.title} data-role="ct-title">
-              {TITULO}
+              {nome}
             </h1>
             <p className={styles.count} data-role="ct-count">
-              {TOTAL.toLocaleString('pt-BR')}
+              {total.toLocaleString('pt-BR')}
               {countLabel ? ` ${countLabel}` : ''}
             </p>
           </div>

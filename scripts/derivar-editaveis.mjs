@@ -403,12 +403,27 @@ export async function derivarEditaveis(globalTemplates = process.env.DERIVAR_GLO
     if (campos.length) daFicha[nome] = campos;
   }
 
+  // As peças que desenham a categoria da loja (nome, descrição, FAQ): o painel da
+  // seção oferece esses campos do cadastro da categoria ali mesmo.
+  const daCategoria = {};
+  for (const [nome, arquivo] of replicas) {
+    const fonte = ler(arquivo);
+    if (!fonte.includes('useCategoriaDaLoja')) continue;
+    const campos = [
+      /useCategoriaDaLoja\(\)\?\.name|\b(categoria|loja)\?\.name/.test(fonte) && 'name',
+      /\.paragrafos/.test(fonte) && 'description',
+      /\bcategoria\??\.faq/.test(fonte) && 'faq',
+    ].filter(Boolean);
+    if (campos.length) daCategoria[nome] = campos;
+  }
+
   const ordenar = o => Object.fromEntries(Object.entries(o).sort(([a], [b]) => a.localeCompare(b)));
   return {
     $gerado:
       'yarn derivar:editaveis, dos portes em global-templates (Wake: bloco/global/Gestor de Menu; Tray: painel do tema; Nuvemshop: settings). VTEX não entra: lá vale o schema do CMS inteiro. Não edite à mão.',
     doProduto: ordenar(doProduto),
     daFicha: ordenar(daFicha),
+    daCategoria: ordenar(daCategoria),
     componentes: ordenar(componentes),
   };
 }

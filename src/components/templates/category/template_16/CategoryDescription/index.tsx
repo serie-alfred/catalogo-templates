@@ -3,6 +3,7 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
 
 import styles from './index.module.css';
 
@@ -67,8 +68,16 @@ const Ico = ({ size, children }: { size: number; children: React.ReactNode }) =>
 );
 
 export default function CategoryDescription16() {
+  // A categoria da loja (Conteúdo da loja → Página de categoria): texto e FAQ do
+  // cadastro, desenhados como texto. Sem ela, os de exemplo.
+  const categoria = useCategoriaDaLoja();
+  const nome = categoria?.name || NOME;
+  const paragrafos = categoria?.paragrafos.length ? categoria.paragrafos : PARAGRAFOS;
+  const perguntas = categoria?.faq.length
+    ? categoria.faq.map(f => ({ q: f.question, a: f.answer }))
+    : PERGUNTAS;
   const { aboutTitle, faqTitle, readMoreLabel, readLessLabel } = useConteudoDaSecao(MOCK);
-  const TITULO = comCategoria(aboutTitle || '', NOME);
+  const TITULO = comCategoria(aboutTitle || '', nome);
   const [aberto, setAberto] = useState(false);
   const [blocos, setBlocos] = useState(0);
   const [faqAberta, setFaqAberta] = useState<number | null>(0);
@@ -76,7 +85,7 @@ export default function CategoryDescription16() {
   const textoRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     setBlocos(textoRef.current?.children.length ?? 0);
-  }, []);
+  }, [paragrafos.length]);
 
   const maisDesk = blocos > VISIVEIS_DESK;
   const maisMob = blocos > VISIVEIS_MOB;
@@ -99,7 +108,7 @@ export default function CategoryDescription16() {
               className={`${styles.text}${aberto ? '' : ` ${styles.textClamped}`}`}
               data-role="cd-text"
             >
-              {PARAGRAFOS.map((p, i) => (
+              {paragrafos.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
@@ -119,7 +128,7 @@ export default function CategoryDescription16() {
 
           <div className={styles.faq} data-role="cd-faq">
             {faqTitle && <h2 className={styles.faqTitle}>{faqTitle}</h2>}
-            {PERGUNTAS.map((p, i) => {
+            {perguntas.map((p, i) => {
               const on = faqAberta === i;
               return (
                 <div key={i} className={`${styles.faqItem}${on ? ` ${styles.faqOpen}` : ''}`} data-role="cd-faq-item">

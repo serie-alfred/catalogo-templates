@@ -3,6 +3,7 @@
 import React, { useEffect, useId, useRef, useState } from 'react';
 
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
 
 import styles from './index.module.css';
 
@@ -97,6 +98,13 @@ const Ico = ({
 );
 
 export default function CategoryDescription17() {
+  // A categoria da loja (Conteúdo da loja → Página de categoria): texto e FAQ do
+  // cadastro, desenhados como texto. Sem ela, os de exemplo.
+  const categoria = useCategoriaDaLoja();
+  const paragrafos = categoria?.paragrafos.length ? categoria.paragrafos : PARAGRAFOS;
+  const perguntas = categoria?.faq.length
+    ? categoria.faq.map(f => ({ q: f.question, a: f.answer }))
+    : PERGUNTAS;
   const { eyebrow, aboutTitle, faqTitle, readMoreLabel, readLessLabel } =
     useConteudoDaSecao(MOCK);
   const [aberto, setAberto] = useState(false);
@@ -108,7 +116,7 @@ export default function CategoryDescription17() {
   const textoRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     setBlocos(textoRef.current?.children.length ?? 0);
-  }, []);
+  }, [paragrafos.length]);
 
   const maisDesk = blocos > VISIVEIS_DESK;
   const maisMob = blocos > VISIVEIS_MOB;
@@ -149,7 +157,7 @@ export default function CategoryDescription17() {
               className={`${styles.text}${aberto ? '' : ` ${styles.textClamped}`}`}
               data-role="cd-text"
             >
-              {PARAGRAFOS.map((p, i) => (
+              {paragrafos.map((p, i) => (
                 <p key={i}>{p}</p>
               ))}
             </div>
@@ -175,7 +183,7 @@ export default function CategoryDescription17() {
           <div className={styles.faq} data-role="cd-faq">
             {faqTitle && <h2 className={styles.faqTitle}>{faqTitle}</h2>}
             <div className={styles.faqList}>
-              {PERGUNTAS.map((p, i) => {
+              {perguntas.map((p, i) => {
                 const on = faqAberta === i;
                 return (
                   <div

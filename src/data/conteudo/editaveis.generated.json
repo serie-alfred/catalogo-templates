@@ -125,6 +125,98 @@
       "specs"
     ]
   },
+  "daCategoria": {
+    "CategoryDescription01": [
+      "name",
+      "description"
+    ],
+    "CategoryDescription06": [
+      "name",
+      "description",
+      "faq"
+    ],
+    "CategoryDescription09": [
+      "name",
+      "description",
+      "faq"
+    ],
+    "CategoryDescription10": [
+      "name",
+      "description",
+      "faq"
+    ],
+    "CategoryDescription11": [
+      "name",
+      "description",
+      "faq"
+    ],
+    "CategoryDescription12": [
+      "name",
+      "description",
+      "faq"
+    ],
+    "CategoryDescription13": [
+      "name",
+      "description",
+      "faq"
+    ],
+    "CategoryDescription14": [
+      "name",
+      "description",
+      "faq"
+    ],
+    "CategoryDescription15": [
+      "name",
+      "description",
+      "faq"
+    ],
+    "CategoryDescription16": [
+      "name",
+      "description",
+      "faq"
+    ],
+    "CategoryDescription17": [
+      "description",
+      "faq"
+    ],
+    "CategoryMain06": [
+      "name"
+    ],
+    "CategoryMain07": [
+      "name"
+    ],
+    "CategoryTitle06": [
+      "name"
+    ],
+    "CategoryTitle09": [
+      "name"
+    ],
+    "CategoryTitle10": [
+      "name"
+    ],
+    "CategoryTitle11": [
+      "name"
+    ],
+    "CategoryTitle12": [
+      "name"
+    ],
+    "CategoryTitle13": [
+      "name"
+    ],
+    "CategoryTitle14": [
+      "name"
+    ],
+    "CategoryTitle15": [
+      "name"
+    ],
+    "CategoryTitle16": [
+      "name"
+    ],
+    "CategoryTitle17": [
+      "name",
+      "description"
+    ]
+  },
   "componentes": {
     "BannerCarousel06": {
       "Tray": [

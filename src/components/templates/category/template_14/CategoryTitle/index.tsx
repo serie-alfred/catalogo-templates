@@ -5,6 +5,8 @@ import React, { useState } from 'react';
 import styles from './index.module.css';
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
 
 /**
  * Espelha `organisms/CategoryTitle14` do faststore.starter (família 14, Esportiva; desenho
@@ -44,6 +46,10 @@ const SUBCATS: Subcat[] = [
 ];
 
 export default function CategoryTitle14() {
+  // O nome é o da categoria da loja; a contagem, a dos produtos da loja (a mesma
+  // da grade). Sem eles, os de exemplo.
+  const nome = useCategoriaDaLoja()?.name || TITULO;
+  const total = useProdutosDaLoja()?.length ?? TOTAL;
   const { allLabel, countLabel } = useConteudoDaSecao(MOCK);
   const [ativa, setAtiva] = useState<string | null>(null);
 
@@ -52,27 +58,41 @@ export default function CategoryTitle14() {
     setAtiva(a => (value && value !== a ? value : null));
   };
 
-  const chips: Subcat[] = allLabel ? [{ value: '', label: allLabel }, ...SUBCATS] : SUBCATS;
+  const chips: Subcat[] = allLabel
+    ? [{ value: '', label: allLabel }, ...SUBCATS]
+    : SUBCATS;
 
   return (
     <div className={styles.categoryTitle14Box}>
-      <section className={styles.categoryTitle14} aria-label="Categoria" data-role="ct-root">
+      <section
+        className={styles.categoryTitle14}
+        aria-label="Categoria"
+        data-role="ct-root"
+      >
         <link rel="stylesheet" href={FONTES_14} />
-        <span className={styles.watermark} aria-hidden="true" data-role="ct-watermark">
-          {TITULO}
+        <span
+          className={styles.watermark}
+          aria-hidden="true"
+          data-role="ct-watermark"
+        >
+          {nome}
         </span>
         <span className={styles.stripe} aria-hidden="true" />
         <div className={styles.inner}>
           <div className={styles.head}>
             <h1 className={styles.title} data-role="ct-title">
-              {TITULO}
+              {nome}
             </h1>
             <p className={styles.count} data-role="ct-count">
-              {TOTAL.toLocaleString('pt-BR')}
+              {total.toLocaleString('pt-BR')}
               {countLabel ? ` ${countLabel}` : ''}
             </p>
           </div>
-          <nav className={styles.chips} aria-label="Subcategorias" data-role="ct-chips">
+          <nav
+            className={styles.chips}
+            aria-label="Subcategorias"
+            data-role="ct-chips"
+          >
             <ul className={styles.chipList}>
               {chips.map(s => {
                 const on = s.value ? ativa === s.value : !ativa;
@@ -87,7 +107,9 @@ export default function CategoryTitle14() {
                     >
                       {s.label}
                       {typeof s.quantity === 'number' && (
-                        <span className={styles.chipQty}>{s.quantity.toLocaleString('pt-BR')}</span>
+                        <span className={styles.chipQty}>
+                          {s.quantity.toLocaleString('pt-BR')}
+                        </span>
                       )}
                     </a>
                   </li>

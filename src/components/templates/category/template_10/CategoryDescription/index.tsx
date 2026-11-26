@@ -5,6 +5,8 @@ import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 import styles from './index.module.css';
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { faqEmHtml, paragrafosEmHtml } from '@/utils/categoriaDaLoja';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
 
 /**
  * Espelha `organisms/CategorySeoFaq10` do faststore.starter (família 10, Varejo;
@@ -56,6 +58,12 @@ const semTags = (html: string) =>
   html
     .replace(/<[^>]*>/g, '')
     .replace(/&nbsp;/g, ' ')
+    // As entidades do texto escapado da categoria da loja (o resultado é texto React).
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&')
     .replace(/\s+/g, ' ')
     .trim();
 
@@ -116,15 +124,25 @@ const Chevron = ({ up }: { up: boolean }) => (
 );
 
 export default function CategoryDescription10() {
+  // A categoria da loja (Conteúdo da loja → Página de categoria): nome, texto e
+  // FAQ do cadastro, como HTML ESCAPADO no formato do exemplo (o /p é público).
+  const categoria = useCategoriaDaLoja();
+  const nome = categoria?.name || NOME;
+  const sobreHtml = categoria?.paragrafos.length
+    ? paragrafosEmHtml(categoria.paragrafos)
+    : SOBRE_HTML;
+  const faqHtml = categoria?.faq.length ? faqEmHtml(categoria.faq) : FAQ_HTML;
   const {
     faqTitle: FAQ_TITLE,
     aboutTitle: ABOUT_TITLE,
     readMoreLabel: READ_MORE,
     readLessLabel: READ_LESS,
   } = useConteudoDaSecao(MOCK);
-  const nome = NOME;
-  const { titulo, corpo } = useMemo(() => separarTitulo(SOBRE_HTML), []);
-  const perguntas = useMemo(() => lerPerguntas(FAQ_HTML), []);
+  const { titulo, corpo } = useMemo(
+    () => separarTitulo(sobreHtml),
+    [sobreHtml]
+  );
+  const perguntas = useMemo(() => lerPerguntas(faqHtml), [faqHtml]);
   const colunas = useMemo(() => {
     const meio = Math.ceil(perguntas.length / 2);
     return [
@@ -162,7 +180,7 @@ export default function CategoryDescription10() {
   }, [corpo, aberto]);
 
   const temSobre = !!semTags(corpo);
-  const temFaq = perguntas.length > 0 || !!semTags(FAQ_HTML);
+  const temFaq = perguntas.length > 0 || !!semTags(faqHtml);
   const tituloSobre = titulo || comCategoria(ABOUT_TITLE, nome);
 
   const item = ({ p, i }: { p: Pergunta; i: number }) => {
@@ -229,7 +247,7 @@ export default function CategoryDescription10() {
               ) : (
                 <div
                   className={styles.faqHtml}
-                  dangerouslySetInnerHTML={{ __html: FAQ_HTML }}
+                  dangerouslySetInnerHTML={{ __html: faqHtml }}
                 />
               )}
             </>

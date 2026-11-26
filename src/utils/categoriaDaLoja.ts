@@ -33,5 +33,36 @@ export function categoriaDaLoja(
   const faq = (Array.isArray(c.faq) ? c.faq : [])
     .map(f => ({ question: texto(f?.question), answer: texto(f?.answer) }))
     .filter(f => f.question && f.answer);
-  return name || paragrafos.length || faq.length ? { name, paragrafos, faq } : null;
+  return name || paragrafos.length || faq.length
+    ? { name, paragrafos, faq }
+    : null;
 }
+
+/* ── Para as peças que desenham a categoria a partir de HTML de exemplo ──
+   O texto do CS vira HTML ESCAPADO no mesmo formato do exemplo, então a peça
+   segue com o próprio markup e nada do CS é interpretado como HTML (o /p é
+   público). */
+
+const ENTIDADES: Record<string, string> = {
+  '&': '&amp;',
+  '<': '&lt;',
+  '>': '&gt;',
+  '"': '&quot;',
+  "'": '&#39;',
+};
+export const escaparHtml = (s: string) =>
+  s.replace(/[&<>"']/g, c => ENTIDADES[c]);
+const comQuebras = (s: string) => escaparHtml(s).replace(/\n/g, '<br>');
+
+/** Os parágrafos da categoria como `<p>…</p>` (escapados). */
+export const paragrafosEmHtml = (paragrafos: string[]) =>
+  paragrafos.map(p => `<p>${comQuebras(p)}</p>`).join('');
+
+/** O FAQ da categoria como `<details><summary>…` (escapado), o formato do exemplo. */
+export const faqEmHtml = (faq: { question: string; answer: string }[]) =>
+  faq
+    .map(
+      f =>
+        `<details><summary>${escaparHtml(f.question)}</summary><p>${comQuebras(f.answer)}</p></details>`
+    )
+    .join('');

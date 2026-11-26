@@ -3,6 +3,8 @@
 import React, { useMemo, useState } from 'react';
 
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
+import { paragrafosEmHtml } from '@/utils/categoriaDaLoja';
 
 import styles from './index.module.css';
 
@@ -75,6 +77,12 @@ const Chevron = () => (
 );
 
 export default function CategoryDescription() {
+  // A categoria da loja (Conteúdo da loja → Página de categoria): o nome vira o
+  // título, o texto vira HTML ESCAPADO (o /p é público) e o FAQ vem do cadastro.
+  const categoria = useCategoriaDaLoja();
+  const seoTitulo = categoria?.name || SEO_TITULO;
+  const seoHtml = categoria?.paragrafos.length ? paragrafosEmHtml(categoria.paragrafos) : SEO_HTML;
+  const faq = categoria?.faq.length ? categoria.faq.map(f => ({ q: f.question, a: f.answer })) : FAQ;
   const {
     faqTitle: FAQ_TITULO,
     readMoreLabel: ROTULO_MAIS,
@@ -85,15 +93,15 @@ export default function CategoryDescription() {
 
   /* mesmo corte da origem: 2º <h2> se houver, senão o fim do 2º </p> */
   const previa = useMemo(() => {
-    const minusculo = SEO_HTML.toLowerCase();
+    const minusculo = seoHtml.toLowerCase();
     const segundoH2 = minusculo.indexOf('<h2', minusculo.indexOf('<h2') + 1);
-    if (segundoH2 > 0) return SEO_HTML.slice(0, segundoH2);
+    if (segundoH2 > 0) return seoHtml.slice(0, segundoH2);
     const primeiroP = minusculo.indexOf('</p>');
     const segundoP = primeiroP >= 0 ? minusculo.indexOf('</p>', primeiroP + 4) : -1;
-    if (segundoP > 0) return SEO_HTML.slice(0, segundoP + 4);
-    return SEO_HTML;
+    if (segundoP > 0) return seoHtml.slice(0, segundoP + 4);
+    return seoHtml;
   }, []);
-  const temMais = previa.length < SEO_HTML.length;
+  const temMais = previa.length < seoHtml.length;
 
   return (
     /* wrapper só do catálogo: carrega o container-type das @container */
@@ -101,11 +109,11 @@ export default function CategoryDescription() {
       <section className={styles.categorySeoFaq06} data-fs-category-seo-faq data-role="seo-faq">
         <div className={styles.seoBlock} data-role="seo-block">
           <div className={styles.seoWrapper}>
-            <h2 className={styles.seoTitle} data-role="seo-title">{SEO_TITULO}</h2>
+            <h2 className={styles.seoTitle} data-role="seo-title">{seoTitulo}</h2>
             <div
               className={styles.seoContent}
               data-role="seo-content"
-              dangerouslySetInnerHTML={{ __html: aberto ? SEO_HTML : previa }}
+              dangerouslySetInnerHTML={{ __html: aberto ? seoHtml : previa }}
             />
             {temMais && (
               <button
@@ -126,7 +134,7 @@ export default function CategoryDescription() {
             <h3 className={styles.faqTitle} data-role="faq-title">{FAQ_TITULO}</h3>
           )}
           <div className={styles.faqList} data-role="faq-list">
-            {FAQ.map((entrada, i) => {
+            {faq.map((entrada, i) => {
               const isOpen = faqAberto === i;
               const qId = `cat-seo-faq-q-${i}`;
               const aId = `cat-seo-faq-a-${i}`;

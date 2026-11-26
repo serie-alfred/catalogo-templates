@@ -5,6 +5,8 @@ import React, { useId, useMemo, useState } from 'react';
 import styles from './index.module.css';
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { faqEmHtml, paragrafosEmHtml } from '@/utils/categoriaDaLoja';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
 
 /**
  * Espelha `organisms/CategorySeoFaq13` do faststore.starter (família 13, Noturno; desenho
@@ -54,11 +56,21 @@ const semTags = (html: string) =>
   html
     .replace(/<[^>]*>/g, '')
     .replace(/&nbsp;/g, ' ')
+    // As entidades do texto escapado da categoria da loja (o resultado é texto React).
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&')
     .replace(/\s+/g, ' ')
     .trim();
 
 /** `<h2>` inicial vira título; um link sozinho no fim vira o "Ler mais"; o resto é o corpo. */
-function separar(html: string): { titulo: string; corpo: string; link: { href: string; label: string } | null } {
+function separar(html: string): {
+  titulo: string;
+  corpo: string;
+  link: { href: string; label: string } | null;
+} {
   let resto = html.trim();
   let titulo = '';
   const h = /^\s*<h2[^>]*>([\s\S]*?)<\/h2>/i.exec(resto);
@@ -67,7 +79,10 @@ function separar(html: string): { titulo: string; corpo: string; link: { href: s
     resto = resto.slice(h[0].length).trim();
   }
   let link: { href: string; label: string } | null = null;
-  const l = /(?:<p[^>]*>\s*)?<a\s[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>(?:\s*<\/p>)?\s*$/i.exec(resto);
+  const l =
+    /(?:<p[^>]*>\s*)?<a\s[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>(?:\s*<\/p>)?\s*$/i.exec(
+      resto
+    );
   if (l && semTags(resto.slice(0, l.index))) {
     link = { href: l[1], label: semTags(l[2]) };
     resto = resto.slice(0, l.index).trim();
@@ -78,9 +93,11 @@ function separar(html: string): { titulo: string; corpo: string; link: { href: s
 /** FAQ da área "two" → pares pergunta/resposta (details/summary ou h3/h4 + texto). */
 function lerPerguntas(html: string): Pergunta[] {
   const out: Pergunta[] = [];
-  const details = /<details[^>]*>\s*<summary[^>]*>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/gi;
+  const details =
+    /<details[^>]*>\s*<summary[^>]*>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/gi;
   let m: RegExpExecArray | null;
-  while ((m = details.exec(html))) out.push({ q: semTags(m[1]), a: m[2].trim() });
+  while ((m = details.exec(html)))
+    out.push({ q: semTags(m[1]), a: m[2].trim() });
   if (out.length) return out;
   const partes = html.split(/(<h[34][^>]*>[\s\S]*?<\/h[34]>)/i);
   for (let i = 1; i < partes.length; i += 2) {
@@ -90,28 +107,44 @@ function lerPerguntas(html: string): Pergunta[] {
 }
 
 const comCategoria = (tpl: string, nome: string) =>
-  tpl.replace(/\{categoria\}/g, nome.toLocaleLowerCase('pt-BR')).replace(/\{Categoria\}/g, nome);
+  tpl
+    .replace(/\{categoria\}/g, nome.toLocaleLowerCase('pt-BR'))
+    .replace(/\{Categoria\}/g, nome);
 
 export default function CategoryDescription13() {
-  const { aboutTitle: ABOUT_TITLE = '', faqTitle: FAQ_TITLE = '' } = useConteudoDaSecao(MOCK);
-  const { titulo, corpo, link } = useMemo(() => separar(SOBRE_HTML), []);
-  const perguntas = useMemo(() => lerPerguntas(FAQ_HTML), []);
+  // A categoria da loja (Conteúdo da loja → Página de categoria): nome, texto e
+  // FAQ do cadastro, como HTML ESCAPADO no formato do exemplo (o /p é público).
+  const categoria = useCategoriaDaLoja();
+  const nome = categoria?.name || NOME;
+  const sobreHtml = categoria?.paragrafos.length
+    ? paragrafosEmHtml(categoria.paragrafos)
+    : SOBRE_HTML;
+  const faqHtml = categoria?.faq.length ? faqEmHtml(categoria.faq) : FAQ_HTML;
+  const { aboutTitle: ABOUT_TITLE = '', faqTitle: FAQ_TITLE = '' } =
+    useConteudoDaSecao(MOCK);
+  const { titulo, corpo, link } = useMemo(
+    () => separar(sobreHtml),
+    [sobreHtml]
+  );
+  const perguntas = useMemo(() => lerPerguntas(faqHtml), [faqHtml]);
 
   const [faqAberta, setFaqAberta] = useState<number | null>(0);
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
 
   const temSobre = !!semTags(corpo);
-  const temFaq = perguntas.length > 0 || !!semTags(FAQ_HTML);
+  const temFaq = perguntas.length > 0 || !!semTags(faqHtml);
   if (!temSobre && !temFaq) return null;
 
-  const tituloSobre = titulo || comCategoria(ABOUT_TITLE, NOME);
+  const tituloSobre = titulo || comCategoria(ABOUT_TITLE, nome);
   const idTitulo = `${uid}-titulo`;
 
   return (
     <div className={styles.categorySeoFaq13Box}>
       <section
         className={styles.categorySeoFaq13}
-        {...(temSobre && tituloSobre ? { 'aria-labelledby': idTitulo } : { 'aria-label': FAQ_TITLE || 'Sobre a categoria' })}
+        {...(temSobre && tituloSobre
+          ? { 'aria-labelledby': idTitulo }
+          : { 'aria-label': FAQ_TITLE || 'Sobre a categoria' })}
         data-role="cd-root"
       >
         <link rel="stylesheet" href={FONTES_13} />
@@ -119,13 +152,25 @@ export default function CategoryDescription13() {
           {temSobre && (
             <div className={styles.about} data-role="cd-about">
               {tituloSobre && (
-                <h2 id={idTitulo} className={styles.aboutTitle} data-role="cd-title">
+                <h2
+                  id={idTitulo}
+                  className={styles.aboutTitle}
+                  data-role="cd-title"
+                >
                   {tituloSobre}
                 </h2>
               )}
-              <div className={styles.text} data-role="cd-text" dangerouslySetInnerHTML={{ __html: corpo }} />
+              <div
+                className={styles.text}
+                data-role="cd-text"
+                dangerouslySetInnerHTML={{ __html: corpo }}
+              />
               {link && (
-                <a className={styles.readMore} href={link.href} data-role="cd-more">
+                <a
+                  className={styles.readMore}
+                  href={link.href}
+                  data-role="cd-more"
+                >
                   <span className={styles.readMoreText}>{link.label}</span>
                 </a>
               )}
@@ -140,7 +185,11 @@ export default function CategoryDescription13() {
                   {perguntas.map((p, i) => {
                     const on = faqAberta === i;
                     return (
-                      <div key={i} className={`${styles.faqItem}${on ? ` ${styles.faqOpen}` : ''}`} data-role="cd-faq-item">
+                      <div
+                        key={i}
+                        className={`${styles.faqItem}${on ? ` ${styles.faqOpen}` : ''}`}
+                        data-role="cd-faq-item"
+                      >
                         <h4 className={styles.faqHeading}>
                           <button
                             type="button"
@@ -153,8 +202,18 @@ export default function CategoryDescription13() {
                           >
                             <span className={styles.qText}>{p.q}</span>
                             <span className={styles.sign} aria-hidden="true">
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={on ? 2.4 : 2.2} aria-hidden="true">
-                                <path d={on ? 'M5 12h14' : 'M12 5v14M5 12h14'} />
+                              <svg
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth={on ? 2.4 : 2.2}
+                                aria-hidden="true"
+                              >
+                                <path
+                                  d={on ? 'M5 12h14' : 'M12 5v14M5 12h14'}
+                                />
                               </svg>
                             </span>
                           </button>
@@ -173,7 +232,10 @@ export default function CategoryDescription13() {
                   })}
                 </div>
               ) : (
-                <div className={styles.faqHtml} dangerouslySetInnerHTML={{ __html: FAQ_HTML }} />
+                <div
+                  className={styles.faqHtml}
+                  dangerouslySetInnerHTML={{ __html: faqHtml }}
+                />
               )}
             </div>
           )}

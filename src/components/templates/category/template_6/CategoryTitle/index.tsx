@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 
 import { LayoutContext } from '@/context/LayoutContext';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -29,13 +31,18 @@ const MOCK: CategoryTitleConteudo = {
   countLabel: 'Produtos encontrados',
 };
 
-const conteudo = {
+const EXEMPLO = {
   title: 'Sneakers',
   totalCount: 128,
 };
 
 export default function CategoryTitle() {
   const { countLabel } = useConteudoDaSecao(MOCK);
+  // O nome é o da categoria da loja; a contagem, a dos produtos da loja.
+  const conteudo = {
+    title: useCategoriaDaLoja()?.name || EXEMPLO.title,
+    totalCount: useProdutosDaLoja()?.length ?? EXEMPLO.totalCount,
+  };
   /* O Category Main 06 já traz a trilha, o título e a contagem (o MainCategory06 da
      origem desenha os três). Com ele na mesma página de categoria, esta seção sai de
      cena — senão título e contagem aparecem duas vezes. Sozinha, ela vale. */

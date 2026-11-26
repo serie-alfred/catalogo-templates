@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
 
 import styles from './index.module.css';
 import CardDaLoja from '@/components/templates/CardDaLoja';
@@ -211,6 +212,8 @@ function PriceRange({ min, max }: { min: number; max: number }) {
 }
 
 export default function CategoryMain() {
+  // O título é o nome da categoria da loja; sem ele, o de exemplo.
+  const titulo = useCategoriaDaLoja()?.name || TITULO;
   const { subtitle: SUBTITULO, resultsNoun: SUBSTANTIVO } =
     useConteudoDaSecao(MOCK);
   // Com produtos da loja, a grade mostra todos e a contagem é a deles.
@@ -271,7 +274,7 @@ export default function CategoryMain() {
         <div className={styles.desktop} data-role="root">
           <div className={styles.headerBlock} data-role="header-block">
             <h1 className={styles.title} data-role="title">
-              {TITULO}
+              {titulo}
             </h1>
             {SUBTITULO && (
               <p className={styles.subtitle} data-role="subtitle">
@@ -423,7 +426,7 @@ export default function CategoryMain() {
         <div className={styles.mobile} data-role="m-root">
           <div className={styles.mHeaderBlock} data-role="m-header-block">
             <p className={styles.mTitle} data-role="m-title" role="heading" aria-level={1}>
-              {TITULO}
+              {titulo}
             </p>
           </div>
 

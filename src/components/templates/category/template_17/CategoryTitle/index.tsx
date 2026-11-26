@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
 
 import styles from './index.module.css';
 
@@ -46,6 +48,12 @@ const SUBCATS: Subcat[] = [
 ];
 
 export default function CategoryTitle17() {
+  // O nome é o da categoria da loja; a contagem, a dos produtos da loja (a mesma
+  // da grade). Sem eles, os de exemplo.
+  const categoria = useCategoriaDaLoja();
+  const nome = categoria?.name || TITULO;
+  const descricao = categoria?.paragrafos[0] || DESCRICAO;
+  const total = useProdutosDaLoja()?.length ?? TOTAL;
   const { countLabel } = useConteudoDaSecao(MOCK);
   const [ativa, setAtiva] = useState('');
 
@@ -65,14 +73,14 @@ export default function CategoryTitle17() {
         <div className={styles.inner}>
           <div className={styles.head}>
             <h1 className={styles.title} data-role="ct-title">
-              {TITULO}
+              {nome}
             </h1>
             <p className={styles.count} data-role="ct-count">
-              {TOTAL.toLocaleString('pt-BR')} {countLabel || 'produtos'}
+              {total.toLocaleString('pt-BR')} {countLabel || 'produtos'}
             </p>
           </div>
           <p className={styles.description} data-role="ct-description">
-            {DESCRICAO}
+            {descricao}
           </p>
           <nav
             className={styles.chips}

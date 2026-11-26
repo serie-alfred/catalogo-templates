@@ -282,7 +282,13 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
   13–16) abre a imagem `sizeGuide` do produto; sem ela, o de exemplo. A **descrição e a ficha** do
   produto (na Wake, `product.informations`) se editam na própria seção que as desenha: toda
   `ProductDescriptionNN` e as `ProductInfoNN` com ficha (`daFicha` no JSON) ganham, na aba Conteúdo,
-  esses dois campos do 1º produto da loja (`FichaDoProduto`); sem produto, um atalho para cadastrar. Inventários que fundamentaram: `docs/INVENTARIO-EDITAVEL-{WAKE,TRAY,NUVEMSHOP}.md`.
+  esses dois campos do 1º produto da loja (`FichaDoProduto`); sem produto, um atalho para cadastrar.
+  Do mesmo jeito, a **categoria** (nome, descrição, FAQ — na loja, do cadastro da categoria) se edita na
+  seção de título, de descrição e na grade que mostra o título (`daCategoria` no JSON, `FichaDaCategoria`,
+  que grava `ConteudoLoja.categoria`). Toda família lê a categoria pelo `useCategoriaDaLoja`; as que
+  montam a descrição de HTML de exemplo recebem o texto do CS como HTML ESCAPADO no mesmo formato
+  (`paragrafosEmHtml`/`faqEmHtml` de `categoriaDaLoja.ts`) — o `1-conteudo` reprova texto da categoria
+  cru no HTML. Inventários que fundamentaram: `docs/INVENTARIO-EDITAVEL-{WAKE,TRAY,NUVEMSHOP}.md`.
   Mexeu num porte ou num mock: rode o derivador (o `1-conteudo` reprova o arquivo velho).
 - **Escolha é lista, não texto** (27/11/2026): ícone e rede social se escolhem de uma lista fixa
   (`enum` no schema do starter), nunca se cola SVG nem se digita o nome — a régua 01 pedia "Ícone (SVG)"
@@ -292,6 +298,8 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
 - **Lista mostra o que existe** (27/11/2026): a peça desenha os itens da lista do painel, nem um a mais —
   o Banner 01 repetia o único slide do mock até fazer 3. O `2-listas` semeia cada lista com 1 e com 3
   itens e reprova quem inventa item (o letreiro do Header13 e a mensagem dupla do Header07 são de propósito).
+  Grade de categoria com UM produto: o card não ocupa a largura toda — a grade usa `repeat(auto-fill, …)`,
+  nunca `auto-fit`, que esticava o item sozinho (família 10, corrigida nos três repos). O `1-conteudo` confere.
 - **Template**: lê conteúdo SÓ por `useConteudoDaSecao(MOCK)` — `const MOCK: XConteudo = {…}` com os
   nomes de campo do schema; a `interface XConteudo` é o contrato (o `1-conteudo` reprova campo que não
   existe no schema). Migrar um componente é também desenhar os campos do schema que a réplica não

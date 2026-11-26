@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
 
 import styles from './index.module.css';
 
@@ -43,6 +45,10 @@ const SUBCATS: Subcat[] = [
 ];
 
 export default function CategoryTitle16() {
+  // O nome é o da categoria da loja; a contagem, a dos produtos da loja (a mesma
+  // da grade). Sem eles, os de exemplo.
+  const nome = useCategoriaDaLoja()?.name || TITULO;
+  const total = useProdutosDaLoja()?.length ?? TOTAL;
   const { countLabel: COUNT_LABEL } = useConteudoDaSecao(MOCK);
   const [ativa, setAtiva] = useState('');
 
@@ -53,18 +59,26 @@ export default function CategoryTitle16() {
 
   return (
     <div className={styles.categoryTitle16Box}>
-      <section className={styles.categoryTitle16} aria-label="Categoria" data-role="ct-root">
+      <section
+        className={styles.categoryTitle16}
+        aria-label="Categoria"
+        data-role="ct-root"
+      >
         <link rel="stylesheet" href={FONTES} />
         <div className={styles.inner}>
           <div className={styles.head}>
             <h1 className={styles.title} data-role="ct-title">
-              {TITULO}
+              {nome}
             </h1>
             <p className={styles.count} data-role="ct-count">
-              {TOTAL.toLocaleString('pt-BR')} {COUNT_LABEL}
+              {total.toLocaleString('pt-BR')} {COUNT_LABEL}
             </p>
           </div>
-          <nav className={styles.chips} aria-label="Subcategorias" data-role="ct-chips">
+          <nav
+            className={styles.chips}
+            aria-label="Subcategorias"
+            data-role="ct-chips"
+          >
             <ul className={styles.chipList}>
               {SUBCATS.map(s => {
                 const on = ativa === s.value;
@@ -79,7 +93,9 @@ export default function CategoryTitle16() {
                     >
                       {s.label}
                       {typeof s.quantity === 'number' && (
-                        <span className={styles.chipQty}>{s.quantity.toLocaleString('pt-BR')}</span>
+                        <span className={styles.chipQty}>
+                          {s.quantity.toLocaleString('pt-BR')}
+                        </span>
                       )}
                     </a>
                   </li>
@@ -88,10 +104,20 @@ export default function CategoryTitle16() {
             </ul>
           </nav>
         </div>
-        <svg className={`${styles.wave} ${styles.waveDesk}`} aria-hidden="true" viewBox="0 0 1440 40" preserveAspectRatio="none">
+        <svg
+          className={`${styles.wave} ${styles.waveDesk}`}
+          aria-hidden="true"
+          viewBox="0 0 1440 40"
+          preserveAspectRatio="none"
+        >
           <path d="M0 20C120 0 240 40 360 20S600 0 720 20s240 20 360 0 240-20 360 0V40H0z" />
         </svg>
-        <svg className={`${styles.wave} ${styles.waveMob}`} aria-hidden="true" viewBox="0 0 375 24" preserveAspectRatio="none">
+        <svg
+          className={`${styles.wave} ${styles.waveMob}`}
+          aria-hidden="true"
+          viewBox="0 0 375 24"
+          preserveAspectRatio="none"
+        >
           <path d="M0 12C47 0 94 24 141 12S234 0 281 12s47 12 94 0V24H0z" />
         </svg>
       </section>

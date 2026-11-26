@@ -13,6 +13,7 @@ import dados from '@/data/conteudo/editaveis.generated.json';
 const DADOS = dados as unknown as {
   doProduto: Record<string, string[]>;
   daFicha: Record<string, string[]>;
+  daCategoria: Record<string, string[]>;
   componentes: Record<string, Record<string, string[]>>;
 };
 const MAPA = DADOS.componentes;
@@ -33,6 +34,16 @@ export function camposDaFicha(
   componente: string
 ): readonly ('description' | 'specs')[] {
   return (DADOS.daFicha[componente] ?? []) as ('description' | 'specs')[];
+}
+
+/**
+ * Os campos da CATEGORIA da loja (`name`, `description`, `faq`) que a peça da
+ * página de categoria desenha: o painel da seção os oferece ali mesmo.
+ */
+export function camposDaCategoria(
+  componente: string
+): readonly ('name' | 'description' | 'faq')[] {
+  return (DADOS.daCategoria[componente] ?? []) as ('name' | 'description' | 'faq')[];
 }
 
 export function camposEditaveis(

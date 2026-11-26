@@ -9,6 +9,7 @@ import type { CampoDoSchema, SchemaDeConteudo, ValorDeConteudo } from '@/types/c
 import { resolverConteudo, sanitizarConteudoLoja } from '@/utils/conteudo';
 import { projetarLoja, ROTULO_DO_SLOT } from '@/utils/conteudoLoja';
 import {
+  camposDaCategoria,
   camposDaFicha,
   camposDoProduto,
   camposEditaveis,
@@ -18,6 +19,7 @@ import { rotuloDaPlataforma } from '@/types/platform';
 import { pedirFocoNaLoja } from '@/utils/focoNaLoja';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import Campo from './Campo';
+import FichaDaCategoria from './FichaDaCategoria';
 import FichaDoProduto from './FichaDoProduto';
 
 import styles from './index.module.css';
@@ -130,12 +132,20 @@ export default function ConteudoPanel() {
       {ficha.length > 0 && <FichaDoProduto campos={ficha} />}
     </>
   );
+  // Peças da página de categoria: nome, descrição e FAQ são do cadastro da categoria.
+  const daCategoria = camposDaCategoria(layoutItem.component);
+  const doCadastro = (avisoDeProdutos || daCategoria.length > 0) && (
+    <>
+      {avisoDeProdutos}
+      {daCategoria.length > 0 && <FichaDaCategoria campos={daCategoria} />}
+    </>
+  );
 
   const mock = conteudoPadraoDe(layoutItem.component);
   const desenhados = DESENHADOS[layoutItem.component];
   if (!mock || !desenhados) {
     // O card de produto (Spot) não tem conteúdo próprio: só os produtos da loja.
-    if (avisoDeProdutos) return <div className={styles.painel}>{avisoDeProdutos}</div>;
+    if (doCadastro) return <div className={styles.painel}>{doCadastro}</div>;
     return (
       <p className={styles.vazio}>
         <strong>{layoutItem.title}</strong> não tem conteúdo próprio: o que ela mostra vem do
@@ -176,10 +186,10 @@ export default function ConteudoPanel() {
         depois de publicado.
       </p>
     );
-    if (avisoDeProdutos)
+    if (doCadastro)
       return (
         <div className={styles.painel}>
-          {avisoDeProdutos}
+          {doCadastro}
           {fixos}
         </div>
       );
@@ -203,7 +213,7 @@ export default function ConteudoPanel() {
 
   return (
     <div className={styles.painel} aria-label="Editar conteúdo da seção">
-      {avisoDeProdutos}
+      {doCadastro}
       <div className={styles.campos}>
         {campos.map(([chave, filho]) => {
           const personalizado = chave in nivel1;

@@ -6,6 +6,7 @@ import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import { useCategoriaDaLoja } from '@/hooks/useCategoriaDaLoja';
 import CardDaLoja from '@/components/templates/CardDaLoja';
 import { ProductCard06, deProduto06, type ProdutoCard06 as Produto } from '@/components/templates/common/template_6/Spot/ProductCard06';
 
@@ -599,6 +600,8 @@ function FilterDrawer({
 }
 
 export default function CategoryMain() {
+  // O título é o nome da categoria da loja; sem ele, o de exemplo.
+  const titulo = useCategoriaDaLoja()?.name || TITULO;
   const { filterLabel: ROTULO_FILTRO } = useConteudoDaSecao(MOCK);
   // Com produtos da loja, a grade mostra todos e a contagem é a deles.
   const daLoja = useProdutosDaLoja();
@@ -669,7 +672,7 @@ export default function CategoryMain() {
         </nav>
 
         <section className={styles.categoryTitle06} data-fs-category-title>
-          <h1 className={styles.title} data-role="plp-title">{TITULO}</h1>
+          <h1 className={styles.title} data-role="plp-title">{titulo}</h1>
           {contagem(styles.countInTitle)}
         </section>
 
