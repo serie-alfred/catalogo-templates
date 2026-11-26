@@ -138,7 +138,7 @@
 }
 .navItem:hover, .navItem[aria-current=page] {
   background-color: var(--header-topbar-bg, var(--background-secundary-color, #f4dcd6));
-  color: var(--header-text, var(--text-color-secundary, #3b1f33));
+  color: var(--header-topbar-text, var(--header-text, var(--text-color-secundary, #3b1f33)));
 }
 
 .navHighlight {
