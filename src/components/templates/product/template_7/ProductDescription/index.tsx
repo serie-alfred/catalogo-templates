@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -86,15 +87,26 @@ export default function ProductDescription07() {
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [openAcc, setOpenAcc] = useState<number | null>(null);
 
+  // A descrição e a ficha são do 1º produto da loja (o mesmo da PDP) quando o CS cadastrou,
+  // em texto puro (o /p é público); senão as do produto de exemplo. O texto de cuidados é do
+  // exemplo: o cadastro não o tem, e some junto.
+  const produto = useProdutosDaLoja()?.[0];
+  const paragrafos = produto
+    ? produto.description.split(/\n\s*\n/).filter(p => p.trim())
+    : DESCRICAO.paragrafos;
+  const cards = produto
+    ? produto.specs.map(s => ({ label: s.name, value: s.value }))
+    : ESPECIFICACOES.cards;
+
   // a descrição vai como PARÁGRAFOS (na origem, o HTML da API num <div>); os outros dois
   // itens seguem texto com `\n`, num <p> com `pre-line`
   const acordeaoMobile: Array<{ title: string; body?: string; paragrafos?: string[] }> = [
-    { title: 'Descrição do produto', paragrafos: DESCRICAO.paragrafos },
+    { title: 'Descrição do produto', paragrafos },
     {
       title: 'Composição e especificações',
       body: [
-        ...ESPECIFICACOES.cards.map(s => `${s.label}: ${s.value}`),
-        `${careTitle}: ${ESPECIFICACOES.cuidadosTexto}`,
+        ...cards.map(s => `${s.label}: ${s.value}`),
+        ...(produto ? [] : [`${careTitle}: ${ESPECIFICACOES.cuidadosTexto}`]),
       ].join('\n'),
     },
     { title: 'Entrega e prazo', body: deliveryInfo },
@@ -132,8 +144,10 @@ export default function ProductDescription07() {
                   HTML que a API entrega, injetado num bloco só. Os 16px entre eles vêm de
                   `.descP p + p`, declarado igual aqui e no starter. */}
               <div className={styles.descP} data-role="desc-p">
-                {DESCRICAO.paragrafos.map((p, i) => (
-                  <p key={i}>{p}</p>
+                {paragrafos.map((p, i) => (
+                  <p key={i} style={produto ? { whiteSpace: 'pre-line' } : undefined}>
+                    {produto ? p.trim() : p}
+                  </p>
                 ))}
               </div>
             </div>
@@ -142,17 +156,19 @@ export default function ProductDescription07() {
                 <p className={styles.sectionEyebrow}>{specsEyebrow}</p>
               )}
               <div className={styles.specsGrid} data-role="specs-grid">
-                {ESPECIFICACOES.cards.map((s, i) => (
+                {cards.map((s, i) => (
                   <div key={i} className={styles.specCard} data-role="spec-card">
                     <p className={styles.specLabel}>{s.label}</p>
                     <p className={styles.specValue}>{s.value}</p>
                   </div>
                 ))}
               </div>
-              <div className={styles.care} data-role="care">
-                {careTitle && <p className={styles.specLabel}>{careTitle}</p>}
-                <p className={styles.careText}>{ESPECIFICACOES.cuidadosTexto}</p>
-              </div>
+              {!produto && (
+                <div className={styles.care} data-role="care">
+                  {careTitle && <p className={styles.specLabel}>{careTitle}</p>}
+                  <p className={styles.careText}>{ESPECIFICACOES.cuidadosTexto}</p>
+                </div>
+              )}
               <div className={styles.faq} data-role="faq">
                 {faqTitle && (
                   <p className={styles.sectionEyebrow}>{faqTitle}</p>

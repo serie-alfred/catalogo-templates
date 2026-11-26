@@ -6,6 +6,7 @@ import {
   referencia11,
 } from '@/components/templates/common/template_11/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 /**
  * Espelha `molecules/ProductDescription11` do faststore.starter (família 11, Grade; desenho
@@ -85,14 +86,17 @@ const norm = (s: string) =>
 export default function ProductDescription11() {
   const { title, descriptionLabel, drawingLabel, materialsLabel, hiddenSpecs } =
     useConteudoDaSecao(MOCK);
-  const ref = referencia11(SKU);
+  const daLoja = useProdutosDaLoja()?.[0];
+  // Texto do CS, nunca HTML: o /p é público. Linha em branco separa parágrafos.
+  const paragrafos = daLoja?.description.split(/\n\s*\n/).filter(p => p.trim()) ?? [];
+  const ref = referencia11(daLoja ? daLoja.id.replace(/\D/g, '') : SKU);
   const escondidas = new Set(
     String(hiddenSpecs ?? '')
       .split(',')
       .map(norm)
       .filter(Boolean)
   );
-  const specs = SPECS.filter(s => !escondidas.has(norm(s.name)));
+  const specs = (daLoja ? daLoja.specs : SPECS).filter(s => !escondidas.has(norm(s.name)));
 
   return (
     <div className={styles.productDescription11Box}>
@@ -117,11 +121,22 @@ export default function ProductDescription11() {
                 {descriptionLabel && (
                   <span className={styles.label}>{descriptionLabel}</span>
                 )}
-                <div
-                  className={styles.html}
-                  dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }}
-                />
+                {daLoja ? (
+                  <div className={styles.html}>
+                    {paragrafos.map((p, i) => (
+                      <p key={i} style={{ whiteSpace: 'pre-line' }}>
+                        {p.trim()}
+                      </p>
+                    ))}
+                  </div>
+                ) : (
+                  <div
+                    className={styles.html}
+                    dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }}
+                  />
+                )}
               </div>
+              {!daLoja && (
               <figure className={styles.drawing} data-role="pd-drawing">
                 <img
                   src={DRAWING_URL}
@@ -137,6 +152,7 @@ export default function ProductDescription11() {
                   </figcaption>
                 )}
               </figure>
+              )}
             </div>
             <div className={styles.right}>
               {specs.length > 0 && (
@@ -149,6 +165,7 @@ export default function ProductDescription11() {
                   ))}
                 </dl>
               )}
+              {!daLoja && (
               <div className={styles.materials} data-role="pd-materials">
                 {materialsLabel && (
                   <span className={styles.label}>{materialsLabel}</span>
@@ -164,6 +181,7 @@ export default function ProductDescription11() {
                   ))}
                 </ol>
               </div>
+              )}
             </div>
           </div>
         </div>

@@ -8,6 +8,7 @@ import 'swiper/css/thumbs';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import styles from './index.module.css';
 
 /** O conteúdo da seção: os campos do `section.schema` do ProductInfo01 (só o rótulo; produto e preço são de exemplo). */
@@ -30,8 +31,14 @@ const COLORS: { key: string; className?: string }[] = [
   { key: 'red', className: 'red' },
 ];
 
+const reais = (n: number) =>
+  n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
 const ProductInfo = () => {
   const { trustMessage } = useConteudoDaSecao(MOCK);
+  // O produto é o 1º da loja quando o CS cadastrou; senão o de exemplo.
+  const pLoja = useProdutosDaLoja()?.[0];
+  const [escolhas, setEscolhas] = useState<Record<number, number>>({});
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('G');
   const [selectedColor, setSelectedColor] = useState('default');
@@ -42,10 +49,16 @@ const ProductInfo = () => {
   const thumbnailHeight =
     SLIDES_PER_VIEW * SLIDE_HEIGHT + (SLIDES_PER_VIEW - 1) * SPACE_BETWEEN;
 
-  const product = {
+  const desconto =
+    pLoja && pLoja.listPrice > pLoja.price
+      ? Math.round((1 - pLoja.price / pLoja.listPrice) * 100)
+      : 0;
+
+  const exemplo = {
     sku: '205',
     name: 'Produto 2',
     price: '600,00',
+    listPrice: '600,00',
     installment: 'R$ 66,76',
     description: 'Data de lançamento: 25/03/2022\nDisponibilidade: Imediata',
     images: [
@@ -56,6 +69,17 @@ const ProductInfo = () => {
     ],
     sizes: ['M', 'G', 'GG'],
   };
+  const product = pLoja
+    ? {
+        ...exemplo,
+        sku: '',
+        name: pLoja.name,
+        price: reais(pLoja.price),
+        listPrice: reais(pLoja.listPrice),
+        installment: `R$ ${reais(pLoja.installmentValue)}`,
+        images: pLoja.images.length ? pLoja.images : exemplo.images.slice(0, 1),
+      }
+    : exemplo;
 
   const handleQuantityChange = (value: number) => {
     const newQuantity = quantity + value;
@@ -157,9 +181,11 @@ const ProductInfo = () => {
             <div className={styles.info__content}>
               <div className={styles.content__positon}>
                 <div className={styles.content__inner}>
-                  <span className={styles.content__sku}>
-                    SKU: {product.sku}
-                  </span>
+                  {product.sku && (
+                    <span className={styles.content__sku}>
+                      SKU: {product.sku}
+                    </span>
+                  )}
                   <h1 className={styles.productName}>{product.name}</h1>
 
                   <div className={styles.content__stars}>
@@ -174,35 +200,45 @@ const ProductInfo = () => {
                     <span>(0) avaliações</span>
                   </div>
 
-                  <div className={styles.content__productTag}>
-                    <div className={styles.tagDiscount}>
-                      <span>- 13%</span>
+                  {(!pLoja || desconto > 0) && (
+                    <div className={styles.content__productTag}>
+                      <div className={styles.tagDiscount}>
+                        <span>- {pLoja ? desconto : 13}%</span>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   <div className={styles.content__price}>
                     <div className={styles.produtoPreco}>
                       <div className={styles.preco}>
-                        <div className={styles.precoBefore}>
-                          <span className={styles.precoDe}>
-                            De R$<span>{product.price}</span>
-                          </span>
-                          <span className={styles.precoDiscountFlag}>
-                            <span>-13% Off</span>
-                          </span>
-                        </div>
+                        {(!pLoja || desconto > 0) && (
+                          <div className={styles.precoBefore}>
+                            <span className={styles.precoDe}>
+                              De R$<span>{product.listPrice}</span>
+                            </span>
+                            <span className={styles.precoDiscountFlag}>
+                              <span>-{pLoja ? desconto : 13}% Off</span>
+                            </span>
+                          </div>
+                        )}
 
                         <span className={styles.precoPrincipal}>
                           R$ <span>{product.price}</span>
                         </span>
-                        <div className={styles.infoPreco}>
-                          <span className={styles.precoParc}>Em 10x</span>
-                          <span className={styles.precoParc}> de </span>
-                          <span className={styles.precoParc}>
-                            {product.installment}
-                          </span>
-                          <span className={styles.precoParc}> com juros </span>
-                        </div>
+                        {(!pLoja || pLoja.installments > 0) && (
+                          <div className={styles.infoPreco}>
+                            <span className={styles.precoParc}>
+                              Em {pLoja ? pLoja.installments : 10}x
+                            </span>
+                            <span className={styles.precoParc}> de </span>
+                            <span className={styles.precoParc}>
+                              {product.installment}
+                            </span>
+                            {!pLoja && (
+                              <span className={styles.precoParc}> com juros </span>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -213,8 +249,75 @@ const ProductInfo = () => {
                     </div>
                   </div>
 
+                  {pLoja ? (
+                    pLoja.variants.length > 0 && (
+                      <div className={styles.corVariacao}>
+                        {pLoja.variants.map((v, vi) => (
+                          <div
+                            key={vi}
+                            className={styles.menuVars}
+                            data-variacao={v.tipo}
+                          >
+                            <div className={styles.textoVariacao}>
+                              <h2>
+                                {v.name ||
+                                  (v.tipo === 'texto'
+                                    ? 'Escolha Tamanho'
+                                    : 'Cores disponíveis')}
+                              </h2>
+                            </div>
+                            <ul className={styles.listaCorVariacao}>
+                              {v.options.map((o, oi) =>
+                                v.tipo === 'texto' ? (
+                                  <li
+                                    key={oi}
+                                    className={`${(escolhas[vi] ?? 0) === oi ? styles.selected : ''}`}
+                                    onClick={() =>
+                                      setEscolhas(e => ({ ...e, [vi]: oi }))
+                                    }
+                                  >
+                                    <div className={styles.sizeOption}>
+                                      {o.label}
+                                    </div>
+                                  </li>
+                                ) : (
+                                  <li
+                                    key={oi}
+                                    className={`${styles.listaItem} ${
+                                      (escolhas[vi] ?? 0) === oi
+                                        ? styles.selected
+                                        : ''
+                                    }`}
+                                    onClick={() =>
+                                      setEscolhas(e => ({ ...e, [vi]: oi }))
+                                    }
+                                    title={o.label}
+                                  >
+                                    <div
+                                      className={styles.color}
+                                      style={
+                                        v.tipo === 'imagem' && o.swatchImage
+                                          ? {
+                                              backgroundImage: `url(${o.swatchImage})`,
+                                              backgroundSize: 'cover',
+                                              backgroundPosition: 'center',
+                                            }
+                                          : o.color
+                                            ? { backgroundColor: o.color }
+                                            : undefined
+                                      }
+                                    ></div>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  ) : (
                   <div className={styles.corVariacao}>
-                    <div className={styles.menuVars}>
+                    <div className={styles.menuVars} data-variacao="cor">
                       <div className={styles.textoVariacao}>
                         <h2>Cores disponíveis</h2>
                       </div>
@@ -236,7 +339,7 @@ const ProductInfo = () => {
                         ))}
                       </ul>
                     </div>
-                    <div className={styles.menuVars}>
+                    <div className={styles.menuVars} data-variacao="texto">
                       <div className={styles.textoVariacao}>
                         <h2>Escolha Tamanho</h2>
                       </div>
@@ -253,6 +356,7 @@ const ProductInfo = () => {
                       </ul>
                     </div>
                   </div>
+                  )}
 
                   <button
                     type="button"

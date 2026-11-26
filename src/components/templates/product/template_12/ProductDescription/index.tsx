@@ -3,6 +3,7 @@ import React from 'react';
 import styles from './index.module.css';
 import { FONTES_12 } from '@/components/templates/common/template_12/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 /**
  * Espelha `molecules/ProductDescription12` do faststore.starter (família 12, Suave; desenho
@@ -68,7 +69,14 @@ const split = (line: string) => {
 export default function ProductDescription12() {
   const { title, activesTitle, howToTitle, resultsTitle } =
     useConteudoDaSecao(MOCK);
-  const actives = ACTIVES.map(split);
+  const daLoja = useProdutosDaLoja()?.[0];
+  // Texto do CS, nunca HTML: o /p é público. Linha em branco separa parágrafos.
+  const paragrafos = daLoja?.description.split(/\n\s*\n/).filter(p => p.trim()) ?? [];
+  // Na loja, a ficha de especificações ocupa os cartões; o passo a passo e os resultados
+  // não têm dado no cadastro e saem.
+  const actives = daLoja
+    ? daLoja.specs.map(s => ({ title: s.name, text: s.value }))
+    : ACTIVES.map(split);
   const results = RESULTS.map(split);
 
   return (
@@ -82,15 +90,26 @@ export default function ProductDescription12() {
         <div className={styles.inner}>
           <div className={styles.intro} data-role="pd-intro">
             {title && <h2 className={styles.title}>{title}</h2>}
-            <div
-              className={styles.html}
-              dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }}
-            />
+            {daLoja ? (
+              <div className={styles.html}>
+                {paragrafos.map((p, i) => (
+                  <p key={i} style={{ whiteSpace: 'pre-line' }}>
+                    {p.trim()}
+                  </p>
+                ))}
+              </div>
+            ) : (
+              <div
+                className={styles.html}
+                dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }}
+              />
+            )}
           </div>
 
-          {activesTitle && (
+          {actives.length > 0 && activesTitle && (
             <h3 className={styles.sectionTitle}>{activesTitle}</h3>
           )}
+          {actives.length > 0 && (
           <div className={styles.cards} data-role="pd-actives">
             {actives.map((a, i) => (
               <article
@@ -102,7 +121,9 @@ export default function ProductDescription12() {
               </article>
             ))}
           </div>
+          )}
 
+          {!daLoja && (
           <div className={styles.boxes}>
             <div className={styles.box} data-role="pd-howto">
               {howToTitle && <h3 className={styles.boxTitle}>{howToTitle}</h3>}
@@ -134,6 +155,7 @@ export default function ProductDescription12() {
               <p className={styles.note}>{NOTE}</p>
             </div>
           </div>
+          )}
         </div>
       </section>
     </div>

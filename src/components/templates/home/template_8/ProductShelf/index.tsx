@@ -2,6 +2,7 @@ import React from 'react';
 
 import CardDaLoja from '@/components/templates/CardDaLoja';
 import Spot01 from '@/components/templates/common/template_1/Spot';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 /**
  * Espelha `molecules/ProductShelf08` do faststore.starter — o núcleo das duas
@@ -74,6 +75,11 @@ export default function ProductShelf08({
   viewAllUrl,
   banner,
 }: ProductShelf08Props) {
+  // Produtos = os da loja (todos), quando o CS cadastrou; senão os 6 de exemplo.
+  const daLoja = useProdutosDaLoja();
+  const itens = daLoja
+    ? daLoja.map(produto => ({ key: produto.id, produto }))
+    : PRODUTOS.map(i => ({ key: String(i), produto: undefined }));
   return (
     <div className={styles.productShelf08Box}>
       <section
@@ -112,10 +118,10 @@ export default function ProductShelf08({
         <div className={styles.shelfRow}>
           <div className={styles.shelfCarousel}>
             <div className={styles.track}>
-              {PRODUTOS.map(i => (
-                <div key={i} className={styles.slide}>
-                  <CardDaLoja familia="Spot01">
-                    <Spot01 />
+              {itens.map(({ key, produto }) => (
+                <div key={key} className={styles.slide}>
+                  <CardDaLoja familia="Spot01" produto={produto}>
+                    <Spot01 soCard produto={produto} />
                   </CardDaLoja>
                 </div>
               ))}

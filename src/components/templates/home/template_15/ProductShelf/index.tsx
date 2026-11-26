@@ -1,8 +1,9 @@
 'use client';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { ProductCard15, FONTES_15, produto15, type Produto15 } from '@/components/templates/common/template_15/Spot';
+import { deProduto15, ProductCard15, FONTES_15, produto15, type Produto15 } from '@/components/templates/common/template_15/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 /**
  * Espelha `molecules/ProductShelf15` do faststore.starter — o núcleo das duas
@@ -78,7 +79,8 @@ export default function ProductShelf15({
   tagLabel,
   banner,
 }: ProductShelf15Props) {
-  const produtos = variant === 'banner' ? PRODUTOS_BANNER : PRODUTOS_FULL;
+  const daLoja = useProdutosDaLoja();
+  const produtos = daLoja ? daLoja.map(deProduto15) : variant === 'banner' ? PRODUTOS_BANNER : PRODUTOS_FULL;
   const temBanner =
     variant === 'banner' &&
     !!banner &&
@@ -150,8 +152,8 @@ export default function ProductShelf15({
     <ul ref={railRef} className={style.rail} onScroll={medir} data-role="sh-list">
       {produtos.map((p, i) => (
         <li key={p.id || i} className={style.slide}>
-          <CardDaLoja familia="Spot15">
-            <ProductCard15 product={p} badge={tagLabel} />
+          <CardDaLoja familia="Spot15" produto={daLoja?.[i]}>
+            <ProductCard15 product={p} badge={daLoja?.[i]?.badge || tagLabel} />
           </CardDaLoja>
         </li>
       ))}

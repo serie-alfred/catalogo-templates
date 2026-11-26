@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
+
 import styles from './index.module.css';
 
 /**
@@ -257,12 +260,41 @@ export function ProductCard15({
 }
 
 /**
+ * Um produto da LOJA (`useProdutosDaLoja`) no formato deste card. As vitrines, a PLP e os
+ * relacionados da 15 usam o mesmo, e o `CardDaLoja` o usa quando o card escolhido é este e a
+ * lista é de outra família. Sem Pix e sem nota: o cadastro do produto não os tem.
+ */
+export function deProduto15(p: ProdutoNormal): Produto15 {
+  return {
+    id: p.id,
+    name: p.name,
+    brand: p.brand,
+    price: p.price,
+    listPrice: p.listPrice,
+    installments: p.installments,
+    installmentValue: p.installmentValue,
+    interestFree: true,
+    inStock: p.inStock,
+    image: p.images[0],
+    hoverImage: p.images[1],
+  };
+}
+
+/**
  * O item "Spot" mostra o quadro do desenho `Spot15`, como o palco do starter
  * (`DevFidelityStage/Comum15Stage`): Padrão, Hover (o produto com desconto) e Esgotado lado
  * a lado, com o rótulo "Atelier"; no mobile, 2 colunas sem a do hover. A coluna Hover pinta o
  * estado de hover por CSS (fim da folha); lá, o comparador passa o mouse.
  */
-export default function Spot15({ soCard = false }: { soCard?: boolean }) {
+export default function Spot15({
+  soCard = false,
+  produto,
+}: {
+  soCard?: boolean;
+  /** O produto da loja do slot (via `CardDaLoja`), numa lista de outra família. */
+  produto?: ProdutoNormal;
+}) {
+  const daLoja = useProdutosDaLoja();
   const [padrao, desconto] = PRODUTOS_15;
   // Dentro de uma lista (vitrine, grade, relacionados) de qualquer família o spot é só o
   // card (`CardDaLoja`), sem o quadro do desenho nem envelope de container: as
@@ -271,10 +303,17 @@ export default function Spot15({ soCard = false }: { soCard?: boolean }) {
     return (
       <>
         <link rel="stylesheet" href={FONTES_15} />
-        <ProductCard15 product={padrao} badge={ROTULO_15} />
+        <ProductCard15
+          product={produto ? deProduto15(produto) : padrao}
+          badge={produto ? produto.badge : ROTULO_15}
+        />
       </>
     );
-  const colunas = [
+  // No item do catálogo ("Todas as páginas"), os três primeiros produtos da loja ocupam o lugar
+  // dos três estados de exemplo.
+  const colunas = daLoja
+    ? daLoja.slice(0, 3).map((p, i) => ({ rotulo: `Produto ${i + 1}`, produto: deProduto15(p), hover: false }))
+    : [
     { rotulo: 'Padrão', produto: padrao, hover: false },
     { rotulo: 'Hover', produto: desconto, hover: true },
     { rotulo: 'Esgotado', produto: ESGOTADO_15, hover: false },
@@ -287,7 +326,7 @@ export default function Spot15({ soCard = false }: { soCard?: boolean }) {
           {colunas.map((c, i) => (
             <div key={i} className={`${styles.spotCol}${c.hover ? ` ${styles.spotHoverCol}` : ''}`}>
               <span className={styles.spotLabel}>{c.rotulo}</span>
-              <ProductCard15 product={c.produto} badge={ROTULO_15} />
+              <ProductCard15 product={c.produto} badge={daLoja ? daLoja[i]?.badge : ROTULO_15} />
             </div>
           ))}
         </div>

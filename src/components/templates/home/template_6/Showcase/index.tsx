@@ -7,6 +7,7 @@ import { TemplateRegistry } from '@/utils/templateRegistry';
 import { LAYOUTS } from '@/data/layoutData';
 import { useLayout } from '@/context/LayoutContext';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 /**
  * Conteúdo: o `title` do `section.schema` do Showcase06 do starter, com o mock por
@@ -24,6 +25,9 @@ const MOCK: ShowcaseConteudo = {
 
 export default function Showcase() {
   const { selections } = useLayout();
+  const daLoja = useProdutosDaLoja();
+  // Com produtos da loja, um slot por produto; sem, os 4 de exemplo.
+  const posicoes = daLoja ? daLoja.map((_, i) => i) : [1, 2, 3, 4];
   const { title } = useConteudoDaSecao(MOCK);
 
   // Filtra os spots selecionados
@@ -50,7 +54,7 @@ export default function Showcase() {
                       TemplateRegistry[layoutItem.component];
 
                     return SpotComponent ? (
-                      [1, 2, 3, 4].map((_, index) => (
+                      posicoes.map((_, index) => (
                         <div
                           key={`${spot?.uid}-${index}`}
                           className={styles.swiper__slide}
@@ -59,14 +63,14 @@ export default function Showcase() {
                           itemScope
                           itemType="https://schema.org/SomeProducts"
                         >
-                          <SpotComponent soCard />
+                          <SpotComponent soCard produto={daLoja?.[index]} />
                         </div>
                       ))
                     ) : (
                       <></>
                     );
                   })
-                : [1, 2, 3, 4].map((_, index) => (
+                : posicoes.map((_, index) => (
                     <div
                       key={`${index}`}
                       className={styles.swiper__slide}
@@ -74,7 +78,7 @@ export default function Showcase() {
                       itemScope
                       itemType="https://schema.org/SomeProducts"
                     >
-                      <Spot />
+                      <Spot soCard produto={daLoja?.[index]} />
                     </div>
                   ))}
             </div>

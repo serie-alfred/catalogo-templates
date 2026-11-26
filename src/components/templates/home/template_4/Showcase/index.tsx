@@ -12,6 +12,7 @@ import { LAYOUTS } from '@/data/layoutData';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { useLayout } from '@/context/LayoutContext';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 // Espelha organisms/ProductShelfCustom04 do faststore.starter:
 // Swiper com Pagination externa (bottom_nav), slidesPerView 2/3/4/5 por
@@ -76,6 +77,7 @@ const MOCK: Showcase04Conteudo = {
 
 export default function Showcase() {
   const { selections } = useLayout();
+  const daLoja = useProdutosDaLoja();
   const { title, link, viewAllLabel } = useConteudoDaSecao(MOCK);
   const swiperRef = useRef<SwiperType | null>(null);
   const [isBeginning, setIsBeginning] = useState(true);
@@ -90,8 +92,9 @@ export default function Showcase() {
   // Spots selecionados no gerador; se nenhum, usa o Spot padrão do template.
   const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
 
-  // Monta ~8 slides (ciclando os spots escolhidos) para o carrossel ter o que rolar.
-  const slides = Array.from({ length: 8 }).map((_, index) => {
+  // Monta ~8 slides (ciclando os spots escolhidos) para o carrossel ter o que rolar;
+  // com produtos da loja, um slide por produto.
+  const slides = Array.from({ length: daLoja ? daLoja.length : 8 }).map((_, index) => {
     const spot = selectedSpots[index % selectedSpots.length];
     if (spot) {
       const layoutItem = LAYOUTS.spot.items.find(it => it.id === spot.id);
@@ -139,7 +142,7 @@ export default function Showcase() {
             onBreakpoint={syncNavState}
             data-tray-tst="vitrine_home"
           >
-            {slides.map(({ key, variables, Component }) => (
+            {slides.map(({ key, variables, Component }, index) => (
               <SwiperSlide
                 key={key}
                 className={styles.swiper__slide}
@@ -148,7 +151,11 @@ export default function Showcase() {
                 itemScope
                 itemType="https://schema.org/SomeProducts"
               >
-                {Component ? <Component soCard /> : <Spot />}
+                {Component ? (
+                  <Component soCard produto={daLoja?.[index]} />
+                ) : (
+                  <Spot soCard produto={daLoja?.[index]} />
+                )}
               </SwiperSlide>
             ))}
           </Swiper>

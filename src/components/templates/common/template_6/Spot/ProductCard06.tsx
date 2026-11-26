@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import type { ProdutoNormal } from '@/utils/produtos';
+
 import styles from './ProductCard06.module.css';
 
 /**
@@ -20,11 +22,34 @@ export type ProdutoCard06 = {
   imagens: string[];
   flag?: string;
   precoDe?: number;
+  /** Os tamanhos do chip; ausente = os de exemplo, vazio = sem chips (produto da loja). */
+  tamanhos?: string[];
 };
 
 const TAMANHOS = ['38', '39', '40', '41', '42'];
 
 const money = (v: number) => `R$ ${v.toFixed(2).replace('.', ',')}`;
+
+/**
+ * Um produto da LOJA (`useProdutosDaLoja`) no formato deste card (a PLP, a vitrine e os
+ * relacionados da 06 o usam). Os chips de tamanho vêm da 1ª variação em texto.
+ */
+export function deProduto06(p: ProdutoNormal): ProdutoCard06 {
+  const tamanhos = p.variants.find(v => v.tipo === 'texto');
+  return {
+    id: p.id,
+    nome: p.name,
+    preco: p.price,
+    parcelaN: p.installments,
+    parcelaValor: p.installmentValue,
+    imagens: p.images.length ? p.images : ['https://placehold.co/500'],
+    flag: p.badge || undefined,
+    precoDe: p.listPrice > p.price ? p.listPrice : undefined,
+    tamanhos: tamanhos
+      ? tamanhos.options.map(o => o.label).filter(Boolean)
+      : [],
+  };
+}
 
 const HeartIcon = () => (
   <svg width="14" height="12" viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -122,7 +147,7 @@ export function ProductCard06({ p, index }: { p: ProdutoCard06; index: number })
               </div>
             </a>
             <div className={styles.skuRow}>
-              {TAMANHOS.map(t => (
+              {(p.tamanhos ?? TAMANHOS).map(t => (
                 <button
                   key={t}
                   type="button"
@@ -151,9 +176,18 @@ export function ProductCard06({ p, index }: { p: ProdutoCard06; index: number })
                 </span>
               </div>
               <div className={styles.instRow}>
-                <span className={styles.installments} data-role="card-inst">
-                  {`${p.parcelaN}X de ${money(p.parcelaValor)}`}
-                </span>
+                {p.parcelaN > 0 ? (
+                  <span className={styles.installments} data-role="card-inst">
+                    {`${p.parcelaN}X de ${money(p.parcelaValor)}`}
+                  </span>
+                ) : (
+                  <span
+                    className={`${styles.installments} ${styles.vazio}`}
+                    aria-hidden="true"
+                  >
+                    &nbsp;
+                  </span>
+                )}
               </div>
             </div>
           </a>

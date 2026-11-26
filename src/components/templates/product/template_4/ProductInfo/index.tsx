@@ -6,6 +6,9 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
+
 import styles from './index.module.css';
 
 /**
@@ -26,7 +29,7 @@ import styles from './index.module.css';
 const foto = (t: string) =>
   `https://placehold.co/800x1000/1f1f1f/f2f2f2?text=${encodeURIComponent(t)}`;
 
-const PRODUTO = {
+const EXEMPLO = {
   sku: '3001',
   nome: 'Jaqueta Corta-Vento Impermeável',
   descricao:
@@ -61,7 +64,27 @@ const COR_HEX: Record<string, string> = { Areia: '#7A4900' };
 const dinheiro = (v: number) =>
   v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-const desconto = Math.round(((PRODUTO.precoDe - PRODUTO.preco) / PRODUTO.precoDe) * 100);
+/** O 1º produto da loja no formato que a PDP desenha (a ficha e a descrição em texto: o /p é público). */
+function daLoja(p: ProdutoNormal): typeof EXEMPLO {
+  return {
+    sku: '',
+    nome: p.name,
+    descricao: p.description,
+    preco: p.price,
+    precoDe: p.listPrice,
+    imagens: p.images.length
+      ? p.images.map((url, i) => ({ url, alt: `${p.name} — foto ${i + 1}` }))
+      : EXEMPLO.imagens.slice(0, 1),
+    specs: [
+      ...(p.brand ? [{ name: 'Marca', value: p.brand }] : []),
+      ...p.specs,
+    ],
+    cores: [],
+    corAtiva: '',
+    tamanhos: [],
+    tamanhoAtivo: '',
+  };
+}
 
 const Chevron = ({ up }: { up?: boolean }) => (
   <svg
@@ -122,13 +145,23 @@ const Estrelas = () => (
 );
 
 export default function ProductInfo() {
-  const [corAtiva, setCorAtiva] = useState(PRODUTO.corAtiva);
-  const [tamanhoAtivo, setTamanhoAtivo] = useState(PRODUTO.tamanhoAtivo);
+  // O produto é o 1º da loja quando o CS cadastrou; senão o de exemplo.
+  const pLoja = useProdutosDaLoja()?.[0];
+  const PRODUTO = pLoja ? daLoja(pLoja) : EXEMPLO;
+  const desconto =
+    PRODUTO.precoDe > PRODUTO.preco
+      ? Math.round(((PRODUTO.precoDe - PRODUTO.preco) / PRODUTO.precoDe) * 100)
+      : 0;
+  const [corAtiva, setCorAtiva] = useState(EXEMPLO.corAtiva);
+  const [tamanhoAtivo, setTamanhoAtivo] = useState(EXEMPLO.tamanhoAtivo);
+  const [escolhas, setEscolhas] = useState<Record<number, number>>({});
   const [aberto, setAberto] = useState(0);
 
   const itensAcordeao = [
-    { title: 'Descrição', content: PRODUTO.descricao },
-    ...PRODUTO.specs.map(s => ({ title: s.name, content: s.value })),
+    ...(PRODUTO.descricao
+      ? [{ title: 'Descrição', content: PRODUTO.descricao, texto: true }]
+      : []),
+    ...PRODUTO.specs.map(s => ({ title: s.name, content: s.value, texto: false })),
   ];
 
   return (
@@ -139,7 +172,9 @@ export default function ProductInfo() {
           {/* ── GALERIA ── */}
           <div className={styles.productGallery} data-role="pd03-gallery">
             <div className={styles.badges} data-role="pd03-badges">
-              <span className={styles.badge} data-role="pd03-badge">-{desconto}%</span>
+              {desconto > 0 && (
+                <span className={styles.badge} data-role="pd03-badge">-{desconto}%</span>
+              )}
             </div>
 
             <div className={styles.desktopGallery}>
@@ -187,7 +222,9 @@ export default function ProductInfo() {
           {/* ── INFO ── */}
           <div className={styles.productInfo} data-role="pd03-info">
             <header className={styles.productTitle} data-role="pd03-title-box">
-              <span className={styles.sku} data-role="pd03-sku">SKU: {PRODUTO.sku}</span>
+              {PRODUTO.sku && (
+                <span className={styles.sku} data-role="pd03-sku">SKU: {PRODUTO.sku}</span>
+              )}
 
               <h1 data-role="pd03-name">{PRODUTO.nome}</h1>
 
@@ -206,11 +243,96 @@ export default function ProductInfo() {
             </header>
 
             <div className={styles.productPrice} data-role="pd03-price-box">
-              <span className={styles.listPrice} data-role="pd03-list-price">{dinheiro(PRODUTO.precoDe)}</span>
+              {desconto > 0 && (
+                <span className={styles.listPrice} data-role="pd03-list-price">{dinheiro(PRODUTO.precoDe)}</span>
+              )}
               <span className={styles.price} data-role="pd03-price">{dinheiro(PRODUTO.preco)}</span>
             </div>
 
-            <div className={styles.colorVariations} data-role="pd03-colors">
+            {/* Variações da loja: cada uma vira um bloco, no estilo do tipo (texto = botões de tamanho; cor e imagem = miniaturas) */}
+            {pLoja &&
+              pLoja.variants.map((v, vi) => {
+                const atual = escolhas[vi] ?? 0;
+                const escolher = (oi: number) =>
+                  setEscolhas(e => ({ ...e, [vi]: oi }));
+                const rotulo = v.options[atual]?.label ?? '';
+                return v.tipo === 'texto' ? (
+                  <div
+                    key={vi}
+                    data-fs-sku-selector
+                    data-fs-sku-selector-variant="label"
+                    className={styles.productVariations}
+                    data-role="pd03-sku-selector"
+                    data-variacao={v.tipo}
+                  >
+                    <label data-fs-label data-testid="fs-label" data-fs-sku-selector-title>
+                      {v.name || 'Tamanho'}: <strong>{rotulo}</strong>
+                    </label>
+                    <ul data-fs-sku-selector-list>
+                      {v.options.map((o, oi) => (
+                        <li
+                          key={oi}
+                          data-fs-sku-selector-option
+                          data-fs-sku-selector-checked={atual === oi ? 'true' : 'false'}
+                          onClick={() => escolher(oi)}
+                        >
+                          <a
+                            data-fs-link
+                            data-fs-link-variant="default"
+                            data-fs-link-size="regular"
+                            data-testid="fs-link"
+                            data-fs-sku-selector-option-link
+                          >
+                            <span data-fs-sr-only>{o.label}</span>
+                          </a>
+                          <span>{o.label}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : (
+                  <div
+                    key={vi}
+                    className={styles.colorVariations}
+                    data-role="pd03-colors"
+                    data-variacao={v.tipo}
+                  >
+                    <span className={styles.colorLabel} data-role="pd03-color-label">
+                      <strong>{v.name || 'Cor'}:</strong> {rotulo}
+                    </span>
+                    <div className={styles.colorGrid}>
+                      {v.options.map((o, oi) => (
+                        <a
+                          key={oi}
+                          className={`${styles.colorSwatch} ${atual === oi ? styles.active : ''}`}
+                          title={o.label}
+                          aria-label={o.label}
+                          onClick={() => escolher(oi)}
+                        >
+                          <span
+                            className={styles.colorFill}
+                            data-role="pd03-color-fill"
+                            style={
+                              v.tipo === 'imagem' && o.swatchImage
+                                ? {
+                                    backgroundImage: `url(${o.swatchImage})`,
+                                    backgroundSize: 'cover',
+                                    backgroundPosition: 'center',
+                                  }
+                                : o.color
+                                  ? { background: o.color }
+                                  : undefined
+                            }
+                          />
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+
+            {!pLoja && (
+            <div className={styles.colorVariations} data-role="pd03-colors" data-variacao="cor">
               <span className={styles.colorLabel} data-role="pd03-color-label">
                 <strong>Cor:</strong> {corAtiva}
               </span>
@@ -234,11 +356,15 @@ export default function ProductInfo() {
               </div>
             </div>
 
+            )}
+
+            {!pLoja && (
             <div
               data-fs-sku-selector
               data-fs-sku-selector-variant="label"
               className={styles.productVariations}
               data-role="pd03-sku-selector"
+              data-variacao="texto"
             >
               <label data-fs-label data-testid="fs-label" data-fs-sku-selector-title>
                 Tamanho: <strong>{tamanhoAtivo}</strong>
@@ -266,7 +392,11 @@ export default function ProductInfo() {
               </ul>
             </div>
 
-            <p className={styles.stock} data-role="pd03-stock">Em estoque</p>
+            )}
+
+            <p className={styles.stock} data-role="pd03-stock">
+              {pLoja && !pLoja.inStock ? 'Produto indisponível' : 'Em estoque'}
+            </p>
 
             <div className={styles.productBuy} data-role="pd03-buy">
               {/* o seletor de quantidade existe no DOM e o CSS o esconde, como na origem */}
@@ -347,7 +477,13 @@ export default function ProductInfo() {
 
                     {isOpen && (
                       <div className={styles.content} data-role="pd03-acc-content">
-                        {i === 0 ? <div>{item.content}</div> : <p>{item.content}</p>}
+                        {item.texto ? (
+                          <div style={pLoja ? { whiteSpace: 'pre-line' } : undefined}>
+                            {item.content}
+                          </div>
+                        ) : (
+                          <p>{item.content}</p>
+                        )}
                       </div>
                     )}
                   </div>

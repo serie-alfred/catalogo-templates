@@ -3,8 +3,9 @@
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import styles from './index.module.css';
-import { FONTES_13, ProductCard13, produto13, type Produto13 } from '@/components/templates/common/template_13/Spot';
+import { FONTES_13, ProductCard13, produto13, deProduto13, type Produto13 } from '@/components/templates/common/template_13/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import {
   type Facet13,
@@ -346,8 +347,15 @@ export default function CategoryMain13() {
   const [asideOpen, setAsideOpen] = useState(true);
   const [cols, setCols] = useState<number>(3);
 
-  const products: Produto13[] = stageEmpty ? [] : PRODUTOS.slice(0, PAGE);
-  const totalCount = stageEmpty ? 0 : TOTAL;
+  // Com produtos da loja, a grade mostra todos eles e a contagem é a deles (sem paginação
+  // de exemplo).
+  const daLoja = useProdutosDaLoja();
+  const products: Produto13[] = stageEmpty
+    ? []
+    : daLoja
+      ? daLoja.map(deProduto13)
+      : PRODUTOS.slice(0, PAGE);
+  const totalCount = stageEmpty ? 0 : daLoja ? daLoja.length : TOTAL;
   const facets = useMemo(() => pickFacets(FACETAS, 0, SPEC_FACET_KEY), []);
   const priceFacet = facets.find(f => f.kind === 'price');
   const buckets = useMemo(
@@ -634,8 +642,8 @@ export default function CategoryMain13() {
                   <ul className={`${styles.grid} ${styles[`cols${cols}`]}`} data-role="cm-grid">
                     {products.map((p, i) => (
                       <li key={p.id ?? i} className={styles.gridItem}>
-                        <CardDaLoja familia="Spot13">
-                          <ProductCard13 product={p} showListPrice />
+                        <CardDaLoja familia="Spot13" produto={daLoja?.[i]}>
+                          <ProductCard13 product={p} showListPrice badge={daLoja?.[i]?.badge} />
                         </CardDaLoja>
                       </li>
                     ))}

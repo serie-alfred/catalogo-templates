@@ -5,9 +5,11 @@ import {
   FONTES_11,
   ProductCard11,
   produto11,
+  deProduto11,
   type Produto11,
 } from '@/components/templates/common/template_11/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -53,6 +55,13 @@ const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function ProductRelated11() {
+  // Os da loja, menos o primeiro (é ele que a PDP mostra), quando há mais de um.
+  const daLoja = useProdutosDaLoja();
+  const daPdp = daLoja && daLoja.length > 1 ? daLoja.slice(1) : daLoja;
+  const itens = daPdp
+    ? daPdp.map(produto => ({ produto, card: deProduto11(produto) }))
+    : PRODUTOS.map(card => ({ produto: undefined, card }));
+
   const railRef = useRef<HTMLUListElement>(null);
   const [trilho, setTrilho] = useState({ inicio: true, fim: true, atual: 0 });
 
@@ -73,7 +82,7 @@ export default function ProductRelated11() {
     medir();
     window.addEventListener('resize', medir);
     return () => window.removeEventListener('resize', medir);
-  }, [medir]);
+  }, [medir, itens.length]);
 
   const passo = (dir: 1 | -1) => {
     const el = railRef.current;
@@ -86,7 +95,7 @@ export default function ProductRelated11() {
     });
   };
 
-  const atual = Math.min(trilho.atual, PRODUTOS.length - 1);
+  const atual = Math.min(trilho.atual, itens.length - 1);
 
   return (
     <div className={styles.crossSellingShelf11Box}>
@@ -130,25 +139,25 @@ export default function ProductRelated11() {
               onScroll={medir}
               data-role="rel-list"
             >
-              {PRODUTOS.map(p => (
+              {itens.map(({ produto, card: p }) => (
                 <li key={p.id} className={styles.slide}>
-                  <CardDaLoja familia="Spot11">
-                    <ProductCard11 product={p} variant="grid" layout="shelf" />
+                  <CardDaLoja familia="Spot11" produto={produto}>
+                    <ProductCard11 product={p} badge={produto?.badge} variant="grid" layout="shelf" />
                   </CardDaLoja>
                 </li>
               ))}
             </ul>
-            {PRODUTOS.length > 1 && (
+            {itens.length > 1 && (
               <div className={styles.progress} aria-hidden="true">
                 <span className={styles.progressNum}>
                   {String(atual + 1).padStart(2, '0')} /{' '}
-                  {String(PRODUTOS.length).padStart(2, '0')}
+                  {String(itens.length).padStart(2, '0')}
                 </span>
                 <span className={styles.progressTrack}>
                   <span
                     style={{
-                      width: `${100 / PRODUTOS.length}%`,
-                      left: `${(atual * 100) / PRODUTOS.length}%`,
+                      width: `${100 / itens.length}%`,
+                      left: `${(atual * 100) / itens.length}%`,
                     }}
                   />
                 </span>

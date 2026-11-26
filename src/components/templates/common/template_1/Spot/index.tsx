@@ -1,7 +1,55 @@
 import React from 'react';
+
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
+
 import './index.css';
 
-export default function Spot() {
+/** O que o card desenha (a Tray entrega o produto já pronto; aqui, só o que a tela mostra). */
+export type Produto01 = {
+  name: string;
+  image: string;
+  hoverImage: string;
+  badge: string;
+  listPrice: number;
+  price: number;
+  installments: number;
+  installmentValue: number;
+};
+
+const num = (n: number) =>
+  n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+/** Um produto da LOJA (`useProdutosDaLoja`) no formato deste card. */
+export function deProduto01(p: ProdutoNormal): Produto01 {
+  return {
+    name: p.name,
+    image: p.images[0] ?? 'https://placehold.co/348',
+    hoverImage: p.images[1] ?? p.images[0] ?? 'https://placehold.co/348',
+    badge: p.badge,
+    listPrice: p.listPrice,
+    price: p.price,
+    installments: p.installments,
+    installmentValue: p.installmentValue,
+  };
+}
+
+export default function Spot({
+  soCard = false,
+  produto,
+}: {
+  soCard?: boolean;
+  /** O produto da loja do slot (a lista passa um por slot). */
+  produto?: ProdutoNormal;
+}) {
+  const daLoja = useProdutosDaLoja();
+  // Item do catálogo (fora de lista): o 1º produto da loja; numa lista sem produto, o mock.
+  const escolhido = produto ?? (soCard ? undefined : daLoja?.[0]);
+  const p = escolhido ? deProduto01(escolhido) : null;
+  const desconto =
+    p && p.listPrice > p.price
+      ? Math.round((1 - p.price / p.listPrice) * 100)
+      : 0;
   return (
     <div itemID="1" className="product spot" data-spot="Spot01">
       <div className="product-wrapper">
@@ -10,30 +58,36 @@ export default function Spot() {
           <a href="#">
             <img
               className="lazy"
-              src="https://placehold.co/348"
-              alt="Imagem do produto Falso"
+              src={p ? p.image : 'https://placehold.co/348'}
+              alt={p ? p.name : 'Imagem do produto Falso'}
               width="348"
               height="348"
             />
             <img
               className="image__overlay lazy"
-              src="https://placehold.co/348"
-              alt="Imagem do produto Falso"
+              src={p ? p.hoverImage : 'https://placehold.co/348'}
+              alt={p ? p.name : 'Imagem do produto Falso'}
               width="348"
               height="348"
             />
           </a>
 
           <div className="product-tag">
-            <div className="tag-featured">
-              <span>Oferta</span>
-            </div>
-            <div className="tag-new">
-              <span>Novo</span>
-            </div>
-            <div className="tag-discount">
-              <span>-20%</span>
-            </div>
+            {(!p || p.badge) && (
+              <div className="tag-featured">
+                <span>{p ? p.badge : 'Oferta'}</span>
+              </div>
+            )}
+            {!p && (
+              <div className="tag-new">
+                <span>Novo</span>
+              </div>
+            )}
+            {(!p || desconto > 0) && (
+              <div className="tag-discount">
+                <span>-{p ? desconto : 20}%</span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -62,7 +116,7 @@ export default function Spot() {
           {/* title */}
           <div className="product-title">
             <h3 itemProp="name">
-              <a href="#">Produto de Exemplo</a>
+              <a href="#">{p ? p.name : 'Produto de Exemplo'}</a>
             </h3>
           </div>
 
@@ -71,25 +125,33 @@ export default function Spot() {
             <div className="product-price">
               {/* price.html */}
               <div className="t prices">
-                <div className="price-before strike">
-                  <abbr className="currency" title="BRL">
-                    R$
-                  </abbr>
-                  <span>199,90</span>
-                </div>
+                {(!p || p.listPrice > p.price) && (
+                  <div className="price-before strike">
+                    <abbr className="currency" title="BRL">
+                      R$
+                    </abbr>
+                    <span>{p ? num(p.listPrice) : '199,90'}</span>
+                  </div>
+                )}
 
                 <div className="price-promotion">
                   <div className="price-off">
                     <abbr className="currency" title="BRL">
                       R$
                     </abbr>
-                    <span>159,90</span>
+                    <span>{p ? num(p.price) : '159,90'}</span>
                   </div>
                 </div>
 
-                <div className="product-payment">
-                  <span>ou 6x de R$ 10,71 com juros</span>
-                </div>
+                {(!p || p.installments > 0) && (
+                  <div className="product-payment">
+                    <span>
+                      {p
+                        ? `ou ${p.installments}x de R$ ${num(p.installmentValue)}`
+                        : 'ou 6x de R$ 10,71 com juros'}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>

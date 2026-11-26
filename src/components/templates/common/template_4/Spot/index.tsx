@@ -1,3 +1,6 @@
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import { emReais, type ProdutoNormal } from '@/utils/produtos';
+
 import styles from './index.module.css';
 
 // Preview estático do ProductCard04 (VTEX FastStore). Dados fixos só para
@@ -10,7 +13,42 @@ const data = {
   discount: '-20%',
 };
 
-export default function Spot() {
+/** O que o card desenha (o que a tela mostra, já pronto). */
+export type Produto04 = {
+  name: string;
+  image: string;
+  /** Vazio some (sem desconto). */
+  listPrice: string;
+  price: string;
+  discount: string;
+};
+
+/** Um produto da LOJA (`useProdutosDaLoja`) no formato deste card. */
+export function deProduto04(p: ProdutoNormal): Produto04 {
+  const desconto = p.listPrice > p.price;
+  return {
+    name: p.name,
+    image: p.images[0] ?? 'https://placehold.co/348',
+    listPrice: desconto ? emReais(p.listPrice) : '',
+    price: emReais(p.price),
+    discount: desconto
+      ? `-${Math.round((1 - p.price / p.listPrice) * 100)}%`
+      : '',
+  };
+}
+
+export default function Spot({
+  soCard = false,
+  produto,
+}: {
+  soCard?: boolean;
+  /** O produto da loja do slot (a lista passa um por slot). */
+  produto?: ProdutoNormal;
+}) {
+  const daLoja = useProdutosDaLoja();
+  // Item do catálogo (fora de lista): o 1º produto da loja; numa lista sem produto, o mock.
+  const escolhido = produto ?? (soCard ? undefined : daLoja?.[0]);
+  const d: Produto04 = escolhido ? deProduto04(escolhido) : data;
   return (
     <div className={styles.card} data-spot="Spot04">
       <a
@@ -18,22 +56,26 @@ export default function Spot() {
         className={styles.card__image}
         onClick={e => e.preventDefault()}
       >
-        <img src={data.image} alt={data.name} loading="lazy" />
+        <img src={d.image} alt={d.name} loading="lazy" />
       </a>
 
       <div className={styles.card__info}>
         <h3 className={styles.card__name}>
           <a href="#" onClick={e => e.preventDefault()}>
-            {data.name}
+            {d.name}
           </a>
         </h3>
 
         <div className={styles.card__pricerow}>
-          <span className={styles.card__listprice}>{data.listPrice}</span>
-          <span className={styles.card__badge}>{data.discount}</span>
+          {d.listPrice && (
+            <span className={styles.card__listprice}>{d.listPrice}</span>
+          )}
+          {d.discount && (
+            <span className={styles.card__badge}>{d.discount}</span>
+          )}
         </div>
 
-        <p className={styles.card__price}>{data.price}</p>
+        <p className={styles.card__price}>{d.price}</p>
 
         <button type="button" className={styles.card__btn}>
           <svg

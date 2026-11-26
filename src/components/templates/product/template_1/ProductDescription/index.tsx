@@ -1,7 +1,13 @@
 import React from 'react';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+
 import styles from './index.module.css';
 
 export default function ProductDescription() {
+  // A descrição é a do 1º produto da loja (a mesma da PDP), em texto puro (o /p é público).
+  const produto = useProdutosDaLoja()?.[0];
+  const paragrafos =
+    produto?.description.split(/\n\s*\n/).filter(p => p.trim()) ?? [];
   return (
     <div className={styles.productDescription}>
       <div className={`${styles.descriptionContainer} component__container`}>
@@ -49,11 +55,27 @@ export default function ProductDescription() {
 
           {/* Descrição fixa */}
           <div className={styles.descriptionWrapper}>
-            <p>
-              <strong>Lorem Ipsum </strong> is simply dummy text of the printing
-              and typesetting industry. Lorem Ipsum has been the industry
-              standard dummy text ever since the 1500s
-            </p>
+            {produto ? (
+              <>
+                {paragrafos.map((p, i) => (
+                  <p key={i} style={{ whiteSpace: 'pre-line' }}>
+                    {p.trim()}
+                  </p>
+                ))}
+                {produto.specs.map(s => (
+                  <p key={s.name}>
+                    <strong>{s.name}: </strong>
+                    {s.value}
+                  </p>
+                ))}
+              </>
+            ) : (
+              <p>
+                <strong>Lorem Ipsum </strong> is simply dummy text of the
+                printing and typesetting industry. Lorem Ipsum has been the
+                industry standard dummy text ever since the 1500s
+              </p>
+            )}
           </div>
         </div>
       </div>

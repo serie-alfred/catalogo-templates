@@ -3,6 +3,7 @@ import styles from './index.module.css';
 import { useLayout } from '@/context/LayoutContext';
 import { LAYOUTS } from '@/data/layoutData';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import Spot from '@/components/templates/common/template_2/Spot';
 
@@ -20,6 +21,8 @@ const CategoryMain = () => {
   const [showFilters, setShowFilters] = useState(false);
   const [showSort, setShowSort] = useState(false);
   const { selections } = useLayout();
+  // Com produtos da loja, a grade mostra todos (um card por produto).
+  const daLoja = useProdutosDaLoja();
 
   // Filtra os spots selecionados
   const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
@@ -28,7 +31,9 @@ const CategoryMain = () => {
   // 12 produtos: um card por posição da grade (a página da categoria do starter
   // mostra o mesmo número).
   // O CS escolhe quantos (produtos por página); sem valor válido, 12.
-  const total = Math.max(1, Math.min(Math.round(pageSize ?? 0) || 12, 50));
+  const total = daLoja
+    ? daLoja.length
+    : Math.max(1, Math.min(Math.round(pageSize ?? 0) || 12, 50));
   const products = Array.from({ length: total }, (_, i) => ({ id: i + 1 }));
 
   const brands = [
@@ -604,14 +609,14 @@ const CategoryMain = () => {
                   <div className={styles.listOrder}>
                     <div className={styles.filterTotal} data-role="total">
                       <span>
-                        Mostrando <b>{total}</b> de 14
+                        Mostrando <b>{total}</b> de {daLoja ? total : 14}
                       </span>
                     </div>
 
                     <div className={styles.listTotalMobile} data-role="total-mobile">
                       <input type="hidden" id="def_page_size" value="28" />
                       <span>
-                        Mostrando <b>6</b> de 28
+                        Mostrando <b>{daLoja ? total : 6}</b> de {daLoja ? total : 28}
                       </span>
                     </div>
 
@@ -630,7 +635,7 @@ const CategoryMain = () => {
                     {products.length > 0 ? (
                       <div className={styles.showcaseCatalog}>
                         <div className={styles.showcaseList} data-role="spots">
-                          {products.map(product => (
+                          {products.map((product, produtoIndex) => (
                             <div key={product.id} className={styles.listSpot} data-role="list-spot">
                               {(() => {
                                 const spot = selectedSpots[0] as
@@ -644,11 +649,11 @@ const CategoryMain = () => {
                                   : undefined;
                                 return SpotComponent ? (
                                   <div style={spot?.variables as React.CSSProperties}>
-                                    <SpotComponent soCard />
+                                    <SpotComponent soCard produto={daLoja?.[produtoIndex]} />
                                   </div>
                                 ) : (
                                   <div>
-                                    <Spot />
+                                    <Spot soCard produto={daLoja?.[produtoIndex]} />
                                   </div>
                                 );
                               })()}

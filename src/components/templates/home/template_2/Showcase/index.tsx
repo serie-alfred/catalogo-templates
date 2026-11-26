@@ -7,6 +7,7 @@ import { TemplateRegistry } from '@/utils/templateRegistry';
 import { LAYOUTS } from '@/data/layoutData';
 import { useLayout } from '@/context/LayoutContext';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 /** O conteúdo da seção: os campos do `section.schema` do ProductShelfCustom02 que a réplica desenha. */
 interface Showcase02Conteudo {
@@ -23,7 +24,11 @@ export default function Showcase() {
   const { selections } = useLayout();
   const { title, productsLimit } = useConteudoDaSecao(MOCK);
   // Quantos cards a vitrine mostra (o limite de produtos do CS; padrão 4).
-  const total = Math.max(1, Math.round(productsLimit ?? 0) || 4);
+  // Com produtos da loja, a vitrine mostra todos eles.
+  const daLoja = useProdutosDaLoja();
+  const total = daLoja
+    ? daLoja.length
+    : Math.max(1, Math.round(productsLimit ?? 0) || 4);
   const posicoes = Array.from({ length: total }, (_, i) => i);
 
   // Filtra os spots selecionados
@@ -61,7 +66,7 @@ export default function Showcase() {
                           itemScope
                           itemType="https://schema.org/SomeProducts"
                         >
-                          <SpotComponent soCard />
+                          <SpotComponent soCard produto={daLoja?.[index]} />
                         </div>
                       ))
                     ) : (
@@ -77,7 +82,7 @@ export default function Showcase() {
                       itemScope
                       itemType="https://schema.org/SomeProducts"
                     >
-                      <Spot />
+                      <Spot soCard produto={daLoja?.[index]} />
                     </div>
                   ))}
             </div>

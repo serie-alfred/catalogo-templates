@@ -3,8 +3,9 @@
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import styles from './index.module.css';
-import { FONTES_14, ProductCard14, produto14, type Produto14 } from '@/components/templates/common/template_14/Spot';
+import { deProduto14, FONTES_14, ProductCard14, produto14, type Produto14 } from '@/components/templates/common/template_14/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import {
   type Facet14,
@@ -346,6 +347,7 @@ function FacetBody14({
 }
 
 export default function CategoryMain14() {
+  const daLoja = useProdutosDaLoja();
   const L = useConteudoDaSecao(MOCK);
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
   const term = TERMO_VAZIO;
@@ -358,8 +360,8 @@ export default function CategoryMain14() {
   const sort = mockSort;
   const page = mockPage;
 
-  const products: Produto14[] = stageEmpty ? [] : PRODUTOS.slice(0, PAGE);
-  const totalCount = stageEmpty ? 0 : TOTAL;
+  const products: Produto14[] = stageEmpty ? [] : daLoja ? daLoja.map(deProduto14) : PRODUTOS.slice(0, PAGE);
+  const totalCount = stageEmpty ? 0 : daLoja ? daLoja.length : TOTAL;
   const facets = useMemo(() => pickFacets(FACETAS, 0, SPEC_FACET_KEY), []);
   const priceFacet = facets.find(f => f.kind === 'price');
   const buckets = useMemo(
@@ -662,8 +664,8 @@ export default function CategoryMain14() {
                   <ul className={styles.grid} data-role="cm-grid">
                     {products.map((p, i) => (
                       <li key={p.id ?? i} className={styles.gridItem}>
-                        <CardDaLoja familia="Spot14">
-                          <ProductCard14 product={p} />
+                        <CardDaLoja familia="Spot14" produto={daLoja?.[i]}>
+                          <ProductCard14 product={p} badge={daLoja?.[i]?.badge} />
                         </CardDaLoja>
                       </li>
                     ))}

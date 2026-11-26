@@ -3,6 +3,7 @@ import React from 'react';
 import styles from './index.module.css';
 import { FONTES_14 } from '@/components/templates/common/template_14/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 /**
  * Espelha `molecules/ProductDescription14` do faststore.starter (família 14, Esportiva; desenho
@@ -85,9 +86,15 @@ const split = (line: string) => {
 
 export default function ProductDescription14() {
   const { title, featuresSpecName, specsTitle, imageSpecName, hiddenSpecs } = useConteudoDaSecao(MOCK);
+  // O 1º produto da loja (o mesmo da PDP), quando o CS cadastrou; senão o produto de exemplo.
+  const produto = useProdutosDaLoja()?.[0];
+  const properties = produto ? produto.specs.map(s => ({ name: s.name, values: [s.value] })) : PROPERTIES;
+  const nome = produto ? produto.name : PRODUCT_NAME;
+  // Texto do CS, nunca HTML: o /p é público. Linha em branco separa parágrafos.
+  const paragrafos = produto?.description.split(/\n\s*\n/).filter(p => p.trim()) ?? [];
 
   const heading = String(title ?? '')
-    .replace(/\{produto\}/gi, PRODUCT_NAME)
+    .replace(/\{produto\}/gi, nome)
     .trim();
   const featuresKey = norm(featuresSpecName ?? '');
   const imageKey = norm(imageSpecName ?? '');
@@ -99,7 +106,7 @@ export default function ProductDescription14() {
   );
   const valuesOf = (key: string): string[] =>
     key
-      ? (PROPERTIES.find(p => norm(p.name) === key)?.values ?? [])
+      ? (properties.find(p => norm(p.name) === key)?.values ?? [])
           .flatMap(v => String(v ?? '').split(/\r?\n/))
           .map(v => v.trim())
           .filter(Boolean)
@@ -109,7 +116,7 @@ export default function ProductDescription14() {
   // Só URL ou data URI: o arquivo do /arquivos depende do domínio da loja, que o catálogo não tem.
   const imagem = valuesOf(imageKey)[0] ?? '';
   const imageUrl = /^(https?:|data:)/i.test(imagem) ? imagem : '';
-  const specs = PROPERTIES.filter(
+  const specs = properties.filter(
     p => !GUIDE_RE.test(p.name) && norm(p.name) !== featuresKey && norm(p.name) !== imageKey && !hidden.has(norm(p.name))
   )
     .map(p => ({ name: p.name, value: p.values.filter(Boolean).join(', ') }))
@@ -122,7 +129,19 @@ export default function ProductDescription14() {
         <div className={styles.inner}>
           <div className={styles.head} data-role="pd-head">
             {heading && <h2 className={styles.title}>{heading}</h2>}
-            <div className={styles.intro} data-role="pd-description" dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }} />
+            {produto ? (
+              paragrafos.length > 0 && (
+                <div className={styles.intro} data-role="pd-description">
+                  {paragrafos.map((p, i) => (
+                    <p key={i} style={{ whiteSpace: 'pre-line' }}>
+                      {p.trim()}
+                    </p>
+                  ))}
+                </div>
+              )
+            ) : (
+              <div className={styles.intro} data-role="pd-description" dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }} />
+            )}
           </div>
 
           {features.length > 0 && (

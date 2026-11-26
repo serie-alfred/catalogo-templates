@@ -11,12 +11,14 @@ import React, {
 import styles from './index.module.css';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import {
+  deProduto16,
   FONTES_16,
   ProductCard16,
   produto16,
   type Produto16,
 } from '@/components/templates/common/template_16/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import {
   type Facet16,
   type PriceBucket16,
@@ -436,6 +438,7 @@ const PAGE = 9;
 const SPEC_FACET_KEY = 'faixa-etaria';
 
 export default function CategoryMain16() {
+  const daLoja = useProdutosDaLoja();
   const {
     ageTitle,
     priceSteps,
@@ -481,8 +484,8 @@ export default function CategoryMain16() {
   const term: string = stageEmptyTerm;
   const page: number = mockPage;
 
-  const products: Produto16[] = stageEmpty ? [] : mockProducts16.slice(0, PAGE);
-  const totalCount: number = stageEmpty ? 0 : MOCK_COUNT_16;
+  const products: Produto16[] = stageEmpty ? [] : daLoja ? daLoja.map(deProduto16) : mockProducts16.slice(0, PAGE);
+  const totalCount: number = stageEmpty ? 0 : daLoja ? daLoja.length : MOCK_COUNT_16;
   const loading = false;
   const rawFacets: RawFacet16[] = mockFacets16;
   const facets = useMemo(
@@ -869,8 +872,8 @@ export default function CategoryMain16() {
                 >
                   {products.map((p, i) => (
                     <li key={p.id ?? i} className={styles.gridItem}>
-                      <CardDaLoja familia="Spot16">
-                        <ProductCard16 product={p} showRating={false} />
+                      <CardDaLoja familia="Spot16" produto={daLoja?.[i]}>
+                        <ProductCard16 product={p} badge={daLoja?.[i]?.badge} showRating={false} />
                       </CardDaLoja>
                     </li>
                   ))}

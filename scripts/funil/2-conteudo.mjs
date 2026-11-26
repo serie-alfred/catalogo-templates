@@ -436,6 +436,10 @@ try {
       .catch(() => null);
     r.ok('upload: o campo recebe a URL da imagem enviada (WebP)', url, String(url));
     if (url) {
+      // Pelo Node primeiro: prova o CORS e, num dev recém-subido, compila a rota
+      // /api/midias/[arquivo] (sob demanda, mais de 8 s nesta máquina) antes de
+      // o canvas pedir a imagem — senão a espera abaixo estoura no aquecimento.
+      const resposta = await fetch(`${BASE_URL}${url}`);
       // A imagem do contador é `lazy`: rola a seção para a janela do iframe.
       await page.evaluate(alvo => {
         document
@@ -452,7 +456,6 @@ try {
           return img?.getAttribute('src') === alvo && img.complete && img.naturalWidth > 0;
         }, url)
       );
-      const resposta = await fetch(`${BASE_URL}${url}`);
       r.ok(
         'upload: /api/midias serve image/webp, público, com CORS',
         resposta.status === 200 &&

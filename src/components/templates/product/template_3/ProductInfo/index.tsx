@@ -5,6 +5,8 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import { emReais, type ProdutoNormal } from '@/utils/produtos';
 import styles from './index.module.css';
 
 /**
@@ -18,7 +20,7 @@ import styles from './index.module.css';
  * original para refletir os overrides por instância no gerador.
  */
 
-const product = {
+const EXEMPLO = {
   sku: 'REF-48291',
   name: 'Tênis Urban Runner Premium',
   rating: 4,
@@ -48,6 +50,37 @@ const product = {
   description:
         'Tênis desenvolvido para o dia a dia urbano, unindo conforto e durabilidade. Cabedal em couro sintético com detalhes em mesh respirável, entressola em EVA de alta densidade e solado de borracha antiderrapante para máxima aderência.',
 };
+
+/** Quadro de uma cor só (a miniatura da variação em cor; o desenho é uma foto, o cadastro dá o hex). */
+const HEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+const quadro = (hex: string) =>
+  `data:image/svg+xml;utf8,${encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="256" height="320"><rect width="256" height="320" fill="${HEX.test(hex) ? hex : '#D9C7A8'}"/></svg>`
+  )}`;
+
+/** O 1º produto da loja no formato que a PDP desenha. */
+function daLoja(p: ProdutoNormal): typeof EXEMPLO {
+  const desconto = p.listPrice > p.price;
+  const pct = desconto ? Math.round((1 - p.price / p.listPrice) * 100) : 0;
+  return {
+    sku: '',
+    name: p.name,
+    rating: 0,
+    reviews: 0,
+    listPrice: desconto ? emReais(p.listPrice) : '',
+    price: emReais(p.price),
+    inStock: p.inStock,
+    specs: [
+      ...(p.brand ? [{ name: 'Marca', values: [p.brand] }] : []),
+      ...p.specs.map(s => ({ name: s.name, values: [s.value] })),
+    ],
+    colors: [],
+    sizes: [],
+    galleryImages: p.images.length ? p.images : EXEMPLO.galleryImages.slice(0, 1),
+    badges: [...(pct > 0 ? [`-${pct}%`] : []), ...(p.badge ? [p.badge] : [])],
+    description: p.description,
+  };
+}
 
 /** O conteúdo da seção: os campos do `section.schema` do ProductDetails02 (só os textos). */
 interface ProductInfo03Conteudo {
@@ -186,12 +219,18 @@ const ProductInfo = () => {
     trustBadges,
     extraAccordion,
   } = useConteudoDaSecao(MOCK);
-  // A descrição é o produto de exemplo; o título e os blocos extras são do CMS.
+  // O produto é o 1º da loja quando o CS cadastrou; senão o de exemplo. O título da
+  // descrição e os blocos extras são do CMS.
+  const pLoja = useProdutosDaLoja()?.[0];
+  const product = pLoja ? daLoja(pLoja) : EXEMPLO;
+  const [escolhas, setEscolhas] = useState<Record<number, number>>({});
   const accordion = [
-    { title: descriptionTitle, content: product.description },
+    ...(product.description
+      ? [{ title: descriptionTitle, content: product.description }]
+      : []),
     ...extraAccordion,
   ];
-  const [selectedColor, setSelectedColor] = useState(product.colors[0].value);
+  const [selectedColor, setSelectedColor] = useState(EXEMPLO.colors[0].value);
   const [selectedSize, setSelectedSize] = useState('40');
   const [openIndex, setOpenIndex] = useState(0);
 
@@ -349,7 +388,7 @@ const ProductInfo = () => {
         <div className={styles.productInfo}>
           {/* ProductTitle02 */}
           <header className={styles.productTitle}>
-            <span className={styles.sku}>SKU: {product.sku}</span>
+            {product.sku && <span className={styles.sku}>SKU: {product.sku}</span>}
 
             <h1>{product.name}</h1>
 
@@ -375,12 +414,79 @@ const ProductInfo = () => {
 
           {/* ProductPrice02 */}
           <div className={styles.productPrice}>
-            <span className={styles.listPrice}>{product.listPrice}</span>
+            {product.listPrice && (
+              <span className={styles.listPrice}>{product.listPrice}</span>
+            )}
             <span className={styles.price}>{product.price}</span>
           </div>
 
+          {/* Variações da loja: cada uma vira um bloco, no estilo do tipo (texto = pílulas; cor e imagem = miniaturas) */}
+          {pLoja &&
+            pLoja.variants.map((v, vi) => {
+              const atual = escolhas[vi] ?? 0;
+              const escolher = (oi: number) =>
+                setEscolhas(e => ({ ...e, [vi]: oi }));
+              const rotulo = v.options[atual]?.label ?? '';
+              return v.tipo === 'texto' ? (
+                <div
+                  key={vi}
+                  className={styles.productVariations}
+                  data-variacao={v.tipo}
+                >
+                  <span className={styles.variationTitle}>
+                    <strong>{v.name || sizeLabel}</strong> {rotulo}
+                  </span>
+
+                  <ul className={styles.sizeList}>
+                    {v.options.map((o, oi) => (
+                      <li
+                        key={oi}
+                        className={`${styles.sizeOption} ${atual === oi ? styles.active : ''}`}
+                        onClick={() => escolher(oi)}
+                      >
+                        <span>{o.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <div
+                  key={vi}
+                  className={styles.colorVariations}
+                  data-variacao={v.tipo}
+                >
+                  <span className={styles.colorLabel}>
+                    <strong>{v.name || colorLabel}</strong> {rotulo}
+                  </span>
+
+                  <div className={styles.colorGrid}>
+                    {v.options.map((o, oi) => (
+                      <button
+                        key={oi}
+                        type="button"
+                        className={`${styles.colorSwatch} ${atual === oi ? styles.active : ''}`}
+                        title={o.label}
+                        aria-label={o.label}
+                        onClick={() => escolher(oi)}
+                      >
+                        <img
+                          src={
+                            v.tipo === 'imagem' && o.swatchImage
+                              ? o.swatchImage
+                              : quadro(o.color)
+                          }
+                          alt={o.label}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+
           {/* ProductVariations02 — cor (swatches em foto) */}
-          <div className={styles.colorVariations}>
+          {!pLoja && (
+          <div className={styles.colorVariations} data-variacao="cor">
             <span className={styles.colorLabel}>
               <strong>{colorLabel}</strong> {selectedColor}
             </span>
@@ -401,8 +507,11 @@ const ProductInfo = () => {
             </div>
           </div>
 
+          )}
+
           {/* ProductVariations02 — tamanho (pills) */}
-          <div className={styles.productVariations}>
+          {!pLoja && (
+          <div className={styles.productVariations} data-variacao="texto">
             <span className={styles.variationTitle}>
               <strong>{sizeLabel}</strong> {selectedSize}
             </span>
@@ -419,6 +528,8 @@ const ProductInfo = () => {
               ))}
             </ul>
           </div>
+
+          )}
 
           {/* Estoque */}
           <p className={styles.stock}>
@@ -482,7 +593,9 @@ const ProductInfo = () => {
 
                   {isOpen && (
                     <div className={styles.accordionContent}>
-                      <p>{item.content}</p>
+                      <p style={pLoja ? { whiteSpace: 'pre-line' } : undefined}>
+                        {item.content}
+                      </p>
                     </div>
                   )}
                 </div>

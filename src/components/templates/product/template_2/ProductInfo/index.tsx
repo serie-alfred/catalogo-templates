@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import styles from './index.module.css';
 
 /** O conteúdo da seção: os rótulos do `section.schema` do ProductInfo02 que a réplica desenha (produto, preço e cores são de exemplo). */
@@ -44,6 +45,9 @@ const MOCK: ProductInfo02Conteudo = {
 // A nota do mock do starter (`mockRating.average` do ProductInfo02): nenhuma estrela acesa.
 const NOTA_MOCK = 0;
 
+const reais = (n: number) =>
+  n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
 const ProductInfo = () => {
   const {
     skuLabel,
@@ -66,11 +70,19 @@ const ProductInfo = () => {
   const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState('G');
   const [cep, setCep] = useState('');
+  // O produto é o 1º da loja quando o CS cadastrou; senão o de exemplo.
+  const pLoja = useProdutosDaLoja()?.[0];
+  const [escolhas, setEscolhas] = useState<Record<number, number>>({});
+  const desconto =
+    pLoja && pLoja.listPrice > pLoja.price
+      ? Math.round((1 - pLoja.price / pLoja.listPrice) * 100)
+      : 0;
 
-  const product = {
+  const exemplo = {
     sku: '205',
     name: 'Produto 2',
     price: '600,00',
+    listPrice: '600,00',
     installment: 'R$ 66,76',
     description: 'Data de lançamento: 25/03/2022\nDisponibilidade: Imediata',
     images: [
@@ -80,6 +92,17 @@ const ProductInfo = () => {
     ],
     sizes: ['M', 'G', 'GG'],
   };
+  const product = pLoja
+    ? {
+        ...exemplo,
+        sku: '',
+        name: pLoja.name,
+        price: reais(pLoja.price),
+        listPrice: reais(pLoja.listPrice),
+        installment: `R$ ${reais(pLoja.installmentValue)}`,
+        images: pLoja.images.length ? pLoja.images : exemplo.images.slice(0, 1),
+      }
+    : exemplo;
 
   const handleQuantityChange = (value: number) => {
     const newQuantity = quantity + value;
@@ -128,8 +151,8 @@ const ProductInfo = () => {
                                 >
                                   <img
                                     src={image}
-                                    title="Produto 2"
-                                    alt="Produto 2"
+                                    title={product.name}
+                                    alt={product.name}
                                     data-role="thumb"
                                     className={`${index === 0 ? styles.selected : ""}`}
                                   />
@@ -145,14 +168,14 @@ const ProductInfo = () => {
                         <a
                           href={product.images[0]}
                           className={styles.containerThumb}
-                          title="Produto 2"
+                          title={product.name}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
                           <img
                             src={product.images[0]}
-                            title="Produto 2"
-                            alt="Produto 2"
+                            title={product.name}
+                            alt={product.name}
                             className={styles.photo}
                             data-role="main-image"
                           />
@@ -199,9 +222,11 @@ const ProductInfo = () => {
   
                   <h1 className={styles.productName} data-role="title">{product.name}</h1>
                   <div className={styles.info__container_inf}>
-                    <span className={styles.content__sku} data-role="sku">
-                      {skuLabel} <b>{product.sku}</b>
-                    </span>
+                    {product.sku && (
+                      <span className={styles.content__sku} data-role="sku">
+                        {skuLabel} <b>{product.sku}</b>
+                      </span>
+                    )}
                     <div className={styles.content__stars} data-role="rating">
                       {/* Como no starter: estrela acesa (.starOn, --prod-info-rating) até a nota e
                           apagada (.starOff, o texto a 28%) depois dela. Nota 0, a do mock do starter. */}
@@ -218,14 +243,14 @@ const ProductInfo = () => {
                  
 
                   <div className={styles.content__productTag} data-role="tags">
-                    {offerTagLabel && (
+                    {offerTagLabel && (!pLoja || desconto > 0) && (
                       <div className={styles.tagFeatured} data-role="tag-offer">
                         <span>{offerTagLabel}</span>
                       </div>
                     )}
-                    {newTagLabel && (
+                    {(pLoja ? pLoja.badge : newTagLabel) && (
                       <div className={styles.tagNew} data-role="tag-new">
-                        <span>{newTagLabel}</span>
+                        <span>{pLoja ? pLoja.badge : newTagLabel}</span>
                       </div>
                     )}
                   </div>
@@ -233,28 +258,36 @@ const ProductInfo = () => {
                   <div className={styles.content__price} data-role="price-block">
                     <div className={styles.produtoPreco}>
                       <div className={styles.preco}>
-                        <div className={styles.precoBefore}>
-                          <span className={styles.precoDe} data-role="list-price">
-                            R$<span>{product.price}</span>
-                          </span>
-                          <span className={styles.precoDiscountFlag} data-role="discount">
-                            <span>-13%</span>
-                          </span>
-                        </div>
+                        {(!pLoja || desconto > 0) && (
+                          <div className={styles.precoBefore}>
+                            <span className={styles.precoDe} data-role="list-price">
+                              R$<span>{product.listPrice}</span>
+                            </span>
+                            <span className={styles.precoDiscountFlag} data-role="discount">
+                              <span>-{pLoja ? desconto : 13}%</span>
+                            </span>
+                          </div>
+                        )}
 
                         <span className={styles.precoPrincipal} data-role="price">
                           R$ <span>{product.price}</span>
                         </span>
-                        <div className={styles.infoPreco} data-role="installment">
-                          <span className={styles.precoParc}>
-                            {installmentPrefix ? `${installmentPrefix} 10x` : '10x'}
-                          </span>
-                          <span className={styles.precoParc}> {installmentOf} </span>
-                          <span className={styles.precoParc}>
-                            {product.installment}
-                          </span>
-                          <span className={styles.precoParc}> {withInterestLabel} </span>
-                        </div>
+                        {(!pLoja || pLoja.installments > 0) && (
+                          <div className={styles.infoPreco} data-role="installment">
+                            <span className={styles.precoParc}>
+                              {installmentPrefix
+                                ? `${installmentPrefix} ${pLoja ? pLoja.installments : 10}x`
+                                : `${pLoja ? pLoja.installments : 10}x`}
+                            </span>
+                            <span className={styles.precoParc}> {installmentOf} </span>
+                            <span className={styles.precoParc}>
+                              {product.installment}
+                            </span>
+                            {!pLoja && (
+                              <span className={styles.precoParc}> {withInterestLabel} </span>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
 
@@ -265,8 +298,64 @@ const ProductInfo = () => {
                     </div>
                   </div>
 
+                  {pLoja ? (
+                    pLoja.variants.length > 0 && (
+                      <div className={styles.corVariacao} data-role="variations">
+                        {pLoja.variants.map((v, vi) => (
+                          <div
+                            key={vi}
+                            className={styles.menuVars}
+                            data-variacao={v.tipo}
+                          >
+                            <div className={styles.textoVariacao}>
+                              <h2 data-role={v.tipo === 'texto' ? 'sizes-title' : 'colors-title'}>
+                                {v.name || (v.tipo === 'texto' ? sizesTitle : colorsTitle)}
+                              </h2>
+                            </div>
+                            <ul className={styles.listaCorVariacao}>
+                              {v.options.map((o, oi) =>
+                                v.tipo === 'texto' ? (
+                                  <li
+                                    key={oi}
+                                    className={`${(escolhas[vi] ?? 0) === oi ? styles.selected : ''}`}
+                                    onClick={() => setEscolhas(e => ({ ...e, [vi]: oi }))}
+                                    data-role="size-option"
+                                  >
+                                    <div className={styles.sizeOption}>{o.label}</div>
+                                  </li>
+                                ) : (
+                                  <li
+                                    key={oi}
+                                    className={`${styles.listaItem} ${(escolhas[vi] ?? 0) === oi ? styles.selected : ''}`}
+                                    onClick={() => setEscolhas(e => ({ ...e, [vi]: oi }))}
+                                    title={o.label}
+                                    data-role="color-option"
+                                  >
+                                    <div
+                                      className={styles.color}
+                                      style={
+                                        v.tipo === 'imagem' && o.swatchImage
+                                          ? {
+                                              backgroundImage: `url(${o.swatchImage})`,
+                                              backgroundSize: 'cover',
+                                              backgroundPosition: 'center',
+                                            }
+                                          : o.color
+                                            ? { backgroundColor: o.color }
+                                            : undefined
+                                      }
+                                    ></div>
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
+                        ))}
+                      </div>
+                    )
+                  ) : (
                   <div className={styles.corVariacao} data-role="variations">
-                    <div className={styles.menuVars}>
+                    <div className={styles.menuVars} data-variacao="cor">
                       <div className={styles.textoVariacao}>
                         <h2 data-role="colors-title">{colorsTitle}</h2>
                       </div>
@@ -279,7 +368,7 @@ const ProductInfo = () => {
                         </li>
                       </ul>
                     </div>
-                    <div className={styles.menuVars}>
+                    <div className={styles.menuVars} data-variacao="texto">
                       <div className={styles.textoVariacao}>
                         <h2 data-role="sizes-title">{sizesTitle}</h2>
                       </div>
@@ -297,6 +386,7 @@ const ProductInfo = () => {
                       </ul>
                     </div>
                   </div>
+                  )}
 
                   <div className={styles.favoriteButton} data-role="favorite">
                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>

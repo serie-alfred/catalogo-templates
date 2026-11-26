@@ -1,8 +1,10 @@
 'use client';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { ProductCard13, FONTES_13, produto13, type Produto13 } from '@/components/templates/common/template_13/Spot';
+import { ProductCard13, FONTES_13, produto13, deProduto13, type Produto13 } from '@/components/templates/common/template_13/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
 
 /**
  * Espelha `molecules/ProductShelf13` do faststore.starter — o núcleo das duas
@@ -75,7 +77,12 @@ export default function ProductShelf13({
   tagLabel,
   banner,
 }: ProductShelf13Props) {
-  const produtos = variant === 'banner' ? PRODUTOS_BANNER : PRODUTOS_FULL;
+  const daLoja = useProdutosDaLoja();
+  const mock = variant === 'banner' ? PRODUTOS_BANNER : PRODUTOS_FULL;
+  const itens = daLoja
+    ? daLoja.map(produto => ({ produto, card: deProduto13(produto) }))
+    : mock.map(card => ({ produto: undefined as ProdutoNormal | undefined, card }));
+  const produtos = itens.map(i => i.card);
   const temBanner =
     variant === 'banner' &&
     !!banner &&
@@ -118,10 +125,10 @@ export default function ProductShelf13({
 
   if (!produtos.length) return null;
 
-  const cards = produtos.map((p, i) => (
+  const cards = itens.map(({ produto, card: p }, i) => (
     <li key={p.id || i} className={style.slide}>
-      <CardDaLoja familia="Spot13">
-        <ProductCard13 product={p} badge={tagLabel} />
+      <CardDaLoja familia="Spot13" produto={produto}>
+        <ProductCard13 product={p} badge={produto?.badge || tagLabel} />
       </CardDaLoja>
     </li>
   ));

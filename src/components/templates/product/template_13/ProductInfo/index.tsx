@@ -1,10 +1,12 @@
 'use client';
 
-import React, { useEffect, useId, useRef, useState } from 'react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
 
 /**
  * Espelha `organisms/ProductDetails13` do faststore.starter (família 13, Noturno; desenho
@@ -165,11 +167,17 @@ const norm = (s: string) =>
     .toLowerCase();
 
 /** Abas: o texto do CMS, ou o da especificação do produto nomeada nele (uma linha por item). */
-function abasDe(accordions: ProductInfo13Conteudo['accordions']) {
+function abasDe(accordions: ProductInfo13Conteudo['accordions'], props: typeof PROPRIEDADES, doLoja: boolean) {
   return accordions
     .map(a => {
-      const spec = a.specName ? PROPRIEDADES.find(p => norm(p.name) === norm(a.specName ?? '')) : undefined;
-      const text = (spec?.values ?? []).filter(Boolean).join('\n').trim() || String(a.text ?? '').trim();
+      const spec = a.specName ? props.find(p => norm(p.name) === norm(a.specName ?? '')) : undefined;
+      // Produto da loja sem a especificação nomeada: a aba mostra a ficha toda (nome: valor).
+      const doProduto = spec
+        ? spec.values
+        : doLoja && a.specName
+          ? props.map(p => `${p.name}: ${p.values.join(', ')}`)
+          : [];
+      const text = doProduto.filter(Boolean).join('\n').trim() || String(a.text ?? '').trim();
       return {
         title: String(a.title ?? '').trim(),
         lines: text
@@ -180,6 +188,99 @@ function abasDe(accordions: ProductInfo13Conteudo['accordions']) {
     })
     .filter(a => a.title && a.lines.length);
 }
+/* ── o que a PDP desenha: o produto de exemplo ou o 1º da loja ── */
+type OpcaoDaPdp = { label: string; src: string; available: boolean; sku?: string };
+type VariacaoDaPdp = {
+  /** '' = o rótulo do desenho ("Cor", "Tamanho (BR)"). */
+  name: string;
+  tipo: 'texto' | 'cor' | 'imagem';
+  options: OpcaoDaPdp[];
+  /** A opção que nasce escolhida. */
+  inicial: number;
+};
+type VistaDaPdp = {
+  doLoja: boolean;
+  name: string;
+  /** O selo da cabeça; '' = sem selo (o do exemplo é o do CMS). */
+  badge: string | null;
+  price: number;
+  listPrice: number;
+  best: { installmentNumber: number; installmentValue: number; installmentInterest: number } | null;
+  rating: { average: number; totalCount: number } | null;
+  inStock: boolean;
+  images: { url: string; alternateName: string }[];
+  props: typeof PROPRIEDADES;
+  variacoes: VariacaoDaPdp[];
+};
+
+const EXEMPLO: VistaDaPdp = {
+  doLoja: false,
+  name: PRODUCT_NAME,
+  badge: null,
+  price: PRICE,
+  listPrice: LIST_PRICE,
+  best: BEST,
+  rating: RATING,
+  inStock: true,
+  images: IMAGES,
+  props: PROPRIEDADES,
+  variacoes: [
+    {
+      name: COLOR_NAME,
+      tipo: 'cor',
+      options: COLORS.map(c => ({ label: c.value, src: c.src, available: true })),
+      inicial: Math.max(0, COLORS.findIndex(c => c.active)),
+    },
+    {
+      name: AXIS_NAME,
+      tipo: 'texto',
+      options: AXIS.map(o => ({ label: o.value, src: '', available: o.available, sku: o.sku })),
+      inicial: Math.max(
+        0,
+        AXIS.findIndex(o => o.value === AXIS_FROM_URL && o.available) >= 0
+          ? AXIS.findIndex(o => o.value === AXIS_FROM_URL)
+          : AXIS.findIndex(o => o.available)
+      ),
+    },
+  ],
+};
+
+/** Hex aceito no quadro da cor (vai para dentro de um SVG); fora disso, cinza. */
+const HEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+
+function daLoja(p: ProdutoNormal): VistaDaPdp {
+  const fotos = p.images.length ? p.images : [block('#1E1E1E', 800)];
+  return {
+    doLoja: true,
+    name: p.name,
+    badge: p.badge,
+    price: p.price,
+    listPrice: p.listPrice,
+    best: p.installments
+      ? { installmentNumber: p.installments, installmentValue: p.installmentValue, installmentInterest: 0 }
+      : null,
+    rating: null,
+    inStock: p.inStock,
+    images: fotos.map((url, i) => ({ url, alternateName: `${p.name} — foto ${i + 1}` })),
+    props: p.specs.map(s => ({ name: s.name, values: [s.value] })),
+    variacoes: p.variants.map(v => ({
+      name: v.name,
+      tipo: v.tipo,
+      options: v.options.map((o, i) => ({
+        label: o.label || `Opção ${i + 1}`,
+        src:
+          v.tipo === 'imagem'
+            ? o.swatchImage || block('#3A3A36', 56, 70)
+            : v.tipo === 'cor'
+              ? block(HEX.test(o.color) ? o.color : '#3A3A36', 56, 70)
+              : '',
+        available: o.available,
+      })),
+      inicial: Math.max(0, v.options.findIndex(o => o.available)),
+    })),
+  };
+}
+
 const SHIPPING = [
   { id: 'normal', friendlyName: 'Normal', price: 1990, estimate: '7bd' },
   { id: 'expressa', friendlyName: 'Expressa', price: 3490, estimate: '2bd' },
@@ -227,10 +328,10 @@ const Stars = ({ avg }: { avg: number }) => (
 
 export default function ProductInfo13() {
   const { accordions, ...L } = useConteudoDaSecao(MOCK);
-  const abas = abasDe(accordions);
   const uid = useId();
 
-  const [selAxis, setSelAxis] = useState<string | null>(null);
+  /** A opção escolhida de cada variação (índice), quando o cliente clicou. */
+  const [escolhas, setEscolhas] = useState<Record<number, number>>({});
   const [slide, setSlide] = useState(0);
   const [openAcc, setOpenAcc] = useState(0);
   const [guideOpen, setGuideOpen] = useState(false);
@@ -247,18 +348,38 @@ export default function ProductInfo13() {
   const guideCloseRef = useRef<HTMLButtonElement>(null);
   const guideTriggerRef = useRef<HTMLButtonElement>(null);
 
-  const defaultAxis =
-    (AXIS.find(o => o.value === AXIS_FROM_URL)?.available ? AXIS_FROM_URL : undefined) ??
-    AXIS.find(o => o.available)?.value ??
-    AXIS_FROM_URL;
-  const activeAxis = selAxis ?? defaultAxis;
-  const selected = AXIS.find(o => o.value === activeAxis);
-  const soldOutOptions = AXIS.filter(o => !o.available);
-  const inStock = !!selected?.available;
-  const best = inStock ? BEST : null;
+  const daLojaLista = useProdutosDaLoja();
+  const vista = useMemo(
+    () => (daLojaLista ? daLoja(daLojaLista[0]) : EXEMPLO),
+    [daLojaLista]
+  );
+  // Outro produto: as escolhas e o slide do anterior não valem mais.
+  useEffect(() => {
+    setEscolhas({});
+    setSlide(0);
+    setNotifyTarget(null);
+  }, [vista]);
+  const abas = abasDe(accordions, vista.props, vista.doLoja);
+  const IMAGES_V = vista.images;
+
+  /* ── variações: cada uma é um bloco; a 1ª de texto é o eixo (estoque, SKU, avise-me) ── */
+  const selIdx = (vi: number) => escolhas[vi] ?? vista.variacoes[vi]?.inicial ?? 0;
+  const escolher = (vi: number, oi: number) => setEscolhas(e => ({ ...e, [vi]: oi }));
+  const eixoVi = vista.variacoes.findIndex(v => v.tipo === 'texto');
+  const eixo = eixoVi >= 0 ? vista.variacoes[eixoVi] : null;
+  const AXIS_NAME_V = eixo?.name || AXIS_NAME;
+  const AXIS_V = (eixo?.options ?? []).map(o => ({ value: o.label, available: o.available, sku: o.sku }));
+  const selected = eixo ? AXIS_V[selIdx(eixoVi)] : undefined;
+  const activeAxis = selected?.value ?? null;
+  const soldOutOptions = AXIS_V.filter(o => !o.available);
+  // As demais variações: a opção escolhida de cada uma precisa ter estoque.
+  const outrasOk = vista.variacoes.every((v, vi) => vi === eixoVi || v.options[selIdx(vi)]?.available !== false);
+  const inStock = vista.inStock && (eixo ? !!selected?.available : true) && outrasOk;
+  const best = inStock ? vista.best : null;
   const sku = selected?.sku ?? '';
-  const price = PRICE;
-  const listPrice = LIST_PRICE;
+  const price = vista.price;
+  const listPrice = vista.listPrice;
+  const rating = vista.rating;
 
   const notifyFor = notifyTarget ?? (inStock ? soldOutOptions[0]?.value : activeAxis) ?? null;
   const openNotify = (value?: string | null, focus = false) => {
@@ -306,7 +427,7 @@ export default function ProductInfo13() {
   };
   const goTo = (i: number) => {
     const el = railRef.current;
-    const n = Math.max(0, Math.min(IMAGES.length - 1, i));
+    const n = Math.max(0, Math.min(IMAGES_V.length - 1, i));
     setSlide(n);
     if (el) el.scrollTo({ left: n * el.clientWidth, behavior: 'auto' });
   };
@@ -316,7 +437,6 @@ export default function ProductInfo13() {
     const mobile = (railRef.current?.closest(`.${styles.productDetails13Box}`)?.clientWidth ?? window.innerWidth) <= 960;
     setOpenAcc(o => (mobile && o === i ? -1 : i));
   };
-  const activeColorLabel = COLORS.find(c => c.active)?.value ?? '';
   const showNotify = notifyOpen || !inStock;
 
   const buyButton = (extra: string, label?: string, mobile = false) =>
@@ -354,7 +474,7 @@ export default function ProductInfo13() {
 
   return (
     <div className={styles.productDetails13Box}>
-      <section className={styles.productDetails13} aria-label={PRODUCT_NAME} data-role="pdp-root">
+      <section className={styles.productDetails13} aria-label={vista.name} data-role="pdp-root">
         <link rel="stylesheet" href={FONTES_13} />
         <div className={styles.inner}>
           <div className={styles.main}>
@@ -362,8 +482,8 @@ export default function ProductInfo13() {
             <div className={styles.gallery} data-role="pdp-gallery">
               <div className={styles.stage}>
                 <div ref={railRef} className={styles.rail} onScroll={onRailScroll}>
-                  {IMAGES.map((img, i) => (
-                    <div key={img.url} className={styles.photo}>
+                  {IMAGES_V.map((img, i) => (
+                    <div key={i} className={styles.photo}>
                       <img
                         src={img.url}
                         alt={img.alternateName}
@@ -377,7 +497,7 @@ export default function ProductInfo13() {
                 </div>
                 <span className={styles.counter} aria-hidden="true" data-role="pdp-counter">
                   {two(slide + 1)}
-                  <span>/{two(IMAGES.length)}</span>
+                  <span>/{two(IMAGES_V.length)}</span>
                 </span>
                 {favButton(styles.favPhoto)}
                 <div className={styles.arrows}>
@@ -388,22 +508,22 @@ export default function ProductInfo13() {
                     type="button"
                     className={styles.arrowNext}
                     onClick={() => goTo(slide + 1)}
-                    disabled={slide >= IMAGES.length - 1}
+                    disabled={slide >= IMAGES_V.length - 1}
                     aria-label="Próxima imagem"
                   >
                     {svg(20, <path d="m9 6 6 6-6 6" />, { strokeWidth: 2 })}
                   </button>
                 </div>
                 <div className={styles.segments} aria-hidden="true">
-                  {IMAGES.map((img, i) => (
-                    <span key={img.url} className={i === slide ? styles.segmentOn : undefined} />
+                  {IMAGES_V.map((img, i) => (
+                    <span key={i} className={i === slide ? styles.segmentOn : undefined} />
                   ))}
                 </div>
               </div>
               <div className={styles.thumbs} role="group" aria-label="Imagens do produto">
-                {IMAGES.map((img, i) => (
+                {IMAGES_V.map((img, i) => (
                   <button
-                    key={img.url}
+                    key={i}
                     type="button"
                     className={`${styles.thumb}${i === slide ? ` ${styles.thumbOn}` : ''}`}
                     onClick={() => goTo(i)}
@@ -420,20 +540,24 @@ export default function ProductInfo13() {
             {/* ── coluna de compra ── */}
             <div className={styles.info}>
               <div className={styles.head}>
-                <span className={styles.badge} data-role="pdp-badge">
-                  {L.badge}
-                </span>
+                {(vista.badge ?? L.badge) && (
+                  <span className={styles.badge} data-role="pdp-badge">
+                    {vista.badge ?? L.badge}
+                  </span>
+                )}
                 <h1 className={styles.title} data-role="pdp-title">
-                  {PRODUCT_NAME}
+                  {vista.name}
                 </h1>
                 <div className={styles.meta}>
-                  <a className={styles.rating} href="#avaliacoes" data-role="pdp-rating">
-                    <Stars avg={RATING.average} />
-                    <span className={styles.srOnly}>Nota {RATING.average.toFixed(1).replace('.', ',')} de 5, </span>
-                    <span className={styles.ratingCount}>
-                      {RATING.totalCount.toLocaleString('pt-BR')} {L.ratingCountLabel}
-                    </span>
-                  </a>
+                  {rating && (
+                    <a className={styles.rating} href="#avaliacoes" data-role="pdp-rating">
+                      <Stars avg={rating.average} />
+                      <span className={styles.srOnly}>Nota {rating.average.toFixed(1).replace('.', ',')} de 5, </span>
+                      <span className={styles.ratingCount}>
+                        {rating.totalCount.toLocaleString('pt-BR')} {L.ratingCountLabel}
+                      </span>
+                    </a>
+                  )}
                   {sku && (
                     <span className={styles.code} data-role="pdp-code">
                       {L.codeLabel ? `${L.codeLabel} ` : ''}
@@ -461,22 +585,30 @@ export default function ProductInfo13() {
                 )}
               </div>
 
-              <div className={styles.group} data-role="pdp-colors">
+              {vista.variacoes.map((v, vi) => {
+                const atual = v.options[selIdx(vi)];
+                if (v.tipo !== 'texto')
+                  return (
+              <div key={vi} className={styles.group} data-role="pdp-colors" data-variacao={v.tipo}>
                 <p className={styles.legend}>
                   <span>
-                    <span id={`${uid}-color`}>{COLOR_NAME}: </span>
-                    <span className={styles.legendValue}>{activeColorLabel}</span>
+                    <span id={`${uid}-var${vi}`}>{v.name || COLOR_NAME}: </span>
+                    <span className={styles.legendValue}>{atual?.label}</span>
                   </span>
                 </p>
-                <div className={styles.swatches} role="group" aria-labelledby={`${uid}-color`}>
-                  {COLORS.map(c => (
+                <div className={styles.swatches} role="group" aria-labelledby={`${uid}-var${vi}`}>
+                  {v.options.map((c, oi) => (
                     <a
-                      key={c.value}
-                      className={`${styles.swatch}${c.active ? ` ${styles.swatchOn}` : ''}`}
-                      href={c.active ? undefined : '#'}
-                      aria-current={c.active ? 'true' : undefined}
-                      aria-label={c.value}
-                      title={c.value}
+                      key={oi}
+                      className={`${styles.swatch}${c === atual ? ` ${styles.swatchOn}` : ''}`}
+                      href={c === atual ? undefined : '#'}
+                      onClick={e => {
+                        e.preventDefault();
+                        escolher(vi, oi);
+                      }}
+                      aria-current={c === atual ? 'true' : undefined}
+                      aria-label={c.label}
+                      title={c.label}
                       data-role="pdp-swatch"
                     >
                       <img src={c.src} alt="" width={56} height={70} loading="lazy" decoding="async" />
@@ -484,55 +616,59 @@ export default function ProductInfo13() {
                   ))}
                 </div>
               </div>
-
-              <div className={styles.group} data-role="pdp-axis">
+                  );
+                const principal = vi === eixoVi;
+                return (
+              <div key={vi} className={styles.group} data-role="pdp-axis" data-variacao="texto">
                 <div className={styles.legendRow}>
-                  <p className={styles.legend} id={`${uid}-axis`}>
-                    {AXIS_NAME}
+                  <p className={styles.legend} id={`${uid}-axis${vi}`}>
+                    {v.name || AXIS_NAME}
                   </p>
-                  <button
-                    ref={guideTriggerRef}
-                    type="button"
-                    className={styles.guide}
-                    onClick={() => setGuideOpen(true)}
-                    aria-haspopup="dialog"
-                    data-role="pdp-size-guide"
-                  >
-                    {svg(18, RULER)}
-                    <span>{L.sizeGuideLabel}</span>
-                  </button>
+                  {principal && !vista.doLoja && (
+                    <button
+                      ref={guideTriggerRef}
+                      type="button"
+                      className={styles.guide}
+                      onClick={() => setGuideOpen(true)}
+                      aria-haspopup="dialog"
+                      data-role="pdp-size-guide"
+                    >
+                      {svg(18, RULER)}
+                      <span>{L.sizeGuideLabel}</span>
+                    </button>
+                  )}
                 </div>
-                <div className={styles.sizes} role="group" aria-labelledby={`${uid}-axis`}>
-                  {AXIS.map(o =>
+                <div className={styles.sizes} role="group" aria-labelledby={`${uid}-axis${vi}`}>
+                  {v.options.map((o, oi) =>
                     o.available ? (
                       <button
-                        key={o.value}
+                        key={oi}
                         type="button"
-                        className={`${styles.size}${o.value === activeAxis ? ` ${styles.sizeOn}` : ''}`}
-                        aria-pressed={o.value === activeAxis}
+                        className={`${styles.size}${o === atual ? ` ${styles.sizeOn}` : ''}`}
+                        aria-pressed={o === atual}
                         onClick={() => {
-                          setSelAxis(o.value);
+                          escolher(vi, oi);
                           setNotifyOpen(false);
                         }}
                         data-role="pdp-axis-option"
                       >
-                        {o.value}
+                        {o.label}
                       </button>
                     ) : (
                       <button
-                        key={o.value}
+                        key={oi}
                         type="button"
-                        className={`${styles.size} ${styles.sizeOut}${o.value === activeAxis ? ` ${styles.sizeOn}` : ''}`}
-                        aria-label={`${o.value}, esgotado`}
+                        className={`${styles.size} ${styles.sizeOut}${o === atual ? ` ${styles.sizeOn}` : ''}`}
+                        aria-label={`${o.label}, esgotado`}
                         disabled
                         data-role="pdp-axis-out"
                       >
-                        {o.value}
+                        {o.label}
                       </button>
                     )
                   )}
                 </div>
-                {soldOutOptions.length > 0 && inStock && (
+                {principal && soldOutOptions.length > 0 && inStock && (
                   <p className={styles.soldNote} data-role="pdp-sold-out-note">
                     {svg(18, BELL)}
                     {/* Texto num <span> comum (não flex): o espaço antes do link não some. */}
@@ -552,6 +688,8 @@ export default function ProductInfo13() {
                   </p>
                 )}
               </div>
+                );
+              })}
 
               {/* ── compra + coração (desktop) ── */}
               <div className={styles.buyRow} data-role="pdp-buy-row">
@@ -572,7 +710,7 @@ export default function ProductInfo13() {
                         {notifyFor ? ` · ${notifyFor}` : ''}
                       </p>
                       {inStock && soldOutOptions.length > 1 && (
-                        <div className={styles.notifyOptions} role="group" aria-label={AXIS_NAME}>
+                        <div className={styles.notifyOptions} role="group" aria-label={AXIS_NAME_V}>
                           {soldOutOptions.map(s => (
                             <button
                               key={s.value}
@@ -721,7 +859,7 @@ export default function ProductInfo13() {
                   {svg(20, <path d="M6 6l12 12M18 6 6 18" />)}
                 </button>
               </div>
-              <img className={styles.guideImg} src={GUIDE_URL} alt={`${L.sizeGuideLabel || ''} — ${PRODUCT_NAME}`} />
+              <img className={styles.guideImg} src={GUIDE_URL} alt={`${L.sizeGuideLabel || ''} — ${vista.name}`} />
             </div>
           </div>
         )}

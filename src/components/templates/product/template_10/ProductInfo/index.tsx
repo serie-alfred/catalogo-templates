@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useId, useRef, useState } from 'react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
 
 import styles from './index.module.css';
 
@@ -60,7 +62,6 @@ const BRAND = '[Marca 01]';
 const SKU = '0000000';
 const PRICE = 1799;
 const LIST = 2299;
-const DISCOUNT = Math.round((1 - PRICE / LIST) * 100);
 const RATING = { average: 4.8, totalCount: 1284 };
 const PIX = 1709.05;
 const BEST = {
@@ -144,6 +145,106 @@ const SHIPPING = [
     eta: 'até 2 horas',
   },
 ];
+
+/* ── o que a PDP desenha: o produto de exemplo ou o 1º da loja ── */
+type OpcaoDaPdp = { label: string; src: string; available: boolean; sku: string };
+type VariacaoDaPdp = {
+  /** '' = o rótulo do desenho ("Cor"). */
+  name: string;
+  tipo: 'texto' | 'cor' | 'imagem';
+  options: OpcaoDaPdp[];
+  /** A opção que nasce escolhida (a 1ª com estoque). */
+  inicial: number;
+};
+type VistaDaPdp = {
+  doLoja: boolean;
+  name: string;
+  brand: string;
+  price: number;
+  listPrice: number;
+  pix: number | null;
+  best: { installmentNumber: number; installmentValue: number; installmentInterest: number } | null;
+  plans: typeof PLANS;
+  rating: { average: number; totalCount: number } | null;
+  inStock: boolean;
+  images: { url: string; alternateName: string }[];
+  specs: { name: string; value: string }[];
+  variacoes: VariacaoDaPdp[];
+};
+
+const EXEMPLO: VistaDaPdp = {
+  doLoja: false,
+  name: PRODUCT_NAME,
+  brand: BRAND,
+  price: PRICE,
+  listPrice: LIST,
+  pix: PIX,
+  best: BEST,
+  plans: PLANS,
+  rating: RATING,
+  inStock: true,
+  images: IMAGES,
+  specs: PROPERTIES,
+  variacoes: [
+    {
+      name: '',
+      tipo: 'cor',
+      options: COLORS.map(c => ({ label: c.label, src: c.src, available: true, sku: '' })),
+      inicial: Math.max(0, COLORS.findIndex(c => c.active)),
+    },
+    {
+      name: AXIS_NAME,
+      tipo: 'texto',
+      options: AXIS.map(o => ({ label: o.value, src: '', available: o.available, sku: o.sku })),
+      inicial: Math.max(0, AXIS.findIndex(o => o.available)),
+    },
+  ],
+};
+
+/** Hex aceito no quadro da cor (vai para dentro de um SVG); fora disso, cinza. */
+const HEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+
+function daLoja(p: ProdutoNormal): VistaDaPdp {
+  const fotos = p.images.length ? p.images : [block('#EEF1F5', 800)];
+  return {
+    doLoja: true,
+    name: p.name,
+    brand: p.brand,
+    price: p.price,
+    listPrice: p.listPrice,
+    pix: null,
+    best: p.installments
+      ? { installmentNumber: p.installments, installmentValue: p.installmentValue, installmentInterest: 0 }
+      : null,
+    plans:
+      p.installments > 1
+        ? [
+            { installmentNumber: 1, installmentValue: p.price, installmentInterest: 0 },
+            { installmentNumber: p.installments, installmentValue: p.installmentValue, installmentInterest: 0 },
+          ]
+        : [],
+    rating: null,
+    inStock: p.inStock,
+    images: fotos.map((url, i) => ({ url, alternateName: `${p.name} — foto ${i + 1}` })),
+    specs: p.specs,
+    variacoes: p.variants.map(v => ({
+      name: v.name,
+      tipo: v.tipo,
+      options: v.options.map((o, i) => ({
+        label: o.label || `Opção ${i + 1}`,
+        src:
+          v.tipo === 'imagem'
+            ? o.swatchImage || block('#E4E7EC', 80)
+            : v.tipo === 'cor'
+              ? block(HEX.test(o.color) ? o.color : '#E4E7EC', 80)
+              : '',
+        available: o.available,
+        sku: '',
+      })),
+      inicial: Math.max(0, v.options.findIndex(o => o.available)),
+    })),
+  };
+}
 
 type TrustIcon = 'shield' | 'exchange' | 'invoice' | 'truck' | 'card';
 
@@ -289,7 +390,8 @@ export default function ProductInfo10() {
     trustItems,
   } = useConteudoDaSecao(MOCK);
   const uid = useId();
-  const [selAxis, setSelAxis] = useState<string | null>(null);
+  /** A opção escolhida de cada variação (índice), quando o cliente clicou. */
+  const [escolhas, setEscolhas] = useState<Record<number, number>>({});
   const [notifyOpen, setNotifyOpen] = useState(false);
   const [notifyTarget, setNotifyTarget] = useState<string | null>(null);
   const [notifyName, setNotifyName] = useState('');
@@ -303,6 +405,18 @@ export default function ProductInfo10() {
   const [cep, setCep] = useState(CEP_EXEMPLO);
   const railRef = useRef<HTMLDivElement>(null);
 
+  const daLojaLista = useProdutosDaLoja();
+  const vista = useMemo(
+    () => (daLojaLista ? daLoja(daLojaLista[0]) : EXEMPLO),
+    [daLojaLista]
+  );
+  // Outro produto: as escolhas e o slide do anterior não valem mais.
+  useEffect(() => {
+    setEscolhas({});
+    setSlide(0);
+    setNotifyTarget(null);
+  }, [vista]);
+
   const onRailScroll = () => {
     const el = railRef.current;
     if (el && el.clientWidth)
@@ -314,23 +428,35 @@ export default function ProductInfo10() {
     if (el) el.scrollTo({ left: i * el.clientWidth, behavior: 'auto' });
   };
 
-  /* ── variação: a opção da página (a 1ª) se tiver estoque, senão a 1ª com estoque ── */
-  const defaultAxis =
-    (AXIS.find(o => o.value === AXIS_OPTIONS[0])?.available
-      ? AXIS_OPTIONS[0]
-      : undefined) ??
-    AXIS.find(o => o.available)?.value ??
-    null;
-  const activeAxis = selAxis ?? defaultAxis;
-  const selected = activeAxis
-    ? AXIS.find(o => o.value === activeAxis)
-    : undefined;
-  const soldOutOptions = AXIS.filter(o => !o.available);
-  const inStock = !!selected?.available;
-  const sku = selected?.sku ?? SKU;
-  const discount = inStock && LIST > PRICE ? DISCOUNT : 0;
-  const best = inStock ? BEST : null;
-  const pixValue = inStock ? PIX : null;
+  /* ── variações: cada uma é um bloco; a 1ª de texto é o eixo (estoque, SKU, avise-me) ── */
+  const selIdx = (vi: number) =>
+    escolhas[vi] ?? vista.variacoes[vi]?.inicial ?? 0;
+  const escolher = (vi: number, oi: number) =>
+    setEscolhas(e => ({ ...e, [vi]: oi }));
+  const eixoVi = vista.variacoes.findIndex(v => v.tipo === 'texto');
+  const eixo = eixoVi >= 0 ? vista.variacoes[eixoVi] : null;
+  const AXIS_NAME_V = eixo?.name || AXIS_NAME;
+  const AXIS_V = (eixo?.options ?? []).map(o => ({
+    value: o.label,
+    available: o.available,
+    sku: o.sku,
+  }));
+  const selected = eixo ? AXIS_V[selIdx(eixoVi)] : undefined;
+  const activeAxis = selected?.value ?? null;
+  const soldOutOptions = AXIS_V.filter(o => !o.available);
+  // As demais variações: a opção escolhida de cada uma precisa ter estoque.
+  const outrasOk = vista.variacoes.every(
+    (v, vi) => vi === eixoVi || v.options[selIdx(vi)]?.available !== false
+  );
+  const inStock =
+    vista.inStock && (eixo ? !!selected?.available : true) && outrasOk;
+  const sku = selected?.sku || (vista.doLoja ? '' : SKU);
+  const discount =
+    inStock && vista.listPrice > vista.price
+      ? Math.round((1 - vista.price / vista.listPrice) * 100)
+      : 0;
+  const best = inStock ? vista.best : null;
+  const pixValue = inStock ? vista.pix : null;
 
   /* ── avise-me: o envio dá sucesso local, como no palco de lá ── */
   const notifyFor =
@@ -345,21 +471,25 @@ export default function ProductInfo10() {
     setNotifyOk(true);
   };
 
-  const showPlus = IMAGES.length > THUMBS + 1 && !allThumbs;
-  const thumbs = showPlus ? IMAGES.slice(0, THUMBS) : IMAGES;
+  const IMAGES_V = vista.images;
+  const showPlus = IMAGES_V.length > THUMBS + 1 && !allThumbs;
+  const thumbs = showPlus ? IMAGES_V.slice(0, THUMBS) : IMAGES_V;
   const code10 = sku ? `${codeLabel ? `${codeLabel} ` : ''}${sku}` : '';
-  const avgText = RATING.average.toFixed(1).replace('.', ',');
-  const activeColorLabel = COLORS.find(c => c.active)?.label ?? '';
+  const rating = vista.rating;
+  const avgText = rating ? rating.average.toFixed(1).replace('.', ',') : '';
 
   // Destaques: as especificações do produto, na ordem do CMS (só as que ele tem).
-  const highlights = highlightSpecs
-    ? highlightSpecs
-        .split(',')
-        .map(n => n.trim())
-        .filter(Boolean)
-        .map(n => PROPERTIES.find(x => norm(x.name) === norm(n)))
-        .filter((x): x is { name: string; value: string } => !!x)
-    : [];
+  // No produto da loja, as quatro primeiras especificações do cadastro.
+  const highlights = vista.doLoja
+    ? vista.specs.slice(0, 4)
+    : highlightSpecs
+      ? highlightSpecs
+          .split(',')
+          .map(n => n.trim())
+          .filter(Boolean)
+          .map(n => vista.specs.find(x => norm(x.name) === norm(n)))
+          .filter((x): x is { name: string; value: string } => !!x)
+      : [];
 
   const buyButton = (extra: string, label?: string) =>
     inStock ? (
@@ -403,7 +533,7 @@ export default function ProductInfo10() {
     <div className={styles.productDetails10Box}>
       <section
         className={styles.productDetails10}
-        aria-label={PRODUCT_NAME}
+        aria-label={vista.name}
         data-role="pdp-root"
       >
         <link rel="stylesheet" href={FONTES_10} />
@@ -418,7 +548,7 @@ export default function ProductInfo10() {
               >
                 {thumbs.map((img, i) => (
                   <button
-                    key={img.url}
+                    key={i}
                     type="button"
                     className={`${styles.thumb}${i === slide ? ` ${styles.thumbOn}` : ''}`}
                     onClick={() => goTo(i)}
@@ -441,10 +571,10 @@ export default function ProductInfo10() {
                     type="button"
                     className={`${styles.thumb} ${styles.thumbMore}`}
                     onClick={() => setAllThumbs(true)}
-                    aria-label={`Ver mais ${IMAGES.length - THUMBS} imagens`}
+                    aria-label={`Ver mais ${IMAGES_V.length - THUMBS} imagens`}
                     data-role="pdp-thumb-more"
                   >
-                    +{IMAGES.length - THUMBS}
+                    +{IMAGES_V.length - THUMBS}
                   </button>
                 )}
               </div>
@@ -454,8 +584,8 @@ export default function ProductInfo10() {
                   className={styles.rail}
                   onScroll={onRailScroll}
                 >
-                  {IMAGES.map((img, i) => (
-                    <div key={img.url} className={styles.photo}>
+                  {IMAGES_V.map((img, i) => (
+                    <div key={i} className={styles.photo}>
                       <img
                         src={img.url}
                         alt={img.alternateName}
@@ -490,9 +620,9 @@ export default function ProductInfo10() {
                   )}
                 </button>
                 <div className={styles.dots} aria-hidden="true">
-                  {IMAGES.map((img, i) => (
+                  {IMAGES_V.map((img, i) => (
                     <span
-                      key={img.url}
+                      key={i}
                       className={i === slide ? styles.dotOn : undefined}
                     />
                   ))}
@@ -505,16 +635,19 @@ export default function ProductInfo10() {
           {/* ── coluna de compra ── */}
           <div className={styles.info}>
             <div className={styles.meta}>
-              <a className={styles.brand} href="#" data-role="pdp-brand">
-                {BRAND}
-              </a>
+              {vista.brand && (
+                <a className={styles.brand} href="#" data-role="pdp-brand">
+                  {vista.brand}
+                </a>
+              )}
               <span className={styles.code} data-role="pdp-code">
                 {code10}
               </span>
             </div>
             <h1 className={styles.title} data-role="pdp-title">
-              {PRODUCT_NAME}
+              {vista.name}
             </h1>
+            {rating && (
             <div className={styles.rating} data-role="pdp-rating">
               <span className={styles.stars} aria-hidden="true">
                 {[1, 2, 3, 4, 5].map(n => (
@@ -525,7 +658,7 @@ export default function ProductInfo10() {
                     height="16"
                     viewBox="0 0 24 24"
                     fill={
-                      n <= Math.round(RATING.average) ? 'currentColor' : 'none'
+                      n <= Math.round(rating.average) ? 'currentColor' : 'none'
                     }
                     stroke="currentColor"
                     strokeWidth="1.6"
@@ -539,15 +672,16 @@ export default function ProductInfo10() {
                 {avgText}
               </strong>
               <a className={styles.ratingLink} href="#avaliacoes">
-                {RATING.totalCount.toLocaleString('pt-BR')} {ratingCountLabel}
+                {rating.totalCount.toLocaleString('pt-BR')} {ratingCountLabel}
               </a>
             </div>
+            )}
 
             <div className={styles.prices} data-role="pdp-prices">
-              {LIST > PRICE && inStock && (
+              {vista.listPrice > vista.price && inStock && (
                 <div className={styles.listRow}>
                   <s className={styles.listPrice} data-role="pdp-list-price">
-                    de {money(LIST)}
+                    de {money(vista.listPrice)}
                   </s>
                   {discount > 0 && (
                     <span className={styles.tag}>-{discount}%</span>
@@ -555,7 +689,7 @@ export default function ProductInfo10() {
                 </div>
               )}
               <span className={styles.price} data-role="pdp-price">
-                {money(PRICE)}
+                {money(vista.price)}
               </span>
               {best && best.installmentNumber > 1 && (
                 <p className={styles.installment} data-role="pdp-installment">
@@ -585,7 +719,7 @@ export default function ProductInfo10() {
                   className={styles.plans}
                   data-role="pdp-installments"
                 >
-                  {PLANS.map(p => (
+                  {vista.plans.map(p => (
                     <li key={p.installmentNumber}>
                       <span>
                         {p.installmentNumber}x de {money(p.installmentValue)}
@@ -618,17 +752,25 @@ export default function ProductInfo10() {
               )}
             </div>
 
-            <div className={styles.group} data-role="pdp-colors">
+            {vista.variacoes.map((v, vi) => {
+              const atual = v.options[selIdx(vi)];
+              if (v.tipo !== 'texto')
+                return (
+            <div key={vi} className={styles.group} data-role="pdp-colors" data-variacao={v.tipo}>
               <span className={styles.groupLabel}>
-                <strong>Cor:</strong> {activeColorLabel}
+                <strong>{v.name || 'Cor'}:</strong> {atual?.label}
               </span>
               <div className={styles.colorRow}>
-                {COLORS.map(c => (
+                {v.options.map((c, oi) => (
                   <a
-                    key={c.value}
-                    className={`${styles.colorChip}${c.active ? ` ${styles.chipOn}` : ''}`}
+                    key={oi}
+                    className={`${styles.colorChip}${c === atual ? ` ${styles.chipOn}` : ''}`}
                     href="#"
-                    aria-current={c.active ? 'true' : undefined}
+                    onClick={e => {
+                      e.preventDefault();
+                      escolher(vi, oi);
+                    }}
+                    aria-current={c === atual ? 'true' : undefined}
                     data-role="pdp-swatch"
                   >
                     <span className={styles.swatch}>
@@ -646,49 +788,51 @@ export default function ProductInfo10() {
                 ))}
               </div>
             </div>
-
-            <div className={styles.group} data-role="pdp-axis">
+                );
+              const principal = vi === eixoVi;
+              return (
+            <div key={vi} className={styles.group} data-role="pdp-axis" data-variacao="texto">
               <div className={styles.groupHead}>
-                <strong className={styles.groupLabel} id={`${uid}-axis`}>
-                  {AXIS_NAME}
+                <strong className={styles.groupLabel} id={`${uid}-axis${vi}`}>
+                  {v.name || AXIS_NAME}
                 </strong>
               </div>
               <div
                 className={styles.axisRow}
                 role="group"
-                aria-labelledby={`${uid}-axis`}
+                aria-labelledby={`${uid}-axis${vi}`}
               >
-                {AXIS.map(o =>
-                  o.available ? (
+                {v.options.map((opt, oi) =>
+                  opt.available ? (
                     <button
-                      key={o.value}
+                      key={oi}
                       type="button"
-                      className={`${styles.axisChip}${o.value === activeAxis ? ` ${styles.chipOn}` : ''}`}
-                      aria-pressed={o.value === activeAxis}
+                      className={`${styles.axisChip}${opt === atual ? ` ${styles.chipOn}` : ''}`}
+                      aria-pressed={opt === atual}
                       onClick={() => {
-                        setSelAxis(o.value);
+                        escolher(vi, oi);
                         setNotifyOpen(false);
                       }}
                       data-role="pdp-axis-option"
                     >
-                      {o.value}
+                      {opt.label}
                     </button>
                   ) : (
                     <button
-                      key={o.value}
+                      key={oi}
                       type="button"
                       className={`${styles.axisChip} ${styles.axisOut}`}
-                      aria-label={`${o.value}, esgotado`}
+                      aria-label={`${opt.label}, esgotado`}
                       disabled
                       data-role="pdp-axis-out"
                     >
-                      {o.value}
+                      {opt.label}
                     </button>
                   )
                 )}
               </div>
               {/* Bloco comum (não flex): o espaço entre o texto e o link não some. */}
-              {soldOutOptions.length > 0 && inStock && (
+              {principal && soldOutOptions.length > 0 && inStock && (
                 <p className={styles.soldNote} data-role="pdp-sold-out-note">
                   {soldOutOptions.map(o => o.value).join(', ')} {soldOutText}{' '}
                   <button
@@ -710,6 +854,8 @@ export default function ProductInfo10() {
                 </p>
               )}
             </div>
+              );
+            })}
 
             {(notifyOpen || !inStock) && (
               <form
@@ -732,7 +878,7 @@ export default function ProductInfo10() {
                       <div
                         className={styles.axisRow}
                         role="group"
-                        aria-label={AXIS_NAME}
+                        aria-label={AXIS_NAME_V}
                       >
                         {soldOutOptions.map(o => (
                           <button
@@ -892,7 +1038,7 @@ export default function ProductInfo10() {
         {/* ── barra de compra do mobile: o botão de compra do mobile (gruda no rodapé) ── */}
         <div className={styles.mobileBar} data-role="pdp-mobile-bar">
           <span className={styles.mobilePrice}>
-            <strong className={styles.mobilePriceValue}>{money(PRICE)}</strong>
+            <strong className={styles.mobilePriceValue}>{money(vista.price)}</strong>
             {pixValue !== null && (
               <span className={styles.mobilePix}>{money(pixValue)} no Pix</span>
             )}

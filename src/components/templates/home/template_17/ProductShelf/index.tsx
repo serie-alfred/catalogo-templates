@@ -2,12 +2,14 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
+  deProduto17,
   ProductCard17,
   FONTES_17,
   produto17,
   type Produto17,
 } from '@/components/templates/common/template_17/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 /**
  * Espelha `molecules/ProductShelf17` do faststore.starter — o núcleo das duas vitrines 17
@@ -197,7 +199,8 @@ export default function ProductShelf17({
   tagLabel,
   banner,
 }: ProductShelf17Props) {
-  const produtos = variant === 'banner' ? PRODUTOS_BANNER : PRODUTOS_FULL;
+  const daLoja = useProdutosDaLoja();
+  const produtos = daLoja ? daLoja.map(deProduto17) : variant === 'banner' ? PRODUTOS_BANNER : PRODUTOS_FULL;
   const temBanner =
     variant === 'banner' &&
     !!banner &&
@@ -346,8 +349,8 @@ export default function ProductShelf17({
             >
               {produtos.map((p, i) => (
                 <li key={p.id || i} className={style.slide}>
-                  <CardDaLoja familia="Spot17">
-                    <ProductCard17 product={p} badge={tagLabel} />
+                  <CardDaLoja familia="Spot17" produto={daLoja?.[i]}>
+                    <ProductCard17 product={p} badge={daLoja?.[i]?.badge || tagLabel} />
                   </CardDaLoja>
                 </li>
               ))}

@@ -6,6 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -33,7 +34,7 @@ import styles from './index.module.css';
  * `cashbackText`, `aviseSuccessMsg`, `aviseSubtitle` e os ícones de compartilhar
  * (sem lugar no markup), e o guia de medidas, que não é campo do schema.
  */
-const IMAGENS = [
+const IMAGENS_EXEMPLO = [
   { url: 'https://placehold.co/800x800/efefef/999999?text=Foto+1', alternateName: 'Sapato — vista lateral' },
   { url: 'https://placehold.co/800x800/ececec/999999?text=Foto+2', alternateName: 'Par — vista em ângulo' },
   { url: 'https://placehold.co/800x800/e9e9e9/999999?text=Foto+3', alternateName: 'Vista superior' },
@@ -62,7 +63,7 @@ const TRILHA = [
   { item: '/calcados/outlet', name: 'Outlet' },
 ];
 
-const PRODUTO = {
+const EXEMPLO = {
   nome: 'Sapato Masculino Preto Liverpool',
   refId: '4077-281G',
   preco: 287.92,
@@ -125,6 +126,13 @@ const GUIA = {
 };
 
 const fmt = (n: number) => n.toFixed(2).replace('.', ',');
+
+/** Quadro de uma cor só: a miniatura da variação em cor (o cadastro dá o hex; fora disso, cinza). */
+const HEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+const quadro = (hex: string) =>
+  `data:image/svg+xml;utf8,${encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="425" height="425"><rect width="425" height="425" fill="${HEX.test(hex) ? hex : '#D4D4D4'}"/></svg>`
+  )}`;
 const intPart = (n: number) => String(Math.trunc(n));
 const fracPart = (n: number) => n.toFixed(2).split('.')[1];
 
@@ -261,6 +269,33 @@ export default function ProductInfo() {
     shareInstagramUrl,
   } = useConteudoDaSecao(MOCK);
   const { sizeGuideLabel, sizeGuideImage } = GUIA;
+  // O produto é o 1º da loja quando o CS cadastrou; senão o de exemplo. Cada variação dele
+  // vira um bloco no estilo do tipo (texto = chips de tamanho; cor e imagem = miniaturas).
+  const pLoja = useProdutosDaLoja()?.[0];
+  const [escolhas, setEscolhas] = useState<Record<number, number>>({});
+  const IMAGENS = pLoja
+    ? pLoja.images.length
+      ? pLoja.images.map((url, i) => ({
+          url,
+          alternateName: `${pLoja.name} — foto ${i + 1}`,
+        }))
+      : IMAGENS_EXEMPLO.slice(0, 1)
+    : IMAGENS_EXEMPLO;
+  const PRODUTO = pLoja
+    ? {
+        nome: pLoja.name,
+        refId: '',
+        preco: pLoja.price,
+        precoDe: pLoja.listPrice,
+        parcelaN: pLoja.installments,
+        parcelaValor: pLoja.installmentValue,
+        avaliacao: { media: 0, total: 0 },
+        forma: 'Grande',
+      }
+    : EXEMPLO;
+  // Descrição em texto puro (o /p é público): um parágrafo por bloco.
+  const paragrafos =
+    pLoja?.description.split(/\n\s*\n/).filter(p => p.trim()) ?? [];
   const [activeIdx, setActiveIdx] = useState(0);
   const [selSize, setSelSize] = useState<string | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
@@ -462,19 +497,23 @@ export default function ProductInfo() {
               <h1 className={styles.name} data-role="name">{PRODUTO.nome}</h1>
             </div>
 
-            <div className={styles.gapRowSm}>
-              <p className={styles.cod} data-role="cod">
-                <span className={styles.codLabel}>Cod</span>
-                {' : '}
-                <span className={styles.codValue}>{PRODUTO.refId}</span>
-              </p>
-            </div>
+            {PRODUTO.refId && (
+              <div className={styles.gapRowSm}>
+                <p className={styles.cod} data-role="cod">
+                  <span className={styles.codLabel}>Cod</span>
+                  {' : '}
+                  <span className={styles.codValue}>{PRODUTO.refId}</span>
+                </p>
+              </div>
+            )}
 
-            <div className={styles.gapRowXs}>
-              <p className={styles.listPriceWrap}>
-                <span className={styles.listPrice} data-role="list-price">R$ {fmt(PRODUTO.precoDe)}</span>
-              </p>
-            </div>
+            {PRODUTO.precoDe > PRODUTO.preco && (
+              <div className={styles.gapRowXs}>
+                <p className={styles.listPriceWrap}>
+                  <span className={styles.listPrice} data-role="list-price">R$ {fmt(PRODUTO.precoDe)}</span>
+                </p>
+              </div>
+            )}
 
             <div className={styles.priceRow}>
               <span className={styles.sellingWrap}>
@@ -488,15 +527,99 @@ export default function ProductInfo() {
                   </span>
                 </span>
               </span>
-              <span className={styles.installments} data-role="installments">
-                {'ou '}
-                <strong className={styles.instNum}>{PRODUTO.parcelaN}</strong>
-                {'x de '}
-                <strong className={styles.instVal}>R$ {fmt(PRODUTO.parcelaValor)}</strong>
-              </span>
+              {PRODUTO.parcelaN > 0 && (
+                <span className={styles.installments} data-role="installments">
+                  {'ou '}
+                  <strong className={styles.instNum}>{PRODUTO.parcelaN}</strong>
+                  {'x de '}
+                  <strong className={styles.instVal}>R$ {fmt(PRODUTO.parcelaValor)}</strong>
+                </span>
+              )}
             </div>
 
-            <div className={styles.colorsBlock} data-role="colors-block">
+            {pLoja &&
+              pLoja.variants.map((v, vi) => {
+                const atual =
+                  escolhas[vi] ?? Math.max(0, v.options.findIndex(o => o.available));
+                const escolher = (oi: number) =>
+                  setEscolhas(e => ({ ...e, [vi]: oi }));
+                return v.tipo === 'texto' ? (
+                  <div key={vi} className={styles.sizeBlock} data-variacao={v.tipo}>
+                    <span className={styles.sizeLabel} data-role="size-label">
+                      {v.name || 'Tamanho'}
+                      {v.options[atual]?.label ? ` ${v.options[atual].label}` : ''}
+                    </span>
+                    <div className={styles.sizes}>
+                      {v.options.map((o, oi) => {
+                        const indisponivel = !o.available;
+                        return (
+                          <button
+                            key={oi}
+                            type="button"
+                            className={`${styles.sizeChip}${atual === oi ? ` ${styles.sizeActive}` : ''}${indisponivel ? ` ${styles.sizeUnavailable}` : ''}`}
+                            onClick={() => (indisponivel ? undefined : escolher(oi))}
+                            aria-pressed={atual === oi}
+                            aria-disabled={indisponivel}
+                            aria-label={indisponivel ? `Tamanho ${o.label} indisponível — avise-me` : `Tamanho ${o.label}`}
+                          >
+                            <span className={styles.sizeText}>{o.label}</span>
+                            {indisponivel && <span className={styles.sizeBell} aria-hidden="true" />}
+                            {indisponivel && <span className={styles.aviseBalloon} role="tooltip">{aviseMeLabel}</span>}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    key={vi}
+                    className={styles.colorsBlock}
+                    data-role="colors-block"
+                    data-variacao={v.tipo}
+                  >
+                    <p className={styles.colorsTitle} data-role="colors-title">
+                      {v.name || 'Cores'}
+                    </p>
+                    <div className={styles.colorsCarousel}>
+                      <Swiper
+                        className={styles.colorsSwiper}
+                        slidesPerView={2.3}
+                        spaceBetween={3}
+                        breakpoints={{ 961: { slidesPerView: 3, spaceBetween: 3 } }}
+                        watchOverflow
+                      >
+                        {v.options.map((o, oi) => (
+                          <SwiperSlide key={oi} className={styles.colorSlide}>
+                            <a
+                              className={styles.colorTile}
+                              href="#"
+                              aria-current={atual === oi ? 'page' : undefined}
+                              data-role="color-tile"
+                              onClick={e => {
+                                e.preventDefault();
+                                escolher(oi);
+                              }}
+                            >
+                              <img
+                                src={
+                                  v.tipo === 'imagem' && o.swatchImage
+                                    ? o.swatchImage
+                                    : quadro(o.color)
+                                }
+                                alt={o.label}
+                                loading="lazy"
+                              />
+                            </a>
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+                    </div>
+                  </div>
+                );
+              })}
+
+            {!pLoja && (
+            <div className={styles.colorsBlock} data-role="colors-block" data-variacao="imagem">
               <p className={styles.colorsTitle} data-role="colors-title">Cores</p>
               <div className={styles.colorsCarousel}>
                 {!colorsLocked && (
@@ -548,7 +671,10 @@ export default function ProductInfo() {
               </div>
             </div>
 
-            <div className={styles.sizeBlock}>
+            )}
+
+            {!pLoja && (
+            <div className={styles.sizeBlock} data-variacao="texto">
               <span className={styles.sizeLabel} data-role="size-label">
                 Tamanho{activeSize ? ` ${activeSize}` : ''}
               </span>
@@ -586,6 +712,8 @@ export default function ProductInfo() {
               <AvisoDeForma />
             </div>
 
+            )}
+
             <div className={styles.buyWrap}>
               <button type="button" className={styles.buy} data-role="buy">
                 {buyLabel}
@@ -620,26 +748,40 @@ export default function ProductInfo() {
               </div>
             </div>
 
-            <section className={styles.descBlock}>
-              <h2 className={styles.descTitle} data-role="desc-title">Descrição</h2>
-              <div
-                className={styles.descContent}
-                dangerouslySetInnerHTML={{ __html: DESCRICAO_HTML }}
-              />
-            </section>
-
-            <section className={styles.specs}>
-              <h3 className={styles.specTitle} data-role="spec-title">Características</h3>
-              <div className={styles.specRow} data-role="spec-row">
-                {ESPECIFICACOES.map((p, i) => (
-                  <div key={i} className={styles.specContent} data-role="spec-content">
-                    <img className={styles.specIcon} src={p.icon} alt={p.name} />
-                    <span className={styles.specName} data-role="spec-name">{p.name}</span>
-                    <span className={styles.specValue} data-role="spec-value">{p.value}</span>
+            {(!pLoja || paragrafos.length > 0) && (
+              <section className={styles.descBlock}>
+                <h2 className={styles.descTitle} data-role="desc-title">Descrição</h2>
+                {pLoja ? (
+                  <div className={styles.descContent}>
+                    {paragrafos.map((p, i) => (
+                      <p key={i} style={{ whiteSpace: 'pre-line' }}>
+                        {p.trim()}
+                      </p>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </section>
+                ) : (
+                  <div
+                    className={styles.descContent}
+                    dangerouslySetInnerHTML={{ __html: DESCRICAO_HTML }}
+                  />
+                )}
+              </section>
+            )}
+
+            {(!pLoja || pLoja.specs.length > 0) && (
+              <section className={styles.specs}>
+                <h3 className={styles.specTitle} data-role="spec-title">Características</h3>
+                <div className={styles.specRow} data-role="spec-row">
+                  {(pLoja ? pLoja.specs.map(s => ({ ...s, icon: '' })) : ESPECIFICACOES).map((p, i) => (
+                    <div key={i} className={styles.specContent} data-role="spec-content">
+                      {p.icon && <img className={styles.specIcon} src={p.icon} alt={p.name} />}
+                      <span className={styles.specName} data-role="spec-name">{p.name}</span>
+                      <span className={styles.specValue} data-role="spec-value">{p.value}</span>
+                    </div>
+                  ))}
+                </div>
+              </section>
+            )}
           </div>
         </div>
 

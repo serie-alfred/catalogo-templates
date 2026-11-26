@@ -1,10 +1,26 @@
 'use client';
 
 import React from 'react';
+
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
+
 import styles from './index.module.css';
 
-export default function Spot() {
-  const product = {
+export { deProduto06 } from './ProductCard06';
+
+export default function Spot({
+  soCard = false,
+  produto,
+}: {
+  soCard?: boolean;
+  /** O produto da loja do slot (a lista passa um por slot). */
+  produto?: ProdutoNormal;
+}) {
+  const daLoja = useProdutosDaLoja();
+  // Item do catálogo (fora de lista): o 1º produto da loja; numa lista sem produto, o mock.
+  const daLojaDoSlot = produto ?? (soCard ? undefined : daLoja?.[0]);
+  const mock = {
     id: 1,
     name: 'Tênis Esportivo Confortável',
     link: '/produto/tenis-esportivo',
@@ -20,17 +36,49 @@ export default function Spot() {
     brand: 'Nike',
     description: 'Tênis leve e confortável para corridas e caminhadas.',
   };
+  // O "de" é `price`, o preço vigente `priceOffer` (0 = sem desconto): a regra do card.
+  const product = daLojaDoSlot
+    ? {
+        id: 1,
+        name: daLojaDoSlot.name,
+        link: '#',
+        images: daLojaDoSlot.images.length
+          ? daLojaDoSlot.images.map(full => ({ full }))
+          : [{ full: 'https://placehold.co/348' }],
+        featured: !!daLojaDoSlot.badge,
+        isNew: false,
+        price:
+          daLojaDoSlot.listPrice > daLojaDoSlot.price
+            ? daLojaDoSlot.listPrice
+            : daLojaDoSlot.price,
+        priceOffer:
+          daLojaDoSlot.listPrice > daLojaDoSlot.price ? daLojaDoSlot.price : 0,
+        stock: daLojaDoSlot.inStock ? 10 : 0,
+        brand: daLojaDoSlot.brand,
+        description: daLojaDoSlot.description,
+      }
+    : mock;
+  const rotulo = daLojaDoSlot?.badge || 'Oferta';
+  const fmt = (n: number) =>
+    daLojaDoSlot
+      ? n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      : n.toFixed(2);
 
   const discountPercentage = Math.round(
     100 - (product.priceOffer / product.price) * 100
   );
 
   const unitPrice = product.priceOffer > 0 ? product.priceOffer : product.price;
-  const installments = (
-    <div className={styles['product-payment']} data-role="card-inst">
-      <span>{`3X de R$ ${(unitPrice / 3).toFixed(2)}`}</span>
-    </div>
-  );
+  const installments =
+    !daLojaDoSlot || daLojaDoSlot.installments > 0 ? (
+      <div className={styles['product-payment']} data-role="card-inst">
+        <span>
+          {daLojaDoSlot
+            ? `${daLojaDoSlot.installments}X de R$ ${fmt(daLojaDoSlot.installmentValue)}`
+            : `3X de R$ ${(unitPrice / 3).toFixed(2)}`}
+        </span>
+      </div>
+    ) : null;
 
   return (
     <div className={`${styles.product} ${styles.spot}`} data-spot="Spot06">
@@ -59,7 +107,7 @@ export default function Spot() {
           <div className={styles.productTag}>
             {product.featured && (
               <div className={styles.tagFeatured}>
-                <span>Oferta</span>
+                <span>{rotulo}</span>
               </div>
             )}
             {product.isNew && (
@@ -90,12 +138,12 @@ export default function Spot() {
                 <div className={styles.prices}>
                   <div className={styles.priceBefore}>
                     <span title="BRL">R$</span>
-                    <span>{product.price.toFixed(2)}</span>
+                    <span>{fmt(product.price)}</span>
                   </div>
                   <div className={styles.pricePromotion}>
                     <div className={styles.priceOff}>
                       <span title="BRL">R$</span>
-                      <span>{product.priceOffer.toFixed(2)}</span>
+                      <span>{fmt(product.priceOffer)}</span>
                     </div>
                   </div>
                   {installments}
@@ -108,7 +156,7 @@ export default function Spot() {
                   </div>
                   <div className={styles.priceNormal}>
                     <span title="BRL">R$</span>
-                    <span>{product.price.toFixed(2)}</span>
+                    <span>{fmt(product.price)}</span>
                   </div>
                   {installments}
                 </div>

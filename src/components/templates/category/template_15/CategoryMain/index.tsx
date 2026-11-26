@@ -3,8 +3,9 @@
 import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import styles from './index.module.css';
-import { FONTES_15, ProductCard15, produto15, type Produto15 } from '@/components/templates/common/template_15/Spot';
+import { deProduto15, FONTES_15, ProductCard15, produto15, type Produto15 } from '@/components/templates/common/template_15/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import {
   type Facet15,
   type FacetValue15,
@@ -277,6 +278,7 @@ function FacetOptions15({
 }
 
 export default function CategoryMain15() {
+  const daLoja = useProdutosDaLoja();
   // O `L` de antes, para o markup abaixo continuar igual ao de lá.
   const L = useConteudoDaSecao(MOCK);
   const uid = useId().replace(/[^a-zA-Z0-9_-]/g, '');
@@ -287,8 +289,8 @@ export default function CategoryMain15() {
   const [sort, setSort] = useState(ORDEM);
   const userFacets = stageEmpty ? [] : mockSelected;
 
-  const products: Produto15[] = stageEmpty ? [] : PRODUTOS;
-  const totalCount = stageEmpty ? 0 : TOTAL;
+  const products: Produto15[] = stageEmpty ? [] : daLoja ? daLoja.map(deProduto15) : PRODUTOS;
+  const totalCount = stageEmpty ? 0 : daLoja ? daLoja.length : TOTAL;
   const facets = useMemo(() => pickFacets(FACETAS, 0, L.specFacetKey ?? ''), [L.specFacetKey]);
 
   const commit = (nextUser: Selected15[]) => setMockSelected(nextUser);
@@ -598,8 +600,8 @@ export default function CategoryMain15() {
             <ul className={styles.grid} data-role="cm-grid">
               {products.map((p, i) => (
                 <li key={p.id ?? i} className={styles.gridItem}>
-                  <CardDaLoja familia="Spot15">
-                    <ProductCard15 product={p} />
+                  <CardDaLoja familia="Spot15" produto={daLoja?.[i]}>
+                    <ProductCard15 product={p} badge={daLoja?.[i]?.badge} />
                   </CardDaLoja>
                 </li>
               ))}

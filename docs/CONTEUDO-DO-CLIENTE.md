@@ -38,9 +38,9 @@ começa com uma CÓPIA do conteúdo da loja, não com o mesmo documento.
 | 2.2 | Mergear o `feat/login-supabase` | Os **produtos** (fase 3) ficam no Supabase do login. O conteúdo da loja não depende mais dele (ver abaixo) | Matheus | ⛔ (só para a fase 3) |
 | 2.3 | Rodar a migração SQL dos produtos no SQL Editor do Supabase (eu entrego o arquivo, no padrão da `contas`) | Cria as tabelas; o código não cria tabela sozinho | Matheus | ⛔ 3.1 |
 | 2.4 | Migrar as famílias 01–08 (85 peças + TextArea) | Nelas os nomes de campo eram os da Tray: renomeados para os do schema, peça a peça | Claude | ✅ |
-| 3.1 | Produtos da loja: cadastro no painel (fotos em WebP, preço, "de", parcelas, esgotado, selo, descrição, ficha, variações por tipo), replicados em toda vitrine, grade, relacionados e PDP | Antes vitrines e PDP mostravam os produtos de exemplo | Claude | 🔄 piloto na 09 pronto; demais famílias em andamento; planilha depois |
+| 3.1 | Produtos da loja: cadastro no painel (fotos em WebP, preço, "de", parcelas, esgotado, selo, descrição, ficha, variações por tipo), replicados em toda vitrine, grade, relacionados e PDP | Antes vitrines e PDP mostravam os produtos de exemplo | Claude | ✅ nas 17 famílias; ⏳ planilha CSV/XLSX |
 | 3.2 | Uma planilha de produtos de um cliente (real ou de exemplo) | Testar com dados de verdade (nomes longos, fotos, preços) | Matheus | ⏳ |
-| 3.3 | **Itálico liga/desliga** nos destaques dos templates (Tipografia) | Templates com itálico que o cliente não usa (ou o contrário) | Claude | ✅ no catálogo e no config; ⏳ starter, global-templates e generator |
+| 3.3 | **Itálico liga/desliga** nos destaques dos templates (Tipografia) | Templates com itálico que o cliente não usa (ou o contrário) | Claude | ✅ catálogo, starter, global-templates e generator (branches `feat/italico-liga-desliga`); ⏳ setting na Nuvemshop |
 | 4.1 | Importar produtos pela URL da loja atual do cliente | O mais rápido para quem está migrando de plataforma | Claude | ⏳ |
 | 4.2 | Duas ou três URLs de lojas de clientes (VTEX, Shopify, Nuvemshop…) | Cada plataforma expõe os produtos de um jeito | Matheus | ⏳ |
 | 5.1 | Arquivamento em 3 meses, limpeza de imagens sem uso, backup noturno, uso do banco no painel | Manter o Supabase Free e o Blob enxutos sem quebrar links de cliente | Claude | ⏳ |
@@ -56,7 +56,8 @@ começa com uma CÓPIA do conteúdo da loja, não com o mesmo documento.
 | T3 | Upload e preview num deploy de verdade | link de preview da Vercel | assim que 1.4 + 1.7 (eu confiro antes de passar) |
 | T5 | Menus, contato e banners da loja que ficam ao trocar de template (rail **Conteúdo da loja**) | dev do worktree (5514); no deploy de preview depois do 1.7 | ✅ **agora** |
 | T4 | Famílias 10–17 editáveis (as 01–08 depois, na 2.4) | dev do worktree (5514) | ✅ **agora** |
-| T6 | Produtos do cliente nas vitrines, PLP e PDP (Conteúdo da loja → Produtos) | dev do worktree (5514) | ✅ **agora** na família 09; as outras ao fim da 3.1 |
+| T6 | Produtos do cliente nas vitrines, PLP e PDP (Conteúdo da loja → Produtos), em qualquer família | dev do worktree (5514) | ✅ **agora** |
+| T8 | Itálico liga/desliga (Tipografia → "Itálico nos destaques") | dev do worktree (5514) | ✅ **agora** |
 | T7 | Importar produtos pela URL | dev (5514) | depois da 4.1 (com a 4.2) |
 
 ## Contexto

@@ -5,9 +5,11 @@ import {
   FONTES_12,
   ProductCard12,
   produto12,
+  deProduto12,
   type Produto12,
 } from '@/components/templates/common/template_12/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -38,6 +40,13 @@ const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function ProductRelated12() {
+  // Os da loja, menos o primeiro (é ele que a PDP mostra), quando há mais de um.
+  const daLoja = useProdutosDaLoja();
+  const daPdp = daLoja && daLoja.length > 1 ? daLoja.slice(1) : daLoja;
+  const itens = daPdp
+    ? daPdp.map(produto => ({ produto, card: deProduto12(produto) }))
+    : PRODUTOS.map(card => ({ produto: undefined, card }));
+
   const railRef = useRef<HTMLUListElement>(null);
   const [trilho, setTrilho] = useState({ inicio: true, fim: true, pos: 0, vis: 1 });
 
@@ -56,7 +65,7 @@ export default function ProductRelated12() {
     medir();
     window.addEventListener('resize', medir);
     return () => window.removeEventListener('resize', medir);
-  }, [medir]);
+  }, [medir, itens.length]);
 
   const passo = (dir: 1 | -1) => {
     const el = railRef.current;
@@ -84,15 +93,15 @@ export default function ProductRelated12() {
               </button>
             </div>
             <ul ref={railRef} className={styles.rail} onScroll={medir} data-role="rel-list">
-              {PRODUTOS.map(p => (
+              {itens.map(({ produto, card: p }) => (
                 <li key={p.id} className={styles.slide}>
-                  <CardDaLoja familia="Spot12">
-                    <ProductCard12 product={p} />
+                  <CardDaLoja familia="Spot12" produto={produto}>
+                    <ProductCard12 product={p} badge={produto?.badge} />
                   </CardDaLoja>
                 </li>
               ))}
             </ul>
-            {PRODUTOS.length > 1 && trilho.vis < 1 && (
+            {itens.length > 1 && trilho.vis < 1 && (
               <div className={styles.progress} aria-hidden="true">
                 <span style={{ width: `${trilho.vis * 100}%`, left: `${trilho.pos * (1 - trilho.vis) * 100}%` }} />
               </div>

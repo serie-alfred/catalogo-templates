@@ -6,9 +6,12 @@ import {
   FONTES_11,
   PRODUTOS_11,
   produto11,
+  deProduto11,
   type Produto11,
 } from '@/components/templates/common/template_11/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
 
 /**
  * Espelha `molecules/ProductShelf11` do faststore.starter — o núcleo das duas
@@ -101,8 +104,13 @@ export default function ProductShelf11({
   tagLabel,
   banner,
 }: ProductShelf11Props) {
+  const daLoja = useProdutosDaLoja();
   const todos = variant === 'banner' ? PRODUTOS_BANNER : PRODUTOS_FULL;
-  const produtos = variant === 'banner' ? todos.slice(0, NO_BANNER) : todos;
+  const mock = variant === 'banner' ? todos.slice(0, NO_BANNER) : todos;
+  const itens = daLoja
+    ? daLoja.map(produto => ({ produto, card: deProduto11(produto) }))
+    : mock.map(card => ({ produto: undefined as ProdutoNormal | undefined, card }));
+  const produtos = itens.map(i => i.card);
   const listName = title || '';
 
   const railRef = useRef<HTMLUListElement>(null);
@@ -198,12 +206,12 @@ export default function ProductShelf11({
     </div>
   );
 
-  const cards = produtos.map((p, i) => (
+  const cards = itens.map(({ produto, card: p }, i) => (
     <li key={p.id || i} className={style.slide}>
-      <CardDaLoja familia="Spot11">
+      <CardDaLoja familia="Spot11" produto={produto}>
         <ProductCard11
           product={p}
-          badge={tagLabel}
+          badge={produto?.badge || tagLabel}
           variant="grid"
           layout={variant === 'banner' ? 'quick' : 'shelf'}
         />

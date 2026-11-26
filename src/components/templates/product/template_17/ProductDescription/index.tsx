@@ -3,6 +3,7 @@ import React from 'react';
 import { FONTES_17 } from '@/components/templates/common/template_17/Spot';
 
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -77,7 +78,13 @@ export default function ProductDescription17() {
       .map(norm)
       .filter(Boolean)
   );
-  const specs = SPECS.filter(s => !escondidas.has(norm(s.name)));
+  // O 1º produto da loja (o mesmo da PDP), quando o CS cadastrou; senão o produto de exemplo.
+  const produto = useProdutosDaLoja()?.[0];
+  // Texto do CS, nunca HTML: o /p é público. Linha em branco separa parágrafos.
+  const paragrafos = produto?.description.split(/\n\s*\n/).filter(p => p.trim()) ?? [];
+  // Os destaques do exemplo não são do cliente: com produto, só a descrição, a ficha e a foto.
+  const features = produto ? [] : FEATURES;
+  const specs = (produto ? produto.specs : SPECS).filter(s => !escondidas.has(norm(s.name)));
 
   return (
     <div className={styles.productDescription17Box}>
@@ -91,12 +98,19 @@ export default function ProductDescription17() {
           <div className={styles.head} data-role="pd-head">
             {title && <h2 className={styles.title}>{title}</h2>}
             <div className={styles.intro} data-role="pd-description">
-              <p>{DESCRICAO}</p>
+              {produto
+                ? paragrafos.map((p, i) => (
+                    <p key={i} style={{ whiteSpace: 'pre-line' }}>
+                      {p.trim()}
+                    </p>
+                  ))
+                : <p>{DESCRICAO}</p>}
             </div>
           </div>
 
+          {features.length > 0 && (
           <div className={styles.cards} data-role="pd-features">
-            {FEATURES.map((f, i) => (
+            {features.map((f, i) => (
               <article key={f.title} className={styles.card}>
                 <span className={styles.cardNum} aria-hidden="true">
                   {String(i + 1).padStart(2, '0')}
@@ -106,6 +120,7 @@ export default function ProductDescription17() {
               </article>
             ))}
           </div>
+          )}
 
           <div className={styles.bottom}>
             {specs.length > 0 && (
@@ -125,8 +140,8 @@ export default function ProductDescription17() {
             )}
             <figure className={styles.figure} data-role="pd-image">
               <img
-                src={IMAGEM}
-                alt={`${title || 'Descrição'} — ${NOME}`}
+                src={produto ? (produto.images[1] ?? produto.images[0] ?? IMAGEM) : IMAGEM}
+                alt={`${title || 'Descrição'} — ${produto ? produto.name : NOME}`}
                 width={1200}
                 height={600}
                 loading="lazy"

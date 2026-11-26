@@ -1,8 +1,9 @@
 'use client';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { FONTES_13, ProductCard13, produto13, type Produto13 } from '@/components/templates/common/template_13/Spot';
+import { FONTES_13, ProductCard13, produto13, deProduto13, type Produto13 } from '@/components/templates/common/template_13/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -32,6 +33,13 @@ const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function ProductRelated13() {
+  // Os da loja, menos o primeiro (é ele que a PDP mostra), quando há mais de um.
+  const daLoja = useProdutosDaLoja();
+  const daPdp = daLoja && daLoja.length > 1 ? daLoja.slice(1) : daLoja;
+  const itens = daPdp
+    ? daPdp.map(produto => ({ produto, card: deProduto13(produto) }))
+    : PRODUTOS.map(card => ({ produto: undefined, card }));
+
   const railRef = useRef<HTMLUListElement>(null);
   const [trilho, setTrilho] = useState({ inicio: true, fim: true, pos: 0, vis: 1 });
 
@@ -50,7 +58,7 @@ export default function ProductRelated13() {
     medir();
     window.addEventListener('resize', medir);
     return () => window.removeEventListener('resize', medir);
-  }, [medir]);
+  }, [medir, itens.length]);
 
   const passo = (dir: 1 | -1) => {
     const el = railRef.current;
@@ -78,15 +86,15 @@ export default function ProductRelated13() {
               </button>
             </div>
             <ul ref={railRef} className={styles.rail} onScroll={medir} data-role="rel-list">
-              {PRODUTOS.map(p => (
+              {itens.map(({ produto, card: p }) => (
                 <li key={p.id} className={styles.slide}>
-                  <CardDaLoja familia="Spot13">
-                    <ProductCard13 product={p} />
+                  <CardDaLoja familia="Spot13" produto={produto}>
+                    <ProductCard13 product={p} badge={produto?.badge} />
                   </CardDaLoja>
                 </li>
               ))}
             </ul>
-            {PRODUTOS.length > 1 && trilho.vis < 1 && (
+            {itens.length > 1 && trilho.vis < 1 && (
               <div className={styles.progress} aria-hidden="true">
                 <span style={{ width: `${trilho.vis * 100}%`, left: `${trilho.pos * (1 - trilho.vis) * 100}%` }} />
               </div>

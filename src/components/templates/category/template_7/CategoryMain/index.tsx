@@ -3,10 +3,11 @@
 import React, { useState } from 'react';
 
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 import CardDaLoja from '@/components/templates/CardDaLoja';
-import { ProductCard07, type ProdutoCard07 } from '@/components/templates/common/template_7/Spot';
+import { ProductCard07, deProduto07, type ProdutoCard07 } from '@/components/templates/common/template_7/Spot';
 
 /**
  * Espelha `organisms/MainCategory07` do faststore.starter — a PLP inteira:
@@ -212,6 +213,12 @@ function PriceRange({ min, max }: { min: number; max: number }) {
 export default function CategoryMain() {
   const { subtitle: SUBTITULO, resultsNoun: SUBSTANTIVO } =
     useConteudoDaSecao(MOCK);
+  // Com produtos da loja, a grade mostra todos e a contagem é a deles.
+  const daLoja = useProdutosDaLoja();
+  const itens = daLoja
+    ? daLoja.map(produto => ({ id: produto.id, card: deProduto07(produto), produto }))
+    : PRODUTOS.map(p => ({ id: p.id, card: paraCard07(p), produto: undefined }));
+  const totalCount = daLoja ? daLoja.length : TOTAL;
   const [colapsado, setColapsado] = useState<ReadonlySet<string>>(() => new Set());
   const [ordem, setOrdem] = useState('orders_desc');
   const [subcatsAtivas, setSubcatsAtivas] = useState<ReadonlySet<string>>(() => new Set());
@@ -362,7 +369,7 @@ export default function CategoryMain() {
               <div className={styles.sortbar} data-role="sortbar">
                 <div className={styles.sortLeft}>
                   <span className={styles.resultsCount} data-role="results-count">
-                    {TOTAL} {SUBSTANTIVO} encontrados
+                    {totalCount} {SUBSTANTIVO} encontrados
                   </span>
                   <div className={styles.activeChips} data-role="active-chips">
                     {chips.map((c, i) => (
@@ -402,9 +409,9 @@ export default function CategoryMain() {
               </div>
 
               <div className={styles.grid} data-role="grid">
-                {PRODUTOS.map((p, i) => (
-                  <CardDaLoja key={p.id ?? i} familia="Spot07">
-                    <ProductCard07 produto={paraCard07(p)} />
+                {itens.map(({ id, card, produto }, i) => (
+                  <CardDaLoja key={id ?? i} familia="Spot07" produto={produto}>
+                    <ProductCard07 produto={card} />
                   </CardDaLoja>
                 ))}
               </div>
@@ -493,9 +500,9 @@ export default function CategoryMain() {
           </div>
 
           <div className={styles.mGrid} data-role="m-grid">
-            {PRODUTOS.map((p, i) => (
-              <CardDaLoja key={p.id ?? i} familia="Spot07">
-                <ProductCard07 produto={paraCard07(p)} variant="mobile" />
+            {itens.map(({ id, card, produto }, i) => (
+              <CardDaLoja key={id ?? i} familia="Spot07" produto={produto}>
+                <ProductCard07 produto={card} variant="mobile" />
               </CardDaLoja>
             ))}
           </div>
@@ -552,7 +559,7 @@ export default function CategoryMain() {
                   className={styles.mDrawerApply}
                   onClick={() => setDrawerAberto(false)}
                 >
-                  Ver {TOTAL} resultados
+                  Ver {totalCount} resultados
                 </button>
               </div>
             </div>

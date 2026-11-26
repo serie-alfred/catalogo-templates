@@ -5,9 +5,11 @@ import {
   FONTES_10,
   ProductCard10,
   produto10,
+  deProduto10,
   type Produto10,
 } from '@/components/templates/common/template_10/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -95,6 +97,13 @@ const Chevron = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function ProductRelated10() {
+  // Os da loja, menos o primeiro (é ele que a PDP mostra), quando há mais de um.
+  const daLoja = useProdutosDaLoja();
+  const daPdp = daLoja && daLoja.length > 1 ? daLoja.slice(1) : daLoja;
+  const itens = daPdp
+    ? daPdp.map(produto => ({ produto, card: deProduto10(produto) }))
+    : PRODUTOS.map(card => ({ produto: undefined, card }));
+
   const railRef = useRef<HTMLUListElement>(null);
   const [trilho, setTrilho] = useState({
     inicio: true,
@@ -118,7 +127,7 @@ export default function ProductRelated10() {
     medir();
     window.addEventListener('resize', medir);
     return () => window.removeEventListener('resize', medir);
-  }, [medir]);
+  }, [medir, itens.length]);
 
   const passo = (dir: 1 | -1) => {
     const el = railRef.current;
@@ -173,10 +182,10 @@ export default function ProductRelated10() {
               onScroll={medir}
               data-role="rel-list"
             >
-              {PRODUTOS.map(p => (
+              {itens.map(({ produto, card: p }) => (
                 <li key={p.id} className={styles.slide}>
-                  <CardDaLoja familia="Spot10">
-                    <ProductCard10 product={p} showRating={false} />
+                  <CardDaLoja familia="Spot10" produto={produto}>
+                    <ProductCard10 product={p} badge={produto?.badge} showRating={false} />
                   </CardDaLoja>
                 </li>
               ))}

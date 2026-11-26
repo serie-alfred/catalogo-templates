@@ -2,11 +2,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
+  deProduto17,
   FONTES_17,
   ProductCard17,
   produto17,
 } from '@/components/templates/common/template_17/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -94,6 +96,10 @@ const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function ProductRelated17() {
+  // Os da loja, menos o primeiro (é ele que a PDP mostra), quando há mais de um.
+  const daLoja = useProdutosDaLoja();
+  const daPdp = daLoja && daLoja.length > 1 ? daLoja.slice(1) : daLoja;
+  const produtos = daPdp ? daPdp.map(deProduto17) : PRODUTOS;
   const railRef = useRef<HTMLUListElement>(null);
   const [trilho, setTrilho] = useState({
     inicio: true,
@@ -178,10 +184,10 @@ export default function ProductRelated17() {
               onScroll={medir}
               data-role="rel-list"
             >
-              {PRODUTOS.map(p => (
+              {produtos.map((p, i) => (
                 <li key={p.id} className={styles.slide}>
-                  <CardDaLoja familia="Spot17">
-                    <ProductCard17 product={p} />
+                  <CardDaLoja familia="Spot17" produto={daPdp?.[i]}>
+                    <ProductCard17 product={p} badge={daPdp?.[i]?.badge} />
                   </CardDaLoja>
                 </li>
               ))}

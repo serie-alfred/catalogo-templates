@@ -4,6 +4,7 @@ import { useLayout } from '@/context/LayoutContext';
 import { LAYOUTS } from '@/data/layoutData';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import Spot from '@/components/templates/common/template_1/Spot';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 // Preview do CategoryMain01 — dados fixos, sem VTEX/GraphQL/hooks.
 //
@@ -154,6 +155,10 @@ const CloseGlyph = () => (
 
 const CategoryMain = () => {
   const { selections } = useLayout();
+  // Com produtos da loja, a grade mostra todos (um card por produto).
+  const daLoja = useProdutosDaLoja();
+  const slots = daLoja ? daLoja.map((_, i) => i + 1) : [1, 2, 3, 4, 5, 6];
+  const copias = daLoja ? [1] : [1, 2, 3, 4];
 
   // Filtra os spots selecionados
   const selectedSpots = selections.filter(item => item.layoutKey === 'spot');
@@ -546,7 +551,7 @@ const CategoryMain = () => {
                     <div className={styles.listSpots}>
                       <div className={styles.showcaseCatalog}>
                         <div className={styles.showcaseList}>
-                          {[1, 2, 3, 4, 5, 6].map(slot => (
+                          {slots.map((slot, slotIndex) => (
                             <div key={slot} className={styles.listSpot}>
                               {selectedSpots.length > 0
                                 ? selectedSpots.map(
@@ -564,14 +569,17 @@ const CategoryMain = () => {
                                         TemplateRegistry[layoutItem.component];
 
                                       return SpotComponent ? (
-                                        [1, 2, 3, 4].map((_, index) => (
+                                        copias.map((_, index) => (
                                           <div
                                             key={`${spot?.uid}-${index}`}
                                             style={
                                               spot.variables as React.CSSProperties
                                             }
                                           >
-                                            <SpotComponent soCard />
+                                            <SpotComponent
+                                              soCard
+                                              produto={daLoja?.[slotIndex]}
+                                            />
                                           </div>
                                         ))
                                       ) : (
@@ -579,9 +587,12 @@ const CategoryMain = () => {
                                       );
                                     }
                                   )
-                                : [1, 2, 3, 4].map((_, index) => (
+                                : copias.map((_, index) => (
                                     <div key={index}>
-                                      <Spot />
+                                      <Spot
+                                        soCard
+                                        produto={daLoja?.[slotIndex]}
+                                      />
                                     </div>
                                   ))}
                             </div>

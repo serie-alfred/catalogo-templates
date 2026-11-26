@@ -2,11 +2,13 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
+  deProduto16,
   FONTES_16,
   ProductCard16,
   produto16,
 } from '@/components/templates/common/template_16/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -73,6 +75,10 @@ const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function ProductRelated16() {
+  // Os da loja, menos o primeiro (é ele que a PDP mostra), quando há mais de um.
+  const daLoja = useProdutosDaLoja();
+  const daPdp = daLoja && daLoja.length > 1 ? daLoja.slice(1) : daLoja;
+  const produtos = daPdp ? daPdp.map(deProduto16) : PRODUTOS;
   const railRef = useRef<HTMLUListElement>(null);
   const [trilho, setTrilho] = useState({ inicio: true, fim: true });
 
@@ -139,10 +145,10 @@ export default function ProductRelated16() {
               onScroll={medir}
               data-role="rel-list"
             >
-              {PRODUTOS.map(p => (
+              {produtos.map((p, i) => (
                 <li key={p.id} className={styles.slide}>
-                  <CardDaLoja familia="Spot16">
-                    <ProductCard16 product={p} showRating={false} />
+                  <CardDaLoja familia="Spot16" produto={daPdp?.[i]}>
+                    <ProductCard16 product={p} badge={daPdp?.[i]?.badge} showRating={false} />
                   </CardDaLoja>
                 </li>
               ))}

@@ -14,9 +14,11 @@ import {
   FONTES_12,
   ProductCard12,
   produto12,
+  deProduto12,
   type Produto12,
 } from '@/components/templates/common/template_12/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import {
   type Facet12,
@@ -471,8 +473,15 @@ export default function CategoryMain12() {
   const [sort, setSort] = useState(ORDEM);
   const userFacets = stageEmpty ? [] : mockSelected;
 
-  const products: Produto12[] = stageEmpty ? [] : PRODUTOS.slice(0, PAGE);
-  const totalCount = stageEmpty ? 0 : TOTAL;
+  // Com produtos da loja, a grade mostra todos eles e a contagem é a deles (sem paginação
+  // de exemplo).
+  const daLoja = useProdutosDaLoja();
+  const products: Produto12[] = stageEmpty
+    ? []
+    : daLoja
+      ? daLoja.map(deProduto12)
+      : PRODUTOS.slice(0, PAGE);
+  const totalCount = stageEmpty ? 0 : daLoja ? daLoja.length : TOTAL;
   const facets = useMemo(
     () => pickFacets(FACETAS, 0, specFacetKey),
     [specFacetKey]
@@ -763,8 +772,8 @@ export default function CategoryMain12() {
                 <ul className={styles.grid} data-role="cm-grid">
                   {products.map((p, i) => (
                     <li key={p.id ?? i} className={styles.gridItem}>
-                      <CardDaLoja familia="Spot12">
-                        <ProductCard12 product={p} />
+                      <CardDaLoja familia="Spot12" produto={daLoja?.[i]}>
+                        <ProductCard12 product={p} badge={daLoja?.[i]?.badge} />
                       </CardDaLoja>
                     </li>
                   ))}

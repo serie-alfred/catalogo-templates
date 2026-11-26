@@ -1,3 +1,6 @@
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import { emReais, type ProdutoNormal } from '@/utils/produtos';
+
 import styles from './index.module.css';
 
 /**
@@ -34,6 +37,30 @@ export interface ProdutoCard07 {
   pixCompact?: string;
 }
 
+/** Um produto da LOJA (`useProdutosDaLoja`) no formato deste card (texto já formatado). */
+export function deProduto07(p: ProdutoNormal): ProdutoCard07 {
+  const desconto = p.listPrice > p.price;
+  return {
+    brand: p.brand || undefined,
+    title: p.name,
+    image: p.images[0],
+    flag: desconto
+      ? `−${Math.round((1 - p.price / p.listPrice) * 100)}%`
+      : p.badge || undefined,
+    flagVariant: desconto ? 'sale' : 'gold',
+    listPrice: desconto ? emReais(p.listPrice) : undefined,
+    price: emReais(p.price),
+    installment:
+      p.installments > 0
+        ? `ou ${p.installments}× de ${emReais(p.installmentValue)} sem juros`
+        : undefined,
+    installmentCompact:
+      p.installments > 0
+        ? `${p.installments}× ${emReais(p.installmentValue)}`
+        : undefined,
+  };
+}
+
 const produtoPadrao: ProdutoCard07 = {
   brand: 'Tapete Belga',
   title: 'Tapete Essence Clássico 2,00m × 2,50m',
@@ -59,8 +86,18 @@ const HeartIcon = () => (
   </svg>
 );
 
-export default function Spot() {
-  return <ProductCard07 />;
+export default function Spot({
+  soCard = false,
+  produto,
+}: {
+  soCard?: boolean;
+  /** O produto da loja do slot (a lista passa um por slot). */
+  produto?: ProdutoNormal;
+}) {
+  const daLoja = useProdutosDaLoja();
+  // Item do catálogo (fora de lista): o 1º produto da loja; numa lista sem produto, o mock.
+  const escolhido = produto ?? (soCard ? undefined : daLoja?.[0]);
+  return <ProductCard07 produto={escolhido ? deProduto07(escolhido) : undefined} />;
 }
 
 /**

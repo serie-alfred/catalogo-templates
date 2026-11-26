@@ -10,12 +10,14 @@ import React, {
 
 import styles from './index.module.css';
 import {
+  deProduto17,
   FONTES_17,
   ProductCard17,
   produto17,
   type Produto17,
 } from '@/components/templates/common/template_17/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 import {
   type Facet17,
@@ -599,6 +601,7 @@ function FacetBody17({
 }
 
 export default function CategoryMain17() {
+  const daLoja = useProdutosDaLoja();
   const {
     pageSize: pageSizeProp,
     speciesLabel,
@@ -656,8 +659,8 @@ export default function CategoryMain17() {
   const sort = mockSort;
   const term: string = stageEmptyTerm;
 
-  const products: Produto17[] = stageEmpty ? [] : mockProducts17.slice(0, PAGE);
-  const totalCount: number = stageEmpty ? 0 : MOCK_COUNT_17;
+  const products: Produto17[] = stageEmpty ? [] : daLoja ? daLoja.map(deProduto17) : mockProducts17.slice(0, PAGE);
+  const totalCount: number = stageEmpty ? 0 : daLoja ? daLoja.length : MOCK_COUNT_17;
   const loading = false;
   const rawFacets: RawFacet17[] = mockFacets17;
   const facets = useMemo(
@@ -997,8 +1000,8 @@ export default function CategoryMain17() {
                 >
                   {products.map((p, i) => (
                     <li key={p.id ?? i} className={styles.gridItem}>
-                      <CardDaLoja familia="Spot17">
-                        <ProductCard17 product={p} soldOutText={soldOutText} />
+                      <CardDaLoja familia="Spot17" produto={daLoja?.[i]}>
+                        <ProductCard17 product={p} badge={daLoja?.[i]?.badge} soldOutText={soldOutText} />
                       </CardDaLoja>
                     </li>
                   ))}

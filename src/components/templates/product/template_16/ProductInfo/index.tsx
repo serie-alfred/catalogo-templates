@@ -1,8 +1,10 @@
 'use client';
 
-import React, { useId, useRef, useState } from 'react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
 
 import styles from './index.module.css';
 
@@ -97,7 +99,6 @@ const RATING = { average: 4.8, totalCount: 128 };
 const AGE = 'Faixa etária: 2 a 10 anos';
 const PRICE = 89.9;
 const LIST = 109.9;
-const DISCOUNT = Math.round(((LIST - PRICE) / LIST) * 100);
 const BEST = { installmentNumber: 6, installmentValue: 14.98 };
 const PIX = 85.4;
 const COLOR_NAME = 'Cor';
@@ -108,17 +109,96 @@ const COLORS = [
 ];
 const AXIS = 'Tamanho';
 const SIZES = ['2', '4', '6', '8', '10'].map((s, i) => ({ value: s, sku: `[000000${i}]`, available: s !== '8' }));
-const SOLD = SIZES.filter(s => !s.available);
-const SHIPPING = [
-  { id: 'normal', label: 'Normal · até 7 dias úteis', price: 'R$ 14,90', free: false },
-  { id: 'expressa', label: 'Expressa · até 2 dias úteis', price: 'R$ 27,90', free: false },
-  { id: 'retirada', label: 'Retirar na loja · [Loja Centro]', price: 'Grátis', free: true },
-];
 // Especificações do produto de exemplo que um acordeão pode apontar (`specName`).
 const ESPECIFICACOES: Record<string, string> = {
   Detalhes:
     '100% algodão, macio e respirável\nEstampa de estrelinhas que não desbota na lavagem\nPunhos e barra com elástico suave',
 };
+/** Uma opção de uma variação, no formato que a PDP desenha. */
+type OpcaoDaPdp = { value: string; src: string; available: boolean; sku: string };
+type VariacaoDaPdp = {
+  /** '' = o rótulo padrão da família (`COLOR_NAME` / `AXIS`). */
+  name: string;
+  tipo: 'texto' | 'cor' | 'imagem';
+  options: OpcaoDaPdp[];
+  /** A opção que nasce escolhida. */
+  inicial: number;
+};
+type VistaDaPdp = {
+  name: string;
+  brand: string;
+  images: { url: string; alternateName: string }[];
+  price: number;
+  listPrice: number;
+  best: { installmentNumber: number; installmentValue: number } | null;
+  pix: number;
+  rating: { average: number; totalCount: number } | null;
+  variacoes: VariacaoDaPdp[];
+  /** As especificações que o `specName` do acordeão procura. */
+  especificacoes: Record<string, string>;
+  /** Produto de exemplo: só ele tem a faixa etária e o guia de medidas. */
+  exemplo: boolean;
+};
+
+/** O produto de exemplo (o `mock.ts` de lá). */
+const EXEMPLO: VistaDaPdp = {
+  name: PRODUCT_NAME,
+  brand: BRAND,
+  images: IMAGES,
+  price: PRICE,
+  listPrice: LIST,
+  best: BEST,
+  pix: PIX,
+  rating: RATING,
+  variacoes: [
+    { name: '', tipo: 'cor', options: COLORS.map(c => ({ value: c.value, src: c.src, available: true, sku: '' })), inicial: 0 },
+    { name: '', tipo: 'texto', options: SIZES.map(s => ({ ...s, src: '' })), inicial: SIZES.findIndex(s => s.value === '4') },
+  ],
+  especificacoes: ESPECIFICACOES,
+  exemplo: true,
+};
+
+/** Hex aceito no quadro da cor; fora disso, cinza. */
+const HEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
+
+/** Um produto da LOJA (`useProdutosDaLoja`) no formato da PDP. Sem nota nem Pix: o cadastro não os tem. */
+function daLoja(p: ProdutoNormal): VistaDaPdp {
+  const fotos = p.images.length ? p.images : [block('#E8E3F3', 800)];
+  return {
+    name: p.name,
+    brand: p.brand,
+    images: fotos.map((url, i) => ({ url, alternateName: `${p.name} — foto ${i + 1}` })),
+    price: p.price,
+    listPrice: p.listPrice,
+    best: p.installments ? { installmentNumber: p.installments, installmentValue: p.installmentValue } : null,
+    pix: 0,
+    rating: null,
+    variacoes: p.variants.map(v => ({
+      name: v.name,
+      tipo: v.tipo,
+      options: v.options.map((o, i) => ({
+        value: o.label || `Opção ${i + 1}`,
+        src:
+          v.tipo === 'imagem'
+            ? o.swatchImage || block('#E8E3F3', 56)
+            : v.tipo === 'cor'
+              ? block(HEX.test(o.color) ? o.color : '#E8E3F3', 56)
+              : '',
+        available: o.available,
+        sku: '',
+      })),
+      inicial: Math.max(0, v.options.findIndex(o => o.available)),
+    })),
+    especificacoes: Object.fromEntries(p.specs.map(s => [s.name, s.value])),
+    exemplo: false,
+  };
+}
+
+const SHIPPING = [
+  { id: 'normal', label: 'Normal · até 7 dias úteis', price: 'R$ 14,90', free: false },
+  { id: 'expressa', label: 'Expressa · até 2 dias úteis', price: 'R$ 27,90', free: false },
+  { id: 'retirada', label: 'Retirar na loja · [Loja Centro]', price: 'Grátis', free: true },
+];
 // Guia de medidas de exemplo: a mesma tabela desenhada do mock.ts de lá.
 const GUIDE_URL = `data:image/svg+xml;utf8,${encodeURIComponent(
   '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800"><rect width="1200" height="800" fill="#FFFFFF"/><rect width="1200" height="133" fill="#E8E3F3"/><rect y="132" width="1200" height="2" fill="#E3DEF0"/><rect y="266" width="1200" height="2" fill="#E3DEF0"/><rect y="399" width="1200" height="2" fill="#E3DEF0"/><rect y="532" width="1200" height="2" fill="#E3DEF0"/><rect y="666" width="1200" height="2" fill="#E3DEF0"/><g font-family="sans-serif" font-size="30" fill="#2A2350" text-anchor="middle"><text x="120" y="77" font-weight="700">Tamanho</text><text x="360" y="77" font-weight="700">Idade</text><text x="600" y="77" font-weight="700">Altura (cm)</text><text x="840" y="77" font-weight="700">Busto (cm)</text><text x="1080" y="77" font-weight="700">Cintura (cm)</text><text x="120" y="210">2</text><text x="360" y="210">2 anos</text><text x="600" y="210">86–92</text><text x="840" y="210">52</text><text x="1080" y="210">50</text><text x="120" y="344">4</text><text x="360" y="344">4 anos</text><text x="600" y="344">98–104</text><text x="840" y="344">56</text><text x="1080" y="344">52</text><text x="120" y="477">6</text><text x="360" y="477">6 anos</text><text x="600" y="477">110–116</text><text x="840" y="477">60</text><text x="1080" y="477">54</text><text x="120" y="610">8</text><text x="360" y="610">8 anos</text><text x="600" y="610">122–128</text><text x="840" y="610">64</text><text x="1080" y="610">57</text><text x="120" y="744">10</text><text x="360" y="744">10 anos</text><text x="600" y="744">134–140</text><text x="840" y="744">68</text><text x="1080" y="744">60</text></g></svg>'
@@ -182,7 +262,8 @@ const Stars = ({ avg }: { avg: number }) => (
 export default function ProductInfo16() {
   const { accordions, hideQuantity, ...L } = useConteudoDaSecao(MOCK);
   const uid = useId();
-  const [selAxis, setSelAxis] = useState('4');
+  /** A opção escolhida de cada variação (índice), quando o cliente clicou. */
+  const [escolhas, setEscolhas] = useState<Record<number, number>>({});
   const [qty, setQty] = useState(1);
   const [slide, setSlide] = useState(0);
   const [openAcc, setOpenAcc] = useState(0);
@@ -193,12 +274,28 @@ export default function ProductInfo16() {
   const [isFav, setIsFav] = useState(false);
   const railRef = useRef<HTMLDivElement>(null);
 
-  const selected = SIZES.find(s => s.value === selAxis);
-  const sku = selected?.sku ?? '[SKU-0000]';
-  const notifyFor = SOLD[0]?.value ?? null;
+  const daLojaLista = useProdutosDaLoja();
+  const vista = useMemo(() => (daLojaLista ? daLoja(daLojaLista[0]) : EXEMPLO), [daLojaLista]);
+  // Outro produto: as escolhas e o slide do anterior não valem mais.
+  useEffect(() => {
+    setEscolhas({});
+    setSlide(0);
+  }, [vista]);
+  const escolhida = (vi: number) => vista.variacoes[vi]?.options[escolhas[vi] ?? vista.variacoes[vi].inicial];
+  const escolher = (vi: number, oi: number) => setEscolhas(e => ({ ...e, [vi]: oi }));
+  // O eixo com guia de medidas e "Avise-me" é a primeira variação de texto.
+  const iEixo = vista.variacoes.findIndex(v => v.tipo === 'texto');
+  const axisOptions = iEixo >= 0 ? vista.variacoes[iEixo].options : [];
+  const axisName = (iEixo >= 0 && vista.variacoes[iEixo].name) || AXIS;
+  const selected = iEixo >= 0 ? escolhida(iEixo) : undefined;
+  const sku = selected?.sku ?? '';
+  const soldOutOptions = axisOptions.filter(o => !o.available);
+  const notifyFor = soldOutOptions[0]?.value ?? null;
+  const temDe = vista.listPrice > vista.price;
+  const DISCOUNT = temDe ? Math.round((1 - vista.price / vista.listPrice) * 100) : 0;
   const ACCORDIONS = accordions
     .map(a => {
-      const texto = String(a.text ?? '').trim() || (a.specName ? ESPECIFICACOES[a.specName] : '') || '';
+      const texto = String(a.text ?? '').trim() || (a.specName ? vista.especificacoes[a.specName] : '') || '';
       return {
         title: a.title ?? '',
         lines: texto
@@ -215,7 +312,7 @@ export default function ProductInfo16() {
   };
   const goTo = (i: number) => {
     const el = railRef.current;
-    const n = Math.max(0, Math.min(IMAGES.length - 1, i));
+    const n = Math.max(0, Math.min(vista.images.length - 1, i));
     setSlide(n);
     if (el) el.scrollTo({ left: n * el.clientWidth, behavior: 'auto' });
   };
@@ -235,21 +332,21 @@ export default function ProductInfo16() {
 
   return (
     <div className={styles.productDetails16Box}>
-      <section className={styles.productDetails16} aria-label={PRODUCT_NAME} data-role="pdp-root">
+      <section className={styles.productDetails16} aria-label={vista.name} data-role="pdp-root">
         <link rel="stylesheet" href={FONTES} />
         <div className={styles.inner}>
           <div className={styles.main}>
             <div className={styles.gallery} data-role="pdp-gallery">
               <div className={styles.stage}>
                 <div ref={railRef} className={styles.rail} onScroll={onRailScroll}>
-                  {IMAGES.map((img, i) => (
-                    <div key={img.url} className={styles.photo}>
+                  {vista.images.map((img, i) => (
+                    <div key={`${i}-${img.url}`} className={styles.photo}>
                       <img src={img.url} alt={img.alternateName} width={800} height={800} loading={i === 0 ? 'eager' : 'lazy'} decoding="async" />
                     </div>
                   ))}
                 </div>
                 <span className={styles.counter} data-role="pdp-counter">
-                  {slide + 1} {L.counterOfLabel} {IMAGES.length}
+                  {slide + 1} {L.counterOfLabel} {vista.images.length}
                 </span>
                 {favButton(styles.favPhoto)}
                 <div className={styles.arrows}>
@@ -260,7 +357,7 @@ export default function ProductInfo16() {
                     type="button"
                     className={styles.arrow}
                     onClick={() => goTo(slide + 1)}
-                    disabled={slide >= IMAGES.length - 1}
+                    disabled={slide >= vista.images.length - 1}
                     aria-label="Próxima imagem"
                   >
                     {svg(20, <path d="m9 6 6 6-6 6" />, { strokeWidth: 2.6 })}
@@ -268,9 +365,9 @@ export default function ProductInfo16() {
                 </div>
               </div>
               <div className={styles.thumbs} role="group" aria-label="Imagens do produto">
-                {IMAGES.map((img, i) => (
+                {vista.images.map((img, i) => (
                   <button
-                    key={img.url}
+                    key={`${i}-${img.url}`}
                     type="button"
                     className={`${styles.thumb}${i === slide ? ` ${styles.thumbOn}` : ''}`}
                     onClick={() => goTo(i)}
@@ -286,94 +383,163 @@ export default function ProductInfo16() {
 
             <div className={styles.info}>
               <div className={styles.head}>
-                <span className={styles.brand} data-role="pdp-brand">
-                  {BRAND}
-                </span>
+                {vista.brand && (
+                  <span className={styles.brand} data-role="pdp-brand">
+                    {vista.brand}
+                  </span>
+                )}
                 <h1 className={styles.title} data-role="pdp-title">
-                  {PRODUCT_NAME}
+                  {vista.name}
                 </h1>
                 <div className={styles.meta}>
-                  <a className={styles.rating} href="#avaliacoes" data-role="pdp-rating">
-                    <Stars avg={RATING.average} />
-                    <span className={styles.srOnly}>Nota {RATING.average.toFixed(1).replace('.', ',')} de 5, </span>
-                    <span className={styles.ratingCount}>
-                      {RATING.totalCount.toLocaleString('pt-BR')} {L.ratingCountLabel}
+                  {vista.rating && (
+                    <a className={styles.rating} href="#avaliacoes" data-role="pdp-rating">
+                      <Stars avg={vista.rating.average} />
+                      <span className={styles.srOnly}>Nota {vista.rating.average.toFixed(1).replace('.', ',')} de 5, </span>
+                      <span className={styles.ratingCount}>
+                        {vista.rating.totalCount.toLocaleString('pt-BR')} {L.ratingCountLabel}
+                      </span>
+                    </a>
+                  )}
+                  {sku && (
+                    <span className={styles.code} data-role="pdp-code">
+                      {L.codeLabel} {sku}
                     </span>
-                  </a>
-                  <span className={styles.code} data-role="pdp-code">
-                    {L.codeLabel} {sku}
-                  </span>
+                  )}
                 </div>
-                <span className={styles.age} data-role="pdp-age">
-                  <span className={styles.ageIcon}>{svg(16, KID, { strokeWidth: 2.4 })}</span>
-                  {AGE}
-                </span>
+                {vista.exemplo && (
+                  <span className={styles.age} data-role="pdp-age">
+                    <span className={styles.ageIcon}>{svg(16, KID, { strokeWidth: 2.4 })}</span>
+                    {AGE}
+                  </span>
+                )}
               </div>
 
               <div className={styles.prices} data-role="pdp-prices">
-                <span className={styles.listRow}>
-                  <s className={styles.listPrice} data-role="pdp-list-price">
-                    <span className={styles.srOnly}>De </span>
-                    {money(LIST)}
-                  </s>
-                  <span className={styles.discount} data-role="pdp-discount">
-                    -{DISCOUNT}%
+                {temDe && (
+                  <span className={styles.listRow}>
+                    <s className={styles.listPrice} data-role="pdp-list-price">
+                      <span className={styles.srOnly}>De </span>
+                      {money(vista.listPrice)}
+                    </s>
+                    <span className={styles.discount} data-role="pdp-discount">
+                      -{DISCOUNT}%
+                    </span>
                   </span>
-                </span>
+                )}
                 <span className={styles.price} data-role="pdp-price">
-                  <span className={styles.srOnly}>Por </span>
-                  {money(PRICE)}
+                  {temDe && <span className={styles.srOnly}>Por </span>}
+                  {money(vista.price)}
                 </span>
-                <span className={styles.installment} data-role="pdp-installment">
-                  {BEST.installmentNumber}x de {money(BEST.installmentValue)} sem juros
-                </span>
-                <span className={styles.pix} data-role="pdp-pix">
-                  {money(PIX)} no Pix
-                </span>
+                {vista.best && (
+                  <span className={styles.installment} data-role="pdp-installment">
+                    {vista.best.installmentNumber}x de {money(vista.best.installmentValue)} sem juros
+                  </span>
+                )}
+                {vista.pix > 0 && (
+                  <span className={styles.pix} data-role="pdp-pix">
+                    {money(vista.pix)} no Pix
+                  </span>
+                )}
               </div>
 
-              <div className={styles.group} data-role="pdp-colors">
-                <p className={styles.legend}>
-                  <span id={`${uid}-color`}>{COLOR_NAME}: </span>
-                  <span className={styles.legendValue}>{COLORS.find(c => c.active)?.value}</span>
-                </p>
-                <div className={styles.swatches} role="group" aria-labelledby={`${uid}-color`}>
-                  {COLORS.map(c => (
-                    <a
-                      key={c.value}
-                      className={`${styles.swatch}${c.active ? ` ${styles.swatchOn}` : ''}`}
-                      href={c.active ? undefined : '#'}
-                      aria-current={c.active ? 'true' : undefined}
-                      aria-label={c.active ? `${c.value}, selecionada` : c.value}
-                      title={c.value}
-                      data-role="pdp-swatch"
-                    >
-                      <img src={c.src} alt="" width={56} height={56} loading="lazy" decoding="async" />
-                    </a>
-                  ))}
-                </div>
-              </div>
+              {vista.variacoes.map((v, vi) => {
+                if (v.tipo === 'texto') return null;
+                const atual = escolhida(vi);
+                return (
+                  <div key={vi} className={styles.group} data-role="pdp-colors" data-variacao={v.tipo}>
+                    <p className={styles.legend}>
+                      <span id={`${uid}-color${vi}`}>{v.name || COLOR_NAME}: </span>
+                      <span className={styles.legendValue}>{atual?.value}</span>
+                    </p>
+                    <div className={styles.swatches} role="group" aria-labelledby={`${uid}-color${vi}`}>
+                      {v.options.map((c, oi) => {
+                        const on = c === atual;
+                        return (
+                          <a
+                            key={oi}
+                            className={`${styles.swatch}${on ? ` ${styles.swatchOn}` : ''}`}
+                            href={on ? undefined : '#'}
+                            onClick={e => {
+                              e.preventDefault();
+                              escolher(vi, oi);
+                            }}
+                            aria-current={on ? 'true' : undefined}
+                            aria-label={`${c.value}${on ? ', selecionada' : ''}${c.available ? '' : ', esgotada'}`}
+                            title={c.value}
+                            data-role="pdp-swatch"
+                          >
+                            <img src={c.src} alt="" width={56} height={56} loading="lazy" decoding="async" />
+                          </a>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
 
-              <div className={styles.group} data-role="pdp-axis">
+              {vista.variacoes.map((v, vi) => {
+                if (v.tipo !== 'texto' || vi === iEixo) return null;
+                const atual = escolhida(vi);
+                return (
+                  <div key={vi} className={styles.group} data-role="pdp-axis" data-variacao="texto">
+                    <div className={styles.legendRow}>
+                      <p className={styles.legend} id={`${uid}-axis${vi}`}>
+                        {v.name || AXIS}
+                      </p>
+                    </div>
+                    <div className={styles.sizes} role="group" aria-labelledby={`${uid}-axis${vi}`}>
+                      {v.options.map((o, oi) =>
+                        o.available ? (
+                          <button
+                            key={oi}
+                            type="button"
+                            className={`${styles.size}${o === atual ? ` ${styles.sizeOn}` : ''}`}
+                            aria-pressed={o === atual}
+                            onClick={() => escolher(vi, oi)}
+                          >
+                            {o.value}
+                          </button>
+                        ) : (
+                          <button
+                            key={oi}
+                            type="button"
+                            className={`${styles.size} ${styles.sizeOut}`}
+                            aria-label={`${o.value}, esgotado`}
+                            disabled
+                          >
+                            {o.value}
+                          </button>
+                        )
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {iEixo >= 0 && (
+              <div className={styles.group} data-role="pdp-axis" data-variacao="texto">
                 <div className={styles.legendRow}>
                   <p className={styles.legend} id={`${uid}-axis`}>
-                    {AXIS}
+                    {axisName}
                   </p>
+                  {vista.exemplo && (
                   <button type="button" className={styles.guide} onClick={() => setGuideOpen(true)} aria-haspopup="dialog" data-role="pdp-size-guide">
                     <span className={styles.guideIcon}>{svg(18, RULER)}</span>
                     <span>{L.sizeGuideLabel}</span>
                   </button>
+                  )}
                 </div>
                 <div className={styles.sizes} role="group" aria-labelledby={`${uid}-axis`}>
-                  {SIZES.map(o =>
+                  {axisOptions.map((o, oi) =>
                     o.available ? (
                       <button
                         key={o.value}
                         type="button"
-                        className={`${styles.size}${o.value === selAxis ? ` ${styles.sizeOn}` : ''}`}
-                        aria-pressed={o.value === selAxis}
+                        className={`${styles.size}${o === selected ? ` ${styles.sizeOn}` : ''}`}
+                        aria-pressed={o === selected}
                         onClick={() => {
-                          setSelAxis(o.value);
+                          escolher(iEixo, oi);
                           setNotifyOpen(false);
                         }}
                         data-role="pdp-axis-option"
@@ -394,6 +560,7 @@ export default function ProductInfo16() {
                     )
                   )}
                 </div>
+                {soldOutOptions.length > 0 && (
                 <p className={styles.soldNote} data-role="pdp-sold-out-note">
                   {svg(18, BELL)}
                   <span>
@@ -411,7 +578,9 @@ export default function ProductInfo16() {
                     </button>
                   </span>
                 </p>
+                )}
               </div>
+              )}
 
               <div className={styles.buyRow} data-role="pdp-buy-row">
                 {!hideQuantity && (
@@ -538,7 +707,7 @@ export default function ProductInfo16() {
           </div>
         </div>
 
-        {guideOpen && (
+        {guideOpen && vista.exemplo && (
           <div className={styles.overlay} onClick={() => setGuideOpen(false)}>
             <div className={styles.dialog} role="dialog" aria-modal="true" aria-label={L.sizeGuideLabel} onClick={e => e.stopPropagation()}>
               <div className={styles.dialogHead}>
@@ -547,7 +716,7 @@ export default function ProductInfo16() {
                   {svg(20, <path d="M6 6l12 12M18 6 6 18" />, { strokeWidth: 2.6 })}
                 </button>
               </div>
-              <img className={styles.guideImg} src={GUIDE_URL} alt={`${L.sizeGuideLabel} — ${PRODUCT_NAME}`} />
+              <img className={styles.guideImg} src={GUIDE_URL} alt={`${L.sizeGuideLabel} — ${vista.name}`} />
             </div>
           </div>
         )}

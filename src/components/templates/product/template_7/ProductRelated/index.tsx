@@ -2,6 +2,7 @@ import React from 'react';
 
 import Spot07 from '@/components/templates/common/template_7/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -19,6 +20,12 @@ import styles from './index.module.css';
 const SLOTS = ['r1', 'r2', 'r3', 'r4'];
 
 export default function ProductRelated07() {
+  // Os da loja, menos o primeiro (é ele que a PDP mostra), quando há mais de um.
+  const daLoja = useProdutosDaLoja();
+  const daPdp = daLoja && daLoja.length > 1 ? daLoja.slice(1) : daLoja;
+  const itens = daPdp
+    ? daPdp.map(produto => ({ id: produto.id, produto }))
+    : SLOTS.map(id => ({ id, produto: undefined }));
   return (
     /* envelope só do catálogo: carrega o container-type das @container */
     <div className={styles.crossSellingShelf07Box}>
@@ -31,10 +38,10 @@ export default function ProductRelated07() {
             Ver mais →
           </a>
           <ul className={styles.grid} data-role="related-grid">
-            {SLOTS.map(id => (
+            {itens.map(({ id, produto }) => (
               <li key={id} className={styles.slot}>
-                <CardDaLoja familia="Spot07">
-                  <Spot07 />
+                <CardDaLoja familia="Spot07" produto={produto}>
+                  <Spot07 soCard produto={produto} />
                 </CardDaLoja>
               </li>
             ))}

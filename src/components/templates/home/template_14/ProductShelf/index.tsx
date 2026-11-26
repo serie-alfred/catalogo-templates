@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
+  deProduto14,
   ESGOTADO_14,
   FONTES_14,
   ProductCard14,
@@ -9,6 +10,7 @@ import {
   type Produto14,
 } from '@/components/templates/common/template_14/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 /**
  * Espelha `molecules/ProductShelf14` do faststore.starter — o núcleo das duas vitrines 14
@@ -82,7 +84,8 @@ export default function ProductShelf14({
   tagLabel,
   banner,
 }: ProductShelf14Props) {
-  const produtos = variant === 'banner' ? PRODUTOS_BANNER : PRODUTOS_FULL;
+  const daLoja = useProdutosDaLoja();
+  const produtos = daLoja ? daLoja.map(deProduto14) : variant === 'banner' ? PRODUTOS_BANNER : PRODUTOS_FULL;
   const temBanner =
     variant === 'banner' && !!banner && !!(banner.imageDesktop || banner.imageMobile || banner.title || banner.ctaLabel);
   const listName = title || '';
@@ -125,8 +128,8 @@ export default function ProductShelf14({
 
   const cards = produtos.map((p, i) => (
     <li key={p.id || i} className={style.slide}>
-      <CardDaLoja familia="Spot14">
-        <ProductCard14 product={p} badge={tagLabel} />
+      <CardDaLoja familia="Spot14" produto={daLoja?.[i]}>
+        <ProductCard14 product={p} badge={daLoja?.[i]?.badge || tagLabel} />
       </CardDaLoja>
     </li>
   ));

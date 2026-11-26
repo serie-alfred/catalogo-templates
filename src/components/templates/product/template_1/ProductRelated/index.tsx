@@ -11,6 +11,7 @@ import Spot from '../../../common/template_1/Spot';
 import { LAYOUTS } from '@/data/layoutData';
 import { TemplateRegistry } from '@/utils/templateRegistry';
 import { useLayout } from '@/context/LayoutContext';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 // Espelha organisms/ProductShowcase01 do faststore.starter:
 // Swiper com Pagination, slidesPerView 2/3/4 por breakpoint e setas custom.
@@ -22,6 +23,9 @@ const BREAKPOINTS = {
 
 export default function ProductRelated() {
   const { selections } = useLayout();
+  // Os da loja, menos o primeiro (é ele que a PDP mostra), quando há mais de um.
+  const daLoja = useProdutosDaLoja();
+  const daPdp = daLoja && daLoja.length > 1 ? daLoja.slice(1) : daLoja;
   const swiperRef = useRef<SwiperType | null>(null);
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
@@ -43,7 +47,7 @@ export default function ProductRelated() {
     | undefined;
 
   // Monta ~8 slides (ciclando os spots escolhidos) para o carrossel ter o que rolar.
-  const slides = Array.from({ length: 8 }).map((_, index) => {
+  const slides = Array.from({ length: daPdp ? daPdp.length : 8 }).map((_, index) => {
     const spot = selectedSpots[index % selectedSpots.length];
     if (spot) {
       const layoutItem = LAYOUTS.spot.items.find(it => it.id === spot.id);
@@ -82,7 +86,7 @@ export default function ProductRelated() {
             onBreakpoint={syncNavState}
             data-tray-tst="vitrine_home"
           >
-            {slides.map(({ key, variables, Component }) => (
+            {slides.map(({ key, variables, Component }, index) => (
               <SwiperSlide
                 key={key}
                 className={styles.swiper__slide}
@@ -91,7 +95,11 @@ export default function ProductRelated() {
                 itemScope
                 itemType="https://schema.org/SomeProducts"
               >
-                {Component ? <Component soCard /> : <Spot />}
+                {Component ? (
+                  <Component soCard produto={daPdp?.[index]} />
+                ) : (
+                  <Spot soCard produto={daPdp?.[index]} />
+                )}
               </SwiperSlide>
             ))}
           </Swiper>

@@ -1,7 +1,51 @@
 import React from 'react';
+
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
+
 import styles from './index.module.css';
 
-export default function Spot() {
+/** O que o card desenha. */
+export type Produto02 = {
+  name: string;
+  image: string;
+  hoverImage: string;
+  badge: string;
+  listPrice: number;
+  price: number;
+  installments: number;
+  installmentValue: number;
+};
+
+const reais = (n: number) =>
+  n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+/** Um produto da LOJA (`useProdutosDaLoja`) no formato deste card. */
+export function deProduto02(p: ProdutoNormal): Produto02 {
+  return {
+    name: p.name,
+    image: p.images[0] ?? 'https://placehold.co/428',
+    hoverImage: p.images[1] ?? p.images[0] ?? 'https://placehold.co/428',
+    badge: p.badge,
+    listPrice: p.listPrice,
+    price: p.price,
+    installments: p.installments,
+    installmentValue: p.installmentValue,
+  };
+}
+
+export default function Spot({
+  soCard = false,
+  produto,
+}: {
+  soCard?: boolean;
+  /** O produto da loja do slot (a lista passa um por slot). */
+  produto?: ProdutoNormal;
+}) {
+  const daLoja = useProdutosDaLoja();
+  // Item do catálogo (fora de lista): o 1º produto da loja; numa lista sem produto, o mock.
+  const escolhido = produto ?? (soCard ? undefined : daLoja?.[0]);
+  const p = escolhido ? deProduto02(escolhido) : null;
   return (
     <div className={`${styles.product} ${styles.spot}`} data-role="spot" data-spot="Spot02">
       <div className={styles.productWrapper}>
@@ -13,16 +57,16 @@ export default function Spot() {
             data-role="spot-image"
           >
             <img
-              src="https://placehold.co/428"
-              alt="Imagem do produto Lorem ipsum dolor sit amet..."
+              src={p ? p.image : 'https://placehold.co/428'}
+              alt={p ? p.name : 'Imagem do produto Lorem ipsum dolor sit amet...'}
               itemProp="image"
               width="428"
               height="428"
             />
             <img
               className={styles.imageOverlay}
-              src="https://placehold.co/428"
-              alt="Imagem do produto Lorem ipsum dolor sit amet..."
+              src={p ? p.hoverImage : 'https://placehold.co/428'}
+              alt={p ? p.name : 'Imagem do produto Lorem ipsum dolor sit amet...'}
               itemProp="image"
               width="428"
               height="428"
@@ -31,9 +75,11 @@ export default function Spot() {
 
           {/* Tag de Novo */}
           <div className={styles.productTag}>
-            <div className={styles.tagNew} data-role="spot-tag">
-              <span>Novo</span>
-            </div>
+            {(!p || p.badge) && (
+              <div className={styles.tagNew} data-role="spot-tag">
+                <span>{p ? p.badge : 'Novo'}</span>
+              </div>
+            )}
           </div>
 
           {/* Botão Favorito */}
@@ -91,9 +137,9 @@ export default function Spot() {
           <div className={styles.productTitle}>
             <h3 itemProp="name" data-role="spot-name">
               <a href="https://parceiroseriedesign.commercesuite.com.br/exclusivos/categoria-lorem/ipsum-dotsit/teste-5">
-                Lorem ipsum dolor sit amet, elit consectetur adipiscing.
-                Fermentum, odio massa fermentum sociis. Varius vitae et
-                tristique quisque nunc.
+                {p
+                  ? p.name
+                  : 'Lorem ipsum dolor sit amet, elit consectetur adipiscing. Fermentum, odio massa fermentum sociis. Varius vitae et tristique quisque nunc.'}
               </a>
             </h3>
           </div>
@@ -102,23 +148,27 @@ export default function Spot() {
           <div className={styles.productPriceWrapper}>
             <div className={styles.productPrice}>
               <div className={styles.prices}>
-                <div className={styles['price-before']} data-role="spot-list-price">
-                  <span>R$ 890,00</span>
-                </div>
+                {(!p || p.listPrice > p.price) && (
+                  <div className={styles['price-before']} data-role="spot-list-price">
+                    <span>{p ? `R$ ${reais(p.listPrice)}` : 'R$ 890,00'}</span>
+                  </div>
+                )}
                 <div className={styles.priceNormal} data-role="spot-price">
                   <span className={styles.currency} title="BRL">
                     R$
                   </span>
-                  <span>700,00</span>
+                  <span>{p ? reais(p.price) : '700,00'}</span>
                 </div>
-                <div className={styles.productPayment} data-role="spot-installments">
-                  <span>
-                    ou <strong>10x</strong>
-                  </span>
-                  <span className={styles.precoDe}> de </span>
-                  <strong>R$ 89,01</strong>
-                  <span className={styles.operadora}> com juros </span>
-                </div>
+                {(!p || p.installments > 0) && (
+                  <div className={styles.productPayment} data-role="spot-installments">
+                    <span>
+                      ou <strong>{p ? p.installments : 10}x</strong>
+                    </span>
+                    <span className={styles.precoDe}> de </span>
+                    <strong>R$ {p ? reais(p.installmentValue) : '89,01'}</strong>
+                    {!p && <span className={styles.operadora}> com juros </span>}
+                  </div>
+                )}
               </div>
             </div>
           </div>

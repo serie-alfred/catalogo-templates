@@ -287,8 +287,10 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
   `useProdutosDaLoja`): toda lista (vitrine, grade, relacionados) e a PDP leem daqui e convertem com o
   `deProdutoNN` do Spot da família; `CardDaLoja` repassa o `produto` ao card de outra família. Sem
   produto cadastrado, cada peça fica com os de exemplo. A PDP mostra o 1º, e cada variação desenha o
-  seletor do TIPO (`texto` → botões, `cor`/`imagem` → miniaturas; sem variação, sem seletor). Piloto
-  na família 09; funil `2-produtos`.
+  seletor do TIPO (`texto` → botões, `cor`/`imagem` → miniaturas; sem variação, sem seletor; família
+  que só tem pílulas de texto, como a 11, 12 e 17, mostra cor/imagem como pílula com o nome). Vale nas
+  17 famílias (piloto na 09, as outras por agentes). Funil: `2-produtos` (o caminho inteiro na 09) e
+  `2-produtos-todas` (o essencial em cada peça de produto de cada família).
 - **Funil**: `1-conteudo` (schema = starter, regras do resolvedor e da projeção da loja rodando os
   `.ts` no Node, campos do tipo × schema, `conteudoPadrao`, vínculos × schemas), `2-conteudo-loja`
   (a loja no canvas, no "Por template" 09 → 12, no painel e no /p) e `2-conteudo` (marcadores únicos no canvas e no `/p` — home,
@@ -679,8 +681,10 @@ Tipografia → **Itálico nos destaques** (`fontItalic` no hook: `'italic' | 'no
 sem regra própria lê o token pelo `storefront.css`. Vai nas fontes do `ThemeDoc` (undo), do snapshot
 (opcional: snapshot antigo = itálico), da mensagem `theme` do iframe e do `config.json` (`fontItalic` nas
 variáveis Tray/Wake e VTEX). **Regra nova de itálico num template: escreva com o token**, ou o `1-italico`
-reprova. Para o TEMA GERADO respeitar, o SCSS do starter, os portes do global-templates e o generator
-precisam ler o mesmo token (pendente).
+reprova. No tema gerado (branches `feat/italico-liga-desliga` dos três repos, 26/11/2026): o SCSS do
+starter e os portes do global-templates leem o mesmo token, e o generator escreve `--font-italic` (com a
+regra do `<em>`) no `:root` da FastStore, da Tray e da Wake pelo `VAR_MAP_LOJA`. Na Nuvemshop falta o
+setting do tema (`sa_*`): lá vale o itálico de sempre.
 
 ### Font selector
 

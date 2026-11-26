@@ -4,6 +4,7 @@ import React, { useId, useState } from 'react';
 
 import { FONTES_10 } from '@/components/templates/common/template_10/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -116,8 +117,21 @@ export default function ProductDescription10() {
     infoText,
   } = useConteudoDaSecao(MOCK);
   const uid = useId();
+  const daLoja = useProdutosDaLoja()?.[0];
+  // O 1º produto da loja (o da PDP) ou o de exemplo; a ficha é a lista de especificações.
+  const dados = daLoja
+    ? {
+        brand: daLoja.brand,
+        description: '',
+        properties: daLoja.specs.map(s => ({ name: s.name, values: [s.value] })),
+      }
+    : PRODUTO;
+  // Texto do CS, nunca HTML: o /p é público. Linha em branco separa parágrafos.
+  const paragrafos = daLoja?.description.split(/\n\s*\n/).filter(p => p.trim()) ?? [];
 
-  const descriptionHtml = PRODUTO.description.trim();
+  const descriptionHtml = daLoja
+    ? paragrafos.join('\n')
+    : PRODUTO.description.trim();
   const hidden = new Set(
     String(hiddenSpecs ?? '')
       .split(',')
@@ -126,14 +140,14 @@ export default function ProductDescription10() {
   );
   const boxKey = norm(boxSpecName);
   const boxProp = boxKey
-    ? PRODUTO.properties.find(p => norm(p.name) === boxKey)
+    ? dados.properties.find(p => norm(p.name) === boxKey)
     : undefined;
   const boxItems = (boxProp?.values ?? [])
     .flatMap(v => String(v ?? '').split(/\r?\n/))
     .map(v => v.trim())
     .filter(Boolean);
 
-  const specs: Array<{ name: string; value: string }> = PRODUTO.properties
+  const specs: Array<{ name: string; value: string }> = dados.properties
     .filter(
       p =>
         p.name &&
@@ -145,10 +159,10 @@ export default function ProductDescription10() {
     .filter(p => p.value);
   if (
     brandLabel &&
-    PRODUTO.brand &&
+    dados.brand &&
     !specs.some(s => norm(s.name) === norm(brandLabel))
   )
-    specs.unshift({ name: brandLabel, value: PRODUTO.brand });
+    specs.unshift({ name: brandLabel, value: dados.brand });
 
   const tabs: Array<{ id: Tab; label: string }> = [
     ...(descriptionHtml && descriptionTabLabel
@@ -220,12 +234,21 @@ export default function ProductDescription10() {
                 aria-labelledby={current ? `${uid}-tab-${current}` : undefined}
                 data-role="pd-panel"
               >
-                {current === 'description' && (
-                  <div
-                    className={styles.html}
-                    dangerouslySetInnerHTML={{ __html: descriptionHtml }}
-                  />
-                )}
+                {current === 'description' &&
+                  (daLoja ? (
+                    <div className={styles.html}>
+                      {paragrafos.map((p, i) => (
+                        <p key={i} style={{ whiteSpace: 'pre-line' }}>
+                          {p.trim()}
+                        </p>
+                      ))}
+                    </div>
+                  ) : (
+                    <div
+                      className={styles.html}
+                      dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+                    />
+                  ))}
                 {current === 'specs' && (
                   <>
                     {specsTitle && (

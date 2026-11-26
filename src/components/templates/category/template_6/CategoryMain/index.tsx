@@ -5,8 +5,9 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './index.module.css';
 import { useAbrirNoCanvas } from '@/hooks/useAbrirNoCanvas';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 import CardDaLoja from '@/components/templates/CardDaLoja';
-import { ProductCard06, type ProdutoCard06 as Produto } from '@/components/templates/common/template_6/Spot/ProductCard06';
+import { ProductCard06, deProduto06, type ProdutoCard06 as Produto } from '@/components/templates/common/template_6/Spot/ProductCard06';
 
 /**
  * Espelha `organisms/MainCategory06` do faststore.starter — a PLP 06 inteira,
@@ -599,6 +600,10 @@ function FilterDrawer({
 
 export default function CategoryMain() {
   const { filterLabel: ROTULO_FILTRO } = useConteudoDaSecao(MOCK);
+  // Com produtos da loja, a grade mostra todos e a contagem é a deles.
+  const daLoja = useProdutosDaLoja();
+  const produtos = daLoja ? daLoja.map(deProduto06) : PRODUTOS;
+  const totalCount = daLoja ? daLoja.length : TOTAL;
   // densidade do grid: `false` = 4 col no desktop / 2 no mobile (padrão da origem);
   // `true` = 3 / 1. Ver ColumnToggle acima.
   const [menosColunas, setMenosColunas] = useState(false);
@@ -630,7 +635,7 @@ export default function CategoryMain() {
   /* a contagem mora na trilha (countInBreadcrumb), como na origem */
   const contagem = (extra?: string) => (
     <span className={`${styles.count}${extra ? ` ${extra}` : ''}`} data-role="plp-count">
-      {TOTAL} Produtos encontrados
+      {totalCount} Produtos encontrados
     </span>
   );
 
@@ -692,9 +697,9 @@ export default function CategoryMain() {
 
             <div data-fs-product-listing-results>
               <ul data-fs-product-grid data-role="grid">
-                {PRODUTOS.map((p, i) => (
+                {produtos.map((p, i) => (
                   <li key={p.id} data-fs-product-grid-item data-role="grid-item">
-                    <CardDaLoja familia="Spot06">
+                    <CardDaLoja familia="Spot06" produto={daLoja?.[i]}>
                       <ProductCard06 p={p} index={i} />
                     </CardDaLoja>
                   </li>

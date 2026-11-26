@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useId, useRef, useState } from 'react';
+import React, { useEffect, useId, useMemo, useRef, useState } from 'react';
 
 import styles from './index.module.css';
 import {
@@ -8,6 +8,8 @@ import {
   referencia11,
 } from '@/components/templates/common/template_11/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
 
 /**
  * Espelha `organisms/ProductDetails11` do faststore.starter (família 11, Grade; desenho
@@ -185,7 +187,6 @@ const COLORS = FINISHES.map((value, i) => ({
 }));
 /** O 2º eixo de variação (tamanho, voltagem…), na cor da página: o mock de lá não tem. */
 const AXIS_NAME: string = '';
-const AXIS: Array<{ value: string; available: boolean; sku?: string }> = [];
 /** As especificações do produto de exemplo; `highlightSpecs` escolhe e ordena. */
 const HIGHLIGHTS = [
   { name: 'Dimensões', value: '45 × 18 × 52 cm' },
@@ -197,6 +198,81 @@ const SHIPPING = [
   { id: 'normal', friendlyName: 'Normal', price: 2490, estimate: '5bd' },
   { id: 'expressa', friendlyName: 'Expressa', price: 4290, estimate: '2bd' },
 ];
+
+/* ── o que a PDP desenha: o produto de exemplo ou o 1º da loja ── */
+type OpcaoDaPdp = { label: string; available: boolean; sku?: string };
+type VariacaoDaPdp = {
+  /** '' = o rótulo do desenho. */
+  name: string;
+  tipo: 'texto' | 'cor' | 'imagem';
+  options: OpcaoDaPdp[];
+  /** A opção que nasce escolhida (a 1ª com estoque). */
+  inicial: number;
+};
+type VistaDaPdp = {
+  doLoja: boolean;
+  name: string;
+  sku: string;
+  price: number;
+  best: { installmentNumber: number; installmentValue: number; installmentInterest: number } | null;
+  pix: number | null;
+  summary: string;
+  crumbs: { item: string; name: string }[];
+  images: { url: string; alternateName: string }[];
+  specs: { name: string; value: string }[];
+  inStock: boolean;
+  variacoes: VariacaoDaPdp[];
+};
+
+const EXEMPLO: VistaDaPdp = {
+  doLoja: false,
+  name: PRODUCT_NAME,
+  sku: SKU,
+  price: PRICE,
+  best: BEST,
+  pix: PIX,
+  summary: SUMMARY,
+  crumbs: CRUMBS,
+  images: IMAGES,
+  specs: HIGHLIGHTS,
+  inStock: true,
+  variacoes: [
+    {
+      name: COLOR_NAME,
+      tipo: 'cor',
+      options: COLORS.map(c => ({ label: c.value, available: c.available })),
+      inicial: Math.max(0, COLORS.findIndex(c => c.active)),
+    },
+  ],
+};
+
+function daLoja(p: ProdutoNormal): VistaDaPdp {
+  const fotos = p.images.length ? p.images : [block('#EDEDED', 800)];
+  return {
+    doLoja: true,
+    name: p.name,
+    sku: p.id.replace(/\D/g, ''),
+    price: p.price,
+    best: p.installments
+      ? { installmentNumber: p.installments, installmentValue: p.installmentValue, installmentInterest: 0 }
+      : null,
+    pix: null,
+    summary: p.description.split(/\n+/)[0]?.trim() ?? '',
+    crumbs: [],
+    images: fotos.map((url, i) => ({ url, alternateName: `${p.name} — foto ${i + 1}` })),
+    specs: p.specs,
+    inStock: p.inStock,
+    variacoes: p.variants.map(v => ({
+      name: v.name,
+      tipo: v.tipo,
+      options: v.options.map((o, i) => ({
+        label: o.label || `Opção ${i + 1}`,
+        available: o.available,
+      })),
+      inicial: Math.max(0, v.options.findIndex(o => o.available)),
+    })),
+  };
+}
 
 const two = (n: number) => String(n).padStart(2, '0');
 
@@ -262,7 +338,8 @@ export default function ProductInfo11() {
   const { highlightSpecs, showSummary, hideQuantity, trustItems, ...L } =
     useConteudoDaSecao(MOCK);
   const uid = useId();
-  const [selAxis, setSelAxis] = useState<string | null>(null);
+  /** A opção escolhida de cada variação (índice), quando o cliente clicou. */
+  const [escolhas, setEscolhas] = useState<Record<number, number>>({});
   const [notifyOpen, setNotifyOpen] = useState(false);
   const [notifyTarget, setNotifyTarget] = useState<string | null>(null);
   const [notifyName, setNotifyName] = useState('');
@@ -276,23 +353,42 @@ export default function ProductInfo11() {
   const [cepSent, setCepSent] = useState(false);
   const railRef = useRef<HTMLDivElement>(null);
 
-  /* ── variação: a opção da página (a 1ª) se tiver estoque, senão a 1ª com estoque ── */
-  const defaultAxis =
-    (AXIS[0]?.available ? AXIS[0].value : undefined) ??
-    AXIS.find(o => o.available)?.value ??
-    null;
-  const activeAxis = selAxis ?? defaultAxis;
-  const selected = activeAxis
-    ? AXIS.find(o => o.value === activeAxis)
-    : undefined;
-  const soldOutOptions = AXIS.filter(o => !o.available);
-  // Sem 2º eixo, vale a oferta do SKU da página (o acabamento ativo).
-  const inStock = AXIS.length
-    ? !!selected?.available
-    : !!COLORS.find(c => c.active)?.available;
-  const best = inStock ? BEST : null;
-  const pixValue = inStock ? PIX : null;
-  const sku = selected?.sku ?? SKU;
+  const daLojaLista = useProdutosDaLoja();
+  const vista = useMemo(
+    () => (daLojaLista ? daLoja(daLojaLista[0]) : EXEMPLO),
+    [daLojaLista]
+  );
+  // Outro produto: as escolhas e o slide do anterior não valem mais.
+  useEffect(() => {
+    setEscolhas({});
+    setSlide(0);
+    setNotifyTarget(null);
+  }, [vista]);
+
+  /* ── variações: cada uma é um bloco; a 1ª de texto é o eixo (estoque, avise-me) ── */
+  const selIdx = (vi: number) =>
+    escolhas[vi] ?? vista.variacoes[vi]?.inicial ?? 0;
+  const escolher = (vi: number, oi: number) =>
+    setEscolhas(e => ({ ...e, [vi]: oi }));
+  const eixoVi = vista.variacoes.findIndex(v => v.tipo === 'texto');
+  const eixo = eixoVi >= 0 ? vista.variacoes[eixoVi] : null;
+  const AXIS_NAME_V = eixo?.name || AXIS_NAME;
+  const AXIS_V = (eixo?.options ?? []).map(o => ({
+    value: o.label,
+    available: o.available,
+  }));
+  const selected = eixo ? AXIS_V[selIdx(eixoVi)] : undefined;
+  const activeAxis = selected?.value ?? null;
+  const soldOutOptions = AXIS_V.filter(o => !o.available);
+  // As demais variações: a opção escolhida de cada uma precisa ter estoque.
+  const outrasOk = vista.variacoes.every(
+    (v, vi) => vi === eixoVi || v.options[selIdx(vi)]?.available !== false
+  );
+  const inStock =
+    vista.inStock && (eixo ? !!selected?.available : true) && outrasOk;
+  const best = inStock ? vista.best : null;
+  const pixValue = inStock ? vista.pix : null;
+  const sku = vista.sku;
 
   /* ── avise-me: o envio dá sucesso local, como no palco de lá ── */
   const notifyFor =
@@ -316,19 +412,21 @@ export default function ProductInfo11() {
   const showNotify = notifyOpen || !inStock;
 
   const ref = referencia11(sku);
-  const parent = CRUMBS[CRUMBS.length - 1];
-  const crumbLabel = CRUMBS.slice(-2)
+  const parent = vista.crumbs[vista.crumbs.length - 1];
+  const crumbLabel = vista.crumbs.slice(-2)
     .map(c => c.name)
     .join(' / ');
-  const activeColorLabel = COLORS.find(c => c.active)?.value ?? '';
   const colsClass = (n: number) => styles[`cols${Math.min(Math.max(n, 1), 3)}`];
   const shippingRows = cepSent ? SHIPPING : [];
-  const destaques = String(highlightSpecs ?? '')
+  // No produto da loja, as quatro primeiras especificações do cadastro.
+  const destaques = vista.doLoja
+    ? vista.specs.slice(0, 4)
+    : String(highlightSpecs ?? '')
     .split(',')
     .map(n => n.trim())
     .filter(Boolean)
-    .map(n => HIGHLIGHTS.find(h => norm(h.name) === norm(n)))
-    .filter((h): h is (typeof HIGHLIGHTS)[number] => !!h);
+    .map(n => vista.specs.find(h => norm(h.name) === norm(n)))
+    .filter((h): h is VistaDaPdp['specs'][number] => !!h);
 
   const onRailScroll = () => {
     const el = railRef.current;
@@ -374,20 +472,22 @@ export default function ProductInfo11() {
       <link rel="stylesheet" href={FONTES_11} />
       <section
         className={styles.productDetails11}
-        aria-label={PRODUCT_NAME}
+        aria-label={vista.name}
         data-role="pdp-root"
       >
         <div className={styles.box}>
           {/* ── linha de cima: volta à categoria + referência ── */}
           <div className={styles.topRow} data-role="pdp-top">
-            <a
-              className={styles.back}
-              href={parent.item}
-              data-role="pdp-category"
-            >
-              {svg(14, ARROW_PREV)}
-              {crumbLabel}
-            </a>
+            {parent && (
+              <a
+                className={styles.back}
+                href={parent.item}
+                data-role="pdp-category"
+              >
+                {svg(14, ARROW_PREV)}
+                {crumbLabel}
+              </a>
+            )}
             <span className={styles.spacer} />
             <span className={styles.ref} data-role="pdp-code">
               {L.refLabel} {ref}
@@ -403,8 +503,8 @@ export default function ProductInfo11() {
                   className={styles.rail}
                   onScroll={onRailScroll}
                 >
-                  {IMAGES.map((img, i) => (
-                    <div key={img.url} className={styles.photo}>
+                  {vista.images.map((img, i) => (
+                    <div key={i} className={styles.photo}>
                       <img
                         src={img.url}
                         alt={img.alternateName}
@@ -421,7 +521,7 @@ export default function ProductInfo11() {
                   aria-hidden="true"
                   data-role="pdp-counter"
                 >
-                  {two(slide + 1)} / {two(IMAGES.length)}
+                  {two(slide + 1)} / {two(vista.images.length)}
                 </span>
               </div>
               <div
@@ -429,9 +529,9 @@ export default function ProductInfo11() {
                 role="group"
                 aria-label="Imagens do produto"
               >
-                {IMAGES.map((img, i) => (
+                {vista.images.map((img, i) => (
                   <button
-                    key={img.url}
+                    key={i}
                     type="button"
                     className={`${styles.thumb}${i === slide ? ` ${styles.thumbOn}` : ''}`}
                     onClick={() => goTo(i)}
@@ -452,9 +552,9 @@ export default function ProductInfo11() {
                 ))}
               </div>
               <div className={styles.segments} aria-hidden="true">
-                {IMAGES.map((img, i) => (
+                {vista.images.map((img, i) => (
                   <span
-                    key={img.url}
+                    key={i}
                     className={i === slide ? styles.segmentOn : undefined}
                   />
                 ))}
@@ -465,14 +565,14 @@ export default function ProductInfo11() {
             <div className={styles.info}>
               <div className={styles.head}>
                 <span className={styles.meta} data-role="pdp-meta">
-                  {[ref, CRUMBS[0]?.name].filter(Boolean).join(' · ')}
+                  {[ref, vista.crumbs[0]?.name].filter(Boolean).join(' · ')}
                 </span>
                 <h1 className={styles.title} data-role="pdp-title">
-                  {PRODUCT_NAME}
+                  {vista.name}
                 </h1>
                 <div className={styles.priceRow} data-role="pdp-prices">
                   <span className={styles.price} data-role="pdp-price">
-                    {money(PRICE)}
+                    {money(vista.price)}
                   </span>
                   {best && best.installmentNumber > 1 && (
                     <span
@@ -492,88 +592,98 @@ export default function ProductInfo11() {
                     {money(pixValue)} no Pix
                   </span>
                 )}
-                {showSummary && SUMMARY && (
+                {showSummary && vista.summary && (
                   <p className={styles.summary} data-role="pdp-summary">
-                    {SUMMARY}
+                    {vista.summary}
                   </p>
                 )}
               </div>
 
-              <div
-                className={styles.group}
-                role="group"
-                aria-labelledby={`${uid}-color`}
-                data-role="pdp-colors"
-              >
-                <span className={styles.legend}>
-                  <span id={`${uid}-color`}>{COLOR_NAME}</span>
-                  <span className={styles.legendValue}>{activeColorLabel}</span>
-                </span>
-                <div
-                  className={`${styles.options} ${colsClass(COLORS.length)}`}
-                >
-                  {COLORS.map(c => (
-                    <a
-                      key={c.value}
-                      className={`${styles.option}${c.active ? ` ${styles.optionOn}` : ''}${
-                        c.available ? '' : ` ${styles.optionOut}`
-                      }`}
-                      href={c.active ? undefined : '#'}
-                      aria-current={c.active ? 'true' : undefined}
-                      aria-label={
-                        c.available ? undefined : `${c.value}, esgotado`
-                      }
-                      onClick={e => e.preventDefault()}
-                      data-role="pdp-swatch"
+              {vista.variacoes.map((v, vi) => {
+                const atual = v.options[selIdx(vi)];
+                if (v.tipo !== 'texto')
+                  return (
+                    <div
+                      key={vi}
+                      className={styles.group}
+                      role="group"
+                      aria-labelledby={`${uid}-var${vi}`}
+                      data-role="pdp-colors"
+                      data-variacao={v.tipo}
                     >
-                      {c.value}
-                    </a>
-                  ))}
-                </div>
-              </div>
-
-              {AXIS.length > 0 && (
-                <div className={styles.group} data-role="pdp-axis">
+                      <span className={styles.legend}>
+                        <span id={`${uid}-var${vi}`}>{v.name || COLOR_NAME}</span>
+                        <span className={styles.legendValue}>{atual?.label}</span>
+                      </span>
+                      <div
+                        className={`${styles.options} ${colsClass(v.options.length)}`}
+                      >
+                        {v.options.map((c, oi) => (
+                          <a
+                            key={oi}
+                            className={`${styles.option}${c === atual ? ` ${styles.optionOn}` : ''}${
+                              c.available ? '' : ` ${styles.optionOut}`
+                            }`}
+                            href={c === atual ? undefined : '#'}
+                            aria-current={c === atual ? 'true' : undefined}
+                            aria-label={
+                              c.available ? undefined : `${c.label}, esgotado`
+                            }
+                            onClick={e => {
+                              e.preventDefault();
+                              escolher(vi, oi);
+                            }}
+                            data-role="pdp-swatch"
+                          >
+                            {c.label}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                const principal = vi === eixoVi;
+                return (
+                <div key={vi} className={styles.group} data-role="pdp-axis" data-variacao="texto">
                   <span className={styles.legend}>
-                    <span id={`${uid}-axis`}>{AXIS_NAME}</span>
-                    <span className={styles.legendValue}>{activeAxis}</span>
+                    <span id={`${uid}-axis${vi}`}>{v.name || AXIS_NAME}</span>
+                    <span className={styles.legendValue}>{atual?.label}</span>
                   </span>
                   <div
-                    className={`${styles.options} ${colsClass(AXIS.length)}`}
+                    className={`${styles.options} ${colsClass(v.options.length)}`}
                     role="group"
-                    aria-labelledby={`${uid}-axis`}
+                    aria-labelledby={`${uid}-axis${vi}`}
                   >
-                    {AXIS.map(o =>
+                    {v.options.map((o, oi) =>
                       o.available ? (
                         <button
-                          key={o.value}
+                          key={oi}
                           type="button"
-                          className={`${styles.option}${o.value === activeAxis ? ` ${styles.optionOn}` : ''}`}
-                          aria-pressed={o.value === activeAxis}
+                          className={`${styles.option}${o === atual ? ` ${styles.optionOn}` : ''}`}
+                          aria-pressed={o === atual}
                           onClick={() => {
-                            setSelAxis(o.value);
+                            escolher(vi, oi);
                             setNotifyOpen(false);
                           }}
                           data-role="pdp-axis-option"
                         >
-                          {o.value}
+                          {o.label}
                         </button>
                       ) : (
                         <button
-                          key={o.value}
+                          key={oi}
                           type="button"
                           className={`${styles.option} ${styles.optionOut}`}
-                          aria-label={`${o.value}, esgotado`}
+                          aria-label={`${o.label}, esgotado`}
                           disabled
                           data-role="pdp-axis-out"
                         >
-                          {o.value}
+                          {o.label}
                         </button>
                       )
                     )}
                   </div>
                   {/* Bloco comum (não flex): o espaço entre o texto e o link não some. */}
-                  {soldOutOptions.length > 0 && inStock && (
+                  {principal && soldOutOptions.length > 0 && inStock && (
                     <p
                       className={styles.soldNote}
                       data-role="pdp-sold-out-note"
@@ -599,7 +709,8 @@ export default function ProductInfo11() {
                     </p>
                   )}
                 </div>
-              )}
+                );
+              })}
               {/* ── quantidade + compra (desktop) e favoritar ── */}
               <div className={styles.buyBlock} data-role="pdp-buy-row">
                 {!hideQuantity && inStock && (
@@ -668,7 +779,7 @@ export default function ProductInfo11() {
                           <div
                             className={`${styles.options} ${colsClass(soldOutOptions.length)}`}
                             role="group"
-                            aria-label={AXIS_NAME}
+                            aria-label={AXIS_NAME_V}
                           >
                             {soldOutOptions.map(o => (
                               <button
@@ -814,7 +925,7 @@ export default function ProductInfo11() {
         {/* ── barra de compra do mobile: o botão de compra do mobile (gruda no rodapé) ── */}
         <div className={styles.mobileBar} data-role="pdp-mobile-bar">
           <span className={styles.mobilePrice}>
-            <span className={styles.mobilePriceValue}>{money(PRICE)}</span>
+            <span className={styles.mobilePriceValue}>{money(vista.price)}</span>
             {best && best.installmentNumber > 1 && (
               <span className={styles.mobileInstallment}>
                 {best.installmentNumber}x {money(best.installmentValue)}

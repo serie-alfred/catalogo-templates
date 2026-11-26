@@ -1,8 +1,9 @@
 'use client';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { FONTES_15, ProductCard15, produto15, type Produto15 } from '@/components/templates/common/template_15/Spot';
+import { deProduto15, FONTES_15, ProductCard15, produto15, type Produto15 } from '@/components/templates/common/template_15/Spot';
 import CardDaLoja from '@/components/templates/CardDaLoja';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 import styles from './index.module.css';
 
@@ -33,6 +34,10 @@ const Seta = ({ dir }: { dir: 'prev' | 'next' }) => (
 );
 
 export default function ProductRelated15() {
+  // Os da loja, menos o primeiro (é ele que a PDP mostra), quando há mais de um.
+  const daLoja = useProdutosDaLoja();
+  const daPdp = daLoja && daLoja.length > 1 ? daLoja.slice(1) : daLoja;
+  const produtos = daPdp ? daPdp.map(deProduto15) : PRODUTOS;
   const railRef = useRef<HTMLUListElement>(null);
   const [trilho, setTrilho] = useState({ inicio: true, fim: true, pos: 0, vis: 1 });
 
@@ -79,15 +84,15 @@ export default function ProductRelated15() {
               </button>
             </div>
             <ul ref={railRef} className={styles.rail} onScroll={medir} data-role="rel-list">
-              {PRODUTOS.map(p => (
+              {produtos.map((p, i) => (
                 <li key={p.id} className={styles.slide}>
-                  <CardDaLoja familia="Spot15">
-                    <ProductCard15 product={p} />
+                  <CardDaLoja familia="Spot15" produto={daPdp?.[i]}>
+                    <ProductCard15 product={p} badge={daPdp?.[i]?.badge} />
                   </CardDaLoja>
                 </li>
               ))}
             </ul>
-            {PRODUTOS.length > 1 && trilho.vis < 1 && (
+            {produtos.length > 1 && trilho.vis < 1 && (
               <div className={styles.progressWrap} aria-hidden="true">
                 <div className={styles.progress}>
                   <span style={{ width: `${trilho.vis * 100}%`, left: `${trilho.pos * (1 - trilho.vis) * 100}%` }} />

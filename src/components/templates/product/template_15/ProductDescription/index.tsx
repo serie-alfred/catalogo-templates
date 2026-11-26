@@ -3,6 +3,7 @@ import React from 'react';
 import styles from './index.module.css';
 import { FONTES_15 } from '@/components/templates/common/template_15/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 /**
  * Espelha `molecules/ProductDescription15` do faststore.starter (família 15, Luxo; desenho
@@ -73,7 +74,12 @@ const split = (line: string) => {
 
 export default function ProductDescription15() {
   const { eyebrow, title, titleEmphasis, hiddenSpecs } = useConteudoDaSecao(MOCK);
-  const features = FEATURES.map(split);
+  // O 1º produto da loja (o mesmo da PDP), quando o CS cadastrou; senão o produto de exemplo.
+  const produto = useProdutosDaLoja()?.[0];
+  // Texto do CS, nunca HTML: o /p é público. Linha em branco separa parágrafos.
+  const paragrafos = produto?.description.split(/\n\s*\n/).filter(p => p.trim()) ?? [];
+  // Os destaques do exemplo não são do cliente: com produto, só a descrição, a ficha e a foto.
+  const features = produto ? [] : FEATURES.map(split);
   const heading = [title, titleEmphasis].filter(Boolean).join(' ');
   const escondidas = new Set(
     String(hiddenSpecs ?? '')
@@ -81,7 +87,7 @@ export default function ProductDescription15() {
       .map(norm)
       .filter(Boolean)
   );
-  const specs = SPECS.filter(s => !escondidas.has(norm(s.name)));
+  const specs = (produto ? produto.specs : SPECS).filter(s => !escondidas.has(norm(s.name)));
 
   return (
     <div className={styles.productDescription15Box}>
@@ -95,9 +101,22 @@ export default function ProductDescription15() {
                 {title} {titleEmphasis && <em>{titleEmphasis}</em>}
               </h2>
             )}
-            <div className={styles.intro} data-role="pd-description" dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }} />
+            {produto ? (
+              paragrafos.length > 0 && (
+                <div className={styles.intro} data-role="pd-description">
+                  {paragrafos.map((p, i) => (
+                    <p key={i} style={{ whiteSpace: 'pre-line' }}>
+                      {p.trim()}
+                    </p>
+                  ))}
+                </div>
+              )
+            ) : (
+              <div className={styles.intro} data-role="pd-description" dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }} />
+            )}
           </div>
 
+          {features.length > 0 && (
           <div className={styles.features} data-role="pd-features">
             {features.map((f, i) => (
               <article key={`${f.title}-${i}`} className={styles.feature}>
@@ -111,6 +130,7 @@ export default function ProductDescription15() {
               </article>
             ))}
           </div>
+          )}
 
           <div className={styles.bottom}>
             {specs.length > 0 && (
@@ -124,7 +144,7 @@ export default function ProductDescription15() {
               </dl>
             )}
             <figure className={styles.figure} data-role="pd-image">
-              <img src={IMAGE_URL} alt={`${heading} — ${PRODUCT_NAME}`} width={1200} height={600} loading="lazy" decoding="async" />
+              <img src={produto ? (produto.images[1] ?? produto.images[0] ?? IMAGE_URL) : IMAGE_URL} alt={`${heading} — ${produto ? produto.name : PRODUCT_NAME}`} width={1200} height={600} loading="lazy" decoding="async" />
             </figure>
           </div>
         </div>

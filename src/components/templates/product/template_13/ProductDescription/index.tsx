@@ -3,6 +3,7 @@ import React from 'react';
 import styles from './index.module.css';
 import { FONTES_13 } from '@/components/templates/common/template_13/Spot';
 import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
 
 /**
  * Espelha `molecules/ProductDescription13` do faststore.starter (família 13, Noturno; desenho
@@ -72,14 +73,20 @@ const split = (line: string) => {
 
 export default function ProductDescription13() {
   const { title: TITLE = '', hiddenSpecs } = useConteudoDaSecao(MOCK);
-  const features = FEATURES.map(split);
+  const daLoja = useProdutosDaLoja()?.[0];
+  // Texto do CS, nunca HTML: o /p é público. Linha em branco separa parágrafos.
+  const paragrafos = daLoja?.description.split(/\n\s*\n/).filter(p => p.trim()) ?? [];
+  // Na loja não há "tecnologias" no cadastro: os cartões saem e a ficha vem das especificações.
+  const features = daLoja ? [] : FEATURES.map(split);
+  const nome = daLoja ? daLoja.name : PRODUCT_NAME;
+  const imagem = daLoja ? (daLoja.images[1] ?? daLoja.images[0]) : IMAGE_URL;
   const escondidas = new Set(
     String(hiddenSpecs ?? '')
       .split(',')
       .map(norm)
       .filter(Boolean)
   );
-  const specs = SPECS.filter(s => !escondidas.has(norm(s.name)));
+  const specs = (daLoja ? daLoja.specs : SPECS).filter(s => !escondidas.has(norm(s.name)));
 
   return (
     <div className={styles.productDescription13Box}>
@@ -88,9 +95,20 @@ export default function ProductDescription13() {
         <div className={styles.inner}>
           <div className={styles.head} data-role="pd-head">
             {TITLE && <h2 className={styles.title}>{TITLE}</h2>}
-            <div className={styles.intro} data-role="pd-description" dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }} />
+            {daLoja ? (
+              <div className={styles.intro} data-role="pd-description">
+                {paragrafos.map((p, i) => (
+                  <p key={i} style={{ whiteSpace: 'pre-line' }}>
+                    {p.trim()}
+                  </p>
+                ))}
+              </div>
+            ) : (
+              <div className={styles.intro} data-role="pd-description" dangerouslySetInnerHTML={{ __html: DESCRIPTION_HTML }} />
+            )}
           </div>
 
+          {features.length > 0 && (
           <div className={styles.cards} data-role="pd-features">
             {features.map((f, i) => (
               <article key={`${f.title}-${i}`} className={styles.card}>
@@ -104,6 +122,7 @@ export default function ProductDescription13() {
               </article>
             ))}
           </div>
+          )}
 
           <div className={styles.bottom}>
             {specs.length > 0 && (
@@ -116,9 +135,11 @@ export default function ProductDescription13() {
                 ))}
               </dl>
             )}
-            <figure className={styles.figure} data-role="pd-image">
-              <img src={IMAGE_URL} alt={TITLE ? `${TITLE} — ${PRODUCT_NAME}` : PRODUCT_NAME} width={1200} height={600} loading="lazy" decoding="async" />
-            </figure>
+            {imagem && (
+              <figure className={styles.figure} data-role="pd-image">
+                <img src={imagem} alt={TITLE ? `${TITLE} — ${nome}` : nome} width={1200} height={600} loading="lazy" decoding="async" />
+              </figure>
+            )}
           </div>
         </div>
       </section>

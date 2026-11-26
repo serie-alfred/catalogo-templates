@@ -1,3 +1,6 @@
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import { emReais, type ProdutoNormal } from '@/utils/produtos';
+
 import styles from './index.module.css';
 
 // Preview estático do ProductCard05 (VTEX FastStore). Dados fixos só para
@@ -13,7 +16,53 @@ const data = {
   installments: '8x 45,98 sem juros',
 };
 
-export default function Spot() {
+/** O que o card desenha (o que a tela mostra, já pronto). */
+export type Produto05 = {
+  name: string;
+  image: string;
+  badge: string;
+  rating: string;
+  /** Vazio some (sem desconto). */
+  listPrice: string;
+  price: string;
+  discount: string;
+  /** Vazio some (sem parcelamento). */
+  installments: string;
+};
+
+/** Um produto da LOJA (`useProdutosDaLoja`) no formato deste card. */
+export function deProduto05(p: ProdutoNormal): Produto05 {
+  const desconto = p.listPrice > p.price;
+  return {
+    name: p.name,
+    image: p.images[0] ?? 'https://placehold.co/348',
+    badge: p.badge,
+    // O cadastro não tem avaliação: o desenho mantém a nota de exemplo.
+    rating: data.rating,
+    listPrice: desconto ? emReais(p.listPrice) : '',
+    price: emReais(p.price),
+    discount: desconto
+      ? `-${Math.round((1 - p.price / p.listPrice) * 100)}%`
+      : '',
+    installments:
+      p.installments > 0
+        ? `${p.installments}x ${emReais(p.installmentValue)} sem juros`
+        : '',
+  };
+}
+
+export default function Spot({
+  soCard = false,
+  produto,
+}: {
+  soCard?: boolean;
+  /** O produto da loja do slot (a lista passa um por slot). */
+  produto?: ProdutoNormal;
+}) {
+  const daLoja = useProdutosDaLoja();
+  // Item do catálogo (fora de lista): o 1º produto da loja; numa lista sem produto, o mock.
+  const escolhido = produto ?? (soCard ? undefined : daLoja?.[0]);
+  const d: Produto05 = escolhido ? deProduto05(escolhido) : data;
   return (
     <div className={styles.card} data-spot="Spot05">
       <div className={styles.card__topbar}>
@@ -28,7 +77,7 @@ export default function Spot() {
           >
             <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
-          <span className={styles.card__ratingvalue}>{data.rating}</span>
+          <span className={styles.card__ratingvalue}>{d.rating}</span>
         </div>
 
         <div className={styles.card__actions}>
@@ -65,27 +114,35 @@ export default function Spot() {
       </div>
 
       <a href="#" className={styles.card__image} onClick={e => e.preventDefault()}>
-        <img src={data.image} alt={data.name} loading="lazy" />
-        <div className={styles.card__badge}>
-          <span>{data.badge}</span>
-        </div>
+        <img src={d.image} alt={d.name} loading="lazy" />
+        {d.badge && (
+          <div className={styles.card__badge}>
+            <span>{d.badge}</span>
+          </div>
+        )}
       </a>
 
       <div className={styles.card__info}>
         <h3 className={styles.card__name}>
           <a href="#" onClick={e => e.preventDefault()}>
-            {data.name}
+            {d.name}
           </a>
         </h3>
 
         <div className={styles.card__pricerow}>
-          <span className={styles.card__listprice}>{data.listPrice}</span>
-          <span className={styles.card__discountbadge}>{data.discount}</span>
+          {d.listPrice && (
+            <span className={styles.card__listprice}>{d.listPrice}</span>
+          )}
+          {d.discount && (
+            <span className={styles.card__discountbadge}>{d.discount}</span>
+          )}
         </div>
 
-        <p className={styles.card__price}>{data.price}</p>
+        <p className={styles.card__price}>{d.price}</p>
 
-        <p className={styles.card__installments}>{data.installments}</p>
+        {d.installments && (
+          <p className={styles.card__installments}>{d.installments}</p>
+        )}
       </div>
     </div>
   );

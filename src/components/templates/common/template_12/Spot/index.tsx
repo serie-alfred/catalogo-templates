@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import { useProdutosDaLoja } from '@/hooks/useProdutosDaLoja';
+import type { ProdutoNormal } from '@/utils/produtos';
+
 import styles from './index.module.css';
 
 /**
@@ -289,11 +292,39 @@ export function ProductCard12({
 }
 
 /**
+ * Um produto da LOJA (`useProdutosDaLoja`) no formato deste card. As vitrines, a
+ * PLP e os relacionados da 12 usam o mesmo, e o `CardDaLoja` o usa quando o card
+ * escolhido é este e a lista é de outra família.
+ */
+export function deProduto12(p: ProdutoNormal): Produto12 {
+  return {
+    id: p.id,
+    name: p.name,
+    price: p.price,
+    listPrice: p.listPrice,
+    installments: p.installments,
+    installmentValue: p.installmentValue,
+    inStock: p.inStock,
+    image: p.images[0],
+    hoverImage: p.images[1],
+    rating: null,
+  };
+}
+
+/**
  * O item "Spot" mostra o quadro do desenho `Spot12`, como o palco do starter
  * (`DevFidelityStage/Comum12Stage`): Padrão, Hover e Esgotado lado a lado; no mobile, 2
  * colunas sem a do hover. A coluna Hover pinta o estado de hover por CSS (fim da folha).
  */
-export default function Spot12({ soCard = false }: { soCard?: boolean }) {
+export default function Spot12({
+  soCard = false,
+  produto,
+}: {
+  soCard?: boolean;
+  /** O produto da loja do slot (via `CardDaLoja`), numa lista de outra família. */
+  produto?: ProdutoNormal;
+}) {
+  const daLoja = useProdutosDaLoja();
   const [padrao, hover] = PRODUTOS_12;
   // Dentro de uma lista (vitrine, grade, relacionados) de qualquer família o spot é só o
   // card (`CardDaLoja`), sem o quadro do desenho nem envelope de container: as
@@ -302,10 +333,17 @@ export default function Spot12({ soCard = false }: { soCard?: boolean }) {
     return (
       <>
         <link rel="stylesheet" href={FONTES_12} />
-        <ProductCard12 product={padrao} />
+        <ProductCard12 product={produto ? deProduto12(produto) : padrao} />
       </>
     );
-  const colunas = [
+  // No item do catálogo, os três primeiros produtos da loja ocupam o lugar dos três
+  // estados de exemplo (o rótulo diz só o que o card é: com estoque ou esgotado).
+  const daLojaColunas = daLoja?.slice(0, 3).map(p => ({
+    rotulo: p.inStock ? 'Padrão' : 'Esgotado',
+    produto: deProduto12(p),
+    hover: false,
+  }));
+  const colunas = daLojaColunas || [
     { rotulo: 'Padrão', produto: padrao, hover: false },
     { rotulo: 'Hover', produto: hover, hover: true },
     { rotulo: 'Esgotado', produto: ESGOTADO_12, hover: false },
