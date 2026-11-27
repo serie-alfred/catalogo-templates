@@ -475,6 +475,20 @@ for (const caso of CASOS) {
         `api-content em globais.html: ${nConteudos}`
       );
     }
+    // A barra do topo do header é conteúdo do admin (api-content no global-templates): o tema
+    // montado a LÊ por ID na common.graphql, e o ID está na consulta. Antes o generator criava o
+    // conteúdo e gravava o header com o texto fixo (o componente com bloco JSON ia cru).
+    if (plataforma !== 'Tray') {
+      const header = ler(path.join(TEMA, 'Components', 'header', 'header_view.html'));
+      const gql = ler(path.join(TEMA, 'Queries', 'common.graphql'));
+      const lidos = [...header.matchAll(/class="[^"]*\bapi-content\b[^"]*">\{\{~ \w+ = \(common\?\.conteudos_globais\?\.nodes[^]*?content_id == (\d+)/g)].map(m => m[1]);
+      const naConsulta = /conteudosGlobais: contents\([^)]*contentIds: \[([^\]]*)\]/.exec(gql)?.[1] ?? '';
+      r.ok(
+        `${plataforma} ${nn}: a barra do topo do header lê o conteúdo do admin por ID (e o ID está na common.graphql)`,
+        lidos.length > 0 && lidos.every(id => naConsulta.split(/,\s*/).includes(id)),
+        `lidos: [${lidos}] · consulta: [${naConsulta}]`
+      );
+    }
     const tipo = i =>
       `${i.selection.replace(/-/g, '_')}_${String(i.template).padStart(2, '0')}`;
     const blocos = path.join(TEMA, 'Blocks');
