@@ -128,17 +128,19 @@ r.ok(
   !cadastroFaltando.length && ['ProductInfo09', 'ProductInfo12', 'ProductInfo17'].every(c => doProduto[c]?.includes('accordions')) && doProduto.ProductInfo09.includes('newLabel'),
   cadastroFaltando.join(', ') || JSON.stringify(doProduto)
 );
-// O menu (Gestor de Menu / árvore de categorias) e o que o HTML lê das configurações
-// da loja (`settings.social_*`, `settings.whatsapp_number`, `settings.logo`).
+// Header da Wake (não é bloco): editável é o menu (Gestor de Menu), o que vem das
+// configurações da loja e a barra do topo, que o tema publica como conteúdo (api-content →
+// admin > Conteúdos). Os rótulos de interface (busca, conta, sacola) ficam no tema.
+const BARRA = /^(topbar\w*|announcementMessages|welcomeText|servicePromo|serviceLinks|whatsapp|whatsappLabel)$/;
+const ROTULOS_FIXOS = /^(searchPlaceholder|accountLabel|cartLabel|loginLabel|wishlistLabel)$/;
+const headersWake = itens().filter(i => i.selection === 'header' && editaveis[i.component]?.['Wake 2.0']);
+const semBarra = headersWake
+  .filter(i => i.component !== 'Header08')
+  .filter(i => !editaveis[i.component]['Wake 2.0'].some(c => BARRA.test(c.split('.')[0])));
+r.ok('Wake: todo header com barra do topo tem a barra editável (conteúdo do admin)', !semBarra.length, semBarra.map(i => i.component).join(', '));
+const rotuloEditavel = headersWake.filter(i => editaveis[i.component]['Wake 2.0'].some(c => ROTULOS_FIXOS.test(c)));
+r.ok('Wake: os rótulos de interface do header (busca, conta, sacola) ficam no tema', !rotuloEditavel.length, rotuloEditavel.map(i => i.component).join(', '));
 const MENU = /^(menu|navItems|mobileNavItems|categories|columns|logo|whatsapp|socials?|topbar\.(socials|contact)|(youtube|instagram|twitter|linkedin|facebook)Url)$/;
-const headerWake = itens()
-  .filter(i => i.selection === 'header' && editaveis[i.component]?.['Wake 2.0'])
-  .filter(i => editaveis[i.component]['Wake 2.0'].some(c => !MENU.test(c)));
-r.ok(
-  'Wake: no header só o menu (Gestor de Menu) e o que vem das configurações da loja; o resto é do tema',
-  !headerWake.length,
-  headerWake.map(i => `${i.component}: ${editaveis[i.component]['Wake 2.0']}`).join(' | ')
-);
 const homeWakeParcial = naPagina('home').filter(
   i => i.platforms.includes('Wake 2.0') &&
     editaveis[i.component]['Wake 2.0'].length !== desenhadosNoDisco[i.component].length

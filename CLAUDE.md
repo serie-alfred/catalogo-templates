@@ -243,6 +243,9 @@ Três níveis, como as cores ([src/types/conteudo.ts](src/types/conteudo.ts)):
     `useNomeDaLoja()`. O `2-conteudo-loja` confere os 17 headers (nome, menu, 2º e 3º nível).
     **A barra do topo NÃO é da loja** (27/11/2026, a pedido: depende demais de cada header — marquee,
     vários textos): é conteúdo de cada header, no painel da seção, campo a campo como no tema.
+    Na Wake ela é editável também: todo header com barra (01–07, 09–17) põe os textos num
+    `<div class="api-content">`, que o generator publica como UM conteúdo (admin › Conteúdos) lido por ID
+    na common.graphql em toda página; o `derivar:editaveis` casa o texto desses blocos com o mock.
   - **Render**: o `ThemeRenderer` recebe `conteudoLoja`, sanitiza (`sanitizarConteudoLoja`) e
     o põe no `ConteudoLojaContext`; o `useConteudoDaSecao` projeta. Cada superfície passa: o canvas
     pela mensagem `content` do iframe, o palco do export pelo hook, o /p pelo snapshot.

@@ -542,8 +542,8 @@ try {
   erros.push(...wake.erros);
 
   // ── A barra do topo é conteúdo do header, campo a campo como no tema ────
-  // Header01: na VTEX o CMS edita saudação, contato e redes; na Wake saudação e
-  // contato são fixos no tema e só as redes vêm das configurações da loja.
+  // Header01: na VTEX o CMS edita saudação, contato e redes; na Wake a saudação e o
+  // contato são conteúdos (api-content → admin > Conteúdos) e as redes, das configurações.
   const TOPO = { topbar: { loginGreeting: 'MK-SAUDACAO', contact: { text: 'MK-CONTATO', link: '#' } } };
   for (const plataforma of ['VTEX', 'Wake 2.0']) {
     const aba = await novaAba(browser);
@@ -561,7 +561,7 @@ try {
     if (plataforma === 'VTEX')
       r.ok('VTEX: a saudação e o contato da barra do Header01 vêm do conteúdo do header', naTela.length === 2, naTela.join(', ') || texto.slice(0, 120));
     else
-      r.ok('Wake: a saudação e o contato do Header01 ficam os do tema', naTela.length === 0, naTela.join(', '));
+      r.ok('Wake: a saudação e o contato do Header01 vêm do conteúdo (Conteúdos da Wake)', naTela.length === 2, naTela.join(', ') || texto.slice(0, 120));
     await aba.page.click('[data-aba-direita="conteudo"]');
     // Clique no elemento, não no centro: no header o centro é o campo de busca.
     await (await (await aba.page.$('iframe')).contentFrame()).$eval(`[data-section-uid="${h01.uid}"]`, el => el.click());
@@ -578,7 +578,7 @@ try {
     if (plataforma === 'VTEX')
       r.ok('VTEX: o painel oferece toda a barra do topo (saudação, contato, redes)', /contact/.test(subcampos) && /loginGreeting/.test(subcampos) && /socials/.test(subcampos), subcampos);
     else
-      r.ok('Wake: o painel oferece da barra só as redes', subcampos === 'socials', subcampos);
+      r.ok('Wake: o painel oferece a barra do topo inteira (Conteúdos e configurações)', /contact/.test(subcampos) && /loginGreeting/.test(subcampos) && /socials/.test(subcampos), subcampos);
     erros.push(...aba.erros);
   }
 

@@ -155,7 +155,14 @@ const POR_EVIDENCIA = [
     'Wake 2.0': SOCIAL_DA_LOJA,
   },
   // O WhatsApp/contato do topo das famílias antigas: o número das configurações da loja.
-  { campo: /^(whatsapp|contact)$/, Tray: /settings\.whatsapp_number/, 'Wake 2.0': /settings\.social_whatsapp\b/ },
+  // Na Wake, também o link de WhatsApp de um api-content (a barra do topo, um conteúdo editável).
+  {
+    campo: /^(whatsapp|contact)$/,
+    Tray: /settings\.whatsapp_number/,
+    'Wake 2.0': /settings\.social_whatsapp\b|class="[^"]*\bapi-content\b[^"]*"[^>]*>[^]{0,600}?(api\.whatsapp\.com|wa\.me)/,
+  },
+  // O rótulo do WhatsApp só é editável quando vem dentro do conteúdo (na Tray ele é fixo).
+  { campo: /^whatsappLabel$/, 'Wake 2.0': /class="[^"]*\bapi-content\b[^"]*"[^>]*>[^]{0,600}?(api\.whatsapp\.com|wa\.me)/ },
   { campo: /^(payments|paymentMethods)$/, Nuvemshop: /pagamento|"visa"/, Tray: /name="\w*pagamento/ },
   // A linha legal tem marcadores ([RAZÃO SOCIAL]…) que o tema troca pelos dados da loja.
   { campo: /^(legal|copyright)$/, Nuvemshop: /"id": "(legal|copyright)"/, Tray: /name="\w*_(legal|copyright)/ },
@@ -179,6 +186,27 @@ const DO_PRODUTO = [
   [/^ProductDescription10$/, /^(extraTab(Label|Text)|info(Title|Text))$/],
 ];
 
+/**
+ * O miolo de cada `<div class="… api-content …">` do HTML (fora dos comentários Scriban,
+ * que costumam citá-lo): o trecho que o generator da Wake publica como conteúdo.
+ */
+function blocosApiContent(html) {
+  const semComentario = html.replace(/\{\{-?~?\s*##[\s\S]*?##\s*~?-?\}\}/g, '');
+  const blocos = [];
+  const abre = /<div\b[^>]*class="[^"]*\bapi-content\b[^"]*"[^>]*>/g;
+  let m;
+  while ((m = abre.exec(semComentario))) {
+    let nivel = 1;
+    const tag = /<\/?div\b[^>]*>/g;
+    tag.lastIndex = m.index + m[0].length;
+    let t;
+    while (nivel && (t = tag.exec(semComentario))) nivel += t[0][1] === '/' ? -1 : 1;
+    if (!t) break;
+    blocos.push(semComentario.slice(m.index + m[0].length, t.index));
+  }
+  return blocos;
+}
+
 /* ── O lado da plataforma: o que a pasta deixa o lojista trocar ───────── */
 
 /**
@@ -200,6 +228,13 @@ function capacidades(plataforma, pasta, item) {
     cap.menu = arquivos.some(f => f.endsWith('.html') && ler(f).includes('menu_groups'));
     // O que o HTML lê das configurações da loja (redes, WhatsApp): `POR_EVIDENCIA`.
     cap.fonte = arquivos.filter(f => f.endsWith('.html')).map(ler).join('\n');
+    // O que está num `api-content` (a barra do topo do header) vira um conteúdo da Wake que o
+    // lojista edita em Conteúdos: os textos dele casam com o mock como os da Tray.
+    for (const bloco of blocosApiContent(cap.fonte)) {
+      for (const t of bloco.split(/<[^>]*>/)) if (norm(decodificar(t))) cap.textos.add(norm(decodificar(t)));
+      if (/<a\b[^>]*href=/i.test(bloco)) cap.link = true;
+      if (/<img\b/i.test(bloco)) cap.imagem = true;
+    }
     return cap;
   }
 
