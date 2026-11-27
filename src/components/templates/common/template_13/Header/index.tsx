@@ -247,7 +247,7 @@ export default function Header13() {
                   {
                     '--hd13-voltas': voltas,
                     '--hd13-fita-dur': `${fitaDur}s`,
-                    ...(voltaPx ? { '--fita-px': voltaPx } : {}),
+                    ...(voltaPx ?? {}),
                   } as React.CSSProperties
                 }
               >

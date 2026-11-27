@@ -300,7 +300,7 @@ export default function Header14() {
               <div
                 ref={fitaRef}
                 className={`${styles.tape}${fitaPx ? ` ${styles.tapePx}` : ''}`}
-                style={fitaPx ? ({ '--fita-px': fitaPx } as React.CSSProperties) : undefined}
+                style={fitaPx ?? undefined}
               >
                 {/* Duas metades iguais de 4 voltas: a animação anda -50% e emenda, e 4 voltas cobrem
                     uma tela de 2560px. Só a 1ª volta é lida. */}

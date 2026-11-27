@@ -126,7 +126,7 @@ export default function Ruler14() {
         <div
           ref={fitaRef}
           className={`${styles.tape}${fitaPx ? ` ${styles.tapePx}` : ''}`}
-          style={fitaPx ? ({ '--fita-px': fitaPx } as React.CSSProperties) : undefined}
+          style={fitaPx ?? undefined}
         >
           {[false, true, true, true].map((copia, i) => (
             <React.Fragment key={i}>{lista(copia)}</React.Fragment>

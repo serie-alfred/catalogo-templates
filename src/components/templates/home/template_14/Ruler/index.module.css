@@ -142,13 +142,13 @@
 }
 
 /* Fita em pixels inteiros: o componente mede a distância de um ciclo (useFitaEmPixels) em
-   --fita-px e põe a classe tapePx; a animação anda um pixel por passo (steps), e texto e
+   --fita-px e põe a classe tapePx; a animação anda um pixel DA TELA por passo (steps(--fita-passos), que já conta a escala do canvas e o devicePixelRatio), e texto e
    ícones ficam sempre no pixel inteiro. Antes a fita andava frações de pixel por quadro e os
    ícones (SVG) tremiam em relação ao texto. O mesmo trecho está no "Só na Wake". */
 @media (prefers-reduced-motion: no-preference) {
   .tape.tapePx {
     animation-name: fitaPx;
-    animation-timing-function: steps(var(--fita-px));
+    animation-timing-function: steps(var(--fita-passos, var(--fita-px)));
   }
 }
 @keyframes fitaPx {
