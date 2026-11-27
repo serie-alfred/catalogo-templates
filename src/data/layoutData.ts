@@ -619,6 +619,7 @@ export const LAYOUTS: Layouts = {
         { cssVar: "--spot-rating-text", label: "Texto das avaliações", type: "color", default: "#4e5460", group: "Card", inheritsLabel: "cor do texto do card" },
         { cssVar: "--spot-wishlist-color", label: "Ícone do coração", type: "color", default: "#4e5460", group: "Card", inheritsLabel: "cor do texto do card" },
         { cssVar: "--spot-wishlist-active", label: "Ícone do coração favoritado", type: "color", default: "#d92d20", group: "Card", inheritsLabel: "fundo do selo de desconto" },
+        { cssVar: "--spot-hover-border", label: "Borda do card (hover)", type: "color", default: "#1340d8", group: "Card", inheritsLabel: "cor primária da marca" },
         { cssVar: "--spot-tag-bg", label: "Fundo do selo de desconto", type: "color", default: "#d92d20", group: "Selo", inheritsLabel: "cor terciária da marca" },
         { cssVar: "--spot-tag-text", label: "Texto do selo de desconto", type: "color", default: "#ffffff", group: "Selo", inheritsLabel: "cor terciária de contraste da marca" },
         { cssVar: "--spot-new-bg", label: "Fundo do selo de texto (ex.: Novo)", type: "color", default: "#d92d20", group: "Selo", inheritsLabel: "fundo do selo de desconto" },

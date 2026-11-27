@@ -47,8 +47,8 @@
 @media (hover: hover) {
   @container (min-width: 961px) {
   .productCard10:not(.soldOut):hover {
-    border-color: var(--spot-btn-bg, var(--background-primary-color, #1340d8));
-    box-shadow: 0 0 0 1px var(--spot-btn-bg, var(--background-primary-color, #1340d8)), 0 1px 3px rgba(16, 24, 40, 0.08);
+    border-color: var(--spot-hover-border, var(--background-primary-color, #1340d8));
+    box-shadow: 0 0 0 1px var(--spot-hover-border, var(--background-primary-color, #1340d8)), 0 1px 3px rgba(16, 24, 40, 0.08);
   }
   .productCard10:not(.soldOut):hover .name {
     text-decoration: underline;
@@ -468,8 +468,8 @@
 /* A coluna "Hover" fixa o estado de hover do card (o mesmo bloco `:hover` do SCSS),
    porque no canvas ninguém passa o mouse. */
 .spotHoverCol .productCard10 {
-  border-color: var(--spot-btn-bg, var(--background-primary-color, #1340d8));
-  box-shadow: 0 0 0 1px var(--spot-btn-bg, var(--background-primary-color, #1340d8)), 0 1px 3px rgba(16, 24, 40, 0.08);
+  border-color: var(--spot-hover-border, var(--background-primary-color, #1340d8));
+  box-shadow: 0 0 0 1px var(--spot-hover-border, var(--background-primary-color, #1340d8)), 0 1px 3px rgba(16, 24, 40, 0.08);
 }
 .spotHoverCol .name {
   text-decoration: underline;
