@@ -115,7 +115,7 @@
   height: 44px;
   border-radius: 50%;
   background-color: var(--footer-surface-bg, #ffffff);
-  color: var(--footer-text, var(--text-primary-color, #3b1f33));
+  color: var(--footer-surface-text, var(--text-primary-color, #3b1f33));
 }
 .column {
   display: flex;
@@ -191,7 +191,7 @@
   padding: 8px 14px;
   border-radius: 999px;
   background-color: var(--footer-surface-bg, #ffffff);
-  color: var(--footer-text, var(--text-primary-color, #3b1f33));
+  color: var(--footer-surface-text, var(--text-primary-color, #3b1f33));
 }
 
 .seals {
@@ -208,7 +208,7 @@
   overflow: hidden;
   border-radius: 12px;
   background-color: var(--footer-surface-bg, #ffffff);
-  color: color-mix(in srgb, var(--footer-text, var(--text-primary-color, #3b1f33)) 80%, var(--footer-surface-bg, #ffffff));
+  color: color-mix(in srgb, var(--footer-surface-text, var(--text-primary-color, #3b1f33)) 80%, var(--footer-surface-bg, #ffffff));
   font-size: 11px;
   font-weight: 700;
 }
@@ -297,7 +297,7 @@
     flex-direction: column;
     padding: 4px 16px;
     border-radius: 24px;
-    background-color: var(--footer-surface-bg, #ffffff);
+    background-color: var(--footer-columns-bg, #ffffff);
     color: var(--footer-text, var(--text-primary-color, #3b1f33));
   }
   .column {
@@ -338,7 +338,7 @@
     gap: 4px;
   }
   .contactNote {
-    color: color-mix(in srgb, var(--footer-text, var(--text-primary-color, #3b1f33)) 80%, var(--footer-surface-bg, #ffffff));
+    color: color-mix(in srgb, var(--footer-text, var(--text-primary-color, #3b1f33)) 80%, var(--footer-columns-bg, #ffffff));
   }
   .contactLine {
     display: flex;

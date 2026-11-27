@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import styles from './index.module.css';
 import { useNomeDaLoja } from '@/hooks/useNomeDaLoja';
 import { useLayout } from '@/context/LayoutContext';
-import CartSidebar01 from '@/components/templates/_shared/CartSidebar01';
+import CartSidebar06 from '@/components/templates/_shared/CartSidebar06';
 import {
   buildSearchSuggestions,
   buildSuggestionProducts,
@@ -16,9 +16,9 @@ import { useConteudoDaSecao } from '@/hooks/useConteudoDaSecao';
 // style.module.scss) e o grafo que ele monta: mega-menu por HOVER (CSS puro),
 // autocomplete com "Buscar por «termo»" + buscas escopadas por departamento +
 // produtos com miniatura, drawer mobile full-screen com accordions de dois
-// níveis, e o mini-cart. O mini-cart é o CartSidebar01, o mesmo dos headers 01 a
-// 08 (o .starter usa o CartSidebar06, com barra de frete grátis, simulador de CEP
-// e cupom; a Wake usa a sacola da família 01 em todas essas famílias).
+// níveis, e o mini-cart CartSidebar06, o mesmo do .starter (com barra de frete
+// grátis, simulador de CEP e cupom), para o painel pintar o que o tema gerado pinta.
+// A Wake segue com a sacola da família 01.
 //
 // Divergências deliberadas (ver também o topo do index.module.css):
 //  - .headerShell carrega o container-type; as camadas em position: fixed ficam
@@ -944,8 +944,8 @@ export default function Header06() {
         </div>
       </aside>
 
-      {/* ── MINI-CART (CartSidebar01, o mesmo do Header01) ── */}
-      <CartSidebar01 open={cartOpen} onClose={() => setCartOpen(false)} />
+      {/* ── MINI-CART (CartSidebar06, igual ao .starter) ── */}
+      <CartSidebar06 open={cartOpen} onClose={() => setCartOpen(false)} />
     </div>
   );
 }

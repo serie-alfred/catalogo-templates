@@ -19,29 +19,29 @@
 .mainCategory11 *::after {
   box-sizing: border-box;
 }
-.mainCategory11 :where(h1, h2, p) {
+.mainCategory11 :where(h1, h2, p):where(:not(.gridItem *)) {
   margin: 0;
 }
-.mainCategory11 :where(ul) {
+.mainCategory11 :where(ul):where(:not(.gridItem *)) {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-:where(.mainCategory11) :where(a) {
+:where(.mainCategory11) :where(a):where(:not(.gridItem *)) {
   color: inherit;
   text-decoration: none;
 }
-:where(.mainCategory11) :where(a):hover {
+:where(.mainCategory11) :where(a):where(:not(.gridItem *)):hover {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-:where(.mainCategory11) :where(button, input, select) {
+:where(.mainCategory11) :where(button, input, select):where(:not(.gridItem *)) {
   margin: 0;
   color: inherit;
   font: inherit;
   letter-spacing: inherit;
 }
-:where(.mainCategory11) :where(button) {
+:where(.mainCategory11) :where(button):where(:not(.gridItem *)) {
   padding: 0;
   border: 0;
   background: none;

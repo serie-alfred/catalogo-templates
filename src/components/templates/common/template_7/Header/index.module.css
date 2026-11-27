@@ -632,7 +632,7 @@ terracota #C07A5A) = hex inline. */
 }
 
 .suggestTerm:hover {
-  background: #faf5f0;
+  background: color-mix(in srgb, var(--header-text, var(--text-primary-color, #2c2420)) 5%, transparent);
 }
 
 .suggestProduct {
@@ -645,7 +645,7 @@ terracota #C07A5A) = hex inline. */
 }
 
 .suggestProduct:hover {
-  background: #faf5f0;
+  background: color-mix(in srgb, var(--header-text, var(--text-primary-color, #2c2420)) 5%, transparent);
 }
 
 .suggestProduct img {
@@ -825,7 +825,7 @@ terracota #C07A5A) = hex inline. */
 }
 
 .drawerAccordion.open {
-  background: #faf5f0;
+  background: color-mix(in srgb, var(--header-text, var(--text-primary-color, #2c2420)) 5%, transparent);
 }
 
 .drawerAccordion.open .drawerRow {

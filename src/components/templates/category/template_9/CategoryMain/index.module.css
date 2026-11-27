@@ -19,15 +19,15 @@
 .mainCategory09 *::after {
   box-sizing: border-box;
 }
-.mainCategory09 :where(h1, h2, p) {
+.mainCategory09 :where(h1, h2, p):where(:not(.gridItem *)) {
   margin: 0;
 }
-.mainCategory09 :where(ul) {
+.mainCategory09 :where(ul):where(:not(.gridItem *)) {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-:where(.mainCategory09) :where(a) {
+:where(.mainCategory09) :where(a):where(:not(.gridItem *)) {
   color: inherit;
   text-decoration: none;
 }
@@ -42,7 +42,7 @@
   text-transform: inherit;
   cursor: pointer;
 }
-.mainCategory09 a:hover {
+.mainCategory09 a:where(:not(.gridItem *)):hover {
   opacity: 0.7;
 }
 
