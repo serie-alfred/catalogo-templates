@@ -130,7 +130,7 @@
   padding: 24px;
   border: 1px solid color-mix(in srgb, var(--socialproof-text, var(--text-primary-color, #3b1f33)) 10%, var(--socialproof-surface-bg, #ffffff));
   border-radius: 24px;
-  background-color: var(--socialproof-surface-bg, #ffffff);
+  background-color: var(--socialproof-card-bg, #ffffff);
   scroll-snap-align: start;
 }
 
@@ -166,6 +166,7 @@
 }
 
 .author {
+  color: var(--socialproof-name, var(--socialproof-text, var(--text-primary-color, #3b1f33)));
   font-size: 15px;
   font-weight: 700;
 }
@@ -195,6 +196,7 @@
   padding: 4px 12px;
   border-radius: 999px;
   background-color: var(--socialproof-tag-bg, #dce6da);
+  color: var(--socialproof-tag-text, var(--text-primary-color, #3b1f33));
   font-size: 12px;
   font-weight: 700;
 }

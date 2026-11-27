@@ -19,10 +19,10 @@
 .productShelf10 *::after {
   box-sizing: border-box;
 }
-.productShelf10 :where(h2) {
+.productShelf10 :where(h2):where(:not(.slide *)) {
   margin: 0;
 }
-.productShelf10 :where(ul) {
+.productShelf10 :where(ul):where(:not(.slide *)) {
   margin: 0;
   padding: 0;
   list-style: none;

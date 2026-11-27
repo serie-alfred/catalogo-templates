@@ -231,7 +231,7 @@
 }
 .qty button:hover:not(:disabled) {
   background: var(--cart-bg, #ffffff);
-  color: var(--cart-button-bg, var(--background-primary-color, #1c1c1c));
+  color: var(--cart-text, var(--text-primary-color, #1c1c1c));
   box-shadow: inset 0 0 0 1px var(--cart-button-bg, var(--background-primary-color, #1c1c1c));
 }
 .qty button:disabled {
@@ -401,8 +401,10 @@
   letter-spacing: 0.5px;
   transition: background-color 200ms ease;
 }
+/* hover: fundo e texto pareados; sem eles, o fundo do botão escurecido e o mesmo texto */
 .drawer .finish:hover {
-  background: var(--cart-button-bg-hover, #000000);
+  background: var(--cart-button-bg-hover, color-mix(in srgb, var(--cart-button-bg, var(--background-primary-color, #212721)) 80%, #000000));
+  color: var(--cart-button-text-hover, var(--cart-button-text, var(--text-color-base, #ffffff)));
 }
 
 /* Na origem este NÃO é um botão contornado: é um link de texto cinza, largura do

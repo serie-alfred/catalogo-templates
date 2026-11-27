@@ -366,6 +366,7 @@
 }
 
 .name {
+  color: var(--prod-reviews-name, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)));
   font-size: 15px;
   font-weight: 700;
 }
@@ -376,6 +377,7 @@
 }
 
 .reviewTitle {
+  color: var(--prod-reviews-review-title, var(--prod-reviews-text, var(--text-primary-color, #3b1f33)));
   font-size: 16px;
   font-weight: 700;
 }

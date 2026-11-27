@@ -306,7 +306,9 @@ export default function Spot12({ soCard = false }: { soCard?: boolean }) {
       </>
     );
   const colunas = [
-    { rotulo: 'Padrão', produto: padrao, hover: false },
+    // O selo da vitrine (rótulo fixo do CMS, ex.: "Novo") aparece num card de exemplo para o
+    // campo "Fundo/Texto do selo da vitrine" ter onde pintar no editor.
+    { rotulo: 'Padrão', produto: padrao, hover: false, badge: 'Novo' },
     { rotulo: 'Hover', produto: hover, hover: true },
     { rotulo: 'Esgotado', produto: ESGOTADO_12, hover: false },
   ];
@@ -318,7 +320,7 @@ export default function Spot12({ soCard = false }: { soCard?: boolean }) {
           {colunas.map((c, i) => (
             <div key={i} className={`${styles.spotCol}${c.hover ? ` ${styles.spotHoverCol}` : ''}`}>
               <span className={styles.spotLabel}>{c.rotulo}</span>
-              <ProductCard12 product={c.produto} />
+              <ProductCard12 product={c.produto} badge={'badge' in c ? c.badge : undefined} />
             </div>
           ))}
         </div>

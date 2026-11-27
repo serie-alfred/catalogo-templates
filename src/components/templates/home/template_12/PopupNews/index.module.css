@@ -113,7 +113,7 @@
 .eyebrow {
   padding: 6px 14px;
   border-radius: 999px;
-  background-color: #dce6da;
+  background-color: var(--popup-eyebrow-bg, #dce6da);
   color: var(--popup-eyebrow-text, #3b1f33);
   font-size: 13px;
   font-weight: 700;

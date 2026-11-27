@@ -415,7 +415,7 @@
   font-size: 1rem;
   font-weight: 400;
   line-height: 18.4px;
-  color: var(--header-muted, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 62%, transparent));
+  color: var(--header-muted, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 70%, transparent));
 }
 .searchDropdown .searchSuggestionRow:hover {
   background: color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 5%, transparent);
@@ -442,7 +442,7 @@
   font-size: 1rem;
   font-weight: 400;
   line-height: 18.4px;
-  color: var(--header-muted, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 62%, transparent));
+  color: var(--header-muted, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 70%, transparent));
   text-decoration: none;
 }
 .searchDropdown .searchProduct:hover {
@@ -477,7 +477,7 @@
   font-size: 11px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--header-muted, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 62%, transparent));
+  color: var(--header-muted, color-mix(in srgb, var(--header-text, var(--text-color-base, #212721)) 70%, transparent));
 }
 
 /* ── Ações (direita) ── */
