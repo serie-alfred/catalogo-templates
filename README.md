@@ -48,7 +48,7 @@ Listadas em `.env.example` (o código também aceita `UPSTASH_REDIS_REST_URL`/`_
 | `GOOGLE_FONTS_API_KEY` | lista de fontes do seletor |
 | `KV_REST_API_URL`, `KV_REST_API_TOKEN` (ou `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`) | Vercel KV/Upstash: preview compartilhável, temas salvos, limite de tentativas do login, rodízio do comercial |
 | `CRON_SECRET` | opcional — protege `/api/keep-alive`, o ping que impede o KV free de expirar |
-| `ETEMAS_LOGIN_USER`, `ETEMAS_LOGIN_PASSWORD`, `ETEMAS_SESSION_SECRET` | login da agência no `/gerador`; em produção, sem as três o editor fica fechado (segredo com 32+ caracteres) |
+| `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY` | login do `/gerador` (Supabase Auth com 2FA obrigatório; a chave secreta é só do servidor); em produção, sem as três o editor fica fechado. Em dev, sem elas o login fica desligado |
 | `COMERCIAIS` | site público: rodízio do "Falar com o comercial" no WhatsApp (`Nome:55DDDNUMERO,…`); vazio leva ao formulário |
 | `NEXT_PUBLIC_GTM_ID`, `NEXT_PUBLIC_GA4_ID`, `NEXT_PUBLIC_META_PIXEL_ID` | site público: GTM, GA4 e Pixel, só depois do aceite de cookies; vazios, nada carrega |
 | `NEXT_PUBLIC_PLATAFORMA_NUVEMSHOP` | `1` põe a Nuvemshop no seletor do `/gerador` (desligada em produção; embutida no build) |

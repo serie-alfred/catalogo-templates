@@ -229,3 +229,89 @@
     animation: none;
   }
 }
+
+/* ── Supabase: esqueci a senha, 2FA, sair ─────────────────────────────── */
+
+.link {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--site-tinta-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.link:hover {
+  color: var(--site-tinta);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--site-tinta);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* O código de 6 dígitos: grande e espaçado, como no app. */
+.codigo {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* O QR code vem do Supabase em SVG preto sobre transparente: fundo claro. */
+.qr {
+  align-self: center;
+  width: 184px;
+  height: 184px;
+  padding: 12px;
+  border-radius: 14px;
+  background: #fff;
+}
+
+.segredo {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--l-campo);
+  box-shadow: inset 0 0 0 1px var(--l-linha);
+  font-size: 13px;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  color: var(--site-tinta);
+  word-break: break-all;
+  user-select: all;
+}
+
+.passos {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--site-tinta-2);
+}
+
+.rodape {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.rodape form {
+  display: contents;
+}
+
+.primary:disabled {
+  opacity: 0.6;
+  cursor: progress;
+  transform: none;
+}

@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     if (g.conta.papel !== 'admin' && !contaPode(g.conta, body.doc.platform))
       return plataformaRecusada();
     return NextResponse.json({
-      tema: await criarTema(nome, body.doc, g.conta.usuario),
+      tema: await criarTema(nome, body.doc, g.conta.id),
     });
   } catch (error) {
     return erroDoHistorico(error, 'salvar o tema');
